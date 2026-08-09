@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/10-dimensionality-reduction/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 13f508adaa0599b3db8d18ad77c9b20b501cf6864dd242ad884a48412e41bcfc
+  anchor:
+    heading: "PCA: find the directions that matter"
+    slug: pca-find-the-directions-that-matter
+card:
+  title: PCA：协方差矩阵的特征分解
+  summary: 在实现中心化、协方差、特征向量排序和主成分投影前，回顾对称矩阵分解怎样把最大方差方向显式化。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 02 - matrices/05. decompositions.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 6a27913c7cbf413e47e530aa26e0208eeef8da682a434931882104e14c34368e
+  anchor:
+    heading: Matrix Decompositions
+    slug: matrix-decompositions

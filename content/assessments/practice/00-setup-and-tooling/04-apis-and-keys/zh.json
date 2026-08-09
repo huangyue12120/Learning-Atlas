@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/00-setup-and-tooling/04-apis-and-keys/quiz.json","revision":"7157ca74a135fad2165f680ec4b4e592f075ec21","sha256":"c4d20036e9eb3cc9ff86f5fa46c7bba7aa2687f6171390cbd4f3c577c78f6b48"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"api-key-purpose","stage":"pre","question":"调用 LLM 服务时，API key 的用途是什么？","options":["加密发送到服务器的数据","验证你的身份并授权请求","压缩请求以降低带宽","选择服务器使用的编程语言"],"correct":1,"explanation":"API key 是识别账户、授权请求并让提供方追踪用量和计费的唯一字符串。"},
+    {"id":"no-hardcoding","stage":"pre","question":"为什么绝不应将 API key 直接硬编码在源代码中？","options":["硬编码 key 会让代码更慢","它们可能被意外提交到 Git 并公开暴露","Python 无法读取超过 50 个字符的字符串字面量","提供方会封禁出现在源文件里的 key"],"correct":1,"explanation":"硬编码 key 可能被提交到版本控制并推送到公开仓库，随后被他人抓取和滥用。"},
+    {"id":"dotenv","stage":"post","question":"本地开发中推荐如何存储 API key？","options":["放在脚本开头的 Python 变量中","放在已列入 .gitignore 的 .env 文件中","写在 README.md 便于访问","与包版本一起写进 requirements.txt"],"correct":1,"explanation":".env 文件将 key 作为环境变量保存，应加入 .gitignore，确保不提交到版本控制；SDK 会自动从环境变量读取 key。"},
+    {"id":"anthropic-header","stage":"post","question":"Anthropic 的原始 HTTP API 调用中，哪个请求头承载 API key？","options":["Authorization: Bearer sk-ant-...","x-api-key: sk-ant-...","Content-Type: application/json","anthropic-version: 2023-06-01"],"correct":1,"explanation":"Anthropic API 使用 x-api-key 请求头认证，而不是更常见的 Authorization: Bearer 模式；这是其 API 设计的特定约定。"},
+    {"id":"rate-limit","stage":"post","question":"超过 API 的速率限制时会发生什么？","options":["API key 会被永久吊销","服务器返回错误（通常为 HTTP 429），重试前必须等待","请求会自动排队并稍后处理","API 不响应地静默丢弃请求"],"correct":1,"explanation":"速率限制会返回 HTTP 429（Too Many Requests）。通常需要等待后以指数退避重试；限流用于防止滥用并确保公平使用。"}
+  ]
+}

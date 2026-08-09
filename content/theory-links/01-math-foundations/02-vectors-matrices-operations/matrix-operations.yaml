@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/02-vectors-matrices-operations/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 398ce87f481e54f360898e1af0d0c05877f631d5d1b1c1edebf83f3cf5a09981
+  anchor:
+    heading: Element-wise vs matrix multiplication
+    slug: element-wise-vs-matrix-multiplication
+card:
+  title: 矩阵运算：区分逐元素乘法与线性变换
+  summary: 在实现 `matmul` 前，先用行列点积、形状规则和 Hadamard 积理解两种乘法为何不能互换。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 02 - matrices/03. operations.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 3627030fc60d19cc16f1010a0f73f8d744168e2e4e80c6b66f30e118e2aaabdc
+  anchor:
+    heading: Matrix Operations
+    slug: matrix-operations

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/03-matrix-transformations/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: bd248b5462edccab7838ef32e303839811157e453873fb6b19421e4f3d5f2365
+  anchor:
+    heading: Eigenvalues and Eigenvectors
+    slug: eigenvalues-and-eigenvectors
+card:
+  title: 特征分解：找出变换保持的方向
+  summary: 在手算 2×2 特征值和特征向量前，先理解 `A = V @ D @ V^(-1)` 如何把复杂变换拆为方向与缩放。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 02 - matrices/05. decompositions.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 6a27913c7cbf413e47e530aa26e0208eeef8da682a434931882104e14c34368e
+  anchor:
+    heading: Matrix Decompositions
+    slug: matrix-decompositions

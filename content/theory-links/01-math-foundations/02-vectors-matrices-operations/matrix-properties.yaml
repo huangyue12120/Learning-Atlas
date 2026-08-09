@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/02-vectors-matrices-operations/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 398ce87f481e54f360898e1af0d0c05877f631d5d1b1c1edebf83f3cf5a09981
+  anchor:
+    heading: The operations map
+    slug: the-operations-map
+card:
+  title: 矩阵性质：何时能用逆矩阵撤销变换
+  summary: 在实现行列式与二维逆之前，先判断方阵、行列式和可逆性之间的关系。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 02 - matrices/01. matrix properties.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 87186cd05aebc78027d4f19c1b5e650f88120c99b8d10cc18ecbfa809b122a09
+  anchor:
+    heading: Matrix Properties
+    slug: matrix-properties

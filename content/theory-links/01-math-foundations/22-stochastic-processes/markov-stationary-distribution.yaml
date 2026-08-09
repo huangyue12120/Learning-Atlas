@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/22-stochastic-processes/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: c0c39f418206fc6ff14a9755bd9663147c3ab4b2f35beb03edd909c746ee3fc8
+  anchor:
+    heading: Markov Chains
+    slug: markov-chains
+card:
+  title: 马尔可夫链：从转移矩阵到平稳分布
+  summary: 在模拟天气链、以 P.T 的特征向量计算 pi，并将 MCMC 的目标理解为平稳分布前，建立 Markov property、transition matrix 与 pi*P=pi。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/04. bayesian.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: f6225ca0de169e09fcc8a03f9eed9beae3484d9020409f9f7580c463dbd524a3
+  anchor:
+    heading: Bayesian Methods and Sequential Models
+    slug: bayesian-methods-and-sequential-models

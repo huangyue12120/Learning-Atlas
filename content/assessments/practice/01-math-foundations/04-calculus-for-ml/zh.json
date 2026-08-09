@@ -1,0 +1,77 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/01-math-foundations/04-calculus-for-ml/quiz.json",
+    "revision": "7157ca74a135fad2165f680ec4b4e592f075ec21",
+    "sha256": "18aa7ef8d4a733ee83e91619a050688db25c426cf184c5f27e3bc8f0d961c28d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "derivative",
+      "question": "函数在一点的导数说明什么？",
+      "options": [
+        "该点的函数值",
+        "该点的变化率或切线斜率",
+        "该点之前的面积",
+        "函数的最大值"
+      ],
+      "correct": 1,
+      "explanation": "f'(x) 表示输入每变化一个单位时输出的变化量，几何上是切线斜率。",
+      "stage": "pre"
+    },
+    {
+      "id": "gradient",
+      "question": "机器学习中的梯度是什么？",
+      "options": [
+        "模型准确率",
+        "所有偏导数组成、指向最陡上升方向的向量",
+        "训练使用的学习率",
+        "预测与真实值之差"
+      ],
+      "correct": 1,
+      "explanation": "梯度汇集所有偏导数；最小化损失时应沿其反方向移动。",
+      "stage": "pre"
+    },
+    {
+      "id": "gradient-descent",
+      "question": "`w = w - lr * dL/dw` 完成什么？",
+      "options": [
+        "增大损失以测试鲁棒性",
+        "按学习率缩放的负梯度更新每个权重以降低损失",
+        "将权重重置为初值",
+        "把权重归一化"
+      ],
+      "correct": 1,
+      "explanation": "dL/dw 指向损失增加方向，减去它会让损失下降。",
+      "stage": "post"
+    },
+    {
+      "id": "newton-cost",
+      "question": "为何不能直接对数百万参数的网络使用完整 Newton 法？",
+      "options": [
+        "它只适用于凸函数",
+        "Hessian 为 N×N，需 O(N^2) 存储和 O(N^3) 每步计算",
+        "网络不能计算解析导数",
+        "Newton 法收敛太慢"
+      ],
+      "correct": 1,
+      "explanation": "百万参数的 Hessian 有万亿个条目，计算和求逆不可承受。",
+      "stage": "post"
+    },
+    {
+      "id": "central-difference",
+      "question": "f'(x) 的中心差分近似是什么？",
+      "options": [
+        "f(x+h)/h",
+        "(f(x+h)-f(x))/h",
+        "(f(x+h)-f(x-h))/(2*h)",
+        "f(x)*h"
+      ],
+      "correct": 2,
+      "explanation": "中心差分利用 x 两侧的斜率，抵消主要误差项。",
+      "stage": "post"
+    }
+  ]
+}

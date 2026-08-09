@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/19-complex-numbers/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 4452702ccd0d4c75a574644f277d6f6a6d87579f80395eccebdd211bdefbfd58
+  anchor:
+    heading: Connection to 2D rotations
+    slug: connection-to-2d-rotations
+card:
+  title: 复数旋转：从相位乘法到二维线性变换
+  summary: 在用 Euler 公式实现旋转、DFT 和 RoPE 前，复习二维 rotation matrix 怎样与复数乘法给出同一几何操作。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 02 - matrices/04. linear transformations.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 2a7dd04f8268d8e3a8be7a7151676d434a4e8cd0ce47ced61755f96260da61c5
+  anchor:
+    heading: Linear Transformations
+    slug: linear-transformations

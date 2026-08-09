@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/18-convex-optimization/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 061158e46d86c18ffeb43b730c98c52994ae863629445f6431942a368cfdb952
+  anchor:
+    heading: Convex sets
+    slug: convex-sets
+card:
+  title: 凸优化：全局最优、Newton 与约束条件
+  summary: 在判定凸性、实现 Newton 和解释 KKT 前，建立凸函数、梯度、Hessian 与约束优化的共同框架。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 03 - calculus/05. optimisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: ab7d84558c2298a32a74f7f61d009624eb2886606e0940661dc250338caee756
+  anchor:
+    heading: Optimisation
+    slug: optimisation

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/03-matrix-transformations/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: bd248b5462edccab7838ef32e303839811157e453873fb6b19421e4f3d5f2365
+  anchor:
+    heading: Transformations as matrices
+    slug: transformations-as-matrices
+card:
+  title: 线性变换：矩阵的列为何决定整个空间
+  summary: 在实现旋转、缩放和反射前，先用标准基的像理解矩阵如何定义线性变换。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 02 - matrices/04. linear transformations.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 2a7dd04f8268d8e3a8be7a7151676d434a4e8cd0ce47ced61755f96260da61c5
+  anchor:
+    heading: Linear Transformations
+    slug: linear-transformations

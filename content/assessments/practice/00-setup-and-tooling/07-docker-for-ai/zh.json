@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/00-setup-and-tooling/07-docker-for-ai/quiz.json","revision":"7157ca74a135fad2165f680ec4b4e592f075ec21","sha256":"3764c8a06d6fcc78226902934ee936570e55f6023606970e9ae986e81f9e609b"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"container-vm","stage":"pre","question":"Docker 容器与虚拟机的主要差别是什么？","options":["容器比 VM 慢但更安全","容器共享宿主 OS 内核，VM 运行自己的完整 OS","容器只能运行 Linux，VM 支持任意 OS","二者没有实际差别"],"correct":1,"explanation":"容器共享宿主内核并在进程级隔离，因此数秒启动；VM 运行带独立内核的完整客体 OS，资源需求更多、启动更慢。"},
+    {"id":"dockerfile","stage":"pre","question":"Dockerfile 是什么？","options":["Docker daemon 的配置文件","逐层构建 Docker 镜像的一组指令","记录容器活动的日志文件","列出运行容器的文件"],"correct":1,"explanation":"Dockerfile 包含 FROM、RUN、COPY 等顺序指令；Docker 执行它们以构建镜像，每条指令都会创建可缓存层。"},
+    {"id":"volumes","stage":"post","question":"为什么 volume mount 对 Docker 中的 AI 开发至关重要？","options":["利用宿主磁盘让容器更快","在容器重建间持久保存模型、数据集、代码，避免反复下载 GB 级数据","Python 包正确安装必须使用 volume","让多个容器共享同一 GPU"],"correct":1,"explanation":"没有 volume 时，容器停止后内部内容都会丢失；volume 将宿主目录映射入容器，使 14GB+ 模型权重和数据集可跨重建保留。"},
+    {"id":"nvidia-toolkit","stage":"post","question":"NVIDIA Container Toolkit 启用什么能力？","options":["在容器内安装 CUDA 驱动","通过 --gpus 标志将宿主 GPU 暴露给 Docker 容器","在 AMD 硬件上运行 NVIDIA GPU 容器","Docker 构建时编译 CUDA 代码"],"correct":1,"explanation":"NVIDIA Container Toolkit 是将宿主 GPU 暴露给容器的运行时 hook；CUDA toolkit 位于容器内，GPU 驱动由宿主共享。"},
+    {"id":"compose-network","stage":"post","question":"AI Docker Compose 文件中，`ai-dev` 服务如何访问 `qdrant` 向量数据库？","options":["使用宿主机器 IP 与端口","使用服务名 `qdrant` 作为主机名，因为 Compose 创建共享网络","在两个容器之间挂载共享 volume","在容器之间配置 VPN"],"correct":1,"explanation":"Docker Compose 自动创建共享网络，服务可通过名称互相访问；ai-dev 使用服务名作为主机名连接 `http://qdrant:6333`。"}
+  ]
+}

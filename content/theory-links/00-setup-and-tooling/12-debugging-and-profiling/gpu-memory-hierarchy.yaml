@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/00-setup-and-tooling/12-debugging-and-profiling/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: e0d04b7136924970ff9d34c213c33023445feb5217b79d304d502f5ac17720f0
+  anchor:
+    heading: GPU Memory with PyTorch
+    slug: gpu-memory-with-pytorch
+card:
+  title: GPU 显存：先区分张量占用、缓存与硬件层级
+  summary: `memory_allocated` 与 `memory_reserved` 分别观察活动分配和缓存池；理解显存层级后，才能判断 OOM 是批大小、生命周期还是碎片化问题。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 16 - SIMD and GPU programming/04. GPU architecture and CUDA.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 743fc0eca70d66a19ea7630e5a4e7cca559f4f52283298a21b20c8a17737225f
+  anchor:
+    heading: GPU Memory Hierarchy
+    slug: gpu-memory-hierarchy

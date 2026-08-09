@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/04-calculus-for-ml/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 0ed4721bd7a01a876bdfd1cafd3a732d645842bf942f708bf32198fd5a8e6794
+  anchor:
+    heading: What is a derivative?
+    slug: what-is-a-derivative
+card:
+  title: 微分：用局部斜率衡量权重变化
+  summary: 在实现中心差分和解析导数前，先把极限、切线和瞬时变化率连到损失函数的局部变化。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 03 - calculus/01. differential calculus.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 5026e325536c7c906a5f26aacae1af74d82ccd0b0c1dcc335a59bb5fa7e35b8f
+  anchor:
+    heading: Differential Calculus
+    slug: differential-calculus

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/00-setup-and-tooling/11-linux-for-ai/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: bf587bd1176a5f1a5a62ccad8aa4982eb1cde078a4d6c7d7fd45e9e997f2391a
+  anchor:
+    heading: File System Layout
+    slug: file-system-layout
+card:
+  title: Linux 文件系统：路径、inode 与权限为何能协同工作
+  summary: 文件名由目录映射到 inode；权限、挂载目录和虚拟文件系统共同决定训练数据、缓存、日志和设备信息在远程机器上的位置与可访问性。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 13 - computing and OS/03. operating systems.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 87293bf78b1f48a83f4de5c840a7596c16fb96c863b31be4dcb6666480a552a0
+  anchor:
+    heading: File Systems
+    slug: file-systems

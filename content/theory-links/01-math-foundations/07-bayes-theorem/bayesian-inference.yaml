@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/07-bayes-theorem/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 0d923219992ac86ab6fccdfaf8377863b6d3b3698c7403075d237c13409441eb
+  anchor:
+    heading: From joint probability to Bayes
+    slug: from-joint-probability-to-bayes
+card:
+  title: 贝叶斯推断：从似然和先验到后验
+  summary: 在实现医疗检测后验、朴素贝叶斯和 Beta 顺序更新前，追溯 MLE、MAP、先验正则化与完整后验的共同基础。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/04. bayesian.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: f6225ca0de169e09fcc8a03f9eed9beae3484d9020409f9f7580c463dbd524a3
+  anchor:
+    heading: Bayesian Methods and Sequential Models
+    slug: bayesian-methods-and-sequential-models

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/12-tensor-operations/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 98beea9409bda9831f924611911ce5218d012444740a5a8a800f9c7823aaf632
+  anchor:
+    heading: Broadcasting rules
+    slug: broadcasting-rules
+card:
+  title: 广播：矩阵逐元素运算的 shape 规则
+  summary: 在为激活、bias、通道缩放和注意力准备张量 shape 前，先明确逐元素矩阵运算、形状匹配与广播的数学约束。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 02 - matrices/03. operations.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 3627030fc60d19cc16f1010a0f73f8d744168e2e4e80c6b66f30e118e2aaabdc
+  anchor:
+    heading: Matrix Operations
+    slug: matrix-operations

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/00-setup-and-tooling/09-data-management/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 1b6fd1ebfbf160f2f7d23bf86f46d5b8325fc77776b6f68ea73b96c94bfdb39b
+  anchor:
+    heading: Step 5: Dataset splits
+    slug: step-5-dataset-splits
+card:
+  title: 数据划分：抽样决定评估能否代表真实表现
+  summary: 训练、验证和测试集都应来自清楚界定的数据总体；随机种子让切分可复现，但代表性、独立性和覆盖范围仍决定评估是否可信。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 04 - statistics/03. sampling.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 5d0f6c44422854b60f9027fa8411be8c54e78f08e827e9f0e5216e39e0f9f56d
+  anchor:
+    heading: Sampling
+    slug: sampling

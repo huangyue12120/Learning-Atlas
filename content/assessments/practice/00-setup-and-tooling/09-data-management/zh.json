@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/00-setup-and-tooling/09-data-management/quiz.json","revision":"7157ca74a135fad2165f680ec4b4e592f075ec21","sha256":"902deeb126e79fd9ff7afd4fa225dc418f54b56bb92fa8e85dafa399c0442a71"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"splits","stage":"pre","question":"为什么机器学习中训练集、验证集和测试集必须分开？","options":["让数据集更小以加快训练","在未见数据上评估模型并防止过拟合","确保每个划分使用不同文件格式","将数据分配到多块 GPU"],"correct":1,"explanation":"训练集教会模型；验证集在训练中调节超参数；测试集在模型未见过的数据上提供最终无偏评估。"},
+    {"id":"hf-hub","stage":"pre","question":"Hugging Face Hub 在 AI/ML 工作流中主要用于什么？","options":["托管和共享数据集、模型与 ML 工件","在云端运行 GPU 训练任务","管理 Python 虚拟环境","像 GitHub 一样进行源代码版本控制"],"correct":0,"explanation":"Hugging Face Hub 是托管、共享预训练模型、数据集和 ML demo 的平台；datasets 库提供从中加载数据的标准方法。"},
+    {"id":"parquet","stage":"post","question":"存储 ML 数据集时，Parquet 相比 CSV 的优势是什么？","options":["可在任意文本编辑器中阅读","列式存储带来更小文件和更快读取","支持比 CSV 更多的数据类型","可在电子表格应用中编辑"],"correct":1,"explanation":"Parquet 是列式二进制格式，比 CSV 压缩更好且能快速按列读取，是 ML 数据集的首选存储格式。"},
+    {"id":"streaming","stage":"post","question":"用 Hugging Face datasets 加载数据时，`streaming=True` 做什么？","options":["用并行连接更快下载","逐行加载数据而不将完整数据集下载到磁盘","将数据集转为流媒体视频格式","Hub 新增数据时启用实时更新"],"correct":1,"explanation":"流式模式创建按需获取行的 IterableDataset；内存占用不随数据集大小增长，适合无法放入磁盘的大型数据集。"},
+    {"id":"dvc","stage":"post","question":"何时应对大文件使用 DVC（而不只是 .gitignore）？","options":["数据集小于 1 MB 时","需要带版本数据在多台机器上复现精确实验时","独自做个人项目时","项目中只有 CSV 文件时"],"correct":1,"explanation":"DVC 在 Git 中以小型指针文件追踪数据版本，实际数据存于远程存储（S3、GCS），确保其他人能用相同数据复现实验。"}
+  ]
+}

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/00-setup-and-tooling/07-docker-for-ai/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 42faf8ca0956deb394384b55fe963d786348a8139bf989c94fd8b033d7d35cf6
+  anchor:
+    heading: Why AI projects need Docker more than most
+    slug: why-ai-projects-need-docker-more-than-most
+card:
+  title: 容器：共享内核而不是复制一台机器
+  summary: Docker 镜像固定运行环境；容器通过命名空间隔离可见资源、通过 cgroups 限制资源用量，因此比完整虚拟机更轻量且可复现。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 13 - computing and OS/03. operating systems.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 87293bf78b1f48a83f4de5c840a7596c16fb96c863b31be4dcb6666480a552a0
+  anchor:
+    heading: Virtualisation and Containers
+    slug: virtualisation-and-containers

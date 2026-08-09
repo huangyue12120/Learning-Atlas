@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/00-setup-and-tooling/02-git-and-collaboration/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 7737b8eab4fd9159da35f0b02a757caad9b351dfa2f76cf8bc858e482de315ed
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Git：让一次实验可以被准确追溯
+  summary: 将工作区、暂存区、提交与远程仓库视为连续的可复现性链路；代码、配置、数据版本和随机种子共同说明一次实验从何而来。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 15 - production software engineering/02. git and repository management.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 5126485a2947315627d503de7600aeff04b08d744ae3185227f716c43d39289d
+  anchor:
+    heading: Git for ML
+    slug: git-for-ml

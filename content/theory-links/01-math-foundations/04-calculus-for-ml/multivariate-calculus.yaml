@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/04-calculus-for-ml/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 0ed4721bd7a01a876bdfd1cafd3a732d645842bf942f708bf32198fd5a8e6794
+  anchor:
+    heading: "The gradient: vector of all partial derivatives"
+    slug: gradient-vector-of-all-partial-derivatives
+card:
+  title: 多元微积分：让每个参数都有下降方向
+  summary: 在为二维函数求数值梯度和 Hessian 前，先理解偏导、梯度、Jacobian 与曲率分别表达什么。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 03 - calculus/03. multivariate calculus.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: c5d61d7e68490b647953977bc7cfc5a858f5d19e5d4c936062619b07b046785b
+  anchor:
+    heading: Multivariate Calculus
+    slug: multivariate-calculus

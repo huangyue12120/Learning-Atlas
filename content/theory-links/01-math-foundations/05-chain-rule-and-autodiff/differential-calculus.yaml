@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/05-chain-rule-and-autodiff/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 4687cfcd67796cd61c6a73bfca1125c030030cf7a75f6aef98f7e640c5447190
+  anchor:
+    heading: The Chain Rule
+    slug: chain-rule
+card:
+  title: 链式法则：把局部导数接成全局梯度
+  summary: 在为每个 Value 节点编写反向规则前，先理解复合函数的导数为何沿路径相乘。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 03 - calculus/01. differential calculus.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 5026e325536c7c906a5f26aacae1af74d82ccd0b0c1dcc335a59bb5fa7e35b8f
+  anchor:
+    heading: Differential Calculus
+    slug: differential-calculus

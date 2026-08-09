@@ -1,0 +1,77 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/01-math-foundations/01-linear-algebra-intuition/quiz.json",
+    "revision": "7157ca74a135fad2165f680ec4b4e592f075ec21",
+    "sha256": "9deb8a57da668c885053c7d0f94c602811a0f062fa9d6a648bf8061bbc8fcc0d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "dot-product",
+      "stage": "pre",
+      "question": "两个向量的点积衡量什么？",
+      "options": [
+        "两个向量之间的距离",
+        "两个向量的相似性或对齐程度",
+        "以度数表示的向量夹角",
+        "两个向量共有的维度数"
+      ],
+      "correct": 1,
+      "explanation": "点积衡量对齐：正值表示同向（相似），零表示垂直（无关），负值表示反向（不相似）。这正是 AI 中相似度搜索的基础。"
+    },
+    {
+      "id": "embedding",
+      "stage": "pre",
+      "question": "AI 中的 embedding 指什么？",
+      "options": [
+        "把一个模型嵌入另一个模型",
+        "捕捉词、图像或用户等对象含义的向量表示",
+        "压缩模型权重的技术",
+        "把代码转换为机器指令的过程"
+      ],
+      "correct": 1,
+      "explanation": "embedding 将离散对象映射到高维连续向量空间；相似对象在其中相近，是现实概念与数学运算之间的桥梁。"
+    },
+    {
+      "id": "linear-independence",
+      "question": "给定 v1=[1,0,0]、v2=[0,1,0]、v3=[2,1,0]，它们线性无关吗？",
+      "options": [
+        "是，因为三维空间里有三个向量",
+        "否，因为 v3 = 2·v1 + v2，是其余向量的线性组合",
+        "是，因为三个向量互不相同",
+        "否，因为它们都含有零分量"
+      ],
+      "correct": 1,
+      "explanation": "v3 = 2·v1 + v2，因此这组向量线性相关。它们都落在 xy 平面，只张成二维子空间。",
+      "stage": "post"
+    },
+    {
+      "id": "matrix-rank",
+      "question": "在线性代数和机器学习中，矩阵的秩主要说明什么？",
+      "options": [
+        "矩阵相乘的速度",
+        "线性无关列的数量，也就是其中独立信息方向的数量",
+        "矩阵中的最大元素",
+        "非零元素的数量"
+      ],
+      "correct": 1,
+      "explanation": "秩等于线性无关列的数量。特征矩阵秩亏意味着特征冗余、可能有无穷多个权重解，并需要正则化等处理。",
+      "stage": "post"
+    },
+    {
+      "id": "lora",
+      "question": "LoRA 如何利用线性代数高效微调大语言模型？",
+      "options": [
+        "删去权重矩阵的无用行",
+        "把完整权重更新分解为两个较小的低秩矩阵",
+        "把所有权重从 float32 转为 int8",
+        "冻结嵌入层，只训练输出层"
+      ],
+      "correct": 1,
+      "explanation": "LoRA 用两个小型低秩矩阵表示权重更新，而不是训练完整更新矩阵；例如将 4096×4096 的更新表示为 4096×16 和 16×4096，将可训练参数从约 1600 万降至约 13.1 万。",
+      "stage": "post"
+    }
+  ]
+}

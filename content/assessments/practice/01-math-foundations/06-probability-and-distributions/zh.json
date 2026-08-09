@@ -1,0 +1,77 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/01-math-foundations/06-probability-and-distributions/quiz.json",
+    "revision": "7157ca74a135fad2165f680ec4b4e592f075ec21",
+    "sha256": "ddd50c5a659829a2764c35e84074f54efcd1ddbb42284d22d6ab9a9e1dfc5f5d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "pmf-pdf",
+      "question": "PMF 与 PDF 的区别是什么？",
+      "options": [
+        "PMF 连续、PDF 离散",
+        "PMF 给离散结果的直接概率；PDF 是连续变量密度，需区间积分",
+        "两者相同",
+        "PMF 总和为 0.5"
+      ],
+      "correct": 1,
+      "explanation": "连续变量单点密度不是概率；区间积分才是概率。",
+      "stage": "pre"
+    },
+    {
+      "id": "clt",
+      "question": "中心极限定理说明什么？",
+      "options": [
+        "所有数据都正态",
+        "大量独立变量的均值无论原分布如何都趋向正态",
+        "大数据方差低",
+        "罕见事件概率降低"
+      ],
+      "correct": 1,
+      "explanation": "独立样本的平均趋向高斯，解释正态分布的普遍性。",
+      "stage": "pre"
+    },
+    {
+      "id": "softmax-trick",
+      "question": "softmax 为何先减最大 logit？",
+      "options": [
+        "使概率相等",
+        "防止指数大数溢出且结果不变",
+        "使均值为零",
+        "减少指数次数"
+      ],
+      "correct": 1,
+      "explanation": "平移会在分子分母抵消，而最大值变为 0 避免 overflow。",
+      "stage": "post"
+    },
+    {
+      "id": "cross-entropy",
+      "question": "`-log(q(true_class))` 的直观含义？",
+      "options": [
+        "相乘标签和概率",
+        "正确类预测概率越低，惩罚越高",
+        "平均所有类 log 概率",
+        "计算真实分布熵"
+      ],
+      "correct": 1,
+      "explanation": "正确类 0.9 的损失低，0.01 的损失高。",
+      "stage": "post"
+    },
+    {
+      "id": "log-probability",
+      "question": "语言模型为何使用 log 概率？",
+      "options": [
+        "更易可视化",
+        "小概率连乘下溢；log 将乘积变为和",
+        "Transformer 强制要求",
+        "原始概率不能小于 0.01"
+      ],
+      "correct": 1,
+      "explanation": "对数和保持在有限数值范围。",
+      "stage": "post"
+    }
+  ]
+}

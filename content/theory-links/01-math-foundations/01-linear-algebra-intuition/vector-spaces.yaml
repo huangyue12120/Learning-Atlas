@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/01-linear-algebra-intuition/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 9bac2df58d85c30df3f36bde3626b02a3fa6aa001536bc343320b9048ee284e1
+  anchor:
+    heading: Vectors Are Points (and Directions)
+    slug: vectors-are-points-and-directions
+card:
+  title: 向量空间：AI 对象如何落在同一个空间里
+  summary: 用向量加法、数乘与维度的直觉，理解词、图像和用户特征为何能用同一套数学语言表示。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 01 - vectors/01. vector spaces.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 1edd2e5bee4f13a5b527ff6743684a7de9bade90744a1bfdacb647c80068ee8b
+  anchor:
+    heading: Vector Spaces
+    slug: vector-spaces

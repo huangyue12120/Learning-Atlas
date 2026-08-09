@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/00-setup-and-tooling/10-terminal-and-shell/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: e66d1dfb656412e4d51741b97aea9042271c48a110417fd9fc3a2160b41d1781
+  anchor:
+    heading: Step 2: Piping and redirects
+    slug: step-2-piping-and-redirects
+card:
+  title: Shell 管道：把小命令组合成可检查的数据流
+  summary: 管道把前一命令的标准输出交给下一命令，重定向则把输出保存为文件；理解这一输入输出模型，才能可靠地筛选训练日志并保留诊断证据。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 15 - production software engineering/01. linux and CMD.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 9aca3225191627bb64a5a357054f25f3c662fc4070d981b5fa7573d487fc5476
+  anchor:
+    heading: Pipes and Redirection
+    slug: pipes-and-redirection

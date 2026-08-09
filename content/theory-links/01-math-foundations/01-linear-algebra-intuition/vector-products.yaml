@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/01-linear-algebra-intuition/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 9bac2df58d85c30df3f36bde3626b02a3fa6aa001536bc343320b9048ee284e1
+  anchor:
+    heading: The Dot Product Measures Similarity
+    slug: the-dot-product-measures-similarity
+card:
+  title: 点积：把方向关系变成一个数
+  summary: 通过两个向量的夹角理解点积的符号和大小，再连接到检索与注意力中的相似度计算。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 01 - vectors/04. products.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 9e83fbd97192fa1a0ddaa70c35ed82b517360285b3d01df2faa039b13cfc0ce8
+  anchor:
+    heading: Vector Products
+    slug: vector-products

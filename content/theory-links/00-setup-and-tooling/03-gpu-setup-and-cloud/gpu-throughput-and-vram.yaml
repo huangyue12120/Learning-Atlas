@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/00-setup-and-tooling/03-gpu-setup-and-cloud/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: a1a9173523cab9ff72b96dc30a0ea4a3e2c39b5cfa9170b85e71adac8dbf8401
+  anchor:
+    heading: Build It: GPU vs CPU benchmark
+    slug: build-it-gpu-vs-cpu-benchmark
+card:
+  title: GPU 吞吐与显存：为什么矩阵运算会加速
+  summary: CPU 优先缩短单项任务延迟，GPU 优先并行吞吐；先区分算力和显存带宽，才能正确解读基准测试与 VRAM 容量限制。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 16 - SIMD and GPU programming/04. GPU architecture and CUDA.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 743fc0eca70d66a19ea7630e5a4e7cca559f4f52283298a21b20c8a17737225f
+  anchor:
+    heading: GPU vs CPU: Fundamentally Different Designs
+    slug: gpu-vs-cpu-fundamentally-different-designs

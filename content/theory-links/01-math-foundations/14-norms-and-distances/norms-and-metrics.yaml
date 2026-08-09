@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/14-norms-and-distances/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: f0949b87124ae76e14ed331231e357edf7e60552dc4fadd42dee0ffed10ebeca
+  anchor:
+    heading: "Norms: measuring vector magnitude"
+    slug: norms-measuring-vector-magnitude
+card:
+  title: 范数与度量：从向量大小到相似性
+  summary: 在实现 L1、L2、L∞ 与最近邻度量前，掌握范数、度量公理及由范数定义距离的基础。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 01 - vectors/03. norms and metrics.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: ec5f2e1e396e95094b93a329f68f65aa4c843aa44bd72b5724f673a0ea67e6bc
+  anchor:
+    heading: Metrics and Norms
+    slug: metrics-and-norms

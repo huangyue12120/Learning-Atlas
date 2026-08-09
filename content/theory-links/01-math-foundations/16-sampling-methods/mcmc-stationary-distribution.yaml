@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/16-sampling-methods/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 387bb3952f9a86f59c898179ec88597a8e9719e662ecab1b6b93bd6a977c2616
+  anchor:
+    heading: "Markov Chain Monte Carlo (MCMC): Metropolis-Hastings"
+    slug: markov-chain-monte-carlo-mcmc-metropolis-hastings
+card:
+  title: Markov 链：MCMC 为何能从目标分布抽样
+  summary: 在调试 Metropolis-Hastings 的接受率、burn-in 和混合前，先理解 Markov property、transition matrix 与 stationary distribution。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/04. bayesian.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: f6225ca0de169e09fcc8a03f9eed9beae3484d9020409f9f7580c463dbd524a3
+  anchor:
+    heading: Bayesian Methods and Sequential Models
+    slug: bayesian-methods-and-sequential-models

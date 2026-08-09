@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/06-probability-and-distributions/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 6af905cb9c5318be55d10a25d9ba18b2dc253d8b8fe6b5b4cc32fe243d2e47f8
+  anchor:
+    heading: Probability Mass Functions vs Probability Density Functions
+    slug: pmf-vs-pdf
+card:
+  title: 概率分布：区分离散质量与连续密度
+  summary: 在实现 Bernoulli、Poisson、均匀和正态函数前，先区分 PMF 的单点概率与 PDF 的区间积分。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/03. distributions.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 1e051833fd2dde6957d8c2bc859d0dd7075bd09518aae0632904c0a039c75efa
+  anchor:
+    heading: Probability Distributions
+    slug: probability-distributions

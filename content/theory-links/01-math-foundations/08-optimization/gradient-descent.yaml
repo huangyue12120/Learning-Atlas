@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/08-optimization/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 390797c59e5e709c5670edc7aa79d087fa9ada55a37a6818f35f946a53be92d6
+  anchor:
+    heading: Gradient descent (vanilla)
+    slug: gradient-descent-vanilla
+card:
+  title: 优化：从梯度方向到更新规则
+  summary: 在实现 GD、动量和 Adam 的参数更新前，复习极值、凸性、梯度下降和二阶方法的共同数学框架。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 03 - calculus/05. optimisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: ab7d84558c2298a32a74f7f61d009624eb2886606e0940661dc250338caee756
+  anchor:
+    heading: Optimisation
+    slug: optimisation

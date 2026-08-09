@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/15-statistics-for-ml/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: cf44606152d65f57c3051916164a2b2a874da2a83c6022a31206a30b4854f029
+  anchor:
+    heading: "Central Limit Theorem: Practical Implications"
+    slug: central-limit-theorem-practical-implications
+card:
+  title: 中心极限定理：为何样本均值可用于推断
+  summary: 在解释置信区间、t 检验和 mini-batch 平均的近似正态性前，复习正态分布及中心极限定理的适用条件。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 04 - statistics/03. sampling.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 5d0f6c44422854b60f9027fa8411be8c54e78f08e827e9f0e5216e39e0f9f56d
+  anchor:
+    heading: Sampling
+    slug: sampling

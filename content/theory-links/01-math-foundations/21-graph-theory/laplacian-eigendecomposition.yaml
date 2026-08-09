@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/21-graph-theory/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: f604b6e3676d179188e0bbab407160cff0141ed22b21747339ca3b9fd28cb77f
+  anchor:
+    heading: The Graph Laplacian
+    slug: the-graph-laplacian
+card:
+  title: 矩阵特征分解：读出 Laplacian 的零空间与 Fiedler 向量
+  summary: 在调用 eigh、以零特征值数连通分量并用 Fiedler 向量切分社区前，复习对称矩阵的特征值、特征向量与正交对角化。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 02 - matrices/05. decompositions.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 6a27913c7cbf413e47e530aa26e0208eeef8da682a434931882104e14c34368e
+  anchor:
+    heading: Matrix Decompositions
+    slug: matrix-decompositions

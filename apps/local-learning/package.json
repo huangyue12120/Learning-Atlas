@@ -1,0 +1,19 @@
+{
+  "name": "learning-atlas-local",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "dependencies": {
+    "@highlightjs/cdn-assets": "^11.11.1",
+    "mermaid": "^11.16.1"
+  },
+  "scripts": {
+    "dev": "node --experimental-strip-types src/server.ts",
+    "start": "node --experimental-strip-types src/server.ts",
+    "check": "node --experimental-strip-types --check src/server.ts",
+    "test": "node --experimental-strip-types --test tests/*.test.ts"
+  }
+}

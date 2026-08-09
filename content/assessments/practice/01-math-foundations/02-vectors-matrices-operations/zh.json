@@ -1,0 +1,77 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/01-math-foundations/02-vectors-matrices-operations/quiz.json",
+    "revision": "7157ca74a135fad2165f680ec4b4e592f075ec21",
+    "sha256": "ced02e5daecc821f91d2c9e4eb217f0548d86331b93369215d7c40e96bf0078c"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "matrix-multiplication-shape",
+      "question": "对于矩阵乘法 `(m × n) @ (n × p)`，维度必须满足什么条件？",
+      "options": [
+        "m 必须等于 p",
+        "内侧维度 n 必须相等",
+        "所有维度必须相等",
+        "m 必须大于 p"
+      ],
+      "correct": 1,
+      "explanation": "第一个矩阵的列数必须等于第二个矩阵的行数；结果的形状是 `(m × p)`。",
+      "stage": "pre"
+    },
+    {
+      "id": "identity-matrix",
+      "question": "什么是单位矩阵？",
+      "options": [
+        "所有元素都为 1 的矩阵",
+        "主对角线为 1、其余元素为 0，且是乘法单位元的方阵",
+        "每个元素都互不相同的矩阵",
+        "任意矩阵的转置"
+      ],
+      "correct": 1,
+      "explanation": "单位矩阵 I 的主对角线为 1、其余位置为 0；与它相乘不会改变兼容形状的矩阵。",
+      "stage": "pre"
+    },
+    {
+      "id": "element-wise-versus-matmul",
+      "question": "逐元素乘法与矩阵乘法的关键差异是什么？",
+      "options": [
+        "逐元素乘法更快，矩阵乘法更精确",
+        "逐元素乘法逐项相乘（需同形状或可广播）；矩阵乘法计算行列点积（内侧维度必须匹配）",
+        "它们结果相同，只是符号不同",
+        "逐元素乘法只能用于向量"
+      ],
+      "correct": 1,
+      "explanation": "Hadamard 积匹配对应位置；矩阵乘法遵循 `(m, n) @ (n, p) = (m, p)`。",
+      "stage": "post"
+    },
+    {
+      "id": "bias-broadcasting",
+      "question": "在 `output = relu(W @ x + b)` 中，广播起什么作用？",
+      "options": [
+        "把计算分发到多个 GPU",
+        "沿缺失维度重复较小的偏置 b，使其能与 `W @ x` 逐元素相加",
+        "把 W 与 x 转换为相同的数据类型",
+        "对每个元素重复执行 ReLU"
+      ],
+      "correct": 1,
+      "explanation": "广播扩展偏置的缺失维度，因此无需手动复制偏置也能完成逐元素加法。",
+      "stage": "post"
+    },
+    {
+      "id": "zero-determinant",
+      "question": "矩阵行列式为零说明什么？",
+      "options": [
+        "所有矩阵元素都是零",
+        "矩阵奇异：它压扁了至少一个维度，不能求逆，线性方程组没有唯一解",
+        "该矩阵是单位矩阵",
+        "该矩阵表示旋转"
+      ],
+      "correct": 1,
+      "explanation": "零行列式表示变换丢失了维度，逆矩阵不存在；相关方程组可能无解或有无穷多解。",
+      "stage": "post"
+    }
+  ]
+}

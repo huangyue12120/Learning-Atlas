@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/01-math-foundations/01-linear-algebra-intuition/docs/en.md
+  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
+  sha256: 9bac2df58d85c30df3f36bde3626b02a3fa6aa001536bc343320b9048ee284e1
+  anchor:
+    heading: Matrices Are Transformations
+    slug: matrices-are-transformations
+card:
+  title: 矩阵运算：线性层如何变换输入
+  summary: 先从矩阵与向量相乘的形状和方向入手，再理解神经网络层为何可以写成一次矩阵乘法。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 02 - matrices/03. operations.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 3627030fc60d19cc16f1010a0f73f8d744168e2e4e80c6b66f30e118e2aaabdc
+  anchor:
+    heading: Matrix Operations
+    slug: matrix-operations

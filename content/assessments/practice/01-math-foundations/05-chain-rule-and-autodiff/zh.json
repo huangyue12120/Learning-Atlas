@@ -1,0 +1,77 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/01-math-foundations/05-chain-rule-and-autodiff/quiz.json",
+    "revision": "7157ca74a135fad2165f680ec4b4e592f075ec21",
+    "sha256": "28824def8b46268567f59d9bc68697d00dc2db98b30683ec1e13062645a92b7b"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "chain-rule",
+      "question": "链式法则说明什么？",
+      "options": [
+        "和的导数等于导数和",
+        "复合函数的导数等于各链接导数之积",
+        "积的积分等于积分之积",
+        "只有线性函数可求导"
+      ],
+      "correct": 1,
+      "explanation": "对 y=f(g(x))，dy/dx=f'(g(x))*g'(x)，是反向传播的数学基础。",
+      "stage": "pre"
+    },
+    {
+      "id": "graph",
+      "question": "什么是计算图？",
+      "options": [
+        "损失随步数变化的图",
+        "节点表示操作、边前传值或反传梯度的有向图",
+        "网络架构图",
+        "训练数据图数据库"
+      ],
+      "correct": 1,
+      "explanation": "计算图记录计算操作及依赖关系，值前传、梯度反传。",
+      "stage": "pre"
+    },
+    {
+      "id": "reverse-mode",
+      "question": "PyTorch 为何用反向模式自动微分？",
+      "options": [
+        "数值更精确",
+        "一次反传可得到全部权重梯度；网络有大量输入但一个损失输出",
+        "内存更少",
+        "前向模式不能处理非线性"
+      ],
+      "correct": 1,
+      "explanation": "前向模式需每个输入一次传播，而反向模式对标量损失只需一次反传。",
+      "stage": "post"
+    },
+    {
+      "id": "accumulation",
+      "question": "Value 的反向函数为何用 `+=` 累加梯度？",
+      "options": [
+        "平均样本梯度",
+        "一个值可用于多个操作，所有梯度贡献必须相加",
+        "防止溢出",
+        "闭包不能使用 ="
+      ],
+      "correct": 1,
+      "explanation": "共享节点会收到多条反向路径的贡献，覆盖会丢失梯度。",
+      "stage": "post"
+    },
+    {
+      "id": "gradient-check",
+      "question": "何谓梯度检查？",
+      "options": [
+        "检查梯度是否低于阈值",
+        "比较 autodiff 与数值有限差分梯度以验证反传",
+        "确认所有参数梯度非零",
+        "监控梯度大小"
+      ],
+      "correct": 1,
+      "explanation": "以中心差分对照自动微分，可用于新增操作或排查训练错误。",
+      "stage": "post"
+    }
+  ]
+}
