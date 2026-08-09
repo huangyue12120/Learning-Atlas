@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/10-terminal-and-shell/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: e66d1dfb656412e4d51741b97aea9042271c48a110417fd9fc3a2160b41d1781
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: fac7d401a57bbbedba9b980e33524364562d8ef8dcd4ee716be50d7d8aa1e2ea
   anchor:
     heading: Step 2: Piping and redirects
     slug: step-2-piping-and-redirects

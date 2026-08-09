@@ -1,12 +1,12 @@
 {
   "kind":"practice-assessment",
-  "source":{"repository":"ai-engineering-from-scratch","path":"phases/00-setup-and-tooling/11-linux-for-ai/quiz.json","revision":"7157ca74a135fad2165f680ec4b4e592f075ec21","sha256":"054de5882cd7eae9f8c1cf986657c180090b40a5ca1dd542438d63080800a6bd"},
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/00-setup-and-tooling/11-linux-for-ai/quiz.json","revision":"d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051","sha256":"9627690defe064ff3a549725fc5e3e1db1831e112e368294676e7a72adccf8e0"},
   "status":"reviewed",
   "questions":[
-    {"id":"home","stage":"pre","question":"Linux 文件路径中的 `~` 符号代表什么？","options":["文件系统根目录","当前用户的家目录","临时文件目录","安装系统程序的目录"],"correct":1,"explanation":"波浪号（~）是当前用户家目录的快捷方式；Linux 中通常是 /home/username。`cd ~` 可从任何位置回到家目录。"},
-    {"id":"sudo","stage":"pre","question":"命令前的 `sudo` 有什么作用？","options":["加快命令执行","以 root（管理员）权限运行命令","在沙箱环境中运行命令","将输出记录到系统文件"],"correct":1,"explanation":"sudo（superuser do）会暂时将单个命令的权限提升到 root 级别；用 apt 安装包等系统级操作需要它。"},
-    {"id":"chmod","stage":"post","question":"运行 shell 脚本时出现“Permission denied”，用哪条命令修复？","options":["sudo rm script.sh","chmod +x script.sh","chown root script.sh","mv script.sh /usr/bin/"],"correct":1,"explanation":"chmod +x 会为文件添加可执行权限；未设置执行位时，即使你拥有文件，shell 也拒绝运行它。"},
-    {"id":"disk-space","stage":"post","question":"远程 GPU 机器的训练数据填满磁盘时，哪条命令显示占用空间最大的目录？","options":["ls -la /","du -h --max-depth=1 / | sort -hr | head -20","cat /proc/meminfo","free -h"],"correct":1,"explanation":"du -h 显示每个目录的磁盘用量，--max-depth=1 限制为顶层目录，sort -hr 按大小倒序排列，因此可找出最占空间的目录。"},
-    {"id":"sed","stage":"post","question":"macOS 与 Linux 的 `sed -i` 有何关键差异？","options":["Linux sed 比 macOS sed 快","macOS sed 在 -i 后需一个空字符串参数（`sed -i ''`），Linux 不需要","Linux sed 不支持正则表达式","macOS sed 不能原地修改文件"],"correct":1,"explanation":"macOS 使用 BSD sed，要求 `sed -i \"\" pattern file`；Linux 使用 GNU sed，接受 `sed -i pattern file`。在系统间迁移脚本时这是常见陷阱。"}
+    {"id":"home","stage":"pre","question":"Linux 文件路径中的 `~` 符号代表什么？","options":["文件系统根目录","临时文件目录","当前用户的家目录","安装系统程序的目录"],"correct":2,"explanation":"波浪号（~）是当前用户家目录的快捷方式；Linux 中通常是 /home/username。`cd ~` 可从任何位置回到家目录。"},
+    {"id":"sudo","stage":"pre","question":"命令前的 `sudo` 有什么作用？","options":["以 root（管理员）权限运行命令","在沙箱环境中运行命令","加快命令执行","将输出记录到系统文件"],"correct":0,"explanation":"sudo（superuser do）会暂时将单个命令的权限提升到 root 级别；用 apt 安装包等系统级操作需要它。"},
+    {"id":"chmod","stage":"post","question":"运行 shell 脚本时出现“Permission denied”，用哪条命令修复？","options":["chown root script.sh","mv script.sh /usr/bin/","chmod +x script.sh","sudo rm script.sh"],"correct":2,"explanation":"chmod +x 会为文件添加可执行权限；未设置执行位时，即使你拥有文件，shell 也拒绝运行它。"},
+    {"id":"disk-space","stage":"post","question":"远程 GPU 机器的训练数据填满磁盘时，哪条命令显示占用空间最大的目录？","options":["ls -la /","cat /proc/meminfo","du -h --max-depth=1 / | sort -hr | head -20","free -h"],"correct":2,"explanation":"du -h 显示每个目录的磁盘用量，--max-depth=1 限制为顶层目录，sort -hr 按大小倒序排列，因此可找出最占空间的目录。"},
+    {"id":"sed","stage":"post","question":"macOS 与 Linux 的 `sed -i` 有何关键差异？","options":["Linux sed 比 macOS sed 快","Linux sed 不支持正则表达式","macOS sed 不能原地修改文件","macOS sed 在 -i 后需一个空字符串参数（`sed -i ''`），Linux 不需要"],"correct":3,"explanation":"macOS 使用 BSD sed，要求 `sed -i \"\" pattern file`；Linux 使用 GNU sed，接受 `sed -i pattern file`。在系统间迁移脚本时这是常见陷阱。"}
   ]
 }

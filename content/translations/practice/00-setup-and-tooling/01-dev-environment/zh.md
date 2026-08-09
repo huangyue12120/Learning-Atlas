@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/01-dev-environment/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: da6ce0c510147ad6e46ecf55a2b34f52bf39e0d40d8144acb920a0c83679772e
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 2d8c9ddf2d1e9f26adc3f64c845907ce61d3f01e7c0840a27a174d95f44d503d
 status: reviewed
 ---
 
@@ -43,6 +43,10 @@ graph TD
 ```
 
 我们从底向上安装；每一层都依赖于它下面的一层。
+
+```figure
+s0-env-stack
+```
 
 ## 动手构建
 

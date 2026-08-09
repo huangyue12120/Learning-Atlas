@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/02-git-and-collaboration/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 7737b8eab4fd9159da35f0b02a757caad9b351dfa2f76cf8bc858e482de315ed
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 1b219057e92a910cb897b792b14d05bbe2dc7c3fcac5b57cb390071caefb8c96
 status: reviewed
 ---
 
@@ -50,6 +50,10 @@ sequenceDiagram
 1. 经常保存（`git commit`）
 2. 推送到远程仓库（`git push`）
 3. 为实验创建分支（`git checkout -b experiment`）
+
+```figure
+s0-commit-dag
+```
 
 ## 动手构建
 

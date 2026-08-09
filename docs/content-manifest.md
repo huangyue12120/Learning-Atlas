@@ -6,7 +6,7 @@
 
 | 上游仓库 | 锁定 revision | 许可证 |
 | --- | --- | --- |
-| `ai-engineering-from-scratch` | `7157ca74a135fad2165f680ec4b4e592f075ec21`（`v2026.07-11-g7157ca74`） | MIT |
+| `ai-engineering-from-scratch` | `d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051`（`v2026.07-27-gd0ac5d9`） | MIT |
 | `maths-cs-ai-compendium` | `9850ee574a370bc1cde59de98b394e953775b67d` | Apache-2.0 |
 
 此表记录 v0.1 的可复现发布快照。两个 submodule 同时配置为跟踪其上游 `main` 分支：每日检查只报告待审核更新，不会自动修改发布内容。中文改编、测验和理论关联的各自 front matter 均记录对应原文路径、revision 与 SHA-256。应用发现实践课程或测验的当前 SHA-256 不匹配时，会降级为“待同步”，不会向学习者发布旧内容。

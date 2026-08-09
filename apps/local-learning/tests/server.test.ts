@@ -8,6 +8,13 @@ import { DatabaseSync } from "node:sqlite";
 import { createApp, firstLesson, prepareWorkspace } from "../src/server.ts";
 
 const cleanups: Array<() => void> = [];
+const correctFirstQuizAnswers = {
+  "dot-product": 1,
+  embedding: 3,
+  "linear-independence": 1,
+  "matrix-rank": 0,
+  lora: 0
+};
 
 afterEach(() => {
   while (cleanups.length) cleanups.pop()?.();
@@ -145,7 +152,7 @@ test("serves a reviewed Chinese quiz without answers and persists its latest res
   const attempt = await fetch(`${baseUrl}/api/quiz/attempts`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ answers: { "dot-product": 1, embedding: 1, "linear-independence": 1, "matrix-rank": 1, lora: 1 } })
+    body: JSON.stringify({ answers: correctFirstQuizAnswers })
   });
   assert.equal(attempt.status, 201);
   assert.deepEqual((await attempt.json()).score, 5);
@@ -248,7 +255,7 @@ test("restores a JSON backup into a new learner database", async () => {
   await fetch(`${sourceUrl}/api/quiz/attempts`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ answers: { "dot-product": 1, embedding: 1, "linear-independence": 1, "matrix-rank": 1, lora: 1 } })
+    body: JSON.stringify({ answers: correctFirstQuizAnswers })
   });
   const backup = await fetch(`${sourceUrl}/api/export?format=json`).then((response) => response.json());
   backup.tutorMessages.push({

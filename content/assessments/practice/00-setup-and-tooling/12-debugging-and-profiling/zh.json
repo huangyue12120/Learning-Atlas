@@ -3,8 +3,8 @@
   "source": {
     "repository": "ai-engineering-from-scratch",
     "path": "phases/00-setup-and-tooling/12-debugging-and-profiling/quiz.json",
-    "revision": "7157ca74a135fad2165f680ec4b4e592f075ec21",
-    "sha256": "ce697f66b3d95f6485daba5f9817f47a87ef0c7bed83f22046f22be13a828db5"
+    "revision": "d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051",
+    "sha256": "587d0e490b516bf2dff412133cb7926090d9cfbc89e0f267456510cdd6966ba8"
   },
   "status": "reviewed",
   "questions": [
@@ -12,23 +12,23 @@
       "id": "silent-failure",
       "stage": "pre",
       "question": "AI/ML 代码的调试为何与典型 Web 应用的调试根本不同？",
-      "options": ["AI 代码使用不同的编程语言", "AI bug 往往不会崩溃，而是在没有错误信息时悄悄产生错误结果", "AI 代码不能用打印语句等标准工具调试", "AI 代码始终需要 GPU 才能调试"],
-      "correct": 1,
+      "options": ["AI 代码始终需要 GPU 才能调试", "AI 代码使用不同的编程语言", "AI bug 往往不会崩溃，而是在没有错误信息时悄悄产生错误结果", "AI 代码不能用打印语句等标准工具调试"],
+      "correct": 2,
       "explanation": "最糟糕的 AI bug 会产生看似正常的输出。一个配置错误的训练循环可能运行数小时却没有报错，而模型没有学到任何有用的内容；这不同于会带着堆栈跟踪崩溃的 Web 应用。"
     },
     {
       "id": "profiler",
       "stage": "pre",
       "question": "性能分析器（profiler）衡量什么？",
-      "options": ["代码是否产生正确输出", "代码各部分消耗的时间和内存", "代码库中存在多少 bug", "单元测试的代码覆盖率"],
-      "correct": 1,
+      "options": ["代码各部分消耗的时间和内存", "代码库中存在多少 bug", "代码是否产生正确输出", "单元测试的代码覆盖率"],
+      "correct": 0,
       "explanation": "性能分析器衡量资源消耗——每个函数的执行时间、内存分配和 GPU 利用率——帮助你找到瓶颈并优化性能。"
     },
     {
       "id": "data-leakage",
       "stage": "post",
       "question": "你的模型在测试集上达到 99% 准确率。应首先怀疑哪种 AI 特有 bug？",
-      "options": ["模型参数过多", "数据泄漏——测试样本可能泄漏到了训练集中", "学习率过高", "批大小过大"],
+      "options": ["批大小过大", "数据泄漏——测试样本可能泄漏到了训练集中", "学习率过高", "模型参数过多"],
       "correct": 1,
       "explanation": "异常高的准确率常表示数据泄漏——训练数据与测试数据重叠，或特征中包含目标标签。始终检查训练集与测试集是否重叠。"
     },
@@ -36,16 +36,16 @@
       "id": "data-loading",
       "stage": "post",
       "question": "分析训练循环的耗时分布时，最常见的发现是什么？",
-      "options": ["反向传播占用 90% 的时间", "数据加载耗时超过前向与反向传播的总和", "写日志最耗时", "GPU 内存分配是瓶颈"],
-      "correct": 1,
+      "options": ["GPU 内存分配是瓶颈", "反向传播占用 90% 的时间", "数据加载耗时超过前向与反向传播的总和", "写日志最耗时"],
+      "correct": 2,
       "explanation": "当 DataLoader 的 num_workers=0 时，数据加载常占 60% 以上的训练时间。解决办法是设置 num_workers > 0，使数据加载能与 GPU 计算并行。"
     },
     {
       "id": "nan-root-cause",
       "stage": "post",
       "question": "你在第 500 步看到 NaN 损失。哪种方法有助于找到根本原因？",
-      "options": ["换一个随机种子从头重启训练", "使用 detect_nan 检查梯度中的 NaN/Inf，并在故障点加入 breakpoint()", "增大批大小以稳定梯度", "将 Adam 优化器换为 SGD"],
-      "correct": 1,
+      "options": ["将 Adam 优化器换为 SGD", "换一个随机种子从头重启训练", "增大批大小以稳定梯度", "使用 detect_nan 检查梯度中的 NaN/Inf，并在故障点加入 breakpoint()"],
+      "correct": 3,
       "explanation": "首先通过检查每个参数的梯度来确定 NaN 从哪里开始出现。在 NaN 步骤设置条件断点，便可交互式检查张量值。常见原因包括学习率过高、log(0) 或除以零。"
     }
   ]

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/10-terminal-and-shell/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: e66d1dfb656412e4d51741b97aea9042271c48a110417fd9fc3a2160b41d1781
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: fac7d401a57bbbedba9b980e33524364562d8ef8dcd4ee716be50d7d8aa1e2ea
 status: reviewed
 ---
 
@@ -45,6 +45,10 @@ graph TD
 ```
 
 三件事同时运行，只用一个终端。你可脱离会话、回家、再 SSH 回来并重新连接；训练仍会继续。
+
+```figure
+s0-shell-pipeline
+```
 
 ## 动手构建
 

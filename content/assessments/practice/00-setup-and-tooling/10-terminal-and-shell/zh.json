@@ -1,12 +1,12 @@
 {
   "kind":"practice-assessment",
-  "source":{"repository":"ai-engineering-from-scratch","path":"phases/00-setup-and-tooling/10-terminal-and-shell/quiz.json","revision":"7157ca74a135fad2165f680ec4b4e592f075ec21","sha256":"abe363c74f8eeaa64ccbea5a0ebad916b2efd9d109ef1512dec174d2806570ac"},
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/00-setup-and-tooling/10-terminal-and-shell/quiz.json","revision":"d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051","sha256":"00c0be831d9e151204e13fd407cabee982e97a5edcca5ebfa6a088ee3c36599e"},
   "status":"reviewed",
   "questions":[
-    {"id":"pipe","stage":"pre","question":"Shell 命令中的管道操作符 `|` 做什么？","options":["并行运行两条命令","将一条命令的标准输出作为下一条命令的标准输入","将命令输出保存到文件","将两个文件合并"],"correct":1,"explanation":"管道将命令连接为流水线。例如 `cat log.txt | grep error` 将 log.txt 内容作为 grep 输入，再由 grep 筛选含 error 的行。"},
-    {"id":"sighup","stage":"pre","question":"关闭启动进程的终端时，正在运行的进程通常会怎样？","options":["继续在后台运行","收到挂断信号（SIGHUP）并通常终止","暂停到打开新终端为止","自动迁移为系统服务"],"correct":1,"explanation":"关闭终端会向子进程发送 SIGHUP，默认使其终止；tmux、nohup 或 screen 可避免此情况。"},
-    {"id":"tmux","stage":"post","question":"相较于对长训练任务使用 `nohup command &`，tmux 的关键优势是什么？","options":["tmux 比 nohup 占用更少 CPU","tmux 可脱离、重新连接，并在多个 pane 中查看实时输出","tmux 自动重启失败进程","tmux 压缩输出以节省磁盘"],"correct":1,"explanation":"tmux 创建可脱离并在之后重新连接的持久会话，可在多个 pane 查看实时输出；nohup 只能写日志，无法交互或重新接入。"},
-    {"id":"redirect","stage":"post","question":"`python train.py > output.log 2>&1` 实现什么？","options":["运行 train.py，只将错误保存到 output.log","运行 train.py，将标准输出和标准错误都重定向到 output.log","运行 train.py 两次并记录第二次","以双倍内存运行 train.py"],"correct":1,"explanation":"`> output.log` 将 stdout 重定向到文件，`2>&1` 将 stderr 送到 stdout 的相同位置，因此正常输出和错误会写入同一文件。"},
-    {"id":"port-forward","stage":"post","question":"哪条命令能让本地浏览器访问 GPU 机器端口 8888 上运行的远程 Jupyter notebook？","options":["scp -P 8888 user@gpu-box:~/notebook.ipynb","ssh -L 8888:localhost:8888 user@gpu-box","rsync -avz user@gpu-box:8888 localhost:8888","ssh user@gpu-box --forward-port 8888"],"correct":1,"explanation":"SSH 本地端口转发（-L）将远程端口映射到本机；执行后在浏览器打开 localhost:8888 即可访问远程 Jupyter 服务器。"}
+    {"id":"pipe","stage":"pre","question":"Shell 命令中的管道操作符 `|` 做什么？","options":["并行运行两条命令","将两个文件合并","将一条命令的标准输出作为下一条命令的标准输入","将命令输出保存到文件"],"correct":2,"explanation":"管道将命令连接为流水线。例如 `cat log.txt | grep error` 将 log.txt 内容作为 grep 输入，再由 grep 筛选含 error 的行。"},
+    {"id":"sighup","stage":"pre","question":"关闭启动进程的终端时，正在运行的进程通常会怎样？","options":["暂停到打开新终端为止","继续在后台运行","收到挂断信号（SIGHUP）并通常终止","自动迁移为系统服务"],"correct":2,"explanation":"关闭终端会向子进程发送 SIGHUP，默认使其终止；tmux、nohup 或 screen 可避免此情况。"},
+    {"id":"tmux","stage":"post","question":"相较于对长训练任务使用 `nohup command &`，tmux 的关键优势是什么？","options":["tmux 自动重启失败进程","tmux 比 nohup 占用更少 CPU","tmux 可脱离、重新连接，并在多个 pane 中查看实时输出","tmux 压缩输出以节省磁盘"],"correct":2,"explanation":"tmux 创建可脱离并在之后重新连接的持久会话，可在多个 pane 查看实时输出；nohup 只能写日志，无法交互或重新接入。"},
+    {"id":"redirect","stage":"post","question":"`python train.py > output.log 2>&1` 实现什么？","options":["运行 train.py，只将错误保存到 output.log","以双倍内存运行 train.py","运行 train.py 两次并记录第二次","运行 train.py，将标准输出和标准错误都重定向到 output.log"],"correct":3,"explanation":"`> output.log` 将 stdout 重定向到文件，`2>&1` 将 stderr 送到 stdout 的相同位置，因此正常输出和错误会写入同一文件。"},
+    {"id":"port-forward","stage":"post","question":"哪条命令能让本地浏览器访问 GPU 机器端口 8888 上运行的远程 Jupyter notebook？","options":["ssh -L 8888:localhost:8888 user@gpu-box","ssh user@gpu-box --forward-port 8888","scp -P 8888 user@gpu-box:~/notebook.ipynb","rsync -avz user@gpu-box:8888 localhost:8888"],"correct":0,"explanation":"SSH 本地端口转发（-L）将远程端口映射到本机；执行后在浏览器打开 localhost:8888 即可访问远程 Jupyter 服务器。"}
   ]
 }

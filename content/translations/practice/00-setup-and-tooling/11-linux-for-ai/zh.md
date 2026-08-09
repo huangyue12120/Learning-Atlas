@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/11-linux-for-ai/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: bf587bd1176a5f1a5a62ccad8aa4982eb1cde078a4d6c7d7fd45e9e997f2391a
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 63127b9a8a6a3c35c4893b7d423e0e220326cbf3fed579c4a59aaabd3fa66f64
 status: reviewed
 ---
 
@@ -303,6 +303,10 @@ Services:       systemctl start/stop/restart/status
 Disk:           df -h, du -sh
 Network:        curl, wget, scp, rsync
 Sessions:       tmux new/attach/detach
+```
+
+```figure
+s0-process-fork
 ```
 
 ## 练习
