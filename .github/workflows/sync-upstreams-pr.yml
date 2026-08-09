@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: write
   contents: write
   pull-requests: write
 
@@ -46,3 +47,4 @@ jobs:
             --head "$branch" \
             --title "chore: synchronize tracked upstreams" \
             --body "This PR updates only submodule pointers. Review and update every affected Chinese adaptation, assessment and theory link until the validation workflow passes before merging."
+          gh workflow run content-validation.yml --ref "$branch"
