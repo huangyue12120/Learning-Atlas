@@ -1,12 +1,12 @@
 {
   "kind":"practice-assessment",
-  "source":{"repository":"ai-engineering-from-scratch","path":"phases/00-setup-and-tooling/08-editor-setup/quiz.json","revision":"7157ca74a135fad2165f680ec4b4e592f075ec21","sha256":"74de53851633560d9cacd06c0f354bfe7c02fb17096e39a21fa3fabb0f3e6cc9"},
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/00-setup-and-tooling/08-editor-setup/quiz.json","revision":"d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051","sha256":"f1c32b55f7195cb73d2c9003cdcd7ee97316a3a164bfdc5a1e5cd73df2e2e731"},
   "status":"reviewed",
   "questions":[
-    {"id":"lsp","stage":"pre","question":"Language Server Protocol（LSP）是什么？","options":["编辑器间传输文件的协议","编辑器从语言专属服务器获得类型信息、补全和诊断的标准","源代码文件压缩格式","远程结对编程网络协议"],"correct":1,"explanation":"LSP 标准化了编辑器与语言服务器的通信，无论使用哪个编辑器，都可获得自动补全、类型检查和错误诊断等功能。"},
-    {"id":"format-on-save","stage":"pre","question":"为什么保存时格式化对团队项目有用？","options":["删除空白以减小文件","无需手动格式化即可确保所有贡献者使用一致代码风格","运行前捕获运行时 bug","压缩代码以加快 Git 操作"],"correct":1,"explanation":"保存时格式化会在每次保存运行 Black 或 Ruff 等格式化器，使所有代码遵循同一风格，无论由谁编写。"},
-    {"id":"remote-ssh","stage":"post","question":"哪个 VS Code 扩展可像编辑本地代码一样编辑远程 GPU 机器？","options":["GitLens","Pylance","Remote SSH","Debugpy"],"correct":2,"explanation":"Remote SSH 在远程机器安装轻量 VS Code 服务端，并将 UI 传回本地，使你能远程编辑文件、运行终端和调试。"},
-    {"id":"notebook-scrolling","stage":"post","question":"为什么 AI 工作应在 VS Code 中启用 notebook.output.scrolling？","options":["允许宽 dataframe 横向滚动","避免数千行训练输出撑爆输出面板","允许用鼠标滚轮在单元格间滚动","启用编辑器平滑滚动动画"],"correct":1,"explanation":"训练循环可能输出数千行；若不滚动，notebook 输出面板会无限增长，导致 notebook 无法使用。"},
-    {"id":"type-checking","stage":"post","question":"将 python.analysis.typeCheckingMode 设为 basic 会实现什么？","options":["为 Python 文件启用语法高亮","在运行前发现错误参数类型和张量形状不匹配","按 PEP 8 格式化 Python","启用 Python 3.12 特性"],"correct":1,"explanation":"Pylance 的基础类型检查会在编辑时标记类型不匹配、错误参数类型和不正确 API 参数，避免运行昂贵训练脚本后才发现 bug。"}
+    {"id":"lsp","stage":"pre","question":"Language Server Protocol（LSP）是什么？","options":["编辑器间传输文件的协议","源代码文件压缩格式","远程结对编程网络协议","编辑器从语言专属服务器获得类型信息、补全和诊断的标准"],"correct":3,"explanation":"LSP 标准化了编辑器与语言服务器的通信，无论使用哪个编辑器，都可获得自动补全、类型检查和错误诊断等功能。"},
+    {"id":"format-on-save","stage":"pre","question":"为什么保存时格式化对团队项目有用？","options":["无需手动格式化即可确保所有贡献者使用一致代码风格","压缩代码以加快 Git 操作","删除空白以减小文件","运行前捕获运行时 bug"],"correct":0,"explanation":"保存时格式化会在每次保存运行 Black 或 Ruff 等格式化器，使所有代码遵循同一风格，无论由谁编写。"},
+    {"id":"remote-ssh","stage":"post","question":"哪个 VS Code 扩展可像编辑本地代码一样编辑远程 GPU 机器？","options":["Pylance","Debugpy","GitLens","Remote SSH"],"correct":3,"explanation":"Remote SSH 在远程机器安装轻量 VS Code 服务端，并将 UI 传回本地，使你能远程编辑文件、运行终端和调试。"},
+    {"id":"notebook-scrolling","stage":"post","question":"为什么 AI 工作应在 VS Code 中启用 notebook.output.scrolling？","options":["启用编辑器平滑滚动动画","允许用鼠标滚轮在单元格间滚动","允许宽 dataframe 横向滚动","避免数千行训练输出撑爆输出面板"],"correct":3,"explanation":"训练循环可能输出数千行；若不滚动，notebook 输出面板会无限增长，导致 notebook 无法使用。"},
+    {"id":"type-checking","stage":"post","question":"将 python.analysis.typeCheckingMode 设为 basic 会实现什么？","options":["为 Python 文件启用语法高亮","按 PEP 8 格式化 Python","启用 Python 3.12 特性","在运行前发现错误参数类型和张量形状不匹配"],"correct":3,"explanation":"Pylance 的基础类型检查会在编辑时标记类型不匹配、错误参数类型和不正确 API 参数，避免运行昂贵训练脚本后才发现 bug。"}
   ]
 }

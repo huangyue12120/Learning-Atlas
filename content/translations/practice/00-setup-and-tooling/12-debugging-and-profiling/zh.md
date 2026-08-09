@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/12-debugging-and-profiling/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: e0d04b7136924970ff9d34c213c33023445feb5217b79d304d502f5ac17720f0
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 5257eaa5d4a138f143ba3169ba7e469b43f1aba819a769ea64da4eb9505fc550
 status: reviewed
 ---
 
@@ -43,6 +43,10 @@ graph TD
 ```
 
 大多数人直接跳到第 3 层（盯着 TensorBoard）。但 80% 的 AI bug 都出现在第 1 层和第 2 层。
+
+```figure
+s0-flame-hot
+```
 
 ## 构建它
 

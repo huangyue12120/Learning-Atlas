@@ -3,8 +3,8 @@
   "source": {
     "repository": "ai-engineering-from-scratch",
     "path": "phases/00-setup-and-tooling/01-dev-environment/quiz.json",
-    "revision": "7157ca74a135fad2165f680ec4b4e592f075ec21",
-    "sha256": "91c6d6402f2986826b669702ddb4fc38d1349c07b3d784daadaccb0bce71dd94"
+    "revision": "d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051",
+    "sha256": "47fb9662fcdd3a4a1a42045bdc4348445880abcf13a23c11231adf5727e7730f"
   },
   "status": "reviewed",
   "questions": [
@@ -12,7 +12,7 @@
       "id": "virtual-environment",
       "stage": "pre",
       "question": "为什么 AI 项目需要独立的虚拟环境？",
-      "options": ["虚拟环境能让代码运行得更快", "它隔离依赖，使不同项目不会互相冲突", "Python 必须使用虚拟环境才能导入包", "虚拟环境能提供 GPU 访问"],
+      "options": ["Python 必须使用虚拟环境才能导入包", "它隔离依赖，使不同项目不会互相冲突", "虚拟环境能让代码运行得更快", "虚拟环境能提供 GPU 访问"],
       "correct": 1,
       "explanation": "虚拟环境会按项目隔离包版本。否则，为一个项目升级 PyTorch 可能会破坏依赖旧版本的另一个项目。"
     },
@@ -20,32 +20,32 @@
       "id": "cuda-purpose",
       "stage": "pre",
       "question": "CUDA 为 AI 工作负载提供什么能力？",
-      "options": ["用于安装 ML 库的 Python 包管理器", "用于部署模型的 Web 框架", "在 NVIDIA GPU 上并行执行矩阵运算", "用于编写自定义内核的 CUDA 编译器"],
-      "correct": 2,
+      "options": ["在 NVIDIA GPU 上并行执行矩阵运算", "用于安装 ML 库的 Python 包管理器", "用于部署模型的 Web 框架", "用于编写自定义内核的 CUDA 编译器"],
+      "correct": 0,
       "explanation": "CUDA 是 NVIDIA 的并行计算平台，可在数千个 GPU 核上同时执行矩阵运算；PyTorch 和 TensorFlow 会在底层使用它。"
     },
     {
       "id": "stack-order",
       "stage": "post",
       "question": "四层环境栈中，必须最先安装的是哪一层？",
-      "options": ["AI/ML 库（PyTorch、JAX）", "包管理器（pip、npm、cargo）", "语言运行时（Python、Node.js）", "系统基础（操作系统、shell、GPU 驱动）"],
-      "correct": 3,
+      "options": ["语言运行时（Python、Node.js）", "系统基础（操作系统、shell、GPU 驱动）", "包管理器（pip、npm、cargo）", "AI/ML 库（PyTorch、JAX）"],
+      "correct": 1,
       "explanation": "安装顺序是从底向上：先系统基础，再包管理器、语言运行时和 AI 库。每一层都依赖其下层。"
     },
     {
       "id": "uv-purpose",
       "stage": "post",
       "question": "在 Python AI 项目中，uv 的作用是什么？",
-      "options": ["GPU 监控工具", "高速 Python 包安装器与依赖解析器", "神经网络可视化库", "自定义内核的 CUDA 编译器"],
-      "correct": 1,
+      "options": ["GPU 监控工具", "神经网络可视化库", "高速 Python 包安装器与依赖解析器", "自定义内核的 CUDA 编译器"],
+      "correct": 2,
       "explanation": "uv 是用 Rust 编写的高速 Python 包安装器。它可替代 pip，以快得多的依赖解析和安装完成环境配置，通常可快 10–100 倍。"
     },
     {
       "id": "gpu-check",
       "stage": "post",
       "question": "如何验证 PyTorch 能否访问 GPU？",
-      "options": ["import torch; print(torch.__version__)", "nvidia-smi --query", "import torch; print(torch.cuda.is_available())", "python -c 'import gpu'"],
-      "correct": 2,
+      "options": ["python -c 'import gpu'", "import torch; print(torch.cuda.is_available())", "import torch; print(torch.__version__)", "nvidia-smi --query"],
+      "correct": 1,
       "explanation": "若 PyTorch 能访问 CUDA GPU，torch.cuda.is_available() 会返回 True。Apple Silicon 上应使用 torch.backends.mps.is_available() 检查 Metal Performance Shaders。"
     }
   ]

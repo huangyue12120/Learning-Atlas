@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/07-docker-for-ai/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 42faf8ca0956deb394384b55fe963d786348a8139bf989c94fd8b033d7d35cf6
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: e5a04b16fced01699bf458efad8b33993787192f5373e64ec7856fdb0b90c6f2
 status: reviewed
 ---
 
@@ -80,6 +80,10 @@ Training Container
 Inference Container
   Optimized for serving. Small image. Fast cold start.
   Runs behind a load balancer in production.
+```
+
+```figure
+s0-image-layers
 ```
 
 ## 动手构建

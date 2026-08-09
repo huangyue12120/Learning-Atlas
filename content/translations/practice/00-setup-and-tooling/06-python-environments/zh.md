@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/06-python-environments/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: d36a0b559174fd19d44c0e0dfa18ca333e79ab2d4a1c84ca623ab16a6a7f1d99
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: eafe05c7f0cc6d66440c773d6e4e38b39c5fb099be6e031512c144a59e0c2ed9
 status: reviewed
 ---
 
@@ -54,6 +54,10 @@ graph TD
         PB["Project B (.venv/)"] --> PB1["torch 2.1.0 (CUDA 11.8)"]
         PB --> PB2["diffusers 0.28"]
     end
+```
+
+```figure
+s0-env-isolation
 ```
 
 ## 动手构建

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/05-jupyter-notebooks/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 9dc71c2ee3909db6a060b7de3a3b52332ac36568c92ceac3a76f0153a0c0fdf9
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 6f0e391d6e853320124a3a8954e8b8ce8e28163d6cb0749b5e831fb05449acff
 status: reviewed
 ---
 
@@ -52,6 +52,10 @@ graph LR
 ```
 
 “按任意点击顺序运行”既是超级能力，也是危险点。
+
+```figure
+s0-cell-order
+```
 
 ## 动手构建
 

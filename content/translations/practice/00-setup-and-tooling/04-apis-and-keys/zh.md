@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/04-apis-and-keys/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 7532d2cd8b4494aa1ea2de1628bcd565d7b8933cb96966318e45bb011136740b
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 41284f112ad4da828709d3c5f1b3094876c5b10aa1a64a082d316dcf372a6b8f
 status: reviewed
 ---
 
@@ -44,6 +44,10 @@ sequenceDiagram
 2. API key（认证）
 3. 请求体（你想要什么）
 4. 响应体（你得到什么）
+
+```figure
+s0-secret-inject
+```
 
 ## 动手构建
 

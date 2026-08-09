@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/08-editor-setup/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: fa37de51eec89897ff001b6acab435c7a271cc8260e0a65f760bac47e0379c9a
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: b5c36f56fa153fb13620cceac0df13914373d466d229efe3e28915399b96fc84
 status: reviewed
 ---
 
@@ -42,6 +42,10 @@ graph TD
     L3["3. AI-Specific Settings<br/>Auto-format, type checking, rulers"] --> L2
     L2["2. Extensions<br/>Python, Jupyter, Pylance, GitLens"] --> L1
     L1["1. Base Editor<br/>VS Code — free, extensible, universal"]
+```
+
+```figure
+s0-lsp-roundtrip
 ```
 
 ## 动手构建

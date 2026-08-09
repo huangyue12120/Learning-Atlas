@@ -3,8 +3,8 @@
   "source": {
     "repository": "ai-engineering-from-scratch",
     "path": "phases/01-math-foundations/03-matrix-transformations/quiz.json",
-    "revision": "7157ca74a135fad2165f680ec4b4e592f075ec21",
-    "sha256": "b893529a239ceeb6da73f93b3d2f3b4e69ab37208f9ae092461676aeed78952b"
+    "revision": "d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051",
+    "sha256": "ff795777601c8e63b598308e88c29b7f77b865fd83711f31cfa0d2a27c900bdd"
   },
   "status": "reviewed",
   "questions": [
@@ -12,12 +12,12 @@
       "id": "eigenvector",
       "question": "矩阵的特征向量是什么？",
       "options": [
-        "矩阵中最大的行",
         "矩阵相乘时只被缩放、不改变方向的向量",
-        "垂直于所有列的向量",
-        "把对角线元素写成的向量"
+        "把对角线元素写成的向量",
+        "矩阵中最大的行",
+        "垂直于所有列的向量"
       ],
-      "correct": 1,
+      "correct": 0,
       "explanation": "特征向量 v 满足 Av = λv；矩阵只按特征值 λ 缩放它。",
       "stage": "pre"
     },
@@ -25,12 +25,12 @@
       "id": "determinant",
       "question": "二维变换矩阵的行列式在几何上表示什么？",
       "options": [
+        "特征向量数量",
         "旋转角度",
         "面积缩放倍数",
-        "特征向量数量",
         "迹"
       ],
-      "correct": 1,
+      "correct": 2,
       "explanation": "行列式表示面积缩放：1 保面积、2 加倍、0 压到低维、-1 翻转方向。",
       "stage": "pre"
     },
@@ -38,12 +38,12 @@
       "id": "composition-order",
       "question": "为何 `R @ S` 与 `S @ R` 不同？",
       "options": [
-        "矩阵加法不可交换",
-        "矩阵乘法不可交换，先旋转后缩放与先缩放后旋转的结果不同",
+        "一个顺序会产生更大的矩阵",
         "两个顺序的行列式不同",
-        "一个顺序会产生更大的矩阵"
+        "矩阵乘法不可交换，先旋转后缩放与先缩放后旋转的结果不同",
+        "矩阵加法不可交换"
       ],
-      "correct": 1,
+      "correct": 2,
       "explanation": "几何操作的顺序不同；矩阵乘法一般不满足交换律。",
       "stage": "post"
     },
@@ -51,12 +51,12 @@
       "id": "rnn-stability",
       "question": "RNN 权重矩阵存在模大于 1 的特征值时，会发生什么？",
       "options": [
-        "网络一定学习更快",
-        "输出随时间步指数爆炸，出现梯度爆炸",
+        "特征值会自动收敛到 1",
         "网络更稳定",
-        "特征值会自动收敛到 1"
+        "输出随时间步指数爆炸，出现梯度爆炸",
+        "网络一定学习更快"
       ],
-      "correct": 1,
+      "correct": 2,
       "explanation": "重复乘法会放大该特征方向；模大于 1 导致指数增长。",
       "stage": "post"
     },
@@ -64,12 +64,12 @@
       "id": "eigendecomposition",
       "question": "A = [[2,1],[1,2]] 的特征值为 3 和 1。`A = V @ D @ V^(-1)` 说明什么？",
       "options": [
+        "A 秩为 1",
         "A 等于两次旋转",
-        "A 沿 [1,1] 拉伸 3 倍，并保持 [1,-1] 不变",
         "A 将所有向量压缩 2 倍",
-        "A 秩为 1"
+        "A 沿 [1,1] 拉伸 3 倍，并保持 [1,-1] 不变"
       ],
-      "correct": 1,
+      "correct": 3,
       "explanation": "特征值 3 对应 [1,1]，特征值 1 对应 [1,-1]；D 保存两种缩放。",
       "stage": "post"
     }

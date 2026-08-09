@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/15-statistics-for-ml/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: cf44606152d65f57c3051916164a2b2a874da2a83c6022a31206a30b4854f029
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 9770d8e715f37b25538f2c9b0e78de30b38d7c1ddccc81765b124880071e0561
 status: reviewed
 ---
 
@@ -242,4 +242,8 @@ CLT 不会令原始数据正态；无限方差重尾分布或相关时间序列�
 ```
 ```text
 常见错误：训练集测试、无 CI、多重比较、只报 accuracy、数据泄漏、p-hacking。
+```
+
+```figure
+f3-bootstrap-resample
 ```

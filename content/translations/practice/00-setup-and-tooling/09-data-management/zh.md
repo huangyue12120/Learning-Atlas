@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/09-data-management/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 1b6fd1ebfbf160f2f7d23bf86f46d5b8325fc77776b6f68ea73b96c94bfdb39b
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 8751cb2ba46001a796bf98de9a8887652aa6c52f6543183f135c9c4bf4ae8e27
 status: reviewed
 ---
 
@@ -42,6 +42,10 @@ graph TD
 ```
 
 Hugging Face `datasets` 是 AI 工作中加载数据的标准方式，开箱即可处理下载、缓存、格式转换和流式读取。
+
+```figure
+s0-data-pipeline
+```
 
 ## 动手构建
 

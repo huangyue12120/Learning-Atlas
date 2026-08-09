@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/03-gpu-setup-and-cloud/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: a1a9173523cab9ff72b96dc30a0ea4a3e2c39b5cfa9170b85e71adac8dbf8401
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: d7420f66a80b101850985748bc768744956b0ba042fe92a406fe6b8becb33ba2
 status: reviewed
 ---
 
@@ -50,6 +50,10 @@ Phase 1–3 的多数课程可在 CPU 上顺利运行。但当你开始训练 CN
    成本：$0.20–2.00/小时
    配置：SSH + 安装
    适合：严肃训练、大模型
+```
+
+```figure
+s0-gpu-dispatch
 ```
 
 ## 动手构建
