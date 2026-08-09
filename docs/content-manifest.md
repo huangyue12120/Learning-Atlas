@@ -46,7 +46,13 @@ python3 scripts/manage_upstreams.py --check
 python3 scripts/manage_upstreams.py --sync
 ```
 
-若来源指纹检查失败，先逐项更新和审核受影响的译文、测验或理论关联，再提交新的 submodule 指针。不要把未通过检查的同步结果直接发布。GitHub Actions 每日执行同一检测并在发现更新时失败，提醒维护者进入该审核流程。
+若来源指纹检查失败，先逐项更新和审核受影响的译文、测验或理论关联，再提交新的 submodule 指针。不要把未通过检查的同步结果直接发布。
+
+GitHub Actions 提供三层守门：
+
+- **Upstream freshness** 每日检测 `main` 是否领先于当前发布快照；发现更新时故意失败，以提醒维护者审核。
+- **Create upstream synchronization PR** 可手动把上游 commit 指针放入一个独立 PR；它不自动合并。
+- **Content and application validation** 在每次推送和面向 `main` 的 PR 中检查译文结构、141 项来源指纹、前端/服务端语法和应用 API 测试。同步 PR 必须在内容更新后通过此检查才能合入。
 
 ## 当前边界与限制
 

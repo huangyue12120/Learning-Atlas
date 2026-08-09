@@ -1,0 +1,39 @@
+name: content and application validation
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          submodules: recursive
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check translation structure and source fingerprints
+        run: |
+          python3 scripts/check_translation_correspondence.py
+          python3 scripts/check_source_fingerprints.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.18.0"
+          cache: npm
+          cache-dependency-path: apps/local-learning/package-lock.json
+      - name: Check and test the local learning application
+        working-directory: apps/local-learning
+        run: |
+          npm ci
+          node --check public/app.js
+          npm run check
+          npm test

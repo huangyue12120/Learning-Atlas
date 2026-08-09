@@ -118,7 +118,9 @@ python3 scripts/manage_upstreams.py --check
 python3 scripts/manage_upstreams.py --sync
 ```
 
-同步后，先更新并人工审核受影响内容；待全部校验通过后，再提交新的 submodule 指针。GitHub Actions 也会每天检查一次并在发现待审核上游更新时提示维护者。
+同步后，先更新并人工审核受影响内容；待全部校验通过后，再提交新的 submodule 指针。GitHub Actions 也会每天检查一次并在发现待审核上游更新时提示维护者。对需要在 GitHub 中处理的更新，可手动运行 **Create upstream synchronization PR**：它仅创建更新 submodule 指针的 PR；合并前必须让验证工作流恢复为绿色。
+
+每次推送和面向 `main` 的 PR 都会运行 **Content and application validation**，覆盖译文结构、来源指纹、浏览器脚本语法、服务端语法和 API 测试。
 
 ## 数据与边界
 

@@ -1,0 +1,48 @@
+name: create upstream synchronization PR
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  synchronize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          submodules: recursive
+      - name: Move submodules to their tracked branches
+        id: sync
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --recursive
+          git submodule update --remote --checkout --recursive
+          if git diff --quiet --ignore-submodules=none; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No upstream updates are awaiting synchronization."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff --submodule=short
+          fi
+      - name: Create a review PR
+        if: steps.sync.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          branch="automation/upstream-sync-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git switch -c "$branch"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ai-engineering-from-scratch maths-cs-ai-compendium
+          git commit -m "chore: synchronize tracked upstreams"
+          git push origin "HEAD:refs/heads/$branch"
+          gh pr create \
+            --base main \
+            --head "$branch" \
+            --title "chore: synchronize tracked upstreams" \
+            --body "This PR updates only submodule pointers. Review and update every affected Chinese adaptation, assessment and theory link until the validation workflow passes before merging."
