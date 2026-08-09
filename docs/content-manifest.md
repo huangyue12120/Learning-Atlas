@@ -2,14 +2,14 @@
 
 冻结日期：2026-08-09。
 
-## 锁定上游版本
+## 当前发布快照与上游跟踪
 
 | 上游仓库 | 锁定 revision | 许可证 |
 | --- | --- | --- |
 | `ai-engineering-from-scratch` | `7157ca74a135fad2165f680ec4b4e592f075ec21`（`v2026.07-11-g7157ca74`） | MIT |
 | `maths-cs-ai-compendium` | `9850ee574a370bc1cde59de98b394e953775b67d` | Apache-2.0 |
 
-中文改编、测验和理论关联的各自 front matter 均记录对应原文路径、revision 与 SHA-256。应用发现实践课程或测验的当前 SHA-256 不匹配时，会降级为“待同步”，不会向学习者发布旧内容。
+此表记录 v0.1 的可复现发布快照。两个 submodule 同时配置为跟踪其上游 `main` 分支：每日检查只报告待审核更新，不会自动修改发布内容。中文改编、测验和理论关联的各自 front matter 均记录对应原文路径、revision 与 SHA-256。应用发现实践课程或测验的当前 SHA-256 不匹配时，会降级为“待同步”，不会向学习者发布旧内容。
 
 ## 已发布范围
 
@@ -31,6 +31,22 @@ npm test
 ```
 
 结构检查覆盖实践译文与版本化理论译文；Python-first 例外必须在原位置明确链接到锁定的上游非 Python 实现。
+
+## 上游更新流程
+
+先检查 `main` 是否有新提交：
+
+```bash
+python3 scripts/manage_upstreams.py --check
+```
+
+准备审核新上游版本时，同步到工作区并运行内容检查：
+
+```bash
+python3 scripts/manage_upstreams.py --sync
+```
+
+若来源指纹检查失败，先逐项更新和审核受影响的译文、测验或理论关联，再提交新的 submodule 指针。不要把未通过检查的同步结果直接发布。GitHub Actions 每日执行同一检测并在发现更新时失败，提醒维护者进入该审核流程。
 
 ## 当前边界与限制
 

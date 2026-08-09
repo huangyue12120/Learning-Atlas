@@ -1,6 +1,8 @@
 [submodule "ai-engineering-from-scratch"]
 	path = ai-engineering-from-scratch
 	url = https://github.com/huangyue12120/ai-engineering-from-scratch.git
+	branch = main
 [submodule "maths-cs-ai-compendium"]
 	path = maths-cs-ai-compendium
 	url = https://github.com/huangyue12120/maths-cs-ai-compendium.git
+	branch = main
