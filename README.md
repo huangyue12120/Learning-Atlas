@@ -31,7 +31,7 @@ npm run dev
 
 ```bash
 git clone --recurse-submodules https://github.com/huangyue12120/Learning-Atlas.git
-cd ai-learning
+cd Learning-Atlas
 ```
 
 如果已经克隆但尚未获得课程内容，执行：
