@@ -50,8 +50,8 @@ status: reviewed
 flowchart LR
     subgraph IID["标准 ML（独立同分布）"]
         direction TB
-        S1[Sample 1] ~~~ S2[Sample 2]
-        S2 ~~~ S3[Sample 3]
+        S1[样本 1] ~~~ S2[样本 2]
+        S2 ~~~ S3[样本 3]
     end
     subgraph TS["时间序列（非独立同分布）"]
         direction LR
@@ -77,13 +77,13 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    A[Observed Time Series] --> B[Trend]
-    A --> C[Seasonality]
-    A --> D[Residual/Noise]
+    A[观测时间序列] --> B[趋势]
+    A --> C[季节性]
+    A --> D[残差/噪声]
 
-    B --> E[Long-term direction: up, down, flat]
-    C --> F[Repeating patterns: daily, weekly, yearly]
-    D --> G[Random variation after removing trend and seasonality]
+    B --> E[长期趋势：上升、下降或平稳]
+    C --> F[重复模式：每天、每周或每年]
+    D --> G[去除趋势和季节性后的随机波动]
 ```
 
 - **趋势：**长期方向，例如收入每年增长 10%、全球气温上升。
@@ -157,10 +157,10 @@ diff[t] = value[t] - value[t-1]
 flowchart TD
     subgraph WRONG["随机划分（错误）"]
         direction LR
-        W1[Jan] --> W2[Mar]
-        W2 --> W3[Feb]
-        W3 --> W4[May]
-        W4 --> W5[Apr]
+        W1[1 月] --> W2[3 月]
+        W2 --> W3[2 月]
+        W3 --> W4[5 月]
+        W4 --> W5[4 月]
         style W1 fill:#fdd
         style W3 fill:#fdd
         style W5 fill:#fdd
@@ -170,9 +170,9 @@ flowchart TD
 
     subgraph RIGHT["滚动前推（正确）"]
         direction LR
-        R1["训练： Jan-Mar"] --> R2["测试： Apr"]
-        R3["训练： Jan-Apr"] --> R4["测试： May"]
-        R5["训练： Jan-May"] --> R6["测试： Jun"]
+        R1["训练： 1–3 月"] --> R2["测试： 4 月"]
+        R3["训练： 1–4 月"] --> R4["测试： 5 月"]
+        R5["训练： 1–5 月"] --> R6["测试： 6 月"]
         style R1 fill:#dfd
         style R2 fill:#fdd
         style R3 fill:#dfd

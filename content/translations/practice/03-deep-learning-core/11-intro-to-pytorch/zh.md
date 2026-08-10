@@ -200,9 +200,9 @@ sequenceDiagram
     participant O as Optimizer
 
     loop Each Epoch
-        D->>M: batch = next(dataloader)
-        M->>L: predictions = model(batch)
-        L->>L: loss = criterion(predictions, targets)
+        D->>M: batch = next(数据加载器)
+        M->>L: predictions = model(批次)
+        L->>L: loss = criterion(预测值、目标值)
         L->>M: loss.backward()
         O->>M: optimizer.step()
         O->>O: optimizer.zero_grad()

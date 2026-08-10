@@ -140,9 +140,9 @@ flowchart TD
     Know -->|"是"| Budget{"计算预算？"}
     Know -->|"否"| Constant["使用恒定 LR<br/>并手动衰减"]
 
-    Budget -->|"大（数天/数周）"| WarmCos["预热 + 余弦 Decay<br/>(Llama/GPT default)"]
+    Budget -->|"大（数天/数周）"| WarmCos["预热 + 余弦衰减<br/>(Llama/GPT 默认)"]
     Budget -->|"小（数小时）"| OneCycle["1cycle 策略<br/>（收敛最快）"]
-    Budget -->|"中等"| Cosine["余弦退火<br/>(safe default)"]
+    Budget -->|"中等"| Cosine["余弦退火<br/>（安全默认）"]
 
     WarmCos --> Warmup["预热 = 总步数的 1–5%"]
     OneCycle --> FindLR["用 LR 范围测试找 lr_max"]
@@ -155,8 +155,8 @@ flowchart TD
 graph TD
     subgraph "已发表模型的学习率配置"
         L3["Llama 3 (405B)<br/>峰值： 3e-4<br/>预热： 2000 步<br/>调度： 余弦衰减至 3e-5"]
-        G3["GPT-3 (175B)<br/>峰值： 6e-4<br/>预热： 375M tokens<br/>调度： 余弦衰减至 0"]
-        R50["ResNet-50<br/>峰值： 0.1<br/>预热： 无<br/>调度： 阶梯衰减 x0.1 at 30,60,90"]
+        G3["GPT-3 (175B)<br/>峰值： 6e-4<br/>预热： 3.75 亿词元<br/>调度： 余弦衰减至 0"]
+        R50["ResNet-50<br/>峰值： 0.1<br/>预热： 无<br/>调度： 阶梯衰减 在第 30、60、90 轮时 ×0.1"]
         B["BERT (340M)<br/>峰值： 1e-4<br/>预热： 10K 步<br/>调度： 线性衰减"]
     end
 ```

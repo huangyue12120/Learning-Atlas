@@ -56,22 +56,22 @@ Bagging 在训练数据的不同 bootstrap 样本上训练每个模型，以制�
 
 ```mermaid
 flowchart TD
-    D[Training Data] --> B1[Bootstrap Sample 1]
-    D --> B2[Bootstrap Sample 2]
-    D --> B3[Bootstrap Sample 3]
-    D --> BN[Bootstrap Sample N]
+    D[训练数据] --> B1[自助采样 1]
+    D --> B2[自助采样 2]
+    D --> B3[自助采样 3]
+    D --> BN[自助采样 N]
 
-    B1 --> M1[Model 1]
-    B2 --> M2[Model 2]
-    B3 --> M3[Model 3]
-    BN --> MN[Model N]
+    B1 --> M1[模型 1]
+    B2 --> M2[模型 2]
+    B3 --> M3[模型 3]
+    BN --> MN[模型 N]
 
-    M1 --> V[Average or Majority Vote]
+    M1 --> V[平均或多数投票]
     M2 --> V
     M3 --> V
     MN --> V
 
-    V --> P[Final Prediction]
+    V --> P[最终预测]
 ```
 
 bootstrap 样本从原始数据中有放回抽取，大小与原始数据相同。每个样本中约出现 63.2% 的唯一原始样本，剩余 36.8%（袋外样本，out-of-bag）提供了免费的验证集。
@@ -86,14 +86,14 @@ Boosting 按顺序训练模型；每个新模型都聚焦于前序模型做错�
 
 ```mermaid
 flowchart LR
-    D[Data with weights] --> M1[Model 1]
-    M1 --> E1[Find errors]
-    E1 --> W1[Increase weights on errors]
-    W1 --> M2[Model 2]
-    M2 --> E2[Find errors]
-    E2 --> W2[Increase weights on errors]
-    W2 --> M3[Model 3]
-    M3 --> F[Weighted sum of all models]
+    D[带权重的数据] --> M1[模型 1]
+    M1 --> E1[找出错误]
+    E1 --> W1[提高错误样本权重]
+    W1 --> M2[模型 2]
+    M2 --> E2[找出错误]
+    E2 --> W2[提高错误样本权重]
+    W2 --> M3[模型 3]
+    M3 --> F[全部模型的加权和]
 ```
 
 Boosting 降低偏差。每个新模型都会修正当前集成的系统性错误；最终预测是所有模型的加权和，表现更好的模型权重更高。
@@ -166,19 +166,19 @@ Stacking 将多个基模型的预测作为元学习器的特征。
 
 ```mermaid
 flowchart TD
-    D[Training Data] --> M1[Model 1: Random Forest]
-    D --> M2[Model 2: SVM]
-    D --> M3[Model 3: Logistic Regression]
+    D[训练数据] --> M1[模型 1: 随机森林]
+    D --> M2[模型 2: SVM]
+    D --> M3[模型 3: 逻辑回归]
 
-    M1 --> P1[Predictions 1]
-    M2 --> P2[Predictions 2]
-    M3 --> P3[Predictions 3]
+    M1 --> P1[预测s 1]
+    M2 --> P2[预测s 2]
+    M3 --> P3[预测s 3]
 
-    P1 --> META[Meta-Learner]
+    P1 --> META[元学习器]
     P2 --> META
     P3 --> META
 
-    META --> F[Final Prediction]
+    META --> F[最终预测]
 ```
 
 元学习器学会对何种输入信任哪个基模型：若随机森林在某些区域表现好、SVM 在其他区域表现好，元学习器会学习相应地路由。

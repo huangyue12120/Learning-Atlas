@@ -116,7 +116,7 @@ graph TD
     TooLow --> Stall["损失下降缓慢<br/>卡在次优极小值<br/>浪费计算"]
 
     JustRight --> Schedule["通常需要调度"]
-    Schedule --> Warmup["预热： ramp from 0 to max<br/>First 1-10% of training"]
+    Schedule --> Warmup["预热：从 0 增至最大值<br/>训练的前 1–10%"]
     Schedule --> Decay["衰减：随时间降低<br/>余弦或线性"]
 ```
 
@@ -135,7 +135,7 @@ flowchart LR
         SGD_P["SGD 优化器<br/>跨谷振荡<br/>慢但找到平坦极小值"]
         Mom_P["带动量 SGD 优化器<br/>路径更平滑<br/>比 SGD 快 3 倍"]
         Adam_P["Adam<br/>按参数自适应<br/>收敛快"]
-        AdamW_P["AdamW<br/>Adam + 正确衰减<br/>泛化最佳"]
+        AdamW_P["AdamW<br/>Adam + 正确的权重衰减<br/>泛化最佳"]
     end
     SGD_P --> Mom_P --> Adam_P --> AdamW_P
 ```

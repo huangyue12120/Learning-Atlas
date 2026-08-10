@@ -41,9 +41,9 @@ status: reviewed
 
 ```mermaid
 flowchart TD
-    A[Feature Selection Methods] --> B[Filter Methods]
-    A --> C[Wrapper Methods]
-    A --> D[Embedded Methods]
+    A[特征选择方法] --> B[过滤方法]
+    A --> C[包装方法]
+    A --> D[嵌入式方法]
 
     B --> B1["方差阈值"]
     B --> B2["互信息"]
@@ -89,11 +89,11 @@ I(X; Y) = sum_x sum_y p(x, y) * log(p(x, y) / (p(x) * p(y)))
 
 ```mermaid
 flowchart LR
-    A[Feature X] --> B[Discretize into Bins]
+    A[特征 X] --> B[离散为分箱]
     B --> C["计算联合分布 p(x,y)"]
     C --> D["计算 MI = sum p(x,y) * log(p(x,y) / p(x)p(y))"]
     D --> E["按 MI 得分排列特征"]
-    E --> F[Select Top K]
+    E --> F[选择前 K 项]
 ```
 
 ### 递归特征消除（RFE）
@@ -111,8 +111,8 @@ flowchart TD
     B --> C["排列特征重要性"]
     C --> D["移除最不重要特征"]
     D --> E{"特征数 == 目标数？"}
-    E -->|No| B
-    E -->|Yes| F["返回选定特征"]
+    E -->|否| B
+    E -->|是| F["返回选定特征"]
 ```
 
 模型同时看到所有剩余特征，因此移除一个会改变其他的重要性、能够考虑交互，比筛选法更彻底。代价是训练 N - target 次：500 特征选 10 需要 490 次训练；可每步删多个（如底部 10%）加速。
@@ -167,26 +167,26 @@ importance(feature_j) = (1/T) * sum over all trees of
 
 ```mermaid
 flowchart TD
-    A[Start: Feature Selection] --> B{How many features?}
+    A[开始：特征选择] --> B{有多少特征？}
     B -->|"< 50"| C["从方差阈值 + 互信息开始"]
     B -->|"50-500"| D["方差阈值，再用 L1 或树重要性"]
     B -->|"> 500"| E["方差阈值、互信息过滤，再对剩余特征用 RFE"]
 
-    C --> F{Using linear model?}
+    C --> F{使用线性模型？}
     D --> F
     E --> F
 
-    F -->|Yes| G["用 L1 正则化作最终选择"]
-    F -->|No - trees| H["树重要性 + 置换重要性"]
-    F -->|No - other| I["对你的模型使用 RFE"]
+    F -->|是| G["用 L1 正则化作最终选择"]
+    F -->|否：树模型| H["树重要性 + 置换重要性"]
+    F -->|否：其他模型| I["对你的模型使用 RFE"]
 
-    G --> J[Validate: compare selected vs all features]
+    G --> J[验证：比较已选与全部特征]
     H --> J
     I --> J
 
-    J --> K{Performance improved?}
-    K -->|Yes| L["使用选定特征交付"]
-    K -->|No| M["换用其他方法或保留所有特征"]
+    J --> K{性能是否提升？}
+    K -->|是| L["使用选定特征交付"]
+    K -->|否| M["换用其他方法或保留所有特征"]
 ```
 
 ```figure

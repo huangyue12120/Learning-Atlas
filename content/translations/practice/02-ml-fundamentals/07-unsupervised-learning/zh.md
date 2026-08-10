@@ -39,15 +39,15 @@ status: reviewed
 
 ```mermaid
 flowchart LR
-    A[Raw Data] --> B{Choose Method}
-    B --> C[K-Means]
-    B --> D[DBSCAN]
-    B --> E[Hierarchical]
-    B --> F[GMM]
-    C --> G[Flat, spherical clusters]
-    D --> H[Arbitrary shapes, noise detection]
-    E --> I[Tree of nested clusters]
-    F --> J[Soft assignments, elliptical clusters]
+    A[原始数据] --> B{选择方法}
+    B --> C[K-Means 聚类]
+    B --> D[DBSCAN 聚类]
+    B --> E[层次聚类]
+    B --> F[高斯混合模型（GMM）]
+    C --> G[扁平、球形簇]
+    D --> H[任意形状、噪声检测]
+    E --> I[嵌套簇的树]
+    F --> J[软分配、椭圆簇]
 ```
 
 ### K-Means：主力算法

@@ -37,16 +37,16 @@ status: reviewed
 
 ```mermaid
 flowchart LR
-    A[Full Dataset] --> B[Train Set 60-70%]
-    A --> C[Validation Set 15-20%]
-    A --> D[Test Set 15-20%]
-    B --> E[Fit Model]
+    A[完整数据集] --> B[训练集 60-70%]
+    A --> C[验证集 15-20%]
+    A --> D[测试集 15-20%]
+    B --> E[拟合模型]
     E --> C
-    C --> F[Tune Hyperparameters]
+    C --> F[调优超参数]
     F --> E
-    F --> G[Final Model]
+    F --> G[最终模型]
     G --> D
-    D --> H[Report Performance]
+    D --> H[报告性能]
 ```
 
 三种切分对应三种用途：

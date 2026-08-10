@@ -47,9 +47,9 @@ status: reviewed
 
 ```mermaid
 flowchart TD
-    A[Anomaly Types] --> B[Point Anomaly]
-    A --> C[Contextual Anomaly]
-    A --> D[Collective Anomaly]
+    A[异常类型] --> B[点异常]
+    A --> C[上下文异常]
+    A --> D[集体异常]
 
     B --> B1["单个异常值<br/>温度：500F"]
     C --> C1["上下文中的异常<br/>一月 90F"]
@@ -133,12 +133,12 @@ anomaly if x < lower_bound or x > upper_bound
 
 ```mermaid
 flowchart TD
-    A[All Data Points] --> B{Random Feature + Random Split}
-    B --> C[Left Partition]
-    B --> D[Right Partition]
-    C --> E{Random Feature + Random Split}
-    E --> F[Normal Point - deep in tree]
-    E --> G[More splits needed...]
+    A[全部数据点] --> B{随机特征 + 随机切分}
+    B --> C[左分区]
+    B --> D[右分区]
+    C --> E{随机特征 + 随机切分}
+    E --> F[正常点：位于树的深处]
+    E --> G[需要更多切分…]
     D --> H["异常——快速孤立（短路径）"]
 
     style H fill:#fdd,stroke:#333
@@ -210,11 +210,11 @@ LOF 比较点周围局部密度和其邻居密度；稀疏点若周围是稠密�
 
 ```mermaid
 flowchart LR
-    A[Raw Data] --> B[Train on Normal Data Only]
-    B --> C[Score All Test Data]
-    C --> D[Rank by Anomaly Score]
-    D --> E[Evaluate Top-K Flagged Items]
-    E --> F[Precision at K / AUPRC]
+    A[原始数据] --> B[仅用正常数据训练]
+    B --> C[为全部测试数据评分]
+    C --> D[按异常分数排序]
+    D --> E[评估前 K 个标记项目]
+    E --> F["前 K 项精确率（Precision@K）/ AUPRC"]
 
     style A fill:#f9f,stroke:#333
     style F fill:#9f9,stroke:#333

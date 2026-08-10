@@ -182,7 +182,7 @@ graph TD
 ```mermaid
 flowchart TD
     Gap{"训练—测试<br/>准确率差距？"} -->|"> 10%"| Heavy["强正则化"]
-    Gap -->|"5-10%"| Medium["中等 regularization"]
+    Gap -->|"5-10%"| Medium["中等正则化"]
     Gap -->|"< 5%"| Light["轻正则化"]
 
     Heavy --> D5["随机失活（Dropout） p=0.3-0.5"]

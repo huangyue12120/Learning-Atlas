@@ -43,16 +43,16 @@ status: reviewed
 flowchart LR
     subgraph Traditional["传统编程"]
         direction LR
-        R[Rules] --> P1[Program]
-        D1[Data] --> P1
-        P1 --> O1[Output]
+        R[规则] --> P1[程序]
+        D1[数据] --> P1
+        P1 --> O1[输出]
     end
 
     subgraph ML["机器学习"]
         direction LR
-        D2[Data] --> P2[Learning Algorithm]
-        O2[Expected Output] --> P2
-        P2 --> M[Model / Rules]
+        D2[数据] --> P2[学习算法]
+        O2[期望输出] --> P2
+        P2 --> M[模型 / 规则]
     end
 ```
 
@@ -64,18 +64,18 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    ML[Machine Learning] --> SL[Supervised Learning]
-    ML --> UL[Unsupervised Learning]
-    ML --> RL[Reinforcement Learning]
+    ML[机器学习] --> SL[监督学习]
+    ML --> UL[无监督学习]
+    ML --> RL[强化学习]
 
-    SL --> C[Classification]
-    SL --> R[Regression]
+    SL --> C[分类]
+    SL --> R[回归]
 
-    UL --> CL[Clustering]
-    UL --> DR[Dimensionality Reduction]
+    UL --> CL[聚类]
+    UL --> DR[降维]
 
-    RL --> PO[Policy Optimization]
-    RL --> VL[Value Learning]
+    RL --> PO[策略优化]
+    RL --> VL[价值学习]
 ```
 
 **监督学习（supervised learning）**拥有输入—输出对，模型学习把输入映射为输出。
@@ -133,15 +133,15 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    A[Collect Data] --> B[Clean & Explore]
-    B --> C[Feature Engineering]
-    C --> D[Split Data]
-    D --> E[Train Model]
-    E --> F[Evaluate]
-    F -->|Not good enough| C
-    F -->|Good enough| G[Deploy]
-    G --> H[Monitor]
-    H -->|Performance drops| A
+    A[收集数据] --> B[清洗与探索]
+    B --> C[特征工程]
+    C --> D[划分数据]
+    D --> E[训练模型]
+    E --> F[评估]
+    F -->|效果不够好| C
+    F -->|效果足够好| G[部署]
+    G --> H[监控]
+    H -->|性能下降| A
 ```
 
 **收集数据：** 获取原始数据。数据越多通常越好，但质量比数量更重要。  
@@ -166,9 +166,9 @@ flowchart LR
         TE["测试集（15%）"]
     end
 
-    TR -->|Train model| M[Model]
-    M -->|Tune hyperparameters| VA
-    VA -->|Final evaluation| TE
+    TR -->|训练模型| M[模型]
+    M -->|调优超参数| VA
+    VA -->|最终评估| TE
 ```
 
 | 划分 | 目的 | 使用时机 | 典型比例 |
@@ -201,8 +201,8 @@ flowchart LR
         O3["记住噪声"]
     end
 
-    UF -->|Increase complexity| GF
-    GF -->|Too much complexity| OF
+    UF -->|提高复杂度| GF
+    GF -->|复杂度过高| OF
 ```
 
 **欠拟合：** 模型过于简单，无法捕捉数据模式；例如直线拟合曲线关系。训练误差和测试误差都高。  
@@ -274,16 +274,16 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    A["你有数据吗？"] -->|No| B["先收集数据或使用规则"]
-    A -->|Yes| C["能否明确写出规则？"]
+    A["你有数据吗？"] -->|否| B["先收集数据或使用规则"]
+    A -->|是| C["能否明确写出规则？"]
     C -->|"是，而且很简单"| D["使用规则，跳过 ML。"]
     C -->|"不能，或规则过于复杂"| E["错误代价可以接受吗？"]
     E -->|"否，需要保证正确"| F["使用确定性方法"]
-    E -->|Yes| G["需要可解释性吗？"]
+    E -->|是| G["需要可解释性吗？"]
     G -->|"是，且要求严格"| H["只使用可解释模型"]
     G -->|"否，或部分需要"| I["使用 ML"]
     I --> J["有足够的标注数据吗？"]
-    J -->|Yes| K["监督学习"]
+    J -->|是| K["监督学习"]
     J -->|"有一些标签"| L["半监督学习"]
     J -->|"没有标签"| M["无监督或自监督"]
 ```

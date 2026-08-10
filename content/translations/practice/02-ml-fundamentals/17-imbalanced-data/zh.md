@@ -64,17 +64,17 @@ status: reviewed
 
 ```mermaid
 flowchart TD
-    A[Imbalanced Dataset] --> B{Imbalance Ratio?}
-    B -->|Mild: 80/20| C[Class Weights]
-    B -->|Moderate: 95/5| D[SMOTE + Threshold Tuning]
-    B -->|Severe: 99/1| E[SMOTE + Class Weights + Threshold]
-    C --> F[Train Model]
+    A[不平衡数据集] --> B{不平衡比例？}
+    B -->|轻度： 80/20| C[类别权重]
+    B -->|中度： 95/5| D[SMOTE + 阈值调优]
+    B -->|重度： 99/1| E[SMOTE + 类别权重 + 阈值调优]
+    C --> F[训练模型]
     D --> F
     E --> F
-    F --> G[Evaluate with F1 / AUPRC / MCC]
-    G --> H{Good Enough?}
-    H -->|No| I[Try Different Strategy]
-    H -->|Yes| J[Deploy with Monitoring]
+    F --> G[用 F1 / AUPRC / MCC 评估]
+    G --> H{是否足够好？}
+    H -->|否| I[尝试其他策略]
+    H -->|是| J[部署并监控]
     I --> B
 ```
 
@@ -95,7 +95,7 @@ flowchart LR
         P2["x2 (1.5, 2.5)"]
         P3["x3 (2.0, 1.5)"]
     end
-    subgraph SMOTE["SMOTE 生成"]
+    subgraph SMOTE["生成 SMOTE 样本"]
         direction TB
         S1["选择 x1 与邻居 x2"]
         S2["随机 t = 0.4"]
@@ -167,11 +167,11 @@ weighted_loss = -sum(w_i * [y_i * log(p_i) + (1-y_i) * log(1-p_i)])
 
 ```mermaid
 flowchart LR
-    A[Model] --> B[Predict Probabilities]
-    B --> C[Sweep Thresholds 0.0 to 1.0]
-    C --> D[Compute F1 at Each]
-    D --> E[Pick Best Threshold]
-    E --> F[Use in Production]
+    A[模型] --> B[预测概率]
+    B --> C[扫描阈值 0.0 to 1.0]
+    C --> D[计算各阈值的 F1]
+    D --> E[选择最佳阈值]
+    E --> F[用于生产环境]
 ```
 
 欺诈交易 P(fraud)=0.15 时，0.5 阈值判非欺诈，而 0.10 能捕获。校准不如排序重要：只要欺诈概率高于非欺诈，总有分开的阈值。
@@ -191,24 +191,24 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    A[Start: Imbalanced Dataset] --> B{How imbalanced?}
+    A[开始：不平衡数据集] --> B{不平衡程度？}
     B -->|"< 70/30"| C["轻度：先试类别权重"]
     B -->|"70/30 至 95/5"| D["中等：SMOTE + 类别权重"]
     B -->|"> 95/5"| E["重度：组合多种策略"]
-    C --> F{Enough data?}
+    C --> F{数据足够吗？}
     D --> F
     E --> F
     F -->|"< 1000 个样本"| G["过采样或 SMOTE，避免欠采样"]
     F -->|"1000-10000"| H["SMOTE + 阈值调节"]
     F -->|"> 10000"| I["可欠采样，或用类别权重"]
-    G --> J[Train + Evaluate with F1/AUPRC]
+    G --> J[训练并用 F1/AUPRC 评估]
     H --> J
     I --> J
-    J --> K{Recall high enough?}
-    K -->|No| L[Lower threshold]
-    K -->|Yes| M{Precision acceptable?}
-    M -->|No| N[Raise threshold or add features]
-    M -->|Yes| O[Ship it]
+    J --> K{召回率足够高吗？}
+    K -->|否| L[降低阈值]
+    K -->|是| M{精确率可接受吗？}
+    M -->|否| N[提高阈值或增加特征]
+    M -->|是| O[交付]
 ```
 
 ```figure

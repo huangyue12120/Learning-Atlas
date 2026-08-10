@@ -87,8 +87,8 @@ where:
 
 ```mermaid
 graph LR
-    A[Simple Model] -->|increase complexity| B[Sweet Spot]
-    B -->|increase complexity| C[Complex Model]
+    A[简单模型] -->|提高复杂度| B[最佳平衡点]
+    B -->|提高复杂度| C[复杂模型]
 
     style A fill:#f9f,stroke:#333
     style B fill:#9f9,stroke:#333
@@ -120,9 +120,9 @@ graph LR
 
 ```mermaid
 graph LR
-    A[Underfit Zone] --> B[Classical Sweet Spot]
-    B --> C[Interpolation Threshold]
-    C --> D[Double Descent - Error Drops Again]
+    A[欠拟合区] --> B[经典最佳平衡点]
+    B --> C[插值阈值]
+    C --> D[双降现象：误差再次下降]
 
     style A fill:#fdd,stroke:#333
     style B fill:#dfd,stroke:#333
@@ -153,15 +153,15 @@ graph LR
 
 ```mermaid
 flowchart TD
-    A[Compare train error vs test error] --> B{Large gap?}
-    B -->|Yes| C[High variance - overfitting]
-    B -->|No| D{Both errors high?}
-    D -->|Yes| E[High bias - underfitting]
-    D -->|No| F[Good fit]
+    A[比较训练误差与测试误差] --> B{差距很大？}
+    B -->|是| C[高方差：过拟合]
+    B -->|否| D{两个误差都高？}
+    D -->|是| E[高偏差：欠拟合]
+    D -->|否| F[良好拟合]
 
-    C --> G[More data / Regularize / Simpler model]
-    E --> H[More features / Complex model / Less regularization]
-    F --> I[Deploy]
+    C --> G[更多数据 / 正则化 / 更简单模型]
+    E --> H[更多特征 / 更复杂模型 / 更少正则化]
+    F --> I[部署]
 ```
 
 | 症状 | 诊断 | 修复方式 |
@@ -227,7 +227,7 @@ flowchart TD
         HV1 --> HV2
     end
 
-    subgraph GF["良好拟合 Learning Curve"]
+    subgraph GF["良好拟合学习曲线"]
         direction LR
         GF1["小 N： 有一些差距"]
         GF2["大 N： 两者都收敛到低误差"]
@@ -259,13 +259,13 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[Model underperforming] --> B[Generate learning curve]
-    B --> C{Gap between train and val?}
-    C -->|Large gap, val still decreasing| D[More data will help]
-    C -->|Small gap, both high| E[More data will NOT help]
-    C -->|Large gap, val flat| F[Regularize or simplify]
-    E --> G[Generate validation curve]
-    G --> H[Try more complex model]
+    A[模型表现不佳] --> B[生成学习曲线]
+    B --> C{训练与验证之间差距？}
+    C -->|差距大，验证误差仍在下降| D[更多数据会有帮助]
+    C -->|差距小，两个误差都高| E[更多数据没有帮助]
+    C -->|差距大，验证误差持平| F[正则化或简化模型]
+    E --> G[生成验证曲线]
+    G --> H[尝试更复杂模型]
 ```
 
 ```figure

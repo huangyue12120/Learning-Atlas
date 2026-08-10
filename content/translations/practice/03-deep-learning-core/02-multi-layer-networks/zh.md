@@ -47,7 +47,7 @@ graph LR
         x1["x1"]
         x2["x2"]
     end
-    subgraph Hidden["隐藏层 (3 neurons)"]
+    subgraph Hidden["隐藏层（3 个神经元）"]
         h1["h1"]
         h2["h2"]
         h3["h3"]
@@ -95,7 +95,7 @@ graph TD
     X["输入： [x1, x2]"] --> WH["乘以权重矩阵 W1 (2x3)"]
     WH --> BH["加偏置向量 b1 (3,)"]
     BH --> AH["对每个元素应用 sigmoid"]
-    AH --> H["Hidden 输出： [h1, h2, h3]"]
+    AH --> H["隐藏 输出： [h1, h2, h3]"]
     H --> WO["乘以权重矩阵 W2 (3x1)"]
     WO --> BO["加偏置向量 b2 (1,)"]
     BO --> AO["应用 sigmoid"]

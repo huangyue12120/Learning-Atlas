@@ -37,15 +37,15 @@ status: reviewed
 
 ```mermaid
 flowchart LR
-    A[Raw Data] --> B[Handle Missing Values]
-    B --> C[Numerical Transforms]
-    B --> D[Categorical Encoding]
-    B --> E[Text Features]
-    C --> F[Feature Interactions]
+    A[原始数据] --> B[处理缺失值]
+    B --> C[数值变换]
+    B --> D[类别编码]
+    B --> E[文本特征]
+    C --> F[特征交互]
     D --> F
     E --> F
-    F --> G[Feature Selection]
-    G --> H[Model-Ready Data]
+    F --> G[特征选择]
+    G --> H[可供模型使用的数据]
 ```
 
 ### 数值特征

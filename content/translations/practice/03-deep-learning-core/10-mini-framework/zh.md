@@ -76,12 +76,12 @@ graph TD
     end
 
     subgraph "容器"
-        Sequential["Sequential<br/>串联模块"]
+        Sequential["顺序容器<br/>串联模块"]
     end
 
     subgraph "损失函数"
-        MSE["MSE损失<br/>(pred - 目标)^2"]
-        BCE["BCE损失<br/>二元交叉熵"]
+        MSE["均方误差（MSE）损失<br/>(pred - 目标)^2"]
+        BCE["二元交叉熵（BCE）损失<br/>二元交叉熵"]
     end
 
     subgraph "优化器"
@@ -90,7 +90,7 @@ graph TD
     end
 
     subgraph "数据"
-        DataLoader["数据Loader<br/>分批 + 打乱"]
+        DataLoader["数据加载器<br/>分批 + 打乱"]
     end
 
     Sequential --> |"包含"| Linear
