@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/09-model-evaluation/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 4c0ac1f4722a3525dd3dbc7290238a75ac414b195c7715129db05ec36a99619e
+  anchor:
+    heading: K-Fold Cross-Validation
+    slug: k-fold-cross-validation
+card:
+  title: 抽样：交叉验证为何能估计泛化表现
+  summary: 编写 K 折和分层 K 折时，利用抽样代表性理解折间波动的来源，并避免让类别分布或重复样本扭曲验证结论。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 04 - statistics/03. sampling.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 5d0f6c44422854b60f9027fa8411be8c54e78f08e827e9f0e5216e39e0f9f56d
+  anchor:
+    heading: Sampling
+    slug: sampling

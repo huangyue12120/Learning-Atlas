@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/03-deep-learning-core/05-loss-functions/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: aa64f3d64a9dab9b7e68b117158d8876bf350adc30d2cd3cddf4d11702d3085c
+  anchor:
+    heading: Cross-Entropy Loss
+    slug: cross-entropy-loss
+card:
+  title: 信息论：交叉熵如何衡量预测分布
+  summary: 实现 softmax 的分类损失和标签平滑时，用编码真实标签的平均信息量解释交叉熵，而非只把它当作一个需背诵的公式。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/05. information theory.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 8d2c18d291775e88e92e471f6b485aee0ce8d0d88b24df1cb2ca448b9a671fc4
+  anchor:
+    heading: Information Theory
+    slug: information-theory

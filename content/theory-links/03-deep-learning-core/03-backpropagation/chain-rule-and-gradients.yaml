@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/03-deep-learning-core/03-backpropagation/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: e481014372b43289e15b4d7b70a4045eb786168afb10fe15d1fff84b4bccb7ee
+  anchor:
+    heading: The Chain Rule, Applied to Networks
+    slug: the-chain-rule-applied-to-networks
+card:
+  title: 多元微积分：沿计算图组合局部导数
+  summary: 为 Value 节点实现 backward 函数时，用链式法则把每个操作的局部导数乘入上游梯度，核对反向传播的累积顺序。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 03 - calculus/03. multivariate calculus.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: c5d61d7e68490b647953977bc7cfc5a858f5d19e5d4c936062619b07b046785b
+  anchor:
+    heading: Multivariate Calculus
+    slug: multivariate-calculus

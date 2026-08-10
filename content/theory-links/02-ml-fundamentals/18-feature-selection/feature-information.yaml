@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/18-feature-selection/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: b4f79a2e5880be45c0b77713c11805a39b853b2852e15eda314ee1997a107161
+  anchor:
+    heading: Mutual Information
+    slug: mutual-information
+card:
+  title: 互信息：筛选真正减少标签不确定性的特征
+  summary: 实现离散互信息评分时，用“观察特征后标签的不确定性减少多少”来解释排序，而不是把相关性误当成信息量。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/05. information theory.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 8d2c18d291775e88e92e471f6b485aee0ce8d0d88b24df1cb2ca448b9a671fc4
+  anchor:
+    heading: Information Theory
+    slug: information-theory

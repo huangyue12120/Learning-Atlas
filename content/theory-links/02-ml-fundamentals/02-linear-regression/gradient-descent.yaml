@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/02-linear-regression/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 893df66ce1cf29d175e9a63cdd73b1af0c67e934f4a134b7a84d53f2170954af
+  anchor:
+    heading: Gradient Descent
+    slug: gradient-descent
+card:
+  title: 梯度机器学习：用误差更新回归参数
+  summary: 实现 MSE 的梯度下降时，用损失、梯度和学习率的关系检查每次权重更新为何会朝降低误差的方向移动。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/02. gradient machine learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e9c5575ef27ceca98c958218c3c4d79d143fa074329bd6d947f4c0d3f8d6501a
+  anchor:
+    heading: Gradient Machine Learning
+    slug: gradient-machine-learning

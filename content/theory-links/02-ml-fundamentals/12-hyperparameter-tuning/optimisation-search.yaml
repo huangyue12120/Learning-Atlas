@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/12-hyperparameter-tuning/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: ec61d03f29614e7a330e9fbee1c08deb4da99e42efc6984dc83d55142615ee85
+  anchor:
+    heading: Learning Rate Schedulers
+    slug: learning-rate-schedulers
+card:
+  title: 优化：把学习率调度当作搜索过程控制
+  summary: 比较网格搜索、随机搜索和学习率调度时，先区分模型参数的优化轨迹与超参数搜索，避免用测试集反复挑选配置。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 03 - calculus/05. optimisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: ab7d84558c2298a32a74f7f61d009624eb2886606e0940661dc250338caee756
+  anchor:
+    heading: Optimisation
+    slug: optimisation

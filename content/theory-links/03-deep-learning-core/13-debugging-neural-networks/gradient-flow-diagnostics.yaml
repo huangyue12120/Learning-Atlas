@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/03-deep-learning-core/13-debugging-neural-networks/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 93a9c9e91cc1312801ca02385de5891b2858f45a28a70a3dd099ce5848f21753
+  anchor:
+    heading: "Technique 3: Gradient Flow Visualization"
+    slug: technique-3-gradient-flow-visualization
+card:
+  title: 深度学习：用梯度流定位训练信号断点
+  summary: 绘制各层梯度并排查 NaN、消失或爆炸时，用深层网络中的信号传播机制区分初始化、激活函数和学习率造成的问题。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/03. deep learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d2e677b6ca1dafa667a4f4ff12dfddee367392dd6940f25f5b6934ed21cd071d
+  anchor:
+    heading: Deep Learning
+    slug: deep-learning

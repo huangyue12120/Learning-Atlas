@@ -16,7 +16,9 @@ const repositoryDirectory = resolve(applicationDirectory, "../..");
 const practiceDirectory = join(repositoryDirectory, "ai-engineering-from-scratch/phases");
 const phases = [
   { slug: "00-setup-and-tooling", title: "Phase 0 · 环境与工具" },
-  { slug: "01-math-foundations", title: "Phase 1 · 数学基础" }
+  { slug: "01-math-foundations", title: "Phase 1 · 数学基础" },
+  { slug: "02-ml-fundamentals", title: "Phase 2 · 机器学习基础" },
+  { slug: "03-deep-learning-core", title: "Phase 3 · 深度学习核心" }
 ] as const;
 type Phase = typeof phases[number];
 const defaultLessonId = "practice/01-math-foundations/01-linear-algebra-intuition";

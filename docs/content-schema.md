@@ -49,7 +49,7 @@ A Chinese adaptation is a translation of one specific upstream document, not a t
 
 - retain the title, hook, metadata, learning objectives, top-level sections, subsections, examples, figures, build/use steps, deliverable, exercises, terms, and further-reading entries in their original order;
 - keep Python code, commands, formulas, figure identifiers, links, and exercise requirements semantically intact and at the same instructional location;
-- for every Mermaid diagram, preserve the source diagram's graph direction, node IDs, edge operators and directions, subgraph declarations, and quoted-label syntax exactly; translate only the text inside an existing quoted label, never by removing quotes, flattening a subgraph, or rewriting topology;
+- for every Mermaid diagram, preserve the source diagram's graph direction, node IDs, edge operators and directions, subgraph declarations, shape delimiters, and existing quoted-label syntax exactly; the reader must localize every learner-visible node, edge, and subgraph label without changing an ID, removing quotes, flattening a subgraph, or rewriting topology;
 - translate prose naturally into Chinese, but do not merge, omit, move, or add a source unit merely for brevity;
 - where the upstream document contains a non-Python implementation, omit its maintained copy under the Python-first policy only when that exact location links learners to the upstream original;
 - label genuinely new explanatory material as `> **编者注：** ...`; it must follow the source unit it explains and must not replace any source material.

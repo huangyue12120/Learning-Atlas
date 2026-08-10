@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/05-support-vector-machines/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 4032f704f9675d31f9c0a1dfbf768283b9c50b5699ccebc90fa5813819136ddd
+  anchor:
+    heading: The maximum margin classifier
+    slug: the-maximum-margin-classifier
+card:
+  title: 范数与距离：间隔为何需要归一化
+  summary: 计算分类超平面间隔时，用向量范数区分原始打分与到决策边界的几何距离，避免把缩放后的权重误当成更大间隔。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 01 - vectors/03. norms and metrics.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: ec5f2e1e396e95094b93a329f68f65aa4c843aa44bd72b5724f673a0ea67e6bc
+  anchor:
+    heading: Metrics and Norms
+    slug: metrics-and-norms

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/15-time-series/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 48ffca9e2410801a507c35ebc6769ba0ecf075a51bb943684c219198a75b9d81
+  anchor:
+    heading: Autocorrelation
+    slug: autocorrelation
+card:
+  title: 序列模型：相邻观测为何不能随机打乱
+  summary: 构造滞后特征、观察自相关并进行滚动验证时，用序列依赖的观点判断哪些过去信息可用于预测而不窥视未来。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/04. bayesian.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: f6225ca0de169e09fcc8a03f9eed9beae3484d9020409f9f7580c463dbd524a3
+  anchor:
+    heading: Bayesian Methods and Sequential Models
+    slug: bayesian-methods-and-sequential-models

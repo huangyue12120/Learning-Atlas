@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/06-knn-and-distances/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: f18a8624854931bd3757829e4d4626d4dc3b6f10f0ad2cf3c2011e983172f1d4
+  anchor:
+    heading: Distance metrics
+    slug: distance-metrics
+card:
+  title: 距离度量：KNN 的“邻近”由什么决定
+  summary: 实现欧氏、曼哈顿和余弦距离并进行特征缩放时，用度量的性质判断何时两个样本才可被当作可比较的近邻。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 01 - vectors/03. norms and metrics.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: ec5f2e1e396e95094b93a329f68f65aa4c843aa44bd72b5724f673a0ea67e6bc
+  anchor:
+    heading: Metrics and Norms
+    slug: metrics-and-norms

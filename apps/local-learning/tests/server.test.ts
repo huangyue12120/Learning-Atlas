@@ -46,14 +46,22 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.match(content.markdown, /线性代数直觉/);
   assert.equal(content.theoryCards.length, 3);
   const course = await fetch(`${baseUrl}/api/course`).then((response) => response.json());
-  assert.equal(course.length, 2);
+  assert.equal(course.length, 4);
   const setup = course.find((phase: { slug: string }) => phase.slug === "00-setup-and-tooling");
   const foundations = course.find((phase: { slug: string }) => phase.slug === "01-math-foundations");
+  const mlFundamentals = course.find((phase: { slug: string }) => phase.slug === "02-ml-fundamentals");
+  const deepLearningCore = course.find((phase: { slug: string }) => phase.slug === "03-deep-learning-core");
   assert.ok(setup);
   assert.ok(foundations);
+  assert.ok(mlFundamentals);
+  assert.ok(deepLearningCore);
   assert.equal(setup.lessons.length, 12);
   assert.equal(setup.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(foundations.lessons.length, 22);
+  assert.equal(mlFundamentals.lessons.length, 18);
+  assert.equal(mlFundamentals.lessons.every((item: { available: boolean }) => item.available), true);
+  assert.equal(deepLearningCore.lessons.length, 13);
+  assert.equal(deepLearningCore.lessons.every((item: { available: boolean }) => item.available), true);
   assert.deepEqual(foundations.lessons[0], {
     id: firstLesson.id,
     position: "01 / 22",
@@ -75,6 +83,16 @@ test("loads published lesson content and resources by lessonId", async () => {
   const secondQuiz = await fetch(`${baseUrl}/api/quiz?lessonId=${encodeURIComponent(secondLessonId)}`).then((response) => response.json());
   assert.equal(secondQuiz.status, "reviewed");
   assert.equal(secondQuiz.questions[0].id, "matrix-multiplication-shape");
+
+  const regressionLessonId = "practice/02-ml-fundamentals/02-linear-regression";
+  const regressionContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(regressionLessonId)}`).then((response) => response.json());
+  assert.equal(regressionContent.translationStatus, "reviewed");
+  assert.deepEqual(regressionContent.theoryCards.map((item: { slug: string }) => item.slug), ["gradient-descent"]);
+
+  const backpropagationLessonId = "practice/03-deep-learning-core/03-backpropagation";
+  const backpropagationContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(backpropagationLessonId)}`).then((response) => response.json());
+  assert.equal(backpropagationContent.translationStatus, "reviewed");
+  assert.deepEqual(backpropagationContent.theoryCards.map((item: { slug: string }) => item.slug), ["the-chain-rule-applied-to-networks"]);
 
   const setupLessonId = setup.lessons[0].id;
   const setupLesson = await fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent(setupLessonId)}`).then((response) => response.json());

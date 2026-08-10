@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/08-feature-engineering/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 964a9b0cd007a7d7e78196fb390fbc8bd84d227bdfcadf3c7db9e7749e70ca9c
+  anchor:
+    heading: The Feature Pipeline
+    slug: the-feature-pipeline
+card:
+  title: 经典机器学习：特征表示决定模型能看到什么
+  summary: 组合数值变换、类别编码、文本特征和缺失值处理前，先用特征空间的观点检查每一步给模型增加或丢失了哪些可学习信号。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/01. classical machine learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: c6006efac1536fd074e17c3c5dea9781c0e5c44c3780f7448bbc2e11918e7f54
+  anchor:
+    heading: Classical Machine Learning
+    slug: classical-machine-learning

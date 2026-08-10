@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/03-deep-learning-core/01-the-perceptron/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: ab8e9fbfe5bcb8328d915987f8ca588e1b3bccd946a789e4b8bb983e6c78284a
+  anchor:
+    heading: The Decision Boundary
+    slug: the-decision-boundary
+card:
+  title: 深度学习：感知机为何只能画出线性边界
+  summary: 训练逻辑门并观察 XOR 失败时，把单个感知机看成线性分类器，才能从边界形状判断何时必须增加隐藏层。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/03. deep learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d2e677b6ca1dafa667a4f4ff12dfddee367392dd6940f25f5b6934ed21cd071d
+  anchor:
+    heading: Deep Learning
+    slug: deep-learning

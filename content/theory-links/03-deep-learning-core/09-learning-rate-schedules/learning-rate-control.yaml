@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/03-deep-learning-core/09-learning-rate-schedules/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 192874a3732b8f75bf87c252b2cabefb58a8df22db14a5ca0118bf8e812e2551
+  anchor:
+    heading: "Warmup: Why You Start Small"
+    slug: warmup-why-you-start-small
+card:
+  title: 优化：用步长日程控制早期与后期搜索
+  summary: 实现 warmup、余弦退火和 1cycle 时，把学习率看作每步的搜索尺度，理解为何训练初期需要稳定而收敛后需要更细的更新。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 03 - calculus/05. optimisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: ab7d84558c2298a32a74f7f61d009624eb2886606e0940661dc250338caee756
+  anchor:
+    heading: Optimisation
+    slug: optimisation

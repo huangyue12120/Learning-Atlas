@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/03-deep-learning-core/12-intro-to-jax/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 9fe3133043ee5c5841555859f2e60f3cd11c6ee194ae7dd4ff6788a97d307a50
+  anchor:
+    heading: "jax.grad: Functional Autodiff"
+    slug: jaxgrad-functional-autodiff
+card:
+  title: 多元微积分：把参数函数交给自动微分
+  summary: 用 jax.grad 编写函数式训练步时，先把损失视作参数向量的多元函数，理解梯度的形状、方向和纯函数接口为何必须明确。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 03 - calculus/03. multivariate calculus.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: c5d61d7e68490b647953977bc7cfc5a858f5d19e5d4c936062619b07b046785b
+  anchor:
+    heading: Multivariate Calculus
+    slug: multivariate-calculus

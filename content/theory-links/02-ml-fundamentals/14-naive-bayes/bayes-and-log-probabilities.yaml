@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/14-naive-bayes/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: cda8fef9420715c6fd52a94ea81e2d3a93ae60d32e08a4170ddf8e56696b5a63
+  anchor:
+    heading: Bayes' Theorem (Quick Review)
+    slug: bayes-theorem-quick-review
+card:
+  title: 贝叶斯方法：从先验与证据计算类别后验
+  summary: 实现朴素贝叶斯预测与对数空间计算时，用条件概率、先验和后验的分解核对每一项概率为何可以相加或相乘。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/04. bayesian.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: f6225ca0de169e09fcc8a03f9eed9beae3484d9020409f9f7580c463dbd524a3
+  anchor:
+    heading: Bayesian Methods and Sequential Models
+    slug: bayesian-methods-and-sequential-models

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/07-unsupervised-learning/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 5e26db25c8145c483fe715d119cb472956305f42597061fc5841a1838999af38
+  anchor:
+    heading: Gaussian Mixture Models (GMM)
+    slug: gaussian-mixture-models-gmm
+card:
+  title: 概率分布：把簇看作混合生成过程
+  summary: 实现 GMM 的 EM 迭代时，把每个分量视为一个条件分布，才能正确理解责任度、均值与协方差更新的含义。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/03. distributions.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 1e051833fd2dde6957d8c2bc859d0dd7075bd09518aae0632904c0a039c75efa
+  anchor:
+    heading: Probability Distributions
+    slug: probability-distributions

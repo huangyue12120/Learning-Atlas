@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/03-deep-learning-core/07-regularization/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: c6e31ead99cce8cf40dda09a94a3a2b95978f162e4fe67bc3f3e1b9763ae170d
+  anchor:
+    heading: Weight Decay (L2 Regularization)
+    slug: weight-decay-l2-regularization
+card:
+  title: 深度学习：用约束换取可泛化的表示
+  summary: 比较 dropout、权重衰减和归一化时，联系训练误差与验证误差的分离，判断每种机制是在限制容量、稳定统计量还是停止过拟合。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/03. deep learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d2e677b6ca1dafa667a4f4ff12dfddee367392dd6940f25f5b6934ed21cd071d
+  anchor:
+    heading: Deep Learning
+    slug: deep-learning

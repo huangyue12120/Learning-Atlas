@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/03-deep-learning-core/11-intro-to-pytorch/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 9c1d3d3a389c673ccc0b0491dba0401ef37bac7d7e885ce22d4309f0adb2ea0e
+  anchor:
+    heading: Tensors
+    slug: tensors
+card:
+  title: 矩阵运算：张量形状是 PyTorch 计算的契约
+  summary: 从原始 MNIST 数据构造 batch 并定义线性层时，用矩阵与批量维度的规则定位张量 reshape、相乘和广播是否符合预期。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 02 - matrices/03. operations.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 3627030fc60d19cc16f1010a0f73f8d744168e2e4e80c6b66f30e118e2aaabdc
+  anchor:
+    heading: Matrix Operations
+    slug: matrix-operations

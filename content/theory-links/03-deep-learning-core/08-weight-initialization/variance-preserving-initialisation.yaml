@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/03-deep-learning-core/08-weight-initialization/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 9c270a87d2872791247c02d3d471bc82bd76ea116df35c80143bc1b53a08c87b
+  anchor:
+    heading: Variance Propagation Through Layers
+    slug: variance-propagation-through-layers
+card:
+  title: 深度学习：让信号与梯度穿过深层网络
+  summary: 比较 Xavier 与 Kaiming 初始化并测量 50 层激活量级时，用方差传播判断权重尺度为何会造成饱和、爆炸或消失。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/03. deep learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d2e677b6ca1dafa667a4f4ff12dfddee367392dd6940f25f5b6934ed21cd071d
+  anchor:
+    heading: Deep Learning
+    slug: deep-learning

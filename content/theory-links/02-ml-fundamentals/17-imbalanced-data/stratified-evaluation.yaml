@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/17-imbalanced-data/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 1c1f6a2ec1c61310c203298b1eed4eae0923c41764e4f5ced9d86d752b223f40
+  anchor:
+    heading: Better Metrics
+    slug: better-metrics
+card:
+  title: 抽样：不平衡数据的验证集必须保留稀有类
+  summary: 在重采样、类别权重和阈值调优之间比较时，用分层抽样确保验证折仍包含少数类，避免准确率掩盖实际的召回失败。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 04 - statistics/03. sampling.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 5d0f6c44422854b60f9027fa8411be8c54e78f08e827e9f0e5216e39e0f9f56d
+  anchor:
+    heading: Sampling
+    slug: sampling

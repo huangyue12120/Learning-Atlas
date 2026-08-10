@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/03-deep-learning-core/04-activation-functions/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: da086a041c9bd97f2465a02c2f3a877eb997969ef5e39f9b8d9585f38370aca3
+  anchor:
+    heading: Why Nonlinearity Is Necessary
+    slug: why-nonlinearity-is-necessary
+card:
+  title: 深度学习：非线性让层叠不再等价于单层
+  summary: 比较 sigmoid、ReLU 和 GELU 时，先理解线性层的复合仍是线性变换，才能判断激活函数为何决定网络可表达的边界和梯度流。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/03. deep learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d2e677b6ca1dafa667a4f4ff12dfddee367392dd6940f25f5b6934ed21cd071d
+  anchor:
+    heading: Deep Learning
+    slug: deep-learning

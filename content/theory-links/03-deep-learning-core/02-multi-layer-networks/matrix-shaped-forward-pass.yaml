@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/03-deep-learning-core/02-multi-layer-networks/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 192b46fd134bdd7aada17ecd58fafd35c973d11b9bf47ac3a785cc91595db428
+  anchor:
+    heading: Matrix Dimensions
+    slug: matrix-dimensions
+card:
+  title: 矩阵运算：按形状追踪前向传播
+  summary: 实现 Layer 和 Network 的前向传播时，用矩阵乘法的行列规则检查批次、输入特征、输出特征与偏置能否正确对齐。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 02 - matrices/03. operations.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 3627030fc60d19cc16f1010a0f73f8d744168e2e4e80c6b66f30e118e2aaabdc
+  anchor:
+    heading: Matrix Operations
+    slug: matrix-operations

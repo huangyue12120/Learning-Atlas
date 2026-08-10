@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/03-deep-learning-core/06-optimizers/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 9af59689813d171106b558fca9875f7992c8e834b8d7a69310bbaf7428ff9ad9
+  anchor:
+    heading: "Adam: Momentum + RMSProp"
+    slug: adam-momentum-rmsprop
+card:
+  title: 优化：一阶与二阶动量如何改变更新步长
+  summary: 从 SGD 逐步实现到 AdamW 时，用优化轨迹理解动量平滑、平方梯度缩放和权重衰减各自改变了哪一部分更新。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 03 - calculus/05. optimisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: ab7d84558c2298a32a74f7f61d009624eb2886606e0940661dc250338caee756
+  anchor:
+    heading: Optimisation
+    slug: optimisation

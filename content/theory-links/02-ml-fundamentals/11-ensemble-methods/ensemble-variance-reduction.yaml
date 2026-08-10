@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/11-ensemble-methods/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 764d6a19ed0c253debea7014287f36e771a7d92815c10174bf8005a3acd63014
+  anchor:
+    heading: Bagging (Bootstrap Aggregating)
+    slug: bagging-bootstrap-aggregating
+card:
+  title: 经典机器学习：用重采样降低单模型波动
+  summary: 实现 bagging 或随机森林时，联系自助样本和集成平均的作用，理解它为何主要降低方差而不是简单复制同一棵树。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/01. classical machine learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: c6006efac1536fd074e17c3c5dea9781c0e5c44c3780f7448bbc2e11918e7f54
+  anchor:
+    heading: Classical Machine Learning
+    slug: classical-machine-learning

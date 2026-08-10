@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/10-bias-variance/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 0a85c46801a4aebab2816e45dafaa49a60d12a89da2d1fc5f5f8fb63e15830c9
+  anchor:
+    heading: The Decomposition
+    slug: the-decomposition
+card:
+  title: 经典机器学习：拆开泛化误差来定位问题
+  summary: 计算自助采样下的偏差和方差时，先把拟合不足、对数据扰动敏感与不可约噪声分开，才能据此选择复杂度或正则化。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/01. classical machine learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: c6006efac1536fd074e17c3c5dea9781c0e5c44c3780f7448bbc2e11918e7f54
+  anchor:
+    heading: Classical Machine Learning
+    slug: classical-machine-learning

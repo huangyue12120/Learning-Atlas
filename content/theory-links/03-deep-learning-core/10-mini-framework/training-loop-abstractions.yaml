@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/03-deep-learning-core/10-mini-framework/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 94d283931d471f9a757d50d4f12656d497b3cb78aacebeb7619a55e5c0e67325
+  anchor:
+    heading: Training Loop
+    slug: training-loop
+card:
+  title: 深度学习：训练循环连接前向、损失、反向与更新
+  summary: 组装 Module、优化器和 DataLoader 时，用标准训练闭环检查梯度清零、前向计算、损失反传和参数更新的必要顺序。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/03. deep learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d2e677b6ca1dafa667a4f4ff12dfddee367392dd6940f25f5b6934ed21cd071d
+  anchor:
+    heading: Deep Learning
+    slug: deep-learning

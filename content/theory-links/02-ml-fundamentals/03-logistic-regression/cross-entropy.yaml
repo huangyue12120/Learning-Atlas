@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/03-logistic-regression/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 28c89a0c75029f41edaaa3aae7428a8a5b30479765ec4c1afdf4853917c25954
+  anchor:
+    heading: Binary Cross-Entropy Loss
+    slug: binary-cross-entropy-loss
+card:
+  title: 交叉熵：让分类概率为正确标签付费
+  summary: 编写二元交叉熵和 sigmoid 分类器时，用信息量解释为何自信地预测错误会受到更大的损失惩罚。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/05. information theory.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 8d2c18d291775e88e92e471f6b485aee0ce8d0d88b24df1cb2ca448b9a671fc4
+  anchor:
+    heading: Information Theory
+    slug: information-theory

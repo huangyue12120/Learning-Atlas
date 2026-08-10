@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/02-ml-fundamentals/16-anomaly-detection/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: fd2418cd6ece3eb747a71ab926fe1b05f2c1c0e4fb07fafd8506081354a99106
+  anchor:
+    heading: Z-Score Method
+    slug: z-score-method
+card:
+  title: 概率分布：用位置与离散程度定义异常
+  summary: 编写 Z 分数和 IQR 检测器时，先根据分布的中心与离散程度解释阈值，再决定离群点是否来自真正的异常而非尺度差异。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/03. distributions.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 1e051833fd2dde6957d8c2bc859d0dd7075bd09518aae0632904c0a039c75efa
+  anchor:
+    heading: Probability Distributions
+    slug: probability-distributions

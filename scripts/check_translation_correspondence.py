@@ -28,6 +28,10 @@ FENCE = re.compile(r"^```([^\n]*)\n(.*?)^```\s*$", re.MULTILINE | re.DOTALL)
 HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
 LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 MERMAID_QUOTED_TEXT = re.compile(r'"(?:[^"\\]|\\.)*"')
+MERMAID_EDGE_LABEL = re.compile(r'\|(?:[^|\\]|\\.)*\|')
+MERMAID_SQUARE_LABEL = re.compile(r'(?P<prefix>\b[A-Za-z][A-Za-z0-9_-]*\s*)\[(?:[^\]\\]|\\.)*\]')
+MERMAID_CURLY_LABEL = re.compile(r'(?P<prefix>\b[A-Za-z][A-Za-z0-9_-]*\s*)\{(?:[^}\\]|\\.)*\}')
+MERMAID_PAREN_LABEL = re.compile(r'(?P<prefix>\b[A-Za-z][A-Za-z0-9_-]*\s*)\((?:[^)\\]|\\.)*\)')
 OMITTED_NON_PYTHON = re.compile(r"<!--\s*learning-atlas:\s*upstream-non-python omitted=([a-z0-9_+-]+)\s*-->")
 
 
@@ -43,12 +47,16 @@ class Structure:
 def normalize_mermaid(diagram: str) -> str:
     """Keep Mermaid grammar while ignoring translated quoted labels.
 
-    Node IDs, graph direction, edge syntax, subgraph declarations, and quoting
-    must remain source-compatible. Chinese adaptations may only replace text
-    inside an existing quoted label.
+    Node IDs, graph direction, edge syntax, subgraph declarations, shape
+    delimiters, and quoting must remain source-compatible. Chinese adaptations
+    may replace learner-visible node, edge, and subgraph labels in place.
     """
 
-    return MERMAID_QUOTED_TEXT.sub('"…"', diagram)
+    normalized = MERMAID_QUOTED_TEXT.sub('"…"', diagram)
+    normalized = MERMAID_EDGE_LABEL.sub('|…|', normalized)
+    normalized = MERMAID_SQUARE_LABEL.sub(lambda match: f"{match.group('prefix')}[…]", normalized)
+    normalized = MERMAID_CURLY_LABEL.sub(lambda match: f"{match.group('prefix')}{{…}}", normalized)
+    return MERMAID_PAREN_LABEL.sub(lambda match: f"{match.group('prefix')}(…)", normalized)
 
 
 def body(markdown: str) -> str:
@@ -98,7 +106,7 @@ def differences(source: Structure, translation: Structure, translation_markdown:
         errors.append(f"figure placeholders differ (source={source.figures}, translation={translation.figures})")
     if source.mermaid != translation.mermaid:
         errors.append(
-            "Mermaid syntax/topology differs; only text inside existing quoted labels may be translated"
+            "Mermaid syntax/topology differs; only learner-visible labels may be translated in place"
         )
     link_index = 0
     for target in translation.links:
