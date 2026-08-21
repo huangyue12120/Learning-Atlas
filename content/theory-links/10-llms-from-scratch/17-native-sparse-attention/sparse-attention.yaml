@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/17-native-sparse-attention/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: ad7929f9d22e8abedc598a0c9779ac28461ac789d853787ac047a172a04d0755
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 稀疏注意力与计算预算
+  summary: 在比较局部窗口、全局 token、块稀疏模式和 NSA 的 token 选择时，用高效架构笔记核对注意力复杂度、稀疏注意力与长上下文内存的关系；该关联先保留候选状态，因为理论笔记未专门讨论 NSA。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/02. efficient architectures.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a0011aa9b67a35918d63e4d6c18febf8699183fdf1fdcbd566142a47f4206370
+  anchor:
+    heading: Sparse Attention
+    slug: sparse-attention

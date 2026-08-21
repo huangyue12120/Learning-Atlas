@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/24-coreference-resolution/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 5737352d097d9de94f3107cee673829c3dd42daf2b0229f0771e0f78489ccabe
+  anchor:
+    heading: "Step 2: rule-based pronoun resolver (teaching)"
+    slug: step-2-rule-based-pronoun-resolver-teaching
+card:
+  title: 共指：用语境连接代词与先行词
+  summary: 实现代词消解器时，把共指理解为语用层的同实体指称，再用数的一致性、新近性和句法角色为候选先行词排序，解释规则基线为何能处理近距离代词却难以覆盖桥接与后指。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/01. linguistic foundations.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e96beed85b0061c1001e7475faeafb1b6ddc50fd5d9d64892b6bc9f05227a843
+  anchor:
+    heading: Linguistic Foundations
+    slug: linguistic-foundations

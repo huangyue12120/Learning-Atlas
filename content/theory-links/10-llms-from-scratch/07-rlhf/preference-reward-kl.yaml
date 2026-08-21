@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/07-rlhf/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 0e599cb378e8f0291f17d037d75f07cde24451c27ac335a1dbfa49f026524090
+  anchor:
+    heading: The Reward Model
+    slug: the-reward-model
+card:
+  title: 偏好奖励模型与 KL 约束
+  summary: 在从成对偏好训练 Bradley–Terry 奖励模型，并把奖励模型分数与参考策略的 KL 惩罚送入 PPO 时，用高级文本生成笔记核对偏好概率、奖励差值与 KL 约束下的对齐—漂移权衡。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

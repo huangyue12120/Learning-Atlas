@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/15-attention-variants/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: cd5ba2d28dd24fc6eb57f4477148156d5d5be31a8e157efcdcf00b914a9dfb48
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 滑动窗口与稀疏注意力拓扑
+  summary: 在构造 SWA、局部加跨步稀疏掩码并比较 KV 缓存时，用高效架构笔记核对 O(N·W) 复杂度、L×W 有效感受野，以及穿插全局层为何能弥补长距离检索损失。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/02. efficient architectures.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a0011aa9b67a35918d63e4d6c18febf8699183fdf1fdcbd566142a47f4206370
+  anchor:
+    heading: Sparse Attention
+    slug: sparse-attention

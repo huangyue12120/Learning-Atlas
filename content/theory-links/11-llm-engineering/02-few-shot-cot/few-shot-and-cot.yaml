@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/02-few-shot-cot/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 402278b0cc2b303ef9dfddb3e13d5101c02b2aed9a1b0f4fcb83f21a02795b5e
+  anchor:
+    heading: Zero-Shot vs Few-Shot: When Examples Beat Instructions
+    slug: zero-shot-vs-few-shot-when-examples-beat-instructions
+card:
+  title: Few-shot 与思维链的条件示范
+  summary: 在选择示例、设计 CoT 和比较 zero-shot/few-shot 时，用高级文本生成笔记核对自回归生成、上下文学习和采样过程；该关联先保留候选状态，因为理论笔记未专门覆盖提示范式的全部经验规律。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

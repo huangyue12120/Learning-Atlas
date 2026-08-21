@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/07-latent-diffusion-stable-diffusion/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 31a712aa953cffde8d835b2d6776923c98ca0946f06adb2c53f2694863ba6941
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 潜空间扩散与文本交叉注意力
+  summary: 在把 DDPM 移入 VAE 潜空间并加入文本条件时，用跨模态生成笔记核对编码、潜变量去噪、交叉注意力和解码四个环节如何组成 Stable Diffusion。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/04. cross-modal generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 297749fe76d1d97e2bfd53936c08cf23e6a422c5487c6acb13264290484bf88e
+  anchor:
+    heading: "Stable Diffusion: Latent Diffusion with Text Conditioning"
+    slug: stable-diffusion-latent-diffusion-with-text-conditioning

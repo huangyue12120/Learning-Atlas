@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/17-audio-evaluation-metrics/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: ac206830044a3d8baf1d99de9a7d56080d08662b3607a329f1164ea7a768a6b7
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 音频指标的尺度、分布与工作点
+  summary: 在为 ASR、TTS、说话人和流式系统选择 WER、MOS、EER 与延迟分位数时，用统计测度笔记判断每个指标的尺度、聚合方式和分布摘要是否匹配实际决策。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 04 - statistics/02. measures.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 29e10b28a00e6fa718e372322b07cefb3f829689c921f548c135bf2189db2e48
+  anchor:
+    heading: Statistical Measures
+    slug: statistical-measures

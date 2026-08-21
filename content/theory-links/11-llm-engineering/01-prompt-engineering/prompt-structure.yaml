@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/01-prompt-engineering/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: cd2886a19bdcb3f8faed3810a1297f820f3ab0b9d9fdfc22479619303bba9425
+  anchor:
+    heading: Anatomy of a Prompt
+    slug: anatomy-of-a-prompt
+card:
+  title: 提示词的结构与条件分布
+  summary: 在拆解系统消息、用户消息、上下文和输出约束时，用 Transformer 语言模型笔记核对提示如何改变条件分布，以及因果模型为何只能读取当前位置之前的上下文。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

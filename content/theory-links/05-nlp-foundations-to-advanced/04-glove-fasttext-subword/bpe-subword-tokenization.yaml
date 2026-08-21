@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/04-glove-fasttext-subword/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: b92cf9d14b8729b4a378b0b4f468f4d957f6600c15d876b091d8dec54d8d3e47
+  anchor:
+    heading: "BPE: learned subword vocabulary"
+    slug: bpe-learned-subword-vocabulary
+card:
+  title: 子词分词：BPE 的频率合并过程
+  summary: 编写 BPE 合并循环时，对照字符初始词表、最高频相邻对合并与词表大小取舍，理解常见片段压缩和稀有词可覆盖性如何同时产生。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/02. text processing and classic NLP.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 54ead3ac20bf4838be83a4f31afbdbefe87f35144bae2deb42993f8f1d0042b3
+  anchor:
+    heading: Text Processing and Classic NLP
+    slug: text-processing-and-classic-nlp

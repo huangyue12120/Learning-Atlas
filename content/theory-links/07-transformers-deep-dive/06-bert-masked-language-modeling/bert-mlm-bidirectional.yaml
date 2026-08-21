@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/06-bert-masked-language-modeling/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 10d1685c0fc344868e948575ae3bf51cb0058e6b0f07a247c20eafcc858f7b70
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: BERT 的双向注意力与掩码语言建模
+  summary: 在实现 15% 词元选择和 80/10/10 替换规则时，用理论笔记中的 MLM 目标理解损失为何只在被选位置计算，以及双向注意力为何适合表示学习而不适合自回归生成。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

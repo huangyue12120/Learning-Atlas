@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/01-audio-fundamentals/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: b50c405e879b2f560036ced3d62fdaccd8c1d5fa47604f823a8d99b2391095a6
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 采样、傅里叶变换与混叠
+  summary: 在合成正弦波、定位 FFT 分箱和演示 7 kHz 音调折叠到 3 kHz 时，用采样定理、频域表示与抗混叠滤波的完整直觉核对计算结果。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 09 - audio and speech/01. digital signal processing.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 1c39b35b0c2eeaee22cf5bea77b2a377a78c362b09b7878239dd52770d813d6b
+  anchor:
+    heading: Digital Signal Processing
+    slug: digital-signal-processing

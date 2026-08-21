@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/01-generative-models-taxonomy-history/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: ffd3a1abd851ac44929ef552e8c573e22ab8e45997119815e267dc68f179ea52
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 生成模型家族的目标与取舍
+  summary: 使用视觉生成理论笔记中的 GAN、VAE、扩散、得分模型与流匹配定义，核对本课五问分类法里的密度表示、训练目标和采样路径，避免只按模型名称归类。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 08 - computer vision/04. vision transformers and generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 6ce5bcea1aee83c498853caeb202345690e4c26e561d5e4fbe18a66fe7583dea
+  anchor:
+    heading: Vision Transformers and Generation
+    slug: vision-transformers-and-generation

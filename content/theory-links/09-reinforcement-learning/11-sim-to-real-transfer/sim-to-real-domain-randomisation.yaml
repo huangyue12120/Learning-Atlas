@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/09-reinforcement-learning/11-sim-to-real-transfer/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 6588758487ca47b17df37c89845e4e6e23d9770205a992c0285ebe9ebfd5a165
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 现实差距与领域随机化
+  summary: 在设置质量、摩擦、传感器和执行器的随机化范围时，用机器人学习笔记核对现实差距、领域随机化、系统辨识和少量真实数据微调各自解决的问题。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 11 - autonomous systems/02. robot learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 7f20be415ed381e4a8cc0ca5b8f2538c74006609767d6d309ba07bc603105cd4
+  anchor:
+    heading: Sim-to-Real Transfer
+    slug: sim-to-real-transfer

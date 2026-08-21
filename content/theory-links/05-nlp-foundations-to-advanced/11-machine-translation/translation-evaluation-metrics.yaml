@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/11-machine-translation/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 956eeb576fdea61cef4a66b8f4c6b1b1caa47eea8e7488aace436c9c177b09ca
+  anchor:
+    heading: "Step 2: BLEU and chrF"
+    slug: step-2-bleu-and-chrf
+card:
+  title: 生成评估：BLEU、学习型指标与指标局限
+  summary: 评估机器翻译时，对照 n-gram 精确率、长度惩罚、学习型语义评分与 LLM 评判，理解为何单句 BLEU 噪声大且任何自动指标都需人工校准。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

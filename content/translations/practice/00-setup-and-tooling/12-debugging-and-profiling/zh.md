@@ -90,7 +90,7 @@ def training_step(model, batch, criterion, optimizer):
 - `p model.fc1.weight.grad` 用于检查梯度
 - `c` 继续，`q` 退出
 
-这就是条件式调试。只有出现异常时才会停下。对于一次 10,000 步的训练，这一点很重要。
+这种做法称为条件式调试：程序只在出现异常时停下，适合检查包含 10,000 步的训练。
 
 ### 第 3 部分：Python 日志
 
@@ -284,7 +284,7 @@ def detect_nan(model, loss, step):
 
 #### 数据泄漏
 
-你的模型在测试集上达到 99% 的准确率。听起来很好，但这是个 bug。
+模型在测试集上达到 99% 准确率，也可能源于数据泄漏。
 
 ```python
 def check_data_leakage(train_set, test_set, id_column="id"):

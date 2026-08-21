@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/09-vision-transformers/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 6ac276b0bbfd15180e9e8850a8a7577f0ff18fa090f4ab545b8a3ad6906b2288
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: ViT 的图像分块与 patch 词元
+  summary: 在把图像 reshape 成 patch 序列、线性投影并加入 [CLS] 与位置嵌入时，用理论笔记核对 patch 数、嵌入维度和 Transformer 输入形状，理解 ViT 如何把二维视觉问题转成序列建模。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 08 - computer vision/04. vision transformers and generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 6ce5bcea1aee83c498853caeb202345690e4c26e561d5e4fbe18a66fe7583dea
+  anchor:
+    heading: Vision Transformers and Generation
+    slug: vision-transformers-and-generation

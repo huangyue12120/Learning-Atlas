@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/29-dialogue-state-tracking/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 1ae7441f02d6855b0de76775570e7d81879c5798dda2483fd44ec97dbd63d6b3
+  anchor:
+    heading: "Step 4: JGA evaluation"
+    slug: step-4-jga-evaluation
+card:
+  title: 对话状态评估：联合目标与槽位级误差
+  summary: 计算 JGA 时，把整轮槽位字典视为一次全有或全无预测，再辅以任务型对话的槽位精确率、召回率与 F1，定位被联合指标隐藏的具体槽位错误。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

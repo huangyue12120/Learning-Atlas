@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/09-reinforcement-learning/09-reward-modeling-rlhf/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 52938057ecc955bf7b5bb45f449a469de2edde2f8390cf64e207f5625d4fc126
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: RLHF 的偏好奖励与 KL 约束
+  summary: 在串联 SFT、成对偏好奖励模型和 PPO 时，用高级文本生成笔记复核 Bradley-Terry 目标、相对参考策略的 KL 正则，以及 DPO 对传统流程的压缩关系。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

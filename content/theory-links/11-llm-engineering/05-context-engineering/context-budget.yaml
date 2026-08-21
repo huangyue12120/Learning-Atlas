@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/05-context-engineering/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 778ebedaa18baad1af5409b500b174f1809d215fcc20a48960e8ad6324eb50a6
+  anchor:
+    heading: The Context Window is a Scarce Resource
+    slug: the-context-window-is-a-scarce-resource
+card:
+  title: 上下文窗口、注意力与信息预算
+  summary: 在设计上下文压缩、记忆、检索和 lost-in-the-middle 防护时，用推理部署笔记核对 KV 缓存、前缀复用和上下文长度带来的内存约束；该关联先保留候选状态，因为理论笔记未覆盖完整的上下文工程方法。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/05. scaling and deployment.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a18d9bcb15892ca2aa52e72346cc599df3709e3096673b8cd1f8145e93f3a31b
+  anchor:
+    heading: Prefix Caching
+    slug: prefix-caching

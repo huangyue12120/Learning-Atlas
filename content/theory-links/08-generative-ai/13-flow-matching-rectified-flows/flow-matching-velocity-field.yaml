@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/13-flow-matching-rectified-flows/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 3b092712de5baa4726f5b090215c3d6e259e1858c7dcc512cc0bc81fea3a8a60
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 流匹配的直线路径与速度回归
+  summary: 在实现 x_t 直线插值、速度目标 x_1−x_0 和 Euler 采样时，用视觉生成理论笔记核对连续归一化流的 ODE 表述、最优传输路径与 reflow 拉直过程。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 08 - computer vision/04. vision transformers and generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 6ce5bcea1aee83c498853caeb202345690e4c26e561d5e4fbe18a66fe7583dea
+  anchor:
+    heading: Vision Transformers and Generation
+    slug: vision-transformers-and-generation

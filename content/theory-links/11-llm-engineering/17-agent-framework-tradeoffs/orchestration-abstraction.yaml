@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/17-agent-framework-tradeoffs/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 4c0c6119addcb3cf05f3a9e1884ae3bf75e4428a6196c90982653559c94c83b7
+  anchor:
+    heading: What "abstraction" actually means
+    slug: what-abstraction-actually-means
+card:
+  title: Agent 编排的抽象、状态与并行度
+  summary: 在比较 graph、role、actor 三类 agent 框架，以及状态、分支、重试和可观测性边界时，用分布式深度学习笔记核对编排系统的通信与同步权衡；该关联先保留候选状态，因为理论笔记未专门讨论 agent framework。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/05. distributed deep learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 44d3fb2b8b69bead34fcc91742b2c088caa09612acbc91952d1bba57a4d2ff84
+  anchor:
+    heading: Distributed Deep Learning
+    slug: distributed-deep-learning

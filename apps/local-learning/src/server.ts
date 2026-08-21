@@ -1,5 +1,5 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { readFile, stat } from "node:fs/promises";
 import { spawn, spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -789,6 +789,21 @@ export function prepareWorkspace(dataDirectory: string, lessonId = defaultLesson
     "- 此目录不会修改上游课程仓库。",
     ""
   ].join("\n"), "utf8");
+  // 让 workspace 继承根目录的共享 .venv，避免每次打开都是孤立环境
+  const venvSource = join(repositoryDirectory, ".venv");
+  const venvTarget = join(directory, ".venv");
+  if (existsSync(venvSource) && !existsSync(venvTarget)) {
+    try { symlinkSync(venvSource, venvTarget, "junction"); } catch { /* 忽略已有目录或权限错误 */ }
+  }
+  // VSCode 识别共享解释器
+  const vscodeDir = join(directory, ".vscode");
+  mkdirSync(vscodeDir, { recursive: true });
+  const settingsPath = join(vscodeDir, "settings.json");
+  if (!existsSync(settingsPath)) {
+    writeFileSync(settingsPath, JSON.stringify({
+      "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python"
+    }, null, 2), "utf8");
+  }
   return { directory, sourceFile, explorationFile, exerciseFile, exerciseTestFile, exercisesGuide };
 }
 

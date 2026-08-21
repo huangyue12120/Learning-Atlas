@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/08-dpo/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: a295d8092c3cba3c2595bbddb731802cc062d9e9cb686b6a5e7196e2eba4d4ed
+  anchor:
+    heading: The DPO Loss
+    slug: the-dpo-loss
+card:
+  title: DPO 的隐式奖励与偏好损失
+  summary: 在用 chosen/rejected 对数概率差直接更新策略时，用高级文本生成笔记核对 Bradley–Terry 偏好建模、参考策略 KL 约束，以及在相应正则化假设下如何将隐式奖励与偏好建模合并为离线直接优化目标。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

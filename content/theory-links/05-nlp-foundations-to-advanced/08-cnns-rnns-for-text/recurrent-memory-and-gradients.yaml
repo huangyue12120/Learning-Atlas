@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/08-cnns-rnns-for-text/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: de300997238be53f17d753a27aa36e25db7a9954981e6d15db2ecaa9626ccd58
+  anchor:
+    heading: "Step 3: the vanishing gradient demo (intuition)"
+    slug: step-3-the-vanishing-gradient-demo-intuition
+card:
+  title: 序列模型：循环状态、门控与梯度传播
+  summary: 比较 TextCNN、普通 RNN、LSTM 与 GRU 时，用共享循环权重的连乘解释梯度消失，并把门控细胞状态与长程信息保留联系起来。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/03. embeddings and sequence models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: cf467c1180cc5100ff9736bfe3244917358a2915bd3075d89870dfc55c2dc437
+  anchor:
+    heading: Embeddings and Sequence Models
+    slug: embeddings-and-sequence-models

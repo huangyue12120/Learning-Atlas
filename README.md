@@ -13,7 +13,7 @@ npm run dev
 
 然后打开 <http://127.0.0.1:4173>。
 
-当前发布版本为 **v0.1**（2026-08-09）：包含 Phase 0「环境与工具」和 Phase 1「数学基础」共 34 节经审核的中文实践课、测验和上下文理论卡。
+当前发布版本为 **v0.2**（2026-08-21）：已完成 Phase 0–11 共 223 节经审核的中文实践译文。阅读器当前开放 Phase 0–3 的 65 节课，配套中文测验 34 份；理论关联共 201 条，其中 118 条已批准。
 
 ## 为什么使用它
 
@@ -67,7 +67,7 @@ python -m pip install marimo numpy matplotlib jax
 
 ## 学习流程
 
-1. 在左侧课程栏选择课程；“未开始、学习中、已理解、需复习”会与当前课程区分显示。
+1. 在左侧课程栏选择课程；“未开始、学习中、已理解、需复习”会与当前课程区分显示。阅读器当前开放 Phase 0–3；Phase 4–11 的译文已完成审核，待接入阅读器。
 2. 阅读中文课程内容，需要时展开已批准的理论卡，或查看锁定版本的上游原文。
 3. 提交本课测验；在笔记面板记录自己的表述或添加待复习项。
 4. 对提供实践资源的课程，点击“在 VS Code 中继续”创建学习者私有的 Python 工作区；可选地用 marimo 改参数做探索。
@@ -126,7 +126,7 @@ python3 scripts/manage_upstreams.py --sync
 
 - 本项目不提供账户、多设备同步、托管模型服务或联网搜索。
 - 个人学习数据、模型 key 和学习者工作区不属于版本化课程内容，默认只保存在本机。
-- 目前只发布经审核的实践主线和上下文理论卡；完整理论知识库中文化作为独立内容流推进。
+- 目前阅读器只发布 Phase 0–3 的经审核实践主线和已批准理论卡；Phase 4–11 的 158 节译文已完成审核但尚未接入，完整理论知识库中文化也作为独立内容流推进。
 - JSON 恢复不可撤销；导入前请先导出当前备份。
 
 ## 贡献
@@ -137,11 +137,11 @@ python3 scripts/manage_upstreams.py --sync
 
 本项目通过 Git submodule 引入两个只读、可追溯的上游来源：
 
-- [`ai-engineering-from-scratch`](https://github.com/huangyue12120/ai-engineering-from-scratch)（MIT）
-- [`maths-cs-ai-compendium`](https://github.com/huangyue12120/maths-cs-ai-compendium)（Apache-2.0）
+- [`ai-engineering-from-scratch`](https://github.com/rohitg00/ai-engineering-from-scratch)（MIT）
+- [`maths-cs-ai-compendium`](https://github.com/HenryNdubuaku/maths-cs-ai-compendium)（Apache-2.0）
 
 上游内容仍分别受其许可证约束；版本化中文改编会保留原始归属与来源指纹。根项目自己的开源许可证尚待添加；在其加入前，请勿假定根项目中的新增内容可按某一许可证再分发。
 
 ---
 
-发布信息、已知限制和备份建议请参阅 [v0.1 发布说明](docs/release-notes.md)。
+发布信息、已知限制和备份建议请参阅 [v0.2 发布说明](docs/release-notes.md)。

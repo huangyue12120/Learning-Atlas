@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/06-instruction-tuning-sft/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: a0413c8311b56776f7368253cda3e0a3d8183a6acc4d8e612df8809ecf995e4b
+  anchor:
+    heading: The Masked Loss
+    slug: the-masked-loss
+card:
+  title: 指令微调的掩码交叉熵
+  summary: 在把对话模板编码为词元并只让 assistant 回复参与损失时，用 Transformer 与语言模型笔记核对因果语言建模、交叉熵以及为什么上下文可见但指令词元不贡献梯度。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

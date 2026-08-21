@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/02-spectrograms-mel-features/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: f59fdf24432cbb8cb256aac7d9dd723115935021614a42581160d74845c86568
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 从 STFT 到梅尔频谱图与 MFCC
+  summary: 在实现分帧、Hann 窗、梅尔滤波器组和 DCT 时，用数字信号处理笔记中的时频分辨率、频率扭曲与特征压缩关系检查每一步的形状和含义。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 09 - audio and speech/01. digital signal processing.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 1c39b35b0c2eeaee22cf5bea77b2a377a78c362b09b7878239dd52770d813d6b
+  anchor:
+    heading: Digital Signal Processing
+    slug: digital-signal-processing

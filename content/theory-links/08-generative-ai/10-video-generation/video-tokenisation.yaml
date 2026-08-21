@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/10-video-generation/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 5e91c7daf3c94dce2a239e36f6cf07314359b21629aac1e2f47910d9212c53d1
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 视频 VAE 的时空压缩与图块规模
+  summary: 在估算 T×H×W 视频压缩后的潜变量与图块数量时，用图像视频分词笔记核对三维 VQ-VAE 的空间、时间下采样因子，以及独立逐帧编码为何浪费时间冗余。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/03. image and video tokenisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d36271e5fb3af4873c60838206b32911f6e02667ede19b85f0ae1c2887cf5ef5
+  anchor:
+    heading: Video Tokenisation
+    slug: video-tokenisation

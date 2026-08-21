@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/04-pre-training-mini-gpt/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 5c3f2214d795c44638f037e6b2493e3190516a5bf89202060467298dc2f39dbb
+  anchor:
+    heading: The GPT Architecture
+    slug: the-gpt-architecture
+card:
+  title: 因果 Transformer 的训练与解码
+  summary: 在从嵌入、因果自注意力和 Transformer block 组装 mini GPT，并区分 prefill 与 decode 时，用 Transformer 理论笔记核对因果语言建模、位置编码、残差连接和 KV cache 的作用。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

@@ -209,7 +209,7 @@ R["i"][j] = qi . aj    当 i <= j
 
 ### Cholesky 分解
 
-当 A 是对称矩阵（A = A^T）且正定（所有特征值为正）时，可将它分解为 A = L L^T，其中 L 为下三角矩阵。这就是 Cholesky 分解。
+当 A 是对称矩阵（A = A^T）且正定（所有特征值为正）时，可将它分解为 A = L L^T，其中 L 为下三角矩阵，这种分解称为 Cholesky 分解。
 
 ```
 A = L @ L^T
@@ -262,7 +262,7 @@ A^T A = | 4  10 |    A^T b = | 22 |
 
 求解：x = [1.5, 1.7]
 
-这就是线性回归。x[0] 是截距，x[1] 是斜率。
+这给出线性回归：x[0] 是截距，x[1] 是斜率。
 ```
 
 ### 正规方程 = 线性回归
@@ -274,7 +274,7 @@ X^T X w = X^T y
 w = (X^T X)^(-1) X^T y
 ```
 
-这就是线性回归的闭式解。每次调用 `sklearn.linear_model.LinearRegression.fit()` 都是在计算它，或借助 QR、SVD 的等价形式计算它。
+这给出线性回归的闭式解。每次调用 `sklearn.linear_model.LinearRegression.fit()` 都是在计算它，或借助 QR、SVD 的等价形式计算它。
 
 在矩阵中加入正则项 lambda * I，就得到岭回归：
 
@@ -338,7 +338,7 @@ x 的微小变化                       x 的巨大变化
 
 - kappa < 100：安全，解较精确。
 - kappa ~ 10^k：浮点运算会损失约 k 位有效数字。
-- kappa ~ 10^16（对 float64）：解没有意义，矩阵实际上是奇异的。
+- kappa ~ 10^16（对 float64）：解没有意义，矩阵可视为奇异矩阵。
 
 在机器学习中，特征近乎共线时就会发生病态。正则化（加入 lambda * I）可将条件数从 sigma_max / sigma_min 改善为 (sigma_max + lambda) / (sigma_min + lambda)。
 
@@ -551,7 +551,7 @@ print(f"Ridge weights (sklearn): {ridge_sk.coef_}")
 
 ## 交付成果
 
-本课将产出：
+完成后得到：
 
 - `code/linear_systems.py`：包含从零实现的高斯消元、LU 分解、Cholesky 分解、最小二乘和岭回归
 - 一个可运行演示，证明正规方程与 sklearn 的 `LinearRegression` 会产生相同权重
@@ -579,7 +579,7 @@ print(f"Ridge weights (sklearn): {ridge_sk.coef_}")
 | QR 分解 | “正交分解” | 写成 A = QR，其中 Q 的列标准正交，R 为上三角矩阵。对最小二乘而言比 LU 更稳定。 |
 | Cholesky 分解 | “矩阵的平方根” | 对对称正定 A，写成 A = LL^T。成本为 LU 的一半。用于协方差矩阵、核矩阵和岭回归。 |
 | 最小二乘 | “无法精确求解时的最佳拟合” | 在超定系统（方程多于未知量）中，最小化残差平方和 ||Ax - b||^2。 |
-| 正规方程 | “微积分捷径” | A^T A x = A^T b，即令 ||Ax - b||^2 的梯度为零。这就是线性回归的闭式解。 |
+| 正规方程 | “微积分捷径” | A^T A x = A^T b，即令 ||Ax - b||^2 的梯度为零。这给出线性回归的闭式解。 |
 | 伪逆 | “非方阵的求逆” | 通过 SVD 得到 A+ = V Sigma+ U^T。对任意矩阵——无论方阵或矩形、奇异与否——给出最小范数最小二乘解。 |
 | 条件数 | “这个答案有多可信” | kappa = sigma_max / sigma_min，衡量对输入扰动的敏感性。大约会损失 log10(kappa) 位精度。 |
 | 岭回归 | “正则化的最小二乘” | 求解 `(X^T X + lambda I) w = X^T y`。加入 lambda I 改善条件数，并使权重向零收缩，从而防止过拟合。 |

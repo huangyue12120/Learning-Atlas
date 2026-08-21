@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/18-multilingual-nlp/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 343fc51cb223c67fcf46906beb0ade26c859c437a03196285d44a74e088e720a
+  anchor:
+    heading: The tokenization tax (what goes wrong for low-resource languages)
+    slug: the-tokenization-tax-what-goes-wrong-for-low-resource-languages
+card:
+  title: 共享子词词表与低资源语言的分词代价
+  summary: 评估多语言分词器时，对照 BPE、WordPiece、Unigram 与 SentencePiece 的建词方式，用词表大小和每词词元数解释低资源语言为何消耗更多上下文与计算预算。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/02. text processing and classic NLP.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 54ead3ac20bf4838be83a4f31afbdbefe87f35144bae2deb42993f8f1d0042b3
+  anchor:
+    heading: Text Processing and Classic NLP
+    slug: text-processing-and-classic-nlp

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/25-entity-linking/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 45ca4b148495f0bb3c2dcdacabc79dc96e1e5509538cfbf000a77f7dc4405307
+  anchor:
+    heading: "Step 2: context-based disambiguation"
+    slug: step-2-context-based-disambiguation
+card:
+  title: 实体消歧：让上下文区分同名候选
+  summary: 为别名索引中的候选实体打分时，从一词多义与词义消歧出发，比较表面先验、Jaccard 词汇重叠和上下文嵌入，理解同一名称为何会随局部语境映射到不同知识库条目。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/01. linguistic foundations.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e96beed85b0061c1001e7475faeafb1b6ddc50fd5d9d64892b6bc9f05227a843
+  anchor:
+    heading: Linguistic Foundations
+    slug: linguistic-foundations

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/20-structured-outputs-constrained-decoding/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: be2656f8a0ad2ca753a9ec60fd3b43bb1aa6a7fc0623f179c4a124cb93160ee3
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 有限状态机与上下文无关文法的表达边界
+  summary: 为 JSON Schema 选择约束引擎时，用状态转换理解 FSM 的常数时间后继查询，再用 CFG 的非终结符和递归产生式解释树形 schema 为何需要 XGrammar 或 llguidance。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/01. linguistic foundations.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e96beed85b0061c1001e7475faeafb1b6ddc50fd5d9d64892b6bc9f05227a843
+  anchor:
+    heading: Linguistic Foundations
+    slug: linguistic-foundations

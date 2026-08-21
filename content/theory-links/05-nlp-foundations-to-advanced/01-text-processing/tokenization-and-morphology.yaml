@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/01-text-processing/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: d7070af33a9656a02ce6dcf42966d6c8c401035df0f8fa244ec37c12ca4d210b
+  anchor:
+    heading: "Step 1: a regex word tokenizer"
+    slug: step-1-a-regex-word-tokenizer
+card:
+  title: 文本处理：分词粒度与词形规范化
+  summary: 实现正则分词、词干提取和词形还原时，用经典 NLP 的分词粒度、形态学与规范化原则判断哪些表面差异应合并，哪些信息必须保留。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/02. text processing and classic NLP.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 54ead3ac20bf4838be83a4f31afbdbefe87f35144bae2deb42993f8f1d0042b3
+  anchor:
+    heading: Text Processing and Classic NLP
+    slug: text-processing-and-classic-nlp

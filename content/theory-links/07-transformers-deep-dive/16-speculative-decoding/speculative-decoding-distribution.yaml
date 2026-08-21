@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/16-speculative-decoding/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: c69bf699512dd6d2b501316e7c32395ffac44b58d522a694f335964be3903eda
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 推测解码的草拟、验证与分布保持
+  summary: 在实现接受概率 min(1,q/p)、拒绝后的残差分布和奖励词元时，用部署理论笔记核对草稿—验证流程，并理解为什么拒绝采样能在减少大模型调用的同时保持目标分布不变。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/05. scaling and deployment.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a18d9bcb15892ca2aa52e72346cc599df3709e3096673b8cd1f8145e93f3a31b
+  anchor:
+    heading: Speculative Decoding
+    slug: speculative-decoding

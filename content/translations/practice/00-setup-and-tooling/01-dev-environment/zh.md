@@ -95,7 +95,7 @@ print(f"Vector: {a}, dot product with itself: {np.dot(a, a)}")
 
 ### 第 3 步：使用 pnpm 配置 Node.js
 
-它用于 TypeScript 课程，例如 agent、MCP 服务器和 Web 应用。
+它用于 TypeScript 课程，例如智能体、MCP 服务器和 Web 应用。
 
 ```bash
 curl -fsSL https://fnm.vercel.app/install | bash
@@ -180,7 +180,7 @@ python phases/00-setup-and-tooling/01-dev-environment/code/verify.py
 | 语言 | 使用阶段 | 包管理器 |
 |----------|---------|-----------------|
 | Python | Phase 1–12（ML、DL、NLP、视觉、音频、LLM） | uv |
-| TypeScript | Phase 13–17（工具、Agent、群体、基础设施） | pnpm |
+| TypeScript | Phase 13–17（工具、智能体、群体、基础设施） | pnpm |
 | Rust | Phase 12、15–17（性能关键任务） | cargo |
 | Julia | Phase 1（数学基础） | Pkg |
 

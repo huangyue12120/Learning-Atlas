@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/11-mixture-of-experts/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 9cad0d164da113440d4ed64d0ac4c32d79af89a2a6ffd5126fe28a24f538700c
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: MoE 路由、稀疏激活与专家并行
+  summary: 在实现 top-k 路由、门控权重和负载均衡偏置时，用高效架构笔记区分总参数与活跃参数，并理解专家分片后为什么全对全通信会成为推理瓶颈。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/02. efficient architectures.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a0011aa9b67a35918d63e4d6c18febf8699183fdf1fdcbd566142a47f4206370
+  anchor:
+    heading: Mixture of Experts at Inference
+    slug: mixture-of-experts-at-inference

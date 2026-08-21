@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/17-chatbots-rule-to-neural/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 2ef49d5cdfcc8229bfe5ee7b1954de73ab30ad64711e53997efc9cca59ba25f0
+  anchor:
+    heading: "Step 4: LLM agent loop"
+    slug: step-4-llm-agent-loop
+card:
+  title: Agent 的事实锚定：检索后再生成
+  summary: 为 Agent 循环加入检索优先的事实锚定时，区分参数记忆与外部知识库，理解检索质量、分块和生成条件化怎样共同决定回答能否引用可核查证据。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

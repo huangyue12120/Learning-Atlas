@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/03-word-embeddings-word2vec/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 566500e6c43ebc3624a117e76843be1100be7951ac7780c37f15241299846b27
+  anchor:
+    heading: "Step 3: negative sampling objective"
+    slug: step-3-negative-sampling-objective
+card:
+  title: 词嵌入：从分布假说到负采样
+  summary: 实现 skip-gram 负采样更新时，用分布假说、中心词与上下文词双表以及点积几何解释正负样本为何会把语义相近的词拉到相邻位置。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/03. embeddings and sequence models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: cf467c1180cc5100ff9736bfe3244917358a2915bd3075d89870dfc55c2dc437
+  anchor:
+    heading: Embeddings and Sequence Models
+    slug: embeddings-and-sequence-models

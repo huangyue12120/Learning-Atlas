@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/01-why-transformers/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: a1112a1e30e5eb677b718e7e663972f6a487641feaf023c701c1a87c8b18db39
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Transformer 如何用自注意力取代循环
+  summary: 在比较 RNN 的串行依赖与 Transformer 的并行计算时，用理论笔记中的缩放点积注意力、位置编码和编码器—解码器结构解释为什么全序列可以并行处理，同时仍能建立任意位置间的依赖。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

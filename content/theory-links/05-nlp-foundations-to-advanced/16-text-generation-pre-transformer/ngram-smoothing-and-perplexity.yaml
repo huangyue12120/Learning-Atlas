@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/16-text-generation-pre-transformer/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 92d3b5e90a0730efd6819090e514a562e02185a3a1b65f78b60331692adbb9ee
+  anchor:
+    heading: "Step 3: Kneser-Ney (bigram, interpolated)"
+    slug: step-3-kneser-ney-bigram-interpolated
+card:
+  title: N-gram 平滑：折扣、回退与困惑度
+  summary: 实现插值 Kneser-Ney 时，从马尔可夫截断、绝对折扣和延续概率推导每一项的作用，并用指数化平均负对数似然检查平滑后的模型是否降低留出集困惑度。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/02. text processing and classic NLP.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 54ead3ac20bf4838be83a4f31afbdbefe87f35144bae2deb42993f8f1d0042b3
+  anchor:
+    heading: Text Processing and Classic NLP
+    slug: text-processing-and-classic-nlp

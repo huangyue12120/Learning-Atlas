@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/05-whisper-architecture-finetuning/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 90a39b539e0065af945955829839edeaaa63883fa9b5e21bf15c9b8c7db0efb5
+  anchor:
+    heading: Fine-tuning
+    slug: fine-tuning
+card:
+  title: Whisper 的注意力解码与领域微调
+  summary: 在决定冻结编码器、用 LoRA 调整解码器并观察交叉注意力对齐时，用 ASR 笔记核对声学编码、序列解码和领域词汇适配各自承担的作用。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 09 - audio and speech/02. automatic speech recognition.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 16d9539ebee0c7b0e194d75b11d0ca50b82d6e0837b50300e628ed32227da00c
+  anchor:
+    heading: Automatic Speech Recognition
+    slug: automatic-speech-recognition

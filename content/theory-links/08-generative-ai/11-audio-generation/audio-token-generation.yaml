@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/11-audio-generation/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: c9ead5e0d8b697a96395667f19e8968268865c09c809cbc1f32eed2b81fe010d
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 音频编解码词元上的自回归生成
+  summary: 在训练风格条件下一词元预测器时，用跨模态生成笔记核对 AudioLM 与 MusicGen 如何把高采样率波形压缩成离散音频词元，再以语言建模方式生成长序列。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/04. cross-modal generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 297749fe76d1d97e2bfd53936c08cf23e6a422c5487c6acb13264290484bf88e
+  anchor:
+    heading: Text-to-Audio Generation
+    slug: text-to-audio-generation

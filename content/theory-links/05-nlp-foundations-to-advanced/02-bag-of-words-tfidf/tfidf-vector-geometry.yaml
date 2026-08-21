@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/02-bag-of-words-tfidf/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 12f1e26f69e32a9e97f45a82965c3647563f7e135a6010534a843ea7da2273e9
+  anchor:
+    heading: "Step 4: TF-IDF"
+    slug: step-4-tf-idf
+card:
+  title: 经典文本表示：TF-IDF 与余弦相似度
+  summary: 计算词频、逆文档频率和 L2 归一化时，连接稀疏词袋空间与余弦相似度，核对常见词降权及文档长度归一化的数学直觉。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/02. text processing and classic NLP.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 54ead3ac20bf4838be83a4f31afbdbefe87f35144bae2deb42993f8f1d0042b3
+  anchor:
+    heading: Text Processing and Classic NLP
+    slug: text-processing-and-classic-nlp

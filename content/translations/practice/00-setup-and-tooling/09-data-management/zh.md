@@ -224,10 +224,10 @@ dvc push
 
 | 数据集 | 课程 | 大小 | 教授内容 |
 |---------|---------|------|----------------|
-| IMDB | Tokenization、分类 | 84 MB | 文本分类基础 |
-| WikiText | 语言建模 | 181 MB | 下一个 token 预测 |
+| IMDB | 分词、分类 | 84 MB | 文本分类基础 |
+| WikiText | 语言建模 | 181 MB | 下一个词元预测 |
 | SQuAD | QA 系统 | 35 MB | 问答、span |
-| Common Crawl（子集） | Embedding | 不定 | 大规模文本处理 |
+| Common Crawl（子集） | 嵌入 | 不定 | 大规模文本处理 |
 | MNIST | 视觉基础 | 21 MB | 图像分类基础 |
 | COCO（子集） | 多模态 | 不定 | 图文对 |
 

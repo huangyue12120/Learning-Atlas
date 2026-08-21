@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/07-gpt-causal-language-modeling/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 631bdec6da1f43937a98f0e137a8d0e41cecab977e152b921fc140ebec3afd57
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: GPT 的因果掩码与下一词元目标
+  summary: 在构造下三角掩码、错位一位的标签和自回归采样循环时，用理论笔记中的因果语言建模目标核对每个位置只能依赖自身及过去词元，避免训练时泄漏未来信息。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

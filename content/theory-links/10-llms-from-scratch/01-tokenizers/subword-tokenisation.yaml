@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/01-tokenizers/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: a610edfbc9557f582cfcc1fddeefe3e3f34b3dd62da00341836af00579156669
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 子词分词与压缩权衡
+  summary: 在比较字符级、词级、BPE、WordPiece 和 SentencePiece，并测量不同语言的 token fertility 时，用文本处理笔记核对子词边界、未知词和词表大小如何共同影响序列长度。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/02. text processing and classic NLP.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 54ead3ac20bf4838be83a4f31afbdbefe87f35144bae2deb42993f8f1d0042b3
+  anchor:
+    heading: Text Processing and Classic NLP
+    slug: text-processing-and-classic-nlp

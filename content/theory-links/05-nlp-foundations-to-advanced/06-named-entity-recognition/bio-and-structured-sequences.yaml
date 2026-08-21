@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/06-named-entity-recognition/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 1234e5808229ac25f3c65b1fe1baab736e525591c4cf847cc28690af25d46e71
+  anchor:
+    heading: "Step 1: BIO tagging helpers"
+    slug: step-1-bio-tagging-helpers
+card:
+  title: 序列标注：BIO 边界与 CRF 结构约束
+  summary: 在实体跨度与 BIO 标签之间往返转换时，对照序列标注、发射特征和标签转移约束，理解逐词分类为何不足以保证合法实体边界。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/02. text processing and classic NLP.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 54ead3ac20bf4838be83a4f31afbdbefe87f35144bae2deb42993f8f1d0042b3
+  anchor:
+    heading: Text Processing and Classic NLP
+    slug: text-processing-and-classic-nlp

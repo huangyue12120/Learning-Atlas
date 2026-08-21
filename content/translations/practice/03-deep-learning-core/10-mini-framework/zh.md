@@ -11,7 +11,7 @@ status: reviewed
 
 # 构建自己的迷你框架
 
-> 你已分别构建了神经元、层、网络、反向传播、激活函数、损失函数、优化器、正则化、初始化和学习率调度。现在把它们连接成框架：不是 PyTorch，不是 TensorFlow，而是你的框架。
+> 你已分别构建神经元、层、网络和训练组件；现在把它们连接成一个可以运行的微型框架。
 
 **类型：** 构建  
 **学习实现：** Python  
@@ -29,7 +29,7 @@ status: reviewed
 
 你有十课的构件，分散在不同文件里：这里有 `Value` 类，那里有训练循环，另一个文件有权重初始化，再一个文件有学习率调度。要训练网络，就得从五课中复制粘贴，再手工连接。
 
-这就是框架解决的问题。PyTorch 提供 `nn.Module`、`nn.Sequential`、`optim.Adam`、`DataLoader` 和将它们连接起来的训练循环模式；TensorFlow 提供 `keras.Layer`、`keras.Sequential`、`keras.optimizers.Adam`。它们并不神秘，只是组织模式，让你无需每次重造管道就能定义、训练和评估网络。
+框架负责组织这些组件。PyTorch 提供 `nn.Module`、`nn.Sequential`、`optim.Adam`、`DataLoader` 和连接它们的训练循环模式；TensorFlow 提供 `keras.Layer`、`keras.Sequential`、`keras.optimizers.Adam`。这些组织模式让你无需每次重建管道，就能定义、训练和评估网络。
 
 你将用约 500 行 Python 构建同一件事：不用 numpy，不用外部依赖。这个框架可以定义任意前馈网络，用 SGD 或 Adam 训练，分批数据，应用 dropout 和批归一化，使用任意激活函数，并调度学习率。
 
@@ -49,7 +49,7 @@ PyTorch 中每一层都继承 `nn.Module`。一个 Module 有三项职责：
 
 ### Sequential 容器
 
-`nn.Sequential` 串联 Module：前向传播把数据依次送入 Module 1、2、3；反向传播按相反顺序通过。容器自身也是 Module，具有 forward()、parameters() 和 backward()。这就是组合模式：一串 Module 本身也是 Module。
+`nn.Sequential` 串联 Module：前向传播把数据依次送入 Module 1、2、3；反向传播按相反顺序通过。容器自身也是 Module，具有 forward()、parameters() 和 backward()。这构成组合模式：一串 Module 本身也是 Module。
 
 ### 训练与评估模式
 
@@ -681,7 +681,7 @@ for epoch in range(100):
 
 结构完全相同：`Sequential`、`Linear`、`ReLU`、`Sigmoid`、`BCELoss`、`Adam`、`zero_grad`、`backward`、`step`、`train`、`eval`，每个概念一一对应。差别在于 PyTorch 自动处理 autograd（无需在每个模块实现 backward()）、可在 GPU 上运行且经过多年优化，但骨架相同。
 
-现在看到 PyTorch 代码时，你能理解每一行具体发生了什么；这就是本课的目标。
+完成这些实现后，你可以逐行理解 PyTorch 代码所执行的操作。
 
 ## 交付物
 

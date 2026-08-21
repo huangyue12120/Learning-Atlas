@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/11-caching-cost/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: bec924754c74950f7a7f6e975846b477cb63cc8aec4e8942cffdb4bbbd076bd3
+  anchor:
+    heading: The Cost Anatomy of an LLM Call
+    slug: the-cost-anatomy-of-an-llm-call
+card:
+  title: KV 缓存、前缀缓存与推理成本
+  summary: 在核算输入/输出 token 成本、命中率、TTL、速率限制和语义缓存时，用部署笔记核对前缀缓存、KV 缓存和批量推理如何改变成本曲线。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/05. scaling and deployment.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a18d9bcb15892ca2aa52e72346cc599df3709e3096673b8cd1f8145e93f3a31b
+  anchor:
+    heading: Cost Optimisation
+    slug: cost-optimisation

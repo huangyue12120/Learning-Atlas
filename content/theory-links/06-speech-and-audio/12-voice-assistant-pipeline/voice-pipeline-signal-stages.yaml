@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/12-voice-assistant-pipeline/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 42adee0778ecf907bc8312c65cde0d75a8cc6db9ee3780bcc441cbc768a884ee
+  anchor:
+    heading: The seven components
+    slug: the-seven-components
+card:
+  title: 从音频特征到流式语音识别
+  summary: 在连接 VAD、流式 STT 与工具调用前，用 ASR 理论笔记核对采样、声学特征、帧级编码和序列解码之间的接口，避免把预处理或静音错误传到整条助理流水线。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 09 - audio and speech/02. automatic speech recognition.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 16d9539ebee0c7b0e194d75b11d0ca50b82d6e0837b50300e628ed32227da00c
+  anchor:
+    heading: Automatic Speech Recognition
+    slug: automatic-speech-recognition

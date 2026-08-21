@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/08-voice-cloning-conversion/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: dc41114b9bfa5d8fdc151f0efebe947230683806c1d2f888031a457c9bb8a480
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 内容、说话人与韵律的条件分解
+  summary: 在交换说话人嵌入而保留文本或源语音内容时，用语音合成理论笔记区分内容表示、说话人条件与波形生成，避免把身份相似度误当成内容正确性。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 09 - audio and speech/03. text to speech and voice.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 3636c9a2e0d4c76110cacd027928d23dfad312063d641c1b9b0a3cde4184be02
+  anchor:
+    heading: Text to Speech and Voice
+    slug: text-to-speech-and-voice

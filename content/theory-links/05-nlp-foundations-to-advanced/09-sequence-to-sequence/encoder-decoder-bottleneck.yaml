@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/09-sequence-to-sequence/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 83d570d30ef505439edbbe90a16c984e6c5e552468ed53a54919b36d2dd43d49
+  anchor:
+    heading: "Step 3: training loop with teacher forcing"
+    slug: step-3-training-loop-with-teacher-forcing
+card:
+  title: 编码器与解码器：上下文瓶颈和教师强制
+  summary: 编写逐词元解码循环时，对照编码器最终状态、解码器递归生成与教师强制，理解固定上下文向量及训练推理输入差异为何产生瓶颈和暴露偏差。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/03. embeddings and sequence models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: cf467c1180cc5100ff9736bfe3244917358a2915bd3075d89870dfc55c2dc437
+  anchor:
+    heading: Embeddings and Sequence Models
+    slug: embeddings-and-sequence-models

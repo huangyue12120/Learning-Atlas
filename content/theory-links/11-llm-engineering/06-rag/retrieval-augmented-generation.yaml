@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/06-rag/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 03116a37ce0e9ea3f59d086a0c2cf40c621f16fd1b23351e74042d6329096419
+  anchor:
+    heading: The RAG Pattern
+    slug: the-rag-pattern
+card:
+  title: 检索增强生成的数据流
+  summary: 在实现 query embedding、向量检索、上下文拼接和答案生成时，用高级文本生成笔记核对检索结果如何改变生成条件分布，以及检索与生成各自的误差边界。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

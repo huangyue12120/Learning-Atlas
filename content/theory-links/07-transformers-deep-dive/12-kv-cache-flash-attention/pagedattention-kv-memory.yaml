@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/12-kv-cache-flash-attention/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: b93352bcfa28b0ae8b1a60fe52a6078d37066e2df8b291c428fa3422a4ab79dc
+  anchor:
+    heading: PagedAttention — KV cache as virtual memory
+    slug: pagedattention-kv-cache-as-virtual-memory
+card:
+  title: PagedAttention 的 KV 缓存分页
+  summary: 在模拟固定 16 词元块、空闲列表和前缀共享时，用服务理论笔记把逻辑 KV 页映射到非连续显存，理解按需分配、消除碎片与写时复制如何共同提高批量吞吐。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/03. serving and batching.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 93d4761610df2814a51a8c12e25c43aa337feac3f476c5041e3b019f3c7c2bd7
+  anchor:
+    heading: PagedAttention and vLLM
+    slug: pagedattention-and-vllm

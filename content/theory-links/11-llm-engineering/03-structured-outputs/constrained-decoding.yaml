@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/03-structured-outputs/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 6d310ae5ce8f771c5668d8742f1d1b1c922e738c087225d7c4b31eed492e43d7
+  anchor:
+    heading: The Structured Output Spectrum
+    slug: the-structured-output-spectrum
+card:
+  title: 结构化输出与自回归约束
+  summary: 在比较 JSON mode、schema validation、CFG/FSM 和 constrained decoding 时，用 Transformer 语言模型笔记核对下一词元分布与因果生成；该关联先保留候选状态，因为理论笔记没有专门讲 schema 引擎。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

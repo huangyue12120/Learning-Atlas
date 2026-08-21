@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/14-open-models-architecture-walkthroughs/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 3786ce2336c30cb590bc56bb9d3b04b6ba937121d3de4a4fe20cefad9c6d286c
+  anchor:
+    heading: The Six Knobs That Actually Move
+    slug: the-six-knobs-that-actually-move
+card:
+  title: 读懂开源模型配置的六个架构旋钮
+  summary: 在从 config.json 读取 RMSNorm、RoPE、SwiGLU、注意力头共享、MoE 和 pre-norm，并估算参数/激活/KV cache 预算时，用 Transformer 笔记核对每个组件改变的计算与表示。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/09-function-calling/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 788bdc7aa7240c0469e546dd853a36dfe17bca39685f7e517b6adc291985019c
+  anchor:
+    heading: The Function Calling Loop
+    slug: the-function-calling-loop
+card:
+  title: 工具调用作为生成–执行循环
+  summary: 在处理 tool call、参数 schema、执行结果回填和多轮循环时，用高级文本生成笔记核对模型如何生成下一步符号序列，以及外部工具结果如何重新进入上下文。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/09-reinforcement-learning/01-mdps-states-actions-rewards/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: f76f951e47c846acfca9192d910a9e72a28944d109a90b76e403131ffd07af9b
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: MDP、回报与价值函数基础
+  summary: 在定义状态、动作、转移、奖励和折扣回报时，用强化学习理论笔记核对 MDP 五元组、Markov 性质以及 V^π 与 Q^π 的条件期望含义。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/04. reinforcement learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 96c91eeee0c1d1c9b8deeb77ab5612c1286029a6a06a428d84f70d633ef39cc7
+  anchor:
+    heading: Reinforcement Learning
+    slug: reinforcement-learning

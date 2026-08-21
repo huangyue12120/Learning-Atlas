@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/16-differential-attention-v2/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 89705e3112b66cdf2bb5444d632cafb5c4b168fe4693e534c92fb0d1051ae5df
+  anchor:
+    heading: The differential idea
+    slug: the-differential-idea
+card:
+  title: 差分注意力与噪声抵消
+  summary: 在把 Q/K 分成两支、相减两个 softmax 分布并测量噪声底时，用 Transformer 笔记核对缩放点积注意力、softmax 温度和多头表示；该关联先保留候选状态，因为理论笔记未专门讨论 Differential Attention V2。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

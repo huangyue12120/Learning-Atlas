@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/04-embeddings/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 9c3115093f152ce871351f278f9e08a2322849bfaa9af54bb5339b5874f2b401
+  anchor:
+    heading: What Is an Embedding?
+    slug: what-is-an-embedding
+card:
+  title: 嵌入空间、相似度与向量检索
+  summary: 在选择 cosine、点积和 L2 距离、解释向量归一化并构建语义检索时，用向量空间笔记核对嵌入作为向量表示的几何含义。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 01 - vectors/01. vector spaces.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 1edd2e5bee4f13a5b527ff6743684a7de9bade90744a1bfdacb647c80068ee8b
+  anchor:
+    heading: Vector Spaces
+    slug: vector-spaces

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/28-long-context-evaluation/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 32ab66f48dc4dc4adac19a41e368276ba4e7c16ccef8947f2a9ed108d925b289
+  anchor:
+    heading: "Step 1: a custom NIAH for your domain"
+    slug: step-1-a-custom-niah-for-your-domain
+card:
+  title: 长上下文：NIAH 与“中间丢失”
+  summary: 构建深度 × 长度 NIAH 网格时，把针放在上下文开头、中部和末尾，理解位置偏差为何让标称窗口大于有效检索窗口，以及单针成功为何不能替代多跳推理评估。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

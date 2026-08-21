@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/05-scaling-distributed/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: b9ae0ccea1f097aa7d3715f6578a007b167d065be32530ebb83dec516b2ca406
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 分布式训练的并行维度与内存账本
+  summary: 在估算权重、梯度、优化器状态和激活值的显存，并比较数据、张量、流水线并行与 FSDP 时，用分布式深度学习笔记核对参数分片、通信代价和流水线气泡的关系。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/05. distributed deep learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 44d3fb2b8b69bead34fcc91742b2c088caa09612acbc91952d1bba57a4d2ff84
+  anchor:
+    heading: Distributed Deep Learning
+    slug: distributed-deep-learning

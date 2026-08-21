@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/16-langgraph-state-machines/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: cd449175f7292a9821644d0b829cd0576a68f0da3aedbbc9e3547b45fd7b05cb
+  anchor:
+    heading: The four superpowers
+    slug: the-four-superpowers
+card:
+  title: 状态机、节点与可恢复执行
+  summary: 在构建带 reducer、checkpoint、条件边和人工介入的 agent graph 时，用分布式深度学习笔记核对状态分片、同步边界和故障恢复的系统权衡；该关联先保留候选状态，因为理论笔记未专门讨论 LangGraph。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/05. distributed deep learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 44d3fb2b8b69bead34fcc91742b2c088caa09612acbc91952d1bba57a4d2ff84
+  anchor:
+    heading: Distributed Deep Learning
+    slug: distributed-deep-learning

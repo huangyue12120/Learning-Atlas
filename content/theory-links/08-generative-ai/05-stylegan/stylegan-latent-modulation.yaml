@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/05-stylegan/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 4b67d997dd5a842de48754015af22b8a53395131d228b28145656a4fab111e75
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: StyleGAN 映射空间与逐层风格调制
+  summary: 在实现 Z→W 映射、AdaIN 和逐层风格注入时，用视觉生成理论笔记核对风格向量如何改变特征统计，以及粗层与细层分别控制哪些图像属性。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 08 - computer vision/04. vision transformers and generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 6ce5bcea1aee83c498853caeb202345690e4c26e561d5e4fbe18a66fe7583dea
+  anchor:
+    heading: Vision Transformers and Generation
+    slug: vision-transformers-and-generation

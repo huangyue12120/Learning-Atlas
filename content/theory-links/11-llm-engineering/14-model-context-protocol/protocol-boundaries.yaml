@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/14-model-context-protocol/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 0fca0b7198240b7feb7aea83ccecd30bbfe0285f140be211a5e038975ba21c55
+  anchor:
+    heading: The handshake
+    slug: the-handshake
+card:
+  title: 协议握手与上下文边界
+  summary: 在理解 MCP 的 client/server 能力协商、资源、工具与 prompt 边界时，用高级文本生成笔记核对外部信息如何作为上下文进入模型；该关联先保留候选状态，因为理论笔记未专门讨论 MCP。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

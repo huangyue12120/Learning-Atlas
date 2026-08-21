@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/07-pos-tagging-parsing/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 05fb67fdbec5afafc9e35f4d96de29663c1a37022ad70bbe3f97e804366c8a6e
+  anchor:
+    heading: "Step 2: bigram HMM tagger"
+    slug: step-2-bigram-hmm-tagger
+card:
+  title: 词性标注：HMM 发射、转移与 Viterbi
+  summary: 实现二元 HMM 标注器时，把词元视为观测、词性视为隐藏状态，用发射概率、标签转移概率和动态规划回溯解释整条最优标签序列如何得到。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/02. text processing and classic NLP.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 54ead3ac20bf4838be83a4f31afbdbefe87f35144bae2deb42993f8f1d0042b3
+  anchor:
+    heading: Text Processing and Classic NLP
+    slug: text-processing-and-classic-nlp

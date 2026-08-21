@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/10-attention-mechanism/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: f31dde76b3cd616e1c7d242a9d36fc4f5dd2c4a8514bd026da2d4b9e652ae49b
+  anchor:
+    heading: "Step 1: additive (Bahdanau) attention"
+    slug: step-1-additive-bahdanau-attention
+card:
+  title: 注意力：查询、键、值与动态对齐
+  summary: 核对 Bahdanau 注意力各矩阵形状时，用查询与每个编码器状态的相似度、softmax 权重及值向量加权和解释上下文如何随解码步骤变化。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/03. embeddings and sequence models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: cf467c1180cc5100ff9736bfe3244917358a2915bd3075d89870dfc55c2dc437
+  anchor:
+    heading: Embeddings and Sequence Models
+    slug: embeddings-and-sequence-models

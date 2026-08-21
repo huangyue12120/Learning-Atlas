@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/09-reinforcement-learning/08-ppo/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 73a716e026da377584800f445b20d711310c81d4513df6f8f161b4afc62083e1
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: PPO 的重要性比率与裁剪目标
+  summary: 在多轮重用同一批展开数据时，用强化学习理论笔记复核新旧策略概率比、裁剪代理目标，以及 ε 如何限制单次策略更新的幅度。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/04. reinforcement learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 96c91eeee0c1d1c9b8deeb77ab5612c1286029a6a06a428d84f70d633ef39cc7
+  anchor:
+    heading: Reinforcement Learning
+    slug: reinforcement-learning

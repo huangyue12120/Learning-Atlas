@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/12-3d-generation/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: ff570bbe7e4e91898a1277b64011cd2f5bdd1e6bd4dbb5687d8e25f14fd1eeff
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: NeRF 与 3D 高斯泼溅的表示取舍
+  summary: 在实现二维高斯泼溅并选择三维输出表示时，用 3D 视觉笔记比较 NeRF 的射线积分与高斯泼溅的投影、深度排序和 alpha 合成，理解二者的质量与实时渲染成本。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 08 - computer vision/05. video and 3D vision.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 2f5aab15f8b0b5afebb8fbecd66e4682e9c4a2557db5f164c577d7b08a52ea3f
+  anchor:
+    heading: Video and 3D Vision
+    slug: video-and-3d-vision

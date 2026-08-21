@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/03-multi-head-attention/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 143eb42fb1de2307cda1f2231b8d5cbb2144deced1dfd717a2c789edbf667f81
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 多头注意力与表示子空间
+  summary: 在拆分 d_model、并行计算各个注意力头并拼接输出时，用理论笔记理解每个头为何学习不同的 Q/K/V 投影，以及头数、d_head 和输出投影之间必须满足的维度关系。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/03. deep learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d2e677b6ca1dafa667a4f4ff12dfddee367392dd6940f25f5b6934ed21cd071d
+  anchor:
+    heading: Deep Learning
+    slug: deep-learning

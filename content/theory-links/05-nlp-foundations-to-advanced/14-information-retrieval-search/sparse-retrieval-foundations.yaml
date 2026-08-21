@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/14-information-retrieval-search/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 98979446e6bd498737c8ef8d4ce000e04f9345b82a5a860145bc5411cb71a2a3
+  anchor:
+    heading: "Step 1: BM25 from scratch"
+    slug: step-1-bm25-from-scratch
+card:
+  title: 稀疏检索：词频、逆文档频率与长度归一化
+  summary: 实现 BM25 打分时，从 TF-IDF 的稀有词加权与余弦检索直觉出发，理解词频饱和和文档长度归一化怎样修正原始词袋分数。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/02. text processing and classic NLP.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 54ead3ac20bf4838be83a4f31afbdbefe87f35144bae2deb42993f8f1d0042b3
+  anchor:
+    heading: Text Processing and Classic NLP
+    slug: text-processing-and-classic-nlp

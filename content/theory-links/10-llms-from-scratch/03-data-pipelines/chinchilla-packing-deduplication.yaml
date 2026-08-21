@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/03-data-pipelines/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 75ed5890977f72a36387b7cbea1db9b67a90ca4ba784223ec2f69e4b8cd37a44
+  anchor:
+    heading: The Chinchilla Scaling Law
+    slug: the-chinchilla-scaling-law
+card:
+  title: 数据管道中的去重、打包与计算最优配比
+  summary: 在用 MinHash/LSH 去除近重复、把可变长度文档打包成固定序列，并按计算预算选择模型与 token 数时，用大规模基础设施笔记核对数据流水线、批处理和存储效率的工程约束。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/03. large scale infrastructure.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 841b9c77948b5562ca325220c837cf0ded6c3c88e452745191849ad678ecfd61
+  anchor:
+    heading: Data Pipelines
+    slug: data-pipelines

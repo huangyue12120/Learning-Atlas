@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/13-neural-audio-codecs/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 4fc76820d2dc2bafeda60c77018b05b52b4ee1febbdbe2a32b2ac76bcd4f3feb
+  anchor:
+    heading: "The core trick: Residual Vector Quantization (RVQ)"
+    slug: the-core-trick-residual-vector-quantization-rvq
+card:
+  title: 残差向量量化与码本预算
+  summary: 在增加 RVQ 码本并比较重建误差、比特率与语言模型序列长度时，用量化理论笔记理解离散表示误差、码本容量和计算成本之间的取舍。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/01. quantisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d4f8131dbcb120ce518005d0ba6814466873b4ae50d7e5228260cd0e95e1ef55
+  anchor:
+    heading: Quantisation
+    slug: quantisation

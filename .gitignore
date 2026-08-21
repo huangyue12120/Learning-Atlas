@@ -2,5 +2,56 @@
 node_modules/
 __pycache__/
 *.py[cod]
+
+# Learner-owned application state: database, notes, exports, and workspaces.
 apps/local-learning/data/
+learning-atlas-data*.json
+learning-atlas-data*.md
+
+# Local databases and SQLite sidecar files.
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.duckdb
+*.duckdb-*
+
+# Personal learning notes, notebooks, scratch code, and workspaces.
+*.ipynb
+.ipynb_checkpoints/
+notes/
+learning-notes/
+notebooks/
+scratch/
+workspaces/
+personal-code/
+学习笔记/
+个人代码/
+
+# Local secrets and developer-only state.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Caches, logs, editor state, and OS files.
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.log
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
 AI-Agents-in-Depth-zh-CN.pdf

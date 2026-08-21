@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/20-deepseek-v3-walkthrough/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 04d8e96b26fd1cbfe18298e60320deff1339f9b052572b7144379ee59717d2e3
+  anchor:
+    heading: The twist: MLA instead of GQA
+    slug: the-twist-mla-instead-of-gqa
+card:
+  title: MLA、GQA 与稀疏专家
+  summary: 在从 DeepSeek-V3 配置推导 MLA 的 KV 缓存、MoE 路由和激活参数时，用高效架构笔记核对 MLA、GQA 与 MoE 的共同内存/计算权衡；该关联先保留候选状态，因为理论笔记没有完整复现 DeepSeek-V3 的参数核算。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/02. efficient architectures.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a0011aa9b67a35918d63e4d6c18febf8699183fdf1fdcbd566142a47f4206370
+  anchor:
+    heading: Multi-head Latent Attention (MLA)
+    slug: multi-head-latent-attention-mla

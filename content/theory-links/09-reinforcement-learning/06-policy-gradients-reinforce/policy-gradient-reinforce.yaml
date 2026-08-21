@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/09-reinforcement-learning/06-policy-gradients-reinforce/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 2f358ef609291528bc89714ac09804eca44030072138f39224f60dc138096a7a
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 策略梯度与 REINFORCE 基线
+  summary: 在实现回报加权的对数策略梯度时，用强化学习理论笔记核对策略梯度定理、REINFORCE 更新，以及减去基线为何能在不引入偏差的情况下降低方差。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/04. reinforcement learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 96c91eeee0c1d1c9b8deeb77ab5612c1286029a6a06a428d84f70d633ef39cc7
+  anchor:
+    heading: Reinforcement Learning
+    slug: reinforcement-learning

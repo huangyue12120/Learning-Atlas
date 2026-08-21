@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/21-jamba-hybrid-ssm-transformer/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: cc5b0d19b7cb44011c94c603517e7a8eb659df2e2b58043e5d89cd1299191ab8
+  anchor:
+    heading: An SSM in one page
+    slug: an-ssm-in-one-page
+card:
+  title: 状态空间模型与长上下文内存
+  summary: 在比较 Jamba 的 Mamba/Transformer 层比例、固定 SSM 状态与增长的 KV 缓存时，用高效架构笔记核对线性注意力和状态空间模型的递归、复杂度及适用边界；该关联先保留候选状态，因为理论笔记未专门讨论 Jamba 或 Mamba-3。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/02. efficient architectures.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a0011aa9b67a35918d63e4d6c18febf8699183fdf1fdcbd566142a47f4206370
+  anchor:
+    heading: Linear Attention and State-Space Models
+    slug: linear-attention-and-state-space-models

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/14-voice-activity-detection-turn-taking/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 2e733e0d8a70489cf07220f0a6a420169c956164df7761872980207436592223
+  anchor:
+    heading: The three-tier VAD cascade
+    slug: the-three-tier-vad-cascade
+card:
+  title: 帧级 VAD 与语义端点检测
+  summary: 在配置能量门、Silero 阈值、最短语音与静音拖尾时，用语音笔记中的 VAD 建模区分逐帧语音判定与整个轮次是否结束，避免用一个阈值承担两种任务。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 09 - audio and speech/03. text to speech and voice.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 3636c9a2e0d4c76110cacd027928d23dfad312063d641c1b9b0a3cde4184be02
+  anchor:
+    heading: Text to Speech and Voice
+    slug: text-to-speech-and-voice

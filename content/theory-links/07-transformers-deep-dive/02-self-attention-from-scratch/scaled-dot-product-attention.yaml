@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/02-self-attention-from-scratch/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 54a8d6da2e4f1ea0b0b43a1bf09be1b3c41e2d5b974cef459b0ab8ea0af18177
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 缩放点积自注意力
+  summary: 在从 Q、K、V 手算注意力分数、softmax 权重与加权和时，用理论笔记中的 softmax(QKᵀ/√dₖ)V 公式核对张量维度，并理解除以 √dₖ 如何避免分数方差随维度增大。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

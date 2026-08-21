@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/02-autoencoders-vae/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 09d80cdcdfbcc7fcd85dcdba56b67cf8923e05ec5883f1f4c5f4525ae82d14b6
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 高斯潜变量与重参数化采样
+  summary: 在编写 z=μ+σ·ε 和标准正态先验采样时，用概率分布笔记复核高斯分布的均值、方差与标准化关系，建立从分布参数到可微样本的直觉。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/03. distributions.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 1e051833fd2dde6957d8c2bc859d0dd7075bd09518aae0632904c0a039c75efa
+  anchor:
+    heading: Probability Distributions
+    slug: probability-distributions

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/03-gans-generator-discriminator/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: db7fe86ffad9d10f6c5a3af0a1192fde88538af04589e34a21472b8769a1cdf8
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: GAN 极小极大目标与模式坍塌
+  summary: 在交替更新生成器与判别器、观察非饱和损失和模式坍塌时，用视觉生成理论笔记核对极小极大目标、均衡条件及稳定化方法所针对的失效原因。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 08 - computer vision/04. vision transformers and generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 6ce5bcea1aee83c498853caeb202345690e4c26e561d5e4fbe18a66fe7583dea
+  anchor:
+    heading: Vision Transformers and Generation
+    slug: vision-transformers-and-generation

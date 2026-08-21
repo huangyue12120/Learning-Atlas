@@ -27,7 +27,7 @@ status: reviewed
 
 ## 问题
 
-从 Phase 11 开始，你会调用 LLM API（Anthropic、OpenAI、Google）。在 Phase 13–16 中，你会构建在循环中使用这些 API 的 agent。你需要知道 API key 如何工作、如何安全保存，以及如何完成第一次 API 调用。
+从 Phase 11 开始，你会调用 LLM API（Anthropic、OpenAI、Google）。在 Phase 13–16 中，你会构建在循环中使用这些 API 的智能体。你需要知道 API key 如何工作、如何安全保存，以及如何完成第一次 API 调用。
 
 ## 概念
 
@@ -132,7 +132,7 @@ with urllib.request.urlopen(req) as resp:
     print(result["content"][0]["text"])
 ```
 
-这就是 SDK 在底层做的事情。理解原始 HTTP 调用有助于调试。
+SDK 会在底层执行这套流程。理解原始 HTTP 调用有助于调试。
 
 ## 实际使用
 
@@ -140,7 +140,7 @@ with urllib.request.urlopen(req) as resp:
 
 | API | 需要它的场景 | 免费层 |
 |-----|-----------------|-----------|
-| Anthropic（Claude） | Phase 11–16（agent、工具） | 注册可得 $5 额度 |
+| Anthropic（Claude） | Phase 11–16（智能体、工具） | 注册可得 $5 额度 |
 | OpenAI | Phase 11（比较） | 注册可得 $5 额度 |
 | Hugging Face | Phase 4–10（模型、数据集） | 免费 |
 
@@ -163,5 +163,5 @@ with urllib.request.urlopen(req) as resp:
 |------|----------------|----------------------|
 | API key | “API 的密码” | 用于识别账户并授权请求的唯一字符串 |
 | Rate limit | “他们在限流” | 为防止滥用并确保公平使用而设置的每分钟/每小时最大请求数 |
-| Token | “一个词”（在 API 语境中） | 计费单位；输入和输出 token 都会被统计和收费 |
+| 词元 | “一个词”（在 API 语境中） | 计费单位；输入和输出词元都会被统计和收费 |
 | Streaming | “实时响应” | 逐词获得响应，而不是等待完整响应 |

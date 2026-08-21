@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/09-reinforcement-learning/07-actor-critic-a2c-a3c/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: d57df3347b10a07e55f83e04d3a9b405d9d4a74cb45410a1b7aa89f18a1aa7a3
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Actor-Critic 与优势估计
+  summary: 在组合 actor 的策略梯度与 critic 的价值回归时，用强化学习理论笔记核对 TD 残差作为优势估计的形式，以及 critic 基线降低 actor 梯度方差的原因。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/04. reinforcement learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 96c91eeee0c1d1c9b8deeb77ab5612c1286029a6a06a428d84f70d633ef39cc7
+  anchor:
+    heading: Reinforcement Learning
+    slug: reinforcement-learning

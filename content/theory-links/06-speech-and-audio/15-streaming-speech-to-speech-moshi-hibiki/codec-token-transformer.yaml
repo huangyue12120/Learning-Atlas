@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/15-streaming-speech-to-speech-moshi-hibiki/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: e21cb5cde8e5c2f46a027328b5d1eee69ad8231661d78f8b6509803a6dde3802
+  anchor:
+    heading: The Moshi architecture
+    slug: the-moshi-architecture
+card:
+  title: 并行音频流与自回归词元预测
+  summary: 在追踪用户 Mimi 流、模型 Mimi 流、文本内心独白和逐码本深度预测时，用 Transformer 理论笔记理解因果遮蔽、序列条件与多流时间同步。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

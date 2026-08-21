@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/10-video-generation/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 5e91c7daf3c94dce2a239e36f6cf07314359b21629aac1e2f47910d9212c53d1
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 视频扩散中的空间与时间建模
+  summary: 在把视频图块送入时空 DiT 并测试帧间连贯性时，用跨模态生成笔记核对空间层负责外观、时间层负责运动的分解，以及长片段必须保持的身份与物理一致性。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/04. cross-modal generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 297749fe76d1d97e2bfd53936c08cf23e6a422c5487c6acb13264290484bf88e
+  anchor:
+    heading: Sora-Style Temporal Diffusion
+    slug: sora-style-temporal-diffusion

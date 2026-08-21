@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/27-llm-evaluation-frameworks/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 61d6c8816e3e613a80375b344ac33445b0452b793c31f1d751ac6151e0bf3a14
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: LLM 评判者：位置偏差、冗长偏差与可靠性
+  summary: 校准 G-Eval 或 DeepEval 评判者时，比较绝对打分与成对选择，使用交换答案顺序抑制位置偏差，并通过重复评判与人工一致性判断分数是否足够稳定。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

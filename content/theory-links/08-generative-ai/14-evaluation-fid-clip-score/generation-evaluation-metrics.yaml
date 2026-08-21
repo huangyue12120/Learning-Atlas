@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/14-evaluation-fid-clip-score/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 4d3065d894662f8b621270106203c8f7a16d990c47fee5cba6ed66ee6b9c97ea
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 生成质量、图文对齐与人类偏好评估
+  summary: 在实现 FID、CLIP 式余弦相似度和 Elo 聚合时，用跨模态生成笔记区分分布质量、文本对齐与人类判断三条证据，并核对每项指标的数学对象与适用边界。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/04. cross-modal generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 297749fe76d1d97e2bfd53936c08cf23e6a422c5487c6acb13264290484bf88e
+  anchor:
+    heading: Consistency and Alignment Metrics
+    slug: consistency-and-alignment-metrics

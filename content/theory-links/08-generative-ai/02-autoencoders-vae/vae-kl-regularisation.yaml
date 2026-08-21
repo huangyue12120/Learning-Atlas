@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/02-autoencoders-vae/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 09d80cdcdfbcc7fcd85dcdba56b67cf8923e05ec5883f1f4c5f4525ae82d14b6
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: VAE 中的 KL 正则与 ELBO 权衡
+  summary: 在实现重建项与 β·KL 项时，用信息论笔记核对 KL 散度的方向、非对称性和分布逼近含义，从而理解 β 为什么会在重建清晰度与潜空间规整性之间产生取舍。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/05. information theory.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 8d2c18d291775e88e92e471f6b485aee0ce8d0d88b24df1cb2ca448b9a671fc4
+  anchor:
+    heading: Information Theory
+    slug: information-theory

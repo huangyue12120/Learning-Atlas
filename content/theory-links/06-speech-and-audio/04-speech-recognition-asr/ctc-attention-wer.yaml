@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/04-speech-recognition-asr/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 8636c6f5f698e085af96b807aff2733d606e41728a174fe1b80e31508c02f721
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: CTC 对齐、注意力解码与词错误率
+  summary: 在实现空白折叠、束搜索和 WER 动态规划时，用 ASR 理论笔记串联帧到词元对齐、注意力编码器—解码器与编辑距离的统一视角。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 09 - audio and speech/02. automatic speech recognition.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 16d9539ebee0c7b0e194d75b11d0ca50b82d6e0837b50300e628ed32227da00c
+  anchor:
+    heading: Automatic Speech Recognition
+    slug: automatic-speech-recognition

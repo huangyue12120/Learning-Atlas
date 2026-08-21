@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/21-nli-textual-entailment/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 1e03d17a955ebb8a52c0f4a19079ae7dadac146e35edc98cd1488ffdaebc7450
+  anchor:
+    heading: "Step 3: faithfulness check for RAG"
+    slug: step-3-faithfulness-check-for-rag
+card:
+  title: 文本蕴含：从 MNLI 分类到 RAG 忠实度
+  summary: 用 NLI 检查 RAG 主张时，把前提与假设输入 Transformer 三分类器，并结合 MNLI、RTE 等基准理解蕴含分数为何能衡量证据支持，却不能单独证明答案没有幻觉。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

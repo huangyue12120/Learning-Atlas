@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/05-full-transformer/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: cb33225ca1b2bbaf32a06d637343c22fbaaf3083081bcf04479409c53070a662
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Transformer 块的归一化、残差与 FFN
+  summary: 在把注意力、RMSNorm、残差连接与 SwiGLU FFN 组装成完整块时，用理论笔记区分 pre-norm 与 post-norm，并追踪恒等残差路径如何保持深层网络的梯度稳定。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

@@ -1,3 +1,2 @@
-data/*.sqlite
-data/*.sqlite-shm
-data/*.sqlite-wal
+# Learner-owned state: SQLite data, exports, notes, and generated workspaces.
+data/

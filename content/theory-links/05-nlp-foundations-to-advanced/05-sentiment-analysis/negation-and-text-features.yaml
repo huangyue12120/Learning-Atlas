@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/05-sentiment-analysis/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 6c0d5587fd261631bbf70042e355315dd840b25ea237f8525e5970dd10f87534
+  anchor:
+    heading: "Step 4: handling negation (the failure mode)"
+    slug: step-4-handling-negation-the-failure-mode
+card:
+  title: 经典 NLP 特征：n-gram 与否定范围
+  summary: 为情感文本加入二元语法或 `NOT_` 前缀时，用词序被词袋丢弃这一限制判断需要保留多大的局部上下文，以及为何不能把否定词当作普通停用词删除。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/02. text processing and classic NLP.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 54ead3ac20bf4838be83a4f31afbdbefe87f35144bae2deb42993f8f1d0042b3
+  anchor:
+    heading: Text Processing and Classic NLP
+    slug: text-processing-and-classic-nlp

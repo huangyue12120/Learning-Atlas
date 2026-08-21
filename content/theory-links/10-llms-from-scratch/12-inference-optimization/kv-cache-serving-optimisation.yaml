@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/12-inference-optimization/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: c59214310eb0f9d399c723912c29138426ad1b33c7d5b8ae29986125279dc072
+  anchor:
+    heading: KV Cache
+    slug: kv-cache
+card:
+  title: KV cache、连续批处理与推理吞吐
+  summary: 在实现 KV cache、prefix cache、连续批处理和推测解码模拟器时，用 serving 理论笔记核对 prefill/decode 两阶段、PagedAttention、请求调度及显存碎片对吞吐和延迟的影响。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/03. serving and batching.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 93d4761610df2814a51a8c12e25c43aa337feac3f476c5041e3b019f3c7c2bd7
+  anchor:
+    heading: Prefill vs Decode: Two Very Different Phases
+    slug: prefill-vs-decode-two-very-different-phases

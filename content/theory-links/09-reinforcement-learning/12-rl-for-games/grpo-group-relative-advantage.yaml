@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/09-reinforcement-learning/12-rl-for-games/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: fbd5ca23db373b9902bdde62d877b231a4096787a4485183971891812fcf1f35
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: GRPO 的组相对优势与可验证奖励
+  summary: 在按提示采样一组回答并规范化组内奖励时，用高级文本生成笔记复核 GRPO 如何用组均值基线替代价值网络，以及可验证奖励如何驱动推理能力学习。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

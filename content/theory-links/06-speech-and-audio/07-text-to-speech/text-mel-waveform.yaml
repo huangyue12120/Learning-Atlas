@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/07-text-to-speech/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: d974cde93a3a8e692caf62fd9e48e18ebd8b889043bef6cf2367b4d89049a561
+  anchor:
+    heading: Vocoder evolution
+    slug: vocoder-evolution
+card:
+  title: 文本、时长、梅尔与波形重建
+  summary: 在串联音素化、时长预测、声学模型和 HiFi-GAN 时，用 TTS 理论笔记理解文本到梅尔的对齐以及梅尔到波形重建为何是两个不同的学习问题。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 09 - audio and speech/03. text to speech and voice.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 3636c9a2e0d4c76110cacd027928d23dfad312063d641c1b9b0a3cde4184be02
+  anchor:
+    heading: Text to Speech and Voice
+    slug: text-to-speech-and-voice

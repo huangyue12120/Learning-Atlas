@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/19-dualpipe-parallelism/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 281c6d6c76b8c64f6b80f61accd664241985e31d2ff36795c016d8746b1ccd99
+  anchor:
+    heading: Pipeline parallelism refresher
+    slug: pipeline-parallelism-refresher
+card:
+  title: 流水线并行与气泡
+  summary: 在跟踪 1F1B、Zero Bubble、DualPipe 的微批次调度、计算–通信重叠和 GPU 利用率时，用分布式深度学习笔记核对流水线并行的阶段划分与通信代价；该关联先保留候选状态，因为理论笔记未专门讨论 DualPipe。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/05. distributed deep learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 44d3fb2b8b69bead34fcc91742b2c088caa09612acbc91952d1bba57a4d2ff84
+  anchor:
+    heading: Distributed Deep Learning
+    slug: distributed-deep-learning

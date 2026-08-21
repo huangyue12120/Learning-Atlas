@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/04-glove-fasttext-subword/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: b92cf9d14b8729b4a378b0b4f468f4d957f6600c15d876b091d8dec54d8d3e47
+  anchor:
+    heading: "GloVe: factorize the co-occurrence matrix"
+    slug: glove-factorize-the-co-occurrence-matrix
+card:
+  title: 嵌入模型：共现分解与字符子词组合
+  summary: 构建 GloVe 共现矩阵和 FastText 字符 n-gram 向量时，对照全局共现目标、中心与上下文向量之和，以及用已知子词组合 OOV 向量的原理。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/03. embeddings and sequence models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: cf467c1180cc5100ff9736bfe3244917358a2915bd3075d89870dfc55c2dc437
+  anchor:
+    heading: Embeddings and Sequence Models
+    slug: embeddings-and-sequence-models

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/20-structured-outputs-constrained-decoding/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: be2656f8a0ad2ca753a9ec60fd3b43bb1aa6a7fc0623f179c4a124cb93160ee3
+  anchor:
+    heading: "Step 1: regex-constrained generation from scratch"
+    slug: step-1-regex-constrained-generation-from-scratch
+card:
+  title: 自回归下一词元分布与 logit 屏蔽
+  summary: 实现 `mask_logits` 时，从自回归模型的下一词元条件分布和 softmax 出发，理解把无效词元设为负无穷为何会在不改变有效候选相对分数的前提下重新归一化概率。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

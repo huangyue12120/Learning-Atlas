@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/10-audio-transformers-whisper/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: f996b553ee4abba0d68ac4368a41ffecdffc5c91639060ffe99fa83fd84d80eb
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Whisper 的声学编码与任务词元解码
+  summary: 在构建 30 秒对数梅尔输入与任务词元前缀时，用 ASR 理论笔记对照 Whisper 的卷积前端、编码器—解码器 Transformer、弱监督多任务训练和时间戳输出，区分它与 CTC 流水线。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 09 - audio and speech/02. automatic speech recognition.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 16d9539ebee0c7b0e194d75b11d0ca50b82d6e0837b50300e628ed32227da00c
+  anchor:
+    heading: Automatic Speech Recognition
+    slug: automatic-speech-recognition

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/13-building-complete-llm-pipeline/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 920dc5da6f447e4b4c41e45f6c967a4a05622cd0e60b8f827e6aeaee5e114463
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: LLM 流水线的生命周期与可复现性
+  summary: 在把数据、训练、评测、制品、成本和回滚组织成十二阶段流水线时，用 ML 系统设计笔记核对生命周期分层、模型注册、评测门禁、监控与反馈回路。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/04. ML systems design.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 76746c0492a2391388c3dc8f24b5e9b44d22c475ff7a58ed200bc3a2f2952a30
+  anchor:
+    heading: The ML System Lifecycle
+    slug: the-ml-system-lifecycle

@@ -224,7 +224,7 @@ for inputs, expected in xor_data:
 
 ### 步骤 4：用两层解决 XOR
 
-诀窍是 XOR = (x1 OR x2) AND NOT (x1 AND x2)，组合三个感知机：
+可以把 XOR 写成 `(x1 OR x2) AND NOT (x1 AND x2)`，再组合三个感知机：
 
 ```mermaid
 graph LR
@@ -331,7 +331,7 @@ for inputs, expected in xor_data:
     print(f"  {inputs} -> {result:.4f} (rounded: {predicted}, expected {expected})")
 ```
 
-与步骤 4 有两处关键不同：sigmoid 取代阶跃，它平滑且存在梯度；`train` 从输出层向隐藏层反传误差，按每个权重对误差的贡献调整。这就是 20 行中的反向传播。
+与步骤 4 有两处关键不同：sigmoid 取代阶跃，它平滑且存在梯度；`train` 从输出层向隐藏层反传误差，按每个权重对误差的贡献调整。20 行代码由此实现了反向传播。
 
 这通向第 03 课。`d_output`、`hidden_deltas` 背后是对网络图应用链式法则，届时会完整推导。
 
@@ -389,6 +389,6 @@ print([clf.predict([x])[0] for x in X])
 
 ## 延伸阅读
 
-- Frank Rosenblatt，《The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain》（1958）——开启一切的原始论文。
+- Frank Rosenblatt，《The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain》（1958）——提出感知机的原始论文。
 - Minsky 与 Papert，《Perceptrons》（1969）——证明 XOR 不可由单层网络解决、令感知机研究停滞十年的著作。
 - Michael Nielsen，《Neural Networks and Deep Learning》，第 1 章（http://neuralnetworksanddeeplearning.com/）——免费在线，对感知机如何组合成网络的最佳可视解释。

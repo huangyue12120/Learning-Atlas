@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/14-build-a-transformer-capstone/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 1f8468652dd27eb7b8005038ce04c75fd536e18d887f7a8bc507d2c8fd42ced9
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 从注意力到完整 Transformer 语言模型
+  summary: 在综合项目中连接词元嵌入、位置表示、因果多头注意力、归一化、残差、FFN 与语言模型头时，用深度学习笔记逐层核对数据流和训练目标，定位形状或掩码错误。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/03. deep learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d2e677b6ca1dafa667a4f4ff12dfddee367392dd6940f25f5b6934ed21cd071d
+  anchor:
+    heading: Deep Learning
+    slug: deep-learning

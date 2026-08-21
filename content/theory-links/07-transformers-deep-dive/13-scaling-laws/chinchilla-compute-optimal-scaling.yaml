@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/13-scaling-laws/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: aac8b47ac5c315771ce177f36d9cf99a6cbc6a23f9208bf77b23dfe4a3b0dc39
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Chinchilla 的计算最优缩放
+  summary: 在固定 C≈6ND 的预算下搜索参数量 N 与训练词元量 D 时，用理论笔记中的幂律和 Chinchilla 结论核对 N_opt、D_opt 的平方根缩放，以及每参数约 20 个词元的训练最优经验值。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

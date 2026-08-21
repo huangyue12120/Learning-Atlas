@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/12-text-summarization/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: d856ec071b1b46533679495c2c23bf7bfb8796e664589771f1dad37a30bf4623
+  anchor:
+    heading: "Step 3: ROUGE evaluation"
+    slug: step-3-rouge-evaluation
+card:
+  title: 摘要评估：ROUGE 召回与语义忠实度
+  summary: 计算 ROUGE-1、ROUGE-2 与 ROUGE-L 时，把 n-gram 召回、最长公共子序列和上下文嵌入指标区分开，并理解词面重叠为何不能单独证明摘要事实正确。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

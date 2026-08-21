@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/08-controlnet-lora-conditioning/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: cc1f1598103a54fe7dda2459c8e0c172c22109098a64f730ac2dbb9d251e83b2
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: ControlNet 的冻结骨干与零卷积控制
+  summary: 在实现零初始化侧网络并组合深度、姿态或边缘条件时，用跨模态生成笔记核对克隆编码器、冻结 U-Net 和零卷积跳跃连接各自承担的作用。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/04. cross-modal generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 297749fe76d1d97e2bfd53936c08cf23e6a422c5487c6acb13264290484bf88e
+  anchor:
+    heading: "ControlNet: Spatial Conditioning"
+    slug: controlnet-spatial-conditioning

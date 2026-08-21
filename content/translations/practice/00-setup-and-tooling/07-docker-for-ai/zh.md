@@ -54,7 +54,7 @@ graph TD
 
 1. **GPU 驱动很脆弱。** CUDA 12.4 代码不能在 CUDA 11.8 上运行。Docker 通过 NVIDIA Container Toolkit 共享宿主 GPU 驱动，同时将 CUDA toolkit 隔离在容器中。
 2. **模型权重很大。** 一个 7B 参数模型在 fp16 下为 14 GB，不应每次重建都重新下载；Docker volume 可挂载宿主 models 目录。
-3. **多服务架构常见。** 真实 AI 应用并不只是 Python 脚本，还包括推理服务器、用于 RAG 的向量数据库，可能还有 Web 前端；Docker Compose 可用一条命令编排它们。
+3. **多服务架构常见。** 真实 AI 应用通常包含 Python 程序、推理服务器、用于 RAG 的向量数据库，有时还包括 Web 前端；Docker Compose 可用一条命令编排它们。
 
 ### 核心词汇
 

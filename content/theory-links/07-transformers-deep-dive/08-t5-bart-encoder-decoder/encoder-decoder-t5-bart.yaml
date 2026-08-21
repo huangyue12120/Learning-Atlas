@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/08-t5-bart-encoder-decoder/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 26b9204335f4793b7910e02a3a03820cd0ea0c7d47a2aa9c37580dcac67baeb1
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: T5 与 BART 的编码器—解码器范式
+  summary: 在实现编码器双向自注意力、解码器因果自注意力与交叉注意力时，用理论笔记比较 T5 的片段破坏目标和 BART 的去噪目标，并核对三种注意力掩码各自允许的信息流。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

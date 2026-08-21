@@ -110,7 +110,7 @@ L-inf distance = max(|4-1|, |5-1|) = max(3, 4) = 4
 
 ### Cosine 相似度与 Cosine 距离
 
-cos_sim(a,b)=a·b/(||a||₂||b||₂)，范围 -1..1，cosine distance=1-cos，范围 0..2；它忽略长度，故长度不同但词分布相同的文档仍为 1，非常适合 TF-IDF、word/sentence embedding、preference 和 vector search。dot=a·b=||a||||b||cos(angle)，若均 L2 normalized 则等于 cosine；否则 magnitude 是流行度/质量等额外信号。cosine 要纯方向，dot 要保 magnitude。
+cos_sim(a,b)=a·b/(||a||₂||b||₂)，范围 -1..1，cosine distance=1-cos，范围 0..2；它忽略长度，故长度不同但词分布相同的文档仍为 1，非常适合 TF-IDF、词/句嵌入、preference 和 vector search。dot=a·b=||a||||b||cos(angle)，若均 L2 normalized 则等于 cosine；否则 magnitude 是流行度/质量等额外信号。cosine 要纯方向，dot 要保 magnitude。
 
 ```
 cos_sim(a, b) = (a . b) / (||a||_2 * ||b||_2)
@@ -291,7 +291,7 @@ Elastic Net:                  loss + lambda_1 * ||w||_1 + lambda_2 * ||w||_2^2
 
 在大规模嵌入库中，近似最近邻索引以选定的距离或相似度快速返回候选，再进行精确排序。
 
-文本用 cosine；像素 L2；稀疏高维 L1；集合 Jaccard；字符串 edit；异常 Mahalanobis；分布 KL；GAN Wasserstein；embedding cosine/dot；推荐 dot；DNA weighted edit；制造 L-inf。loss 是 prediction-target 的距离：MSE L2²，MAE L1，Huber 小误差 L2/大误差 L1，CE/KL 分布失配，hinge margin，triplet/contrastive 通常 L2。
+文本用 cosine；像素 L2；稀疏高维 L1；集合 Jaccard；字符串 edit；异常 Mahalanobis；分布 KL；GAN Wasserstein；嵌入 cosine/dot；推荐 dot；DNA weighted edit；制造 L-inf。loss 是 prediction-target 的距离：MSE L2²，MAE L1，Huber 小误差 L2/大误差 L1，CE/KL 分布失配，hinge margin，triplet/contrastive 通常 L2。
 
 exact nearest neighbor 对 n 个 d 维点每 query O(nd)。ANN 用微小精度换速度：KD-tree（低维）、ball tree（中维）、LSH（near duplicate）、HNSW（FAISS/Qdrant/Weaviate 的分层 small-world graph）、IVF（billion scale）、product quantization（压缩向量）。HNSW 由稀疏顶层长跳、稠密底层短跳构成。
 
@@ -322,13 +322,13 @@ norm-unit-balls
 
 `distances.py` 创建数据集和查询点，展示 L1、L2、cosine 等度量会选出不同的最近邻。
 
-### 步骤 3：Embedding 相似度搜索
+### 步骤 3：嵌入相似度搜索
 
-模拟 embedding 检索，比较 cosine 相似度与 L2 距离产生的排序差异。
+模拟嵌入检索，比较 cosine 相似度与 L2 距离产生的排序差异。
 
 ## Use It
 
-向量数据库实作将 embedding L2 归一化后计算 query 与存储向量的 cosine/dot，ANN 避免全扫描。
+向量数据库实作将嵌入向量 L2 归一化后计算 query 与存储向量的 cosine/dot，ANN 避免全扫描。
 
 ```python
 import numpy as np
@@ -350,7 +350,7 @@ print(f"Top 5 most similar to item 0: {top_k}")
 print(f"Similarities: {similarities[top_k]}")
 ```
 
-当调用 `model.encode(text)` 后检索，这正是底层过程。上面的示例按行归一化 1,000 个 768 维 embedding、构造相似度矩阵、排除查询自身并取前五名。练习：(1) 计算 `(1,2,3)` 和 `(4,0,6)` 的 L1/L2/L∞ 并证明 `L∞<=L2<=L1`；(2) 构造 high cosine/large L2 与 low cosine/small L2；(3) 让 L1/L2/cosine/Mahalanobis 四者选不同 NN；(4) 手算两组离散 CDF Wasserstein；(5) 100 随机集合比较 50/100/200 hash MinHash 的 Jaccard 误差。
+当调用 `model.encode(text)` 后检索，这正是底层过程。上面的示例按行归一化 1,000 个 768 维嵌入向量、构造相似度矩阵、排除查询自身并取前五名。练习：(1) 计算 `(1,2,3)` 和 `(4,0,6)` 的 L1/L2/L∞ 并证明 `L∞<=L2<=L1`；(2) 构造 high cosine/large L2 与 low cosine/small L2；(3) 让 L1/L2/cosine/Mahalanobis 四者选不同 NN；(4) 手算两组离散 CDF Wasserstein；(5) 100 随机集合比较 50/100/200 hash MinHash 的 Jaccard 误差。
 
 ## Exercises
 

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/19-visual-autoregressive-var/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: e7444b2327b8996ed0a0a266833e7ae86822f1add71474db7e045a6194011eb2
+  anchor:
+    heading: VQ-VAE Multi-Scale Tokenizer
+    slug: vq-vae-multi-scale-tokenizer
+card:
+  title: 多尺度残差 VQ 与粗到细图像词元
+  summary: 在设计 VAR 分词器的共享码本、尺度金字塔和残差求和解码时，用图像分词理论笔记核对残差量化如何让低尺度编码全局结构、高尺度补充细节，并避免光栅顺序偏差。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/03. image and video tokenisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d36271e5fb3af4873c60838206b32911f6e02667ede19b85f0ae1c2887cf5ef5
+  anchor:
+    heading: Residual Quantisation and Multi-Scale Codebooks
+    slug: residual-quantisation-and-multi-scale-codebooks

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/10-evaluation/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 3d0a83d22c49c449b3bfd989b02662b6eabfe64f294f5ec3d8268f126db2f317
+  anchor:
+    heading: The Eval Taxonomy
+    slug: the-eval-taxonomy
+card:
+  title: LLM 应用评估的指标与不确定性
+  summary: 在区分离线基准、回归测试、LLM-as-judge、人工评估和线上监控时，用 Transformer 语言模型笔记核对生成质量不能由单一 loss 或单一分数充分表示的边界；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

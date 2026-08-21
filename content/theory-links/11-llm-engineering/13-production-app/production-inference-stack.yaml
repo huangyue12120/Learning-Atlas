@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/13-production-app/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: b0a346e45927205a67e1db24f0d67e16adde62736840bd2ac923a5fc03cd6101
+  anchor:
+    heading: Production Architecture
+    slug: production-architecture
+card:
+  title: 生产级 LLM 推理栈
+  summary: 在组织 API、路由、流式输出、重试、观测、缓存和成本控制时，用部署笔记核对模型并行、KV 缓存、推测解码与服务框架之间的边界。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/05. scaling and deployment.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a18d9bcb15892ca2aa52e72346cc599df3709e3096673b8cd1f8145e93f3a31b
+  anchor:
+    heading: Inference Frameworks
+    slug: inference-frameworks

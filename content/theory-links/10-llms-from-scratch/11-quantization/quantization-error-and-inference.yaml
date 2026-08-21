@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/11-quantization/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: dd41adfca95d7337c3d50d446ba0e5ff83f53654dc776a8a48fd171b425a5bbf
+  anchor:
+    heading: How Quantization Works
+    slug: how-quantization-works
+card:
+  title: 量化映射、误差与显存权衡
+  summary: 在实现对称/逐通道量化、扫描 bit-width，并比较 GPTQ、AWQ、GGUF 时，用推理量化笔记核对 scale/zero-point、舍入误差、异常值和质量—显存权衡。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/01. quantisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d4f8131dbcb120ce518005d0ba6814466873b4ae50d7e5228260cd0e95e1ef55
+  anchor:
+    heading: The Quantisation Equation
+    slug: the-quantisation-equation

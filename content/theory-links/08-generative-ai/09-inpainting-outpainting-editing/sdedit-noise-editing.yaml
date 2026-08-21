@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/09-inpainting-outpainting-editing/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: a0a39b1a67b7b04440df938be761512cc0fc841d15d2ca492e7d7cdbad0cdbc2
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: SDEdit 噪声强度与编辑保真度
+  summary: 在选择起始时间 t/T 并比较保真度与改动幅度时，用跨模态生成笔记把前向加噪保留的原始信号比例与反向条件采样联系起来。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/04. cross-modal generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 297749fe76d1d97e2bfd53936c08cf23e6a422c5487c6acb13264290484bf88e
+  anchor:
+    heading: SDEdit and Noise-Based Editing
+    slug: sdedit-and-noise-based-editing

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/03-audio-classification/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 3764a4ecf6c369d918f1122bd3d8496afc4d01c62caf6ace237f06c94a9a8241
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 音频特征、频谱块与分类表示
+  summary: 在比较 MFCC 统计量、二维 CNN 与 AST patch 时，用说话人和音频分析笔记理解固定长度嵌入、频谱图分块与相似度分类为何适合不同数据规模。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 09 - audio and speech/04. speaker and audio analysis.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 50400c0042671313fcff23634d2a6b3b48d6489843c5c416baeaff67ac704a4f
+  anchor:
+    heading: Speaker and Audio Analysis
+    slug: speaker-and-audio-analysis

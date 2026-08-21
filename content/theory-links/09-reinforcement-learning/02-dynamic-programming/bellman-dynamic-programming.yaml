@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/09-reinforcement-learning/02-dynamic-programming/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 131aab723d6114b139761208cdc5fb9ae0363262c57d31e66903650a2fbd81a5
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Bellman 递推与动态规划
+  summary: 在实现策略评估、策略迭代和价值迭代时，用强化学习理论笔记复核 Bellman 期望方程、最优方程以及从 V* 或 Q* 提取贪心策略的关系。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/04. reinforcement learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 96c91eeee0c1d1c9b8deeb77ab5612c1286029a6a06a428d84f70d633ef39cc7
+  anchor:
+    heading: Reinforcement Learning
+    slug: reinforcement-learning

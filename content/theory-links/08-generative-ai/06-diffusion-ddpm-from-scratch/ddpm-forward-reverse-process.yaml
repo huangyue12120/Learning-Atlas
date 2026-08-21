@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/08-generative-ai/06-diffusion-ddpm-from-scratch/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: f62dd0eaa055920ebe0ae369fd734c5b0e6ab90ce3f31f485487d7d4cd7a86f8
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: DDPM 前向加噪与反向噪声预测
+  summary: 在构造 β 调度、闭式采样 x_t 和反向去噪循环时，用视觉生成理论笔记核对 α̅ 累积项、噪声预测 MSE 与得分视角之间的对应关系。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 08 - computer vision/04. vision transformers and generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 6ce5bcea1aee83c498853caeb202345690e4c26e561d5e4fbe18a66fe7583dea
+  anchor:
+    heading: Vision Transformers and Generation
+    slug: vision-transformers-and-generation

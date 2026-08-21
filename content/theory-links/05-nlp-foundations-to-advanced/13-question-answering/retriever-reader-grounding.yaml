@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/13-question-answering/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 0fcd3cb8c48f9b9f0a1597958ed41da266022394329bd44bf1c29eae8453d7f9
+  anchor:
+    heading: "Step 2: a retrieval-augmented pipeline (sketch)"
+    slug: step-2-a-retrieval-augmented-pipeline-sketch
+card:
+  title: RAG：检索器与阅读器的证据链
+  summary: 组合稠密检索器和抽取式阅读器时，用查询与段落双编码、前 k 个证据召回及基于上下文生成解释检索失败为何无法由阅读器补救。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

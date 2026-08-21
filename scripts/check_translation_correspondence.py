@@ -29,9 +29,21 @@ HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
 LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 MERMAID_QUOTED_TEXT = re.compile(r'"(?:[^"\\]|\\.)*"')
 MERMAID_EDGE_LABEL = re.compile(r'\|(?:[^|\\]|\\.)*\|')
+MERMAID_DOTTED_EDGE_LABEL = re.compile(r'(?P<prefix>-\.\s+)(?:[^\n]+?)(?P<suffix>\s+\.->)')
 MERMAID_SQUARE_LABEL = re.compile(r'(?P<prefix>\b[A-Za-z][A-Za-z0-9_-]*\s*)\[(?:[^\]\\]|\\.)*\]')
 MERMAID_CURLY_LABEL = re.compile(r'(?P<prefix>\b[A-Za-z][A-Za-z0-9_-]*\s*)\{(?:[^}\\]|\\.)*\}')
 MERMAID_PAREN_LABEL = re.compile(r'(?P<prefix>\b[A-Za-z][A-Za-z0-9_-]*\s*)\((?:[^)\\]|\\.)*\)')
+MERMAID_TIMELINE_TITLE = re.compile(r'^(\s*title\s+).+$', re.MULTILINE)
+MERMAID_TIMELINE_EVENT = re.compile(r'^(\s*[^:\n]+\s*:\s*[^:\n]+\s*:\s*).+$', re.MULTILINE)
+MERMAID_UNQUOTED_SUBGRAPH = re.compile(
+    r'^(\s*subgraph\s+)(?![A-Za-z][A-Za-z0-9_-]*\s*\[).+$', re.MULTILINE
+)
+MERMAID_SEQUENCE_PARTICIPANT = re.compile(r'^(\s*participant\s+\S+\s+as\s+).+$', re.MULTILINE)
+MERMAID_SEQUENCE_NOTE = re.compile(r'^(\s*Note\s+over\s+[^:\n]+:\s*).+$', re.MULTILINE)
+MERMAID_SEQUENCE_MESSAGE = re.compile(
+    r'^(\s*[^:\n]+(?:->>|-->>|-->|->|\.\.>|-\)|==>)[^:\n]*:\s*).+$',
+    re.MULTILINE,
+)
 OMITTED_NON_PYTHON = re.compile(r"<!--\s*learning-atlas:\s*upstream-non-python omitted=([a-z0-9_+-]+)\s*-->")
 
 
@@ -53,7 +65,25 @@ def normalize_mermaid(diagram: str) -> str:
     """
 
     normalized = MERMAID_QUOTED_TEXT.sub('"…"', diagram)
+    # A bare `subgraph title` has no separate ID; the title itself is visible
+    # text. Allow that title to be localized while preserving explicit IDs such
+    # as `subgraph Prefill["..."]`.
+    normalized = MERMAID_UNQUOTED_SUBGRAPH.sub(r'\1…', normalized)
+    if re.search(r'^\s*timeline\b', normalized, re.MULTILINE):
+        # Timeline event text is learner-visible like a flowchart node label.
+        # Preserve the date/category delimiters while allowing its translation.
+        normalized = MERMAID_TIMELINE_TITLE.sub(r'\1…', normalized)
+        normalized = MERMAID_TIMELINE_EVENT.sub(r'\1…', normalized)
+    if re.search(r'^\s*sequenceDiagram\b', normalized, re.MULTILINE):
+        # Sequence participants, notes, and message text are visible labels;
+        # keep participant IDs and message arrows while ignoring translations.
+        normalized = MERMAID_SEQUENCE_PARTICIPANT.sub(r'\1…', normalized)
+        normalized = MERMAID_SEQUENCE_NOTE.sub(r'\1…', normalized)
+        normalized = MERMAID_SEQUENCE_MESSAGE.sub(r'\1…', normalized)
     normalized = MERMAID_EDGE_LABEL.sub('|…|', normalized)
+    normalized = MERMAID_DOTTED_EDGE_LABEL.sub(
+        lambda match: f"{match.group('prefix')}…{match.group('suffix')}", normalized
+    )
     normalized = MERMAID_SQUARE_LABEL.sub(lambda match: f"{match.group('prefix')}[…]", normalized)
     normalized = MERMAID_CURLY_LABEL.sub(lambda match: f"{match.group('prefix')}{{…}}", normalized)
     return MERMAID_PAREN_LABEL.sub(lambda match: f"{match.group('prefix')}(…)", normalized)

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/22-embedding-models-deep-dive/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: bfb5483ccac7e580a5256434b2a7e4ea749c30999fabc4aead4a95189e8c96b0
+  anchor:
+    heading: "Step 1: baseline — dense embeddings with Sentence-BERT"
+    slug: step-1-baseline-dense-embeddings-with-sentence-bert
+card:
+  title: 稠密检索：双编码器、归一化与点积
+  summary: 构建 Sentence-BERT 稠密检索基线时，用双编码器把查询与段落映射到同一空间，理解 L2 归一化为何让点积等于余弦相似度，以及近邻排序怎样决定召回结果。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

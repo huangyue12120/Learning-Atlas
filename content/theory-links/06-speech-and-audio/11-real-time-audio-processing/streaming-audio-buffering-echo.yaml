@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/11-real-time-audio-processing/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 38770fe883e05dd7bc541c3d3dbca612686e46d48c7d9a2f4ab2b8b9bb9735db
+  anchor:
+    heading: Common gotchas
+    slug: common-gotchas
+card:
+  title: 流式缓冲、回声路径与自适应消除
+  summary: 在分配环形缓冲延迟、避免扬声器回灌触发 ASR 并配置 AEC 时，用源分离与噪声笔记理解回声的卷积路径、参考信号和自适应滤波为何必须成套设计。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 09 - audio and speech/05. source separation and noise.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 86b785f363688a327ea5106a34f91c22392aacd570ff5a4ea50fe590cff24703
+  anchor:
+    heading: Source Separation and Noise Cancellation
+    slug: source-separation-and-noise-cancellation

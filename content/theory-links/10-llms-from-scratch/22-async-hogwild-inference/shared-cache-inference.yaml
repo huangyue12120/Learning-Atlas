@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/22-async-hogwild-inference/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 2ae5527935376bc320f68a0dc4563963b7887da9376394152477e8bfc2e31f23
+  anchor:
+    heading: RoPE makes this tractable
+    slug: rope-makes-this-tractable
+card:
+  title: KV 缓存、位置编码与并发推理
+  summary: 在分析共享 KV 缓存、RoPE 的位置性质、协调开销和 Hogwild! 的 Amdahl 加速时，用部署笔记核对 KV 缓存生命周期、前缀复用与推理并行的基础边界；该关联先保留候选状态，因为理论笔记未专门讨论共享缓存并发生成。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/05. scaling and deployment.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a18d9bcb15892ca2aa52e72346cc599df3709e3096673b8cd1f8145e93f3a31b
+  anchor:
+    heading: KV-Cache Eviction
+    slug: kv-cache-eviction

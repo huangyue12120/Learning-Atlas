@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/15-speculative-decoding-eagle3/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: e7ccc1f2140d91351e1990b1556e97a2f6375b05ad1d7b36d5c852e1cec66ef5
+  anchor:
+    heading: The invariant: Leviathan rejection sampling
+    slug: the-invariant-leviathan-rejection-sampling
+card:
+  title: 推测解码的拒绝采样与速度模型
+  summary: 在实现 draft/verify、残差分布、KV 回滚，并根据接受率 α 估算加速比时，用推理部署笔记核对拒绝采样保持目标分布不变、前缀缓存与推理成本之间的关系。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/05. scaling and deployment.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a18d9bcb15892ca2aa52e72346cc599df3709e3096673b8cd1f8145e93f3a31b
+  anchor:
+    heading: Speculative Decoding
+    slug: speculative-decoding

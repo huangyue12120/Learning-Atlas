@@ -23,17 +23,17 @@ status: reviewed
 - 从零实现 MSE、二元交叉熵、类别交叉熵、对比损失（InfoNCE）及梯度。
 - 通过“任何输入都预测 0.5”失败模式解释 MSE 为何不适合分类。
 - 将标签平滑用于交叉熵，并说明它如何避免过度自信。
-- 为回归、二元分类、多分类、embedding 学习选择正确损失。
+- 为回归、二元分类、多分类和嵌入学习选择正确损失。
 
 ## 问题
 
 分类任务上最小化 MSE 的模型会自信地对一切预测 0.5；它确实最小化了损失，也完全无用。
 
-模型真正优化的只有损失函数：不是准确率、F1 或向经理汇报的任何指标。优化器取损失梯度、调权重以使它变小。若损失没表达关心的事，模型会找数学上最廉价的满足方式，而那几乎不是你想要的方式。
+优化器只根据损失函数的梯度调整权重，不会直接优化准确率、F1 或汇报指标。若损失没有表达任务目标，模型会选择数学上最容易降低损失的方式，结果可能偏离实际需求。
 
 具体地说，二元 50/50 分类用 MSE 时，所有输入预测 0.5 的平均 MSE=0.25，是不学习任何东西也能达到的最小值；毫无区分能力。改用交叉熵，`-log(0.5)=0.693` 很差，而 `-log(0.99)=0.01` 奖励自信正确预测，模型必须把概率推向 0 或 1。
 
-自监督中甚至没有标签，对比损失完全定义学习信号：何为相似、何为不同、要分开多远。设错会使 embedding 坍塌为一点，每个输入映射同向量；技术上零损失，实际无价值。
+自监督中甚至没有标签，对比损失完全定义学习信号：何为相似、何为不同、要分开多远。设错会使嵌入坍塌为一点，每个输入映射到同一向量；技术上零损失，实际无价值。
 
 ## 概念
 
@@ -75,7 +75,7 @@ dBCE/dp = -(y/p) + (1-y)/(1-p)
 
 y=1、p 近零时梯度 -1/p 趋负无穷，模型收到巨大的修正信号；p 近一时梯度很小，已正确无需修正。
 
-**类别交叉熵（CCE）：**用于 one-hot 目标的多分类：
+**类别交叉熵（CCE）：** 用于 one-hot 目标的多分类：
 
 ```
 CCE = -sum(y_i * log(p_i))
@@ -125,7 +125,7 @@ L = -log(exp(sim(z_i, z_j) / tau) / sum(exp(sim(z_i, z_k) / tau)))
 
 sim 是余弦相似度，z_i、z_j 是正对，对全部负对求和；温度 tau 控制尖锐性，温度低=负例更难=分离更激进。batch 256 表示每正对有 255 个负例；tau=0.07 是 SimCLR 默认，损失类似相似度上的 softmax，期望正对是 256 个中最高。
 
-**Triplet Loss：**输入 anchor、同类 positive、异类 negative：
+**Triplet Loss：** 输入 anchor、同类 positive、异类 negative：
 
 ```
 L = max(0, d(anchor, positive) - d(anchor, negative) + margin)
@@ -423,7 +423,7 @@ ce_smooth = F.cross_entropy(logits, labels, label_smoothing=0.1)
 
 1. 实现 Huber（smooth L1）：小误差用 MSE、大误差用 MAE；在 5% 目标加随机离群噪声的 y=sin(x) 回归中，比较 MSE、Huber 最终测试误差。
 2. 向二分类循环加入 focal loss，创建 90% 类 0、10% 类 1 数据，200 epoch 后比较 BCE 与 gamma=2 focal 的少数类 recall。
-3. 实现带 semi-hard negative mining 的 triplet loss，生成 5 类二维 embedding；每 anchor 找比 positive 远、却最困难的 negative，比较随机 triplet 的收敛。
+3. 实现带 semi-hard negative mining 的 triplet loss，生成 5 类二维嵌入；对每个锚点找比正样本远、却最困难的负样本，比较随机 triplet 的收敛。
 4. 在 MSE vs CE 中跟踪每层梯度幅度，画每 epoch 平均梯度范数，验证模型最不确定的初期 CE 产生更大梯度。
 5. 实现 KL divergence，验证 one-hot 真分布时最小化 KL(true||predicted) 与 CE 梯度相同；再试 teacher softmax 产生的 soft target（知识蒸馏）。
 
@@ -436,7 +436,7 @@ ce_smooth = F.cross_entropy(logits, labels, label_smoothing=0.1)
 | 交叉熵 | “分类损失” | 以 -log(p) 度量预测概率分布与真实分布差异。 |
 | 二元交叉熵 | “BCE” | 两类交叉熵：-(y*log(p)+(1-y)*log(1-p))。 |
 | 标签平滑 | “软化目标” | 以软值（如 0.1/0.9）替换硬 0/1，防过度自信、改善泛化。 |
-| 对比损失 | “拉近、推远” | 让相似对在 embedding 空间靠近、不同对远离的表征学习损失。 |
+| 对比损失 | “拉近、推远” | 让相似对在嵌入空间靠近、不同对远离的表征学习损失。 |
 | InfoNCE | “CLIP/SimCLR 损失” | 对相似度做归一化温度缩放 CE，将对比学习视为分类。 |
 | Focal loss | “不平衡数据修复” | 以 (1-p_t)^gamma 加权 CE，降权容易样本、聚焦困难样本。 |
 | Triplet loss | “anchor-positive-negative” | 强制 anchor 到 positive 至少比到 negative 近一个 margin。 |

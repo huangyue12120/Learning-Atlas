@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/19-subword-tokenization/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 6d67e864430ef41e47f3c0e115faead61da03cad377dca5a69f77513afc8f3eb
+  anchor:
+    heading: "Step 1: BPE from scratch"
+    slug: step-1-bpe-from-scratch
+card:
+  title: 子词算法：频率合并、似然合并与概率删减
+  summary: 实现 BPE 合并循环并选择生产分词器时，对照 BPE 的最高频字符对、WordPiece 的语料似然和 Unigram 的候选删减目标，判断算法差异怎样影响词表覆盖与序列长度。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/02. text processing and classic NLP.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 54ead3ac20bf4838be83a4f31afbdbefe87f35144bae2deb42993f8f1d0042b3
+  anchor:
+    heading: Text Processing and Classic NLP
+    slug: text-processing-and-classic-nlp

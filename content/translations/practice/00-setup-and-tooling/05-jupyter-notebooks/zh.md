@@ -119,7 +119,7 @@ data.mean(), data.std()
 
 ### 第 4 步：Magic command
 
-它们不是 Python，而是以 `%`（行 magic）或 `%%`（单元格 magic）开头的 Jupyter 专用命令。
+它们是以 `%`（行 magic）或 `%%`（单元格 magic）开头的 Jupyter 专用命令，不属于 Python 语法。
 
 **测量代码时间：**
 

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/10-llms-from-scratch/02-building-a-tokenizer/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 3e2af805d324028b1c673be3bebad6f17dc74ca2ffa0f1f050aa2d5d56d61da1
+  anchor:
+    heading: The Full Pipeline
+    slug: the-full-pipeline
+card:
+  title: 生产级分词器的完整流水线
+  summary: 在实现 Unicode 规范化、预分词、字节回退、特殊 token 与聊天模板时，用文本处理笔记核对词边界、子词组合和多语言输入为何必须作为一个连续管道处理。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/02. text processing and classic NLP.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 54ead3ac20bf4838be83a4f31afbdbefe87f35144bae2deb42993f8f1d0042b3
+  anchor:
+    heading: Text Processing and Classic NLP
+    slug: text-processing-and-classic-nlp

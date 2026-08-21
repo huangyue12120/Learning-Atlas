@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/06-speaker-recognition-verification/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 63ddce2e943e59e1b2aa18bb698df67409fd0011f0d8421139ec7c46cba2f217
+  anchor:
+    heading: Scoring
+    slug: scoring
+card:
+  title: 说话人嵌入、余弦阈值与 EER
+  summary: 在对注册和测试嵌入评分、扫描阈值并找出 FAR 与 FRR 交点时，用说话人分析笔记理解归一化嵌入、分数分布和 EER 的联系。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 09 - audio and speech/04. speaker and audio analysis.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 50400c0042671313fcff23634d2a6b3b48d6489843c5c416baeaff67ac704a4f
+  anchor:
+    heading: Speaker and Audio Analysis
+    slug: speaker-and-audio-analysis

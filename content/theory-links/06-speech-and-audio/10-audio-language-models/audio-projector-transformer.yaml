@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/06-speech-and-audio/10-audio-language-models/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: ed7987f01dba1440b53561d85648b63bae2396f6b4b0494151e272dfa071e046
+  anchor:
+    heading: The three-component template
+    slug: the-three-component-template
+card:
+  title: 音频编码器、投影器与语言模型接口
+  summary: 在实现两层投影器并分阶段冻结或微调组件时，用 Transformer 与语言模型笔记理解音频特征如何进入词元嵌入空间，以及投影适配与序列建模的职责边界。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/11-llm-engineering/12-guardrails/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: 7bca84f499c6a75c2f97253f3fa4cf85befb0fbcf66e4c882e125279686ad73f
+  anchor:
+    heading: The Guardrail Sandwich
+    slug: the-guardrail-sandwich
+card:
+  title: 输入–模型–输出的安全边界
+  summary: 在设计输入过滤、提示注入检测、模型调用前后校验和人工升级时，用 Transformer 语言模型笔记明确模型生成本身的概率性，以及 guardrail 不等同于模型对齐；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models

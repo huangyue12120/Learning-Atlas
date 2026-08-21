@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/05-nlp-foundations-to-advanced/26-relation-extraction-kg/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: ef4e0adc778d183654f229858959b646052a784980c3aaff2e323634b2ca067e
+  anchor:
+    heading: "Step 4: canonicalize onto a closed ontology"
+    slug: step-4-canonicalize-onto-a-closed-ontology
+card:
+  title: 从文本关系到规范语义边
+  summary: 把开放关系短语映射到封闭本体时，区分句法依存关系与同义、上下位、部分整体等语义关系，理解规范关系 ID 怎样让不同表述合并为可查询的知识图谱边。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/01. linguistic foundations.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e96beed85b0061c1001e7475faeafb1b6ddc50fd5d9d64892b6bc9f05227a843
+  anchor:
+    heading: Linguistic Foundations
+    slug: linguistic-foundations

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/07-transformers-deep-dive/04-positional-encoding/docs/en.md
+  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
+  sha256: c7e45e8178d68f5a75b790a84c81a6749b2f2f54c88e30c3f36fabc705a0a511
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 从正弦编码到 RoPE 的相对位置
+  summary: 在实现正弦位置编码和 RoPE 旋转时，用理论笔记中的二维旋转矩阵与 RₘᵀRₙ=Rₙ₋ₘ 推导核对代码，理解为什么旋转后的 Q·K 只依赖相对位置。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/04. transformers and language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 0dba3191925b7d5492b3890becde9e8d23166499af7efedbea04a31e6a173ca6
+  anchor:
+    heading: Transformers and Language Models
+    slug: transformers-and-language-models
