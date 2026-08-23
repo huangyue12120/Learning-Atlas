@@ -32,6 +32,17 @@ Write Chinese learning adaptations naturally while preserving Python code, comma
 
 Test the smallest affected surface. Run a touched TypeScript package's `npm test` and `npm run typecheck`. Execute changed Python examples and their local test command when supplied. Do not claim a workspace-wide test run: there is no root test runner.
 
+## Versioning and Release Guidelines
+
+Treat substantial user-visible changes as a release change. This includes adding or materially revising a batch of Chinese adaptations, opening a new phase, changing the published learning scope, or adding a major reader capability. Before committing such work:
+
+- increment the project version using SemVer (`0.x.0` for a backward-compatible major content or feature milestone, patch versions for smaller fixes, and a major version for breaking changes);
+- keep the root `README.md`, the applicable release notes and content manifest, and the local app `package.json`/`package-lock.json` version fields consistent;
+- record the new version and release date in the user-facing documentation;
+- verify that no current documentation still describes the previous published scope.
+
+Small internal fixes, typo corrections, and non-user-visible refactors do not require a version bump unless the task explicitly requests one.
+
 ## Commit & Pull Request Guidelines
 
 Use concise Conventional Commit-style subjects reflected in upstream history: `feat(reader): add review filter`, `fix(mcp): handle chapter paths`, or `chore(site): rebuild data`. Keep each commit and pull request focused on one logical change. Describe the user-visible effect, list validation performed, link the related issue when available, and include screenshots for prototype or site UI changes. Do not commit generated files unless the affected subproject explicitly requires them.

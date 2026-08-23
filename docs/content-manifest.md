@@ -1,6 +1,6 @@
-# Learning Atlas v0.2 内容清单
+# Learning Atlas v0.3 内容清单
 
-冻结日期：2026-08-21。
+冻结日期：2026-08-23。
 
 ## 当前发布快照与上游跟踪
 
@@ -9,7 +9,7 @@
 | `ai-engineering-from-scratch` | `d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051`（`v2026.07-27-gd0ac5d9`） | MIT |
 | `maths-cs-ai-compendium` | `9850ee574a370bc1cde59de98b394e953775b67d` | Apache-2.0 |
 
-此表记录 v0.2 的可复现发布快照。两个 submodule 同时配置为跟踪其上游 `main` 分支：每日检查只报告待审核更新，不会自动修改发布内容。中文改编、测验和理论关联的各自 front matter 均记录对应原文路径、revision 与 SHA-256。应用发现实践课程或测验的当前 SHA-256 不匹配时，会降级为“待同步”，不会向学习者发布旧内容。
+此表记录 v0.3 的可复现发布快照。两个 submodule 同时配置为跟踪其上游 `main` 分支：每日检查只报告待审核更新，不会自动修改发布内容。中文改编、测验和理论关联的各自 front matter 均记录对应原文路径、revision 与 SHA-256。应用发现实践课程或测验的当前 SHA-256 不匹配时，会降级为“待同步”，不会向学习者发布旧内容。
 
 ## 已发布范围
 
