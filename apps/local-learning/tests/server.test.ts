@@ -46,15 +46,21 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.match(content.markdown, /线性代数直觉/);
   assert.equal(content.theoryCards.length, 3);
   const course = await fetch(`${baseUrl}/api/course`).then((response) => response.json());
-  assert.equal(course.length, 4);
+  assert.equal(course.length, 7);
   const setup = course.find((phase: { slug: string }) => phase.slug === "00-setup-and-tooling");
   const foundations = course.find((phase: { slug: string }) => phase.slug === "01-math-foundations");
   const mlFundamentals = course.find((phase: { slug: string }) => phase.slug === "02-ml-fundamentals");
   const deepLearningCore = course.find((phase: { slug: string }) => phase.slug === "03-deep-learning-core");
+  const computerVision = course.find((phase: { slug: string }) => phase.slug === "04-computer-vision");
+  const nlpFoundations = course.find((phase: { slug: string }) => phase.slug === "05-nlp-foundations-to-advanced");
+  const speechAndAudio = course.find((phase: { slug: string }) => phase.slug === "06-speech-and-audio");
   assert.ok(setup);
   assert.ok(foundations);
   assert.ok(mlFundamentals);
   assert.ok(deepLearningCore);
+  assert.ok(computerVision);
+  assert.ok(nlpFoundations);
+  assert.ok(speechAndAudio);
   assert.equal(setup.lessons.length, 12);
   assert.equal(setup.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(foundations.lessons.length, 22);
@@ -62,6 +68,12 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(mlFundamentals.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(deepLearningCore.lessons.length, 13);
   assert.equal(deepLearningCore.lessons.every((item: { available: boolean }) => item.available), true);
+  assert.equal(computerVision.lessons.length, 28);
+  assert.equal(computerVision.lessons.every((item: { available: boolean }) => item.available), true);
+  assert.equal(nlpFoundations.lessons.length, 29);
+  assert.equal(nlpFoundations.lessons.every((item: { available: boolean }) => item.available), true);
+  assert.equal(speechAndAudio.lessons.length, 17);
+  assert.equal(speechAndAudio.lessons.every((item: { available: boolean }) => item.available), true);
   assert.deepEqual(foundations.lessons[0], {
     id: firstLesson.id,
     position: "01 / 22",
@@ -93,6 +105,21 @@ test("loads published lesson content and resources by lessonId", async () => {
   const backpropagationContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(backpropagationLessonId)}`).then((response) => response.json());
   assert.equal(backpropagationContent.translationStatus, "reviewed");
   assert.deepEqual(backpropagationContent.theoryCards.map((item: { slug: string }) => item.slug), ["the-chain-rule-applied-to-networks"]);
+
+  const visionContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(computerVision.lessons[0].id)}`).then((response) => response.json());
+  assert.equal(visionContent.translationStatus, "reviewed");
+  assert.deepEqual(visionContent.theoryCards, []);
+
+  const nlpContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(nlpFoundations.lessons[0].id)}`).then((response) => response.json());
+  assert.equal(nlpContent.translationStatus, "reviewed");
+  assert.deepEqual(nlpContent.theoryCards, []);
+
+  const audioContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(speechAndAudio.lessons[0].id)}`).then((response) => response.json());
+  assert.equal(audioContent.translationStatus, "reviewed");
+  assert.deepEqual(audioContent.theoryCards.map((item: { slug: string }) => item.slug), ["the-concept"]);
+
+  const proposedAudioContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(speechAndAudio.lessons[13].id)}`).then((response) => response.json());
+  assert.deepEqual(proposedAudioContent.theoryCards, []);
 
   const setupLessonId = setup.lessons[0].id;
   const setupLesson = await fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent(setupLessonId)}`).then((response) => response.json());
