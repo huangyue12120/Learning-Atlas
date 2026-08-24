@@ -46,7 +46,7 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.match(content.markdown, /线性代数直觉/);
   assert.equal(content.theoryCards.length, 3);
   const course = await fetch(`${baseUrl}/api/course`).then((response) => response.json());
-  assert.equal(course.length, 7);
+  assert.equal(course.length, 10);
   const setup = course.find((phase: { slug: string }) => phase.slug === "00-setup-and-tooling");
   const foundations = course.find((phase: { slug: string }) => phase.slug === "01-math-foundations");
   const mlFundamentals = course.find((phase: { slug: string }) => phase.slug === "02-ml-fundamentals");
@@ -54,6 +54,9 @@ test("loads published lesson content and resources by lessonId", async () => {
   const computerVision = course.find((phase: { slug: string }) => phase.slug === "04-computer-vision");
   const nlpFoundations = course.find((phase: { slug: string }) => phase.slug === "05-nlp-foundations-to-advanced");
   const speechAndAudio = course.find((phase: { slug: string }) => phase.slug === "06-speech-and-audio");
+  const transformers = course.find((phase: { slug: string }) => phase.slug === "07-transformers-deep-dive");
+  const generativeAI = course.find((phase: { slug: string }) => phase.slug === "08-generative-ai");
+  const reinforcementLearning = course.find((phase: { slug: string }) => phase.slug === "09-reinforcement-learning");
   assert.ok(setup);
   assert.ok(foundations);
   assert.ok(mlFundamentals);
@@ -61,6 +64,9 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.ok(computerVision);
   assert.ok(nlpFoundations);
   assert.ok(speechAndAudio);
+  assert.ok(transformers);
+  assert.ok(generativeAI);
+  assert.ok(reinforcementLearning);
   assert.equal(setup.lessons.length, 12);
   assert.equal(setup.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(foundations.lessons.length, 22);
@@ -74,6 +80,12 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(nlpFoundations.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(speechAndAudio.lessons.length, 17);
   assert.equal(speechAndAudio.lessons.every((item: { available: boolean }) => item.available), true);
+  assert.equal(transformers.lessons.length, 16);
+  assert.equal(transformers.lessons.every((item: { available: boolean }) => item.available), true);
+  assert.equal(generativeAI.lessons.length, 15);
+  assert.equal(generativeAI.lessons.every((item: { available: boolean }) => item.available), true);
+  assert.equal(reinforcementLearning.lessons.length, 12);
+  assert.equal(reinforcementLearning.lessons.every((item: { available: boolean }) => item.available), true);
   assert.deepEqual(foundations.lessons[0], {
     id: firstLesson.id,
     position: "01 / 22",
@@ -120,6 +132,27 @@ test("loads published lesson content and resources by lessonId", async () => {
 
   const proposedAudioContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(speechAndAudio.lessons[13].id)}`).then((response) => response.json());
   assert.deepEqual(proposedAudioContent.theoryCards, []);
+
+  const transformerContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(transformers.lessons[0].id)}`).then((response) => response.json());
+  assert.equal(transformerContent.translationStatus, "reviewed");
+  assert.deepEqual(transformerContent.theoryCards.map((item: { slug: string }) => item.slug), ["the-concept"]);
+
+  const vaeContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(generativeAI.lessons[1].id)}`).then((response) => response.json());
+  assert.equal(vaeContent.translationStatus, "reviewed");
+  assert.deepEqual(vaeContent.theoryCards.map((item: { title: string }) => item.title), [
+    "高斯潜变量与重参数化采样",
+    "VAE 中的 KL 正则与 ELBO 权衡"
+  ]);
+
+  const proposedGenerativeContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(generativeAI.lessons[0].id)}`).then((response) => response.json());
+  assert.deepEqual(proposedGenerativeContent.theoryCards, []);
+
+  const simToRealContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(reinforcementLearning.lessons[10].id)}`).then((response) => response.json());
+  assert.equal(simToRealContent.translationStatus, "reviewed");
+  assert.deepEqual(simToRealContent.theoryCards.map((item: { slug: string }) => item.slug), ["the-concept"]);
+
+  const proposedPpoContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(reinforcementLearning.lessons[7].id)}`).then((response) => response.json());
+  assert.deepEqual(proposedPpoContent.theoryCards, []);
 
   const setupLessonId = setup.lessons[0].id;
   const setupLesson = await fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent(setupLessonId)}`).then((response) => response.json());

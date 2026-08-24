@@ -31,7 +31,7 @@ source:
 status: draft # draft | reviewed | stale
 ```
 
-Each theory-link file represents one link from a stable practice-lesson anchor to one theory note. It includes the card title and summary, both source locations, the theory-note anchor, and `status: proposed | approved | rejected`. The application renders only approved links. A changed source hash marks the corresponding translation stale; it never overwrites it automatically.
+Each theory-link file represents one link from a stable practice-lesson anchor to one theory note. It includes the card title and summary, both source locations, the theory-note anchor, and `status: proposed | approved | rejected`. Multiple approved links may share one practice anchor; the reader renders each approved card at that section. The application renders only approved links. A changed source hash marks the corresponding translation stale; it never overwrites it automatically.
 
 Each exploration is a Python marimo template. The application copies it into the learner's workspace before launch, so the versioned template stays reviewable and the learner can experiment without changing course content.
 

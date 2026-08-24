@@ -133,7 +133,12 @@ function highlightedCode(source, language) {
 }
 
 function renderMarkdown(markdown, cards) {
-  const cardBySlug = new Map(cards.map((card) => [card.slug, card]));
+  const cardsBySlug = new Map();
+  cards.forEach((card) => {
+    const cardsAtAnchor = cardsBySlug.get(card.slug) ?? [];
+    cardsAtAnchor.push(card);
+    cardsBySlug.set(card.slug, cardsAtAnchor);
+  });
   const lines = markdown.split("\n");
   const output = [];
   const headings = [];
@@ -181,7 +186,7 @@ function renderMarkdown(markdown, cards) {
       const id = anchor ?? `section-${index}`;
       output.push(`<h${level} id="${id}"${anchor ? ` data-theory-card="${escapeHtml(anchor)}"` : ""}>${inlineMarkdown(title)}</h${level}>`);
       if (level === 2) headings.push({ id, title: title.replace(/<!--.*?-->/g, "").trim() });
-      if (anchor && cardBySlug.has(anchor)) output.push(theoryCard(cardBySlug.get(anchor)));
+      if (anchor && cardsBySlug.has(anchor)) output.push(cardsBySlug.get(anchor).map(theoryCard).join(""));
       continue;
     }
     if (line.startsWith("|") && /^\|[-| :]+\|$/.test(lines[index + 1] ?? "")) {
