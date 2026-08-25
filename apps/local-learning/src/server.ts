@@ -24,7 +24,9 @@ const phases = [
   { slug: "06-speech-and-audio", title: "Phase 6 · 语音与音频" },
   { slug: "07-transformers-deep-dive", title: "Phase 7 · Transformer 深入理解" },
   { slug: "08-generative-ai", title: "Phase 8 · 生成式 AI" },
-  { slug: "09-reinforcement-learning", title: "Phase 9 · 强化学习" }
+  { slug: "09-reinforcement-learning", title: "Phase 9 · 强化学习" },
+  { slug: "10-llms-from-scratch", title: "Phase 10 · 从零构建 LLM" },
+  { slug: "11-llm-engineering", title: "Phase 11 · LLM 工程" }
 ] as const;
 type Phase = typeof phases[number];
 const defaultLessonId = "practice/01-math-foundations/01-linear-algebra-intuition";

@@ -46,7 +46,7 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.match(content.markdown, /线性代数直觉/);
   assert.equal(content.theoryCards.length, 3);
   const course = await fetch(`${baseUrl}/api/course`).then((response) => response.json());
-  assert.equal(course.length, 10);
+  assert.equal(course.length, 12);
   const setup = course.find((phase: { slug: string }) => phase.slug === "00-setup-and-tooling");
   const foundations = course.find((phase: { slug: string }) => phase.slug === "01-math-foundations");
   const mlFundamentals = course.find((phase: { slug: string }) => phase.slug === "02-ml-fundamentals");
@@ -57,6 +57,8 @@ test("loads published lesson content and resources by lessonId", async () => {
   const transformers = course.find((phase: { slug: string }) => phase.slug === "07-transformers-deep-dive");
   const generativeAI = course.find((phase: { slug: string }) => phase.slug === "08-generative-ai");
   const reinforcementLearning = course.find((phase: { slug: string }) => phase.slug === "09-reinforcement-learning");
+  const llmsFromScratch = course.find((phase: { slug: string }) => phase.slug === "10-llms-from-scratch");
+  const llmEngineering = course.find((phase: { slug: string }) => phase.slug === "11-llm-engineering");
   assert.ok(setup);
   assert.ok(foundations);
   assert.ok(mlFundamentals);
@@ -67,6 +69,8 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.ok(transformers);
   assert.ok(generativeAI);
   assert.ok(reinforcementLearning);
+  assert.ok(llmsFromScratch);
+  assert.ok(llmEngineering);
   assert.equal(setup.lessons.length, 12);
   assert.equal(setup.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(foundations.lessons.length, 22);
@@ -86,6 +90,10 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(generativeAI.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(reinforcementLearning.lessons.length, 12);
   assert.equal(reinforcementLearning.lessons.every((item: { available: boolean }) => item.available), true);
+  assert.equal(llmsFromScratch.lessons.length, 24);
+  assert.equal(llmsFromScratch.lessons.every((item: { available: boolean }) => item.available), true);
+  assert.equal(llmEngineering.lessons.length, 17);
+  assert.equal(llmEngineering.lessons.every((item: { available: boolean }) => item.available), true);
   assert.deepEqual(foundations.lessons[0], {
     id: firstLesson.id,
     position: "01 / 22",
@@ -153,6 +161,20 @@ test("loads published lesson content and resources by lessonId", async () => {
 
   const proposedPpoContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(reinforcementLearning.lessons[7].id)}`).then((response) => response.json());
   assert.deepEqual(proposedPpoContent.theoryCards, []);
+
+  const tokenizerContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(llmsFromScratch.lessons[0].id)}`).then((response) => response.json());
+  assert.equal(tokenizerContent.translationStatus, "reviewed");
+  assert.deepEqual(tokenizerContent.theoryCards.map((item: { slug: string }) => item.slug), ["the-concept"]);
+
+  const proposedTokenizerContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(llmsFromScratch.lessons[1].id)}`).then((response) => response.json());
+  assert.deepEqual(proposedTokenizerContent.theoryCards, []);
+
+  const embeddingsContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(llmEngineering.lessons[3].id)}`).then((response) => response.json());
+  assert.equal(embeddingsContent.translationStatus, "reviewed");
+  assert.deepEqual(embeddingsContent.theoryCards.map((item: { title: string }) => item.title), ["嵌入空间、相似度与向量检索"]);
+
+  const proposedPromptContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(llmEngineering.lessons[0].id)}`).then((response) => response.json());
+  assert.deepEqual(proposedPromptContent.theoryCards, []);
 
   const setupLessonId = setup.lessons[0].id;
   const setupLesson = await fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent(setupLessonId)}`).then((response) => response.json());
