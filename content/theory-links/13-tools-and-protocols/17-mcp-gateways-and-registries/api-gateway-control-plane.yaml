@@ -3,11 +3,11 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/17-mcp-gateways-and-registries/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 41e8d73e5467c233a63e24307ca963ce616ef198b728cf8212abd27eb646438c
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 6c72285350d087babd97ec9907f94137be217337999ed1b4e44f299b4e3b1692
   anchor:
-    heading: Five gateway responsibilities
-    slug: five-gateway-responsibilities
+    heading: The modern gateway path
+    slug: the-modern-gateway-path
 card:
   title: API 网关为何能集中认证、路由与限流
   summary: 在把多个 MCP 后端合并为一个受控端点时，用系统设计中的代理与 API gateway 概念核对凭据保管、请求路由、限流和审计如何形成边界。

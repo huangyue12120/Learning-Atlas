@@ -4,155 +4,203 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/08-building-an-mcp-client/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: e2c5694b1476f72efa4528cf30d52cc2b20ba64618cbef7563c80fbab8430275
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: dc2ca4a30c21094e72f5e225724c5a6680119d65aa974e34d411be4ce458fc6d
 status: reviewed
 ---
 
-# 构建 MCP 客户端——发现、调用与会话管理
+# 构建 MCP 客户端：发现、路由与双时代回退
 
-> 大多数 MCP 内容都会发布服务器教程，然后对客户端一笔带过。真正困难的编排发生在客户端代码中：进程启动、能力协商、跨多个服务器合并工具列表、sampling 回调、重连和命名空间冲突处理。本课构建一个多服务器客户端，将三个不同的 MCP 服务器提升为供模型使用的一个扁平工具命名空间。
+> 现代 MCP 客户端会在每个请求上重复自身契约。最难的兼容性决策是判断旧服务器确实是旧版，还是现代服务器正在报告一个可以修正的错误。
 
 **类型：** 构建
-**语言：** Python（标准库、多服务器 MCP 客户端）
-**前置课程：** Phase 13 · 07（构建 MCP 服务器）
-**时间：** 约 75 分钟
+**语言：** Python
+**前置课程：** Phase 13，第 07 课
+**预计时间：** 约 85 分钟
 
 ## 学习目标
 
-- 将 MCP 服务器作为子进程启动，完成 `initialize`，并发送 `notifications/initialized`。
-- 维护每个服务器的会话状态（能力、工具列表、最近看到的通知 ID）。
-- 将多个服务器的工具列表合并到一个命名空间，并处理冲突。
-- 将工具调用路由到拥有它的服务器，并重组响应。
+- 为每个 MCP `2026-07-28` 请求构造当前元数据。
+- 用 `server/discover` 探测 stdio 服务器并选择双方支持的版本。
+- 只对明确列入 allowlist 的 peer 授权一次有界旧版探测。
+- 只有验证过受支持 revision 的正向 `initialize` 结果后，才接受旧版时代。
+- 合并确定性工具列表，同时不静默覆盖冲突。
+- 把调用路由到拥有该工具的 peer，而不凭空创建协议会话。
 
 ## 问题
 
-真正的智能体宿主（Claude Desktop、Cursor、Goose、Gemini CLI）会同时加载多个 MCP 服务器。用户可能会同时运行文件系统服务器、Postgres 服务器和 GitHub 服务器。客户端的任务是：
+一个 agent host 通常要与多个 MCP 服务器通信。它必须发现每个服务器、合并工具目录、解析重复名称、路由调用，并从传输失败中恢复。
 
-1. 启动每个服务器。
-2. 分别完成握手。
-3. 对每个服务器调用 `tools/list`，并将结果展平。
-4. 当模型输出 `notes_search` 时，在合并后的命名空间中查找它，并路由到正确的服务器。
-5. 非阻塞地处理任何服务器的通知（`tools/list_changed`）。
-6. 在传输失败时重连。
+`2026-07-28` 让稳定状态更简单，因为每个请求都是自包含的；但兼容性让启动更微妙。客户端可能遇到：
 
-手工实现这些内容，就是区分“玩具”和“可用服务”的地方。官方 SDK 会封装它们，但心智模型必须属于你。
+- 支持首选版本的现代服务器；
+- 返回已知版本或 header 错误的现代服务器；
+- 从未听说 `server/discover` 的旧版服务器；
+- 只有收到 `initialize` 才会响应的旧版服务器。
+
+把每个探测错误都视为旧版很危险。格式错误的现代请求、过载服务器、已死亡进程和旧服务器都可能产生同样的超时或连接关闭信号。客户端必须结合明确的操作员意图和正向协议证据，再选择旧版时代。
 
 ## 概念
 
-### 启动子进程
+### Peer，而不是协议会话
 
-使用 `stdin=PIPE`、`stdout=PIPE`、`stderr=PIPE` 的 `subprocess.Popen`。设置 `bufsize=1`，并使用文本模式逐行读取。每个服务器对应一个进程；客户端为每个服务器持有一个 `Popen` 句柄。
+为每个服务器进程或端点保存一条传输 peer 记录：
 
-### 每服务器会话状态
+- 传输句柄或发送函数；
+- 选中的协议时代与版本；
+- 最近发现的服务器能力；
+- 最近的确定性工具列表；
+- 用于关联的待处理请求 ID；
+- 传输健康状态。
 
-每个服务器对应一个 `Session` 对象，其中保存：
+这些是客户端 bookkeeping，不是协议会话状态。现代 MCP 服务器仍会在每个请求上收到当前版本和客户端能力。
 
-- `process`——Popen 句柄。
-- `capabilities`——服务器在 `initialize` 时声明的能力。
-- `tools`——最近一次 `tools/list` 的结果。
-- `pending`——请求 id 到等待响应的 promise/future 的映射。
+### 每次从头构造现代请求
 
-请求天然是异步的；向服务器 A 发送 `tools/call` 时，服务器 B 正在调用不能阻塞。可以使用带队列的线程或 asyncio。
+```python
+def modern_request(request_id, method, params, version, capabilities):
+    return {
+        "jsonrpc": "2.0",
+        "id": request_id,
+        "method": method,
+        "params": {
+            **params,
+            "_meta": {
+                "io.modelcontextprotocol/protocolVersion": version,
+                "io.modelcontextprotocol/clientCapabilities": capabilities,
+                "io.modelcontextprotocol/clientInfo": CLIENT_INFO,
+            },
+        },
+    }
+```
 
-### 合并后的命名空间
+不要只把元数据挂到连接对象上，以为它一定会到达线端。应在最终序列化的请求上写入并检查它。
 
-客户端看到聚合工具列表时，名称可能冲突。两个服务器都可能暴露 `search`。客户端有三个选择：
+### 现代发现
 
-1. **按服务器名称添加前缀。** `notes/search`、`files/search`。清楚但不美观。
-2. **静默地先到先得。** 后来的服务器的 `search` 覆盖先前的。风险较高，会隐藏冲突。
-3. **拒绝冲突。** 拒绝加载第二个服务器，并通知用户。对安全敏感的宿主最安全。
+`server/discover` 返回受支持版本、服务器能力、说明、缓存提示和推荐的服务器身份。客户端选择双方支持的最高现代版本。
 
-Claude Desktop 使用按服务器添加前缀。Cursor 使用冲突拒绝并给出清晰错误。VS Code MCP 也采用按服务器添加前缀。
+现代专用客户端可以不主动发现，但 stdio 上推荐发现。部分旧服务器在初始化前会接受操作，因此先发 `tools/list` 可能产生歧义；`server/discover` 可建立清晰的时代边界。
 
-### 路由
+### stdio 兼容性探测
 
-合并后，分发表将 `tool_name` 映射到 `session`。模型按名称输出调用；客户端找到会话，将 `tools/call` 消息写入该服务器的 stdin，然后等待响应。
+双时代 stdio 客户端先用首选现代元数据发送 `server/discover`。结果有三类：
 
-### Sampling 回调
+1. **DiscoverResult：** 服务器是现代服务器；选择共同版本并继续逐请求元数据。
+2. **已识别的现代错误：** 服务器仍是现代服务器；例如 `-32022` 时从 `data.supported` 选择并用新 ID 重试，不要发送 `initialize`。
+3. **歧义信号：** 未识别的 JSON-RPC 错误、超时、连接关闭或空响应都不能标识时代。除非该 peer 明确配置为旧版，否则应 fail closed。
 
-如果服务器在 `initialize` 时声明了 `sampling` 能力，它就可以发送 `sampling/createMessage`，请求客户端运行 LLM。客户端必须：
+已识别的现代协议错误包括：`-32020` HeaderMismatch、`-32021` MissingRequiredClientCapability 和 `-32022` UnsupportedProtocolVersion。只要 peer 已证明理解现代错误词汇，即使它在旧版 allowlist 中，也不能再发送 `initialize`。`-32601` 不是正向旧版证据；它只让显式 allowlist peer 有资格进行一次旧版探测。同样规则适用于超时、连接关闭和空响应。
 
-1. 阻塞发往该服务器的后续请求，直到 sampling 解析；如果实现支持并发，也可以流水线处理。
-2. 调用自己的 LLM 提供商。
-3. 将响应发回服务器。
+### Allowlist 是操作员意图，不是证据
 
-第 11 课会端到端介绍 sampling。本课为了完整性只提供桩实现。
+旧版兼容必须是一个 peer 配置上的显式属性：
 
-### 通知处理
+```python
+client.add_server("archive", archive_transport, allow_legacy=True)
+```
 
-`notifications/tools/list_changed` 表示需要重新调用 `tools/list`。`notifications/resources/updated` 表示如果资源正在使用，需要重新读取它。通知不能产生响应——不要尝试给它们发送确认。
+该选择必须绑定到已配置的 command 或 endpoint；不要使用允许任意服务器自行降级的通配符。没有 `allow_legacy=True` 的 peer 在歧义发现后失败，永远不接收 `initialize`。
 
-一个常见的客户端错误是：在 `tools/call` 上阻塞读取循环，而这时通知已经在流中等待。使用后台读取线程，将每条消息推入队列；主线程从队列取出消息并分发。
+allowlist 只授予探测许可，不直接选择时代。客户端发送一次受传输 deadline 限制的 `initialize`，随后必须同时验证：匹配的请求 ID、只有 `result` 没有 `error`、受支持的旧版 `protocolVersion`、对象类型的 `capabilities`，以及带非空字符串 `name`/`version` 的 `serverInfo`。超时、连接关闭、错误响应、格式错误结果、ID 不匹配或不支持的 revision 都 fail closed。只有结构有效的正向结果才选择旧版。真实 transport adapter 必须真正执行 `legacy_probe_timeout_ms`，而不能只记录它。
 
-### 重连
+为该传输 peer 缓存选中的时代；不要在每次调用前重新探测。
 
-传输可能失败：服务器崩溃、操作系统杀死进程、stdio 管道断开。客户端检测 stdout 上的 EOF，并将会话视为死亡。可以选择：
+### 旧版是兼容分支
 
-- 静默重启服务器并重新握手。适用于纯只读服务器。
-- 将失败呈现给用户。适用于带有用户可见会话的有状态服务器。
+一次有界探测返回有效正向旧版证据后，客户端严格按该 revision 使用旧版：验证 envelope 和关联 ID，验证协商 revision 在配置集合内，记录已验证的能力和服务器身份，全部检查通过后才发送 `notifications/initialized`，并在这段传输生命周期中使用旧版请求形状。
 
-Phase 13 · 09 会介绍 Streamable HTTP 的重连语义；stdio 更简单。
+这条分支只服务于已知 peer 的互操作性，不是新服务器或新请求的默认设计。传输重启或端点改变时，丢弃 peer-era 缓存并重新协商。
 
-### Keepalive 与会话 ID
+### 发现并缓存工具
 
-Streamable HTTP 使用 `Mcp-Session-Id` 请求头。Stdio 没有会话 ID——进程身份就是会话。Keepalive ping 可选；stdio 管道不会因为空闲而断开。
+对每个活跃 peer 调用 `tools/list`。现代结果包含 `resultType`、`ttlMs` 和 `cacheScope`。在正确授权上下文内遵守新鲜度提示；过期或收到订阅的列表变更事件后重新获取。
+
+客户端必须将旧版服务器缺少的 `resultType` 视作 `"complete"`，但不能要求旧版响应具备现代缓存字段。服务器应返回确定性顺序；客户端在合并前也应排序，以免本地启动时序改变注册表顺序。
+
+### 无碰撞的命名空间合并
+
+两个服务器可能都暴露 `search`。选择声明过的策略：
+
+1. **冲突时加前缀：** 保留首个规范名，后续冲突暴露为 `<server>/<tool>`。
+2. **冲突时拒绝：** 不加载重复项，给出清楚的配置错误。
+3. **静默覆盖：** 永远不要用。它会隐藏模型选择的动作最终发送给哪个服务器。
+
+同时保存规范名和本地名。模型看到规范名，发出的 `tools/call` 使用拥有者服务器声明的本地名。
+
+### 路由调用
+
+路由是纯查表：
+
+```text
+canonical tool name
+  -> peer name + local tool name
+  -> new JSON-RPC request id
+  -> modern request metadata or explicit legacy shape
+  -> matching response id
+```
+
+拥有者传输不可用时不要发送调用。应重连或重启传输，再重新发现和执行 `tools/list`。现代传输断裂而丢失的在途请求，只有在操作安全策略允许时，才能用新的 JSON-RPC ID 重试。
+
+### 通知与订阅
+
+现代列表和资源变更只会通过客户端打开的 `subscriptions/listen` 流到达。客户端发送通知过滤器，等待 `notifications/subscriptions/acknowledged`，并用通知元数据中的 listen 请求 ID 关联事件。
+
+断开后，客户端要用新 ID 打开新的 listen 请求并重新获取相关列表或资源。现代流不会用 `Last-Event-ID` 恢复。
+
+### 不发起服务器主动请求
+
+现代服务器不会通过独立 JSON-RPC 请求调用客户端的 sampling、elicitation 或 Roots。它们返回 `input_required`，客户端完成嵌入式输入后重试原请求。
+
+处理输入时不要阻塞 peer 的响应读取器；保留关联关系，并为重试创建新的 JSON-RPC ID。
 
 ```figure
 tp-client-merge
 ```
 
-## 动手使用
+## 使用
 
-`code/main.py` 启动三个模拟的 MCP 服务器作为子进程，分别完成握手，合并工具列表，并将工具调用路由到正确的服务器。“服务器”实际上是运行玩具响应器的其他 Python 进程（没有真实 LLM）。运行它可以看到：
+`code/main.py` 使用进程内 peer 函数，让协议决策保持可见。它连接两个现代 peer 和一个有意列入 allowlist 的旧版 peer，然后合并和路由工具。传输可调用对象会收到 timeout 预算，因此兼容分支不能藏起无界探测。
 
-- 三次初始化，每次都有自己的能力集合。
-- 三个 `tools/list` 结果合并成一个含 7 个工具的命名空间。
-- 根据工具名称做出的路由决策。
-- 通过命名空间添加前缀来阻止冲突。
+```bash
+cd code
+python3 main.py
+python3 -m unittest discover tests -v
+```
 
-请重点观察：
+测试覆盖 demo 容易漏掉的边界：现代请求重复元数据；`-32022` 只重试现代发现；已识别现代错误绝不降级；无 allowlist 时超时、连接关闭、空响应和未识别错误不触发 `initialize`；只有有效且受支持的 `initialize` 结果才选择旧版；格式错误或不支持的旧版结果保持 peer 不可用；成功选择的时代会在传输生命周期内缓存。
 
-- `Session` 数据类干净地保存每服务器状态。
-- 后台读取线程取出 stdout 的每一行，不阻塞主线程。
-- 分发表只是一个简单的 `dict[str, Session]`。
-- 冲突处理是显式的：两个服务器声明同名时，后者会被加上前缀重命名。
+## 交付
 
-## 交付物
-
-本课会生成 `outputs/skill-mcp-client-harness.md`。给定声明式的 MCP 服务器列表（名称、命令、参数），这个 skill 会生成启动它们、合并工具列表并提供带冲突解决的路由函数的测试工具。
+本课交付 `outputs/skill-mcp-client-harness.md`，用于搭建现代请求写入、stdio 时代协商、确定性命名空间合并、路由，以及 fail-closed 旧版兼容分支。
 
 ## 练习
 
-1. 运行 `code/main.py` 并观察服务器启动日志。用 SIGTERM 杀死一个模拟服务器进程，观察客户端如何检测 EOF，并将该会话标记为死亡。
+1. 让伪服务器返回没有共同版本的 `-32022`，确认客户端失败且不发送 `initialize`。
+2. 将伪旧版服务器列入 allowlist，让有界 `initialize` 超时，证明 peer 保持 `unknown` 且不可用。
+3. 为两个授权上下文增加 `cacheScope: "private"` 的工具列表，确认客户端不会跨上下文共享缓存。
+4. 把冲突策略改为拒绝，让启动错误同时包含两个 peer 名称。
+5. 增加有限的 `subscriptions/listen` 模拟器。流丢失时用新 ID 重新监听并重新获取工具。
 
-2. 实现命名空间前缀。当两个服务器暴露 `search` 时，将第二个重命名为 `<server>/search`。更新分发表，核验工具调用可以正确路由。
+## 关键术语
 
-3. 为服务器重启加入连接池式退避：连续失败时采用指数退避，上限 30 秒，失败三次后向用户发送通知。
-
-4. 画出一个支持 100 个并发 MCP 服务器的客户端。什么数据结构可以替换简单的分发字典？（提示：用于前缀命名空间的 trie，加上每服务器工具数量指标。）
-
-5. 将客户端迁移到官方 MCP Python SDK。SDK 会封装 `stdio_client` 和 `ClientSession`。在保持多服务器路由的同时，代码应从约 200 行缩减到约 40 行。
-
-## 术语
-
-| 术语 | 人们常说 | 实际含义 |
-|------|----------------|------------------------|
-| MCP 客户端 | “智能体宿主” | 启动服务器并编排工具调用的进程 |
-| 会话 | “每服务器状态” | 能力、工具列表和待处理请求记录 |
-| 合并后的命名空间 | “一张工具列表” | 所有活动服务器工具名称组成的扁平集合 |
-| 命名空间冲突 | “两个服务器有同名工具” | 客户端必须给重复项加前缀、拒绝或按先到先得处理 |
-| 路由 | “这个调用给谁？” | 将工具名称分发到拥有它的服务器 |
-| 后台读取器 | “非阻塞 stdout” | 将服务器 stdout 排空并写入队列的线程或任务 |
-| Sampling 回调 | “LLM 即服务” | 客户端处理服务器发来的 `sampling/createMessage` |
-| `notifications/*_changed` | “原语已变更” | 客户端必须重新发现或重新读取的信号 |
-| 重连策略 | “服务器死掉时怎么办” | 传输失败时的重启语义 |
-| Stdio 会话 | “进程就是会话” | 没有会话 ID；子进程生命周期就是会话 |
+| 术语 | 含义 |
+|------|------|
+| Peer | 一个服务器传输及其发现数据的客户端记录 |
+| 协议时代 | 现代逐请求元数据或旧版初始化语义 |
+| 发现探测 | 用来识别 stdio 时代的初始 `server/discover` |
+| 已识别现代错误 | 证明现代行为、禁止旧版回退的错误 |
+| 旧版 allowlist | 允许对一个固定 peer 做一次有界兼容探测的操作员配置 |
+| 正向旧版证据 | 针对显式支持 revision 的有效、关联的 `initialize` 结果 |
+| 合并命名空间 | 所有活跃 peer 中的规范工具名 |
+| 冲突策略 | 重命名或拒绝重复工具的规则 |
+| 时代缓存 | 针对一个传输 peer 保存的现代或旧版行为 |
+| 传输恢复 | 重启/重连、重新发现、重新列举，并以新 ID 安全重试 |
 
 ## 延伸阅读
 
-- [Model Context Protocol — Client spec](https://modelcontextprotocol.io/specification/2025-11-25/client) — 权威客户端行为
-- [MCP — Quickstart client guide](https://modelcontextprotocol.io/quickstart/client) — 使用 Python SDK 的 hello-world 客户端教程
-- [MCP Python SDK — client module](https://github.com/modelcontextprotocol/python-sdk) — `ClientSession` 与 `stdio_client` 参考
-- [MCP TypeScript SDK — Client](https://github.com/modelcontextprotocol/typescript-sdk) — TypeScript 对应实现
-- [VS Code — MCP in extensions](https://code.visualstudio.com/api/extension-guides/ai/mcp) — VS Code 如何在单一编辑器宿主中复用多个 MCP 服务器
+- [MCP Specification 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28/)
+- [MCP Server Discovery](https://modelcontextprotocol.io/specification/2026-07-28/server/discover)
+- [MCP stdio Transport](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio)
+- [MCP Versioning](https://modelcontextprotocol.io/specification/2026-07-28/basic/versioning)
+- [MCP Tools](https://modelcontextprotocol.io/specification/2026-07-28/server/tools)

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/01-dev-environment/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 2d8c9ddf2d1e9f26adc3f64c845907ce61d3f01e7c0840a27a174d95f44d503d
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 3efbd374a2a60e29a60a5f6ed382dd6ff6e38442a5cced9626c0b2c810a9877f
 status: reviewed
 ---
 
@@ -27,7 +27,7 @@ status: reviewed
 
 ## 问题
 
-你将会在 200 多节课程中学习 AI 工程，涉及 Python、TypeScript、Rust 和 Julia。若环境出了问题，每节课都会变成与工具链搏斗，而不是学习。
+你将会在 500 多节课程中学习 AI 工程，涉及 Python、TypeScript、Rust 和 Julia。若环境出了问题，每节课都会变成与工具链搏斗，而不是学习。
 
 很多人跳过环境配置，随后花数小时排查导入错误、版本冲突和缺失的 CUDA 驱动。我们这次把它一次做好。
 
@@ -165,17 +165,41 @@ if torch.cuda.is_available():
 
 没有 GPU？没关系。多数课程可在 CPU 上完成；训练量大的课程可使用 Google Colab 或云端 GPU。
 
-### 第 7 步：验证全部工具
+### 第 7 步：验证你想开始的学习路线
 
-运行验证脚本：
+本课的命令都从仓库根目录运行，也就是包含 `README.md` 和 `phases/` 的目录。预检只检查你选择的路线所需内容；默认跳过后续工具，让新学习者得到一个清晰结论，而不是一整面警告。
+
+启动完整的入门顺序：
 
 ```bash
-python phases/00-setup-and-tooling/01-dev-environment/code/verify.py
+python3 phases/00-setup-and-tooling/01-dev-environment/code/verify.py --route beginner
+```
+
+也可以只检查你想要的路线：
+
+```bash
+python3 phases/00-setup-and-tooling/01-dev-environment/code/verify.py --route ml-foundations
+python3 phases/00-setup-and-tooling/01-dev-environment/code/verify.py --route llm-engineering
+python3 phases/00-setup-and-tooling/01-dev-environment/code/verify.py --route agents
+python3 phases/00-setup-and-tooling/01-dev-environment/code/verify.py --route mcp
+python3 phases/00-setup-and-tooling/01-dev-environment/code/verify.py --route agent-skills
+python3 phases/00-setup-and-tooling/01-dev-environment/code/verify.py --route certification
+```
+
+想让预检同时查看后续课程的可选工具和依赖时，加上 `--show-later`。后续工具缺失不会阻塞你选择的路线。
+
+每个必需检查的失败项都会给出检测到的路径或导入错误，以及精确的修复命令。Agent Skills 和认证路线还会显示手动检查项，因为 Python 脚本无法证明某个 AI host 已发现 skill，也无法证明你选择的 skill 作用域可写。
+
+入门预检通过后，会打印第一节可运行课程的确切命令：
+
+```text
+Ready to start Beginner course.
+Next: python3 phases/01-math-foundations/01-linear-algebra-intuition/code/vectors.py
 ```
 
 ## 实际使用
 
-你的环境现在已可用于本课程的每一节课。以下是各语言的使用范围：
+你的环境已经可以启动所检查的路线。后续课程需要时再安装对应工具，不必让整个技术栈阻塞第一节课。以下是它们在全课程中的使用范围：
 
 | 语言 | 使用阶段 | 包管理器 |
 |----------|---------|-----------------|

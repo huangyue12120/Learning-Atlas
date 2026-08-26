@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/01-the-tool-interface/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 57d958c5b70245c93c1ea8169a732f06b7d1de76b62c8122556797bd25f7c5ef
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 03823fa620a739c438f4e907af32445f81cc3a26387b86d13ca90ff0d1f14533
 status: reviewed
 ---
 
@@ -163,5 +163,5 @@ tp-tool-loop
 - [OpenAI — Function calling guide](https://platform.openai.com/docs/guides/function-calling) — OpenAI 风格工具声明与调用形状的权威参考
 - [Anthropic — Tool use overview](https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview) — Claude 的 `tool_use` / `tool_result` 块格式
 - [Google — Gemini function calling](https://ai.google.dev/gemini-api/docs/function-calling) — Gemini 中的 `functionDeclarations` 与并行调用语义
-- [Model Context Protocol — Specification 2025-11-25](https://modelcontextprotocol.io/specification/2025-11-25) — 工具接口的提供商无关泛化
+- [Model Context Protocol — Specification 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28) — 当前无状态、与供应商无关的工具接口泛化
 - [JSON Schema — 2020-12 release notes](https://json-schema.org/draft/2020-12/release-notes) — 现代工具 API 都使用的 schema 方言

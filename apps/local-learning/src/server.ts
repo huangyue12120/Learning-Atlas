@@ -127,7 +127,8 @@ function phaseDirectory(phase: Phase) {
 
 function lessonSlugs(phase: Phase) {
   return readdirSync(phaseDirectory(phase), { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && /^\d{2}-/.test(entry.name))
+    .filter((entry) => entry.isDirectory() && /^\d{2}-/.test(entry.name) &&
+      existsSync(join(repositoryDirectory, "content/translations/practice", phase.slug, entry.name, "zh.md")))
     .map((entry) => entry.name)
     .sort();
 }

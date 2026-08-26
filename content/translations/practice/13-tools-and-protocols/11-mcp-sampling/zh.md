@@ -4,190 +4,273 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/11-mcp-sampling/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 9ee3c3f52111e1582b00ef49ad3b809abccfc5aaf07ab5ed7309b2e5d91637ca
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: a205ee1e92a30eb61080e980620eaf0c5dbd1772db8b35da65a453273ed4fd71
 status: reviewed
 ---
 
-# MCP Sampling——服务器请求的 LLM 补全与智能体循环
+# MCP 模型输入：Sampling 迁移与无状态 MRTR
 
-> 大多数 MCP 服务器都是无脑执行器：接收参数、运行代码、返回内容。Sampling 让服务器反向请求：它可以要求客户端的 LLM 做出决策。这样服务器无需持有模型凭据，就能托管智能体循环。合并到 2025-11-25 规范中的 SEP-1577 为 sampling 请求加入了工具，使循环可以包含更深入的推理。漂移风险提示：截至 2026 年第一季度，sampling 中的 SEP-1577 工具形状仍是实验性的，SDK API 还在稳定中。
+> MCP 2026-07-28 已将 Sampling 标记为弃用，并移除了服务器到客户端的请求通道。已有工作流如果仍需要客户端的模型，服务器就返回 `input_required` 结果，客户端带着模型输出重试原请求。推理循环因此变得显式、有界，并且在协议层保持无状态。
 
 **类型：** 构建
-**语言：** Python（标准库、sampling 测试工具）
-**前置课程：** Phase 13 · 07（MCP 服务器）、Phase 13 · 10（资源与 prompt）
-**时间：** 约 75 分钟
+**语言：** Python
+**前置课程：** Phase 13 · 第 07 课（MCP 服务器）、Phase 13 · 第 10 课（资源与提示词）
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
-- 解释 `sampling/createMessage` 解决了什么问题（服务器托管的循环，无需服务器端 API key）。
-- 实现一个服务器，让它通过多回合 prompt 请求客户端 sampling，并返回补全。
-- 使用 `modelPreferences`（成本 / 速度 / 智能优先级）引导客户端选择模型。
-- 构建 `summarize_repo` 工具，让它通过 sampling 内部迭代，而不是将行为硬编码。
+- 解释 Sampling 为何在 MCP 2026-07-28 中弃用，并为新服务器选择直接集成模型的默认方案。
+- 实现兼容工作流，把 `sampling/createMessage` 放进 Multi Round-Trip Requests（MRTR）。
+- 在每个请求的 `_meta` 对象中放入协议版本和客户端能力。
+- 返回 `resultType: "input_required"`，并用新的 JSON-RPC id 重试原方法。
+- 保护 `requestState` 的完整性，并将其绑定到主体、方法、参数和过期时间。
+- 用能力检查、审批、响应校验和轮次上限约束模型辅助循环。
 
-## 问题
+## 协议之前的决策
 
-一个用于代码摘要工作流的实用 MCP 服务器需要遍历文件树、选择要读取的文件、综合摘要并返回。LLM 推理应该在哪里发生？
+例如，`summarize_repo` 这样的工具需要两类工作：
 
-方案 A：服务器调用自己的 LLM。需要 API key，由服务器付费，每用户成本很高。
+1. 确定性工作：列出文件、读取允许的文件、校验路径并组装内容。
+2. 模型工作：选择有代表性的文件并综合摘要。
 
-方案 B：服务器返回原始内容，由客户端的智能体负责推理。可以工作，但会把服务器逻辑移入客户端提示，十分脆弱。
+现在有两种有效架构。
 
-方案 C：服务器通过 `sampling/createMessage` 请求客户端 LLM。服务器保留算法（读哪些文件、执行几轮），客户端保留计费和模型选择。服务器完全不持有凭据。
+### 新服务器：直接集成模型提供商
 
-Sampling 就是方案 C。它让受信任的服务器可以托管智能体循环，而无需把自己变成完整的 LLM 宿主。
+这是当前默认方案。服务器负责模型选择、凭据、预算、重试和可观测性，并向 MCP 客户端返回一个普通的 `tools/call` 结果。
 
-## 概念
+当服务器本来就是托管服务，或可预测的模型行为比使用宿主模型更重要时，选择这个方案。
 
-### `sampling/createMessage` 请求
+### 已有 Sampling 工作流：迁移到 MRTR
 
-服务器发送：
+Sampling 在弃用窗口内仍然存在。面向 2026-07-28 的服务器不能再向客户端实时发送 `sampling/createMessage` 请求，而是把它嵌入 `InputRequiredResult`。
+
+只有在使用客户端模型和凭据是实际产品需求时，才选择这条兼容路径。记录移除计划，因为新实现不应采用已弃用的 Sampling。
+
+## 无状态契约
+
+2026 年 7 月协议没有 `initialize` 交换、没有 `notifications/initialized`，也没有 `Mcp-Session-Id`。过去放在握手里的信息，现在随每个请求传递：
 
 ```json
 {
   "jsonrpc": "2.0",
-  "id": 42,
-  "method": "sampling/createMessage",
+  "id": 1,
+  "method": "tools/call",
   "params": {
-    "messages": [{"role": "user", "content": {"type": "text", "text": "..."}}],
-    "systemPrompt": "...",
-    "includeContext": "none",
-    "modelPreferences": {
-      "costPriority": 0.3,
-      "speedPriority": 0.2,
-      "intelligencePriority": 0.5,
-      "hints": [{"name": "claude-3-5-sonnet"}]
-    },
-    "maxTokens": 1024
+    "name": "summarize_repo",
+    "arguments": {"audience": "developer"},
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientCapabilities": {"sampling": {}},
+      "io.modelcontextprotocol/clientInfo": {
+        "name": "lesson-client",
+        "version": "1.0.0"
+      }
+    }
   }
 }
 ```
 
-客户端运行自己的 LLM，然后返回：
+服务器在每个请求上校验版本。缺少版本或版本不是字符串时返回 Invalid Params（`-32602`）；不支持的字符串返回 `-32022`，数据必须精确为 `{"supported":["2026-07-28"],"requested":"<client version>"}`。缺少 Sampling 能力返回 `-32021`，且 `data.requiredCapabilities` 为 `{"sampling":{}}`。
 
-```json
-{"jsonrpc": "2.0", "id": 42, "result": {
-  "role": "assistant",
-  "content": {"type": "text", "text": "..."},
-  "model": "claude-3-5-sonnet-20251022",
-  "stopReason": "endTurn"
-}}
-```
+没有 JSON-RPC `id` 的信封是通知。接收方可以处理它，但既不返回成功响应，也不返回错误响应。Streamable HTTP 适配器对接受的通知返回没有响应体的 `202 Accepted`。
 
-### `modelPreferences`
+服务器还实现 `server/discover`，以 `supportedVersions`、能力、`ttlMs` 和 `cacheScope` 让客户端在调用工具前学习并缓存服务器契约。由于 discovery 公布了 `tools`，服务器也实现必需的 `tools/list`。其确定性的 `summarize_repo` 描述包含合法的对象型 `inputSchema`、`resultType: "complete"`、服务器身份元数据和公开缓存提示。
 
-三个相加为 1.0 的浮点数：
+每个成功的现代结果都有一个判别字段：
 
-- `costPriority`：偏好更便宜的模型。
-- `speedPriority`：偏好更快的模型。
-- `intelligencePriority`：偏好能力更强的模型。
+- `resultType: "complete"` 表示操作结束。
+- `resultType: "input_required"` 表示客户端要完成嵌入式请求并重试。
+- 扩展可以定义更多结果类型；第 13 课的 Tasks 扩展增加了 `"task"`。
 
-再加上 `hints`：服务器偏好的命名模型。客户端可以遵守，也可以不遵守；客户端用户的配置始终优先。
+## 一轮 MRTR
 
-### `includeContext`
-
-三个取值：
-
-- `"none"`——只有服务器提供的消息。默认值。
-- `"thisServer"`——包含该服务器会话中的之前消息。
-- `"allServers"`——包含整个会话上下文。
-
-由于会泄漏跨服务器上下文，`includeContext` 从 2025-11-25 起被软弃用。优先使用 `"none"`，并在消息中传入显式上下文。
-
-### 带工具的 Sampling（SEP-1577）
-
-2025-11-25 新增：sampling 请求可以包含 `tools` 数组。客户端使用这些工具运行完整的工具调用循环。这样服务器可以通过客户端模型托管 ReAct 风格的智能体循环。
+服务器在处理请求时不能直接调用客户端，而是返回这个结果：
 
 ```json
 {
-  "messages": [...],
-  "tools": [
-    {"name": "fetch_url", "description": "...", "inputSchema": {...}}
-  ]
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "resultType": "input_required",
+    "inputRequests": {
+      "pick_files": {
+        "method": "sampling/createMessage",
+        "params": {
+          "messages": [
+            {
+              "role": "user",
+              "content": {
+                "type": "text",
+                "text": "Choose three representative files and return a JSON array."
+              }
+            }
+          ],
+          "systemPrompt": "Return only the requested value.",
+          "modelPreferences": {
+            "costPriority": 0.8,
+            "intelligencePriority": 0.2
+          },
+          "maxTokens": 400
+        }
+      }
+    },
+    "requestState": "opaque-integrity-protected-value"
+  }
 }
 ```
 
-客户端循环执行：sampling；如果被调用则执行工具；再次 sampling；最后返回 assistant 消息。该特性截至 2026 年第一季度仍是实验性的；SDK 签名可能继续变化。实现时请对照 2025-11-25 规范中的 client/sampling 章节确认。
+客户端确认自己支持 Sampling，应用审批和模型策略，并得到模型响应。之后它用不同的 JSON-RPC id 发送新请求：
 
-### 人在回路
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "method": "tools/call",
+  "params": {
+    "name": "summarize_repo",
+    "arguments": {"audience": "developer"},
+    "inputResponses": {
+      "pick_files": {
+        "role": "assistant",
+        "content": {
+          "type": "text",
+          "text": "[\"README.md\", \"server.py\", \"docs/intro.md\"]"
+        },
+        "model": "host-model",
+        "stopReason": "endTurn"
+      }
+    },
+    "requestState": "opaque-integrity-protected-value",
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientCapabilities": {"sampling": {}}
+    }
+  }
+}
+```
 
-客户端在运行 sampling 之前必须向用户展示服务器要求模型做什么。恶意服务器可能利用 sampling 操纵用户会话（“对用户说 X，让他们点击 Y”）。Claude Desktop、VS Code 和 Cursor 会将 sampling 请求显示为确认对话框，用户可以拒绝。
+这次重试不是协议会话的延续。它是一个新请求，重复原来的方法和参数，只添加当前轮的 `inputResponses`，并逐字节回显 `requestState`。
 
-2026 年的共识是：没有人工确认的 sampling 是危险信号。网关（Phase 13 · 17）可以自动批准低风险 sampling，自动拒绝可疑内容。
+MRTR 只允许用于 `tools/call`、`prompts/get` 和 `resources/read`。服务器不得从无关方法返回 `input_required`。
 
-### 没有 API key 的服务器托管循环
+## 多轮状态
 
-典型用例是一个自身没有 LLM 访问权限的代码摘要 MCP 服务器。它执行：
+本课需要两次模型调用：
 
-1. 遍历仓库结构。
-2. 用“挑出最可能描述该仓库用途的五个文件”调用 `sampling/createMessage`。
-3. 读取这些文件。
-4. 将文件内容和“用三段话总结仓库”传入 `sampling/createMessage`。
-5. 将摘要作为 `tools/call` 结果返回。
+1. `pick_files` 返回 JSON 数组。
+2. `summary` 返回最终散文摘要。
 
-服务器从未接触 LLM API。客户端用户使用自己的凭据为补全付费。
+每次重试只携带该轮的响应。因此服务器把阶段和经过校验的中间数据放进下一个 `requestState`。
 
-### 安全风险（Unit 42 披露，2026 年第一季度）
+把这个值视为攻击者控制的输入。仅签名原始阶段名称还不够，状态还要绑定到：
 
-- **隐蔽 sampling。** 工具总是带着“从会话上下文回复用户的邮箱”调用 sampling。Phase 13 · 15 会介绍攻击向量。
-- **通过 sampling 窃取资源。** 服务器要求客户端总结攻击者的载荷，让用户承担费用。
-- **循环炸弹。** 服务器在紧循环中调用 sampling。客户端必须执行每会话速率限制。
+- 认证主体，而不是自报的 `clientInfo`；
+- 发起方法；
+- 原始参数的摘要；
+- 较短的过期时间；
+- 当前阶段和经过校验的中间值。
+
+不需要保密时使用 HMAC；客户端不能读取状态时使用认证加密。错误签名、过期、主体变化或参数变化，都应以 `-32602` 拒绝。
+
+客户端不能解析或修改 `requestState`，唯一职责是在重试时原样回显字符串。
+
+## 模型偏好是提示
+
+`costPriority`、`speedPriority` 和 `intelligencePriority` 是彼此独立的偏好，不是概率分布，也不要求总和为 1。客户端拥有模型策略，因此可以忽略它们。
+
+如果维护旧版 Sampling 流程，把 `includeContext` 保持为 `"none"`。其他上下文模式会增加泄露风险，而且本身也已弃用。只在请求中传递最少的显式上下文。
+
+## 安全不变量
+
+客户端是嵌入式 Sampling 请求的信任边界。
+
+- 在策略要求审批时，向用户展示服务器要求模型做什么。
+- 限制 MRTR 轮数，否则恶意服务器可以制造模型消费循环。
+- 使用采样响应作为文件名、URL 或工具输入前，校验每一条响应。
+- 限制每轮的字节数和 token 数。
+- 拒绝当前客户端能力没有声明的输入请求。
+- 不要把模型输出放进授权决策。
+- 记录发起方法和输入请求键，但不要记录敏感提示词内容。
+
+`clientInfo` 和 `serverInfo` 是展示及诊断元数据。绝不能把任一项当作认证身份。
 
 ```figure
 t3-sampling-flip
 ```
 
-## 动手使用
+## 动手构建
 
-`code/main.py` 提供一个假的服务器到客户端 sampling 测试工具。模拟的 `summarize_repo` 工具调用两轮 sampling（选择文件，然后总结），假的客户端返回预设响应。测试工具展示：
+`code/main.py` 用标准库实现完整的两轮流程，不依赖第三方包：
 
-- 服务器带着 `modelPreferences` 发送 `sampling/createMessage`。
-- 客户端返回一个补全。
-- 服务器继续自己的循环。
-- 速率限制器限制每次工具调用的 sampling 总数。
+- `server/discover` 返回 `supportedVersions`，公布工具支持，并返回缓存提示。
+- `tools/list` 返回带对象输入 schema、确定性且可缓存的 `summarize_repo` 描述。
+- `tools/call` 校验逐请求元数据。
+- 第一份结果嵌入 `sampling/createMessage` 以选择文件。
+- 第一次重试校验模型结果，并嵌入第二个请求。
+- HMAC 保护的 `requestState` 在独立请求间携带阶段。
+- 最终结果使用 `resultType: "complete"`。
 
-请重点观察：
+伪造的宿主模型让示例保持确定性。接入真实宿主时只替换 `fake_host_model`；服务器端状态机应保持确定且可测试。
 
-- 服务器只暴露一个工具（`summarize_repo`）；所有推理都发生在 sampling 调用中。
-- 模型偏好影响客户端的模型选择；hints 列出偏好的模型。
-- 循环在 `stopReason: "endTurn"` 时终止。
-- `max_samples_per_tool = 5` 限制可以捕获失控循环。
+## 使用
 
-## 交付物
+从仓库根目录运行：
 
-本课会生成 `outputs/skill-sampling-loop-designer.md`。给定一个需要调用 LLM 的服务器端算法（研究、摘要、规划），这个 skill 会设计基于 sampling 的实现，并加入合适的 modelPreferences、速率限制和安全确认。
+```bash
+cd phases/13-tools-and-protocols/11-mcp-sampling/code
+python3 main.py
+python3 -m unittest discover tests -v
+```
+
+预期检查点：
+
+- Discovery 返回带 `ttlMs` 与 `cacheScope` 的 complete 结果。
+- 工具发现返回相同的排序描述，包含 `resultType`、服务器身份和缓存提示。
+- 缺少能力与不支持版本分别使用精确的 `-32021` 和 `-32022` 错误数据。
+- 没有 id 的通知不会产生 JSON-RPC 响应。
+- 请求 id 为 `[1, 2, 3]`，证明每轮 MRTR 都是独立请求。
+- 前两个结果是 `input_required`。
+- 最终结果是 `complete`，包含选中文件和摘要。
+- 在重试时改变原始参数会导致 request-state 校验失败。
+
+## 交付
+
+`outputs/skill-sampling-loop-designer.md` 现在是迁移规划器。它先判断是否应移除 Sampling、改为直接集成模型；如果需要兼容，就生成 MRTR 轮次、状态绑定、能力门禁、预算、校验和移除计划。
 
 ## 练习
 
-1. 运行 `code/main.py`。将 `max_samples_per_tool` 改为 2，观察速率限制截断。
+1. 把文件选择响应改成无效 JSON，确认服务器返回 `-32602`，而不是信任模型输出。
+2. 在第一次调用和重试之间改变 `audience`，解释为什么封存状态会阻止跨请求复用。
+3. 增加第三轮，让宿主批评摘要；把前面的摘要放入签名状态，并把整个流程限制为三轮。
+4. 移除 Sampling，把伪造宿主回调替换成服务器自有的模型适配器。列出哪些审批、计费和可观测性职责转移到了服务器。
+5. 使用刚过期一秒的状态值增加过期测试。
 
-2. 实现 SEP-1577 的 sampling 中工具变体：sampling 请求携带 `tools` 数组。验证客户端循环在返回最终补全前执行这些工具。注意漂移风险：SDK 签名在 2026 年上半年仍可能变化。
+## 关键术语
 
-3. 加入人在回路确认：服务器第一次 `sampling/createMessage` 之前暂停并等待用户批准。被拒绝的调用返回类型化拒绝。
+| 术语 | 2026-07-28 中的含义 |
+|------|--------------------|
+| Sampling | 请求客户端模型补全的已弃用功能 |
+| MRTR | 请求过程中需要客户端输入时使用的无状态重试模式 |
+| `InputRequiredResult` | `resultType: "input_required"` 的结果 |
+| `inputRequests` | 服务器分配的嵌入式询问映射，可包含 elicitation、sampling 或 roots 请求 |
+| `inputResponses` | 当前轮客户端的结果，键与 `inputRequests` 对应 |
+| `requestState` | 客户端原样回显、服务器验证的不透明服务器状态 |
+| `resultType` | 现代 MCP 结果必需的判别字段 |
+| 直接集成模型 | 新服务器需要模型推理时推荐的替代方案 |
+| 能力门禁 | 防止向未声明能力的客户端发送嵌入式请求的规则 |
+| 循环预算 | 操作允许的最大轮数、token、字节数、时间和花费 |
 
-4. 添加按客户端会话索引的每用户速率限制器。同一用户在同一服务器上的循环应共享预算。
+## 旧版兼容
 
-5. 设计一个使用 sampling 选择待包含片段的 `summarize_pdf` 工具。画出发送的消息。当 `modelPreferences.intelligencePriority` 从 0.1 变为 0.9 时，行为如何变化？
+固定在 2025-11-25 的客户端仍可能在活动连接上使用旧的、服务器主动发起的 `sampling/createMessage` 流程。只在按版本隔离的适配器中保留该行为，不要把有会话的路径当作 2026-07-28 服务器的架构。
 
-## 术语
-
-| 术语 | 人们常说 | 实际含义 |
-|------|----------------|------------------------|
-| Sampling | “服务器到客户端的 LLM 调用” | 服务器请求客户端模型生成补全 |
-| `sampling/createMessage` | “那个方法” | 发起 sampling 请求的 JSON-RPC 方法 |
-| `modelPreferences` | “模型优先级” | 成本 / 速度 / 智能权重，加上名称提示 |
-| `includeContext` | “跨会话泄漏” | 软弃用的上下文包含模式 |
-| SEP-1577 | “Sampling 中的工具” | 允许 sampling 中携带工具，以便服务器托管 ReAct |
-| 人在回路 | “用户确认” | 客户端在运行前向用户展示 sampling 请求 |
-| 循环炸弹 | “失控 sampling” | 服务器端无限 sampling 循环；客户端必须限速 |
-| 隐蔽 sampling | “隐藏推理” | 恶意服务器在 sampling 提示中隐藏意图 |
-| 资源窃取 | “使用用户的 LLM 预算” | 服务器迫使客户端为用户不需要的 sampling 付费 |
-| `stopReason` | “生成停止原因” | `endTurn`、`stopSequence` 或 `maxTokens` |
+官方 SDK 可以为旧对端转换现代 `input_required` 处理器。这个 shim 是兼容边界，不代表可以新增依赖会话的逻辑。
 
 ## 延伸阅读
 
-- [MCP — Concepts: Sampling](https://modelcontextprotocol.io/docs/concepts/sampling) — Sampling 高层概览
-- [MCP — Client sampling spec 2025-11-25](https://modelcontextprotocol.io/specification/2025-11-25/client/sampling) — `sampling/createMessage` 权威形状
-- [MCP — GitHub SEP-1577](https://github.com/modelcontextprotocol/modelcontextprotocol) — Sampling 中工具的规范演进提案（实验性）
-- [Unit 42 — MCP attack vectors](https://unit42.paloaltonetworks.com/model-context-protocol-attack-vectors/) — 隐蔽 sampling 与资源窃取模式
-- [Speakeasy — MCP sampling core concept](https://www.speakeasy.com/mcp/core-concepts/sampling) — 带客户端代码示例的演练
+- [MCP 2026-07-28 Multi Round-Trip Requests](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr)
+- [MCP 2026-07-28 变更日志](https://modelcontextprotocol.io/specification/2026-07-28/changelog)
+- [MCP Sampling 弃用说明](https://modelcontextprotocol.io/seps/2577-deprecate-roots-sampling-and-logging)
+- [MCP 2026-07-28 服务器发现](https://modelcontextprotocol.io/specification/2026-07-28/server/discover)

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/23-capstone-tool-ecosystem/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: cc05f315de5cde1eb05b148c39b431148d7c3ab9ca5ee70beac776f096a87814
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 8502c8512390067ef4d8bad0dcafcf1cfe9f3a40d6f24e71b9d54939f13ab4c4
   anchor:
     heading: The Concept
     slug: the-concept

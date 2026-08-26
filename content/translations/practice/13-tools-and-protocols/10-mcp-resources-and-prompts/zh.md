@@ -4,160 +4,350 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/10-mcp-resources-and-prompts/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: a216053c7bc5c84c3fae6d4ecbed6f3771d6ccf4599314d4f8776860bc4fa39f
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 34d186c38dea5a28accfab115201bb022dd41ca9a24c0385488821e5982a3108
 status: reviewed
 ---
 
-# MCP 资源与 Prompt——工具之外的上下文暴露
+# MCP 资源与提示词：无状态服务器中的可寻址上下文
 
-> 工具获得了 MCP 90% 的关注。其他两种服务器原语解决的是不同问题：资源暴露可读取的数据；prompt 暴露可复用的 slash command 模板。许多服务器应该使用资源，而不是把读取操作包在工具中；也应该使用 prompt，而不是把工作流硬编码到客户端提示中。本课将给出决策规则，并走过 `resources/*` 和 `prompts/*` 消息。
+> 工具执行操作，资源暴露可寻址内容，提示词封装用户选择的消息模板。好的 MCP 服务器会让这几种契约彼此分离且行为可预测。
 
 **类型：** 构建
-**语言：** Python（标准库、资源 + prompt 处理器）
-**前置课程：** Phase 13 · 07（MCP 服务器）
-**时间：** 约 45 分钟
+**语言：** Python
+**前置课程：** Phase 13，第 07 课（构建 MCP 服务器）、Phase 13，第 09 课（MCP 传输）
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
-- 针对给定领域，在工具、资源和 prompt 之间决定应该暴露某项能力的方式。
-- 实现 `resources/list`、`resources/read`、`resources/subscribe`，并处理 `notifications/resources/updated`。
-- 使用参数模板实现 `prompts/list` 和 `prompts/get`。
-- 识别宿主何时将 prompt 暴露为 slash command，何时自动注入上下文。
+- 根据消费者意图在工具、资源和提示词之间做选择。
+- 通过必需的 `server/discover` 公布资源和提示词面。
+- 构造确定性的 `resources/list` 和 `prompts/list` 结果。
+- 使用 `ttlMs` 和 `cacheScope`，同时避免泄露用户专属数据。
+- 对无效或未知资源 URI 返回 JSON-RPC 错误 `-32602`。
+- 在 POST 响应 SSE 流上打开 `subscriptions/listen`，并通过 subscription ID 关联每个事件。
+- 把资源内容和提示词模板视为不受信任的服务器输出。
 
-## 问题
+## 从消费者开始
 
-一个幼稚的笔记应用 MCP 服务器会把所有东西都暴露成工具：`notes_read`、`notes_list`、`notes_search`。这会把每次数据访问都包成模型驱动的工具调用，后果包括：
+最容易误用 MCP 的方式，是一上来就写实现代码。数据库查询因为函数很熟悉而被做成工具；可复用工作流因为存放在文件里而被做成资源；提示词又可能因为宿主能注入而变成隐藏策略。
 
-- 对每个可能从上下文中获益的查询，模型都必须决定是否调用 `notes_read`。
-- 只读内容无法被订阅，也无法流式传送到宿主的侧边栏。
-- 客户端 UI（Claude Desktop 的资源附件面板、Cursor 的“包含文件”选择器）无法呈现这些数据。
+先问清楚谁来选择，以及消费者期待什么。
 
-正确的划分是：将数据暴露为资源，将会修改状态或需要计算的动作暴露为工具，将可复用的多步工作流暴露为 prompt。每种原语都有自己的 UX 能力和访问模式。
+| 原语 | 主要意图 | 选择者 | 典型结果 |
+|---|---|---|---|
+| Tool | 执行操作 | 模型或应用 | 结构化动作结果 |
+| Resource | 读取 URI 下的内容 | 宿主、应用或用户 | 文本或二进制内容 |
+| Prompt | 启动可复用的消息工作流 | 通过宿主 UI 的用户 | 一条或多条提示词消息 |
 
-## 概念
+`notes://note-1` 是资源，因为它是可寻址内容；`delete_note` 是工具，因为它会改变状态；`review_note` 是提示词，因为用户选择了一个准备好的复核工作流。
 
-### 工具、资源与 Prompt——决策规则
+不要为了看起来完整，就把同一个操作同时暴露成三种原语。每增加一个面，就要增加对应的发现、授权、缓存、错误处理、测试和文档成本。
 
-| 能力 | 原语 |
-|------------|-----------|
-| 用户希望搜索、过滤或转换数据 | 工具 |
-| 用户希望宿主将数据作为上下文加入 | 资源 |
-| 用户希望重用一个模板化工作流 | Prompt |
+## 2026-07-28 无状态信封
 
-指导原则：如果模型在每个相关查询中都能从调用它受益，那就是工具。如果用户会从将它附加到对话中受益，那就是资源。如果用户想重用的单元是整个多步工作流，那就是 prompt。
+本课针对 MCP 协议版本 `2026-07-28`。这个 profile 没有初始化握手，也没有协议会话。每个请求都在保留的 `_meta` 键中携带协议版本和客户端能力。
 
-### 资源
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "resources/list",
+  "params": {
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientInfo": {
+        "name": "course-client",
+        "version": "1.0.0"
+      },
+      "io.modelcontextprotocol/clientCapabilities": {}
+    }
+  }
+}
+```
 
-`resources/list` 返回 `{resources: [{uri, name, mimeType, description?}]}`。`resources/read` 接收 `{uri}`，返回 `{contents: [{uri, mimeType, text | blob}]}`。
+服务器必须实现 `server/discover`。它的结果公布支持的版本、资源和提示词能力、实现身份以及缓存提示。客户端可以直接调用其他方法，但先发现能在构造 UI 前获得一份稳定快照。
 
-URI 可以是任何可寻址的内容：
+```json
+{
+  "resultType": "complete",
+  "supportedVersions": ["2026-07-28"],
+  "capabilities": {
+    "resources": {"listChanged": true, "subscribe": true},
+    "prompts": {"listChanged": true}
+  },
+  "ttlMs": 3600000,
+  "cacheScope": "public"
+}
+```
 
-- `file:///Users/alice/notes/mcp.md`
-- `postgres://my-db/query/SELECT ...`
-- `notes://note-14`（自定义 scheme）
-- `memory://session-2026-04-22/recent`（服务器专用）
+普通结果声明 `"resultType": "complete"`。响应 `_meta` 用 `io.modelcontextprotocol/serverInfo` 标识提供服务的实现，这个信息适合诊断，却不是认证身份。请求携带不支持的版本时，返回 `-32022`，同时给出请求版本和服务器支持的版本。
 
-`contents[]` 同时支持文本和二进制。二进制使用 base64 编码的字符串 `blob`，并附带 `mimeType`。
+无状态契约会改变设计直觉：列表不能依赖同一连接上的上一次调用。凭据是请求输入，因此授权可能改变可见集合；但连接历史不能改变结果的解释方式。
 
-### 资源订阅
+## 资源是稳定的 URI 契约
 
-在能力中声明 `{resources: {subscribe: true}}`。客户端调用 `resources/subscribe {uri}`。资源发生变化时，服务器发送 `notifications/resources/updated {uri}`。客户端重新读取。
+资源是由 URI 标识的内容。先设计 URI，再写处理器。
 
-用例：笔记服务器的资源是磁盘上的文件；文件监视器触发更新通知；Claude Desktop 在文件被宿主外部编辑后，将文件重新拉取到上下文中。
+好的 URI 应该：
 
-### 资源模板（2025-11-25 新增）
+- 足够稳定，可以加入书签或在请求间传递；
+- 带有服务器域名的命名空间；
+- 不依赖进程 ID 或连接；
+- 在访问存储前先完成校验；
+- 每次读取都重新授权。
 
-`resourceTemplates` 允许暴露参数化 URI 模式：`notes://{id}`，其中 `id` 是补全目标。客户端可以在资源选择器中自动补全 ID。
+`notes://note-1` 优于 `note-1`，因为命名空间是显式的。文件服务器可以使用 `file://` URI，但解析符号链接和相对片段后，仍必须检查配置的目录边界。
 
-### Prompt
+`resources/list` 返回当前调用者可见的资源。按 URI 等稳定键排序。确定性顺序可以避免无意义的缓存未命中、变化的快照，以及宿主 UI 在刷新时跳动。
 
-`prompts/list` 返回 `{prompts: [{name, description, arguments?}]}`。`prompts/get` 接收 `{name, arguments}`，返回 `{description, messages: [{role, content}]}`。
+```json
+{
+  "resultType": "complete",
+  "resources": [
+    {
+      "uri": "notes://note-1",
+      "name": "Architecture decision",
+      "description": "Why the service uses a stateless boundary",
+      "mimeType": "text/markdown"
+    }
+  ],
+  "ttlMs": 300000,
+  "cacheScope": "public",
+  "_meta": {
+    "io.modelcontextprotocol/serverInfo": {
+      "name": "notes-server",
+      "version": "2.0.0"
+    }
+  }
+}
+```
 
-Prompt 是一个模板，会填充为宿主发送给模型的消息列表。例如，`code_review` prompt 接收 `file_path` 参数，返回三条消息的序列：system 消息、带文件内容的 user 消息和带推理模板的 assistant 起始消息。
+`resources/read` 返回一个或多个内容项。未知 URI 不是“成功但内容为空”的读取；当前 Resources 规范把无效或未知资源 URI 归为 JSON-RPC Invalid Params，错误码为 `-32602`。
 
-### 宿主与 Prompt
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "error": {
+    "code": -32602,
+    "message": "Unknown or invalid resource URI",
+    "data": {
+      "uri": "notes://missing"
+    }
+  }
+}
+```
 
-Claude Desktop、VS Code 和 Cursor 在聊天 UI 中将 prompt 暴露为 slash command。用户输入 `/code_review`，再从表单中选择参数。服务器的 prompt 是“用户快捷操作”和“发送给模型的完整提示”之间的契约。
+这种区分让客户端能够分辨“资源不存在”和“合法的空文档”，也能防止意外回退到更宽泛的查找。
 
-不是每个客户端都支持 prompt，先检查能力协商。声明了 prompt 能力、但客户端不支持 prompt 的服务器，只是不会看到这些 slash command。
+### 资源模板
 
-### “列表已变化”通知
+资源模板描述一族带参数的 URI。如果列出每个具体项成本太高或数量无界，就使用模板。例如，`notes://projects/{project}/decisions/{decision}` 告诉客户端如何形成合法地址，而不必返回每一条决策。
 
-资源和 prompt 的集合发生变化时，都会发送 `notifications/list_changed`。刚导入 20 条笔记的服务器会发送 `notifications/resources/list_changed`；客户端重新调用 `resources/list` 以获得新增内容。
+模板不会削弱校验。解析变量、执行授权、限制长度和字符范围，并用类型化参数构造存储查询。绝不能把任意 URI 尾部直接拼进文件路径或数据库语句。
 
-### 内容类型约定
+### 内容不是受信任指令
 
-文本使用：`mimeType: "text/plain"`、`text/markdown`、`application/json`。
-二进制使用：`image/png`、`application/pdf`，以及 `blob` 字段。
-MCP Apps（第 14 课）使用 `ui://` URI 中的 `text/html;profile=mcp-app`。
+资源文本可能含有提示注入、秘密、误导性命令或格式错误的标记。宿主应保留来源信息，把资源内容当作数据。服务器应限制内容大小，返回准确 MIME 类型，遮蔽调用者无权访问的字段，并避免返回无关记录。
 
-### 动态资源
+## 提示词是用户控制的模板
 
-资源 URI 不必对应静态文件。每次读取 `notes://recent` 都可以返回最新五条笔记。`db://query/users/active` 可以执行参数化查询。服务器可以自由地动态计算内容。
+MCP 提示词专为用户显式选择而设计。宿主可以把它们显示成斜杠命令、菜单项或工作流按钮，协议并不要求某一种 UI。
 
-规则是：如果客户端能够按 URI 缓存，URI 就必须稳定。如果计算是一次性的，URI 应包含时间戳或 nonce，使客户端缓存不会过期失效。
+对于相同的请求授权，`prompts/list` 应保持确定性。每个提示词都需要稳定名称、有用描述以及参数声明，以便宿主在 `prompts/get` 前收集输入。
 
-### 订阅与轮询
+```json
+{
+  "resultType": "complete",
+  "prompts": [
+    {
+      "name": "review_note",
+      "title": "Review a note",
+      "description": "Review one note for a named concern",
+      "arguments": [
+        {
+          "name": "uri",
+          "description": "The note resource URI",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "ttlMs": 600000,
+  "cacheScope": "public"
+}
+```
 
-支持订阅的客户端通过 `notifications/resources/updated` 获得服务器推送。不支持订阅的客户端或宿主会通过重新读取来轮询。两者都符合规范。服务器的能力声明告诉客户端它支持哪一种。
+`prompts/get` 会把参数解析成消息，但不会替代宿主的系统指令。宿主决定返回的消息如何进入模型上下文，并让自己的受信策略保持更高优先级。
 
-订阅的成本是服务器需要保存每会话状态（谁订阅了什么）。限制订阅集合的大小；断开的客户端应超时。
+在服务器边界校验提示词参数。提示词里的 URI 必须通过与直接读取资源相同的授权检查。不要让提示词绕过资源访问控制，形成旁路。
 
-### Prompt 与系统提示
+## 缓存提示也是正确性的一部分
 
-MCP 中的 prompt 不是系统提示。宿主的系统提示（它自己的运行指令）和 MCP prompt（由用户调用的服务器模板）并存。行为良好的客户端绝不会让服务器 prompt 覆盖自己的系统提示，而是将二者分层叠加。
+`ttlMs` 告诉客户端结果可以复用多久，`cacheScope` 说明谁可以共享该缓存值。
+
+| 范围 | 含义 | 典型用途 |
+|---|---|---|
+| `public` | 只要授权允许，就可以跨用户复用 | 公共提示词目录 |
+| `private` | 绑定到请求用户或凭据上下文 | 用户自己的笔记内容 |
+
+根据数据变化速度和过时数据的损害来选择 TTL。公共提示词目录可以用五分钟；私有笔记读取可以用一分钟。
+
+MCP 只定义 `public` 和 `private` 两种 `cacheScope` 值。含有秘密或变化很快的结果，应返回 `cacheScope: "private"` 与 `ttlMs: 0`，然后在宿主缓存策略中执行更严格的 no-store 规则；`no-store` 本身不是 MCP 的 `cacheScope` 值。
+
+缓存提示永远不能替代授权。缓存键必须包含所有会改变可见性的请求维度，包括租户、用户、作用域、语言环境和分页游标。如果共享缓存无法安全表达这些维度，就使用 `private` 加零 TTL，并在宿主层采用 no-store 策略。
+
+## 订阅使用客户端打开的响应流
+
+现代订阅模式取代旧的 `resources/subscribe` RPC 和旧 HTTP GET 事件端点。
+
+客户端把 `subscriptions/listen` 作为普通 JSON-RPC 请求发送。在 Streamable HTTP 上，它是一个响应保持打开的 POST，响应内容为 SSE 流。`notifications` 对象是允许列表；服务器不得发送未被请求的通知类型。
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 17,
+  "method": "subscriptions/listen",
+  "params": {
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientCapabilities": {},
+      "io.modelcontextprotocol/clientInfo": {
+        "name": "course-client",
+        "version": "1.0.0"
+      }
+    },
+    "notifications": {
+      "resourcesListChanged": true,
+      "promptsListChanged": true,
+      "resourceSubscriptions": [
+        "notes://note-1"
+      ]
+    }
+  }
+}
+```
+
+请求 ID 就是 subscription ID。在任何请求的事件之前，服务器会发送 `notifications/subscriptions/acknowledged`。其中的过滤器只包含服务器接受的子集。
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "notifications/subscriptions/acknowledged",
+  "params": {
+    "_meta": {
+      "io.modelcontextprotocol/subscriptionId": 17
+    },
+    "notifications": {
+      "resourcesListChanged": true,
+      "resourceSubscriptions": [
+        "notes://note-1"
+      ]
+    }
+  }
+}
+```
+
+该流上之后的每个事件都携带相同的元数据。
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "notifications/resources/updated",
+  "params": {
+    "_meta": {
+      "io.modelcontextprotocol/subscriptionId": 17
+    },
+    "uri": "notes://note-1"
+  }
+}
+```
+
+通知只表示资源发生了变化。客户端需要再次通过 `resources/read` 读取，并接受当前授权检查；不能假设事件中带有新文档。
+
+多个订阅可以共用一个 stdio 通道，subscription ID 让客户端能够把它们分流。HTTP 下关闭响应流会取消订阅。服务器平稳结束流时，返回与原请求关联的最终 `resultType: "complete"` 响应。
+
+不要把订阅流当作协议会话。之后的读取仍是一条完整请求，可以到达任何健康的服务器实例。
 
 ```figure
 t3-primitive-sort
 ```
 
-## 动手使用
+## 交互实验
 
-`code/main.py` 在第 07 课笔记服务器的基础上增加：
+使用图示对项目追踪器中的五种能力分类：问题详情、创建问题、迭代复盘模板、项目策略和关闭问题。然后决定哪些列表可以公开缓存，哪些读取必须保持私有，以及哪些资源值得发送更新通知。
 
-- 每条笔记的资源（`notes://note-1` 等），支持 `resources/subscribe`。
-- 一个渲染成三消息模板的 `review_note` prompt。
-- 文件监视器模拟：笔记修改时发出 `notifications/resources/updated`。
-- 一个始终返回最新五条笔记的 `notes://recent` 动态资源。
+每次分类都写明选择者。如果模型执行动作，就使用工具；如果宿主读取 URI 寻址的内容，就使用资源；如果用户启动准备好的消息工作流，就使用提示词。
 
-运行演示，查看完整流程。
+## 练习实验
 
-## 交付物
+从仓库根目录运行模拟器：
 
-本课会生成 `outputs/skill-primitive-splitter.md`。给定一个拟议中的 MCP 服务器，这个 skill 会将每项能力分类为工具 / 资源 / prompt，并给出理由。
+```bash
+cd phases/13-tools-and-protocols/10-mcp-resources-and-prompts/code
+python3 main.py
+python3 -m unittest discover tests -v
+```
 
-## 练习
+按以下顺序检查 transcript：
 
-1. 运行 `code/main.py`。观察初始资源列表，然后触发笔记编辑，确认 `notifications/resources/updated` 事件发出。
+1. 确认 `server/discover` 公布当前版本和两项能力。
+2. 确认两个列表结果都已排序，并使用 `resultType: "complete"`。
+3. 确认列表和读取结果带有有意设置的缓存提示。
+4. 把读取 URI 改为 `notes://missing`，观察 `-32602`。
+5. 确认订阅确认先于资源事件。
+6. 确认事件和平稳关闭都携带 subscription ID `5`。
 
-2. 添加 `resources/list_changed` 发送器：创建新笔记时发送通知，让客户端重新发现资源。
+Python 模型不会打开真正的 HTTP 连接，而是表示 SDK 应放在请求级响应流上的消息。生产环境中，传 framing 和传输应使用官方 SDK。
 
-3. 为 GitHub MCP 服务器设计三个 prompt：`summarize_pr`、`triage_issue`、`release_notes`。每个都要有参数 schema，prompt 正文应无需进一步编辑即可运行。
+## 已交付产物
 
-4. 选取第 07 课服务器中的一个现有工具，判断它应继续作为工具，还是拆成资源 + 工具组合。用一句话说明理由。
+`outputs/skill-primitive-splitter.md` 是可复用的 MCP 原语选择设计评审。它现在检查确定性发现、缓存范围、无效 URI 行为和现代订阅过滤器。
 
-5. 阅读规范的 `server/resources` 和 `server/prompts` 章节。找出 `resources/read` 中很少填充、但规范支持的一个字段。提示：查看资源内容上的 `_meta`。
+本课还提供 `assets/primitive-split.svg`，它是原语与订阅边界的静态版本，便于离线学习。
 
-## 术语
+## 验证
 
-| 术语 | 人们常说 | 实际含义 |
-|------|----------------|------------------------|
-| 资源 | “暴露的数据” | 宿主可以读取的 URI 可寻址内容 |
-| 资源 URI | “数据指针” | 带 scheme 前缀的标识符（`file://`、`notes://` 等） |
-| `resources/subscribe` | “监视变化” | 客户端选择、针对特定 URI 的服务器推送更新 |
-| `notifications/resources/updated` | “资源已变更” | 告知客户端已订阅资源拥有新内容的信号 |
-| 资源模板 | “参数化 URI” | 带补全提示、供宿主选择器使用的 URI 模式 |
-| Prompt | “Slash command 模板” | 带参数槽位的命名多消息模板 |
-| Prompt 参数 | “模板输入” | 宿主在渲染前收集的类型化参数 |
-| `prompts/get` | “渲染模板” | 服务器返回填充完成的消息列表 |
-| 内容块 | “类型化块” | `{type: text \| image \| resource \| ui_resource}` |
-| Slash command UX | “用户快捷操作” | 宿主将 prompt 显示为以 `/` 开头的命令 |
+```bash
+cd phases/13-tools-and-protocols/10-mcp-resources-and-prompts/code
+python3 main.py
+python3 -m unittest discover tests -v
+```
+
+预期结果：主程序打印 JSON transcript，测试命令报告至少十二个测试通过。
+
+## Capstone 衔接
+
+当你的 capstone 服务器要在动作旁边暴露可寻址知识时，使用本课契约。至少加入一份确定性的目录快照、一次经过授权的资源读取、一次提示词解析、一个无效 URI 案例和一份订阅 transcript。
+
+证据应表明列表不依赖连接历史，且订阅事件本身不会授予底层资源访问权。
+
+## 练习题
+
+1. 增加 `notes://projects/{project}/notes/{id}` 资源模板，并校验两个变量。
+2. 为 `resources/list` 增加分页，同时保持确定性顺序。
+3. 把一个资源改为 `cacheScope: "private"` 和 `ttlMs: 0`，加入宿主 no-store 策略，并解释为何两层控制都必要。
+4. 增加提示词列表变更订阅，证明过滤器没有 `promptsListChanged` 时不会发送该事件。
+5. 创建两个同时存在的订阅，证明每个事件携带正确的请求 ID。
+6. 在读取处理器中加入授权主体，证明缓存条目不能跨主体复用。
+
+## 关键术语
+
+- **Resource：** MCP 服务器暴露的 URI 寻址内容。
+- **Prompt：** MCP 服务器暴露的、由用户控制的消息模板。
+- **确定性列表：** 对相同请求输入，成员和排序稳定的发现结果。
+- **`ttlMs`：** 以毫秒为单位的缓存新鲜度时长。
+- **`cacheScope`：** 缓存结果的共享边界。
+- **`subscriptions/listen`：** 长生命周期请求，其响应流传递经过明确过滤的通知。
+- **Subscription ID：** 原始 listen 请求的 ID，在通知元数据中重复出现。
+- **Invalid parameters：** JSON-RPC 错误 `-32602`，用于无效或未知资源 URI。
+- **Unsupported protocol version：** JSON-RPC 错误 `-32022`，包含 `supported` 和 `requested` 版本。
+- **`server/discover`：** 必需的服务器方法，返回支持版本、能力、身份和可选缓存提示。
 
 ## 延伸阅读
 
-- [MCP — Concepts: Resources](https://modelcontextprotocol.io/docs/concepts/resources) — 资源 URI、订阅与模板
-- [MCP — Concepts: Prompts](https://modelcontextprotocol.io/docs/concepts/prompts) — Prompt 模板与 slash command 集成
-- [MCP — Server resources spec 2025-11-25](https://modelcontextprotocol.io/specification/2025-11-25/server/resources) — `resources/*` 消息完整参考
-- [MCP — Server prompts spec 2025-11-25](https://modelcontextprotocol.io/specification/2025-11-25/server/prompts) — `prompts/*` 消息完整参考
-- [MCP — Protocol info site: resources](https://modelcontextprotocol.info/docs/concepts/resources/) — 扩展官方文档的社区指南
+- [MCP 2026-07-28 Resources](https://modelcontextprotocol.io/specification/2026-07-28/server/resources)
+- [MCP 2026-07-28 Prompts](https://modelcontextprotocol.io/specification/2026-07-28/server/prompts)
+- [MCP 2026-07-28 Subscriptions](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/subscriptions)
+- [MCP 2026-07-28 Caching](https://modelcontextprotocol.io/specification/2026-07-28/basic/utilities/caching)
