@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/13-tools-and-protocols/04-structured-output/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: bd468ed5c79526e09282f88722e4603d5f80e9a3087e8de0e151dd94d48f73cc
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 结构化输出与下一词元约束
+  summary: 在把模型输出限制为 JSON schema 或工具参数时，用推理服务中的约束生成理论核对 token masking、文法状态与 schema 合法性如何共同决定输出。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/03. serving and batching.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 93d4761610df2814a51a8c12e25c43aa337feac3f476c5041e3b019f3c7c2bd7
+  anchor:
+    heading: Constrained and Guided Generation
+    slug: constrained-and-guided-generation

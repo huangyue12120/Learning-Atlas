@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/13-tools-and-protocols/21-llm-routing-layer/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 76708436ac5d3bafa1bcf40c7a4a7cc6cdb7e89b9d75bd0694bc5cc81549549a
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: LLM 路由与请求调度
+  summary: 在按质量、延迟、成本和故障转移选择模型时，用 serving and batching 理论核对请求路由、队列和推理指标之间的系统边界。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/03. serving and batching.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 93d4761610df2814a51a8c12e25c43aa337feac3f476c5041e3b019f3c7c2bd7
+  anchor:
+    heading: Request Routing
+    slug: request-routing

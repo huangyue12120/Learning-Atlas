@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/12-multimodal-ai/06-any-resolution-patch-n-pack/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 3bcfd1048342a65895d7fc37058bd969df102f9a0cdec1c07320c3f4ca185f52
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 原生分辨率与视觉词元预算
+  summary: 在比较 patch-n-pack、NaFlex 和不同宽高比下的序列长度时，用视觉词元流水线理论核对 patch 特征的投影、视觉 token 压缩以及视觉序列送入语言模型时的预算权衡。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/02. vision language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: c32dba5a1c73fecb1fc8305df2a3539ed0ee89a1cbf1a27cce0d8bda015c8f71
+  anchor:
+    heading: The Visual Token Pipeline
+    slug: the-visual-token-pipeline

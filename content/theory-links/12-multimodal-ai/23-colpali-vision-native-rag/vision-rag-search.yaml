@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/12-multimodal-ai/23-colpali-vision-native-rag/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 3e21fa1908caa13e3fd34a6f7ec5e07b208ea4e03a2e18864045bc620bb94a08
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 视觉原生 RAG 的向量检索
+  summary: 在用页面 patch embedding 和 MaxSim 检索文档时，用大规模系统中的向量搜索理论核对索引、召回和服务边界。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/03. large scale infrastructure.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 841b9c77948b5562ca325220c837cf0ded6c3c88e452745191849ad678ecfd61
+  anchor:
+    heading: Vector Search
+    slug: vector-search

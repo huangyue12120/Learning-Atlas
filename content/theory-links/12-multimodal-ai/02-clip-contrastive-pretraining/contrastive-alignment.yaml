@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/12-multimodal-ai/02-clip-contrastive-pretraining/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 802bc398424324f3a203a4f8f468f1e21d327372a1a273db23dbe2d675d6d07d
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: CLIP 的对比式跨模态对齐
+  summary: 在实现图文相似度矩阵、温度参数和双向对比损失时，用多模态表示理论核对 joint embedding space 与 InfoNCE 对齐直觉。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/01. multimodal representations.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e8c9e500dcf5e90e7b18f769ae7eb7df75b8d1bcfe44a19fd8dc89459767ae86
+  anchor:
+    heading: Contrastive Learning for Multimodal Alignment
+    slug: contrastive-learning-for-multimodal-alignment

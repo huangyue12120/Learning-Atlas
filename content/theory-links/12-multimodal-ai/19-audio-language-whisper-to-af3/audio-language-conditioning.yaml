@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/12-multimodal-ai/19-audio-language-whisper-to-af3/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: e804554df688d4902e1d44d47afde4440c7189f55ac0cf9d93d352b37ce9b43f
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 音频词元与跨模态生成
+  summary: 在比较 Whisper 式编码器、音频 codec token 和语言模型接口时，用跨模态生成理论核对音频的语义/声学层级、离散 codec token 与文本条件生成之间的表示路径。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/04. cross-modal generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 297749fe76d1d97e2bfd53936c08cf23e6a422c5487c6acb13264290484bf88e
+  anchor:
+    heading: Text-to-Audio Generation
+    slug: text-to-audio-generation

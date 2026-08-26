@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/12-multimodal-ai/03-blip2-qformer-bridge/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 8849ac3172d4edecb50891b890d4a3080f6efd1a7af17ea6c79c86b410a63c28
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Q-Former 作为视觉到语言的桥
+  summary: 在区分冻结视觉编码器、可学习查询和语言模型接口时，用视觉词元流水线理论核对 Q-Former 如何压缩视觉 token、投影到语言模型嵌入空间并完成跨模态桥接。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/02. vision language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: c32dba5a1c73fecb1fc8305df2a3539ed0ee89a1cbf1a27cce0d8bda015c8f71
+  anchor:
+    heading: The Visual Token Pipeline
+    slug: the-visual-token-pipeline

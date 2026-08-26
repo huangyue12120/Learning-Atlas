@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/13-tools-and-protocols/19-a2a-protocol/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 5c54f7443ce3693f8b9f4b7eb9e37daea2d9b74b2ff37e7afed9835df87dfd9c
+  anchor:
+    heading: Two transport bindings
+    slug: two-transport-bindings
+card:
+  title: A2A 消息形状与 HTTP/gRPC 传输边界
+  summary: 在比较 JSON-RPC over HTTP 与 gRPC 两种 A2A 绑定时，用系统设计中的网络协议笔记核对序列化、流式传输和服务间通信如何保持逻辑消息形状不变。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/01. systems design fundamentals.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 57b3e7928b7703f36f63ffb24177f8d20637b02c12c929b7f54d3fa575b1fd3c
+  anchor:
+    heading: Networking Protocols
+    slug: networking-protocols

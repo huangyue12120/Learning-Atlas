@@ -46,7 +46,7 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.match(content.markdown, /线性代数直觉/);
   assert.equal(content.theoryCards.length, 3);
   const course = await fetch(`${baseUrl}/api/course`).then((response) => response.json());
-  assert.equal(course.length, 12);
+  assert.equal(course.length, 14);
   const setup = course.find((phase: { slug: string }) => phase.slug === "00-setup-and-tooling");
   const foundations = course.find((phase: { slug: string }) => phase.slug === "01-math-foundations");
   const mlFundamentals = course.find((phase: { slug: string }) => phase.slug === "02-ml-fundamentals");
@@ -59,6 +59,8 @@ test("loads published lesson content and resources by lessonId", async () => {
   const reinforcementLearning = course.find((phase: { slug: string }) => phase.slug === "09-reinforcement-learning");
   const llmsFromScratch = course.find((phase: { slug: string }) => phase.slug === "10-llms-from-scratch");
   const llmEngineering = course.find((phase: { slug: string }) => phase.slug === "11-llm-engineering");
+  const multimodalAI = course.find((phase: { slug: string }) => phase.slug === "12-multimodal-ai");
+  const toolsAndProtocols = course.find((phase: { slug: string }) => phase.slug === "13-tools-and-protocols");
   assert.ok(setup);
   assert.ok(foundations);
   assert.ok(mlFundamentals);
@@ -71,6 +73,8 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.ok(reinforcementLearning);
   assert.ok(llmsFromScratch);
   assert.ok(llmEngineering);
+  assert.ok(multimodalAI);
+  assert.ok(toolsAndProtocols);
   assert.equal(setup.lessons.length, 12);
   assert.equal(setup.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(foundations.lessons.length, 22);
@@ -94,6 +98,10 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(llmsFromScratch.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(llmEngineering.lessons.length, 17);
   assert.equal(llmEngineering.lessons.every((item: { available: boolean }) => item.available), true);
+  assert.equal(multimodalAI.lessons.length, 25);
+  assert.equal(multimodalAI.lessons.every((item: { available: boolean }) => item.available), true);
+  assert.equal(toolsAndProtocols.lessons.length, 23);
+  assert.equal(toolsAndProtocols.lessons.every((item: { available: boolean }) => item.available), true);
   assert.deepEqual(foundations.lessons[0], {
     id: firstLesson.id,
     position: "01 / 22",
@@ -175,6 +183,28 @@ test("loads published lesson content and resources by lessonId", async () => {
 
   const proposedPromptContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(llmEngineering.lessons[0].id)}`).then((response) => response.json());
   assert.deepEqual(proposedPromptContent.theoryCards, []);
+
+  const patchTokenContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(multimodalAI.lessons[0].id)}`).then((response) => response.json());
+  assert.equal(patchTokenContent.translationStatus, "reviewed");
+  assert.deepEqual(patchTokenContent.theoryCards.map((item: { title: string }) => item.title), ["图像分块如何变成视觉词元"]);
+
+  const qformerContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(multimodalAI.lessons[2].id)}`).then((response) => response.json());
+  assert.deepEqual(qformerContent.theoryCards.map((item: { title: string }) => item.title), ["Q-Former 作为视觉到语言的桥"]);
+
+  const transfusionContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(multimodalAI.lessons[12].id)}`).then((response) => response.json());
+  assert.deepEqual(transfusionContent.theoryCards.map((item: { title: string }) => item.title), ["自回归与扩散目标的统一"]);
+
+  const asyncTaskContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(toolsAndProtocols.lessons[12].id)}`).then((response) => response.json());
+  assert.deepEqual(asyncTaskContent.theoryCards, []);
+
+  const authenticationContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(toolsAndProtocols.lessons[17].id)}`).then((response) => response.json());
+  assert.deepEqual(authenticationContent.theoryCards, []);
+
+  const routingContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(toolsAndProtocols.lessons[20].id)}`).then((response) => response.json());
+  assert.deepEqual(routingContent.theoryCards.map((item: { title: string }) => item.title).sort(), [
+    "LLM 路由策略与负载均衡",
+    "LLM 路由与请求调度"
+  ].sort());
 
   const setupLessonId = setup.lessons[0].id;
   const setupLesson = await fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent(setupLessonId)}`).then((response) => response.json());

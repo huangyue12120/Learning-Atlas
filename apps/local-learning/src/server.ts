@@ -26,7 +26,9 @@ const phases = [
   { slug: "08-generative-ai", title: "Phase 8 · 生成式 AI" },
   { slug: "09-reinforcement-learning", title: "Phase 9 · 强化学习" },
   { slug: "10-llms-from-scratch", title: "Phase 10 · 从零构建 LLM" },
-  { slug: "11-llm-engineering", title: "Phase 11 · LLM 工程" }
+  { slug: "11-llm-engineering", title: "Phase 11 · LLM 工程" },
+  { slug: "12-multimodal-ai", title: "Phase 12 · 多模态 AI" },
+  { slug: "13-tools-and-protocols", title: "Phase 13 · 工具与协议" }
 ] as const;
 type Phase = typeof phases[number];
 const defaultLessonId = "practice/01-math-foundations/01-linear-algebra-intuition";

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/13-tools-and-protocols/18-mcp-auth-production/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: d94a6a3a1333d2ab28e16f157eb863fe80740bc489de29f2314567a16866c1af
+  anchor:
+    heading: MCP Spec 2025-11-25 Auth Profile
+    slug: mcp-spec-2025-11-25-auth-profile
+card:
+  title: OAuth 认证是系统安全链路中的一层
+  summary: 在把 PKCE、受众绑定、作用域和逐请求验证接入 MCP 资源服务器时，用操作系统笔记中的安全基础核对认证 API、最小权限、输入验证和隔离如何共同构成防线；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 13 - computing and OS/03. operating systems.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 87293bf78b1f48a83f4de5c840a7596c16fb96c863b31be4dcb6666480a552a0
+  anchor:
+    heading: Security Basics
+    slug: security-basics

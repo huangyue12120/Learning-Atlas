@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/12-multimodal-ai/10-internvl3-native-multimodal/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 859fcab226b623475ece1a15a9bb46721c8e637fc9888939a5d282fca815b3e4
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 原生多模态与共享主干
+  summary: 在比较 modality-specific encoder/decoder、共享 Transformer 主干和后接 projector 时，用统一多模态架构理论核对融合位置与训练阶段的取舍。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/05. unified multimodal architectures.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 43cace9aa08c04a4bc8361291850b51ac4d26dffcbabb779e2019adf67442f8b
+  anchor:
+    heading: Modality-Specific Encoders and Decoders with a Shared Backbone
+    slug: modality-specific-encoders-and-decoders-with-a-shared-backbone

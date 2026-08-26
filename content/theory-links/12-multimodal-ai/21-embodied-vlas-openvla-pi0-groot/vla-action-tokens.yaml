@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/12-multimodal-ai/21-embodied-vlas-openvla-pi0-groot/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 74e67225ca1e15d42fa2a561e836c1053ce944c0f11e2706d237294a9550885e
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 视觉–语言–动作模型的动作词元
+  summary: 在把视觉观察和语言指令映射到连续或离散动作时，用 VLA 理论核对动作 tokenisation、策略输出与 embodiment 泛化。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 11 - autonomous systems/03. vision-language-action models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 7d6cdced73a21e8209a4596ef979b6a21f713ab59f1edff40f6e91fd6d61476f
+  anchor:
+    heading: Action Tokenisation
+    slug: action-tokenisation

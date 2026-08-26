@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/12-multimodal-ai/01-vision-transformer-patch-tokens/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 05fc1bb5a0e7a1777da50ae42ea01a6b5ae17c066bf1a5fa8c53208f5482dd60
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 图像分块如何变成视觉词元
+  summary: 在计算 patch 网格、序列长度和位置编码时，用视觉词元流水线理论核对二维图像特征如何被投影为连续视觉词元，以及它们如何进入语言模型。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/02. vision language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: c32dba5a1c73fecb1fc8305df2a3539ed0ee89a1cbf1a27cce0d8bda015c8f71
+  anchor:
+    heading: The Visual Token Pipeline
+    slug: the-visual-token-pipeline

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/13-tools-and-protocols/03-parallel-and-streaming-tool-calls/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 6339e746eb414f03ab0421f9ed1d654809753f39bdac5283fe0f3a3712a1c5b2
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 并行工具调用的并发边界
+  summary: 在同时调度多个独立工具并合并结果时，用并发与并行理论区分 overlap、同步、竞态和背压，解释为何共享可变状态不能随意并发。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 13 - computing and OS/04. concurrency and parallelism.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 9e820998a2225a64c0bb19211c30b7f82d6a5fec8fd421972e04bd7cb2c600bd
+  anchor:
+    heading: Concurrency vs Parallelism
+    slug: concurrency-vs-parallelism

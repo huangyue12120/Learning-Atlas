@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/12-multimodal-ai/13-transfusion-autoregressive-diffusion/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: fe6e5c16f8fed7f6f61f68dd6f0bda20200527ee585f3faee80fcc779116bfe0
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 自回归与扩散目标的统一
+  summary: 在比较离散文本 next-token loss 与连续图像 diffusion loss 的共享主干时，用跨模态生成理论中的文本到图像生成路径，核对自回归图像 token 预测、扩散去噪与条件生成的差异。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/04. cross-modal generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 297749fe76d1d97e2bfd53936c08cf23e6a422c5487c6acb13264290484bf88e
+  anchor:
+    heading: Text-to-Image Generation
+    slug: text-to-image-generation

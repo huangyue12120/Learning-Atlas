@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/12-multimodal-ai/05-llava-visual-instruction-tuning/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 8eaf0cdcfc4548e7d44ac0a7cf50fe1b92154b42d99ac715926701719a8ff04c
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 视觉指令微调与视觉词元接口
+  summary: 在把视觉编码器输出、projector 和文本指令串成训练样本时，用 VLM 理论核对视觉 token pipeline、训练目标和 cross-modal attention 的角色。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/02. vision language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: c32dba5a1c73fecb1fc8305df2a3539ed0ee89a1cbf1a27cce0d8bda015c8f71
+  anchor:
+    heading: LLaVA and Visual Instruction Tuning
+    slug: llava-and-visual-instruction-tuning

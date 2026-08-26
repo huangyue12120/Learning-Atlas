@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/12-multimodal-ai/25-multimodal-agents-computer-use/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 388c376120b81d1302dfc355f2f1ef031c32a38b86c476410a050a32af72cb51
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 多模态智能体的感知–行动闭环
+  summary: 在把截图、视觉状态、工具调用和动作结果串成 computer-use loop 时，用统一多模态架构中的 Multimodal Agents 讨论核对模态融合与评估边界。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/05. unified multimodal architectures.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 43cace9aa08c04a4bc8361291850b51ac4d26dffcbabb779e2019adf67442f8b
+  anchor:
+    heading: Multimodal Agents
+    slug: multimodal-agents

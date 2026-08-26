@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/13-tools-and-protocols/20-opentelemetry-genai/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 473d0c4210eddf4b2ae01ce38d1b5a997e75fab66b4be17c32b319c666d88dbb
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: GenAI trace 的层级与请求生命周期
+  summary: 在为 agent、模型调用和工具调用建立 span 层级时，用大规模基础设施中的 tracing 理论核对日志、指标和 trace 如何共同解释端到端延迟。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/03. large scale infrastructure.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 841b9c77948b5562ca325220c837cf0ded6c3c88e452745191849ad678ecfd61
+  anchor:
+    heading: Tracing
+    slug: tracing

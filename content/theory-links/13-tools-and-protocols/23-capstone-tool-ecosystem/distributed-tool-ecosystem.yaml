@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/13-tools-and-protocols/23-capstone-tool-ecosystem/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: cc05f315de5cde1eb05b148c39b431148d7c3ab9ca5ee70beac776f096a87814
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 工具生态系统的分布式边界
+  summary: 在设计多服务器、网关、认证、重试和观测组成的工具生态时，用分布式系统理论核对组件边界、故障传播和可靠性。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/03. large scale infrastructure.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 841b9c77948b5562ca325220c837cf0ded6c3c88e452745191849ad678ecfd61
+  anchor:
+    heading: Distributed Systems
+    slug: distributed-systems

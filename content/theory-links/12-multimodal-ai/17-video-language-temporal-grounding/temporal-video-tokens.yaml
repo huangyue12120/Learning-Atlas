@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/12-multimodal-ai/17-video-language-temporal-grounding/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 9e17f6c9311d0df49f261e4435e4420793dd9780d5ae031beccc3249580751f1
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 视频词元的时间压缩与定位
+  summary: 在把帧、空间图块和时间窗口映射到语言查询时，用视频分词理论核对时空 token 数和时间压缩为何直接影响 temporal grounding。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/03. image and video tokenisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d36271e5fb3af4873c60838206b32911f6e02667ede19b85f0ae1c2887cf5ef5
+  anchor:
+    heading: Video Tokenisation
+    slug: video-tokenisation

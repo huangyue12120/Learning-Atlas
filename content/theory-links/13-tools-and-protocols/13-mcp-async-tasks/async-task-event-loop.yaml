@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/13-tools-and-protocols/13-mcp-async-tasks/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 06ebaeaa5d2c0bdf02903f0b23005f69afb6886124bb8b526563720af195fa1d
+  anchor:
+    heading: Task augmentation
+    slug: task-augmentation
+card:
+  title: 异步任务如何把长时工作从请求连接中拆开
+  summary: 在为长时工具选择任务增强、持久化状态、轮询与取消时，用并发笔记中的事件循环和协作式异步模型理解等待、进度与崩溃恢复之间的边界；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 13 - computing and OS/04. concurrency and parallelism.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 9e820998a2225a64c0bb19211c30b7f82d6a5fec8fd421972e04bd7cb2c600bd
+  anchor:
+    heading: Async and Event-Driven Programming
+    slug: async-and-event-driven-programming
