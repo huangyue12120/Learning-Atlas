@@ -1,0 +1,74 @@
+name: Monitoring / Check translation coverage
+
+run-name: Check translation coverage · ${{ github.event_name }}
+
+on:
+  schedule:
+    - cron: "47 3 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: translation-coverage
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-translation-coverage:
+    name: Check translation coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          submodules: recursive
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check Chinese practice translation coverage
+        id: coverage
+        continue-on-error: true
+        shell: bash
+        run: |
+          set +e
+          python3 scripts/check_translation_coverage.py \
+            --fail-on-missing \
+            --output translation-coverage-report.md > translation-coverage.log 2>&1
+          status=$?
+          cat translation-coverage.log
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit "$status"
+      - name: Add coverage report to job summary
+        if: steps.coverage.outputs.exit_code == '2'
+        run: cat translation-coverage-report.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Create or update translation coverage issue
+        if: steps.coverage.outputs.exit_code == '2'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_TITLE: "[Coverage] Chinese practice translations missing"
+        shell: bash
+        run: |
+          issue_number="$(gh issue list --state open --json number,title --limit 100 | jq -r --arg title "$ISSUE_TITLE" '.[] | select(.title == $title) | .number' | head -n 1)"
+          report_key="$(sed -n 's/^<!-- translation-coverage-key: \(.*\) -->$/\1/p' translation-coverage-report.md)"
+          if [ -z "$report_key" ]; then
+            echo "Coverage report is missing its deduplication key." >&2
+            exit 1
+          fi
+          marker="<!-- translation-coverage-key: ${report_key} -->"
+          if [ -z "$issue_number" ]; then
+            gh issue create --title "$ISSUE_TITLE" --body-file translation-coverage-report.md
+          else
+            issue_content="$(gh issue view "$issue_number" --json body,comments)"
+            if grep -Fq -- "$marker" <<< "$issue_content"; then
+              echo "Issue #$issue_number already contains this coverage snapshot."
+            else
+              gh issue comment "$issue_number" --body-file translation-coverage-report.md
+            fi
+          fi
+      - name: Fail when translation coverage is incomplete
+        if: steps.coverage.outputs.exit_code != '0'
+        env:
+          EXIT_CODE: ${{ steps.coverage.outputs.exit_code }}
+        run: exit "$EXIT_CODE"

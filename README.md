@@ -84,7 +84,7 @@ content/
   workspace-templates/     供学习者复制的 Python 工作区模板
   explorations/            可选 marimo 探索模板
 docs/                      内容清单、首次使用说明、发布说明与 ADR
-scripts/                   译文结构和来源指纹校验器
+scripts/                   内容结构、来源指纹、覆盖率和仓库卫生校验器
 ai-engineering-from-scratch/  上游实践课程库（Git submodule）
 maths-cs-ai-compendium/      上游理论知识库（Git submodule）
 ```
@@ -98,13 +98,14 @@ maths-cs-ai-compendium/      上游理论知识库（Git submodule）
 ```bash
 python3 scripts/check_translation_correspondence.py
 python3 scripts/check_source_fingerprints.py
+python3 scripts/check_repository_hygiene.py
 
 cd apps/local-learning
 npm run check
 npm test
 ```
 
-前两项分别核对译文与原文的结构对应关系、以及全部版本化内容的来源 SHA-256；后两项检查服务端语法并运行应用 API 测试。
+前三项分别核对译文与原文的结构对应关系、全部版本化内容的来源 SHA-256，以及是否误提交学习数据、私钥、凭据、令牌和本地状态文件；后两项检查服务端语法并运行应用 API 测试。翻译覆盖率由每周运行的监控 workflow 检查。
 
 ## 跟踪上游更新
 
@@ -120,13 +121,17 @@ python3 scripts/manage_upstreams.py --sync
 
 同步后，先更新并人工审核受影响内容；待全部校验通过后，再提交新的 submodule 指针。GitHub Actions 也会每天检查一次并在发现待审核上游更新时提示维护者。对需要在 GitHub 中处理的更新，可手动运行 **Automation / Open upstream synchronization PR**：它仅创建更新 submodule 指针的 PR；合并前必须让验证工作流恢复为绿色。
 
-每次推送和面向 `main` 的 PR 都会运行 **CI / Validate content and application**，覆盖译文结构、来源指纹、浏览器脚本语法、服务端语法和 API 测试。
+每次推送和面向 `main` 的 PR 都会运行 **CI / Validate content and application**，覆盖译文结构、来源指纹、仓库卫生、浏览器脚本语法、服务端语法和 API 测试。
 
-GitHub Actions 的命名采用统一的 `<类别> / <动作与对象>` 形式：workflow 的显示名面向维护者，job ID 使用稳定的 kebab-case，job 的显示名使用自然语言。当前三条 workflow 为：
+GitHub Actions 的命名采用统一的 `<类别> / <动作与对象>` 形式：workflow 的显示名面向维护者，job ID 使用稳定的 kebab-case，job 的显示名使用自然语言。当前五条 workflow 为：
 
-- **Monitoring / Report upstream source changes**：每天检查上游分支；确认存在新提交（退出码 2）后，生成包含变更文件、关联本地内容、SHA-256 影响和 diff 的报告，并创建或更新去重 Issue `[Upstream] Source updates require review`。
-- **Automation / Open upstream synchronization PR**：手动更新 submodule 指针并创建待审核 PR，不自动合并。
 - **CI / Validate content and application**：在 push、面向 `main` 的 PR 和手动触发时运行内容及应用校验。
+- **Automation / Open upstream synchronization PR**：手动更新 submodule 指针并创建待审核 PR，不自动合并。
+- **Monitoring / Report upstream source changes**：每天检查上游分支；确认存在新提交（退出码 2）后，生成包含变更文件、关联本地内容、SHA-256 影响和 diff 的报告，并创建或更新去重 Issue `[Upstream] Source updates require review`。
+- **Monitoring / Check translation coverage**：每周检查已经进入中文学习范围的 Phase 是否有上游课程缺少对应中文实践译文；发现缺口时创建或更新 `[Coverage] Chinese practice translations missing` Issue。尚未接入中文学习范围的 Phase 不纳入检查。
+- **Security / Review dependency changes**：面向 `main` 的 Pull Request 使用 GitHub 官方 dependency review 检查新增或升级依赖；high 及以上严重度会阻断合并。
+
+`manage_upstreams.py --check` 只回答“上游跟踪分支是否有新 commit”；**Monitoring / Report upstream source changes** 是它之后的影响分析层，负责列出具体改动文件、关联本地内容、SHA-256 影响和 diff。因此两者是底层 freshness 信号与上层 review 报告的关系，不是两个重复的检查。
 
 上游检查的网络、权限或 fetch 故障使用其他退出码，不会被误判为英文原文变更，也不会自动创建内容 Issue。Issue 遵循 GitHub 的关注/订阅通知；SMTP 或第三方邮件通知需要额外的收件地址和仓库 secret，当前不在仓库中配置。
 

@@ -2,11 +2,11 @@
 
 ## Context
 
-Learning Atlas has three workflows for validation, upstream synchronization, and freshness monitoring. Their display names and job identifiers were inconsistent, and freshness failures did not preserve enough information to identify which source files required translation review. A fetch, permission, or network failure must remain distinguishable from a tracked upstream commit update.
+Learning Atlas has five workflows for content validation, upstream synchronization, freshness monitoring, translation coverage, and dependency review. Their display names and job identifiers were inconsistent, and freshness failures did not preserve enough information to identify which source files required translation review. A fetch, permission, or network failure must remain distinguishable from a tracked upstream commit update.
 
 ## Decision
 
-Use workflow display names in the form `<Area> / <Action and object>`: `CI / ...`, `Automation / ...`, and `Monitoring / ...`. Keep job IDs as stable kebab-case identifiers and use natural-language `jobs.<id>.name` values for the Actions UI. Add concurrency groups so stale validation runs can be cancelled while review and synchronization runs are serialized.
+Use workflow display names in the form `<Area> / <Action and object>`: `CI / ...`, `Automation / ...`, `Monitoring / ...`, and `Security / ...`. Keep job IDs as stable kebab-case identifiers and use natural-language `jobs.<id>.name` values for the Actions UI. Add concurrency groups so stale validation runs can be cancelled while review and synchronization runs are serialized.
 
 The monitoring workflow treats `manage_upstreams.py --check --fail-on-update` exit code 2 as the only confirmed “upstream branch is ahead” condition. It then generates a Markdown report from the upstream commit range. The report lists every changed upstream path, maps referenced files to local translations, assessments, and theory links, compares recorded and target SHA-256 values, and embeds bounded unified diffs with links to the complete upstream comparison.
 

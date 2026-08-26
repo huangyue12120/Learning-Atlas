@@ -1,0 +1,24 @@
+name: Security / Review dependency changes
+
+run-name: Review dependency changes · PR #${{ github.event.pull_request.number }}
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: dependency-review-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  review-dependencies:
+    name: Review dependency changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
