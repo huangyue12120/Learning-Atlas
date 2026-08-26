@@ -69,9 +69,11 @@ python3 scripts/manage_upstreams.py --sync
 
 GitHub Actions 提供三层守门：
 
-- **Upstream freshness** 每日检测 `main` 是否领先于当前发布快照；发现更新时故意失败，以提醒维护者审核。
-- **Create upstream synchronization PR** 可手动把上游 commit 指针放入一个独立 PR；它不自动合并。
-- **Content and application validation** 在每次推送和面向 `main` 的 PR 中检查译文结构、752 项来源指纹、前端/服务端语法和应用 API 测试。同步 PR 必须在内容更新后通过此检查才能合入。
+- **Monitoring / Report upstream source changes** 每日检测 `main` 是否领先于当前发布快照；明确发现新提交时故意失败，并自动生成上游文件、关联中文内容、SHA-256 影响和具体 diff 的报告，创建或更新 `[Upstream] Source updates require review` Issue。
+- **Automation / Open upstream synchronization PR** 可手动把上游 commit 指针放入一个独立 PR；它不自动合并。
+- **CI / Validate content and application** 在每次推送和面向 `main` 的 PR 中检查译文结构、752 项来源指纹、前端/服务端语法和应用 API 测试。同步 PR 必须在内容更新后通过此检查才能合入。
+
+上游 freshness 检查将退出码 2 解释为“跟踪分支有新提交”；这不是网络或权限错误。报告器随后把目标 revision 中的原文 SHA-256 与内容元数据中的已记录指纹比较：只有报告明确标注“确认 SHA-256 漂移”时，才可确认对应英文文件已改变。Issue 会通过 GitHub 的仓库/Issue 关注通知送达维护者；邮件服务不在仓库内保存凭据。
 
 ## 当前边界与限制
 

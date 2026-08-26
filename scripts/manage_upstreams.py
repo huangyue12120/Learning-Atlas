@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Check or synchronize the tracked upstream submodules without publishing changes."""
+"""Check or synchronize tracked upstream submodules without publishing changes.
+
+For ``--check --fail-on-update``, exit code 2 means a tracked upstream branch is
+ahead of the pinned submodule commit; exit code 1 is reserved for an execution
+or fetch error. The check itself does not validate source fingerprints.
+"""
 
 from __future__ import annotations
 
@@ -11,6 +16,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+UPDATES_PENDING_EXIT = 2
 
 
 @dataclass(frozen=True)
@@ -69,7 +75,11 @@ def main() -> int:
     parser.add_argument("--check", action="store_true", help="fetch and report whether tracked branches have new commits")
     parser.add_argument("--sync", action="store_true", help="move submodules to their tracked branches, then run content checks")
     parser.add_argument("--no-fetch", action="store_true", help="compare against local remote-tracking refs only")
-    parser.add_argument("--fail-on-update", action="store_true", help="return a nonzero status when --check finds updates")
+    parser.add_argument(
+        "--fail-on-update",
+        action="store_true",
+        help="return exit code 2 when --check finds updates",
+    )
     args = parser.parse_args()
     if args.check == args.sync:
         parser.error("choose exactly one of --check or --sync")
@@ -88,7 +98,7 @@ def main() -> int:
     has_update = False
     for module in modules:
         has_update = compare(module, fetch=not args.no_fetch) or has_update
-    return 2 if has_update and args.fail_on_update else 0
+    return UPDATES_PENDING_EXIT if has_update and args.fail_on_update else 0
 
 
 if __name__ == "__main__":

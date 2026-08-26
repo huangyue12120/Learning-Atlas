@@ -118,9 +118,17 @@ python3 scripts/manage_upstreams.py --check
 python3 scripts/manage_upstreams.py --sync
 ```
 
-同步后，先更新并人工审核受影响内容；待全部校验通过后，再提交新的 submodule 指针。GitHub Actions 也会每天检查一次并在发现待审核上游更新时提示维护者。对需要在 GitHub 中处理的更新，可手动运行 **Create upstream synchronization PR**：它仅创建更新 submodule 指针的 PR；合并前必须让验证工作流恢复为绿色。
+同步后，先更新并人工审核受影响内容；待全部校验通过后，再提交新的 submodule 指针。GitHub Actions 也会每天检查一次并在发现待审核上游更新时提示维护者。对需要在 GitHub 中处理的更新，可手动运行 **Automation / Open upstream synchronization PR**：它仅创建更新 submodule 指针的 PR；合并前必须让验证工作流恢复为绿色。
 
-每次推送和面向 `main` 的 PR 都会运行 **Content and application validation**，覆盖译文结构、来源指纹、浏览器脚本语法、服务端语法和 API 测试。
+每次推送和面向 `main` 的 PR 都会运行 **CI / Validate content and application**，覆盖译文结构、来源指纹、浏览器脚本语法、服务端语法和 API 测试。
+
+GitHub Actions 的命名采用统一的 `<类别> / <动作与对象>` 形式：workflow 的显示名面向维护者，job ID 使用稳定的 kebab-case，job 的显示名使用自然语言。当前三条 workflow 为：
+
+- **Monitoring / Report upstream source changes**：每天检查上游分支；确认存在新提交（退出码 2）后，生成包含变更文件、关联本地内容、SHA-256 影响和 diff 的报告，并创建或更新去重 Issue `[Upstream] Source updates require review`。
+- **Automation / Open upstream synchronization PR**：手动更新 submodule 指针并创建待审核 PR，不自动合并。
+- **CI / Validate content and application**：在 push、面向 `main` 的 PR 和手动触发时运行内容及应用校验。
+
+上游检查的网络、权限或 fetch 故障使用其他退出码，不会被误判为英文原文变更，也不会自动创建内容 Issue。Issue 遵循 GitHub 的关注/订阅通知；SMTP 或第三方邮件通知需要额外的收件地址和仓库 secret，当前不在仓库中配置。
 
 ## 数据与边界
 

@@ -1,4 +1,6 @@
-name: content and application validation
+name: CI / Validate content and application
+
+run-name: Validate content and application · ${{ github.event_name }}
 
 on:
   pull_request:
@@ -7,11 +9,16 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: content-validation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
 jobs:
-  validate:
+  validate-content:
+    name: Validate content and application
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,6 +28,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Check content automation scripts
+        run: python3 -m py_compile scripts/*.py
       - name: Check translation structure and source fingerprints
         run: |
           python3 scripts/check_translation_correspondence.py
@@ -30,10 +39,14 @@ jobs:
           node-version: "22.18.0"
           cache: npm
           cache-dependency-path: apps/local-learning/package-lock.json
-      - name: Check and test the local learning application
+      - name: Install application dependencies
+        working-directory: apps/local-learning
+        run: npm ci
+      - name: Check browser and server syntax
         working-directory: apps/local-learning
         run: |
-          npm ci
           node --check public/app.js
           npm run check
-          npm test
+      - name: Run application API tests
+        working-directory: apps/local-learning
+        run: npm test

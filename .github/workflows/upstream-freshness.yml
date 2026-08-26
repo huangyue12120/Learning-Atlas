@@ -1,15 +1,23 @@
-name: upstream freshness
+name: Monitoring / Report upstream source changes
+
+run-name: Report upstream source changes · ${{ github.event_name }}
 
 on:
   schedule:
     - cron: "17 3 * * *"
   workflow_dispatch:
 
+concurrency:
+  group: upstream-source-review
+  cancel-in-progress: false
+
 permissions:
   contents: read
+  issues: write
 
 jobs:
-  check:
+  report-upstream-changes:
+    name: Report upstream source changes
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,5 +28,45 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Detect upstream commits awaiting review
-        run: python3 scripts/manage_upstreams.py --check --fail-on-update
+      - name: Check tracked upstream branches
+        id: freshness
+        continue-on-error: true
+        shell: bash
+        run: |
+          set +e
+          python3 scripts/manage_upstreams.py --check --fail-on-update > upstream-check.log 2>&1
+          status=$?
+          cat upstream-check.log
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit "$status"
+      - name: Generate upstream change report
+        if: steps.freshness.outputs.exit_code == '2'
+        run: python3 scripts/report_upstream_changes.py --output upstream-report.md
+      - name: Add upstream report to job summary
+        if: steps.freshness.outputs.exit_code == '2'
+        run: cat upstream-report.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Create or update upstream review issue
+        if: steps.freshness.outputs.exit_code == '2'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_TITLE: "[Upstream] Source updates require review"
+        shell: bash
+        run: |
+          issue_number="$(gh issue list --state open --json number,title --limit 100 | jq -r --arg title "$ISSUE_TITLE" '.[] | select(.title == $title) | .number' | head -n 1)"
+          report_key="$(sed -n 's/^<!-- upstream-freshness-key: \(.*\) -->$/\1/p' upstream-report.md)"
+          marker="<!-- upstream-freshness-key: ${report_key} -->"
+          if [ -z "$issue_number" ]; then
+            gh issue create --title "$ISSUE_TITLE" --body-file upstream-report.md
+          else
+            issue_content="$(gh issue view "$issue_number" --json body,comments)"
+            if grep -Fq -- "$marker" <<< "$issue_content"; then
+              echo "Issue #$issue_number already contains this upstream snapshot."
+            else
+              gh issue comment "$issue_number" --body-file upstream-report.md
+            fi
+          fi
+      - name: Fail when upstream review is required
+        if: steps.freshness.outputs.exit_code != '0'
+        env:
+          EXIT_CODE: ${{ steps.freshness.outputs.exit_code }}
+        run: exit "$EXIT_CODE"
