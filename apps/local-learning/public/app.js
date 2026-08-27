@@ -43,24 +43,174 @@ let quiz = { status: "unavailable", questions: [] };
 let quizResult = null;
 let course = [];
 let selectedLessonId = new URLSearchParams(window.location.search).get("lessonId");
+const themeStorageKey = "learning-atlas-theme";
+const systemThemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+const themePreferences = ["system", "light", "dark"];
 
-mermaid.initialize({
-  startOnLoad: false,
-  securityLevel: "strict",
-  theme: "base",
-  themeVariables: {
-    background: "#fffefa",
-    primaryColor: "#fffefa",
-    primaryTextColor: "#183538",
-    primaryBorderColor: "#0a726c",
-    lineColor: "#0a726c",
-    secondaryColor: "#f7f4ec",
-    tertiaryColor: "#e9f3ef",
-    clusterBkg: "#f7f4ec",
-    clusterBorder: "#d8d4c8",
-    fontFamily: "Noto Sans SC, system-ui, sans-serif"
+function readThemePreference() {
+  try {
+    const savedTheme = localStorage.getItem(themeStorageKey);
+    return themePreferences.includes(savedTheme) ? savedTheme : "system";
+  } catch {
+    return "system";
   }
+}
+
+let themePreference = readThemePreference();
+
+function configureMermaid() {
+  const dark = document.documentElement.dataset.theme === "dark";
+  mermaid.initialize({
+    startOnLoad: false,
+    securityLevel: "strict",
+    theme: "base",
+    themeVariables: dark
+      ? {
+        background: "#202624",
+        primaryColor: "#202624",
+        primaryTextColor: "#e8eee8",
+        primaryBorderColor: "#69b9af",
+        lineColor: "#69b9af",
+        secondaryColor: "#171b1a",
+        tertiaryColor: "#1d3a35",
+        clusterBkg: "#171b1a",
+        clusterBorder: "#44504b",
+        fontFamily: "Atlas Sans SC, system-ui, sans-serif"
+      }
+      : {
+        background: "#fffefa",
+        primaryColor: "#fffefa",
+        primaryTextColor: "#183538",
+        primaryBorderColor: "#0a726c",
+        lineColor: "#0a726c",
+        secondaryColor: "#f7f4ec",
+        tertiaryColor: "#e9f3ef",
+        clusterBkg: "#f7f4ec",
+        clusterBorder: "#d8d4c8",
+        fontFamily: "Atlas Sans SC, system-ui, sans-serif"
+      }
+  });
+}
+
+function applyThemePreference() {
+  const dark = themePreference === "dark" || (themePreference === "system" && systemThemeQuery.matches);
+  const resolvedTheme = dark ? "dark" : "light";
+  document.documentElement.dataset.theme = resolvedTheme;
+  document.documentElement.style.colorScheme = resolvedTheme;
+  configureMermaid();
+}
+
+applyThemePreference();
+
+systemThemeQuery.addEventListener("change", () => {
+  if (themePreference !== "system") return;
+  applyThemePreference();
+  if (lesson) render();
 });
+
+const panelControls = {
+  tutor: { panel: "#tutor-panel", heading: "#tutor-title", trigger: ".tutor-toggle" },
+  notes: { panel: "#notes-panel", heading: "#notes-title", trigger: ".notes-toggle" },
+  review: { panel: "#review-panel", heading: "#review-title", trigger: ".review-toggle" }
+};
+
+function activePanelKind() {
+  if (tutorOpen) return "tutor";
+  if (notesOpen) return "notes";
+  if (reviewOpen) return "review";
+  return null;
+}
+
+function isPanelOpen(kind) {
+  return kind === "tutor" ? tutorOpen : kind === "notes" ? notesOpen : reviewOpen;
+}
+
+function setPanelOpen(kind, open) {
+  if (kind === "tutor") tutorOpen = open;
+  if (kind === "notes") notesOpen = open;
+  if (kind === "review") reviewOpen = open;
+}
+
+function focusPanel(kind) {
+  const control = panelControls[kind];
+  const panel = document.querySelector(control.panel);
+  const target = document.querySelector(control.heading) ?? panel?.querySelector("button, textarea, input, select");
+  target?.focus({ preventScroll: true });
+}
+
+function focusPanelTrigger(kind) {
+  document.querySelector(panelControls[kind].trigger)?.focus({ preventScroll: true });
+}
+
+function toggleAuxiliaryPanel(kind) {
+  const opening = !isPanelOpen(kind);
+  if (opening) {
+    notesOpen = kind === "notes";
+    tutorOpen = kind === "tutor";
+    reviewOpen = kind === "review";
+    navigatorOpen = false;
+  } else {
+    setPanelOpen(kind, false);
+  }
+  render();
+  window.requestAnimationFrame(() => (opening ? focusPanel(kind) : focusPanelTrigger(kind)));
+}
+
+function desktopOverlayActive() {
+  return window.matchMedia("(min-width: 901px) and (max-width: 1104px)").matches;
+}
+
+window.addEventListener("resize", () => {
+  if (activePanelKind()) syncPanelAccessibility();
+});
+
+function syncPanelAccessibility() {
+  const kind = activePanelKind();
+  const panel = kind ? document.querySelector(panelControls[kind].panel) : null;
+  const modal = Boolean(panel && desktopOverlayActive());
+  document.querySelectorAll(".notes, .review-panel, .tutor").forEach((element) => {
+    if (element !== panel) {
+      element.removeAttribute("role");
+      element.removeAttribute("aria-modal");
+    }
+  });
+  if (panel) {
+    if (modal) {
+      panel.setAttribute("role", "dialog");
+      panel.setAttribute("aria-modal", "true");
+    } else {
+      panel.removeAttribute("role");
+      panel.removeAttribute("aria-modal");
+    }
+  }
+  document.querySelectorAll(".topbar, .navigator, .lesson").forEach((element) => {
+    if (modal) {
+      element.setAttribute("inert", "");
+      element.setAttribute("aria-hidden", "true");
+    } else {
+      element.removeAttribute("inert");
+      element.removeAttribute("aria-hidden");
+    }
+  });
+}
+
+function trapAuxiliaryPanelFocus(event) {
+  if (event.key !== "Tab" || !desktopOverlayActive()) return;
+  const kind = activePanelKind();
+  const panel = kind ? document.querySelector(panelControls[kind].panel) : null;
+  if (!panel) return;
+  const focusable = [...panel.querySelectorAll("a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex='-1'])")]
+    .filter((element) => element.getClientRects().length > 0 && getComputedStyle(element).visibility !== "hidden");
+  if (!focusable.length) return;
+  const currentIndex = focusable.indexOf(document.activeElement);
+  if (event.shiftKey && (currentIndex <= 0)) {
+    event.preventDefault();
+    focusable.at(-1).focus({ preventScroll: true });
+  } else if (!event.shiftKey && (currentIndex === focusable.length - 1 || currentIndex === -1)) {
+    event.preventDefault();
+    focusable[0].focus({ preventScroll: true });
+  }
+}
 
 const escapeHtml = (value) => value.replace(/[&<>'"]/g, (character) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", "\"": "&quot;"
@@ -331,6 +481,7 @@ function render() {
   const notesToggleLabel = notesOpen ? "收起笔记" : `笔记${notes.length ? `（${notes.length}）` : ""}`;
   const tutorToggleLabel = tutorOpen ? "收起助理" : "学习助理";
   const reviewToggleLabel = reviewOpen ? "收起复习" : `复习${reviewItems.length ? `（${reviewItems.length}）` : ""}`;
+  const themeControl = `<label class="theme-control" for="theme-select"><span>主题</span><select id="theme-select" name="theme" aria-label="主题"><option value="system"${themePreference === "system" ? " selected" : ""}>跟随系统</option><option value="light"${themePreference === "light" ? " selected" : ""}>浅色</option><option value="dark"${themePreference === "dark" ? " selected" : ""}>深色</option></select></label>`;
   const noteList = notes.length
     ? notes.map((note) => `<article class="note"><p>${escapeHtml(note.text)}</p><time datetime="${note.createdAt}">${new Date(note.createdAt).toLocaleString("zh-CN")}</time></article>`).join("")
     : "<p class=\"empty\">尚无笔记。用自己的话记录一个理解或疑问。</p>";
@@ -363,14 +514,21 @@ function render() {
   const modelNameControl = discoveredModels.length
     ? `<div id="model-name-control"><label for="model-name">模型名</label><select id="model-name" name="model" required>${discoveredModels.map((name) => `<option value="${escapeHtml(name)}"${name === modelConfig.model ? " selected" : ""}>${escapeHtml(name)}</option>`).join("")}</select></div>`
     : `<div id="model-name-control"><label for="model-name">模型名</label><input id="model-name" name="model" required value="${escapeHtml(modelConfig.model)}" placeholder="你的模型名"></div>`;
-  const modelConfigForm = `<form id="model-config-form"><label for="model-base-url">兼容接口地址</label><input id="model-base-url" name="baseUrl" type="url" required value="${escapeHtml(modelConfig.baseUrl)}" placeholder="http://127.0.0.1:11434/v1"><label for="model-api-key">API key（可选）</label><input id="model-api-key" name="apiKey" type="password" placeholder="${modelConfig.apiKeyConfigured ? "已保存；留空保持不变" : "本机可选保存"}">${modelConfig.apiKeyConfigured ? '<label class="tutor-clear-key"><input name="clearApiKey" type="checkbox">清除已保存的 key</label>' : ""}<button type="button" id="discover-models">获取模型名称</button><p id="model-list-status" role="status"></p>${modelNameControl}<button type="submit">保存连接</button><p class="tutor-config-note">连接和 key 仅保存在此设备的学习数据库中。</p></form>`;
+  const modelConfigForm = `<form id="model-config-form"><label for="model-base-url">兼容接口地址</label><input id="model-base-url" name="baseUrl" type="url" required value="${escapeHtml(modelConfig.baseUrl)}" placeholder="http://127.0.0.1:11434/v1"><label for="model-api-key">API key（可选）</label><input id="model-api-key" name="apiKey" type="password" autocomplete="new-password" placeholder="${modelConfig.apiKeyConfigured ? "已保存；留空保持不变" : "本机可选保存"}">${modelConfig.apiKeyConfigured ? '<label class="tutor-clear-key"><input name="clearApiKey" type="checkbox">清除已保存的 key</label>' : ""}<button type="button" id="discover-models">获取模型名称</button><p id="model-list-status" role="status"></p>${modelNameControl}<button type="submit">保存连接</button><p class="tutor-config-note">连接和 key 仅保存在此设备的学习数据库中。</p></form>`;
   const tutorMessagesHtml = tutorMessages.length
     ? `<div class="tutor-conversation-actions"><span>本课对话</span><button type="button" class="tutor-clear-history" data-clear-tutor>清空本课对话</button></div>${tutorMessages.map((message) => `<article class="tutor-message ${message.role}"><div class="tutor-message-heading"><strong>${message.role === "user" ? "你" : "学习助理"}</strong><button type="button" class="tutor-message-delete" data-tutor-message-id="${message.id}" aria-label="删除这条${message.role === "user" ? "用户" : "助理"}消息">删除</button></div><p>${escapeHtml(message.text)}</p></article>`).join("")}`
     : '<p class="empty">配置后，从一个具体疑问开始。助理会先提问并给出最小提示。</p>';
+  const panelScrim = tutorOpen
+    ? '<button type="button" class="tutor-scrim" data-action="tutor" aria-label="关闭学习助理" tabindex="-1"></button>'
+    : notesOpen
+      ? '<button type="button" class="panel-scrim" data-action="notes" aria-label="关闭笔记" tabindex="-1"></button>'
+      : reviewOpen
+        ? '<button type="button" class="panel-scrim" data-action="review" aria-label="关闭待复习" tabindex="-1"></button>'
+        : "";
 
   app.innerHTML = `
     <div class="shell${notesOpen ? " notes-open" : ""}${tutorOpen ? " tutor-open" : ""}${reviewOpen ? " review-open" : ""}${navigatorOpen ? " navigator-open" : ""}" style="--navigator-width: ${navigatorWidth}px${tutorOpen ? `; --tutor-width: ${tutorWidth}px` : ""}">
-      <header class="topbar"><a class="brand" href="/">Learning Atlas</a><button type="button" class="navigator-toggle" data-action="navigator" aria-expanded="${navigatorOpen}" aria-controls="course-navigator">课程目录</button><span>本地优先 · 学习数据仅保存在此设备</span><div class="topbar-actions"><button type="button" class="tutor-toggle" data-action="tutor" aria-expanded="${tutorOpen}" aria-controls="tutor-panel">${tutorToggleLabel}</button><button type="button" class="notes-toggle" data-action="notes" aria-expanded="${notesOpen}" aria-controls="notes-panel">${notesToggleLabel}</button></div></header>
+      <header class="topbar"><a class="brand" href="/">Learning Atlas</a><button type="button" class="navigator-toggle" data-action="navigator" aria-expanded="${navigatorOpen}" aria-controls="course-navigator">课程目录</button><span>本地优先 · 学习数据仅保存在此设备</span><div class="topbar-actions">${themeControl}<button type="button" class="tutor-toggle" data-action="tutor" aria-expanded="${tutorOpen}" aria-controls="tutor-panel">${tutorToggleLabel}</button><button type="button" class="notes-toggle" data-action="notes" aria-expanded="${notesOpen}" aria-controls="notes-panel">${notesToggleLabel}</button></div></header>
       ${navigatorOpen ? '<button type="button" class="navigator-scrim" data-action="navigator" aria-label="关闭课程目录"></button>' : ""}
       <nav id="course-navigator" class="navigator" aria-label="课程导航"><div class="navigator-resizer" role="separator" aria-label="调整实践主线宽度" aria-orientation="vertical" aria-valuemin="224" aria-valuemax="384" aria-valuenow="${navigatorWidth}" tabindex="0"></div><p>实践主线</p>${courseNavigation}</nav>
       <article id="lesson" class="lesson">
@@ -383,9 +541,9 @@ function render() {
         <section class="notice"><p class="eyebrow">本地实践</p><h2>${practiceTitle}</h2><p>${practiceDescription}</p><div class="actions">${lesson.resources.workspace ? '<button type="button" data-action="workspace">在 VS Code 中继续</button>' : ""}${lesson.resources.exploration ? '<button type="button" data-action="exploration">用 marimo 探索</button>' : ""}</div><p id="tool-status" role="status"></p><a href="${escapeHtml(lesson.sourceUrl)}" target="_blank" rel="noreferrer">查看锁定版本的原始课程</a></section>
         <section class="reflection" aria-labelledby="reflection-title"><p class="eyebrow">学习状态</p><h2 id="reflection-title">完成本课后，你能用自己的话解释关键概念并完成相应练习吗？</h2><div class="actions"><button type="button" data-state="completed" aria-pressed="${state.completed}">${completedLabel}</button><button type="button" data-state="review" aria-pressed="${state.review}">${reviewLabel}</button></div></section>
       </article>
-      ${tutorOpen ? '<button type="button" class="tutor-scrim" data-action="tutor" aria-label="关闭学习助理"></button>' : ""}
+      ${panelScrim}
       <aside id="notes-panel" class="notes" aria-labelledby="notes-title"><div class="notes-heading"><div><p class="eyebrow">个人学习数据</p><h2 id="notes-title" tabindex="-1">笔记</h2></div><button type="button" class="notes-close" data-action="notes" aria-label="关闭笔记">关闭</button></div><form id="note-form"><label for="note-text">写下自己的表述</label><textarea id="note-text" name="text" required maxlength="2000" placeholder="${notePlaceholder}"></textarea><button>保存笔记</button><p id="form-status" role="status"></p></form><div class="note-list">${noteList}</div><section class="export-actions" aria-labelledby="backup-title"><h3 id="backup-title">备份与恢复</h3><p>JSON 可恢复学习数据；Markdown 仅用于阅读。恢复会替换课程状态、笔记、对话、复习项和自测记录，但不会修改模型连接或私人工作区。</p><div><a href="/api/export?format=json" download>导出 JSON</a><a href="/api/export?format=markdown" download>导出 Markdown</a></div><form id="import-form"><label for="import-file">导入 JSON 备份</label><input id="import-file" name="file" type="file" accept="application/json,.json" required><button type="submit">导入并替换学习数据</button><p id="import-status" role="status"></p></form></section></aside>
-      <aside id="tutor-panel" class="tutor" aria-labelledby="tutor-title"><div class="tutor-resizer" role="separator" aria-label="调整学习助理宽度" aria-orientation="vertical" tabindex="0"></div><div class="tutor-heading"><div><p class="eyebrow">本地学习助理</p><h2 id="tutor-title" tabindex="-1">一起推理</h2></div><button type="button" class="tutor-close" data-action="tutor" aria-label="关闭学习助理">关闭</button></div><p id="tutor-evidence" class="tutor-evidence">当前证据：${activeSectionTitle}；已批准的上下文理论卡。</p><details class="tutor-config"><summary>模型连接${modelConfig.model ? `：${escapeHtml(modelConfig.model)}` : "（未配置）"}</summary>${modelConfigForm}</details><div class="tutor-messages" aria-live="polite">${tutorMessagesHtml}</div><form id="tutor-form"><label for="tutor-text">向学习助理说明你的卡点</label><textarea id="tutor-text" name="text" required maxlength="4000" placeholder="${tutorPlaceholder}"></textarea><button type="submit">发送问题</button><p id="tutor-status" role="status">${escapeHtml(tutorStatus)}</p></form></aside>
+      <aside id="tutor-panel" class="tutor" aria-labelledby="tutor-title" aria-describedby="tutor-evidence"><div class="tutor-resizer" role="separator" aria-label="调整学习助理宽度" aria-orientation="vertical" aria-valuemin="280" aria-valuemax="560" aria-valuenow="${tutorWidth}" tabindex="0"></div><div class="tutor-heading"><div><p class="eyebrow">本地学习助理</p><h2 id="tutor-title" tabindex="-1">一起推理</h2></div><button type="button" class="tutor-close" data-action="tutor" aria-label="关闭学习助理">关闭</button></div><p id="tutor-evidence" class="tutor-evidence">当前证据：${activeSectionTitle}；已批准的上下文理论卡。</p><details class="tutor-config"><summary>模型连接${modelConfig.model ? `：${escapeHtml(modelConfig.model)}` : "（未配置）"}</summary>${modelConfigForm}</details><div class="tutor-messages">${tutorMessagesHtml}</div><form id="tutor-form"><label for="tutor-text">向学习助理说明你的卡点</label><textarea id="tutor-text" name="text" required maxlength="4000" placeholder="${tutorPlaceholder}"></textarea><button type="submit">发送问题</button><p id="tutor-status" role="status" aria-live="polite">${escapeHtml(tutorStatus)}</p></form></aside>
     </div>`;
   document.querySelector(".reflection")?.insertAdjacentHTML("afterend", quizPanel);
   document.querySelector(".lesson .metadata")?.insertAdjacentHTML("afterend", tableOfContents(lessonContent.headings));
@@ -393,6 +551,7 @@ function render() {
   document.querySelector("#tutor-panel")?.insertAdjacentHTML("beforebegin", `<aside id="review-panel" class="review-panel" aria-labelledby="review-title"><div class="review-heading"><div><p class="eyebrow">个人学习数据</p><h2 id="review-title" tabindex="-1">待复习</h2></div><button type="button" class="review-close" data-action="review" aria-label="关闭待复习">关闭</button></div><p class="review-intro">将已经确认的卡点留在这里；完成回顾后再标记为已复习。</p><form id="review-item-form"><label for="review-item-text">用自己的话写下要复习的内容</label><textarea id="review-item-text" name="text" required maxlength="1000" placeholder="例如：我需要重新判断点积的正负和向量方向之间的关系。"></textarea><button>确认加入待复习</button><p id="review-item-status" role="status"></p></form>${reviewList}</aside>`);
   document.querySelector(".tutor-messages")?.insertAdjacentHTML("afterend", `<p class="tutor-review-link">已经明确了一个卡点？<button type="button" data-action="review" data-review-add="true">在待复习中确认</button></p>`);
   document.querySelector("#tutor-status")?.insertAdjacentHTML("beforebegin", '<button type="submit" class="tutor-explain" data-tutor-mode="explanation">需要完整解释</button>');
+  syncPanelAccessibility();
   activateTableOfContents();
   void renderMermaidDiagrams().finally(() => {
     if (!shouldRestoreReadingPosition) return;
@@ -415,6 +574,7 @@ function saveReadingPosition(keepalive = false) {
 function setTutorWidth(width) {
   tutorWidth = Math.round(Math.min(560, Math.max(280, width)));
   document.querySelector(".shell")?.style.setProperty("--tutor-width", `${tutorWidth}px`);
+  document.querySelector(".tutor-resizer")?.setAttribute("aria-valuenow", `${tutorWidth}`);
 }
 
 function setNavigatorWidth(width) {
@@ -441,6 +601,15 @@ app.addEventListener("pointerdown", (event) => {
 });
 
 app.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    const kind = activePanelKind();
+    if (kind) {
+      event.preventDefault();
+      toggleAuxiliaryPanel(kind);
+      return;
+    }
+  }
+  trapAuxiliaryPanelFocus(event);
   const tutorResizer = event.target.closest(".tutor-resizer");
   const navigatorResizer = event.target.closest(".navigator-resizer");
   if (!tutorResizer && !navigatorResizer) return;
@@ -467,6 +636,20 @@ async function updateState(property) {
   course = await request("/api/course");
   render();
 }
+
+app.addEventListener("change", (event) => {
+  const select = event.target.closest("#theme-select");
+  if (!select || !themePreferences.includes(select.value)) return;
+  themePreference = select.value;
+  try {
+    localStorage.setItem(themeStorageKey, themePreference);
+  } catch {
+    // Theme still applies for this session when storage is unavailable.
+  }
+  applyThemePreference();
+  render();
+  window.requestAnimationFrame(() => document.querySelector("#theme-select")?.focus({ preventScroll: true }));
+});
 
 app.addEventListener("click", async (event) => {
   const copyButton = event.target.closest("button[data-copy-code]");
@@ -520,38 +703,17 @@ app.addEventListener("click", async (event) => {
   }
   const tutorToggle = event.target.closest("button[data-action='tutor']");
   if (tutorToggle) {
-    tutorOpen = !tutorOpen;
-    if (tutorOpen) {
-      notesOpen = false;
-      navigatorOpen = false;
-      reviewOpen = false;
-    }
-    render();
-    if (tutorOpen) window.requestAnimationFrame(() => document.querySelector("#tutor-text")?.focus({ preventScroll: true }));
+    toggleAuxiliaryPanel("tutor");
     return;
   }
   const notesToggle = event.target.closest("button[data-action='notes']");
   if (notesToggle) {
-    notesOpen = !notesOpen;
-    if (notesOpen) {
-      navigatorOpen = false;
-      tutorOpen = false;
-      reviewOpen = false;
-    }
-    render();
-    if (notesOpen) window.requestAnimationFrame(() => document.querySelector("#note-text")?.focus({ preventScroll: true }));
+    toggleAuxiliaryPanel("notes");
     return;
   }
   const reviewToggle = event.target.closest("button[data-action='review']");
   if (reviewToggle) {
-    reviewOpen = !reviewOpen;
-    if (reviewOpen) {
-      navigatorOpen = false;
-      notesOpen = false;
-      tutorOpen = false;
-    }
-    render();
-    if (reviewOpen) window.requestAnimationFrame(() => document.querySelector("#review-item-text")?.focus({ preventScroll: true }));
+    toggleAuxiliaryPanel("review");
     return;
   }
   const courseLink = event.target.closest("a[data-lesson-id]");

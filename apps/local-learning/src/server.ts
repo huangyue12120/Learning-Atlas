@@ -952,7 +952,10 @@ const mimeTypes: Record<string, string> = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
-  ".mjs": "text/javascript; charset=utf-8"
+  ".mjs": "text/javascript; charset=utf-8",
+  ".ttf": "font/ttf",
+  ".woff": "font/woff",
+  ".woff2": "font/woff2"
 };
 
 async function serveFile(rootDirectory: string, requestedPath: string, response: ServerResponse) {
