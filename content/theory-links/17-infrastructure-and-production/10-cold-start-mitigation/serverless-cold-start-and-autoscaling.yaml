@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/10-cold-start-mitigation/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: c5c70dbea2fb9ac8ca732b9fcf756d48f2b2b9e850c16602fb66bf859c275c82
+  anchor:
+    heading: The warm-pool math
+    slug: the-warm-pool-math
+card:
+  title: 在无服务器弹性与冷启动延迟之间作预算
+  summary: 为 TTFT SLA 决定预热副本数量时，无服务器的冷启动机制、自动扩缩容与本地 SSD 权重缓存说明了为什么缩容至零会引入启动税，以及何时应以持续 GPU 成本换取交互路径的可用延迟。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/02. cloud computing.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: f1e6241f57575f368dac8f1ccd2c0ee93b6eb98e0f3d947cf36025d4473a9f5a
+  anchor:
+    heading: Serverless
+    slug: serverless

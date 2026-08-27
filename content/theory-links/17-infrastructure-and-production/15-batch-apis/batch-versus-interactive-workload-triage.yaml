@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/15-batch-apis/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 38fa16c914a80a28947766893a261662e947d6931df0045c604c4666604daec8
+  anchor:
+    heading: Workload triage
+    slug: workload-triage
+card:
+  title: 按时效需求区分批处理与交互式 LLM 工作
+  summary: 在为一项 LLM 工作负载选择同步、异步队列或夜间 batch 时，批处理与流处理的延迟—吞吐量取舍说明了为什么生产环境本身不是低延迟要求，应由用户可接受的周转 SLA 决定分流。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/03. large scale infrastructure.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 841b9c77948b5562ca325220c837cf0ded6c3c88e452745191849ad678ecfd61
+  anchor:
+    heading: Batch Processing
+    slug: batch-processing

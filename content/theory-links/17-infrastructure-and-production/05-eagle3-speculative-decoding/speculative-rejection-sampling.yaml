@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/05-eagle3-speculative-decoding/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: d943ab93bb3eec4cfa71885f27605a94003af7e640462b0cadaad78a93f24ffd
+  anchor:
+    heading: What speculative decoding actually buys
+    slug: what-speculative-decoding-actually-buys
+card:
+  title: 用接受率判断 EAGLE-3 是否值得部署
+  summary: 在根据草稿长度 K、接受率 α 与验证开销决定是否开启 EAGLE-3 时，推测解码的拒绝采样与速度模型解释了为何必须在真实流量和目标并发度上测量 alpha，而非只看草稿模型速度。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/05. scaling and deployment.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a18d9bcb15892ca2aa52e72346cc599df3709e3096673b8cd1f8145e93f3a31b
+  anchor:
+    heading: Speculative Decoding
+    slug: speculative-decoding

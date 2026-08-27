@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/18-vllm-production-stack-lmcache/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 168b69324a9de7a0789e3280e3358e2ed84ca72d0b01cc68cbb5325463d85b35
+  anchor:
+    heading: Native CPU offload vs LMCache
+    slug: native-cpu-offload-vs-lmcache
+card:
+  title: 从分页 KV 缓存与抢占判断何时需要卸载层
+  summary: 在 HBM 满载时选择引擎本地 CPU 卸载或跨引擎 LMCache 时，PagedAttention 的按需 KV 页面分配与抢占机制说明了缓存块为何可被换出、何时恢复比重复 prefill 更划算，以及为何低压力场景会只看到卸载开销。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/03. serving and batching.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 93d4761610df2814a51a8c12e25c43aa337feac3f476c5041e3b019f3c7c2bd7
+  anchor:
+    heading: PagedAttention and vLLM
+    slug: pagedattention-and-vllm

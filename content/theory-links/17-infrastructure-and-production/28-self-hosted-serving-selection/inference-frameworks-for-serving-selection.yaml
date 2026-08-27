@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/28-self-hosted-serving-selection/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 299fe1b15e8624a247d15ccf0cce2047462bb32b834714b9b60a238416ca4f2c
+  anchor:
+    heading: The five engines
+    slug: the-five-engines
+card:
+  title: 按硬件和负载选择自托管推理框架
+  summary: 在 CPU、AMD 或 NVIDIA 硬件上为不同规模和前缀复用负载选择 llama.cpp、vLLM、SGLang、TGI 或 Ollama 时，推理框架的核心机制说明了连续批处理、PagedAttention、RadixAttention、GGUF 量化与硬件支持如何改变选型结果。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/05. scaling and deployment.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a18d9bcb15892ca2aa52e72346cc599df3709e3096673b8cd1f8145e93f3a31b
+  anchor:
+    heading: Inference Frameworks
+    slug: inference-frameworks

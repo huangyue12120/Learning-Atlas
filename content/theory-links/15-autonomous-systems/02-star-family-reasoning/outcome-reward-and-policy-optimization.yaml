@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/15-autonomous-systems/02-star-family-reasoning/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: dc3da02402c7cd3fdcb173eb7eb9a04b44041d5fb8b45ac804a7052a22628737
+  anchor:
+    heading: Why all three share a safety concern
+    slug: why-all-three-share-a-safety-concern
+card:
+  title: 结果奖励、策略优化与捷径
+  summary: 在比较“答案正确即保留”的 STaR、验证器选择与过程监督时，用强化学习中策略由奖励信号优化的框架区分结果信号与可靠的中间过程证据，并识别代理目标可能保留的捷径。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/04. reinforcement learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 96c91eeee0c1d1c9b8deeb77ab5612c1286029a6a06a428d84f70d633ef39cc7
+  anchor:
+    heading: Reinforcement Learning
+    slug: reinforcement-learning

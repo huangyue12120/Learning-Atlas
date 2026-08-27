@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/15-autonomous-systems/01-long-horizon-agents/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 7501b37f5bcb44996567ca9c304a2505f654fdd31d24274308d3107f035d85fc
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 长轨迹可靠性与概率连乘
+  summary: 在模拟每步失败率如何累积、并判断 70 步运行的端到端可靠性时，用概率论的独立事件乘法规则核对 `p^n` 近似，同时明确它依赖于独立性假设。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/02. probability concepts.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: b1e9e26c552f860a7aa4c7e281f7a76e2e1f4bc61a0f05891f5f7ff8b2519ab7
+  anchor:
+    heading: Probability Concepts
+    slug: probability-concepts

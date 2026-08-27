@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/16-multi-agent-and-swarms/24-evaluation-coordination-benchmarks/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 1cef5b611082650577f0de25b71a4a0569a3559687c02cd081f28258922f66d0
+  anchor:
+    heading: Read benchmark claims skeptically — the 2026 checklist
+    slug: read-benchmark-claims-skeptically-the-2026-checklist
+card:
+  title: 用假设检验判断基准差异是否可信
+  summary: 比较多智能体与单智能体或随机基线时，N 次试验、p 值和显著性水平把“这次分数更高”转化为可检验的主张，避免将高方差单次运行误当作协调收益。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 04 - statistics/04. hypothesis testing.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 942dcb7250f6076ab531d4238d4ab79fca45b42621d5d59baa136cfdb506d3d4
+  anchor:
+    heading: Hypothesis Testing
+    slug: hypothesis-testing

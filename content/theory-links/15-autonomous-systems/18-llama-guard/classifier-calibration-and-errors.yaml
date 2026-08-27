@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/15-autonomous-systems/18-llama-guard/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: d2e6f91903b8358ead955c4db18c9ba986e51b359d62366e2fc8e4cb23f02d08
+  anchor:
+    heading: Where classifiers win
+    slug: where-classifiers-win
+card:
+  title: 安全分类器的阈值、漏报与误报
+  summary: 在为输入/输出 guard 设定阻断、路由或人工复核动作时，用分类问题的阈值、混淆矩阵、精确率和召回率评估命中率下降究竟是漏报、误报还是类别边界不清，并据此校准每类风险的处理。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/02. gradient machine learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e9c5575ef27ceca98c958218c3c4d79d143fa074329bd6d947f4c0d3f8d6501a
+  anchor:
+    heading: Gradient Machine Learning
+    slug: gradient-machine-learning

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/14-agent-engineering/30-eval-driven-agent-development/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 7f1772928ead5688466ea0b7178d2cbd7bd10f0fa2e3568656e76dc4e8fcf891
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Eval-driven 开发与测试分层
+  summary: 在把单元、轨迹、任务和回归评估组合成 agent eval suite 时，用测试与质量保证理论核对确定性检查、容差和端到端测试的职责；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 15 - production software engineering/04. testing and quality assurance.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 75cfe1f8703e3112959a0c6f1c941c3b0a28020f42344d8b83d66e0079a5fa8c
+  anchor:
+    heading: The Test Pyramid
+    slug: the-test-pyramid

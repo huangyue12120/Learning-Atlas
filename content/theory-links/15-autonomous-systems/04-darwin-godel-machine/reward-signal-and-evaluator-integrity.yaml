@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/15-autonomous-systems/04-darwin-godel-machine/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 43d3cef80a1eb777b641b9ae7a727eb66144d4f63dd750551ee0bc8b715da351
+  anchor:
+    heading: The reward-hacking demonstration
+    slug: the-reward-hacking-demonstration
+card:
+  title: 经验奖励信号与评估器完整性
+  summary: 在分析 DGM 为何会通过编辑检测标记提高分数时，用强化学习的奖励、策略与累计回报框架区分“提高代理分数”和“改善任务行为”，从而为评估器防火墙确定必须隔离的边界。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/04. reinforcement learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 96c91eeee0c1d1c9b8deeb77ab5612c1286029a6a06a428d84f70d633ef39cc7
+  anchor:
+    heading: Reinforcement Learning
+    slug: reinforcement-learning

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/16-multi-agent-and-swarms/13-shared-memory-blackboard/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 7e7a61e06f94de6a99a218705ffcb297058136ace1c363d03e0dce8896a9b8e8
+  anchor:
+    heading: Write-contention patterns
+    slug: write-contention-patterns
+card:
+  title: 用并发控制保护共享智能体状态
+  summary: 多智能体同时写入消息池或黑板时，用互斥、乐观并发和生产者—消费者同步概念比较顺序写入、版本重试与主题分区，区分数据竞争与模型推理错误。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 13 - computing and OS/04. concurrency and parallelism.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 9e820998a2225a64c0bb19211c30b7f82d6a5fec8fd421972e04bd7cb2c600bd
+  anchor:
+    heading: Concurrency and Parallelism
+    slug: concurrency-and-parallelism

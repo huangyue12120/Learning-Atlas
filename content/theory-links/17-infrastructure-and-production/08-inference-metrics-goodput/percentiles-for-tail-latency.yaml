@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/08-inference-metrics-goodput/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: d53d3c31b91e81969c851c0a9c1cc679e726c10541048c53a34c848c54f6d0c4
+  anchor:
+    heading: Why mean is the wrong statistic
+    slug: why-mean-is-the-wrong-statistic
+card:
+  title: 用百分位数读取推理延迟的长尾
+  summary: 在制定 TTFT、TPOT 和 E2E 的 P50/P90/P99 SLO 时，位置统计量说明了百分位数为何比平均值更能代表右偏延迟分布中的用户体验，也为 goodput 的多约束门槛提供了可解释的输入。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 04 - statistics/02. measures.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 29e10b28a00e6fa718e372322b07cefb3f829689c921f548c135bf2189db2e48
+  anchor:
+    heading: Statistical Measures
+    slug: statistical-measures

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/18-ethics-safety-alignment/15-indirect-prompt-injection/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: c45f346b585ff1881733b061f7e55d034eacaf23e912374d001ee27dac87df38
+  anchor:
+    heading: Three delivery vectors
+    slug: three-delivery-vectors
+card:
+  title: 检索结果如何成为间接注入载荷
+  summary: 在 RAG 投递向量中，检索步骤将外部文档拼入用户问题之前的上下文；检索增强生成的数据流帮助定位攻击者控制的片段如何进入模型输入，但该卡不替代 IPI 的 IFC 防御与信任标记。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

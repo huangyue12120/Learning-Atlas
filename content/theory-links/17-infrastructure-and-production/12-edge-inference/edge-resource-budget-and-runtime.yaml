@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/12-edge-inference/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 50eb91fb78f252442cf290a541fd0748b6ee72904cf3aea623d567bd1549bff4
+  anchor:
+    heading: Bandwidth is the real ceiling
+    slug: bandwidth-is-the-real-ceiling
+card:
+  title: 用边缘设备资源约束选择模型与运行时
+  summary: 在为 Apple ANE、Qualcomm Hexagon、WebGPU 或 Jetson 选择模型大小、量化格式和运行时时，边缘推理的内存、算力、功耗与设备端运行时约束解释了为什么模型压缩和硬件匹配比单看 TOPS 更重要。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/04. edge inference.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: f32813ef8142c3e5f8b99576ed24f1d8f4fb5e0626b4456f16e22d4a4cce37da
+  anchor:
+    heading: Edge Constraints
+    slug: edge-constraints

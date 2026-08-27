@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/14-agent-engineering/13-langgraph-stateful-graphs/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: eff89296945c389b50c9491488940eebee8dc61756ea274a2b1a094709fb4951
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 有状态 agent graph 的节点与边
+  summary: 在为节点、条件边、检查点和恢复设计状态图时，用图论理论核对拓扑、遍历和循环边界；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 14 - data structures and algorithms/04. graphs.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e2bd3fed00e6a650f86b6d07a2d8d3263976543dba09ed7c9ddca6b3dfd93697
+  anchor:
+    heading: Graphs
+    slug: graphs

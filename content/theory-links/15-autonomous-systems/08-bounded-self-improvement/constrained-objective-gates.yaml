@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/15-autonomous-systems/08-bounded-self-improvement/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: ed3e03bb1c0431173c30bf272e4a484a8264ab6823f305f10850a8e245b207d0
+  anchor:
+    heading: Primitive 3: multi-objective constraints
+    slug: primitive-3-multi-objective-constraints
+card:
+  title: 约束优化与多轴接受闸门
+  summary: 在要求每次自我修改同时满足性能、安全、公平与稳健性时，用约束优化中“在可行域内优化目标”的视角区分硬约束与单一性能代理分数，并据此设计逐轴拒绝条件。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 03 - calculus/05. optimisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: ab7d84558c2298a32a74f7f61d009624eb2886606e0940661dc250338caee756
+  anchor:
+    heading: Optimisation
+    slug: optimisation

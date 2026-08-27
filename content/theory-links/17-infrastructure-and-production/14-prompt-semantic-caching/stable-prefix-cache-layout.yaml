@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/14-prompt-semantic-caching/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: b3e17333c21dae5ac19ff620cae7a650f42ddb517c295819b732e7ddbaaabc2d
+  anchor:
+    heading: The dynamic content anti-pattern
+    slug: the-dynamic-content-anti-pattern
+card:
+  title: 将稳定内容置于可复用的提示词前缀
+  summary: 在重构供应商 L2 提示词缓存的 cache boundary 时，前缀缓存原理说明了为什么系统规则、示例等稳定内容必须位于前部，而时间、请求 ID 与用户数据必须在后部，才能跳过重复 prefill 并获得命中率收益。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/05. scaling and deployment.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a18d9bcb15892ca2aa52e72346cc599df3709e3096673b8cd1f8145e93f3a31b
+  anchor:
+    heading: Prefix Caching
+    slug: prefix-caching

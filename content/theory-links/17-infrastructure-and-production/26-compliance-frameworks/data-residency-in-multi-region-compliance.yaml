@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/26-compliance-frameworks/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 20cb93aee9790da3c61c0d106b955b01b033b90ec2262dbeb40dfdd803e4e686
+  anchor:
+    heading: The seven frameworks
+    slug: the-seven-frameworks
+card:
+  title: 将数据驻留纳入跨框架合规控制
+  summary: 当产品服务欧盟用户时，云基础设施中的数据复制、跨区故障转移和数据驻留约束说明了为什么 GDPR 不能只出现在采购声明中，用户数据的位置与传输路径也必须进入控制矩阵。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/02. cloud computing.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: f1e6241f57575f368dac8f1ccd2c0ee93b6eb98e0f3d947cf36025d4473a9f5a
+  anchor:
+    heading: Multi-Region Deployment
+    slug: multi-region-deployment

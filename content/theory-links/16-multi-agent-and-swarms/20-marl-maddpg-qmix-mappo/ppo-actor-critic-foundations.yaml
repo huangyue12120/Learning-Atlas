@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/16-multi-agent-and-swarms/20-marl-maddpg-qmix-mappo/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 77aa03c7a2d275a2459e0bf2153ec6059b438f6fa97e68d208716531ea0e9caf
+  anchor:
+    heading: MAPPO (2022) — the overlooked default
+    slug: mappo-2022-the-overlooked-default
+card:
+  title: 从 PPO 与 actor–critic 到 MAPPO
+  summary: MAPPO 将 PPO 的策略更新与集中式价值函数结合。先复习策略、价值函数、actor–critic 和 PPO 的裁剪目标，便能理解为什么训练时的全局价值估计可以降低多智能体策略更新的方差，而部署时仍只运行局部策略。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/04. reinforcement learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 96c91eeee0c1d1c9b8deeb77ab5612c1286029a6a06a428d84f70d633ef39cc7
+  anchor:
+    heading: Reinforcement Learning
+    slug: reinforcement-learning

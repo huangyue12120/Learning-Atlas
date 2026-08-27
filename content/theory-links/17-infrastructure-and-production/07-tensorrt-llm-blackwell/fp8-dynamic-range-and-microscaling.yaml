@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/07-tensorrt-llm-blackwell/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 680c63c00fffe57852cb42cb24d17afdfa66084a5f4427aef99a91f5f3cc9942
+  anchor:
+    heading: Why FP8 is still the floor for KV cache
+    slug: why-fp8-is-still-the-floor-for-kv-cache
+card:
+  title: 用浮点格式的动态范围理解 FP8 与 NVFP4 的分工
+  summary: 为 Blackwell + TRT-LLM 选择权重、激活值与 KV 缓存精度时，FP8 的指数/尾数取舍说明了为什么 KV 缓存需要更宽动态范围，而块级微缩放让 NVFP4 能在权重和激活值上节省带宽。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/01. quantisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d4f8131dbcb120ce518005d0ba6814466873b4ae50d7e5228260cd0e95e1ef55
+  anchor:
+    heading: Number Formats
+    slug: number-formats

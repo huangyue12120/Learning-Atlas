@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/11-multi-region-kv-locality/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 72bb6b7348dcafd19302c7df926e962813e62f28bd02eda99f2c267e6995c26d
+  anchor:
+    heading: Cache-aware routing
+    slug: cache-aware-routing
+card:
+  title: 将前缀缓存命中率转化为跨副本路由规则
+  summary: 在为多区域副本选择 prefix-hash 路由、并权衡 TTFT 与网络 RTT 时，前缀缓存原理说明了缓存命中为何可以跳过 prefill，也界定了缓存局部性在区域边界和数据驻留之前才应优化的范围。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/05. scaling and deployment.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a18d9bcb15892ca2aa52e72346cc599df3709e3096673b8cd1f8145e93f3a31b
+  anchor:
+    heading: Prefix Caching
+    slug: prefix-caching

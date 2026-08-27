@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/14-agent-engineering/23-otel-genai-conventions/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 079cbb2f56f7ec32724047275efa9fbd66a2af5f3953edba52f675527e336aa8
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Agent trace 的语义层级
+  summary: 在给模型、工具、任务和会话建立 GenAI span 属性时，用分布式 tracing 理论核对观测数据如何连接请求生命周期和故障定位；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/03. large scale infrastructure.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 841b9c77948b5562ca325220c837cf0ded6c3c88e452745191849ad678ecfd61
+  anchor:
+    heading: Tracing
+    slug: tracing

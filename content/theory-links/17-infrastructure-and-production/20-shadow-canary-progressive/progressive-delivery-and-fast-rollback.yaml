@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/20-shadow-canary-progressive/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 7f172d6f18a66561b84a773fe9ab9fc800c2cb30af597d8c740ceff0ede09dea
+  anchor:
+    heading: Rollback is the weapon
+    slug: rollback-is-the-weapon
+card:
+  title: 用渐进式交付将模型回滚缩短至数秒
+  summary: 在将候选模型从影子流量推进到金丝雀、并以策略标志和固定模型 digest 回滚时，蓝绿、金丝雀和 feature flag 的持续交付模式说明了如何限制爆炸半径，并把发布和用户可见的启用操作分离。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/03. large scale infrastructure.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 841b9c77948b5562ca325220c837cf0ded6c3c88e452745191849ad678ecfd61
+  anchor:
+    heading: CI/CD
+    slug: ci-cd

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/15-autonomous-systems/05-ai-scientist-v2/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 39e95cca329be5f1fe6e090969854635a2db3bda2f4fb2771cf41a8d6f2248ba
+  anchor:
+    heading: The sandbox-escape concern
+    slug: the-sandbox-escape-concern
+card:
+  title: 执行生成代码的沙箱边界
+  summary: 在为 AI Scientist v2 运行 LLM 生成的实验代码配置 Docker、seccomp 或 gVisor 时，用操作系统中的最小权限、命名空间、cgroup 与系统调用限制，分别界定文件、网络、进程和资源边界。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 13 - computing and OS/03. operating systems.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 87293bf78b1f48a83f4de5c840a7596c16fb96c863b31be4dcb6666480a552a0
+  anchor:
+    heading: Security Basics
+    slug: security-basics

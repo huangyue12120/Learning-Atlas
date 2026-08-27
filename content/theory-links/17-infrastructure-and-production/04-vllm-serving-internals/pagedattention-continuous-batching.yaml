@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/04-vllm-serving-internals/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 6bc9689906560542495ab85dc696e523f13a09f30c6fb24b744336d4a3509efe
+  anchor:
+    heading: PagedAttention as a virtual memory system
+    slug: pagedattention-as-a-virtual-memory-system
+card:
+  title: PagedAttention 的 KV 分页与连续批处理
+  summary: 为 vLLM 调度器配置 KV 块预算、接纳新序列和分块 prefill 时，使用 PagedAttention 的页表、按需分配与 prefill/decode 机制理解为何连续批处理能降低碎片并提高 goodput。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/03. serving and batching.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 93d4761610df2814a51a8c12e25c43aa337feac3f476c5041e3b019f3c7c2bd7
+  anchor:
+    heading: PagedAttention and vLLM
+    slug: pagedattention-and-vllm

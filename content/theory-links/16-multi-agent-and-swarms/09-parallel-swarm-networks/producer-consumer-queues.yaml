@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/16-multi-agent-and-swarms/09-parallel-swarm-networks/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 2dde437ce309db7e43e69e34bb091b8ca019d5e4c55293e582f7497776dd21c9
+  anchor:
+    heading: The shape
+    slug: the-shape
+card:
+  title: 用生产者—消费者模型设计群体队列
+  summary: 当工作者从共享队列异步领取任务时，用并发中的生产者—消费者、同步和饥饿概念检查队列语义、负载均衡与背压，而不是把工作领取误认为无成本的并行。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 13 - computing and OS/04. concurrency and parallelism.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 9e820998a2225a64c0bb19211c30b7f82d6a5fec8fd421972e04bd7cb2c600bd
+  anchor:
+    heading: Concurrency and Parallelism
+    slug: concurrency-and-parallelism

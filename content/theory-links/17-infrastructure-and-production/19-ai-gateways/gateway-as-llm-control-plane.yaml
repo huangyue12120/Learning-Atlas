@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/19-ai-gateways/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 37577b9d35784816daa5140188304ca352cde30704e7405c718095ea9cf8454e
+  anchor:
+    heading: Six core features
+    slug: six-core-features
+card:
+  title: 将 AI 网关看作模型调用的控制平面
+  summary: 在为多供应商 LLM 调用集中路由、认证、限流、回退与使用量记录时，API 网关作为反向代理的机制说明了为什么这些跨服务职责应置于应用外部，并可按 LLM 特有的护栏和成本归因扩展。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/01. systems design fundamentals.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 57b3e7928b7703f36f63ffb24177f8d20637b02c12c929b7f54d3fa575b1fd3c
+  anchor:
+    heading: Proxies
+    slug: proxies

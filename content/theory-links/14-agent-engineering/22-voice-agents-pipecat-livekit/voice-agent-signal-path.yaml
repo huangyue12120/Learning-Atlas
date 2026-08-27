@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/14-agent-engineering/22-voice-agents-pipecat-livekit/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 514d102d6130a6c3c6682b33e86d7a2e24de4e9240176de6e78403ecc9d8083d
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 语音智能体的实时信号路径
+  summary: 在连接 VAD、STT、LLM、TTS 和回声/打断控制时，用数字信号处理理论核对采样、帧、延迟和流式缓冲的边界；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 09 - audio and speech/01. digital signal processing.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 1c39b35b0c2eeaee22cf5bea77b2a377a78c362b09b7878239dd52770d813d6b
+  anchor:
+    heading: Digital Signal Processing
+    slug: digital-signal-processing

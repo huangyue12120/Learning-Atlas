@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/14-agent-engineering/21-computer-use-agents/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: fddd303eb087f556eb13754431e8a118980c7c9184eb53f61dc810b91638605e
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Computer-use 的视觉 grounding
+  summary: 在把屏幕观测映射到点击、输入和滚动动作时，用 VLM 的 grounding 理论核对空间引用、坐标和动作条件；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/02. vision language models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: c32dba5a1c73fecb1fc8305df2a3539ed0ee89a1cbf1a27cce0d8bda015c8f71
+  anchor:
+    heading: Grounding and Referring
+    slug: grounding-and-referring

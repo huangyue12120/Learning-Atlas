@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/24-chaos-engineering-llm/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: cd452d8d62dd107244028e88aadbcffcc768cd58a78afe52f3d85a4906f4e79f
+  anchor:
+    heading: Prerequisites
+    slug: prerequisites
+card:
+  title: 以 SLO 和错误预算为混沌实验设定安全边界
+  summary: 在生产 LLM 服务上安排故障注入前，可靠性的 SLO、错误预算和混沌工程原则说明了为什么必须先定义中止条件、观察信号与回滚路径，才能让实验暴露韧性缺口而非成为真实事故。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/03. large scale infrastructure.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 841b9c77948b5562ca325220c837cf0ded6c3c88e452745191849ad678ecfd61
+  anchor:
+    heading: Reliability
+    slug: reliability

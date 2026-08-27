@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/18-ethics-safety-alignment/16-red-team-tooling-garak-llamaguard-pyrit/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 380a3437c4bb05212e34be0ea75e0dca5f86e377a4f0465fed9befa2fc4f3dd8
+  anchor:
+    heading: Evaluation pitfalls
+    slug: evaluation-pitfalls
+card:
+  title: 用分类阈值校准红队工具的安全判断
+  summary: 在为 Llama Guard 设定输入/输出门控、解读 Garak 的 TBSA 等级和比较不同裁判的 ASR 时，分类学习中的阈值、混淆矩阵、精确率和召回率帮助区分漏报、误报与裁判校准偏差。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/02. gradient machine learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e9c5575ef27ceca98c958218c3c4d79d143fa074329bd6d947f4c0d3f8d6501a
+  anchor:
+    heading: Gradient Machine Learning
+    slug: gradient-machine-learning

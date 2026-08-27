@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/14-agent-engineering/04-tree-of-thoughts-lats/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: c0d4e1af4425b9cc2a97b944e4b538fb2bcef90e4469acab0d547c69e317e92f
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Tree of Thoughts 的搜索树
+  summary: 在展开候选思路、评估节点并回溯选择路径时，用图论理论核对节点、边、遍历和搜索边界；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 14 - data structures and algorithms/04. graphs.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e2bd3fed00e6a650f86b6d07a2d8d3263976543dba09ed7c9ddca6b3dfd93697
+  anchor:
+    heading: Graphs
+    slug: graphs

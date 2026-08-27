@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/17-disaggregated-prefill-decode/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 7de2bafd57d1d40820fbbb82fdb2284e3fb34c523cba8b1f7c05d05c50d55fed
+  anchor:
+    heading: Why the bottlenecks differ
+    slug: why-the-bottlenecks-differ
+card:
+  title: 根据 prefill 与 decode 的相反瓶颈拆分 GPU 池
+  summary: 在比较共置与解耦服务、并评估 KV 传输税是否值得时，prefill/decode 的计算与内存带宽差异及解耦服务模式解释了为什么每个池应按自己的瓶颈定尺寸，而短请求可能无法回收传输开销。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/03. serving and batching.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 93d4761610df2814a51a8c12e25c43aa337feac3f476c5041e3b019f3c7c2bd7
+  anchor:
+    heading: Disaggregated Serving
+    slug: disaggregated-serving

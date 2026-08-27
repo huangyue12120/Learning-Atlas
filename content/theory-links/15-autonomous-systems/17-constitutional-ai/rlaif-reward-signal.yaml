@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/15-autonomous-systems/17-constitutional-ai/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 05b75703c17dfa8e118833fd0443e7b95e26216aab1ef97aa9fed34bc6bbadcc
+  anchor:
+    heading: The 2022 CAI training
+    slug: the-2022-cai-training
+card:
+  title: RLAIF 的奖励信号与策略更新
+  summary: 在从宪法批评生成修订回答、再以 RLAIF 训练模型时，用强化学习中的策略、奖励与累积回报概念区分“宪法给出评价信号”与“模型在该信号下更新行为”的两个步骤。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/04. reinforcement learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 96c91eeee0c1d1c9b8deeb77ab5612c1286029a6a06a428d84f70d633ef39cc7
+  anchor:
+    heading: Reinforcement Learning
+    slug: reinforcement-learning

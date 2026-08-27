@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/27-finops-llms/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 1430e4cd6817449b618d6065ee9371aee75ed3cfbb05087a13b0c5db29827c34
+  anchor:
+    heading: The compounded-savings stack
+    slug: the-compounded-savings-stack
+card:
+  title: 从推理成本优化走向 LLM 单位经济学
+  summary: 在按用户、任务和租户归因成本，并叠加缓存、批处理、路由与网关策略时，推理部署中的 GPU 选型、自动扩缩、批处理和量化原理说明了这些杠杆如何共同降低每个已解决任务的成本。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/05. scaling and deployment.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: a18d9bcb15892ca2aa52e72346cc599df3709e3096673b8cd1f8145e93f3a31b
+  anchor:
+    heading: Cost Optimisation
+    slug: cost-optimisation

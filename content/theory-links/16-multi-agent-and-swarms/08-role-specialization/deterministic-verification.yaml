@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/16-multi-agent-and-swarms/08-role-specialization/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 50c791bf5867a18c6d0621942fe7fc2e62f417bfa9c71b523f05ee9b2310273a
+  anchor:
+    heading: Critic vs verifier
+    slug: critic-vs-verifier
+card:
+  title: 用确定性测试承担验证角色
+  summary: 为多智能体流水线配置验证者时，用测试与质量保证的检查层级区分主观批评和可复现的通过/失败证据，避免所有角色只给出“看起来不错”的判断。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 15 - production software engineering/04. testing and quality assurance.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 75cfe1f8703e3112959a0c6f1c941c3b0a28020f42344d8b83d66e0079a5fa8c
+  anchor:
+    heading: Testing and Quality Assurance
+    slug: testing-and-quality-assurance

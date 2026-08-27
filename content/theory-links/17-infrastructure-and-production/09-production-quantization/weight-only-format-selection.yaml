@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/09-production-quantization/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 426f95fbda1dff2cd772a878c671a4ac245e175f3af5fa4b5086d6eb0656ed63
+  anchor:
+    heading: The six formats
+    slug: the-six-formats
+card:
+  title: 用权重量化机制选择 AWQ、GPTQ 与 GGUF
+  summary: 在按硬件、服务引擎和多 LoRA 需求选择生产量化格式时，权重专用量化笔记说明了 GPTQ 的误差补偿、AWQ 对显著通道的保护以及 GGUF K-quant 的格式取舍，帮助把格式名称转化为可验证的选择条件。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/01. quantisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d4f8131dbcb120ce518005d0ba6814466873b4ae50d7e5228260cd0e95e1ef55
+  anchor:
+    heading: Weight-Only Quantisation
+    slug: weight-only-quantisation

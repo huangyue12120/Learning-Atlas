@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/15-autonomous-systems/21-metr-external-evaluation/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 21805b2aa6c8fedab76f6f0e4ab35455a73e1020c60544d83357a1f960068468
+  anchor:
+    heading: The Time Horizon fit
+    slug: the-time-horizon-fit
+card:
+  title: 用成功概率拟合时间跨度
+  summary: 对每项任务记录成功或失败后，将结果视为 Bernoulli 试验；以任务时长为条件的成功概率曲线说明了为何 50% 交点可以成为可比较的时间跨度指标。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 05 - probability/03. distributions.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 1e051833fd2dde6957d8c2bc859d0dd7075bd09518aae0632904c0a039c75efa
+  anchor:
+    heading: Probability Distributions
+    slug: probability-distributions

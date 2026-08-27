@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/15-autonomous-systems/12-durable-execution/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: adc5aa6f20ee09b6920ab01aec2e062234e9e6620ca58f4e43fc59f073c15bba
+  anchor:
+    heading: Activities, workflows, and replay
+    slug: activities-workflows-and-replay
+card:
+  title: 事件日志、崩溃恢复与回放
+  summary: 在把 LLM 调用与工具调用封装为可回放活动时，用文件系统日志在崩溃后重放或完成受保护状态转换的直觉，理解为何须先持久记录活动结果、再恢复工作流，而非重新执行副作用。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 13 - computing and OS/03. operating systems.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 87293bf78b1f48a83f4de5c840a7596c16fb96c863b31be4dcb6666480a552a0
+  anchor:
+    heading: File Systems
+    slug: file-systems

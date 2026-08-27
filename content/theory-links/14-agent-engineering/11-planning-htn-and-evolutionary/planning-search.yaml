@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/14-agent-engineering/11-planning-htn-and-evolutionary/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: f4999bbfd5e356debc4193581fc9a9b6df991366783c41110c5296781eeeb020
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: HTN 分解与搜索式规划
+  summary: 在把高层任务递归分解为可执行子任务并用搜索比较计划时，用图论理论核对状态空间、依赖边和拓扑约束；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 14 - data structures and algorithms/04. graphs.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e2bd3fed00e6a650f86b6d07a2d8d3263976543dba09ed7c9ddca6b3dfd93697
+  anchor:
+    heading: Graphs
+    slug: graphs

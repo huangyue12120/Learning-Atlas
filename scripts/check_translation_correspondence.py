@@ -30,6 +30,7 @@ LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 MERMAID_QUOTED_TEXT = re.compile(r'"(?:[^"\\]|\\.)*"')
 MERMAID_EDGE_LABEL = re.compile(r'\|(?:[^|\\]|\\.)*\|')
 MERMAID_DOTTED_EDGE_LABEL = re.compile(r'(?P<prefix>-\.\s+)(?:[^\n]+?)(?P<suffix>\s+\.->)')
+MERMAID_FLOW_EDGE_LABEL = re.compile(r'(?P<prefix>--\s+)(?:[^-\n]+?)(?P<suffix>\s+-->)')
 MERMAID_SQUARE_LABEL = re.compile(r'(?P<prefix>\b[A-Za-z][A-Za-z0-9_-]*\s*)\[(?:[^\]\\]|\\.)*\]')
 MERMAID_CURLY_LABEL = re.compile(r'(?P<prefix>\b[A-Za-z][A-Za-z0-9_-]*\s*)\{(?:[^}\\]|\\.)*\}')
 MERMAID_PAREN_LABEL = re.compile(r'(?P<prefix>\b[A-Za-z][A-Za-z0-9_-]*\s*)\((?:[^)\\]|\\.)*\)')
@@ -39,10 +40,28 @@ MERMAID_UNQUOTED_SUBGRAPH = re.compile(
     r'^(\s*subgraph\s+)(?![A-Za-z][A-Za-z0-9_-]*\s*\[).+$', re.MULTILINE
 )
 MERMAID_SEQUENCE_PARTICIPANT = re.compile(r'^(\s*participant\s+\S+\s+as\s+).+$', re.MULTILINE)
+MERMAID_SEQUENCE_PARTICIPANT_ID = re.compile(
+    r'^(\s*participant\s+\S+)(?:\s+as\s+.+)?$', re.MULTILINE
+)
 MERMAID_SEQUENCE_NOTE = re.compile(r'^(\s*Note\s+over\s+[^:\n]+:\s*).+$', re.MULTILINE)
 MERMAID_SEQUENCE_MESSAGE = re.compile(
     r'^(\s*[^:\n]+(?:->>|-->>|-->|->|\.\.>|-\)|==>)[^:\n]*:\s*).+$',
     re.MULTILINE,
+)
+MERMAID_SEQUENCE_BRANCH = re.compile(
+    r'^(\s*(?:alt|else|opt|loop|par|and|critical|option|break)\b)(?:\s+.+)?$', re.MULTILINE
+)
+MERMAID_STATE_ALIAS = re.compile(
+    r'^(?:\s*state\s+"[^"]*"\s+as\s+[A-Za-z][A-Za-z0-9_-]*\s*\n)+', re.MULTILINE
+)
+MERMAID_STATE_TRANSITION = re.compile(
+    r'^(?P<prefix>\s*(?:\[\*\]|[A-Za-z][A-Za-z0-9_-]*)\s*-->\s*'
+    r'(?:\[\*\]|[A-Za-z][A-Za-z0-9_-]*)\s*:\s*).+$',
+    re.MULTILINE,
+)
+MERMAID_STATE_NOTE = re.compile(
+    r'^(?P<start>\s*note\s+(?:left|right|over)\s+.+?\n)(?P<body>.*?)(?P<end>^\s*end note\s*$)',
+    re.MULTILINE | re.DOTALL,
 )
 OMITTED_NON_PYTHON = re.compile(r"<!--\s*learning-atlas:\s*upstream-non-python omitted=([a-z0-9_+-]+)\s*-->")
 
@@ -78,10 +97,29 @@ def normalize_mermaid(diagram: str) -> str:
         # Sequence participants, notes, and message text are visible labels;
         # keep participant IDs and message arrows while ignoring translations.
         normalized = MERMAID_SEQUENCE_PARTICIPANT.sub(r'\1…', normalized)
+        normalized = MERMAID_SEQUENCE_PARTICIPANT_ID.sub(r'\1', normalized)
         normalized = MERMAID_SEQUENCE_NOTE.sub(r'\1…', normalized)
         normalized = MERMAID_SEQUENCE_MESSAGE.sub(r'\1…', normalized)
+        normalized = MERMAID_SEQUENCE_BRANCH.sub(r'\1…', normalized)
+    if re.search(r'^\s*stateDiagram(?:-v2)?\b', normalized, re.MULTILINE):
+        # State aliases localize visible state names while retaining the source
+        # IDs in every transition. They do not change the diagram topology.
+        normalized = MERMAID_STATE_ALIAS.sub("", normalized)
+        normalized = MERMAID_STATE_TRANSITION.sub(r'\g<prefix>…', normalized)
+
+        def normalize_state_note(match: re.Match[str]) -> str:
+            note_body = re.sub(r'^(\s*).+$', r'\1…', match.group('body'), flags=re.MULTILINE)
+            return f"{match.group('start')}{note_body}{match.group('end')}"
+
+        normalized = MERMAID_STATE_NOTE.sub(normalize_state_note, normalized)
     normalized = MERMAID_EDGE_LABEL.sub('|…|', normalized)
     normalized = MERMAID_DOTTED_EDGE_LABEL.sub(
+        lambda match: f"{match.group('prefix')}…{match.group('suffix')}", normalized
+    )
+    # Flowchart edges may use `-- label -->` rather than pipe-delimited labels.
+    # The label is learner-visible; preserve the two-dash arrow grammar while
+    # allowing Chinese localization.
+    normalized = MERMAID_FLOW_EDGE_LABEL.sub(
         lambda match: f"{match.group('prefix')}…{match.group('suffix')}", normalized
     )
     normalized = MERMAID_SQUARE_LABEL.sub(lambda match: f"{match.group('prefix')}[…]", normalized)

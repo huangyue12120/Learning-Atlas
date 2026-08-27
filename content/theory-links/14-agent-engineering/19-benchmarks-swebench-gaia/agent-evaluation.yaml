@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/14-agent-engineering/19-benchmarks-swebench-gaia/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: b2a282a875e13aa30bea25d2a937ce1e26c422e14e7f4d675808675de1cd6f76
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Agent benchmark 的任务完成度
+  summary: 在比较 SWE-bench、GAIA 等 benchmark 的任务成功、分解和评估协议时，用 ML systems 的模型评估理论核对离线指标与真实部署质量的差距；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/04. ML systems design.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 76746c0492a2391388c3dc8f24b5e9b44d22c475ff7a58ed200bc3a2f2952a30
+  anchor:
+    heading: Model Evaluation
+    slug: model-evaluation

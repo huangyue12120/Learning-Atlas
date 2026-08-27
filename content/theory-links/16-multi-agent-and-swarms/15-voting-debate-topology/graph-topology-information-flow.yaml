@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/16-multi-agent-and-swarms/15-voting-debate-topology/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: d7696a6e00496b73229ba5b9344d386a790acfccf4211aab16f5acf433af2f1e
+  anchor:
+    heading: The four topologies
+    slug: the-four-topologies
+card:
+  title: 用图表示辩论中的信息流
+  summary: 选择星形、链形、树形或图形辩论结构时，用节点、边、连通性与遍历概念明确谁能看见谁的输出，从而把“多智能体协调”转化为可检查的通信拓扑。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 14 - data structures and algorithms/04. graphs.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e2bd3fed00e6a650f86b6d07a2d8d3263976543dba09ed7c9ddca6b3dfd93697
+  anchor:
+    heading: Graphs
+    slug: graphs

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/18-ethics-safety-alignment/05-constitutional-ai-rlaif/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 4ee2d7f1d7b5a647091064fcf0ee5d9cd1a87f19a90bb1ba286b14701ed0dcdc
+  anchor:
+    heading: Where CAI fits in the family
+    slug: where-cai-fits-in-the-family
+card:
+  title: RLAIF 的奖励信号与策略更新
+  summary: 在用宪法原则生成批评、修订和偏好排序，再以 RLAIF 训练模型时，强化学习中的策略、奖励与累计回报框架帮助区分“AI 标注者给出评价信号”与“模型在该信号下更新行为”两个步骤。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 06 - machine learning/04. reinforcement learning.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 96c91eeee0c1d1c9b8deeb77ab5612c1286029a6a06a428d84f70d633ef39cc7
+  anchor:
+    heading: Reinforcement Learning
+    slug: reinforcement-learning

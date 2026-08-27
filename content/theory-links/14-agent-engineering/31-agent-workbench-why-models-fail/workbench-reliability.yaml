@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/14-agent-engineering/31-agent-workbench-why-models-fail/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 0ea9ffdfa16e69122d14c890cff27a1114bf9c967b584ebfa1919bbad4efc1de
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Agent workbench 的可靠性面
+  summary: 在把 instructions、state、scope、feedback、verification、review 和 handoff 组织成工作台时，用分布式系统可靠性理论核对持久化、故障转移和验证边界；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/03. large scale infrastructure.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 841b9c77948b5562ca325220c837cf0ded6c3c88e452745191849ad678ecfd61
+  anchor:
+    heading: Reliability
+    slug: reliability

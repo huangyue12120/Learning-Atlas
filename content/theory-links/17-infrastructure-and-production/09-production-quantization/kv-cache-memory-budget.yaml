@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/09-production-quantization/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 426f95fbda1dff2cd772a878c671a4ac245e175f3af5fa4b5086d6eb0656ed63
+  anchor:
+    heading: The KV cache trap
+    slug: the-kv-cache-trap
+card:
+  title: 将 KV 缓存纳入量化后的 HBM 预算
+  summary: 在计算量化模型能否容纳指定并发和上下文长度时，KV 缓存大小公式揭示了为什么权重降至 INT4 后，缓存仍可能主导 HBM；它也区分权重量化与会直接影响注意力精度的 KV 缓存量化。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/01. quantisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d4f8131dbcb120ce518005d0ba6814466873b4ae50d7e5228260cd0e95e1ef55
+  anchor:
+    heading: KV-Cache Quantisation
+    slug: kv-cache-quantisation

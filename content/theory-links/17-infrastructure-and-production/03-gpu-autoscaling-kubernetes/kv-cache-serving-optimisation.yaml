@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/03-gpu-autoscaling-kubernetes/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 6ac8b3437ee96f664c02173f7ebba8d43c61027861e7b27b5cd4e128be466241
+  anchor:
+    heading: Layer 3 — application-level signals
+    slug: layer-3-application-level-signals
+card:
+  title: 用 KV 缓存压力驱动 LLM 服务扩缩
+  summary: vLLM 为 KV 缓存预留显存，因此原始 GPU 内存占用不能表示真实请求压力。理解 prefill/decode 与 KV 块的关系后，才能把活跃序列的 KV 缓存利用率作为 decode 副本的扩缩信号。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/03. serving and batching.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 93d4761610df2814a51a8c12e25c43aa337feac3f476c5041e3b019f3c7c2bd7
+  anchor:
+    heading: Prefill vs Decode: Two Very Different Phases
+    slug: prefill-vs-decode-two-very-different-phases

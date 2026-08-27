@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/14-agent-engineering/01-the-agent-loop/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 5f40298b9c1cbabd41a85ede8679c80c55b9a6c9ed92ac661ecd1f9aba18b83e
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: Agent loop 与自回归决策
+  summary: 在把 thought、tool call、observation 逐轮接回上下文时，用高级文本生成理论核对条件生成、采样和反馈轨迹的关系；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/16-model-routing/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 51eabb13456ebd339eb52ad4d8293dd105ff5d255df29bb3adc488090d5cb231
+  anchor:
+    heading: Four routing signals
+    slug: four-routing-signals
+card:
+  title: 用级联路由在成本与模型能力之间设定质量闸门
+  summary: 在为简单请求选择廉价模型、并对低置信度或困难请求升级时，请求路由的级联和学习式分类机制说明了如何把难度信号转化为模型选择，同时用在线质量采样防止任务分布漂移导致静默退化。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/03. serving and batching.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 93d4761610df2814a51a8c12e25c43aa337feac3f476c5041e3b019f3c7c2bd7
+  anchor:
+    heading: Request Routing
+    slug: request-routing

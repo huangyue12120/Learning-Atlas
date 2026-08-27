@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/16-multi-agent-and-swarms/17-generative-agents-simulation/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 5de483c6c4ba56ee5b39eec136b74c0be65943e7654d57d01d4225b5e195dbe7
+  anchor:
+    heading: The three components
+    slug: the-three-components
+card:
+  title: 用嵌入相似度检索智能体记忆
+  summary: 为记忆流按相关性选取 top-k 条目时，用嵌入空间与余弦相似度理解为何自然语言记忆可按语义接近度排序，再与新近度和重要性共同决定当前上下文。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/03. embeddings and sequence models.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: cf467c1180cc5100ff9736bfe3244917358a2915bd3075d89870dfc55c2dc437
+  anchor:
+    heading: Embeddings and Sequence Models
+    slug: embeddings-and-sequence-models

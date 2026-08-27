@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/17-infrastructure-and-production/22-load-testing-llm-apis/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: c1e295fcaa091d1c729005d2964d52e29321902f2630e80a663ad7f5fa004802
+  anchor:
+    heading: SLA gate in CI
+    slug: sla-gate-in-ci
+card:
+  title: 用 TTFT、TPOT 与吞吐量为负载测试设定正确闸门
+  summary: 在将真实提示词分布和流式延迟纳入 CI 压力测试时，推理指标的 prefill/decode 区分说明了为何应同时设置 TTFT 与 TPOT 百分位数闸门，而不能只以一次 HTTP 请求或汇总吞吐量判断服务质量。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 17 - AI inference/03. serving and batching.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 93d4761610df2814a51a8c12e25c43aa337feac3f476c5041e3b019f3c7c2bd7
+  anchor:
+    heading: Inference Metrics
+    slug: inference-metrics

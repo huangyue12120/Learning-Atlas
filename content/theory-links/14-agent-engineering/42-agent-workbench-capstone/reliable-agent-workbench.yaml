@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/14-agent-engineering/42-agent-workbench-capstone/docs/en.md
+  revision: 7c3323508a5186739feecd76838ba1ae962c736f
+  sha256: 50733fd8456af91cd7f7cd39bc02e984be10cc85f0c3d886ba60abfa46e24d21
+  anchor:
+    heading: The Concept
+    slug: the-concept
+card:
+  title: 可复用 agent workbench 的可靠性
+  summary: 在把状态、范围、反馈、验证、审查和交接打包成可复用工作台时，用系统可靠性理论核对持久化、故障恢复和部署边界；该关联先保留候选状态。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/03. large scale infrastructure.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 841b9c77948b5562ca325220c837cf0ded6c3c88e452745191849ad678ecfd61
+  anchor:
+    heading: Reliability
+    slug: reliability
