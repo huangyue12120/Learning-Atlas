@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/11-stable-diffusion/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"dbfccad2cb167143bec91f1588fd15d16d4fc0ae5ffc9383dedb2266116f6a7d"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"stable-diffusion-04-1","stage":"pre","question":"为什么 Stable Diffusion 在 4×64×64 的 latent 空间运行 DDPM，而不是直接在 3×512×512 像素图像上运行？","options":["让推理变得确定","latent 更容易可视化","latent 是 GPU 的原生输出","在 16,384 个 latent 值上训练和采样，而不是 786,432 个像素，成本约低 48 倍；预训练 VAE 负责图像与 latent 的转换，扩散模型只需建模结构化 latent 流形"],"correct":3,"explanation":"latent diffusion 让消费级 GPU 上的文生图变得实际可行。VAE 压缩空间和通道信息，扩散模型可以把计算预算集中用于建模解码后用户真正看到的图像结构。"},
+    {"id":"stable-diffusion-04-2","stage":"pre","question":"classifier-free guidance（CFG）在推理时做什么？","options":["运行两个独立模型并求平均","在测试时给模型添加分类头","用同一个模型预测条件噪声 eps_cond 和无条件噪声 eps_uncond，再用 eps=eps_uncond+w*(eps_cond-eps_uncond) 放大 prompt 遵循程度","使用更大的 scheduler"],"correct":2,"explanation":"训练时有一部分比例丢弃条件，使同一模型能产生 cond 和 uncond 预测。推理时放大条件方向；guidance scale w 控制 prompt 遵循与多样性之间的权衡。"},
+    {"id":"stable-diffusion-04-3","stage":"post","question":"把 SD 默认 scheduler 换成 DPM-Solver++ 2M Karras，并把 num_inference_steps 从 50 降到 20，预期结果是什么？","options":["必须重新训练模型","大约用一半时间获得相近质量；DPM-Solver++ 是二阶 ODE 积分器，用比 DDIM 更少的步骤收敛","质量更差且运行更久","会出现数值不稳定"],"correct":1,"explanation":"scheduler 与模型权重解耦。DPM-Solver++ 是高阶求解器，通常能用约 20 步达到 DDIM-50 的质量，不需要重新训练。"},
+    {"id":"stable-diffusion-04-4","stage":"post","question":"为什么 Stable Diffusion 常用 LoRA 微调，而不是全量微调？","options":["LoRA 默认生成更好图像","LoRA 冻结 8.6 亿参数的基础 U-Net，在注意力层插入很小的低秩矩阵，能在消费级硬件上几分钟完成训练，生成 10–50MB 适配器，并可在推理时替换或混合","diffusers 强制要求 LoRA","LoRA 能完全防止过拟合"],"correct":1,"explanation":"LoRA 的价值在于成本和可组合性。它只更新约 100 万到 1000 万个参数，适配器很小，基础模型不变，因此可以复用兼容 checkpoint，也能组合多个 LoRA。"},
+    {"id":"stable-diffusion-04-5","stage":"post","question":"使用 guidance_scale=15 生成同一 prompt 时出现过饱和颜色和烧灼伪影，这是为什么？","options":["CFG 会放大条件方向；当 w 超过约 9–12 时，预测可能离开 VAE 能干净解码的流形，产生伪影。把 guidance 降到 7–9 可获得平衡结果","seed 错了","模型坏了","VAE 需要重新训练"],"correct":0,"explanation":"CFG 公式没有上界，过高的 w 会把预测推离训练分布，VAE 解码器因此产生过饱和、海报化的图像。生产默认值通常约为 7–8。"}
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/03-deep-learning-core/13-debugging-neural-networks/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "d94f6c8db96a906f5a503bdddc6353d62a399df5344c491030e2d3ac112ac011"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"debugging-neural-networks-03-1","stage":"pre","question":"为什么神经网络调试比传统软件调试更难？","options":["没有神经网络调试工具","网络可能在没有错误消息或崩溃的情况下产生错误输出——代码正常运行，但结果悄悄错了","神经网络使用不同的编程语言","神经网络不能测试"],"correct":1,"explanation":"传统 bug 往往会崩溃或抛异常；神经网络 bug 可能只是一个错误的数字，例如损失不下降、准确率停滞或输出细微错误，没有错误消息告诉你原因。"},
+    {"id":"debugging-neural-networks-03-2","stage":"pre","question":"“过拟合一个 batch”调试技巧是什么？","options":["在完整数据集上训练到过拟合","过拟合验证集","使用非常大的 batch size","在一个很小的 batch 上训练，直到损失接近零，以验证模型至少能记住几个样本"],"correct":3,"explanation":"如果模型连 4–8 个样本的小 batch 都无法把损失降到接近零，通常说明架构、损失函数或训练循环存在根本问题。这是首个应运行的诊断。"},
+    {"id":"debugging-neural-networks-03-3","stage":"post","question":"训练几步后损失变成 NaN，最可能的原因是什么？","options":["模型参数太少","激活函数错误","梯度爆炸或数值溢出，常见原因是学习率太高或没有梯度裁剪","数据集太小"],"correct":2,"explanation":"NaN 损失通常来自数值溢出：梯度爆炸、权重无限增长，以及 log(0)、exp(1000) 等操作产生无穷或 NaN。可以降低学习率或增加梯度裁剪。"},
+    {"id":"debugging-neural-networks-03-4","stage":"post","question":"训练损失下降，但验证损失从一开始就保持不变，这说明什么？","options":["模型学到了训练数据模式却不能泛化——可能是训练/验证数据分布不一致，也可能是严重过拟合","学习率太低","模型需要更多层","模型过拟合"],"correct":0,"explanation":"验证损失始终没有改善，可能是模型记住了训练噪声，也可能是数据管道使训练和验证分布根本不同。需要同时检查过拟合和数据管道。"},
+    {"id":"debugging-neural-networks-03-5","stage":"post","question":"损失曲线完全水平、完全不下降时，首先应检查什么？","options":["尝试其他架构","换一个优化器","确认梯度非零、学习率足够大，并确认损失函数确实依赖模型预测","增加训练数据"],"correct":2,"explanation":"水平损失意味着模型没有更新。常见原因包括零梯度（死神经元、detach 的 tensor）、学习率太小，或在 backward 前调用 .item() 等使损失不再向模型传递梯度。"}
+  ]
+}

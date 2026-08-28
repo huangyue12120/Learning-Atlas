@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/06-object-detection-yolo/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"489f16a8f37fffbac695e0a7766c7d6585e7bd02ffb1a36c9e5a1fac1e7727fb"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"object-detection-yolo-04-1","stage":"pre","question":"一个 YOLO 检测器的网格为 13×13，每个单元有 3 个 anchor、20 个类别，检测头输出形状为 (N, 13, 13, 3, 25)。最后一维为什么是 25？","options":["为了补齐到下一个 2 的幂","25 是 COCO 的类别数","4 个框坐标 + 1 个 bias + 20 个类别","4 个框坐标 + 1 个 objectness + 20 个类别 = 5 + C"],"correct":3,"explanation":"每个 anchor 输出 4 个框回归量（tx、ty、tw、th）、1 个 objectness 分数和 C 个类别 logits，因此每个 anchor 的维度恒为 5+C。"},
+    {"id":"object-detection-yolo-04-2","stage":"pre","question":"为什么 YOLO 会在把 tx、ty 加到网格单元坐标前先通过 sigmoid？","options":["卷积层要求使用 sigmoid","防止训练出现 NaN","把它们归一化到 [0, 1]，让中心留在当前单元内部，不能跑到相邻单元负责的区域","让检测框变大"],"correct":2,"explanation":"sigmoid(tx) 位于 [0,1]，所以 `(sigmoid(tx) + cell_x) * stride` 会把中心放在当前单元内部。这个约束让每个单元只负责中心落在自身区域的目标。"},
+    {"id":"object-detection-yolo-04-3","stage":"post","question":"检测头对一个目标预测了 15 个框，应用 iou_threshold=0.45 的 NMS 后只剩 1 个框。NMS 做了什么？","options":["对 15 个预测框求平均","按分数排序，保留最高分框，删除与它 IoU 超过 0.45 的框；其余 14 个都超过阈值，因此只剩一个","随机选出一个框","对框做几何合并"],"correct":1,"explanation":"NMS 是贪心去重：按分数排序，保留最高分框，删除与它高度重叠的框，再重复处理剩余框。它不会平均或合并框。"},
+    {"id":"object-detection-yolo-04-4","stage":"post","question":"模型的 mAP@0.5=0.75，但 mAP@0.5:0.95=0.32。最准确的解释是什么？","options":["数据集类别太多","模型找到了正确目标，但框的位置不够紧：IoU=0.5 时还可以，IoU=0.7 以上就失败","模型坏了；两个 mAP 必须相等","推理阈值太高"],"correct":1,"explanation":"mAP@0.5 对定位比较宽松，mAP@0.5:0.95 还会平均更严格的阈值。两者差距大说明框大致找对了位置，但边界不够精确。"},
+    {"id":"object-detection-yolo-04-5","stage":"post","question":"YOLO 的损失权重 lambda_coord=5.0、lambda_noobj=0.5 大致沿用原论文。这些比例表达了什么？","options":["网格中大多数单元没有目标，因此要降低 no-object 损失以免其主导总损失；框回归损失尺度较小，因此要提高它的权重以得到可比梯度","GPU 内存的权衡","每个单元的 anchor 数量","作者没有解释的随机选择"],"correct":0,"explanation":"13×13 网格通常只有少数目标，160 多个空单元都会贡献 objectness 损失；如果不降低权重，正类信号会被淹没。框回归的 MSE 又通常小于交叉熵，所以需要提高其权重来平衡梯度。"}
+  ]
+}

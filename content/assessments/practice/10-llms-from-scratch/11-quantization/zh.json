@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/10-llms-from-scratch/11-quantization/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "3e112dd77bf71e41b5f917107e6364400a12c05c238c4b4c17422ffe12628a60"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"quantization-10-1","stage":"pre","question":"一个 70B 参数的 FP16 模型，光存放权重需要多少显存？","options":["70 GB","140 GB","35 GB","280 GB"],"correct":1,"explanation":"700 亿参数 × 每个 FP16 参数 2 字节 = 1400 亿字节，即约 140 GB。这超过单张 80 GB A100 的容量，至少需要两张 GPU 才能装下权重。"},
+    {"id":"quantization-10-2","stage":"pre","question":"在 LLM 中，什么是量化？","options":["降低权重的数值精度（例如从 FP16 变为 INT4），以减少内存使用并提高推理速度","压缩训练数据","删除未使用的模型层","减小词表大小"],"correct":0,"explanation":"量化把高精度浮点权重映射到低精度整数。INT4 每个权重使用 4 bit 而不是 16 bit，在精度损失很小的情况下可把权重内存降到约四分之一。"},
+    {"id":"quantization-10-3","stage":"post","question":"训练后量化（PTQ）与量化感知训练（QAT）的关键区别是什么？","options":["QAT 不使用梯度","PTQ 需要更多数据","PTQ 在训练后直接量化、不再训练；QAT 在训练时模拟量化，让模型学会适应低精度","PTQ 更准确"],"correct":2,"explanation":"PTQ 速度快，只需校准和量化，但可能损失精度。QAT 在训练中加入伪量化，使权重对精度损失更鲁棒，通常能得到更好的准确率。"},
+    {"id":"quantization-10-4","stage":"post","question":"什么是按通道（per-channel）量化？为什么它通常比按张量（per-tensor）更好？","options":["分别量化每个输出通道，为每个通道使用不同的 scale 和 zero-point，从而减少量化误差","一次处理一个颜色通道","一种数据并行方式","每个通道使用一张单独的 GPU"],"correct":0,"explanation":"按张量量化为整个权重矩阵使用一个缩放因子；按通道量化为每个输出通道（每一行）单独设置缩放因子。不同通道的数值范围不同，后者能更准确地表示它们。"},
+    {"id":"quantization-10-5","stage":"post","question":"为什么 Llama 3 70B 的 95% 权重会落在 -0.1 到 +0.1 之间？","options":["权重还没有收敛","训练中的权重衰减和归一化会把权重推向较小值，使完整 FP16 范围变得浪费","这是 Llama 架构特有的现象","模型训练得很差"],"correct":1,"explanation":"权重衰减正则会把权重向零收缩，层归一化会让激活保持居中。二者共同形成集中在零附近的权重分布，使低精度量化更有效。"}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/04-image-classification/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"b09b3a63405c59b3f16e874d7cae990ab920cfd77dc53066469f7b44a5c3c246"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"image-classification-04-1","stage":"pre","question":"模型输出形状为 (N, C) 的原始 logits，你写成 `loss = cross_entropy(softmax(logits), y)`，哪里错了？","options":["cross_entropy 内部会再次应用 softmax，结果变成 softmax(softmax(logits))，概率趋于均匀且梯度无效","没有问题——这是正确 API 用法","cross_entropy 会因形状问题抛出 ValueError","准确率会恰好下降 1/C"],"correct":0,"explanation":"PyTorch 的 cross_entropy 接收原始 logits，内部会为数值稳定性融合 log_softmax 和 NLL。提前 softmax 会再次压缩 logits，使梯度几乎为零；应始终传入原始 logits。"},
+    {"id":"image-classification-04-2","stage":"pre","question":"一个 10 类分类器达到 92% 准确率，其中类别 0 有 9000 个样本，其余类别共 1000 个。这个总准确率掩盖了什么？","options":["模型只把所有输入预测为类别 0，也能得到 90%（9000/10000）；剩余 2% 来自哪个类别并不清楚。应查看每类 precision/recall","没有——准确率就是准确率","模型一定过拟合了","验证损失有错误"],"correct":0,"explanation":"类别分布为 9000/1000 时，永远预测多数类就有 90% 准确率。92% 可能掩盖少数类表现很差，因此还要看每类 precision、recall、F1 和混淆矩阵，不能只看汇总准确率。"},
+    {"id":"image-classification-04-3","stage":"post","question":"Mixup 把 one-hot 标签替换为 lambda * y_i + (1-lambda) * y_j 这样的插值软目标，为什么能帮助泛化？","options":["它把有效 batch size 加倍","它保证训练损失为零","它让你可以使用更大的学习率","模型被迫在类别之间产生平滑预测，而不是记忆硬 one-hot 目标，从而改善校准和测试准确率"],"correct":3,"explanation":"硬 one-hot 目标会把训练点上的 logits 推得过于尖锐，损害校准并促进过拟合。Mixup 对输入和标签做凸组合，迫使分类器在训练点之间也保持平滑。"},
+    {"id":"image-classification-04-4","stage":"post","question":"在 CIFAR-10 上把 `RandomCrop(32, padding=4, padding_mode='zeros')` 换成 `padding_mode='reflect'`，为什么 reflect 更好？","options":["零填充会产生模型可以依赖的黑色边框；reflect 会镜像边缘像素，使增强后的裁剪更像自然照片","批归一化要求使用 reflect padding","reflect padding 会改变输出尺寸","reflect padding 更快"],"correct":0,"explanation":"零填充产生明显黑边，模型可能从角落判断裁剪位置并“作弊”。reflect 镜像真实内容，让每个裁剪都更自然，模型不能依赖人为边界。"},
+    {"id":"image-classification-04-5","stage":"post","question":"分类器的混淆矩阵显示，大多数错误都是类别 3 预测成 5，或类别 5 预测成 3。下一步最有影响的行动是什么？","options":["增大 batch size","从 SGD 换成 Adam","查看被混淆的类别 3 和 5 图像；它们可能确实难以区分、存在错标，或需要针对性增强/重标注","对所有类别等量增加训练数据"],"correct":2,"explanation":"集中在一个非对角线类别对上的错误说明失败模式很具体。应先检查样本，找出错标、近似类别或模型尚未学习的不变性；泛化的优化器或数据改动通常不如针对性处理有效。"}
+  ]
+}

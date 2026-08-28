@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/27-llm-evaluation-frameworks/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "b2b3b39be2258c16853ab01a0d7347bea641da6c4fb3c460ffe228e4d0c2d3cd"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "llm-evaluation-frameworks-05-1",
+      "stage": "pre",
+      "question": "为什么 Exact Match 和词元级 F1 不足以评估现代 LLM 输出？",
+      "options": [
+        "它们不可微",
+        "它们无法识别语义等价；“June 29th, 2007”和“June 29, 2007”虽然正确，EM 仍可能得 0 分",
+        "它们需要 GPU",
+        "它们速度太慢"
+      ],
+      "correct": 1,
+      "explanation": "严格匹配和词元 F1 无法识别人类会判为正确的改写或格式差异。"
+    },
+    {
+      "id": "llm-evaluation-frameworks-05-2",
+      "stage": "pre",
+      "question": "RAGAS 的 faithfulness（事实一致性）指标衡量什么？",
+      "options": [
+        "延迟",
+        "每秒词元数",
+        "答案中的每条主张是否被检索上下文蕴含，通过 NLI 进行判断",
+        "检索召回率"
+      ],
+      "correct": 2,
+      "explanation": "Faithfulness 使用 NLI 蕴含关系逐条检查答案主张与检索上下文的一致性。"
+    },
+    {
+      "id": "llm-evaluation-frameworks-05-3",
+      "stage": "check",
+      "question": "为什么在信任评估分数前，必须用人工标签校准 judge 模型？",
+      "options": [
+        "这是 GDPR 的要求",
+        "如果 judge 与人工标签之间的 Spearman 相关系数过低（例如低于 0.7），这个分数更像噪声而不是信号",
+        "校准会让 judge 运行更快",
+        "校准是分词问题"
+      ],
+      "correct": 1,
+      "explanation": "没有校准，就无法判断 judge 分数反映的是质量，还是模型自身的偏差。"
+    },
+    {
+      "id": "llm-evaluation-frameworks-05-4",
+      "stage": "check",
+      "question": "在 LLM-as-judge 设置中，什么是自评偏差？",
+      "options": [
+        "judge 在缓存输出上运行更快",
+        "judge 会忽略系统提示词",
+        "更低的延迟",
+        "使用同一 LLM 家族生成答案并进行评判，会比使用独立 judge 高估 10%–20% 的分数"
+      ],
+      "correct": 3,
+      "explanation": "生成模型与 judge 属于同一家族时，分数会出现向上的偏差；评估时应使用不同模型家族。"
+    },
+    {
+      "id": "llm-evaluation-frameworks-05-5",
+      "stage": "check",
+      "question": "与简单的“打 0–1 分”提示相比，G-Eval 特别增加了什么？",
+      "options": [
+        "更大的上下文",
+        "带有明确评估步骤的思维链评分标准，因此分数更稳定",
+        "多语言评分",
+        "更低成本"
+      ],
+      "correct": 1,
+      "explanation": "G-Eval 的结构化评估步骤比自由形式的“给它打分”提示更可靠。"
+    },
+    {
+      "id": "llm-evaluation-frameworks-05-6",
+      "stage": "post",
+      "question": "为什么只报告汇总平均分很危险？",
+      "options": [
+        "汇总指标需要 GPU",
+        "汇总指标会忽略 judge",
+        "汇总结果太大",
+        "0.85 的平均分可能掩盖 5% 的灾难性失败；必须检查分数分布的底部区间"
+      ],
+      "correct": 3,
+      "explanation": "平均值会掩盖尾部失败；查看最低 10% 等区间才能发现高严重度问题。"
+    },
+    {
+      "id": "llm-evaluation-frameworks-05-7",
+      "stage": "post",
+      "question": "为什么要在 CI 中固定 judge 模型及其版本？",
+      "options": [
+        "这是 Anthropic 的要求",
+        "升级 judge 会改变所有指标；如果不固定 judge，纵向比较就会失效",
+        "为了避免分词器漂移",
+        "为了降低成本"
+      ],
+      "correct": 1,
+      "explanation": "升级 judge 会悄悄改变指标基线；固定版本可以保持不同运行之间的可比性。"
+    },
+    {
+      "id": "llm-evaluation-frameworks-05-8",
+      "stage": "post",
+      "question": "DeepEval 相对于 RAGAS 处在什么位置？",
+      "options": [
+        "完全取代 RAGAS",
+        "DeepEval 是一种分词器",
+        "DeepEval 像面向 LLM 的 pytest（CI 门禁、G-Eval、幻觉指标）；RAGAS 专注于无参考答案的 RAG 监控",
+        "DeepEval 只能使用托管服务"
+      ],
+      "correct": 2,
+      "explanation": "DeepEval 主要负责 CI/CD 回归测试，RAGAS 则处理无参考答案的 RAG 监控。"
+    }
+  ]
+}

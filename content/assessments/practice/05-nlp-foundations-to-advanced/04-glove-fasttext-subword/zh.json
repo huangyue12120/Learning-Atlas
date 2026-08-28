@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/04-glove-fasttext-subword/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "80f930571ad8657d457e6cdea1ec54d5465e46d7aee24e8c3bb7cd479dfe7a87"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "glove-fasttext-subword-05-1",
+      "stage": "pre",
+      "question": "与 Word2Vec 相比，GloVe 的主要贡献是什么？",
+      "options": [
+        "更深的神经网络",
+        "子词 n-gram 嵌入",
+        "直接分解词-词共现矩阵，并使用加权损失",
+        "字节级分词"
+      ],
+      "correct": 2,
+      "explanation": "GloVe 使用经过设计的加权对数损失，直接利用全局词共现矩阵进行分解。"
+    },
+    {
+      "id": "glove-fasttext-subword-05-2",
+      "stage": "pre",
+      "question": "FastText 解决了什么问题，而 Word2Vec 和 GloVe 没有解决？",
+      "options": [
+        "降低训练成本",
+        "多语言迁移",
+        "多义词消歧",
+        "通过组合字符 n-gram，为未见过的词生成向量"
+      ],
+      "correct": 3,
+      "explanation": "FastText 根据子词 n-gram 组合词向量，因此即使遇到未登录词，也能生成相对合理的向量。"
+    },
+    {
+      "id": "glove-fasttext-subword-05-3",
+      "stage": "check",
+      "question": "在 GloVe 中，加权函数 `f(x) = (x/x_max)^alpha` 起什么作用？",
+      "options": [
+        "选择负样本",
+        "把向量归一化为单位长度",
+        "随机初始化权重",
+        "降低极高频词对的权重，避免它们主导损失"
+      ],
+      "correct": 3,
+      "explanation": "这个加权函数避免“the”和“and”之类普遍共现的词对主导训练。"
+    },
+    {
+      "id": "glove-fasttext-subword-05-4",
+      "stage": "check",
+      "question": "BPE 的合并步骤如何决定下一步要组合哪个词元对？",
+      "options": [
+        "随机选择一对",
+        "按字典序排在最前的一对",
+        "整个语料中出现频率最高的相邻词元对",
+        "IDF 最高的一对"
+      ],
+      "correct": 2,
+      "explanation": "BPE 会迭代地合并出现频率最高的相邻词元对。"
+    },
+    {
+      "id": "glove-fasttext-subword-05-5",
+      "stage": "check",
+      "question": "GPT-2 为什么使用字节级 BPE？",
+      "options": [
+        "256 个基础字节覆盖任意输入，可以彻底消除未登录词",
+        "字节级训练比字符级更快",
+        "字节会隐式保留大小写",
+        "字节级 BPE 跳过了合并训练"
+      ],
+      "correct": 0,
+      "explanation": "从 256 个字节开始，任何 UTF-8 字符串都可以被分词，因此不会出现未登录词。"
+    },
+    {
+      "id": "glove-fasttext-subword-05-6",
+      "stage": "post",
+      "question": "微调预训练 Transformer 时，应该使用哪一个 tokenizer？",
+      "options": [
+        "始终使用字节级 BPE",
+        "始终使用 SentencePiece",
+        "选择词汇表最大的 tokenizer",
+        "使用模型随附的准确 tokenizer；不匹配会破坏嵌入输入"
+      ],
+      "correct": 3,
+      "explanation": "tokenizer 与模型不匹配会悄悄破坏输入；应始终让模型和它随附的 tokenizer 配套使用。"
+    },
+    {
+      "id": "glove-fasttext-subword-05-7",
+      "stage": "post",
+      "question": "什么时候会选择 FastText 而不是 GloVe 作为预训练词向量？",
+      "options": [
+        "需要 50 维模型时",
+        "延迟要求最紧时",
+        "语料库非常小时",
+        "面对形态丰富的语言，或领域中经常出现新词和拼写错误时"
+      ],
+      "correct": 3,
+      "explanation": "FastText 的子词组合能处理词形变化、新词和拼写错误，而 GloVe 做不到。"
+    },
+    {
+      "id": "glove-fasttext-subword-05-8",
+      "stage": "post",
+      "question": "WordPiece、BPE 和 SentencePiece 词汇表的基础单位是什么？",
+      "options": [
+        "句子",
+        "完整单词",
+        "段落",
+        "低于词级别的子词片段（字符、n-gram 或学习得到的合并片段）"
+      ],
+      "correct": 3,
+      "explanation": "这三类都是子词分词器；它们的区别在于如何学习合并或片段，而不在于是否使用子词。"
+    }
+  ]
+}

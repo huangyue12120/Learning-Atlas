@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/21-nli-textual-entailment/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "d3579e0034e36907a82793fb2d3240c9e1cbbace0867a20d6236ba780e09a343"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "nli-textual-entailment-05-1",
+      "stage": "pre",
+      "question": "NLI 为一对（前提、假设）分配哪三个标签？",
+      "options": [
+        "真 / 假 / 未知",
+        "原因 / 结果 / 无关",
+        "蕴含 / 矛盾 / 中立",
+        "正面 / 负面 / 中立"
+      ],
+      "correct": 2,
+      "explanation": "NLI 是一个三分类任务，类别分别为蕴含、矛盾和中立。"
+    },
+    {
+      "id": "nli-textual-entailment-05-2",
+      "stage": "pre",
+      "question": "如何把 NLI 用作零样本文本分类器？",
+      "options": [
+        "通过提示 LLM",
+        "把每个候选标签改写成一个假设（例如“这段文本讲的是体育”），再选择蕴含分数最高的标签",
+        "通过计算 TF-IDF",
+        "通过平均嵌入"
+      ],
+      "correct": 1,
+      "explanation": "NLI 分类器会把标签转换成假设，模型选择蕴含分数最高的标签。"
+    },
+    {
+      "id": "nli-textual-entailment-05-3",
+      "stage": "check",
+      "question": "为什么 NLI 可以用来检查 RAG 输出的事实一致性？",
+      "options": [
+        "它成本低",
+        "检查检索上下文是否蕴含答案中的每条主张，正是 NLI 训练所针对的任务",
+        "它支持多语言",
+        "它使用 tokenizer"
+      ],
+      "correct": 1,
+      "explanation": "幻觉可以理解为答案主张没有被检索上下文蕴含；NLI 能直接衡量这种蕴含关系。"
+    },
+    {
+      "id": "nli-textual-entailment-05-4",
+      "stage": "check",
+      "question": "hypothesis-only 基线能暴露什么问题？",
+      "options": [
+        "分词器漂移",
+        "推理速度慢",
+        "多语言差距",
+        "只给模型假设、不提供前提时，假设本身就能预测标签的数据集，说明存在标签泄漏"
+      ],
+      "correct": 3,
+      "explanation": "SNLI 上较高的 hypothesis-only 分数暴露了标注伪迹；这类基线也适合用来调试数据。"
+    },
+    {
+      "id": "nli-textual-entailment-05-5",
+      "stage": "check",
+      "question": "在 2026 年的排行榜中，哪类 NLI 模型是常用的主力？",
+      "options": [
+        "在 MNLI/FEVER/ANLI 上微调的 DeBERTa-v3 变体",
+        "原始 Word2Vec",
+        "GPT-2",
+        "fastText"
+      ],
+      "correct": 0,
+      "explanation": "在 MNLI 及相关语料上微调的 DeBERTa-v3，是 2026 年开放 NLI 任务中的常用主力模型。"
+    },
+    {
+      "id": "nli-textual-entailment-05-6",
+      "stage": "post",
+      "question": "为什么句子级 NLI 模型在文档长度的前提上准确率会下降？",
+      "options": [
+        "它们在短前提上训练，难以处理多句和多跳推理；在 DocNLI 上调优的模型更适合长输入",
+        "输入更大所以运行更慢",
+        "余弦相似度会衰减",
+        "文档会触发分词器漂移"
+      ],
+      "correct": 0,
+      "explanation": "这是训练分布不匹配：单句 NLI 模型在文档长度输入上可能损失 20 个以上的 F1 分。"
+    },
+    {
+      "id": "nli-textual-entailment-05-7",
+      "stage": "post",
+      "question": "为什么零样本准确率会因假设模板不同而波动 10 个百分点以上？",
+      "options": [
+        "模板改变了标签集合",
+        "模型对措辞很敏感；例如“这段文本讲的是{标签}”与单独使用“{标签}”，会改变蕴含概率",
+        "模板改变了分词器行为",
+        "模板改变了模型权重"
+      ],
+      "correct": 1,
+      "explanation": "模板措辞会显著改变蕴含分数，应在小规模留出集上调优模板。"
+    },
+    {
+      "id": "nli-textual-entailment-05-8",
+      "stage": "post",
+      "question": "对于用 NLI 检测幻觉，什么说法是安全的？",
+      "options": [
+        "NLI 可以作为事实一致性信号帮助降低幻觉，但不能消除幻觉；还应结合检索召回率和人工复核",
+        "它只适用于英语",
+        "它可以消除幻觉",
+        "它要求使用 LLM"
+      ],
+      "correct": 0,
+      "explanation": "NLI 是有用的信号，但不是完整解决方案；应配合检索指标和人工抽查。"
+    }
+  ]
+}

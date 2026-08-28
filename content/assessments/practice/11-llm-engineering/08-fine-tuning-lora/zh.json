@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/08-fine-tuning-lora/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "185224c9dcf7a911550eb719c4735457a680fb81d38f77e21fe7800866fc7739"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"fine-tuning-lora-11-1","stage":"pre","question":"LoRA（Low-Rank Adaptation，低秩适配）背后的核心观察是什么？","options":["模型越小总是越好","微调时的权重更新具有低内在秩，可以用两个小矩阵近似，而不必更新完整权重矩阵","大多数权重都不重要","微调只需要最后一层"],"correct":1,"explanation":"研究发现，微调更新位于低维子空间。LoRA 用 W + BA 表示更新，其中 B（d×r）和 A（r×d）的秩 r 很小，通常为 8–64。"},
+    {"id":"fine-tuning-lora-11-2","stage":"pre","question":"与 8B 模型的全量微调相比，LoRA 能节省多少内存？","options":["只节省磁盘空间","没有节省","通过冻结基础权重、只训练不到 1% 的参数，可从约 56GB 降到约 6GB","减少 50%"],"correct":2,"explanation":"全量微调要为 80 亿参数保存梯度和优化器状态，约需 56GB。LoRA 冻结基础模型，只训练约 8000 万个适配器参数，总内存约 6GB。"},
+    {"id":"fine-tuning-lora-11-3","stage":"post","question":"什么是 QLoRA？","options":["一种不同的微调算法","把 LoRA 应用于量化后的激活值","量化 LoRA：基础模型以 4 bit 加载，而 LoRA 适配器以 16 bit 训练，同时获得两种方法的内存节省","更快版本的 LoRA"],"correct":2,"explanation":"QLoRA 以 4 bit（NF4）加载冻结的基础模型，同时以 FP16/BF16 训练 LoRA 适配器，因此可以在约 6GB 显存的消费级 GPU 上微调 7B 模型。"},
+    {"id":"fine-tuning-lora-11-4","stage":"post","question":"LoRA 中的 rank 参数 r 控制什么？","options":["学习率","训练轮数","适配器容量：rank 越高能捕捉更复杂的适配，但需要更多参数和内存","要微调的层数"],"correct":2,"explanation":"rank r 决定适配器矩阵 A（r×d）和 B（d×r）的大小。rank=4 参数少、速度快；rank=64 表达能力更强但代价更高，多数任务使用 8–32 已足够。"},
+    {"id":"fine-tuning-lora-11-5","stage":"post","question":"把 LoRA 权重合并回基础模型后会发生什么？","options":["无法合并","模型变大","模型需要重新训练","把适配器矩阵加到基础权重上（W_merged = W_base + B*A），得到没有推理额外开销的标准模型"],"correct":3,"explanation":"由于 LoRA 使用 W_base + B*A，可以先计算 B*A 并永久加到基础权重。合并后模型架构和推理速度与原模型相同，不再有适配器开销。"}
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/03-structured-outputs/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "d04f5e66b8eaf9b7807af9b10a7531c5eed34d716348e0cc0af068d234e4b07b"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"structured-outputs-11-1","stage":"pre","question":"为什么让 LLM 输出结构化 JSON 很有挑战？","options":["JSON 对 LLM 来说太复杂","LLM 只能输出普通文本","LLM 不能生成 JSON","LLM 逐 token 生成自由文本，任何位置都可能出现无效 JSON（缺括号、类型错误或多余文本）"],"correct":3,"explanation":"LLM 自回归地生成 token，可能多出逗号、忘记闭合括号、在 JSON 外包 Markdown，或臆造额外字段，因此不能天然保证结构有效。"},
+    {"id":"structured-outputs-11-2","stage":"pre","question":"什么是 constrained decoding（约束解码）？","options":["限制模型词表大小","使用更小的模型","压缩输出","在每一步限制模型可生成的 token，确保输出符合语法或 schema"],"correct":3,"explanation":"约束解码在每一步屏蔽无效 token。例如出现左大括号后只允许合法 JSON key，冒号后只允许合法值 token，从 token 层面保证结构有效。"},
+    {"id":"structured-outputs-11-3","stage":"post","question":"使用 Pydantic 模型验证 LLM 输出有什么好处？","options":["它定义带类型的 schema，能自动验证、解析并拒绝格式错误的输出，同时给出清晰错误信息","让 API 调用更快","减少 token 使用","提高模型准确率"],"correct":0,"explanation":"Pydantic 可以强制类型、必填字段、取值约束和嵌套结构。输出无效时，它会提供具体错误信息，还可以把错误反馈给模型进行自我修正。"},
+    {"id":"structured-outputs-11-4","stage":"post","question":"如果 LLM 尽管收到指令仍返回无效 JSON，应怎么办？","options":["换一个模型","手动修复 JSON","实现重试循环，把校验错误作为上下文发回模型，请它生成修正后的结果","提高 temperature"],"correct":2,"explanation":"可先解析并捕获校验错误，再把类似“你的输出有以下错误……请修正”的反馈发回模型。多数模型在第二次尝试时能自行修正。"},
+    {"id":"structured-outputs-11-5","stage":"post","question":"什么时候应使用 API 原生 JSON 模式，而不是基于 prompt 的 JSON 提取？","options":["总是使用 prompt 提取","总是使用原生 JSON 模式","需要保证结构时使用原生模式；需要模型判断应提取哪些字段的复杂提取任务可使用 prompt 方法","两者结果完全相同"],"correct":2,"explanation":"原生 JSON 模式（如 OpenAI 的 response_format、Anthropic 的 tool_use）能保证结构有效；prompt 提取对复杂的字段判断更灵活。结构最重要时优先原生模式。"}
+  ]
+}

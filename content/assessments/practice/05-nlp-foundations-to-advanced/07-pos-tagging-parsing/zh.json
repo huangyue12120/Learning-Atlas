@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/07-pos-tagging-parsing/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "40ed9e6c054eafb41f89667d4a5a01930c5aed250135d6604591a53d34718996"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "pos-tagging-parsing-05-1",
+      "stage": "pre",
+      "question": "POS 标注的目标是什么？",
+      "options": [
+        "翻译句子",
+        "检测情感",
+        "抽取命名实体",
+        "为每个词元分配语法类别（名词、动词等）"
+      ],
+      "correct": 3,
+      "explanation": "POS 标注会为每个词元标记其词性。"
+    },
+    {
+      "id": "pos-tagging-parsing-05-2",
+      "stage": "pre",
+      "question": "跨语言工作通常默认使用哪种标签集？",
+      "options": [
+        "Penn Treebank",
+        "CoNLL-2003",
+        "Stanford Dependencies",
+        "Universal Dependencies（UD）"
+      ],
+      "correct": 3,
+      "explanation": "Universal Dependencies 提供了一套更粗粒度、与具体语言无关的 17 类标签。"
+    },
+    {
+      "id": "pos-tagging-parsing-05-3",
+      "stage": "check",
+      "question": "二元 HMM POS 标注器建模什么？",
+      "options": [
+        "依存句法树",
+        "只有 P(tags)",
+        "P(tag | previous tag) 的标签转移，加上 P(word | tag) 的词元发射，并用 Viterbi 解码",
+        "嵌入之间的相似度"
+      ],
+      "correct": 2,
+      "explanation": "二元 HMM 同时使用标签转移概率和词元发射概率；Viterbi 找到概率最高的标签序列。"
+    },
+    {
+      "id": "pos-tagging-parsing-05-4",
+      "stage": "check",
+      "question": "Viterbi 算法为 HMM 标注器计算什么？",
+      "options": [
+        "转移矩阵",
+        "每个标签的边际概率",
+        "只有前向概率",
+        "通过在标签格上做动态规划，求出概率最高的单一标签序列"
+      ],
+      "correct": 3,
+      "explanation": "Viterbi 用 O(n × |T|²) 的动态规划求最大概率序列。"
+    },
+    {
+      "id": "pos-tagging-parsing-05-5",
+      "stage": "check",
+      "question": "依存句法分析会产生什么？",
+      "options": [
+        "带有 NP/VP/PP 标签的成分树",
+        "一棵树，其中每个词都有一个中心词和一个带标签的语法关系",
+        "共指链",
+        "扁平的 BIO 序列"
+      ],
+      "correct": 1,
+      "explanation": "依存句法分析为每个词给出（中心词、关系）边；成分句法分析则给出嵌套的短语结构。"
+    },
+    {
+      "id": "pos-tagging-parsing-05-6",
+      "stage": "post",
+      "question": "为什么 PTB POS 标注的准确率上限大约在 97%–98%？",
+      "options": [
+        "任何任务的模型都不能超过 98%",
+        "Universal Dependencies 把上限限制在 98%",
+        "人工标注者的意见大约只有 97% 的一致性，因此超过约 98% 可能是在过拟合测试数据",
+        "硬件限制"
+      ],
+      "correct": 2,
+      "explanation": "标注者之间的分歧限制了可达到的准确率；异常高的数字往往意味着测试集过拟合。"
+    },
+    {
+      "id": "pos-tagging-parsing-05-7",
+      "stage": "post",
+      "question": "在 2026 年的 LLM pipeline 中，POS 标注为什么仍然重要？",
+      "options": [
+        "分词所必需",
+        "词形还原、方面级情感分析、查询分解、结构化输出校验和跨语言迁移等任务仍会使用 POS 或依存句法分析结果",
+        "它可以替代 Transformer",
+        "没有它 LLM 就无法运行"
+      ],
+      "correct": 1,
+      "explanation": "即使正文由 LLM 生成，POS 和依存句法分析仍会为许多下游结构化任务提供输入。"
+    },
+    {
+      "id": "pos-tagging-parsing-05-8",
+      "stage": "post",
+      "question": "大多数生产环境的 POS / 句法分析任务应该优先使用哪个库？",
+      "options": [
+        "scikit-learn",
+        "spaCy（若追求更高准确率或更广语言覆盖，也可使用 stanza / trankit）",
+        "NumPy",
+        "自己编写解析器"
+      ],
+      "correct": 1,
+      "explanation": "spaCy 提供快速、适合生产的 POS 和依存句法分析器；stanza、trankit 能覆盖更多语言。"
+    }
+  ]
+}

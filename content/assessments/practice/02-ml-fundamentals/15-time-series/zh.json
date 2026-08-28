@@ -1,0 +1,77 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/02-ml-fundamentals/15-time-series/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "c40d5d0ae23c46e50a05f2a0550fc4ef33f85cd31780dbe97ac05d6e6623a952"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "timeseries-pre-1",
+      "stage": "pre",
+      "question": "为什么随机划分时间序列的训练集和测试集是无效的？",
+      "options": [
+        "时间序列数据根本不能划分",
+        "随机划分只适用于分类问题",
+        "随机划分会把未来信息泄漏到训练集中，让模型能够作弊",
+        "随机划分会使数据集过小"
+      ],
+      "correct": 2,
+      "explanation": "随机划分可能把未来的数据点放进训练集、把过去的数据点放进测试集。模型于是利用未来信息预测过去，得到虚高且不真实的评估结果。"
+    },
+    {
+      "id": "timeseries-pre-2",
+      "stage": "pre",
+      "question": "时间序列是平稳的，这意味着什么？",
+      "options": [
+        "它总是向上趋势",
+        "它的统计性质（均值、方差、自相关）不随时间变化",
+        "它的数值随时间完全不变",
+        "它没有季节性模式"
+      ],
+      "correct": 1,
+      "explanation": "平稳序列的均值、方差和自相关结构保持不变。许多预测方法假设序列平稳；非平稳序列通常需要先差分或去趋势。"
+    },
+    {
+      "id": "timeseries-post-1",
+      "stage": "post",
+      "question": "对时间序列做差分的目的是什么？",
+      "options": [
+        "把数值归一化到 0 和 1 之间",
+        "把回归转换为分类",
+        "增加数据点数量",
+        "通过建模相邻值之间的变化去除趋势，使序列更接近平稳"
+      ],
+      "correct": 3,
+      "explanation": "差分用前后相邻值的变化替代原值：diff[t] = value[t] - value[t-1]。这会去除趋势，使序列更接近平稳。"
+    },
+    {
+      "id": "timeseries-post-2",
+      "stage": "post",
+      "question": "滞后特征把时间序列转换为监督学习问题。预测 y[t] 时，lag-3 特征是什么？",
+      "options": [
+        "三步之前的值：y[t-3]",
+        "当前值与未来三步值之差",
+        "序列的三阶导数",
+        "未来三个值的平均数：(y[t+1] + y[t+2] + y[t+3]) / 3"
+      ],
+      "correct": 0,
+      "explanation": "lag-3 特征就是 y[t-3]，即三步之前的值。把过去的值作为输入后，普通回归模型或树模型也能进行时间序列预测，而不需要专用算法。"
+    },
+    {
+      "id": "timeseries-post-3",
+      "stage": "post",
+      "question": "Walk-forward 验证使用扩张窗口或滑动窗口划分时间数据。为什么它比时间序列的 K 折交叉验证更合适？",
+      "options": [
+        "Walk-forward 计算更快",
+        "K 折交叉验证不能用于数值数据",
+        "Walk-forward 使用更多训练数据",
+        "Walk-forward 遵守时间顺序，只用过去训练、用未来测试，从而避免向前看偏差"
+      ],
+      "correct": 3,
+      "explanation": "Walk-forward 验证始终用过去训练、用未来测试，模拟真实部署。K 折交叉验证可能用未来预测过去，造成时间泄漏。"
+    }
+  ]
+}

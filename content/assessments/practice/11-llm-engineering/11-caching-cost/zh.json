@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/11-caching-cost/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "32d06f3615d5fe8d6ccbfdb494a470bfe402558143ddf97fcc36fbda16671c2c"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"caching-cost-11-1","stage":"pre","question":"为什么 AI 初创公司常常不是因为模型质量，而是因为成本问题失败？","options":["模型总是已经足够好","单次调用成本会迅速累积：1 万用户每天各调用 10 次，在收取一分钱前，光 token 就可能花费 250 美元/天","API 服务商提供无限免费额度","成本优化很容易"],"correct":1,"explanation":"LLM API 成本随使用量线性增长。一次 0.003 美元看起来很便宜，但每天调用 10 万次就是 300 美元、每月 9000 美元；不优化成本，产品规模化后可能没有利润。"},
+    {"id":"caching-cost-11-2","stage":"pre","question":"LLM 应用中的语义缓存是什么？","options":["预先生成所有可能的回答","只缓存 embedding","保存历史查询的回答，新查询在语义上相似时直接返回缓存结果，而不要求字符串完全相同","缓存模型权重"],"correct":2,"explanation":"精确匹配缓存只对完全相同的查询有用；语义缓存会嵌入查询，当余弦相似度超过阈值时复用回答。例如“纽约天气怎么样”和“今天 NYC 的天气”可能命中同一缓存。"},
+    {"id":"caching-cost-11-3","stage":"post","question":"model routing（模型路由）如何作为成本优化策略？","options":["缓存多个模型的回答","根据查询分类，把简单问题发给便宜快速的模型，把复杂问题发给昂贵但强大的模型","在服务器之间做负载均衡","在不同 API 服务商之间路由"],"correct":1,"explanation":"并不是每个问题都需要 GPT-4。分类器可以把 FAQ、问候等简单请求路由给便宜模型，把推理和分析请求路由给强模型，从而可能降低 50%–80% 的成本。"},
+    {"id":"caching-cost-11-4","stage":"post","question":"什么是 prompt compression，它如何降低成本？","options":["使用更短的变量名","删除冗余 token、摘要化长上下文、去掉模板文本，在保留关键信息的同时减少输入 token","删除单词来缩短 prompt","用 gzip 压缩 prompt"],"correct":1,"explanation":"RAG 应用的成本常由大量检索上下文中的输入 token 主导。prompt compression 删除填充语、摘要化冗长段落、裁掉低相关片段，能减少 token 而不丢失关键内容。"},
+    {"id":"caching-cost-11-5","stage":"post","question":"什么是 prefix caching，哪类服务商功能支持它？","options":["复用共享 prompt 前缀（system prompt 加工具定义）的 KV-cache 计算，从而降低重复模式的延迟和成本","缓存浏览器中的 API 回答","缓存 DNS 查询","缓存每个回答的第一个词"],"correct":0,"explanation":"如果 system prompt 和工具定义共 5000 个 token，且不同请求完全相同，prefix caching 可以只计算一次 KV-cache，后续请求复用它。Anthropic 的 prompt caching 和 OpenAI 的 cached tokens 都支持类似能力。"}
+  ]
+}

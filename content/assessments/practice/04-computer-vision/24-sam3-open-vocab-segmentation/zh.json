@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/24-sam3-open-vocab-segmentation/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"2b1bb30724d527d328dc821b96ec978a04e557154aaf7029b5947247f34d130f"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"sam3-open-vocab-segmentation-04-1","stage":"pre","question":"SAM 3 引入的 Promptable Concept Segmentation（PCS）是什么？","options":["检测器再接 SAM 的多步链路","一次前向中分割短名词短语或图像示例描述的概念的所有实例，并返回掩码和唯一实例 ID","像经典 SAM 一样用点或框作为视觉 prompt 的分割","只用于跟踪的模式"],"correct":1,"explanation":"PCS 是 SAM 3 的核心能力。输入“黄色校车”或一张校车示例图后，SAM 3 会返回所有匹配实例的独立掩码、唯一 ID 和存在分数；经典 SAM 则需要每个实例一个 prompt。"},
+    {"id":"sam3-open-vocab-segmentation-04-2","stage":"pre","question":"如果 SAM 3 已经支持文本 prompt 分割，2026 年为什么仍要保留解耦的 detector + SAM 2（Grounded SAM 2）管道？","options":["SAM 3 只能在云端使用","Grounded SAM 2 总是更准确","模块化：可以针对不同领域、许可证约束或阈值行为替换开放词汇 detector，而 SAM 3 是单体架构","SAM 3 不支持视频"],"correct":2,"explanation":"Grounded SAM 2 把 detector 和 SAM 2 组合起来，模块可以独立替换。医疗图像、许可证兼容性或严格阈值控制等场景可能更需要这种模块化，尽管 SAM 3 在常见场景端到端更准确。"},
+    {"id":"sam3-open-vocab-segmentation-04-3","stage":"post","question":"SAM 3 的 presence head 输出什么？","options":["查询概念是否存在于图像中的标量概率，并与定位解耦；模型可以干净地回答“不存在”，减少对缺失概念的误检","候选 bounding box 列表","跟踪 memory bank","最终掩码"],"correct":0,"explanation":"presence head 把“这里有没有”与“它在哪里”分开。这样遇到不存在的概念时可以返回零检测，而不是被迫生成一个幻觉匹配。"},
+    {"id":"sam3-open-vocab-segmentation-04-4","stage":"post","question":"SAM 3.1 Object Multiplex（2026 年 3 月）引入共享 memory 跟踪机制，替代了什么？","options":["每个实例一个独立 memory bank；Multiplex 用一个共享 memory 加每实例 query，因此跟踪 N 个对象更快且精度保持不变","整个 presence head","SAM 2 本身","ViT backbone"],"correct":0,"explanation":"旧的 SAM 跟踪为每个实例维护 memory，成本随对象数线性增长。Object Multiplex 用共享 memory 和实例 query 获取专属特征，更适合人群和密集多目标场景。"},
+    {"id":"sam3-open-vocab-segmentation-04-5","stage":"post","question":"你需要在边缘设备上实时进行开放词汇目标检测（只要框，不要掩码），2026 年应选哪类模型？","options":["自定义 CLIP + detector 链路","SAM 3","Grounded SAM 2","YOLO-World 及相关实时开放词汇 detector；SAM 3 还会生成掩码、较重，而 YOLO-World 专门针对边缘设备高帧率框检测"],"correct":3,"explanation":"YOLO-World、OV-DINO 等模型面向实时开放词汇框检测；需要掩码和跟踪时再选择 SAM 3。工具的复杂度应匹配任务，不需要掩码就不要承担它的开销。"}
+  ]
+}

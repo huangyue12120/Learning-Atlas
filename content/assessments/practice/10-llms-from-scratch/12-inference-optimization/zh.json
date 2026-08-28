@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/10-llms-from-scratch/12-inference-optimization/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "1d3026beeb854397ff2cb7c89344920f047a98b2271eeba9c7c39e6932f57c42"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"inference-optimization-10-1","stage":"pre","question":"LLM 推理包含哪两个阶段？","options":["前向和反向","编码和解码","训练和评估","Prefill（并行处理 prompt、受计算能力限制）和 decode（逐 token 生成、受内存带宽限制）"],"correct":3,"explanation":"Prefill 并行处理 prompt 的所有 token，主要受计算能力限制；decode 自回归地逐个生成 token，主要受加载模型权重的内存带宽限制。两阶段需要不同优化。"},
+    {"id":"inference-optimization-10-2","stage":"pre","question":"KV-cache 在自回归生成中消除了什么？","options":["嵌入查找","注意力掩码","softmax 计算","每一步都为所有历史 token 重复计算 key 和 value 向量"],"correct":3,"explanation":"没有 KV-cache 时，生成第 N 个 token 要重新计算前 N-1 个 token 的 key 和 value。KV-cache 保存这些向量，每一步只计算新 token 的 K 和 V，节省 O(N) 计算。"},
+    {"id":"inference-optimization-10-3","stage":"post","question":"什么是 continuous batching（连续批处理），它为什么能提高吞吐量？","options":["在多个模型之间批处理","使用更大的 batch size","把所有请求放进一个大 batch","请求开始或结束时动态加入或移出正在运行的 batch，而不是等待整个 batch 完成"],"correct":3,"explanation":"静态 batching 中，短请求必须占着位置等待最长请求结束；连续 batching 会立即用新请求填充已完成的位置，让 GPU 持续工作，从而提高总体吞吐量。"},
+    {"id":"inference-optimization-10-4","stage":"post","question":"PagedAttention（vLLM 使用的技术）解决了什么问题？","options":["提高 tokenization 速度","减小模型大小","像虚拟内存一样用固定大小的块管理 KV-cache，消除变长序列带来的内存碎片","加快注意力计算"],"correct":2,"explanation":"变长序列的 KV-cache 分配会产生碎片和空洞。PagedAttention 用固定块分配 KV-cache，并通过页表映射它们，类似操作系统的虚拟内存。"},
+    {"id":"inference-optimization-10-5","stage":"post","question":"什么是 speculative decoding（投机解码）？","options":["用小型草稿模型提出多个 token，再由大型模型并行验证，以加快生成","预测用户想要哪些 token","生成多个回答并选出最佳回答","缓存经常生成的序列"],"correct":0,"explanation":"快速的小模型先生成 N 个候选 token，大模型在一次前向传播中并行验证它们。如果接受 K 个 token，就能用大约一次大模型步骤的时间生成 K 个 token。"}
+  ]
+}

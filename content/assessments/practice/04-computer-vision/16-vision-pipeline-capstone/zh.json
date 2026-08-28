@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/16-vision-pipeline-capstone/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"8202fa8c8b60b3e9c7d6c4bcba21ac624598846ff5353a057ac817ceb86fb333"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"vision-pipeline-capstone-04-1","stage":"pre","question":"为什么生产视觉管道会在每个阶段边界使用 Pydantic 模型或等价机制？","options":["Pydantic 比字典访问更快","它有助于分配 GPU","FastAPI 强制要求 Pydantic","带类型的 schema 能在边界捕获接口不匹配；检测器返回 (cx,cy,w,h)，而下游需要 (x1,y1,x2,y2) 时，会立刻校验失败，而不是悄悄生成空裁剪"],"correct":3,"explanation":"ML 管道最难排查的就是静默接口 bug。每个边界都有坐标系、通道顺序、数值范围和形状；在边界验证能把不匹配立即变成错误，节省大量调试时间。"},
+    {"id":"vision-pipeline-capstone-04-2","stage":"pre","question":"在只使用 CPU 的视觉管道中，哪个阶段最常成为最大延迟来源？","options":["读取 HTTP 请求体","图像预处理（JPEG 解码、颜色转换、缩放）；它受 CPU 限制，在没有 GPU 或 GPU 模型很小时常占主要时间","写 JSON 响应","检测器最后的 NMS"],"correct":1,"explanation":"CPU 上预处理经常是最大单项成本：JPEG 解码、颜色转换和缩放都需要毫秒级时间。应先 profiling；GPU 场景中检测器可能占主导，但不能直接套用这一假设。"},
+    {"id":"vision-pipeline-capstone-04-3","stage":"post","question":"检测框大小只有 3×4 像素时，管道分类器崩溃。正确的修复是什么？","options":["增加 batch size","用更小图像重新训练分类器","设置 min_crop 阈值（如 16 或 32 像素），小于阈值时跳过分类；记录跳过原因，并在响应中保留检测但不填写分类字段","加一个全局 try/except 并返回空分类"],"correct":2,"explanation":"极小裁剪是合理的失败模式：分类器用 224×224 输入训练，无法可靠识别 3 像素区域。命名并记录的阈值跳过能保留检测结果；全局异常处理会掩盖条件。"},
+    {"id":"vision-pipeline-capstone-04-4","stage":"post","question":"你给分类器加入 batching：最多等待 10ms，收集所有待处理裁剪后进行一次 GPU 前向。预期效果是什么？","options":["延迟一定降低","没有影响","吞吐量显著提高，但单请求延迟最多增加约 batching 窗口（10ms）及少量批量算子开销；应根据服务是吞吐受限还是延迟受限来选择","由于等待，吞吐量下降"],"correct":2,"explanation":"batching 是吞吐量与延迟的权衡。批量前向每张图更高效，但请求要等待窗口；QPS 高且延迟有余量时适合使用，严格低于 50ms 的 SLA 则要谨慎。"},
+    {"id":"vision-pipeline-capstone-04-5","stage":"post","question":"用户上传损坏的 JPEG 时，管道返回 500。应如何修复？","options":["忽略它，用户会重试","在预处理早期捕获图像解码失败，返回带有 `image_decode_failed` 等明确错误码的 400，让客户端换文件重试；不要用表示服务端故障的 500","始终返回 200 和空结果","把解码移动到分类器"],"correct":1,"explanation":"损坏的用户输入属于 API 契约中的 4xx 错误。返回 500 会触发客户端用同一坏输入重试，放大负载；命名错误码还能让客户端正确处理文件过大或类型不支持等情况。"}
+  ]
+}

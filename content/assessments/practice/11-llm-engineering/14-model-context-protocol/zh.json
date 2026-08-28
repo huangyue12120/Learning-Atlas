@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/14-model-context-protocol/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "96ed0079f448683650f5d324df752768350e4750ace5dd5eb97f16cf4c48f3cb"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"model-context-protocol-11-1","stage":"pre","question":"在 MCP 2026-07-28 中，客户端在哪里发送协议版本和能力？","options":["只在 HTTP cookie 中","只在 initialize 请求中","在每个请求的 params._meta 中","存放在服务端 session 记录中"],"correct":2,"explanation":"现代 MCP 采用无状态设计。每个请求都在 params._meta 中携带协议版本和客户端能力。"},
+    {"id":"model-context-protocol-11-2","stage":"check","question":"为了提前发现版本和能力，每个现代 MCP server 必须实现什么？","options":["server/discover","sessions/create","logging/setLevel","initialize"],"correct":0,"explanation":"server/discover 用来公布服务端支持的协议版本、能力和身份。"},
+    {"id":"model-context-protocol-11-3","stage":"check","question":"MCP 2026-07-28 当前的 Streamable HTTP 形态是什么？","options":["每次工具调用后发送 DELETE 请求","用 Mcp-Session-Id 标识的 WebSocket session","每条 JSON-RPC 消息发送一个 POST；请求 POST 可收到 JSON 或请求范围内的 SSE","一个 GET 流加一个独立的 POST endpoint"],"correct":2,"explanation":"当前传输只有一个 POST endpoint。请求 POST 可以返回 JSON 或请求范围内的 SSE；被接受的通知 POST 返回无正文的 HTTP 202。"},
+    {"id":"model-context-protocol-11-4","stage":"check","question":"服务端如何区分缺少 protocol-version 元数据与格式正确但不支持的版本？","options":["两种情况都返回 -32022","缺失版本返回 HTTP 301，不支持版本则生成 Mcp-Session-Id","缺失或非字符串元数据返回 -32602；提供了但不支持的字符串版本返回带 supported/requested 信息的 -32022","接受缺失版本，不支持版本返回 -32601"],"correct":2,"explanation":"必填字段缺失或类型错误属于格式错误的 JSON-RPC 参数；只有提供了但未实现的版本字符串才适用 UnsupportedProtocolVersionError。"},
+    {"id":"model-context-protocol-11-5","stage":"post","question":"多步工具需要在多次调用之间保持连续状态。现代 MCP 如何设计？","options":["把可变状态放进 clientInfo","只为这个工具恢复 Mcp-Session-Id","生成不透明 handle，并要求后续工具参数携带它","把状态存放在 TCP 连接后面"],"correct":2,"explanation":"跨调用状态应显式建模为应用状态。服务端生成的 handle 作为普通且经过授权的参数在后续调用中传递。"},
+    {"id":"model-context-protocol-11-6","stage":"post","question":"现代服务端如何在工具执行期间请求用户、模型或 root 输入？","options":["把问题写到 stderr","打开第二条 SSE 连接","返回 input_required，客户端用 inputResponses 重试","发送独立的 server-to-client JSON-RPC 请求"],"correct":2,"explanation":"Multi Round-Trip Requests 模式把 inputRequests 放入 input_required 结果中，客户端补充 inputResponses 后重试原操作。"}
+  ]
+}

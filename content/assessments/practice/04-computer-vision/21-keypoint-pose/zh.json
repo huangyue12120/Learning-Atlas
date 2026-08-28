@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/21-keypoint-pose/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"516879ccf17613a9e433a27841d8c956b3d5b3bf6e5a6e755f9bddf7a2235a45"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"keypoint-pose-04-1","stage":"pre","question":"为什么姿态模型回归 heatmap，而不是直接回归 (x,y) 坐标？","options":["heatmap 计算更便宜","坐标回归会产生 NaN","COCO 指标要求 heatmap","卷积特征图的空间结构与输出对齐；高斯 heatmap 目标提供能容忍小定位误差的平滑损失，而直接坐标回归较脆弱且丢失空间上下文"],"correct":3,"explanation":"坐标 MSE 把二维位置压缩成两个标量，失去 CNN 可利用的特征图对齐关系。逐像素 heatmap 损失在真实位置附近平滑，也保留空间先验。"},
+    {"id":"keypoint-pose-04-2","stage":"pre","question":"top-down 与 bottom-up 姿态估计中，哪种随人群数量增加扩展更好？为什么？","options":["两者相同","top-down 永远不能扩展","bottom-up，因为它对整张图只做一次前向传播，再将关键点分组，运行时间与人数无关","top-down，因为每个人使用独立的快速模型"],"correct":2,"explanation":"top-down 要先检测每个人，再逐人运行关键点模型，成本随人数线性增长；bottom-up 一次生成所有关键点和关联场，再分组，拥挤场景更快，但单人精度可能较低。"},
+    {"id":"keypoint-pose-04-3","stage":"post","question":"Part Affinity Fields（PAF）是什么？","options":["数据增强技术","一种损失函数","调度算法","编码一个关键点到另一个关键点方向的 2 通道单位向量场；沿候选连线积分 PAF，就能判断两个关键点是否属于同一实例，无需逐人检测即可做 bottom-up 关联"],"correct":3,"explanation":"对每条肢体预测单位方向向量的 x、y 两个通道；沿候选肩膀到肘部的连线积分，积分越高表示匹配越强，最终可转成二分图匹配问题。"},
+    {"id":"keypoint-pose-04-4","stage":"post","question":"为什么在 argmax 附近做亚像素细化能明显提高关键点精度？","options":["防止过拟合","归一化输出","整数 argmax 会把峰值取整到最近网格单元；拟合局部抛物线或使用 dx=0.25*(heatmap[y,x+1]-heatmap[y,x-1]) 可以恢复连续峰值位置，常使干净预测的 L2 误差减半","平滑 heatmap"],"correct":2,"explanation":"预测良好的 heatmap 有平滑高斯峰，中心通常位于网格之间。整数 argmax 丢掉亚像素信息；局部拟合或偏移公式能恢复连续位置。"},
+    {"id":"keypoint-pose-04-5","stage":"post","question":"OKS（Object Keypoint Similarity）是姿态估计中哪种目标检测指标的对应物？","options":["交叉熵损失","推理延迟","IoU——二者都衡量预测与真实标注的几何匹配；OKS 按各关键点标注方差加权距离，COCO 报告 mAP@OKS 0.5:0.95","分类准确率"],"correct":2,"explanation":"OKS 与 IoU 一样取 0–1，并用来判断不同严格程度下预测是否匹配真实姿态。关键点标注方差会调节权重，COCO 姿态评估据此计算 AP。"}
+  ]
+}

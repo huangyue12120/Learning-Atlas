@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/03-deep-learning-core/11-intro-to-pytorch/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "a482c3ab2e5e59985099e10defdc6649c9fb6e7b3e4a7239a6333cf9db9fee58"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"intro-to-pytorch-03-1","stage":"pre","question":"PyTorch 中的 autograd 是什么？","options":["模型压缩工具","自动微分引擎：记录运算并计算梯度，不需要手写 backward 实现","超参数调优框架","数据加载库"],"correct":1,"explanation":"PyTorch autograd 在前向计算时构建计算图，调用 .backward() 时自动计算梯度，因此不必为每个模块手动实现 backward()。"},
+    {"id":"intro-to-pytorch-03-2","stage":"pre","question":"torch.no_grad() 做什么，什么时候使用？","options":["防止过拟合","启用 GPU 加速","推理时关闭梯度跟踪；不需要训练时可节省内存和计算","冻结所有模型权重"],"correct":2,"explanation":"推理不需要梯度。torch.no_grad() 不再保存计算图，节省相应内存并加快计算。"},
+    {"id":"intro-to-pytorch-03-3","stage":"post","question":"PyTorch 中的 nn.Linear(784, 256) 创建什么？","options":["批归一化层","ReLU 激活层","p=784/256 的 dropout 层","全连接层，权重矩阵形状为 (256,784)，偏置向量形状为 (256,)"],"correct":3,"explanation":"nn.Linear(in_features,out_features) 计算 y=x@W^T+b，其中 W 的形状为 (256,784)，b 的形状为 (256,)。"},
+    {"id":"intro-to-pytorch-03-4","stage":"post","question":"PyTorch 中哪个方法会为计算图中的所有参数计算梯度？","options":["optimizer.step()","loss.backward()","model.forward()","optimizer.zero_grad()"],"correct":1,"explanation":"loss.backward() 反向遍历计算图，为每个 requires_grad 的参数 p 计算 dL/dp；随后 optimizer.step() 才会使用这些梯度更新参数。"},
+    {"id":"intro-to-pytorch-03-5","stage":"post","question":"为什么 PyTorch 的训练循环明显快于纯 Python 的小型框架？","options":["PyTorch 使用更小的数据类型","PyTorch 使用不同算法","PyTorch 跳过反向传播","PyTorch 把运算交给 GPU 上优化的 C++/CUDA kernel，而纯 Python 循环每次只解释执行一个操作"],"correct":3,"explanation":"PyTorch 将矩阵运算交给高度优化的 C++ 和 CUDA kernel，并利用 GPU 大规模并行；纯 Python 循环会逐步执行并承受解释器开销。"}
+  ]
+}

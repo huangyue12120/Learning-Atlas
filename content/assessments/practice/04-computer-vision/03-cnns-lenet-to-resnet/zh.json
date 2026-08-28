@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/03-cnns-lenet-to-resnet/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"f1909537d7b8c15153a90046d6dced80175a3917e84f49d099928bd917c129e9"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"cnns-lenet-to-resnet-04-1","stage":"pre","question":"AlexNet（2012）引入了哪个单一架构思想，使深层 CNN 在 GPU 上变得实用？","options":["残差连接","深度可分离卷积","用不会饱和的 ReLU 替代 tanh，使收敛速度大约提高 6 倍","批归一化"],"correct":2,"explanation":"AlexNet 最大的训练加速来自 ReLU。tanh 在输入很大或很小时会饱和，导致梯度消失；ReLU 对正值是分段线性的、不饱和，因此把训练从数周缩短到数天。"},
+    {"id":"cnns-lenet-to-resnet-04-2","stage":"pre","question":"为什么 VGG 偏好堆叠 3×3 卷积，而不是一个更大的卷积核？","options":["两个 3×3 卷积覆盖同样的 5×5 感受野，却使用更少参数（18C² 对 25C²），并多出一个 ReLU","3×3 卷积具有旋转不变性，5×5 没有","小卷积核在 CPU 上运行更快","大卷积核不能用 SGD 训练"],"correct":0,"explanation":"两个 3×3 卷积看到的区域与一个 5×5 相同，但参数更少，而且多了一次非线性。VGG 将这一观察变成可重复的架构模块。"},
+    {"id":"cnns-lenet-to-resnet-04-3","stage":"post","question":"ResNet 用 y = F(x) + x 引入残差连接，解决了什么问题？","options":["带 ReLU 层中的激活消失","反向传播的内存消耗","退化问题——普通卷积网络超过约 20 层后，训练损失变差，因为优化器难以通过多层非线性学习恒等映射","分类头过拟合"],"correct":2,"explanation":"残差块可以通过把 F 学到接近零来轻易表示恒等映射，为优化器提供安全的默认路径。这样增加层数不再必然使训练变差，100 层以上的网络也变得可训练。"},
+    {"id":"cnns-lenet-to-resnet-04-4","stage":"post","question":"ResNet BasicBlock 的 in_channels=64、out_channels=128、stride=2 时，shortcut 分支的作用是什么？","options":["它只是推理时移除的占位符","它是把空间尺寸减半的 max-pool","它始终是恒等映射，主分支负责改变形状","它是 stride=2 的 1×1 卷积，把通道数和空间尺寸调整为与主分支一致，使两者可以相加"],"correct":3,"explanation":"当通道数或 stride 改变时，恒等路径的形状与主分支不同，不能直接相加。shortcut 需要使用 stride=2、输出通道为 128 的 1×1 卷积；只有通道数相同且 stride=1 时才是直接恒等映射。"},
+    {"id":"cnns-lenet-to-resnet-04-5","stage":"post","question":"ResNet-18 约有 1170 万参数，却能在 ImageNet 上达到或超过 1.38 亿参数的 VGG-16。这说明了什么？","options":["VGG 的卷积核太小，学不到好特征","VGG 使用了更差的优化器","VGG 的大部分参数浪费在全连接头，以及残差连接本可解决的冗余深度上","VGG 的 ImageNet 准确率测错了"],"correct":2,"explanation":"VGG-16 的参数主要集中在巨大的全连接分类器中，普通深层堆叠也不如残差结构高效。ResNet-18 用全局平均池化加一个线性层替代全连接头，并使用残差块，因此参数效率大幅提高。"}
+  ]
+}

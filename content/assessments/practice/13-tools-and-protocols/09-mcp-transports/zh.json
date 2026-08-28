@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/09-mcp-transports/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "ecdc2406a69abdbbc749da7edf52ae2581605a6840128eeae0625c7f835b3ec7"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-transports-q1","stage":"pre","question":"现代 Streamable HTTP 的每一条消息使用哪个 HTTP 方法？","options":["PATCH","DELETE","GET","POST"],"correct":3,"explanation":"每个现代 JSON-RPC 请求或通知都是发往一个 MCP endpoint 的新 POST。"},
+    {"id":"mcp-transports-q2","stage":"check","question":"只支持现代协议的 MCP endpoint 对 GET 和 DELETE 应返回什么？","options":["301","200","202","405"],"correct":3,"explanation":"独立的 GET 和 DELETE 不属于 Streamable HTTP 2026-07-28。"},
+    {"id":"mcp-transports-q3","stage":"check","question":"现代请求中，哪些 header 必须与 body 匹配？","options":["Mcp-Session-Id 和 Last-Event-ID","ETag 和 If-None-Match","MCP-Protocol-Version 和 Mcp-Method","Cookie 和 Host"],"correct":2,"explanation":"对 tools/call、resources/read 和 prompts/get，Mcp-Name 也必须匹配。"},
+    {"id":"mcp-transports-q4","stage":"check","question":"客户端如何请求长生命周期的变更通知？","options":["POST subscriptions/listen","resources/subscribe","Mcp-Session-Id","GET /mcp"],"correct":0,"explanation":"subscriptions/listen 会打开响应流；确认、通知和最终结果都用订阅 metadata 携带 listen 请求 ID。"},
+    {"id":"mcp-transports-q5","stage":"post","question":"现代的 request-scoped SSE 流在最终响应前断开了，下一步是什么？","options":["删除 session","复用同一响应流","使用 Last-Event-ID 恢复","用新的 JSON-RPC id 安全重试"],"correct":3,"explanation":"现代 SSE 不可恢复；安全重试需要新请求和新 ID。"},
+    {"id":"mcp-transports-q6","stage":"post","question":"服务器收到 2026-07-28 请求中的 Mcp-Session-Id 时应该怎么做？","options":["忽略且不回显","拒绝所有包含它的请求","用它路由","轮换它"],"correct":0,"explanation":"协议 session 和 session header 已从现代版本移除。"}
+  ]
+}

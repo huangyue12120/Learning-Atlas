@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/27-skill-evals-packaging-and-portability/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "77b91d93170b247af12fe1f08e3ce2028d0c3023b34ae81e3fb4c6dd6c0e4c5a"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"skill-evals-q1","stage":"pre","question":"哪种评估集合最能显示 skill description 是否在本课程模型中触发过度？","options":["清晰的正向 prompt 加上语义接近、但应保持负向的 prompt","只有一次成功的端到端演示","支持的文件扩展名列表","只从 skill 名称复制的 prompt"],"correct":0,"explanation":"容易的正向样例测量目标任务能否触发；near-miss 负向样例测量相邻任务是否误触发，是计算 false positive 和 precision 所必需的。"},
+    {"id":"skill-evals-q2","stage":"check","question":"trigger test 有 8 个 true positive 和 2 个 false positive，precision 是多少？","options":["recall 是 0.8，但无法计算 precision","0.8","0.2","1.0"],"correct":1,"explanation":"precision = true positives / 所有预测为正的样本 = 8 / (8 + 2) = 0.8；场景没有提供 false negative，无法计算 recall。"},
+    {"id":"skill-evals-q3","stage":"check","question":"为什么要用相同断言比较 baseline 与 with-skill artifact？","options":["保证 skill 在每个 host 都能工作","不再需要 trigger test","允许 skill 修改评估期望结果","测量 skill 是否改善任务输出，而不只是被激活"],"correct":3,"explanation":"激活不是最终结果；共享 artifact 契约能检查必需标题、证据、schema 或禁止内容，同时保持与 baseline 的测量可比。"},
+    {"id":"skill-evals-q4","stage":"check","question":"host 加载 SKILL.md，却在安装时丢弃 references/ 和 scripts/。需要两者的 bundle 在 portability matrix 中应如何分类？","options":["Native，因为 frontmatter 已加载","Adapter required，并列出缺少的 companion-file 和 script capability","Unsupported，即使 adapter 可以保留文件","改目录名后保证 portable"],"correct":1,"explanation":"host 理解核心文件，所以不是完全 unsupported；但不能原生满足包声明的要求，矩阵应写明确切 adapter 工作。"},
+    {"id":"skill-evals-q5","stage":"post","question":"repeated-run rate 比一次通过的 trigger evaluation 多提供了什么？","options":["替代结构化 package lint","执行随包脚本的权限","每个 case 多次执行时的一致性证据","通用 host invocation 命令"],"correct":2,"explanation":"单次运行会掩盖不确定性；逐 case 的重复运行率能发现不稳定的激活或 artifact 生成，而结构 lint、runtime 权限和 adapter 仍是独立问题。"},
+    {"id":"skill-evals-q6","stage":"post","question":"Agent Skill bundle 最完整的 release gate 是哪一项？","options":["bundle 有很多 reference 文件和很长的 description","skill 在作者机器上工作，且没有 baseline","SKILL.md 存在并由一个正向 prompt 激活","六层全部通过，本地捕获值与 source-bound digest 匹配，并由包外可信 attestation 绑定完整 evidence root"],"correct":3,"explanation":"六层包括包结构、路由稳定性、指令和 artifact 行为、脚本正确性、安全与权限、打包和可移植性；每层都必须通过，生产就绪还需外部 attestation 绑定完整证据根。"}
+  ]
+}

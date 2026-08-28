@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/10-llms-from-scratch/02-building-a-tokenizer/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "eb81699c7b53b33ad76935fe7cafc528aee14921bd9267c29c93984fe99271d3"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"building-tokenizer-10-1","stage":"pre","question":"基础 BPE tokenizer 为什么会在多语言文本或代码输入上出问题？","options":["BPE 只适用于 ASCII","BPE 天生只能处理一种语言","多语言文本无法被 token 化","如果没有正确处理 Unicode、字节回退和预分词正则表达式，就会产生错误或低效的 token 序列"],"correct":3,"explanation":"朴素 BPE 可能无法正确处理多字节 Unicode 字符，可能跨单词边界进行错误合并，也可能没有为训练词表之外的字符提供字节级回退。"},
+    {"id":"building-tokenizer-10-2","stage":"pre","question":"生产级 tokenizer 中的预分词正则表达式有什么作用？","options":["在 BPE 合并前按单词边界切分文本，防止跨空格和单词边界合并","压缩空白字符","把文本转换为小写","删除标点符号"],"correct":0,"explanation":"预分词正则表达式把文本切成若干块，通常会区分单词、数字和标点，使 BPE 只在块内合并。否则 BPE 可能把一个词的末尾和下一个词前的空格合并起来。"},
+    {"id":"building-tokenizer-10-3","stage":"post","question":"什么是特殊 token，tokenizer 为什么要专门处理它们？","options":["例如 <|endoftext|> 或 [PAD] 这样的保留 token，用于控制模型行为，必须编码为单个确定的 ID","嵌入值最高的 token","只在评估阶段使用的 token","出现频率最高的 token"],"correct":0,"explanation":"特殊 token 用于标记文档边界、填充序列以及生成的开始和结束。tokenizer 必须识别它们并编码为准确的 ID，不能把它们再次拆成普通子词。"},
+    {"id":"building-tokenizer-10-4","stage":"post","question":"如何评估自定义 tokenizer 是否优秀？","options":["在多样文本上测量压缩比（每个字符对应的 token 数），并与 tiktoken 等成熟 tokenizer 比较","检查它能否 token 化自己的名字","只测量编码速度","统计词表大小"],"correct":0,"explanation":"压缩比（例如每个 token 对应的字节数，或每个单词对应的 token 数）衡量编码效率。好的 tokenizer 能用更少 token 表达同样文本，让上下文窗口容纳更多内容；还应跨语言、跨领域比较。"},
+    {"id":"building-tokenizer-10-5","stage":"post","question":"为什么现代 LLM 更偏好字节级 BPE，而不是词级 tokenization？","options":["词级 tokenization 更准确","它既能表示任意输入而不产生 unknown token，又能为常见模式学习高效的子词合并","它会产生更小的词表","它更快"],"correct":1,"explanation":"词级 tokenizer 无法处理未见过的词，可能产生 [UNK]。字节级 BPE 从原始字节开始，能覆盖任意输入，再为常见序列学习合并规则，在覆盖范围和效率之间取得平衡。"}
+  ]
+}

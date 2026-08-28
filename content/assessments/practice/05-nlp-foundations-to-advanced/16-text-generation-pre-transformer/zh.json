@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/16-text-generation-pre-transformer/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "e5f08d990cfe11e8950b143215eab924280934224d602cc02f676de4c0d1c31f"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "text-generation-pre-transformer-05-1",
+      "stage": "pre",
+      "question": "n-gram 语言模型估计什么？",
+      "options": [
+        "文档嵌入",
+        "词之间的编辑距离",
+        "根据计数统计估计 P（下一个词 | 前 n−1 个词）",
+        "P（标签 | 文档）"
+      ],
+      "correct": 2,
+      "explanation": "n-gram LM 根据词的出现次数，建模 P（w | 最近的 n−1 个词）。"
+    },
+    {
+      "id": "text-generation-pre-transformer-05-2",
+      "stage": "pre",
+      "question": "平滑解决了 n-gram 模型中的什么问题？",
+      "options": [
+        "数值精度",
+        "为训练中未见过的 n-gram 分配零概率，从而使整句似然变为零",
+        "内存占用",
+        "分词方式不一致"
+      ],
+      "correct": 1,
+      "explanation": "平滑会重新分配概率质量，让未见过的 n-gram 也获得非零概率。"
+    },
+    {
+      "id": "text-generation-pre-transformer-05-3",
+      "stage": "check",
+      "question": "是什么关键思想让 Kneser–Ney 平滑优于朴素的绝对折扣？",
+      "options": [
+        "它使用更大的 n",
+        "它使用 TF-IDF",
+        "它使用梯度下降",
+        "它用延续概率（一个词出现在多少个不同上下文中）估计低阶分布，而不是使用原始词频"
+      ],
+      "correct": 3,
+      "explanation": "延续概率会奖励上下文的多样性，而不只是奖励词的原始出现次数。"
+    },
+    {
+      "id": "text-generation-pre-transformer-05-4",
+      "stage": "check",
+      "question": "困惑度衡量什么？",
+      "options": [
+        "不同 n-gram 的数量",
+        "留出测试集上每个词元平均负对数似然的 exp；数值越低越好",
+        "标签的交叉熵",
+        "生成吞吐量"
+      ],
+      "correct": 1,
+      "explanation": "困惑度 = exp（−平均 log P）；数值越低，说明模型对测试文本越不意外。"
+    },
+    {
+      "id": "text-generation-pre-transformer-05-5",
+      "stage": "check",
+      "question": "比较困惑度时，为什么训练集和测试集必须使用完全相同的分词方式？",
+      "options": [
+        "为了避免未登录词（OOV）",
+        "困惑度取决于分词方案；分词器不一致会产生不可比较的分数",
+        "梯度下降要求如此",
+        "为了控制批量大小"
+      ],
+      "correct": 1,
+      "explanation": "不同的分词方式会改变词元数量和似然，因此得到的困惑度不能直接比较。"
+    },
+    {
+      "id": "text-generation-pre-transformer-05-6",
+      "stage": "post",
+      "question": "为什么生成的三元语法 LM 句子局部读起来流畅，却整体不连贯？",
+      "options": [
+        "局部三元上下文能引导下一个词，但模型在 n−1 个词元之外没有长期记忆",
+        "它们会删除标点",
+        "它们使用拉普拉斯平滑",
+        "beam search 失败"
+      ],
+      "correct": 0,
+      "explanation": "模型只根据最近的 n−1 个词元进行条件建模，长期连贯性只能偶然出现。"
+    },
+    {
+      "id": "text-generation-pre-transformer-05-7",
+      "stage": "post",
+      "question": "到 2026 年，n-gram 模型仍会在生产环境的哪些地方使用？",
+      "options": [
+        "多语言翻译",
+        "摘要生成",
+        "开放领域聊天机器人",
+        "对延迟敏感的路径，例如使用 KenLM 等库进行语音识别重打分和端侧自动补全"
+      ],
+      "correct": 3,
+      "explanation": "KenLM 风格的 n-gram 模型仍可作为快速的端侧组件或重打分组件。"
+    },
+    {
+      "id": "text-generation-pre-transformer-05-8",
+      "stage": "post",
+      "question": "在宣布神经语言模型“很好”之前，为什么仍建议先计算 n-gram 基线？",
+      "options": [
+        "它能加快训练",
+        "ROUGE 要求这样做",
+        "它能消除未登录词",
+        "如果 Transformer LM 在相同分词方式下不能大幅超过调优后的 Kneser–Ney 基线，说明训练流程可能存在问题"
+      ],
+      "correct": 3,
+      "explanation": "KN 基线出奇地强；神经语言模型应该有明显优势，否则就应检查训练流程是否有 bug。"
+    }
+  ]
+}

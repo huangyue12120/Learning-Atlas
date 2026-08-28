@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/06-mcp-fundamentals/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "ebb9f20d33c8099670264fc6148e99bd98f91ad43232b2f4e657ac9c3a4e5dfe"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-fundamentals-q1","stage":"pre","question":"MCP 2026-07-28 中，两个请求之间是什么创建了协议状态？","options":["HTTP 连接","协议核心中没有任何东西","Mcp-Session-Id","stdio 进程"],"correct":1,"explanation":"现代协议核心是无状态的；每个请求都携带自己的版本和能力。"},
+    {"id":"mcp-fundamentals-q2","stage":"check","question":"每个现代请求的 params._meta 必须包含哪两个字段？","options":["clientInfo 和 cacheScope","protocolVersion 和 clientCapabilities","sessionId 和 capabilities","serverInfo 和 ttlMs"],"correct":1,"explanation":"必须携带协议版本和客户端能力；客户端身份则是推荐项。"},
+    {"id":"mcp-fundamentals-q3","stage":"check","question":"每个现代 MCP 服务器必须实现哪个方法来进行前置发现？","options":["tools/list","initialize","server/discover","notifications/initialized"],"correct":2,"explanation":"server/discover 会公布支持的版本、能力、说明和服务器身份。"},
+    {"id":"mcp-fundamentals-q4","stage":"check","question":"错误码 -32022 表示什么？","options":["内部错误","Header 不匹配","找不到方法","不支持的协议版本"],"correct":3,"explanation":"UnsupportedProtocolVersionError 会包含请求的版本以及服务器支持的版本。"},
+    {"id":"mcp-fundamentals-q5","stage":"post","question":"在 MCP 2026-07-28 中，哪种结果要求提供 ttlMs 和 cacheScope？","options":["JSON-RPC 错误","tools/list 结果","tools/call 结果","取消通知"],"correct":1,"explanation":"列表结果和 resources/read 都是可缓存结果，需要提供相应的缓存提示。"},
+    {"id":"mcp-fundamentals-q6","stage":"post","question":"服务器应如何选择当前请求的能力？","options":["从 Mcp-Session-Id 读取","从进程推断","复用第一个请求的声明","从当前请求的 metadata 读取"],"correct":3,"explanation":"服务器不能从连接状态或此前请求推断现代能力，必须读取当前请求元数据。"}
+  ]
+}

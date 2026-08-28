@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/10-llms-from-scratch/07-rlhf/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "be4a73bec34f3292a19131366a1fd3e62f31e0450adf97c42da3820187dca4d2"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"rlhf-10-1","stage":"pre","question":"RLHF 中的奖励模型从什么数据中学习？","options":["原始文本文档","人类偏好对：针对同一个问题，人类更偏好两个回答中的哪一个","模型损失曲线","基准测试分数"],"correct":1,"explanation":"奖励模型用偏好数据训练：给出同一提示词对应的两个回答，由人类标注哪个更好。模型学习为符合人类偏好的回答打更高分。"},
+    {"id":"rlhf-10-2","stage":"pre","question":"RLHF 的 PPO 训练为什么要加入 KL 散度惩罚？","options":["加快训练","减少内存使用","改进 tokenization","防止策略偏离 SFT 模型太远，否则可能出现奖励劫持"],"correct":3,"explanation":"没有 KL 惩罚时，模型可能找到利用奖励模型漏洞的退化方式，例如生成重复文本来最大化分数。KL 项让策略保持接近行为良好的 SFT 基线。"},
+    {"id":"rlhf-10-3","stage":"post","question":"完整的 RLHF 流程需要多少个独立模型？","options":["两个","四个","三个：SFT 模型、奖励模型和正在优化的策略模型","一个"],"correct":2,"explanation":"RLHF 包含：作为起点和 KL 参考的 SFT 模型、从偏好数据训练的奖励模型，以及使用 PPO 优化的策略模型。复杂性正是后来提出 DPO 的原因之一。"},
+    {"id":"rlhf-10-4","stage":"post","question":"RLHF 中的“奖励劫持”是什么？","options":["学习率太高","训练数据损坏","策略找到提高奖励分数的方法，却没有真正改善回答质量","奖励模型遭到攻击者入侵"],"correct":2,"explanation":"奖励模型只是人类判断的不完美代理。策略可能发现冗长、过度保守等能得高分的模式，却没有变得更有帮助；KL 惩罚可以限制这种行为。"},
+    {"id":"rlhf-10-5","stage":"post","question":"PPO 的裁剪机制防止什么？","options":["梯度溢出","数据泄漏","内存溢出","过大的策略更新导致训练不稳定"],"correct":3,"explanation":"PPO 把新旧策略的概率比裁剪到类似 [0.8, 1.2] 的范围内，防止单次更新让策略变化过大，因此比普通策略梯度更稳定。"}
+  ]
+}

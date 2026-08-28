@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/02-convolutions-from-scratch/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"8400599adab36b3aa18d066c785c0ef04ed06afcb61dadf1f5d700a2cadbf565"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"convolutions-from-scratch-04-1","stage":"pre","question":"把一张 224×224 的 RGB 图像输入 kernel_size=3、stride=1、padding=0 的卷积，输出的空间大小是多少？","options":["222×222","224×224","74×74","112×112"],"correct":0,"explanation":"输出大小为 (H - K + 2P) / S + 1 = (224 - 3 + 0) / 1 + 1 = 222。没有 padding 时，3×3 卷积会让每个轴的特征图各缩小 2 个像素。"},
+    {"id":"convolutions-from-scratch-04-2","stage":"pre","question":"一个卷积层的 in_channels=3、out_channels=64、kernel_size=3，并带 bias。它有多少个可学习参数？","options":["576","1,792","1,728","192"],"correct":1,"explanation":"参数量为 C_out × C_in × K × K + C_out = 64 × 3 × 3 × 3 + 64 = 1,792；最后的 C_out 是每个输出通道的一个偏置。"},
+    {"id":"convolutions-from-scratch-04-3","stage":"post","question":"为什么现代 CNN 更偏好堆叠多个 3×3 卷积，而不是一个 5×5 或 7×7 卷积？","options":["只有 3×3 卷积支持 padding","大卷积核会溢出 GPU 寄存器","3×3 卷积有硬件加速，而更大的没有","两个 3×3 卷积覆盖同样的 5×5 感受野，却使用更少参数（2×9 对 25），并在中间增加一次非线性"],"correct":3,"explanation":"堆叠 3×3 卷积既能覆盖同样的感受野，又能减少参数并增加非线性，从而提升表达能力。VGG 的实践验证了这一设计，ResNet、ConvNeXt 等现代架构也沿用了它。"},
+    {"id":"convolutions-from-scratch-04-4","stage":"post","question":"im2col 变换实际上做了什么？","options":["把 batch 中所有图像拼成一个二维矩阵","提取输入中每个 kernel 大小的感受野窗口，把它们按列堆叠，使卷积变成一次矩阵乘法","把 float32 像素转换为 int8 以加快运算","压缩图像以放进 GPU 缓存"],"correct":1,"explanation":"im2col 把输入重排为矩阵，每一列是一个展平的感受野。卷积核也展平后，卷积就变成 `cols @ w_flat.T` 的单次 GEMM，GPU 执行这种操作远快于多重 Python 循环。"},
+    {"id":"convolutions-from-scratch-04-5","stage":"post","question":"堆叠四个 3×3 卷积（都 stride=1、没有 pooling）后，最终层一个神经元的感受野是多少？","options":["3×3——每个卷积都是 3×3","5×5——两个卷积得到 5×5，深度没有帮助","9×9——每个卷积让两侧各增加 1：1 + 4×(3-1) = 9","15×15——每个卷积都会让感受野扩大三倍"],"correct":2,"explanation":"stride=1 时，L 个 K×K 卷积的感受野为 1 + L×(K-1)。这里是 1 + 4×2 = 9。加入带 stride 的层后，感受野还会按下采样结构进一步扩大。"}
+  ]
+}

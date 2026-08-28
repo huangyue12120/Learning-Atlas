@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/17-chatbots-rule-to-neural/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "600052b898956fe6f22f057c913d52a32af5a7c1d351d52ba77de11fb5d2d8dc"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "chatbots-rule-to-neural-05-1",
+      "stage": "pre",
+      "question": "在基于规则的聊天机器人中，槽位填充状态机做什么？",
+      "options": [
+        "选择最流畅的回复",
+        "对用户消息做嵌入",
+        "跟踪日期、目的地、金额等必需参数还缺哪些，并按顺序询问",
+        "检测讽刺"
+      ],
+      "correct": 2,
+      "explanation": "槽位填充会逐步收集任务处理器所需的结构化参数。"
+    },
+    {
+      "id": "chatbots-rule-to-neural-05-2",
+      "stage": "pre",
+      "question": "为什么基于检索的聊天不容易产生幻觉？",
+      "options": [
+        "它使用 BM25",
+        "它使用嵌入",
+        "它拒绝所有查询",
+        "它从经过整理的答案集合中返回预先写好的回复，而不是生成新文本"
+      ],
+      "correct": 3,
+      "explanation": "检索系统返回预先编写的答案；没有生成环节，就不会凭空捏造内容。"
+    },
+    {
+      "id": "chatbots-rule-to-neural-05-3",
+      "stage": "check",
+      "question": "与一次性的 LLM 调用相比，什么定义了 LLM agent loop？",
+      "options": [
+        "一个控制器在多次 LLM 调用与工具调用之间交替，直到模型返回最终答案或达到步骤预算",
+        "使用 softmax",
+        "使用贪心解码",
+        "更大的上下文窗口"
+      ],
+      "correct": 0,
+      "explanation": "智能体增加了“规划—执行—观察”的循环，并定义了明确的终止条件。"
+    },
+    {
+      "id": "chatbots-rule-to-neural-05-4",
+      "stage": "check",
+      "question": "为什么“规则 + 检索 + LLM 智能体”的混合路由在 2026 年成为生产环境默认方案？",
+      "options": [
+        "它避免使用嵌入",
+        "没有一种架构能很好处理所有请求：规则负责危险操作，检索负责 FAQ，智能体负责含糊的开放式请求",
+        "它维护成本更低",
+        "它不再需要评估"
+      ],
+      "correct": 1,
+      "explanation": "混合系统用确定性规则处理高风险操作，把 LLM 智能体留给开放式请求。"
+    },
+    {
+      "id": "chatbots-rule-to-neural-05-5",
+      "stage": "check",
+      "question": "什么是 prompt injection（提示词注入）？",
+      "options": [
+        "一种分词器攻击",
+        "用户提供的直接文本或文档提供的间接文本，试图覆盖系统提示词或劫持智能体行为",
+        "一种只有 SQL 注入的变体",
+        "把词元注入嵌入"
+      ],
+      "correct": 1,
+      "explanation": "提示词注入利用用户输入或工具输出中的不可信文本，改写智能体的行为。"
+    },
+    {
+      "id": "chatbots-rule-to-neural-05-6",
+      "stage": "post",
+      "question": "OWASP LLM 应用 Top 10（2025）中排名 LLM01 的风险是什么？",
+      "options": [
+        "SQL 注入",
+        "访问控制失效",
+        "不安全的反序列化",
+        "提示词注入（直接注入和间接注入）"
+      ],
+      "correct": 3,
+      "explanation": "提示词注入是 OWASP LLM 应用 Top 10（2025）中的 LLM01。"
+    },
+    {
+      "id": "chatbots-rule-to-neural-05-7",
+      "stage": "post",
+      "question": "哪种缓解模式通过把规划与执行分开来减少间接提示词注入？",
+      "options": [
+        "Plan-Verify-Execute（规划—验证—执行）：智能体先规划，再根据计划验证每个动作，最后执行，从而阻止工具输出注入新的计划外动作",
+        "缩短上下文",
+        "降低 temperature",
+        "使用更大的模型"
+      ],
+      "correct": 0,
+      "explanation": "PVE 会逐步检查动作是否符合既定计划，因此会拒绝工具输出中夹带的注入指令。"
+    },
+    {
+      "id": "chatbots-rule-to-neural-05-8",
+      "stage": "post",
+      "question": "即使在 LLM 智能体系统中，为什么支付、删除等危险操作也必须经过结构化流程？",
+      "options": [
+        "工具不能被调用",
+        "beam search 不安全",
+        "自信地编造内容、提示词注入和范围蔓延意味着 LLM 不能成为不可逆副作用的唯一授权者",
+        "LLM 速度太慢"
+      ],
+      "correct": 2,
+      "explanation": "幻觉和注入会让纯 LLM 智能体执行不可逆操作变得不安全，因此必须加入确定性的确认流程。"
+    }
+  ]
+}

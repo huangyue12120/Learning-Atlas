@@ -100,7 +100,7 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(llmEngineering.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(multimodalAI.lessons.length, 25);
   assert.equal(multimodalAI.lessons.every((item: { available: boolean }) => item.available), true);
-  assert.equal(toolsAndProtocols.lessons.length, 23);
+  assert.equal(toolsAndProtocols.lessons.length, 31);
   assert.equal(toolsAndProtocols.lessons.every((item: { available: boolean }) => item.available), true);
   assert.deepEqual(foundations.lessons[0], {
     id: firstLesson.id,

@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/19-subword-tokenization/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "80ce338f9fc960ef85f0c7a7fb7a8aa6f82ccd322bc633ca55b1b8a78e7098b4"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "subword-tokenization-05-1",
+      "stage": "pre",
+      "question": "与词级词汇表相比，子词分词带来了什么好处？",
+      "options": [
+        "训练更快",
+        "模型更小",
+        "嵌入更好",
+        "罕见词可以拆成已知的子词片段，在控制词汇表大小的同时消除未登录词"
+      ],
+      "correct": 3,
+      "explanation": "子词可以通过拆分覆盖任意输入，解决词级词汇表的未登录词问题。"
+    },
+    {
+      "id": "subword-tokenization-05-2",
+      "stage": "pre",
+      "question": "GPT-2 为什么使用字节级 BPE，而不是字符级 BPE？",
+      "options": [
+        "这是 Transformer 的强制要求",
+        "256 个基础字节覆盖任意 UTF-8 输入，可以保证不产生 `[UNK]` 词元",
+        "字节更小",
+        "字节级 BPE 跳过合并"
+      ],
+      "correct": 1,
+      "explanation": "字节级 BPE 从 256 个字节开始，因此任何输入都能被编码，不会出现未登录词。"
+    },
+    {
+      "id": "subword-tokenization-05-3",
+      "stage": "check",
+      "question": "Unigram 分词器如何构建词汇表？",
+      "options": [
+        "贪心地合并高频词对",
+        "随机采样",
+        "从较大的候选集合开始，反复删除对语料库对数似然影响最小的词元",
+        "贪心地使用 IDF 加权"
+      ],
+      "correct": 2,
+      "explanation": "Unigram 先拟合一个一元语言模型，再反复删除最不重要的词元，直到达到目标词汇表大小。"
+    },
+    {
+      "id": "subword-tokenization-05-4",
+      "stage": "check",
+      "question": "WordPiece 的合并标准与 BPE 有什么区别？",
+      "options": [
+        "WordPiece 使用字节",
+        "WordPiece 跳过合并",
+        "WordPiece 是无监督的",
+        "WordPiece 合并能最大化训练语料似然的词对，而 BPE 合并出现频率最高的词对"
+      ],
+      "correct": 3,
+      "explanation": "WordPiece 按似然选择合并，BPE 则按原始频率选择合并。"
+    },
+    {
+      "id": "subword-tokenization-05-5",
+      "stage": "check",
+      "question": "哪种工具可以直接在原始的多语言 Unicode 文本上训练分词器？",
+      "options": [
+        "spaCy",
+        "tiktoken",
+        "tokenizers-lite",
+        "SentencePiece（把空格编码为特殊标记，并训练 BPE 或 Unigram）"
+      ],
+      "correct": 3,
+      "explanation": "SentencePiece 无需预分词就能在原始文本上训练 BPE/Unigram；tiktoken 主要负责编码。"
+    },
+    {
+      "id": "subword-tokenization-05-6",
+      "stage": "post",
+      "question": "为什么生产环境的 CI 必须对部署的 `tokenizer.json` 做哈希校验？",
+      "options": [
+        "分词器漂移会产生与模型训练时不同的词元 ID，悄悄破坏输出",
+        "为了压缩存储",
+        "它会减小词汇表",
+        "这是 Hugging Face 强制要求的"
+      ],
+      "correct": 0,
+      "explanation": "即使很小的分词器变化也会改变词元 ID；哈希校验可以在漂移到达用户前发现它。"
+    },
+    {
+      "id": "subword-tokenization-05-7",
+      "stage": "post",
+      "question": "为什么一个 emoji 可能占用很多词元？",
+      "options": [
+        "Emoji 是停用字符",
+        "Emoji 是保留字符",
+        "多码点 emoji 会编码为多个 UTF-8 字节；没有专用词元时，每个字节都可能成为一个子词",
+        "Emoji 以浮点数存储"
+      ],
+      "correct": 2,
+      "explanation": "组合 emoji 由多个字节编码而成；字节级分词器可能为一个图形产生多个词元。"
+    },
+    {
+      "id": "subword-tokenization-05-8",
+      "stage": "post",
+      "question": "为新的单语 Transformer 选择词汇表大小时，有什么经验法则？",
+      "options": [
+        "匹配训练语料大小",
+        "参数量小于 10 亿的模型大致使用 32k；10–100 亿参数使用 50k–100k；多语言或前沿模型使用 200k 以上",
+        "始终使用 100 万",
+        "始终使用 8000"
+      ],
+      "correct": 1,
+      "explanation": "词汇表大小会随模型规模和语言覆盖范围变化；这些是社区中常用的粗略起点。"
+    }
+  ]
+}

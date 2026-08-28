@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/20-image-retrieval-metric/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"ccb7af9edc5f7db6e970268b38689cd670950b64b62a68a19e2e76561123d3d2"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"image-retrieval-metric-04-1","stage":"pre","question":"视觉搜索产品的查询是文本、图库内容是图像，首先应选择哪种 backbone？","options":["CLIP 或 SigLIP——它们学习共享的图文 embedding 空间，因此文本查询和图像图库之间的余弦相似度开箱即用","有监督 ResNet-50","手工 ORB 描述子","自监督 DINOv2"],"correct":0,"explanation":"文本查询要求文本和图像最终位于同一空间。CLIP/SigLIP 正是用对比损失学习这种对齐；ResNet 和 DINOv2 的 embedding 主要是图像空间。"},
+    {"id":"image-retrieval-metric-04-2","stage":"pre","question":"triplet loss 训练中的 semi-hard mining 是什么意思？","options":["对每个 anchor 选择比正例更远、但仍在 margin 内的负例；太容易的负例没有梯度，最难的负例可能使训练不稳定，semi-hard 是折中点","为训练样本挖掘加密货币","只选最难的负例","随机选择 triplet"],"correct":0,"explanation":"当 d(a,n) < d(a,p)+margin 时 triplet loss 才有梯度。semi-hard 满足 d(a,p)<d(a,n)<d(a,p)+margin，既有信息又不至于让训练坍塌。"},
+    {"id":"image-retrieval-metric-04-3","stage":"post","question":"检索系统的 recall@10=0.95、recall@1=0.42，你应得出什么结论？","options":["模型过拟合","图库向查询泄漏","评估损坏","embedding 空间的结构基本正确，相关项通常在前 10 名内，但前几名排序有噪声；可用 reranking 模型或更长的 metric-learning 微调提高 recall@1，同时保留 recall@10"],"correct":3,"explanation":"高 recall@10 而低 recall@1 表明召回范围大致正确，但模型不能稳定地排好最前面的候选。生产上通常加入第二阶段 scorer 对 top-K 重排。"},
+    {"id":"image-retrieval-metric-04-4","stage":"post","question":"未归一化 embedding 上的 cosine similarity 并不是真正的余弦相似度，会怎样？","options":["矩阵乘法溢出","它把方向和幅度混在一起；只有两个向量都做 L2 归一化时 cos(a,b) 才正确，否则大范数向量会主导排序，而不论方向","PyTorch 抛出错误","没有问题，可以直接使用"],"correct":1,"explanation":"cos(a,b)=(a·b)/(|a||b|)。跳过归一化得到的是受幅度影响的内积；神经 embedding 的范数可能相差数倍，足以扭曲排名。"},
+    {"id":"image-retrieval-metric-04-5","stage":"post","question":"实例级检索（找这辆具体的车）和类别级检索（找汽车）中，哪个需要 metric-learning 微调？","options":["实例级。现成的 DINOv2 和 CLIP 很擅长区分类别，却不一定能区分同类的相似实例；用实例配对做 triplet 或 contrastive 微调可收紧实例 embedding","两者需要相同程度的微调","类别级","都不需要"],"correct":0,"explanation":"预训练模型已经让猫靠近猫、狗靠近狗。要区分同一商品 SKU、同一张脸或同一辆车，需要用带实例标签的 triplet/InfoNCE 训练拉近同实例、拉远不同实例。"}
+  ]
+}

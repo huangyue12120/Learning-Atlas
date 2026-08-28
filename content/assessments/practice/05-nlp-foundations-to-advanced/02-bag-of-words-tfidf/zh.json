@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/02-bag-of-words-tfidf/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "06d6229bc2c92ef950f3c26958b70b257023faf2996820baf93bec6f83e0802c"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "bag-of-words-tfidf-05-1",
+      "stage": "pre",
+      "question": "词袋模型会丢失什么信息？",
+      "options": [
+        "标点符号",
+        "词元顺序",
+        "词汇表大小",
+        "文档长度"
+      ],
+      "correct": 1,
+      "explanation": "词袋模型统计每个词元在文档中的出现次数，但会丢弃词元的顺序。"
+    },
+    {
+      "id": "bag-of-words-tfidf-05-2",
+      "stage": "pre",
+      "question": "为什么要用 IDF 因子缩放 TF？",
+      "options": [
+        "归一化文档长度",
+        "在每篇文档都出现的词区分度很低，因此应降低它们的权重",
+        "删除标点符号",
+        "加速训练"
+      ],
+      "correct": 1,
+      "explanation": "IDF 会惩罚到处出现的词，并提高罕见词的权重。"
+    },
+    {
+      "id": "bag-of-words-tfidf-05-3",
+      "stage": "check",
+      "question": "在平滑后的 IDF 公式 `log((N+1)/(df+1)) + 1` 中，末尾的 `+1` 保证了什么？",
+      "options": [
+        "大 N 时的数值稳定性",
+        "与原始计数兼容",
+        "即使某个词出现在每篇文档中，它的 IDF 仍为 1，而不是 0",
+        "计算速度更快"
+      ],
+      "correct": 2,
+      "explanation": "末尾的 `+1` 使高频词的 IDF 保持为 1，不会被完全置零；这与 scikit-learn 的默认实现一致。"
+    },
+    {
+      "id": "bag-of-words-tfidf-05-4",
+      "stage": "check",
+      "question": "为什么在计算余弦相似度前要对 TF-IDF 行向量做 L2 归一化？",
+      "options": [
+        "把稀疏向量转换为稠密向量",
+        "否则较长的文档会主导相似度分数；归一化可把所有文档放到单位超球面上",
+        "删除零元素",
+        "压缩词汇表"
+      ],
+      "correct": 1,
+      "explanation": "L2 归一化消除文档长度偏差，并使余弦相似度等价于向量点积。"
+    },
+    {
+      "id": "bag-of-words-tfidf-05-5",
+      "stage": "check",
+      "question": "对情感分析而言，启用哪项 `TfidfVectorizer` 设置有风险？",
+      "options": [
+        "`sublinear_tf=True`",
+        "`ngram_range=(1, 2)`",
+        "`min_df=2`",
+        "`stop_words='english'`"
+      ],
+      "correct": 3,
+      "explanation": "英文停用词表可能删除“not”等否定词，而否定词携带重要的情感信号。"
+    },
+    {
+      "id": "bag-of-words-tfidf-05-6",
+      "stage": "post",
+      "question": "到 2026 年，TF-IDF 仍在哪类任务中可能胜过更复杂的方法？",
+      "options": [
+        "机器翻译",
+        "开放式对话",
+        "图像描述生成",
+        "垃圾邮件检测、日志异常标记以及要求低延迟的窄领域分类"
+      ],
+      "correct": 3,
+      "explanation": "当词是否出现本身就是主要信号，而且可解释性或速度很重要时，TF-IDF 可能胜过嵌入。"
+    },
+    {
+      "id": "bag-of-words-tfidf-05-7",
+      "stage": "post",
+      "question": "为什么 TF-IDF 难以区分“这部电影不好”和“这部电影很棒”这类句子？",
+      "options": [
+        "TF-IDF 必须使用二元词组才能工作",
+        "两篇文档共享大多数词元；词袋模型没有否定关系或词序的概念",
+        "TF-IDF 无法处理停用词",
+        "嵌入之间的重叠过高"
+      ],
+      "correct": 1,
+      "explanation": "没有词序和句法上下文，词袋模型无法表示“not”会反转“good”的情感极性。"
+    },
+    {
+      "id": "bag-of-words-tfidf-05-8",
+      "stage": "post",
+      "question": "什么是 TF-IDF 加权嵌入混合方法？",
+      "options": [
+        "拼接词袋特征和稠密嵌入",
+        "先对 TF-IDF 做 PCA，再重新生成嵌入",
+        "在平均各词元嵌入前，把 TF-IDF 权重作为池化权重",
+        "用 TF-IDF 特征训练 BERT"
+      ],
+      "correct": 2,
+      "explanation": "这种混合方法按每个词元的 TF-IDF 分数为其嵌入加权后再求平均，把语义能力与突出罕见词的能力结合起来。"
+    }
+  ]
+}

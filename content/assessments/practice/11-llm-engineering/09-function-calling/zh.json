@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/09-function-calling/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "f6ba8822c7339b3e9dc795081a5fafa17ae436b9e7c2971861cf1a1b43fa92e1"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"function-calling-11-1","stage":"pre","question":"LLM 能真正执行函数或访问外部系统吗？","options":["不能——LLM 只能生成描述要调用哪个函数的文本（通常是 JSON），真正执行必须由你的代码完成","LLM 通过 embedding 执行函数","只有 GPT-4 能执行函数","可以，LLM 能直接调用 API"],"correct":0,"explanation":"LLM 只生成 token。所谓“调用函数”时，模型输出包含函数名和参数的 JSON；应用代码解析它、执行真正函数，再把结果发回模型。"},
+    {"id":"function-calling-11-2","stage":"pre","question":"function calling 中的 tool schema 是什么？","options":["API endpoint URL","数据库 schema","模型架构图","描述函数名称、参数、类型和用途的 JSON，告诉模型有哪些工具可用"],"correct":3,"explanation":"工具 schema 向模型描述函数名、参数名和类型、每个参数的含义以及返回值。模型据此决定何时调用工具和如何填写参数。"},
+    {"id":"function-calling-11-3","stage":"post","question":"多轮 function calling 的标准循环是什么？","options":["一次调用所有函数","模型在内部执行函数","发送消息 → 模型请求工具调用 → 执行函数 → 发回结果 → 模型生成最终回答（需要时重复）","把完整对话一次解析成 batch"],"correct":2,"explanation":"流程是：发送用户消息和工具 schema；模型返回工具调用请求；应用执行函数；把工具响应发回；模型生成下一轮回答或再次请求工具。"},
+    {"id":"function-calling-11-4","stage":"post","question":"如何防止无限工具调用循环？","options":["使用更快的模型","设置工具调用的最大迭代次数并实现超时，达到限制就中断循环","第一次调用后删除所有工具 schema","function calling 不会产生无限循环"],"correct":1,"explanation":"模型可能不断调用永远找不到结果的工具。生产系统应设置最大轮数（例如 10 轮）和总超时，避免失控循环。"},
+    {"id":"function-calling-11-5","stage":"post","question":"为什么工具 schema 中的参数名和描述要清晰具体？","options":["模型会依据描述决定调用哪个工具以及如何填写参数；含糊描述会导致工具选择和参数都错误","它们会提高响应速度","API 强制要求这样做","它们只让代码更易读"],"correct":0,"explanation":"模型会阅读工具描述来决定调用方式。例如只有“q”不如“search_query：要在知识库中查找的用户搜索词”清楚，后者能显著减少错误调用。"}
+  ]
+}

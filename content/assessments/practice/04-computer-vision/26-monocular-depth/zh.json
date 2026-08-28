@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/26-monocular-depth/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"dcd1e747304b35453faf7a88be88f455ceda51e180583611c6f784788edb157b"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"monocular-depth-04-1","stage":"pre","question":"relative depth 与 metric depth 的主要区别是什么？","options":["relative depth 只给出距离顺序，没有真实单位；metric depth 给出米等实际距离，需要模型从训练数据中学到绝对尺度","metric depth 输出灰度图，relative depth 输出彩色图","relative depth 分辨率总是更低","没有区别"],"correct":0,"explanation":"relative depth 保留顺序和比例，但没有现实世界的尺度锚点；MiDaS 或 Depth Anything 的输出要先对齐才能与米制真值比较。metric depth 模型则输出经过标定的距离，但更依赖相机内参和训练覆盖范围。"},
+    {"id":"monocular-depth-04-2","stage":"pre","question":"Depth Anything V3 使用冻结的 DINOv2 encoder 加 DPT 风格 decoder，为什么冻结 encoder？","options":["否则 DINOv2 会学到坏特征","这是法律要求","只在训练时节省计算","DINOv2 的自监督特征已经编码场景结构、纹理梯度和物体语义；冻结它可在有限深度标注数据上只训练小型 head，同时保留 encoder 的泛化能力"],"correct":3,"explanation":"自监督 ViT 的特征能以很少微调迁移到密集任务。冻结 encoder 加轻量深度 decoder 只需训练少量参数，还能继承跨室内、室外等领域的泛化能力。"},
+    {"id":"monocular-depth-04-3","stage":"post","question":"要用预测深度 d 将像素 (u,v) 提升到 3D，使用 X=(u-cx)*d/fx、Y=(v-cy)*d/fy、Z=d。fx、fy、cx、cy 是什么？","options":["训练损失权重","归一化常数","针孔相机内参——以像素为单位的焦距和主点，可从 EXIF 或相机标定得到","深度 decoder 学习的权重"],"correct":2,"explanation":"fx、fy 是像素单位的水平和垂直焦距，cx、cy 是主点（通常接近图像中心）。没有内参时只能假设通用视场，适合可视化但不适合测量。"},
+    {"id":"monocular-depth-04-4","stage":"post","question":"评估 MiDaS、Depth Anything 等 relative-depth 模型时，为什么在计算 AbsRel 前要做 scale-and-shift 对齐？","options":["relative-depth 预测有任意尺度和偏移；通过最小二乘拟合 a*pred+b=target 对齐后，才能公平衡量模型真正训练的排序质量","为了人为提高指标分数","PyTorch 没有对齐就无法计算 AbsRel","为了启用 GPU 推理"],"correct":0,"explanation":"relative-depth 模型只保证顺序和比例有意义。直接计算 AbsRel 会把尺度不匹配当成模型误差；先拟合线性变换，剩余误差才反映深度结构质量。"},
+    {"id":"monocular-depth-04-5","stage":"post","question":"Depth Anything 在玻璃门前的接待台上预测出看似合理、但明显错误的玻璃区域深度。为什么？","options":["图像分辨率错误","模型坏了","模型训练时没有玻璃数据","玻璃、镜面和强反射表面会破坏模型依赖的单目线索；网络看到玻璃后的纹理和内容，预测了与其一致的 plausible depth，而不是玻璃表面的真实距离"],"correct":3,"explanation":"单目深度依赖纹理梯度、遮挡顺序和透视；透明或反射表面会混淆这些线索。模型填出一个看似合理但错误的深度，这是单目深度的基本限制，必要时应融合双目、LiDAR 或偏振相机。"}
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/07-advanced-rag/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "103dab0f61106594e42930e622b507ae19ab14433d446eebc559cb6682f5022e"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"advanced-rag-11-1","stage":"pre","question":"RAG 中基础 top-k 语义搜索有什么局限？","options":["它需要 GPU","它检索到的片段与查询语义相似，却可能没有实际答案，尤其面对含糊或多跳问题时","它太慢","它无法处理大型文档"],"correct":1,"explanation":"基础语义搜索匹配表层含义。例如“上季度收入是多少”可能检索到“收入策略”，而不是写着“2025 年第三季度为 4720 万美元”的片段。"},
+    {"id":"advanced-rag-11-2","stage":"pre","question":"RAG 中的 hybrid search（混合搜索）是什么？","options":["结合 BM25 关键词匹配与语义向量搜索，同时捕捉精确词项和基于含义的相关性","同时使用 CPU 和 GPU 搜索","跨多个数据库搜索","使用两个不同的 LLM"],"correct":0,"explanation":"BM25 擅长匹配“$47.2M”或“Q3”等精确词语，语义搜索擅长匹配同义表达。二者结合再配合 reranker，可以兼顾具体术语的精度和语义变体的召回。"},
+    {"id":"advanced-rag-11-3","stage":"post","question":"cross-encoder reranker 在高级 RAG 流程中做什么？","options":["把文档编码成向量","生成最终回答","把文档切成片段","对（查询、文档）对进行联合打分，以更高准确率评估相关性，并重新排列初步检索结果"],"correct":3,"explanation":"初始检索用 bi-encoder 相似度，速度快但较粗略；cross-encoder 用交叉注意力同时处理完整查询和文档，能更准确地给候选结果重排序。"},
+    {"id":"advanced-rag-11-4","stage":"post","question":"HyDE（Hypothetical Document Embedding，假设文档嵌入）是怎样的查询变换技术？","options":["为了隐私加密查询","让 LLM 生成一个假设答案，再嵌入这个答案作为搜索查询，而不是嵌入原始问题","在查询中展开缩写","把查询隐藏起来不让模型看到"],"correct":1,"explanation":"原始问题“Q3 收入是多少”可能与答案片段的向量不够接近。HyDE 先让 LLM 生成“Q3 收入约为……”这样的假设答案，再用它检索，更容易靠近真正包含答案的片段。"},
+    {"id":"advanced-rag-11-5","stage":"post","question":"为什么 parent-child chunking（父子分块）比扁平分块更能改善 RAG？","options":["索引更快","用较小的子块进行精确检索，但返回较大的父块作为上下文，避免上下文丢失","减少片段数量","不再需要 embedding"],"correct":1,"explanation":"200 token 的小块检索精确却缺少上下文，2000 token 的大块上下文完整却不易精确匹配。父子分块用小块搜索、用父块生成回答，兼顾两者。"}
+  ]
+}

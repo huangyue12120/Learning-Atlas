@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/13-mcp-async-tasks/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "13082aef59bb2fde853929b0bb1ecf2ad6442dc71e25481b7dba93b91229e1be"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-tasks-q1","stage":"pre","question":"无状态 MCP 服务器如何支持持续十分钟的工作？","options":["让 Mcp-Session-Id 连接保持十分钟","只把进度存进 initialize 状态","要求所有客户端使用粘性负载均衡","返回由应用存储支持的显式持久化 task 句柄"],"correct":3,"explanation":"无状态描述的是协议请求模型；持久化应用状态应由显式 task id 和共享存储表示。"},
+    {"id":"mcp-tasks-q2","stage":"check","question":"服务器什么时候可以在 tools/call 中返回 resultType task？","options":["当前请求声明了扩展，且 task 已持久化到可读取状态之后","只要此前某个 session 声明过 Tasks","先返回再持久化，让客户端乐观轮询","仅当 params._meta.task.required 为 true"],"correct":0,"explanation":"Task 由服务器决定创建，但当前请求能力支持和先持久化再返回都是强制条件；缺少支持时返回带 data.requiredCapabilities 的 -32021。"},
+    {"id":"mcp-tasks-q3","stage":"check","question":"tasks/get 响应有 resultType complete 和 status working，这说明什么？","options":["响应违反了扩展","底层工作已经完成","task 已被取消","轮询 RPC 已完成，但底层工作仍在运行"],"correct":3,"explanation":"resultType 描述 tasks/get 这个 RPC；task status 独立描述持久化工作。工作完成时，嵌套的 CallToolResult 才有自己的 complete。"},
+    {"id":"mcp-tasks-q4","stage":"check","question":"task 已存在后，客户端如何回应 input_required？","options":["调用带 answer 字段的 tasks/result","打开新的 initialize session","使用相同 ID 重试原 tools/call","用待处理 task key 的 inputResponses 发送 tasks/update"],"correct":3,"explanation":"创建 task 后的输入由 tasks/get 暴露，并通过 tasks/update 完成，而不是重试原始调用。"},
+    {"id":"mcp-tasks-q5","stage":"post","question":"成功的 tasks/cancel 响应保证了什么？","options":["服务器确认收到取消意图","结果已被删除","task 最终状态必然是 cancelled","worker 已经停止"],"correct":0,"explanation":"取消是协作式且最终一致的；收到确认后，工作仍可能继续、先完成，或在 worker 检查点后才取消。"},
+    {"id":"mcp-tasks-q6","stage":"post","question":"哪组方法符合当前官方 Tasks 扩展？","options":["tools/task、notifications/task_result 和 roots/list","tasks/get、tasks/update 和 tasks/cancel","tasks/create、tasks/subscribe 和 tasks/delete","tasks/status、tasks/result 和 tasks/list"],"correct":1,"explanation":"扩展使用 tasks/get、tasks/update 和 tasks/cancel；旧的 status、result、list 方法仅用于迁移。"}
+  ]
+}

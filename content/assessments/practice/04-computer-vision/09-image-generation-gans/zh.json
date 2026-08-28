@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/09-image-generation-gans/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"11a8b325d87f805d5b4993092ee0eae2dfa94818becc4911403f378f9e93f849"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"image-generation-gans-04-1","stage":"pre","question":"GAN 训练为什么使用非饱和生成器损失 -log(D(G(z)))，而不是 log(1 - D(G(z)))？","options":["两者数学上不同，所以能得到更好的均衡","PyTorch 要求这样做","它能加快判别器","训练早期 D(G(z)) 接近 0，log(1-D(G(z))) 的梯度会消失；-log(D(G(z))) 在此处仍有较大梯度，能给 G 有用信号"],"correct":3,"explanation":"两种损失的梯度方向相同，但 D(G(z)) 很小时梯度大小差异很大。log(1-D(G(z))) 会陷入零梯度平台，非饱和形式在整个范围都更有信息。"},
+    {"id":"image-generation-gans-04-2","stage":"pre","question":"DCGAN 规则要求用带 stride 的卷积替代 pooling，为什么？","options":["pooling 不可学习且会丢弃生成器可能需要的信息；带 stride 的卷积能让网络学习自己的下采样方式，实践中生成图像更清晰","pooling 与 batch norm 不兼容","pooling 在 GPU 上更慢","pooling 会破坏梯度流"],"correct":0,"explanation":"max-pool 是人为指定的下采样，只保留最大值。生成模型更适合使用可学习的下采样来保留跨 stride 的信息；这是让 DCGAN 可训练的架构变化之一。"},
+    {"id":"image-generation-gans-04-3","stage":"post","question":"训练 GAN 时，G 无论输入什么噪声都生成几乎相同的样本。这是哪种失败？","options":["振荡","梯度消失","模式坍塌——G 找到数据分布中一个能稳定欺骗 D 的狭窄区域，没有动力探索；可尝试谱归一化、minibatch discrimination 或更大 batch","数据集太小"],"correct":2,"explanation":"模式坍塌的特征是样本缺少多样性：输入不同噪声却得到同一图像。修复方法都在增强 D 对多样性的约束，或减少 G 坍塌的空间。"},
+    {"id":"image-generation-gans-04-4","stage":"post","question":"DCGAN 训练脚本为什么使用 betas=(0.5, 0.999) 的 Adam，而不是默认的 (0.9, 0.999)？","options":["这是教程传播的笔误","较低的 beta1 会减小动量；在对抗博弈中，过强动量会让优化器在对方网络行为改变后仍沿错误方向更新，导致不稳定","默认值有 bug","CUDA 只支持 beta1=0.5"],"correct":1,"explanation":"默认 beta1=0.9 会平均约 10 步梯度。在损失地形不断随 D/G 更新而改变的对抗训练中，这会延迟响应并造成振荡；实践发现 beta1=0.5 更稳定。"},
+    {"id":"image-generation-gans-04-5","stage":"post","question":"同事报告 GAN 的 D loss 接近 0，而 G loss 随训练增加。发生了什么，如何修复？","options":["生成器正在正确过拟合","没有问题——这就是均衡","判别器太强，把 G 的梯度压到 0；可减小 D、使用谱归一化、对真实标签做 0.9 的平滑，或改用 WGAN-GP","两个网络都在正确改善"],"correct":2,"explanation":"D loss 接近 0 说明判别器几乎完美区分真实和生成样本，此时 BCE 传给 G 的梯度会消失。应削弱 D 或换用不易饱和的损失。"}
+  ]
+}

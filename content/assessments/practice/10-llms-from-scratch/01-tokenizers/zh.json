@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/10-llms-from-scratch/01-tokenizers/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "bbfa49aa4ae6cd8acb444f3f09e96ac9ec64fb99aa79cc8ff91487517c177f52"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"tokenizers-10-1","stage":"pre","question":"在 LLM 流程中，tokenizer 的主要作用是什么？","options":["在不同语言之间翻译文本","压缩文本以便存储","把文本转换成模型能够处理的整数序列","从文本中删除停用词"],"correct":2,"explanation":"LLM 处理的是数字而不是文本。tokenizer 把字符、单词和符号映射为固定词表中的整数 ID；这种映射并非中性，它决定了模型如何“看见”语言。"},
+    {"id":"tokenizers-10-2","stage":"pre","question":"BPE（Byte Pair Encoding，字节对编码）如何构建词表？","options":["随机给子字符串分配 ID","通过字典查找完整单词","只把文本拆成单个字符","反复合并出现频率最高的相邻 token，直到达到目标词表大小"],"correct":3,"explanation":"BPE 从单个字节或字符开始，反复合并最常见的相邻 token 对。例如把“th”和“e”合并为“the”。经过大量合并，常见单词可能成为一个 token，罕见词则保留为子词片段。"},
+    {"id":"tokenizers-10-3","stage":"post","question":"为什么词表大小会在 LLM 设计中形成权衡？","options":["词表大小不会影响模型表现","词表越小总是越高效","词表越大总是表现更好","词表过小会产生更长序列（计算更多），过大则会把嵌入参数浪费在罕见 token 上"],"correct":3,"explanation":"词表很小时（例如字符级词表），每个单词会被拆成许多 token，序列变长、计算增加；词表很大时，模型会为训练中很少出现的 token 浪费参数。多数 LLM 使用约 32K–100K 个 token 的词表。"},
+    {"id":"tokenizers-10-4","stage":"post","question":"tokenization 中的 byte-level fallback 解决了什么问题？","options":["确保任何输入（表情符号、罕见文字、二进制数据）都能编码，而不会产生 unknown token","提高模型准确率","减小词表大小","加快 tokenization"],"correct":0,"explanation":"启用字节级回退后，词表中没有的字符可以回退为原始字节值（共 256 种可能）。因此输入覆盖完整，不会有无法表示的“未知”字符。"},
+    {"id":"tokenizers-10-5","stage":"post","question":"tokenizer 会如何影响 LLM 对非英语语言的表现？","options":["tokenizer 对所有语言都同样有效","非英语文本总是按字符切分","tokenization 不会影响语言表现","训练数据中占比较低的语言学到的合并规则较少，每个词需要更多 token，从而浪费上下文窗口"],"correct":3,"explanation":"BPE 合并规则从训练数据中学习。如果日语只占语料的 5%，日语字符获得的合并机会更少，同一个词可能比英语需要多 2–5 倍的 token，等于缩短了非英语文本可用的上下文窗口。"}
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/31-mcp-conformance-versioning-and-operations/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "76dda2ab6e8899aa88a9164358999ba3808dfbbcfa784d4e2a638325cada93b9"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-conformance-q1","stage":"pre","question":"一次成功的 SDK tools/list 调用为什么不足以作为一致性证据？","options":["归一化值可能隐藏线上字段、版本行为、代理变化和无效响应","SDK 不能调用 MCP tools","成功调用总会选择旧版时代","一致性只适用于 Registry 发布者"],"correct":0,"explanation":"一致性必须检查原始请求和响应、选择的版本时代、中间层以及 SDK 转换。"},
+    {"id":"mcp-conformance-q2","stage":"check","question":"现代探测返回 JSON-RPC 错误 -32021，支持回退的客户端应怎么办？","options":["立即发送旧版 initialize","把 peer 当作离线","保持现代时代，修正或报告缺少的能力声明","忽略错误并在没有能力时重试"],"correct":2,"explanation":"已识别的现代错误证明现代行为，是修正证据，而不是降级许可。"},
+    {"id":"mcp-conformance-q3","stage":"check","question":"现代客户端遇到 resultType complete 及一个不熟悉的新增字段，应如何处理？","options":["把 resultType 改成 input_required","拒绝任何包含未知 key 的结果","接受已知结果类型，并按字段角色保留或有意忽略新增字段","把未知字段当作旧版握手"],"correct":2,"explanation":"新增字段支持向前兼容；它与未知生命周期 discriminator 是不同问题。"},
+    {"id":"mcp-conformance-q4","stage":"check","question":"没有 id 的 JSON-RPC notification 必须得到什么响应？","options":["server/discover 结果","不发送 JSON-RPC 响应","带 null content 的 complete 结果","id 为 null 的 error"],"correct":1,"explanation":"通知是单向的；最终传输 serializer 不能发出 JSON-RPC success 或 error。"},
+    {"id":"mcp-conformance-q5","stage":"post","question":"哪种证据最能证明代理保留了 origin 的协议错误？","options":["带稳定摘要的脱敏 ingress、origin 和 egress 状态及 body 证据","网关 dashboard 截图","SDK exception class 本身","代理进程 uptime"],"correct":0,"explanation":"三边界证据能揭示状态折叠、body 改写以及行为改变发生的精确 hop。"},
+    {"id":"mcp-conformance-q6","stage":"post","question":"候选版本负向 transcript 失败，而前一版本没有准入或健康证据，release gate 应怎么办？","options":["选择最新 Registry 版本","因为正向 transcript 通过就提升","回滚到 package tag latest","暂停发布，直到证明合格的回滚目标或修正后的候选版本"],"correct":3,"explanation":"没有精确准入和健康证据的回滚本身也是未验证的发布，因此安全动作是暂停。"}
+  ]
+}

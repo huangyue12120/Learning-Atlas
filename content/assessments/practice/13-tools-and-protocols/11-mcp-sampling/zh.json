@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/11-mcp-sampling/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "15508c49e349a9b1b520bcd4983f10e916ccac536d31fad5ff56cb144591ad6c"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-sampling-q1","stage":"pre","question":"新的 MCP 服务器需要模型推理时，2026-07-28 下的默认架构是什么？","options":["直接接入模型提供商","每次工具调用前都发送 sampling/createMessage","把客户端 model key 存在协议 session 中","为 Sampling 打开永久 SSE 流"],"correct":0,"explanation":"Sampling 已不适合作为新设计的默认方案；服务器需要推理时，推荐直接集成模型提供商。"},
+    {"id":"mcp-sampling-q2","stage":"check","question":"2026-07-28 服务器如何在 tools/call 中请求兼容的 Sampling？","options":["把 prompt 写入 server/discover","把 prompt 放入 Mcp-Session-Id header","返回带 inputRequests 的 resultType input_required，并包含 sampling/createMessage","在同一连接上发送反向 JSON-RPC 请求"],"correct":2,"explanation":"MRTR 把服务器到客户端的请求放入 input_required 结果，避免反向请求通道；对应工具还必须先通过确定性的 tools/list 暴露。"},
+    {"id":"mcp-sampling-q3","stage":"check","question":"哪一项能证明 MRTR 重试是独立的 JSON-RPC 请求？","options":["省略逐请求元数据","使用与原请求相同的 ID","使用新 ID，同时重复原方法和参数","删除原工具参数"],"correct":2,"explanation":"客户端用新的 JSON-RPC ID 重复原操作，并携带当前 inputResponses 与回显的 requestState。"},
+    {"id":"mcp-sampling-q4","stage":"check","question":"当 requestState 会影响资源访问时，必须用什么保护？","options":["绑定主体、请求和过期时间的 HMAC 或认证加密","仅 Base64 编码","clientInfo 名称","长生命周期传输 session"],"correct":0,"explanation":"requestState 会经过不受信任的客户端；完整性保护和绑定可以防止篡改及跨请求重放。"},
+    {"id":"mcp-sampling-q5","stage":"post","question":"客户端没有在逐请求能力中声明 Sampling，服务器应使用哪种确切协议响应？","options":["仍然发送嵌入的 sampling 请求","返回带 data.requiredCapabilities 的 -32021，或选择非 Sampling 路径","把能力添加到客户端 metadata","从此前请求推断能力"],"correct":1,"explanation":"服务器不能发出客户端当前请求没有声明支持的 input request；缺少能力的确切错误码是 -32021。"},
+    {"id":"mcp-sampling-q6","stage":"post","question":"哪种迁移方式能让两轮兼容循环在协议层保持无状态？","options":["每次新重试只携带当前轮的 inputResponses 和签名阶段状态","把阶段状态存在 Mcp-Session-Id 下","直到完成都复用原 request ID","在隐藏 session 中累积所有模型响应"],"correct":0,"explanation":"每次重试都是自包含的；签名 requestState 携带已验证的中间状态，inputResponses 只包含当前轮。"}
+  ]
+}

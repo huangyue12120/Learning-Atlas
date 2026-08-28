@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/18-multilingual-nlp/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "1549ce6451ea205b17d7b886035beb7cf047e84c141b91a3933e3c183d859a53"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "multilingual-nlp-05-1",
+      "stage": "pre",
+      "question": "什么是 zero-shot cross-lingual transfer（零样本跨语言迁移）？",
+      "options": [
+        "不使用翻译模型就完成翻译",
+        "使用零次合并进行分词",
+        "在一种源语言上微调多语言模型，然后在没有目标语言标注的另一种语言上评估",
+        "使用零个样本训练"
+      ],
+      "correct": 2,
+      "explanation": "零样本迁移指在源语言上训练，在没有目标语言监督的情况下直接运行到目标语言。"
+    },
+    {
+      "id": "multilingual-nlp-05-2",
+      "stage": "pre",
+      "question": "哪一模型家族通常作为覆盖约 100 种语言的跨语言基线？",
+      "options": [
+        "GPT-2",
+        "GloVe",
+        "DistilBERT",
+        "XLM-R（例如 2.7 亿参数的 XLM-RoBERTa-base）"
+      ],
+      "correct": 3,
+      "explanation": "XLM-R 是跨语言分类中最常用的百语言预训练基线。"
+    },
+    {
+      "id": "multilingual-nlp-05-3",
+      "stage": "check",
+      "question": "为什么以英语作为源语言并不总能让非英语目标语言获得最佳迁移效果？",
+      "options": [
+        "英语数据太少",
+        "语言相似性（类型学、文字系统、形态）会预测迁移质量；更接近目标语言且资源充足的源语言可能胜过英语",
+        "英语使用 BPE",
+        "英语太短"
+      ],
+      "correct": 1,
+      "explanation": "在类型学上更接近的源语言（例如面向印度语族目标语言时使用印地语）常常比英语带来更好的微调迁移效果。"
+    },
+    {
+      "id": "multilingual-nlp-05-4",
+      "stage": "check",
+      "question": "低资源语言的“词元化成本（fertility tax）”是什么？",
+      "options": [
+        "小模型训练速度更慢",
+        "分词器无法处理 Unicode",
+        "BPE 拒绝训练",
+        "低资源文本每个词会被分成比英语更多的子词，消耗上下文窗口、延迟和模型容量"
+      ],
+      "correct": 3,
+      "explanation": "长尾语言通常有更高的词元化率，会吞噬上下文空间并降低训练效率。"
+    },
+    {
+      "id": "multilingual-nlp-05-5",
+      "stage": "check",
+      "question": "为什么必须按语言分别评估，而不能只看汇总准确率？",
+      "options": [
+        "汇总指标运行更快",
+        "汇总指标只能用于分类",
+        "汇总指标会忽略分词方式",
+        "汇总数字会掩盖长尾语言；多语言模型在这些语言上的表现可能远差于平均值"
+      ],
+      "correct": 3,
+      "explanation": "汇总准确率会掩盖低资源语言的糟糕表现，分语言分数才能把问题暴露出来。"
+    },
+    {
+      "id": "multilingual-nlp-05-6",
+      "stage": "post",
+      "question": "用少量样本适配多语言模型时，为什么微调学习率很关键？",
+      "options": [
+        "学习率过高可能破坏多语言对齐，使模型实际上退化成只适用于英语",
+        "学习率较低会浪费 GPU",
+        "它会改变词汇表",
+        "这是分词器要求的"
+      ],
+      "correct": 0,
+      "explanation": "过大的学习率会使共享表示发生漂移；使用约 2e-5 的保守学习率可以保留跨语言结构。"
+    },
+    {
+      "id": "multilingual-nlp-05-7",
+      "stage": "post",
+      "question": "哪种缓解措施能直接解决长尾文字系统的词元化率问题？",
+      "options": [
+        "跳过停用词",
+        "使用字节回退（SentencePiece 的 `byte_fallback=True`），或使用文字覆盖更广的分词器（例如 XLM-V）",
+        "增加训练轮数",
+        "减小批量大小"
+      ],
+      "correct": 1,
+      "explanation": "字节回退和更大词汇覆盖范围的分词器可以降低低资源文字的词元化率和未登录词比例。"
+    },
+    {
+      "id": "multilingual-nlp-05-8",
+      "stage": "post",
+      "question": "什么时候值得从零训练单语模型，而不是使用多语言模型？",
+      "options": [
+        "只用于翻译时",
+        "只要分词器是 BPE 就值得",
+        "英语任务总是值得",
+        "目标语言有足够数据，可以训练出超过多语言基线的单语模型时；应先实测再下结论"
+      ],
+      "correct": 3,
+      "explanation": "对于高资源目标语言，单语训练有时会胜过多语言模型；最终应由实证比较决定。"
+    }
+  ]
+}

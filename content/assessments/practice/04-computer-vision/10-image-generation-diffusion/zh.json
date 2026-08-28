@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/10-image-generation-diffusion/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"77bec8d337e65db68dfed85f0e82b6462cdd1416e35e36fbbf1a03d443b95c41"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"image-generation-diffusion-04-1","stage":"pre","question":"为什么扩散训练可以直接选择任意时间步 t，而不必逐步模拟前向 Markov 链？","options":["这是一种忽略中间步骤的近似","这是 PyTorch autograd 的要求","多次高斯加噪的复合结果仍是高斯分布，有闭式形式 q(x_t|x_0)=N(sqrt(alpha_bar_t)x_0, (1-alpha_bar_t)I)，所以可以一步采样","因为 x_t 与 x_0 独立"],"correct":2,"explanation":"重复加入高斯噪声可以解析地合并。累积乘积 alpha_bar_t 表示经过 t 步后还剩多少信号，因此训练时能直接采样 x_t，每步复杂度为 O(1) 而不是 O(T)。"},
+    {"id":"image-generation-diffusion-04-2","stage":"pre","question":"DDPM 的神经网络实际上预测什么？","options":["直接预测下一张图像 x_{t-1}","输入图像的类别标签","预测第 t 步加入的噪声 epsilon，再由它解析得到 x_{t-1} 的均值","信噪比"],"correct":2,"explanation":"DDPM 将模型参数化为预测 epsilon。结合噪声预测和噪声调度，就能得到 x_{t-1} 的高斯均值和方差；预测噪声还能把损失简化为普通 MSE。"},
+    {"id":"image-generation-diffusion-04-3","stage":"post","question":"为什么 DDIM 用约少 20 倍的步骤，也能达到与 DDPM 相近的样本质量？","options":["DDIM 生成更小的图像","DDIM 把采样重新表述为确定性 ODE，可以用少得多的离散步骤近似相同终点，而且不需要重新训练","DDIM 使用更快的模型架构","DDIM 改变了训练目标"],"correct":1,"explanation":"DDIM 的关键是把逆过程重新参数化为确定性 ODE，少量步骤也能较好近似轨迹。模型权重和损失不变，只更换 sampler；同一个 DDPM checkpoint 也能配合其他 sampler。"},
+    {"id":"image-generation-diffusion-04-4","stage":"post","question":"线性 beta 调度、T=1000 时，alpha_bar_t 在 t=600 前后已接近 0，这为什么重要？","options":["不重要","alpha_bar_t 必须在最后为 0","PyTorch 要求线性调度","最后 40% 时间步几乎没有信号，训练它们只是在给近似 N(0,I) 的噪声去噪，浪费模型容量；cosine 或 sigmoid 调度能更均匀地注入噪声"],"correct":3,"explanation":"线性 beta 调度可能过早摧毁信号，t=600 之后的训练和采样几乎没有新增信息。cosine 调度让信号保留更久，因此现代模型常使用它。"},
+    {"id":"image-generation-diffusion-04-5","stage":"post","question":"为什么 U-Net 用正弦 embedding 注入时间条件，而不是 one-hot 时间步？","options":["one-hot 会违反链式法则","one-hot 向量太大","正弦 embedding 关于 t 平滑，网络能在未精确见过的时间步之间插值，还能编码可在多层相加使用的尺度信息","BatchNorm 要求使用正弦 embedding"],"correct":2,"explanation":"正弦 embedding 用多个频率表示时间，邻近时间步对应邻近向量，使网络能在全部 T 个时间步之间泛化；这与 Transformer 的位置编码思想相同。"}
+  ]
+}

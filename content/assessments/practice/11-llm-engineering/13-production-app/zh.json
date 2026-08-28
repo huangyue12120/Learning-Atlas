@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/13-production-app/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "6990ff345e182e6fc8208c775ecfa8616f8d0b2934d24acde94cc2e4804ab6ce"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"production-app-11-1","stage":"pre","question":"LLM demo 与生产级 LLM 应用之间最大的差距是什么？","options":["模型质量","基础设施：错误处理、流式传输、成本跟踪、限流、故障转移、可观测性，以及负载下的优雅降级","API 服务商的选择","prompt 质量"],"correct":1,"explanation":"demo 只需调用 API 并打印回答；生产系统还必须处理超时、服务商故障、并发用户、成本预算、流式交付、日志和优雅降级。模型往往反而是最容易的部分。"},
+    {"id":"production-app-11-2","stage":"pre","question":"为什么生产级 LLM 应用需要流式传输 token？","options":["提高模型准确率","减少内存使用","即使总生成时间不变，用户先看到第一个 token 也会觉得响应更快，把感知延迟从数秒降到约数百毫秒","降低成本"],"correct":2,"explanation":"不流式传输时，用户可能要等待 3–10 秒才看到完整回答；流式传输可以约 200ms 开始显示 token，连续呈现文本，让交互更有响应感。"},
+    {"id":"production-app-11-3","stage":"post","question":"当 LLM API 服务商发生故障时，应用应怎么办？","options":["不断重试直到服务商恢复","向用户显示错误页面","自动切换到备用服务商，或返回有帮助的降级回答","切换到本地模型"],"correct":2,"explanation":"生产系统需要故障转移策略：服务商 A 失败时尝试 B，为常见问题提供缓存回答，或返回“暂时不可用”等友好消息，不能让整个应用崩溃。"},
+    {"id":"production-app-11-4","stage":"post","question":"生产级 LLM 应用应跟踪哪些可观测性指标？","options":["只有错误数量","只有模型准确率","请求延迟（P50/P95/P99）、每请求成本、错误率、token 使用量、缓存命中率和自动评估的质量分数","只有月度成本"],"correct":2,"explanation":"完整可观测性包括延迟分位数（SLA）、成本（预算）、错误率（可靠性）、token 使用量（优化）以及质量指标（回归检测）。"},
+    {"id":"production-app-11-5","stage":"post","question":"为什么 LLM 应用要实现限流？","options":["让应用显得更稀缺","防止单个用户耗尽 API 预算，抵御滥用，并在高流量时保证公平访问","降低模型准确率","只有免费套餐才需要限流"],"correct":1,"explanation":"没有限流时，一个用户或机器人可能在几分钟内耗尽每日预算。限流能保护成本、阻止滥用，并在高峰期为所有用户提供合理响应时间。"}
+  ]
+}

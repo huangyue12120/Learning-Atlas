@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/03-deep-learning-core/01-the-perceptron/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "428b3ad582d50772579e5abb8784a8a80a78f47a1b3640dd11d49415911ed3b3"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"the-perceptron-03-1","stage":"pre","question":"感知器在应用激活函数前，会对输入执行什么数学运算？","options":["加上偏置的加权和","特征值分解","矩阵求逆","傅里叶变换"],"correct":0,"explanation":"感知器先计算输入与权重的点积，再加上偏置，最后把结果交给阶跃函数。这个加偏置的加权和是其核心计算。"},
+    {"id":"the-perceptron-03-2","stage":"pre","question":"对于一个分类问题，“线性可分”是什么意思？","options":["可以用一条直线（或一个超平面）完美分开各个类别","数据可以按顺序排序","特征与标签之间存在线性关系","数据只有两个维度"],"correct":0,"explanation":"如果能用一个超平面把输入空间完全划分为正确类别，数据集就是线性可分的。AND 和 OR 可线性分离，而 XOR 不可线性分离。"},
+    {"id":"the-perceptron-03-3","stage":"post","question":"为什么单个感知器无法学会 XOR 函数？","options":["阶跃函数阻断了梯度流","XOR 的输入太多","学习率太低","XOR 不是线性可分的——没有一条直线能把这些类别分开"],"correct":3,"explanation":"XOR 中的 [0,1]、[1,0] 位于一侧，[0,0]、[1,1] 位于另一侧，任何一条直线都无法分开它们。单个感知器只能学习一个线性决策边界，因此无法解决 XOR。"},
+    {"id":"the-perceptron-03-4","stage":"post","question":"在感知器学习规则中，如果预测与目标一致，会发生什么？","options":["什么都不变——误差为零，所以更新量为零","学习率减半","权重设为零","权重加倍"],"correct":0,"explanation":"更新规则为 w_i = w_i + lr * error * x_i。当预测等于目标时 error=0，所有权重更新都为零。感知器只在犯错时调整。"},
+    {"id":"the-perceptron-03-5","stage":"post","question":"如何使用多个感知器解决 XOR？","options":["给单个感知器增加更多输入","删除偏置项","对单个感知器使用更大的学习率","在两层中组合 OR、NAND 和 AND 感知器"],"correct":3,"explanation":"XOR = (x1 OR x2) AND NOT(x1 AND x2)。隐藏层中的 OR 神经元和 NAND 神经元连接到输出层的 AND 神经元，就能用线性组件组合出非线性决策边界。"}
+  ]
+}

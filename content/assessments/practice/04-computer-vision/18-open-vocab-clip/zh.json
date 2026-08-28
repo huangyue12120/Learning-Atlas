@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/18-open-vocab-clip/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"d0a51af6a946a6722ec4bd05c69fe05798abb5bccb5b2746a2c335591775920f"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"open-vocab-clip-04-1","stage":"pre","question":"CLIP 的对比损失是对称的（图像到文本 + 文本到图像），为什么需要两个方向？","options":["数值稳定性","PyTorch 要求对称","因为损失必须加和为零","推理时两个查询方向都要有效：文本到图像检索和图像到文本检索；只训练一个方向会让另一个方向准确率明显下降"],"correct":3,"explanation":"跨模态 embedding 空间需要对称。零样本分类是文本到图像，检索则可能是任一方向；只训练 i2t 或 t2i 会留下另一方向的弱点。"},
+    {"id":"open-vocab-clip-04-2","stage":"pre","question":"使用 CLIP 做 zero-shot 分类的步骤是什么？","options":["为每个候选类别编码“a photo of a dog”等 prompt，编码测试图像，取图像 embedding 与所有类别文本 embedding 余弦相似度的 argmax","搜索带标签的示例数据库","在类别上微调图像 encoder","运行在 ImageNet 上训练的分类头"],"correct":0,"explanation":"零样本表示没有任务专属训练。为每个类别写一个或多个文本 prompt，分别编码文本和图像，比较余弦相似度并取最大值即可；prompt 设计还能进一步提升结果。"},
+    {"id":"open-vocab-clip-04-3","stage":"post","question":"SigLIP 用每对样本的 sigmoid 损失替代 CLIP 的 softmax，有什么好处？","options":["只在 COCO 上准确率更高","GPU kernel 更快","内存更少","sigmoid 按样本对计算，不依赖 batch 作为归一化分母，因此在 CLIP 因负例不足而受影响的小 batch 上也能训练良好"],"correct":3,"explanation":"CLIP 的对称交叉熵对整个 batch 做 softmax，batch 小时负例少；SigLIP 对每个图文对单独判断是否匹配，不需要 batch 归一化，因此可用更小 batch 训练。"},
+    {"id":"open-vocab-clip-04-4","stage":"post","question":"同一 CLIP ViT-B/32 在 CIFAR-10 上 zero-shot top-1 为 88%，使用每类 80 个 prompt 模板后为 90%。为什么平均模板能帮助？","options":["降低 logit_scale 的方差","把数据集加倍","80 是 CLIP 的神奇数字","不同模板会激活文本 encoder 学到分布的不同方面；平均它们能在自然语言描述流形上得到更稳健的类别中心"],"correct":3,"explanation":"每个模板提供不同语言线索，例如“狗的照片”“模糊的狗照片”“狗的素描”。平均文本 embedding 会减小单个 prompt 的偶然性，使“狗”概念更稳定。"},
+    {"id":"open-vocab-clip-04-5","stage":"post","question":"为什么现代 VLM（LLaVA、Qwen-VL、InternVL）使用 CLIP 系列视觉 encoder，而不是有监督 ImageNet ResNet？","options":["ResNet 看不到颜色","CLIP 特征与自然语言对齐，LLM 只需少量适配就能理解；有监督 ImageNet 特征没有用 caption 训练，需要更重的投影层连接文本","许可证要求","CLIP encoder 更快"],"correct":1,"explanation":"VLM 把视觉 encoder 接到语言模型上。CLIP 在图文对上训练，输出空间已经带有语言结构；ImageNet encoder 只有图像分类知识，连接到 LLM 需要更大的桥接模块。"}
+  ]
+}

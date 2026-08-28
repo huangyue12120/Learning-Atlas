@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/12-mcp-roots-and-elicitation/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "ca82af19e905c3efe28591d20fd8ce3066c76ec2fc781f9aa784ff1141ffc6e3"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-roots-q1","stage":"pre","question":"MCP Roots 提供了什么安全保证？","options":["它只是信息性的 workspace 指引，不是授权或沙箱","每个服务器进程的操作系统隔离","调用者拥有 root 下每个文件的证明","自动阻止符号链接逃逸"],"correct":0,"explanation":"Roots 是信息性的，并在 2026-07-28 中已弃用；服务器仍需自行实现授权、路径包含和沙箱。"},
+    {"id":"mcp-roots-q2","stage":"check","question":"workspace 范围会随每次工具调用变化时，最清晰的现代替代是什么？","options":["存放在传输 session 下的隐藏值","变更后发送 roots/list 请求","自报的 clientInfo 名称","服务器授权的显式 workspace URI 参数"],"correct":3,"explanation":"显式句柄可见且可重放，但服务器仍必须针对已认证主体授权它。"},
+    {"id":"mcp-roots-q3","stage":"check","question":"MCP 2026-07-28 如何传递 form 模式的 elicitation？","options":["作为 server/discover 的 HTTP 重定向","通过 notifications/roots/list_changed","通过 Mcp-Session-Id 流发送反向请求","放在 input_required 结果的 inputRequests 中"],"correct":3,"explanation":"MRTR 把 elicitation/create 放入 inputRequests，客户端再带 inputResponses 重试原操作；不支持 form 的客户端应返回带 requiredCapabilities 的 -32021。"},
+    {"id":"mcp-roots-q4","stage":"check","question":"哪种值绝不能通过 form 模式 elicitation 收集？","options":["破坏性操作确认布尔值","从枚举中选择的笔记 ID","API 访问 token","非敏感的显示偏好"],"correct":2,"explanation":"secret 和凭据不能经过 MCP 客户端传输；敏感外部交互应使用严格绑定的 URL 模式流程。"},
+    {"id":"mcp-roots-q5","stage":"post","question":"用户拒绝删除确认时，安全结果是什么？","options":["因为模型已经选了笔记，所以仍然删除","把缺少内容当作默示同意","返回完整的非错误拒绝结果并保留笔记","重复对话直到用户接受"],"correct":2,"explanation":"拒绝是明确的拒绝，不能转换为同意、错误循环或变更操作。"},
+    {"id":"mcp-roots-q6","stage":"post","question":"哪种设计能把破坏性确认安全绑定到用户实际看到的内容？","options":["只对选中的笔记 ID 做 Base64 编码，不签名","签名主体、原始参数摘要、候选 ID、阶段和过期时间，并重新检查实时目标","把 clientInfo 作为权威用户身份","信任 action accept 返回的任意笔记 ID"],"correct":1,"explanation":"完整性保护状态可以防止篡改；共享的原子一次性 nonce claim 可以防重放，变更前的最终实时检查则处理竞态。"}
+  ]
+}

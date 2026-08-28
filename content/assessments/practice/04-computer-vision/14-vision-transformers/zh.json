@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/14-vision-transformers/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"ae1186235c50ba06b0dbbb6ea04e90d8d29ad8e59fbe9c3d32c7fc1d20fa087d"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"vision-transformers-04-1","stage":"pre","question":"ViT 如何把图像转换为 token 序列？","options":["使用 kernel_size=stride=patch_size 的卷积把图像切成不重叠 patch，并在一次操作中把每个 patch 线性投影为 token embedding","把整张图像展平为一个向量","先运行 CNN，再把其特征图作为 token","对像素强度排序"],"correct":0,"explanation":"ViT 的第一层可以是 kernel_size=stride=16 的卷积，把 224×224 图像变成 14×14 个 16×16 patch，并投影到 768 维，得到 196 个 token。"},
+    {"id":"vision-transformers-04-2","stage":"pre","question":"ViT 中的 [CLS] token 是什么，为什么需要它？","options":["缺失数据的占位符","特殊像素值","dropout 掩码","加在 token 序列开头的可学习向量；经过 N 层 Transformer 后，它聚合整张图像的信息并输入分类头"],"correct":3,"explanation":"ViT 沿用了 BERT 的约定，把可学习的 CLS 向量放在 patch 序列前面。自注意力让它看到所有 patch，因此分类器只需读取 CLS 输出。"},
+    {"id":"vision-transformers-04-3","stage":"post","question":"原始 ViT 论文为什么需要 JFT-300M 预训练才能超过 ResNet，而 DeiT 不需要？","options":["DeiT 使用了不同的注意力","ViT 论文有错误","ViT 比 CNN 缺少更强的归纳偏置，数据不足时容易过拟合；DeiT 用强增强（RandAugment、Mixup、CutMix）、随机深度和可选的 CNN 蒸馏，使 ViT 只用 ImageNet-1k 也能训练良好","ViT 没有 JFT-300M 就无法运行"],"correct":2,"explanation":"ViT 没有内置局部性和平移等变性，必须从数据中学习这些规律。DeiT 用更强训练方案和 CNN teacher 蒸馏弥补了归纳偏置不足。"},
+    {"id":"vision-transformers-04-4","stage":"post","question":"Pre-LayerNorm（`x = x + sublayer(LN(x))`）和 post-LayerNorm（`x = LN(x + sublayer(x))`）中，现代 Transformer 使用哪个？为什么？","options":["post-LN，因为更简单","二者都不用，现代 Transformer 跳过 LayerNorm","pre-LN；它能稳定训练更深网络，减少对 learning-rate warmup 的依赖，并避免 post-LN 在约 6 层后出现的梯度不稳定","二者完全相同"],"correct":2,"explanation":"pre-LN 让每个子层接收归一化输入，同时残差流不必经过 LN，数值更稳定。ViT、GPT-2 及之后的现代 LLM 普遍使用它。"},
+    {"id":"vision-transformers-04-5","stage":"post","question":"Swin Transformer 引入窗口注意力，解决了什么问题？","options":["不支持 BatchNorm","对纹理过拟合","梯度消失","完整注意力的成本为 O((H*W)^2)；Swin 把注意力限制在 7×7 patch 的局部窗口，使成本降为 O(H*W*window^2)，交替 block 再把窗口移动半个大小以混合跨窗口信息"],"correct":3,"explanation":"224×224 图像用 4×4 patch 得到 3136 个 token，完整注意力代价很高。7×7 窗口和交替移窗把 CNN 式局部性带回 Transformer，同时让信息逐层跨窗口传播。"}
+  ]
+}

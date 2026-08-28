@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/22-3d-gaussian-splatting/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"54a606a95cdf55eee7fb7e20f29ddc0c860f7307d017bf276a8ba737e872788e"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"3d-gaussian-splatting-04-1","stage":"pre","question":"截至 2026 年，为什么 3D Gaussian Splatting 很大程度上取代 NeRF，成为照片级场景重建的生产默认方案？","options":["NeRF 从研究记录中撤稿了","3DGS 是显式表示（每个像素不需要 MLP），GPU 光栅化可达 100+ fps，训练从数小时缩短到数分钟，场景可编辑，Khronos 与 OpenUSD 也在 2026 年完成标准化","Gaussian Splatting 在所有情况下都比 NeRF 图像质量高","PyTorch 停止支持 NeRF 算子"],"correct":1,"explanation":"3DGS 用数百万个显式 3D 高斯替代隐式 MLP，渲染变成 GPU 可高速执行的排序 alpha 合成；训练只需几分钟，而且每个高斯都可以编辑。"},
+    {"id":"3d-gaussian-splatting-04-2","stage":"pre","question":"场景中的 3D Gaussian 除了位置、旋转、尺度和透明度外，还用什么表示视角相关颜色（如高光）？","options":["第二张 RGB 纹理","每个 Gaussian 一个小型 MLP","球谐系数：最高到 3 阶时每个颜色通道有 16 个系数，在渲染时根据观察方向计算","光照探针 cubemap"],"correct":2,"explanation":"球谐是球面上的 Fourier 基。每个高斯存储学习到的系数，渲染时根据从像素指向高斯中心的方向求值，因此无需纹理或 MLP 就能表达高光和轻微反射。"},
+    {"id":"3d-gaussian-splatting-04-3","stage":"post","question":"3DGS 训练中的 densification 包含 clone 和 split 操作，分别由什么触发？","options":["没有触发条件——初始化后 Gaussian 固定不变","梯度幅度高且尺度小时触发 clone（需要更多局部细节）；梯度高且尺度大时触发 split（一个 Gaussian 过于平滑）；透明度低于阈值时执行 pruning","距离上次 checkpoint 的时间","每个 epoch 都随机采样"],"correct":1,"explanation":"自适应 densification 让场景从 SfM 初始化的约 10 万个高斯增长到收敛时的数百万个。小而欠分辨的高斯被复制，大而过于平滑的高斯被拆分，透明度衰减的高斯被删掉。"},
+    {"id":"3d-gaussian-splatting-04-4","stage":"post","question":"NeRF 和 3DGS 对一个像素都使用 `C = sum_i alpha_i * T_i * c_i`、`T_i = prod_{j<i}(1-alpha_j)`。这个共同公式说明什么？","options":["NeRF 严格更好","二者都积分同一个体渲染方程，差别只在表示（隐式 MLP 采样或显式稀疏高斯）和渲染过程（光线步进或光栅化），所以图像质量可以相近","二者在所有方面数学完全相同","3DGS 严格更好"],"correct":1,"explanation":"共同公式是经典体渲染。NeRF 沿射线采样并查询 MLP，3DGS 将高斯投影到 2D 后按深度排序进行 alpha 合成；物理积分相同，数据结构和渲染算法不同。"},
+    {"id":"3d-gaussian-splatting-04-5","stage":"post","question":"2026 年要把 3DGS 场景交付到 Unreal Engine、Vision Pro、Blender 和 Three.js，哪种导出格式最稳妥？","options":["为每个 viewer 写一个自定义二进制 blob","把 3D Gaussian 存成 PNG 条带","只使用原始 `.ply`","使用带 `KHR_gaussian_splatting` 扩展的 glTF，和/或带 `UsdVolParticleField3DGaussianSplat` 的 OpenUSD 26.03；这是 2026 年的两个标准化方案"],"correct":3,"explanation":"`.ply` 仍是研究领域常见的交换格式，但结构较弱。跨引擎、viewer 和管道的生产交付应优先使用标准化的 glTF 扩展或 OpenUSD schema。"}
+  ]
+}

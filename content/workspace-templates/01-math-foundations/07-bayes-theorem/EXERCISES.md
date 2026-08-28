@@ -4,7 +4,7 @@
 
     python -m unittest -v test_exercise_bayes.py
 
-reference_bayes.py 是本课完整可运行的参考实现，逐字保留上游 code/bayes.py。
+reference_bayes.py 是本课完整可运行的参考实现，逐字保留上游 bayes.py。
 
 1. 用全概率公式实现 bayes。
 2. 为单词计数写出 add-one 平滑概率。

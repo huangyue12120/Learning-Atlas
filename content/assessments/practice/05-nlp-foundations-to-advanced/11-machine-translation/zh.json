@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/11-machine-translation/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "a5bf282b138b29be705dc0fcbbb3daf3a94aecd8ba8553bd29488324c2f12b0e"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "machine-translation-05-1",
+      "stage": "pre",
+      "question": "BLEU 衡量什么？",
+      "options": [
+        "候选译文与参考译文之间的 n-gram 精确率（通常为 1–4 元组），并加上简短惩罚",
+        "嵌入的余弦相似度",
+        "语言识别准确率",
+        "字符级 F 分数"
+      ],
+      "correct": 0,
+      "explanation": "BLEU 计算候选译文相对于参考译文的 1–4 元组精确率几何平均值，并加上简短惩罚。"
+    },
+    {
+      "id": "machine-translation-05-2",
+      "stage": "pre",
+      "question": "为什么应使用 sacrebleu，而不是自己实现 BLEU？",
+      "options": [
+        "它运行在 GPU 上",
+        "它更准确",
+        "它统一了分词方式，使不同论文和不同运行之间的分数具有可比性",
+        "它支持流式处理"
+      ],
+      "correct": 2,
+      "explanation": "sacrebleu 固定了分词方式，消除了 BLEU 数值无法比较的常见来源。"
+    },
+    {
+      "id": "machine-translation-05-3",
+      "stage": "check",
+      "question": "NLLB 中哪个设置控制解码时的目标语言？",
+      "options": [
+        "`src_lang`",
+        "设置为目标语言代码对应词元 ID 的 `forced_bos_token_id`",
+        "`num_beams`",
+        "`length_penalty`"
+      ],
+      "correct": 1,
+      "explanation": "NLLB 通过 `forced_bos_token_id` 强制解码生成的第一个词元为目标语言代码。"
+    },
+    {
+      "id": "machine-translation-05-4",
+      "stage": "check",
+      "question": "在有标注数据的生产机器翻译场景中，2026 年默认应关注哪类指标？",
+      "options": [
+        "词元编辑距离",
+        "延迟",
+        "单独使用 BLEU",
+        "在人工评价上训练的学习型指标，例如 COMET（以及 BERTScore、BLEURT）"
+      ],
+      "correct": 3,
+      "explanation": "COMET 等学习型指标与人工判断的相关性通常高于单独使用 BLEU 或 chrF。"
+    },
+    {
+      "id": "machine-translation-05-5",
+      "stage": "check",
+      "question": "什么时候 chrF 往往比 BLEU 更有信息量？",
+      "options": [
+        "对于形态丰富的语言，字符级匹配可以捕捉 BLEU 容易漏掉的词形变化",
+        "使用 beam search 时",
+        "句子非常短时",
+        "只要存在参考译文时"
+      ],
+      "correct": 0,
+      "explanation": "字符级 F 分数能捕捉部分词法和形态变化，而词级 BLEU 往往会低估这类匹配。"
+    },
+    {
+      "id": "machine-translation-05-6",
+      "stage": "post",
+      "question": "多语言机器翻译中的 off-target generation（目标语言偏移）是什么？",
+      "options": [
+        "输出漏掉了命名实体",
+        "模型解码成了错误的目标语言（例如请求法语却由 NLLB 输出西班牙语）",
+        "输出过短",
+        "输出漏掉了标点"
+      ],
+      "correct": 1,
+      "explanation": "目标语言偏移在罕见语言对上较常见；翻译后做语言识别检查可以发现它。"
+    },
+    {
+      "id": "machine-translation-05-7",
+      "stage": "post",
+      "question": "为什么在领域适配中，用几千条高质量平行数据微调，常常胜过规模大得多但噪声很高的网页数据？",
+      "options": [
+        "数据质量和领域匹配比数量更重要；噪声平行数据会引入分布漂移和幻觉",
+        "小数据集训练更快",
+        "网页数据不允许使用",
+        "大数据集会耗尽 GPU 内存"
+      ],
+      "correct": 0,
+      "explanation": "干净且与目标领域匹配的平行语料是生产适配中最重要的杠杆；噪声数据反而会损害适配效果。"
+    },
+    {
+      "id": "machine-translation-05-8",
+      "stage": "post",
+      "question": "在 2026 年，什么时候 LLM（例如 GPT-4）可能胜过专用机器翻译模型？",
+      "options": [
+        "浏览器翻译且延迟要求极高时",
+        "需要处理惯用表达、长上下文、通过提示控制风格，或需要精细控制语气时",
+        "需要最高批量吞吐量时",
+        "小语种对已有数百万条平行句时"
+      ],
+      "correct": 1,
+      "explanation": "LLM 在惯用表达、长上下文和风格控制方面有优势；专用机器翻译模型则通常更适合高吞吐、低延迟场景。"
+    }
+  ]
+}

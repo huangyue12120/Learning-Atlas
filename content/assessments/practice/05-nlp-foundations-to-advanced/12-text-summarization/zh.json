@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/12-text-summarization/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "1a6b08138c8927d5e9be598fa5cd3a6a58b7463f2097173a8dd1a348e38e42ec"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "text-summarization-05-1",
+      "stage": "pre",
+      "question": "抽取式摘要和抽象式摘要在行为上的关键区别是什么？",
+      "options": [
+        "抽取式摘要只支持多语言",
+        "抽取式摘要从原文逐字摘取句子；抽象式摘要会生成新文本，因此可能产生幻觉",
+        "抽取式摘要使用 TF-IDF，抽象式摘要使用 Word2Vec",
+        "抽取式摘要比抽象式摘要更慢"
+      ],
+      "correct": 1,
+      "explanation": "抽取式摘要逐字提取原文句子；抽象式摘要会重写内容，因此存在产生幻觉的风险。"
+    },
+    {
+      "id": "text-summarization-05-2",
+      "stage": "pre",
+      "question": "ROUGE 衡量什么？",
+      "options": [
+        "词元级困惑度",
+        "嵌入相似度",
+        "系统摘要与参考摘要之间的 n-gram 和最长公共子序列重叠",
+        "阅读所需时间"
+      ],
+      "correct": 2,
+      "explanation": "ROUGE-1、ROUGE-2 和 ROUGE-L 分别衡量与参考摘要的一元词、二元词和最长公共子序列重叠。"
+    },
+    {
+      "id": "text-summarization-05-3",
+      "stage": "check",
+      "question": "TextRank 如何给抽取式摘要中的句子打分？",
+      "options": [
+        "在句子相似度构成的图上运行类似 PageRank 的迭代，边的权重由句子相似度决定",
+        "根据句子与问题的嵌入余弦相似度",
+        "与参考摘要比较",
+        "按原始词数排序"
+      ],
+      "correct": 0,
+      "explanation": "TextRank 在句子相似度图上运行 PageRank；与其他句子连接越紧密的句子，得分越高。"
+    },
+    {
+      "id": "text-summarization-05-4",
+      "stage": "check",
+      "question": "计算 ROUGE 时为什么要启用词干提取？",
+      "options": [
+        "否则“running”和“run”会被视为不同词元，ROUGE 会低估真实重叠",
+        "词干提取会统一大小写",
+        "rouge-score 包强制要求词干提取",
+        "为了加快 ROUGE"
+      ],
+      "correct": 0,
+      "explanation": "词干提取可以合并词形变化，使 ROUGE 能够计入语义上相近的词形。"
+    },
+    {
+      "id": "text-summarization-05-5",
+      "stage": "check",
+      "question": "2026 年，哪类指标专门通过 NLI 蕴含关系检测摘要幻觉？",
+      "options": [
+        "使用 NLI 比较原文与摘要主张的事实一致性检查（例如 FactCC 或 RAGAS faithfulness）",
+        "BLEU",
+        "chrF",
+        "ROUGE-L"
+      ],
+      "correct": 0,
+      "explanation": "基于 NLI 的事实一致性评分会标记摘要中那些无法由原文蕴含的主张。"
+    },
+    {
+      "id": "text-summarization-05-6",
+      "stage": "post",
+      "question": "为什么合规相关内容更偏好抽取式摘要？",
+      "options": [
+        "抽取式摘要支持更长的输出",
+        "输出直接来自原文，从而消除了抽象式生成的幻觉类别",
+        "它速度更快",
+        "它的 ROUGE 分数更高"
+      ],
+      "correct": 1,
+      "explanation": "逐字摘取不会凭空创造内容；在事实性受到监管的场景中，这一点很重要。"
+    },
+    {
+      "id": "text-summarization-05-7",
+      "stage": "post",
+      "question": "下面哪一种属于需要监控的抽象式摘要幻觉？",
+      "options": [
+        "句子过长",
+        "实体替换（如把“John Smith”写成“John Brown”）、数字漂移、极性翻转或事实捏造",
+        "标点漂移",
+        "删除停用词"
+      ],
+      "correct": 1,
+      "explanation": "实体替换、数字漂移、极性翻转和捏造事实是抽象式摘要的典型失败模式。"
+    },
+    {
+      "id": "text-summarization-05-8",
+      "stage": "post",
+      "question": "什么时候会选择 Pegasus 检查点，而不是 BART-large-CNN？",
+      "options": [
+        "评估 BLEU 时",
+        "需要抽取式输出时",
+        "对于科学摘要等领域，Pegasus 的 gap-sentence 预训练目标更贴合任务时",
+        "输入很短时"
+      ],
+      "correct": 2,
+      "explanation": "Pegasus 的 gap-sentence 目标擅长长文本领域摘要，例如 PubMed 摘要。"
+    }
+  ]
+}

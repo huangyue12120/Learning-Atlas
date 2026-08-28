@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/04-embeddings/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "d4916ae98c18b35f56b3faaea2fb5cc60cba8b934691c6866714d838e273002a"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"embeddings-11-1","stage":"pre","question":"embedding 解决了关键词搜索无法解决的什么问题？","options":["embedding 占用更少存储","embedding 捕捉语义含义，即使“支付没有成功”和“扣款被拒绝”没有相同词语也能匹配","embedding 更快","embedding 可以离线使用"],"correct":1,"explanation":"关键词搜索把词当作独立符号；embedding 把文本映射到高维向量，让语义相似性表现为几何上的接近，因此同义表达也能匹配。"},
+    {"id":"embeddings-11-2","stage":"pre","question":"两个 embedding 向量之间的 cosine similarity 衡量什么？","options":["向量之间的夹角，表示方向相似程度而不受大小影响","欧氏距离","向量分量之和","相同维度的数量"],"correct":0,"explanation":"余弦相似度 = dot(A,B) / (|A|*|B|)，范围从 -1（方向相反）到 1（方向相同）。含义相同的文本通常有相近方向，余弦相似度接近 1。"},
+    {"id":"embeddings-11-3","stage":"post","question":"现代文本 embedding 模型通常有多少维？","options":["2–10 维","768–3072 维","50–100 维","100,000 维以上"],"correct":1,"explanation":"现代 embedding 模型（如 OpenAI text-embedding-3、BGE、E5）通常输出 768–3072 维向量。维度越高能表达更多细节，但存储和搜索成本也越高。"},
+    {"id":"embeddings-11-4","stage":"post","question":"为什么应使用检索基准评估 embedding 质量，而不只是查看相似度分数？","options":["相似度分数不使用余弦距离","检索基准更快","相似度分数总是错误","不同模型的绝对相似度值不可直接比较；关键是相关文档是否排在不相关文档之前（precision@k、recall）"],"correct":3,"explanation":"一个模型的 0.85 可能表示“非常相似”，另一个模型的 0.85 可能只表示“有些相似”。precision@k、recall 等检索指标能衡量真正重要的结果。"},
+    {"id":"embeddings-11-5","stage":"post","question":"什么时候应使用本地或开源 embedding 模型，而不是 API 模型？","options":["需要数据隐私、离线运行、大规模时降低成本，或进行领域微调时","API 模型不支持 batching","本地模型生成的 embedding 质量更高","本地模型总是更好"],"correct":0,"explanation":"API embedding 使用方便，但数据会发送到外部。BGE、E5、Nomic 等本地模型可以保护隐私、消除大规模调用成本，还可以针对领域数据微调。"}
+  ]
+}

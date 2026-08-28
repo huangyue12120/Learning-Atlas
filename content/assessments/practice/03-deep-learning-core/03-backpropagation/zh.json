@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/03-deep-learning-core/03-backpropagation/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "0413456d9541e00d1b1c8e747f50ab2cde6950eafee92e4e0282ed5ec2d8bd18"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"backpropagation-03-1","stage":"pre","question":"在神经网络的语境中，什么是链式法则？","options":["一种批处理数据的技术","一种初始化权重的方法","一种把各层连接起来的规则","如果 y=f(g(x))，则 dy/dx=f'(g(x))*g'(x)，即沿路径相乘各处导数"],"correct":3,"explanation":"链式法则通过相乘每一步的局部导数，计算复合函数的导数。反向传播正是把它系统地应用在计算图上。"},
+    {"id":"backpropagation-03-2","stage":"pre","question":"为什么反向传播比独立计算每个梯度更高效？","options":["它使用更少内存","它在一次反向传播中计算所有梯度，而不是每个参数做一次前向传播","它只适用于小网络","它不使用链式法则"],"correct":1,"explanation":"独立计算梯度需要每个参数进行一次前向传播，大网络会需要数百万次。反向传播复用前向传播保存的中间值，一次反向遍历就能得到所有梯度。"},
+    {"id":"backpropagation-03-3","stage":"post","question":"在反向传播中累积梯度时，为什么使用 '+=' 而不是 '='？","options":["这是 Python 的惯例","一个值可能被多个运算使用，因此它的梯度是来自所有路径的梯度之和","这样代码运行更快","防止溢出"],"correct":1,"explanation":"如果某个 Value 同时参与 x*w1 和 x*w2 等多个运算，它接收到的总梯度就是各条路径回传梯度的和。使用 += 才能正确累积它们。"},
+    {"id":"backpropagation-03-4","stage":"post","question":"深层 sigmoid 网络中的梯度消失问题是由什么造成的？","options":["损失函数选择不当","网络参数太多","学习率太小","sigmoid 导数最大只有 0.25，因此梯度经过多层后会指数级缩小"],"correct":3,"explanation":"sigmoid 导数的最大值是 0.25（z=0 时）。每层最多把梯度乘以 0.25，经过 10 层后最多只剩原信号的 0.25^10，约为百万分之一。"},
+    {"id":"backpropagation-03-5","stage":"post","question":"为什么拓扑排序对反向传播很重要？","options":["减少内存使用","加快前向传播","确保节点在把梯度传给子节点前，已经从所有下游路径完整累积了自身梯度","让代码更整洁"],"correct":2,"explanation":"拓扑排序保证节点按正确顺序处理：一个节点必须先收齐所有下游路径的梯度，才能继续向前传播。否则得到的梯度会不完整。"}
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/14-mcp-apps/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "733a1c55d87023b378ed67c2b13afb119c522e83294f9bf8c50ab709d715d413"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-apps-q1","stage":"pre","question":"现代 MCP App 应在什么地方把 UI resource 绑定到工具？","options":["只在最终的 text 结果中","独立的 HTTP GET 流中","MCP session cookie 中","tools/list 返回的工具定义中"],"correct":3,"explanation":"工具定义中的嵌套 _meta.ui.resourceUri 让主机在调用前预加载并审查 UI。"},
+    {"id":"mcp-apps-q2","stage":"check","question":"2026-07-28 客户端如何声明支持 MCP Apps？","options":["使用 notifications/initialized","使用 Mcp-Session-Id","在每个请求的 io.modelcontextprotocol/clientCapabilities.extensions 中声明","接受所有 ui:// resource"],"correct":2,"explanation":"扩展通过逐请求的客户端能力 map 选择性启用。"},
+    {"id":"mcp-apps-q3","stage":"check","question":"ui/initialize 初始化什么？","options":["协议层服务器 session","OAuth 客户端注册","iframe 与主机之间的 Apps postMessage bridge","Streamable HTTP GET 通道"],"correct":2,"explanation":"ui/initialize 属于 Apps bridge 方言，与已移除的 MCP 核心握手分开。"},
+    {"id":"mcp-apps-q4","stage":"check","question":"对于不依赖用户、随包提供的 App，哪种 resource 响应最安全？","options":["没有 resultType 和缓存策略","resultType complete、有限 ttlMs、public cacheScope，以及 deny-first CSP","把 session token 嵌入 HTML","无限 ttlMs 和通配 CSP 域名"],"correct":1,"explanation":"完整结果、明确缓存提示和收窄的 CSP 让线上及浏览器策略可检查。"},
+    {"id":"mcp-apps-q5","stage":"post","question":"主机收到一个 URI 的 resources/read body，但 Mcp-Name header 却不同，应怎么办？","options":["同时打开两个 resource","优先 header","优先 body","返回 HTTP 400 和 JSON-RPC 错误 -32020"],"correct":3,"explanation":"路由 header 与 body 必须先匹配，之后才评估版本支持或功能策略。"},
+    {"id":"mcp-apps-q6","stage":"post","question":"不支持 MCP Apps 的主机正确的降级是什么？","options":["将 HTML 作为可信主机 chrome 返回","保留工具的普通 text 或 structured output，并省略 UI 绑定","创建隐藏 session 后重试","自动授予该扩展"],"correct":1,"explanation":"可选扩展不能让未协商它的客户端无法使用底层工具。"}
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/03-deep-learning-core/08-weight-initialization/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "8cded480438b4bc350200a96469247d7b1a81e1ee43a80889fa8971d84bd9e6f"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"weight-initialization-03-1","stage":"pre","question":"如果把神经网络的所有权重初始化为零，会发生什么？","options":["网络发散","零初始化是推荐默认值","网络能正常训练，只是比较慢","所有神经元计算相同输出、收到相同梯度，因此每层实际上只有 1 个有效神经元"],"correct":3,"explanation":"权重全为零时，同层每个神经元执行相同函数、收到相同梯度并以相同方式更新。这种对称性使数百个参数表现得像一个参数。"},
+    {"id":"weight-initialization-03-2","stage":"pre","question":"为什么随机权重初始化的尺度很重要？","options":["尺度只影响输出层","方差太大会使激活爆炸，太小会使激活消失；二者都会阻止训练","权重越大训练越快","只要权重非零，尺度就不重要"],"correct":1,"explanation":"每层会把方差乘以 fan_in × Var(w)。这个乘积大于 1 时信号在层间指数爆炸，小于 1 时指数消失；合适的初始化要让乘积接近 1。"},
+    {"id":"weight-initialization-03-3","stage":"post","question":"Kaiming/He 初始化的权重方差公式是什么？","options":["Var(w)=1/fan_in","Var(w)=2/fan_in","Var(w)=1/(fan_in+fan_out)","Var(w)=2/(fan_in+fan_out)"],"correct":1,"explanation":"Kaiming 初始化使用 Var(w)=2/fan_in。因 ReLU 会把负激活置零、相当于让一半输入失效，所以需要额外的 2 因子来补偿。"},
+    {"id":"weight-initialization-03-4","stage":"post","question":"什么时候应使用 Xavier/Glorot 初始化，而不是 Kaiming/He？","options":["使用 Adam 优化器时","在小数据集上训练时","使用 sigmoid 或 tanh 激活函数时，因为它们不像 ReLU 那样把一半输出置零","总是如此——Xavier 在任何情况下都更好"],"correct":2,"explanation":"Xavier 使用 Var(w)=2/(fan_in+fan_out)，适合零附近近似线性的 sigmoid、tanh。Kaiming 的额外 2 因子是专门补偿 ReLU 的半数置零。"},
+    {"id":"weight-initialization-03-5","stage":"post","question":"为什么 GPT-2 会把残差层权重缩放为 1/sqrt(2N)？","options":["改善 tokenization","加快训练","每次残差相加都会增加方差，缩放可以防止经过 N 层后信号无界增长","减少参数数量"],"correct":2,"explanation":"残差连接执行 x=x+sublayer(x)，每次相加都会增加方差。N 个残差层会让方差大致随 N 增长，乘以 1/sqrt(2N) 可以保持信号稳定。"}
+  ]
+}

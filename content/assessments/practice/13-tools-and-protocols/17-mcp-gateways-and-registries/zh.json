@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/17-mcp-gateways-and-registries/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "e0459cf610535ebdd944a6ea9fabd68427ecde106b1d8a172af21c92afc5dcb3"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-gateway-q1","stage":"pre","question":"当前 MCP 网关在普通客户端请求之间必须保留什么？","options":["每个后端一个 Mcp-Session-Id","上一次 HTTP 连接","独立的 GET 事件流","不保留协议 session；每个请求都携带校验和路由所需的信息"],"correct":3,"explanation":"MCP 2026-07-28 的普通请求自包含，可以到达任一健康的网关实例。"},
+    {"id":"mcp-gateway-q2","stage":"check","question":"按主体过滤的 tools/list 结果通常应使用哪种缓存范围？","options":["public","global","private","session"],"correct":2,"explanation":"用户特定的工具列表不能跨授权上下文共享。"},
+    {"id":"mcp-gateway-q3","stage":"check","question":"网关应如何把工具调用转发给当前后端？","options":["先打开 GET 流","复制外层 bearer token 和 session id","把外层 JSON-RPC id 作为持久状态复用","创建带网关客户端元数据和中介能力的全新自包含请求"],"correct":3,"explanation":"网关是后端的客户端，因此要创建一个独立有效的新请求。"},
+    {"id":"mcp-gateway-q4","stage":"check","question":"准入时，网关应如何使用官方 Registry 的 server.json 记录？","options":["先校验发布形状，再与独立验证的发布者、来源证明、策略和批准状态拼接","把发布视为完整的安全审查","从任意记录字段复制验证声明","只要名称熟悉就信任记录"],"correct":0,"explanation":"server.json 携带发布元数据；经验证的来源证明和网关批准决定仍是外部准入证据。"},
+    {"id":"mcp-gateway-q5","stage":"post","question":"现代 Streamable HTTP 如何打开长生命周期的列表变更通知？","options":["通过 POST subscriptions/listen 请求，响应为 SSE","通过 resources/subscribe","通过带 Last-Event-ID 的独立 GET","通过 notifications/initialized"],"correct":0,"explanation":"subscriptions/listen 取代旧的无请求 GET 和 resource subscription 模型。"},
+    {"id":"mcp-gateway-q6","stage":"post","question":"当前 Tasks 扩展的路由规则是哪一项？","options":["用 tasks/result 获取最终输出","用 tasks/list 恢复 session 中所有 task","用 taskId 作为 Mcp-Name 路由 tasks/get、tasks/update 和 tasks/cancel","把 task 存在 Mcp-Session-Id 中"],"correct":2,"explanation":"官方扩展使用 get、update、cancel；task id 在没有协议 session 的情况下提供路由句柄。"}
+  ]
+}

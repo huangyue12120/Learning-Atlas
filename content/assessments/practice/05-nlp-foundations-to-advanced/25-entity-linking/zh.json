@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/25-entity-linking/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "8e463e90bbf5ca14b7a9217ad215a2393b9afd203b73d58229ff5b5befa39d7d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "entity-linking-05-1",
+      "stage": "pre",
+      "question": "实体链接在 NER 之上增加了什么？",
+      "options": [
+        "情感极性",
+        "词性标签",
+        "把每个检测到的提及映射到知识库（Wikidata、Wikipedia 或领域知识库）中的唯一条目",
+        "翻译"
+      ],
+      "correct": 2,
+      "explanation": "实体链接把提及转换为规范的知识库 ID，并在同名实体之间进行消歧。"
+    },
+    {
+      "id": "entity-linking-05-2",
+      "stage": "pre",
+      "question": "实体链接的两个主要子任务是什么？",
+      "options": [
+        "候选生成（列出可能的知识库条目）和消歧（结合上下文选出正确条目）",
+        "嵌入和聚类",
+        "POS 标注和词形还原",
+        "分词和句法分析"
+      ],
+      "correct": 0,
+      "explanation": "实体链接可以拆成先提出候选，再根据上下文匹配程度对候选排序。"
+    },
+    {
+      "id": "entity-linking-05-3",
+      "stage": "check",
+      "question": "为什么必须同时报告提及召回率和消歧准确率？",
+      "options": [
+        "消歧无法从缺失候选中恢复，整个 pipeline 的上限由候选生成召回率决定",
+        "提及召回率是 GDPR 强制要求的",
+        "spaCy 要求报告召回率",
+        "召回率可以替代精确率"
+      ],
+      "correct": 0,
+      "explanation": "如果候选列表没有包含真实实体，任何消歧器都无法补救；候选召回率会给整个 pipeline 设下上限。"
+    },
+    {
+      "id": "entity-linking-05-4",
+      "stage": "check",
+      "question": "GENRE 如何执行实体链接？",
+      "options": [
+        "在有效知识库 ID 构成的 trie 上进行约束解码，逐词元生成实体的规范名称",
+        "通过计算 TF-IDF",
+        "通过 BM25",
+        "通过 PageRank"
+      ],
+      "correct": 0,
+      "explanation": "GENRE 用约束解码生成规范知识库名称，从而保证生成的是有效 ID。"
+    },
+    {
+      "id": "entity-linking-05-5",
+      "stage": "check",
+      "question": "实体链接中的 NIL 处理是什么？",
+      "options": [
+        "跳过所有提及",
+        "返回完整候选列表",
+        "把输入转换为小写",
+        "当没有候选是真实匹配时，预测“知识库中不存在”标签（例如新出现的实体或冷门人物）"
+      ],
+      "correct": 3,
+      "explanation": "预测 NIL 可以避免为知识库没有覆盖的实体强行猜测错误的知识库 ID。"
+    },
+    {
+      "id": "entity-linking-05-6",
+      "stage": "post",
+      "question": "为什么流行度偏差会损害专业领域的实体链接？",
+      "options": [
+        "在网页数据上训练的模型会过度预测高频实体（例如把篮球运动员 Jordan 排在机器学习研究者 Michael I. Jordan 之前）",
+        "流行度会提高召回率",
+        "它只会偏向更早出现的实体",
+        "流行度会删除 NIL"
+      ],
+      "correct": 0,
+      "explanation": "流行度先验会让模型偏离较少见、但在专业领域正确的同名实体。"
+    },
+    {
+      "id": "entity-linking-05-7",
+      "stage": "post",
+      "question": "2026 年较安全的 LLM 实体链接模式是什么？",
+      "options": [
+        "只提示“找出这个实体”",
+        "跳过候选生成",
+        "自由生成",
+        "提供候选列表，并使用受约束的 JSON 输出，让 LLM 只能从有效知识库 ID 中选择"
+      ],
+      "correct": 3,
+      "explanation": "把 LLM 限制在有效候选列表内，可以避免生成虚构的知识库 ID，并保持输出可查询。"
+    },
+    {
+      "id": "entity-linking-05-8",
+      "stage": "post",
+      "question": "为什么 NER 的提及边界必须准确，实体链接才能正常工作？",
+      "options": [
+        "边界错误会逐级传播：把“Bank of America”截成“Bank”会产生错误候选，并严重降低实体链接召回率",
+        "边界错误会破坏 Wikipedia 查找",
+        "边界精确率只影响 NER 指标，不影响实体链接候选质量",
+        "边界会改变分词方式"
+      ],
+      "correct": 0,
+      "explanation": "提及边界错误会检索到错误的别名集合，并把错误继续传递到消歧阶段。"
+    }
+  ]
+}

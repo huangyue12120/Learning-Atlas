@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/01-text-processing/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "7603e95e2a16649ab1002211799a624286a03e7d8ed6e39886efbb264e3fda36"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "text-processing-05-1",
+      "stage": "pre",
+      "question": "为什么语言模型在训练前需要进行预处理？",
+      "options": [
+        "模型可以直接读取字符串",
+        "预处理能提高 GPU 利用率",
+        "模型接收离散的整数词元，而不是原始文本",
+        "只有没有空格的语言才需要预处理"
+      ],
+      "correct": 2,
+      "explanation": "模型实际在整数词元 ID 上运行；预处理把连续的自然语言转换为离散输入。"
+    },
+    {
+      "id": "text-processing-05-2",
+      "stage": "pre",
+      "question": "哪一种预处理操作是基于规则去除词尾？",
+      "options": [
+        "POS 标注",
+        "词干提取（stemming）",
+        "词形还原（lemmatization）",
+        "分词（tokenization）"
+      ],
+      "correct": 1,
+      "explanation": "词干提取按规则截去词尾，速度快，但结果可能不准确。"
+    },
+    {
+      "id": "text-processing-05-3",
+      "stage": "check",
+      "question": "Porter 词干提取器的第 1a 步对单词“ponies”返回什么？",
+      "options": [
+        "poni",
+        "ponies",
+        "pony",
+        "ponie"
+      ],
+      "correct": 0,
+      "explanation": "“ies”规则把词尾替换为“i”，得到“poni”；在完整 Porter 算法中，第 1b 步还会继续处理它。"
+    },
+    {
+      "id": "text-processing-05-4",
+      "stage": "check",
+      "question": "为什么词形还原通常需要 POS 标签？",
+      "options": [
+        "处理 Unicode",
+        "语法上下文可以区分“better”（形容词）和“better”（动词）等形式",
+        "降低内存占用",
+        "提高速度"
+      ],
+      "correct": 1,
+      "explanation": "词元的基本形式取决于它在句中的语法角色；没有 POS 标签时，查找结果可能有歧义。"
+    },
+    {
+      "id": "text-processing-05-5",
+      "stage": "check",
+      "question": "把 NLTK Penn Treebank POS 标签转换为 WordNet 标签时，以“V”开头的标签映射到什么？",
+      "options": [
+        "`r`（副词）",
+        "`a`（形容词）",
+        "`v`（动词）",
+        "`n`（名词）"
+      ],
+      "correct": 2,
+      "explanation": "以 V 开头的 Penn Treebank 标签映射到 WordNet 的 `v`（动词）标签。"
+    },
+    {
+      "id": "text-processing-05-6",
+      "stage": "post",
+      "question": "NLP 预处理中所说的“训练/推理不一致”是什么？",
+      "options": [
+        "GPU 内存问题",
+        "训练和服务阶段使用了不同的预处理方式，导致模型在推理时面对陌生的数据分布",
+        "在同一个 notebook 中混用多个分词器库",
+        "训练集和测试集使用了不同的批量大小"
+      ],
+      "correct": 1,
+      "explanation": "训练阶段与推理阶段采用不同的预处理，是生产环境 NLP 系统最常见的失败原因之一。"
+    },
+    {
+      "id": "text-processing-05-7",
+      "stage": "post",
+      "question": "在 Transformer pipeline 中，如果不使用传统预处理，你应该使用哪种工具？",
+      "options": [
+        "NLTK 的 `word_tokenize`",
+        "模型自带的 tokenizer（例如 `tokenizers` / `transformers`）",
+        "spaCy 的 `en_core_web_sm`",
+        "基于正则表达式的分词器"
+      ],
+      "correct": 1,
+      "explanation": "Transformer 模型通常会随附配套的 tokenizer；使用它可以避免绕过模型所需的传统输入处理流程。"
+    },
+    {
+      "id": "text-processing-05-8",
+      "stage": "post",
+      "question": "为什么要在 requirements 中固定 NLTK 和 spaCy 的版本？",
+      "options": [
+        "新版本速度更慢",
+        "旧版本支持的语言更多",
+        "不同小版本之间的分词和词形还原行为可能变化，从而悄悄改变训练数据分布",
+        "为了兼容许可证"
+      ],
+      "correct": 2,
+      "explanation": "升级库版本可能改变分词输出，使线上数据分布逐渐偏离模型训练时的数据分布。"
+    }
+  ]
+}

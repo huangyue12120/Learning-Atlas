@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/03-deep-learning-core/07-regularization/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "a1dd89ff54a6dff33eb4fd4902167c96fa52a00499bc7671f8d64ca6e5a51501"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"regularization-03-1","stage":"pre","question":"神经网络中的过拟合是什么？","options":["模型太小，无法学习数据","模型训练太慢","模型记住了训练数据，而不是学习可泛化的模式，导致训练和测试准确率差距很大","损失函数有错误"],"correct":2,"explanation":"过拟合时模型训练准确率很高，但测试准确率很差。它记住了训练数据中的噪声，而没有学习底层规律。"},
+    {"id":"regularization-03-2","stage":"pre","question":"dropout 如何对神经网络进行正则化？","options":["永久删除表现最差的神经元","降低学习率","训练时随机把神经元置零，迫使网络学习冗余表示","从训练数据中删除离群点"],"correct":2,"explanation":"每次前向传播时，dropout 以概率 p 把神经元输出设为零。这会防止神经元相互依赖，可看作训练了 2^N 个子网络的集成。"},
+    {"id":"regularization-03-3","stage":"post","question":"为什么 Transformer 使用 LayerNorm 而不是 BatchNorm？","options":["BatchNorm 会导致梯度爆炸","LayerNorm 发明得更晚","LayerNorm 计算更快","LayerNorm 对每个样本沿特征维归一化，不依赖 batch，因此适合变长序列和小 batch"],"correct":3,"explanation":"BatchNorm 依赖 batch 统计量，小 batch 时噪声大，生成阶段 batch size=1 时甚至没有意义。LayerNorm 在每个样本内部沿特征维归一化，与 batch size 无关。"},
+    {"id":"regularization-03-4","stage":"post","question":"RMSNorm 与 LayerNorm 的关键区别是什么？","options":["RMSNorm 使用 batch 统计量","RMSNorm 只适用于 CNN","RMSNorm 跳过均值减法，只除以均方根，在准确率相当时可提速约 10%","RMSNorm 增加可学习参数"],"correct":2,"explanation":"RMSNorm 删除了 LayerNorm 的均值减法，这一步对准确率贡献很小却会增加计算。LLaMA、Mistral 和多数现代 LLM 使用 RMSNorm 来获得这一效率收益。"},
+    {"id":"regularization-03-5","stage":"post","question":"为什么在 PyTorch 推理前必须调用 model.eval()？","options":["加快计算","启用梯度计算","关闭 dropout，并让 BatchNorm 使用训练期间积累的运行统计量，而不是当前 batch 统计量，从而得到确定性输出","释放 GPU 内存"],"correct":2,"explanation":"不调用 model.eval() 时，推理中的 dropout 仍会随机置零神经元，BatchNorm 也会使用当前 batch 统计量，导致输出随机或不稳定。"}
+  ]
+}

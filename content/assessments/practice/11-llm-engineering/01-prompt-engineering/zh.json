@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/01-prompt-engineering/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "fadde972093d4a652e0c3b5faaa4f49a76d10a22aea3ddfd7f049707b101f021"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"prompt-engineering-11-1","stage":"pre","question":"人们编写 LLM prompt 时最常见的错误是什么？","options":["没有使用足够的示例","指令含糊且缺少约束，让模型猜测格式、范围和限制","使用了错误的 API","使用了太多 token"],"correct":1,"explanation":"LLM 会按字面遵循指令。“写一封营销邮件”没有说明语气、受众、长度、格式或约束；把这些要求写清楚，结果通常会显著改善。"},
+    {"id":"prompt-engineering-11-2","stage":"pre","question":"有效 prompt 的四个核心组成部分是什么？","options":["system、user、assistant、function","query、document、answer、score","角色、上下文、约束和输出格式","input、output、model、temperature"],"correct":2,"explanation":"有效 prompt 要说明模型应扮演什么角色、需要知道什么上下文、应该或不应该做什么，以及回答应采用什么结构。"},
+    {"id":"prompt-engineering-11-3","stage":"post","question":"为什么应在 prompt 中明确输出格式？","options":["它能防止幻觉","没有格式要求时，模型会自行选择结构，不同调用可能不同，也难以用程序解析","它能缩短 prompt","它能降低 API 成本"],"correct":1,"explanation":"LLM 输出具有非确定性。没有明确格式，一次可能返回项目符号，下一次可能返回散文或 Markdown；规定格式能得到一致、可解析的结果。"},
+    {"id":"prompt-engineering-11-4","stage":"post","question":"system prompt 的作用是什么？","options":["设定适用于整个对话的持久行为规则、角色和约束","定义模型架构","认证 API 调用","压缩对话历史"],"correct":0,"explanation":"system prompt 为整个会话设定模型的角色、规则和限制，是生产环境控制模型行为的主要机制。"},
+    {"id":"prompt-engineering-11-5","stage":"post","question":"如何测试 prompt 的改动是否真的提高了输出质量？","options":["在多样化测试集上运行 prompt，并测量准确率、格式遵循度、相关性等已定义指标的变化","询问模型自己是否变好了","检查 API 响应时间","阅读几个输出后凭感觉判断"],"correct":0,"explanation":"只看少数示例并不可靠。系统化评估框架应使用多样测试用例和明确指标，检查改动是否在整体分布上有帮助，而不是只改善了少数挑选出的例子。"}
+  ]
+}

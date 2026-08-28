@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/10-attention-mechanism/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "f67adb9542c2d2f176afc4add2a870f1024e16f440681875079b94f6cdf221ca"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "attention-mechanism-05-1",
+      "stage": "pre",
+      "question": "Bahdanau 注意力机制解决了 seq2seq 中的什么问题？",
+      "options": [
+        "分词不匹配",
+        "beam search 延迟",
+        "固定大小上下文向量的瓶颈：解码器只能看到编码器的最终状态",
+        "编码器中的梯度消失"
+      ],
+      "correct": 2,
+      "explanation": "注意力让解码器可以查看编码器的每个状态，而不只是最后一个状态。"
+    },
+    {
+      "id": "attention-mechanism-05-2",
+      "stage": "pre",
+      "question": "在解码器第 t 步，注意力上下文向量是什么？",
+      "options": [
+        "编码器的最终隐藏状态",
+        "解码器的输入嵌入",
+        "随机投影",
+        "编码器隐藏状态的加权平均，权重来自查询与键之间的分数"
+      ],
+      "correct": 3,
+      "explanation": "上下文向量等于 Σ αᵢhᵢ，是一个随解码步骤变化、由注意力权重决定的编码器状态加权平均。"
+    },
+    {
+      "id": "attention-mechanism-05-3",
+      "stage": "check",
+      "question": "在 Bahdanau（加性）注意力中，向量 `v_a` 起什么作用？",
+      "options": [
+        "编码位置信息",
+        "为 softmax 添加偏置",
+        "控制 dropout",
+        "把注意力维度上的隐藏状态组合投影成每个编码器位置的标量分数"
+      ],
+      "correct": 3,
+      "explanation": "`v_a` 与 `tanh(W_a s + U_a h)` 做点积，把 d_attn 维向量压缩为一个标量分数。"
+    },
+    {
+      "id": "attention-mechanism-05-4",
+      "stage": "check",
+      "question": "Luong 的“dot”注意力变体必须满足什么约束？",
+      "options": [
+        "必须使用 beam search",
+        "解码器状态和编码器状态的维度必须相同（d_s == d_h）",
+        "softmax 必须在对数空间计算",
+        "编码器必须是双向的"
+      ],
+      "correct": 1,
+      "explanation": "dot 变体直接计算 sᵀh，不使用投影，因此两个状态的维度必须严格一致。"
+    },
+    {
+      "id": "attention-mechanism-05-5",
+      "stage": "check",
+      "question": "哪种 Q/K/V 映射描述了经典的（Bahdanau/Luong）注意力？",
+      "options": [
+        "Q 来自编码器，K 和 V 来自解码器",
+        "Q、K、V 是源序列的三个相互独立的学习投影",
+        "Q = 解码器状态；K 和 V = 编码器状态（同一个张量）",
+        "Q 是随机的，K 和 V 是学习得到的"
+      ],
+      "correct": 2,
+      "explanation": "在经典注意力中，键和值都是编码器状态；Transformer 则通过学习投影将 K 和 V 分开。"
+    },
+    {
+      "id": "attention-mechanism-05-6",
+      "stage": "post",
+      "question": "为什么把原始注意力权重直接报告为“解释”是不可靠的？",
+      "options": [
+        "研究（例如 Jain 和 Wallace，2019）显示，在某些任务中，改变注意力分布的排列并不会改变预测结果",
+        "注意力权重不可微",
+        "注意力权重会泄露标签",
+        "注意力权重太小，无法绘图"
+      ],
+      "correct": 0,
+      "explanation": "注意力权重可能与预测相关，但若没有消融或反事实检验，就不能视为忠实的解释。"
+    },
+    {
+      "id": "attention-mechanism-05-7",
+      "stage": "post",
+      "question": "从 Bahdanau 注意力走向 Transformer 自注意力的关键一步是什么？",
+      "options": [
+        "让序列查询自身，并使用独立学习的 Q、K、V 投影，在多个头中并行计算",
+        "删除 beam search",
+        "用 sigmoid 替换 softmax",
+        "增加更多 RNN 层"
+      ],
+      "correct": 0,
+      "explanation": "自注意力让同一序列查询自身，并将 K、V 分别投影后在多个头上并行计算。"
+    },
+    {
+      "id": "attention-mechanism-05-8",
+      "stage": "post",
+      "question": "注意力中的掩码有何实际用途？",
+      "options": [
+        "替代 dropout",
+        "编码位置信息",
+        "把填充词元的注意力权重设为零，使它们不参与上下文向量计算",
+        "减小模型大小"
+      ],
+      "correct": 2,
+      "explanation": "屏蔽填充词元（或解码器中的未来词元）可以防止 softmax 把权重分配给无效位置。"
+    }
+  ]
+}

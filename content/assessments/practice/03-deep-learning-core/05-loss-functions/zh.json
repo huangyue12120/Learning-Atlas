@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/03-deep-learning-core/05-loss-functions/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "b774735a110185169bb0150b1d77129a14c61516bb6fdba1258ca15d04244b34"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"loss-functions-03-1","stage":"pre","question":"损失函数在神经网络训练中表示什么？","options":["学习率调度策略","衡量模型预测有多错误的可微指标，优化器会最小化它","错误预测的数量","训练数据集的大小"],"correct":1,"explanation":"损失函数把预测和目标映射为一个标量，优化器通过梯度下降最小化这个标量。为了计算梯度，它必须是可微的。"},
+    {"id":"loss-functions-03-2","stage":"pre","question":"为什么分类任务通常使用交叉熵而不是 MSE？","options":["交叉熵通过 -log(p) 对高置信度错误预测施加指数级惩罚，而 MSE 在 0 和 1 附近的梯度很弱","交叉熵不需要标签","MSE 只能用于回归","交叉熵计算更快"],"correct":0,"explanation":"当模型很自信地预测错误类别、真实类别概率接近 0 时，-log(p) 会产生巨大损失和强梯度。MSE 在这种情况下容易因 sigmoid 平坦而只提供很弱的梯度。"},
+    {"id":"loss-functions-03-3","stage":"post","question":"二分类使用 MSE 损失时可能发生什么？","options":["梯度爆炸","训练立即发散","模型正常训练","模型可以对所有输入都预测 0.5，在不学习任何模式时达到 MSE=0.25"],"correct":3,"explanation":"在平衡二分类数据上，对每个输入预测 0.5 会得到 MSE=0.25，这是不做区分时能达到的最小值。模型可能满足损失，却没有学到有用模式。"},
+    {"id":"loss-functions-03-4","stage":"post","question":"label smoothing（标签平滑）做什么，为什么有用？","options":["平滑学习率调度","把硬 0/1 目标替换成 0.1/0.9 等软值，防止过度自信的预测并改善泛化","从数据集中删除噪声标签","对损失应用移动平均"],"correct":1,"explanation":"例如 alpha=0.1 时，把 [0,0,1,0] 改成 [0.025,0.025,0.925,0.025]。这能防止模型为了满足硬目标把 logits 推到无穷大，减少过度自信。"},
+    {"id":"loss-functions-03-5","stage":"post","question":"在对比损失（InfoNCE）中，temperature 参数起什么作用？","options":["控制相似度分布的尖锐程度——temperature 越低，正例和负例被分得越开","设定负样本数量","控制学习率","决定 embedding 维度"],"correct":0,"explanation":"temperature 会在 softmax 前除以相似度分数。较低的值（例如 0.07）产生更尖锐的分布，要求模型清楚地区分正例和负例；较高的值更宽容。"}
+  ]
+}

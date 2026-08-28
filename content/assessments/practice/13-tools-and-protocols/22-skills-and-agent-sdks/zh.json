@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/22-skills-and-agent-sdks/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "b95fc551f16c7f88cc9c6345f0c7474d99b8340ac126999afa971138dbd515d7"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"skills-sdks-q1","stage":"pre","question":"团队有一套可复用的审查方法，以及一个提供 pull request 数据的现有 API。按运行时策略，哪种设计把关注点交给了正确原语？","options":["把审查方法放入 Agent Skill，通过 MCP tool 暴露 API","用更长的 user prompt 替代 API","把方法和 API 实现都放进 AGENTS.md","只用 lifecycle hook 作为审查指令来源"],"correct":0,"explanation":"skill 携带可复用的过程知识，MCP 暴露外部能力，两者可以组合；AGENTS.md 适合仓库级默认规则，hook 则响应生命周期事件。"},
+    {"id":"skills-sdks-q2","stage":"check","question":"validator 为什么应要求 SKILL.md 名称与所在目录匹配？","options":["保证每个主机支持相同的调用语法","给发现和打包提供一个稳定身份，避免两个互相冲突的名称","让 Markdown 标题正确渲染","允许 skill 绕过主机权限"],"correct":1,"explanation":"发现工具经常同时按目录和 frontmatter 索引 skill；两者一致可以避免目录项歧义和安装路径损坏，但不会授予权限。"},
+    {"id":"skills-sdks-q3","stage":"check","question":"SKILL.md 含有一个只有某个 runtime 理解的字段，最具可移植性的解释是什么？","options":["把字段移入 skill 名称","将其视为 host extension，仅在显式 host policy 下校验","该字段自动成为核心标准的一部分","每个 runtime 都必须实现它才能加载 skill"],"correct":1,"explanation":"可移植核心 metadata 与主机扩展是两份契约；adapter 可以识别扩展，但核心 validator 不应声称它具有普遍语义。"},
+    {"id":"skills-sdks-q4","stage":"check","question":"必须在每次工具调用后运行的检查，最适合用哪种原语表示？","options":["MCP resource","一次性 prompt","仓库 glossary","lifecycle hook"],"correct":3,"explanation":"关键要求是事件时机，因此 lifecycle hook 最合适；skill 和 MCP tool 本身都不会自动在每次调用后触发。"},
+    {"id":"skills-sdks-q5","stage":"post","question":"什么时候 AGENTS.md 比 Agent Skill 更适合作为规则的载体？","options":["外部服务需要认证 API 调用时","脚本需要在 workspace jail 外执行时","约定应适用于整个仓库中的工作时","指令只应在罕见的专业任务中加载时"],"correct":2,"explanation":"AGENTS.md 传达持久的仓库上下文，例如构建命令和编码约定；任务特定流程适合 skill，外部操作适合 tool。"},
+    {"id":"skills-sdks-q6","stage":"post","question":"有效的 Agent Skill 单独能够授予什么？","options":["每个 agent host 通用的 slash command","受主机 runtime policy 约束、可被发现的过程指令","执行所有随包脚本的权限","自动网络访问"],"correct":1,"explanation":"可移植 artifact 提供 metadata 和指令；发现、调用界面、tool 访问、批准和脚本执行仍由 runtime 负责。"}
+  ]
+}

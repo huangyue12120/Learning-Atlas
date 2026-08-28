@@ -1,0 +1,77 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/07-transformers-deep-dive/02-self-attention-from-scratch/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "2332fee68960a0434a4fb7b975d65cb910ac2908eed2e4c416430172645206bc"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "self-attention-pre-1",
+      "stage": "pre",
+      "question": "为什么原始自注意力要把点积缩放为 1/sqrt(d_k)？",
+      "options": [
+        "使输出值都落在 0 和 1 之间",
+        "把 query 和 key 向量归一化为单位长度",
+        "防止高维空间中的点积变得过大，把 softmax 推入梯度很小的区域",
+        "降低矩阵乘法的计算成本"
+      ],
+      "correct": 2,
+      "explanation": "d_k 较大时，随机向量的点积会按 sqrt(d_k) 增长。不缩放的话，softmax 输入会很大，输出接近 one-hot，梯度也会消失。"
+    },
+    {
+      "id": "self-attention-pre-2",
+      "stage": "pre",
+      "question": "自注意力中的三个投影是什么？",
+      "options": [
+        "编码器、解码器和交叉注意力",
+        "Query、Key 和 Value——它们都是对同一输入做学习得到的线性投影",
+        "Embedding、位置和片段",
+        "输入、隐藏和输出"
+      ],
+      "correct": 1,
+      "explanation": "自注意力用三个不同的权重矩阵把输入投影为 query（我在找什么）、key（我包含什么）和 value（匹配后输出什么）。"
+    },
+    {
+      "id": "self-attention-post-1",
+      "stage": "post",
+      "question": "多头注意力有 8 个头且 d_model=512 时，每个头的维度是多少？",
+      "options": [
+        "512——每个头都看到完整维度",
+        "64——d_model 在各头之间平均分配（512/8=64）",
+        "4096——每个头都会扩展表示",
+        "8——每个头对应一个维度"
+      ],
+      "correct": 1,
+      "explanation": "多头注意力把 d_model 分给 h 个头，每个头使用 d_k = d_model/h 个维度。这里 512/8=64；总计算量与完整维度的单头注意力相当。"
+    },
+    {
+      "id": "self-attention-post-2",
+      "stage": "post",
+      "question": "自回归注意力中的因果掩码会阻止什么？",
+      "options": [
+        "阻止每个位置关注未来位置，确保模型预测下一个 token 时只能使用过去上下文",
+        "阻止模型关注当前位置本身",
+        "阻止模型关注填充 token",
+        "阻止注意力权重变得过大"
+      ],
+      "correct": 0,
+      "explanation": "自回归生成时，位置 t 不能看到 t+1、t+2 等未来 token。因果掩码在 softmax 前把未来位置设为负无穷，使对应注意力权重变为零。"
+    },
+    {
+      "id": "self-attention-post-3",
+      "stage": "post",
+      "question": "为什么自注意力关于序列长度 n 的复杂度是 O(n^2)？",
+      "options": [
+        "因为模型堆叠了 n 层",
+        "因为注意力的反向传播需要 n^2 次梯度计算",
+        "因为注意力之后的前馈层是二次复杂度",
+        "因为每个 token 都要与其他每个 token 计算注意力分数，形成 n×n 注意力矩阵"
+      ],
+      "correct": 3,
+      "explanation": "QK^T 矩阵乘法产生 n×n 的注意力矩阵，其中每个元素表示一个 token 对另一个 token 的注意力。计算和内存都按 O(n^2) 增长，所以长上下文模型需要 FlashAttention 等技术。"
+    }
+  ]
+}

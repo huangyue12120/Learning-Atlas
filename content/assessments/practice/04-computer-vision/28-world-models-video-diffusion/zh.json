@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/28-world-models-video-diffusion/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"627588ac1514bf9e369c989c54d630d1f40ed8cd1ce6f039ed48b8205f4866dd"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"world-models-video-diffusion-04-1","stage":"pre","question":"action-conditioned world model（Genie 3）与纯视频生成模型（Sora 2）的架构差异是什么？","options":["只有训练数据集不同","world model 只适用于 3D 场景","纯视频生成器在 t=0 接收 prompt 后直接 rollout；action-conditioned world model 每帧接收 latent 或显式 action，因此用户能在生成过程中控制 rollout","action-conditioned 模型更小"],"correct":2,"explanation":"Sora 2 的 prompt 设定场景，但 rollout 中不能改变方向；Genie 3 会在每步推断或接收 action，并以此条件化下一帧预测，因此可以与模拟世界交互。"},
+    {"id":"world-models-video-diffusion-04-2","stage":"pre","question":"视频 Transformer 中的 divided attention 是什么意思？","options":["一半 token 被 mask","注意力在 GPU 之间切分","每个 block 先在同一空间位置、跨帧做时间注意力，再在同一帧、跨位置做空间注意力；把 O((T*H*W)^2) 分解成 O((H*W)*T^2)+O(T*(H*W)^2)，比联合注意力便宜很多","只有一半层运行注意力"],"correct":2,"explanation":"完整时空注意力的 token 对数量极大。divided attention 将时间和空间两个维度分别处理，显著降低成本；TimeSformer 首先采用了这一模式。"},
+    {"id":"world-models-video-diffusion-04-3","stage":"post","question":"Sora 2 在 2026 年发布时宣称更好的物理合理性，针对哪些具体失败模式？","options":["重量、平衡、物体持久性、因果关系——模型更可信地处理掉落物体、角色碰撞和“故意失败”的动作（如跳跃没跳过）","视频长度","图像中的文字渲染","颜色平衡和对比度"],"correct":0,"explanation":"早期视频模型常在吃面条、喝水和物体持续存在等场景失败：手穿过物体、物品中途消失。Sora 2 重点改善重量、平衡、物体持久性和因果关系。"},
+    {"id":"world-models-video-diffusion-04-4","stage":"post","question":"在 VLM + 视频生成 + inverse dynamics 的新兴机器人技术栈中，inverse dynamics model 做什么？","options":["输入一对（当前观测、视频模型生成的期望下一观测），输出连接二者的低层电机动作；它把想象的 rollout 闭环到真实执行","标注训练数据","生成下一帧","训练 VLM"],"correct":0,"explanation":"VLM 负责规划，视频模型负责想象，inverse dynamics 将想象转换为电机命令。给定连续观测，它回答“什么动作造成了这个状态转移”，让机器人能更多在学习到的模拟器中训练。"},
+    {"id":"world-models-video-diffusion-04-5","stage":"post","question":"自动驾驶团队使用 Cosmos-Drive、Gaia-2、DrivingWorld 等 world model，是为了替代哪类成本？","options":["车辆折旧","实际车队保险","罕见或危险边界案例的昂贵现实数据收集（行人突然横穿、结冰道路、异常车辆）；合成驾驶视频可按需提供训练和评估数据","道路通行费"],"correct":2,"explanation":"收集边界场景需要数百万英里真实驾驶。world model 可按轨迹和地图生成这些场景，用于扩充训练集、评估规划器，并降低现实中无法安全驾驶的风险。"}
+  ]
+}

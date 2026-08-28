@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/01-image-fundamentals/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"ae7185eaf0d76f379cf5bc7c8d045acd58af690fc0546268cdd276926ccc46ec"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"image-fundamentals-04-1","stage":"pre","question":"磁盘上的文件被解码为形状为 (224, 224, 3)、dtype 为 uint8 的 NumPy 数组。每个数字代表什么？","options":["可以直接输入卷积网络的浮点亮度值","网格一个位置上的光强样本，每个通道量化为 256 个等级之一","每个探测器的光子计数，并已归一化到传感器的完整动态范围","某个像素呈现该颜色的概率，范围在 0 到 1 之间"],"correct":1,"explanation":"uint8 图像以 [0, 255] 中的 8 位整数存储数据。每个整数是某个（行、列、通道）位置的量化光强样本，既不是概率也不是浮点数；输入预训练模型前通常需要除以 255 并标准化。"},
+    {"id":"image-fundamentals-04-2","stage":"pre","question":"你用 Pillow 读取图像，得到形状 (480, 640, 3) 的数组；再把它作为批量张量 (1, 480, 640, 3) 传给 in_channels=3 的 PyTorch Conv2d，会发生什么？","options":["PyTorch 抛出 RuntimeError：Conv2d 要求 NCHW，却把 480 看成通道数，与权重期望的 3 不匹配，因此拒绝运行","准确率下降几个百分点，但推理仍然成功","没有影响——PyTorch 会自动识别布局","第一层卷积把高度当作通道轴，生成没有意义的特征图"],"correct":0,"explanation":"PyTorch Conv2d 会严格检查输入通道数。批量 HWC 输入 (1, 480, 640, 3) 会被解释为 NCHW，其中 C=480，与权重需要的 3 不匹配，所以计算前就会抛出 RuntimeError。应先用 `.permute(0, 3, 1, 2)` 转换为 NCHW。"},
+    {"id":"image-fundamentals-04-3","stage":"post","question":"为什么 ImageNet 预训练模型要求输入使用 mean=[0.485, 0.456, 0.406] 和 std=[0.229, 0.224, 0.225] 做标准化？","options":["这是 ReLU 激活函数的要求","这些是自然场景的平均 RGB 值","它们能让任意图像严格变成零均值、单位方差","这些是 ImageNet 训练集在 [0, 1] 空间中按通道计算的均值和标准差；减去它们可以把输入分布对齐到模型训练时的分布"],"correct":3,"explanation":"这些数值是把像素除以 255 后，在 ImageNet 训练语料上统计得到的。使用它们可以让输入分布与训练分布一致；如果模型在其他数据集上训练，应重新计算对应统计量。"},
+    {"id":"image-fundamentals-04-4","stage":"post","question":"你把整数类别 ID 为 0..20 的分割掩码从 500×500 缩放到 224×224，应该使用哪种插值？","options":["双三次插值——它能保持清晰度","双线性插值——它会平滑类别边界","最近邻插值——它能保持有效的整数类别 ID，不会凭空产生小数类别","Lanczos 插值——质量最高"],"correct":2,"explanation":"双线性、双三次和 Lanczos 都会平均邻近值，用在类别 ID 掩码上可能产生 4.7 这样的无效类别。最近邻只选择最近的原始像素，能保持标签空间不变。"},
+    {"id":"image-fundamentals-04-5","stage":"post","question":"RGB 转灰度时使用 0.299 R + 0.587 G + 0.114 B，而不是三个通道各占 0.333，为什么？","options":["因为绿色光子的能量高于红色或蓝色光子","因为人眼对绿色最敏感、对蓝色最不敏感，加权和更符合感知亮度","为了匹配相机传感器中 Bayer 滤镜的行为","为了补偿 JPEG 对各通道造成的压缩伪影"],"correct":1,"explanation":"ITU-R BT.601 的 0.299/0.587/0.114 来自人眼的光视效率。等权平均会让绿色图像显得过暗、红色图像显得过亮；经典计算机视觉灰度转换通常使用这些权重。"}
+  ]
+}

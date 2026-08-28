@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/17-agent-framework-tradeoffs/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "1d0c712e82928fe86e795acb5bc745a596ac75bc7bcc8d745df9912bb484d946"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"agent-framework-tradeoffs-11-1","stage":"post","question":"一个工作流需要在崩溃后恢复、运行中接受人工审批，并行分发给三个检索器。首选哪个框架？","options":["LangGraph","Agno","AutoGen","CrewAI"],"correct":0,"explanation":"LangGraph 的状态图、checkpoint 和 interrupt 适合可恢复、可审批的流程；其图结构也能表达并行分支。"},
+    {"id":"agent-framework-tradeoffs-11-2","stage":"post","question":"为什么 LLM 选择路由比显式路由每轮消耗更多 token？","options":["每轮都要额外调用 planner LLM 来选择下一步，因此会产生决策 prompt 和 completion token","它会为 crew 中的每个 agent 重复工具列表","它会把完整对话历史发送给 verifier 模型","它会为了降低延迟而预取下一个节点"],"correct":0,"explanation":"显式路由由代码直接决定；LLM 路由每轮都要进行一次额外规划调用，因此增加了输入和输出 token 成本。"},
+    {"id":"agent-framework-tradeoffs-11-3","stage":"post","question":"代码审查中的 proposer–critic 对话最自然对应哪个框架的核心抽象？","options":["LangGraph 的 StateGraph","AutoGen 的 GroupChat / ConversableAgent 对","CrewAI 的顺序 Crew","Agno 的带工具单 Agent"],"correct":1,"explanation":"proposer 和 critic 是两个可对话的 agent，AutoGen 的 GroupChat 与 ConversableAgent 正好提供这种多 agent 对话抽象。"},
+    {"id":"agent-framework-tradeoffs-11-4","stage":"post","question":"哪个框架把 SQLite、Postgres、Redis、Mongo、DynamoDB 等内置存储驱动直接挂在 Agent 类上，用于 session 和 memory 持久化？","options":["Agno","CrewAI","AutoGen","LangGraph"],"correct":0,"explanation":"Agno 的 Agent 类直接提供多种存储驱动，便于为会话与记忆配置持久化。"},
+    {"id":"agent-framework-tradeoffs-11-5","stage":"post","question":"你有一个两次调用的摘要器：先获取文本，再生成摘要。哪个选项是合适的框架选择？","options":["AutoGen GroupChat——两个 agent 可以争论最佳摘要","直接使用 provider SDK 的普通 Python——小型管道中不使用框架往往最快","CrewAI 的 researcher + summarizer 角色——角色划分会更清晰","LangGraph StateGraph——为了可靠性总是应该使用框架"],"correct":1,"explanation":"两步线性流程没有复杂状态、并行或多 agent 协作需求，直接使用 provider SDK 的普通 Python 最简单、开销也最低。"}
+  ]
+}

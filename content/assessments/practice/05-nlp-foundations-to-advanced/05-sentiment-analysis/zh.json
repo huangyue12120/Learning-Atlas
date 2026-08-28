@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/05-sentiment-analysis/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "f04f225d44d72ed734e316d28421c272140989f302966c5b29114cabdeb1e413"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "sentiment-analysis-05-1",
+      "stage": "pre",
+      "question": "为什么“这份食物一点也不好”对朴素的词袋分类器来说是一个难例？",
+      "options": [
+        "它没有标点",
+        "它混合了英语和法语",
+        "它包含的词元太少",
+        "否定会反转含义，但词袋模型丢失了“not”和“great”之间的关系"
+      ],
+      "correct": 3,
+      "explanation": "词袋模型无法把“not”绑定到它所否定的词上，因此分类器可能捕捉不到情感极性的反转。"
+    },
+    {
+      "id": "sentiment-analysis-05-2",
+      "stage": "pre",
+      "question": "经典情感分析由哪两个步骤组成？",
+      "options": [
+        "先翻译，再分类",
+        "表示文本（向量化），再分类（在向量上使用线性模型）",
+        "先搜索，再排序",
+        "先嵌入，再聚类"
+      ],
+      "correct": 1,
+      "explanation": "经典情感分析先提取特征，再使用线性分类器进行预测。"
+    },
+    {
+      "id": "sentiment-analysis-05-3",
+      "stage": "check",
+      "question": "为什么朴素贝叶斯在独立性假设很“朴素”的情况下仍然有效？",
+      "options": [
+        "拉普拉斯平滑修复了变量依赖",
+        "这个假设对文本实际上完全成立",
+        "朴素贝叶斯暗中学习了词语之间的交互",
+        "在稀疏文本特征和中等规模数据上，分类器主要关心每个词倾向于哪一类，而不是精确的联合概率"
+      ],
+      "correct": 3,
+      "explanation": "即使独立性假设并不准确，每个词所提供的类别倾向信息也足以支持较好的分类。"
+    },
+    {
+      "id": "sentiment-analysis-05-4",
+      "stage": "check",
+      "question": "为什么在预处理中加入带 `NOT_` 前缀的词元？",
+      "options": [
+        "为了提取词干",
+        "为了缩小词汇表",
+        "为了统一大小写",
+        "把“good”和“NOT_good”变成两个独立特征，让分类器可以为它们赋予相反的权重"
+      ],
+      "correct": 3,
+      "explanation": "否定范围处理会把被否定的形式拆成不同特征，使词袋分类器能够表达情感翻转。"
+    },
+    {
+      "id": "sentiment-analysis-05-5",
+      "stage": "check",
+      "question": "为什么删除停用词对情感分析有风险？",
+      "options": [
+        "停用词删除会破坏分词",
+        "它会增加稀疏性",
+        "停用词表太长",
+        "“not”“no”“never”等否定词通常被列为停用词，但它们携带情感信号"
+      ],
+      "correct": 3,
+      "explanation": "默认停用词表可能删除否定词以及其他重要的情感载体。"
+    },
+    {
+      "id": "sentiment-analysis-05-6",
+      "stage": "post",
+      "question": "当情感类别不均衡时，应该报告哪项指标？",
+      "options": [
+        "只报告准确率",
+        "Macro-F1（各类别 F1 的平均值，每个类别等权）",
+        "均方误差",
+        "只报告 Micro-F1"
+      ],
+      "correct": 1,
+      "explanation": "Macro-F1 会让少数类真正计入结果；单独看准确率或 Micro-F1 可能掩盖少数类表现。"
+    },
+    {
+      "id": "sentiment-analysis-05-7",
+      "stage": "post",
+      "question": "什么时候应该跳过经典模型，改用 Transformer 做情感分析？",
+      "options": [
+        "样本少于 100 个时",
+        "需要识别讽刺、处理长且不断变化的文档、做方面级情感分析，或处理低资源语言时",
+        "延迟要求很高时",
+        "需要可解释性时"
+      ],
+      "correct": 1,
+      "explanation": "讽刺、方面级情感和跨语言情感分析往往超出经典词袋模型的能力范围。"
+    },
+    {
+      "id": "sentiment-analysis-05-8",
+      "stage": "post",
+      "question": "为什么 L2 正则化对文本上的逻辑回归很重要？",
+      "options": [
+        "加快矩阵求逆",
+        "避免 ReLU 神经元死亡",
+        "否则稀疏且高维的文本特征会让模型记住训练样本",
+        "计算梯度时强制需要"
+      ],
+      "correct": 2,
+      "explanation": "L2 正则化可以缓解文本稀疏、高维特征场景下的过拟合。"
+    }
+  ]
+}

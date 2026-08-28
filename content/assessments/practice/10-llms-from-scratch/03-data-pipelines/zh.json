@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/10-llms-from-scratch/03-data-pipelines/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "e9ca4f80a82bf78c4dbdfe65d6c985d73694b43cc8863023c97208808fccf796"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"data-pipelines-10-1","stage":"pre","question":"为什么不能简单地把全部预训练数据加载到内存？","options":["预训练语料通常有数 TB，远超可用 RAM，因此需要流式数据管道","把数据加载到内存更慢","内存只需要存放模型权重","Python 不支持大数组"],"correct":0,"explanation":"LLM 预训练数据通常有 1–15 TB，即使有 256 GB RAM 也无法完整装入内存。流式管道按需处理数据，只加载当前 batch 所需内容。"},
+    {"id":"data-pipelines-10-2","stage":"pre","question":"为什么去重对预训练很重要？","options":["节省磁盘空间","重复文档会让模型逐字记住特定文本，并把训练计算浪费在重复内容上","减小词表大小","加快 tokenization"],"correct":1,"explanation":"模板化内容和抓取产生的近重复文档会促使模型记忆而不是泛化。去重可以减少无效计算，并让训练信号更多样，从而提高模型质量。"},
+    {"id":"data-pipelines-10-3","stage":"post","question":"把变长文档转换为定长训练序列的目的是什么？","options":["减少 token 总量","让文本更容易阅读","GPU 训练要求统一的张量形状，因此文档必须被打包或填充为定长序列","定长序列更准确"],"correct":2,"explanation":"GPU 以 batch 形式处理形状一致的张量。变长文档必须切分或填充为固定长度（例如 2048 或 4096 个 token），并在文档边界使用正确的注意力掩码。"},
+    {"id":"data-pipelines-10-4","stage":"post","question":"如果数据管道比 GPU 训练速度慢，会发生什么？","options":["没有影响——数据管道会异步运行","训练会自动减速以匹配管道","模型会反复训练同一个 batch","GPU 会停下来等待 batch，昂贵的计算资源因此闲置"],"correct":3,"explanation":"如果 DataLoader 不能及时提供 batch，GPU 会在训练步骤之间停顿。对于每小时成本很高的 A100 集群，管道瓶颈会直接浪费资金，因此必须分析数据管道吞吐量。"},
+    {"id":"data-pipelines-10-5","stage":"post","question":"为什么要在 tokenization 之前进行数据质量过滤（语言检测、内容过滤等）？","options":["减少 tokenization 时间","低质量数据（垃圾内容、模板文本、有害内容）会按其在训练数据中的比例降低模型能力","tokenization 之后无法过滤","tokenizer 无法处理低质量文本"],"correct":1,"explanation":"模型会从它看到的所有数据中学习。如果训练数据有 10% 是垃圾或低质量内容，模型就会把约 10% 的能力用于复现这些模式。尽早过滤能让高质量信号进入模型。"}
+  ]
+}

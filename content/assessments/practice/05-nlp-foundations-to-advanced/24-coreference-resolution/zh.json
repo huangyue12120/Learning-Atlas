@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/24-coreference-resolution/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "9fe868f75187cf76d20e0d7309ac209a49079b003097e2dd870e77b1097f47f9"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "coreference-resolution-05-1",
+      "stage": "pre",
+      "question": "共指消解的目标是什么？",
+      "options": [
+        "把所有指向同一现实实体的提及（命名提及、名词性提及和代词性提及）聚成一组",
+        "抽取关系",
+        "标注词性",
+        "把代词翻译成名词"
+      ],
+      "correct": 0,
+      "explanation": "共指消解会把指向同一实体的提及片段聚成一个簇。"
+    },
+    {
+      "id": "coreference-resolution-05-2",
+      "stage": "pre",
+      "question": "哪一类表达属于 nominal mention（名词性提及）？",
+      "options": [
+        "动词",
+        "“she”这样的代词",
+        "只有专有名词",
+        "“the CEO”或“the company”这样的名词短语"
+      ],
+      "correct": 3,
+      "explanation": "名词性提及是“the company”这样的名词短语；代词性提及则是代词。"
+    },
+    {
+      "id": "coreference-resolution-05-3",
+      "stage": "check",
+      "question": "现代的（Lee 等，2017）共指消解架构是什么？",
+      "options": [
+        "只有基于规则的句法分析",
+        "决策树",
+        "端到端的片段模型：枚举片段、为提及打分，再计算先行词概率并进行贪心聚类",
+        "BM25 检索"
+      ],
+      "correct": 2,
+      "explanation": "端到端神经共指模型会枚举片段，并联合学习提及得分和先行词得分。"
+    },
+    {
+      "id": "coreference-resolution-05-4",
+      "stage": "check",
+      "question": "CoNLL F1 是哪些指标的平均值？",
+      "options": [
+        "MUC、B-cubed 和 CEAF-phi4 的 F1 分数",
+        "精确率和召回率",
+        "各语言 F1 的平均值",
+        "词元级 F1 和片段级 F1"
+      ],
+      "correct": 0,
+      "explanation": "CoNLL F1 是 MUC、B-cubed 和 CEAF-phi4 三个指标的平均值。"
+    },
+    {
+      "id": "coreference-resolution-05-5",
+      "stage": "check",
+      "question": "什么是 bridging anaphora（桥接指代）？",
+      "options": [
+        "一种隐含指代，例如提到一辆车后说“the wheels”，暗示的是这辆车的轮子",
+        "翻译错误",
+        "先于所指对象出现的代词",
+        "没有先行词的代词"
+      ],
+      "correct": 0,
+      "explanation": "桥接指代把一个提及连接到此前未明说、但可以推知的组成部分或相关实体。"
+    },
+    {
+      "id": "coreference-resolution-05-6",
+      "stage": "post",
+      "question": "为什么只用 LLM 处理长文档共指消解并不可靠？",
+      "options": [
+        "共指消解需要 CFG",
+        "LLM 不能阅读文本",
+        "分词器会失败",
+        "单次 LLM 调用在跨越 50 多个段落时可能合并过多提及，或悄悄漏掉提及；应使用滑动窗口再合并结果"
+      ],
+      "correct": 3,
+      "explanation": "长文档会使 LLM 共指消解效果下降；滑动窗口加跨窗口合并可以缓解这一问题。"
+    },
+    {
+      "id": "coreference-resolution-05-7",
+      "stage": "post",
+      "question": "为什么要在下游任务前把共指簇合并进 NER 结果？",
+      "options": [
+        "这是 Wikidata 的要求",
+        "这样下游任务看到的是每个簇对应的一个实体，而不是每个表面提及，覆盖率会显著提高",
+        "降低延迟",
+        "增加词元数量"
+      ],
+      "correct": 1,
+      "explanation": "不合并时，NER 会把每种表面形式分别计数，并可能漏掉 60%–80% 的实体提及。"
+    },
+    {
+      "id": "coreference-resolution-05-8",
+      "stage": "post",
+      "question": "为什么把性别规则硬编码到共指系统中很脆弱？",
+      "options": [
+        "它会在非二元指代、组织和动物上失效；学习式打分更稳健",
+        "它不能使用 POS 标签",
+        "它需要 GPU",
+        "它运行得太快"
+      ],
+      "correct": 0,
+      "explanation": "性别启发式在多样化文本中容易失效，因此通常更偏好学习式模型。"
+    }
+  ]
+}

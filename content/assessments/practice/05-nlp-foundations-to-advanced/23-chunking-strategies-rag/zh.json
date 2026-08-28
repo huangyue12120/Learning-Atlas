@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/23-chunking-strategies-rag/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "e0c8a58bc7f2bfc034d6c8ee0974c71fe9faa2f84f5bcd5e64119a820d45d949"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "chunking-strategies-rag-05-1",
+      "stage": "pre",
+      "question": "为什么在 RAG 中，分块策略与嵌入模型同样重要？",
+      "options": [
+        "分块会缩小模型",
+        "更小的分块训练更快",
+        "FAISS 要求必须分块",
+        "分块边界决定答案是否能被检索到；糟糕的分块会让任何嵌入模型都失效"
+      ],
+      "correct": 3,
+      "explanation": "Vectara 在 2025 年的研究显示，分块质量对检索效果的影响不低于，甚至可能超过嵌入模型的影响。"
+    },
+    {
+      "id": "chunking-strategies-rag-05-2",
+      "stage": "pre",
+      "question": "LangChain 的 `RecursiveCharacterTextSplitter` 按什么顺序尝试切分？",
+      "options": [
+        "先按段落，再按换行符，再按句子边界，最后按空格",
+        "按词元 ID 切分",
+        "只按空白字符切分",
+        "始终按第 N 个字符切分"
+      ],
+      "correct": 0,
+      "explanation": "递归切分会依次从段落、换行、句子退化到空格，尽量保留原文结构。"
+    },
+    {
+      "id": "chunking-strategies-rag-05-3",
+      "stage": "check",
+      "question": "为什么父文档模式能提高答案质量？",
+      "options": [
+        "它删除了嵌入",
+        "子块负责精确检索；返回更大的父文档块可以保留阅读器需要的周边上下文",
+        "它避免了分词",
+        "它使用更少的 GPU 周期"
+      ],
+      "correct": 1,
+      "explanation": "先用小子块提高检索精度，再扩展回父文档，可以保留回答所需的上下文。"
+    },
+    {
+      "id": "chunking-strategies-rag-05-4",
+      "stage": "check",
+      "question": "Anthropic 的“上下文检索”会在索引前为每个分块增加什么？",
+      "options": [
+        "由 LLM 生成的 50–100 词摘要，把该分块放回文档整体语境中",
+        "随机噪声",
+        "POS 标签",
+        "语言代码"
+      ],
+      "correct": 0,
+      "explanation": "上下文检索会在每个分块前加上 LLM 撰写的定位摘要；据报告，这可以带来约 35%–50% 的召回率提升。"
+    },
+    {
+      "id": "chunking-strategies-rag-05-5",
+      "stage": "check",
+      "question": "哪项 2026 年的发现推翻了关于分块重叠的传统经验？",
+      "options": [
+        "重叠应为 50%",
+        "BM25 要求必须重叠",
+        "重叠只会改善上下文检索",
+        "2026 年的实证基准显示，重叠经常没有可测量的收益，却会使索引成本翻倍"
+      ],
+      "correct": 3,
+      "explanation": "较新的研究（例如使用 SPLADE + Mistral 在 NQ 上的研究）显示，分块重叠很少有帮助，却会膨胀索引大小。"
+    },
+    {
+      "id": "chunking-strategies-rag-05-6",
+      "stage": "post",
+      "question": "NVIDIA 的 2026 年基准将哪种分块大小与事实型查询联系起来？",
+      "options": [
+        "大约 256–512 个词元",
+        "2048–4096 个词元",
+        "8192 个词元",
+        "64 个词元"
+      ],
+      "correct": 0,
+      "explanation": "事实型查询适合较小的分块（256–512 个词元），这样答案信号更集中。"
+    },
+    {
+      "id": "chunking-strategies-rag-05-7",
+      "stage": "post",
+      "question": "使用语义分块时，为什么需要设置最小词元数下限？",
+      "options": [
+        "没有下限时，语义分块可能产生只有 40 个词元的微小片段，损害检索效果",
+        "这是 BERT 的要求",
+        "下限可以防止重叠",
+        "下限可以加快推理"
+      ],
+      "correct": 0,
+      "explanation": "语义分块器可能过度切分；设置最小大小可以避免产生信号过弱的片段。"
+    },
+    {
+      "id": "chunking-strategies-rag-05-8",
+      "stage": "post",
+      "question": "“late chunking（后期分块）”与传统分块有什么不同？",
+      "options": [
+        "检索之后才分块",
+        "先在词元级别嵌入完整文档，再把词元嵌入池化为分块向量，从而保留跨分块上下文",
+        "完全跳过分块",
+        "改用 BM25"
+      ],
+      "correct": 1,
+      "explanation": "后期分块先嵌入、后池化，可以保留分块边界之间的上下文交互。"
+    }
+  ]
+}

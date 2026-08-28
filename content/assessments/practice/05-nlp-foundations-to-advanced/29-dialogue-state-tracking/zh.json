@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/29-dialogue-state-tracking/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "f61504ffb3fb074807bc2ec32b87edf9c812dfe3e78afe6b8b647b49ea268777"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "dialogue-state-tracking-05-1",
+      "stage": "pre",
+      "question": "对话状态跟踪会跨轮次维护什么？",
+      "options": [
+        "只有自由文本历史",
+        "POS 标注后的对话记录",
+        "对话的一个嵌入向量",
+        "表示用户当前目标、每轮更新的槽位—取值字典"
+      ],
+      "correct": 3,
+      "explanation": "DST 保留结构化的槽位—取值映射，后端可以据此执行操作。"
+    },
+    {
+      "id": "dialogue-state-tracking-05-2",
+      "stage": "pre",
+      "question": "Joint Goal Accuracy（JGA，联合目标准确率）衡量什么？",
+      "options": [
+        "所有槽位都完全正确的轮次比例（全有或全无）",
+        "余弦相似度",
+        "每轮延迟",
+        "平均槽位准确率"
+      ],
+      "correct": 0,
+      "explanation": "JGA 是严格的逐轮、跨所有槽位匹配；逐槽位准确率则更宽松。"
+    },
+    {
+      "id": "dialogue-state-tracking-05-3",
+      "stage": "check",
+      "question": "为什么每轮根据完整历史重新生成状态，能自然处理用户更正？",
+      "options": [
+        "它使用更少的词元",
+        "它运行在 GPU 上",
+        "它避免使用嵌入",
+        "读取完整历史后，模型可以重新推导最终状态，包括“其实……”这样的更正，而不需要显式回滚逻辑"
+      ],
+      "correct": 3,
+      "explanation": "完整历史重生成会根据整个对话重新计算最终状态，因此能吸收用户的更正。"
+    },
+    {
+      "id": "dialogue-state-tracking-05-4",
+      "stage": "check",
+      "question": "2026 年哪种模式可以用 5 行代码得到保证有效的槽位字典？",
+      "options": [
+        "手写正则表达式",
+        "LLM + Instructor + Pydantic 模式，并配合受约束或经过校验的输出",
+        "TF-IDF 分类器",
+        "BM25 检索"
+      ],
+      "correct": 1,
+      "explanation": "Pydantic 模式加 Instructor 会自动根据槽位本体校验 LLM 生成的状态输出。"
+    },
+    {
+      "id": "dialogue-state-tracking-05-5",
+      "stage": "check",
+      "question": "为什么要给 DST 模式版本化？",
+      "options": [
+        "事后增加新槽位会使旧训练数据失效，并破坏纵向评估",
+        "减少词元数量",
+        "这是 JSON 的要求",
+        "提高速度"
+      ],
+      "correct": 0,
+      "explanation": "未版本化的模式变化会悄悄破坏训练数据对齐和评估结果的可比性。"
+    },
+    {
+      "id": "dialogue-state-tracking-05-6",
+      "stage": "post",
+      "question": "为什么合规敏感领域的 DST 必须在 LLM 抽取旁边加入基于规则的检查？",
+      "options": [
+        "LLM 速度更慢",
+        "规则可以避免使用嵌入",
+        "纯 LLM 的 DST 可能错误抽取金额、账户、日期等危险参数；规则层可以施加确定性约束",
+        "规则支持多语言"
+      ],
+      "correct": 2,
+      "explanation": "合规领域需要确定性约束；规则可以捕捉 LLM 引入的槽位错误。"
+    },
+    {
+      "id": "dialogue-state-tracking-05-7",
+      "stage": "post",
+      "question": "通过 LLM 每轮重新生成状态，有什么成本问题？",
+      "options": [
+        "嵌入漂移",
+        "需要更多嵌入",
+        "每轮重新读取完整历史会使总词元用量达到 O(n²)；应限制历史长度或总结较早轮次",
+        "余弦相似度成本"
+      ],
+      "correct": 2,
+      "explanation": "完整历史重生成的成本随轮次呈平方增长；可以限制历史或使用滚动摘要。"
+    },
+    {
+      "id": "dialogue-state-tracking-05-8",
+      "stage": "post",
+      "question": "为什么在执行有破坏性的后端操作前必须采用明确的确认流程？",
+      "options": [
+        "确认会提高 JGA",
+        "即使 DST 很好也仍有非零槽位错误率；确定性的确认可以避免对错误账户或错误金额执行操作",
+        "这是分词器的要求",
+        "延迟"
+      ],
+      "correct": 1,
+      "explanation": "破坏性操作需要用户确认，因为 DST 永远不可能完全无错。"
+    }
+  ]
+}

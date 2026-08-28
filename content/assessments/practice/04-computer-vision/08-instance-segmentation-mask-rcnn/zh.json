@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/08-instance-segmentation-mask-rcnn/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"46b5aebc26ca54b60f0f5f9f0eff98ff3187166bf12b199bda64d9260ee6f97d"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"instance-segmentation-mask-rcnn-04-1","stage":"pre","question":"为什么 Mask R-CNN 用 RoIAlign 替代 RoIPool？","options":["RoIPool 会在多个步骤把框坐标取整，使特征图与输入像素最多错开一个特征图像素；RoIAlign 用不取整的双线性采样保留精确定位","RoIPool 存在版权问题","RoIPool 只适用于 CPU","RoIAlign 在 GPU 上更快"],"correct":0,"explanation":"RoIPool 的取整会造成与 stride 同量级的错位；RoIAlign 则在精确的浮点坐标上做双线性插值。原论文在 COCO 上让 mask AP 提高了约 3–4 个百分点。"},
+    {"id":"instance-segmentation-mask-rcnn-04-2","stage":"pre","question":"Mask R-CNN 的 mask head 为每个 proposal、每个类别输出一个 28×28 掩码。为什么要按类别输出？","options":["论文强制要求这样做","单通道二值掩码会溢出","把掩码预测与分类解耦：mask head 只需分别学习每个类别的形状，分类器只决定推理时读取哪个通道","因为二值掩码反向传播必须使用每类通道"],"correct":2,"explanation":"每个类别一个掩码可以把形状学习和类别判断解耦。推理时只读取预测类别对应的通道；形状和类别概率是不同目标，应由不同梯度学习。"},
+    {"id":"instance-segmentation-mask-rcnn-04-3","stage":"post","question":"torchvision 的 Mask R-CNN 预测字典中，`labels` 从 1 开始而不是 0，为什么？","options":["torchvision 全程使用从 1 开始的索引","类别 0 保留给背景；用户类别使用 1..C，让分类头把背景作为有独立 logits 和梯度的真实类别","这是训练数据决定的","这是历史 bug"],"correct":1,"explanation":"多数检测器把背景设为类别 0，前景类别设为 1..C。softmax 在 C+1 个类别上学习“这里没有目标”；因此 4 个真实类别的数据集应把 num_classes 设为 5。"},
+    {"id":"instance-segmentation-mask-rcnn-04-4","stage":"post","question":"你在 500 张图像上微调 Mask R-CNN，验证 mAP 停滞但训练损失继续下降。首先应尝试什么？","options":["增加训练轮数","提高学习率","改用 U-Net 分割","冻结 backbone 和 FPN，只微调 RPN 与各个 head；500 张图不足以更新 2300 万个 backbone 参数而不发生过拟合"],"correct":3,"explanation":"小数据集没有足够信号更新全部参数。冻结预训练 backbone 和 FPN，只训练 RPN 目标性头及分类/掩码头，是标准方案，通常能解决这个过拟合平台期。"},
+    {"id":"instance-segmentation-mask-rcnn-04-5","stage":"post","question":"Mask R-CNN 内部的 FPN 有 P2、P3、P4、P5 四个层级，stride 为 4、8、16、32。为什么不只用一个层级？","options":["降低参数量","四个层级是任意的","自然图像中的目标大小范围很广；把 proposal 路由到匹配其大小的 FPN 层，能得到合适感受野，优于始终使用单一尺度","为了使用更多 GPU 内存"],"correct":2,"explanation":"stride=32 的特征图上，小目标可能只占一个像素，几乎没有空间信息。FPN 把小目标送到高分辨率 P2，把大目标送到低分辨率但语义更强的 P5，使感受野匹配目标大小。"}
+  ]
+}

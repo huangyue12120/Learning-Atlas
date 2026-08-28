@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/03-deep-learning-core/02-multi-layer-networks/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "ecabc0f7c12504c905dd723c1f6be5387ba55349290d51a2568adb74bbc44cac"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"multi-layer-networks-03-1","stage":"pre","question":"多层网络中隐藏层的作用是什么？","options":["把输入转换为新的特征表示，从而支持非线性决策边界","应用损失函数","减少参数数量","存储训练数据"],"correct":0,"explanation":"隐藏层对输入应用权重、偏置和激活函数，生成新的特征表示。这些中间特征让网络能够学习单层网络无法表达的非线性映射。"},
+    {"id":"multi-layer-networks-03-2","stage":"pre","question":"神经网络中的 forward pass（前向传播）做什么？","options":["计算用于反向传播的梯度","打乱训练数据","使用梯度更新权重","让输入依次通过各层并产生输出"],"correct":3,"explanation":"前向传播只是计算：每层进行矩阵乘法、加偏置、应用激活函数，再把结果传给下一层。前向传播本身不会发生学习。"},
+    {"id":"multi-layer-networks-03-3","stage":"post","question":"一个层有 3 个神经元，接收来自 2 个神经元的输入，那么权重矩阵的形状是什么？","options":["(2, 3)","(3, 2)","(2, 2)","(3, 3)"],"correct":1,"explanation":"权重矩阵形状为（当前层神经元数，前一层神经元数）=(3,2)。每一行包含一个当前神经元对应所有输入的权重。"},
+    {"id":"multi-layer-networks-03-4","stage":"post","question":"Universal Approximation Theorem（通用近似定理）保证了什么？","options":["神经网络可以解决任何计算问题","只要神经元足够多，单个隐藏层就能以任意精度近似任意连续函数","更深的网络总是优于浅层网络","任何网络都能在多项式时间内训练"],"correct":1,"explanation":"Cybenko 在 1989 年证明，包含一个隐藏层且神经元足够多的网络，可以以任意期望精度近似任意连续函数。实践中，更深的网络通常能用更少的总参数达到同样效果。"},
+    {"id":"multi-layer-networks-03-5","stage":"post","question":"为什么 sigmoid 激活函数能让学习成为可能，而感知器使用的阶跃函数不行？","options":["sigmoid 输出值更大","sigmoid 计算更快","sigmoid 处处平滑且可微，因此反向传播处处都有梯度","sigmoid 输出负值"],"correct":2,"explanation":"阶跃函数几乎处处梯度为零，在阈值处还不可微；sigmoid 平滑且处处有定义良好的导数 s*(1-s)，这对基于梯度的学习至关重要。"}
+  ]
+}

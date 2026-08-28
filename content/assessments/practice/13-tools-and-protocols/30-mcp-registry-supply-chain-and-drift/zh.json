@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/30-mcp-registry-supply-chain-and-drift/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "59d5160820f74d19c21065c9142baec47d392eb7c876cf9579e05a28b765cf45"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-registry-q1","stage":"pre","question":"在 MCP Registry 中成功发布，对生产网关建立了什么事实？","options":["记录通过了 Registry 发布控制，但仍需要本地运行时准入","实时 endpoint 与发布包完全一致","新版本应立即替换所有旧路由","服务器对所有主体都安全"],"correct":0,"explanation":"Registry 发布只建立发布事实；构件、运行时、授权和本地批准仍要分别检查。"},
+    {"id":"mcp-registry-q2","stage":"check","question":"已验证命名空间为 com.example 时，哪种比较会拒绝 com.exampleevil/tool？","options":["检查整个名称是否以 com.example 开头","搜索子串 example","按斜杠分割后精确比较命名空间片段","信任 server.json 里写入的命名空间"],"correct":2,"explanation":"精确的片段比较可以保留命名空间边界，并使用可信验证器提供的权威。"},
+    {"id":"mcp-registry-q3","stage":"check","question":"实时服务器新增工具，但 Registry 记录和包坐标都不变，哪项证据能检测它？","options":["新的规范化 descriptor 摘要与已准入 toolset pin 的比较","Registry 发布时间","命名空间认证方式","单独的语义版本字符串"],"correct":0,"explanation":"实时 descriptor pin 能检测发布 metadata 和包坐标无法显示的行为漂移。"},
+    {"id":"mcp-registry-q4","stage":"check","question":"已准入的 Registry 版本从 active 变成 deprecated 时应怎么办？","options":["隔离它，停止新路由，同时保留历史准入证据","把已发布记录改回 active","删除所有证据避免客户端发现","因为包所有权已验证所以忽略状态"],"correct":0,"explanation":"状态是运维输入；隔离可以停止新使用，保留证据则支持审计和回滚分析。"},
+    {"id":"mcp-registry-q5","stage":"post","question":"哪个目标有资格自动回滚？","options":["名称排在候选版本之前的任意版本","此前准入、策略下仍 active、健康且未被隔离的 pin","标记为 latest、但从未审查的版本","名称熟悉的 deleted Registry 版本"],"correct":1,"explanation":"回滚恢复已知可准入路由，不能绕过当前状态、健康或隔离检查。"},
+    {"id":"mcp-registry-q6","stage":"post","question":"为什么要把准入账本头锚定到独立信任域？","options":["让构件摘要变得不必要","让发布者可以设置 Registry 管理的状态","把可变版本范围转换为精确 pin","本地哈希链能检测编辑，而外部锚点能检测整条本地链被重写"],"correct":3,"explanation":"能重写整个本地账本的攻击者也能重新计算哈希链；外部签名或只写锚点可暴露这种重写。"}
+  ]
+}

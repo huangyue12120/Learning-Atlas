@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/03-deep-learning-core/06-optimizers/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "e0153b91cb8b5a672e94160131a66619fdcf4a27f5318e7f7baffac5401004d8"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"optimizers-03-1","stage":"pre","question":"动量（momentum）解决了梯度下降中的什么问题？","options":["防止过拟合","消除对学习率的需要","减少内存使用","通过累积过去的梯度抑制振荡，并加速沿一致方向的移动"],"correct":3,"explanation":"在狭窄谷地中，梯度会横跨谷地来回振荡，却沿谷地方向缓慢前进。动量累积过去梯度，让一致方向增强、振荡方向相互抵消，从而更平滑、更快收敛。"},
+    {"id":"optimizers-03-2","stage":"pre","question":"Adam 与 AdamW 的关键区别是什么？","options":["AdamW 使用更高的学习率","AdamW 只适用于 Transformer","AdamW 直接对权重施加 weight decay，而不是通过梯度项施加，从而实现正确的正则化","AdamW 不使用动量"],"correct":2,"explanation":"在 Adam 加 L2 正则中，自适应学习率会对不同参数以不同方式缩放正则项。AdamW 将 weight decay 与梯度更新解耦，对权重进行统一收缩，不受梯度统计影响。"},
+    {"id":"optimizers-03-3","stage":"post","question":"Adam 为什么在训练早期要做 bias correction？","options":["防止过拟合","动量估计从零初始化，早期值偏向零；校正可以补偿这一冷启动偏差","裁剪大梯度","加快收敛"],"correct":1,"explanation":"例如 beta1=0.9 时第 1 步的 m1=0.1×gradient，约小 10 倍。除以 (1-0.9^1)=0.1 后才能恢复真实尺度；大约 50 步后这个修正就不太重要了。"},
+    {"id":"optimizers-03-4","stage":"post","question":"Adam 的标准默认超参数是什么？","options":["lr=0.0001, beta1=0.8, beta2=0.9","lr=0.01, beta1=0.99, beta2=0.99","lr=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8","lr=0.1, beta1=0.5, beta2=0.5"],"correct":2,"explanation":"Adam 原论文（Kingma & Ba，2014）推荐 lr=0.001、beta1=0.9、beta2=0.999、epsilon=1e-8，这组默认值适用于许多任务。"},
+    {"id":"optimizers-03-5","stage":"post","question":"训练 Transformer 和 LLM 的现代默认优化器是哪一个？","options":["带动量的 SGD","RMSProp","AdamW","原始 SGD"],"correct":2,"explanation":"AdamW（带解耦 weight decay 的 Adam）被用于训练 BERT、GPT、LLaMA 以及几乎所有现代 Transformer，兼具自适应学习率和正确的权重衰减。"}
+  ]
+}

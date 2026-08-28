@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/07-semantic-segmentation-unet/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"c833642777a50ead23d456b4886d3e208bd86cc3c022e155abd86915f3ad64e4"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"semantic-segmentation-unet-04-1","stage":"pre","question":"为什么 U-Net 需要在 encoder 和 decoder 之间使用 skip connection？","options":["因为转置卷积需要额外输入","为了匹配 PyTorch 的形状约定","encoder 压缩空间细节以获得上下文；decoder 没有高分辨率特征图就无法恢复清晰边界，而 skip 正好提供这些特征","加快训练"],"correct":2,"explanation":"没有 skip 时，decoder 只能从低分辨率 bottleneck 生成 H×W 预测，难以定位清晰边缘。skip 把 encoder 的高分辨率细节与 decoder 的高语义特征结合起来。"},
+    {"id":"semantic-segmentation-unet-04-2","stage":"pre","question":"一个分割任务有 99% 背景像素和 1% 肿瘤像素。使用普通交叉熵训练达到 99% 像素准确率，发生了什么？","options":["损失函数实现错误","模型已经收敛","模型把每个像素都预测为背景；像素准确率被多数类主导，忽略了真正关心的类别","优化器失败"],"correct":2,"explanation":"在不平衡分割数据上，像素准确率没有意义。模型只预测背景就能得到 99%，却会输出空的肿瘤掩码；应结合 Dice loss，并报告每个前景类的 IoU/Dice。"},
+    {"id":"semantic-segmentation-unet-04-3","stage":"post","question":"哪种任务类型能把同一类别的不同汽车彼此区分开？","options":["两者输出相同","语义分割","实例分割","都不能——这需要检测模型"],"correct":2,"explanation":"语义分割只给每个像素类别，接触的同类目标会合并成一块；实例分割还保留实例 ID，因此能分别输出每辆车、每个人的掩码。"},
+    {"id":"semantic-segmentation-unet-04-4","stage":"post","question":"把 U-Net 的双线性上采样 + 3×3 卷积换成 kernel_size=2、stride=2 的 ConvTranspose2d 后，输出出现棋盘伪影。为什么？","options":["PyTorch 的转置卷积有缺陷","学习率太低","当 kernel_size 不能被 stride 整除时，不同输出像素收到的输入贡献不均等，形成周期性的棋盘图案","转置卷积前必须加 BatchNorm"],"correct":2,"explanation":"转置卷积的感受野在不同输出位置重叠不均会产生棋盘伪影。可以使用 stride 的整数倍卷积核（如 kernel=4、stride=2），或使用双线性上采样加卷积。"},
+    {"id":"semantic-segmentation-unet-04-5","stage":"post","question":"在 10 类分割任务上报告 mIoU=0.78，为什么还应公布每类 IoU？","options":["均值 IoU 会掩盖单类失败；0.78 可能来自 8 类为 0.9、2 类为 0.3，这与所有类别都接近 0.78 的部署含义完全不同","PyTorch 要求每类 IoU","只有医学图像需要","每类 IoU 总是高于 mIoU"],"correct":0,"explanation":"平均值压缩了各类别分数的分布。两个弱类别可能让系统无法完成目标任务，所以应始终把每类指标与均值一起发布。"}
+  ]
+}

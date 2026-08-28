@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/08-building-an-mcp-client/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "812e7aa2995c79271ca6cce0aea6e1e4b5fcc2f287d18eefa64875733ce05cb2"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-client-q1","stage":"pre","question":"支持两个协议时代的 stdio 客户端应该先发送什么？","options":["Mcp-Session-Id","server/discover","initialize","HTTP GET"],"correct":1,"explanation":"先做发现探测，可以清楚区分现代的逐请求元数据与旧版初始化。"},
+    {"id":"mcp-client-q2","stage":"check","question":"发现探测返回 -32022，且其中一个版本彼此支持。客户端该怎么做？","options":["用支持的版本重试现代发现","发送 initialize","打开 HTTP GET","忽略服务器"],"correct":0,"explanation":"-32022 是已识别的现代证据，客户端应留在现代分支并重试。"},
+    {"id":"mcp-client-q3","stage":"check","question":"什么条件足以选择旧版时代？","options":["任意 -32601 错误","peer 在旧版 allowlist 中","peer 在 allowlist 中且有界 initialize 探测返回有效的受支持旧版结果","单独一次发现超时"],"correct":2,"explanation":"allowlist 只允许进行探测；只有针对配置旧版 revision 的、结构有效的 initialize 正向结果才能证明旧版时代。"},
+    {"id":"mcp-client-q4","stage":"check","question":"客户端发现两个都叫 search 的工具时应如何处理？","options":["静默覆盖其中一个","信任启动顺序","按声明的策略加前缀或拒绝","创建协议 session"],"correct":2,"explanation":"显式加前缀或拒绝可以让路由保持可见且确定。"},
+    {"id":"mcp-client-q5","stage":"post","question":"客户端已经协商旧版时代，而旧版结果缺少 resultType，应如何解释？","options":["解释为 input_required","解释为 complete","解释为传输错误","解释为 server/discover"],"correct":1,"explanation":"对较早协议版本，客户端将缺少 resultType 的结果解释为 complete。"},
+    {"id":"mcp-client-q6","stage":"post","question":"现代传输丢失后，路由恢复前必须做什么？","options":["重连、重新发现并重新列出工具","用 Last-Event-ID 恢复","回显 Mcp-Session-Id","复用旧连接元数据"],"correct":0,"explanation":"客户端要重建 peer bookkeeping，并只用新的 request id 重试安全操作。"}
+  ]
+}

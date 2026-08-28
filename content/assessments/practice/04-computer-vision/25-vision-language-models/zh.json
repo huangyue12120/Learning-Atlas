@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/25-vision-language-models/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"1e10a48f7dc139f5bbebd681b1b55fffb124e2cc7f9f33d8ac627d71c5e4e785"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"vision-language-models-04-1","stage":"pre","question":"在 ViT-MLP-LLM 的 VLM 模式中，对齐阶段最常训练哪个组件，而冻结其他组件？","options":["始终同时训练所有组件","视觉 encoder","LLM","projector（位于 ViT 与 LLM 之间的 2–4 层 MLP）；它把视觉 token 映射到 LLM embedding 空间，承担大部分跨模态对齐信号"],"correct":3,"explanation":"标准方案先冻结 ViT 和 LLM，只训练小型 projector 完成对齐；之后才可选择解冻全部组件进行预训练和指令微调。生产微调常只训练 projector 加注意力层 LoRA。"},
+    {"id":"vision-language-models-04-2","stage":"pre","question":"Qwen3-VL 使用的 DeepStack 做了什么？","options":["把 LLM 深度加倍","只使用 ViT 最深层特征","在投影前堆叠多个 ViT 深度的特征，让 LLM 同时看到高层语义和浅层的细粒度空间细节","一种特定量化方案"],"correct":2,"explanation":"普通 VLM 只投影 ViT 最后一层；DeepStack 采样多个深度并拼接投影。深层提供“这是图表”的语义，浅层提供位置和纹理细节，有助于精确 grounding。"},
+    {"id":"vision-language-models-04-3","stage":"post","question":"生产 VLM 的文本置信度很高，但生成内容描述了图像中不存在的物体。哪个指标能捕捉这一失败？","options":["token 生成延迟","MMMU 准确率","Cross-Modal Error Rate（CMER）：文本置信度高但通过 CLIP 系列检查器计算的图文相似度低的输出比例","困惑度"],"correct":2,"explanation":"CMER 是生产对齐 KPI，专门捕捉模型“很确定但没有视觉依据”的幻觉。应按 endpoint 和 prompt 类型监控它的变化。"},
+    {"id":"vision-language-models-04-4","stage":"post","question":"为什么现代 VLM 使用 SigLIP 或自定义视觉 encoder，而不是有监督 ImageNet ResNet？","options":["SigLIP 参数更多","ResNet 不能产生 token","SigLIP 更快","CLIP/SigLIP 类 encoder 与文本联合训练，输出空间已大致与语言对齐；projector 需要做的桥接工作更少，模型也更擅长推理视觉—文本概念"],"correct":3,"explanation":"视觉—语言预训练让 encoder 位于兼容文本的空间。有监督 ImageNet ResNet 从未接收文本信号，连接 LLM 需要更大的 projector 和更多数据；CLIP/SigLIP 可用少量线性层适配。"},
+    {"id":"vision-language-models-04-5","stage":"post","question":"Qwen3-VL-235B-A22 在 OSWorld 上取得高分。OSWorld 是什么，这说明了什么？","options":["一个让模型操作桌面 GUI 的 agent benchmark：模型识别按钮、读取 UI 状态并发出动作；高分说明 VLM 已开始具备用于 GUI 自动化的视觉 agent 能力","姿态估计 benchmark","合成数据 benchmark","视频问答 benchmark"],"correct":0,"explanation":"OSWorld 测试模型能否仅根据屏幕截图自主操作桌面环境。高分说明“VLM 读取屏幕、决定动作、调用鼠标键盘工具”的视觉 agent 范式已接近实用。"}
+  ]
+}

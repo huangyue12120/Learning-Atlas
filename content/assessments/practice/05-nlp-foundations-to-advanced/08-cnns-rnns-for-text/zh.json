@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/08-cnns-rnns-for-text/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "45f56bcc2a262ba70570eac6858b97ce96044dddd871aa66fd17ed8cd5be44b6"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "cnns-rnns-for-text-05-1",
+      "stage": "pre",
+      "question": "对词嵌入做宽度为 3 的一维卷积时，卷积滤波器实际上在学习什么？",
+      "options": [
+        "一个可学习的二元词组检测器",
+        "一个可学习的三元词组（n-gram）检测器",
+        "一个位置嵌入",
+        "一元词计数"
+      ],
+      "correct": 1,
+      "explanation": "宽度为 3 的滤波器覆盖连续的三个词元，因此相当于一个可学习的三元词组检测器。"
+    },
+    {
+      "id": "cnns-rnns-for-text-05-2",
+      "stage": "pre",
+      "question": "为什么 LSTM 的细胞状态主要采用加法式交互？",
+      "options": [
+        "让 softmax 更快",
+        "避免矩阵求逆",
+        "加法信息流让梯度能够沿长序列传播，避免梯度消失或爆炸",
+        "节省内存"
+      ],
+      "correct": 2,
+      "explanation": "细胞状态形成的高速通道可以在数百个时间步中保持梯度稳定，缓解梯度消失问题。"
+    },
+    {
+      "id": "cnns-rnns-for-text-05-3",
+      "stage": "check",
+      "question": "TextCNN 为什么在卷积层之后使用全局最大池化？",
+      "options": [
+        "减少词汇表大小",
+        "最大池化为每个滤波器选择最强激活，得到固定大小且与位置无关的表示",
+        "启用反向传播",
+        "删除嵌入"
+      ],
+      "correct": 1,
+      "explanation": "全局最大池化无论输入长度如何都能产生固定大小的特征向量，并具有位置不变性。"
+    },
+    {
+      "id": "cnns-rnns-for-text-05-4",
+      "stage": "check",
+      "question": "与单向 RNN 相比，双向 RNN 在序列标注上的主要优势是什么？",
+      "options": [
+        "占用更少内存",
+        "不需要嵌入",
+        "每个词元的表示同时看到左侧和右侧上下文，这对标注至关重要",
+        "训练更快"
+      ],
+      "correct": 2,
+      "explanation": "双向网络会拼接前向和后向隐藏状态，因此标签预测可以利用完整上下文。"
+    },
+    {
+      "id": "cnns-rnns-for-text-05-5",
+      "stage": "check",
+      "question": "为什么对 LSTM 输出做最大池化通常比只使用最后一个隐藏状态更适合分类？",
+      "options": [
+        "最大池化会删除大小写信息",
+        "最后状态池化会忽略填充",
+        "最大池化可微，而最后状态不可微",
+        "长序列末尾的信息容易主导最后状态，使较早位置的证据被掩盖"
+      ],
+      "correct": 3,
+      "explanation": "最大池化会汇总各位置的最强信号；只取最后状态可能丢失较早位置的证据。"
+    },
+    {
+      "id": "cnns-rnns-for-text-05-6",
+      "stage": "post",
+      "question": "哪项 LSTM/RNN 编码器-解码器的局限性促成了注意力机制？",
+      "options": [
+        "它们需要子词分词器",
+        "解码器只能看到固定大小的编码器状态，长输入中的细节会丢失；而且循环结构使训练必须串行进行",
+        "它们无法嵌入词元",
+        "它们无法使用嵌入"
+      ],
+      "correct": 1,
+      "explanation": "固定大小的摘要瓶颈和串行训练是注意力机制试图解决的两个问题。"
+    },
+    {
+      "id": "cnns-rnns-for-text-05-7",
+      "stage": "post",
+      "question": "到 2026 年，TextCNN 或 BiLSTM 什么时候仍会胜过 Transformer？",
+      "options": [
+        "只要数据集是多语言的",
+        "边缘设备或端侧推理、逐词元流式输入，或需要快速建立小数据基线时",
+        "延迟要求非常宽松时",
+        "处理图像输入时"
+      ],
+      "correct": 1,
+      "explanation": "小型架构在端侧推理、流式输入和快速建立基线等场景中仍可能胜出。"
+    },
+    {
+      "id": "cnns-rnns-for-text-05-8",
+      "stage": "post",
+      "question": "普通 RNN 中的梯度消失问题是什么？",
+      "options": [
+        "输入会变成零",
+        "反复乘以小于 1 的循环权重，使传向早期时间步的梯度逐渐趋近于零",
+        "损失会变成负数",
+        "嵌入矩阵会变成奇异矩阵"
+      ],
+      "correct": 1,
+      "explanation": "长序列中的梯度连乘会消失（或爆炸）；这正是 LSTM 和 GRU 需要门控机制的原因。"
+    }
+  ]
+}

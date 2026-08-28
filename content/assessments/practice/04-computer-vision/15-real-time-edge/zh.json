@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/15-real-time-edge/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"e5f0ca2781da55f1963dc84e515261dcce4473ba2050b482918f89106e6fffe2"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"real-time-edge-04-1","stage":"pre","question":"你测试模型并报告“在 4090 上平均每张图 12ms”。这个报告缺少什么？","options":["数据集名称","模型大小","没有缺少，这是完整 benchmark","分位数（p50/p95/p99）、预热规范和 CUDA 同步；只报均值会掩盖尾延迟，还可能测到 kernel dispatch 而非真正执行时间"],"correct":3,"explanation":"生产延迟应报告分位数，因为实时系统通常在尾部失败。没有预热会把 JIT 编译时间混入前几次测量；没有 `torch.cuda.synchronize` 则 GPU kernel 可能尚未完成，测到的只是派发时间。"},
+    {"id":"real-time-edge-04-2","stage":"pre","question":"FLOPs 与设备上的延迟并不完全相关，为什么？","options":["不同操作对硬件的友好程度不同；深度卷积 FLOPs 较少，却可能受 GPU 内存限制，而密集卷积能高效使用 Tensor Core。内存带宽、kernel 启动开销和缓存行为也会影响延迟","FLOPs 计数器有问题","FLOPs 忽略 batch size","PyTorch 计算 FLOPs 的方式不正确"],"correct":0,"explanation":"FLOPs 只是便宜的近似指标。实际耗时取决于操作是否匹配目标硬件：密集矩阵乘法能占满 Tensor Core，深度卷积可能卡在内存带宽上。部署决策应在目标设备上实测。"},
+    {"id":"real-time-edge-04-3","stage":"post","question":"在 ImageNet 类视觉模型上，训练后静态 INT8 量化通常会损失多少准确率？","options":["总是 0，因为它无损","20 个百分点以上，无法使用","5–10 个百分点","正确校准时约 0.1–1 个百分点；融合 BatchNorm 的卷积模型尤其适合 INT8"],"correct":3,"explanation":"校准良好的视觉模型做静态 PTQ 通常只损失不到 1 个百分点。较大损失多来自校准数据不足、激活离群值或未融合的 BatchNorm；处理这些问题后，INT8 的精度代价很小。"},
+    {"id":"real-time-edge-04-4","stage":"post","question":"移动应用需要一个小于 10MB、延迟低于 10ms 的视觉模型，你会先选哪个 backbone？","options":["ResNet-50","ConvNeXt-Large","ViT-Base","量化为 INT8 的 MobileNetV3-Small 或 EfficientNet-Lite-B0；二者都针对这一预算设计，并能顺利编译到 TFLite/Core ML"],"correct":3,"explanation":"移动视觉部署仍主要使用 MobileNetV3 和 EfficientNet-Lite，因为它们从设计之初就考虑了深度卷积、h-swish、squeeze-excite 和量化。ResNet-50、ViT-Base 通常会超出尺寸预算。"},
+    {"id":"real-time-edge-04-5","stage":"post","question":"你以 opset 17 将 PyTorch 模型导出到 ONNX，却遇到“Unsupported operator”。最可能的原因是什么？","options":["模型参数太多","输入形状错误","ONNX 库过时","（1）自定义算子没有 ONNX 映射；（2）tracing 无法捕获的运行时控制流；（3）Python 中隐式的张量—标量交互没有 ONNX 等价物。可替换算子、用 `torch.jit.script` 处理控制流或升级 opset"],"correct":3,"explanation":"ONNX 默认通过 tracing 导出，运行时分支、Python 级控制流和自定义 CUDA 算子可能无法被捕获。通常应替换不支持的节点、改用 `torch.jit.script`，或使用包含该算子的更新 opset。"}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/23-diffusion-transformers-rectified-flow/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"d0ce3bdbac70cdc6d51f922244ac4f12fa7c9994303668927c9f2d96b45bab84"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"diffusion-transformers-rectified-flow-04-1","stage":"pre","question":"为什么 2024 年以来的先进文生图模型（SD3、FLUX、Z-Image）用 Diffusion Transformer（DiT）替代 U-Net 去噪器？","options":["GPU 已不再支持 U-Net","DiT 比 U-Net 更可预测地扩展（与 LLM 使用相同的 scaling-law 范式），能更好处理长距离空间依赖，并能自然地通过交叉或联合注意力连接文本 encoder","Transformer 更容易编写","DiT 参数更少"],"correct":1,"explanation":"DiT 把扩散视为序列建模任务，能像语言模型一样扩展，减少卷积固定归纳偏置对长距离结构的限制，还能方便地接入 Transformer 文本 encoder。"},
+    {"id":"diffusion-transformers-rectified-flow-04-2","stage":"pre","question":"Rectified flow 训练模型预测数据与噪声直线插值上的速度 `v = epsilon - x_0`。为什么这能把采样从 1000 步降到 20 步？","options":["它需要更大的模型","学习到的 ODE 比 DDPM 的弯曲 SDE 更接近直线，因此少量 Euler 步也能准确采样；结合蒸馏还能得到 FLUX schnell 的 1–4 步版本","Euler 严格优于 DDIM","不能，rectified flow 也需要 1000 步"],"correct":1,"explanation":"DDPM 的逆过程是随机弯曲路径，需要许多小步；rectified flow 定义近似直线的插值，速度沿轨迹近似恒定，积分几步即可。"},
+    {"id":"diffusion-transformers-rectified-flow-04-3","stage":"post","question":"MMDiT（SD3）为文本 token 和图像 token 使用两套权重，却共享一个 joint attention 层。为什么？","options":["节省内存","文本和图像 embedding 属于不同分布，分开权重可以分别处理各自表示，而 joint attention 让二者交互，从而提升图文对齐和 prompt 遵循","这是遗留设计","只有图像 token 真正经过注意力"],"correct":1,"explanation":"MMDiT 保留模态专属的统计特性，同时用联合自注意力融合文本和图像。相比单一共享流，这种设计能更好地保持语义与视觉表示的差异。"},
+    {"id":"diffusion-transformers-rectified-flow-04-4","stage":"post","question":"DiT block 中的 AdaLN-Zero 是什么，为什么有帮助？","options":["只应用 50% 时间的 LayerNorm","一种自适应 LayerNorm，其调制 MLP 初始化为零，使 block 从恒等映射开始；训练再学习 scale/shift/gate，从而稳定很深的扩散 Transformer","epsilon 为零的 LayerNorm","均值为零的 LayerNorm"],"correct":1,"explanation":"AdaLN 根据条件向量预测 scale、shift 和 gate；“Zero”表示调制 MLP 零初始化，gate 从 0 开始，block 初始表现为恒等映射，能避免深层堆叠在训练早期发散。"},
+    {"id":"diffusion-transformers-rectified-flow-04-5","stage":"post","question":"FLUX.1-schnell 能用 4 步生成图像，哪项技术让它做到这一点？","options":["更低精度的权重","更少的参数","蒸馏——schnell 从慢速多步 teacher 学习，并使用对抗式或一致性目标，使 1–4 步去噪接近 teacher 的 20–30 步输出","它与 FLUX.1-dev 使用不同基础架构"],"correct":2,"explanation":"schnell、Turbo 和 LCM 等版本使用步数蒸馏，让少步 student 匹配多步 teacher。基础架构和参数量可以相同，蒸馏才是亚秒推理的关键。"}
+  ]
+}

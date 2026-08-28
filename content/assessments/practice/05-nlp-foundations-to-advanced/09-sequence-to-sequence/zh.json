@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/09-sequence-to-sequence/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "946ef6b774c275241ea9c3c47820b96333c5f9aaef025a27645b2a44ea4114fa"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "sequence-to-sequence-05-1",
+      "stage": "pre",
+      "question": "在 2014 年风格的 seq2seq 模型中，编码器承担什么作用？",
+      "options": [
+        "生成目标词元",
+        "执行 beam search",
+        "计算注意力权重",
+        "读取源序列，并生成概括源序列的固定大小上下文向量"
+      ],
+      "correct": 3,
+      "explanation": "编码器 RNN 将源序列压缩为最后一个隐藏状态，供解码器使用。"
+    },
+    {
+      "id": "sequence-to-sequence-05-2",
+      "stage": "pre",
+      "question": "seq2seq 训练中的 teacher forcing 是什么？",
+      "options": [
+        "手动标注解码器的每一步",
+        "在推理时加入一个教师网络",
+        "把批量大小加倍",
+        "把真实的前一个词元（而不是模型的预测）作为解码器输入"
+      ],
+      "correct": 3,
+      "explanation": "Teacher forcing 通过使用真实的前一个词元来稳定训练；没有它，早期错误会逐步累积。"
+    },
+    {
+      "id": "sequence-to-sequence-05-3",
+      "stage": "check",
+      "question": "为什么基于固定上下文向量的 seq2seq 在输入变长时准确率会下降？",
+      "options": [
+        "交叉熵会发散",
+        "填充词元会累积",
+        "词汇表会变得太大",
+        "源序列的全部信息都必须压缩进一个固定大小的编码器隐藏状态，长输入中的细节会因此丢失"
+      ],
+      "correct": 3,
+      "explanation": "固定上下文向量形成瓶颈，长序列无法在不损失信息的情况下被概括。"
+    },
+    {
+      "id": "sequence-to-sequence-05-4",
+      "stage": "check",
+      "question": "什么是 exposure bias（暴露偏差）？",
+      "options": [
+        "类别不均衡造成的偏差",
+        "编码器嵌入中的偏差",
+        "标注者之间的分歧",
+        "训练时使用真实词元，而推理时使用模型自身预测，两者之间形成的训练/推理落差"
+      ],
+      "correct": 3,
+      "explanation": "模型训练时从未练习如何纠正自己的错误，因此推理时错误容易连锁累积。"
+    },
+    {
+      "id": "sequence-to-sequence-05-5",
+      "stage": "check",
+      "question": "为什么 beam search 通常比贪心解码更适合生成？",
+      "options": [
+        "beam search 更快",
+        "beam search 在每一步保留得分最高的 k 个部分序列，而不是不可逆地只选一个词元",
+        "beam search 可以消除暴露偏差",
+        "beam search 会降低损失"
+      ],
+      "correct": 1,
+      "explanation": "贪心解码每一步都立即做出决定；beam search 会探索多个候选，最后选择得分最好的完整序列。"
+    },
+    {
+      "id": "sequence-to-sequence-05-6",
+      "stage": "post",
+      "question": "哪类架构取代了 RNN seq2seq，成为通用生成任务的主流？",
+      "options": [
+        "朴素贝叶斯",
+        "图神经网络",
+        "一维卷积网络",
+        "Transformer 编码器-解码器模型（BART、T5、mBART、NLLB）"
+      ],
+      "correct": 3,
+      "explanation": "Transformer 编码器-解码器去除了循环结构，如今主导许多文本生成任务。"
+    },
+    {
+      "id": "sequence-to-sequence-05-7",
+      "stage": "post",
+      "question": "scheduled sampling（计划采样）做什么？",
+      "options": [
+        "向嵌入加入随机噪声",
+        "在训练过程中逐步降低 teacher forcing 的比例，让模型学会从自己的预测中恢复",
+        "重新排列训练集",
+        "安排学习率衰减"
+      ],
+      "correct": 1,
+      "explanation": "计划采样逐渐混入模型自己的预测，以缩小训练和推理之间的差距。"
+    },
+    {
+      "id": "sequence-to-sequence-05-8",
+      "stage": "post",
+      "question": "为什么只使用贪心解码往往无法满足面向用户的生成需求？",
+      "options": [
+        "它总是首先生成 <EOS>",
+        "它不能使用嵌入",
+        "贪心解码可能重复或陷入循环，也无法从局部看似合理但全局较差的选择中回退",
+        "它需要更多内存"
+      ],
+      "correct": 2,
+      "explanation": "贪心解码每一步的选择不可逆，若没有 beam search 或采样，就容易产生循环和重复。"
+    }
+  ]
+}

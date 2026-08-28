@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/18-mcp-auth-production/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "b9859fe5c4e3646db14eabefce8e2f0e8065b2dd1fa915b3c31a773e6b8ffa1e"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-auth-production-q1","stage":"pre","question":"MCP 客户端为同一个 resource 发现了不同的 authorization-server issuer，应如何处理已有注册和 access token？","options":["只在本地改变 audience 后复用 access token","为新 issuer 重新注册，并按 issuer 隔离凭据","因为 MCP resource URL 未变所以全部复用","按工具名存储，而不是按 issuer 存储"],"correct":1,"explanation":"客户端 ID 和注册凭据属于创建它们的 authorization server；issuer 变化要求独立注册，access token 还要按 issuer 与 resource audience 缓存。"},
+    {"id":"mcp-auth-production-q2","stage":"check","question":"MCP 2026-07-28 authorization profile 首选哪种注册方式？","options":["每次请求都做 RFC 7591 Dynamic Client Registration","从客户端 HTTPS URL 提供 Client ID Metadata Document","在协议 session 中存一个全局客户端 ID","在每个桌面客户端中嵌入共享 client secret"],"correct":1,"explanation":"CIMD 让 authorization server 从 HTTPS client identifier 解析客户端元数据；DCR 已弃用，只为兼容保留。"},
+    {"id":"mcp-auth-production-q3","stage":"check","question":"已弃用的 DCR 请求描述了 loopback 桌面客户端，正确分类所需的关键 metadata 是什么？","options":["Mcp-Session-Id","通配 redirect URI","application_type 设为 native","可复用的 bearer token"],"correct":2,"explanation":"当前兼容指导要求正确的 application type；loopback 桌面客户端是 native，web 客户端才使用 HTTPS redirect URI。"},
+    {"id":"mcp-auth-production-q4","stage":"check","question":"客户端为什么要在兑换 authorization code 前验证 RFC 9207 的 iss 值？","options":["防止把诚实 issuer 的 code 兑换到错误 token endpoint","避免刷新 JWKS 缓存","用 issuer discovery 替代 PKCE","据此从 server/discover 选择工具"],"correct":0,"explanation":"issuer 检查防御 authorization-server mix-up，与 PKCE 配合确认响应来自重定向前记录的 issuer。"},
+    {"id":"mcp-auth-production-q5","stage":"post","question":"当前无状态传输下，MCP resource server 应在哪里缓存授权？","options":["在 Mcp-Session-Id 下直到客户端 DELETE","把它放进 server/discover 供以后调用","放在 SSE 连接中直到重连","不作为协议 session 决策缓存；每个请求都校验 bearer token"],"correct":3,"explanation":"MCP 2026-07-28 移除了协议 session；每个请求都独立经过授权边界，逐次检查身份、受众、过期时间和 scope。"},
+    {"id":"mcp-auth-production-q6","stage":"post","question":"在信任 authorization server 之前，哪种部署证据最强？","options":["检查目标服务器发现到的 metadata，并核对 PKCE、issuer、注册和 resource 绑定要求","从旧课程复制的厂商分类表","厂商页面声称支持 OAuth","成功登录但不检查 token audience"],"correct":0,"explanation":"能力会随部署和版本变化；实时 discovery 文档是应检查的具体契约，然后还要做端到端 issuer 与 audience 校验。"}
+  ]
+}

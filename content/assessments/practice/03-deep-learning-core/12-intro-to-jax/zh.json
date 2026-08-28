@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/03-deep-learning-core/12-intro-to-jax/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "d55944de5e54fe2b82f780561a4ead66906f2c4e7217fc94f8c7d3e152ed7fe8"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"intro-to-jax-03-1","stage":"pre","question":"PyTorch 和 JAX 的根本设计差异是什么？","options":["PyTorch 更快","PyTorch 急切地修改 tensor；JAX 编译没有副作用的纯函数","PyTorch 不支持自动微分","JAX 不支持 GPU"],"correct":1,"explanation":"PyTorch 使用带可变状态的 eager execution，例如原地修改 tensor.grad。JAX 倾向函数式编程：函数纯净、状态显式传递，并通过 jit 编译整个计算。"},
+    {"id":"intro-to-jax-03-2","stage":"pre","question":"jax.jit 做什么？","options":["加入 dropout 正则","把 Python 函数编译成优化的 XLA 代码，运行速度远快于解释执行的 Python","计算梯度","初始化模型权重"],"correct":1,"explanation":"jax.jit 会追踪函数并编译为 XLA（Accelerated Linear Algebra）机器代码。第一次调用需要编译，后续调用使用已优化版本。"},
+    {"id":"intro-to-jax-03-3","stage":"post","question":"jax.vmap 做什么？","options":["计算二阶梯度","管理 GPU 内存","验证模型架构","把面向单个样本的函数自动向量化到 batch 维，无需手写循环"],"correct":3,"explanation":"jax.vmap 将为单个样本编写的函数自动应用于整个 batch，通常比手动 batch 循环更高效。"},
+    {"id":"intro-to-jax-03-4","stage":"post","question":"JAX 与 PyTorch 在处理模型状态（权重）时有什么不同？","options":["JAX 要求显式传递状态：权重是函数参数，而不是可变对象属性","JAX 和 PyTorch 完全相同","JAX 不支持可训练权重","JAX 只把权重存放在 CPU"],"correct":0,"explanation":"PyTorch 的权重位于 nn.Module 中并会原地修改；JAX 把权重作为函数参数传入，并以新值返回，不使用隐式可变状态。"},
+    {"id":"intro-to-jax-03-5","stage":"post","question":"什么时候会选择 JAX 而不是 PyTorch？","options":["需要最大规模的预训练模型生态时","部署到移动设备时","快速原型化小模型时","在 TPU pod 上进行大规模训练时，因为编译和函数式变换能提供显著加速"],"correct":3,"explanation":"JAX 擅长大规模计算：jit 消除了 Python 开销，pmap 自然支持多设备并行，XLA 能跨完整计算图优化，在 TPU 集群上尤其有优势。"}
+  ]
+}

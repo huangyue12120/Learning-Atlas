@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/13-3d-vision-nerf/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"a1fe23e2583a761ae23985f48750450b32d340be96f939d4101c6439f5a9fa92"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"3d-vision-nerf-04-1","stage":"pre","question":"为什么普通 CNN 不能直接处理点云？","options":["点云需要四元数","CNN 假设输入像素排列在具有邻域结构的规则网格上；点云是 R^3 中无序、大小可变的点集合，不满足这两个假设","CNN 只能处理灰度图","点云太大"],"correct":1,"explanation":"卷积需要规则邻域，而点云既没有网格也没有固定点数。体素化能恢复网格但内存昂贵；PointNet 则用置换不变架构逐点处理，再做对称聚合。"},
+    {"id":"3d-vision-nerf-04-2","stage":"pre","question":"PointNet 用什么技巧使网络对输入点的排列不敏感？","options":["前向传播前先对点排序","批归一化","特殊损失函数","对每个点独立应用共享 MLP，再做对称聚合（max pool 或 sum）；聚合忽略顺序，所以整体输出与点的排列无关"],"correct":3,"explanation":"共享 MLP 对每个点使用相同权重、不依赖顺序；max 或 sum 等对称函数再聚合所有点。这是点云网络的核心技巧。"},
+    {"id":"3d-vision-nerf-04-3","stage":"post","question":"普通 NeRF MLP 直接接收原始 (x,y,z) 坐标时生成的结果很模糊，如何修复？","options":["增加训练数据","换成 CNN","使用 positional encoding：在 MLP 前把坐标投影为多频率 Fourier 特征（sin/cos(2^l * pi * x)），让受低频偏置影响的 MLP 表示高频细节","使用 16-bit 精度"],"correct":2,"explanation":"MLP 容易拟合平滑函数，却难拟合高频信号。位置编码预先把高频信息放进特征向量，让 MLP 更容易组合出清晰几何和纹理。"},
+    {"id":"3d-vision-nerf-04-4","stage":"post","question":"NeRF 如何计算一个渲染像素？","options":["从相机穿过像素发射一条射线，沿射线采样 N 个点，在每个点查询 MLP 得到（密度、颜色），再用体渲染方程沿射线累积 alpha 加权颜色","对深度图做卷积","查找预计算的体素网格","把最后一层 MLP 的输出直接作为像素"],"correct":0,"explanation":"NeRF 使用神经密度场进行经典体渲染。每个像素选一条射线、沿线采样并查询 (sigma,c)，再用 alpha 和累积透射率合成。对这一渲染步骤反向传播，就能从 2D 照片训练 MLP。"},
+    {"id":"3d-vision-nerf-04-5","stage":"post","question":"为什么 3D Gaussian splatting 在生产中很大程度上取代了 NeRF？","options":["NeRF 在数学上被证明错误","它使用显式表示（带透明度和颜色的数百万个 3D 高斯），通过光栅化实时渲染，而不是沿射线查询 MLP；训练从数小时降到数分钟，渲染快约 100 倍且质量相近","高斯更容易压缩","它生成更高质量的图像"],"correct":1,"explanation":"3D Gaussian Splatting 用显式 3D 高斯原语替代隐式 MLP 场景，渲染变成 GPU 光栅化，比逐像素从 MLP 采样射线快几个数量级。"}
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/13-question-answering/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "4a0d2497deea9749d24b7e8732a1293805784c183d3d3bc8692ffc5c36bca718"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "question-answering-05-1",
+      "stage": "pre",
+      "question": "抽取式问答预测什么？",
+      "options": [
+        "给定段落中答案片段的起始和结束词元索引",
+        "检索到的段落 ID",
+        "生成的自然语言答案",
+        "只有置信度分数"
+      ],
+      "correct": 0,
+      "explanation": "抽取式问答输出包含答案的原文片段。"
+    },
+    {
+      "id": "question-answering-05-2",
+      "stage": "pre",
+      "question": "基本 RAG pipeline 由哪两个组件组成？",
+      "options": [
+        "Tokenizer 和 POS 标注器",
+        "联合训练的编码器和解码器",
+        "重排序器和翻译器",
+        "检索器（寻找相关段落）和阅读器（抽取或生成答案）"
+      ],
+      "correct": 3,
+      "explanation": "RAG = 检索器（寻找相关上下文）加阅读器（根据上下文回答问题）。"
+    },
+    {
+      "id": "question-answering-05-3",
+      "stage": "check",
+      "question": "在 SQuAD 上，Exact Match（EM）衡量什么？",
+      "options": [
+        "词元级 F1",
+        "归一化后预测是否与参考答案完全一致（转小写、去标点、去冠词）",
+        "编辑距离",
+        "逐词重叠率"
+      ],
+      "correct": 1,
+      "explanation": "EM 在规定的归一化步骤之后检查严格相等；部分匹配得分为零。"
+    },
+    {
+      "id": "question-answering-05-4",
+      "stage": "check",
+      "question": "`deepset/roberta-base-squad2` 相比 SQuAD 1.1 模型增加了什么能力？",
+      "options": [
+        "更大的上下文窗口",
+        "多语言支持",
+        "跨语言检索",
+        "在无法回答的问题上训练，使模型可以预测空答案"
+      ],
+      "correct": 3,
+      "explanation": "SQuAD 2.0 包含无法回答的问题；在其上训练的模型可以预测“没有答案”。"
+    },
+    {
+      "id": "question-answering-05-5",
+      "stage": "check",
+      "question": "RAGAS 的哪个维度专门针对幻觉？",
+      "options": [
+        "上下文精确率",
+        "答案相关性",
+        "事实一致性（faithfulness），通过 NLI 检查答案主张是否被检索上下文蕴含",
+        "上下文召回率"
+      ],
+      "correct": 2,
+      "explanation": "Faithfulness 会使用 NLI 蕴含关系逐条检查答案主张与检索上下文的一致性。"
+    },
+    {
+      "id": "question-answering-05-6",
+      "stage": "post",
+      "question": "为什么应该先测量检索召回率，再评估阅读器准确率？",
+      "options": [
+        "阅读器延迟取决于它",
+        "如果正确段落不在 top-k 中，无论阅读器多好都无法答对",
+        "召回率决定 ROUGE",
+        "这是 Transformers 的要求"
+      ],
+      "correct": 1,
+      "explanation": "正确段落缺失时，阅读器不可能回答正确；因此检索召回率决定了阅读器性能的上限。"
+    },
+    {
+      "id": "question-answering-05-7",
+      "stage": "post",
+      "question": "哪种提示模式能减少 RAG 生成中的幻觉？",
+      "options": [
+        "删除问题",
+        "加入更多段落",
+        "要求模型自由发挥",
+        "要求模型只根据给定上下文回答；上下文不足时回复“我不知道”"
+      ],
+      "correct": 3,
+      "explanation": "明确要求基于上下文回答并允许拒答，可以显著降低幻觉率。"
+    },
+    {
+      "id": "question-answering-05-8",
+      "stage": "post",
+      "question": "在 2026 年，什么时候抽取式问答仍优先于生成式 RAG？",
+      "options": [
+        "法律、医疗、审计等受监管领域，需要逐字引用权威来源时",
+        "开放领域问答",
+        "对话式问答",
+        "多语言支持"
+      ],
+      "correct": 0,
+      "explanation": "抽取式问答会从权威语料库返回原文引文，这是合规场景通常要求的形式。"
+    }
+  ]
+}

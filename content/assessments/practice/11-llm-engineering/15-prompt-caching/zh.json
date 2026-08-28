@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/15-prompt-caching/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "3f624cc7f773612c358d95b98fb8cbbc4ca1ae7e048844ef95baa794cfc9b8ff"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"prompt-caching-11-1","stage":"post","question":"相对于基础输入价格，Anthropic 对缓存读取提供多少折扣？","options":["25% 折扣","90% 折扣","75% 折扣","50% 折扣"],"correct":1,"explanation":"缓存读取的价格比基础输入价格低 90%，因此反复使用相同前缀时可以显著降低输入成本。"},
+    {"id":"prompt-caching-11-2","stage":"post","question":"为什么动态时间戳应放在 cache breakpoint 之后，而不是之前？","options":["Anthropic 明确拒绝缓存块中的时间戳","时间戳会让 tokenizer 混乱","时间戳比静态文本消耗更多 token","缓存只有在前缀逐字节相同的情况下才命中；变化的时间戳会让它之后的全部内容都无法匹配"],"correct":3,"explanation":"缓存匹配依赖稳定的字节级前缀。把每次都会变化的时间戳放在断点之前，会破坏后续静态内容的缓存命中。"},
+    {"id":"prompt-caching-11-3","stage":"post","question":"OpenAI 的 prompt caching 如何配置？","options":["按项目打开的 system-level 开关","自动进行前缀匹配，不需要配置","创建并引用一个 CachedContent API 对象","显式添加 cache_control 标记"],"correct":1,"explanation":"OpenAI 会自动对相同的 prompt 前缀进行匹配，不需要应用额外创建缓存对象或添加显式标记。"},
+    {"id":"prompt-caching-11-4","stage":"post","question":"对 Anthropic 来说，1 小时扩展 TTL 相比默认 5 分钟需要多少写入溢价？","options":["写入溢价的 4 倍","写入溢价的 2 倍（比基线高 50%）","没有写入溢价","相同"],"correct":1,"explanation":"扩展到 1 小时的缓存生命周期会使用更高的写入价格，写入溢价为默认 5 分钟方案的 2 倍，即比基线高 50%。"},
+    {"id":"prompt-caching-11-5","stage":"post","question":"Anthropic 的 25% 写入溢价需要复用几次才能回本？","options":["5 次","10 次","1 次","2 次"],"correct":3,"explanation":"缓存写入比基础输入价格高 25%，在之后的两次读取中节省的成本即可抵消这次写入溢价。"}
+  ]
+}

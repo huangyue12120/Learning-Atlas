@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/29-mcp-reliability-cancellation-and-flow-control/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "f1b02c78e314bcb9caa7e3a9033093bafc172c928c32a6e47ed5dcfb0aed1fe8"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-reliability-q1","stage":"pre","question":"变更响应丢失后，客户端换新的 JSON-RPC ID 重试，什么能让重试安全？","options":["新的 JSON-RPC ID 自动去重","工具 descriptor 中包含 idempotentHint","使用相同参数重用持久化的应用幂等 key","重试使用同一个 HTTP 连接"],"correct":2,"explanation":"JSON-RPC ID 只关联消息；业务幂等需要持久化 key、参数指纹和已提交结果。"},
+    {"id":"mcp-reliability-q2","stage":"check","question":"MCP 2026-07-28 中，客户端如何通过 stdio 取消正在执行的请求？","options":["为该 JSON-RPC ID 调用 tasks/cancel","发送带活动请求 ID 的 notifications/cancelled","关闭逐请求 SSE 流","向 MCP endpoint 发送 DELETE"],"correct":1,"explanation":"stdio 没有逐请求响应流，因此客户端发送发出即忘的 notifications/cancelled 通知。"},
+    {"id":"mcp-reliability-q3","stage":"check","question":"客户端如何取消正在执行的 Streamable HTTP 请求？","options":["关闭该请求的 SSE 响应流","向 MCP endpoint POST notifications/cancelled","等待服务器发送 notifications/cancelled","发送空的 Last-Event-ID"],"correct":0,"explanation":"现代 Streamable HTTP 中，关闭请求专属响应流就是取消信号。"},
+    {"id":"mcp-reliability-q4","stage":"check","question":"进度总是在每次 idle timeout 前到达，仍必须用哪个 deadline 结束失控请求？","options":["从请求开始计算的绝对 maximum timeout","下一页分页 cursor 的过期时间","代理 keepalive 间隔","Task polling interval"],"correct":0,"explanation":"有效进度可以重置 idle clock，但绝对 maximum deadline 必须始终生效。"},
+    {"id":"mcp-reliability-q5","stage":"post","question":"成功的 tasks/cancel 响应证明什么？","options":["持久化结果已删除","worker 已经停止","服务器确认了取消意图","Task 最终一定会变为 cancelled"],"correct":2,"explanation":"Task 取消是协作式的；Task 可能仍工作、先完成，或在 worker 检查点后才进入 cancelled。"},
+    {"id":"mcp-reliability-q6","stage":"post","question":"订阅 SSE 流在多个进度事件后断开，哪种恢复计划符合 MCP 2026-07-28？","options":["从 Last-Event-ID 恢复，并重放所有未完成变更","打开 GET 事件流并恢复 Mcp-Session-Id","保留旧 request ID，假设没有更新丢失","打开新的 listen 请求，重新获取权威状态，并避免重放不安全变更"],"correct":3,"explanation":"现代 MCP 流不能用 Last-Event-ID 恢复；应使用新请求、权威重新获取和明确的重试安全性。"}
+  ]
+}

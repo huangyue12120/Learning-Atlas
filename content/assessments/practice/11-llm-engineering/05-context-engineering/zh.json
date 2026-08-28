@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/05-context-engineering/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "cac3f4e1720b9d886fb65425717fb0313a4033354078af125f7b0ec8235b3ba3"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"context-engineering-11-1","stage":"pre","question":"prompt engineering 与 context engineering 有什么区别？","options":["context engineering 只涉及数据库设计","prompt 是用户查询；context 是模型窗口中的全部内容，包括 system prompt、工具、检索文档、历史记录和 prompt 本身","二者完全相同","prompt engineering 更高级"],"correct":1,"explanation":"prompt engineering 主要关注如何写用户指令；context engineering 管理模型完整输入：放入什么、排除什么、排列顺序，以及如何分配有限的上下文窗口。"},
+    {"id":"context-engineering-11-2","stage":"pre","question":"为什么上下文的顺序会影响 LLM 表现？","options":["顺序只对代码重要","LLM 存在近因和首因偏差，会更多关注上下文开头和结尾","按字母顺序能让模型更快搜索","不会影响——LLM 对所有 token 的处理都一样"],"correct":1,"explanation":"研究显示，LLM 更关注上下文窗口的开头和结尾，这被称为“中间遗忘”现象。把最重要的信息放在开头或结尾能提高利用率。"},
+    {"id":"context-engineering-11-3","stage":"post","question":"一个代码助手在 128K 上下文窗口中只使用了 22,700 个 token。为什么预算管理仍然重要？","options":["只有 prompt 重要","token 计数不准确","128K 对任何场景都足够","长对话、大型代码文件和检索文档会很快填满窗口；没有预算管理，关键上下文会被截断"],"correct":3,"explanation":"22,700 token 只是基线。50 轮对话可能增加 3 万多个 token，大型代码库检索可能增加 5 万多个 token，工具结果还会继续增加。"},
+    {"id":"context-engineering-11-4","stage":"post","question":"对话历史的 sliding window（滑动窗口）策略是什么？","options":["只保留最近 N 轮对话，删除更早的内容，也可以先把旧内容摘要化","动态扩大上下文窗口","把模型移到另一台服务器","把对话切成固定大小的块处理"],"correct":0,"explanation":"滑动窗口完整保留最近 K 轮对话；更早的内容可以删除或替换成摘要。这样能限制内存使用，同时保留最相关的近期上下文。"},
+    {"id":"context-engineering-11-5","stage":"post","question":"context assembler 应如何在各组成部分之间分配 token？","options":["始终最大化检索上下文","给每个组成部分相同预算","尽量压缩 system prompt","根据查询类型动态分配：简单问题需要较少检索上下文，复杂问题需要更多，同时始终为生成预留空间"],"correct":3,"explanation":"简单事实问题可能只需要 500 个检索 token，复杂分析可能需要 10,000 个。好的上下文组装器会动态调整预算，并始终为模型回答保留空间。"}
+  ]
+}

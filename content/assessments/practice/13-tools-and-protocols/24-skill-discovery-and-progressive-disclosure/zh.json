@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/24-skill-discovery-and-progressive-disclosure/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "725aff534f834fd93367a28997d2285d624c61ca6ab9bf20269448f5095ed893"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"skill-discovery-q1","stage":"pre","question":"主机在 project 和 user scope 中发现了同名 skill，哪个因素决定胜者？","options":["主机文档化的 scope 优先级策略","时间戳更新的目录","SKILL.md 更长的 skill","skill description 的第一个动词"],"correct":0,"explanation":"可移植 skill 格式不会规定一个通用优先级；主机必须声明 scope 如何覆盖，并应报告冲突，而不是依赖文件迭代顺序。"},
+    {"id":"skill-discovery-q2","stage":"check","question":"实现前发送给模型的第一份 discovery catalog 应包含什么？","options":["每个脚本、asset 和 reference 的完整内容","紧凑的身份记录，例如 name 和 description","运行所有随包脚本的输出","只有修改时间"],"correct":1,"explanation":"第一层发现只需提供路由任务所需的 metadata；完整 body 和引用资源稍后再披露，以保护上下文预算并避免过早执行。"},
+    {"id":"skill-discovery-q3","stage":"check","question":"哪一组顺序正确实现了这个契约下的 progressive disclosure？","options":["加载所有 body，丢弃大部分，再建立 catalog","先读 references，再推断哪个 skill 拥有它们","先运行脚本、加载 asset，再发现名称","先 catalog metadata，再加载选中的 SKILL.md body，最后读取所需 reference"],"correct":3,"explanation":"发现、激活和资源加载是分开的阶段；只有上一阶段确认相关性后，下一阶段才消耗更多上下文。"},
+    {"id":"skill-discovery-q4","stage":"check","question":"为什么应把同等优先级的重复名称报告为 ambiguous？","options":["按偶然目录顺序选择会让路由不确定且难以审计","因为所有冲突都意味着 YAML 无效","因为重复名称会自动获得网络访问","因为 user scope 必须永远获胜"],"correct":0,"explanation":"同名候选拥有相同策略等级时，词法或迭代顺序不是有意义的权威；明确失败会迫使主机或用户解决身份。"},
+    {"id":"skill-discovery-q5","stage":"post","question":"SKILL.md 引用了 `references/archive/schema.md`，但 bundle 只允许一层 references。validator 应怎么办？","options":["自动把文件复制到全局缓存","执行它以发现是否有用","以超出包契约的更深引用链拒绝","因为所有相对路径都安全而跟随"],"correct":2,"explanation":"一层契约允许直接文件或类似 references/schema.md 的路径，不允许递归嵌套；边界能保持包可检查并提前阻止复杂遍历。"},
+    {"id":"skill-discovery-q6","stage":"post","question":"catalog 超过声明的 context budget 时，最有依据的响应是什么？","options":["应用确定性限制、报告被省略条目，并允许更窄的发现","skill description 很长时忽略预算","删除 skill 名称但保留完整指令 body","每次运行随机抽样"],"correct":0,"explanation":"确定性的截断或省略能让行为可复现、可测量；报告遗漏保持可观察性，更窄的搜索还可找回未放入首份 catalog 的候选。"}
+  ]
+}

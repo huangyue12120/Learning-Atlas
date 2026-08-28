@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/10-llms-from-scratch/08-dpo/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "5785953befa127820007b718600a3e55e5cd356c6a6767266a8bc5be600b3eeb"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"dpo-10-1","stage":"pre","question":"DPO 相比 RLHF 的主要优势是什么？","options":["DPO 生成的模型一定更好","DPO 使用更少训练数据","DPO 不需要单独的奖励模型和 PPO，而是在一个训练循环中直接使用偏好对训练","DPO 不需要任何偏好数据"],"correct":2,"explanation":"RLHF 需要先单独训练奖励模型，再运行 PPO。DPO 把这两个步骤折叠成一个目标函数，直接在偏好对上优化语言模型。"},
+    {"id":"dpo-10-2","stage":"pre","question":"参考模型在 DPO 中扮演什么角色？","options":["它是防止训练模型偏离过远的锚点，作用类似 RLHF 中的 KL 惩罚","它生成训练数据","它负责 tokenization","它评估模型质量"],"correct":0,"explanation":"DPO 损失比较训练策略模型与参考（通常是 SFT）模型的对数概率。参考模型限制策略漂移程度，不需要显式调节 KL 惩罚，也能降低奖励劫持风险。"},
+    {"id":"dpo-10-3","stage":"post","question":"DPO 中的 beta 参数控制什么？","options":["batch size","学习率","训练轮数","策略被约束为接近参考模型的程度——beta 越大，更新越保守"],"correct":3,"explanation":"beta 缩放隐式 KL 散度惩罚。beta=0.1 允许模型更明显地偏离参考模型，可能收益更大但风险更高；beta=0.5 则更保守。"},
+    {"id":"dpo-10-4","stage":"post","question":"DPO 如何隐式表示奖励模型？","options":["不能表示——DPO 完全没有奖励概念","DPO 损失可以由奖励函数下的最优策略推导出来，奖励可直接表示为策略相对于参考模型的对数概率函数","它在语言模型内部训练一个隐藏奖励模型","DPO 把损失函数本身当作奖励"],"correct":1,"explanation":"Rafailov 等人证明，RLHF 目标的闭式解可以把奖励表示为策略相对于参考模型的对数概率函数。DPO 直接优化这个表达式，因此不显式训练奖励模型。"},
+    {"id":"dpo-10-5","stage":"post","question":"什么时候仍可能优先选择 RLHF 而不是 DPO？","options":["训练较小模型时","偏好数据更少时","总是如此——RLHF 严格优于 DPO","需要可复用的奖励模型来评估多个策略，或需要在线收集数据时"],"correct":3,"explanation":"DPO 是离线方法，只使用固定偏好数据。RLHF 可以让奖励模型给新生成结果打分并在线收集数据，还能复用于评估多个策略。"}
+  ]
+}

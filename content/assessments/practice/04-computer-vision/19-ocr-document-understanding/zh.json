@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/19-ocr-document-understanding/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"db901253190a2a0fdccf87bf9ebb48d3a0470abf162779c9185c698c6e25f693"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"ocr-document-understanding-04-1","stage":"pre","question":"OCR 为什么使用 CTC 损失，而不是普通交叉熵？","options":["CTC 是 PyTorch 的要求","OCR 要把定长特征序列映射到变长字符序列，却没有每个时间步的对齐标签；CTC 对所有去重并删除 blank 后得到目标的对齐路径求和，因此无需字符级时间标注","长序列上的交叉熵会溢出","CTC 更快"],"correct":1,"explanation":"识别器每个时间步输出一个分布，但目标文本没有逐步对齐信息。CTC 对所有能通过“合并重复并删除 blank”得到目标的路径求和，所以 CRNN 只需（图像、文本）配对就能训练。"},
+    {"id":"ocr-document-understanding-04-2","stage":"pre","question":"CTC 解码中的 blank token 有什么作用？","options":["表示序列结束","把序列填充到定长","遮蔽噪声区域","分隔相邻的相同字符，使模型能输出像 hello 中的双 l（例如 h e l _ l o）；没有 blank，l l 会合并成一个 l"],"correct":3,"explanation":"blank 让 CTC 能表示连续重复字符。`l _ l` 在合并后仍保留两个 l，而 `l l` 会被合并成一个；没有 blank 就无法表达含相邻重复字符的单词。"},
+    {"id":"ocr-document-understanding-04-3","stage":"post","question":"为什么在简单数据集上，CTC 贪心解码有时比 beam search 更好？","options":["贪心更容易实现","beam search 需要语言模型","贪心总是更好","模型每一步都很有把握时（清晰手写或印刷字体），贪心 argmax 通常就是 beam 的获胜路径；beam 增加延迟却没有准确率收益。噪声或含糊输入才更适合 beam"],"correct":3,"explanation":"beam search 只有在逐步 argmax 不可靠时才真正有帮助，例如字符含糊、重叠或扫描质量差。干净印刷文本上，贪心通常已足够；应实测准确率和延迟的权衡。"},
+    {"id":"ocr-document-understanding-04-4","stage":"post","question":"Donut 如何跳过显式的文字检测和字符识别？","options":["它是一个 ViT encoder + 文本 decoder，直接从图像生成最终输出字符串（通常是 JSON）；通过训练目标隐式学习定位和识别","它先用 CNN 文本检测器预处理图像","它只适用于布局固定的文档类别","它内部调用外部 OCR 引擎"],"correct":0,"explanation":"Donut 是端到端模型：ViT encoder 读取整张文档，Transformer decoder 自回归地生成目标文本或 JSON，不再串联检测器、识别器和布局模块。"},
+    {"id":"ocr-document-understanding-04-5","stage":"post","question":"要从收据中提取 `invoice_total`，2026 年通常最好的方案是什么？","options":["只有传统 OCR 足够可靠","为每个字段训练一个 CNN","在少量目标收据标注数据上微调 Donut 或 VLM；二者能在一个模型中处理布局和语义提取，也比管道式方法更能适应收据变体","对 Tesseract 输出使用手写正则表达式"],"correct":2,"explanation":"端到端模型可以直接接收图像并输出 JSON。对 100–1000 张带标注收据进行微调，通常比 OCR 加规则的多阶段管道有更好的字段 F1。"}
+  ]
+}

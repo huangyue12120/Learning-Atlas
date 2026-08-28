@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/26-relation-extraction-kg/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "57a89a51e040992cb0a7c2e1610dd67148d13f0385bf53b0014698e5181aa1c4"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "relation-extraction-kg-05-1",
+      "stage": "pre",
+      "question": "知识图谱的原子单位是什么？",
+      "options": [
+        "一个词元",
+        "一个 POS 标签",
+        "一个（主语、关系、宾语）三元组",
+        "一个句子"
+      ],
+      "correct": 2,
+      "explanation": "知识图谱以（主语、关系、宾语）三元组存储信息；多个三元组聚合后形成图。"
+    },
+    {
+      "id": "relation-extraction-kg-05-2",
+      "stage": "pre",
+      "question": "在 2026 年的关系抽取中，AEVS 代表什么？",
+      "options": [
+        "Aggregated Entity-Value Schema（聚合实体-值模式）",
+        "Async Entity Validation Service（异步实体校验服务）",
+        "Auto-Encoder Vector Search（自编码器向量搜索）",
+        "Anchor-Extraction-Verification-Supplement（锚定—抽取—验证—补充）：定位证据片段、抽取三元组、对照来源验证，再补充覆盖范围"
+      ],
+      "correct": 3,
+      "explanation": "AEVS 是 2026 年用于让关系抽取有据可依、缓解幻觉的框架。"
+    },
+    {
+      "id": "relation-extraction-kg-05-3",
+      "stage": "check",
+      "question": "为什么每个三元组都必须携带来源信息（文档 ID + 片段）？",
+      "options": [
+        "SPARQL 强制要求来源信息",
+        "这样能加快抽取",
+        "来源信息会改变本体",
+        "来源信息让你可以审计三元组，并拒绝其证据片段与原文不匹配的幻觉"
+      ],
+      "correct": 3,
+      "explanation": "来源信息支持审计，也是 AEVS 风格幻觉检测的核心。"
+    },
+    {
+      "id": "relation-extraction-kg-05-4",
+      "stage": "check",
+      "question": "关系的 canonicalization（规范化）做什么？",
+      "options": [
+        "增加嵌入",
+        "删除三元组",
+        "把表面动词短语（如“出生于”“是……的当地人”）映射到固定属性 ID，使图可以被查询",
+        "翻译文档"
+      ],
+      "correct": 2,
+      "explanation": "规范化会把不同的改写归并到规范的知识图谱属性 ID。"
+    },
+    {
+      "id": "relation-extraction-kg-05-5",
+      "stage": "check",
+      "question": "为什么关系抽取通常需要先做共指消解？",
+      "options": [
+        "必须先把“他创办了 Apple”中的代词解析为命名实体，再抽取三元组",
+        "共指消解会统一大小写",
+        "共指消解会提供位置",
+        "共指消解会增加嵌入"
+      ],
+      "correct": 0,
+      "explanation": "没有共指消解时，关系抽取会把关系挂在代词上，而不是挂在它所指的命名实体上。"
+    },
+    {
+      "id": "relation-extraction-kg-05-6",
+      "stage": "post",
+      "question": "哪种选择用开放式信息抽取的召回率换取知识图谱的可查询性？",
+      "options": [
+        "随机抽取三元组",
+        "只使用嵌入的图",
+        "先把开放式信息抽取的关系映射到封闭本体（例如 Wikidata 属性），再合并到知识图谱中",
+        "跳过 NER"
+      ],
+      "correct": 2,
+      "explanation": "封闭本体让知识图谱具有稳定的查询接口；后续使用时，规范化步骤带来的收益足以抵消其成本。"
+    },
+    {
+      "id": "relation-extraction-kg-05-7",
+      "stage": "post",
+      "question": "为什么许多生产知识图谱使用时间限定信息（开始/结束时间）？",
+      "options": [
+        "RDF 强制要求",
+        "为了删除 NIL 实体",
+        "让 SPARQL 更快",
+        "许多关系都有时间范围（雇主、配偶、职务等）；时间限定可以避免把会过时的事实说成“永远成立”"
+      ],
+      "correct": 3,
+      "explanation": "有时间范围的关系需要限定信息（如 Wikidata 的 P580/P582），否则事实会悄悄过时。"
+    },
+    {
+      "id": "relation-extraction-kg-05-8",
+      "stage": "post",
+      "question": "REBEL 是什么？",
+      "options": [
+        "一种分词器",
+        "一个共指消解模型",
+        "一个 seq2seq 关系抽取器，输出已经使用 Wikidata 属性 ID 表示的三元组",
+        "一个向量数据库"
+      ],
+      "correct": 2,
+      "explanation": "REBEL（Babelscape）是一个 seq2seq 关系抽取模型，在远程监督的 Wikidata 三元组上训练。"
+    }
+  ]
+}

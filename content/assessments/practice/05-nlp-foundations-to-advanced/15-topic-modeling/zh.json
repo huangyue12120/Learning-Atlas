@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/15-topic-modeling/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "05e8c8a4b33a0c6fa233bd440aad5d8107e8dbfc3a60bc14647eb7732638e12e"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "topic-modeling-05-1",
+      "stage": "pre",
+      "question": "LDA 对每篇文档做出了什么假设？",
+      "options": [
+        "每篇文档只属于一个主题",
+        "文档就是句子",
+        "每篇文档是多个主题的混合；每个主题又是词的一个分布",
+        "文档与主题相互独立"
+      ],
+      "correct": 2,
+      "explanation": "LDA 的生成故事是混合成员模型：每篇文档有一个主题分布，每个主题有一个词分布。"
+    },
+    {
+      "id": "topic-modeling-05-2",
+      "stage": "pre",
+      "question": "BERTopic 如何形成主题簇？",
+      "options": [
+        "先运行 BM25，再运行 k-means",
+        "用句子 Transformer 编码文档，用 UMAP 降维，再用 HDBSCAN 聚类",
+        "端到端训练 LSTM",
+        "在词汇表上直接计算 softmax"
+      ],
+      "correct": 1,
+      "explanation": "BERTopic = 嵌入 + UMAP + HDBSCAN，并使用基于类别的 TF-IDF 提取主题词。"
+    },
+    {
+      "id": "topic-modeling-05-3",
+      "stage": "check",
+      "question": "为什么 scikit-learn 的 LDA 需要原始计数（CountVectorizer），而不是 TF-IDF？",
+      "options": [
+        "LDA 无法处理浮点数",
+        "LDA 的概率模型建立在整数词频上；TF-IDF 会扭曲其底层分布",
+        "内存限制",
+        "TF-IDF 太慢"
+      ],
+      "correct": 1,
+      "explanation": "LDA 的似然函数假设输入是计数；传入 TF-IDF 数值会违反模型假设。"
+    },
+    {
+      "id": "topic-modeling-05-4",
+      "stage": "check",
+      "question": "在 BERTopic 输出中，HDBSCAN 的 `-1` 标签表示什么？",
+      "options": [
+        "停用词主题簇",
+        "基于密度的算法无法有把握归类的一组离群文档",
+        "保留类别",
+        "排名最高的主题"
+      ],
+      "correct": 1,
+      "explanation": "HDBSCAN 用 `-1` 标记未聚类点；在 BERTopic 中，这些是没有适配任何主题的文档。"
+    },
+    {
+      "id": "topic-modeling-05-5",
+      "stage": "check",
+      "question": "哪项一致性指标是主题模型评估中常见的默认选择？",
+      "options": [
+        "BLEU",
+        "通过主题前若干词的滑动窗口 NPMI 计算的 c_v coherence",
+        "准确率",
+        "只有困惑度"
+      ],
+      "correct": 1,
+      "explanation": "c_v coherence（Röder 等，2015）是经典的自动主题一致性指标。"
+    },
+    {
+      "id": "topic-modeling-05-6",
+      "stage": "post",
+      "question": "什么时候 LDA 通常比 BERTopic 更合适？",
+      "options": [
+        "嵌入噪声很大时",
+        "需要每篇文档只有一个主题时",
+        "文档较长、混合成员主题分布有用，而嵌入模型会截断输入时",
+        "短推文上"
+      ],
+      "correct": 2,
+      "explanation": "长文档可以受益于 LDA 的混合成员模型；BERT 编码器可能会截断过长输入。"
+    },
+    {
+      "id": "topic-modeling-05-7",
+      "stage": "post",
+      "question": "为什么 BERTopic 通常在短文本（推文、标题）上胜过 LDA？",
+      "options": [
+        "短文本包含的主题更少",
+        "它支持更多语言",
+        "嵌入空间中的语义相似度能捕捉含义，而词袋计数在短文本上过于稀疏",
+        "它速度更快"
+      ],
+      "correct": 2,
+      "explanation": "BERT 嵌入能在词语重叠统计失效的短文本上提供语义相似度。"
+    },
+    {
+      "id": "topic-modeling-05-8",
+      "stage": "post",
+      "question": "LDA 常见的哪种失败模式需要监控？",
+      "options": [
+        "主题与标注类别完美匹配",
+        "主题包含的文档太少",
+        "出现吸收停用词或极高频词的垃圾主题",
+        "文档主题混合加总为 1"
+      ],
+      "correct": 2,
+      "explanation": "LDA 可能生成吸收停用词的垃圾主题；收紧 `min_df` / `max_df` 并过滤停用词可以缓解。"
+    }
+  ]
+}

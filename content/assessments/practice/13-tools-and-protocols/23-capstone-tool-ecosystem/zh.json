@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/23-capstone-tool-ecosystem/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "e38ef3c3520460b2bf9086f33f511a86d45a3e1ee848c7c3420fde79fcad55a8"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"tool-ecosystem-q1","stage":"pre","question":"本课标准库 harness 成功运行能证明什么？","options":["进程内策略和数据流按断言运行","真实 MCP 传输完成了初始化","OAuth authorization server 发出了有效 token","collector 收到了每个 OpenTelemetry span"],"correct":0,"explanation":"harness 使用 Python 函数、静态 token、fixture 和内存 span；它只验证这些本地边界，协议、认证、导出、浏览器和沙箱集成仍需后续测试。"},
+    {"id":"tool-ecosystem-q2","stage":"check","question":"哪条流程符合 MCP 2026-07-28：发现服务器并轮询长时间工作？","options":["server/connect、tools/poll、tasks/status","server/discover、返回 task handle 的 tools/call、tasks/get","initialize、tools/call、tasks/result","GET /mcp、tools/call、tasks/list"],"correct":1,"explanation":"无状态版本使用强制的 server/discover；可选 Tasks 扩展返回 task handle 并使用 tasks/get，旧握手、GET、tasks/result 和 tasks/list 不属于这条流程。"},
+    {"id":"tool-ecosystem-q3","stage":"check","question":"A2A v1 在 gRPC 和 JSON-RPC binding 中如何命名发送消息操作？","options":["AgentMessage","message/create","tasks/send","SendMessage"],"correct":3,"explanation":"A2A v1 使用 SendMessage；HTTP+JSON binding 暴露 POST /message:send。"},
+    {"id":"tool-ecosystem-q4","stage":"check","question":"哪个 MCP Apps SDK 调用允许 App 向其来源服务器请求工具？","options":["host.callTool(name, args)","app.callServerTool({ name, arguments })","app.invoke(name, args)","server.tools.call(args)"],"correct":1,"explanation":"App 实例用包含 name 和可选 arguments 的对象调用 callServerTool，host 再代理底层 tools/call。"},
+    {"id":"tool-ecosystem-q5","stage":"post","question":"综合课 Agent Skill 对 MCP tools 和 sandbox 有什么权限？","options":["用户显式调用后可绕过批准","授予 body 中列出的所有工具","授予只读网络访问","没有；每项能力仍由 host adapter 和策略授权"],"correct":3,"explanation":"skill 提供过程；发现、调用、tool 暴露、授权、凭据和隔离仍由 host 及外部 runtime 边界执行。"},
+    {"id":"tool-ecosystem-q6","stage":"post","question":"哪种证据最能证明 telemetry 跨越了生产导出边界？","options":["一条要求发送 span 的 skill 指令","含有 traceId key 的本地字典","预期 span 层级的图","接收端 collector 中带 trace 和 parent 断言的数据"],"correct":3,"explanation":"接收端观察证明 SDK、传播器、exporter、传输和 collector 路径都工作了；本地数据和图只能证明本地构造或意图。"}
+  ]
+}

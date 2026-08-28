@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/16-langgraph-state-machines/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "0bee1c71fd1d6f0745547771a15260c4c5396701e96c49bab47e64780ed78462"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"langgraph-state-machines-11-1","stage":"post","question":"LangGraph State TypedDict 中的 messages 字段为什么需要 Annotated[list, add_messages]？","options":["它会在 checkpoint 写入磁盘时压缩消息列表","它支持模型 token delta 的流式传输","它会在运行时把普通 dict 转成 LangChain 消息对象","没有这个 reducer，节点更新会覆盖列表而不是追加，导致每一轮丢失之前的历史"],"correct":3,"explanation":"add_messages 是状态 reducer，负责把新消息追加并合并到历史中；如果没有它，节点返回的新列表会直接覆盖旧列表。"},
+    {"id":"langgraph-state-machines-11-2","stage":"post","question":"interrupt_before=['tools'] 与 interrupt_after=['tools'] 有什么区别？","options":["interrupt_before 在模型发出 tool_calls 后、工具执行前暂停；interrupt_after 在工具已经执行后暂停","interrupt_before 先在 sandbox 执行工具；interrupt_after 在生产环境执行","没有区别，它们是别名","interrupt_before 用于单元测试；interrupt_after 用于生产"],"correct":0,"explanation":"before 把暂停点放在工具节点执行之前，after 则让工具节点先运行完再暂停，二者适合不同的人机审批时机。"},
+    {"id":"langgraph-state-machines-11-3","stage":"post","question":"给定 thread 的 checkpoint 历史，如何回到以前的状态并探索另一条分支？","options":["设置 graph.rewind = True 后重新调用","调用 graph.reset(thread_id)，再用新输入调用 graph.invoke","删除 checkpoint 目录，再使用同一个 thread_id 调用","在 config 中用目标 checkpoint_id 调用 graph；输入 None 会从该 checkpoint 重放，传入新值则会先追加后继续"],"correct":3,"explanation":"checkpoint_id 选择历史状态。None 表示重放该状态；新输入则以该状态为起点追加，形成新的执行分支。"},
+    {"id":"langgraph-state-machines-11-4","stage":"post","question":"在四节点 ReAct 图（agent、tools、条件边、回到 agent 的静态边）中，条件边位于哪里？","options":["从 START 出发，根据输入长度路由到 agent 或 END","从 tools 回到 agent，根据工具输出是否为空路由","没有条件边，两条都是静态边","从 agent 出发：最后一条消息有 tool_calls 时路由到 tools，否则路由到 END"],"correct":3,"explanation":"agent 产生回复后，条件路由会检查最后一条消息是否包含 tool_calls；需要工具就进入 tools，否则结束图。"},
+    {"id":"langgraph-state-machines-11-5","stage":"post","question":"什么时候应使用 Send(node_name, state)，而不是普通边？","options":["为了隔离，在另一个进程调用节点","把节点延迟到计时器到期","节点失败后重试","把 N 次并行执行分派给目标节点，并通过状态 reducer 合并输出"],"correct":3,"explanation":"Send 用于 map-reduce 式动态扇出：为目标节点创建多次并行执行，执行结果再通过 reducer 汇回共享状态。"}
+  ]
+}

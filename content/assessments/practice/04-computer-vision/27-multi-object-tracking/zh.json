@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/27-multi-object-tracking/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"1818f1008797757b8bf02b026e770ccb96c8df85b6b8994ca55378069b47f906"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"multi-object-tracking-04-1","stage":"pre","question":"tracking-by-detection 中的 Hungarian algorithm 做什么？","options":["训练检测器","预测未来轨迹","过滤低置信度检测","求解轨迹与检测之间的最小成本一对一分配（通常以 1-IoU 为成本），使每个轨迹和每个检测最多匹配一次"],"correct":3,"explanation":"每帧都要在 M 条轨迹和 N 个检测之间寻找最佳一对一匹配。Hungarian 是求解该问题的最优多项式算法，常用成本为 1-IoU。"},
+    {"id":"multi-object-tracking-04-2","stage":"pre","question":"ByteTrack 最具代表性的贡献是什么？","options":["新的 backbone","外观 embedding","新的 Kalman filter","第二阶段关联会尝试把剩余轨迹与低置信度检测匹配，从而恢复短暂遮挡和标准跟踪器会丢掉的 ID"],"correct":3,"explanation":"许多跟踪器会丢弃低于约 0.5 的检测。ByteTrack 保留它们，在高置信度匹配后再运行第二次 Hungarian，将低置信度框用于恢复遮挡和交叉期间的轨迹。"},
+    {"id":"multi-object-tracking-04-3","stage":"post","question":"SAM 2 的基于 memory 的跟踪器如何避免显式 Hungarian 式关联？","options":["它把每个实例的时空特征存入 memory bank；每帧用 memory 与当前特征做 cross-attention，直接产生同一实例的掩码，关联隐含在注意力操作中","它内部运行 SORT","它使用 Kalman filter","它要求每帧手工标注 ID"],"correct":0,"explanation":"SAM 2 把“检测再关联”替换成 memory 条件分割器。decoder 让当前帧特征关注实例历史 memory，生成的掩码自然对应同一实例，不需要外部分配步骤。"},
+    {"id":"multi-object-tracking-04-4","stage":"post","question":"对于监控视频，首要要求是保持每个人的 ID 一致，应报告哪个指标？","options":["IDF1——ID precision 与 recall 的调和平均，衡量随时间保持身份的能力，而不是单帧检测准确率","Top-1 accuracy","MOTA","FID"],"correct":0,"explanation":"MOTA 混合了检测和关联错误，可能掩盖 ID 失败。IDF1 会在整段视频上全局匹配预测轨迹与真实轨迹，再对身份标签计算 F1，更适合“随时间认出谁是谁”的问题。"},
+    {"id":"multi-object-tracking-04-5","stage":"post","question":"SAM 3.1 Object Multiplex（2026 年 3 月）在许多跟踪实例之间引入共享 memory，这带来了什么？","options":["高效的多目标跟踪——一个共享 memory bank 加每实例 query token 替代 N 个独立 memory bank，使成本随实例数次线性增长，演唱会人群等场景也可处理","新的训练目标","更低准确率","只能云端推理"],"correct":0,"explanation":"Multiplex 之前每个对象都有独立 memory，成本随实例数线性增长。共享 memory 加实例 query 能提取实例专属特征，使人群、交通和仓库等多目标场景更高效。"}
+  ]
+}

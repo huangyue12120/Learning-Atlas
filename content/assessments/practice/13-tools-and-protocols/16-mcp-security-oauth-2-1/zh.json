@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/16-mcp-security-oauth-2-1/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "75b4a7f19783d3e4492b2825d0f5e86dafd70501f8f4cbf344977b8e0b8312a5"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-oauth-q1","stage":"pre","question":"在 2026-07-28 中，新 MCP OAuth 客户端注册首选哪种机制？","options":["把 access token 放进 URL","Mcp-Session-Id","Client ID Metadata Documents","Dynamic Client Registration"],"correct":2,"explanation":"首选 CIMD；DCR 已弃用，只作为兼容路径保留。"},
+    {"id":"mcp-oauth-q2","stage":"check","question":"带 loopback redirect 的桌面客户端在 DCR 回退时应声明哪种 application_type？","options":["web","stateless","native","confidential"],"correct":2,"explanation":"桌面、移动、命令行和 loopback 客户端都属于 native 应用。"},
+    {"id":"mcp-oauth-q3","stage":"check","question":"客户端收到授权响应中的 iss 值后必须做什么？","options":["规范化后比较 hostname","把它存为 clientInfo","PKCE 成功后忽略","在使用响应前与记录的 issuer 做精确比较"],"correct":3,"explanation":"RFC 9207 issuer 检查可防止不同 issuer 之间的授权响应混淆。"},
+    {"id":"mcp-oauth-q4","stage":"check","question":"客户端应如何按 issuer 对 OAuth 凭据和 access token 编 key？","options":["issuer 生成的凭据按 issuer，token 按 issuer 加 resource","所有注册和 token 都放在一个全局 client name 下","只按服务器展示名称","按协议 session 标识符"],"correct":0,"explanation":"issuer 和 resource key 能防止凭据跨越安全权威或受众；自托管 CIMD URL 仍然可移植。"},
+    {"id":"mcp-oauth-q5","stage":"post","question":"resource 返回 403，并说明所需 scope 是 notes:delete，下一步正确做法是什么？","options":["未经授权就在本地添加 notes:delete","解释 scope、取得同意、为它授权，然后用新 request ID 重试","把 MCP token 发给下游 API","复用当前 token 并忽略 challenge"],"correct":1,"explanation":"step-up 流程应先取得新授权的 token，再重试操作。"},
+    {"id":"mcp-oauth-q6","stage":"post","question":"对于 MCP resource https://notes.example.com/mcp，RFC 9728 metadata URL 是什么？","options":["https://notes.example.com/.well-known/oauth-protected-resource/mcp","https://auth.example.com/.well-known/oauth-protected-resource","https://notes.example.com/.well-known/oauth-protected-resource","https://notes.example.com/mcp/.well-known/oauth-protected-resource"],"correct":0,"explanation":"RFC 9728 会把受保护 resource 的路径保留在 well-known 段之后，因此必须保留 /mcp 后缀。"}
+  ]
+}

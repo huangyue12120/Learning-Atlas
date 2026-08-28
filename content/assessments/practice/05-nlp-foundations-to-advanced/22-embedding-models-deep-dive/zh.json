@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/22-embedding-models-deep-dive/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "d812c191e7514db7493d4590af688f5e56b977b976acd08ed43250136b80b6b7"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "embedding-models-deep-dive-05-1",
+      "stage": "pre",
+      "question": "什么是稠密嵌入？",
+      "options": [
+        "为每段文本生成一个固定大小的向量，再用余弦相似度按语义接近程度对段落排序",
+        "词元级对齐矩阵",
+        "每个词汇表词元对应一个稀疏权重",
+        "文档之间的图"
+      ],
+      "correct": 0,
+      "explanation": "稠密嵌入为每段文本生成一个向量（通常为 384–3072 维），再用余弦相似度衡量相似性。"
+    },
+    {
+      "id": "embedding-models-deep-dive-05-2",
+      "stage": "pre",
+      "question": "Matryoshka Representation Learning 能实现什么？",
+      "options": [
+        "更快的 softmax",
+        "多语言训练",
+        "cross-encoder 重打分",
+        "把训练好的嵌入截断到前 N 个维度，同时得到仍然有用的更小嵌入"
+      ],
+      "correct": 3,
+      "explanation": "Matryoshka 训练让向量的前 N 个维度也能独立工作，因此可以低成本截断向量。"
+    },
+    {
+      "id": "embedding-models-deep-dive-05-3",
+      "stage": "check",
+      "question": "多向量（ColBERT）嵌入如何给查询-文档对打分？",
+      "options": [
+        "计算平均池化词元向量的余弦相似度",
+        "交叉熵",
+        "对每个查询词元找到最相似的文档词元，再把这些最大相似度相加（MaxSim）",
+        "地球移动距离"
+      ],
+      "correct": 2,
+      "explanation": "ColBERT 风格的后期交互会对每个词元保留向量，并通过 MaxSim 聚合它们。"
+    },
+    {
+      "id": "embedding-models-deep-dive-05-4",
+      "stage": "check",
+      "question": "BGE-M3 能同时输出什么？",
+      "options": [
+        "只有稀疏向量",
+        "只有稠密向量",
+        "同一个模型一次推理同时输出稠密、稀疏和多向量（ColBERT）表示",
+        "只有 ColBERT 向量"
+      ],
+      "correct": 2,
+      "explanation": "BGE-M3 从一个模型输出三种检索表示，适合进行融合式混合检索。"
+    },
+    {
+      "id": "embedding-models-deep-dive-05-5",
+      "stage": "check",
+      "question": "为什么 Matryoshka 截断后的向量在计算余弦相似度前必须重新归一化？",
+      "options": [
+        "截断会改变向量范数；不重新归一化时，点积就不再等于余弦相似度",
+        "余弦相似度不考虑归一化",
+        "截断会破坏训练",
+        "这是 FAISS 的强制要求"
+      ],
+      "correct": 0,
+      "explanation": "截断后重新归一化可以恢复单位范数，使点积重新等价于余弦相似度。"
+    },
+    {
+      "id": "embedding-models-deep-dive-05-6",
+      "stage": "post",
+      "question": "为什么 BGE 模型通常需要在查询侧加前缀？",
+      "options": [
+        "为了压缩查询",
+        "前缀会改变分词器行为",
+        "这是 FAISS 的强制要求",
+        "BGE 训练时使用了明确的查询提示词；省略它会使召回率下降 3–5 个百分点"
+      ],
+      "correct": 3,
+      "explanation": "BGE 模型期望查询带有“Represent this sentence for searching...”这样的前缀；省略它会损失效果。"
+    },
+    {
+      "id": "embedding-models-deep-dive-05-7",
+      "stage": "post",
+      "question": "为什么 MTEB 对选择嵌入模型来说必要但不充分？",
+      "options": [
+        "MTEB 只覆盖英语",
+        "MTEB 偏爱更大的模型",
+        "MTEB 忽略延迟",
+        "排行榜分数是许多任务的平均值，而你的领域可能不同，所以必须在自己的数据上做基准测试"
+      ],
+      "correct": 3,
+      "explanation": "MTEB 是跨任务平均结果；领域专用评估可能会改变模型排名。"
+    },
+    {
+      "id": "embedding-models-deep-dive-05-8",
+      "stage": "post",
+      "question": "什么时候应在稠密嵌入旁加入 SPLADE 稀疏检索？",
+      "options": [
+        "只在语料库很小时",
+        "只要编码器支持多语言",
+        "查询偏重关键词，或包含稠密嵌入容易模糊的标识符和编码时",
+        "只要使用了 Matryoshka"
+      ],
+      "correct": 2,
+      "explanation": "SPLADE 能捕捉稠密模型可能漏掉的词法和关键词匹配，并可通过 RRF 与稠密检索融合。"
+    }
+  ]
+}

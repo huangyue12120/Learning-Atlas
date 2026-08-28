@@ -1,0 +1,17 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/11-llm-engineering/02-few-shot-cot/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "385e992584b24e52bf0651455ab6d0bdb394490474ed5593b11227db62fdefff"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"few-shot-cot-11-1","stage":"pre","question":"zero-shot prompting 与 few-shot prompting 的关键区别是什么？","options":["zero-shot 只有指令；few-shot 会在实际问题前提供输入—输出示例","zero-shot 不使用 system prompt","few-shot 使用不同的模型","zero-shot 更快"],"correct":0,"explanation":"few-shot prompting 提供展示预期模式的完整示例，类似于先示范如何填写表格，再请对方填写自己的表格。"},
+    {"id":"few-shot-cot-11-2","stage":"pre","question":"Chain of Thought（思维链）prompting 做什么？","options":["要求模型在给出最终答案前展示中间推理步骤，从而提高多步问题的准确率","让模型生成更长的回答","把多次 API 调用串起来","把多个模型按顺序连接"],"correct":0,"explanation":"CoT prompt（例如“让我们一步一步思考”）为模型提供了逐步解决问题的“草稿纸”。在多步数学问题上，它通常能提高准确率。"},
+    {"id":"few-shot-cot-11-3","stage":"post","question":"Tree-of-Thought 与 Chain-of-Thought 有什么区别？","options":["它并行探索多条推理路径，并评估哪条路径最可能得到最佳答案","它使用树数据结构存储内容","它使用不同的模型","它只是更长的思维链"],"correct":0,"explanation":"CoT 只沿一条推理路径前进；Tree-of-Thought 会生成多个候选路径、评估它们（也可以由 LLM 评估），再选出最好的一条，适合第一条路径可能出错的问题。"},
+    {"id":"few-shot-cot-11-4","stage":"post","question":"选择 few-shot 示例时，最重要的因素是什么？","options":["选择最短的示例","选择覆盖不同情况、展示准确格式和目标推理模式的多样示例","尽可能使用更多示例","使用测试集中的示例"],"correct":1,"explanation":"示例质量比数量更重要。3–5 个多样、格式清晰并覆盖边界情况的示例，通常比 20 个重复示例更能教会模型目标模式，也更节省上下文。"},
+    {"id":"few-shot-cot-11-5","stage":"post","question":"模型拥有相同知识时，为什么 CoT prompting 仍能提高准确率？","options":["它使用了更多计算","它激活了隐藏的模型能力","它改变了模型权重","生成中间 token 会让最终答案拥有更大的有效上下文，模型可以根据自己之前的推理继续作答"],"correct":3,"explanation":"没有 CoT 时，模型需要直接跳到答案；使用 CoT 时，每个中间步骤都成为后续 token 的条件。模型通过逐步生成推理，逐渐构建最终答案。"}
+  ]
+}

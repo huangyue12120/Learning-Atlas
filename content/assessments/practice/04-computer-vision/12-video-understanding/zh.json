@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/12-video-understanding/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"0b2e3b164d1bb82401c1f130db0388d813ab8bda30cb1c5fe86fd1ce2cab2dea"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"video-understanding-04-1","stage":"pre","question":"为什么一个“二维 CNN + pooling”的视频模型在 Something-Something V2 数据集上会失败？","options":["模型架构不兼容","图像太小","类别太多","该数据集的标签由运动方向定义（如“把东西从左推到右”），而逐帧特征上的顺序无关平均池化无法区分运动方向"],"correct":3,"explanation":"“从左到右”和“从右到左”在单帧中可能完全相同，而平均帧 embedding 不受顺序影响。运动定义的标签要求模型关注时间顺序。"},
+    {"id":"video-understanding-04-2","stage":"pre","question":"I3D 的 inflation trick（膨胀技巧）是什么？","options":["一种学习率调度器","一种视频压缩方法","一种预训练更多图像的方法","复制 2D CNN 的预训练卷积核到新的时间轴（除以 kernel_T 以保持激活尺度），用它初始化 3D CNN，从而无需 3D 预训练就获得强权重"],"correct":3,"explanation":"Inflation 从强大的 2D ImageNet 权重启动 3D 视频模型。3×3 的 2D 核会沿 T 轴复制成 3×3×3，并按 1/kernel_T 缩放，让物体和纹理特征能够迁移到视频。"},
+    {"id":"video-understanding-04-3","stage":"post","question":"(2+1)D 因式分解卷积把 3D 卷积分成哪两个操作？","options":["先做空间 1×3×3 卷积，再做时间 3×1×1 卷积，中间加入 BN+ReLU 以增加完整 3D 卷积没有的非线性","两个 stride 不同的 3D 卷积","先做时间卷积，再做深度卷积","分组卷积和 1×1 卷积"],"correct":0,"explanation":"(2+1)D 将 3×3×3 分解为 (1×3×3) 后接 (3×1×1)，中间的 BN+ReLU 增加了每个参数的表达能力。"},
+    {"id":"video-understanding-04-4","stage":"post","question":"视频 Transformer 中的“divided attention（分解注意力）”是什么意思？","options":["跳过部分层的注意力","只关注一半 token","每个 Transformer block 包含两个注意力模块：先在同一空间位置的时间 token 上做时间注意力，再在同一时间步的空间 token 上做空间注意力，把 O((T*H*W)^2) 降为 O(T^2)+(H*W)^2","只在训练期间应用注意力"],"correct":2,"explanation":"完整时空注意力的复杂度为 O((T*H*W)^2)，对长视频不可行。divided attention 交替进行时间和空间注意力，牺牲少量理论表达能力以换取可训练的计算量。"},
+    {"id":"video-understanding-04-5","stage":"post","question":"你的 Kinetics-400 模型报告 clip accuracy=76%、video accuracy=82%。这个差距说明什么？","options":["测试集太小","模型坏了","单个 clip 的预测有噪声；对每个视频采样多个 clip 并平均预测能稳定结果。较大差距表示模型对采样的 8 帧窗口敏感，可用更长 clip 或更强空间增强缩小差距","根据定义 clip accuracy 总是比 video accuracy 低"],"correct":2,"explanation":"clip accuracy 只评估一个时间窗口，video accuracy 会平均多个窗口。6 个百分点的差距说明模型对取到哪个窗口较敏感；部署时应始终同时报告两者。"}
+  ]
+}

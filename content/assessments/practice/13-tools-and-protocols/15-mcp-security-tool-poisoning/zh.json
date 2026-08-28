@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/15-mcp-security-tool-poisoning/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "9fcc3d6a3db51eba6d89c240f87aa466196f0adc2ffd69bf17987a1001f61e29"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"mcp-tool-security-q1","stage":"pre","question":"哪个 MCP 字段可以安全地用作已认证的客户端身份？","options":["自报 clientInfo 字段中没有任何一个","clientInfo.name","clientInfo.version","clientCapabilities"],"correct":0,"explanation":"客户端信息和能力是协议元数据，不是认证证据。"},
+    {"id":"mcp-tool-security-q2","stage":"check","question":"网关批准工具后应该对什么做哈希？","options":["包含 description、schema 和相关注解的规范化完整 descriptor","只有工具名称","只有服务器展示名称","当前 session 标识符"],"correct":0,"explanation":"对完整 descriptor 固定，才能检测只哈希描述所遗漏的 schema 和注解变化。"},
+    {"id":"mcp-tool-security-q3","stage":"check","question":"两个后端工具都叫 search 时，网关应如何暴露它们？","options":["让模型推断服务器","随机选择后端","使用稳定的限定名，如 notes.search 和 issues.search","保留最后发现的工具"],"correct":2,"explanation":"限定名让路由、批准、审计和 header 校验都指向一个稳定工具。"},
+    {"id":"mcp-tool-security-q4","stage":"check","question":"哪些客户端能力声明支持 MCP form elicitation？","options":["elicitation: {}（隐含支持）或显式的 elicitation: {form: {}} 均可","任意非空 extensions 对象","只有启用 form 的协议 session","只有 elicitation.url"],"correct":0,"explanation":"空的 elicitation 对象表示支持 form，form: {} 则显式声明；仅支持 URL 不足以处理 form 请求。"},
+    {"id":"mcp-tool-security-q5","stage":"post","question":"为什么 requestState 必须受完整性保护并绑定到精确参数？","options":["为了选择缓存范围","为了替代 OAuth","防止客户端把某个操作的确认重用于或改成另一个操作","为了让 JSON 更小"],"correct":2,"explanation":"requestState 会经过不受信任的 peer；服务器必须检测篡改和上下文变化，原子一次性 nonce claim 还可以防止 handler 实例之间重用。"},
+    {"id":"mcp-tool-security-q6","stage":"post","question":"现代网关的正确处理顺序是什么？","options":["信任 clientInfo，执行，然后审计","把声明的能力当作权限接受","认证、校验线上消息和 header、检查能力兼容性、授权，然后执行","创建 session，按发现顺序路由，再授权"],"correct":2,"explanation":"必须先消除线上歧义并确认身份，再进行授权和执行。"}
+  ]
+}

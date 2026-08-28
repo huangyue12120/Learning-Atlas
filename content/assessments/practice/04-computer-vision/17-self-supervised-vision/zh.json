@@ -1,0 +1,12 @@
+{
+  "kind":"practice-assessment",
+  "source":{"repository":"ai-engineering-from-scratch","path":"phases/04-computer-vision/17-self-supervised-vision/quiz.json","revision":"39ea8a1c6d0b61f071226eff7ede4d4105fed820","sha256":"4423648bf77b6d7d65f3a1fb7c4f60520bbdf56b180349c11dab7fc8be4c1262"},
+  "status":"reviewed",
+  "questions":[
+    {"id":"self-supervised-vision-04-1","stage":"pre","question":"为什么 SimCLR 需要 512–8192 的 batch size，而有监督 ImageNet 训练使用 256 就可以？","options":["每个样本需要许多负例才能得到有用的对比信号，batch 本身就是负例池；batch 太小会让 InfoNCE 缺少负例，训练停滞甚至坍塌","BatchNorm 要求这么大的 batch","对比损失必须除以 batch size","SimCLR 只是更慢"],"correct":0,"explanation":"InfoNCE 会让正样本对与 batch 中其他样本竞争。batch=32 时每个正例只有 30 个负例，batch=1024 时有 2046 个。MoCo 用过去特征的 momentum queue 扩大有效负例数量。"},
+    {"id":"self-supervised-vision-04-2","stage":"pre","question":"什么能防止 DINO 输出坍塌成常数？","options":["大 batch size","momentum 调度","仅靠强数据增强","结合 centring（从 teacher 输出减去每维 EMA 均值）和 sharpening（较低的 teacher temperature）；前者防止某一维支配，后者防止输出变成均匀分布"],"correct":3,"explanation":"DINO 不使用显式负例。没有 centring 时某一输出维可能支配训练；没有 sharpening 时 teacher 可能接近均匀，student 也会学习均匀输出。两者共同保持跨维度多样性和单样本峰度。"},
+    {"id":"self-supervised-vision-04-3","stage":"post","question":"MAE mask 75% 的 patch，而 BERT mask 15% 的 token。为什么比例不同？","options":["75% 是任意选择的","BERT 设计上必须是 15%","图像 patch 熵较低、邻居高度相关；只 mask 15% 可以通过局部外推轻松解决，而 mask 75% 会迫使 encoder 学习全局语义来重建缺失 patch","文本 token 比图像 patch 大"],"correct":2,"explanation":"mask 比例应匹配模态的信息密度。图像邻近像素高度相关，低比例遮挡不需要真正学习表示就能恢复；MAE 的 75% 能迫使模型理解语义。"},
+    {"id":"self-supervised-vision-04-4","stage":"post","question":"自监督预训练后，linear probe 评估只训练什么？","options":["完整的 MLP 分类头","整个 encoder","位置 embedding","在冻结 encoder 特征上训练一个线性分类器；这能把特征质量与微调优化过程分开"],"correct":3,"explanation":"linear probe 冻结 encoder，只拟合 Linear(features → num_classes)。其准确率直接反映特征空间的线性可分性；整网微调会混入额外的非线性能力和优化效果。"},
+    {"id":"self-supervised-vision-04-5","stage":"post","question":"为什么 MAE 使用非对称 encoder-decoder：大 encoder 只处理 25% 可见 patch，小 decoder 处理全部 token？","options":["decoder 需要自己的 backbone","内存限制","被 mask 的 token 会混淆自注意力","encoder 从不处理 mask token，小 decoder 只负责重建；encoder 的 FLOPs 与可见 patch 成正比，预训练比让完整 encoder 处理全部 token 快约 3 倍"],"correct":3,"explanation":"MAE 的效率关键是昂贵的 encoder 只看可见 patch（输入的 25%），mask token 只在浅层 decoder 中出现，所以比让完整 encoder 处理所有 token 快得多。"}
+  ]
+}

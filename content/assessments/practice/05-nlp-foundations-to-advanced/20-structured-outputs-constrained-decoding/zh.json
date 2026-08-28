@@ -1,0 +1,116 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/05-nlp-foundations-to-advanced/20-structured-outputs-constrained-decoding/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "23856e10a6274d73099e1b472295ec001feb0a7fd7863a455fcb02514f1c4fd6"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "structured-outputs-constrained-decoding-05-1",
+      "stage": "pre",
+      "question": "为什么生产环境中只在提示词里写“返回 JSON”还不够？",
+      "options": [
+        "提示词太长",
+        "提示词无法描述模式",
+        "JSON 太冗长",
+        "前沿模型大多数时候会遵守，但仍有少量格式错误输出，而这部分就足以破坏下游解析器"
+      ],
+      "correct": 3,
+      "explanation": "只靠提示词的结构化输出在前沿模型上大约有八成成功率；生产系统需要更强的保证。"
+    },
+    {
+      "id": "structured-outputs-constrained-decoding-05-2",
+      "stage": "pre",
+      "question": "约束解码在每个生成步骤会修改什么？",
+      "options": [
+        "logit 向量：屏蔽会使目标语法失效的词元，使采样只能选择合法延续",
+        "训练损失",
+        "分词器",
+        "KV cache"
+      ],
+      "correct": 0,
+      "explanation": "logit 处理器会把非法词元的分数设为 −∞，使 softmax 无法采样它们。"
+    },
+    {
+      "id": "structured-outputs-constrained-decoding-05-3",
+      "stage": "check",
+      "question": "为什么约束解码有时比自由生成更快？",
+      "options": [
+        "模型更小",
+        "它完全跳过 softmax",
+        "它跳过反向传播",
+        "强制的骨架词元（例如 `{\"name\": \"`）可以直接输出而无需采样，同时合法词元的搜索空间也更小"
+      ],
+      "correct": 3,
+      "explanation": "确定的词元可以跳过采样，缩小合法候选集合也会降低解码成本。"
+    },
+    {
+      "id": "structured-outputs-constrained-decoding-05-4",
+      "stage": "check",
+      "question": "哪种模式设计可以防止模型过早做出决定？",
+      "options": [
+        "把 `answer` 字段放在最前面",
+        "把推理字段放在答案或决策字段之前，让模型先思考再做决定",
+        "使用更短的键",
+        "使用 snake_case"
+      ],
+      "correct": 1,
+      "explanation": "字段顺序本身就是逻辑：先放推理字段，可以让模型在锁定答案前完成思考。"
+    },
+    {
+      "id": "structured-outputs-constrained-decoding-05-5",
+      "stage": "check",
+      "question": "Outlines 等基于 FSM 的约束解码工具有什么局限？",
+      "options": [
+        "它们只支持枚举值",
+        "它们把用户锁定在 OpenAI 上",
+        "递归模式必须被展平；真正的递归结构需要 XGrammar 等基于 CFG 的引擎",
+        "它们不是确定性的"
+      ],
+      "correct": 2,
+      "explanation": "有限状态机无法表示无界递归；上下文无关文法（CFG）引擎可以处理递归结构。"
+    },
+    {
+      "id": "structured-outputs-constrained-decoding-05-6",
+      "stage": "post",
+      "question": "为什么说 Instructor 不会修改 logits？",
+      "options": [
+        "Instructor 把模式写入提示词，并解析或重试输出；logit 屏蔽由服务端完成，或者根本不执行",
+        "它会编辑提示词",
+        "它使用梯度更新",
+        "这是 Anthropic 强制要求的"
+      ],
+      "correct": 0,
+      "explanation": "Instructor 依靠供应商提供的结构化输出，以及客户端校验和重试，而不是直接屏蔽 logits。"
+    },
+    {
+      "id": "structured-outputs-constrained-decoding-05-7",
+      "stage": "post",
+      "question": "严格规定 `date='YYYY-MM-DD'` 这样的正则表达式可能引入什么问题？",
+      "options": [
+        "它会破坏 JSON 解析",
+        "它不给未知值留下出口，模型可能编造日期，而不是返回 null 或哨兵值",
+        "它要求支持 CFG",
+        "正则表达式速度慢"
+      ],
+      "correct": 1,
+      "explanation": "过于严格的语法会迫使模型编造值；对未知情况应始终允许 null 或哨兵值。"
+    },
+    {
+      "id": "structured-outputs-constrained-decoding-05-8",
+      "stage": "post",
+      "question": "什么时候应选择 vLLM guided decoding，而不是供应商的结构化输出 API？",
+      "options": [
+        "只能在字节级 BPE 下使用",
+        "始终优先供应商 API",
+        "自托管推理、能够控制模型，并希望获得无需重试的 logit 级约束保证时",
+        "只适用于很小的模式"
+      ],
+      "correct": 2,
+      "explanation": "vLLM guided decoding 适合控制模型和服务栈的自托管场景，可提供 logit 级约束；供应商 API 则会把你绑定到其技术栈。"
+    }
+  ]
+}
