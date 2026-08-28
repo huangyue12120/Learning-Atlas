@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/09-code-migration-agent/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: c8415fbb54b54a6a6c1761bf52b1564fa7d565a50f18b55882fa8f4e5a9b07be
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: 迁移流水线的确定性重写与覆盖率门
+  summary: 在组合 AST recipe、智能体修复、测试套件和覆盖率差值门时，用测试金字塔理论区分确定性检查、回归验证和最终端到端验收。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 15 - production software engineering/04. testing and quality assurance.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 75cfe1f8703e3112959a0c6f1c941c3b0a28020f42344d8b83d66e0079a5fa8c
+  anchor:
+    heading: The Test Pyramid
+    slug: the-test-pyramid

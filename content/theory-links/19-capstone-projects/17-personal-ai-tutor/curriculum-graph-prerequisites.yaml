@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/17-personal-ai-tutor/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: ad7e1ebf8e1a6549852bde68b9e5a3eb752ef41c4fafd14d13c8b56c2655cb90
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: 课程图中的概念节点与先修路径
+  summary: 在按先修边遍历课程图、选择下一个概念并避免跳过基础知识时，用图论理论核对节点、边、路径和搜索边界。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 14 - data structures and algorithms/04. graphs.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e2bd3fed00e6a650f86b6d07a2d8d3263976543dba09ed7c9ddca6b3dfd93697
+  anchor:
+    heading: Graphs
+    slug: graphs

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/16-github-issue-to-pr-agent/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 1010fdc42aed583ae6fd290ed639480fdc1aa41615ddc58a0e5cdb958605b7f1
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: 分支保护与可审查 PR 的协作边界
+  summary: 在用细粒度凭证、分支保护、禁止强制推送和 PR 审查约束自治改动时，用 Git 版本控制理论核对分支、合并、可逆性与审查证据。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 15 - production software engineering/02. git and repository management.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 5126485a2947315627d503de7600aeff04b08d744ae3185227f716c43d39289d
+  anchor:
+    heading: Pull Requests and Code Review
+    slug: pull-requests-and-code-review

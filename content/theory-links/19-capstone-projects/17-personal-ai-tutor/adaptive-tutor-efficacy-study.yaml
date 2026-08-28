@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/17-personal-ai-tutor/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: ad7e1ebf8e1a6549852bde68b9e5a3eb752ef41c4fafd14d13c8b56c2655cb90
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: 自适应导师的前后测与基线比较
+  summary: 在比较自适应导师与线性内容交付的学习增益、置信区间和安全护栏时，用 ML 系统评估理论核对前测/后测、对照组、线上效果与 guardrail 指标。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/04. ML systems design.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 76746c0492a2391388c3dc8f24b5e9b44d22c475ff7a58ed200bc3a2f2952a30
+  anchor:
+    heading: Online Evaluation
+    slug: online-evaluation

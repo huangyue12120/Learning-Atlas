@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/02-rag-over-codebase/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: efb52a5359a8e837d011362dafe4871f2880f5030a54764b37f8098d4222e5a6
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: 混合检索如何形成有依据的上下文
+  summary: 在并行运行稠密检索与 BM25、合并候选、重排并强制 file:line 引用时，用高级文本生成理论核对检索结果如何成为生成模型的条件上下文，以及检索与生成各自的误差边界；该关联先保留候选状态，待独立审核。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

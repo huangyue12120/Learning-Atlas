@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/10-multi-agent-software-team/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: ec2980b3248cd2ef9cbf3e151ba443bdf3751b5324306cd5d37caecf279c1cce
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: 多智能体交接的消息形状与协调边界
+  summary: 在用类型化 A2A 消息传递计划、diff、审阅反馈和测试结果时，用系统设计中的协议与服务间通信理论核对序列化消息如何跨角色保持契约，以及共享状态和并行 worktree 如何引入协调风险。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/01. systems design fundamentals.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 57b3e7928b7703f36f63ffb24177f8d20637b02c12c929b7f54d3fa575b1fd3c
+  anchor:
+    heading: Networking Protocols
+    slug: networking-protocols

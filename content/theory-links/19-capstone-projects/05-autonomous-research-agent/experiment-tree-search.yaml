@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/05-autonomous-research-agent/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 5c1f54080074a5d0ccc5dc2e7297777cc782cc27a029d336101f6ac19f5e0740
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: 实验候选树的搜索与预算评分
+  summary: 在展开实验子节点、按新颖性与质量评分并在预算耗尽时选择分支时，用图论中的节点、边和搜索边界直觉理解 best-first 树搜索。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 14 - data structures and algorithms/04. graphs.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: e2bd3fed00e6a650f86b6d07a2d8d3263976543dba09ed7c9ddca6b3dfd93697
+  anchor:
+    heading: Graphs
+    slug: graphs

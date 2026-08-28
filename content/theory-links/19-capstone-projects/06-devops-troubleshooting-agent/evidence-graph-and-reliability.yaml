@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/06-devops-troubleshooting-agent/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: d6716091fbc7f7d6ee75c4a90de13f56d98d3f66bd6ab99f488d18ef4619c39f
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: K8s 证据图与故障根因排序
+  summary: 在沿 K8s 所有权、调度和观测边收集遥测证据并给根因假设排序时，用基础设施可靠性与图结构直觉核对依赖传播、证据路径和只读修复边界。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/03. large scale infrastructure.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 841b9c77948b5562ca325220c837cf0ded6c3c88e452745191849ad678ecfd61
+  anchor:
+    heading: Reliability
+    slug: reliability

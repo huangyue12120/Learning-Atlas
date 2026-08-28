@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/07-end-to-end-fine-tuning-pipeline/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: c283b32854099e155fd7dc7e745995ae141f85065a47050e4ad88af243ab9732
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: SFT 掩码损失与 DPO 偏好目标
+  summary: 在比较只做 SFT、SFT+DPO 与 SFT+GRPO，并处理 assistant-only 监督与 chosen/rejected 偏好对时，用掩码交叉熵和 DPO 隐式奖励目标核对每个训练阶段到底优化什么。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

@@ -1,0 +1,21 @@
+kind: theory-link
+status: proposed
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/08-production-rag-chatbot/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 84d50fb0bc9bcf443bb006f5841815557b8fe55d10ea57a133762968e22d2bd5
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: 受监管 RAG 的检索、条件上下文与引用
+  summary: 在按角色与司法辖区过滤、混合检索、重排并通过 RAGAS 和引用锚点评估答案时，用检索增强生成的数据流核对外部证据如何进入生成条件，以及提示缓存为何要求稳定前缀；该关联先保留候选状态，待独立审核。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

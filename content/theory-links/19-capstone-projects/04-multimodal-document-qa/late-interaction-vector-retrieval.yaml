@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/04-multimodal-document-qa/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: b8fc711b06f06c63a2dc3b03985cff5825260fa703eb5e3e576af9fda4bd4e89
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: 页面 patch 的后交互与 MaxSim
+  summary: 在把查询词元与页面 patch 逐一打分并以 MaxSim 聚合时，用视觉原生向量检索理论核对多向量表示、细粒度相似度和存储—召回权衡。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 18 - ML systems design/03. large scale infrastructure.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 841b9c77948b5562ca325220c837cf0ded6c3c88e452745191849ad678ecfd61
+  anchor:
+    heading: Vector Search
+    slug: vector-search

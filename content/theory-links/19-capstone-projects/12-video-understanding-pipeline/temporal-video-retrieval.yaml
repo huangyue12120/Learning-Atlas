@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/12-video-understanding-pipeline/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 0f0605d221d1c86e81430f60a6d97bd12ae67f4f4c8369aaf4da409eaf6563ff
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: 视频帧、时间词元与 grounding 窗口
+  summary: 在将场景帧、字幕和转写嵌入合并，并把查询细化为开始/结束时间窗口时，用视频词元化理论核对时空表示、时间压缩和 temporal grounding 之间的关系。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 10 - multimodal learning/03. image and video tokenisation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: d36271e5fb3af4873c60838206b32911f6e02667ede19b85f0ae1c2887cf5ef5
+  anchor:
+    heading: Video Tokenisation
+    slug: video-tokenisation

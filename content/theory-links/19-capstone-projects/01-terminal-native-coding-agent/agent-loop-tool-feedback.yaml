@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/01-terminal-native-coding-agent/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: fbe91598394614c9e50a3f02fe376aa1d7086d381f34f63223795345bf59f0a9
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: 编码智能体的规划—行动—观察—恢复循环
+  summary: 在把模型输出、工具执行、观察摘要和恢复策略接回每一回合时，用自回归生成与反馈轨迹理论理解为什么工具循环而非单次模型调用决定智能体行为。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation

@@ -1,0 +1,21 @@
+kind: theory-link
+status: approved
+practice:
+  repository: ai-engineering-from-scratch
+  path: phases/19-capstone-projects/14-speculative-decoding-server/docs/en.md
+  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
+  sha256: 85be34aa5856a391ad5debe03b5f115ea202c610888904d34322be76145891f7
+  anchor:
+    heading: Concept
+    slug: concept
+card:
+  title: 草稿—目标模型协作与推测解码吞吐
+  summary: 在由廉价草稿模型提出词元、再由目标模型批量验证时，用自回归文本生成理论核对条件分布、接受前缀和拒绝重采样如何改变解码成本。
+theory:
+  repository: maths-cs-ai-compendium
+  path: chapter 07 - computational linguistics/05. advanced text generation.md
+  revision: 9850ee574a370bc1cde59de98b394e953775b67d
+  sha256: 88d96b617b14ea399f3e1806f8ca281a8215a43486dc366d24ad62da99c53303
+  anchor:
+    heading: Advanced Text Generation
+    slug: advanced-text-generation
