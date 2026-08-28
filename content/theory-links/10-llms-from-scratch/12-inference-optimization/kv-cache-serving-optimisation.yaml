@@ -17,5 +17,5 @@ theory:
   revision: 9850ee574a370bc1cde59de98b394e953775b67d
   sha256: 93d4761610df2814a51a8c12e25c43aa337feac3f476c5041e3b019f3c7c2bd7
   anchor:
-    heading: Prefill vs Decode: Two Very Different Phases
+    heading: "Prefill vs Decode: Two Very Different Phases"
     slug: prefill-vs-decode-two-very-different-phases

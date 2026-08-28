@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/17-audio-evaluation-metrics/docs/en.md

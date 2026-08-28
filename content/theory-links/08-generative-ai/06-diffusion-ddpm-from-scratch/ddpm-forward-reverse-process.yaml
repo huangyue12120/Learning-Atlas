@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/06-diffusion-ddpm-from-scratch/docs/en.md

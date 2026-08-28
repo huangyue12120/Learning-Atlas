@@ -54,4 +54,7 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Temporary editorial review state (kept outside versioned course content).
+/tools/theory-link-review/review-results.json
+
 AI-Agents-in-Depth-zh-CN.pdf

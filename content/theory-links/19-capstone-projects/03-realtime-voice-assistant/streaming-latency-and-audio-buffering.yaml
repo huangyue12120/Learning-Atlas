@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/03-realtime-voice-assistant/docs/en.md

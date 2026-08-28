@@ -1,12 +1,12 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/02-few-shot-cot/docs/en.md
   revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
   sha256: 402278b0cc2b303ef9dfddb3e13d5101c02b2aed9a1b0f4fcb83f21a02795b5e
   anchor:
-    heading: Zero-Shot vs Few-Shot: When Examples Beat Instructions
+    heading: "Zero-Shot vs Few-Shot: When Examples Beat Instructions"
     slug: zero-shot-vs-few-shot-when-examples-beat-instructions
 card:
   title: Few-shot 与思维链的条件示范

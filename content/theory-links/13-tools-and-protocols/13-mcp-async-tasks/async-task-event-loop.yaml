@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/13-mcp-async-tasks/docs/en.md

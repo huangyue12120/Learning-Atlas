@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/01-what-is-machine-learning/docs/en.md

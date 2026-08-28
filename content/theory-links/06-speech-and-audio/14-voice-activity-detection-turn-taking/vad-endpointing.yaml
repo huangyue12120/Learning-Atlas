@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/14-voice-activity-detection-turn-taking/docs/en.md

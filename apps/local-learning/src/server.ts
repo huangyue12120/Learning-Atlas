@@ -96,8 +96,15 @@ type QuizQuestion = { id: string; question: string; options: string[]; correct: 
 type PublishedQuiz = { questions: QuizQuestion[]; status: "reviewed" | "stale" | "unavailable" };
 
 function yamlScalar(block: string, pattern: RegExp) {
-  const match = pattern.exec(block);
-  return match?.[1]?.trim() ?? null;
+  const value = pattern.exec(block)?.[1]?.trim();
+  if (!value) return null;
+  if (value.startsWith('"') && value.endsWith('"')) {
+    return value.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, "\\");
+  }
+  if (value.startsWith("'") && value.endsWith("'")) {
+    return value.slice(1, -1).replace(/''/g, "'");
+  }
+  return value;
 }
 
 function sourceUrl(repository: string, revision: string, path: string) {

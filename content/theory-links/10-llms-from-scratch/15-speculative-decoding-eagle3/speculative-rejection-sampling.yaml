@@ -6,7 +6,7 @@ practice:
   revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
   sha256: e7ccc1f2140d91351e1990b1556e97a2f6375b05ad1d7b36d5c852e1cec66ef5
   anchor:
-    heading: The invariant: Leviathan rejection sampling
+    heading: "The invariant: Leviathan rejection sampling"
     slug: the-invariant-leviathan-rejection-sampling
 card:
   title: 推测解码的拒绝采样与速度模型

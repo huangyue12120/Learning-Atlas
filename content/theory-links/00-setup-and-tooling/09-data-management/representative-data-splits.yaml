@@ -6,8 +6,8 @@ practice:
   revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
   sha256: 8751cb2ba46001a796bf98de9a8887652aa6c52f6543183f135c9c4bf4ae8e27
   anchor:
-    heading: Step 5: Dataset splits
-    slug: step-5-dataset-splits
+    heading: "Step 5: Data splits"
+    slug: step-5-data-splits
 card:
   title: 数据划分：抽样决定评估能否代表真实表现
   summary: 训练、验证和测试集都应来自清楚界定的数据总体；随机种子让切分可复现，但代表性、独立性和覆盖范围仍决定评估是否可信。

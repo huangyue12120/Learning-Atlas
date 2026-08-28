@@ -10,7 +10,7 @@ practice:
     slug: gpu-memory-with-pytorch
 card:
   title: GPU 显存：先区分张量占用、缓存与硬件层级
-  summary: `memory_allocated` 与 `memory_reserved` 分别观察活动分配和缓存池；理解显存层级后，才能判断 OOM 是批大小、生命周期还是碎片化问题。
+  summary: "`memory_allocated` 与 `memory_reserved` 分别观察活动分配和缓存池；理解显存层级后，才能判断 OOM 是批大小、生命周期还是碎片化问题。"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 16 - SIMD and GPU programming/04. GPU architecture and CUDA.md

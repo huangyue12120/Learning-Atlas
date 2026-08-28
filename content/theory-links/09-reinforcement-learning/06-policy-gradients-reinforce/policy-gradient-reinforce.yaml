@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/06-policy-gradients-reinforce/docs/en.md

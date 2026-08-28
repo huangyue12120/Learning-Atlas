@@ -1,12 +1,12 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/20-deepseek-v3-walkthrough/docs/en.md
   revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
   sha256: 04d8e96b26fd1cbfe18298e60320deff1339f9b052572b7144379ee59717d2e3
   anchor:
-    heading: The twist: MLA instead of GQA
+    heading: "The twist: MLA instead of GQA"
     slug: the-twist-mla-instead-of-gqa
 card:
   title: MLA、GQA 与稀疏专家

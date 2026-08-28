@@ -6,7 +6,7 @@ practice:
   revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
   sha256: b44320de740d56cf3ef7e2a639064e74d75f3f3e9186098b04f11edc5ee39173
   anchor:
-    heading: Stage 3: PPO with a KL penalty
+    heading: "Stage 3: PPO with a KL penalty"
     slug: stage-3-ppo-with-a-kl-penalty
 card:
   title: 从人类偏好到 KL 约束的 RLHF

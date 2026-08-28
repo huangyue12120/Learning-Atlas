@@ -1,12 +1,12 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/13-llm-observability/docs/en.md
   revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
   sha256: eef0e8c56bfce6c48914766194c3fb738c7c4998fee43471c54038f447df1cc2
   anchor:
-    heading: The glue: OpenTelemetry + GenAI semantic conventions
+    heading: "The glue: OpenTelemetry + GenAI semantic conventions"
     slug: the-glue-opentelemetry-genai-semantic-conventions
 card:
   title: 用 OpenTelemetry 解耦 LLM 遥测与观测后端

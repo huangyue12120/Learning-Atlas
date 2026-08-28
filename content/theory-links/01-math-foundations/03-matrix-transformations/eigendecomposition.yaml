@@ -6,7 +6,7 @@ practice:
   revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
   sha256: bd248b5462edccab7838ef32e303839811157e453873fb6b19421e4f3d5f2365
   anchor:
-    heading: Eigenvalues and Eigenvectors
+    heading: Eigenvalues and eigenvectors
     slug: eigenvalues-and-eigenvectors
 card:
   title: 特征分解：找出变换保持的方向

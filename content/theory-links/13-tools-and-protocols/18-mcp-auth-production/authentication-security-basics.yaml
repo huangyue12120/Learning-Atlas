@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/18-mcp-auth-production/docs/en.md

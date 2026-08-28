@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/31-agent-workbench-why-models-fail/docs/en.md

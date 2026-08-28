@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/19-subword-tokenization/docs/en.md

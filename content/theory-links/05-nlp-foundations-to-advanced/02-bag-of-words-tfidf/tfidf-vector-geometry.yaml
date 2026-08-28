@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/02-bag-of-words-tfidf/docs/en.md

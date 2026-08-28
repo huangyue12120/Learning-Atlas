@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/08-cnns-rnns-for-text/docs/en.md

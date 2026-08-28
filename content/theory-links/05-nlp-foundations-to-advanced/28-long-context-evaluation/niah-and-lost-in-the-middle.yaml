@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/28-long-context-evaluation/docs/en.md

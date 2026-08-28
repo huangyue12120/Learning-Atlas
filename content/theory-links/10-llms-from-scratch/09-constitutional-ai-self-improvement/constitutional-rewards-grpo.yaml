@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/09-constitutional-ai-self-improvement/docs/en.md

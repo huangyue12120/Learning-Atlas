@@ -6,7 +6,7 @@ practice:
   revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
   sha256: fac7d401a57bbbedba9b980e33524364562d8ef8dcd4ee716be50d7d8aa1e2ea
   anchor:
-    heading: Step 2: Piping and redirects
+    heading: "Step 2: Piping and redirects"
     slug: step-2-piping-and-redirects
 card:
   title: Shell 管道：把小命令组合成可检查的数据流

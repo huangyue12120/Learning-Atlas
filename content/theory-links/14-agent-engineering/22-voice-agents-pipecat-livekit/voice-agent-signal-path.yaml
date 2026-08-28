@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/22-voice-agents-pipecat-livekit/docs/en.md

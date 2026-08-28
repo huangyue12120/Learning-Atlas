@@ -6,7 +6,7 @@ practice:
   revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
   sha256: d7420f66a80b101850985748bc768744956b0ba042fe92a406fe6b8becb33ba2
   anchor:
-    heading: Build It: GPU vs CPU benchmark
+    heading: "Build It: GPU vs CPU benchmark"
     slug: build-it-gpu-vs-cpu-benchmark
 card:
   title: GPU 吞吐与显存：为什么矩阵运算会加速
@@ -17,5 +17,5 @@ theory:
   revision: 9850ee574a370bc1cde59de98b394e953775b67d
   sha256: 743fc0eca70d66a19ea7630e5a4e7cca559f4f52283298a21b20c8a17737225f
   anchor:
-    heading: GPU vs CPU: Fundamentally Different Designs
+    heading: "GPU vs CPU: Fundamentally Different Designs"
     slug: gpu-vs-cpu-fundamentally-different-designs

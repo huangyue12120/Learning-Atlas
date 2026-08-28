@@ -6,7 +6,7 @@ practice:
   revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
   sha256: 6e6752387e06906ae70b2300d8bf5f2457b2a4f25c85895b10c724db9bee083a
   anchor:
-    heading: LoRA: Low-Rank Adaptation
+    heading: "LoRA: Low-Rank Adaptation"
     slug: lora-low-rank-adaptation
 card:
   title: LoRA 的低秩参数化

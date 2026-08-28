@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/11-planning-htn-and-evolutionary/docs/en.md

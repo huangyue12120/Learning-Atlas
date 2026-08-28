@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/14-prompt-semantic-caching/docs/en.md

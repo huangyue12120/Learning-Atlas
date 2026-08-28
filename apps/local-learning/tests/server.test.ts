@@ -140,14 +140,14 @@ test("loads published lesson content and resources by lessonId", async () => {
 
   const nlpContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(nlpFoundations.lessons[0].id)}`).then((response) => response.json());
   assert.equal(nlpContent.translationStatus, "reviewed");
-  assert.deepEqual(nlpContent.theoryCards, []);
+  assert.deepEqual(nlpContent.theoryCards.map((item: { slug: string }) => item.slug), ["step-1-a-regex-word-tokenizer"]);
 
   const audioContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(speechAndAudio.lessons[0].id)}`).then((response) => response.json());
   assert.equal(audioContent.translationStatus, "reviewed");
   assert.deepEqual(audioContent.theoryCards.map((item: { slug: string }) => item.slug), ["the-concept"]);
 
-  const proposedAudioContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(speechAndAudio.lessons[13].id)}`).then((response) => response.json());
-  assert.deepEqual(proposedAudioContent.theoryCards, []);
+  const vadContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(speechAndAudio.lessons[13].id)}`).then((response) => response.json());
+  assert.deepEqual(vadContent.theoryCards.map((item: { slug: string }) => item.slug), ["the-three-tier-vad-cascade"]);
 
   const transformerContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(transformers.lessons[0].id)}`).then((response) => response.json());
   assert.equal(transformerContent.translationStatus, "reviewed");
@@ -160,29 +160,29 @@ test("loads published lesson content and resources by lessonId", async () => {
     "VAE 中的 KL 正则与 ELBO 权衡"
   ]);
 
-  const proposedGenerativeContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(generativeAI.lessons[0].id)}`).then((response) => response.json());
-  assert.deepEqual(proposedGenerativeContent.theoryCards, []);
+  const generativeContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(generativeAI.lessons[0].id)}`).then((response) => response.json());
+  assert.deepEqual(generativeContent.theoryCards.map((item: { title: string }) => item.title), ["生成模型家族的目标与取舍"]);
 
   const simToRealContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(reinforcementLearning.lessons[10].id)}`).then((response) => response.json());
   assert.equal(simToRealContent.translationStatus, "reviewed");
   assert.deepEqual(simToRealContent.theoryCards.map((item: { slug: string }) => item.slug), ["the-concept"]);
 
-  const proposedPpoContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(reinforcementLearning.lessons[7].id)}`).then((response) => response.json());
-  assert.deepEqual(proposedPpoContent.theoryCards, []);
+  const ppoContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(reinforcementLearning.lessons[7].id)}`).then((response) => response.json());
+  assert.deepEqual(ppoContent.theoryCards.map((item: { slug: string }) => item.slug), ["the-concept"]);
 
   const tokenizerContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(llmsFromScratch.lessons[0].id)}`).then((response) => response.json());
   assert.equal(tokenizerContent.translationStatus, "reviewed");
   assert.deepEqual(tokenizerContent.theoryCards.map((item: { slug: string }) => item.slug), ["the-concept"]);
 
-  const proposedTokenizerContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(llmsFromScratch.lessons[1].id)}`).then((response) => response.json());
-  assert.deepEqual(proposedTokenizerContent.theoryCards, []);
+  const productionTokenizerContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(llmsFromScratch.lessons[1].id)}`).then((response) => response.json());
+  assert.deepEqual(productionTokenizerContent.theoryCards.map((item: { slug: string }) => item.slug), ["the-full-pipeline"]);
 
   const embeddingsContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(llmEngineering.lessons[3].id)}`).then((response) => response.json());
   assert.equal(embeddingsContent.translationStatus, "reviewed");
   assert.deepEqual(embeddingsContent.theoryCards.map((item: { title: string }) => item.title), ["嵌入空间、相似度与向量检索"]);
 
-  const proposedPromptContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(llmEngineering.lessons[0].id)}`).then((response) => response.json());
-  assert.deepEqual(proposedPromptContent.theoryCards, []);
+  const promptContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(llmEngineering.lessons[0].id)}`).then((response) => response.json());
+  assert.deepEqual(promptContent.theoryCards.map((item: { slug: string }) => item.slug), ["anatomy-of-a-prompt"]);
 
   const patchTokenContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(multimodalAI.lessons[0].id)}`).then((response) => response.json());
   assert.equal(patchTokenContent.translationStatus, "reviewed");
@@ -195,10 +195,10 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.deepEqual(transfusionContent.theoryCards.map((item: { title: string }) => item.title), ["自回归与扩散目标的统一"]);
 
   const asyncTaskContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(toolsAndProtocols.lessons[12].id)}`).then((response) => response.json());
-  assert.deepEqual(asyncTaskContent.theoryCards, []);
+  assert.deepEqual(asyncTaskContent.theoryCards.map((item: { title: string }) => item.title), ["异步任务如何把长时工作从请求连接中拆开"]);
 
   const authenticationContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(toolsAndProtocols.lessons[17].id)}`).then((response) => response.json());
-  assert.deepEqual(authenticationContent.theoryCards, []);
+  assert.deepEqual(authenticationContent.theoryCards.map((item: { title: string }) => item.title), ["OAuth 认证是系统安全链路中的一层"]);
 
   const routingContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(toolsAndProtocols.lessons[20].id)}`).then((response) => response.json());
   assert.deepEqual(routingContent.theoryCards.map((item: { title: string }) => item.title).sort(), [

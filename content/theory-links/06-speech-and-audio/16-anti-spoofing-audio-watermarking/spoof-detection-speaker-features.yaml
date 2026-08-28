@@ -1,5 +1,5 @@
 kind: theory-link
-status: proposed
+status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/16-anti-spoofing-audio-watermarking/docs/en.md
