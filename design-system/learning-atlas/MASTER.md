@@ -2,7 +2,7 @@
 
 ## Product Intent
 
-Learning Atlas is a local-first Chinese learning application. The reading experience is the product: learners follow the practical curriculum, open contextual theory only when it helps the current task, and retain control of their notes, progress, and model configuration. Design must clarify that hierarchy; it must not resemble a marketing site, newsletter, generic chatbot, or a second theory curriculum.
+Learning Atlas is a local-first Chinese learning application. Learners follow the practical curriculum by default, may browse the complete theory curriculum independently, and retain control of their notes, progress, and model configuration. Design must keep practice primary, theory secondary, and contextual theory cards visibly connected to the practical task that invoked them.
 
 ## Visual Direction
 
@@ -34,4 +34,4 @@ Motion is subtle and functional (150–250ms); support `prefers-reduced-motion`.
 
 ## Product Surfaces
 
-The reader is the primary surface. It combines a collapsible curriculum navigator, focused lesson prose, expandable theory cards, source attribution, and learner-owned state. The tutor is an explicitly opened, evidence-labelled panel: desktop side panel and mobile bottom sheet. Notes and review items are separate learner-data panels, never part of the versioned course content.
+The learning home is the entry surface, the practice reader remains the primary learning surface, and the theory reader is a secondary reference surface. The tutor is an explicitly opened, evidence-labelled panel in the practice reader: desktop side panel and mobile bottom sheet. Notes and review items are separate learner-data panels, never part of the versioned course content.

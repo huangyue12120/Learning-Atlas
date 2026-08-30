@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { afterEach, test } from "node:test";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createServer, type Server } from "node:http";
 import { DatabaseSync } from "node:sqlite";
-import { createApp, firstLesson, prepareWorkspace } from "../src/server.ts";
+import { createApp, firstLesson, prepareWorkspace, publishableTheoryDocument } from "../src/server.ts";
 
 const cleanups: Array<() => void> = [];
 const correctFirstQuizAnswers = {
@@ -252,6 +253,24 @@ test("serves local syntax-highlighting modules", async () => {
   assert.match(await response.text(), /Python/);
 });
 
+test("serves route bootstraps and local GSAP and KaTeX modules", async () => {
+  const baseUrl = await startTestServer();
+  for (const path of ["/", "/learn", "/theory"]) {
+    const response = await fetch(`${baseUrl}${path}`);
+    assert.equal(response.status, 200);
+    assert.match(await response.text(), /\/bootstrap\.js/);
+  }
+  const gsap = await fetch(`${baseUrl}/vendor/gsap/index.js`);
+  assert.equal(gsap.status, 200);
+  assert.match(await gsap.text(), /gsap/);
+  const katex = await fetch(`${baseUrl}/vendor/katex/katex.mjs`);
+  assert.equal(katex.status, 200);
+  assert.match(await katex.text(), /renderToString/);
+  const katexCss = await fetch(`${baseUrl}/vendor/katex/katex.min.css`);
+  assert.equal(katexCss.status, 200);
+  assert.match(katexCss.headers.get("content-type") ?? "", /text\/css/);
+});
+
 test("publishes the reviewed CLT theory card for statistics", async () => {
   const baseUrl = await startTestServer();
   const lessonId = "practice/01-math-foundations/15-statistics-for-ml";
@@ -260,8 +279,104 @@ test("publishes the reviewed CLT theory card for statistics", async () => {
     slug: "central-limit-theorem-practical-implications",
     title: "中心极限定理：为何样本均值可用于推断",
     summary: "在解释置信区间、t 检验和 mini-batch 平均的近似正态性前，复习正态分布及中心极限定理的适用条件。",
-    sourceUrl: "https://github.com/huangyue12120/maths-cs-ai-compendium/blob/9850ee574a370bc1cde59de98b394e953775b67d/chapter%2004%20-%20statistics/03.%20sampling.md"
+    sourceUrl: "https://github.com/HenryNdubuaku/maths-cs-ai-compendium/blob/main/chapter%2004%20-%20statistics/03.%20sampling.md",
+    theoryId: "theory/chapter-04-statistics/03-sampling",
+    readKind: "internal",
+    readLanguage: "zh",
+    readUrl: "/theory?theoryId=theory%2Fchapter-04-statistics%2F03-sampling",
+    latestSourceUrl: "https://github.com/HenryNdubuaku/maths-cs-ai-compendium/blob/main/chapter%2004%20-%20statistics/03.%20sampling.md"
   }]);
+});
+
+test("serves the complete curriculum with safe staged phases and a dynamic target", async () => {
+  const baseUrl = await startTestServer();
+  const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
+  assert.equal(curriculum.practice.length, 20);
+  assert.equal(curriculum.theory.length, 20);
+  assert.equal(curriculum.summary.publishedPracticePhaseCount, 14);
+  assert.equal(curriculum.summary.reviewedTheoryNoteCount, 1);
+  assert.equal(curriculum.target.kind, "start");
+  assert.equal(curriculum.target.lessonId, "practice/00-setup-and-tooling/01-dev-environment");
+  assert.equal(curriculum.practice.slice(14).every((phase: { status: string; firstLessonId: string | null }) =>
+    phase.status === "staged" && phase.firstLessonId === null), true);
+
+  const stagedLesson = await fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent("practice/14-agent-engineering/01-the-agent-loop")}`);
+  assert.equal(stagedLesson.status, 404);
+
+  await fetch(`${baseUrl}/api/reading-position?lessonId=${encodeURIComponent(curriculum.target.lessonId)}`, {
+    method: "PUT",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ position: 240 })
+  });
+  const continued = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
+  assert.equal(continued.target.kind, "continue");
+  assert.equal(continued.target.lessonId, curriculum.target.lessonId);
+});
+
+test("publishes the reviewed sampling theory reader and rejects unsafe resources", async () => {
+  const baseUrl = await startTestServer();
+  const theoryId = "theory/chapter-04-statistics/03-sampling";
+  const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
+  const sampling = curriculum.theory[3].notes.find((note: { theoryId: string }) => note.theoryId === theoryId);
+  const fallback = curriculum.theory[0].notes[0];
+  assert.equal(sampling.readKind, "internal");
+  assert.equal(sampling.readLanguage, "zh");
+  assert.match(sampling.readUrl, /^\/theory\?theoryId=/);
+  assert.match(sampling.sourceUrl, /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//);
+  assert.equal(fallback.readKind, "external");
+  assert.match(fallback.readUrl, /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//);
+  assert.match(fallback.sourceUrl, /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//);
+
+  const response = await fetch(`${baseUrl}/api/theory/content?theoryId=${encodeURIComponent(theoryId)}`);
+  assert.equal(response.status, 200);
+  const content = await response.json();
+  assert.equal(content.title, "抽样");
+  assert.equal(content.source.branch, "main");
+  assert.equal(content.source.revision, "main");
+  assert.equal(content.source.reviewedRevision, "9850ee574a370bc1cde59de98b394e953775b67d");
+  assert.equal(content.sourceUrl, "https://github.com/HenryNdubuaku/maths-cs-ai-compendium/blob/main/chapter%2004%20-%20statistics/03.%20sampling.md");
+  assert.equal((content.markdown.match(/!\[/g) ?? []).length, 2);
+  assert.equal((content.markdown.match(/^\$\$/gm) ?? []).length, 2);
+  assert.equal((content.markdown.match(/```python/g) ?? []).length, 3);
+  assert.match(content.latestSourceUrl, /HenryNdubuaku.+\/blob\/main\//);
+
+  const image = await fetch(`${baseUrl}/api/theory/assets/images/sampling_methods.svg`);
+  assert.equal(image.status, 200);
+  assert.match(image.headers.get("content-type") ?? "", /image\/svg\+xml/);
+  const markdownAsset = await fetch(`${baseUrl}/api/theory/assets/chapter%2004%20-%20statistics/03.%20sampling.md`);
+  assert.equal(markdownAsset.status, 403);
+  const traversal = await fetch(`${baseUrl}/api/theory/assets/%2e%2e/package.json`);
+  assert.ok([403, 404].includes(traversal.status));
+  const missingImage = await fetch(`${baseUrl}/api/theory/assets/images/not-present.svg`);
+  assert.equal(missingImage.status, 404);
+  const unknown = await fetch(`${baseUrl}/api/theory/content?theoryId=${encodeURIComponent("theory/chapter-99-missing/01-nope")}`);
+  assert.equal(unknown.status, 404);
+  const invalid = await fetch(`${baseUrl}/api/theory/content?theoryId=${encodeURIComponent("../../package.json")}`);
+  assert.equal(invalid.status, 404);
+});
+
+test("publishes only reviewed theory translations with a matching source fingerprint", () => {
+  const directory = mkdtempSync(join(tmpdir(), "learning-atlas-theory-"));
+  cleanups.push(() => rmSync(directory, { recursive: true, force: true }));
+  const sourceFile = join(directory, "source.md");
+  const translationFile = join(directory, "zh.md");
+  writeFileSync(sourceFile, "# Sampling\n\nSource body.\n", "utf8");
+  const fingerprint = createHash("sha256").update(readFileSync(sourceFile)).digest("hex");
+  const translation = (status: string, sha256: string, revision = "0123456789012345678901234567890123456789", branch = "main") => `---\nkind: theory-translation\nsource:\n  repository: maths-cs-ai-compendium\n  path: chapter 04 - statistics/03. sampling.md\n  branch: ${branch}\n${revision ? `  revision: ${revision}\n` : ""}  sha256: ${sha256}\nstatus: ${status}\n---\n# 抽样\n`;
+
+  assert.equal(publishableTheoryDocument(sourceFile, join(directory, "missing.md")), null);
+  writeFileSync(translationFile, translation("draft", fingerprint), "utf8");
+  assert.equal(publishableTheoryDocument(sourceFile, translationFile), null);
+  writeFileSync(translationFile, translation("stale", fingerprint), "utf8");
+  assert.equal(publishableTheoryDocument(sourceFile, translationFile), null);
+  writeFileSync(translationFile, translation("reviewed", "0".repeat(64)), "utf8");
+  assert.equal(publishableTheoryDocument(sourceFile, translationFile), null);
+  writeFileSync(translationFile, translation("reviewed", fingerprint), "utf8");
+  assert.equal(publishableTheoryDocument(sourceFile, translationFile)?.markdown.trim(), "# 抽样");
+  writeFileSync(translationFile, translation("reviewed", fingerprint, "", "main"), "utf8");
+  assert.equal(publishableTheoryDocument(sourceFile, translationFile)?.revision, "main");
+  writeFileSync(translationFile, translation("reviewed", fingerprint, "", "release"), "utf8");
+  assert.equal(publishableTheoryDocument(sourceFile, translationFile), null);
 });
 
 test("serves a reviewed Chinese quiz without answers and persists its latest result", async () => {

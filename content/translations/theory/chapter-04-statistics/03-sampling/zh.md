@@ -3,6 +3,7 @@ kind: theory-translation
 source:
   repository: maths-cs-ai-compendium
   path: chapter 04 - statistics/03. sampling.md
+  branch: main
   revision: 9850ee574a370bc1cde59de98b394e953775b67d
   sha256: 5d0f6c44422854b60f9027fa8411be8c54e78f08e827e9f0e5216e39e0f9f56d
 status: reviewed

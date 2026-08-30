@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify every versioned Learning Atlas source fingerprint against its pinned upstream file."""
+"""Verify every versioned Learning Atlas source fingerprint against its checked-out upstream file."""
 
 from __future__ import annotations
 

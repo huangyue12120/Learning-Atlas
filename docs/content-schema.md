@@ -31,6 +31,8 @@ source:
 status: draft # draft | reviewed | stale
 ```
 
+Theory notes use a stable identifier derived from the published snapshot path, for example `theory/chapter-04-statistics/03-sampling`. The identifier belongs to the note across language and reader surfaces; later theory progress or notes must reuse it rather than inventing a second key. A Chinese theory body records `branch: main` and is publishable only when it is `reviewed`, names the matching theory source path, and its SHA-256 equals the current source file after the local theory submodule has been synchronized with upstream `main`. A recorded `revision` is an audit trail for the review; API consumers receive it as `reviewedRevision`, while the published source `revision` and URL remain `main`. Every other state falls back to the official upstream English `main` without serving the local Chinese body.
+
 Each theory-link file represents one link from a stable practice-lesson anchor to one theory note. It includes the card title and summary, both source locations, the theory-note anchor, and `status: proposed | approved | rejected`. Multiple approved links may share one practice anchor; the reader renders each approved card at that section. The application renders only approved links. A changed source hash marks the corresponding translation stale; it never overwrites it automatically.
 
 Each exploration is a Python marimo template. The application copies it into the learner's workspace before launch, so the versioned template stays reviewable and the learner can experiment without changing course content.
@@ -41,7 +43,7 @@ Each assessment adaptation is JSON with its source repository, path, revision, S
 
 ## Editorial Rules
 
-Keep Python code, commands, formulas, attribution, and licensing notices semantically intact. Link to non-Python upstream variants instead of maintaining them. Preserve the source path and pinned revision for every adaptation. Add a mapping only after human editorial review; an agent may create a proposal but cannot publish it.
+Keep Python code, commands, formulas, attribution, and licensing notices semantically intact. Link to non-Python upstream variants instead of maintaining them. Preserve the source path and the applicable upstream branch/revision metadata for every adaptation; theory source links use the official `main` branch, while a recorded theory revision only identifies the review snapshot. Add a mapping only after human editorial review; an agent may create a proposal but cannot publish it.
 
 ### Source-correspondence requirement
 

@@ -12,8 +12,12 @@ const applicationDirectory = resolve(moduleDirectory, "..");
 const publicDirectory = join(applicationDirectory, "public");
 const mermaidDirectory = join(applicationDirectory, "node_modules/mermaid/dist");
 const highlightDirectory = join(applicationDirectory, "node_modules/@highlightjs/cdn-assets");
+const gsapDirectory = join(applicationDirectory, "node_modules/gsap");
+const katexDirectory = join(applicationDirectory, "node_modules/katex/dist");
 const repositoryDirectory = resolve(applicationDirectory, "../..");
 const practiceDirectory = join(repositoryDirectory, "ai-engineering-from-scratch/phases");
+const theoryDirectory = join(repositoryDirectory, "maths-cs-ai-compendium");
+const theoryTranslationDirectory = join(repositoryDirectory, "content/translations/theory");
 const phases = [
   { slug: "00-setup-and-tooling", title: "Phase 0 · 环境与工具" },
   { slug: "01-math-foundations", title: "Phase 1 · 数学基础" },
@@ -31,7 +35,17 @@ const phases = [
   { slug: "13-tools-and-protocols", title: "Phase 13 · 工具与协议" }
 ] as const;
 type Phase = typeof phases[number];
+const curriculumPhases = [
+  ...phases,
+  { slug: "14-agent-engineering", title: "Phase 14 · Agent 工程" },
+  { slug: "15-autonomous-systems", title: "Phase 15 · 自主系统" },
+  { slug: "16-multi-agent-and-swarms", title: "Phase 16 · 多 Agent 与群体智能" },
+  { slug: "17-infrastructure-and-production", title: "Phase 17 · 基础设施与生产" },
+  { slug: "18-ethics-safety-alignment", title: "Phase 18 · 伦理、安全与对齐" },
+  { slug: "19-capstone-projects", title: "Phase 19 · 综合项目" }
+] as const;
 const defaultLessonId = "practice/01-math-foundations/01-linear-algebra-intuition";
+const officialTheoryRepository = "https://github.com/HenryNdubuaku/maths-cs-ai-compendium";
 
 type LearningState = {
   completed: boolean;
@@ -79,11 +93,46 @@ type CourseOutline = {
 
 type CourseProgress = "not-started" | "in-progress" | "understood" | "review";
 
+type TheoryReadKind = "internal" | "external";
+
+type TheoryNote = {
+  theoryId: string;
+  chapterSlug: string;
+  position: string;
+  title: string;
+  sourcePath: string;
+  sourceUrl: string;
+  latestSourceUrl: string;
+  readKind: TheoryReadKind;
+  readLanguage: "zh" | "en";
+  readUrl: string;
+};
+
+type TheoryChapter = {
+  slug: string;
+  position: string;
+  title: string;
+  originalTitle: string;
+  notes: TheoryNote[];
+};
+
+type PublishedTheoryDocument = {
+  markdown: string;
+  revision: string;
+  sha256: string;
+  sourcePath: string;
+};
+
 type TheoryCard = {
   slug: string;
   title: string;
   summary: string;
   sourceUrl: string;
+  theoryId: string;
+  readKind: TheoryReadKind;
+  readLanguage: "zh" | "en";
+  readUrl: string;
+  latestSourceUrl: string;
 };
 
 type LessonContent = {
@@ -115,6 +164,140 @@ function sourceUrl(repository: string, revision: string, path: string) {
   const base = repositories[repository];
   if (!base) throw new Error(`Unknown source repository: ${repository}`);
   return `${base}/blob/${revision}/${path.split("/").map(encodeURIComponent).join("/")}`;
+}
+
+function officialTheoryUrl(path: string) {
+  return `${officialTheoryRepository}/blob/main/${path.split("/").map(encodeURIComponent).join("/")}`;
+}
+
+function sourceSlug(value: string) {
+  return value
+    .normalize("NFKD")
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .toLowerCase();
+}
+
+export function publishableTheoryDocument(sourceFile: string, translationFile: string): PublishedTheoryDocument | null {
+  if (!existsSync(sourceFile) || !existsSync(translationFile)) return null;
+  const document = readFileSync(translationFile, "utf8");
+  const match = document.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!match) return null;
+  const [, frontmatter, markdown] = match;
+  if (yamlScalar(frontmatter, /^status:\s*(.+)$/m) !== "reviewed") return null;
+  if (yamlScalar(frontmatter, /^  repository:\s*(.+)$/m) !== "maths-cs-ai-compendium") return null;
+  const sourcePath = yamlScalar(frontmatter, /^  path:\s*(.+)$/m);
+  const branch = yamlScalar(frontmatter, /^  branch:\s*(.+)$/m) ?? "main";
+  const revision = yamlScalar(frontmatter, /^  revision:\s*(.+)$/m) ?? "main";
+  const fingerprint = yamlScalar(frontmatter, /^  sha256:\s*(.+)$/m);
+  if (branch !== "main" || !sourcePath || !fingerprint || sha256(sourceFile) !== fingerprint) return null;
+  return { markdown, revision, sha256: fingerprint, sourcePath };
+}
+
+const theoryChapterTitles: Record<string, string> = {
+  "01": "向量",
+  "02": "矩阵",
+  "03": "微积分",
+  "04": "统计学",
+  "05": "概率论",
+  "06": "机器学习",
+  "07": "计算语言学",
+  "08": "计算机视觉",
+  "09": "音频与语音",
+  "10": "多模态学习",
+  "11": "自主系统",
+  "12": "图神经网络",
+  "13": "计算与操作系统",
+  "14": "数据结构与算法",
+  "15": "生产软件工程",
+  "16": "SIMD 与 GPU 编程",
+  "17": "AI 推理",
+  "18": "机器学习系统设计",
+  "19": "应用 AI",
+  "20": "前沿 AI"
+};
+
+function buildTheoryCatalog(): TheoryChapter[] {
+  return readdirSync(theoryDirectory, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && /^chapter \d{2} - /.test(entry.name))
+    .sort((left, right) => left.name.localeCompare(right.name))
+    .map((entry) => {
+      const chapterMatch = /^chapter (\d{2}) - (.+)$/.exec(entry.name)!;
+      const [, position, originalTitle] = chapterMatch;
+      const chapterSlug = `chapter-${position}-${sourceSlug(originalTitle)}`;
+      const notes = readdirSync(join(theoryDirectory, entry.name), { withFileTypes: true })
+        .filter((note) => note.isFile() && /^\d{2}\. .+\.md$/.test(note.name))
+        .sort((left, right) => left.name.localeCompare(right.name))
+        .map((note) => {
+          const noteMatch = /^(\d{2})\. (.+)\.md$/.exec(note.name)!;
+          const [, notePosition, sourceName] = noteMatch;
+          const noteSlug = `${notePosition}-${sourceSlug(sourceName)}`;
+          const theoryId = `theory/${chapterSlug}/${noteSlug}`;
+          const sourcePath = `${entry.name}/${note.name}`;
+          const sourceFile = join(theoryDirectory, sourcePath);
+          const sourceDocument = readFileSync(sourceFile, "utf8");
+          const sourceTitle = sourceDocument.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? sourceName;
+          const translationFile = join(theoryTranslationDirectory, chapterSlug, noteSlug, "zh.md");
+          const translation = publishableTheoryDocument(sourceFile, translationFile);
+          const translationMatchesSource = translation?.sourcePath === sourcePath;
+          const translatedTitle = translationMatchesSource
+            ? translation.markdown.match(/^#\s+(.+)$/m)?.[1]?.trim()
+            : null;
+          const readKind: TheoryReadKind = translationMatchesSource ? "internal" : "external";
+          return {
+            theoryId,
+            chapterSlug,
+            position: notePosition,
+            title: translatedTitle ?? sourceTitle,
+            sourcePath,
+            sourceUrl: officialTheoryUrl(sourcePath),
+            latestSourceUrl: officialTheoryUrl(sourcePath),
+            readKind,
+            readLanguage: translationMatchesSource ? "zh" : "en",
+            readUrl: translationMatchesSource
+              ? `/theory?theoryId=${encodeURIComponent(theoryId)}`
+              : officialTheoryUrl(sourcePath)
+          } satisfies TheoryNote;
+        });
+      return {
+        slug: chapterSlug,
+        position,
+        title: theoryChapterTitles[position] ?? originalTitle,
+        originalTitle,
+        notes
+      } satisfies TheoryChapter;
+    });
+}
+
+const theoryCatalog = buildTheoryCatalog();
+const theoryNotes = theoryCatalog.flatMap((chapter) => chapter.notes);
+const theoryNoteById = new Map(theoryNotes.map((note) => [note.theoryId, note]));
+const theoryNoteBySourcePath = new Map(theoryNotes.map((note) => [note.sourcePath, note]));
+
+function theoryContentFor(theoryId: string) {
+  const note = theoryNoteById.get(theoryId);
+  if (!note || note.readKind !== "internal") return null;
+  const sourceFile = join(theoryDirectory, note.sourcePath);
+  const translationFile = join(theoryTranslationDirectory, ...theoryId.split("/").slice(1), "zh.md");
+  const translation = publishableTheoryDocument(sourceFile, translationFile);
+  if (!translation || translation.sourcePath !== note.sourcePath) return null;
+  const sourceDirectory = note.sourcePath.split("/").slice(0, -1).map(encodeURIComponent).join("/");
+  return {
+    theoryId,
+    title: note.title,
+    markdown: translation.markdown,
+    source: {
+      repository: "maths-cs-ai-compendium",
+      path: note.sourcePath,
+      branch: "main",
+      revision: "main",
+      reviewedRevision: translation.revision,
+      sha256: translation.sha256
+    },
+    sourceUrl: officialTheoryUrl(note.sourcePath),
+    latestSourceUrl: note.latestSourceUrl,
+    resourceBaseUrl: `/api/theory/assets/${sourceDirectory}/`
+  };
 }
 
 function phaseFor(slug: string): Phase | null {
@@ -210,6 +393,66 @@ function courseOutline(database: DatabaseSync): CourseOutline[] {
       };
     })
   }));
+}
+
+function practicePhaseLessonCount(slug: string) {
+  const directory = join(practiceDirectory, slug);
+  if (!existsSync(directory)) return 0;
+  return readdirSync(directory, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && /^\d{2}-/.test(entry.name))
+    .length;
+}
+
+function learningTarget(course: CourseOutline[]) {
+  const lessons = course.flatMap((phase) => phase.lessons.filter((lesson) => lesson.available));
+  const inProgress = lessons.find((lesson) => lesson.progress === "in-progress");
+  const review = lessons.find((lesson) => lesson.progress === "review");
+  let continuousCompleted = 0;
+  while (lessons[continuousCompleted]?.progress === "understood") continuousCompleted += 1;
+  const nextLesson = inProgress ?? review ?? lessons[continuousCompleted] ?? lessons[0];
+  const continuing = Boolean(inProgress || review || continuousCompleted > 0);
+  return {
+    kind: continuing ? "continue" : "start",
+    label: continuing ? "继续学习" : "开始学习",
+    lessonId: nextLesson?.id ?? null,
+    url: nextLesson ? `/learn?lessonId=${encodeURIComponent(nextLesson.id)}` : null
+  };
+}
+
+function curriculumFor(database: DatabaseSync) {
+  const course = courseOutline(database);
+  const outlines = new Map(course.map((phase) => [phase.slug, phase]));
+  const practice = curriculumPhases.map((phase, index) => {
+    const outline = outlines.get(phase.slug);
+    const staged = index >= phases.length;
+    const lessonCount = staged ? practicePhaseLessonCount(phase.slug) : outline?.lessons.length ?? 0;
+    const availableLessonCount = outline?.lessons.filter((lesson) => lesson.available).length ?? 0;
+    const startedLessonCount = outline?.lessons.filter((lesson) => lesson.progress !== "not-started").length ?? 0;
+    const completedLessonCount = outline?.lessons.filter((lesson) => lesson.progress === "understood").length ?? 0;
+    return {
+      slug: phase.slug,
+      position: String(index).padStart(2, "0"),
+      title: phase.title.replace(/^Phase \d+ · /, ""),
+      status: staged ? "staged" : "available",
+      lessonCount,
+      availableLessonCount,
+      startedLessonCount,
+      completedLessonCount,
+      firstLessonId: staged ? null : outline?.lessons.find((lesson) => lesson.available)?.id ?? null
+    };
+  });
+  return {
+    practice,
+    target: learningTarget(course),
+    theory: theoryCatalog,
+    summary: {
+      practicePhaseCount: practice.length,
+      publishedPracticePhaseCount: phases.length,
+      theoryChapterCount: theoryCatalog.length,
+      theoryNoteCount: theoryNotes.length,
+      reviewedTheoryNoteCount: theoryNotes.filter((note) => note.readKind === "internal").length
+    }
+  };
 }
 
 type ModelConfig = {
@@ -851,12 +1094,23 @@ function approvedTheoryCards(lesson: Lesson): TheoryCard[] {
       const summary = yamlScalar(cardBlock, /^  summary:\s*(.+)$/m);
       const repository = yamlScalar(theoryBlock, /^  repository:\s*(.+)$/m);
       const path = yamlScalar(theoryBlock, /^  path:\s*(.+)$/m);
-      const revision = yamlScalar(theoryBlock, /^  revision:\s*(.+)$/m);
       const fingerprint = yamlScalar(theoryBlock, /^  sha256:\s*(.+)$/m);
-      if (!slug || !title || !summary || !repository || !path || !revision || !fingerprint) return [];
+      if (!slug || !title || !summary || !repository || !path || !fingerprint) return [];
       const currentSource = join(repositoryDirectory, repository, path);
       if (!existsSync(currentSource) || sha256(currentSource) !== fingerprint) return [];
-      return [{ slug, title, summary, sourceUrl: sourceUrl(repository, revision, path) }];
+      const note = theoryNoteBySourcePath.get(path);
+      if (!note) return [];
+      return [{
+        slug,
+        title,
+        summary,
+        sourceUrl: repository === "maths-cs-ai-compendium" ? officialTheoryUrl(path) : sourceUrl(repository, "main", path),
+        theoryId: note.theoryId,
+        readKind: note.readKind,
+        readLanguage: note.readLanguage,
+        readUrl: note.readUrl,
+        latestSourceUrl: note.latestSourceUrl
+      }];
     });
 }
 
@@ -957,10 +1211,16 @@ function launch(command: string, args: string[], directory: string) {
 
 const mimeTypes: Record<string, string> = {
   ".css": "text/css; charset=utf-8",
+  ".gif": "image/gif",
   ".html": "text/html; charset=utf-8",
+  ".jpeg": "image/jpeg",
+  ".jpg": "image/jpeg",
   ".js": "text/javascript; charset=utf-8",
   ".mjs": "text/javascript; charset=utf-8",
+  ".png": "image/png",
+  ".svg": "image/svg+xml; charset=utf-8",
   ".ttf": "font/ttf",
+  ".webp": "image/webp",
   ".woff": "font/woff",
   ".woff2": "font/woff2"
 };
@@ -983,7 +1243,7 @@ async function serveFile(rootDirectory: string, requestedPath: string, response:
 }
 
 function serveStatic(pathname: string, response: ServerResponse) {
-  const requestedPath = pathname === "/" ? "/index.html" : pathname;
+  const requestedPath = ["/", "/learn", "/theory"].includes(pathname) ? "/index.html" : pathname;
   return serveFile(publicDirectory, requestedPath, response);
 }
 
@@ -993,6 +1253,27 @@ function serveMermaid(pathname: string, response: ServerResponse) {
 
 function serveHighlight(pathname: string, response: ServerResponse) {
   return serveFile(highlightDirectory, pathname.slice("/vendor/highlight/".length), response);
+}
+
+function serveGsap(pathname: string, response: ServerResponse) {
+  return serveFile(gsapDirectory, pathname.slice("/vendor/gsap/".length), response);
+}
+
+function serveKatex(pathname: string, response: ServerResponse) {
+  return serveFile(katexDirectory, pathname.slice("/vendor/katex/".length), response);
+}
+
+function serveTheoryAsset(pathname: string, response: ServerResponse) {
+  let requestedPath = pathname.slice("/api/theory/assets/".length);
+  try {
+    requestedPath = decodeURIComponent(requestedPath);
+  } catch {
+    return sendText(response, 400, "Bad request");
+  }
+  if (![".gif", ".jpeg", ".jpg", ".png", ".svg", ".webp"].includes(extname(requestedPath).toLowerCase())) {
+    return sendText(response, 403, "Forbidden");
+  }
+  return serveFile(theoryDirectory, requestedPath, response);
 }
 
 export function createApp(dataDirectory = join(applicationDirectory, "data")): App {
@@ -1012,6 +1293,19 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
       try {
         if (request.method === "GET" && url.pathname === "/api/health") {
           return sendJson(response, 200, { status: "ok" });
+        }
+        if (request.method === "GET" && url.pathname === "/api/curriculum") {
+          return sendJson(response, 200, curriculumFor(database));
+        }
+        if (request.method === "GET" && url.pathname === "/api/theory/content") {
+          const theoryId = url.searchParams.get("theoryId") ?? "";
+          const content = theoryContentFor(theoryId);
+          return content
+            ? sendJson(response, 200, content)
+            : sendJson(response, 404, { error: "Theory content not found" });
+        }
+        if (request.method === "GET" && url.pathname.startsWith("/api/theory/assets/")) {
+          return serveTheoryAsset(url.pathname, response);
         }
         const lessonRoute = [
           "/api/lesson", "/api/lesson/content", "/api/quiz", "/api/quiz/attempts", "/api/tutor/messages",
@@ -1248,6 +1542,8 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
         if (url.pathname.startsWith("/api/")) return sendJson(response, 404, { error: "Not found" });
         if (url.pathname.startsWith("/vendor/mermaid/")) return serveMermaid(url.pathname, response);
         if (url.pathname.startsWith("/vendor/highlight/")) return serveHighlight(url.pathname, response);
+        if (url.pathname.startsWith("/vendor/gsap/")) return serveGsap(url.pathname, response);
+        if (url.pathname.startsWith("/vendor/katex/")) return serveKatex(url.pathname, response);
         return serveStatic(url.pathname, response);
       } catch (error) {
         const message = error instanceof Error ? error.message : "Unexpected error";

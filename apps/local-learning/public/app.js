@@ -7,6 +7,7 @@ import json from "/vendor/highlight/es/languages/json.min.js";
 import markdown from "/vendor/highlight/es/languages/markdown.min.js";
 import python from "/vendor/highlight/es/languages/python.min.js";
 import yaml from "/vendor/highlight/es/languages/yaml.min.js";
+import { createMarkdownRenderer, escapeHtml } from "/markdown.js";
 
 hljs.registerLanguage("bash", bash);
 hljs.registerLanguage("dockerfile", dockerfile);
@@ -42,7 +43,8 @@ let reviewItems = [];
 let quiz = { status: "unavailable", questions: [] };
 let quizResult = null;
 let course = [];
-let selectedLessonId = new URLSearchParams(window.location.search).get("lessonId");
+let selectedLessonId = new URLSearchParams(window.location.search).get("lessonId") ??
+  (window.location.pathname === "/learn" ? "practice/00-setup-and-tooling/01-dev-environment" : null);
 const themeStorageKey = "learning-atlas-theme";
 const systemThemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
 const themePreferences = ["system", "light", "dark"];
@@ -212,10 +214,6 @@ function trapAuxiliaryPanelFocus(event) {
   }
 }
 
-const escapeHtml = (value) => value.replace(/[&<>'"]/g, (character) => ({
-  "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", "\"": "&quot;"
-}[character]));
-
 async function request(path, options) {
   const response = await fetch(path, options);
   const data = await response.json();
@@ -229,40 +227,10 @@ function lessonApi(path, lessonId = lesson?.id ?? selectedLessonId) {
   return `${path}${separator}lessonId=${encodeURIComponent(lessonId)}`;
 }
 
-function inlineMarkdown(value) {
-  return escapeHtml(value)
-    .replace(/\\\|/g, "|")
-    .replace(/`([^`]+)`/g, "<code>$1</code>")
-    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, "<a href=\"$2\" target=\"_blank\" rel=\"noreferrer\">$1</a>");
-}
-
-function tableCells(row) {
-  const cells = [];
-  let cell = "";
-  let inCode = false;
-
-  for (let index = 1; index < row.length - 1; index += 1) {
-    const character = row[index];
-    if (character === "\\" && row[index + 1] === "|") {
-      cell += "\\|";
-      index += 1;
-    } else if (character === "`") {
-      inCode = !inCode;
-      cell += character;
-    } else if (character === "|" && !inCode) {
-      cells.push(inlineMarkdown(cell.trim()));
-      cell = "";
-    } else {
-      cell += character;
-    }
-  }
-  cells.push(inlineMarkdown(cell.trim()));
-  return cells;
-}
-
 function theoryCard(card) {
-  return `<details class="theory-card"><summary><span>上下文理论</span><strong>${escapeHtml(card.title)}</strong><small>${escapeHtml(card.summary)}</small></summary><div><a href="${escapeHtml(card.sourceUrl)}" target="_blank" rel="noreferrer">打开锁定版本的英文原始笔记</a><small>本页已提供完成当前段落所需的中文摘要；完整中文理论笔记将在后续发布。</small></div></details>`;
+  const primaryTarget = card.readKind === "internal" ? "" : " target=\"_blank\" rel=\"noreferrer\"";
+  const primaryLabel = card.readKind === "internal" ? "阅读完整中文理论" : "阅读最新英文原文";
+  return `<details class="theory-card"><summary><span>上下文理论</span><strong>${escapeHtml(card.title)}</strong><small>${escapeHtml(card.summary)}</small></summary><div><a href="${escapeHtml(card.readUrl)}"${primaryTarget}>${primaryLabel}</a><a href="${escapeHtml(card.sourceUrl)}" target="_blank" rel="noreferrer">查看上游 main 原文</a><small>${card.readKind === "internal" ? "中文全文按本地同步快照审核；上游 main 变化后会要求重新审核。" : "当前没有可发布的中文全文，将打开官方上游 main。"}</small></div></details>`;
 }
 
 function mermaidDiagram(source) {
@@ -275,123 +243,12 @@ function figureDirective(name) {
   return `<figure class="concept-diagram eigen-directions"><svg viewBox="0 0 360 190" role="img" aria-labelledby="eigen-title eigen-description"><title id="eigen-title">二维变换的特征方向</title><desc id="eigen-description">椭圆表示变换后的空间；两条穿过原点的箭头表示保持方向不变的特征向量。</desc><defs><marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="currentColor"/></marker></defs><ellipse cx="180" cy="96" rx="124" ry="54" fill="none" stroke="currentColor" stroke-width="2" opacity=".45"/><line x1="48" y1="96" x2="314" y2="96" stroke="currentColor" stroke-width="2" marker-end="url(#arrowhead)"/><line x1="119" y1="151" x2="246" y2="41" stroke="currentColor" stroke-width="2" marker-end="url(#arrowhead)"/><circle cx="180" cy="96" r="4" fill="currentColor"/><text x="278" y="85">特征方向 1</text><text x="202" y="47">特征方向 2</text></svg><figcaption>特征方向在矩阵变换后仍保持原来的方向，只改变长度。</figcaption></figure>`;
 }
 
-function highlightedCode(source, language) {
-  const aliases = { py: "python", sh: "bash", shell: "bash", jsonc: "json", yml: "yaml", toml: "ini", md: "markdown" };
-  const normalizedLanguage = aliases[language.toLowerCase()] ?? language.toLowerCase();
-  if (!hljs.getLanguage(normalizedLanguage)) return escapeHtml(source);
-  return hljs.highlight(source, { language: normalizedLanguage, ignoreIllegals: true }).value;
-}
-
-function renderMarkdown(markdown, cards) {
-  const cardsBySlug = new Map();
-  cards.forEach((card) => {
-    const cardsAtAnchor = cardsBySlug.get(card.slug) ?? [];
-    cardsAtAnchor.push(card);
-    cardsBySlug.set(card.slug, cardsAtAnchor);
-  });
-  const lines = markdown.split("\n");
-  const output = [];
-  const headings = [];
-  let paragraph = [];
-  const listStack = [];
-  let codeIndex = 0;
-
-  const flushParagraph = () => {
-    if (paragraph.length) output.push(`<p>${inlineMarkdown(paragraph.join(" "))}</p>`);
-    paragraph = [];
-  };
-  const closeList = () => {
-    while (listStack.length) {
-      const { type } = listStack.pop();
-      output.push(`</li></${type}>`);
-    }
-  };
-
-  for (let index = 0; index < lines.length; index += 1) {
-    const line = lines[index];
-    const fence = line.match(/^```([^\s]*)/);
-    if (fence) {
-      flushParagraph();
-      closeList();
-      const language = fence[1] || "text";
-      const code = [];
-      while (index += 1, index < lines.length && lines[index] !== "```") code.push(lines[index]);
-      const source = code.join("\n");
-      if (language === "mermaid") {
-        output.push(mermaidDiagram(source));
-      } else if (language === "figure") {
-        output.push(figureDirective(source.trim()));
-      } else {
-        const codeId = `code-${codeIndex += 1}`;
-        output.push(`<div class="code-block"><div class="code-toolbar"><span>${escapeHtml(language)}</span><button type="button" class="copy-code" data-copy-code="${codeId}">复制代码</button><span class="copy-status" role="status" aria-live="polite"></span></div><pre><code id="${codeId}" class="hljs language-${escapeHtml(language)}">${highlightedCode(source, language)}</code></pre></div>`);
-      }
-      continue;
-    }
-    const heading = line.match(/^(#{1,6})\s+(.+?)(?:\s+<!-- learning-atlas: ([a-z0-9-]+) -->)?$/);
-    if (heading) {
-      flushParagraph();
-      closeList();
-      const [, marks, title, anchor] = heading;
-      const level = marks.length;
-      const id = anchor ?? `section-${index}`;
-      output.push(`<h${level} id="${id}"${anchor ? ` data-theory-card="${escapeHtml(anchor)}"` : ""}>${inlineMarkdown(title)}</h${level}>`);
-      if (level === 2) headings.push({ id, title: title.replace(/<!--.*?-->/g, "").trim() });
-      if (anchor && cardsBySlug.has(anchor)) output.push(cardsBySlug.get(anchor).map(theoryCard).join(""));
-      continue;
-    }
-    if (line.startsWith("|") && /^\|[-| :]+\|$/.test(lines[index + 1] ?? "")) {
-      flushParagraph();
-      closeList();
-      const headers = tableCells(line);
-      index += 1;
-      const rows = [];
-      while (index += 1, index < lines.length && lines[index].startsWith("|")) rows.push(tableCells(lines[index]));
-      index -= 1;
-      output.push(`<div class="table-wrap"><table><thead><tr>${headers.map((cell) => `<th>${cell}</th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);
-      continue;
-    }
-    const listItem = line.match(/^(\s*)([-*]|\d+\.)\s+(.+)$/);
-    if (listItem) {
-      flushParagraph();
-      const [, indentation, marker, text] = listItem;
-      const level = Math.floor(indentation.length / 2);
-      const type = marker === "-" || marker === "*" ? "ul" : "ol";
-
-      while (listStack.length && listStack.at(-1).level > level) {
-        const { type: closedType } = listStack.pop();
-        output.push(`</li></${closedType}>`);
-      }
-      const current = listStack.at(-1);
-      if (current?.level === level && current.type === type) {
-        output.push("</li>");
-      } else if (current?.level === level) {
-        const { type: closedType } = listStack.pop();
-        output.push(`</li></${closedType}>`);
-      }
-      if (!listStack.length || listStack.at(-1).level < level || listStack.at(-1).type !== type) {
-        output.push(`<${type}>`);
-        listStack.push({ type, level });
-      }
-      output.push(`<li>${inlineMarkdown(text)}`);
-      continue;
-    }
-    if (line.startsWith("> ")) {
-      flushParagraph();
-      closeList();
-      output.push(`<blockquote>${inlineMarkdown(line.slice(2))}</blockquote>`);
-      continue;
-    }
-    if (line.trim() === "") {
-      flushParagraph();
-      closeList();
-      continue;
-    }
-    paragraph.push(line.replace(/<!--.*?-->/g, "").trim());
-  }
-  flushParagraph();
-  closeList();
-  return { html: output.join("\n"), headings };
-}
+const renderMarkdown = createMarkdownRenderer({
+  hljs,
+  renderMermaid: mermaidDiagram,
+  renderFigure: figureDirective,
+  renderTheoryCard: theoryCard
+});
 
 function publishedMarkdown() {
   if (content.translationStatus !== "reviewed") {
@@ -399,7 +256,7 @@ function publishedMarkdown() {
   }
   const firstSection = content.markdown.indexOf("## 学习目标");
   const body = firstSection >= 0 ? content.markdown.slice(firstSection) : content.markdown;
-  return renderMarkdown(body, content.theoryCards);
+  return renderMarkdown(body, { cards: content.theoryCards });
 }
 
 function tableOfContents(headings) {
@@ -502,7 +359,7 @@ function render() {
     const lessons = phase.lessons.map((item) => {
       const progress = progressMeta[item.progress] ?? progressMeta["not-started"];
       return item.available
-      ? `<a class="course-lesson ${progress.className}${item.id === lesson.id ? " current" : ""}" href="${item.id === lesson.id ? "#lesson" : `?lessonId=${encodeURIComponent(item.id)}#lesson`}"${item.id === lesson.id ? ' aria-current="page"' : ' data-lesson-id="' + escapeHtml(item.id) + '"'}><span class="course-lesson-title">${escapeHtml(item.position)} ${escapeHtml(item.title)}</span><small class="course-progress-label">${progress.label}</small></a>`
+      ? `<a class="course-lesson ${progress.className}${item.id === lesson.id ? " current" : ""}" href="${item.id === lesson.id ? "#lesson" : `/learn?lessonId=${encodeURIComponent(item.id)}#lesson`}"${item.id === lesson.id ? ' aria-current="page"' : ' data-lesson-id="' + escapeHtml(item.id) + '"'}><span class="course-lesson-title">${escapeHtml(item.position)} ${escapeHtml(item.title)}</span><small class="course-progress-label">${progress.label}</small></a>`
       : `<span class="course-unavailable" aria-label="${escapeHtml(item.position)} ${escapeHtml(item.title)}，待审核发布">${escapeHtml(item.position)} ${escapeHtml(item.title)}<small>待审核发布</small></span>`
     }).join("");
     return `<details class="phase-group"${phase.slug === lesson.phaseSlug ? " open" : ""}><summary><span>${escapeHtml(phase.title)}<small>${startedCourseCount} / ${phase.lessons.length} 已学习 · ${phaseProgress}</small></span><small>${publishedCourseCount} / ${phase.lessons.length} 已发布</small></summary><div class="phase-lessons">${lessons}</div></details>`;
@@ -531,7 +388,7 @@ function render() {
       <header class="topbar"><a class="brand" href="/">Learning Atlas</a><button type="button" class="navigator-toggle" data-action="navigator" aria-expanded="${navigatorOpen}" aria-controls="course-navigator">课程目录</button><span>本地优先 · 学习数据仅保存在此设备</span><div class="topbar-actions">${themeControl}<button type="button" class="tutor-toggle" data-action="tutor" aria-expanded="${tutorOpen}" aria-controls="tutor-panel">${tutorToggleLabel}</button><button type="button" class="notes-toggle" data-action="notes" aria-expanded="${notesOpen}" aria-controls="notes-panel">${notesToggleLabel}</button></div></header>
       ${navigatorOpen ? '<button type="button" class="navigator-scrim" data-action="navigator" aria-label="关闭课程目录"></button>' : ""}
       <nav id="course-navigator" class="navigator" aria-label="课程导航"><div class="navigator-resizer" role="separator" aria-label="调整实践主线宽度" aria-orientation="vertical" aria-valuemin="224" aria-valuemax="384" aria-valuenow="${navigatorWidth}" tabindex="0"></div><p>实践主线</p>${courseNavigation}</nav>
-      <article id="lesson" class="lesson">
+      <main id="lesson" class="lesson">
         <p class="eyebrow">${lesson.phase} / ${lesson.position}</p>
         <h1>${lesson.title}</h1>
         <p class="original-title">${lesson.originalTitle}</p>
@@ -540,7 +397,7 @@ function render() {
         <div class="markdown-content">${lessonContent.html}</div>
         <section class="notice"><p class="eyebrow">本地实践</p><h2>${practiceTitle}</h2><p>${practiceDescription}</p><div class="actions">${lesson.resources.workspace ? '<button type="button" data-action="workspace">在 VS Code 中继续</button>' : ""}${lesson.resources.exploration ? '<button type="button" data-action="exploration">用 marimo 探索</button>' : ""}</div><p id="tool-status" role="status"></p><a href="${escapeHtml(lesson.sourceUrl)}" target="_blank" rel="noreferrer">查看锁定版本的原始课程</a></section>
         <section class="reflection" aria-labelledby="reflection-title"><p class="eyebrow">学习状态</p><h2 id="reflection-title">完成本课后，你能用自己的话解释关键概念并完成相应练习吗？</h2><div class="actions"><button type="button" data-state="completed" aria-pressed="${state.completed}">${completedLabel}</button><button type="button" data-state="review" aria-pressed="${state.review}">${reviewLabel}</button></div></section>
-      </article>
+      </main>
       ${panelScrim}
       <aside id="notes-panel" class="notes" aria-labelledby="notes-title"><div class="notes-heading"><div><p class="eyebrow">个人学习数据</p><h2 id="notes-title" tabindex="-1">笔记</h2></div><button type="button" class="notes-close" data-action="notes" aria-label="关闭笔记">关闭</button></div><form id="note-form"><label for="note-text">写下自己的表述</label><textarea id="note-text" name="text" required maxlength="2000" placeholder="${notePlaceholder}"></textarea><button>保存笔记</button><p id="form-status" role="status"></p></form><div class="note-list">${noteList}</div><section class="export-actions" aria-labelledby="backup-title"><h3 id="backup-title">备份与恢复</h3><p>JSON 可恢复学习数据；Markdown 仅用于阅读。恢复会替换课程状态、笔记、对话、复习项和自测记录，但不会修改模型连接或私人工作区。</p><div><a href="/api/export?format=json" download>导出 JSON</a><a href="/api/export?format=markdown" download>导出 Markdown</a></div><form id="import-form"><label for="import-file">导入 JSON 备份</label><input id="import-file" name="file" type="file" accept="application/json,.json" required><button type="submit">导入并替换学习数据</button><p id="import-status" role="status"></p></form></section></aside>
       <aside id="tutor-panel" class="tutor" aria-labelledby="tutor-title" aria-describedby="tutor-evidence"><div class="tutor-resizer" role="separator" aria-label="调整学习助理宽度" aria-orientation="vertical" aria-valuemin="280" aria-valuemax="560" aria-valuenow="${tutorWidth}" tabindex="0"></div><div class="tutor-heading"><div><p class="eyebrow">本地学习助理</p><h2 id="tutor-title" tabindex="-1">一起推理</h2></div><button type="button" class="tutor-close" data-action="tutor" aria-label="关闭学习助理">关闭</button></div><p id="tutor-evidence" class="tutor-evidence">当前证据：${activeSectionTitle}；已批准的上下文理论卡。</p><details class="tutor-config"><summary>模型连接${modelConfig.model ? `：${escapeHtml(modelConfig.model)}` : "（未配置）"}</summary>${modelConfigForm}</details><div class="tutor-messages">${tutorMessagesHtml}</div><form id="tutor-form"><label for="tutor-text">向学习助理说明你的卡点</label><textarea id="tutor-text" name="text" required maxlength="4000" placeholder="${tutorPlaceholder}"></textarea><button type="submit">发送问题</button><p id="tutor-status" role="status" aria-live="polite">${escapeHtml(tutorStatus)}</p></form></aside>
@@ -985,7 +842,7 @@ async function loadLesson(lessonId) {
   activeSectionTitle = "本课概览";
   activeTheoryCardSlug = "";
   shouldRestoreReadingPosition = true;
-  window.history.replaceState({}, "", `?lessonId=${encodeURIComponent(lesson.id)}#lesson`);
+  window.history.replaceState({}, "", `/learn?lessonId=${encodeURIComponent(lesson.id)}#lesson`);
   render();
 }
 
