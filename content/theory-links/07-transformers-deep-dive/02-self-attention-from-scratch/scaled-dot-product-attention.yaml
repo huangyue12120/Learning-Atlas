@@ -11,6 +11,14 @@ practice:
 card:
   title: 缩放点积自注意力
   summary: 在从 Q、K、V 手算注意力分数、softmax 权重与加权和时，用理论笔记中的 softmax(QKᵀ/√dₖ)V 公式核对张量维度，并理解除以 √dₖ 如何避免分数方差随维度增大。
+  context: "本课从矩阵乘法手写注意力，形状、缩放位置或 softmax 轴任一出错，都可能得到数值正常却语义错误的输出。"
+  intuition: "把每个查询看成一次软检索：键决定匹配程度，softmax 把匹配变成权重，值才是最终被取回并混合的信息。"
+  key_points:
+    - "若 Q、K 的形状均为 N×dₖ，则 QKᵀ 得到 N×N 分数矩阵，每一行对应一个查询。"
+    - "除以 √dₖ 可抑制点积尺度随维度增大，避免 softmax 过早饱和。"
+    - "按键位置对每行做 softmax 后权重和为 1，再乘 N×dᵥ 的 V 得到 N×dᵥ 输出。"
+  application: "在手算实现中逐步断言矩阵形状、每行权重和及输出维度，并用极小张量与公式结果逐元素比较。"
+  check_question: "如果误把 softmax 用在查询维而不是键维，每一行输出所表示的软检索会发生什么变化？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

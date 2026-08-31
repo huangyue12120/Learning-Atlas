@@ -11,6 +11,14 @@ practice:
 card:
   title: Transformer 如何用自注意力取代循环
   summary: 在比较 RNN 的串行依赖与 Transformer 的并行计算时，用理论笔记中的缩放点积注意力、位置编码和编码器—解码器结构解释为什么全序列可以并行处理，同时仍能建立任意位置间的依赖。
+  context: "本课要比较两种序列计算图；如果只数运算量而不看依赖深度，就无法解释同样遍历全序列时 Transformer 为何更适合并行硬件。"
+  intuition: "RNN 像逐棒接力，后一步必须等待前一步；自注意力把所有位置间的匹配写成一次批量矩阵运算，再用位置表示补回顺序信息。"
+  key_points:
+    - "RNN 的隐藏状态满足逐步依赖，序列长度 N 会形成 N 级串行路径。"
+    - "自注意力同时计算各位置的查询—键匹配，并以权重汇总值向量，因此任意位置可以直接交换信息。"
+    - "并行化没有消除代价：稠密注意力仍需处理 N×N 的关系，长序列会遇到二次内存与计算压力。"
+  application: "在本课计时之外同时记录串行依赖深度和注意力矩阵规模，用这两个量分别解释短序列加速与长序列内存瓶颈。"
+  check_question: "为什么自注意力能并行处理整段输入，却仍必须额外加入位置表示？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

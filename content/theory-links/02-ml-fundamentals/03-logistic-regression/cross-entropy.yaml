@@ -11,6 +11,14 @@ practice:
 card:
   title: 交叉熵：让分类概率为正确标签付费
   summary: 编写二元交叉熵和 sigmoid 分类器时，用信息量解释为何自信地预测错误会受到更大的损失惩罚。
+  context: "本课把线性打分变成二分类概率；若用回归误差理解概率输出，就看不出为什么错误方向的高置信度尤其危险。"
+  intuition: "sigmoid 把打分压到 0 到 1，二元交叉熵只追问模型给真实结果分了多少概率；概率越接近零，负对数代价越陡。"
+  key_points:
+    - "logistic 回归先计算线性 logit，再用 sigmoid 将其映射为类别 1 的概率。"
+    - "二元交叉熵为 −[y log p+(1−y)log(1−p)]，每个样本只保留真实标签对应的负对数项。"
+    - "预测正确且置信度提高时损失趋近零，自信地预测错误时损失没有固定上界。"
+  application: "对正负标签各选几个 logit，手算 sigmoid 与 BCE，再用稳定的 logits 形式核对实现和梯度方向。"
+  check_question: "对标签 y=1 的样本，预测概率从 0.1 降到 0.01 时，损失为何显著增大？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 05 - probability/05. information theory.md

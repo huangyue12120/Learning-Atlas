@@ -11,6 +11,14 @@ practice:
 card:
   title: Transformer 块的归一化、残差与 FFN
   summary: 在把注意力、RMSNorm、残差连接与 SwiGLU FFN 组装成完整块时，用理论笔记区分 pre-norm 与 post-norm，并追踪恒等残差路径如何保持深层网络的梯度稳定。
+  context: "本课把多个已能单独工作的组件接成深层块；归一化与残差的先后顺序一旦接错，前向形状仍对，但训练稳定性和信息路径会改变。"
+  intuition: "残差流是一条贯穿网络的主干；注意力沿词元维混合信息，FFN 在每个词元内部变换特征，归一化负责让两次增量更新保持可控。"
+  key_points:
+    - "pre-norm 形式是 x+Sublayer(Norm(x))，恒等分支不经过归一化，便于梯度直接传播。"
+    - "注意力子层跨位置聚合信息，位置式 FFN 对每个词元独立应用同一组参数。"
+    - "两个子层的输入与输出都必须保持 d_model，才能分别与各自残差相加。"
+  application: "将注意力或 FFN 临时置零，验证对应残差分支退化为恒等映射，再逐层记录范数与形状定位组装错误。"
+  check_question: "为什么 pre-norm 块中子层输出为零时，残差流仍能原样通过该子层？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

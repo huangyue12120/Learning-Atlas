@@ -11,6 +11,14 @@ practice:
 card:
   title: LLM 路由与请求调度
   summary: 在按质量、延迟、成本和故障转移选择模型时，用 serving and batching 理论核对请求路由、队列和推理指标之间的系统边界。
+  context: "本课要为每个请求选择模型端点并处理失败；路由策略必须同时看任务需求、后端状态和端到端服务目标。"
+  intuition: "路由器先根据请求特征与策略选择候选模型，再把请求送入具体服务队列；选择质量与排队执行是相邻但不同的决策。"
+  key_points:
+    - "静态规则可按任务或租户选模型，级联策略可在低置信度时升级到更强模型。"
+    - "健康状态、队列长度和容量会影响候选端点能否在延迟目标内完成请求。"
+    - "路由效果需要同时观察质量、TTFT、吞吐、失败率与单位请求成本。"
+  application: "为每次选择记录路由原因、候选模型、队列状态和最终指标，再用受控失败测试确认重试或降级不会形成循环。"
+  check_question: "一个模型平均质量最高，为什么它仍不一定是所有请求在生产环境中的最佳路由目标？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/03. serving and batching.md

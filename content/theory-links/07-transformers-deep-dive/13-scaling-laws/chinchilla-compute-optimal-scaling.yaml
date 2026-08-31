@@ -11,6 +11,14 @@ practice:
 card:
   title: Chinchilla 的计算最优缩放
   summary: 在固定 C≈6ND 的预算下搜索参数量 N 与训练词元量 D 时，用理论笔记中的幂律和 Chinchilla 结论核对 N_opt、D_opt 的平方根缩放，以及每参数约 20 个词元的训练最优经验值。
+  context: "本课必须在同一训练算力内决定把预算花在更多参数还是更多数据上；只扩大其中一项会让另一项成为损失瓶颈。"
+  intuition: "模型容量不足与数据不足像两项并列账单；固定 N×D 后，计算最优点让两项的边际收益大致平衡。"
+  key_points:
+    - "经验缩放律把损失写成随参数量 N、数据量 D 和计算量 C 下降的幂律。"
+    - "在近似训练预算 C≈6ND 下，Chinchilla 结果给出 N_opt 与 D_opt 都按 C 的平方根增长。"
+    - "每参数约 20 个训练词元是计算最优经验值；若长期推理成本更重要，较小模型可以被有意训练更多词元。"
+  application: "固定 C 枚举多组 N、D，画出预测损失与词元/参数比，并把纯训练最优选择同推理成本约束分开报告。"
+  check_question: "计算预算扩大 4 倍时，按平方根规律 N_opt 和 D_opt 各应扩大多少倍？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

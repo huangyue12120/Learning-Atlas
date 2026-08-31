@@ -11,6 +11,14 @@ practice:
 card:
   title: Q-Former 作为视觉到语言的桥
   summary: 在区分冻结视觉编码器、可学习查询和语言模型接口时，用视觉词元流水线理论核对 Q-Former 如何压缩视觉 token、投影到语言模型嵌入空间并完成跨模态桥接。
+  context: "本课要辨认冻结视觉编码器、Q-Former 查询和语言模型之间的数据边界；每一段的输出形状决定下一段能否接收。"
+  intuition: "一组固定数量的可学习查询从大量图像特征中提取与任务相关的信息，再把紧凑表示投影成语言模型能够接收的嵌入。"
+  key_points:
+    - "视觉编码器先把图像转换为一串连续特征，通常可以在桥接训练时保持冻结。"
+    - "查询通过交叉注意力读取视觉特征，使输出长度由查询数量而非原始图块数决定。"
+    - "最终投影必须匹配语言模型的嵌入维度，才能把视觉表示作为输入前缀。"
+  application: "沿着实现打印视觉特征、查询输出和投影结果的形状，并检查哪些参数参与训练、哪些模块保持冻结。"
+  check_question: "当图像图块数量增加但查询数量不变时，送入语言模型的桥接词元长度是否必然增加？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/02. vision language models.md

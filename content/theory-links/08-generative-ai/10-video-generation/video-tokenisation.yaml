@@ -11,6 +11,14 @@ practice:
 card:
   title: 视频 VAE 的时空压缩与图块规模
   summary: 在估算 T×H×W 视频压缩后的潜变量与图块数量时，用图像视频分词笔记核对三维 VQ-VAE 的空间、时间下采样因子，以及独立逐帧编码为何浪费时间冗余。
+  context: "视频的原始像素和逐帧 token 数都过大，本课在进入生成模型前必须量化时空压缩到底节省多少序列长度，以及损失了哪些运动细节。"
+  intuition: "相邻帧大部分内容相同，3D 编码器不必反复描述整张画面，只需共同编码稳定外观与随时间变化的部分。"
+  key_points:
+    - "空间下采样因子 f_s、时间因子 f_t 会把 T×H×W 视频变为 (T/f_t)×(H/f_s)×(W/f_s) 的潜变量网格。"
+    - "3D 卷积联合学习空间与时间特征，比完全独立的逐帧编码更能利用相邻帧冗余。"
+    - "因果视频分词器只读取当前与过去帧，适合流式处理和自回归生成；非因果分词可利用完整片段但不能在线工作。"
+  application: "对不同 f_s、f_t 计算潜变量与 patch 数，并比较重建中的静态细节、快速运动与帧间一致性，选择可接受的压缩率。"
+  check_question: "在空间压缩不变时把 f_t 从 2 提高到 8，会怎样改变 token 数和快速运动的保真风险？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/03. image and video tokenisation.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: Flash Attention 的 IO 感知分块
   summary: 在实现带滚动最大值与归一化和的分块 softmax 时，用高效架构笔记理解 Flash Attention 如何避免把 N×N 分数矩阵写入 HBM，并核对它降低的是内存流量而不是注意力算术量。
+  context: "本课的分块实现必须与普通 softmax 注意力数值等价；如果只分块相乘而没有跨块维护归一化状态，各块权重不能组成同一个概率分布。"
+  intuition: "不要把整张分数表搬到慢速显存：让 Q、K、V 小块在片上反复相遇，并用滚动最大值与归一化和随到随算最终输出。"
+  key_points:
+    - "标准实现会物化 N×N 分数和概率矩阵，HBM 读写往往比矩阵乘法本身更成瓶颈。"
+    - "在线 softmax 跨块维护运行最大值、指数和与加权输出，最大值变化时必须重标定先前累计量。"
+    - "Flash Attention 减少中间矩阵存储与内存流量，但稠密注意力的算术复杂度仍为 O(N²)。"
+  application: "用相同随机 Q、K、V 比较分块与朴素输出及梯度误差，并测量峰值中间内存而不只比较运行时间。"
+  check_question: "为什么每个分块各自做 softmax 后直接拼接，不能得到整行注意力的正确权重？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/02. efficient architectures.md

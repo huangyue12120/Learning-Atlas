@@ -11,6 +11,14 @@ practice:
 card:
   title: 序列模型：循环状态、门控与梯度传播
   summary: 比较 TextCNN、普通 RNN、LSTM 与 GRU 时，用共享循环权重的连乘解释梯度消失，并把门控细胞状态与长程信息保留联系起来。
+  context: "本课比较局部卷积与循环模型的文本表示；普通 RNN 在长序列上的失败需要从状态和梯度的重复传播解释。"
+  intuition: "RNN 每步用同一变换改写记忆，反向时也反复乘同一类 Jacobian；门控为信息提供更接近加法的保留通道。"
+  key_points:
+    - "普通 RNN 用当前输入和上一隐藏状态计算新状态，参数在所有时间步共享。"
+    - "长距离梯度是许多局部导数的乘积，谱尺度持续小于或大于 1 会导致消失或爆炸。"
+    - "LSTM 与 GRU 用门控制写入、保留和输出，使模型能选择性维护较长时间的信息。"
+  application: "对不同序列长度记录首尾时间步的梯度范数，并比较普通 RNN、LSTM 与 GRU 的状态保留。"
+  check_question: "若循环 Jacobian 的典型尺度长期约为 0.5，跨 20 个时间步的梯度会呈现什么趋势？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/03. embeddings and sequence models.md

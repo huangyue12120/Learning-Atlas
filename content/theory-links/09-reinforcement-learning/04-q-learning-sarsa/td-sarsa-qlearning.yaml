@@ -11,6 +11,14 @@ practice:
 card:
   title: TD 自举、SARSA 与 Q-learning
   summary: 在比较同策略 SARSA 与离策略 Q-learning 的目标值时，用强化学习理论笔记核对 TD 误差、自举更新、实际下一动作与贪心下一动作之间的差别。
+  context: "本课用同一条经验同时演示两种控制算法；真正的差异只在下一状态如何构造自举目标，写错一个动作就会改变所学习的策略。"
+  intuition: "TD 用当前一步奖励加上对明天的估计来修正今天；SARSA 相信代理明天实际会做的事，Q-learning 假设明天总会选当前看来最好的事。"
+  key_points:
+    - "TD 误差是目标 r+γ·下一估计 与当前 Q(s,a) 的差，更新只移动 α 倍误差。"
+    - "SARSA 使用行为策略实际选出的 a′ 构造 Q(s′,a′)，因此把 ε-greedy 探索风险纳入价值。"
+    - "Q-learning 使用 max_a′Q(s′,a′)，即使数据由探索策略产生也朝最优贪心目标学习，属于离策略方法。"
+  application: "对同一转移打印 SARSA 与 Q-learning 的目标和 TD 误差，并在带高惩罚区域的环境比较持续探索时两者的路径选择。"
+  check_question: "当 ε 仍大于 0 时，为什么 SARSA 往往比 Q-learning 更愿意避开紧邻高惩罚区域的最短路径？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/04. reinforcement learning.md

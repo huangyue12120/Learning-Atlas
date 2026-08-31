@@ -11,6 +11,14 @@ practice:
 card:
   title: 多头注意力与表示子空间
   summary: 在拆分 d_model、并行计算各个注意力头并拼接输出时，用理论笔记理解每个头为何学习不同的 Q/K/V 投影，以及头数、d_head 和输出投影之间必须满足的维度关系。
+  context: "本课的难点不在重复单头公式，而在 split、transpose、concat 的轴语义；轴排错后代码仍可能运行，却会把词元与注意力头混在一起。"
+  intuition: "每个头用自己的投影从同一序列观察一种关系，头内独立检索，最后由输出投影把这些不同视角重新混合。"
+  key_points:
+    - "标准拆分要求 d_model 能被 n_heads 整除，并满足 d_model=n_heads×d_head。"
+    - "每个头在自己的 Q、K、V 子空间内产生 N×d_head 输出，注意力计算期间各头互不交换信息。"
+    - "拼接恢复 N×d_model 后，学习得到的 W_o 才负责跨头组合信息。"
+  application: "给 split_heads 与 combine_heads 写互逆测试，并检查每个头的注意力权重独立归一化后再进入输出投影。"
+  check_question: "为什么仅把各头输出拼接起来还不等于完成多头信息融合？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/03. deep learning.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 帧级 VAD 与语义端点检测
   summary: 在配置能量门、Silero 阈值、最短语音与静音拖尾时，用语音笔记中的 VAD 建模区分逐帧语音判定与整个轮次是否结束，避免用一个阈值承担两种任务。
+  context: "实时助手既要过滤非语音帧，又要判断用户是否说完；本课若把两者合并为瞬时阈值，会频繁误启动或截断停顿。"
+  intuition: "VAD 回答这一帧像不像语音，端点器则结合一段时间的历史判断话轮是否完成；后者需要状态和耐心。"
+  key_points:
+    - "能量门成本低但易受噪声影响，学习型 VAD 输出帧级语音概率，二者可串成级联。"
+    - "最短语音抑制短噪声误触发，静音 hangover 等待可能的句内停顿结束再关闭话轮。"
+    - "端点过快降低延迟却增加截断，端点过慢保留完整话语却增加响应等待。"
+  application: "分别记录帧概率、VAD 状态和端点状态，用短噪声、句内停顿和真正结束样例调节双阈值与时间参数。"
+  check_question: "为什么检测到一个静音帧后立即结束话轮，会把自然句内停顿误判成用户已经说完？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/03. text to speech and voice.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 摘要评估：ROUGE 召回与语义忠实度
   summary: 计算 ROUGE-1、ROUGE-2 与 ROUGE-L 时，把 n-gram 召回、最长公共子序列和上下文嵌入指标区分开，并理解词面重叠为何不能单独证明摘要事实正确。
+  context: "摘要既要覆盖要点又要忠于原文；本课中的重叠指标主要比较参考摘要，不能直接判断生成主张是否由源文支持。"
+  intuition: "ROUGE 量化参考内容有多少在候选中重现，语义指标允许改写；忠实度还必须回到源文逐项核对。"
+  key_points:
+    - "ROUGE-1 与 ROUGE-2 分别比较 unigram 和 bigram 重叠，常以参考摘要为基准计算召回。"
+    - "ROUGE-L 基于最长公共子序列，保留词序关系但不要求匹配片段连续。"
+    - "高词面或嵌入相似度可能来自复制或合理改写，也可能遗漏事实冲突，不能单独证明忠实。"
+  application: "为短样例手算三种 ROUGE，再把高分摘要的每个事实主张映射回源文，记录覆盖与忠实度的分离结果。"
+  check_question: "一篇摘要大量复制原文句子却漏掉关键结论时，ROUGE 可能很高；这说明它没有测量哪个维度？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

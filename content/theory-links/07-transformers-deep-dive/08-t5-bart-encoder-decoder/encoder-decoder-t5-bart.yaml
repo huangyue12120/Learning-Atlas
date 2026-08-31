@@ -11,6 +11,14 @@ practice:
 card:
   title: T5 与 BART 的编码器—解码器范式
   summary: 在实现编码器双向自注意力、解码器因果自注意力与交叉注意力时，用理论笔记比较 T5 的片段破坏目标和 BART 的去噪目标，并核对三种注意力掩码各自允许的信息流。
+  context: "本课要在一个模型里同时处理源序列、已生成目标前缀和源端记忆；三条信息流若共用错误的掩码，模型就会泄漏目标或看不到输入。"
+  intuition: "编码器先把完整源文本压成可反复查询的记忆，解码器一边只看自己的过去，一边通过交叉注意力读取整份源记忆。"
+  key_points:
+    - "编码器自注意力通常双向可见，解码器自注意力必须因果可见。"
+    - "交叉注意力以解码器状态为 Q、编码器输出为 K 和 V，使每个生成位置都能读取全部源端表示。"
+    - "T5 生成被破坏的片段及哨兵标记，BART 则从多种噪声输入重建完整原文。"
+  application: "为三种注意力分别构造可见性测试，并缓存只需运行一次的编码器输出供每个解码步复用。"
+  check_question: "为什么交叉注意力可以看到整个源序列，而解码器自注意力仍必须屏蔽未来目标词元？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: GenAI trace 的层级与请求生命周期
   summary: 在为 agent、模型调用和工具调用建立 span 层级时，用大规模基础设施中的 tracing 理论核对日志、指标和 trace 如何共同解释端到端延迟。
+  context: "本课要把一次 agent 请求拆成模型与工具调用 span；只有传播同一 trace 上下文，才能重建跨组件的因果顺序。"
+  intuition: "trace 像请求的分层行程单：根 span 表示端到端操作，子 span 记录每次模型或工具调用的时间、状态及其父子关系。"
+  key_points:
+    - "trace ID 关联整条请求链，span ID 与父 span 关系描述一次具体操作的位置。"
+    - "日志提供离散事件，指标展示聚合趋势，trace 解释单次请求跨服务经过了什么。"
+    - "跨进程调用必须传播上下文，否则下游 span 会断成无法关联的新 trace。"
+  application: "为 agent 轮次建立根 span，为每个模型和工具调用建立子 span，并记录延迟、错误状态与非敏感模型属性后检查父子层级。"
+  check_question: "如果工具服务没有接收上游 trace 上下文，它产生的 span 为什么无法自动出现在同一条请求链中？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

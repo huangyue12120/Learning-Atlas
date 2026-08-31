@@ -11,6 +11,14 @@ practice:
 card:
   title: DPO 的隐式奖励与偏好损失
   summary: 在用 chosen/rejected 对数概率差直接更新策略时，用高级文本生成笔记核对 Bradley–Terry 偏好建模、参考策略 KL 约束，以及在相应正则化假设下如何将隐式奖励与偏好建模合并为离线直接优化目标。
+  context: "本课省去了显式奖励模型和在线 rollout，但必须正确组合当前、参考两套模型对 chosen 与 rejected 的序列 log probability；少一项就不再是 DPO。"
+  intuition: "DPO 不问 winner 的绝对概率多大，而是要求当前模型相对参考模型更偏向 winner、少偏向 loser，并对这两个相对变化做成对分类。"
+  key_points:
+    - "DPO margin 由当前策略的 chosen−rejected log probability 差，再减去参考策略的对应差得到。"
+    - "冻结 π_ref 提供 KL 正则化推导中的基准，训练只更新 π_θ，无需单独拟合标量奖励或运行 PPO。"
+    - "β 缩放进入 sigmoid 的偏好 margin，控制直接偏好更新与参考约束之间的有效强度。"
+  application: "对同一批样本显式打印四个序列 log probability、margin 与 loss，交换 chosen/rejected 验证方向，并确保只累计响应 token。"
+  check_question: "训练开始时若当前模型与参考模型完全相同，每个偏好对的 DPO margin 和单样本损失分别是多少？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

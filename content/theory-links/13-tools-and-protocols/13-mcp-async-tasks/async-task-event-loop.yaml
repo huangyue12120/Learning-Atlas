@@ -10,7 +10,15 @@ practice:
     slug: why-tasks-are-an-extension
 card:
   title: 异步任务如何把长时工作从请求连接中拆开
-  summary: 在为长时工具选择任务增强、持久化状态、轮询与取消时，用并发笔记中的事件循环和协作式异步模型理解等待、进度与崩溃恢复之间的边界；该关联先保留候选状态。
+  summary: 在为长时工具选择任务增强、持久化状态、轮询与取消时，用并发笔记中的事件循环和协作式异步模型理解等待、进度与崩溃恢复之间的边界。
+  context: "本课要让耗时工具脱离单次请求连接继续运行；任务标识、状态机和持久化边界决定客户端能否稍后查询或取消。"
+  intuition: "异步事件循环让程序在等待 I/O 时处理其他工作，而任务资源再把运行状态从某条网络连接中独立出来，供后续请求恢复观察。"
+  key_points:
+    - "协作式异步依赖任务主动让出控制权，阻塞操作仍会卡住整个事件循环。"
+    - "任务 ID 把启动请求与后续轮询、结果读取和取消操作关联起来。"
+    - "仅把函数声明为 async 不会自动提供崩溃恢复，持久化状态必须另行设计。"
+  application: "把任务生命周期写成 queued、running、completed、failed 与 cancelled 等状态，并验证重连后仍能通过同一任务 ID 读取一致结果。"
+  check_question: "为什么一个只保存在进程内存中的异步任务，在服务器重启后无法仅凭任务 ID 恢复？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 13 - computing and OS/04. concurrency and parallelism.md

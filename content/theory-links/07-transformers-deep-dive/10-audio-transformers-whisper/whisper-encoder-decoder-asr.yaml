@@ -11,6 +11,14 @@ practice:
 card:
   title: Whisper 的声学编码与任务词元解码
   summary: 在构建 30 秒对数梅尔输入与任务词元前缀时，用 ASR 理论笔记对照 Whisper 的卷积前端、编码器—解码器 Transformer、弱监督多任务训练和时间戳输出，区分它与 CTC 流水线。
+  context: "本课不仅要把音频变成文本，还要用同一解码器切换语言、转录、翻译与时间戳任务；输入尺度和控制前缀必须与训练约定一致。"
+  intuition: "编码器把密集声学帧变成一份可查询的语音记忆，解码器根据任务词元决定如何读取它，并像语言模型一样逐词元输出。"
+  key_points:
+    - "Whisper 以 80 通道对数梅尔谱作为输入，卷积前端先缩短时间序列再交给 Transformer 编码器。"
+    - "解码器通过交叉注意力读取声学编码，并自回归地产生字节级 BPE 词元。"
+    - "语言、转录或翻译模式以及时间戳行为由解码器前缀中的特殊任务词元控制。"
+  application: "先核对采样率、谱图帧数与卷积后长度，再用不同任务前缀解码同一音频，确认输出模式随前缀而非声学输入改变。"
+  check_question: "Whisper 的任务词元为什么能切换转录与翻译，而 CTC 输出层通常不能用同样方式切换？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/02. automatic speech recognition.md

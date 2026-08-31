@@ -11,6 +11,14 @@ practice:
 card:
   title: 原生多模态与共享主干
   summary: 在比较 modality-specific encoder/decoder、共享 Transformer 主干和后接 projector 时，用统一多模态架构理论核对融合位置与训练阶段的取舍。
+  context: "本课要比较原生多模态共享主干与外接视觉适配器；关键差别在于模态何时进入共同表示、哪些参数接受联合训练。"
+  intuition: "各模态先由专用入口变成同维度词元，再进入同一条 Transformer 主干相互注意；输出端仍可使用适合各模态的专用解码器。"
+  key_points:
+    - "模态编码器把图像、文本或音频转换为共享维度的嵌入序列。"
+    - "共享自注意力允许不同模态词元直接交换信息，无需单独的跨注意力模块。"
+    - "模态标识与位置编码帮助主干区分词元来源及其序列或空间位置。"
+  application: "画出两种方案的数据流并标注可训练模块，比较视觉信息是在 projector 之后接入 LLM，还是从共享主干内部就参与计算。"
+  check_question: "在共享主干架构中，为什么仍需要给词元加入模态标识，而不能只依靠它们的数值向量？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/05. unified multimodal architectures.md

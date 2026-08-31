@@ -11,6 +11,14 @@ practice:
 card:
   title: 复数旋转：从相位乘法到二维线性变换
   summary: 在用 Euler 公式实现旋转、DFT 和 RoPE 前，复习二维 rotation matrix 怎样与复数乘法给出同一几何操作。
+  context: "本课把复数运算用于旋转和频率表示；若只操作实部、虚部而没有几何视角，就难以连接旋转矩阵、相位和后续位置编码。"
+  intuition: "把复数看成平面向量；乘以单位复数不会改变长度，只把相位增加一个角度，这正是二维旋转。"
+  key_points:
+    - "复数可写成模长乘以相位因子，复数相乘时模长相乘、相位相加。"
+    - "Euler 公式把 cosθ+i sinθ 表示为单位复数，乘以它等价于应用角度 θ 的二维旋转矩阵。"
+    - "旋转矩阵保持欧氏长度，连续旋转对应矩阵相乘，也对应复数相位连续相加。"
+  application: "用同一二维点分别执行复数乘法和旋转矩阵乘法，核对坐标与模长，再把这一操作复用于 DFT 或 RoPE 示例。"
+  check_question: "一个复数乘以模长为 2、相位为 90° 的复数后，原向量的长度和方向分别如何变化？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 02 - matrices/04. linear transformations.md

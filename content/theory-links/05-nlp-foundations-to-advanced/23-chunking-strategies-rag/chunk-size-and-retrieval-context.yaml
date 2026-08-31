@@ -11,6 +11,14 @@ practice:
 card:
   title: RAG 分块：召回粒度与完整语义的权衡
   summary: 用 recall@5 比较固定、递归、语义和父文档分块时，把块视为检索器的基本段落，理解块过小会丢失完整观点、块过大会引入噪声，并据查询类型调整粒度。
+  context: "文档不能总以整篇送入检索和生成；本课选择的切块边界会同时改变嵌入语义、候选数量和答案上下文。"
+  intuition: "检索需要小到能精确命中，回答又需要大到能保留完整论证；可用小子块定位，再返回更大的父块补全语境。"
+  key_points:
+    - "块太小会把定义、条件和结论拆开，块太大则稀释查询相关信号并消耗更多上下文。"
+    - "重叠可缓解跨边界信息丢失，但会增加索引体积和 top-k 中的重复候选。"
+    - "recall@k 只检查相关证据是否被取回，还应检查返回块是否足以支持完整答案。"
+  application: "用固定查询集比较四种分块的 recall@5、重复率和支持完整性，并对失败按边界过细或噪声过多分类。"
+  check_question: "某策略 recall@5 很高，但每个命中块都只含结论、不含适用条件，它能保证下游回答可靠吗？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

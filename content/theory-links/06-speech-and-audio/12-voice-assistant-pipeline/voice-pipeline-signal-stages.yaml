@@ -11,6 +11,14 @@ practice:
 card:
   title: 从音频特征到流式语音识别
   summary: 在连接 VAD、流式 STT 与工具调用前，用 ASR 理论笔记核对采样、声学特征、帧级编码和序列解码之间的接口，避免把预处理或静音错误传到整条助理流水线。
+  context: "语音助理由多个有状态组件串联；采样率、帧边界或端点错误会向后传播，最终看起来像识别、工具或回复故障。"
+  intuition: "把整条链视为带时间戳的数据契约：每级只在输入格式正确时处理，并把部分结果、终止信号和错误显式交给下一级。"
+  key_points:
+    - "采集与预处理必须统一采样率、通道和样本格式，声学特征再按固定窗长与步长生成帧。"
+    - "VAD 决定哪些帧进入流式 STT，STT 的部分转写可更新但只有端点后才形成稳定话轮。"
+    - "工具调用与 TTS 应消费确认后的文本和结构化结果，避免静音误判或临时转写触发不可逆动作。"
+  application: "为七个组件记录输入输出 schema、时间戳和状态转换，用静音、打断与部分转写样例逐段回放定位首个错误接口。"
+  check_question: "如果把 STT 的临时 partial transcript 直接触发工具调用，后续转写修正时会产生什么一致性风险？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/02. automatic speech recognition.md

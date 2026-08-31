@@ -10,7 +10,15 @@ practice:
     slug: mcp-2026-07-28-authorization-profile
 card:
   title: OAuth 认证是系统安全链路中的一层
-  summary: 在把 PKCE、受众绑定、作用域和逐请求验证接入 MCP 资源服务器时，用操作系统笔记中的安全基础核对认证 API、最小权限、输入验证和隔离如何共同构成防线；该关联先保留候选状态。
+  summary: 在把 PKCE、受众绑定、作用域和逐请求验证接入 MCP 资源服务器时，用操作系统笔记中的安全基础核对认证 API、最小权限、输入验证和隔离如何共同构成防线。
+  context: "本课要把 OAuth 授权资料落实到生产 MCP 资源服务器；令牌有效只是起点，还必须验证它为谁签发、允许做什么。"
+  intuition: "认证确认请求代表谁，授权限制这个身份能执行哪些动作；最小权限、输入验证和隔离共同减少凭据泄露或滥用后的影响。"
+  key_points:
+    - "资源服务器应逐请求验证令牌签名、有效期、受众和所需作用域。"
+    - "PKCE 保护授权码交换，但不能替代资源服务器对访问令牌的校验。"
+    - "传输加密、输入验证与进程隔离分别防护不同攻击面，不能相互替代。"
+  application: "为每个 MCP 操作列出所需作用域和目标受众，编写过期令牌、错误受众、权限不足与畸形输入的拒绝测试。"
+  check_question: "一个签名正确且尚未过期的令牌，为什么仍可能无权调用当前 MCP 工具？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 13 - computing and OS/03. operating systems.md

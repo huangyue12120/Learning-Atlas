@@ -11,6 +11,14 @@ practice:
 card:
   title: Agent 编排的抽象、状态与并行度
   summary: 在比较 graph、role、actor 三类 agent 框架，以及状态、分支、重试和可观测性边界时，用分布式深度学习笔记核对编排系统的通信与同步权衡；该关联先保留候选状态，因为理论笔记未专门讨论 agent framework。
+  context: "本课要选择 graph、role 或 actor 抽象；真正影响可靠性的不是命名，而是状态所有权、通信方式和同步点是否清楚。"
+  intuition: "编排框架是在控制流、共享状态和并行执行之间做封装；抽象越高，默认行为越多，显式控制通常越少。"
+  key_points:
+    - "Graph 强调显式节点与边，适合检查和恢复确定流程。"
+    - "Role 抽象强调职责分工，但仍需定义消息和终止协议。"
+    - "Actor 通过消息隔离状态，代价是异步通信与故障协调复杂度。"
+  application: "用同一任务分别标出状态位置、消息边界、并行机会、重试语义和观测点，再选择最少隐藏关键行为的框架。"
+  check_question: "当任务需要精确重放和审计每条分支时，为什么只定义 Agent 角色还不够？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/05. distributed deep learning.md

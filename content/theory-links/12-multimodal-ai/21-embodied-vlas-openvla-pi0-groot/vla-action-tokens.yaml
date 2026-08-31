@@ -11,6 +11,14 @@ practice:
 card:
   title: 视觉–语言–动作模型的动作词元
   summary: 在把视觉观察和语言指令映射到连续或离散动作时，用 VLA 理论核对动作 tokenisation、策略输出与 embodiment 泛化。
+  context: "本课要让模型从图像与指令产生机器人动作；动作如何离散化会直接决定输出词表、控制精度和可执行性。"
+  intuition: "VLA 把视觉观察和语言指令当作条件，再把连续控制量切分为可预测的动作词元，使类似语言模型的序列预测能够驱动策略。"
+  key_points:
+    - "动作量化把连续控制范围划分为离散区间，每个区间对应一个动作词元。"
+    - "更细的量化提高控制分辨率，却扩大动作空间并增加学习难度。"
+    - "同一动作词元的物理含义依赖机器人本体、坐标系和控制频率。"
+  application: "为每个动作维度核对取值范围、分桶方式和反量化过程，再验证生成序列能恢复成目标机器人接受的控制向量。"
+  check_question: "当动作分桶过粗时，模型即使预测了正确区间，执行轨迹仍可能出现什么问题？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 11 - autonomous systems/03. vision-language-action models.md

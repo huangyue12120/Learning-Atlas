@@ -33,7 +33,26 @@ status: draft # draft | reviewed | stale
 
 Theory notes use a stable identifier derived from the published snapshot path, for example `theory/chapter-04-statistics/03-sampling`. The identifier belongs to the note across language and reader surfaces; later theory progress or notes must reuse it rather than inventing a second key. A Chinese theory body records `branch: main` and is publishable only when it is `reviewed`, names the matching theory source path, and its SHA-256 equals the current source file after the local theory submodule has been synchronized with upstream `main`. A recorded `revision` is an audit trail for the review; API consumers receive it as `reviewedRevision`, while the published source `revision` and URL remain `main`. Every other state falls back to the official upstream English `main` without serving the local Chinese body.
 
-Each theory-link file represents one link from a stable practice-lesson anchor to one theory note. It includes the card title and summary, both source locations, the theory-note anchor, and `status: proposed | approved | rejected`. Multiple approved links may share one practice anchor; the reader renders each approved card at that section. The application renders only approved links. A changed source hash marks the corresponding translation stale; it never overwrites it automatically.
+Each theory-link file represents one link from a stable practice-lesson anchor to one theory note. It includes both source locations, the theory-note anchor, and a structured contextual card. Multiple approved links may share one practice anchor; the reader renders each approved card at that section. The application renders only approved links whose practice and theory fingerprints are current and whose complete card contract is present. A changed source hash marks the corresponding translation stale; it never overwrites it automatically.
+
+Published contextual cards use this contract:
+
+```yaml
+card:
+  title: <concise concept title>
+  summary: <enough-for-this-task summary shown while collapsed>
+  context: "<why this concept is needed at the current practice anchor>"
+  intuition: "<operational mental model grounded in the linked theory section>"
+  key_points:
+    - "<specific fact, condition, relation, or boundary>"
+    - "<specific fact, condition, relation, or boundary>"
+  application: "<how the learner uses the concept in this lesson>"
+  check_question: "<one answerable diagnostic question ending with a question mark>"
+```
+
+`key_points` contains two to four non-redundant items. `context` and `application` are practice-anchor-specific; `intuition` and every key point must be supported by the linked theory section. The check question tests the relationship needed in the current lesson rather than asking for a definition by rote. These fields are versioned learning content: an agent may draft them, but a human editor must compare them with both anchors before the existing theory link may remain `approved`.
+
+The collapsed card shows the label, title, summary, and available full-text language. Expansion reveals context, intuition, key points, application, one check question, and deduplicated source actions. When the internal Chinese reader and official English source are different destinations, both may appear. When they resolve to the same official `main` URL, the reader renders only one English action.
 
 Each exploration is a Python marimo template. The application copies it into the learner's workspace before launch, so the versioned template stays reviewable and the learner can experiment without changing course content.
 

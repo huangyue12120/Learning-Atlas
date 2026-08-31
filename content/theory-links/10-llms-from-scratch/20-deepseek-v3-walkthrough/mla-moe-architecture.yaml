@@ -11,6 +11,15 @@ practice:
 card:
   title: MLA、GQA 与稀疏专家
   summary: 在从 DeepSeek-V3 配置推导 MLA 的 KV 缓存、MoE 路由和激活参数时，用高效架构笔记核对 MLA、GQA 与 MoE 的共同内存/计算权衡；该关联先保留候选状态，因为理论笔记没有完整复现 DeepSeek-V3 的参数核算。
+  context: "本课从配置反推模型的有效容量与推理成本；注意力缓存和专家参数属于不同的资源项，必须分开计算再看它们的组合取舍。"
+  intuition: "GQA 让一组查询头共享较少的键值头，MLA 进一步把历史键值压到潜变量；MoE 则保留更多专家参数，但每个 token 只路由到少数专家。"
+  key_points:
+    - "多查询或分组查询通过减少独立 K/V 头来降低每个序列的 KV cache，而查询头仍可保持较丰富的表示。"
+    - "MLA 的核心权衡是用潜在表示压缩历史键值，缓存占用与重建或投影计算需要一起评估。"
+    - "MoE 的总参数量包含所有专家，但每 token 的激活计算由路由选择的 top-k 专家决定。"
+    - "专家负载不均会浪费容量并增加通信，因此激活参数不能只用总参数量代替。"
+  application: "从配置列出层数、头数、KV 头数、潜变量宽度、专家数和 top-k，分别估算缓存字节数、总参数量与每 token 激活参数。"
+  check_question: "为什么 MoE 可以增加总参数量，却不必按同样比例增加每个 token 的前向计算量？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/02. efficient architectures.md

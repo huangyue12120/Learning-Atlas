@@ -11,6 +11,14 @@ practice:
 card:
   title: 长上下文：NIAH 与“中间丢失”
   summary: 构建深度 × 长度 NIAH 网格时，把针放在上下文开头、中部和末尾，理解位置偏差为何让标称窗口大于有效检索窗口，以及单针成功为何不能替代多跳推理评估。
+  context: "模型能接收很长上下文不等于能在所有位置可靠使用信息；本课需要把长度效应和针所在深度分开测量。"
+  intuition: "在不同长度的干扰文本中把同一事实插到不同相对位置，像扫描仪一样画出模型实际能找回信息的区域。"
+  key_points:
+    - "NIAH 控制上下文长度、针的位置与查询，测量模型从噪声中定位单个明确事实的能力。"
+    - "开头和末尾成功而中部下降体现位置偏差，使有效可用上下文小于标称窗口。"
+    - "单针检索不要求组合分散证据，不能替代多针、多跳或冲突信息评估。"
+  application: "生成长度×相对深度网格并固定针内容，报告每格准确率与失败输出，再独立加入多跳测试集。"
+  check_question: "模型在所有 NIAH 单针格上满分，为什么仍不能断言它能完成跨三段证据的长上下文推理？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

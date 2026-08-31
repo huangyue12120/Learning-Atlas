@@ -11,6 +11,15 @@ practice:
 card:
   title: 推测解码的拒绝采样与速度模型
   summary: 在实现 draft/verify、残差分布、KV 回滚，并根据接受率 α 估算加速比时，用推理部署笔记核对拒绝采样保持目标分布不变、前缀缓存与推理成本之间的关系。
+  context: "本课要同时满足目标模型的分布正确性和更少的昂贵前向计算；只统计接受了多少 token，而不检查拒绝后的重采样，会把加速误认为近似生成。"
+  intuition: "让便宜的 draft model 先提出一段候选，再让目标模型一次检查整段；接受候选，拒绝时从目标分布扣除候选贡献后的残差中采样。"
+  key_points:
+    - "目标模型并行评估候选前缀，减少逐 token 调用大模型的次数；收益取决于接受率与两模型成本比。"
+    - "拒绝采样的残差分布补回 draft 与 target 的差异，正确实现时输出分布仍等于目标模型。"
+    - "候选被拒绝后必须回滚或重建对应 KV 状态，否则后续 token 会错误地依赖未被采纳的前缀。"
+    - "前缀缓存能复用共享上下文，但缓存命中、显存占用和验证批量仍会约束实际吞吐。"
+  application: "分别测量 draft 长度、接受率、目标模型调用次数和端到端吞吐，并用独立采样检验启用推测解码后 token 分布没有系统偏移。"
+  check_question: "拒绝一个 draft token 后，为什么不能简单丢弃它而继续沿用原来的 KV cache？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/05. scaling and deployment.md

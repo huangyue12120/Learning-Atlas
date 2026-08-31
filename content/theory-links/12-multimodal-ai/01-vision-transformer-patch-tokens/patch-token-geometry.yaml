@@ -11,6 +11,14 @@ practice:
 card:
   title: 图像分块如何变成视觉词元
   summary: 在计算 patch 网格、序列长度和位置编码时，用视觉词元流水线理论核对二维图像特征如何被投影为连续视觉词元，以及它们如何进入语言模型。
+  context: "本课要亲手计算图像分块后的网格和序列长度；这些数值决定视觉编码器向语言模型实际交付多少个词元。"
+  intuition: "把图像切成固定大小的方块，就像把二维画布改写成一串有位置的向量；每个图块经线性投影后成为一个连续视觉词元。"
+  key_points:
+    - "图块数量由图像高宽与 patch 尺寸共同决定，展平后才形成序列。"
+    - "投影层把每个图块的像素表示映射到模型使用的统一嵌入维度。"
+    - "位置编码保留图块原有的空间顺序，否则展平会丢失二维布局。"
+  application: "先算出网格行列数与总词元数，再检查投影输出形状和位置编码长度是否与送入 Transformer 的序列一致。"
+  check_question: "若图像高宽都翻倍而 patch 尺寸不变，视觉词元数量大约会变为原来的多少倍？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/02. vision language models.md

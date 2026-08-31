@@ -11,6 +11,14 @@ practice:
 card:
   title: 子词算法：频率合并、似然合并与概率删减
   summary: 实现 BPE 合并循环并选择生产分词器时，对照 BPE 的最高频字符对、WordPiece 的语料似然和 Unigram 的候选删减目标，判断算法差异怎样影响词表覆盖与序列长度。
+  context: "三种算法都产生子词词表，却优化不同准则；本课需要把实现步骤与最终分词行为对应，而不是把它们视作可互换名称。"
+  intuition: "BPE 从小词表向上合并，WordPiece选择更能改善语料建模的合并，Unigram 从大候选集向下删除贡献小的片段。"
+  key_points:
+    - "BPE 每轮合并当前分词中最高频的相邻符号对，并保存有序合并规则。"
+    - "WordPiece 根据候选合并对语料似然的改善选择词项，而不只比较原始对频率。"
+    - "Unigram 为候选子词建立概率模型，从较大词表反复删去对目标贡献较小的条目。"
+  application: "在同一小语料上记录 BPE 合并轨迹，并用边界词、稀有词和复合词比较三类生产分词器的序列长度。"
+  check_question: "为什么 Unigram 的训练方向可描述为“先多后少”，而 BPE 是“先少后多”？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/02. text processing and classic NLP.md

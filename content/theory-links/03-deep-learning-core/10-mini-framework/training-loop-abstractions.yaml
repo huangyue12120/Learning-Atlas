@@ -11,6 +11,14 @@ practice:
 card:
   title: 深度学习：训练循环连接前向、损失、反向与更新
   summary: 组装 Module、优化器和 DataLoader 时，用标准训练闭环检查梯度清零、前向计算、损失反传和参数更新的必要顺序。
+  context: "本课把此前的张量、模块、损失和优化器组装成框架；各组件即使单独正确，调用顺序错误仍会产生累计梯度或过期参数。"
+  intuition: "每个 batch 完成一次闭环：取数据、算预测和损失、清理旧梯度、传播当前梯度、更新参数，然后再进入下一批。"
+  key_points:
+    - "前向传播基于当前参数构建计算，损失把模型输出与目标压缩为可反传的标量。"
+    - "梯度默认累加，因此普通独立 batch 更新前必须清零，反向后优化器才读取本轮梯度。"
+    - "评估循环不应更新参数，并应切换会改变行为的模块到评估模式。"
+  application: "为一个 batch 记录参数和梯度在清零、backward、step 前后的状态，再用小数据过拟合作为端到端闭环检查。"
+  check_question: "如果连续两个 batch 之间没有清零梯度，第二次 optimizer step 实际使用了哪些梯度贡献？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/03. deep learning.md

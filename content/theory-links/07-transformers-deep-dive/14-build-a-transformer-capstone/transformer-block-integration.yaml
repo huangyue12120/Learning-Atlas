@@ -11,6 +11,14 @@ practice:
 card:
   title: 从注意力到完整 Transformer 语言模型
   summary: 在综合项目中连接词元嵌入、位置表示、因果多头注意力、归一化、残差、FFN 与语言模型头时，用深度学习笔记逐层核对数据流和训练目标，定位形状或掩码错误。
+  context: "综合项目把前面分散验证过的组件连成一个训练闭环；单元组件都正确也不代表跨层形状、因果性和监督对齐一定正确。"
+  intuition: "沿一条残差流追踪张量：词元先变成表示，每个块依次跨位置取信息并逐位置变换，最后映射回词表预测下一个词元。"
+  key_points:
+    - "输入 token ID 经词元与位置信号变为 B×N×d_model，堆叠块始终保持这一主干形状。"
+    - "每个 pre-norm 块由因果多头注意力与 FFN 两次残差更新组成，最终归一化后由语言模型头产生 B×N×V logits。"
+    - "训练交叉熵使用错位一位的目标，因果掩码保证位置 i 的表示不依赖未来词元。"
+  application: "先让微型模型过拟合一个短序列，再用未来扰动测试因果性，并逐层断言形状、有限值及残差输出。"
+  check_question: "模型能降低训练损失但未来扰动会改变较早位置 logits 时，最可能是哪类集成约束失效？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/03. deep learning.md

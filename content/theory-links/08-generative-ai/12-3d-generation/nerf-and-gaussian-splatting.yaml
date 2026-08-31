@@ -11,6 +11,14 @@ practice:
 card:
   title: NeRF 与 3D 高斯泼溅的表示取舍
   summary: 在实现二维高斯泼溅并选择三维输出表示时，用 3D 视觉笔记比较 NeRF 的射线积分与高斯泼溅的投影、深度排序和 alpha 合成，理解二者的质量与实时渲染成本。
+  context: "本课的二维泼溅实验是在模拟三维表示的渲染选择；必须区分连续隐式场与显式高斯原语如何把场景证据投影成像素。"
+  intuition: "NeRF 每条光线询问许多空间点并积分，像现场计算一段体积；高斯泼溅先存好一群带颜色和透明度的软粒子，再快速投影叠加。"
+  key_points:
+    - "NeRF 用 MLP 将三维位置和视角映射为颜色与密度，像素通过沿射线的体渲染积分得到。"
+    - "3D 高斯以位置、协方差、透明度和视角相关颜色显式表示场景，渲染时投影为二维高斯。"
+    - "高斯按深度排序后前向 alpha 合成，可用栅格化实现实时渲染；NeRF 的多点 MLP 查询通常更慢。"
+  application: "在二维模拟中改变高斯协方差、深度和透明度，验证排序与 alpha 合成，再把每像素原语数同射线采样数的成本作对比。"
+  check_question: "两个半透明高斯在图像上重叠时，为什么交换深度顺序可能改变最终像素颜色？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 08 - computer vision/05. video and 3D vision.md

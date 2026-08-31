@@ -11,6 +11,14 @@ practice:
 card:
   title: Git：让一次实验可以被准确追溯
   summary: 将工作区、暂存区、提交与远程仓库视为连续的可复现性链路；代码、配置、数据版本和随机种子共同说明一次实验从何而来。
+  context: "实验结果往往同时受代码、配置与输入版本影响；如果只保存最终指标，就无法解释一次改动究竟来自哪里。"
+  intuition: "把提交当作实验代码的不可变坐标，再把数据版本、配置和随机种子一起写进运行记录，才能沿证据链重建结果。"
+  key_points:
+    - "工作区保存未提交改动，暂存区明确下一次提交的边界，提交则为这组内容生成可追溯历史。"
+    - "远程仓库负责共享提交，但不会自动记录未纳入 Git 的数据集、环境参数或随机种子。"
+    - "同一提交只有与同一配置和输入版本组合时，才足以描述同一次实验。"
+  application: "运行本课实验前先检查差异并提交有意变更，再把提交号、配置、数据标识和种子写入实验元数据。"
+  check_question: "如果两次运行使用同一 Git 提交，却没有记录数据版本与随机种子，你能否把指标差异归因于代码？为什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 15 - production software engineering/02. git and repository management.md

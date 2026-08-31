@@ -127,6 +127,11 @@ type TheoryCard = {
   slug: string;
   title: string;
   summary: string;
+  context: string;
+  intuition: string;
+  keyPoints: string[];
+  application: string;
+  checkQuestion: string;
   sourceUrl: string;
   theoryId: string;
   readKind: TheoryReadKind;
@@ -144,8 +149,8 @@ type LessonContent = {
 type QuizQuestion = { id: string; question: string; options: string[]; correct: number; explanation: string };
 type PublishedQuiz = { questions: QuizQuestion[]; status: "reviewed" | "stale" | "unavailable" };
 
-function yamlScalar(block: string, pattern: RegExp) {
-  const value = pattern.exec(block)?.[1]?.trim();
+function yamlString(value: string | undefined) {
+  value = value?.trim();
   if (!value) return null;
   if (value.startsWith('"') && value.endsWith('"')) {
     return value.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, "\\");
@@ -154,6 +159,20 @@ function yamlScalar(block: string, pattern: RegExp) {
     return value.slice(1, -1).replace(/''/g, "'");
   }
   return value;
+}
+
+function yamlScalar(block: string, pattern: RegExp) {
+  return yamlString(pattern.exec(block)?.[1]);
+}
+
+function yamlList(block: string, key: string) {
+  const match = new RegExp(`^  ${key}:\\r?\\n((?:    - .*(?:\\r?\\n|$))+)`, "m").exec(block);
+  if (!match) return [];
+  return match[1]
+    .split(/\r?\n/)
+    .filter(Boolean)
+    .map((line) => yamlString(line.match(/^    -\s+(.+)$/)?.[1]))
+    .filter((value): value is string => Boolean(value));
 }
 
 function sourceUrl(repository: string, revision: string, path: string) {
@@ -913,7 +932,14 @@ function clearTutorMessages(database: DatabaseSync, lessonId: string) {
 function tutorEvidence(lesson: Lesson) {
   const content = publishedLessonContent(lesson);
   if (content.translationStatus !== "reviewed") throw new Error("当前课程译文不可作为助理证据。");
-  const theory = content.theoryCards.map((card) => `- ${card.title}：${card.summary}`).join("\n");
+  const theory = content.theoryCards.map((card) => [
+    `- ${card.title}`,
+    `  当前用途：${card.context}`,
+    `  核心直觉：${card.intuition}`,
+    `  关键点：${card.keyPoints.join("；")}`,
+    `  本课应用：${card.application}`,
+    `  自检问题：${card.checkQuestion}`
+  ].join("\n")).join("\n");
   return [
     "当前实践课程（已审核中文改编）：",
     content.markdown,
@@ -931,7 +957,7 @@ function tutorLearningContext(database: DatabaseSync, lesson: Lesson, context: T
   return [
     "当前学习上下文（优先围绕此处追问）：",
     `当前段落：${context.sectionTitle}`,
-    `关联理论卡：${theoryCard ? `${theoryCard.title}（${theoryCard.summary}）` : "当前段落没有已批准的关联理论卡。"}`,
+    `关联理论卡：${theoryCard ? `${theoryCard.title}；当前用途：${theoryCard.context}；本课应用：${theoryCard.application}；自检问题：${theoryCard.checkQuestion}` : "当前段落没有已批准的关联理论卡。"}`,
     `本课状态：${state.completed ? "学习者已标记理解" : "尚未标记理解"}；${state.review ? "整课仍需复习" : "未标记整课复习"}。`,
     `已确认待复习点：${pendingReviews.length ? pendingReviews.map((item) => item.text).join("；") : "无"}。`
   ].join("\n");
@@ -1092,10 +1118,16 @@ function approvedTheoryCards(lesson: Lesson): TheoryCard[] {
       const slug = yamlScalar(practiceBlock, /^    slug:\s*(.+)$/m);
       const title = yamlScalar(cardBlock, /^  title:\s*(.+)$/m);
       const summary = yamlScalar(cardBlock, /^  summary:\s*(.+)$/m);
+      const context = yamlScalar(cardBlock, /^  context:\s*(.+)$/m);
+      const intuition = yamlScalar(cardBlock, /^  intuition:\s*(.+)$/m);
+      const keyPoints = yamlList(cardBlock, "key_points");
+      const application = yamlScalar(cardBlock, /^  application:\s*(.+)$/m);
+      const checkQuestion = yamlScalar(cardBlock, /^  check_question:\s*(.+)$/m);
       const repository = yamlScalar(theoryBlock, /^  repository:\s*(.+)$/m);
       const path = yamlScalar(theoryBlock, /^  path:\s*(.+)$/m);
       const fingerprint = yamlScalar(theoryBlock, /^  sha256:\s*(.+)$/m);
-      if (!slug || !title || !summary || !repository || !path || !fingerprint) return [];
+      if (!slug || !title || !summary || !context || !intuition || keyPoints.length < 2 || keyPoints.length > 4 ||
+        !application || !checkQuestion || !repository || !path || !fingerprint) return [];
       const currentSource = join(repositoryDirectory, repository, path);
       if (!existsSync(currentSource) || sha256(currentSource) !== fingerprint) return [];
       const note = theoryNoteBySourcePath.get(path);
@@ -1104,6 +1136,11 @@ function approvedTheoryCards(lesson: Lesson): TheoryCard[] {
         slug,
         title,
         summary,
+        context,
+        intuition,
+        keyPoints,
+        application,
+        checkQuestion,
         sourceUrl: repository === "maths-cs-ai-compendium" ? officialTheoryUrl(path) : sourceUrl(repository, "main", path),
         theoryId: note.theoryId,
         readKind: note.readKind,

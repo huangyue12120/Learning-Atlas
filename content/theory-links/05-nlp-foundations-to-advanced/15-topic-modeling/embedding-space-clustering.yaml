@@ -11,6 +11,14 @@ practice:
 card:
   title: 无监督学习：嵌入空间中的密度聚类
   summary: 配置 BERTopic 的降维、HDBSCAN 聚类与离群桶时，用无监督聚类、软成员关系和簇形状假设解释为何短文本能按语义成组，以及 `-1` 文档为何需要单独检查。
+  context: "短文本词面重叠少，直接按词频聚类容易碎裂；本课先用语义嵌入聚集相近含义，再面对降维和密度阈值带来的不确定性。"
+  intuition: "嵌入把文本放进语义空间，降维保留主要邻域，密度聚类只把足够拥挤的区域命名为主题，并把孤立点留作噪声。"
+  key_points:
+    - "BERTopic 的聚类对象是文档嵌入，距离关系取决于嵌入模型和归一化方式。"
+    - "降维便于密度聚类但可能扭曲邻域，因此参数变化可能改变簇边界。"
+    - "HDBSCAN 可表示不同密度的簇并将低置信文档标为 `-1`，该标签表示未归簇而非一个普通主题。"
+  application: "检查每簇代表文档与关键词，单独抽样 `-1` 文档，并在改变邻居数或最小簇大小时比较主题稳定性。"
+  check_question: "为什么不能把所有 `-1` 文档合并解释成一个语义一致的“其他主题”？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/01. classical machine learning.md

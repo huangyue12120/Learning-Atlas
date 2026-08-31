@@ -11,6 +11,15 @@ practice:
 card:
   title: KV 缓存、位置编码与并发推理
   summary: 在分析共享 KV 缓存、RoPE 的位置性质、协调开销和 Hogwild! 的 Amdahl 加速时，用部署笔记核对 KV 缓存生命周期、前缀复用与推理并行的基础边界；该关联先保留候选状态，因为理论笔记未专门讨论共享缓存并发生成。
+  context: "本课要把共享前缀的缓存收益与并发写入风险分开；缓存只有在位置、模型和前缀完全兼容时才能复用，协调开销也会限制理论加速。"
+  intuition: "KV cache 是已读上下文的可复用记忆：公共前缀可以只计算一次，后续请求从同一边界继续；不同分支必须维护各自新增 token 的状态。"
+  key_points:
+    - "缓存保存历史 token 的 key/value，序列越长通常占用越多显存，因此生命周期和淘汰策略是部署约束。"
+    - "前缀缓存通过复用共同 system prompt 或 few-shot 前缀减少重复计算，但命中依赖字节级前缀和配置一致。"
+    - "RoPE 让注意力分数携带相对位置信息；拼接、回滚或共享缓存时必须保持位置偏移约定一致。"
+    - "并发推理的收益受同步、锁、内存带宽和 Amdahl 瓶颈限制，不能把独立请求数直接当作加速比。"
+  application: "构造共享与不共享前缀的基准，记录命中率、首 token 延迟、KV 显存、协调时间和错误率，并验证分支回滚后输出一致。"
+  check_question: "为什么两个请求只有在共享前缀和位置配置一致时，才能安全复用同一段 KV cache？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/05. scaling and deployment.md

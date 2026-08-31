@@ -8,6 +8,7 @@ import markdown from "/vendor/highlight/es/languages/markdown.min.js";
 import python from "/vendor/highlight/es/languages/python.min.js";
 import yaml from "/vendor/highlight/es/languages/yaml.min.js";
 import { createMarkdownRenderer, escapeHtml } from "/markdown.js";
+import { renderTheoryCard } from "/theory-card.js";
 
 hljs.registerLanguage("bash", bash);
 hljs.registerLanguage("dockerfile", dockerfile);
@@ -227,12 +228,6 @@ function lessonApi(path, lessonId = lesson?.id ?? selectedLessonId) {
   return `${path}${separator}lessonId=${encodeURIComponent(lessonId)}`;
 }
 
-function theoryCard(card) {
-  const primaryTarget = card.readKind === "internal" ? "" : " target=\"_blank\" rel=\"noreferrer\"";
-  const primaryLabel = card.readKind === "internal" ? "阅读完整中文理论" : "阅读最新英文原文";
-  return `<details class="theory-card"><summary><span>上下文理论</span><strong>${escapeHtml(card.title)}</strong><small>${escapeHtml(card.summary)}</small></summary><div><a href="${escapeHtml(card.readUrl)}"${primaryTarget}>${primaryLabel}</a><a href="${escapeHtml(card.sourceUrl)}" target="_blank" rel="noreferrer">查看上游 main 原文</a><small>${card.readKind === "internal" ? "中文全文按本地同步快照审核；上游 main 变化后会要求重新审核。" : "当前没有可发布的中文全文，将打开官方上游 main。"}</small></div></details>`;
-}
-
 function mermaidDiagram(source) {
   const id = `mermaid-diagram-${mermaidDiagramIndex += 1}`;
   return `<figure class="concept-diagram"><div class="mermaid-diagram" data-mermaid-id="${id}" data-mermaid-source="${encodeURIComponent(source)}" aria-busy="true"><p>正在生成图示…</p></div><figcaption>课程图示</figcaption></figure>`;
@@ -247,7 +242,7 @@ const renderMarkdown = createMarkdownRenderer({
   hljs,
   renderMermaid: mermaidDiagram,
   renderFigure: figureDirective,
-  renderTheoryCard: theoryCard
+  renderTheoryCard
 });
 
 function publishedMarkdown() {

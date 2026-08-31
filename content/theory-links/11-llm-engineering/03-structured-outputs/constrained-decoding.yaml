@@ -11,6 +11,14 @@ practice:
 card:
   title: 结构化输出与自回归约束
   summary: 在比较 JSON mode、schema validation、CFG/FSM 和 constrained decoding 时，用 Transformer 语言模型笔记核对下一词元分布与因果生成；该关联先保留候选状态，因为理论笔记没有专门讲 schema 引擎。
+  context: "本课要求模型产出可被程序消费的 JSON 或工具参数，需要区分生成时约束与生成后校验各自解决的问题。"
+  intuition: "约束解码在每一步屏蔽会让当前文法状态失效的词元，而校验器只能在完整输出产生后判断它是否合法。"
+  key_points:
+    - "因果模型仍逐词元生成，约束只改变每一步允许选择的集合。"
+    - "语法合法不等于字段语义正确，业务规则仍需独立校验。"
+    - "生成后重试会增加延迟，生成时约束则需要维护文法状态。"
+  application: "根据失败成本选择 JSON mode、schema 校验或受约束解码，并在工具执行前再次验证类型、范围和权限。"
+  check_question: "为什么一段完全符合 JSON schema 的输出仍可能不能安全地直接执行？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

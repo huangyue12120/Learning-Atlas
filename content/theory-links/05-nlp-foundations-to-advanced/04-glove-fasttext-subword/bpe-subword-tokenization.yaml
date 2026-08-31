@@ -11,6 +11,14 @@ practice:
 card:
   title: 子词分词：BPE 的频率合并过程
   summary: 编写 BPE 合并循环时，对照字符初始词表、最高频相邻对合并与词表大小取舍，理解常见片段压缩和稀有词可覆盖性如何同时产生。
+  context: "整词词表无法覆盖所有词形，纯字符序列又过长；本课需要从语料学习介于两者之间的子词单位。"
+  intuition: "从可覆盖任何词的字符开始，把语料中最常一起出现的相邻单位逐轮粘合，让高频片段变短而稀有词仍可拆解。"
+  key_points:
+    - "BPE 初始符号通常来自字符集合，并保留词边界信息以免跨词错误合并。"
+    - "每轮统计当前分词中的相邻符号对，选择最高频对合并，并把合并规则追加到有序列表。"
+    - "更大词表可缩短常见文本序列，却增加嵌入参数并可能减少对子词结构的共享。"
+  application: "在小语料上打印每轮最高频对和分词结果，保存合并顺序，再用同一顺序编码训练时未见的词。"
+  check_question: "为什么 BPE 的合并规则必须按训练时的顺序应用，而不能只保存最终子词集合？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/02. text processing and classic NLP.md

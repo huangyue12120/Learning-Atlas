@@ -11,6 +11,14 @@ practice:
 card:
   title: 色度表示、音乐条件控制与音频距离
   summary: 在使用哼唱色度图约束 MusicGen、再用 FAD 或 CLAP 评估结果时，用音频分析笔记理解音高类别特征与频谱嵌入分别测量旋律和分布质量。
+  context: "条件音乐生成既要跟随旋律又要保持音频质量和文本语义；本课需要为三个目标选择不同表示与指标。"
+  intuition: "chroma 把跨八度的同名音归到 12 个音高类，适合比较旋律轮廓；音频嵌入距离则从更完整声学表示比较质量或语义。"
+  key_points:
+    - "chroma 每帧汇总 12 个音高类别的能量，弱化八度差异但不完整描述音色和节奏。"
+    - "FAD 比较真实与生成音频嵌入的整体分布，不是单个样本的旋律正确率。"
+    - "CLAP 在音频—文本共同嵌入空间比较语义一致性，高分仍不保证旋律逐音匹配。"
+  application: "从哼唱提取 chroma 并检查生成结果的对齐，同时单独报告 FAD、CLAP 与人工旋律判断，避免混成一个总分。"
+  check_question: "两段旋律相差一个八度时，chroma 可能仍很相似；这项表示刻意忽略了什么信息？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/04. speaker and audio analysis.md

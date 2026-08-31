@@ -11,6 +11,14 @@ practice:
 card:
   title: 文本蕴含：从 MNLI 分类到 RAG 忠实度
   summary: 用 NLI 检查 RAG 主张时，把前提与假设输入 Transformer 三分类器，并结合 MNLI、RTE 等基准理解蕴含分数为何能衡量证据支持，却不能单独证明答案没有幻觉。
+  context: "RAG 答案可能混合多个主张；本课需要逐项判断检索证据是否支持、反驳或未决定这些主张。"
+  intuition: "把证据当作前提、答案中的一个可独立检查主张当作假设；NLI 分类的是二者逻辑关系，而不是答案整体风格。"
+  key_points:
+    - "标准 NLI 标签为 entailment、contradiction 和 neutral，前提与假设的输入方向不可交换。"
+    - "MNLI 覆盖多体裁三分类，RTE 聚焦蕴含判断；基准表现不保证目标领域校准良好。"
+    - "高蕴含分是模型对给定证据的判断，不能证明证据本身真实、完整，也不能覆盖未拆出的其他主张。"
+  application: "把答案拆成原子主张，逐条与对应检索片段组成 premise–hypothesis 对，并用人工标注样本校准阈值。"
+  check_question: "若一条错误资料明确支持某个答案主张，NLI 可能判为蕴含；这说明还缺少哪一层验证？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

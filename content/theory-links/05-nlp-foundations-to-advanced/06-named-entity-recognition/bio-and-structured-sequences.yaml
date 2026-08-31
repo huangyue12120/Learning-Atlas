@@ -11,6 +11,14 @@ practice:
 card:
   title: 序列标注：BIO 边界与 CRF 结构约束
   summary: 在实体跨度与 BIO 标签之间往返转换时，对照序列标注、发射特征和标签转移约束，理解逐词分类为何不足以保证合法实体边界。
+  context: "NER 既要识别实体类型，也要恢复多词跨度边界；独立逐词最高分可能产生无法解释的 BIO 标签序列。"
+  intuition: "发射分数判断每个词像哪类标签，转移分数判断相邻标签能否顺接；整条序列要同时满足局部证据和边界语法。"
+  key_points:
+    - "B-X 标记 X 类实体起点，I-X 延续同类实体，O 表示实体外部。"
+    - "I-X 通常不能直接跟在 O 或不同类型实体之后，逐词分类不会自动阻止这类非法转移。"
+    - "线性链 CRF 对发射与相邻转移共同打分，并用动态规划寻找最高分合法序列。"
+  application: "实现 span 与 BIO 双向转换并验证往返一致，再构造非法 I 标签样例检查转移约束能否排除。"
+  check_question: "序列 O, I-PER, I-PER 为什么不是合法的标准 BIO 边界，第二个位置应怎样修正？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/02. text processing and classic NLP.md

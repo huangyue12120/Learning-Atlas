@@ -11,6 +11,14 @@ practice:
 card:
   title: 并行工具调用的并发边界
   summary: 在同时调度多个独立工具并合并结果时，用并发与并行理论区分 overlap、同步、竞态和背压，解释为何共享可变状态不能随意并发。
+  context: "本课要同时发起多个工具调用并流式合并结果；只有识别依赖和共享状态，才能判断哪些调用可以安全重叠。"
+  intuition: "并发让多个任务在等待期间交错推进，并行让任务在同一时刻真正执行；无论哪一种，只要共同读写状态就需要明确协调。"
+  key_points:
+    - "彼此没有数据依赖且不修改同一资源的工具调用才适合直接并发。"
+    - "共享可变状态会产生竞态，使结果依赖不可预测的完成顺序。"
+    - "流式消费者速度不足时需要背压，否则缓冲区会持续增长。"
+  application: "先画出工具调用依赖图，把独立只读分支放入并发组，把写操作、合并步骤和取消传播留在明确的同步边界。"
+  check_question: "两个工具都要更新同一个文件时，为什么仅用 Promise.all 并不能保证最终结果正确？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 13 - computing and OS/04. concurrency and parallelism.md

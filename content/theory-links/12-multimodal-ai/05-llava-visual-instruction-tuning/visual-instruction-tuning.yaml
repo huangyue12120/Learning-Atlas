@@ -11,6 +11,14 @@ practice:
 card:
   title: 视觉指令微调与视觉词元接口
   summary: 在把视觉编码器输出、projector 和文本指令串成训练样本时，用 VLM 理论核对视觉 token pipeline、训练目标和 cross-modal attention 的角色。
+  context: "本课要把视觉特征、投影层和对话指令拼成可训练序列；理解接口才能正确处理维度、插入位置和监督标签。"
+  intuition: "LLaVA 用投影器把视觉编码器的特征翻译成语言模型嵌入空间中的连续词元，再用视觉指令数据教模型依据这些词元回答。"
+  key_points:
+    - "视觉编码器负责提取图像特征，投影器负责对齐语言模型所需的嵌入维度。"
+    - "视觉词元与文本指令共同进入语言模型，使生成目标能够以图像内容为条件。"
+    - "对齐训练和指令微调承担不同作用：前者接通表示，后者塑造遵循指令的行为。"
+  application: "检查 projector 输入输出维度、视觉词元插入位置和因果语言建模标签，避免把提示部分误当作需要预测的回答。"
+  check_question: "如果 projector 的输出维度不等于语言模型词嵌入维度，视觉特征会在哪个接口处失败？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/02. vision language models.md

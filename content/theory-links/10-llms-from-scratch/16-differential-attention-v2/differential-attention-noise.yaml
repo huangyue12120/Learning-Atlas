@@ -11,6 +11,15 @@ practice:
 card:
   title: 差分注意力与噪声抵消
   summary: 在把 Q/K 分成两支、相减两个 softmax 分布并测量噪声底时，用 Transformer 笔记核对缩放点积注意力、softmax 温度和多头表示；该关联先保留候选状态，因为理论笔记未专门讨论 Differential Attention V2。
+  context: "本课探索把两路注意力分布做差时哪些信号会被保留；先掌握标准注意力的分数、温度和多头语义，才能把噪声变化归因于差分操作而不是缩放错误。"
+  intuition: "每一路 softmax 都把一组相似度变成权重分布；两路共同偏好的部分相减后可能减弱，但分支温度和数值尺度会决定剩余信号是否稳定。"
+  key_points:
+    - "缩放点积中的 √dₖ 防止分数随维度增大而过大，从而避免 softmax 过早饱和。"
+    - "softmax 把每个查询的分数归一成权重分布，分支之间的差值不再是普通的概率分布。"
+    - "多头使用不同的 Q、K、V 投影并行表示关系，比较差分前后的头输出时应保持投影和维度一致。"
+    - "差分实验需要同时报告信号强度、噪声底和数值稳定性，不能只看单个输出的视觉差异。"
+  application: "先实现标准多头注意力作为基线，再固定输入与初始化比较两路 softmax 的差分输出、分数温度和噪声指标。"
+  check_question: "为什么 QKᵀ 的缩放因子会影响差分注意力两支 softmax 的饱和程度和可比较性？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

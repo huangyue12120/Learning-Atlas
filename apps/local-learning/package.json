@@ -1,7 +1,7 @@
 {
   "name": "learning-atlas-local",
   "private": true,
-  "version": "0.12.0",
+  "version": "0.13.0",
   "type": "module",
   "engines": {
     "node": ">=22.18"
@@ -15,7 +15,7 @@
   "scripts": {
     "dev": "node --experimental-strip-types src/server.ts",
     "start": "node --experimental-strip-types src/server.ts",
-    "check": "node --experimental-strip-types --check src/server.ts && node --check public/bootstrap.js && node --check public/theme.js && node --check public/markdown.js && node --check public/home.js && node --check public/theory.js && node --check public/app.js",
+    "check": "node --experimental-strip-types --check src/server.ts && node --check public/bootstrap.js && node --check public/theme.js && node --check public/markdown.js && node --check public/theory-card.js && node --check public/home.js && node --check public/theory.js && node --check public/app.js",
     "test": "node --experimental-strip-types --test tests/*.test.ts"
   }
 }

@@ -11,6 +11,14 @@ practice:
 card:
   title: 凸优化：全局最优、Newton 与约束条件
   summary: 在判定凸性、实现 Newton 和解释 KKT 前，建立凸函数、梯度、Hessian 与约束优化的共同框架。
+  context: "本课从无约束更新走到带约束最优性判断；凸性决定局部信息能否支持全局结论，KKT 则把约束是否生效写成可检查条件。"
+  intuition: "凸目标像没有隐藏凹坑的碗；二阶曲率描述碗的形状，拉格朗日乘子描述约束边界施加的反作用。"
+  key_points:
+    - "凸集合包含任意两点之间的整条线段；凸函数在这条线段上不高于端点函数值的线性插值。"
+    - "二次可微函数的 Hessian 半正定可用于判定凸性，Newton 步用 Hessian 调整不同方向的梯度尺度。"
+    - "KKT 条件包含原始可行性、对偶可行性、驻点条件与互补松弛；在合适的凸性与约束条件下可刻画最优解。"
+  application: "先用 Hessian 检查示例目标，再写出拉格朗日函数，逐项验证候选点的可行性、驻点和互补松弛。"
+  check_question: "若某个不等式约束在候选最优点并未取等号，互补松弛要求对应拉格朗日乘子是什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 03 - calculus/05. optimisation.md

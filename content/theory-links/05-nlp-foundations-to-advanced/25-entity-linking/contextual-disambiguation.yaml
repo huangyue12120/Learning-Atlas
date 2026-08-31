@@ -11,6 +11,14 @@ practice:
 card:
   title: 实体消歧：让上下文区分同名候选
   summary: 为别名索引中的候选实体打分时，从一词多义与词义消歧出发，比较表面先验、Jaccard 词汇重叠和上下文嵌入，理解同一名称为何会随局部语境映射到不同知识库条目。
+  context: "同一表面名称可能对应多个知识库实体；本课若只按最常见候选选择，会在领域或局部语境变化时系统性出错。"
+  intuition: "别名负责保证正确实体进入候选集，上下文负责排序：比较提及周围文字与候选实体描述谈论的是不是同一件事。"
+  key_points:
+    - "候选生成强调召回，利用别名和规范名称缩小知识库范围；正确实体不在候选中时重排无法补救。"
+    - "表面先验反映某名称通常指向谁，Jaccard 比较词集合重叠，嵌入相似度捕捉更宽的语义接近。"
+    - "实体链接不同于 NER：前者把已识别 mention 映射到稳定知识库 ID，并需处理无法链接的情况。"
+  application: "保存每个 mention 的候选、先验和两类上下文分数，分析正确实体是在生成阶段遗漏还是在重排阶段落后。"
+  check_question: "若正确实体没有被别名索引召回，提高上下文打分模型的精度能解决这次错误吗？为什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/01. linguistic foundations.md

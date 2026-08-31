@@ -11,6 +11,14 @@ practice:
 card:
   title: StyleGAN 映射空间与逐层风格调制
   summary: 在实现 Z→W 映射、AdaIN 和逐层风格注入时，用视觉生成理论笔记核对风格向量如何改变特征统计，以及粗层与细层分别控制哪些图像属性。
+  context: "本课要把潜变量对图像的控制从一次性输入改成逐分辨率注入；必须区分可控风格与独立随机细节各自进入生成器的位置。"
+  intuition: "W 像一组分层调色指令：在低分辨率层改变构图和姿态，在高分辨率层改变纹理；噪声则只补充不需要由身份决定的随机细节。"
+  key_points:
+    - "映射网络把标准正态 Z 变换到不受高斯形状约束、可适应数据因素的 W 空间。"
+    - "AdaIN 先标准化每个特征图，再用由 w 产生的缩放与偏置重设其统计量。"
+    - "早期层对应粗尺度属性，后期层对应细纹理；逐层噪声提供毛发等随机变化而不应改写整体结构。"
+  application: "固定噪声并只交换早层或晚层的 w，观察构图与纹理分别变化；再固定 w 改噪声，检验随机细节是否与身份解耦。"
+  check_question: "若只替换高分辨率后期层的风格向量，为什么预期纹理变化会大于姿态变化？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 08 - computer vision/04. vision transformers and generation.md

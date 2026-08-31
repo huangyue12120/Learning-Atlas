@@ -11,6 +11,14 @@ practice:
 card:
   title: Actor-Critic 与优势估计
   summary: 在组合 actor 的策略梯度与 critic 的价值回归时，用强化学习理论笔记核对 TD 残差作为优势估计的形式，以及 critic 基线降低 actor 梯度方差的原因。
+  context: "本课让策略与价值估计同时学习；若没有分清 actor 的优化信号和 critic 的回归目标，两套梯度会互相穿透并改变算法含义。"
+  intuition: "critic 先预测在状态 s 通常能得到多少，实际一步结果比预测好多少就是优势；actor 只需据此增减该动作概率。"
+  key_points:
+    - "actor 表示 π_θ(a|s)，critic 回归 V_φ(s)；两者分别优化策略目标与价值误差。"
+    - "一步 TD 残差 δ_t=r_{t+1}+γV_φ(s_{t+1})−V_φ(s_t) 可作为低方差优势估计。"
+    - "多步优势在蒙特卡洛回报的低偏差与一步 TD 的低方差之间插值，GAE 用 γλ 加权多个未来残差。"
+  application: "对一段 rollout 手算 TD 残差和多步优势，训练时将优势视为 actor 的固定权重，同时单独用价值目标更新 critic。"
+  check_question: "为什么 critic 预测越准确，actor 用优势而不是原始回报时通常梯度方差越小？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/04. reinforcement learning.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: ControlNet 的冻结骨干与零卷积控制
   summary: 在实现零初始化侧网络并组合深度、姿态或边缘条件时，用跨模态生成笔记核对克隆编码器、冻结 U-Net 和零卷积跳跃连接各自承担的作用。
+  context: "本课要给已有扩散模型增加空间条件，又不能在训练初期破坏其生成能力；新分支必须从可验证的无影响状态逐渐学会控制。"
+  intuition: "保留冻结骨干负责原有画质，让侧网络读取边缘、深度或姿态，只通过从零开始的残差通道逐步把结构建议送回骨干。"
+  key_points:
+    - "ControlNet 克隆预训练 U-Net 的编码器侧来处理额外空间条件，而原 U-Net 权重保持冻结。"
+    - "连接侧分支与原网络的 1×1 零卷积初始化为全零，因此训练开始时附加分支是严格无操作。"
+    - "训练后侧分支把条件特征加到原网络跳跃连接；多个条件可按权重组合，但各自仍由冻结骨干完成生成。"
+  application: "先验证零初始化时启用与禁用控制分支输出一致，再只更新侧分支，逐步扫描控制权重观察结构服从度与原始画质。"
+  check_question: "零卷积为何能让 ControlNet 在第一步训练前保持预训练 U-Net 的原有行为？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/04. cross-modal generation.md

@@ -11,6 +11,15 @@ practice:
 card:
   title: 生产级分词器的完整流水线
   summary: 在实现 Unicode 规范化、预分词、字节回退、特殊 token 与聊天模板时，用文本处理笔记核对词边界、子词组合和多语言输入为何必须作为一个连续管道处理。
+  context: "训练与推理必须把同一原始文本映射成完全相同的 ID；任何规范化、边界规则或特殊 token 顺序漂移，都会让已训练词表失去语义。"
+  intuition: "生产分词器是一条有顺序的装配线：先统一等价字符，再确定不能跨越的边界，之后应用合并，最后注入模型协议标记。"
+  key_points:
+    - "Unicode 规范化先消除视觉相同但编码不同的形式；规则改变会同时改变后续预分词与 BPE 输入。"
+    - "预分词限制合并边界，避免 BPE 跨不应连接的空格或结构片段学习 token。"
+    - "字节级基础词表覆盖全部 0–255 字节，因此任意 UTF-8 文本都能编码而无需 [UNK]。"
+    - "BOS、EOS、角色标记等特殊 token 拥有固定 ID 且不参与普通合并，聊天模板负责按协议插入它们。"
+  application: "为组合字符、emoji、多语言、空白、代码和特殊标记建立 encode→decode 往返测试，并保存各流水线阶段输出以定位漂移。"
+  check_question: "若训练 BPE 后再修改 Unicode 规范化规则，为什么即使 merge 表不变也可能得到不同 token ID 序列？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/02. text processing and classic NLP.md

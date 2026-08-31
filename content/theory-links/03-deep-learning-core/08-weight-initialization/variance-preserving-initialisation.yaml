@@ -11,6 +11,14 @@ practice:
 card:
   title: 深度学习：让信号与梯度穿过深层网络
   summary: 比较 Xavier 与 Kaiming 初始化并测量 50 层激活量级时，用方差传播判断权重尺度为何会造成饱和、爆炸或消失。
+  context: "本课在训练前就把信号传过 50 层；权重尺度若不匹配扇入和激活函数，深层激活与梯度会在第一步更新前失真。"
+  intuition: "每层都在汇总许多随机输入；按扇入缩放权重，使输出方差大致延续上一层，而不是逐层倍增或衰减。"
+  key_points:
+    - "独立零均值输入经过线性加权后，输出方差会随输入数量和权重方差共同累积。"
+    - "Xavier 初始化平衡扇入与扇出，适合近似对称激活的前向与反向方差传播。"
+    - "Kaiming 初始化补偿 ReLU 截去负半轴造成的方差损失，尺度主要由扇入决定。"
+  application: "固定网络宽度与输入分布，分别初始化 50 层并记录每层激活和梯度标准差，定位从哪层开始衰减或爆炸。"
+  check_question: "若每层输出方差都比输入大约放大两倍，经过很多层后激活量级会怎样变化？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/03. deep learning.md

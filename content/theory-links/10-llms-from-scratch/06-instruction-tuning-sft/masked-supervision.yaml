@@ -11,6 +11,14 @@ practice:
 card:
   title: 指令微调的掩码交叉熵
   summary: 在把对话模板编码为词元并只让 assistant 回复参与损失时，用 Transformer 与语言模型笔记核对因果语言建模、交叉熵以及为什么上下文可见但指令词元不贡献梯度。
+  context: "SFT 序列同时包含系统规则、用户请求和助手答案；若每个 token 都计损，模型会被训练去复述提示和角色标记，而不是专注学习回答。"
+  intuition: "让模型完整阅读题目，但只批改答题区：上下文仍进入因果注意力，监督权重只落在 assistant 响应 token 上。"
+  key_points:
+    - "完整对话按聊天模板编码并参与前向计算，因此响应 token 可以条件化于系统与用户上下文。"
+    - "损失掩码在提示和结构 token 上为 0、在需要监督的 assistant 响应上为 1，平均时只除以有效响应 token 数。"
+    - "下一词元标签仍需错位一位；角色边界识别错误会把用户文本纳入监督或漏掉助手开头。"
+  application: "把 token、解码片段、角色边界、错位标签和损失掩码逐列打印，并用手算有效 token 交叉熵核对批量实现。"
+  check_question: "提示 token 的损失掩码为 0 时，为什么助手响应仍能在注意力中读取这些提示 token？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 矩阵运算：张量形状是 PyTorch 计算的契约
   summary: 从原始 MNIST 数据构造 batch 并定义线性层时，用矩阵与批量维度的规则定位张量 reshape、相乘和广播是否符合预期。
+  context: "MNIST 从图像网格变成批量向量后才进入线性层；本课需要让元素数量、轴语义、数据类型和设备始终一致。"
+  intuition: "shape 不只是存储外观，而是运算接口：每条轴代表批次、空间或特征，矩阵乘法只会按约定的轴收缩。"
+  key_points:
+    - "reshape 可以重排张量视图的轴长度，但必须保持元素总数不变。"
+    - "批量线性层将 batch×in 与 out×in 权重的转置相乘，得到 batch×out，再广播偏置。"
+    - "参与运算的张量还需拥有兼容 dtype 和 device；shape 正确并不能弥补类型或设备不一致。"
+  application: "在加载、展平和线性层前后断言 MNIST 张量的 shape、dtype、device 与数值范围，再运行一次自动微分。"
+  check_question: "一个 batch 的图像形状为 (64, 1, 28, 28)，展平为线性层输入后应是什么形状，哪些轴被合并？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 02 - matrices/03. operations.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 检索增强生成的数据流
   summary: 在实现 query embedding、向量检索、上下文拼接和答案生成时，用高级文本生成笔记核对检索结果如何改变生成条件分布，以及检索与生成各自的误差边界。
+  context: "本课要连接查询向量、文档召回和答案生成；只有分清检索证据与模型生成，才能定位错误来自哪一段。"
+  intuition: "RAG 先从外部语料选择候选证据，再把证据写入生成前缀；模型依然只根据得到的上下文预测后续词元。"
+  key_points:
+    - "检索阶段决定哪些证据有机会进入模型上下文。"
+    - "生成阶段可能忽略、误读或超出已检索证据。"
+    - "检索召回率与答案忠实度需要分别评估，不能用一个分数代替。"
+  application: "为每个答案保留命中文档与分块标识，分别检查召回是否正确、上下文是否完整以及回答是否受到证据支持。"
+  check_question: "当正确文档已经被检索到但回答仍错误时，应优先检查流水线的哪一部分？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

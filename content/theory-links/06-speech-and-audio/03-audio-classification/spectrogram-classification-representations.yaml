@@ -11,6 +11,14 @@ practice:
 card:
   title: 音频特征、频谱块与分类表示
   summary: 在比较 MFCC 统计量、二维 CNN 与 AST patch 时，用说话人和音频分析笔记理解固定长度嵌入、频谱图分块与相似度分类为何适合不同数据规模。
+  context: "音频长度可变，而分类器通常需要固定接口；本课比较压缩统计、局部频谱模式和全局 patch 序列三种信息保留程度。"
+  intuition: "MFCC 汇总把整段声音压成少量描述，CNN 在时频平面找局部纹理，AST 把频谱块当词元并建模远距离关系。"
+  key_points:
+    - "对帧级 MFCC 取均值和方差可得到固定长度向量，但会丢失事件发生顺序。"
+    - "二维 CNN 在频谱图上共享局部卷积核，适合检测随时间和频率移动的局部模式。"
+    - "Audio Spectrogram Transformer 将时频 patch 映射为序列表示，自注意力可连接相距较远的片段。"
+  application: "保持数据划分一致，比较三种表示的输入 shape、参数量和验证表现，并用短事件样例分析统计汇总丢失的信息。"
+  check_question: "两段音频拥有相同 MFCC 均值和方差但事件顺序相反时，仅用这些统计量的分类器能区分它们吗？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/04. speaker and audio analysis.md

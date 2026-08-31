@@ -11,6 +11,15 @@ practice:
 card:
   title: 状态空间模型与长上下文内存
   summary: 在比较 Jamba 的 Mamba/Transformer 层比例、固定 SSM 状态与增长的 KV 缓存时，用高效架构笔记核对线性注意力和状态空间模型的递归、复杂度及适用边界；该关联先保留候选状态，因为理论笔记未专门讨论 Jamba 或 Mamba-3。
+  context: "本课比较混合架构如何在长上下文中分配记忆；要同时观察每步状态更新、远程检索能力和随序列增长的缓存，而不能只比较层的名称。"
+  intuition: "注意力把历史 token 保存在可查询的 K/V 集合中，状态空间模型则把历史压缩进递归状态；前者便于精确选择上下文，后者让每步状态大小更稳定。"
+  key_points:
+    - "线性注意力和状态空间模型用递归或状态更新处理序列，目标是避免标准注意力的 n² 交互成本。"
+    - "Transformer 的 KV cache 通常随已处理 token 增长，而固定大小的状态不会以同样方式保存全部历史。"
+    - "混合模型用不同层组合两类记忆机制，节省长序列资源的同时保留部分内容寻址能力。"
+    - "线性复杂度并不自动保证更好的效果，状态压缩、选择性更新和任务所需的长程依赖仍需实测。"
+  application: "随序列长度增加记录 SSM 状态、Transformer KV cache、峰值显存和吞吐，比较不同混合比例在长程复制与局部建模任务上的表现。"
+  check_question: "当序列长度增加时，为什么固定大小的 SSM 状态和逐 token 增长的 Transformer KV cache 会呈现不同的内存曲线？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/02. efficient architectures.md

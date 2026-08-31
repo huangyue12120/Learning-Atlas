@@ -11,6 +11,15 @@ practice:
 card:
   title: 数据管道中的去重、打包与计算最优配比
   summary: 在用 MinHash/LSH 去除近重复、把可变长度文档打包成固定序列，并按计算预算选择模型与 token 数时，用大规模基础设施笔记核对数据流水线、批处理和存储效率的工程约束。
+  context: "预训练预算最终按实际处理的 token 付费；重复文档、低质量文本和 padding 都会消耗算力，却不提供相应的新学习信号。"
+  intuition: "把数据管道看成训练算力的入口闸门：先清掉重复和噪声，再把有效文档紧密装箱，同时保留边界与来源，确保每个计算过的 token 都有价值。"
+  key_points:
+    - "MinHash 近似文档集合相似度，LSH 将可能相似的文档放入候选桶，避免全量两两比较后再做近重复判定。"
+    - "序列打包把多个变长文档装入固定长度样本以减少 padding，但必须保留文档边界并按课程约定阻断不应发生的跨文档注意力。"
+    - "批处理数据管道应记录清洗、过滤、去重、分片与输出统计，使大规模变换可复现并能发现异常缩量。"
+    - "固定近似计算 C≈6ND 时，模型参数 N 与有效训练 token D 必须共同规划，不能让数据浪费破坏预期配比。"
+  application: "报告每阶段文档数、token 数、去重率、打包利用率和分片哈希，再用去重后的有效 D 重新核对模型—数据预算。"
+  check_question: "如果打包显著减少 padding，却没有保留文档边界，它可能引入哪种与利用率无关的训练问题？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

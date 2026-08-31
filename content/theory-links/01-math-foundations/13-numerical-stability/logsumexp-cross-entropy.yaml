@@ -11,6 +11,14 @@ practice:
 card:
   title: 稳定 log-sum-exp：保持交叉熵的编码语义
   summary: 在重写 softmax 与交叉熵以避免溢出前，复习熵、交叉熵和 log 概率的理论含义，确认数值变形不改变目标函数。
+  context: "本课直接从 logits 计算 softmax 与交叉熵；指数会放大大数、对极小概率取对数又可能下溢，朴素公式因此会产生无穷或 NaN。"
+  intuition: "先减去最大 logit 把所有指数移到不大于 1 的范围；共同平移不会改变归一化概率，也不会改变目标函数。"
+  key_points:
+    - "log-sum-exp 满足 log∑exp(xᵢ)=m+log∑exp(xᵢ−m)，其中 m 可取最大元素。"
+    - "softmax 对所有 logits 加同一常数保持不变，所以减最大值是等价变形而非近似。"
+    - "one-hot 交叉熵可直接写成 log-sum-exp 减去真实类别 logit，避免先生成可能下溢的概率。"
+  application: "分别用朴素公式和减最大值公式处理含大幅值 logits 的样例，比较有限性并核对两者在正常范围内一致。"
+  check_question: "将一组 logits 全部加上 1000 后，softmax 概率为何不变，而朴素指数计算却更容易溢出？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 05 - probability/05. information theory.md

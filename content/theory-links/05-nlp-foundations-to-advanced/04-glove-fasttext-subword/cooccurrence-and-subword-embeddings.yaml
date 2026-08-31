@@ -11,6 +11,14 @@ practice:
 card:
   title: 嵌入模型：共现分解与字符子词组合
   summary: 构建 GloVe 共现矩阵和 FastText 字符 n-gram 向量时，对照全局共现目标、中心与上下文向量之和，以及用已知子词组合 OOV 向量的原理。
+  context: "本课比较全局共现与字符子词两条表示路线；它们分别解决局部训练未充分利用全语料统计和整词 OOV 无向量的问题。"
+  intuition: "GloVe 让向量点积解释全局共现强度，FastText 则把一个词拆成可共享的字符片段并将片段向量相加。"
+  key_points:
+    - "GloVe 从窗口共现计数构造矩阵，以加权目标拟合对数共现关系，降低极稀有或极高频计数的支配。"
+    - "同一词拥有中心与上下文两个向量角色，训练后可相加或选取其中一侧作为表示。"
+    - "FastText 的词向量由字符 n-gram 向量组合，因此未见整词只要含已知片段仍可得到表示。"
+  application: "先检查共现矩阵的方向和窗口权重，再列出一个词的字符 n-gram；对 OOV 词只组合已知片段并比较近邻。"
+  check_question: "为什么 FastText 能为未出现在整词词表中的词生成向量，而普通整词嵌入查表不能？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/03. embeddings and sequence models.md

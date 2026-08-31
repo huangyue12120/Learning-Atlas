@@ -11,6 +11,14 @@ practice:
 card:
   title: API 网关为何能集中认证、路由与限流
   summary: 在把多个 MCP 后端合并为一个受控端点时，用系统设计中的代理与 API gateway 概念核对凭据保管、请求路由、限流和审计如何形成边界。
+  context: "本课要把多个 MCP 服务放到统一入口之后；网关必须先完成横切控制，再把请求送往正确且健康的后端。"
+  intuition: "API 网关是面向客户端的反向代理：客户端只认识一个入口，网关代它选择后端，并集中执行认证、限流和观测策略。"
+  key_points:
+    - "反向代理隐藏具体后端，使路由和服务拓扑可以独立于客户端变化。"
+    - "认证、限流和版本路由集中后，策略能在进入各 MCP 后端之前一致执行。"
+    - "集中入口也会扩大故障影响，因此网关本身需要高可用和可观测性。"
+  application: "为一条请求标出客户端凭据验证、注册表查找、后端路由、超时和审计记录的位置，并确认敏感凭据不会被无条件转发。"
+  check_question: "当网关已经验证客户端身份后，为什么后端仍应只接收完成当前操作所需的最小权限信息？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/01. systems design fundamentals.md

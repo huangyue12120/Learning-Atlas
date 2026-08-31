@@ -11,6 +11,14 @@ practice:
 card:
   title: 音频词元与跨模态生成
   summary: 在比较 Whisper 式编码器、音频 codec token 和语言模型接口时，用跨模态生成理论核对音频的语义/声学层级、离散 codec token 与文本条件生成之间的表示路径。
+  context: "本课要区分用于理解语音的连续编码表示与用于生成声音的 codec 词元；二者承载的信息层级和输出目标并不相同。"
+  intuition: "音频可先变成频谱连续特征供模型理解，也可经神经编解码器量化成多层离散词元供模型生成，再由解码器还原波形。"
+  key_points:
+    - "语音编码器侧重从声学输入提取可供语言任务使用的表示。"
+    - "神经音频 codec 用离散码本表示声音，并可用多个层级逐步补充声学细节。"
+    - "文本条件提供内容与语义约束，音频表示仍需承担韵律和音色等声学信息。"
+  application: "沿数据流标出频谱或波形、编码器表示、离散 codec 索引和重建波形，避免把识别接口误当作可直接生成高保真音频的接口。"
+  check_question: "为什么只保留音频的高层语义表示，通常不足以重建原始说话人的音色和细节？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/04. cross-modal generation.md

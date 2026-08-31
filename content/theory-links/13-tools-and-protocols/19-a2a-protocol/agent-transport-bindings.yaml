@@ -11,6 +11,14 @@ practice:
 card:
   title: A2A 消息形状与 HTTP/gRPC 传输边界
   summary: 在比较 JSON-RPC over HTTP 与 gRPC 两种 A2A 绑定时，用系统设计中的网络协议笔记核对序列化、流式传输和服务间通信如何保持逻辑消息形状不变。
+  context: "本课要让同一套 A2A 语义经 HTTP/JSON-RPC 或 gRPC 传输；应先固定逻辑消息，再选择适合部署环境的绑定。"
+  intuition: "协议定义代理交换什么信息，传输绑定定义这些信息怎样编码、发送和流式返回；更换载体不应悄悄改变任务语义。"
+  key_points:
+    - "HTTP 绑定通常使用可读的 JSON 消息，便于调试并兼容常见 Web 基础设施。"
+    - "gRPC 使用 Protocol Buffers 和 HTTP/2，可提供强类型接口与多种流式模式。"
+    - "稳定的消息 schema 和版本规则使不同语言客户端保持兼容。"
+  application: "用同一个任务请求分别实现两种绑定，逐字段比较序列化前后的消息，并验证普通响应、流式事件和错误状态语义一致。"
+  check_question: "从 HTTP/JSON 切换到 gRPC 后，哪些内容应由传输层改变，哪些 A2A 任务语义必须保持不变？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/01. systems design fundamentals.md

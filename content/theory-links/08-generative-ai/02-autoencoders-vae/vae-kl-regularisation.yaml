@@ -11,6 +11,14 @@ practice:
 card:
   title: VAE 中的 KL 正则与 ELBO 权衡
   summary: 在实现重建项与 β·KL 项时，用信息论笔记核对 KL 散度的方向、非对称性和分布逼近含义，从而理解 β 为什么会在重建清晰度与潜空间规整性之间产生取舍。
+  context: "只优化重建会让每个输入占据任意潜空间区域，导致从标准正态先验采样时落到解码器未见过的位置；本课需要同时约束可重建性与可采样性。"
+  intuition: "重建项让潜变量记住当前样本，KL 项把各样本的编码分布拉回共同先验；β 决定记忆与规整谁更有话语权。"
+  key_points:
+    - "VAE 使用 D_KL(q(z|x)∥p(z)) 衡量编码后验与标准正态先验的差异，方向不可随意互换。"
+    - "KL 散度非负且只在两分布相同时为零，但它不是对称距离。"
+    - "增大 β 会加强先验约束、改善潜空间连续性，却可能牺牲输入细节并造成更模糊的重建。"
+  application: "分别记录重建损失与 KL，而不是只看总损失；扫描 β 后比较重建误差、潜变量均值方差和先验采样质量。"
+  check_question: "当 β 过大使 q(z|x) 对不同输入都接近 N(0,I) 时，重建为什么容易丢失细节？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 05 - probability/05. information theory.md

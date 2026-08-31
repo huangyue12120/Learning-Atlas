@@ -11,6 +11,14 @@ practice:
 card:
   title: 概率概念：从事件到条件概率
   summary: 在实现条件概率和独立性检查前，先明确样本空间、事件、概率公理与条件化的含义。
+  context: "条件概率代码很短，但分母对应哪个条件事件、独立性检查比较哪些量，取决于对事件集合的准确理解。"
+  intuition: "先把所有可能结果圈成样本空间；事件是其中的子集，条件化相当于把观察范围缩到条件事件后重新归一化。"
+  key_points:
+    - "概率对事件取非负值，样本空间概率为 1，互斥事件并集的概率可以相加。"
+    - "条件概率 P(A|B)=P(A∩B)/P(B)，前提是 P(B) 大于零。"
+    - "A 与 B 独立等价于 P(A∩B)=P(A)P(B)，也意味着知道 B 不改变 A 的概率。"
+  application: "用枚举或模拟构造样本空间，显式统计交集与条件事件，再分别验证条件概率公式和独立性等式。"
+  check_question: "两个互斥且概率都非零的事件能否独立？交集概率如何说明原因？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 05 - probability/02. probability concepts.md

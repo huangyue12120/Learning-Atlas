@@ -11,6 +11,14 @@ practice:
 card:
   title: 共享子词词表与低资源语言的分词代价
   summary: 评估多语言分词器时，对照 BPE、WordPiece、Unigram 与 SentencePiece 的建词方式，用词表大小和每词词元数解释低资源语言为何消耗更多上下文与计算预算。
+  context: "同一上下文窗口按词元而非字符或词计费；本课若只检查能否编码，会忽略共享词表对不同语言造成的不均等序列长度。"
+  intuition: "多语言共享一个有限词表时，高资源语言的常见片段更容易获得完整子词，覆盖不足的语言只能拆成更多小片段。"
+  key_points:
+    - "共享子词词表在多语言语料间分配有限条目，训练语料频率会影响哪些片段被保留。"
+    - "每个词被拆成更多词元会占用更多上下文位置，也增加相同文本的计算步数。"
+    - "Unicode 规范化、脚本和空格规则会影响可比较性，评估应按语言报告每词或每字符词元数。"
+  application: "用同义或长度匹配的多语言样本测量词元数、未知回退和截断率，按语言而非总体平均报告 tokenization tax。"
+  check_question: "两段语义和字符长度相近的文本若分别编码成 40 与 90 个词元，固定窗口下哪一种语言能容纳的内容更少？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/02. text processing and classic NLP.md

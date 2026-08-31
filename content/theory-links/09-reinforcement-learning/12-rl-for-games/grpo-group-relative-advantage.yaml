@@ -11,6 +11,14 @@ practice:
 card:
   title: GRPO 的组相对优势与可验证奖励
   summary: 在按提示采样一组回答并规范化组内奖励时，用高级文本生成笔记复核 GRPO 如何用组均值基线替代价值网络，以及可验证奖励如何驱动推理能力学习。
+  context: "推理任务能由答案或测试验证，却很难为每个中间状态训练准确 critic；本课需要从同一提示的多份回答中直接构造相对学习信号。"
+  intuition: "不要问一份回答的绝对分数高不高，而是让同题的兄弟答案互相比：高于组内平均就增强，低于平均就减弱。"
+  key_points:
+    - "对每个提示从当前策略采样 G 个输出，并用数学答案匹配或代码测试等可验证规则计算奖励。"
+    - "组相对优势 A_i=(r_i−mean(r))/std(r) 以同题均值作基线，消除不同提示难度造成的绝对分数偏移。"
+    - "GRPO 不训练独立价值网络，策略更新使用组优势与 PPO 式裁剪，并常保留相对参考策略的 KL 约束。"
+  application: "按提示分组而不是跨批次归一化奖励，打印每组均值、标准差与优势，并为全组同分时的零方差情况设定稳定处理。"
+  check_question: "同一组所有回答都得到相同奖励时，标准化后的有效比较信号应是什么，为什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

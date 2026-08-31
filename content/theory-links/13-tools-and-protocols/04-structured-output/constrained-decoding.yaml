@@ -11,6 +11,14 @@ practice:
 card:
   title: 结构化输出与下一词元约束
   summary: 在把模型输出限制为 JSON schema 或工具参数时，用推理服务中的约束生成理论核对 token masking、文法状态与 schema 合法性如何共同决定输出。
+  context: "本课要让模型生成符合 JSON Schema 的工具参数；约束必须在每一步解码时阻止会让文法失效的词元。"
+  intuition: "解码器一边生成一边维护当前文法状态，只允许仍能形成合法结构的下一词元，相当于给概率分布套上一道动态模板。"
+  key_points:
+    - "文法或 schema 会被转换为解码状态，用来计算当前位置允许的词元集合。"
+    - "无效词元在采样前被屏蔽，因此约束发生在生成过程而不是事后修补。"
+    - "结构合法只保证输出可解析，不保证字段值真实、合理或有权限执行。"
+  application: "用包含必填字段、枚举和嵌套对象的 schema 测试解码器，同时在执行工具前另做语义校验和授权检查。"
+  check_question: "一个输出完全符合 JSON Schema，为什么仍然不能直接证明其中的工具参数可以安全执行？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/03. serving and batching.md

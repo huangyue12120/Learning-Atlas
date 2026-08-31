@@ -11,6 +11,14 @@ practice:
 card:
   title: 从 STFT 到梅尔频谱图与 MFCC
   summary: 在实现分帧、Hann 窗、梅尔滤波器组和 DCT 时，用数字信号处理笔记中的时频分辨率、频率扭曲与特征压缩关系检查每一步的形状和含义。
+  context: "整段 FFT 会丢失频率何时出现；本课需要逐帧保留时间变化，并把线性频谱转换为更适合语音的紧凑特征。"
+  intuition: "短窗内近似把声音视为平稳，逐窗做 FFT 得到时频图；梅尔滤波重排频率分辨率，DCT 再压缩平滑谱包络。"
+  key_points:
+    - "STFT 将重叠帧乘窗后分别做 FFT；长窗提高频率分辨率却降低时间定位，短窗则相反。"
+    - "Hann 窗减弱帧边界突变造成的频谱泄漏，幅度或功率谱保留每帧频率能量。"
+    - "梅尔滤波器组聚合频率分箱，取对数后做 DCT 得到 MFCC，通常只保留较低阶系数。"
+  application: "逐步断言帧数、FFT 分箱、梅尔通道和 MFCC 维度，并用不同窗长观察瞬态与纯音的时频分辨率变化。"
+  check_question: "为什么把 STFT 窗长增大后，两个相近纯音更容易分开，但短促事件的时间位置会更模糊？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/01. digital signal processing.md

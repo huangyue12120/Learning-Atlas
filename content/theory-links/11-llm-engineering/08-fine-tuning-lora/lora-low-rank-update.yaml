@@ -11,6 +11,14 @@ practice:
 card:
   title: LoRA 的低秩参数化
   summary: 在选择 rank、alpha、目标线性层和 QLoRA 存储精度时，用 Transformer 语言模型笔记核对 `W_effective = W_frozen + B @ A` 的参数分解与表示变化。
+  context: "本课要选择 LoRA 的秩、缩放和目标层；理解低秩更新的形状，才能估算可训练参数并避免接错线性层。"
+  intuition: "LoRA 冻结原权重，只学习两个窄矩阵的乘积，让参数更新被限制在一个低维子空间中。"
+  key_points:
+    - "若原权重形状为输出维乘输入维，两个适配矩阵的乘积必须恢复同一形状。"
+    - "秩决定更新子空间的容量，也直接影响可训练参数量。"
+    - "alpha 通过缩放低秩分支调节其相对原权重的贡献。"
+  application: "逐层核对输入输出维度，计算不同 rank 的参数量，并比较只适配注意力投影与同时适配 FFN 的效果。"
+  check_question: "为什么把 rank 增大一倍会增加适配器容量，却不等于把原模型全部参数解冻？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

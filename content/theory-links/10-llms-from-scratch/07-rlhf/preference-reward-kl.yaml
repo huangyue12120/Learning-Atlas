@@ -11,6 +11,14 @@ practice:
 card:
   title: 偏好奖励模型与 KL 约束
   summary: 在从成对偏好训练 Bradley–Terry 奖励模型，并把奖励模型分数与参考策略的 KL 惩罚送入 PPO 时，用高级文本生成笔记核对偏好概率、奖励差值与 KL 约束下的对齐—漂移权衡。
+  context: "本课把 SFT 模型改造成评分器并驱动策略更新；评分器只从成对样本学到局部偏好，策略若脱离参考分布就可能利用其盲点。"
+  intuition: "奖励模型把两份回答的相对选择变成分数差，PPO 沿高分方向移动；冻结参考策略像弹力绳，距离越远惩罚越大。"
+  key_points:
+    - "奖励模型复用语言模型骨干并以标量头为提示—响应对输出一个分数，而非词表概率。"
+    - "Bradley–Terry 概率由 σ(R_chosen−R_rejected) 给出，损失只要求偏好回答相对得分更高。"
+    - "PPO 使用奖励模型得分减去相对冻结 SFT 参考策略的 KL 惩罚，β 控制追逐偏好与限制漂移的权衡。"
+  application: "用可控偏好对检查奖励差的符号与 loss 单调性，再扫描 β，联合观察奖励、KL、重复或空洞回答等奖励黑客迹象。"
+  check_question: "为什么奖励模型在训练偏好对上准确，并不足以保证去掉 KL 后的策略优化仍产生高质量回答？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

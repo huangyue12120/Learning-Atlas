@@ -11,6 +11,15 @@ practice:
 card:
   title: KV cache、连续批处理与推理吞吐
   summary: 在实现 KV cache、prefix cache、连续批处理和推测解码模拟器时，用 serving 理论笔记核对 prefill/decode 两阶段、PagedAttention、请求调度及显存碎片对吞吐和延迟的影响。
+  context: "本课的优化器同时影响首次响应、逐词元延迟和总吞吐；若把 prefill 与 decode 当成同一种负载，批处理策略会在某一阶段浪费算力或内存带宽。"
+  intuition: "prefill 像一次把整本提示建立索引，decode 像每次查索引写一个新词；调度器要持续用变长请求填满 GPU，并让索引内存可复用。"
+  key_points:
+    - "KV cache 保存每层历史 K、V，使新词元不必重算旧投影，但容量随层数、KV 头、序列长度与并发数线性增长。"
+    - "prefill 对整段提示做大矩阵计算，偏计算密集；decode 每步只处理新 token 并读取大量缓存，偏内存带宽密集。"
+    - "连续批处理在请求完成后立即插入新请求，避免静态批次被最长输出拖住。"
+    - "PagedAttention 降低变长缓存碎片，prefix cache 复用公共前缀，两者都能把有限显存转成更多有效并发。"
+  application: "用不同提示和输出长度模拟请求流，分别记录 TTFT、每词元延迟、吞吐与 KV 占用，再比较静态和连续批处理的空槽时间。"
+  check_question: "静态批次中一个请求生成 500 个 token、另一个只生成 10 个时，短请求结束后的计算槽为什么会长期浪费？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/03. serving and batching.md

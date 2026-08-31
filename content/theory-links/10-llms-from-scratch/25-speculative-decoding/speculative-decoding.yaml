@@ -11,6 +11,15 @@ practice:
 card:
   title: 推测解码的精确拒绝采样
   summary: 在实现 draft/verify、残差分布、树注意力和 EAGLE 接受率时，用推理部署笔记核对推测解码保持目标分布不变、KV 缓存复用与吞吐量估算之间的关系。
+  context: "本课把推测解码从线性候选扩展到树状候选和不同 draft 头；无论候选形状如何变化，精确性条件都必须先于吞吐量优化。"
+  intuition: "draft 负责便宜地展开可能的未来，target 负责一次性验证树上的路径；每条路径只保留通过精确接受规则的前缀，其余质量由 target 重采样补回。"
+  key_points:
+    - "验证阶段可以并行计算多个候选位置，但候选接受率决定一次 target 前向实际提交多少 token。"
+    - "拒绝采样用 target 与 draft 概率的差异构造残差，避免把 draft 的偏好偷偷带入最终分布。"
+    - "树注意力共享可复用的前缀状态，却需要为分支维护不同的 KV 路径并控制额外内存。"
+    - "EAGLE、Medusa 等变体改变候选生成方式，仍应分别测量接受率、验证成本和端到端延迟。"
+  application: "在相同随机种子和 target 模型下比较串行、线性候选与树候选，验证输出统计一致性，并按接受率和验证批量拆解吞吐收益。"
+  check_question: "候选树变宽时，为什么 target 的一次并行验证不一定带来等比例的端到端加速？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/05. scaling and deployment.md

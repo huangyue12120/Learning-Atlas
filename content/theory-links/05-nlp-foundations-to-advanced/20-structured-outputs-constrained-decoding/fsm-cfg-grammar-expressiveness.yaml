@@ -11,6 +11,14 @@ practice:
 card:
   title: 有限状态机与上下文无关文法的表达边界
   summary: 为 JSON Schema 选择约束引擎时，用状态转换理解 FSM 的常数时间后继查询，再用 CFG 的非终结符和递归产生式解释树形 schema 为何需要 XGrammar 或 llguidance。
+  context: "结构化生成必须在每一步判断哪些词元仍可能完成合法输出；所选语法表示若表达力不足，就无法正确处理递归嵌套。"
+  intuition: "FSM 只记有限状态，适合固定模式；CFG 还能借助栈式解析状态记住尚未闭合的递归结构。"
+  key_points:
+    - "有限状态机由状态、输入符号和转移组成，可高效查询当前状态允许的后继，但无法计数无界嵌套深度。"
+    - "上下文无关文法用非终结符和产生式递归描述树结构，解析器需要维护待完成的语法栈。"
+    - "正则或固定深度格式可由 FSM 处理，任意嵌套对象与数组通常需要 CFG 级表达能力。"
+  application: "先判断目标 schema 是否含递归或无界嵌套，再选择约束引擎，并用多层对象与非法闭括号测试解析状态。"
+  check_question: "为什么能识别固定最多三层括号的 FSM，不能因此识别任意深度的平衡括号？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/01. linguistic foundations.md

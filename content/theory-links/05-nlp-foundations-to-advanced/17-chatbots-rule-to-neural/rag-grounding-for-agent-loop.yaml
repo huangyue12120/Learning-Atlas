@@ -11,6 +11,14 @@ practice:
 card:
   title: Agent 的事实锚定：检索后再生成
   summary: 为 Agent 循环加入检索优先的事实锚定时，区分参数记忆与外部知识库，理解检索质量、分块和生成条件化怎样共同决定回答能否引用可核查证据。
+  context: "Agent 仅凭模型参数回答会混入过期或不可核查信息；本课需要让事实型请求先经过外部证据检索，再决定回答或拒答。"
+  intuition: "模型负责解释和组织，知识库负责提供可定位事实；先找到证据，再把有限证据放进生成上下文并保留来源。"
+  key_points:
+    - "参数记忆不能保证事实当前、完整或可追溯，RAG 将外部文档作为运行时条件。"
+    - "分块决定检索基本单位，检索排序决定进入上下文的证据，生成器无法修复完全缺失的来源。"
+    - "grounded 回答应把主张关联到检索片段，并在证据不足时显式说明或拒绝猜测。"
+  application: "在 agent loop 中先识别需检索的问题，保存查询、top-k 片段和来源，再限制生成只使用这些片段中的事实。"
+  check_question: "如果检索返回的 top-k 与问题无关，即使生成答案听起来正确，为什么仍不能称为已锚定回答？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

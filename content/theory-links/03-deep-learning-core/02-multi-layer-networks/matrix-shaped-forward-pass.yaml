@@ -11,6 +11,14 @@ practice:
 card:
   title: 矩阵运算：按形状追踪前向传播
   summary: 实现 Layer 和 Network 的前向传播时，用矩阵乘法的行列规则检查批次、输入特征、输出特征与偏置能否正确对齐。
+  context: "多层网络把单样本运算批量化；若没有统一批次轴与特征轴约定，转置或广播错误会在层间累积。"
+  intuition: "把每个样本放在一行：批次矩阵一次乘上权重，把每行从输入特征空间映射到输出特征空间，偏置再按行共享。"
+  key_points:
+    - "若 X 形状为 batch×in、W 为 in×out，则 XW 形状为 batch×out。"
+    - "长度为 out 的偏置沿 batch 轴广播，对每个样本添加同一组输出偏移。"
+    - "相邻层必须满足上一层 out 等于下一层 in，激活函数通常保持张量形状不变。"
+  application: "为每层打印或断言输入、权重、偏置和输出 shape，用两样本小批次手算第一层，再贯穿整个 Network。"
+  check_question: "输入形状为 (8, 16)、某层有 32 个输出单元时，W、b 和层输出应分别是什么形状？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 02 - matrices/03. operations.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 文本、时长、梅尔与波形重建
   summary: 在串联音素化、时长预测、声学模型和 HiFi-GAN 时，用 TTS 理论笔记理解文本到梅尔的对齐以及梅尔到波形重建为何是两个不同的学习问题。
+  context: "TTS 要跨越离散文本、帧级声学特征和高采样率波形；本课若把这些阶段混成一个接口，很难定位发音、时长或音质错误。"
+  intuition: "声学模型先决定说什么、每个音持续多久以及频谱怎样变化，vocoder 再把这张声学蓝图还原成连续波形。"
+  key_points:
+    - "文本规范化和音素化处理书写形式与发音，时长或注意力机制把较短符号序列对齐到较长声学帧。"
+    - "声学模型预测 mel 频谱等中间表示，包含随时间变化的能量和频谱包络。"
+    - "vocoder 根据声学表示生成波形，频谱预测正确仍可能因 vocoder 产生独立音质伪影。"
+  application: "保存音素、预测时长、mel 和波形四级中间产物，分别检查发音对齐、mel 重建和 HiFi-GAN 输出。"
+  check_question: "若生成语音发音与时长都正确但有明显金属噪声，应优先检查声学对齐还是 vocoder？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/03. text to speech and voice.md

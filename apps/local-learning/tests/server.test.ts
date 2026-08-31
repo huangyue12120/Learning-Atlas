@@ -7,6 +7,7 @@ import { join } from "node:path";
 import { createServer, type Server } from "node:http";
 import { DatabaseSync } from "node:sqlite";
 import { createApp, firstLesson, prepareWorkspace, publishableTheoryDocument } from "../src/server.ts";
+import { renderTheoryCard, theoryCardActions } from "../public/theory-card.js";
 
 const cleanups: Array<() => void> = [];
 const correctFirstQuizAnswers = {
@@ -19,6 +20,43 @@ const correctFirstQuizAnswers = {
 
 afterEach(() => {
   while (cleanups.length) cleanups.pop()?.();
+});
+
+test("renders rich theory cards with deduplicated source actions", () => {
+  const externalCard = {
+    title: "矩阵变换",
+    summary: "先理解线性映射如何改变输入。",
+    context: "本课正在把输入乘以权重矩阵，需要区分坐标计算与空间变换。",
+    intuition: "矩阵不是一张静态数字表，而是一条把向量送到新位置的线性规则。",
+    keyPoints: ["矩阵列描述基向量变换后的方向。", "复合变换的顺序由矩阵乘法顺序决定。"],
+    application: "检查每一层权重矩阵的输入输出维度，并解释它对表示空间做了什么。",
+    checkQuestion: "交换两个矩阵的乘法顺序时，为什么输出通常会改变？",
+    readKind: "external",
+    readUrl: "https://example.com/theory",
+    sourceUrl: "https://example.com/theory",
+    latestSourceUrl: "https://example.com/theory"
+  };
+  assert.deepEqual(theoryCardActions(externalCard).map(({ href, label }) => ({ href, label })), [
+    { href: "https://example.com/theory", label: "阅读英文原文" }
+  ]);
+  const html = renderTheoryCard({
+    ...externalCard,
+    keyPoints: [...externalCard.keyPoints, "尖括号 <内容> 必须安全转义。"]
+  });
+  assert.equal((html.match(/href="https:\/\/example\.com\/theory"/g) ?? []).length, 1);
+  assert.match(html, /为什么现在需要/);
+  assert.match(html, /核心直觉/);
+  assert.match(html, /在本课中怎么用/);
+  assert.match(html, /先想一想/);
+  assert.match(html, /&lt;内容&gt;/);
+
+  const internalActions = theoryCardActions({
+    ...externalCard,
+    readKind: "internal",
+    readUrl: "/theory?theoryId=matrix-transform"
+  });
+  assert.deepEqual(internalActions.map(({ label }) => label), ["阅读完整中文理论", "查看英文原文"]);
+  assert.equal(new Set(internalActions.map(({ href }) => href)).size, 2);
 });
 
 async function startTestServer(directory = mkdtempSync(join(tmpdir(), "learning-atlas-"))) {
@@ -160,6 +198,7 @@ test("loads published lesson content and resources by lessonId", async () => {
     "高斯潜变量与重参数化采样",
     "VAE 中的 KL 正则与 ELBO 权衡"
   ]);
+  assert.deepEqual(vaeContent.theoryCards.map((item: { slug: string }) => item.slug), ["the-concept", "the-concept"]);
 
   const generativeContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(generativeAI.lessons[0].id)}`).then((response) => response.json());
   assert.deepEqual(generativeContent.theoryCards.map((item: { title: string }) => item.title), ["生成模型家族的目标与取舍"]);
@@ -237,6 +276,26 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(allSetupCourses[1].itemContent.theoryCards[0].title, "Git：让一次实验可以被准确追溯");
 });
 
+test("publishes all 223 visible theory cards with the complete rich-content contract", async () => {
+  const baseUrl = await startTestServer();
+  const course = await fetch(`${baseUrl}/api/course`).then((response) => response.json());
+  const lessons = course.flatMap((phase: { lessons: Array<{ id: string }> }) => phase.lessons);
+  const contents = await Promise.all(lessons.map(({ id }: { id: string }) =>
+    fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(id)}`).then((response) => response.json())));
+  const cards = contents.flatMap((content: { theoryCards: Array<Record<string, unknown>> }) => content.theoryCards);
+  assert.equal(cards.length, 223);
+  for (const card of cards) {
+    assert.equal(typeof card.context, "string");
+    assert.equal(typeof card.intuition, "string");
+    assert.ok(Array.isArray(card.keyPoints) && card.keyPoints.length >= 2 && card.keyPoints.length <= 4);
+    assert.equal(typeof card.application, "string");
+    assert.match(String(card.checkQuestion), /[？?]$/);
+    const actions = theoryCardActions(card);
+    assert.equal(new Set(actions.map(({ href }) => href)).size, actions.length);
+    if (card.readKind === "external") assert.equal(actions.length, 1);
+  }
+});
+
 test("serves the local Mermaid module", async () => {
   const baseUrl = await startTestServer();
   const response = await fetch(`${baseUrl}/vendor/mermaid/mermaid.esm.min.mjs`);
@@ -279,6 +338,15 @@ test("publishes the reviewed CLT theory card for statistics", async () => {
     slug: "central-limit-theorem-practical-implications",
     title: "中心极限定理：为何样本均值可用于推断",
     summary: "在解释置信区间、t 检验和 mini-batch 平均的近似正态性前，复习正态分布及中心极限定理的适用条件。",
+    context: "本课要从有限样本均值推断总体并解释 mini-batch 波动；这依赖抽样分布，而不是假设原始数据本身一定正态。",
+    intuition: "反复抽取同样大小的独立样本并计算均值，这些均值会比原始观测更集中，样本足够大时趋近钟形分布。",
+    keyPoints: [
+      "在独立同分布且总体方差有限等条件下，标准化样本均值的分布随样本量增大趋近正态。",
+      "样本均值的期望等于总体均值，标准误差按总体标准差除以样本量平方根缩小。",
+      "中心极限定理描述均值的抽样分布，不表示有限样本中的原始观测会变成正态。"
+    ],
+    application: "从一个偏斜总体反复抽取不同大小的样本，绘制样本均值分布，并比较其形状和标准差随样本量的变化。",
+    checkQuestion: "样本量从 25 增加到 100 时，其他条件不变，样本均值的标准误差应缩小到原来的多少？",
     sourceUrl: "https://github.com/HenryNdubuaku/maths-cs-ai-compendium/blob/main/chapter%2004%20-%20statistics/03.%20sampling.md",
     theoryId: "theory/chapter-04-statistics/03-sampling",
     readKind: "internal",
@@ -647,6 +715,10 @@ test("uses a locally configured compatible tutor and persists its conversation",
   assert.match(modelRequest?.messages[0]?.content ?? "", /线性代数直觉/);
   assert.match(modelRequest?.messages[0]?.content ?? "", /当前段落：点积衡量相似度/);
   assert.match(modelRequest?.messages[0]?.content ?? "", /关联理论卡：点积：把方向关系变成一个数/);
+  assert.match(modelRequest?.messages[0]?.content ?? "", /点积衡量一个向量沿另一个方向投影了多少/);
+  assert.match(modelRequest?.messages[0]?.content ?? "", /余弦相似度用两向量范数归一点积/);
+  assert.match(modelRequest?.messages[0]?.content ?? "", /先手算两组向量的点积与范数/);
+  assert.match(modelRequest?.messages[0]?.content ?? "", /点积与余弦相似度会怎样变化/);
   assert.match(modelRequest?.messages[0]?.content ?? "", /我需要复习点积的符号/);
   assert.match(modelRequest?.messages[0]?.content ?? "", /学习者已明确要求完整解释/);
 

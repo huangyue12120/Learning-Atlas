@@ -11,6 +11,14 @@ practice:
 card:
   title: Few-shot 与思维链的条件示范
   summary: 在选择示例、设计 CoT 和比较 zero-shot/few-shot 时，用高级文本生成笔记核对自回归生成、上下文学习和采样过程；该关联先保留候选状态，因为理论笔记未专门覆盖提示范式的全部经验规律。
+  context: "本课要比较无示例、少样本示例和思维链提示；这些方法都通过改变生成前缀来影响模型接下来延续的模式。"
+  intuition: "少样本示例向模型展示输入到输出的局部模式，思维链则把中间推理写进可继续生成的词元序列。"
+  key_points:
+    - "示例的格式、标签和顺序都会成为模型条件上下文的一部分。"
+    - "思维链输出仍是自回归生成，并不保证每个中间步骤都正确。"
+    - "采样温度和解码策略会影响同一提示下结果的稳定性。"
+  application: "为目标任务选择与真实输入同构的示例，并分别测量直接回答与显式推理在准确性和成本上的差异。"
+  check_question: "为什么一个内容相关但格式不同的示例，可能比无示例提示更容易误导模型？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

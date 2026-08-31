@@ -11,6 +11,14 @@ practice:
 card:
   title: 词性标注：HMM 发射、转移与 Viterbi
   summary: 实现二元 HMM 标注器时，把词元视为观测、词性视为隐藏状态，用发射概率、标签转移概率和动态规划回溯解释整条最优标签序列如何得到。
+  context: "同一个词在不同上下文可有不同词性；本课必须联合考虑该词像某标签的程度和标签序列是否连贯。"
+  intuition: "每一步把到达上一标签的最佳路径分数，与标签转移和当前词发射分数相加，最后沿回指针找回整条最优路径。"
+  key_points:
+    - "HMM 将词性作为隐藏状态、词元作为观测，并假设当前状态只依赖前一状态。"
+    - "发射概率描述标签生成当前词的可能性，转移概率描述相邻标签的序列规律。"
+    - "Viterbi 对每个位置和标签保存最大路径分数及前驱，在 log 空间计算可避免概率连乘下溢。"
+  application: "平滑并归一化发射、转移计数，用一个短句填完整张 Viterbi 表，再从终点回溯标签序列。"
+  check_question: "一个词的名词发射概率最高时，Viterbi 为什么仍可能把它标为动词？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/02. text processing and classic NLP.md

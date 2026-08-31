@@ -11,6 +11,14 @@ practice:
 card:
   title: Whisper 的注意力解码与领域微调
   summary: 在决定冻结编码器、用 LoRA 调整解码器并观察交叉注意力对齐时，用 ASR 笔记核对声学编码、序列解码和领域词汇适配各自承担的作用。
+  context: "领域 ASR 错误可能来自声学条件变化，也可能来自专业词汇与语言模式；本课需要据此决定微调哪个组件。"
+  intuition: "编码器把 log-mel 帧变成声学表示，解码器依据已生成文本并交叉关注声学帧；冻结策略是在保留通用能力和适配领域之间分配容量。"
+  key_points:
+    - "Whisper 编码器处理声学特征，因果解码器自回归预测文本词元，并通过交叉注意力读取编码器状态。"
+    - "冻结编码器只调整解码侧更偏向语言与词汇适配；声学域偏移明显时可能需要开放更多声学参数。"
+    - "LoRA 用低秩增量适配选定权重，减少可训练参数，但其效果仍取决于插入位置和训练数据覆盖。"
+  application: "按声学与词汇错误类型建立验证子集，比较冻结、部分解冻和解码器 LoRA，并检查交叉注意力与 WER 分解。"
+  check_question: "若新领域主要变化是强噪声和麦克风响应，而词汇不变，只微调解码器可能遗漏哪类适配？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/02. automatic speech recognition.md

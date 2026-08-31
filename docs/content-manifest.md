@@ -1,6 +1,6 @@
-# Learning Atlas v0.12.0 内容清单
+# Learning Atlas v0.13.0 内容清单
 
-冻结日期：2026-08-29。
+冻结日期：2026-08-31。
 
 ## 当前发布快照与上游跟踪
 
@@ -9,7 +9,7 @@
 | `ai-engineering-from-scratch` | `39ea8a1c6d0b61f071226eff7ede4d4105fed820` | MIT |
 | `maths-cs-ai-compendium` | `9850ee574a370bc1cde59de98b394e953775b67d` | Apache-2.0 |
 
-此表记录 v0.12.0 的可复现发布快照。两个 submodule 同时配置为跟踪其上游 `main` 分支：每日检查只报告待审核更新，不会自动修改发布内容。中文改编、测验和理论关联的各自 front matter 均记录对应原文路径、revision 与 SHA-256；中文理论正文还声明跟踪 `main`。应用发现实践课程、测验或中文理论正文的当前 SHA-256 不匹配时，会拒绝发布旧内容；理论原文链接则始终指向官方 `main`。
+此表记录 v0.13.0 的可复现发布快照。两个 submodule 同时配置为跟踪其上游 `main` 分支：每日检查只报告待审核更新，不会自动修改发布内容。中文改编、测验和理论关联的各自 front matter 均记录对应原文路径、revision 与 SHA-256；中文理论正文还声明跟踪 `main`。应用发现实践课程、测验或中文理论正文的当前 SHA-256 不匹配时，会拒绝发布旧内容；理论原文链接则始终指向官方 `main`。
 
 ## 内容快照与阅读器范围
 
@@ -41,7 +41,7 @@
 
 当前开放的 279 节课程中，有 273 节提供 VS Code/Python 工作区模板与练习指南；其余 6 节没有 Python 实作资源。中文测验覆盖当前开放范围内所有存在上游 `quiz.json` 的课程；另外 105 节上游课程本身没有 `quiz.json`，不属于待补译缺口。
 
-理论上游快照包含 20 章、104 篇笔记，已全部进入首页理论目录。理论关联共 311 条，已全部完成人工审核并标为 `approved`；当前开放课程的已批准关联会在应用中展示，尚未接入阅读器的课程关联会随课程接入后展示。第 15 课的中心极限定理卡指向稳定标识 `theory/chapter-04-statistics/03-sampling`，并进入对应的版本化中文全文。
+理论上游快照包含 20 章、104 篇笔记，已全部进入首页理论目录。理论关联共 311 条，已全部完成人工审核并标为 `approved`；当前开放课程的 223 张已批准关联已迁移到结构化上下文卡片，展开后提供直觉、关键点、应用和自检问题，尚未接入阅读器的 88 张关联仍保留在后续 Phase 的迁移范围内。应用还会对相同的理论目标去重，并在存在中文全文时保留不同目标的英文入口。第 15 课的中心极限定理卡指向稳定标识 `theory/chapter-04-statistics/03-sampling`，并进入对应的版本化中文全文。
 
 当前只有《抽样》一篇中文理论正文满足 `status: reviewed`、来源路径和 SHA-256 三重发布条件。该正文是针对本地同步到 `main` 的快照审核的版本化中文内容；其审核 revision 仅用于追溯，目录和阅读器中的原文入口均指向官方 `HenryNdubuaku/maths-cs-ai-compendium` 最新英文 `main`。其余 103 篇理论笔记从目录打开同一官方 `main`，属于可能变化的外部实时参考，不计入本地发布快照。
 
@@ -54,13 +54,14 @@
 ```bash
 python3 scripts/check_translation_correspondence.py
 python3 scripts/check_source_fingerprints.py
+python3 scripts/check_theory_cards.py
 python3 scripts/check_repository_hygiene.py
 cd apps/local-learning
 npm run check
 npm test
 ```
 
-结构检查覆盖 511 份实践译文与 1 份版本化理论译文；来源指纹检查覆盖 1308 条记录；仓库卫生检查阻止学习数据、本地状态、凭据、私钥和常见令牌误入版本库。Python-first 例外必须在原位置明确链接到锁定的上游非 Python 实现。
+结构检查覆盖 511 份实践译文与 1 份版本化理论译文；来源指纹检查覆盖 1308 条记录；理论卡契约检查覆盖当前发布的 223 张卡；仓库卫生检查阻止学习数据、本地状态、凭据、私钥和常见令牌误入版本库。Python-first 例外必须在原位置明确链接到锁定的上游非 Python 实现。
 
 ## 上游更新流程
 

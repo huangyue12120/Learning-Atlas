@@ -11,6 +11,14 @@ practice:
 card:
   title: 说话人嵌入、余弦阈值与 EER
   summary: 在对注册和测试嵌入评分、扫描阈值并找出 FAR 与 FRR 交点时，用说话人分析笔记理解归一化嵌入、分数分布和 EER 的联系。
+  context: "说话人验证不是选最高类别，而是判断一对语音是否同一身份；本课必须从相似度分数选择可解释的接受阈值。"
+  intuition: "把每段语音压成身份向量，同说话人分数希望偏高、异说话人偏低；阈值在误接纳与误拒绝之间移动工作点。"
+  key_points:
+    - "注册可聚合同一人的多段嵌入，L2 归一化后点积等于余弦相似度。"
+    - "阈值降低通常减少误拒率却增加误接率，阈值升高则产生相反变化。"
+    - "EER 是 FAR 与 FRR 相等或最接近的点，适合比较系统，不一定是部署成本最优阈值。"
+  application: "分别生成 genuine 与 impostor 分数，扫描阈值计算 FAR/FRR 曲线，在开发集取 EER 并在独立集复核。"
+  check_question: "安全场景中误接纳成本远高于误拒绝时，部署阈值为何不应机械地选 EER 点？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/04. speaker and audio analysis.md
