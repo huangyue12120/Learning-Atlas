@@ -34,7 +34,7 @@ status: reviewed
 
 三者都依赖 LLM 评判者。下面解释这种方法及让结果可信的校准层。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![四个评估维度与 LLM 评判者架构](../assets/llm-evaluation.svg)
 

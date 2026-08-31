@@ -127,11 +127,11 @@ type TheoryCard = {
   slug: string;
   title: string;
   summary: string;
-  context: string;
-  intuition: string;
-  keyPoints: string[];
-  application: string;
-  checkQuestion: string;
+  context?: string;
+  intuition?: string;
+  keyPoints?: string[];
+  application?: string;
+  checkQuestion?: string;
   sourceUrl: string;
   theoryId: string;
   readKind: TheoryReadKind;
@@ -139,6 +139,12 @@ type TheoryCard = {
   readUrl: string;
   latestSourceUrl: string;
 };
+
+type RichTheoryCard = TheoryCard & Required<Pick<TheoryCard, "context" | "intuition" | "keyPoints" | "application" | "checkQuestion">>;
+
+function isRichTheoryCard(card: TheoryCard): card is RichTheoryCard {
+  return Boolean(card.context && card.intuition && Array.isArray(card.keyPoints) && card.keyPoints.length >= 2 && card.keyPoints.length <= 4 && card.application && card.checkQuestion);
+}
 
 type LessonContent = {
   markdown: string;
@@ -932,14 +938,19 @@ function clearTutorMessages(database: DatabaseSync, lessonId: string) {
 function tutorEvidence(lesson: Lesson) {
   const content = publishedLessonContent(lesson);
   if (content.translationStatus !== "reviewed") throw new Error("当前课程译文不可作为助理证据。");
-  const theory = content.theoryCards.map((card) => [
-    `- ${card.title}`,
-    `  当前用途：${card.context}`,
-    `  核心直觉：${card.intuition}`,
-    `  关键点：${card.keyPoints.join("；")}`,
-    `  本课应用：${card.application}`,
-    `  自检问题：${card.checkQuestion}`
-  ].join("\n")).join("\n");
+  const theory = content.theoryCards.map((card) => {
+    if (!isRichTheoryCard(card)) {
+      return `- ${card.title}：${card.summary}\n  扩展内容待迁移，助理不应补写未经审核的字段。`;
+    }
+    return [
+      `- ${card.title}`,
+      `  当前用途：${card.context}`,
+      `  核心直觉：${card.intuition}`,
+      `  关键点：${card.keyPoints.join("；")}`,
+      `  本课应用：${card.application}`,
+      `  自检问题：${card.checkQuestion}`
+    ].join("\n");
+  }).join("\n");
   return [
     "当前实践课程（已审核中文改编）：",
     content.markdown,
@@ -954,10 +965,15 @@ function tutorLearningContext(database: DatabaseSync, lesson: Lesson, context: T
   const theoryCard = content.theoryCards.find((card) => card.slug === context.theoryCardSlug);
   const state = stateFor(database, lesson.id);
   const pendingReviews = reviewItemsFor(database, lesson.id);
+  const theoryContext = theoryCard && isRichTheoryCard(theoryCard)
+    ? `${theoryCard.title}；当前用途：${theoryCard.context}；本课应用：${theoryCard.application}；自检问题：${theoryCard.checkQuestion}`
+    : theoryCard
+      ? `${theoryCard.title}；摘要：${theoryCard.summary}；扩展内容待迁移。`
+      : "当前段落没有已批准的关联理论卡。";
   return [
     "当前学习上下文（优先围绕此处追问）：",
     `当前段落：${context.sectionTitle}`,
-    `关联理论卡：${theoryCard ? `${theoryCard.title}；当前用途：${theoryCard.context}；本课应用：${theoryCard.application}；自检问题：${theoryCard.checkQuestion}` : "当前段落没有已批准的关联理论卡。"}`,
+    `关联理论卡：${theoryContext}`,
     `本课状态：${state.completed ? "学习者已标记理解" : "尚未标记理解"}；${state.review ? "整课仍需复习" : "未标记整课复习"}。`,
     `已确认待复习点：${pendingReviews.length ? pendingReviews.map((item) => item.text).join("；") : "无"}。`
   ].join("\n");
@@ -1126,21 +1142,17 @@ function approvedTheoryCards(lesson: Lesson): TheoryCard[] {
       const repository = yamlScalar(theoryBlock, /^  repository:\s*(.+)$/m);
       const path = yamlScalar(theoryBlock, /^  path:\s*(.+)$/m);
       const fingerprint = yamlScalar(theoryBlock, /^  sha256:\s*(.+)$/m);
-      if (!slug || !title || !summary || !context || !intuition || keyPoints.length < 2 || keyPoints.length > 4 ||
-        !application || !checkQuestion || !repository || !path || !fingerprint) return [];
+      if (!slug || !title || !summary || !repository || !path || !fingerprint) return [];
       const currentSource = join(repositoryDirectory, repository, path);
       if (!existsSync(currentSource) || sha256(currentSource) !== fingerprint) return [];
       const note = theoryNoteBySourcePath.get(path);
       if (!note) return [];
+      const hasRichContent = Boolean(context && intuition && keyPoints.length >= 2 && keyPoints.length <= 4 && application && checkQuestion);
       return [{
         slug,
         title,
         summary,
-        context,
-        intuition,
-        keyPoints,
-        application,
-        checkQuestion,
+        ...(hasRichContent ? { context, intuition, keyPoints, application, checkQuestion } : {}),
         sourceUrl: repository === "maths-cs-ai-compendium" ? officialTheoryUrl(path) : sourceUrl(repository, "main", path),
         theoryId: note.theoryId,
         readKind: note.readKind,

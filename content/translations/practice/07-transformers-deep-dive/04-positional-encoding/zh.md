@@ -32,7 +32,7 @@ status: reviewed
 
 截至 2026 年，几乎每个前沿开源模型都使用 RoPE：Llama 2/3/4、Qwen 2/3、Mistral、Mixtral、DeepSeek-V3、Kimi。少数长上下文模型使用 ALiBi 或其现代变体。绝对正弦位置编码已成为历史方案。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![正弦绝对位置、RoPE 旋转与 ALiBi 距离偏置](../assets/positional-encoding.svg)
 

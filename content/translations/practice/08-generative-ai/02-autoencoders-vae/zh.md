@@ -28,7 +28,7 @@ Kingma 在 2013 年提出的 VAE 让编码器输出一个*分布* `q(z|x) = N(μ
 
 到 2026 年，VAE 很少单独部署，因为扩散模型已经在原始图像质量上超过了它；不过，每个潜空间扩散模型（SD 1/2/XL/3、Flux、AudioCraft）仍首选 VAE 作为编码器。理解 VAE，就理解了日常所用图像流水线中看不见的第一层。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![自编码器与 VAE：重参数化技巧](../assets/vae.svg)
 

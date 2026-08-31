@@ -81,7 +81,7 @@ graph TD
     style PPO fill:#1a1a2e,stroke:#e94560,color:#fff
 ```
 
-### 奖励模型
+### 奖励模型 <!-- learning-atlas: the-reward-model -->
 
 奖励模型是改造成评分器的语言模型。取 SFT 模型，将语言建模头（输出词表上的分布）替换为标量头（输出一个数）。直到最后一层为止，两者的架构完全相同。
 

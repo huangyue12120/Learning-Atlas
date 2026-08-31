@@ -26,7 +26,7 @@ status: reviewed
 
 本综合课程通过一个统一视角介绍三个里程碑式架构 AlphaZero、MuZero 与 GRPO：**自我对弈 + 搜索 + 策略改进**。每种架构都推广了前一种；GRPO 尤其像是把 AlphaZero 配方用于大语言模型推理，把词元作为动作，把数学验证结果作为胜负信号。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![AlphaZero ↔ MuZero ↔ GRPO：同一循环，不同环境](../assets/rl-games.svg)
 

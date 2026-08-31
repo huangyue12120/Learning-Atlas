@@ -42,7 +42,7 @@ status: reviewed
 
 ## 核心概念
 
-### LoRA：低秩适配
+### LoRA：低秩适配 <!-- learning-atlas: lora-low-rank-adaptation -->
 
 微软的 Edward Hu 及其同事在 2021 年 6 月发表了 LoRA。论文的洞见是：微调期间的权重更新具有较低的内在秩。你不需要更新 4096×4096 权重矩阵中的全部 1677 万个参数；更新中的有效信息可以由秩为 16 或 32 的矩阵表示。
 

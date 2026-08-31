@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate rich contextual-theory card content for every published practice phase."""
+"""Validate rich contextual-theory cards and their practice anchors."""
 
 from __future__ import annotations
 
@@ -15,6 +15,11 @@ PUBLISHED_PHASES = {f"{number:02d}" for number in range(14)}
 CARD_BLOCK = re.compile(r"^card:\r?\n(?P<body>[\s\S]*?)(?=^theory:)", re.MULTILINE)
 PLACEHOLDER = re.compile(r"(?:TODO|TBD|FIXME|待补|占位|稍后完善)", re.IGNORECASE)
 SCALAR_FIELDS = ("context", "intuition", "application", "check_question")
+PRACTICE_ANCHOR = re.compile(r"^    slug:\s*([a-z0-9-]+)\s*$", re.MULTILINE)
+TRANSLATION_ANCHOR = re.compile(
+    r"^#{1,6}[ \t]+[^\n]*?<!--\s*learning-atlas:\s*([a-z0-9-]+)\s*-->[ \t]*$",
+    re.MULTILINE,
+)
 
 
 def quoted_scalar(block: str, key: str) -> str | None:
@@ -51,20 +56,40 @@ def normalized(value: str) -> str:
     return re.sub(r"[\W_]+", "", value, flags=re.UNICODE).lower()
 
 
+def validate_practice_anchor(path: Path, document: str, required: bool) -> list[str]:
+    if not required:
+        return []
+    parts = path.relative_to(THEORY_LINKS).parts
+    if len(parts) < 2:
+        return ["cannot derive practice translation path"]
+    anchor_match = PRACTICE_ANCHOR.search(document)
+    if not anchor_match:
+        return ["missing practice.anchor.slug"]
+    translation = ROOT / "content" / "translations" / "practice" / parts[0] / parts[1] / "zh.md"
+    if not translation.is_file():
+        return [f"practice translation does not exist: {translation.relative_to(ROOT)}"]
+    anchors = TRANSLATION_ANCHOR.findall(translation.read_text(encoding="utf-8"))
+    slug = anchor_match.group(1)
+    count = anchors.count(slug)
+    if count != 1:
+        return [f"practice anchor {slug!r} must appear on exactly one translated heading (found {count})"]
+    return []
+
+
 def validate(path: Path) -> list[str]:
     document = path.read_text(encoding="utf-8")
     status = re.search(r"^status:\s*(\S+)\s*$", document, re.MULTILINE)
     phase = path.relative_to(THEORY_LINKS).parts[0].split("-", 1)[0]
+    required = status is not None and status.group(1) == "approved" and phase in PUBLISHED_PHASES
+    errors = validate_practice_anchor(path, document, required)
     match = CARD_BLOCK.search(document)
     if not match:
-        return ["missing card block"] if phase in PUBLISHED_PHASES else []
+        return [*errors, "missing card block"] if required else errors
     card = match["body"]
     has_rich_field = any(re.search(rf"^  {key}:", card, re.MULTILINE) for key in (*SCALAR_FIELDS, "key_points"))
-    required = status is not None and status.group(1) == "approved" and phase in PUBLISHED_PHASES
     if not required and not has_rich_field:
-        return []
+        return errors
 
-    errors: list[str] = []
     values = {key: quoted_scalar(card, key) for key in SCALAR_FIELDS}
     for key, value in values.items():
         if value is None:

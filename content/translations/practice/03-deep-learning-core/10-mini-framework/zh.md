@@ -100,7 +100,7 @@ graph TD
     DataLoader --> |"输入"| Sequential
 ```
 
-### 训练循环
+### 训练循环 <!-- learning-atlas: training-loop -->
 
 ```mermaid
 sequenceDiagram

@@ -28,7 +28,7 @@ status: reviewed
 
 现代强化学习的全部方法，包括 DQN、A2C、PPO、SAC，都以此为支点。本阶段后续内容只是在你将在本课写出的一步 TD 更新之上叠加函数近似与各种技巧。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![Q-learning 与 SARSA：离策略 max 与同策略 Q(s', a')](../assets/td.svg)
 

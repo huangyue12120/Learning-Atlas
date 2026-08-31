@@ -40,7 +40,7 @@ Claude Opus 4.7 有 200K 词元的窗口（beta 中为 1M），GPT-5 有 400K，
 
 ## 核心概念
 
-### 上下文窗口是稀缺资源
+### 上下文窗口是稀缺资源 <!-- learning-atlas: the-context-window-is-a-scarce-resource -->
 
 把上下文窗口想成 RAM，而不是磁盘。它快速且可以直接访问，但容量有限。你不可能什么都装进去，必须做选择。
 

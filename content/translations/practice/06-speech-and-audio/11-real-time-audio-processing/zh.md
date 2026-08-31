@@ -52,7 +52,7 @@ Moshi（Kyutai，2024）实现了 200 ms 全双工；GPT-4o-realtime（2024）�
 
 **抖动缓冲区。** 网络包会乱序或延迟到达。抖动缓冲区负责重排与平滑；太小会产生可听见的断裂，太大则增加延迟。典型值为 60–80 ms。
 
-### 常见坑
+### 常见坑 <!-- learning-atlas: common-gotchas -->
 
 - **线程争用。** Python GIL 加上重型模型可能饿死音频线程。使用带 C 回调的音频库（sounddevice、PortAudio），并让 Python 离开热点路径。
 - **采样率转换延迟。** 在流水线内部重采样会增加 5–20 ms。应提前重采样，或使用零延迟重采样器（PolyPhase、`soxr_hq`）。

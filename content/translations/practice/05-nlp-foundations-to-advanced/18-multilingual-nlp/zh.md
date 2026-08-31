@@ -171,7 +171,7 @@ def few_shot_finetune(base_model, base_tokenizer, examples):
 
 若性能重要，务必为目标语言微调预留预算。零样本只适合作为起点，不能当作最终结果。
 
-### 分词税：低资源语言会遇到什么问题
+### 分词税：低资源语言会遇到什么问题 <!-- learning-atlas: the-tokenization-tax-what-goes-wrong-for-low-resource-languages -->
 
 多语言模型让所有语言共用一个分词器。训练该词表的语料主要由英语、法语、西班牙语、中文和德语构成。主流语言之外的语言会悄然叠加三种代价：
 

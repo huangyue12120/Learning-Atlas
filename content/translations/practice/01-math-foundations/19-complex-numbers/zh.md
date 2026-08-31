@@ -154,7 +154,7 @@ e^(i*pi) = cos(pi) + i*sin(pi) = -1 + 0i = -1
 
 复指数可以表示旋转，信号处理和机器学习中的许多操作都依赖这种表示。
 
-### 与二维旋转的联系
+### 与二维旋转的联系 <!-- learning-atlas: connection-to-2d-rotations -->
 
 将复数 (x + yi) 乘以 e^(i*theta)，会把点 (x, y) 绕原点旋转 theta 角。
 

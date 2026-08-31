@@ -113,7 +113,7 @@ print(summary[0]["summary_text"])
 
 BART-large-CNN 在 CNN/DailyMail 语料上微调，开箱即可生成新闻风格摘要。面对科学论文、对话或法律文本等其他领域，应使用相应 Pegasus 检查点，或在目标数据上微调。
 
-### 步骤 3：ROUGE 评估
+### 步骤 3：ROUGE 评估 <!-- learning-atlas: step-3-rouge-evaluation -->
 
 ```python
 from rouge_score import rouge_scorer

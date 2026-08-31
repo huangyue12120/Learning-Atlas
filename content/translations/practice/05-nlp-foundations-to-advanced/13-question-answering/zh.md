@@ -69,7 +69,7 @@ print(answer)
 
 `deepset/roberta-base-squad2` 在包含不可回答问题的 SQuAD 2.0 上训练。默认情况下，即使模型的空答案分数最高，`question-answering` 流水线也会返回得分最高的跨度，并不会自动返回空答案。若需要明确的“无答案”行为，请在调用流水线时传入 `handle_impossible_answer=True`；只有空答案分数超过所有跨度分数时，流水线才返回空答案。无论如何都要检查 `score` 字段。
 
-### 步骤 2：检索增强流水线（示意）
+### 步骤 2：检索增强流水线（示意） <!-- learning-atlas: step-2-a-retrieval-augmented-pipeline-sketch -->
 
 ```python
 from sentence_transformers import SentenceTransformer

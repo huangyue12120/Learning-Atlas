@@ -46,7 +46,7 @@ status: reviewed
 
 形状决定结构，其余都是旋钮。
 
-### 真正会移动的六个旋钮
+### 真正会移动的六个旋钮 <!-- learning-atlas: the-six-knobs-that-actually-move -->
 
 在 2024–2026 年的所有前沿开放模型中，反复被选择的是同样六项设计：
 

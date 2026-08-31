@@ -50,7 +50,7 @@ You are a senior copywriter at a B2B SaaS company. Write a product launch email 
 
 ## 核心概念
 
-### 提示词的解剖结构
+### 提示词的解剖结构 <!-- learning-atlas: anatomy-of-a-prompt -->
 
 每次 LLM API 调用都包含三个组成部分。理解每一部分的作用，会改变你写提示词的方式。
 

@@ -52,7 +52,7 @@ bpe-merge
 
 ## 动手实现
 
-### 步骤 1：从零实现 BPE
+### 步骤 1：从零实现 BPE <!-- learning-atlas: step-1-bpe-from-scratch -->
 
 完整实现见 `code/main.py`。核心循环如下：
 

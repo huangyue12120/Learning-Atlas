@@ -46,7 +46,7 @@ status: reviewed
 
 准确率 = (0 + 990) / 1000 = 99.0%。它捕获零欺诈、零疾病、零缺陷，却显示 99%，这正是不平衡问题中准确率危险的原因。
 
-### 更好的指标
+### 更好的指标 <!-- learning-atlas: better-metrics -->
 
 **Precision** = TP / (TP + FP)：所有标为正的对象中有多少真是正，precision 高表示误报少。
 

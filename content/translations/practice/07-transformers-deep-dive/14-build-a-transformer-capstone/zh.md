@@ -26,7 +26,7 @@ status: reviewed
 
 这是本课程的“nanoGPT”。它并非原创——Karpathy 2023 年的 nanoGPT 教程是每位学生至少都会写一次的参考实现。我们沿用它的整体结构，并根据前面学过的内容重新组织。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![从零构建 Transformer 的框图](../assets/capstone.svg)
 

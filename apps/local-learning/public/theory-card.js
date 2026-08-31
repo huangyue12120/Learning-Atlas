@@ -47,14 +47,26 @@ export function renderTheoryCard(card) {
   const sourceNote = card.readKind === "internal"
     ? "中文全文按本地同步快照审核；英文入口始终跟随官方上游 main。"
     : "中文全文尚未发布；当前入口打开官方上游 main。";
-  const keyPoints = card.keyPoints.map((point) => `<li>${escapeHtml(point)}</li>`).join("");
   const actions = theoryCardActions(card).map(actionHtml).join("");
-  return `<details class="theory-card">
+  const header = `
     <summary>
       <span class="theory-card-topline"><span class="theory-card-kicker">上下文理论</span><span class="theory-card-language">${languageLabel}</span></span>
       <strong>${escapeHtml(card.title)}</strong>
       <small class="theory-card-summary">${escapeHtml(card.summary)}</small>
-    </summary>
+    </summary>`;
+  const footer = `<div class="theory-card-footer"><div class="theory-card-actions">${actions}</div><small>${sourceNote}</small></div>`;
+  const hasRichContent = Boolean(card.context && card.intuition && Array.isArray(card.keyPoints) && card.keyPoints.length >= 2 && card.keyPoints.length <= 4 && card.application && card.checkQuestion);
+  if (!hasRichContent) {
+    return `<details class="theory-card">${header}
+    <div class="theory-card-body">
+      <div class="theory-card-legacy"><p class="theory-card-detail-label">扩展内容待迁移</p><p>当前只展示已审核的标题与摘要；不会自动补写未经审核的理论解释。</p></div>
+      ${footer}
+    </div>
+  </details>`;
+  }
+  const keyPoints = card.keyPoints.map((point) => `<li>${escapeHtml(point)}</li>`).join("");
+  return `<details class="theory-card">
+    ${header}
     <div class="theory-card-body">
       ${detailBlock("为什么现在需要", card.context, "context")}
       <div class="theory-card-detail-grid">
@@ -63,7 +75,7 @@ export function renderTheoryCard(card) {
       </div>
       ${detailBlock("在本课中怎么用", card.application, "application")}
       <div class="theory-card-check"><p class="theory-card-detail-label">先想一想</p><p>${escapeHtml(card.checkQuestion)}</p></div>
-      <div class="theory-card-footer"><div class="theory-card-actions">${actions}</div><small>${sourceNote}</small></div>
+      ${footer}
     </div>
   </details>`;
 }

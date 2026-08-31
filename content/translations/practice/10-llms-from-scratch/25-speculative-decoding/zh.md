@@ -42,7 +42,7 @@ Leviathan、Kalai、Matias（2023，《Fast Inference from Transformers via Spec
 
 如果草稿与目标完美匹配，每次目标前向得到 K+1 个词元；如果第一个位置就错，只得到 1 个词元。
 
-### 精确性规则
+### 精确性规则 <!-- learning-atlas: the-exactness-rule -->
 
 推测解码在分布上**严格等价于从 p 采样**。拒绝规则为：
 

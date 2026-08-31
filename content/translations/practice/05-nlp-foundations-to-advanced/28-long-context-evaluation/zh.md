@@ -63,7 +63,7 @@ gx-niah-decay
 
 ## 动手实现
 
-### 步骤 1：为你的领域构建自定义 NIAH
+### 步骤 1：为你的领域构建自定义 NIAH <!-- learning-atlas: step-1-a-custom-niah-for-your-domain -->
 
 完整实现见 `code/main.py`，骨架如下：
 

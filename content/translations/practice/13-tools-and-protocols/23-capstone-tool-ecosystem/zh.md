@@ -45,7 +45,7 @@ status: reviewed
 
 `code/main.py` 用普通 Python 函数和字典让这些边界可见。它不会打开传输、联系 arXiv、执行 OAuth、调用 A2A 服务器、渲染 MCP App 或导出遥测，因此可以检查控制流，又不会把模拟冒充为兼容服务。
 
-## 核心概念
+## 核心概念 <!-- learning-atlas: the-concept -->
 
 ### 目标架构
 

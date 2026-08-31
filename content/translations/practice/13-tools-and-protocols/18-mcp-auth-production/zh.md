@@ -190,7 +190,7 @@ Content-Type: application/json
 
 PKCE 是 OAuth 2.1 的必需项。本课授权码流程总是携带 `code_challenge` 和 `code_verifier`。服务器拒绝缺少 verifier，或 verifier 哈希后不匹配已存 challenge 的令牌请求。
 
-### MCP 2026-07-28 授权 profile
+### MCP 2026-07-28 授权 profile <!-- learning-atlas: mcp-2026-07-28-authorization-profile -->
 
 当前 MCP 版本保留 OAuth 资源服务器边界，同时让 MCP 传输无状态。没有可用于缓存身份决定的协议会话，因此授权层独立校验每个请求：
 

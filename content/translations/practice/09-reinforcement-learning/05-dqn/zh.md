@@ -30,7 +30,7 @@ status: reviewed
 
 Atari 上的 DQN 首次用同一套架构和超参数解决了数十个基于原始像素的控制问题。此后所有“深度强化学习”方法，包括 DDQN、Rainbow、Dueling、Distributional、R2D2、Agent57，都建立在这三个技巧之上。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![DQN 训练循环：环境、回放缓冲区、在线网络、目标网络、Bellman TD 损失](../assets/dqn.svg)
 

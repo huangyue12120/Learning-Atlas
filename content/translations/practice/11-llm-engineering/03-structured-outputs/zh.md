@@ -42,7 +42,7 @@ The product is the Sony WH-1000XM5 headphones, which cost $348.00 and are curren
 
 ## 核心概念
 
-### 结构化输出光谱
+### 结构化输出光谱 <!-- learning-atlas: the-structured-output-spectrum -->
 
 结构化输出控制有四个层级，可靠性逐级提高。
 

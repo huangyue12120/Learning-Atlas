@@ -110,7 +110,7 @@ diff[t] = value[t] - value[t-1]
 
 **正式检验：** Augmented Dickey-Fuller（ADF）是平稳性的标准统计检验，原假设为“序列非平稳”。p 值小于 0.05 时拒绝原假设、认为平稳。本课不从零实现 ADF（需渐近分布表），代码中的滚动统计量给出实用可视检查。
 
-### 自相关
+### 自相关 <!-- learning-atlas: autocorrelation -->
 
 自相关衡量时刻 t 的值与 t-k（过去 k 步）值的相关程度。自相关函数（ACF）对每个滞后 k 绘制此相关。
 

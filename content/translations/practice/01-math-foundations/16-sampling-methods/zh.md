@@ -195,7 +195,7 @@ E[f(X)] ~ (1/N) * sum(f(x_i))    其中 x_i ~ p(x)
 估计量的方差 = Var(f(X)) / N
 ```
 
-### 马尔可夫链 Monte Carlo（MCMC）：Metropolis–Hastings
+### 马尔可夫链 Monte Carlo（MCMC）：Metropolis–Hastings <!-- learning-atlas: markov-chain-monte-carlo-mcmc-metropolis-hastings -->
 
 MCMC 构造一条以目标分布 p(x) 为平稳分布的马尔可夫链。经过足够多步后，链中的样本（近似地）就是来自 p(x) 的样本。
 

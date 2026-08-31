@@ -28,7 +28,7 @@ status: reviewed
 
 ControlNet + LoRA + 文本构成 2026 年从业者的工具箱。多数生产图像流水线都会在 SDXL / SD3 / Flux 基础模型上叠加 2～5 个 LoRA、1～3 个 ControlNet 和一个 IP-Adapter。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![ControlNet 克隆编码器；LoRA 添加低秩增量](../assets/controlnet-lora.svg)
 

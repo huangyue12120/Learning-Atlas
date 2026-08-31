@@ -91,7 +91,7 @@ graph LR
     style INT4 fill:#1a1a2e,stroke:#e94560,color:#fff
 ```
 
-### 量化如何工作
+### 量化如何工作 <!-- learning-atlas: how-quantization-works -->
 
 核心操作很简单：取一个浮点数张量，找到缩放因子，进行缩放，舍入到最近的整数，并将整数和缩放因子一起保存。
 

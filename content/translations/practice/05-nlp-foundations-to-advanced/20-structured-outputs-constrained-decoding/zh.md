@@ -32,7 +32,7 @@ status: reviewed
 
 下面比较三种方案的工作方式及各自的适用场景。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![约束解码在每一步屏蔽无效词元](../assets/constrained-decoding.svg)
 
@@ -69,7 +69,7 @@ constrained-decoder
 
 ## 动手实现
 
-### 步骤 1：从零实现正则约束生成
+### 步骤 1：从零实现正则约束生成 <!-- learning-atlas: step-1-regex-constrained-generation-from-scratch -->
 
 独立 FSM 实现见 `code/main.py`。以下 30 行展示了核心思路：
 

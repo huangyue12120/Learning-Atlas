@@ -28,7 +28,7 @@ status: reviewed
 
 三类任务都运行在同一套底座上：神经音频编解码器 + 词元自回归或扩散生成器。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![音频生成：编解码器词元 + Transformer 或扩散](../assets/audio-generation.svg)
 

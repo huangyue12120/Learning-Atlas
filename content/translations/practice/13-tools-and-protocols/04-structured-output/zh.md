@@ -45,7 +45,7 @@ status: reviewed
 
 共同点是：只声明一次 schema，并端到端执行它。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### JSON Schema 2020-12——通用语言
 

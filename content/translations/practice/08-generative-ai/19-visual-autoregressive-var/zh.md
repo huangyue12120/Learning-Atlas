@@ -30,7 +30,7 @@ VAR 通过改变生成对象来解决顺序问题。它不逐个预测空间中�
 
 ## 概念
 
-### VQ-VAE 多尺度分词器
+### VQ-VAE 多尺度分词器 <!-- learning-atlas: vq-vae-multi-scale-tokenizer -->
 
 VAR 需要一个 **多尺度离散分词器**。对于图像 x，它会生成一系列分辨率逐渐增大的词元网格：
 

@@ -40,7 +40,7 @@ status: reviewed
 
 每一步都是一次多模态 VLM 调用。VLM 输出必须是可解析的 JSON。错误会跨步骤累积，因此恢复机制很重要。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### GUI 定位——原语
 

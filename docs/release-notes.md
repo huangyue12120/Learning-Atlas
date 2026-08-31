@@ -1,3 +1,29 @@
+# Learning Atlas v0.14.0 发布说明
+
+发布日期：2026-08-31。
+
+本版完成 P0 理论卡收尾与根项目许可证治理：223 张当前可见理论卡通过全量结构/链接复核和维护者确认的语义抽样；重复英文原文入口继续保持去重；原创软件与原创学习内容采用分层许可证，并补齐上游与第三方归属边界。
+
+## 本版交付
+
+- 维护者确认 `fast_worker` 对 223 张理论卡的逐卡结构化复核：实践锚点、理论来源、扩展字段和自检问题均通过，未发现具体疑点；技术语义仍明确记录为人工抽样结论，不把脚本当作语义证明。
+- 将 C0 · [P0] 理论卡内容与展示重构标记为完成：英文 fallback 的重复目标只渲染一个入口，卡片提供上下文、直觉、关键点、应用和可回答的自检问题。
+- 采用分层许可证：原创软件代码使用 Apache-2.0，原创文档/设计/独立学习内容使用 CC BY 4.0；上游 MIT/Apache-2.0、字体 OFL、GSAP Standard license 及其他依赖继续按各自条款分发。
+- 新增 `LICENSE`、`LICENSE-CONTENT.md`、`THIRD_PARTY_NOTICES.md` 和 ADR 0023，并同步 README、内容清单、应用说明和项目进度。
+
+## 验证
+
+- `python3 scripts/check_theory_cards.py`（223 / 223）
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+许可证边界和当前内容范围见[内容清单](content-manifest.md)与[第三方归属清单](../THIRD_PARTY_NOTICES.md)。
+
+---
+
 # Learning Atlas v0.13.1 发布说明
 
 发布日期：2026-08-31。
@@ -32,6 +58,8 @@
 
 - 为当前开放课程的 223 张已批准理论卡补齐 `context`、`intuition`、2–4 个 `key_points`、`application` 和 `check_question` 字段；新增契约检查会拒绝缺失、过短、占位或重复内容。
 - 将理论卡渲染拆为可复用的渐进式卡片组件：折叠状态保留上下文、标题、摘要和全文语言，展开后显示学习提示、关键点、自检问题和来源操作；移动端改为单列布局，操作目标保持可触摸尺寸。
+- 将当前开放的 223 张理论卡绑定到中文课程中的对应标题锚点，并新增门禁检查，避免卡片只出现在 API 而未注入阅读正文。
+- 增加迁移期 summary-only 兼容路径：缺少扩展字段的旧卡只显示已审核的标题、摘要和来源入口，并明确提示待迁移，不由应用生成未经审核的理论内容。
 - 对理论来源目标做规范化去重：英文 fallback 只显示一个英文原文入口；中文全文与不同的官方英文 `main` 目标才同时显示。
 - 将扩展卡片内容同步提供给学习助理证据和当前段落上下文，避免界面与助理使用不同的理论摘要；API 回归覆盖 223 张卡、HTML 转义和来源操作。
 - 新增 `scripts/check_theory_cards.py` 并接入内容验证 workflow；全量来源指纹检查覆盖 1308 条记录，本地 API 测试 20/20 通过。

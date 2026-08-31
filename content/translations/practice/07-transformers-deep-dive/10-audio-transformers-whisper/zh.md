@@ -30,7 +30,7 @@ Whisper 押注了三件事：
 
 结果是：Whisper large-v3 对口音、噪声以及完全没有干净标注数据的语言都很稳健。到 2026 年，它已成为几乎所有开源语音助理和大多数商业语音助理的默认语音前端。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![Whisper 流水线：音频 → 梅尔频谱 → 编码器 → 解码器 → 文本](../assets/whisper.svg)
 

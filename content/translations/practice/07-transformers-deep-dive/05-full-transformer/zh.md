@@ -26,7 +26,7 @@ status: reviewed
 
 本课讲解这副骨架。后续课程会将它专门化——第 06 课用于编码器，第 07 课用于解码器，第 08 课用于编码器—解码器。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![连接完毕的编码器块与解码器块内部结构](../assets/full-transformer.svg)
 

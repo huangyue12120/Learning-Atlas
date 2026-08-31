@@ -36,7 +36,7 @@ status: reviewed
 
 ![语音助理流水线：麦克风 → VAD → STT → LLM + 工具 → TTS → 扬声器](../assets/voice-assistant.svg)
 
-### 七个组件
+### 七个组件 <!-- learning-atlas: the-seven-components -->
 
 1. **音频捕获。** 麦克风 → 16 kHz 单声道 → 20 ms 块。Python 中通常使用 `sounddevice`，生产环境则使用原生 AudioUnit/ALSA/WASAPI。
 2. **VAD（第 11 课）。** Silero VAD，阈值 0.5，最短语音 250 ms，静音拖尾 500 ms。发出“开始”和“结束”信号。

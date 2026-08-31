@@ -37,7 +37,7 @@ Whisper 解决了语音识别，音频的 OCR 已经是商品化能力。但“�
 
 3. 混合：音频编码器 + 文本解码器，既能转写又能推理。Qwen-Audio 和 Audio Flamingo 选择这条路线。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### Log-Mel 频谱图：输入特征
 

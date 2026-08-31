@@ -81,7 +81,7 @@ for cluster in doc._.coref_clusters:
 - 簇 1：[Apple, The company, they]
 - 簇 2：[new products]
 
-### 步骤 2：基于规则的代词消解器（教学实现）
+### 步骤 2：基于规则的代词消解器（教学实现） <!-- learning-atlas: step-2-rule-based-pronoun-resolver-teaching -->
 
 `code/main.py` 提供了仅使用标准库的实现：
 

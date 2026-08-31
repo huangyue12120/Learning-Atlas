@@ -28,7 +28,7 @@ BERT（Devlin 等，2018）提出：如果取一个 Transformer 编码器，在�
 
 到 2026 年，仅编码器模型仍是分类、检索和结构化提取的正确工具——每个词元的运行速度比解码器快 5–10 倍，其嵌入则是每个现代检索技术栈的主干。ModernBERT（2024 年 12 月）使用 Flash Attention + RoPE + GeGLU，把架构推进到 8K 上下文。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![掩码语言建模：选择词元、遮蔽并预测原词元](../assets/bert-mlm.svg)
 

@@ -30,7 +30,7 @@ Moshi（Kyutai，2024–2026）提出了另一个问题：如果根本没有流�
 
 ![Moshi 架构：两条并行 Mimi 流 + 内心独白文本](../assets/moshi-hibiki.svg)
 
-### Moshi 架构
+### Moshi 架构 <!-- learning-atlas: the-moshi-architecture -->
 
 **输入。** 两条 Mimi 编解码器流，均为 12.5 Hz × 8 个码本：
 

@@ -41,7 +41,7 @@ PDF 上的文本 RAG 会丢掉文档的大部分信息。财务报告的 Q3 收�
 
 ColPali 的修复是跳过 OCR，直接嵌入页面图像。使用 ColBERT 风格的晚交互做检索，让模型在查询时关注细粒度图像块。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### ColBERT（2020）
 

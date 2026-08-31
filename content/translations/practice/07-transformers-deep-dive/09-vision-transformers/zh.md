@@ -28,7 +28,7 @@ ViT 开启了 2026 年更广泛的模式：一种架构，多种模态。Whisper
 
 到 2026 年，ViT 及其后代（DeiT、Swin、DINOv2、ViT-22B、SAM 3）占据了大部分视觉领域。CNN 仍在边缘设备与延迟敏感任务中胜出；其他技术栈中总能找到某个 ViT。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![图像 → patch → 词元 → Transformer](../assets/vit.svg)
 

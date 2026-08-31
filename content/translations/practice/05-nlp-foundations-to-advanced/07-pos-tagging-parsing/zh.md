@@ -87,7 +87,7 @@ def predict_mft(tokens, word_best, default_tag):
 
 这个基线在 Brown 语料上达到约 85% 准确率。结果不算好，但严肃模型不应低于这条底线。
 
-### 步骤 2：二元 HMM 标注器
+### 步骤 2：二元 HMM 标注器 <!-- learning-atlas: step-2-bigram-hmm-tagger -->
 
 对序列的联合概率建模：
 

@@ -33,7 +33,7 @@ status: reviewed
 
 ![音频—语言模型：音频编码器 + 投影器 + LLM 解码器](../assets/alm-architecture.svg)
 
-### 三组件模板
+### 三组件模板 <!-- learning-atlas: the-three-component-template -->
 
 2026 年的每个 LALM 都有相同骨架：
 

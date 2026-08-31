@@ -33,7 +33,7 @@ status: reviewed
 
 ## 概念
 
-### 特征流水线
+### 特征流水线 <!-- learning-atlas: the-feature-pipeline -->
 
 ```mermaid
 flowchart LR

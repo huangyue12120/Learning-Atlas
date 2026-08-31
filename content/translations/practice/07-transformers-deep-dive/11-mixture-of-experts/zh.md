@@ -26,7 +26,7 @@ status: reviewed
 
 2026 年的前沿模型几乎全是 MoE：DeepSeek-V3（总参数 671B / 活跃参数 37B）、Mixtral 8×22B、Qwen2.5-MoE、Llama 4、Kimi K2、gpt-oss。在 Artificial Analysis 的独立排行榜上，排名前十的开源模型全都是 MoE。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![MoE 层：路由器为每个词元从 E 个专家中选择 k 个](../assets/moe.svg)
 

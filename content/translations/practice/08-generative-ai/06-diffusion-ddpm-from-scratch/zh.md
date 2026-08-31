@@ -24,7 +24,7 @@ status: reviewed
 
 Sohl-Dickstein 等（2015）给出了理论答案：定义一条逐渐加入高斯噪声的马尔可夫链 `q(x_t | x_{t-1})`，再训练反向链 `p_θ(x_{t-1} | x_t)` 去噪。Ho、Jain 和 Abbeel（2020）证明，损失可以简化为一行，也就是预测噪声，并整理了数学表达。2020 年，它还只是新奇想法；2021 年，它生成了最先进的样本；2022 年，它成为 Stable Diffusion；2026 年，它已经成为基础底座。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![DDPM：前向加噪，反向去噪](../assets/ddpm.svg)
 

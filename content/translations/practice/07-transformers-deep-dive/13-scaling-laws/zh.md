@@ -33,7 +33,7 @@ Hoffmann 等（2022）训练了一组名为 Chinchilla 的小模型，却得到�
 
 2026 年属于 Chinchilla——但有一个重要转折。Llama 3 8B 使用 15 万亿个词元训练，比例为每个参数 1,875 个词元，是 Chinchilla 最优值的 94 倍。对大规模使用的模型而言，推理成本比训练成本更重要，因此让更小、易部署的模型进行超过 Chinchilla 最优点的过度训练，已经成为 2026 年的默认选择。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![Chinchilla 曲线：不同 N/D 比例下损失与算力的关系](../assets/scaling-laws.svg)
 

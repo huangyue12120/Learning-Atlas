@@ -26,7 +26,7 @@ status: reviewed
 
 你需要一个能够*抵抗仿真到现实分布偏移*的策略。历史上有三种方法：随机化仿真器（领域随机化）、用少量真实数据调整策略（领域适应 / 微调），或辨识真实系统的参数并让模型与之匹配（系统辨识）。到 2026 年，主流配方会把三者与大规模并行仿真结合起来，例如 Isaac Sim、Isaac Lab 和在 GPU 上运行的 Mujoco MJX。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![三种 Sim-to-Real 范式：领域随机化、领域适应、系统辨识](../assets/sim-to-real.svg)
 

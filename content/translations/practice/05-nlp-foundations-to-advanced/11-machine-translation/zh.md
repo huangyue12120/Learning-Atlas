@@ -72,7 +72,7 @@ Les chats courent.
 
 这里有三个关键点。`src_lang` 告诉分词器采用哪种文字系统和切分方式，`forced_bos_token_id` 告诉解码器应生成哪种语言。二者都是 NLLB 专用技巧；mBART 和 M2M-100 使用自己的约定，不能互换。
 
-### 步骤 2：BLEU 与 chrF
+### 步骤 2：BLEU 与 chrF <!-- learning-atlas: step-2-bleu-and-chrf -->
 
 BLEU 衡量输出和参考译文的 n-gram 重叠。它采用 1 至 4 四种参考 n-gram 长度，计算精确率的几何平均，并对过短输出施加长度惩罚。分数范围为 [0, 100]，使用广泛，却很难解释：30 BLEU 表示“可用”，40 表示“好”，50 表示“极佳”；小于 1 BLEU 的差异属于噪声。
 

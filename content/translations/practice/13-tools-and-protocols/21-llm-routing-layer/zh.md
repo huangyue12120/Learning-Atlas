@@ -41,7 +41,7 @@ status: reviewed
 
 为每个集成手写全部逻辑既重复又繁琐。路由网关提供一个 OpenAI 兼容 API，其他工作都由它处理。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### OpenAI 兼容代理形状
 
@@ -101,7 +101,7 @@ Portkey 和 Kong 都提供带明确立场的防护。LiteLLM 将它们保留为�
 
 网关既可以路由 LLM 调用，也可以路由 MCP 采样请求。当采样请求的 modelPreferences 偏好某个模型时，网关将它转换到正确的后端。这正是 Phase 13 · 17（MCP 网关）与本课路由网关有时合并为一个服务的地方。
 
-### 路由策略
+### 路由策略 <!-- learning-atlas: routing-strategies -->
 
 - **静态优先级。** 使用列表中的第一个；出错时回退。
 - **负载均衡。** 轮询或加权。

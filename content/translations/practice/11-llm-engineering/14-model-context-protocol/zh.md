@@ -47,7 +47,7 @@ MCP 缩小了这张集成矩阵。服务器发布标准 JSON-RPC 面，兼容客
 
 宿主是 AI 应用。宿主中的 MCP 客户端与一个服务器通信，传输层负责在两者之间承载 JSON-RPC 消息。
 
-### 无状态请求取代握手
+### 无状态请求取代握手 <!-- learning-atlas: stateless-requests-replace-the-handshake -->
 
 MCP 2026-07-28 移除了 `initialize` 和 `notifications/initialized`，也移除了协议级会话。每个请求都在 `params._meta` 中携带解释自身所需的上下文：
 

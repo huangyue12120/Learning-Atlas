@@ -57,6 +57,17 @@ test("renders rich theory cards with deduplicated source actions", () => {
   });
   assert.deepEqual(internalActions.map(({ label }) => label), ["阅读完整中文理论", "查看英文原文"]);
   assert.equal(new Set(internalActions.map(({ href }) => href)).size, 2);
+
+  const legacyHtml = renderTheoryCard({ ...externalCard, context: undefined, intuition: undefined, keyPoints: undefined, application: undefined, checkQuestion: undefined });
+  assert.match(legacyHtml, /扩展内容待迁移/);
+  assert.doesNotMatch(legacyHtml, /为什么现在需要/);
+  assert.equal((legacyHtml.match(/href="https:\/\/example\.com\/theory"/g) ?? []).length, 1);
+
+  const incompleteHtml = renderTheoryCard({ ...externalCard, keyPoints: [externalCard.keyPoints[0]] });
+  assert.match(incompleteHtml, /扩展内容待迁移/);
+
+  const malformedHtml = renderTheoryCard({ ...externalCard, keyPoints: "not-an-array" as unknown as string[] });
+  assert.match(malformedHtml, /扩展内容待迁移/);
 });
 
 async function startTestServer(directory = mkdtempSync(join(tmpdir(), "learning-atlas-"))) {

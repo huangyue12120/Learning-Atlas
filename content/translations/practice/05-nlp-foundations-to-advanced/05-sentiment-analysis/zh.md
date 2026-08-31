@@ -65,7 +65,7 @@ NEGATIVE = [
 
 数据集刻意保持很小。真实项目会使用数万个样本，例如 IMDb、SST-2 和 Yelp polarity，但数学完全相同。
 
-### 步骤 2：从零实现多项式朴素贝叶斯
+### 步骤 2：从零实现多项式朴素贝叶斯 <!-- learning-atlas: step-2-multinomial-naive-bayes-from-scratch -->
 
 ```python
 import math
@@ -134,7 +134,7 @@ def predict_lr(X, w, b):
 
 L2 正则化在这里很重要。文本特征稀疏，不使用 L2 时模型会记住训练样本。可以从 `0.01` 开始调参。
 
-### 步骤 4：处理否定这一失效模式
+### 步骤 4：处理否定这一失效模式 <!-- learning-atlas: step-4-handling-negation-the-failure-mode -->
 
 比较“not good”和“not bad”。BoW 分类器只看到 `{not, good}` 与 `{not, bad}`，并根据训练数据中哪种组合出现得更多来学习。二元语法分类器则看到 `not_good` 与 `not_bad`，把它们当成不同特征学习。这通常已经足够。
 

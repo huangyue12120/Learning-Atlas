@@ -28,7 +28,7 @@ REINFORCE 定理（Williams，1992）说明这个梯度可以计算：`∇J(θ) 
 
 2026 年的每种大语言模型强化学习算法，包括 PPO、DPO 与 GRPO，都是 REINFORCE 的改进。亲手理解它，才能继续学习本阶段后续内容、Phase 10 第 07 课（RLHF 实现）和 Phase 10 第 08 课（DPO）。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![策略梯度：softmax 策略、log-π 梯度、回报加权更新](../assets/policy-gradient.svg)
 

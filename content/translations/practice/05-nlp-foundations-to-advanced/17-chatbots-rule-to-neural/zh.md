@@ -139,7 +139,7 @@ response = chatbot("Respond politely to: Hi there!", max_new_tokens=40)
 print(response[0]["generated_text"])
 ```
 
-### 步骤 4：LLM 智能体循环
+### 步骤 4：LLM 智能体循环 <!-- learning-atlas: step-4-llm-agent-loop -->
 
 2026 年的生产形态：
 

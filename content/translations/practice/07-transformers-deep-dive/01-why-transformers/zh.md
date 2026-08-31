@@ -32,7 +32,7 @@ status: reviewed
 
 到 2026 年，该成果主导了每一种模态：语言（GPT-5、Claude 4、Llama 4）、视觉（ViT、DINOv2、SAM 3）、音频（Whisper）、生物学（AlphaFold 3）、机器人（RT-2）。同一个块，不同的输入。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![RNN 串行计算与 Transformer 并行注意力](../assets/rnn-vs-transformer.svg)
 

@@ -29,7 +29,7 @@ status: reviewed
 
 解决这项问题的架构，是把 **扩散 Transformer（DiT）** 应用于时空图块，并在大规模（提示词、字幕、视频）数据集上训练。损失与第 06 课相同。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![视频扩散：分块、DiT、解码](../assets/video-generation.svg)
 

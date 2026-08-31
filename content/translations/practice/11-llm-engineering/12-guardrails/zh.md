@@ -46,7 +46,7 @@ status: reviewed
 
 ## 核心概念
 
-### Guardrail 三明治
+### Guardrail 三明治 <!-- learning-atlas: the-guardrail-sandwich -->
 
 所有安全的 LLM 应用都遵循相同架构：验证输入、处理、验证输出。永远不要信任用户，也永远不要盲目信任模型。
 

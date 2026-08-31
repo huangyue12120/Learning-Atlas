@@ -92,7 +92,7 @@ def print_top_words(lda, feature_names, n_top=10):
 
 注意：这里删除停用词，用 `min_df` 与 `max_df` 过滤稀有和遍布语料的词，并使用 `CountVectorizer`，不能使用 `TfidfVectorizer`，因为 LDA 需要原始计数。
 
-### 步骤 2：BERTopic（生产）
+### 步骤 2：BERTopic（生产） <!-- learning-atlas: step-2-bertopic-production -->
 
 ```python
 from bertopic import BERTopic

@@ -37,7 +37,7 @@ status: reviewed
 
 ## 核心概念
 
-### Zero-shot 与 Few-shot：示例何时胜过指令
+### Zero-shot 与 Few-shot：示例何时胜过指令 <!-- learning-atlas: zero-shot-vs-few-shot-when-examples-beat-instructions -->
 
 Zero-shot 提示只给模型一个任务，不提供其他信息；few-shot 提示则先给它示例。
 

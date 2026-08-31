@@ -37,7 +37,7 @@ status: reviewed
 
 ## 概念
 
-### 从联合概率到贝叶斯定理
+### 从联合概率到贝叶斯定理 <!-- learning-atlas: from-joint-probability-to-bayes -->
 
 你已经在第 06 课学过，条件概率为：
 

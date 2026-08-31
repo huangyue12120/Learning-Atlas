@@ -46,7 +46,7 @@ Meta 的 **MusicGen**（2023，MIT）及许多衍生模型：以文本/旋律嵌
 
 权重闭源。其内部可能是自回归编解码器词元语言模型 + 基于扩散的声码器，并包含专门的声音、鼓与旋律头。Suno v5（2026）以 ELO 1293 领跑质量；Udio v4 增加局部重绘和音轨分离（可分别下载贝斯、鼓与人声）。
 
-### 评估
+### 评估 <!-- learning-atlas: evaluation -->
 
 - **FAD（弗雷歇音频距离，Fréchet Audio Distance）。** 使用 VGGish 或 PANNs 特征，计算生成音频与真实音频分布之间的嵌入级距离，越低越好。MusicGen small 在 MusicCaps 上的 FAD 为 4.5；SOTA 约为 3.0。
 - **音乐性（主观）。** 人类偏好。Suno v5 以 ELO 1293 领先。

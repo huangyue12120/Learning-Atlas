@@ -113,7 +113,7 @@ Only include triples fully supported by the text. No inference beyond what is st
 
 把每个返回跨度与源文本核对。只要 `text[start:end] != triple_entity`，就拒绝该结果。这是 AEVS“验证”步骤的最小实现。
 
-### 步骤 4：规范化到封闭本体
+### 步骤 4：规范化到封闭本体 <!-- learning-atlas: step-4-canonicalize-onto-a-closed-ontology -->
 
 ```python
 RELATION_MAP = {

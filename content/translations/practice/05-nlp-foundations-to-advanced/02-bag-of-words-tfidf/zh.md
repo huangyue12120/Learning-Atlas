@@ -109,7 +109,7 @@ def inverse_document_frequency(df, n_docs):
 
 这里用了两个值得记住的平滑技巧。`(n+1)/(d+1)` 避免 `log(x/0)`，末尾的 `+1` 则确保出现在所有文档里的词仍有 IDF 1，而不是 0，这与 scikit-learn 的默认行为一致。其他实现使用原始的 `log(N/df)`。两种都能工作，平滑版本更稳妥。
 
-### 步骤 4：TF-IDF
+### 步骤 4：TF-IDF <!-- learning-atlas: step-4-tf-idf -->
 
 ```python
 def tfidf(bow_matrix):

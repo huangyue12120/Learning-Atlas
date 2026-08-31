@@ -43,7 +43,7 @@ status: reviewed
 
 纯解码器赢得了聚光灯，但编码器—解码器从未消失。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![带交叉注意力的编码器—解码器](../assets/encoder-decoder.svg)
 

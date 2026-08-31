@@ -30,7 +30,7 @@ status: reviewed
 
 2026 年的每条扩散流水线都提供图像修复模式，包括 Flux.1-Fill、Stable Diffusion Inpaint、SDXL-Inpaint、DALL-E 3 Edit。它们使用同一项原理。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![图像修复：感知遮罩的去噪与保留上下文的重新注入](../assets/inpainting.svg)
 

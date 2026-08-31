@@ -134,7 +134,7 @@ Update the state based on the latest user turn. Output only the JSON state."""
 
 Instructor + Pydantic 保证返回有效状态对象，无需正则，不会发生 schema 不匹配，也不会幻觉出额外槽位。
 
-### 步骤 4：JGA 评估
+### 步骤 4：JGA 评估 <!-- learning-atlas: step-4-jga-evaluation -->
 
 ```python
 def joint_goal_accuracy(predicted_states, gold_states):

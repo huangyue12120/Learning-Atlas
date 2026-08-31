@@ -43,7 +43,7 @@ status: reviewed
 
 ASVspoof 5 上的最先进结果约为 7.23% EER；在较老的 ASVspoof 2019 LA 上为 0.42% EER。真实世界部署中，对野外音频应预期 5–10% EER。
 
-### AASIST 与 RawNet2——检测模型家族
+### AASIST 与 RawNet2——检测模型家族 <!-- learning-atlas: aasist-and-rawnet2-detection-model-families -->
 
 **AASIST**（2021，持续更新至 2026）。在频谱特征上使用图注意力，是 ASVspoof 5 对抗措施任务当前的 SOTA。
 

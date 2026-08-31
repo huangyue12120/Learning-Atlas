@@ -100,7 +100,7 @@ print(result)
 
 默认模板是“This example is about {label}.”，可以通过 `hypothesis_template` 自定义。它不需要训练数据，也无需微调，可以直接使用。
 
-### 步骤 3：检查 RAG 忠实度
+### 步骤 3：检查 RAG 忠实度 <!-- learning-atlas: step-3-faithfulness-check-for-rag -->
 
 ```python
 def is_faithful(answer, context, threshold=0.5):

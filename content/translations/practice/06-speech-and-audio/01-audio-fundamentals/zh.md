@@ -30,7 +30,7 @@ status: reviewed
 
 答对这些问题，Phase 6 余下的内容就容易掌握；答错它们，即使 Whisper-Large-v4 也只会输出垃圾结果。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![波形、采样、DFT 与频率分箱示意](../assets/audio-fundamentals.svg)
 

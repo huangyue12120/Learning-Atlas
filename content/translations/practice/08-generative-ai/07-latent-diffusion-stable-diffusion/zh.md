@@ -26,7 +26,7 @@ status: reviewed
 
 这构成 Stable Diffusion 的方案。SD 1.x / 2.x 使用 8.6 亿参数的 U-Net 处理 `64×64×4` 潜变量；SDXL 使用 26 亿参数的 U-Net 处理 `128×128×4` 潜变量；SD3 用采用流匹配的扩散 Transformer（DiT）替换 U-Net。Flux.1-dev（Black Forest Labs，2024）提供一个 120 亿参数的 DiT-MMDiT。它们都运行在同一套两阶段底座上。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![潜空间扩散：VAE 压缩 + 潜空间中的扩散](../assets/latent-diffusion.svg)
 

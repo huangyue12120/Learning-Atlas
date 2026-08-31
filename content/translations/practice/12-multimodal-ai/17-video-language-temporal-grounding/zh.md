@@ -39,7 +39,7 @@ status: reviewed
 
 时间位置编码是另一个轴：模型如何知道第 5 帧先于第 6 帧？方案包括简单的一维时间 RoPE（Video-LLaMA）、学习式时间嵌入（Video-LLaVA）和 TMRoPE（Qwen2.5-VL，完整三维）。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### Video-LLaMA：每段片段一个 Q-Former + 音频分支
 

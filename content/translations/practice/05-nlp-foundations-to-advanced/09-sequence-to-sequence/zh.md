@@ -86,7 +86,7 @@ class Decoder(nn.Module):
 
 解码器每次调用只执行一步。输入是一批单词元和当前隐藏状态，输出下一词元的词表 logits 与更新后的隐藏状态。
 
-### 步骤 3：带教师强制的训练循环
+### 步骤 3：带教师强制的训练循环 <!-- learning-atlas: step-3-training-loop-with-teacher-forcing -->
 
 ```python
 def train_batch(encoder, decoder, src, tgt, bos_id, optimizer, teacher_forcing_ratio=0.9):

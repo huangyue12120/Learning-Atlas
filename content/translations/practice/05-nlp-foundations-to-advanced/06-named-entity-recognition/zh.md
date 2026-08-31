@@ -61,7 +61,7 @@ ner-bio-tagging
 
 ## 动手实现
 
-### 步骤 1：BIO 标注辅助函数
+### 步骤 1：BIO 标注辅助函数 <!-- learning-atlas: step-1-bio-tagging-helpers -->
 
 ```python
 def spans_to_bio(tokens, spans):

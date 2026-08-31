@@ -28,7 +28,7 @@ RLHF（Christiano 等，2017；Ouyang 等，2022）把偏好转化为奖励模�
 
 到 2026 年，DPO（Phase 10 第 08 课）已经取代了大部分 PPO 阶段，因为它成本更低，在对齐微调上的效果几乎相同。不过，*奖励模型*仍支撑着每种 Best-of-N 采样器、每条从可验证奖励进行强化学习的流水线，以及每个使用过程奖励模型的推理模型。理解 RLHF，就能理解整个对齐技术栈。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![RLHF 三阶段：SFT、基于成对偏好训练 RM、带 KL 惩罚的 PPO](../assets/rlhf.svg)
 

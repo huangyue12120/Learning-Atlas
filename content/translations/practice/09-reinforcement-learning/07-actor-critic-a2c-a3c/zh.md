@@ -28,7 +28,7 @@ status: reviewed
 
 动作产生高于平均水平的回报时就是好动作，低于平均水平时就是坏动作。使用学习型 critic 的 REINFORCE 就是 *Actor-Critic*。Critic 为 actor 提供低方差的指导信号。2015 年后的每种深度策略方法，包括 A2C、A3C、PPO、SAC、IMPALA，都采用了这种结构。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![Actor-Critic：策略网络加价值网络，以 TD 残差作为优势](../assets/actor-critic.svg)
 

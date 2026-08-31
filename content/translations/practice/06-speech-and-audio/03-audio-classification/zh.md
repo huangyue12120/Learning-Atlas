@@ -24,7 +24,7 @@ status: reviewed
 
 核心难点不在网络，而在数据。音频数据集存在严重的类别不平衡、强烈的领域偏移（干净与嘈杂环境），以及标签噪声（是谁判定“城市人声嘈杂”和“餐厅噪声”的？）。问题的 80% 在数据整理、增强和评估，而不在于把 CNN 换成 Transformer。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![音频分类阶梯：从基于 MFCC 的 k-NN 到 AST 与 BEATs](../assets/audio-classification.svg)
 

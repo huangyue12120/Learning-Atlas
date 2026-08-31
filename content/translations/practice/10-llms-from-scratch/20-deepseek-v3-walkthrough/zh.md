@@ -37,7 +37,7 @@ DeepSeek-V3 是第一个架构真正不同于 Llama 家族的前沿开放模型�
 
 DeepSeek-V3 仍是自回归模型，仍然堆叠解码器块。每个块仍包含注意力、MLP 和两个 RMSNorm，MLP 仍使用 SwiGLU，仍使用 RoPE 和 pre-norm，也仍然绑定输入嵌入与输出权重。这与每个 Llama 或 Mistral 的基线相同。
 
-### 转折：用 MLA 替代 GQA
+### 转折：用 MLA 替代 GQA <!-- learning-atlas: the-twist-mla-instead-of-gqa -->
 
 从第 10 阶段 · 14 你已经知道，GQA 通过在若干 Q 头之间共享 K、V 来缩小 KV 缓存。多头潜在注意力（MLA）更进一步：把 K 和 V 压缩到共享的低秩潜在表示（`kv_lora_rank`）中，然后在运行时按头解压。KV 缓存只保存这个潜在表示——通常每层每词元 512 个浮点数，而不是 `8 x 128 = 1024` 个浮点数。
 

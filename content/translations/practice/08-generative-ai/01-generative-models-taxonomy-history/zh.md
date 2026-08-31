@@ -26,7 +26,7 @@ status: reviewed
 
 过去十二年间有五类方法经受住了考验。理解每一类所作的取舍，你就能看出它为何在某些任务中胜出、又为何在另一些任务中崩溃。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![按建模对象划分的五类生成模型](../assets/taxonomy.svg)
 

@@ -66,7 +66,7 @@ gx-matryoshka
 
 ## 动手实现
 
-### 步骤 1：基线，使用 Sentence-BERT 生成稠密嵌入
+### 步骤 1：基线，使用 Sentence-BERT 生成稠密嵌入 <!-- learning-atlas: step-1-baseline-dense-embeddings-with-sentence-bert -->
 
 ```python
 from sentence_transformers import SentenceTransformer

@@ -28,7 +28,7 @@ status: reviewed
 
 GPT-1（2018）、GPT-2（2019）、GPT-3（2020）、GPT-4（2023）、GPT-5（2025）、Claude、Llama、Qwen、Mistral、DeepSeek、Kimi——它们都是具有相同核心循环的纯解码器因果 Transformer。彼此区别来自数据质量、规模、架构改进与后训练（SFT、RLHF、DPO 及其后继方法）。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![因果遮蔽形成三角形注意力矩阵](../assets/causal-attention.svg)
 

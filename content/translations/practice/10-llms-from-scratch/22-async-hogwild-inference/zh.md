@@ -64,7 +64,7 @@ Hogwild! 论文（Rodionov 等，2025）报告了以下观察：
 
 论文名称借用了 Hogwild! SGD（Recht 等，2011），一种异步更新优化器。类比是：SGD 的异步 worker 都向共享参数向量写入；Hogwild! 推理的 worker 都向共享 KV 缓存写入。二者都依赖经验上的收敛，而非同步保证。
 
-### RoPE 让它可行
+### RoPE 让它可行 <!-- learning-atlas: rope-makes-this-tractable -->
 
 旋转位置嵌入（RoPE，Su 等，2021）通过旋转 Q、K 向量编码位置信息。由于位置表现为旋转，而不是写死的偏移，词元的位置可以改变而不需要重新计算 KV 缓存条目。当 worker `i` 在共享缓存位置 `p` 写入时，其他 worker 读取这个位置可以直接使用缓存条目，无需重新旋转。
 

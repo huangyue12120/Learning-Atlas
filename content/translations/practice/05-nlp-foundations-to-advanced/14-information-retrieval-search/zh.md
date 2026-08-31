@@ -45,7 +45,7 @@ gx-hybrid-retrieval
 
 ## 动手实现
 
-### 步骤 1：从零实现 BM25
+### 步骤 1：从零实现 BM25 <!-- learning-atlas: step-1-bm25-from-scratch -->
 
 ```python
 import math
@@ -136,7 +136,7 @@ def reciprocal_rank_fusion(rankings, k=60):
 
 常数 `k=60` 来自 RRF 原论文。`k` 越高，排名差异的贡献越平坦；`k` 越低，靠前位置越占主导。60 是论文默认值，很少需要调整。
 
-### 步骤 4：混合搜索与重排
+### 步骤 4：混合搜索与重排 <!-- learning-atlas: step-4-hybrid-search-rerank -->
 
 ```python
 from sentence_transformers import CrossEncoder

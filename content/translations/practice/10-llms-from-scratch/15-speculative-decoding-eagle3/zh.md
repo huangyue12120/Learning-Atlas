@@ -37,7 +37,7 @@ Leviathan、Kalman、Matias（ICML 2023）的定理表明，输出分布与直�
 
 ## 概念
 
-### 不变量：Leviathan 拒绝采样
+### 不变量：Leviathan 拒绝采样 <!-- learning-atlas: the-invariant-leviathan-rejection-sampling -->
 
 设 `p(t)` 是给定某个前缀时草稿模型对下一个词元的分布，`q(t)` 是验证器的分布。从 `p` 中采样草稿词元 `d ~ p`，以 `min(1, q(d) / p(d))` 的概率接受。拒绝时，从残差分布 `(q - p)_+ / ||(q - p)_+||_1` 中采样。最终样本服从 `q`。无论 `p` 有多差，这都成立——它越差，拒绝越频繁，但输出仍然是精确的。
 

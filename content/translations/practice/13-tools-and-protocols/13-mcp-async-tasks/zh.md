@@ -28,7 +28,7 @@ status: reviewed
 - 通过 POST 响应 SSE 流上的 `subscriptions/listen` 订阅可选任务通知。
 - 正确建模任务过期、重启恢复、输入键去重和执行错误。
 
-## 为什么 Tasks 是扩展
+## 为什么 Tasks 是扩展 <!-- learning-atlas: why-tasks-are-an-extension -->
 
 Tasks 最早在 2025-11-25 作为实验性核心功能出现。2026 年 7 月的重设计把它移入官方 `io.modelcontextprotocol/tasks` 扩展，让客户端和服务器可以选择额外的生命周期，而不会把核心协议扩大到所有人。
 

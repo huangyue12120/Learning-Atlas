@@ -38,7 +38,7 @@ LangGraph 是这种抽象的参考实现。它提供图运行时，具备一等�
 
 你要编译图。编译会绑定拓扑、挂载检查点器（可选，但生产环境必不可少），并返回一个可运行对象。使用初始状态和 `thread_id` 调用它。每一步执行都会写入一个以 `(thread_id, checkpoint_id)` 为键的检查点。
 
-### 四种超能力
+### 四种超能力 <!-- learning-atlas: the-four-superpowers -->
 
 **检查点。** 每次节点转换都会把新状态写入存储（测试时用内存，生产环境用 Postgres/Redis/SQLite）。再次用同一个 `thread_id` 调用图，就能从暂停处恢复。
 

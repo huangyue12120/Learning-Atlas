@@ -39,7 +39,7 @@ GPT-2 Small（使用权重绑定）共有 124,438,272 个参数。它们中的�
 
 ## 概念
 
-### GPT 架构
+### GPT 架构 <!-- learning-atlas: the-gpt-architecture -->
 
 GPT 是一种自回归语言模型。“自回归”意味着模型每次生成一个词元，并以之前的所有词元为条件。它的架构是由多个 Transformer 解码器块堆叠而成的。
 

@@ -33,7 +33,7 @@ status: reviewed
 
 ![四种编解码器版图：EnCodec、DAC、SNAC（多尺度）与 Mimi（语义 + 声学）](../assets/codec-comparison.svg)
 
-### 核心技巧：残差向量量化（RVQ）
+### 核心技巧：残差向量量化（RVQ） <!-- learning-atlas: the-core-trick-residual-vector-quantization-rvq -->
 
 所有现代音频编解码器都不使用一个大码本（高质量需要数百万个编码），而是使用 **RVQ**：多个小码本串联。第一个码本量化编码器输出，第二个量化其残差，依此类推。每个码本包含 1024 个编码。8 个码本的有效词表大小为 1024^8 = 10^24。
 

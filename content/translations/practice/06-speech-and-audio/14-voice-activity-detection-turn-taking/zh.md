@@ -32,7 +32,7 @@ status: reviewed
 
 ![VAD 级联：能量 → Silero → 轮次检测器 → Flush 技巧](../assets/vad-turn-taking.svg)
 
-### 三级 VAD 级联
+### 三级 VAD 级联 <!-- learning-atlas: the-three-tier-vad-cascade -->
 
 **第 1 级：能量门。** 成本最低。以 -40 dBFS 为 RMS 阈值。可过滤明显静音，但任何高于阈值的噪声都会触发。
 

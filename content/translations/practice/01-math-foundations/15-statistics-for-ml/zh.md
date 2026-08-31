@@ -92,7 +92,7 @@ Bootstrap 对 n 个数据有放回抽样 n 个，计算统计量并重复 B 次�
 
 参数检验假设分布（t-test、ANOVA、Pearson）；非参数检验不作分布假设（Mann–Whitney U、Wilcoxon signed-rank、Spearman、Kruskal–Wallis）。小样本、序数、重异常值或偏斜数据偏向非参数；大样本、近似对称且无极端异常值时参数方法更有 power。ML 的 5 或 10 个 CV folds 很小，Wilcoxon 常比 t-test 合适。
 
-### 中心极限定理：实践含义
+### 中心极限定理：实践含义 <!-- learning-atlas: central-limit-theorem-practical-implications -->
 
 中心极限定理（CLT）说 iid 变量的样本均值随 n 增大趋于 `Normal(mu, sigma^2/n)`；多数情形 `n >= 30` 即可适用，强偏斜分布常需 `n >= 100`。它支撑聚合指标 CI、CV 平均、mini-batch gradient 与 ensemble 平均，但不会把原始数据变正态，也不适用于无限方差重尾分布或相关时间序列。
 

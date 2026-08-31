@@ -37,7 +37,7 @@ DeepSeek-V3（2024 年 12 月）将 MTP 重新设计为在每个预测深度保�
 
 ## 概念
 
-### 顺序式 MTP 配方
+### 顺序式 MTP 配方 <!-- learning-atlas: the-sequential-mtp-recipe -->
 
 DeepSeek-V3 在主模型之上增加 `D` 个 MTP 模块。每个模块 `k`（`k = 1..D`）预测深度为 `k` 的词元，也就是给定截至位置 `i` 的前缀，预测 `t_{i+k}`。
 

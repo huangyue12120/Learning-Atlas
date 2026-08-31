@@ -35,7 +35,7 @@ status: reviewed
 
 优化是找使函数最小（或最大）的输入。训练中函数是损失 L，输入是可达数百万的权重 w：`minimize L(w)`。
 
-### 原始梯度下降
+### 原始梯度下降 <!-- learning-atlas: gradient-descent-vanilla -->
 
 最基本的更新沿负梯度进行：`w = w - lr * gradient`。它每轮根据当前参数位置下降，适合用来理解所有一阶优化器的共同核心。
 

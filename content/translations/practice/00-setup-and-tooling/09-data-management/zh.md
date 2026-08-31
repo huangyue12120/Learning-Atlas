@@ -105,7 +105,7 @@ dataset.to_parquet("imdb_train.parquet")
 
 AI 工作中，Parquet 是最佳存储格式，Arrow 是内存中处理的格式；CSV 和 JSON 用于交换。
 
-### 第 5 步：数据划分 <!-- learning-atlas: step-5-dataset-splits -->
+### 第 5 步：数据划分 <!-- learning-atlas: step-5-data-splits -->
 
 每个 ML 项目需要三个划分：
 

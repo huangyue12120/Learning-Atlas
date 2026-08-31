@@ -34,7 +34,7 @@ status: reviewed
 | 音频语言模型 | MMAU-Pro | LongAudioBench · AudioCaps FENSE |
 | 流式 S2S | 延迟 P50/P95 | WER · MOS |
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![音频评估矩阵——指标、任务与 2026 年排行榜](../assets/eval-landscape.svg)
 

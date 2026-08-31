@@ -74,7 +74,7 @@ alias_to_entities = {
 
 Wikipedia 别名数据约含 1,800 万个（别名，实体）对。可以从 Wikidata 转储下载，并存为倒排索引。
 
-### 步骤 2：基于上下文消歧
+### 步骤 2：基于上下文消歧 <!-- learning-atlas: step-2-context-based-disambiguation -->
 
 ```python
 def disambiguate(mention, context, alias_index, entity_desc):

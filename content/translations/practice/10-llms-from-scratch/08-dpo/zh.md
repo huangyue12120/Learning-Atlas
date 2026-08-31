@@ -72,7 +72,7 @@ P(y_w > y_l | x) = sigmoid(R(x, y_w) - R(x, y_l))
 
 由于两个回答都以同一个提示词 x 为条件，Z(x) 项会相互抵消。剩下的只是一个关于策略模型和参考模型在偏好回答、拒绝回答上的对数概率的函数。
 
-### DPO 损失
+### DPO 损失 <!-- learning-atlas: the-dpo-loss -->
 
 ```
 L_DPO = -log(sigmoid(beta * (log pi(y_w|x)/pi_ref(y_w|x) - log pi(y_l|x)/pi_ref(y_l|x))))

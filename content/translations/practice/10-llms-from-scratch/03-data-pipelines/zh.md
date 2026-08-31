@@ -170,7 +170,7 @@ graph TD
 
 长文档会在序列边界处被截断或拆分成多个块。拆分位置很重要：在句子中间拆分会迫使模型看到不完整的语义。一些管道会在可能的情况下，将拆分点对齐到段落或句子边界。
 
-### Chinchilla 缩放定律
+### Chinchilla 缩放定律 <!-- learning-atlas: the-chinchilla-scaling-law -->
 
 对于固定的计算预算 C（以 FLOPs 衡量），最优模型规模 N 和数据集规模 D 满足：
 

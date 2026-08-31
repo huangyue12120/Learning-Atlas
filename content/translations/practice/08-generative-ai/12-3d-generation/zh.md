@@ -29,7 +29,7 @@ status: reviewed
 
 2026 年的技术栈把问题分成两步。先用扩散模型生成*二维多视图图像*，再为这些图像拟合*三维表示*，通常采用高斯泼溅。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![3D 生成：多视图扩散 + 3D 重建](../assets/3d-generation.svg)
 

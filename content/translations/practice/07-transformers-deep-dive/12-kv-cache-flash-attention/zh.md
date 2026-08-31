@@ -31,7 +31,7 @@ status: reviewed
 
 到 2026 年，二者已无处不在。每个生产推理栈（vLLM、TensorRT-LLM、SGLang、llama.cpp）都默认它们存在，每个前沿模型也都启用了 Flash Attention。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![KV 缓存增长与 Flash Attention 分块](../assets/kv-cache-flash-attn.svg)
 
@@ -125,7 +125,7 @@ Flash 4 发布时只支持前向传播，训练仍使用 Flash 3。Flash 4 对 G
 
 连续批处理（最早见于 Orca，现在已用于 vLLM、TensorRT-LLM 和 SGLang）会在旧请求一结束时，立即把新请求换入批次。对于典型聊天工作负载，吞吐量可以提高 5～10 倍。
 
-### PagedAttention——把 KV 缓存当作虚拟内存
+### PagedAttention——把 KV 缓存当作虚拟内存 <!-- learning-atlas: pagedattention-kv-cache-as-virtual-memory -->
 
 这是 vLLM 的标志性特性。KV 缓存以 16 词元为一个块进行分配，页表把逻辑位置映射到物理块。这样可以让并行样本（束搜索、并行采样）共享 KV，为提示缓存快速切换前缀，并对内存进行去碎片化。与朴素的连续分配相比，吞吐量可提高 4 倍。
 

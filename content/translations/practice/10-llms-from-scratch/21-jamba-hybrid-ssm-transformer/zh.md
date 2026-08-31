@@ -37,7 +37,7 @@ status: reviewed
 
 ## 概念
 
-### 一页看懂 SSM
+### 一页看懂 SSM <!-- learning-atlas: an-ssm-in-one-page -->
 
 状态空间模型通过固定大小的状态 `h` 处理序列 `x_1, ..., x_N`：
 

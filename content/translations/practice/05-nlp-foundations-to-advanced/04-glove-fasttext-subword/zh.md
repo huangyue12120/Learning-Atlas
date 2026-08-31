@@ -44,7 +44,7 @@ n5-subword-merge
 
 ## 动手实现
 
-### GloVe：分解共现矩阵
+### GloVe：分解共现矩阵 <!-- learning-atlas: glove-factorize-the-co-occurrence-matrix -->
 
 ```python
 import numpy as np
@@ -124,7 +124,7 @@ def fasttext_vector(word, ngram_table):
 
 只要未见词的部分 n-gram 已知，仍能得到向量。`whereupon` 与 `where` 共享 `<wh`、`her`、`ere` 和 `<where`，所以二者会落在相近位置。
 
-### BPE：学习子词词表
+### BPE：学习子词词表 <!-- learning-atlas: bpe-learned-subword-vocabulary -->
 
 ```python
 def learn_bpe(corpus, k_merges):

@@ -113,7 +113,7 @@ submitted -> working -> completed | failed | canceled | rejected
 
 Artifact 可以作为分块流式传输。调用者负责累积这些分块。
 
-### 两种传输绑定
+### 两种传输绑定 <!-- learning-atlas: two-transport-bindings -->
 
 1. **基于 HTTP 的 JSON-RPC。** `/a2a` 端点，使用 POST 发送请求，可选 SSE 用于流式传输。默认绑定。
 2. **gRPC。** 适用于 gRPC 已经是原生形态的企业环境。

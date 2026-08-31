@@ -42,7 +42,7 @@ status: reviewed
 
 ## 核心概念
 
-### 函数调用循环
+### 函数调用循环 <!-- learning-atlas: the-function-calling-loop -->
 
 每次工具使用交互都遵循相同的 5 步循环。
 

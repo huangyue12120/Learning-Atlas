@@ -42,7 +42,7 @@ status: reviewed
 
 **不变量。** 三家都只缓存前缀。如果两次请求之间有任何一个词元不同，那么从第一个差异词元开始往后的全部内容都会未命中。把*稳定*部分放在顶部，把*变化*部分放在底部。
 
-### 适合缓存的布局
+### 适合缓存的布局 <!-- learning-atlas: the-cache-friendly-layout -->
 
 ```
 [system prompt]          <-- cache this

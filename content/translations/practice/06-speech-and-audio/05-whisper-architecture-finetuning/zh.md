@@ -69,7 +69,7 @@ Large-v3 有 15.5 亿个参数。Turbo 把解码器从 32 层缩减到 4 层，�
 | Large-v3-turbo | 8.09 亿 | 8× | 1.58% |
 | Whisper-Streaming（2024） | 15.5 亿 | 流式 | 2.0% |
 
-### 微调
+### 微调 <!-- learning-atlas: fine-tuning -->
 
 2026 年的标准流程：
 

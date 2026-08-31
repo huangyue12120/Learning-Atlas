@@ -28,7 +28,7 @@ status: reviewed
 
 你还会见到 IS（Inception score，基本退出使用）、KID、CMMD、ImageReward、PickScore、HPSv2、MJHQ-30k。每一项都试图修正前一项的某个失效模式。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![FID、CLIP 与偏好：三个维度，不同的失效模式](../assets/evaluation.svg)
 

@@ -94,7 +94,7 @@ def init_embeddings(vocab_size, dim, seed=0):
 
 参数从较小的随机值开始。词表大小 1 万、维度 100 接近真实设置；教学时使用 50 个词、16 维已经足以观察几何结构。
 
-### 步骤 3：负采样目标
+### 步骤 3：负采样目标 <!-- learning-atlas: step-3-negative-sampling-objective -->
 
 对每个正样本对 `(center, context)`，从词表随机抽取 `k` 个词作为负样本。训练目标是让正样本的点积 `W[center] · W'[context]` 较大，让负样本的点积较小。
 

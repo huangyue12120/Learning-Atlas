@@ -53,7 +53,7 @@ GPT-5 每百万输入词元收费 5 美元、每百万输出词元收费 15 美�
 
 ## 核心概念
 
-### LLM 调用的成本构成
+### LLM 调用的成本构成 <!-- learning-atlas: the-cost-anatomy-of-an-llm-call -->
 
 每次 API 调用包含五个成本组成部分。
 

@@ -26,7 +26,7 @@ DDPM 的反向过程是一场从 `N(0, I)` 回到数据分布的 1000 步随机�
 
 修正流（Liu，2022）更进一步：使用 reflow 过程反复拉直路径，使 ODE 逐渐趋近线性。经过两次 reflow 迭代后，2 步采样器便能达到 50 步 DDPM 的质量。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![流匹配：噪声与数据之间的直线插值](../assets/flow-matching.svg)
 

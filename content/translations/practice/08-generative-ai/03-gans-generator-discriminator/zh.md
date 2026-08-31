@@ -32,7 +32,7 @@ min_G max_D  E_real[log D(x)] + E_fake[log(1 - D(G(z)))]
 
 到 2026 年，GAN 已经不是最先进的生成器，扩散与流匹配夺走了这一位置。不过，StyleGAN 2/3 仍是投入使用过的最清晰人脸模型；扩散训练把 GAN 判别器用作*感知损失*；SDXL-Turbo、SD3-Turbo 和 LCM 等快速单步蒸馏也借助对抗训练，让实时扩散得以部署。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![极小极大博弈中的 GAN 生成器与判别器训练](../assets/gan.svg)
 

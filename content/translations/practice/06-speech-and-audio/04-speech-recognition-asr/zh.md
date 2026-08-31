@@ -30,7 +30,7 @@ status: reviewed
 
 到 2026 年，LibriSpeech test-clean 上的 SOTA WER 为 1.4%（NVIDIA Parakeet-TDT-1.1B）和 1.58%（Whisper-Large-v3-turbo）。质量差异很小，部署差异却非常大。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![ASR 的三种建模方式：CTC、RNN-T 与注意力编码器—解码器](../assets/asr-formulations.svg)
 

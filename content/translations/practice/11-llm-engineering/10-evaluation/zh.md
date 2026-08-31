@@ -40,7 +40,7 @@ status: reviewed
 
 ## 核心概念
 
-### 评估分类
+### 评估分类 <!-- learning-atlas: the-eval-taxonomy -->
 
 LLM 评估有三类。每一类都有自己的作用，但单独使用都不够。
 

@@ -26,7 +26,7 @@ status: reviewed
 
 多头注意力是 2026 年每个 Transformer 的默认配置。唯一的争论是要用*多少个*头，以及键和值是否共享投影（分组查询注意力、多查询注意力、多头潜在注意力）。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![多头注意力进行拆分、关注并拼接](../assets/multi-head-attention.svg)
 

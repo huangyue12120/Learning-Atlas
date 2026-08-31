@@ -178,7 +178,7 @@ Write 50-100 words placing this chunk in the document's context."""
 
 对加入上下文后的块建立索引。查询时，额外的周边信息会帮助检索。
 
-### 步骤 5：评估
+### 步骤 5：评估 <!-- learning-atlas: step-5-evaluate -->
 
 ```python
 def recall_at_k(queries, corpus_chunks, encoder, k=5):

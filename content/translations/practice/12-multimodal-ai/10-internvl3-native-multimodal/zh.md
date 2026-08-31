@@ -41,7 +41,7 @@ status: reviewed
 
 这些症状已经有充分记录。MM1.5 第 4 节对其进行了量化，LLaVA-OneVision 的消融也提示了它们。原生预训练就是答案。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### 原生多模态预训练
 

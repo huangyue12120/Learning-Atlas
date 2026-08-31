@@ -73,7 +73,7 @@ attention-heatmap
 
 ## 动手实现
 
-### 步骤 1：加性（Bahdanau）注意力
+### 步骤 1：加性（Bahdanau）注意力 <!-- learning-atlas: step-1-additive-bahdanau-attention -->
 
 ```python
 import numpy as np

@@ -47,7 +47,7 @@ w_i = exp(q . k_i / sqrt(d)) / sum_j exp(q . k_j / sqrt(d))
 
 模型真正想要的更像硬 top-k：匹配词元获得高权重，其他位置接近零。Softmax 本身过于平滑，无法直接做到这一点。
 
-### 差分思想
+### 差分思想 <!-- learning-atlas: the-differential-idea -->
 
 将每个头的 Q 和 K 投影拆成两部分：Q = (Q_1, Q_2)，K = (K_1, K_2)。计算两张注意力图：
 

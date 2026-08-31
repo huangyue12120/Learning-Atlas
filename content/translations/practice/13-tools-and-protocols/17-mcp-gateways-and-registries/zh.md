@@ -44,7 +44,7 @@ status: reviewed
 
 ## 核心概念
 
-### 现代网关路径
+### 现代网关路径 <!-- learning-atlas: the-modern-gateway-path -->
 
 对每个请求：
 

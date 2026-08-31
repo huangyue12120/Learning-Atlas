@@ -46,7 +46,7 @@ status: reviewed
 
 **OpenAI TTS-1-HD、ElevenLabs v2.5、Google Chirp-3。** 商业领域的最先进方案。ElevenLabs v2.5 的情绪标签（“[whispered]”“[laughing]”）和角色声音在 2026 年主导有声书制作。
 
-### 声码器演进
+### 声码器演进 <!-- learning-atlas: vocoder-evolution -->
 
 | 年代 | 声码器 | 延迟 | 质量 |
 |------|--------|------|------|

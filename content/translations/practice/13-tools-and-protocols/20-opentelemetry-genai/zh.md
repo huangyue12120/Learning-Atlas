@@ -33,7 +33,7 @@ status: reviewed
 
 这些约定在 2025–2026 年由 OpenTelemetry 语义约定小组确定。它们定义稳定的属性名称，使 Datadog、Langfuse、Phoenix、OpenLLMetry 和 AgentOps 都能解析相同的 spans。只需插桩一次，就可以发送到任意后端。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### Span 层级
 

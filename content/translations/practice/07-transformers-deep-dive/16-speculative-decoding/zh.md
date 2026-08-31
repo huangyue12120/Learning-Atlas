@@ -33,7 +33,7 @@ status: reviewed
 
 2026 年的每个生产推理栈都默认附带推测解码。vLLM、TensorRT-LLM、SGLang 和 llama.cpp 至少都支持基础方案与 EAGLE-2。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### 核心算法
 

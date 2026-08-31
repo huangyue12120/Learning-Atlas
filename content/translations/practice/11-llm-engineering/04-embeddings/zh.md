@@ -38,7 +38,7 @@ status: reviewed
 
 ## 核心概念
 
-### 什么是嵌入？
+### 什么是嵌入？ <!-- learning-atlas: what-is-an-embedding -->
 
 嵌入是表示文本含义的浮点数稠密向量。“稠密”很重要——每个维度都承载信息；而在词袋、TF-IDF 等稀疏表示中，大多数维度都是零。
 

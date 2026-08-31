@@ -64,7 +64,7 @@ Megatron-Core 将此实现为“选择性”激活重计算。它已用于 2024 
 
 FSDP2 将卸载作为一等选项提供。当 GPU 受内存限制、而 CPU 与 GPU 之间的传输仍有余量时，卸载最有优势。
 
-### 重计算成本模型
+### 重计算成本模型 <!-- learning-atlas: recompute-cost-model -->
 
 对于每隔 `k` 层设置一次朴素检查点的 `L` 层网络，每个 step 的 FLOPs 为：
 

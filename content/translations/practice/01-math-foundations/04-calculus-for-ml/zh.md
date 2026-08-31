@@ -33,7 +33,7 @@ status: reviewed
 
 ## 概念
 
-### 什么是导数？
+### 什么是导数？ <!-- learning-atlas: what-is-a-derivative -->
 
 导数衡量变化率。对于函数 y = f(x)，导数 f'(x) 会告诉你：如果将 x 略微改变一点，y 会变化多少？
 
@@ -73,7 +73,7 @@ df/dy = 3x + 2y     （将 x 视为常量）
 
 每个偏导数回答的问题都是：如果只略微改变这一个权重，损失会如何变化？
 
-### 梯度：所有偏导数组成的向量
+### 梯度：所有偏导数组成的向量 <!-- learning-atlas: gradient-vector-of-all-partial-derivatives -->
 
 梯度把每个偏导数收集到一个向量中。对于函数 f(x, y, z)，梯度为：
 
@@ -94,7 +94,7 @@ grad f = [ df/dx, df/dy, df/dz ]
 
 图中的梯度下降过程是：计算梯度，取其相反数，然后迈出一步。
 
-### 与优化的联系
+### 与优化的联系 <!-- learning-atlas: the-connection-to-optimization -->
 
 训练神经网络就是做优化。损失函数 L(w1, w2, ..., wn) 衡量模型错得有多严重，而你的目标是将它最小化。
 

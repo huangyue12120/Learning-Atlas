@@ -26,7 +26,7 @@ status: reviewed
 
 到 2026 年，你仍需要动态规划，原因有三点。第一，强化学习研究中的每个表格型环境（GridWorld、FrozenLake、CliffWalking）都用 DP 求解，以产生黄金标准策略。第二，精确价值可以*调试*采样方法：如果 Q-learning 对 `V*(s_0)` 的估计与 DP 答案相差 30%，说明 Q-learning 实现有缺陷。第三，现代离线强化学习与规划方法（MCTS、AlphaZero 搜索、Phase 9 第 10 课的基于模型强化学习）都会在学习或给定模型上迭代 Bellman 备份。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ![并排展示的策略迭代与价值迭代](../assets/dp.svg)
 

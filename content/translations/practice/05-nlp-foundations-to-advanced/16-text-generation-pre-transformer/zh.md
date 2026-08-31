@@ -121,7 +121,7 @@ def laplace_probability(ngrams, contexts, vocab_size, context, word):
 
 给每个计数加 1。它能完成平滑，却向未见事件分配过多概率，也伤害已知稀有事件。
 
-### 步骤 3：Kneser-Ney（二元、插值）
+### 步骤 3：Kneser-Ney（二元、插值） <!-- learning-atlas: step-3-kneser-ney-bigram-interpolated -->
 
 ```python
 def kneser_ney_bigram_model(corpus_tokens, discount=0.75):

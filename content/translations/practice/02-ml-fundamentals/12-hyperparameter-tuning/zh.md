@@ -130,7 +130,7 @@ flowchart TD
 
 Hyperband 特别有效：先给 81 个配置各 1 个 epoch，保留前三分之一，各给 3 个 epoch，继续保留前三分之一，以此类推。比让全部配置运行完整预算快 10–50 倍。
 
-### 学习率调度器
+### 学习率调度器 <!-- learning-atlas: learning-rate-schedulers -->
 
 学习率几乎总是最重要的超参数。调度器不将其固定，而会在训练中调整。
 

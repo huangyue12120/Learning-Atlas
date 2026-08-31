@@ -74,7 +74,7 @@ Biased coin:  H = -(0.99 * log2(0.99) + 0.01 * log2(0.01)) = 0.08 bits
 
 熵衡量分布中不可约的不确定性。你无法将数据压缩到低于这个下限。
 
-### 交叉熵（你每天都在使用的损失函数）
+### 交叉熵（你每天都在使用的损失函数） <!-- learning-atlas: cross-entropy-the-loss-function-you-use-every-day -->
 
 交叉熵衡量这样的平均惊奇：事件来自分布 P，你却使用分布 Q 来编码它们。
 

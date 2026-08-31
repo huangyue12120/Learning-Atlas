@@ -45,7 +45,7 @@ status: reviewed
 
 ## 核心概念
 
-### 生产架构
+### 生产架构 <!-- learning-atlas: production-architecture -->
 
 每个认真的 LLM 应用都遵循相同的流程。细节会变化，但结构不会。
 

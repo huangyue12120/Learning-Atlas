@@ -34,7 +34,7 @@ status: reviewed
 
 ## 概念
 
-### 凸集
+### 凸集 <!-- learning-atlas: convex-sets -->
 
 如果集合 S 中任意两点之间的线段仍完全位于 S 内，那么 S 就是凸集。
 

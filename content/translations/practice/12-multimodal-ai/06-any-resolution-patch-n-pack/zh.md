@@ -39,7 +39,7 @@ Transformer 需要序列。一个批量是长度相同的序列堆叠。如果�
 
 2024–2025 年的答案是：让 Transformer 在图像的原生分辨率上处理图像块，并找出一种把异构批量打包成单个序列的方法，不浪费计算。
 
-## 概念
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### NaViT 与 patch-n'-pack
 
