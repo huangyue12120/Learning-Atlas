@@ -11,6 +11,14 @@ practice:
 card:
   title: 深度学习：非线性让层叠不再等价于单层
   summary: 比较 sigmoid、ReLU 和 GELU 时，先理解线性层的复合仍是线性变换，才能判断激活函数为何决定网络可表达的边界和梯度流。
+  context: "本课会把多个线性层叠起来并比较激活函数；若层间没有非线性，增加深度并不会增加可表达的边界类型。"
+  intuition: "两个矩阵相乘仍只是一个矩阵；激活函数在层间弯折空间，使后续线性层能够组合出分段或平滑的非线性映射。"
+  key_points:
+    - "不含激活的连续线性层可合并成一个线性变换，加入偏置后也仍可合并为一个仿射变换。"
+    - "sigmoid 在大幅正负输入处容易饱和，导数接近零；ReLU 在正区间保留梯度、负区间输出零。"
+    - "GELU 以平滑门控方式缩放输入，和 ReLU 一样引入非线性，但其过渡不是硬阈值。"
+  application: "对一组跨越负值、零和正值的输入计算三种激活及导数，再用有无激活的两层网络比较 XOR 边界。"
+  check_question: "为什么两个没有激活函数的线性层无法比一个线性层表达更复杂的决策边界？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/03. deep learning.md

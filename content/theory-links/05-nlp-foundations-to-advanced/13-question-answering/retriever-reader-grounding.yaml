@@ -11,6 +11,14 @@ practice:
 card:
   title: RAG：检索器与阅读器的证据链
   summary: 组合稠密检索器和抽取式阅读器时，用查询与段落双编码、前 k 个证据召回及基于上下文生成解释检索失败为何无法由阅读器补救。
+  context: "本课把问答拆成检索和阅读两段；最终答案错误时，需要知道证据没被取回，还是阅读器在已有证据上选错。"
+  intuition: "检索器先决定阅读器有资格看到哪些段落，阅读器只能在这个候选集合内找答案；上游召回形成下游能力上限。"
+  key_points:
+    - "双编码器分别嵌入查询与段落，以向量相似度高效召回 top-k 候选。"
+    - "抽取式阅读器在候选上下文中预测答案跨度，证据不在 top-k 时无法凭空恢复。"
+    - "端到端评估应分开测检索召回与答案正确性，并保留答案到来源段落的定位。"
+  application: "为每个问题记录 gold 证据是否进入 top-k，再只在召回段落中运行 reader，将失败标成 retrieval 或 reading。"
+  check_question: "如果 gold 段落没有进入 top-k，但 reader 输出了一个看似合理答案，这能证明问答链路已被证据支撑吗？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

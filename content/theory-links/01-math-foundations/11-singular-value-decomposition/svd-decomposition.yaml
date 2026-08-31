@@ -11,6 +11,14 @@ practice:
 card:
   title: 奇异值分解：将线性变换拆成旋转与缩放
   summary: 在实现幂迭代 SVD、截断重建和伪逆前，先掌握矩阵分解、特征向量与 SVD 的几何基础。
+  context: "本课需要同时处理矩形矩阵、低秩近似和不可逆系统；特征分解并不直接覆盖这些场景，而 SVD 提供统一分解。"
+  intuition: "先在输入空间旋转到右奇异向量，再沿正交轴按奇异值缩放，最后旋转到输出空间。"
+  key_points:
+    - "任意 m×n 实矩阵都可写成 UΣVᵀ，其中 U、V 的列正交，Σ 的奇异值非负。"
+    - "非零奇异值的数量等于矩阵秩，较大的奇异值对应变换保留得最强的方向。"
+    - "截断到前 k 个奇异值给出低秩近似；伪逆只对非零奇异值取倒数。"
+  application: "实现幂迭代得到主方向后按奇异值排序，分别检查 U、V 正交性、矩阵重建误差和截断误差。"
+  check_question: "当某个奇异值为零时，该输入方向发生了什么；伪逆为什么不能直接对这个值取倒数？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 02 - matrices/05. decompositions.md

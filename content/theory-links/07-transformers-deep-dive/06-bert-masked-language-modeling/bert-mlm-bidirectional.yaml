@@ -11,6 +11,14 @@ practice:
 card:
   title: BERT 的双向注意力与掩码语言建模
   summary: 在实现 15% 词元选择和 80/10/10 替换规则时，用理论笔记中的 MLM 目标理解损失为何只在被选位置计算，以及双向注意力为何适合表示学习而不适合自回归生成。
+  context: "本课同时生成被破坏的输入和监督标签；如果把替换位置与计损位置混为一谈，模型会学习复制未选词元而不是恢复上下文。"
+  intuition: "先从完整句子挖掉少量信息，再允许模型查看左右两侧来补洞；监督只落在被选中的洞上。"
+  key_points:
+    - "MLM 随机选择约 15% 的词元作为预测集合，损失只对该集合求和。"
+    - "被选词元按 80% 替换为 [MASK]、10% 随机替换、10% 保持不变，以减轻预训练与使用时的 [MASK] 分布差异。"
+    - "双向注意力能利用目标位置右侧信息，因此擅长表征学习，却不满足从左到右生成所需的因果约束。"
+  application: "分别统计选择掩码、实际 [MASK] 比例和有效标签位置，并确认未选位置使用忽略标签而非原词元监督。"
+  check_question: "为什么那 10% 保持原样的被选词元仍必须参与 MLM 损失？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

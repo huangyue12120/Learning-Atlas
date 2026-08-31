@@ -11,6 +11,14 @@ practice:
 card:
   title: 深度学习：用约束换取可泛化的表示
   summary: 比较 dropout、权重衰减和归一化时，联系训练误差与验证误差的分离，判断每种机制是在限制容量、稳定统计量还是停止过拟合。
+  context: "本课比较多种看似都能改善验证表现的机制；它们作用位置不同，不能仅按最终准确率视作同一种正则化。"
+  intuition: "权重衰减限制参数尺度，dropout 在训练中随机移除协同依赖，归一化稳定层内数值；要根据训练—验证差距选择机制。"
+  key_points:
+    - "L2 正则在目标中惩罚权重平方，梯度更新会相应推动权重向零收缩。"
+    - "dropout 只在训练时随机屏蔽激活并做尺度补偿，推理时使用完整网络。"
+    - "归一化通过批次或特征统计调整激活分布，其主要作用与直接限制模型容量并不相同。"
+  application: "分别启用每种机制，记录训练与验证曲线；对 dropout 明确训练和评估模式，对归一化检查所用统计量。"
+  check_question: "如果推理时仍随机执行 dropout，预测的稳定性与期望尺度会出现什么问题？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/03. deep learning.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 流匹配的直线路径与速度回归
   summary: 在实现 x_t 直线插值、速度目标 x_1−x_0 和 Euler 采样时，用视觉生成理论笔记核对连续归一化流的 ODE 表述、最优传输路径与 reflow 拉直过程。
+  context: "本课用两个端点构造训练样本，并在推理时数值积分；端点命名、速度符号或积分方向任一不一致，采样轨迹都会远离目标分布。"
+  intuition: "在噪声与数据之间画一条带时间的路线，网络不直接猜终点，而是在任意中间位置告诉样本下一小步该往哪里走。"
+  key_points:
+    - "直线条件路径写成 x_t=(1−t)x_0+t x_1，其目标速度在该配对上为常量 x_1−x_0。"
+    - "训练只需随机采样端点与 t，对 v_θ(x_t,t) 做速度回归，不必在训练中展开 ODE。"
+    - "采样用 Euler 等求解器沿学习到的速度场积分；reflow 用模型产生的配对重新训练，使弯曲轨迹更接近直线并减少步数。"
+  application: "先验证 t=0、1 的端点和有限差分速度，再明确本课噪声端与数据端的命名，按相符方向执行 Euler 步并检查落点分布。"
+  check_question: "若训练目标使用 x_1−x_0，而采样积分方向反了却没有同时改变符号，样本会朝哪个端点移动？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 08 - computer vision/04. vision transformers and generation.md

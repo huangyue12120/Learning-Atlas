@@ -11,6 +11,14 @@ practice:
 card:
   title: 多元链式法则：计算图为何要累加梯度
   summary: 在拓扑反传与共享节点梯度累加前，先理解多变量函数的 Jacobian 和分支路径如何汇合。
+  context: "一个中间值可能被计算图的多个后续分支复用；如果反向传播只保留其中一条路径，参数梯度会被低估。"
+  intuition: "沿每条路径用链式法则相乘，在多条路径回到同一节点时再相加，因为总变化是一阶贡献的叠加。"
+  key_points:
+    - "多元链式法则把复合映射的 Jacobian 按计算顺序相乘，并要求相邻维度匹配。"
+    - "同一变量通过多条分支影响输出时，它的总导数等于各路径贡献之和。"
+    - "逆拓扑顺序保证节点收到所有下游贡献后，再把累计梯度传播给父节点。"
+  application: "构造一个中间值被两次使用的小计算图，检查反向实现使用累加而非覆盖，并与手算结果比较。"
+  check_question: "若 z 同时进入两条分支并最终相加，为什么 z 的梯度应是两条分支梯度之和，而不是任选一条？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 03 - calculus/03. multivariate calculus.md

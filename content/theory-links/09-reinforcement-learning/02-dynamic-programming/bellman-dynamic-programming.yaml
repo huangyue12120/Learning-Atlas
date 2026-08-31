@@ -11,6 +11,15 @@ practice:
 card:
   title: Bellman 递推与动态规划
   summary: 在实现策略评估、策略迭代和价值迭代时，用强化学习理论笔记复核 Bellman 期望方程、最优方程以及从 V* 或 Q* 提取贪心策略的关系。
+  context: "本课已知完整转移模型，需要把长期回报变成可重复局部更新；期望、最大化与更新顺序混淆会把策略评估写成错误的最优控制。"
+  intuition: "Bellman 备份把一个状态的远期价值拆成一步奖励和下一状态价值；不断回传这些局部信息，终点影响最终会遍及全图。"
+  key_points:
+    - "策略评估按固定 π 对动作和下一状态取期望，迭代到 V 与 Bellman 期望方程一致。"
+    - "策略改进选择对当前 V 的一步展望最大的动作；交替评估与改进构成策略迭代。"
+    - "价值迭代直接反复应用含 max_a 的 Bellman 最优算子，收敛后再从 V* 提取贪心策略。"
+    - "当 γ<1 时 Bellman 算子是压缩映射，提供唯一固定点和几何收敛保证。"
+  application: "分别实现固定策略备份与最优备份，以最大状态差为停止条件，并在收敛后验证提取策略对每个状态都选择最大一步展望。"
+  check_question: "为什么在策略评估阶段把动作期望误写成 max，会得到与原固定策略不一致的价值？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/04. reinforcement learning.md

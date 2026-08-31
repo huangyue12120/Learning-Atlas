@@ -11,6 +11,15 @@ practice:
 card:
   title: 读懂开源模型配置的六个架构旋钮
   summary: 在从 config.json 读取 RMSNorm、RoPE、SwiGLU、注意力头共享、MoE 和 pre-norm，并估算参数/激活/KV cache 预算时，用 Transformer 笔记核对每个组件改变的计算与表示。
+  context: "本课把模型配置中的名称还原成可计算的结构；每个旋钮都会改变表示、梯度路径、参数量或推理内存，不能只把它当作字符串读取。"
+  intuition: "把 Transformer 看成重复的表示变换单元：注意力混合 token，前馈层改写每个 token，残差和归一化决定信息与梯度如何穿过这些单元。"
+  key_points:
+    - "缩放点积注意力先用 QKᵀ/√dₖ 得到分数，再经 softmax 加权 V；多头让不同投影并行捕捉关系。"
+    - "pre-norm 把归一化放在子层之前，残差的恒等路径仍可直接传递梯度，有利于训练深层模型。"
+    - "RoPE 通过旋转 Q、K 让点积携带相对位置信息；位置编码不是可有可无的装饰。"
+    - "前馈层通常占据块中大量参数，而共享或压缩 K/V 以及稀疏激活会直接改变 KV cache 和每 token 计算。"
+  application: "逐项读取配置并记录隐藏维度、层数、头数、FFN 宽度和专家激活数，再把它们转换为参数量、激活量和 KV cache 的预算。"
+  check_question: "为什么把归一化从 post-norm 改为 pre-norm 会改变深层 Transformer 的梯度传播路径？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

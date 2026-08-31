@@ -11,6 +11,14 @@ practice:
 card:
   title: 矩阵分解：从行消元到可复用的 LU 求解
   summary: 在实现 pivoted elimination、back substitution 与 LU 前，掌握三角化、行交换和分解复用的线性代数基础。
+  context: "本课不仅要求解一次 Ax=b，还要理解同一系数矩阵面对多个右端项时如何避免重复消元。"
+  intuition: "高斯消元把一般系统变成容易回代的上三角系统；LU 把这串消元操作保存为下、上三角两个因子。"
+  key_points:
+    - "初等行操作保持方程组解集，前向消元产生上三角矩阵，再由回代从末行求解。"
+    - "主元交换可避免除以零，并减轻用极小数作除数带来的数值放大。"
+    - "分解 PA=LU 后，每个新右端项只需解两个三角系统，不必重新分解 A。"
+  application: "实现带主元交换的消元并保存 L、U 与置换，检查 PA≈LU，再用多个 b 验证分解复用。"
+  check_question: "当当前主元为零但其下方存在非零元素时，为什么交换行不会改变解集，却能让消元继续？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 02 - matrices/05. decompositions.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 稀疏检索：词频、逆文档频率与长度归一化
   summary: 实现 BM25 打分时，从 TF-IDF 的稀有词加权与余弦检索直觉出发，理解词频饱和和文档长度归一化怎样修正原始词袋分数。
+  context: "原始词频会偏爱重复关键词和长文档；本课的 BM25 需要让重复收益递减，并按语料平均长度校正文档规模。"
+  intuition: "稀有查询词更有辨识力，但一个词从出现十次到二十次不应让相关性翻倍；长文档还会因机会更多而自然命中。"
+  key_points:
+    - "BM25 保留逆文档频率，使出现在较少文档中的查询词贡献更大。"
+    - "词频项随出现次数增加逐渐饱和，参数 k1 控制饱和速度。"
+    - "长度归一化比较文档长度与语料平均长度，参数 b 控制校正强度。"
+  application: "用同一查询构造短文档、长文档和重复关键词文档，逐项打印 IDF、饱和 TF 与长度校正后的贡献。"
+  check_question: "一个查询词从文档中出现 10 次增加到 20 次时，BM25 分数为什么不会像原始词频那样简单翻倍？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/02. text processing and classic NLP.md

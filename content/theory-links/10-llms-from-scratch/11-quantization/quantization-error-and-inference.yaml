@@ -11,6 +11,15 @@ practice:
 card:
   title: 量化映射、误差与显存权衡
   summary: 在实现对称/逐通道量化、扫描 bit-width，并比较 GPTQ、AWQ、GGUF 时，用推理量化笔记核对 scale/zero-point、舍入误差、异常值和质量—显存权衡。
+  context: "本课要把模型压到目标硬件又保持可接受质量；只报告位宽会掩盖 scale 粒度、异常值和敏感张量造成的真实误差。"
+  intuition: "量化是用一把有限刻度的尺测浮点数；最大异常值若决定整把尺的跨度，小数值就只能挤在少量粗刻度上。"
+  key_points:
+    - "量化先按 scale 与 zero-point 将浮点映射、舍入并截断到整数范围，反量化再恢复近似值。"
+    - "对称量化令 zero-point=0；非对称量化可充分利用偏向单侧的数值范围。"
+    - "逐通道或逐组 scale 隔离不同范围与异常值，通常比全张量共享一个 scale 精确，但需存更多元数据。"
+    - "权重通常比激活、KV cache 和 attention logits 更耐低位宽，实际推理常保留敏感运算在较高精度。"
+  application: "在相同权重上扫描位宽与粒度，联合报告模型字节数、重建误差、层级异常值和任务评测，而不是只比较压缩率。"
+  check_question: "一个通道含极大异常值时，为什么全张量 scale 会比逐通道 scale 更严重地损伤其他通道的小权重？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/01. quantisation.md

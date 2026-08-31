@@ -11,6 +11,14 @@ practice:
 card:
   title: Markov 链：MCMC 为何能从目标分布抽样
   summary: 在调试 Metropolis-Hastings 的接受率、burn-in 和混合前，先理解 Markov property、transition matrix 与 stationary distribution。
+  context: "本课要在无法直接归一化或抽样时构造 Metropolis-Hastings 链；样本正确性取决于长期分布，而不只是接受了多少提议。"
+  intuition: "设计一个只依赖当前状态的随机游走，使目标分布在转移后保持不变；链混合后，访问频率就逼近目标分布。"
+  key_points:
+    - "Markov 性质要求下一状态的条件分布只依赖当前状态，转移规则由概率核或转移矩阵描述。"
+    - "平稳分布 π 满足 πP=π；MCMC 设计转移规则，使目标分布成为该链的平稳分布。"
+    - "Metropolis-Hastings 用目标密度与提议概率的比值决定接受率；burn-in 去除初值影响，但不能修复混合差。"
+  application: "记录接受率、轨迹和自相关，丢弃预热段后比较经验直方图与目标分布，并尝试不同提议尺度。"
+  check_question: "一条链接受率接近 100% 却每步只移动极小距离时，为什么仍可能需要很久才能得到有效样本？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 05 - probability/04. bayesian.md

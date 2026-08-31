@@ -11,6 +11,14 @@ practice:
 card:
   title: 生产级 LLM 推理栈
   summary: 在组织 API、路由、流式输出、重试、观测、缓存和成本控制时，用部署笔记核对模型并行、KV 缓存、推测解码与服务框架之间的边界。
+  context: "本课要把模型服务接入可重试、可观测的应用 API；区分请求编排与推理执行，才能为每层选择正确的扩缩容指标。"
+  intuition: "生产推理是一条分层流水线：入口管理请求，调度器组织批次和缓存，模型服务执行计算，观测层记录每段延迟与失败。"
+  key_points:
+    - "路由和重试属于请求控制面，不能掩盖模型服务的确定性错误。"
+    - "KV 缓存、批处理和模型并行共同决定吞吐、内存与延迟。"
+    - "流式输出改善感知延迟，但不会缩短全部生成计算。"
+  application: "为网关、队列、预填充、解码和流式传输分别记录指标，再根据瓶颈决定缓存、批处理或并行策略。"
+  check_question: "如果首词元延迟很高而后续生成速度正常，应优先检查流水线中的哪些阶段？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/05. scaling and deployment.md

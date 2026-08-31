@@ -11,6 +11,14 @@ practice:
 card:
   title: N-gram 平滑：折扣、回退与困惑度
   summary: 实现插值 Kneser-Ney 时，从马尔可夫截断、绝对折扣和延续概率推导每一项的作用，并用指数化平均负对数似然检查平滑后的模型是否降低留出集困惑度。
+  context: "有限语料必然遗漏许多合法 n-gram；本课若给未见序列零概率，任何含它的测试句都会得到无限困惑度。"
+  intuition: "从已见 n-gram 概率中扣出少量质量，再按一个词出现在多少种不同上下文中分给未见组合，而不是只看总词频。"
+  key_points:
+    - "n-gram 模型用最近 n−1 个词近似完整历史，是有限阶 Markov 截断。"
+    - "绝对折扣降低已见 n-gram 计数并释放概率质量，插值项把这部分质量分配给低阶模型。"
+    - "Kneser-Ney 的延续概率重视一个词曾跟随多少种不同上下文；困惑度是平均负对数似然的指数。"
+  application: "检查每个历史条件下概率和为 1，为未见 bigram 验证非零概率，再在独立留出集比较不同折扣的困惑度。"
+  check_question: "一个词总频率很高但只出现在单一前文之后，Kneser-Ney 为什么不会仅凭总频率给它很高延续概率？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/02. text processing and classic NLP.md

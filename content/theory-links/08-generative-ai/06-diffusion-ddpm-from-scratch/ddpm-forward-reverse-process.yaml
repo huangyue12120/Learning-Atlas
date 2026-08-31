@@ -11,6 +11,14 @@ practice:
 card:
   title: DDPM 前向加噪与反向噪声预测
   summary: 在构造 β 调度、闭式采样 x_t 和反向去噪循环时，用视觉生成理论笔记核对 α̅ 累积项、噪声预测 MSE 与得分视角之间的对应关系。
+  context: "本课需要让训练时随机抽取任意噪声级别，而推理时按时间逆序逐步还原；α、α̅ 或时间方向混淆会让两条过程不再对应。"
+  intuition: "训练时随机把一张图推到某个含噪时刻，让同一网络学习指出被加入的噪声；采样时从纯噪声出发反复沿这些提示往回走。"
+  key_points:
+    - "令 α_t=1−β_t、α̅_t 为截至 t 的乘积，可直接采样 x_t=√α̅_t x_0+√(1−α̅_t)ε。"
+    - "训练随机采样 x_0、t 与 ε，并以预测噪声和真实 ε 的均方误差更新去噪网络。"
+    - "生成从近似标准正态的 x_T 开始，按 t=T…1 迭代反向步骤；训练无需展开这条完整采样链。"
+  application: "先用大量样本核对各 t 的经验信号与噪声方差，再验证 t 增大时 x_t 逐渐失去数据结构，最后检查反向循环的时间索引。"
+  check_question: "当 α̅_t 接近 0 时，x_t 中原始样本与随机噪声各占什么地位？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 08 - computer vision/04. vision transformers and generation.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 编码器与解码器：上下文瓶颈和教师强制
   summary: 编写逐词元解码循环时，对照编码器最终状态、解码器递归生成与教师强制，理解固定上下文向量及训练推理输入差异为何产生瓶颈和暴露偏差。
+  context: "本课从输入序列生成长度可变的输出；编码器必须传递源信息，解码器又依赖自己此前生成的词元，两处都会造成误差瓶颈。"
+  intuition: "编码器把源序列压成条件状态，解码器像接力一样逐步生成；训练若总递给它正确上一词，推理时面对自身错误会不适应。"
+  key_points:
+    - "经典 encoder–decoder 用编码器最终状态作为固定上下文，长源序列的信息必须压入同一向量。"
+    - "解码器在每步依据上下文、隐藏状态和上一输出预测下一词元，直到终止标记。"
+    - "teacher forcing 在训练时输入真实上一词元，推理时只能输入模型预测，由此形成暴露偏差。"
+  application: "明确开始与结束词元，分别运行全教师强制和自由生成循环，比较某一步预测错误如何影响后续输入。"
+  check_question: "为什么训练损失很低的教师强制模型，在自由生成时仍可能因一个早期错误迅速偏离？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/03. embeddings and sequence models.md

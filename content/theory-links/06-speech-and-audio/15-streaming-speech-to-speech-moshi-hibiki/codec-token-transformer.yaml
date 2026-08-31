@@ -11,6 +11,14 @@ practice:
 card:
   title: 并行音频流与自回归词元预测
   summary: 在追踪用户 Mimi 流、模型 Mimi 流、文本内心独白和逐码本深度预测时，用 Transformer 理论笔记理解因果遮蔽、序列条件与多流时间同步。
+  context: "流式语音到语音模型同时处理用户音频、模型音频和文本状态；本课必须明确每个时间步可见的信息，避免偷看未来或错位生成。"
+  intuition: "把多路 token 排在共享时间轴上，主 Transformer 只依据过去预测当前粗粒度状态，深度模块再补齐同一帧的多个码本。"
+  key_points:
+    - "因果遮蔽保证时间 t 的预测只能使用允许的过去位置，维持自回归生成的在线性。"
+    - "用户 codec、模型 codec 与文本流具有不同角色，但需要用帧索引或延迟约定保持同步。"
+    - "逐码本深度预测把同一音频帧的多个 RVQ token 分层生成，减少主时间序列一次承担的输出维度。"
+  application: "画出每步各流 token 与 mask，可视化用户输入、文本和模型输出的相对延迟，并断言任何注意力边都不越过许可时间。"
+  check_question: "若模型音频在时间 t 的预测可以注意到用户流时间 t+1 的 token，这违反了哪项在线生成约束？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

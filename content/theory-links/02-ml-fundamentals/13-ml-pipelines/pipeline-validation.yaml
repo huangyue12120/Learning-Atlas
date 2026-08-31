@@ -11,6 +11,14 @@ practice:
 card:
   title: 测试与质量保证：用可验证边界阻断数据泄漏
   summary: 把预处理放入训练折中的 Pipeline 时，将训练、验证和测试的职责边界转为可检查的约束，防止统计量在拟合前泄漏。
+  context: "预处理、特征选择与模型训练会共同学习数据统计量；本课若把这些步骤拆散执行，交叉验证外的拟合很容易悄悄泄漏。"
+  intuition: "把所有会从数据学习状态的步骤封装成一个估计器：每折只在训练部分拟合整条管道，再对验证部分纯变换和预测。"
+  key_points:
+    - "缩放、插补、编码和特征选择只要估计了数据统计量，就属于拟合边界的一部分。"
+    - "管道保证验证数据只经过训练阶段已经确定的变换，不参与参数估计。"
+    - "质量检查应覆盖 shape、缺失值、未见类别、确定性与训练验证隔离等接口不变量。"
+  application: "把预处理和模型组合后再交给交叉验证，加入测试确认每折拟合输入不含验证索引，并检查变换后 schema。"
+  check_question: "先在全量数据上挑选最相关特征，再对模型做交叉验证，泄漏发生在哪一步？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 15 - production software engineering/04. testing and quality assurance.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 特征分解：找出变换保持的方向
   summary: 在手算 2×2 特征值和特征向量前，先理解 `A = V @ D @ V^(-1)` 如何把复杂变换拆为方向与缩放。
+  context: "本课要分解一个线性变换；直接观察矩阵元素很难看出哪些方向只被缩放而不改变方向。"
+  intuition: "先把坐标轴换到特征向量方向，在这个坐标系里，矩阵作用就简化成沿各轴分别乘以特征值。"
+  key_points:
+    - "特征向量满足 Av=λv，矩阵作用后方向保持不变，特征值 λ 给出缩放及可能的反向。"
+    - "特征值由特征方程求得，每个特征值对应满足齐次方程的非零特征向量。"
+    - "只有拥有足够多线性无关特征向量时，矩阵才能写成 VDV⁻¹。"
+  application: "对本课 2×2 矩阵先求特征值，再验证每个候选向量满足 Av≈λv，最后重建矩阵检查分解。"
+  check_question: "在 VDV⁻¹ 中，V 和 D 各保存什么信息；为什么 V 的列必须线性无关？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 02 - matrices/05. decompositions.md

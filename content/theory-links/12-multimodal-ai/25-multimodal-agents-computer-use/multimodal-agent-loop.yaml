@@ -11,6 +11,14 @@ practice:
 card:
   title: 多模态智能体的感知–行动闭环
   summary: 在把截图、视觉状态、工具调用和动作结果串成 computer-use loop 时，用统一多模态架构中的 Multimodal Agents 讨论核对模态融合与评估边界。
+  context: "本课要把截图理解、动作选择、工具执行和新状态串成循环；任何一步脱离实际环境反馈都会让后续计划建立在过期状态上。"
+  intuition: "多模态智能体反复执行观察、推理、行动：先从屏幕获取证据，再选择可执行动作，最后把动作结果作为下一轮观察。"
+  key_points:
+    - "视觉 grounding 把语言描述的界面目标映射到具体区域或坐标。"
+    - "工具调用必须经过环境执行，模型生成的动作文本本身不会改变界面状态。"
+    - "评估应覆盖完整任务成功率以及感知、规划和执行各阶段的错误。"
+  application: "为每轮保存截图摘要、选定动作、执行结果和新截图，失败时据此判断是目标定位错误、动作无效还是计划本身错误。"
+  check_question: "为什么执行一次点击后必须重新观察界面，而不能直接假定页面已经进入预期状态？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/05. unified multimodal architectures.md

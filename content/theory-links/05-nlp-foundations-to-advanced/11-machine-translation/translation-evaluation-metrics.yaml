@@ -11,6 +11,14 @@ practice:
 card:
   title: 生成评估：BLEU、学习型指标与指标局限
   summary: 评估机器翻译时，对照 n-gram 精确率、长度惩罚、学习型语义评分与 LLM 评判，理解为何单句 BLEU 噪声大且任何自动指标都需人工校准。
+  context: "翻译允许多种正确表达；本课需要把词面重叠、语义接近和人工质量判断分开，避免单一分数替代真实目标。"
+  intuition: "BLEU 问输出片段有多少能在参考译文中找到，长度惩罚阻止模型靠极短句取巧；语义指标则尝试识别不同措辞的等义性。"
+  key_points:
+    - "BLEU 使用截断 n-gram 精确率，防止重复某个参考词无限增加匹配计数。"
+    - "brevity penalty 惩罚过短候选；高阶 n-gram 在单句中稀疏，因此 BLEU 更适合语料级汇总。"
+    - "学习型指标和 LLM 评判可捕捉更多语义，但受模型、提示和领域偏差影响，仍需人工样本校准。"
+  application: "对同一批译文同时计算 BLEU、chrF 和语义分数，列出指标分歧样例并由人工检查流畅度与忠实度。"
+  check_question: "一个语义正确但使用大量同义改写的译文，BLEU 与学习型语义指标可能分别如何反应？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

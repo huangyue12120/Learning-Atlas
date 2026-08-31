@@ -11,6 +11,14 @@ practice:
 card:
   title: 多元微积分：把参数函数交给自动微分
   summary: 用 jax.grad 编写函数式训练步时，先把损失视作参数向量的多元函数，理解梯度的形状、方向和纯函数接口为何必须明确。
+  context: "JAX 通过函数变换生成梯度；如果损失依赖隐藏可变状态或输出不是标量，梯度对象的含义和可重现性都会变得含糊。"
+  intuition: "把参数作为显式输入、损失作为唯一标量输出，`grad` 就能把这个函数变换成返回同结构偏导数的新函数。"
+  key_points:
+    - "标量损失对参数数组的梯度与参数拥有相同 shape，每个元素对应一个偏导数。"
+    - "纯函数的输出只由显式输入决定，不在函数内部原地修改参数或依赖隐藏状态。"
+    - "参数由嵌套容器组织时，自动微分返回结构对应的梯度树，更新必须逐叶对齐。"
+  application: "将模型参数和 batch 显式传入损失函数，用 `jax.grad` 取得同结构梯度，再返回新参数而不是原地修改旧参数。"
+  check_question: "若权重参数形状为 (3, 4)，标量损失对它的梯度应是什么形状，每个位置表示什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 03 - calculus/03. multivariate calculus.md

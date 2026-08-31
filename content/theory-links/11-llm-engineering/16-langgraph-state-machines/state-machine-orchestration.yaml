@@ -11,6 +11,14 @@ practice:
 card:
   title: 状态机、节点与可恢复执行
   summary: 在构建带 reducer、checkpoint、条件边和人工介入的 agent graph 时，用分布式深度学习笔记核对状态分片、同步边界和故障恢复的系统权衡；该关联先保留候选状态，因为理论笔记未专门讨论 LangGraph。
+  context: "本课要让多节点 Agent 流程可以暂停、恢复和重试；需要先规定状态如何合并以及每个检查点代表哪个一致执行边界。"
+  intuition: "状态图把长流程拆成显式节点和边，检查点保存可重放状态，使失败后不必依赖一次不可见的连续对话。"
+  key_points:
+    - "Reducer 决定并行或连续更新如何合并到共享状态。"
+    - "检查点必须与节点副作用边界协调，避免恢复时重复执行。"
+    - "条件边把路由决策显式化，便于记录和测试实际执行路径。"
+  application: "为每个节点声明输入、输出和副作用，在副作用前后设置检查点，并用固定状态验证恢复路径与人工介入。"
+  check_question: "如果节点已经写入外部系统但检查点仍停在执行前，恢复时会产生什么风险？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/05. distributed deep learning.md

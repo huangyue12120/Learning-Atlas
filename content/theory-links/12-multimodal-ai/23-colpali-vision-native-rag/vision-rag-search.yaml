@@ -11,6 +11,14 @@ practice:
 card:
   title: 视觉原生 RAG 的向量检索
   summary: 在用页面 patch embedding 和 MaxSim 检索文档时，用大规模系统中的向量搜索理论核对索引、召回和服务边界。
+  context: "本课要用查询词元和页面图块表示检索整页文档；索引方式与相似度聚合共同决定哪些页面能进入后续生成上下文。"
+  intuition: "向量检索把语义相近的表示放在邻近区域；视觉原生检索保留页面的多个图块向量，让每个查询词元寻找最匹配的局部证据。"
+  key_points:
+    - "向量索引用近似最近邻搜索换取更低延迟，可能牺牲一部分精确召回。"
+    - "召回阶段缩小候选集，精细相似度或重排阶段再比较更丰富的表示。"
+    - "检索质量与生成质量是不同边界，需要分别保留命中证据和回答结果。"
+  application: "先索引每页的 patch embeddings，再用 MaxSim 聚合查询词元与页面图块的匹配分数，并记录进入回答阶段的页面标识。"
+  check_question: "若相关页面从未进入候选集，后续生成模型再强也无法弥补检索流水线中的哪类错误？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

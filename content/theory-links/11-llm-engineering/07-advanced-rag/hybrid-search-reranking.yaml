@@ -11,6 +11,14 @@ practice:
 card:
   title: 混合检索、排序融合与上下文选择
   summary: 在组合 BM25、向量召回、RRF 和 reranker 时，用高级文本生成笔记核对检索候选如何成为生成模型的条件上下文；该关联先保留候选状态，因为理论笔记未专门覆盖现代 RAG 排序器。
+  context: "本课要把关键词与语义召回合并后再重排；需要理解每一级只处理候选集合，而最终入选内容才会条件化生成模型。"
+  intuition: "混合检索用不同信号扩大候选覆盖，排序融合合并名次，重排器再用更昂贵的相关性判断压缩到上下文预算内。"
+  key_points:
+    - "BM25 擅长精确词项匹配，向量检索擅长语义近邻。"
+    - "RRF 融合不同排序的名次，不要求原始分数处在同一尺度。"
+    - "重排只能改善已有候选的顺序，无法找回召回阶段完全遗漏的文档。"
+  application: "分别记录各召回器候选、融合名次和重排分数，用查询集评估覆盖率后再决定送入模型的分块数量。"
+  check_question: "如果正确文档没有出现在任何初始候选中，增加重排器复杂度为什么无济于事？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

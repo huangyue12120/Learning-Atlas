@@ -11,6 +11,15 @@ practice:
 card:
   title: RLHF 的偏好奖励与 KL 约束
   summary: 在串联 SFT、成对偏好奖励模型和 PPO 时，用高级文本生成笔记复核 Bradley-Terry 目标、相对参考策略的 KL 正则，以及 DPO 对传统流程的压缩关系。
+  context: "本课把人类的相对偏好转成可优化信号；奖励模型只见过有限响应分布，若策略无限追逐它的分数，就可能学会钻评分器漏洞。"
+  intuition: "先用示范教模型基本回答方式，再从成对选择训练一把偏好尺，最后让策略提高尺上的得分，同时用参考模型拴住活动范围。"
+  key_points:
+    - "SFT 先提供合理的初始策略；奖励模型对同一提示的 preferred 与 rejected 响应输出标量分数。"
+    - "Bradley–Terry 损失 −log σ(R_w−R_l) 只依赖奖励差，推动偏好响应得分高于拒绝响应。"
+    - "PPO 奖励加入相对冻结参考策略的 KL 惩罚，限制分布漂移并降低奖励黑客风险。"
+    - "DPO 可在相应 KL 正则化推导下直接用当前与参考策略的成对 log probability 优化偏好，省去显式奖励模型和 PPO。"
+  application: "先用合成偏好对检查交换 winner/loser 会反转梯度，再扫描 KL 系数，比较奖励分数、参考策略距离与响应退化迹象。"
+  check_question: "奖励模型分数持续升高而回答质量下降时，增大参考策略 KL 约束可能解决的是什么问题？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: GPT 的因果掩码与下一词元目标
   summary: 在构造下三角掩码、错位一位的标签和自回归采样循环时，用理论笔记中的因果语言建模目标核对每个位置只能依赖自身及过去词元，避免训练时泄漏未来信息。
+  context: "本课训练时一次处理完整序列，但目标行为是逐词元生成；因果掩码和标签错位必须共同成立，才能让并行训练不偷看答案。"
+  intuition: "注意力矩阵的第 i 行只是一份对前缀 0…i 的加权摘要；训练同时算出所有前缀，推理则逐个扩展前缀。"
+  key_points:
+    - "未来位置的分数在 softmax 前置为负无穷，使其权重严格为零。"
+    - "位置 i 的隐藏状态用于预测下一个词元，因此输入与标签需错开一位。"
+    - "因果掩码允许所有位置在训练中并行计算，但生成仍因下一步依赖已采样词元而保持串行。"
+  application: "扰动某位置之后的输入，检查该位置及更早 logits 不变；再用同一模型执行逐步采样验证训练与生成约束一致。"
+  check_question: "如果标签已错位但注意力未做因果掩码，训练损失为什么会虚假地变低？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

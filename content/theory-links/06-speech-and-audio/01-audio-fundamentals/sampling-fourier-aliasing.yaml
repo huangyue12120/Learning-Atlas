@@ -11,6 +11,14 @@ practice:
 card:
   title: 采样、傅里叶变换与混叠
   summary: 在合成正弦波、定位 FFT 分箱和演示 7 kHz 音调折叠到 3 kHz 时，用采样定理、频域表示与抗混叠滤波的完整直觉核对计算结果。
+  context: "本课从连续音调生成离散样本并观察 FFT；若采样率不足，频谱峰值可能看似有效却对应错误的折叠频率。"
+  intuition: "采样是在固定时间网格读取波形；网格过稀时，不同高频波会留下同一组样本，离散系统便无法分辨它们。"
+  key_points:
+    - "采样率 fₛ 每秒记录 fₛ 个样本，可无混叠表示的最高频率是 Nyquist 频率 fₛ/2。"
+    - "N 点 FFT 的分箱间隔为 fₛ/N，第 k 个正频率分箱对应 k·fₛ/N。"
+    - "超过 Nyquist 的成分会折叠到低频，抗混叠低通滤波必须在降采样之前去除这些成分。"
+  application: "合成已知正弦波并根据 fₛ、N 预测峰值分箱，再用 10 kHz 采样观察 7 kHz 折叠到 3 kHz。"
+  check_question: "在 10 kHz 采样率下，为什么 7 kHz 正弦会表现为 3 kHz，而不是保留在 7 kHz？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/01. digital signal processing.md

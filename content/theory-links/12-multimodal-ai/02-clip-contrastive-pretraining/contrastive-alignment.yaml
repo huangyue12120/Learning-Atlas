@@ -11,6 +11,14 @@ practice:
 card:
   title: CLIP 的对比式跨模态对齐
   summary: 在实现图文相似度矩阵、温度参数和双向对比损失时，用多模态表示理论核对 joint embedding space 与 InfoNCE 对齐直觉。
+  context: "本课需要从一批配对图文构造相似度矩阵和双向损失；理解对齐目标才能判断标签、归一化与矩阵方向是否正确。"
+  intuition: "图像编码器和文本编码器把不同模态投到同一空间，训练把配对样本拉近、把批内其他组合推远，使相似度可以跨模态比较。"
+  key_points:
+    - "一个批次的图像与文本表示两两比较，配对样本位于相似度矩阵的对角线。"
+    - "图到文和文到图是两个方向的分类问题，CLIP 对二者的交叉熵取平均。"
+    - "温度参数缩放相似度 logits，控制正负样本分布的尖锐程度。"
+  application: "归一化两侧嵌入后计算矩阵乘积，用相同的对角标签分别验证行向和列向损失，再确认温度缩放发生在 softmax 之前。"
+  check_question: "如果只计算图到文的损失，哪一个跨模态检索方向没有被直接约束？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/01. multimodal representations.md

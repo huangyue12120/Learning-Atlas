@@ -11,6 +11,14 @@ practice:
 card:
   title: 优化：用步长日程控制早期与后期搜索
   summary: 实现 warmup、余弦退火和 1cycle 时，把学习率看作每步的搜索尺度，理解为何训练初期需要稳定而收敛后需要更细的更新。
+  context: "固定学习率难以同时满足训练初期的不稳定参数尺度和后期的精细收敛；本课用日程显式分配搜索步幅。"
+  intuition: "把训练看成先建立可靠方向、再扩大探索、最后缩小步子落稳；调度器只改变步长，不替代梯度方向。"
+  key_points:
+    - "warmup 从小学习率逐步升高，减轻初期梯度和优化器状态尚未稳定时的大幅更新。"
+    - "余弦退火在给定周期内平滑降低学习率，使后期更新逐渐细化。"
+    - "1cycle 先升高再降低学习率，并常配合反向变化的动量形成一次完整训练日程。"
+  application: "按全局 step 生成三种学习率序列，先画曲线并核对端点，再记录实际优化器每步采用的学习率。"
+  check_question: "如果余弦日程按 epoch 更新，但代码误按每个 batch 更新，衰减会比计划快还是慢？为什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 03 - calculus/05. optimisation.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 矩阵特征分解：读出 Laplacian 的零空间与 Fiedler 向量
   summary: 在调用 eigh、以零特征值数连通分量并用 Fiedler 向量切分社区前，复习对称矩阵的特征值、特征向量与正交对角化。
+  context: "本课要从图的 Laplacian 谱推断连通性和社区；必须先把图结构转成对称矩阵，再正确解释排序后的特征对。"
+  intuition: "Laplacian 衡量相邻节点取值有多不平滑；零能量方向在每个连通分量内保持常数，最小非零方向给出最平缓的切分。"
+  key_points:
+    - "无向图的组合 Laplacian 为 L=D−A，是实对称半正定矩阵，因此拥有正交特征向量和非负特征值。"
+    - "零特征值的重数等于连通分量数量，每个分量上的常数向量属于零空间。"
+    - "连通图第二小特征值对应的 Fiedler 向量可用符号或阈值给出谱切分。"
+  application: "构造 D−A 后用对称特征求解器排序特征值，数接近零的值，并按 Fiedler 向量对节点分组。"
+  check_question: "一个图有三个互不相连的连通分量时，Laplacian 应有多少个零特征值，原因是什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 02 - matrices/05. decompositions.md

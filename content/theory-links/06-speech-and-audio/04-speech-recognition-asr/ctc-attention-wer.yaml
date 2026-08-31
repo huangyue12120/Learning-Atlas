@@ -11,6 +11,14 @@ practice:
 card:
   title: CTC 对齐、注意力解码与词错误率
   summary: 在实现空白折叠、束搜索和 WER 动态规划时，用 ASR 理论笔记串联帧到词元对齐、注意力编码器—解码器与编辑距离的统一视角。
+  context: "声学帧远多于输出词元，训练数据通常又没有逐帧对齐；本课需要在未知对齐下解码，并用编辑操作评估最终文本。"
+  intuition: "CTC 允许每帧输出词元、重复或 blank，再把多条帧路径折叠成同一句文本；解码器在候选路径之间寻找整体概率更高者。"
+  key_points:
+    - "CTC 折叠先合并相邻重复标签并移除 blank，同一转写对应多条可能帧级对齐路径。"
+    - "束搜索保留有限个高分前缀，相比逐帧贪心能考虑后续词元对当前路径的整体影响。"
+    - "WER=(替换+删除+插入)/参考词数，三类编辑数可由动态规划求最小编辑路径。"
+  application: "用含重复和 blank 的短序列测试折叠顺序，为小词表追踪 beam，再输出 WER 的 S、D、I 分解。"
+  check_question: "CTC 路径 A, blank, A 折叠后为何能得到两个 A，而路径 A, A 只得到一个？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/02. automatic speech recognition.md

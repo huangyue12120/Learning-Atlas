@@ -11,6 +11,14 @@ practice:
 card:
   title: 策略梯度与 REINFORCE 基线
   summary: 在实现回报加权的对数策略梯度时，用强化学习理论笔记核对策略梯度定理、REINFORCE 更新，以及减去基线为何能在不引入偏差的情况下降低方差。
+  context: "本课不再从 Q 表间接选动作，而是直接更新动作概率；单条轨迹的回报噪声很大，必须看清每个时间步究竟由哪段回报负责。"
+  intuition: "让带来高于预期结果的已选动作更可能再次出现，让低于预期的动作变少；基线只定义预期水平，不偏袒任何动作。"
+  key_points:
+    - "策略梯度用 G_t·∇log π_θ(a_t|s_t) 加权已采样动作的对数概率梯度。"
+    - "reward-to-go 只把时间 t 之后的折扣奖励归因于 a_t，排除动作发生前的无关噪声。"
+    - "减去与动作无关的基线 b(s_t) 不改变梯度期望，常用价值估计作为基线以降低方差。"
+  application: "从每条轨迹反向计算 reward-to-go，比较无基线、批均值基线和状态基线下多批梯度的方差与平均方向。"
+  check_question: "为什么基线可以依赖状态，却不能依赖当前采样动作而仍自动保证无偏？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/04. reinforcement learning.md

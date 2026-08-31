@@ -11,6 +11,14 @@ practice:
 card:
   title: LLM 评判者：位置偏差、冗长偏差与可靠性
   summary: 校准 G-Eval 或 DeepEval 评判者时，比较绝对打分与成对选择，使用交换答案顺序抑制位置偏差，并通过重复评判与人工一致性判断分数是否足够稳定。
+  context: "LLM judge 能扩展开放式评估，却会受答案位置、长度和提示措辞影响；本课必须先测量这些偏差再信任分数。"
+  intuition: "把评判者也当成待验证的测量仪器：交换输入、重复测量，并用人工样本检查它是否稳定地测到目标标准。"
+  key_points:
+    - "绝对评分依赖量表锚点，成对比较降低部分量表漂移，但可能偏爱先出现或后出现的答案。"
+    - "交换 A/B 顺序后聚合结果可暴露位置偏差；控制长度可检查冗长是否被误当作质量。"
+    - "重复运行的一致性和与人工标注的一致性是不同可靠性证据，都应按任务报告。"
+  application: "固定 rubric 与 judge 版本，对成对样例做双顺序和多次重复，计算翻转率并抽查与人工判断的分歧。"
+  check_question: "一个 judge 在相同顺序下重复结果很稳定，却总偏爱更长答案；它可靠但有效吗？为什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 链式法则：把局部导数接成全局梯度
   summary: 在为每个 Value 节点编写反向规则前，先理解复合函数的导数为何沿路径相乘。
+  context: "自动微分把复杂表达式拆成许多简单操作；本课要从每个节点的局部导数恢复损失对早期输入的影响。"
+  intuition: "一次微小变化经过每层都会被局部斜率缩放，所以沿一条依赖路径传播时，把这些缩放因子依次相乘。"
+  key_points:
+    - "若 y=f(g(x))，则 y 对 x 的导数等于外层在 g(x) 处的导数乘以内层导数。"
+    - "每个计算图节点只需保存前向值、父节点和本操作的局部导数规则。"
+    - "反向模式从标量输出播种梯度 1，按依赖关系逆序传播对所有上游量的导数。"
+  application: "为加法、乘法和激活节点分别实现局部反向规则，用有限差分检查一个复合表达式的最终梯度。"
+  check_question: "在 y=f(g(x)) 中，如果 g 在当前点的导数为零，y 对 x 的梯度会怎样，原因是什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 03 - calculus/01. differential calculus.md

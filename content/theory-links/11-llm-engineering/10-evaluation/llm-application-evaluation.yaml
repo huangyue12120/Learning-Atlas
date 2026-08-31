@@ -11,6 +11,14 @@ practice:
 card:
   title: LLM 应用评估的指标与不确定性
   summary: 在区分离线基准、回归测试、LLM-as-judge、人工评估和线上监控时，用 Transformer 语言模型笔记核对生成质量不能由单一 loss 或单一分数充分表示的边界；该关联先保留候选状态。
+  context: "本课要为生成式应用组合离线、人工和线上评估；开放式输出没有一个分数能同时代表正确性、帮助性、安全和成本。"
+  intuition: "评估是在多个有噪声的观察窗口中寻找证据，每个指标只覆盖特定质量维度和使用条件。"
+  key_points:
+    - "离线基准适合可重复比较，但可能与真实流量分布不同。"
+    - "模型评审器本身会受提示、位置和被评模型偏差影响。"
+    - "线上指标反映真实行为，却常受用户选择和系统变化混杂。"
+  application: "为关键失败模式各设一个可解释指标，用固定回归集守住版本变化，再用人工抽样和线上监控补足盲区。"
+  check_question: "一个模型在离线基准上得分更高，为什么仍不能直接证明它在真实产品中更好？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

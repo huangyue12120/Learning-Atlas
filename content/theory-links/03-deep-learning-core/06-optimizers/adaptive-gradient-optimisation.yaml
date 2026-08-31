@@ -11,6 +11,14 @@ practice:
 card:
   title: 优化：一阶与二阶动量如何改变更新步长
   summary: 从 SGD 逐步实现到 AdamW 时，用优化轨迹理解动量平滑、平方梯度缩放和权重衰减各自改变了哪一部分更新。
+  context: "本课逐步组合 SGD、动量、RMSProp、Adam 与 AdamW；只有拆开状态和更新项，才能验证实现差异而非只比较最终损失。"
+  intuition: "一阶动量记住近期方向，二阶矩记住各坐标梯度量级；Adam 用前者决定方向、用后者缩放步幅，AdamW 再独立收缩权重。"
+  key_points:
+    - "动量对历史梯度做指数平滑，减少高频振荡并保留持续方向。"
+    - "RMSProp 用平方梯度的移动平均归一化当前梯度，Adam 同时维护一阶和二阶矩并做初期偏差修正。"
+    - "AdamW 将权重衰减从梯度项解耦，参数收缩不再经过自适应二阶矩缩放。"
+  application: "为单参数序列打印每步一阶矩、二阶矩、校正值与衰减项，逐项和手算更新核对后再用于网络。"
+  check_question: "在 AdamW 中，为什么权重衰减应作为独立参数收缩，而不是先加进梯度再除以二阶矩尺度？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 03 - calculus/05. optimisation.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: ViT 的图像分块与 patch 词元
   summary: 在把图像 reshape 成 patch 序列、线性投影并加入 [CLS] 与位置嵌入时，用理论笔记核对 patch 数、嵌入维度和 Transformer 输入形状，理解 ViT 如何把二维视觉问题转成序列建模。
+  context: "本课把二维图像交给只接收序列的编码器；分块顺序、展平尺寸或 [CLS] 位置出错，会让空间布局与分类读出都失去含义。"
+  intuition: "每个图块就是一个视觉词元；线性投影统一词元宽度，位置嵌入说明它来自哪块，[CLS] 汇集整幅图的证据。"
+  key_points:
+    - "H×W 图像用 P×P 的不重叠图块会产生 N=HW/P² 个 patch，每个展平向量长度为 P²C。"
+    - "线性 patch 投影等价于核大小与步幅均为 P 的卷积。"
+    - "加入 [CLS] 后序列长度为 N+1；patch 越小，空间分辨率越高，但全局注意力成本随 token 数平方增长。"
+  application: "对给定 H、W、P、C 显式计算预期形状，验证 patchify 后可逆重排，并比较不同 P 下 token 数和注意力矩阵规模。"
+  check_question: "把 patch 边长减半时，patch 数量和稠密注意力分数数量分别会变为原来的多少倍？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 08 - computer vision/04. vision transformers and generation.md

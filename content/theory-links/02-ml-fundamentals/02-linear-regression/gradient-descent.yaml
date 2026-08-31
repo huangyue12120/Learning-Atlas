@@ -11,6 +11,14 @@ practice:
 card:
   title: 梯度机器学习：用误差更新回归参数
   summary: 实现 MSE 的梯度下降时，用损失、梯度和学习率的关系检查每次权重更新为何会朝降低误差的方向移动。
+  context: "本课要从预测误差手写回归参数更新；符号或缩放因子出错时，循环仍会运行，却可能让损失上升。"
+  intuition: "残差告诉预测偏离目标多少，MSE 梯度把这些残差按输入特征加权汇总，再沿反方向调整权重。"
+  key_points:
+    - "线性回归用特征的加权和产生预测，MSE 是残差平方的样本平均。"
+    - "权重梯度由残差与相应特征的乘积平均得到，偏置梯度则汇总残差本身。"
+    - "学习率缩放梯度更新；在线性回归的凸二次目标上，合适步长可趋向全局最小值。"
+  application: "在每轮更新前打印损失与梯度，用有限差分核对一个权重的解析梯度，并观察较大和较小学习率的曲线。"
+  check_question: "若某特征在所有样本中都为零，MSE 对它对应权重的梯度应是多少，原因是什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/02. gradient machine learning.md

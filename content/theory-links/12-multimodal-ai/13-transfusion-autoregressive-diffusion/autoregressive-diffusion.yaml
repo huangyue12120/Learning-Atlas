@@ -11,6 +11,14 @@ practice:
 card:
   title: 自回归与扩散目标的统一
   summary: 在比较离散文本 next-token loss 与连续图像 diffusion loss 的共享主干时，用跨模态生成理论中的文本到图像生成路径，核对自回归图像 token 预测、扩散去噪与条件生成的差异。
+  context: "本课要在同一模型中区分文本的下一词元预测和图像的去噪目标；两类数据共享主干，但不能共享同一种输出损失。"
+  intuition: "文本通常在离散词表中选择下一个符号，扩散生成则从带噪连续表示中逐步估计干净信号；共享表示不等于抹平两种生成过程。"
+  key_points:
+    - "自回归文本目标按顺序预测离散词元，使用词表上的分类分布。"
+    - "扩散目标在选定噪声时刻处理连续图像表示，并学习预测噪声或等价目标。"
+    - "文本条件为图像去噪提供语义约束，使最终样本与提示内容对齐。"
+  application: "检查批次中不同模态位置使用的注意力方式、输出头和损失掩码，确认文本交叉熵不会误施加到连续图像位置。"
+  check_question: "为什么连续图像潜变量不能直接沿用文本词表上的下一词元交叉熵？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/04. cross-modal generation.md

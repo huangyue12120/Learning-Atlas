@@ -11,6 +11,14 @@ practice:
 card:
   title: 词嵌入：从分布假说到负采样
   summary: 实现 skip-gram 负采样更新时，用分布假说、中心词与上下文词双表以及点积几何解释正负样本为何会把语义相近的词拉到相邻位置。
+  context: "词袋把每个词放在独立坐标轴上，无法表达相似上下文；本课通过局部共现训练低维向量，并需解释采样更新的方向。"
+  intuition: "经常出现在相似邻域的词会接受相似的预测压力；提高真实中心—上下文点积、降低随机噪声点积，就形成分布式几何。"
+  key_points:
+    - "分布假说认为词的意义可由其出现的上下文模式刻画，skip-gram 用中心词预测窗口内上下文。"
+    - "输入词表与输出上下文表承担不同角色，训练时分别更新，最终表示可选用或组合两者。"
+    - "负采样把全词表 softmax 近似为真实词对的二元正例和少量噪声负例。"
+  application: "构造中心词、正上下文和负样本三元组，逐项检查 sigmoid 目标与两张嵌入表的梯度方向，再看近邻词。"
+  check_question: "对一个真实中心—上下文词对，训练希望它们的点积变大还是变小；负样本又如何？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/03. embeddings and sequence models.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 稠密检索：双编码器、归一化与点积
   summary: 构建 Sentence-BERT 稠密检索基线时，用双编码器把查询与段落映射到同一空间，理解 L2 归一化为何让点积等于余弦相似度，以及近邻排序怎样决定召回结果。
+  context: "本课用向量近邻替代词面匹配；检索是否正确取决于查询和文档表示是否可比，以及索引采用的相似度是否与训练目标一致。"
+  intuition: "双编码器把两类文本投到同一坐标系，归一化后只比较方向；查询沿最接近的方向找到语义候选。"
+  key_points:
+    - "双编码器可离线编码文档、在线编码查询，再用向量点积或余弦做大规模近邻搜索。"
+    - "向量 L2 归一化后范数都为 1，此时点积数值等于余弦相似度。"
+    - "top-k 排序决定后续生成能看到哪些证据；近似索引还需评估相对精确搜索的召回损失。"
+  application: "对查询和语料统一归一化，手算小样本点积排序，再比较精确搜索与近似索引的 recall@k。"
+  check_question: "若只归一化查询而不归一化文档，点积排序还会纯粹反映方向相似度吗？为什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

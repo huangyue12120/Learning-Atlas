@@ -11,6 +11,14 @@ practice:
 card:
   title: 无状态协议与上下文边界
   summary: 在理解 MCP 的 client/server 能力声明、版本选择、资源、工具与 prompt 边界时，用高级文本生成笔记核对外部信息如何作为上下文进入模型；该关联先保留候选状态，因为理论笔记未专门讨论 MCP。
+  context: "本课要区分 MCP 客户端、服务器和模型各自持有的状态；协议消息只有被客户端选择并写入上下文后才会影响模型生成。"
+  intuition: "MCP 规定结构化能力如何被发现和调用，但模型看到的仍是客户端组装进当前请求的上下文与工具结果。"
+  key_points:
+    - "能力声明描述可用资源与工具，不等于模型已经读取其内容。"
+    - "协议版本和消息 schema 约束通信边界，业务状态仍需应用自行保存。"
+    - "工具结果回到模型前应经过客户端的验证与上下文选择。"
+  application: "画出 host、client、server 与模型之间的数据流，标明每一步保存的状态、验证责任以及进入模型上下文的内容。"
+  check_question: "服务器暴露了一项资源后，为什么不能假定模型已经知道其中的内容？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

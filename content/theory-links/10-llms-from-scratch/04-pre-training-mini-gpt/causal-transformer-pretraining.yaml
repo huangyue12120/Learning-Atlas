@@ -11,6 +11,14 @@ practice:
 card:
   title: 因果 Transformer 的训练与解码
   summary: 在从嵌入、因果自注意力和 Transformer block 组装 mini GPT，并区分 prefill 与 decode 时，用 Transformer 理论笔记核对因果语言建模、位置编码、残差连接和 KV cache 的作用。
+  context: "本课既训练整段序列的下一词元预测，又要逐步生成；模型结构相同，但训练、提示预填充和单步解码的数据流与缓存行为不同。"
+  intuition: "训练一次并行练习所有前缀的下一步，生成先把完整提示读进记忆，再每次只加入一个新词元并复用过去的 K、V。"
+  key_points:
+    - "token 与位置表示进入一串因果 decoder block，最终归一化和词表投影为每个位置产生下一词元 logits。"
+    - "因果掩码确保位置 i 只读取自身与过去，交叉熵标签相对输入向左错位一位。"
+    - "prefill 并行处理全部提示并建立各层 KV cache；decode 每步只计算新词元的投影并读取缓存历史。"
+  application: "先让 mini GPT 过拟合短语料，再比较带缓存和无缓存生成的 logits，确认逐步追加后的输出在数值容差内一致。"
+  check_question: "KV cache 为什么能减少 decode 的重复投影，却不能让下一个采样词元在前一个词元确定前提前生成？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

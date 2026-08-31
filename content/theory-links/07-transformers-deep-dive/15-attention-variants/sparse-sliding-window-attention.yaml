@@ -11,6 +11,14 @@ practice:
 card:
   title: 滑动窗口与稀疏注意力拓扑
   summary: 在构造 SWA、局部加跨步稀疏掩码并比较 KV 缓存时，用高效架构笔记核对 O(N·W) 复杂度、L×W 有效感受野，以及穿插全局层为何能弥补长距离检索损失。
+  context: "本课要用有限注意力预算支持长序列；稀疏掩码不仅改变速度，也决定信息能否跨层从远处传到当前词元。"
+  intuition: "多数层只看近邻以节省成本，再用跨步连接或少量全局层搭桥，让远距离信息经过多跳传播。"
+  key_points:
+    - "因果滑动窗口让位置 i 只读取最近 W 个键，计算与可保留 KV 规模从全长降为 O(NW) 与 O(W)。"
+    - "连续 L 层局部窗口最多形成约 L×W 的有效历史感受野，单层之外的信息需逐层中继。"
+    - "局部加跨步或全局 token 能恢复长距离通路；只有稀疏内核跳过被屏蔽块时，理论稀疏才转化为实际加速。"
+  application: "对每种掩码统计非零连接、检查因果性，并用图可达性验证指定远端 token 经过 L 层后是否能影响末端。"
+  check_question: "为什么在稠密 N×N 张量上先计算全部分数再乘稀疏掩码，通常得不到稀疏注意力的速度收益？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/02. efficient architectures.md

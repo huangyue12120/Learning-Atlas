@@ -11,6 +11,14 @@ practice:
 card:
   title: 经典机器学习：用重采样降低单模型波动
   summary: 实现 bagging 或随机森林时，联系自助样本和集成平均的作用，理解它为何主要降低方差而不是简单复制同一棵树。
+  context: "不稳定的树会因训练样本轻微变化而大幅改变；本课需要制造有差异的模型，再通过聚合抵消各自波动。"
+  intuition: "让多位会犯不同错误的模型独立投票，偶然误差会互相抵消；若所有模型完全相同，复制再多也无帮助。"
+  key_points:
+    - "bagging 为每个基学习器抽取带放回的 bootstrap 样本，使训练数据组合产生差异。"
+    - "回归对预测取平均，分类通常投票；聚合主要降低高方差学习器的波动。"
+    - "随机森林还在节点切分时随机选择特征子集，以降低树之间相关性。"
+  application: "训练多个 bootstrap 树并保存单树预测，比较单树与集成的误差波动，再观察增加树数后的稳定性。"
+  check_question: "如果集成中的每棵树都在完全相同的数据和条件下得到完全相同预测，平均能降低方差吗？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/01. classical machine learning.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 经典文本表示：TF-IDF 与余弦相似度
   summary: 计算词频、逆文档频率和 L2 归一化时，连接稀疏词袋空间与余弦相似度，核对常见词降权及文档长度归一化的数学直觉。
+  context: "原始词频会让长文档和全语料常见词占据较大数值；本课需要让真正区分文档的词主导相似度。"
+  intuition: "TF 表示一个词在本文有多重要，IDF 表示它在整个语料有多稀有；归一化后再比较向量方向，而不是文档总长度。"
+  key_points:
+    - "词袋把每个词表项作为一维，文档向量通常稀疏，并丢弃词序。"
+    - "IDF 随包含该词的文档数增加而降低，因此跨多数文档出现的词得到较小权重。"
+    - "对 TF-IDF 向量做 L2 归一化后，两向量点积等于余弦相似度。"
+  application: "手算一个小语料的文档频率、TF-IDF 与范数，再比较归一化前后的检索排序并检查常见词权重。"
+  check_question: "一个词在某文档中出现很多次、但也出现在几乎所有文档中时，它的 TF 和 IDF 会分别怎样影响最终权重？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/02. text processing and classic NLP.md

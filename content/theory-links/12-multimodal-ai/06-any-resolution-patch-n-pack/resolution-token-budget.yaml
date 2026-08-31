@@ -11,6 +11,14 @@ practice:
 card:
   title: 原生分辨率与视觉词元预算
   summary: 在比较 patch-n-pack、NaFlex 和不同宽高比下的序列长度时，用视觉词元流水线理论核对 patch 特征的投影、视觉 token 压缩以及视觉序列送入语言模型时的预算权衡。
+  context: "本课比较不同分辨率和宽高比的打包方式；视觉词元预算会同时影响细节保留、上下文占用和推理成本。"
+  intuition: "更细或更多的图块能保留更多局部信息，却会形成更长的视觉序列；any-resolution 方法是在不强制拉伸图像的前提下分配这份预算。"
+  key_points:
+    - "固定 patch 尺寸时，图像面积越大，产生的原始视觉词元通常越多。"
+    - "保持原始宽高比可减少几何失真，但不同样本会得到不同长度的视觉序列。"
+    - "压缩或重采样视觉词元能节省上下文，却可能丢失小目标和细粒度文字。"
+  application: "为每种分辨率计算图块数与打包后的有效词元数，再把它们与语言上下文上限和预期细节需求一起比较。"
+  check_question: "为什么只提高输入分辨率、却不调整视觉词元预算，可能让语言模型的可用文本上下文变少？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/02. vision language models.md

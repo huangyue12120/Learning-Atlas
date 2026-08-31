@@ -11,6 +11,14 @@ practice:
 card:
   title: 经典 NLP 特征：n-gram 与否定范围
   summary: 为情感文本加入二元语法或 `NOT_` 前缀时，用词序被词袋丢弃这一限制判断需要保留多大的局部上下文，以及为何不能把否定词当作普通停用词删除。
+  context: "一元词袋会让 good 与 not good 拥有近似特征；本课需要用有限局部顺序恢复否定如何改变情感词语义。"
+  intuition: "不要试图恢复整句结构，只给受否定影响的局部词加上可区分标记，让线性分类器看见组合差异。"
+  key_points:
+    - "unigram 词袋保留出现次数却丢弃词序，因此无法区分由相同词组成的不同短语。"
+    - "bigram 显式表示相邻词组合，能捕获 not good 等局部模式，但会扩大并稀疏特征空间。"
+    - "`NOT_` 前缀需要明确否定作用域和终止标点；删除否定词会直接移除关键极性信号。"
+  application: "为包含否定、标点和转折的句子打印 unigram、bigram 与前缀特征，比较分类器在哪些边界样例上改变预测。"
+  check_question: "为什么把 not 当作停用词删除后，not bad 可能被模型解释成与 bad 相近的情感？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/02. text processing and classic NLP.md

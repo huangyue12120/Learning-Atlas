@@ -11,6 +11,14 @@ practice:
 card:
   title: 注意力：查询、键、值与动态对齐
   summary: 核对 Bahdanau 注意力各矩阵形状时，用查询与每个编码器状态的相似度、softmax 权重及值向量加权和解释上下文如何随解码步骤变化。
+  context: "固定上下文要求一个向量承载全部源信息；本课让每个解码步骤重新选择最相关的编码器状态，并需严格追踪 batch 与序列轴。"
+  intuition: "查询表达当前解码器在找什么，键用于逐位置匹配，softmax 把匹配分数变成权重，值的加权和就是本步上下文。"
+  key_points:
+    - "Bahdanau 注意力用可学习加性函数比较当前查询与每个编码器状态，产生每个源位置一个分数。"
+    - "softmax 沿源序列轴归一化，未屏蔽位置的权重和为 1；填充位置应被排除。"
+    - "上下文向量是值向量的加权和，因此维度与值的特征维一致，并随解码步骤变化。"
+  application: "标注查询、编码器状态、分数、权重与上下文 shape，检查 padding 权重为零和每步有效权重和为 1。"
+  check_question: "若注意力分数误在特征轴而非源序列轴做 softmax，权重还能表示对各源位置的选择吗？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/03. embeddings and sequence models.md

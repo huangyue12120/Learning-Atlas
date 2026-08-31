@@ -11,6 +11,14 @@ practice:
 card:
   title: MDP、回报与价值函数基础
   summary: 在定义状态、动作、转移、奖励和折扣回报时，用强化学习理论笔记核对 MDP 五元组、Markov 性质以及 V^π 与 Q^π 的条件期望含义。
+  context: "本课要先把 GridWorld 写成可学习的问题；若状态遗漏决策所需历史，或把即时奖励当成长期价值，后续算法即使收敛也不会解决原任务。"
+  intuition: "状态是足以面向未来的一张快照，策略从快照选动作，价值则预估从这里继续执行策略能累积多少折扣奖励。"
+  key_points:
+    - "MDP 由状态 S、动作 A、转移 P、奖励 R 与折扣 γ 构成，策略 π(a|s) 给出状态下的动作分布。"
+    - "Markov 性质要求给定当前 s、a 后，下一状态分布不再依赖更早历史；不满足时通常说明状态表示不完整。"
+    - "V^π(s) 是从状态 s 出发的期望回报，Q^π(s,a) 还固定第一步动作 a，二者都是对未来折扣奖励的条件期望。"
+  application: "为 GridWorld 明确列出五元组，检查每个转移概率和为 1，再用同一策略的模拟平均回报核对 V 与 Q 的定义差异。"
+  check_question: "若奖励取决于代理前一步来自哪个格子，但状态只保存当前位置，这个表示为什么不满足 Markov 性质？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/04. reinforcement learning.md

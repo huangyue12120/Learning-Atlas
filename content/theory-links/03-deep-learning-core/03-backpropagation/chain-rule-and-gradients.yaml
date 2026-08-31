@@ -11,6 +11,14 @@ practice:
 card:
   title: 多元微积分：沿计算图组合局部导数
   summary: 为 Value 节点实现 backward 函数时，用链式法则把每个操作的局部导数乘入上游梯度，核对反向传播的累积顺序。
+  context: "本课要让每个标量 Value 自动求导；节点只知道自己的运算，必须用统一规则把最终损失的影响传回所有祖先。"
+  intuition: "节点接到的是损失对自身输出的敏感度，再乘本操作对每个输入的局部导数，得到应传给父节点的贡献。"
+  key_points:
+    - "链式法则将上游梯度与当前操作的局部导数相乘，形成对每个输入的向量—Jacobian 乘积。"
+    - "计算图必须按逆拓扑顺序反传，确保子节点的梯度贡献先到达父节点。"
+    - "一个 Value 被多次使用时，各下游路径贡献必须累加，覆盖赋值会丢失梯度。"
+  application: "为基本运算保存闭包式 backward 规则，先拓扑排序再反向遍历，并用有限差分检查复用节点的梯度。"
+  check_question: "若 z=x·x，计算图中 x 同时进入乘法的两个输入端，x 的梯度为什么包含两份路径贡献？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 03 - calculus/03. multivariate calculus.md

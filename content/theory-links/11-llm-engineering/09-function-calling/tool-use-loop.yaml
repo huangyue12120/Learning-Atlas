@@ -11,6 +11,14 @@ practice:
 card:
   title: 工具调用作为生成–执行循环
   summary: 在处理 tool call、参数 schema、执行结果回填和多轮循环时，用高级文本生成笔记核对模型如何生成下一步符号序列，以及外部工具结果如何重新进入上下文。
+  context: "本课要实现模型提出调用、程序执行工具、结果回填再继续生成的循环；模型生成与真实副作用必须由边界清楚的运行时连接。"
+  intuition: "工具调用本身只是模型生成的一段结构化意图，只有宿主程序验证参数并执行后，外部世界才会发生变化。"
+  key_points:
+    - "工具名称和参数由模型生成，因此必须按 schema 和权限重新验证。"
+    - "执行结果作为新消息加入上下文，模型再据此选择下一步。"
+    - "循环需要明确终止条件、错误处理和最大调用预算。"
+  application: "把生成、验证、授权、执行和结果回填拆成可观察步骤，并在每次有副作用的调用前执行确定性检查。"
+  check_question: "为什么模型已经输出合法工具参数后，宿主程序仍不能跳过授权检查？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

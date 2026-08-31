@@ -11,6 +11,14 @@ practice:
 card:
   title: 多元微积分：让每个参数都有下降方向
   summary: 在为二维函数求数值梯度和 Hessian 前，先理解偏导、梯度、Jacobian 与曲率分别表达什么。
+  context: "模型损失依赖多个参数；本课需要区分对单个坐标的变化率、全部参数的一阶方向以及二阶曲率信息。"
+  intuition: "先逐坐标问微小移动会怎样改变输出，再把所有偏导排成梯度；继续对梯度求导就得到局部曲率。"
+  key_points:
+    - "偏导数固定其他变量，只测一个坐标方向的变化率；梯度把标量函数的全部偏导组成向量。"
+    - "梯度指向局部最陡上升方向，负梯度因此给出最陡下降的一阶方向。"
+    - "向量值函数的一阶导数组织为 Jacobian，标量函数的二阶偏导组织为 Hessian。"
+  application: "对本课二维函数分别做坐标差分以组装梯度，再对一阶导数求差分构造 Hessian，并核对形状和对称性。"
+  check_question: "一个从 3 个参数映射到 2 个输出的函数，其 Jacobian 应有多少行和多少列，各元素表示什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 03 - calculus/03. multivariate calculus.md

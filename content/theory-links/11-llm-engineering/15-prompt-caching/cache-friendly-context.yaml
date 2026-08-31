@@ -11,6 +11,14 @@ practice:
 card:
   title: 前缀缓存与上下文布局
   summary: 在安排稳定系统提示、可变用户内容、cache breakpoints 和 break-even 计算时，用部署笔记核对前缀缓存如何减少重复 prefill 与输入成本。
+  context: "本课要调整上下文顺序以提高缓存命中率；必须明确前缀缓存要求词元级一致，才能决定稳定内容与可变内容的位置。"
+  intuition: "把重复内容放在最前面，相同请求前缀就能复用已计算的注意力键值；首个差异之后的内容必须重新预填充。"
+  key_points:
+    - "缓存匹配依据实际词元前缀，而不是语义相似度。"
+    - "稳定系统指令和共享资料应位于频繁变化的用户内容之前。"
+    - "缓存收益取决于重复前缀长度、命中次数、保存成本和过期策略。"
+  application: "记录每类消息的变化频率，把稳定块前置，并用命中率与节省的预填充词元数计算 break-even。"
+  check_question: "为什么只改动提示最前面的一个词元，可能使后面很长的共享内容都无法命中前缀缓存？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/05. scaling and deployment.md

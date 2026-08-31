@@ -11,6 +11,14 @@ practice:
 card:
   title: 对话状态评估：联合目标与槽位级误差
   summary: 计算 JGA 时，把整轮槽位字典视为一次全有或全无预测，再辅以任务型对话的槽位精确率、召回率与 F1，定位被联合指标隐藏的具体槽位错误。
+  context: "任务型对话依赖多轮累积的槽位状态；只统计单个槽位正确率会隐藏一次错误对整轮任务可执行性的影响。"
+  intuition: "JGA 把整张状态表当作一个答案，任一槽位错就判整轮失败；槽位级指标再把这次失败拆开定位。"
+  key_points:
+    - "对每一轮，joint goal accuracy 只有在预测槽位—值集合与目标完全一致时记为正确。"
+    - "槽位精确率关注预测项中有多少正确，召回率关注目标项中有多少被找回，F1 平衡二者。"
+    - "比较前需要统一空值、大小写或规范值表示，否则格式差异会被误计为状态错误。"
+  application: "逐轮构造预测和目标字典，先计算 exact match，再汇总槽位 TP、FP、FN，并输出造成 JGA 失败的具体差异。"
+  check_question: "一轮中 9 个槽位正确、1 个槽位错误时，该轮 JGA 是多少；槽位级得分为什么仍可能很高？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

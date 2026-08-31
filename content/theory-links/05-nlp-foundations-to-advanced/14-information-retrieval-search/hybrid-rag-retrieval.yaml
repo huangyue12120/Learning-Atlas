@@ -11,6 +11,14 @@ practice:
 card:
   title: RAG 检索：稀疏、稠密与重排的互补
   summary: 组合 BM25、双编码器、RRF 与交叉编码器时，对照词面匹配、语义近邻和成对相关性评分，判断每一层分别修复哪类检索遗漏。
+  context: "只用词面检索会漏掉改写，只用稠密检索又可能错过精确标识符；本课需要先扩大互补候选，再用更强模型精排。"
+  intuition: "BM25 找相同词，双编码器找相近含义，RRF 按排名合并两路证据，交叉编码器最后让查询与候选共同阅读。"
+  key_points:
+    - "稀疏检索擅长名称、数字和关键词精确匹配，稠密检索擅长语义改写但依赖嵌入空间质量。"
+    - "RRF 依据各列表名次累加倒数排名分数，不要求两种检索器的原始分数处于同一尺度。"
+    - "交叉编码器联合编码查询与文档，相关性更细致但成本高，适合只重排有限候选。"
+  application: "分别保存 BM25 与 dense 的候选和名次，检查 RRF 合并覆盖，再只对合并 top-n 运行 cross-encoder。"
+  check_question: "为什么直接相加 BM25 分数和余弦相似度可能不可靠，而 RRF 可以绕开哪一个问题？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

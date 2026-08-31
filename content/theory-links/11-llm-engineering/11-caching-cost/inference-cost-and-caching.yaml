@@ -11,6 +11,14 @@ practice:
 card:
   title: KV 缓存、前缀缓存与推理成本
   summary: 在核算输入/输出 token 成本、命中率、TTL、速率限制和语义缓存时，用部署笔记核对前缀缓存、KV 缓存和批量推理如何改变成本曲线。
+  context: "本课要拆解一次模型调用的输入、输出和缓存成本；不同缓存层节省的是不同阶段的计算，不能用同一个命中率解释。"
+  intuition: "KV 缓存避免在单次解码中重复计算历史注意力，前缀缓存则复用多个请求共有前缀的预填充结果。"
+  key_points:
+    - "活动序列越长，每层需要保存的键和值通常越多。"
+    - "前缀只有在词元序列一致时才能安全复用。"
+    - "动态批处理提高设备利用率，但排队会改变首词元延迟。"
+  application: "分别测量预填充、逐词元解码和排队时间，再按稳定前缀比例、缓存内存和命中率计算真实节省。"
+  check_question: "为什么语义相近但词元不同的两个提示，不能直接共享同一份精确前缀 KV 缓存？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/05. scaling and deployment.md

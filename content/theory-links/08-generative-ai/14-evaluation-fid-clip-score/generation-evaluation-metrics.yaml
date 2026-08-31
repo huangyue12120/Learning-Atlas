@@ -11,6 +11,14 @@ practice:
 card:
   title: 生成质量、图文对齐与人类偏好评估
   summary: 在实现 FID、CLIP 式余弦相似度和 Elo 聚合时，用跨模态生成笔记区分分布质量、文本对齐与人类判断三条证据，并核对每项指标的数学对象与适用边界。
+  context: "生成模型可能画面逼真却不听提示，也可能逐句贴合却缺乏多样性；本课需要避免把不同评价对象压成一个看似完整的分数。"
+  intuition: "FID 比较两批图像的分布指纹，CLIPScore 检查单个图文对是否语义接近，人类偏好则直接回答用户更愿意选哪一个。"
+  key_points:
+    - "FID 比较真实与生成图像在特征空间中的均值和协方差，越低表示两组分布越接近，并需要足够样本才稳定。"
+    - "CLIPScore 是图像与提示 embedding 的余弦相似度，衡量文本对齐但继承 CLIP 的组合推理和领域盲点。"
+    - "成对人类判断可用 Bradley–Terry 或 Elo 聚合，信号直接但受标注标准、顺序和样本选择影响。"
+  application: "对同一固定提示集同时报告 FID、CLIPScore 与盲测偏好，并保留样本数和不确定性，避免跨不同数据设置直接排名。"
+  check_question: "一个模型 CLIPScore 很高但 FID 很差，最合理的解释是哪一评价维度仍存在问题？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/04. cross-modal generation.md

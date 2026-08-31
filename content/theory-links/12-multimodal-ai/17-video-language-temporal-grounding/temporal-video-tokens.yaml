@@ -11,6 +11,14 @@ practice:
 card:
   title: 视频词元的时间压缩与定位
   summary: 在把帧、空间图块和时间窗口映射到语言查询时，用视频分词理论核对时空 token 数和时间压缩为何直接影响 temporal grounding。
+  context: "本课要把视频切成可供语言模型处理的时空词元并定位事件区间；采样和压缩方式决定模型还能看到哪些时间证据。"
+  intuition: "视频是在图像图块之外再增加时间轴；模型必须既压缩大量重复帧，又保留足够的时间顺序来回答事件何时发生。"
+  key_points:
+    - "未经压缩的序列长度随帧数与每帧空间图块数相乘增长。"
+    - "时间采样或 tubelet 聚合能缩短序列，但过强压缩会漏掉短暂动作。"
+    - "时间位置表示让模型区分相似画面出现的先后顺序和所在区间。"
+  application: "根据帧率、采样步长和空间网格算出实际词元数，再检查事件起止时间换算到采样索引后是否仍可分辨。"
+  check_question: "若采样间隔大于一个短动作的持续时间，temporal grounding 最可能丢失什么信息？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/03. image and video tokenisation.md

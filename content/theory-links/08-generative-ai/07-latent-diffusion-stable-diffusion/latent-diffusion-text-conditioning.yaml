@@ -11,6 +11,14 @@ practice:
 card:
   title: 潜空间扩散与文本交叉注意力
   summary: 在把 DDPM 移入 VAE 潜空间并加入文本条件时，用跨模态生成笔记核对编码、潜变量去噪、交叉注意力和解码四个环节如何组成 Stable Diffusion。
+  context: "像素空间扩散成本高，而只有压缩没有条件又不能按提示生成；本课必须把 VAE、去噪器和文本编码器接成语义与形状都一致的两阶段系统。"
+  intuition: "先把图像压缩成更小的连续画布，在画布上按文本逐步去噪，最后只解码一次回到像素。"
+  key_points:
+    - "VAE 编码器和解码器先训练成图像—潜变量接口，扩散模型随后把真实图像的潜变量当作训练数据。"
+    - "潜空间的空间尺寸显著小于像素空间，因此相同去噪步骤处理的张量和注意力成本更低。"
+    - "交叉注意力以图像特征为 Q、文本词元为 K 和 V，使不同空间位置可选择相关提示内容。"
+  application: "逐段核对像素、潜变量、文本 embedding 与去噪输出形状，并通过置空或替换文本条件观察同一初始噪声的生成变化。"
+  check_question: "潜空间扩散为什么能减少计算，却仍需要 VAE 解码器参与最终生成？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/04. cross-modal generation.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: 提示词的结构与条件分布
   summary: 在拆解系统消息、用户消息、上下文和输出约束时，用 Transformer 语言模型笔记核对提示如何改变条件分布，以及因果模型为何只能读取当前位置之前的上下文。
+  context: "本课要安排系统消息、任务、上下文和输出约束；理解因果语言模型如何读取前缀，才能判断信息应放在哪里。"
+  intuition: "提示词不是被模型逐条执行的程序，而是共同构成生成前缀，并据此重新分配下一词元概率的条件。"
+  key_points:
+    - "因果注意力让当前位置只能读取前面已经出现的词元。"
+    - "改变前缀中的指令、示例或上下文都会改变后续条件分布。"
+    - "清晰分隔不同信息区域，可以减少模型混淆任务与参考材料。"
+  application: "按稳定指令、任务上下文、具体输入和输出要求组织提示，再检查模型在每一步实际可见哪些信息。"
+  check_question: "如果把关键约束放在模型生成之后才提供，它为什么无法影响已经生成的内容？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

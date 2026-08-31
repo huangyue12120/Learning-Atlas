@@ -11,6 +11,14 @@ practice:
 card:
   title: PPO 的重要性比率与裁剪目标
   summary: 在多轮重用同一批展开数据时，用强化学习理论笔记复核新旧策略概率比、裁剪代理目标，以及 ε 如何限制单次策略更新的幅度。
+  context: "本课会用旧策略收集一次数据后做多轮梯度更新；随着当前策略改变，同一动作样本的代表性也在改变，需要限制一次批次把策略推得过远。"
+  intuition: "概率比是新旧策略之间的里程表，优势给出该往哪边走；裁剪在有利方向设置平台，阻止模型借一批旧数据迈出过大一步。"
+  key_points:
+    - "重要性比率 r_t=π_θ(a_t|s_t)/π_old(a_t|s_t)，实现时可由新旧 log probability 之差取指数得到。"
+    - "裁剪目标取 r_tA_t 与 clip(r_t,1−ε,1+ε)A_t 的较小值，对正、负优势分别限制概率上升或下降过度。"
+    - "每轮更新期间 π_old 与优势保持冻结；完整目标还包含 critic 的价值回归和维持探索的熵项。"
+  application: "画出正负优势下目标随 r_t 的分段曲线，核对平台方向，并在每个 epoch 记录策略 KL 与被裁剪样本比例。"
+  check_question: "当 A_t<0 且 r_t 已低于 1−ε 时，继续降低该动作概率为什么不再提高裁剪代理目标？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/04. reinforcement learning.md

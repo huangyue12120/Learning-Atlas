@@ -11,6 +11,15 @@ practice:
 card:
   title: 子词分词与压缩权衡
   summary: 在比较字符级、词级、BPE、WordPiece 和 SentencePiece，并测量不同语言的 token fertility 时，用文本处理笔记核对子词边界、未知词和词表大小如何共同影响序列长度。
+  context: "本课要为后续模型确定最基础的序列单位；词表过小会拉长上下文，词表过大又会增加 embedding 与输出层成本，并可能浪费在稀有整词上。"
+  intuition: "子词像一盒可复用拼块：高频片段直接用大块压缩，罕见词退回较小片段拼出，从而同时控制词表和序列长度。"
+  key_points:
+    - "词级分词序列短但词表难以覆盖新词、代码和多语言文本，未知词会丢失内部结构。"
+    - "字符或字节级表示几乎不会未知，却显著增加序列长度并消耗注意力预算。"
+    - "BPE 等子词方法反复合并高频片段，在有限词表下让常见形式更短、罕见形式仍可组合。"
+    - "token fertility 表示每个词或字符平均产生多少 token，会直接影响上下文容量、训练与推理成本。"
+  application: "用同一组英语、中文、代码与罕见词样本比较多种分词方案的词表覆盖、往返还原和 fertility，而不是只看英语平均长度。"
+  check_question: "扩大 BPE 词表通常会怎样影响序列长度与模型 embedding 参数量？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/02. text processing and classic NLP.md

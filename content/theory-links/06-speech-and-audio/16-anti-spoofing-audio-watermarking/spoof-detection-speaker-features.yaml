@@ -11,6 +11,14 @@ practice:
 card:
   title: 说话人声学特征与反欺骗分数
   summary: 在比较原始波形、频谱图与 SSL 特征检测器并用 EER 校准时，用说话人分析笔记区分身份嵌入、声学伪影和阈值分数分布，避免把验证器误作深度伪造检测器。
+  context: "一段伪造语音可以既像目标说话人又含生成伪影；本课必须把身份验证与真假检测视为不同判别任务。"
+  intuition: "说话人模型问是谁在说，反欺骗模型问这段信号如何产生；前者聚合身份稳定特征，后者寻找设备或生成过程留下的声学痕迹。"
+  key_points:
+    - "说话人验证比较身份嵌入，不能仅凭高身份相似度判断样本是真人录音。"
+    - "raw waveform、spectrogram 和自监督特征暴露不同时间、频率与高层声学线索，检测器的归纳偏置随表示变化。"
+    - "阈值由 bona fide 与 spoof 分数分布校准，EER 只概括特定测试条件，未知攻击可能改变分布。"
+  application: "为身份与真假分别输出分数，按攻击类型绘制分布并扫描阈值，保留未见生成器作为独立泛化测试。"
+  check_question: "一段深度伪造语音通过说话人验证器，为什么这不能说明它也通过了反欺骗检测？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/04. speaker and audio analysis.md

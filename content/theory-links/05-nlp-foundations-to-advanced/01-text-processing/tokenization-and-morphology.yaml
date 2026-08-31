@@ -11,6 +11,14 @@ practice:
 card:
   title: 文本处理：分词粒度与词形规范化
   summary: 实现正则分词、词干提取和词形还原时，用经典 NLP 的分词粒度、形态学与规范化原则判断哪些表面差异应合并，哪些信息必须保留。
+  context: "本课的计数和分类都建立在词元序列上；分词或规范化一旦改变边界，后续词表、特征与解释都会随之改变。"
+  intuition: "规范化是在稀疏性与信息之间做选择：合并真正等价的表面形式，同时保留对任务有区分力的形态和符号。"
+  key_points:
+    - "正则分词器通过显式字符模式决定词、数字和标点的边界，规则必须覆盖目标语料中的特殊形式。"
+    - "词干提取用启发式规则截取词缀，结果未必是合法单词；词形还原依据词汇和形态信息返回基本词形。"
+    - "大小写、标点与停用词是否归一化取决于任务，情感、实体和代码文本常需要保留其中一部分。"
+  application: "为含缩写、连字符、数字和屈折变化的样例保存期望词元，比较原词、词干和 lemma 后再确定管道。"
+  check_question: "如果任务需要区分专有名词 Apple 与普通名词 apple，无条件转小写会丢失什么信号？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/02. text processing and classic NLP.md

@@ -11,6 +11,14 @@ practice:
 card:
   title: GPU 显存：先区分张量占用、缓存与硬件层级
   summary: "`memory_allocated` 与 `memory_reserved` 分别观察活动分配和缓存池；理解显存层级后，才能判断 OOM 是批大小、生命周期还是碎片化问题。"
+  context: "本课要诊断 GPU OOM；框架保留的缓存和活动张量不是同一概念，只看一个总数无法判断真正的内存压力来源。"
+  intuition: "先画出张量的生命周期，再区分活动分配与分配器预留；硬件层级解释访问成本，框架指标解释当前容量去向。"
+  key_points:
+    - "设备全局显存容量大但访问延迟较高，片上共享内存和寄存器更快却远小，程序会在层级间搬运数据。"
+    - "`memory_allocated` 统计活动张量占用，`memory_reserved` 还包括框架缓存池，因此后者通常不小于前者。"
+    - "峰值可能由批大小、中间激活存活过久或缓存碎片造成，三者需要不同修正。"
+  application: "在关键步骤前后记录 allocated、reserved 与峰值，缩小批量或释放引用后再次测量，以区分活动张量增长和缓存行为。"
+  check_question: "如果删除张量后 `memory_allocated` 明显下降而 `memory_reserved` 基本不变，这更像内存泄漏还是缓存池保留？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 16 - SIMD and GPU programming/04. GPU architecture and CUDA.md

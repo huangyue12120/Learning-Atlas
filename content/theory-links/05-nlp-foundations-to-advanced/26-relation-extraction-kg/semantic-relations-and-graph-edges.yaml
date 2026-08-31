@@ -11,6 +11,14 @@ practice:
 card:
   title: 从文本关系到规范语义边
   summary: 把开放关系短语映射到封闭本体时，区分句法依存关系与同义、上下位、部分整体等语义关系，理解规范关系 ID 怎样让不同表述合并为可查询的知识图谱边。
+  context: "文本可用许多短语表达同一关系；本课若直接把原短语写成边标签，知识图谱会产生无法统一查询的近义碎片。"
+  intuition: "先抽取带方向的实体对和关系证据，再把开放短语归一到本体中的稳定关系 ID，同时保留原句作为来源。"
+  key_points:
+    - "句法依存描述词在句中的结构联系，语义关系描述实体间含义，二者不能直接一一等同。"
+    - "同义、上下位和部分—整体具有不同方向与推理含义，规范化时必须保留主客体顺序。"
+    - "封闭本体合并不同措辞，并可用关系的 domain、range 或允许类型检查非法边。"
+  application: "把抽取结果表示为 subject–relation–object，映射到有限关系表并验证方向、实体类型和来源句。"
+  check_question: "“A 包含 B”与“B 属于 A”可映射到同一规范关系时，为什么仍必须转换并统一边方向？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/01. linguistic foundations.md

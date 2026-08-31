@@ -11,6 +11,14 @@ practice:
 card:
   title: MoE 路由、稀疏激活与专家并行
   summary: 在实现 top-k 路由、门控权重和负载均衡偏置时，用高效架构笔记区分总参数与活跃参数，并理解专家分片后为什么全对全通信会成为推理瓶颈。
+  context: "本课用大量专家扩大容量，却只让每个词元经过少数专家；若只验证输出而不观察路由分布，专家拥塞或闲置会被掩盖。"
+  intuition: "路由器像分诊台：模型拥有很多专科，但每个词元只送往最相关的 top-k 个专家，再按门控权重合并结果。"
+  key_points:
+    - "每个专家都是独立 FFN，路由器为每个词元计算专家分数并选择 top-k。"
+    - "计算量主要随活跃专家数 k 增长，而总参数量随专家总数 E 增长，因此容量与单词元计算可以分离。"
+    - "专家分布在不同设备时，词元需经 all-to-all 发送与返回；负载不均会同时造成容量浪费和通信等待。"
+  application: "在路由实现中记录每个专家的词元计数、门控和及溢出情况，并分别报告总参数与单批活跃参数。"
+  check_question: "若 90% 的词元都被送到同一专家，即使 top-k 计算量不变，吞吐为什么仍会下降？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/02. efficient architectures.md
