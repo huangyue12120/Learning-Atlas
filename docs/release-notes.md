@@ -1,3 +1,27 @@
+# Learning Atlas v0.13.1 发布说明
+
+发布日期：2026-08-31。
+
+本版完成 Issue #4 的上游内容复核：将 `ai-engineering-from-scratch` 的可复现快照从 `39ea8a1c6d0b61f071226eff7ede4d4105fed820` 更新到 `a56b4b8ad43a3767c771953d217036813f697bc7`，并处理唯一命中的本地中文内容指纹漂移。
+
+## 本版交付
+
+- 审核上游 `6cdb135c` 与 `a56b4b8a` 两个提交；新增的 12 节 Phase 14 课程（43–54）尚无中文改编，属于尚未接入阅读器的范围，不伪造或自动发布中文内容。
+- 更新《向量、矩阵与运算》中文测验，使其与上游最新 `quiz.json` 的 6 题、阶段、选项、答案和解释对应，并记录新的 revision 与 SHA-256。
+- 将上游实践源课程总数、Phase 14 待接入工作量和中文内容缺口同步到内容清单、项目进度和当前版本说明；当前实践阅读器边界仍为 Phase 0–13 的 279 节课程。
+- `ai-engineering-from-scratch` 子模块跟踪上游 `main`；其他未命中本地版本化内容的上游改动经核对后保留为上游来源，不复制到 Learning Atlas。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `cd apps/local-learning && npm run check && npm test`
+
+上述内容与应用门禁均通过；完整快照、来源指纹和当前范围见[内容清单](content-manifest.md)。
+
+---
+
 # Learning Atlas v0.13.0 发布说明
 
 发布日期：2026-08-31。
