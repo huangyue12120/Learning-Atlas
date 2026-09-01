@@ -1,0 +1,26 @@
+# Otel Genai Conventions：练习指南
+
+- 课程路径：`phases/14-agent-engineering/23-otel-genai-conventions`
+- 可运行 Python 文件：`main.py`
+
+## 练习目标
+
+围绕“Otel Genai Conventions”理解本课核心概念，并能用 Python 标准库独立运行、修改和验证对应实作。
+
+## 动手练习
+
+1. 阅读 `main.py`，用一句话写出本课的核心数据流或控制流程。
+2. 运行原始程序，记录输入、关键中间状态和最终输出。
+3. 在不改变整体主题的前提下，增加一个最小可测试场景，覆盖正常路径。
+4. 增加一个边界或失败场景，并让程序输出可诊断的结果。
+5. 将关键行为封装为小函数，使用断言验证至少两个不变量。
+
+## 运行与验证
+
+在课程目录下执行：
+
+```bash
+python3 code/main.py
+```
+
+确认程序可离线运行且无额外依赖；逐项检查原始输出和新增场景的断言，确保修改仍体现本课“Otel Genai Conventions”主题。

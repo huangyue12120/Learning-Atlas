@@ -35,7 +35,7 @@ status: reviewed
 
 工作台的修复方案是设置一个单一验证门，读取智能体已经产出的工件并作出判断。验证门是确定性的。验证门处于版本控制之下。验证门接入 CI。智能体无法贿赂它。
 
-## 核心概念
+## 核心概念 <!-- learning-atlas: the-concept -->
 
 ```mermaid
 flowchart TD

@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/29-production-runtimes/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "7adb8e50ca4aa6a64b1cb243308db76c4d7eab04b5ddf4d64d67f67c2b819644"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "本课列出的六种 runtime 形态是什么？",
+      "options": [
+        "Map、filter、reduce、fold、scan、group",
+        "Request-response、streaming、durable execution、queue-based、event-driven、scheduled",
+        "REST、gRPC、GraphQL、WebSocket、SSE、MQTT",
+        "Read、write、exec、fork、exit、wait"
+      ],
+      "correct": 1,
+      "explanation": "这六种就是 runtime 形态；应先选择形态，再选择框架。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "什么时候 request-response 不合适？",
+      "options": [
+        "用于内部服务时",
+        "任务耗时超过约 30 秒，用户会挂起请求而 Worker 不断堆积时",
+        "用于 REST API 时",
+        "用于 1 秒的分类任务时"
+      ],
+      "correct": 1,
+      "explanation": "同步 HTTP 只适合短任务；长任务需要 queue、durable 或 event 形态。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "durable execution 的核心属性是什么？",
+      "options": [
+        "更低的 token 成本",
+        "更快的推理",
+        "原生语音支持",
+        "每一步之后都保存状态检查点，因此运行时在失败后可以从最后一个成功步骤恢复"
+      ],
+      "correct": 3,
+      "explanation": "Checkpoint-and-resume 是关键差异；LangGraph 是本课引用的示例。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "Anthropic 的哪项观察支持为长时程 Agent 使用 queue-based runtime？",
+      "options": [
+        "任务必须同步运行",
+        "任务总能在 5 秒内完成",
+        "Computer use 公告指出：每个任务包含几十到几百步是正常情况",
+        "Cron 可以解决所有问题"
+      ],
+      "correct": 2,
+      "explanation": "Anthropic 指出每个任务几十到几百步是正常的；这种工作负载需要队列或 durable runtime。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "本课所说的“observability 是 load-bearing”是什么意思？",
+      "options": [
+        "服务商要求用它计费",
+        "日志很好看",
+        "磁盘会被填满",
+        "没有 OTel GenAI span 和 Langfuse/Phoenix/Opik 后端，就无法调试在第 40 步失败的多步骤 Agent"
+      ],
+      "correct": 3,
+      "explanation": "对于多步骤 Agent，observability 不是可选项；它决定了你是在调试，还是只能从头重放。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为什么 queue worker 必须有 dead-letter queue（DLQ）？",
+      "options": [
+        "DLQ 会让任务更快",
+        "没有 DLQ，失败任务会静默消失",
+        "DLQ 是加密的",
+        "AWS 要求必须使用 DLQ"
+      ],
+      "correct": 1,
+      "explanation": "失败任务如果没有 DLQ 就会消失；DLQ 是存放失败任务的“停车场”。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "本课建议将 cron 形态的 Agent 与什么结合？",
+      "options": [
+        "durable execution，使失败的夜间运行可以在下一次 tick 恢复",
+        "WebRTC",
+        "GPU autoscaler",
+        "Streaming SSE"
+      ],
+      "correct": 0,
+      "explanation": "Cron + durable execution 可以从失败的定时运行中干净地恢复。"
+    }
+  ]
+}

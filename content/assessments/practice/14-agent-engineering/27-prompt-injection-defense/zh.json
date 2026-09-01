@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/27-prompt-injection-defense/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "3255f9b46d30b81b336173bda5c250150260c7a68c15d5a1c1242abad5060236"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "什么是 indirect prompt injection（间接提示注入）？",
+      "options": [
+        "模型误点击",
+        "用户直接输入“忽略所有规则”",
+        "指令嵌入 Agent 检索的数据（网页、PDF、电子邮件或记忆笔记）中，并在摄入时覆盖 developer prompt",
+        "system prompt 中的一个拼写错误"
+      ],
+      "correct": 2,
+      "explanation": "Greshake 等人提出了 indirect prompt injection 一词：攻击者控制的检索内容携带了指令。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "本课认为，处理检索到的 prompt 等同于什么？",
+      "options": [
+        "一次静态分析",
+        "在 Agent 的工具使用面上执行任意代码",
+        "言论自由",
+        "一次纯函数调用"
+      ],
+      "correct": 1,
+      "explanation": "Greshake 的观点是：检索到的指令可以触达 Agent 有权访问的任何工具。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "下面哪一项不是演示过的五种攻击类别之一？",
+      "options": [
+        "持久记忆投毒",
+        "缓存失效",
+        "数据窃取",
+        "蠕虫传播"
+      ],
+      "correct": 1,
+      "explanation": "五种类别是数据窃取、蠕虫传播、持久记忆投毒、生态系统污染和任意工具使用。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "PVE 代表什么？",
+      "options": [
+        "Pre-Vectorize-Embed",
+        "Prompt-Validator-Executor：在昂贵的主模型提交调用前，为每次工具调用运行廉价快速的验证器",
+        "Provider-Verifier-Encoder",
+        "Plan-Verify-Execute，一种 HTN 方言"
+      ],
+      "correct": 1,
+      "explanation": "PVE 会在主模型提交调用前，用廉价验证器包裹每次工具调用。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "为什么仅在 system prompt 中写“忽略不可信指令”是不够的？",
+      "options": [
+        "它太短",
+        "它只是 instruction-following，不是 enforcement；足够有说服力的注入内容仍可能覆盖模型",
+        "服务商会将其删除",
+        "它被加密"
+      ],
+      "correct": 1,
+      "explanation": "真正的防御需要来源标记、allowlist、逐步安全检查和 PVE 式验证，而不只是提示词。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "什么是 overtrust（过度信任）检索到的记忆？",
+      "options": [
+        "加载了错误的模型",
+        "昨天的 Agent 写入被投毒的记忆笔记，今天的 Agent 读取并重新执行其中的注入",
+        "忘记清空索引",
+        "缓存过于激进"
+      ],
+      "correct": 1,
+      "explanation": "持久记忆投毒意味着：如果把记忆视为可信，注入内容就会跨会话存活。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "本课建议为每段内容附加什么 metadata？",
+      "options": [
+        "token 数量",
+        "只有 timestamp",
+        "加密密钥",
+        "source tag：user_message、tool_output 或 retrieved；验证器拒绝检索内容中的指令"
+      ],
+      "correct": 3,
+      "explanation": "Provenance tagging 让验证器可以按内容的信任级别处理它。"
+    }
+  ]
+}

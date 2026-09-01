@@ -29,7 +29,7 @@ status: reviewed
 
 语音智能体不是给文本循环外挂 TTS。延迟预算非常苛刻（约 600ms），部分音频是默认形态，轮次检测本身也是一个模型，而 transport 从电话 SIP 到 WebRTC 各不相同。要么构建基于 frame 的管线（Pipecat），要么依赖平台（LiveKit）。
 
-## 核心概念
+## 核心概念 <!-- learning-atlas: the-concept -->
 
 ### Pipecat（pipecat-ai/pipecat）
 

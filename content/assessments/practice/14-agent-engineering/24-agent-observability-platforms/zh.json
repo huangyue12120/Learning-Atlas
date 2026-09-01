@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/24-agent-observability-platforms/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "58a97d135b98c254d66e1f0f1fd2785e17634cbecd9cdd5792ce60eb698341c8"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "Langfuse 在 2025 年 6 月将原先商业模块开源后，采用什么许可证？",
+      "options": [
+        "Apache 2.0",
+        "GPLv3",
+        "Elastic License 2.0",
+        "MIT"
+      ],
+      "correct": 3,
+      "explanation": "Langfuse 采用 MIT 许可证；2025 年 6 月之后，LLM-as-a-judge、annotation queues、prompt experiments 和 Playground 也都包含在内。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "根据本课，Arize Phoenix 最擅长什么？",
+      "options": [
+        "深入的 Agent 专项评估：trace 聚类、异常检测、RAG 检索相关性和 OpenInference 自动插桩",
+        "自动优化循环",
+        "Prompt 版本控制",
+        "代码静态分析"
+      ],
+      "correct": 0,
+      "explanation": "Phoenix 专注于行为漂移和 RAG 评估，并使用 OpenInference 自动插桩。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "哪一个平台把自动 prompt 优化与 guardrails（PII 脱敏、主题约束）和 LLM-judge 幻觉检测结合起来？",
+      "options": [
+        "Langfuse",
+        "Phoenix",
+        "Jaeger",
+        "Opik"
+      ],
+      "correct": 3,
+      "explanation": "Opik 的核心是“优化 + guardrail”循环。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "本课推荐哪个平台作为带 prompt management 的一体化方案？",
+      "options": [
+        "Opik",
+        "Datadog APM",
+        "Phoenix",
+        "Langfuse"
+      ],
+      "correct": 3,
+      "explanation": "Langfuse 覆盖 tracing、prompt management、evals 和 session replay 的完整链路。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "本课如何评价服务商发布的平台基准结果？",
+      "options": [
+        "它们是决定性的",
+        "只把它们当作方向性参考；应在自己的语料上测量",
+        "只有 Opik 的结果可靠",
+        "OpenTelemetry 禁止发布这类结果"
+      ],
+      "correct": 1,
+      "explanation": "即使引用的 Opik 与 Langfuse 之间存在 14 倍差距，也应先在自己的数据上测量，再做决定。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为什么只有 tracing、没有 evaluation 时，会被认为只是昂贵的日志记录？",
+      "options": [
+        "服务商会为 span 收费",
+        "你能看到运行过程，却没有为其评分，因此回归不可见，也无法二分定位",
+        "磁盘成本高于 CPU",
+        "Span 无法重放"
+      ],
+      "correct": 1,
+      "explanation": "只有 evals 能把 trace 转化为可行动的质量信号。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "本课对自行构建 LLM-judge 有什么警告？",
+      "options": [
+        "CRITIC 的原则适用：judge 需要外部依据进行事实验证，否则可能只是盖章认可",
+        "它们必须运行在 GPU 上",
+        "Apache 2.0 禁止使用它们",
+        "它们只能在 TypeScript 中运行"
+      ],
+      "correct": 0,
+      "explanation": "没有基于外部工具的验证，LLM-judge 就会逐渐变成橡皮图章（CRITIC，第 5 课）。"
+    }
+  ]
+}

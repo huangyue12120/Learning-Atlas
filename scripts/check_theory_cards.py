@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 THEORY_LINKS = ROOT / "content" / "theory-links"
-PUBLISHED_PHASES = {f"{number:02d}" for number in range(14)}
+PUBLISHED_PHASES = {f"{number:02d}" for number in range(15)}
 CARD_BLOCK = re.compile(r"^card:\r?\n(?P<body>[\s\S]*?)(?=^theory:)", re.MULTILINE)
 PLACEHOLDER = re.compile(r"(?:TODO|TBD|FIXME|待补|占位|稍后完善)", re.IGNORECASE)
 SCALAR_FIELDS = ("context", "intuition", "application", "check_question")

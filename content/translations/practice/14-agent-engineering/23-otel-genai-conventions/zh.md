@@ -29,7 +29,7 @@ status: reviewed
 
 每个厂商都在发明自己的 span 名称。运维团队最后只能为每个框架构建独立 dashboard。OpenTelemetry 的 GenAI SIG 通过定义整个生态共同遵循的一套标准来解决这个问题。
 
-## 核心概念
+## 核心概念 <!-- learning-atlas: the-concept -->
 
 ### Span 类别
 

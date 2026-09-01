@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/11-planning-htn-and-evolutionary/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "0ff551e292d1375a3ee5205211dcd3fee683f930ea09f8a4318ef9dd1e91d300"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "与自由形式的 LLM 计划相比，HTN 增加了什么？",
+      "options": [
+        "更好的嵌入",
+        "更便宜的推理",
+        "在强制执行 operator 的前置条件和效果时，可以证明正确性",
+        "更短的 prompt"
+      ],
+      "correct": 2,
+      "explanation": "HTN 的符号 operator 通过前置条件和效果从构造上保证了可靠性。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "AlphaEvolve 面向哪类问题？",
+      "options": [
+        "多轮聊天记忆",
+        "自由形式的散文生成",
+        "向量搜索排序",
+        "具有可机器检查的确定性适应度函数的优化问题"
+      ],
+      "correct": 3,
+      "explanation": "进化搜索需要确定性的评估器；AlphaEvolve 面向存在此类评估器的领域。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "ChatHTN 如何在使用 LLM 的同时保持计划可靠性？",
+      "options": [
+        "它使用向量数据库",
+        "LLM 的建议只能作为候选分解，并会根据 operator schema 验证；正确性由符号层负责",
+        "它无法做到；可靠性只能尽力保证",
+        "它在 HTN 轨迹上微调 LLM"
+      ],
+      "correct": 1,
+      "explanation": "LLM 可以扩展 method library，但不能绕过 operator 的前置条件和效果。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "本课引用了 AlphaEvolve 的哪项结果？",
+      "options": [
+        "56 年来首次改进 Strassen 的 4×4 复数矩阵乘法算法",
+        "首次证明 P=NP",
+        "在 HumanEval 上击败 GPT-4",
+        "让 Gemini 的推理速度提高 10 倍"
+      ],
+      "correct": 0,
+      "explanation": "AlphaEvolve 为 4×4 复数矩阵乘法找到了使用 48 次标量乘法的算法，这是 56 年来首次改进 Strassen 算法。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "HTN 中哪个元素是带有前置条件和效果、可直接执行的原子行动？",
+      "options": [
+        "State",
+        "Task",
+        "Method",
+        "Operator"
+      ],
+      "correct": 3,
+      "explanation": "Operator 是原子行动；Method 用于分解复合任务；State 是事实的集合。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课对于不使用真实评估器运行 AlphaEvolve 有什么警告？",
+      "options": [
+        "它速度慢",
+        "它无法在 GPU 上运行",
+        "询问 LLM 哪段代码更好并不构成适应度函数；评估器必须确定且快速",
+        "它违反 Apache 2.0"
+      ],
+      "correct": 2,
+      "explanation": "没有确定性的评估器，搜索就没有可以收敛的信号。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "什么时候应该使用 ReAct 或 ReWOO，而不是 HTN 或 AlphaEvolve？",
+      "options": [
+        "永远不应；HTN 严格来说更好",
+        "不需要形式化可靠性或可机器检查的适应度函数时；大多数 Agent 任务属于这一类",
+        "拥有 GPU 集群时",
+        "延迟低于 100 毫秒时"
+      ],
+      "correct": 1,
+      "explanation": "本课明确警告不要过度工程化：大多数任务不需要形式化规划或进化搜索。"
+    }
+  ]
+}

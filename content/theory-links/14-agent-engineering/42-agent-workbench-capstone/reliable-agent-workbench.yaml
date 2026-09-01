@@ -10,7 +10,15 @@ practice:
     slug: the-concept
 card:
   title: 可复用 agent workbench 的可靠性
-  summary: 在把状态、范围、反馈、验证、审查和交接打包成可复用工作台时，用系统可靠性理论核对持久化、故障恢复和部署边界；该关联先保留候选状态。
+  summary: 在把状态、范围、反馈、验证、审查和交接打包成可复用工作台时，用系统可靠性理论核对持久化、故障恢复和部署边界。
+  context: "本课把多节工作台课程收束为可安装的包，必须让另一份代码库在初始化、执行、验证和交接时得到同样的安全边界。"
+  intuition: "可复用包的价值不在于复制提示词，而在于把状态、检查和恢复协议一起复制，使可靠性成为系统属性。"
+  key_points:
+    - "包内契约要明确哪些状态和规则必须保留，哪些项目专属内容必须排除。"
+    - "安装器应幂等并拒绝意外覆盖，才能安全地重复部署工作台。"
+    - "交付前要验证安装后的目标代码库，而不是只验证源包自身。"
+  application: "为工作台包编写 schema、安装器和验证脚本，在干净临时仓库中重复安装并模拟中断、恢复和审查流程。"
+  check_question: "为什么只在源仓库测试工作台包，不能证明它安装到新代码库后仍然可靠？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/36-scope-contracts/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "d9b94dceb3ce0f5747befc58bfff6dbacdb3893cd8046c8abbee6b9fc3dd1e46"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "为什么说 scope creep 是最缺乏监控的失败模式？",
+      "options": [
+        "它太罕见，不值得监控",
+        "测试会自动捕获它",
+        "它会让 Agent 明确崩溃",
+        "每次改动在当时都有合理理由，但累积起来形成了未经审查的另一项变更"
+      ],
+      "correct": 3,
+      "explanation": "Agent 可能善意地解释每一步，但这些改动的无声累积就是范围蔓延。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "本课称哪个 contract 字段是契约的一半？",
+      "options": [
+        "approvals_required",
+        "forbidden_files（规定不可触碰的范围）",
+        "goal",
+        "task_id"
+      ],
+      "correct": 1,
+      "explanation": "没有 forbidden_files 的 contract 是不完整的；这个“不可做什么”的范围构成契约的一半。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "为什么要把 allowed/forbidden 固定为 glob，而不是原始路径？",
+      "options": [
+        "Glob 加密效果更好",
+        "Glob 更快",
+        "原始路径无法序列化为 JSON",
+        "真实仓库会移动文件；glob 可以跨 session 经受重构"
+      ],
+      "correct": 3,
+      "explanation": "Glob（如 app/**/*.py）可以让 contract 在重构后仍然有效。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "“violation budget” 模式会做什么？",
+      "options": [
+        "按违规次数收费",
+        "在预算内将轻微范围偏离记为 warning；只有超出预算才拒绝合并——这决定了门禁能否真正上线而不被关闭",
+        "限制模型调用",
+        "为 Agent 设置月度预算"
+      ],
+      "correct": 1,
+      "explanation": "agent-guardrails 使用 violationBudget，让门禁在日常流程中可用。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "那位 specsmaxxing 实践者报告了什么？",
+      "options": [
+        "延迟下降 90%",
+        "成本增加 5 倍",
+        "三周内 rabbit-hole rate 从 52% 降到 21%，没有更换 Agent；起作用的是 contract，而不是模型",
+        "测试变慢"
+      ],
+      "correct": 2,
+      "explanation": "在调用 Agent 前用 YAML 写好 scope contract，可以将 rabbit-hole rate 减半，而无需更改模型。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "multi-contract merge semantics（最小权限）是什么？",
+      "options": [
+        "最后一个 contract 生效",
+        "allowed_files 取交集；forbidden_files 取并集；time_budget 取最小值；累积 approvals；deny-all 保持生效；merge 中的 None 交由另一侧决定",
+        "随机打破平局",
+        "第一个 contract 生效"
+      ],
+      "correct": 1,
+      "explanation": "最小权限合并规则是：允许范围取交集、禁止范围取并集、时间取最严格的值，并累积审批要求。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "为什么 time 和 network budget 也属于 contract？",
+      "options": [
+        "服务商要求这样做",
+        "墙钟时间和外部主机访问都是 scope 维度；只有文件 glob 是必要条件，但并不充分",
+        "它们会让 JSON 更小",
+        "Apache 2.0 要求这样做"
+      ],
+      "correct": 1,
+      "explanation": "time_budget_minutes 和 network_egress allowlist 是文件 glob 之外的 scope 维度。"
+    }
+  ]
+}

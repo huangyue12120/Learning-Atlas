@@ -34,7 +34,7 @@ ReWOO（第 02 节）、Plan-and-Execute 与 ReAct 覆盖了大多数智能体�
 
 HTN 规划和 AlphaEvolve 解决的是两个不同问题。它们都把 LLM 当作放大器，而不是替代品。
 
-## 核心概念
+## 核心概念 <!-- learning-atlas: the-concept -->
 
 ### 分层任务网络
 

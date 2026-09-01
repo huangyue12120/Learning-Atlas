@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/17-claude-agent-sdk/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "4cedc0745fb80260dbe624c3ee6006678a810400d71b96c6fcf57750bfa87cf0"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "Anthropic Client SDK 与 Claude Agent SDK 有什么区别？",
+      "options": [
+        "Client SDK 是原始 Messages API；Agent SDK 是 Claude Code 的 harness 形态，提供 built-in tools、MCP、hooks、subagents 和 session store",
+        "两者没有区别",
+        "Client SDK 只支持 Python",
+        "Client SDK 付费；Agent SDK 免费"
+      ],
+      "correct": 0,
+      "explanation": "Client SDK 把循环交给你实现；Agent SDK 则预先提供了这个循环。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "文档列出的 subagents 两个用途是什么？",
+      "options": [
+        "Authn 和 authz",
+        "Logging 和 metrics",
+        "Caching 和 rate limiting",
+        "Parallelization 和 context isolation"
+      ],
+      "correct": 3,
+      "explanation": "Subagents 可以并发执行独立工作，并通过隔离上下文来保护 orchestrator 的上下文预算。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "下面哪一个 method 不属于 session store 的 API？",
+      "options": [
+        "append",
+        "compile_prompt",
+        "load",
+        "list_subkeys"
+      ],
+      "correct": 1,
+      "explanation": "Session store 提供 append、load、list_sessions、delete 和 list_subkeys；compile_prompt 不是 session API。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "下面哪一个不是 Claude Agent SDK 的生命周期 hook？",
+      "options": [
+        "PreEmbedding",
+        "PreToolUse",
+        "PostToolUse",
+        "PreCompact"
+      ],
+      "correct": 0,
+      "explanation": "Hooks 包括 PreToolUse、PostToolUse、SessionStart/End、UserPromptSubmit、PreCompact、Stop 和 Notification；PreEmbedding 不是 hook。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "trace context 如何在 Agent 与 CLI 子进程之间传播？",
+      "options": [
+        "只能通过服务商的 dashboard",
+        "通过文件系统",
+        "只能通过环境变量",
+        "通过传入 CLI 子进程的 W3C trace context header"
+      ],
+      "correct": 3,
+      "explanation": "OTel span 会通过 W3C trace context 从调用方传播到 CLI 子进程，因此整个多进程运行会属于同一条 trace。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "什么是 subagent over-spawn（过度创建）？它什么时候发生？",
+      "options": [
+        "创建的 subagent 数量超过 CPU 核数",
+        "在 SessionStart 之前创建 subagent",
+        "为 100 个小任务创建 100 个 subagent，导致开销占主导；应改为批量处理",
+        "忘记关闭 subagent"
+      ],
+      "correct": 2,
+      "explanation": "Subagent 存在固定开销；应批量处理小任务，而不是每个任务创建一个。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "Claude Managed Agents 相比 self-hosted SDK 交换了什么？",
+      "options": [
+        "用 tracing 换取 streaming",
+        "用 tools 换取 memory",
+        "用 latency 换取 cost",
+        "用控制权换取托管基础设施（长时程异步运行、内置 prompt caching、内置 compaction）"
+      ],
+      "correct": 3,
+      "explanation": "Managed Agents 是面向长时程异步工作的托管替代方案；控制权更少，需要运维的范围也更小。"
+    }
+  ]
+}

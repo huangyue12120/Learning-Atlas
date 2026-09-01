@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/03-reflexion-verbal-rl/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "5224af343bcbcca37c4e9490b81a201248abd257c7364b7c43560b50234f0a5a"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "Reflexion 用什么取代了标准强化学习中的参数更新？",
+      "options": [
+        "情景记忆，使用参数化记忆",
+        "梯度更新，改为在试验之间保存自然语言反思",
+        "策略网络，使用随机搜索",
+        "奖励塑形，使用恒定奖励"
+      ],
+      "correct": 1,
+      "explanation": "Reflexion 将自然语言反思存入情景记忆，而不是更新模型权重。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "Reflexion 系统由哪三个组件构成？",
+      "options": [
+        "Planner、Worker、Solver",
+        "Selector、Expander、Backpropagator",
+        "Generator、Critic、Optimizer",
+        "Actor、Evaluator、Self-Reflector"
+      ],
+      "correct": 3,
+      "explanation": "Reflexion 将 Agent 拆分为三个角色：运行轨迹的 Actor、为轨迹评分的 Evaluator，以及记录经验教训的 Self-Reflector。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "哪种 evaluator 会使用单元测试或已知正确答案这类外部二值信号？",
+      "options": [
+        "启发式（Heuristic）",
+        "标量型（Scalar）",
+        "自评型（Self-evaluated）",
+        "投票型（Vote-based）"
+      ],
+      "correct": 1,
+      "explanation": "Scalar evaluator 会读取来自真实标签的通过/失败信号，例如 ALFWorld 的成功标记或 HumanEval 的测试结果。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "为什么 self-evaluation 比 scalar feedback 更弱？",
+      "options": [
+        "模型评判自己时没有外部依据，可能会对自己的答案直接盖章认可",
+        "它的计算速度更慢",
+        "它总是需要更大的模型",
+        "它无法运行工具"
+      ],
+      "correct": 0,
+      "explanation": "自评缺少外部校验，因此自信的幻觉也可能得到高分；应将其与基于工具的验证结合起来。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "本课列出的哪些情况不适合使用 Reflexion？",
+      "options": [
+        "网络中断这类外部暂时性故障",
+        "HotpotQA 多跳问题",
+        "可以用测试评分的代码生成任务",
+        "ALFWorld 导航任务"
+      ],
+      "correct": 0,
+      "explanation": "对暂时性的外部故障进行反思，只会产生无法帮助未来运行的经验。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "在 Reflexion 模式中，什么是 memory rot（记忆腐化）？",
+      "options": [
+        "进程重启时丢失反思内容",
+        "反思 prompt 超出上下文窗口",
+        "反思内容被服务商加密",
+        "情景缓冲区充满过时或错误的反思，拖慢或偏置未来试验"
+      ],
+      "correct": 3,
+      "explanation": "累积的过时或错误反思会损害行为；可以通过压缩或 TTL 清理来缓解。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "哪种生产模式与本课描述的 Reflexion 最为相似？",
+      "options": [
+        "Claude Code 将 CLAUDE.md 中的经验附加到未来会话",
+        "Anthropic 的 prompt caching",
+        "Cursor 的 apply-edits 流程",
+        "OpenAI 的 batch API"
+      ],
+      "correct": 0,
+      "explanation": "CLAUDE.md 经验、pro-workflow 的 learn-rule 和 Letta 的 sleep-time compute，都把情景反思缓冲区外置保存。"
+    }
+  ]
+}

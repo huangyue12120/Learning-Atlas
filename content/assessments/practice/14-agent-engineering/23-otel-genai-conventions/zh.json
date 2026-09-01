@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/23-otel-genai-conventions/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "68d36147171159b481cfb2dcef90e8709e67508fb1394ad3e4fde8471ec72c57"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "在 GenAI 语义约定中，哪个 span name 表示一次 Agent 运行？",
+      "options": [
+        "invoke_agent（可选择性地加上 gen_ai.agent.name 后缀）",
+        "agent.start",
+        "agent_loop",
+        "run_chain"
+      ],
+      "correct": 0,
+      "explanation": "invoke_agent 是标准名称；设置 Agent 名称属性后，可以将其附加到 span name。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "GenAI SIG 定义了哪三类 span？",
+      "options": [
+        "Frontend、backend、db",
+        "Read、write、exec",
+        "Latency、error、throughput",
+        "Model/client、agent、tool"
+      ],
+      "correct": 3,
+      "explanation": "三类是 model/client（LLM 调用）、agent（创建/调用）和 tool（每次调用）。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "invoke_agent span 什么时候使用 CLIENT，什么时候使用 INTERNAL？",
+      "options": [
+        "始终使用 INTERNAL",
+        "CLIENT 只用于 HTTPS",
+        "始终使用 CLIENT",
+        "CLIENT 用于远程 Agent 服务（OpenAI Assistants、Bedrock Agents）；INTERNAL 用于进程内框架（LangChain、CrewAI、本地 ReAct）"
+      ],
+      "correct": 3,
+      "explanation": "远程 Agent 调用使用 CLIENT；进程内 Agent 运行使用 INTERNAL。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "关于 content capture（输入和输出），默认规则是什么？",
+      "options": [
+        "默认捕获所有内容",
+        "Instrumentations 默认不应捕获内容；通过 gen_ai.* attributes 选择性启用捕获",
+        "只在出错时捕获",
+        "只捕获输出，从不捕获输入"
+      ],
+      "correct": 1,
+      "explanation": "默认关闭 content capture 可以保护 PII 和密钥；选择启用必须是明确的。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "哪个 attribute 标识一次检索所查询的语料库或存储？",
+      "options": [
+        "gen_ai.data_source.id",
+        "gen_ai.provider.name",
+        "gen_ai.agent.name",
+        "gen_ai.request.model"
+      ],
+      "correct": 0,
+      "explanation": "gen_ai.data_source.id 用于标记检索命中的 RAG 语料库或存储。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课建议在生产环境中如何存储 prompt 内容？",
+      "options": [
+        "将内容存储在外部（S3、日志存储），并在 span 中记录引用 ID",
+        "在每个 span 中以纯文本捕获完整 prompt",
+        "将 prompt 加密后写入 span attributes",
+        "永远不存储任何内容"
+      ],
+      "correct": 0,
+      "explanation": "外部存储配合 pointer ID，可以避免 PII 泄露到运维人员能够读取的 trace 中。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "如何选择启用 GenAI 语义约定的 experimental stable preview？",
+      "options": [
+        "支付许可费用",
+        "编辑 OTel collector 配置",
+        "设置 OTEL_SEMCONV_STABILITY_OPT_IN=gen_ai_latest_experimental",
+        "从源代码重新构建 SDK"
+      ],
+      "correct": 2,
+      "explanation": "这个环境变量会固定 experimental conventions，避免 attributes 被静默重命名。"
+    }
+  ]
+}

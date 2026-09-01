@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/52-design-success-metrics/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "e712d0ab214aac946724247ca0cc762b59e8e76005b12b18f4981ac2ca88e427"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "正确的 measurement order 是什么？",
+      "options": [
+        "Data、model、feature",
+        "Metric、question、goal",
+        "Dashboard、metric、goal",
+        "Goal、question、metric"
+      ],
+      "correct": 3,
+      "explanation": "Goal 定义信息需求，question 对其进行细化，metric 则将答案落实为可操作的测量。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "为什么要在查看结果前定义 threshold？",
+      "options": [
+        "为了避免问题",
+        "为了减少存储",
+        "为了防止事后移动 decision rule 来保护构建结果",
+        "为了保证通过"
+      ],
+      "correct": 2,
+      "explanation": "预先承诺的 threshold 可以减少看到结果后的合理化解释。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "guardrail metric 可以保护什么？",
+      "options": [
+        "一个固定约束或不可接受的伤害",
+        "只有速度",
+        "一个 release 名称",
+        "一种视觉风格"
+      ],
+      "correct": 0,
+      "explanation": "Guardrail 可以确保改进不会违反安全或策略。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "什么是 counter-metric（反向指标）？",
+      "options": [
+        "一个未经测量的观点",
+        "一个能捕获被转移到其他地方的成本或伤害的 measure",
+        "outcome metric 的第二份副本",
+        "一个 model score"
+      ],
+      "correct": 1,
+      "explanation": "局部收益可能制造下游负担，而 counter-metric 可以将其暴露出来。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "为什么 metric 必须注明 source 和 window？",
+      "options": [
+        "为了品牌宣传",
+        "为了替代 threshold",
+        "为了避开用户",
+        "为了保证可复现性和便于解释"
+      ],
+      "correct": 3,
+      "explanation": "一个没有 provenance、时间范围或样本边界的数字，无法支持可靠的决定。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "什么时候 offline replay 不够？",
+      "options": [
+        "当这个决定依赖真实用户行为或 workflow effect 时",
+        "当测试速度很快时",
+        "从不",
+        "始终如此"
+      ],
+      "correct": 0,
+      "explanation": "Replay 可以重复，但无法完全再现信任、协作和实时行为。"
+    }
+  ]
+}

@@ -10,7 +10,15 @@ practice:
     slug: the-concept
 card:
   title: Computer-use 的视觉 grounding
-  summary: 在把屏幕观测映射到点击、输入和滚动动作时，用 VLM 的 grounding 理论核对空间引用、坐标和动作条件；该关联先保留候选状态。
+  summary: 在把屏幕观测映射到点击、输入和滚动动作时，用 VLM 的 grounding 理论核对空间引用、坐标和动作条件。
+  context: "本课要求 agent 从截图或界面状态找到目标元素，再把语言意图转换成带坐标和动作类型的 UI 操作。"
+  intuition: "grounding 是把语言中的“那个按钮”绑定到图像中的具体区域；只有引用稳定，动作才不是对屏幕的盲猜。"
+  key_points:
+    - "视觉观测、文本指令和目标区域必须共享可对齐的表示。"
+    - "坐标系、缩放、滚动和窗口变化会让看似正确的点击落到错误位置。"
+    - "高影响动作应在执行前重新观察并验证目标，而不是盲目复用旧坐标。"
+  application: "将截图尺寸和动作坐标记录在轨迹中，先用只读定位或低风险点击验证 grounding，再放开写入操作。"
+  check_question: "为什么截图上的正确按钮坐标在页面滚动后不能直接复用？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/02. vision language models.md

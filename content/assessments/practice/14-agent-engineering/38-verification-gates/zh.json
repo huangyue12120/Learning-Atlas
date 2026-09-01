@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/38-verification-gates/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "30f1fb24838d6d29fe6bd84241ffa310459939f08bbe61cb84ca7376074deb16"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "verification gate 要回答的唯一问题是什么？",
+      "options": [
+        "任务真的完成了吗？（读取 scope、rule、feedback 和 diff 产物）",
+        "这个 prompt 最优吗？",
+        "这个模型运行快吗？",
+        "token budget 是否充足？"
+      ],
+      "correct": 0,
+      "explanation": "verification gate 是一个作用于 workbench 产物、并生成通过/失败结论的确定性函数。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "为什么 verification gate 必须是确定性的？",
+      "options": [
+        "相同的产物集合每次都必须产生相同结论；LLM judge 属于 reviewer（定性判断），而不是 gate（状态判断）",
+        "服务商要求这样做",
+        "确定性是免费的",
+        "它可以省钱"
+      ],
+      "correct": 0,
+      "explanation": "将模型判断混入 gate，会破坏确定性判断与定性判断之间的分工。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "verification gate 的 override discipline 是什么？",
+      "options": [
+        "block 严重级别的发现只能由人类覆盖，并在签名审计日志中记录 override_reason 和 overridden_by 用户 ID",
+        "禁止覆盖",
+        "任何人都可以静默覆盖",
+        "覆盖需要经理的电子邮件"
+      ],
+      "correct": 0,
+      "explanation": "签名后的覆盖记录写入 outputs/verification/overrides.jsonl；Agent 不能自我覆盖。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "本课引用的 Hybrid Norm 配对是什么？",
+      "options": [
+        "GPU 和 CPU 分工",
+        "Hot/cold prompt",
+        "可验证奖励（测试、schema、exit code）回答“问题解决了吗？”；LLM rubric 回答“它可读、安全且符合风格吗？”",
+        "缓存与不缓存"
+      ],
+      "correct": 2,
+      "explanation": "Anthropic 2026 年的指导是：gate 负责第一类问题；reviewer（第 39 课）负责第二类问题。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "如何为 gates 分层构建 defense-in-depth？",
+      "options": [
+        "Pre-commit hook → CI status check → pre-tool authz hook → pre-merge gate；每层都是确定性的，因此一层的失败会被下一层捕获",
+        "只在合并时设置一个 gate",
+        "只有聊天提醒",
+        "只有 IDE warning"
+      ],
+      "correct": 0,
+      "explanation": "多个不可绕过的层可以捕获单层会遗漏的问题。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "coverage_floor check 可以防止什么？",
+      "options": [
+        "Hot-path 延迟",
+        "Agent 静默删除失败的测试；如果测得的覆盖率低于 floor，或比上次合并下降超过 1 个百分点，gate 就会失败",
+        "冷启动",
+        "过时的 lockfile"
+      ],
+      "correct": 1,
+      "explanation": "没有 floor，Agent 就可以静默降低覆盖率，以保持结论为绿色。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "什么时候 --strict mode 应将每个 warn 提升为 block？",
+      "options": [
+        "始终",
+        "从不",
+        "只有星期日",
+        "发布分支、阻塞发布的 PR、事故后的分诊；不应作为日常默认值，因为对所有事项都严格会损害流程"
+      ],
+      "correct": 3,
+      "explanation": "--strict 按分支选择启用；应将它保留给高风险时刻。"
+    }
+  ]
+}

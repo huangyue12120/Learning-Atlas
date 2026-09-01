@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/21-computer-use-agents/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "d0e3625d3020fed0aef681b6ddc0da28185cfae6b886e270895a1c729d9c2dd3"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "Claude computer use 接收什么输入，又会输出什么？",
+      "options": [
+        "输入截图（基于视觉），输出键盘/鼠标命令",
+        "输入 accessibility tree，输出键盘/鼠标命令",
+        "输入 DOM XML，输出 JavaScript",
+        "输入 JSON，输出 SQL"
+      ],
+      "correct": 0,
+      "explanation": "Claude 读取像素并输出键盘/鼠标动作，不使用操作系统的 accessibility API。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "Gemini 2.5 Computer Use 的突出安全特性是什么？",
+      "options": [
+        "一个逐步安全服务，在执行前评估每个动作并拒绝不安全的动作",
+        "默认只读模式",
+        "硬编码的 WAF 规则",
+        "强制 CAPTCHA"
+      ],
+      "correct": 0,
+      "explanation": "Gemini 2.5 Computer Use 将逐步安全分类器作为其代表性特性。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "本课认为三个模型都应将哪些内容视为不可信输入？",
+      "options": [
+        "没有；所有内容都可信",
+        "只有 HTTPS 响应",
+        "截图、DOM 文本、工具输出、PDF 内容以及所有检索结果",
+        "只有 PDF 内容"
+      ],
+      "correct": 2,
+      "explanation": "只有用户直接下达的指令才算授权；其他所有内容都应视为不可信。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "本课引用的 OpenAI CU 在发布时的 OSWorld / WebArena 数字是什么？",
+      "options": [
+        "没有报告数字",
+        "OSWorld 99%，WebArena 99%",
+        "OSWorld 0%，WebArena 0%",
+        "OSWorld 38.1%，WebArena 58.1%，WebVoyager 87%"
+      ],
+      "correct": 3,
+      "explanation": "这些就是本课引用的发布时数字。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "下面哪一项不在本课总结的 2026 年防御模式清单中？",
+      "options": [
+        "对导航目标使用 allowlist/blocklist",
+        "逐步安全分类器",
+        "对敏感操作使用 human-in-the-loop",
+        "自动点击对话框以节省时间"
+      ],
+      "correct": 3,
+      "explanation": "自动点击对话框正好与安全做法相反；本课建议在敏感操作前明确确认。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课强调的、针对 computer-use Agent 的主要攻击是什么？",
+      "options": [
+        "网络中断",
+        "操作系统更新滞后",
+        "渲染缓慢",
+        "恶意网页或 PDF 在检索内容中嵌入指令，而模型将其误当作用户意图"
+      ],
+      "correct": 3,
+      "explanation": "把截图或 DOM 文本当作授权，是典型的间接 prompt injection 失败。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "什么时候特别建议进行 human-in-the-loop 确认？",
+      "options": [
+        "从不",
+        "进行登录、购买、删除文件等敏感操作时",
+        "只有模型提出要求时",
+        "进行只读导航时"
+      ],
+      "correct": 1,
+      "explanation": "敏感操作（涉及资金、数据暴露或新登录）需要明确的人类确认。"
+    }
+  ]
+}

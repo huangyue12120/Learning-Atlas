@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/07-memory-virtual-context-memgpt/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "7df695b33f791f677320538c40d2f061ff5c993451c3160227355c4e92d37a92"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "MemGPT 借鉴了哪种操作系统类比？",
+      "options": [
+        "虚拟内存：主上下文相当于 RAM，外部存储相当于磁盘，记忆工具负责换入和换出页面",
+        "进程和线程",
+        "网络套接字",
+        "文件描述符"
+      ],
+      "correct": 0,
+      "explanation": "MemGPT 将 prompt 映射为 RAM，将外部存储映射为磁盘，并用记忆工具执行类似缺页的传输。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "为什么更大的上下文窗口不能完全解决记忆问题？",
+      "options": [
+        "模型拒绝处理长输入",
+        "长上下文没有任何成本",
+        "即使使用 128k 窗口，也仍会遇到溢出、注意力稀释和缺少跨会话持久化的问题",
+        "服务商把它们限制在 4k token"
+      ],
+      "correct": 2,
+      "explanation": "Mem0 的测量表明，使用 128k 窗口的基线仍会遗漏 4k Agent 借助外部记忆可以捕获的事实；溢出、稀释和持久化问题依然存在。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "下面哪一项不是 MemGPT 的标准记忆工具？",
+      "options": [
+        "archival_memory_search",
+        "core_memory_append",
+        "conversation_search",
+        "gradient_memory_update"
+      ],
+      "correct": 3,
+      "explanation": "MemGPT 没有梯度记忆工具；它提供的是 core、archival 和 conversation 操作。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "在 MemGPT 中，interrupt pattern（中断模式）会做什么？",
+      "options": [
+        "任何错误都会让整个 Agent 运行停止",
+        "会话中途 Agent 调用记忆工具，运行时执行该工具，并把结果插入下一轮",
+        "它会完全绕过上下文窗口",
+        "它会触发模型再训练"
+      ],
+      "correct": 1,
+      "explanation": "记忆即中断：Agent 调用记忆工具，运行时获取结果，并在下一轮将其作为新的 Observation 返回（类似 Unix 的 read()）。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "MemGPT 在 2024 年演化成了哪个生产系统？",
+      "options": [
+        "Pinecone",
+        "Mem0",
+        "Zep",
+        "Letta"
+      ],
+      "correct": 3,
+      "explanation": "MemGPT 于 2024 年 9 月演化为 Letta；研究仓库 cpacker/MemGPT 仍然作为其起源保留。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "在这个语境中，什么是 memory poisoning（记忆投毒）？",
+      "options": [
+        "RAM 可用时仍从磁盘读取",
+        "Embedding 模型版本漂移",
+        "破坏向量索引的 bug",
+        "攻击者的内容被存成记忆笔记，并在未来召回时再次摄入"
+      ],
+      "correct": 3,
+      "explanation": "外部记忆本质上是检索到的文本；如果攻击者可控制的内容进入记忆笔记，Agent 就会在下一次会话中再次摄入它。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "为什么本课说生产级记忆系统都是 MemGPT 的变体？",
+      "options": [
+        "Letta、Mem0、Assistants threads 和 Claude Agent SDK 都运行两层或多层的分页记忆模式；差别在于具体的运行形态",
+        "它们共享模型权重",
+        "它们使用同一个向量数据库",
+        "MemGPT 拥有这个商标"
+      ],
+      "correct": 0,
+      "explanation": "应按运行形态而不是按模式名称选择；它们都共享 MemGPT 的分页换入/换出骨架。"
+    }
+  ]
+}

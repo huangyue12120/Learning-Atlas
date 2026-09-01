@@ -10,7 +10,15 @@ practice:
     slug: the-concept
 card:
   title: Eval-driven 开发与测试分层
-  summary: 在把单元、轨迹、任务和回归评估组合成 agent eval suite 时，用测试与质量保证理论核对确定性检查、容差和端到端测试的职责；该关联先保留候选状态。
+  summary: 在把单元、轨迹、任务和回归评估组合成 agent eval suite 时，用测试与质量保证理论核对确定性检查、容差和端到端测试的职责。
+  context: "本课需要同时验证工具函数、agent 轨迹、完整任务和历史回归，单一测试层无法覆盖这些不同的失败面。"
+  intuition: "测试金字塔把快速、稳定的底层检查放在更广的上层行为评估下面；agent eval 也应让失败尽量在最便宜的层被发现。"
+  key_points:
+    - "单元和 schema 检查适合验证确定性约束，成本低且定位清晰。"
+    - "轨迹评估关注步骤、工具选择和停止行为，最终答案正确不代表过程可靠。"
+    - "端到端任务和回归集需要控制成本、随机性与评估器偏差。"
+  application: "先为工具和状态转移建立快速检查，再加入代表性轨迹与任务集，并把每次线上失败固化为可重复的回归样例。"
+  check_question: "为什么一个最终答案正确的 agent 轨迹仍然应该在评估中失败？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 15 - production software engineering/04. testing and quality assurance.md

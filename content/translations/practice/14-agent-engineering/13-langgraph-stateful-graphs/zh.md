@@ -31,7 +31,7 @@ status: reviewed
 
 LangGraph 的设计答案是：状态是一等的类型化对象，变更是显式的，每个节点之后都持久化检查点。恢复就是调用 load_state(session_id)。
 
-## 核心概念
+## 核心概念 <!-- learning-atlas: the-concept -->
 
 ### 图
 

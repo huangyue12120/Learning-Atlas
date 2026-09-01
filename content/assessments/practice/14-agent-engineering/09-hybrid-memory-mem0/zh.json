@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/09-hybrid-memory-mem0/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "ec8f0a9ae93e9a5067393183b2fc5f42c409f0b20f0304ce24b13d3e6b13ac37"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "KV store 最适合处理哪类查询？",
+      "options": [
+        "共享计费实体的客户之间的可达性查询",
+        "按（user、type、entity）键进行的事实直接查找",
+        "带 valid-at-time 条件的时间查询",
+        "长对话之间的语义相似度查询"
+      ],
+      "correct": 1,
+      "explanation": "KV store 按精确键提供 O(1) 查找；向量存储用于相似度检索，图存储用于关系查询。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "Mem0 在每次 add() 时会并行写入哪三个存储？",
+      "options": [
+        "Postgres、Redis、ClickHouse",
+        "Cache、queue、log",
+        "Embedding、attention、FFN",
+        "Vector、KV、graph"
+      ],
+      "correct": 3,
+      "explanation": "Mem0 会把每次写入并行分发到 vector、KV 和 graph 三种存储。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "Mem0 的融合得分由哪三个维度构成？",
+      "options": [
+        "Confidence、perplexity、BLEU",
+        "Precision、recall、F1",
+        "Relevance、importance、recency",
+        "Latency、throughput、cost"
+      ],
+      "correct": 2,
+      "explanation": "融合得分是 relevance、importance 和 recency 的加权和；权重应根据产品进行调节。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "当新事实与已有边矛盾时，Mem0g 会怎么做？",
+      "options": [
+        "抛出异常",
+        "重写 user_id",
+        "将已有边标记为无效但不删除，因此时间查询仍可遍历它",
+        "删除这条边"
+      ],
+      "correct": 2,
+      "explanation": "软失效会保留历史，从而支持 temporal（valid-at-time）查询。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "为什么本课建议针对不同产品调节融合权重？",
+      "options": [
+        "Apache 2.0 要求这样做",
+        "向量库不接受相同权重",
+        "聊天 Agent 更看重 recency，合规 Agent 更看重 importance，检索 Agent 更看重 relevance",
+        "服务商要求这样做"
+      ],
+      "correct": 2,
+      "explanation": "不同产品对 relevance、importance 和 recency 的偏重不同；一套权重无法适用于所有产品。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "Mem0 使用的 scope 分类是什么？",
+      "options": [
+        "User、session、agent",
+        "Local、regional、global",
+        "Public、private、secret",
+        "Read、write、admin"
+      ],
+      "correct": 0,
+      "explanation": "Scope 分为 user（跨会话）、session（单个线程）和 agent（每个实例的状态）。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "在这种模式中，什么是 embedding drift？本课建议如何缓解？",
+      "options": [
+        "向量被加密；轮换密钥",
+        "embedding API 更改 URL；固定域名",
+        "嵌入值导致整数溢出；切换到 float64",
+        "语料库增长后向量检索质量下降；定期为最常用的前 N 条记录重新生成嵌入"
+      ],
+      "correct": 3,
+      "explanation": "定期为高频记录重新生成嵌入，可以在语料库增长时保持检索质量稳定。"
+    }
+  ]
+}

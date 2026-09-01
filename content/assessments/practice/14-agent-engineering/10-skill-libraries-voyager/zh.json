@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/10-skill-libraries-voyager/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "283469d568aa792d0b125848e5fdf12eb1359ee56250312e5ccc853102fb3010"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "Voyager 将什么视为 action space？",
+      "options": [
+        "Minecraft 原始命令",
+        "强化学习的 Q 值",
+        "只有文本 prompt",
+        "可执行代码（JavaScript 函数），可以存储、检索和组合"
+      ],
+      "correct": 3,
+      "explanation": "Voyager 的贡献是把代码作为行动：Skill 是程序，而不是原始命令。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "Voyager Agent 由哪三个组件构成？",
+      "options": [
+        "Retriever、generator、ranker",
+        "Encoder、decoder、value head",
+        "Automatic curriculum、skill library、iterative prompting",
+        "Planner、executor、judge"
+      ],
+      "correct": 2,
+      "explanation": "Voyager 围绕 automatic curriculum、skill library 和 iterative prompting 组织 Agent。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "一次 Skill 执行尝试可能返回哪三个信号？",
+      "options": [
+        "成功、错误（带 stack trace）、自验证失败",
+        "通过、失败、重试",
+        "Heartbeat、ack、nack",
+        "绿色、黄色、红色"
+      ],
+      "correct": 0,
+      "explanation": "Voyager 的 iterative prompting 机制由这三个信号驱动，并将它们反馈到下一个版本中。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "automatic curriculum 如何选择下一个任务？",
+      "options": [
+        "在 action space 上均匀随机选择",
+        "根据环境状态和 Skill 清单选择略高于当前能力的任务（探索的最佳区间）",
+        "始终选择可用的最难任务",
+        "只使用用户提供的清单"
+      ],
+      "correct": 1,
+      "explanation": "proposer 的目标是选择略高于当前能力的任务，从而让进步保持稳定。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "下面哪个 2026 年产品最符合本课描述的 Voyager Skill？",
+      "options": [
+        "Claude Agent SDK 的 Skill：带名称、可检索的代码，以及按需加载的说明",
+        "AWS Lambda layers",
+        "Pinecone indices",
+        "OpenAI fine-tuning"
+      ],
+      "correct": 0,
+      "explanation": "Agent SDK 的 Skill 符合 Voyager 所倡导的“命名—可检索—可组合”代码模式。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为什么本课建议在写入 Skill library 时去重？",
+      "options": [
+        "不去重时，同一个 Skill 会因描述略有不同而被添加多次；检索时应只返回一个规范版本",
+        "服务商会拒绝重复项",
+        "Git 会阻止重复项",
+        "磁盘空间很昂贵"
+      ],
+      "correct": 0,
+      "explanation": "将近似重复的描述合并为一个规范 Skill，可以让检索结果保持干净。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "composed-skill drift 描述的是什么问题？",
+      "options": [
+        "Python 升级后某个 Skill 无法再编译",
+        "父 Skill 静默采用了未经测试的子 Skill 新版本；应固定 Skill 版本",
+        "Skill 在存储时被加密",
+        "检索返回空结果"
+      ],
+      "correct": 1,
+      "explanation": "如果不固定版本，子 Skill 的改进就可能静默改变父 Skill 的行为。"
+    }
+  ]
+}

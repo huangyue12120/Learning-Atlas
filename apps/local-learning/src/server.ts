@@ -32,12 +32,12 @@ const phases = [
   { slug: "10-llms-from-scratch", title: "Phase 10 · 从零构建 LLM" },
   { slug: "11-llm-engineering", title: "Phase 11 · LLM 工程" },
   { slug: "12-multimodal-ai", title: "Phase 12 · 多模态 AI" },
-  { slug: "13-tools-and-protocols", title: "Phase 13 · 工具与协议" }
+  { slug: "13-tools-and-protocols", title: "Phase 13 · 工具与协议" },
+  { slug: "14-agent-engineering", title: "Phase 14 · Agent 工程" }
 ] as const;
 type Phase = typeof phases[number];
 const curriculumPhases = [
   ...phases,
-  { slug: "14-agent-engineering", title: "Phase 14 · Agent 工程" },
   { slug: "15-autonomous-systems", title: "Phase 15 · 自主系统" },
   { slug: "16-multi-agent-and-swarms", title: "Phase 16 · 多 Agent 与群体智能" },
   { slug: "17-infrastructure-and-production", title: "Phase 17 · 基础设施与生产" },

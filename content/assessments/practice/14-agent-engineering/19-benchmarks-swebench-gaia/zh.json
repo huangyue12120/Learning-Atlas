@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/19-benchmarks-swebench-gaia/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "5edea857796ee9518fed5d174e1021a2b2379894361bb1b6ee391cd9c993ef95"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "SWE-bench 的评估器会检查候选补丁的什么内容？",
+      "options": [
+        "补丁长度少于 200 行",
+        "之前失败的测试现在通过（FAIL_TO_PASS），之前通过的测试仍然通过（PASS_TO_PASS）",
+        "与参考修复相比的 BLEU 分数",
+        "补丁通过独立的 LLM 评审"
+      ],
+      "correct": 1,
+      "explanation": "这个 harness 以测试状态转变作为门槛：能暴露 bug 的测试必须从失败变为通过，而回归测试必须保持通过。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "为什么会有 SWE-bench Verified？",
+      "options": [
+        "它包含更多语言",
+        "它运行得更快",
+        "OpenAI 人工筛选的 500 个任务子集移除了有歧义的问题和不可靠的测试",
+        "它使用不同的补丁格式"
+      ],
+      "correct": 2,
+      "explanation": "Verified 是用于可信报告的更干净子集。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "SWE-bench+ 对成功补丁发现了什么？",
+      "options": [
+        "32.67% 的补丁把解法文本泄露到 issue 中，31.08% 的补丁测试覆盖率异常薄弱",
+        "补丁总是超过 1000 行",
+        "不存在数据污染",
+        "所有补丁都来自记忆"
+      ],
+      "correct": 0,
+      "explanation": "SWE-bench+ 指出，大量成功补丁存在解法泄露和测试覆盖率薄弱的问题。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "GAIA 的设计理念是什么？",
+      "options": [
+        "对人类很难、对 AI 很容易",
+        "纯粹的向量检索基准",
+        "只有单轮问题",
+        "概念上对人类简单（约 92%），但对 AI 很难（早期 GPT-4 使用插件时约 15%）"
+      ],
+      "correct": 3,
+      "explanation": "GAIA 有意设计为对人类容易、对 AI 困难，用来测试推理、工具使用和多模态能力。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "下面哪一项不是 AgentBench 的环境类别？",
+      "options": [
+        "Games（Alfworld、LTP）",
+        "Web（WebShop、Mind2Web）",
+        "Gradient（RL、IRL）",
+        "Code（Bash、DB、KG）"
+      ],
+      "correct": 2,
+      "explanation": "AgentBench 覆盖代码、游戏、网页和开放式生成，不包含 Gradient 类别。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课指出，报告 SWE-bench 数字时哪种做法是不恰当的？",
+      "options": [
+        "报告按仓库拆分的结果",
+        "只报告一个汇总数字，不说明 Verified 或 SWE-bench+ 的背景",
+        "报告步骤数",
+        "报告墙钟时间"
+      ],
+      "correct": 1,
+      "explanation": "只盯着一个数字会掩盖数据污染和成本；应始终报告 Verified 结果及按分布拆分的背景。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "这些基准没有衡量下面哪个维度？",
+      "options": [
+        "测试状态转变",
+        "步骤数",
+        "每个任务的成功与否",
+        "真实运行成本（token、墙钟时间）、对抗安全性和自身领域表现"
+      ],
+      "correct": 3,
+      "explanation": "基准会进行汇总，但不会捕获成本、对抗鲁棒性或自身领域的表现。"
+    }
+  ]
+}

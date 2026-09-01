@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/30-eval-driven-agent-development/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "8aad8987cc2c69d7905fd6ebdb72d4eb4b1afa413fc4a64a922be673ec8222a3"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "本课提到的三个评估层是什么？",
+      "options": [
+        "Unit、integration、end-to-end",
+        "Smoke、regression、acceptance",
+        "Pre、check、post",
+        "静态基准、自定义离线评估、在线生产评估"
+      ],
+      "correct": 3,
+      "explanation": "静态评估（SWE-bench、GAIA）、自定义离线评估（LLM-judge、exec、trajectory）和在线评估（重放、告警、成本/延迟）。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "Anthropic 推荐从什么开始？",
+      "options": [
+        "从 multi-agent debate 开始",
+        "从简单 prompt 开始并进行优化，配合全面评估；只有需要时才增加多步骤 Agent 系统",
+        "只从前沿模型开始",
+        "从 hierarchical orchestration 开始"
+      ],
+      "correct": 1,
+      "explanation": "Anthropic 明确指出，evaluation 是驱动其他选择的外层循环。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "什么是 evaluator-optimizer tight loop（紧密循环）？",
+      "options": [
+        "Proposer 生成输出，evaluator 评判，持续 refine 直到 evaluator 通过（Self-Refine 的泛化）",
+        "采样、排序、去重",
+        "缓存、重试、失败",
+        "训练、评估、部署"
+      ],
+      "correct": 0,
+      "explanation": "这是 Self-Refine 的泛化：任何流程都可以包装成 propose—judge—refine。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "2026 年的最佳实践建议将 evals 放在哪里？",
+      "options": [
+        "只由 QA 团队维护",
+        "只按季度运行",
+        "与代码放在一起，在每个 PR 的 CI 中运行，并用评估分数作为合并门禁",
+        "只放在独立的服务商 dashboard 中"
+      ],
+      "correct": 2,
+      "explanation": "与代码共存、由 CI 把关并跟踪回归，是标准做法。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "为什么本课警告不要使用没有 grounding 的 LLM-judge？",
+      "options": [
+        "它违反 Apache 2.0",
+        "Judge 也会产生幻觉；应采用 CRITIC 模式，让判断建立在外部工具之上",
+        "它速度太慢",
+        "它只能在 GPU 上运行"
+      ],
+      "correct": 1,
+      "explanation": "CRITIC（第 5 课）的原则适用：基于工具的验证可以让 judge 保持客观。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "对 evals 过拟合的危险是什么？",
+      "options": [
+        "向量索引碎片化",
+        "计算成本上升",
+        "延迟降得过低",
+        "针对这组 eval 优化会偏离生产可用性；应轮换测试案例"
+      ],
+      "correct": 3,
+      "explanation": "轮换 eval 集可以让优化始终与生产现实保持一致。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "为什么 flaky eval 会造成问题？",
+      "options": [
+        "它们超出上下文窗口",
+        "它们无法访问数据库",
+        "它们使推理成本翻倍",
+        "非确定性案例会产生误报；应固定随机种子并保存状态快照"
+      ],
+      "correct": 3,
+      "explanation": "Flaky 会让回归结果无法解读；必须保证确定性（固定种子、保存状态快照）。"
+    }
+  ]
+}

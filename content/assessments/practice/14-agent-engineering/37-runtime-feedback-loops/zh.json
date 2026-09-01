@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/37-runtime-feedback-loops/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "1d924c422adddff1721f9ed62ab2e06ca8340fb615376409dcad6e4f39b0fdbe"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "feedback runner 会强制 Agent 做什么？",
+      "options": [
+        "对想象中的输出做出反应",
+        "对事实做出反应：每条命令的结构化 stdout/stderr/exit/duration 记录都会被捕获并写入循环",
+        "跳过验证",
+        "使用不同的模型"
+      ],
+      "correct": 1,
+      "explanation": "这个 runner 填补了“测试通过”（想象）与“测试确实运行且退出码为零”（记录）之间的差距。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "feedback 与 telemetry 有什么区别？",
+      "options": [
+        "feedback 面向本次运行的下一轮；telemetry 面向运维人员跨时间审查运行结果（文件和保留期限都不同）",
+        "两者是同一件事",
+        "telemetry 是付费的",
+        "telemetry 使用 OTel；feedback 使用 GraphQL"
+      ],
+      "correct": 0,
+      "explanation": "两者共享一些字段，但位于不同文件中并采用不同保留期限；feedback 发生在单次运行内，telemetry 用于跨运行分析。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "每条 feedback record 中必须出现哪个字段？",
+      "options": [
+        "exit_code（如果为空，必须拒绝推进循环）",
+        "embedding_vector",
+        "model_id",
+        "prompt_cache_token"
+      ],
+      "correct": 0,
+      "explanation": "exit_code 是明确无歧义的成功信号；exit 为空意味着没有取得进展。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "这个 runner 如何截断大型输出？",
+      "options": [
+        "使用 gzip 压缩",
+        "随机采样",
+        "只保留前 10 行",
+        "确定性地保留开头和结尾，并使用“truncated N lines”标记，使相同输出始终产生相同记录"
+      ],
+      "correct": 3,
+      "explanation": "确定性截断既能让记录可重放，又能限制 token 成本；结尾通常包含失败摘要。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "为什么要在写入时脱敏，而不是读取时脱敏？",
+      "options": [
+        "读取时脱敏会破坏 JSON",
+        "磁盘上的文件正是攻击者可能接触到的对象；只在读取时脱敏会让密钥留在 JSONL 文件中",
+        "写入时更快",
+        "压缩"
+      ],
+      "correct": 1,
+      "explanation": "追加前应脱敏匹配 Bearer、password=、api_key=、AKIA……、xox[baprs]- 的行；每季度审计这些模式。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "parent_command_id 能为 workbench 提供什么？",
+      "options": [
+        "更快的文件 I/O",
+        "更低的内存占用",
+        "重试会关联到父级尝试，使 reviewer 和审计都能看到失败链；否则重试看起来像独立的成功",
+        "更便宜的推理"
+      ],
+      "correct": 2,
+      "explanation": "父级关联会让 reviewer（第 39 课）和 verification gate 看见重试链。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "为什么要将 feedback_record.jsonl 限制为 1 MB 并进行轮换？",
+      "options": [
+        "磁盘速度太慢",
+        "Agent 只读取当前文件；轮换可以限制运行时成本，而 CI 产物仍会捕获完整集合",
+        "JSON 无法处理更大的文件",
+        "服务商按字节收费"
+      ],
+      "correct": 1,
+      "explanation": "受限的当前文件加轮换历史，是 logrotate 使用的同一种模式；它让 hot loop 的成本可预测。"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/35-initialization-scripts/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "ff34bacb64f3e466a849b6057ba9ecf482217f01b06db1e317d37f59bb6d5e78"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "init script 可以消除什么？",
+      "options": [
+        "Authn token",
+        "服务商速率限制",
+        "推理延迟",
+        "每个 session 的设置成本：探测 runtime、列出 repo，并在每个新 session 中重复检查"
+      ],
+      "correct": 3,
+      "explanation": "这个脚本只支付一次设置成本，并将结果写入 Agent 会读取的 init_report.json。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "init script 的 failure-mode contract 是什么？",
+      "options": [
+        "大声失败、快速失败、在一个地方失败；workbench 损坏时拒绝启动",
+        "始终成功",
+        "无限重试",
+        "软失败并继续"
+      ],
+      "correct": 0,
+      "explanation": "核心是 workbench 损坏时拒绝启动；静默回退会让这一目的失效。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "下面哪一项不是本课列出的 probe？",
+      "options": [
+        "逐 token 采样 temperature",
+        "测试命令是否可解析",
+        "依赖是否可用",
+        "Runtime 版本"
+      ],
+      "correct": 0,
+      "explanation": "Probe 包括 runtime 版本、依赖、测试命令、路径、环境变量、状态新鲜度和 last-known-good commit。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "为什么本课说 init 必须是幂等的？",
+      "options": [
+        "它满足 SOC 2",
+        "JSON Schema 要求这样做",
+        "幂等性可以省钱",
+        "运行两次应当是 no-op（新 timestamp 除外），因此可以接入 CI、hook 或任务前的 slash command"
+      ],
+      "correct": 3,
+      "explanation": "幂等性让 init 可以从多个入口安全调用（hook、CI、slash command）。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "什么是 last-known-good commit anchoring？",
+      "options": [
+        "仓库中最早的 commit",
+        "将当前 commit 与 LKG 文件比较；如果 diff 超出预算，则拒绝启动，等待人类批准",
+        "团队负责人最近的 commit",
+        "HEAD 和 main 的 merge base"
+      ],
+      "correct": 1,
+      "explanation": "Cloudflare 的 AI Code Review 以 LKG 为范围约束 reviewer，防止漂移在多个 session 中累积。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "lock file 配合 TTL 模式会做什么？",
+      "options": [
+        "probe 成功后写入 prereqs.lock；后续运行在 manifest hash 匹配时信任该 lock 24 小时，并跳过昂贵 probe",
+        "锁定 repo，禁止编辑",
+        "禁用 CI",
+        "阻止所有写入 24 小时"
+      ],
+      "correct": 0,
+      "explanation": "它与 Docker layer cache 形态相同：幂等 probe 加内容 hash 就可以跳过重复检查。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "哪些内容绝不应出现在 init hot path 中？",
+      "options": [
+        "网络调用、LLM 调用、外部许可检查；probe 应是三秒内完成的确定性基础设施",
+        "读取 lockfile",
+        "读取本地文件系统",
+        "读取环境变量"
+      ],
+      "correct": 0,
+      "explanation": "调用 LLM 的 probe 是 workflow，而不是 probe；应让 init 保持确定性。"
+    }
+  ]
+}

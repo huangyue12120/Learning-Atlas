@@ -10,7 +10,15 @@ practice:
     slug: the-concept
 card:
   title: Agent benchmark 的任务完成度
-  summary: 在比较 SWE-bench、GAIA 等 benchmark 的任务成功、分解和评估协议时，用 ML systems 的模型评估理论核对离线指标与真实部署质量的差距；该关联先保留候选状态。
+  summary: 在比较 SWE-bench、GAIA 等 benchmark 的任务成功、分解和评估协议时，用 ML systems 的模型评估理论核对离线指标与真实部署质量的差距。
+  context: "本课用真实任务环境评估 agent，而不是只比较一段文本是否相似；指标、任务分布和执行成本都会影响结论。"
+  intuition: "benchmark 分数是测量仪器的读数，不是能力本身；只有明确任务定义、成功判据和误差来源，分数才支持工程决策。"
+  key_points:
+    - "任务成功率必须配合任务难度、数据污染和失败类型一起解释。"
+    - "轨迹级和最终结果级评估回答的是不同问题，不能互相替代。"
+    - "离线 benchmark 不能自动代表生产中的延迟、成本、可靠性和用户影响。"
+  application: "为每个 benchmark 记录任务分布、成功判据、工具权限和预算，并将离线结果与代表性生产回放或线上指标对照。"
+  check_question: "为什么 agent 在 benchmark 上得分很高，仍可能在生产中表现不可靠？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/04. ML systems design.md

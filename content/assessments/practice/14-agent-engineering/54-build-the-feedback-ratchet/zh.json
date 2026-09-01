@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/54-build-the-feedback-ratchet/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "e33db2281896ee04e70445aabbb5531133132cbee1da3335e4ad24061229d7d6"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "feedback 什么时候会变成 infrastructure？",
+      "options": [
+        "只是被总结时",
+        "出现在 dashboard 中时",
+        "被收集时",
+        "它有通向已分配负责人、持久变更和验证的路径时"
+      ],
+      "correct": 3,
+      "explanation": "提升反馈的等级并明确 ownership，才能把观察转化为系统学习。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "生产写入尝试应该路由到哪里？",
+      "options": [
+        "只有文档",
+        "policy 或 permission boundary",
+        "普通 backlog",
+        "视觉设计"
+      ],
+      "correct": 1,
+      "explanation": "不安全的权限应由可强制执行的策略层负责。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "false positive 首先应该改变什么？",
+      "options": [
+        "团队名称",
+        "部署区域",
+        "定价",
+        "evaluation 或 test coverage"
+      ],
+      "correct": 3,
+      "explanation": "evaluation 层应将这个失败保留为可复现案例。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "为什么 owner 是 control 的一部分？",
+      "options": [
+        "没有负责人的改进无法可靠地改变系统，也无法保持更新",
+        "为了增加会议",
+        "为了隐藏这个信号",
+        "为了删除 proof"
+      ],
+      "correct": 0,
+      "explanation": "必须有人负责实现、验证、审查并最终退役这项行动。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "control 什么时候应该退役？",
+      "options": [
+        "从不",
+        "当证据表明它已被取代、过时，或制造的摩擦超过了它保护的风险时",
+        "感觉它变旧时",
+        "添加后立即退役"
+      ],
+      "correct": 1,
+      "explanation": "control 的退役和提升一样，也应由证据支持。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "产品塑形反馈与 coding-agent feedback 如何关联？",
+      "options": [
+        "只有 prompt 重要",
+        "只有 metric 重要",
+        "产品证据改变 outcome 和 scope，而 Agent 修正改变 workbench；事故可能同时改变两者",
+        "两者没有关联"
+      ],
+      "correct": 2,
+      "explanation": "两条路径都使用同一个 ratchet，将 evidence 推进为持久的系统变更。"
+    }
+  ]
+}

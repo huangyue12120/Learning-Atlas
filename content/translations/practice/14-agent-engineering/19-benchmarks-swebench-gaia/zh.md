@@ -36,7 +36,7 @@ status: reviewed
 
 在引用一个数字之前，先了解这三个锚定基准及其失败模式。
 
-## 核心概念
+## 核心概念 <!-- learning-atlas: the-concept -->
 
 ### SWE-bench（Jimenez 等，ICLR 2024 oral）
 

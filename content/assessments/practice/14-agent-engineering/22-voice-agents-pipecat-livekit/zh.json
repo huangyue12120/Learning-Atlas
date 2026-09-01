@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/22-voice-agents-pipecat-livekit/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "35a8d8f98837a5f06631800e84ebe0fea655e4f36149026091498193392806f4"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "Pipecat pipeline 使用哪两个数据流方向？",
+      "options": [
+        "Read 和 write",
+        "Hot 和 cold",
+        "Inbound 和 outbound",
+        "DOWNSTREAM（从 source 到 sink）和 UPSTREAM（反馈、取消、插话）"
+      ],
+      "correct": 3,
+      "explanation": "Frame 会沿 DOWNSTREAM 方向从 source 流向 sink，并沿 UPSTREAM 方向传递控制和取消信号。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "Pipecat 的标准语音 pipeline 是什么？",
+      "options": [
+        "VAD → STT → LLM → TTS → transport",
+        "Audio → JSON → SQL → response",
+        "LLM → embed → retrieve → answer",
+        "TTS → STT → LLM → VAD"
+      ],
+      "correct": 0,
+      "explanation": "VAD 检测语音活动，STT 转写语音，LLM 生成响应，TTS 合成语音，transport 负责传递。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "LiveKit Agents 提供哪两类 voice agent？",
+      "options": [
+        "BatchAgent 和 StreamAgent",
+        "TextAgent 和 SpeechAgent",
+        "MultimodalAgent（直接处理音频）和 VoicePipelineAgent（STT/LLM/TTS 级联）",
+        "LocalAgent 和 CloudAgent"
+      ],
+      "correct": 2,
+      "explanation": "MultimodalAgent 直接处理音频（类似 Realtime）；VoicePipelineAgent 使用 STT→LLM→TTS，以获得文本级控制。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "什么是 barge-in（插话）？它如何处理？",
+      "options": [
+        "LLM 成本突然升高；减少 token",
+        "用户在 Agent 说话时打断；UPSTREAM cancel frame 会让 TTS 在话语中途停止",
+        "Captcha 失败；重试",
+        "服务商中断；切换区域"
+      ],
+      "correct": 1,
+      "explanation": "Barge-in 是用户打断；Pipecat 通过 UPSTREAM cancellation 干净地处理这种情况。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "本课把多大的端到端延迟描述为高品质体验？",
+      "options": [
+        "约 450–600 毫秒",
+        "约 1500 毫秒",
+        "约 50 毫秒",
+        "约 5000 毫秒"
+      ],
+      "correct": 0,
+      "explanation": "高品质方案的延迟约为 450–600 毫秒；800–1200 毫秒很常见；超过 1500 毫秒就会让人感觉系统失灵。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "如果忽略 STT confidence，会出现什么问题？",
+      "options": [
+        "通话成本降低",
+        "延迟改善",
+        "TTS 速度加快",
+        "低置信度转写被当作绝对事实提供给 LLM，导致错误答案；应根据 confidence 做门控或请求确认"
+      ],
+      "correct": 3,
+      "explanation": "把低置信度的 STT 结果当成事实，是 voice agent 的主要失败模式之一。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "为什么本课建议在发布前把各组件的延迟相加？",
+      "options": [
+        "WebRTC 要求必须这样做",
+        "每个组件增加 50–200 毫秒；总和决定体验是否会让人感觉失灵",
+        "服务商按延迟计费",
+        "它满足合规要求"
+      ],
+      "correct": 1,
+      "explanation": "发布前应把整条链路（VAD + STT + LLM + TTS + transport）相加；目标延迟必须很紧。"
+    }
+  ]
+}

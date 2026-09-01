@@ -10,7 +10,15 @@ practice:
     slug: the-concept
 card:
   title: Agent workbench 的可靠性面
-  summary: 在把 instructions、state、scope、feedback、verification、review 和 handoff 组织成工作台时，用分布式系统可靠性理论核对持久化、故障转移和验证边界；该关联先保留候选状态。
+  summary: 在把 instructions、state、scope、feedback、verification、review 和 handoff 组织成工作台时，用分布式系统可靠性理论核对持久化、故障转移和验证边界。
+  context: "本课把一组提示、状态文件、权限边界和验证步骤组合成可重复的 agent 工作台，目标是降低长任务中的隐性漂移。"
+  intuition: "可靠性不是模型一次答对，而是系统在重试、交接、部分失败和恢复后仍能保持关键不变量。"
+  key_points:
+    - "持久化状态必须能区分已确认事实、待验证结果和过期缓存。"
+    - "作用域与权限边界应在运行时检查，不能只写在说明文档里。"
+    - "反馈、验证和交接记录构成故障恢复所需的可追溯链路。"
+  application: "为工作台定义状态 schema、幂等重试和恢复检查，并用中断、重复执行和跨会话交接测试关键不变量。"
+  check_question: "为什么把工作台规则写进 README，却不能单独保证 agent 在恢复后遵守它们？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

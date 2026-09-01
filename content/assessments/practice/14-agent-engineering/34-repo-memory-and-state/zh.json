@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/34-repo-memory-and-state/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "5ba78f2da1635c69da41dcda7f3439b3fe1f1a7514601da5c22ab91e398e5bf2"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "决定一条信息是否属于 repo memory 的 durability test 是什么？",
+      "options": [
+        "用户是否将它标记为重要",
+        "三个月后重新运行 CI 时它是否仍有用；如果有用就放入 repo，否则放入 telemetry",
+        "它是否是 JSON",
+        "它是否能放进 4 kB"
+      ],
+      "correct": 1,
+      "explanation": "Repo memory 用于保存持久且三个月后仍有用的状态；瞬态数据则属于 telemetry。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "哪个 schema 字段承载 Agent 的契约版本？",
+      "options": [
+        "schema_version",
+        "model_id",
+        "session_uuid",
+        "build_hash"
+      ],
+      "correct": 0,
+      "explanation": "schema_version 是整数形式的契约版本；manager 拒绝加载未知版本。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "atomic write 是如何工作的？",
+      "options": [
+        "在同一目录中使用 tempfile.mkstemp，写入后 fsync，再用 os.replace（原子重命名）替换目标",
+        "使用 CRC 进行只追加写入",
+        "加密并覆盖",
+        "截断目标后重新写入"
+      ],
+      "correct": 0,
+      "explanation": "在 POSIX 和 Windows 上，原子重命名可以防止部分写入造成的数据损坏。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "为什么 non-idempotent tool call 需要 idempotency key？",
+      "options": [
+        "如果 Agent 在工具调用后、保存结果检查点前崩溃，可以安全重试；执行前记录 call ID，重试时跳过已执行的调用",
+        "为了缩短输出",
+        "为了计费",
+        "为了去重日志"
+      ],
+      "correct": 0,
+      "explanation": "pending_calls.jsonl 保存 call ID；恢复流程会检查并跳过已经执行的工作。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "大型产物（CSV、长转录稿、生成文件）相对于 state 应存放在哪里？",
+      "options": [
+        "拼接成一个巨大的日志",
+        "放在环境变量中",
+        "内嵌在 agent_state.json 中",
+        "作为独立文件（或对象存储），state 中只保存路径，使检查点保持小且快速"
+      ],
+      "correct": 3,
+      "explanation": "独立产物可以在不膨胀 state 的情况下增长；检查点读写的成本因此保持较低。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "event sourcing 用于审计、snapshot 用于恢复，能带来什么？",
+      "options": [
+        "读取 snapshot 并重放其后的事件，从而逐字重现 Agent 决策；形式类似 Postgres WAL",
+        "更快的推理",
+        "更低的磁盘占用",
+        "原生语音支持"
+      ],
+      "correct": 0,
+      "explanation": "每次变更都追加到 state.events.jsonl；定期将状态 snapshot 到 state.json；恢复时重放该 snapshot 时间戳之后的事件。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "当 schema_version 不匹配时，本课说会发生什么？",
+      "options": [
+        "manager 会静默升级",
+        "state 会被删除",
+        "Agent 会重试",
+        "manager 拒绝加载，直到 tools/migrate_state.py 中的迁移脚本运行"
+      ],
+      "correct": 3,
+      "explanation": "应执行 schema migration 或拒绝加载，绝不能静默升级。"
+    }
+  ]
+}

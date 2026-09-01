@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/48-discover-the-real-workflow/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "2e38f941155fb559d3dd81f15d6049fd0c2a6a30c78436097b3be9b75f777f94"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "为什么要从 current behavior 开始，而不是从 requested features 开始？",
+      "options": [
+        "真实工作流会暴露变通方案、handoff、state 和 constraints",
+        "Feature 从来没有用",
+        "它能保证生产就绪",
+        "它可以避开用户"
+      ],
+      "correct": 0,
+      "explanation": "需求应从工作实际如何发生中提炼，而不只是从人们提出的功能中提炼。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "下面哪一项是最有力的直接证据？",
+      "options": [
+        "用户描述通常会发生什么",
+        "一份 roadmap",
+        "system trace 中记录的一次 action",
+        "团队的猜测"
+      ],
+      "correct": 2,
+      "explanation": "trace 直接观察行为，而不是转述或推断行为。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "哪四个 workflow surface 值得特别关注？",
+      "options": [
+        "Branches、commits、tags、releases",
+        "Friction、hidden state、authority 和 exceptions",
+        "Color、font、layout、animation",
+        "Model、tokens、temperature、prompt"
+      ],
+      "correct": 1,
+      "explanation": "这些 surface 往往包含真实的问题和风险。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "为什么要保留 workflow variants？",
+      "options": [
+        "平均情况可能谁也无法代表，并抹去有效的角色或风险差异",
+        "variants 更容易编码",
+        "所有用户都相同",
+        "它消除了证据需求"
+      ],
+      "correct": 0,
+      "explanation": "差异可以编码角色、策略、专业知识或遗留状态。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "direct-evidence ratio 传达什么信息？",
+      "options": [
+        "部署成本",
+        "模型准确率",
+        "功能完整度",
+        "工作流有多少内容建立在 observation 上，而不是 report 或 inference 上"
+      ],
+      "correct": 3,
+      "explanation": "它让证据的强度保持可见。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "什么是 hidden workflow step（隐藏工作流步骤）？",
+      "options": [
+        "一个 public API",
+        "一个 unit test",
+        "一个 CSS transition",
+        "在正式流程之外、依赖 memory、chat 或个人笔记完成的工作"
+      ],
+      "correct": 3,
+      "explanation": "隐藏状态通常可以解释为什么可见流程并不完整。"
+    }
+  ]
+}

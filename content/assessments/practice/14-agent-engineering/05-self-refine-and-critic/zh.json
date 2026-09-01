@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/05-self-refine-and-critic/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "dd9aa876c06faf3ef085217904188c71c253825332c71f81624ff8792dbb94dc"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "Self-Refine 循环由哪三个 prompt 组成？",
+      "options": [
+        "Plan、execute、solve",
+        "Generate、feedback、refine",
+        "Actor、evaluator、reflector",
+        "Search、score、synthesize"
+      ],
+      "correct": 1,
+      "explanation": "Self-Refine 让同一个模型承担三个角色：生成、提供反馈和改进。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "为什么 Self-Refine 在 refine 步骤中需要保留历史记录？",
+      "options": [
+        "历史记录是计费所必需的",
+        "服务商只能缓存历史记录",
+        "它能加快 token 生成",
+        "没有先前的输出和批评，refine 步骤会重复之前的错误；消融实验显示质量会大幅下降"
+      ],
+      "correct": 3,
+      "explanation": "refine prompt 以完整历史为条件，使模型不会重复之前的错误。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "与 Self-Refine 相比，CRITIC 做了什么改变？",
+      "options": [
+        "它使用更大的模型进行生成",
+        "它并行运行 feedback 步骤",
+        "它用外部、以工具为依据的验证器替代 self-feedback 步骤",
+        "它移除了 refine 步骤"
+      ],
+      "correct": 2,
+      "explanation": "CRITIC 将自我批评替换为验证步骤，并通过搜索、代码解释器、计算器或领域验证器完成验证。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "用 Anthropic 的术语来说，哪种 workflow pattern 与 Self-Refine 和 CRITIC 相对应？",
+      "options": [
+        "Parallel sampling（并行采样）",
+        "Prompt chain（提示链）",
+        "Evaluator-Optimizer（评估器—优化器）",
+        "Router（路由器）"
+      ],
+      "correct": 2,
+      "explanation": "Anthropic 将这种模式称为 Evaluator-Optimizer：评估器打分，优化器修订，循环直到收敛。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "什么是 rubber-stamp loop（橡皮图章循环）？本课建议如何避免？",
+      "options": [
+        "会超时的 guardrail；增大 timeout",
+        "总是失败的 retry；提高预算",
+        "同一个模型用同一个 prompt 批评并批准自己的输出；改用结构不同的 prompt 或独立的小型 critic",
+        "总是通过的测试；删除该测试"
+      ],
+      "correct": 2,
+      "explanation": "同风格的自我批评容易收敛到“在我看来已经很好”；应在结构上区分 evaluator 和 optimizer。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "OpenAI Agents SDK 的哪项功能具有 CRITIC 的形态？",
+      "options": [
+        "Sessions（会话）",
+        "Tracing（追踪）",
+        "Handoffs（交接）",
+        "Output guardrails（可以调用工具的输出防护）"
+      ],
+      "correct": 3,
+      "explanation": "Output guardrails 会验证 Agent 的最终输出，并且可以调用工具，符合 CRITIC 中验证器的角色。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "本课建议 2026 年的 evaluator-optimizer 循环采用什么停止条件？",
+      "options": [
+        "只有模型说“可以了”时才停止",
+        "永不停止，让 Agent 无限自我改进",
+        "只有 verifier 通过时才停止",
+        "组合条件：verifier 通过，或（模型说可以了且迭代次数 ≥ 2），或迭代次数 ≥ max_iterations"
+      ],
+      "correct": 3,
+      "explanation": "组合条件可以避开单一停止条件带来的失败模式。"
+    }
+  ]
+}

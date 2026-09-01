@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/47-outcomes-before-output/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "69857cba130f87338da40a0d19194c9194032654eb2a0d051febe14507c7ef8d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "下面哪项陈述描述的是 outcome，而不是 output？",
+      "options": [
+        "构建一个事故助手",
+        "添加一个 dashboard",
+        "部署一个向量数据库",
+        "在保持只读的前提下，于两分钟内识别出故障服务"
+      ],
+      "correct": 3,
+      "explanation": "这个陈述描述了可观察的变化和约束，而不是规定要修复哪个 artifact。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "为什么更快的实现会增加 shaping risk？",
+      "options": [
+        "在学习和反馈跟上之前，团队可能已经投入了错误的问题",
+        "代码会变慢",
+        "模型会停止规划",
+        "测试会变得不可能"
+      ],
+      "correct": 0,
+      "explanation": "速度会放大未经验证的方向所带来的成本。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "outcome frame 应包含什么？",
+      "options": [
+        "用户、场景、当前行为、期望结果、约束和 non-goals",
+        "只有架构",
+        "只有功能",
+        "模型和框架版本"
+      ],
+      "correct": 0,
+      "explanation": "这六个维度将构建工作连接到真实场景和边界。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "outcome frame 什么时候可以点名某项技术？",
+      "options": [
+        "只能在标题中",
+        "当经过验证的兼容性约束确实决定了技术选择时",
+        "在每个目标中",
+        "只要这项技术流行"
+      ],
+      "correct": 1,
+      "explanation": "只有当证据表明技术是实际约束时，才应在 outcome frame 中写出它。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "non-goals 起什么作用？",
+      "options": [
+        "列出未来愿景",
+        "拒绝当前切片中诱人的相邻工作",
+        "衡量成功",
+        "替代约束"
+      ],
+      "correct": 1,
+      "explanation": "具体的 non-goals 可以让构建工作始终围绕当前 outcome。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "什么时候可以说一个受约束的 outcome 失败了？",
+      "options": [
+        "只有没有代码发布时",
+        "实现发生变化时",
+        "达到期望结果却违反了固定约束时",
+        "记录了一个 non-goal 时"
+      ],
+      "correct": 2,
+      "explanation": "约束是 outcome 的一部分，而不是可有可无的实现指导。"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/08-memory-blocks-sleep-time-compute/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "d18fcc7566d5737e727bc66e988663aaa896a7eac72411c014d82e39ee79f027"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "Letta 的三个记忆层级是什么？",
+      "options": [
+        "RAM、swap、disk",
+        "Cache、KV、archival",
+        "Core、recall、archival",
+        "Working、episodic、semantic"
+      ],
+      "correct": 2,
+      "explanation": "Letta 使用 core（始终可见）、recall（对话历史）和 archival（外部存储）三个层级。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "sleep-time compute 主要要解决哪种生产问题？",
+      "options": [
+        "降低 embedding 成本",
+        "加快 JSON 解析",
+        "提高数学题准确率",
+        "记忆整合位于关键路径上，导致尾延迟升高"
+      ],
+      "correct": 3,
+      "explanation": "Sleep-time 会把剪枝、摘要和协调操作移出面向用户的路径，因此主响应可以保持快速。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "下面哪一项不是 Letta 记忆块的字段？",
+      "options": [
+        "limit",
+        "embedding_model_version",
+        "label",
+        "value"
+      ],
+      "correct": 1,
+      "explanation": "记忆块包含 id、label、value、limit 和 description；embedding model version 不属于记忆块 schema。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "为什么 sleep-time Agent 可以运行比主 Agent 更强的模型？",
+      "options": [
+        "记忆操作只消耗一半 token",
+        "它会获得私有 API key",
+        "它不在关键路径上，因此不受严格的延迟约束",
+        "它不受速率限制"
+      ],
+      "correct": 2,
+      "explanation": "因为它不会阻塞用户响应，sleep-time Agent 可以更慢，也可以使用成本更高的模型。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "Human 和 Persona 记忆块可以推广成什么模式？",
+      "options": [
+        "操作系统进程",
+        "任意由用户定义、带类型且可编辑的记忆块（Task、Project、Safety……）",
+        "JSON-RPC 通道",
+        "向量嵌入"
+      ],
+      "correct": 1,
+      "explanation": "Letta 将 MemGPT 的两个记忆块推广为任意用户定义的记忆块，字段包括 id、label、value、limit 和 description。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "在这种模式中，什么是 silent drift（静默漂移）？",
+      "options": [
+        "主 Agent 看不到 sleep-time Agent 在后台重写了记忆块；可通过版本控制和可见差异修复",
+        "Embedding 模型升级",
+        "磁盘写入缓慢",
+        "速率限制抖动"
+      ],
+      "correct": 0,
+      "explanation": "为记忆块建立版本并在轨迹中展示差异，可以让 sleep-time 的重写对主循环可见。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "在 Letta V1 中，什么取代了内联的 `Thought:` token 以及 send_message/heartbeat 模式？",
+      "options": [
+        "在独立通道中生成并跨轮次传递的原生推理",
+        "专门负责 Thought 的第二个 LLM",
+        "更大的 system prompt",
+        "用户手动输入的 Thought"
+      ],
+      "correct": 0,
+      "explanation": "Letta V1（letta_v1_agent）使用服务商层面的原生推理，而不是由 prompt 塑造的 Thought。"
+    }
+  ]
+}

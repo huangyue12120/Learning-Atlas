@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/51-write-specifications-that-preserve-judgment/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "bfe65b49792feca134486d32ba9a6bb3093cb8139e35e17bda53740bb911d66b"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "under-specification 与 over-specification 之间有用的中间状态是什么？",
+      "options": [
+        "没有 plan",
+        "更长的请求",
+        "完整的实现脚本",
+        "一个固定不变量和证据、同时保留可逆选择的 executable contract"
+      ],
+      "correct": 3,
+      "explanation": "这个 contract 约束结果和风险，而不是把每个实现细节都写成脚本。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "哪个 decision 通常应该被锁定？",
+      "options": [
+        "一个局部变量名",
+        "系统是否可以写入生产环境",
+        "一个可逆的文件拆分",
+        "private helper function 的顺序"
+      ],
+      "correct": 1,
+      "explanation": "权限和高后果行为需要由人类负责的决定。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "什么是 bounded decision（有界决策）？",
+      "options": [
+        "Agent 无法行动",
+        "Agent 可以在明确的安全限制内选择",
+        "这个选择是随机的",
+        "没有 proof"
+      ],
+      "correct": 1,
+      "explanation": "边界可以保留有用的判断，同时控制风险。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "为什么要将 examples 与 invariants 配对？",
+      "options": [
+        "它们可以消除所有歧义",
+        "Examples 可以证明每条通用规则",
+        "它们取代 outcomes",
+        "Examples 揭示意图，而 invariants 陈述必须始终成立的条件"
+      ],
+      "correct": 3,
+      "explanation": "具体案例和通用约束承担不同角色。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "哪种 proof 与 user-journey claim 相匹配？",
+      "options": [
+        "一次 browser 或端到端 journey observation",
+        "一个 type annotation",
+        "只有一个本地单元测试",
+        "一个 plan"
+      ],
+      "correct": 0,
+      "explanation": "Proof 必须在与 claim 相同的层级上运行。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为什么要为 locked decisions 记录 rationale？",
+      "options": [
+        "为了阻止所有变更",
+        "为了让文件更长",
+        "让后续证据可以修订这个选择，而不必进行考古式追溯",
+        "为了隐藏不确定性"
+      ],
+      "correct": 2,
+      "explanation": "可追溯的理由可以让 specification 有意识地演进。"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/49-map-assumptions-and-risk/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "a57da25c59d34eab2a791200bb2c1db34fe94b028d768a6b3e342220ef03d9a9"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "assumption map 会暴露哪些 feature roadmap 隐藏的内容？",
+      "options": [
+        "构建工作要值得投入，必须成立的条件",
+        "发布日期",
+        "源代码",
+        "团队名称"
+      ],
+      "correct": 0,
+      "explanation": "Assumption map 会呈现价值、可用性、可行性、商业可持续性和安全性方面的押注。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "下面哪项 assumption 是可证伪的？",
+      "options": [
+        "这个设计很现代",
+        "用户会喜欢它",
+        "10 名工程师中有 8 名能在 replay 中更快识别正确服务",
+        "这个 feature 很有用"
+      ],
+      "correct": 2,
+      "explanation": "可证伪的 assumption 具有明确的人群、观察指标和可能的失败结果。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "为什么要分别给 impact、uncertainty 和 irreversibility 打分？",
+      "options": [
+        "为了保证成功",
+        "为了明确风险排序的依据",
+        "为了消除判断",
+        "为了创建通用公式"
+      ],
+      "correct": 1,
+      "explanation": "这些维度会揭示某个未知项为何应尽早解决。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "下一个 experiment 应该针对什么？",
+      "options": [
+        "最高的未解决风险，并使用决定性且廉价的测试",
+        "最受欢迎的想法",
+        "最容易实现的 feature",
+        "最长的任务"
+      ],
+      "correct": 0,
+      "explanation": "以风险驱动的顺序可以在投入承诺前最大化学习。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "什么会让 experiment 具有决定性？",
+      "options": [
+        "它能产出 demo",
+        "每个结果都会导向更多构建工作",
+        "通过、失败和含糊的结果都会导向预先说明的下一步决定",
+        "它使用生产权限"
+      ],
+      "correct": 2,
+      "explanation": "测试必须能够改变方向。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "当 reversibility 不同时，build order 应如何变化？",
+      "options": [
+        "不可逆工作总是优先",
+        "只有成本重要",
+        "它不应变化",
+        "可逆测试应先于高后果的不可逆承诺"
+      ],
+      "correct": 3,
+      "explanation": "在承担权限或迁移成本之前，先安全地学习。"
+    }
+  ]
+}

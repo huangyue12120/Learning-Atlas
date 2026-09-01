@@ -10,7 +10,15 @@ practice:
     slug: the-concept
 card:
   title: Agent loop 与自回归决策
-  summary: 在把 thought、tool call、observation 逐轮接回上下文时，用高级文本生成理论核对条件生成、采样和反馈轨迹的关系；该关联先保留候选状态。
+  summary: 在把 thought、tool call、observation 逐轮接回上下文时，用高级文本生成理论核对条件生成、采样和反馈轨迹的关系。
+  context: "本课把模型输出、工具结果和下一轮输入串成循环；理解自回归条件生成，才能解释每一步为何依赖此前的轨迹。"
+  intuition: "模型每次只生成当前序列的下一个片段，但上下文会携带之前的行动与观察；智能体循环就是不断扩展这条条件生成序列。"
+  key_points:
+    - "自回归模型按已有上下文逐步生成下一个 token 或结构化动作。"
+    - "工具观察结果必须以可解析消息回写上下文，才能影响后续决策。"
+    - "采样温度和停止条件会改变轨迹的多样性与循环是否收敛。"
+  application: "实现循环时记录每轮消息、工具调用和观察结果，并检查下一次模型请求确实包含本轮新增证据。"
+  check_question: "如果工具结果没有回写到下一轮上下文，为什么智能体会重复同一个动作？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

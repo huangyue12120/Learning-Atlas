@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/40-multi-session-handoff/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "0210bc1f8623af8166611b1ad701565ed1ec1bb18973f4da9985cfa81e4d8c1c"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "在 handoff packet 中，哪个字段是不可或缺的？",
+      "options": [
+        "next_action（没有它，文档只是 status report，而不是 handoff）",
+        "verdict_pointer",
+        "summary",
+        "commands_run"
+      ],
+      "correct": 0,
+      "explanation": "只有 next_action 之外的内容时，handoff 就只是 status report；下一个具体步骤才能让下一次 session 富有成效。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "为什么 handoff 应该由程序生成，而不是手写？",
+      "options": [
+        "困难的一天里人们容易跳过手写 handoff；generator 读取 workbench 产物并生成 packet，Agent 只需让 workbench 处于可总结的状态",
+        "Apache 2.0 要求这样做",
+        "generator 更快",
+        "generator 加密效果更好"
+      ],
+      "correct": 0,
+      "explanation": "自动化填补了意图与一致执行之间的差距。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "这个 packet 会以哪两种形式发布？",
+      "options": [
+        "Email 和 Slack",
+        "PDF 和 PNG",
+        "YAML 和 TOML",
+        "handoff.md（人类可读）和 handoff.json（机器可读；两者来自同一份源产物，发生分歧时以 JSON 为准）"
+      ],
+      "correct": 3,
+      "explanation": "Markdown 面向人类，JSON 面向下一个 Agent；两者都来自同一个 generator。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "本课如何区分 compaction 与 handoff？",
+      "options": [
+        "两者相同",
+        "Compaction 付费，handoff 免费",
+        "Handoff 需要 GPU",
+        "Compaction 延长一个 session；handoff 则干净地关闭当前 session，并在全新上下文中启动下一次 session；packet 让这种转换成本很低"
+      ],
+      "correct": 3,
+      "explanation": "Hermes Issue 20372 的观点是：应在原地压缩损害质量之前写好精简 handoff，然后在新 session 中恢复。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "本课建议在什么时机收尾 session？",
+      "options": [
+        "在上下文预算使用到 50–75% 之前、上下文仍完整时；趁压缩产物污染 state 前及时写入，成本很低",
+        "等上下文用满后再慌忙处理",
+        "只在合并后",
+        "只在午夜"
+      ],
+      "correct": 0,
+      "explanation": "尽早收尾可以让 generator 的输入保持干净。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课建议如何将 feedback log 裁剪进 packet？",
+      "options": [
+        "保留最后 K 条以及所有非零 exit 的记录，使 packet 保持小巧，同时保留失败历史",
+        "随机保留 N 条记录",
+        "只保留前 K 条记录",
+        "只保留最近一条记录"
+      ],
+      "correct": 0,
+      "explanation": "这是非对称裁剪：失败必须保留，而尾部的琐碎信息可以低成本丢弃。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "哪些 metadata 能让多个 Agent session 之间的协作正常进行？",
+      "options": [
+        "branch、last_known_good_commit 和 status（active | superseded | archived）；每个 branch 和 topic 只保留一个 active handoff",
+        "一个共享 Slack channel",
+        "一个中央队列",
+        "最高机密加密"
+      ],
+      "correct": 0,
+      "explanation": "过时的 handoff 是多 Agent 协作的主要失败原因；status + branch + LKG 可以让 active 集合保持小巧。"
+    }
+  ]
+}

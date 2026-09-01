@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/04-tree-of-thoughts-lats/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "772ec8f3c53594ca8600f6e7396177857b85d7ed31873ae5bc301ab8af71b892"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "为什么 chain-of-thought 在 Game of 24 上表现不佳？",
+      "options": [
+        "线性推理无法在早期步骤出错时回溯，后续步骤会不断放大这个错误",
+        "CoT 需要 GPT-4 没有的计算器工具",
+        "模型无法进行整数乘法",
+        "prompt 太短"
+      ],
+      "correct": 0,
+      "explanation": "没有分支时，早期错误的子表达式会污染整条链；论文测得 CoT 的成功率只有 4%。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "在 Tree of Thoughts 搜索中，什么是一个节点？",
+      "options": [
+        "运行时注册的一个工具",
+        "微调期间的一次权重更新",
+        "模型生成的一个 token",
+        "一个连贯的中间步骤或 Thought，并可扩展出 K 个子节点"
+      ],
+      "correct": 3,
+      "explanation": "ToT 将推理视为一棵树：每个节点都是一个中间 Thought，并且可以扩展为 K 个子节点。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "下面哪一项不是 LATS 在 LLM 中的三个角色之一？",
+      "options": [
+        "在失败时记录反思的 Self-reflector",
+        "在多次 rollout 之间更新模型权重的 Optimizer",
+        "为部分轨迹评分的 Value function",
+        "提出下一步行动的 Policy"
+      ],
+      "correct": 1,
+      "explanation": "LATS 是无梯度方法；LLM 的三个角色是 Policy、Value 和 Self-reflector，不会更新模型权重。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "请列出本课介绍的 MCTS 四个阶段。",
+      "options": [
+        "Sample、Score、Sort、Submit",
+        "Plan、Execute、Reflect、Stop",
+        "Select、Expand、Simulate、Backpropagate",
+        "Search、Synthesize、Synthesize-Again、Stop"
+      ],
+      "correct": 2,
+      "explanation": "MCTS 在每次迭代中依次执行 Select、Expand、Simulate 和 Backpropagate。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "在 UCT 中，探索常数 c 起什么作用？",
+      "options": [
+        "它缩放价值估计 Q",
+        "它设置树的最大深度",
+        "它控制 rollout 的次数",
+        "它在价值项 Q 与探索项 sqrt(ln N / n) 之间进行权衡"
+      ],
+      "correct": 3,
+      "explanation": "c 用于平衡利用项 Q 与探索项；应根据任务进行调节。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "与单条轨迹相比，什么时候搜索反而会造成明显伤害？",
+      "options": [
+        "只要 token 价格便宜就会造成伤害",
+        "任务是代码生成时",
+        "任务包含多个正确答案时",
+        "评估器有噪声且只有一个正确答案时，搜索可能收敛到得分高但错误的答案"
+      ],
+      "correct": 3,
+      "explanation": "价值函数有噪声且只有一个正确答案时，搜索恰好容易对这些噪声过拟合。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "在 Game of 24 上，与 CoT 相比，使用 ToT 大约需要预留多少额外 token？",
+      "options": [
+        "100 倍到 1000 倍",
+        "比 CoT 更少，因为会剪枝",
+        "约 2 倍",
+        "约 10 倍"
+      ],
+      "correct": 0,
+      "explanation": "本课引用的数字是：在 Game of 24 上，ToT 的 token 成本约为 CoT 的 100–1000 倍。"
+    }
+  ]
+}

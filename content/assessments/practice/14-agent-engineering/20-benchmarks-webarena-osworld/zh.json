@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/20-benchmarks-webarena-osworld/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "bafde36ce075d401aed5aba711f09a51416386d5f86977c3f6b4026dfe14a571"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "为什么 WebArena 要自行托管四个目标应用？",
+      "options": [
+        "为了避免 TLS",
+        "为了固定可复现的版本，使评估基于实际执行且不易出现 flaky 结果",
+        "为了节省资金",
+        "为了运行在 GPU 上"
+      ],
+      "correct": 1,
+      "explanation": "固定版本并自行托管应用，可以让基于执行的评估长期保持可靠且可比较。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "为什么 OSWorld 使用真实操作系统截图，而不是 accessibility API？",
+      "options": [
+        "截图成本更低",
+        "Accessibility API 会泄露个人身份信息",
+        "Accessibility API 速度太快",
+        "截图迫使 Agent 在 1920×1080 画面上完成真正的 GUI grounding，符合生产约束"
+      ],
+      "correct": 3,
+      "explanation": "基于截图的评估迫使 Agent 完成从像素到元素的 grounding，这正是实际生产环境的约束。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "OSWorld 会暴露哪两种主要失败模式？",
+      "options": [
+        "延迟和带宽",
+        "幻觉和拒答",
+        "嵌入漂移和 token 泄露",
+        "GUI grounding 和操作知识"
+      ],
+      "correct": 3,
+      "explanation": "Grounding（像素到元素）和操作知识（菜单、快捷键）是最主要的障碍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "OSWorld-Human 在基础基准之上增加了什么？",
+      "options": [
+        "人工整理的黄金行动轨迹，用来揭示 Agent 1.4–2.7 倍的步骤低效率差距",
+        "更高的屏幕分辨率",
+        "更多任务",
+        "一个新的操作系统"
+      ],
+      "correct": 0,
+      "explanation": "黄金轨迹让轨迹效率变得可测量，而不仅是成功率可测量。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "本课引用了 WebArena 发布时的哪个数字？",
+      "options": [
+        "最佳 Agent 50%，人类 50%",
+        "最佳 Agent 在所有任务上都是 0%",
+        "最佳 Agent 99%，人类 100%",
+        "最佳 GPT-4 Agent 成功率 14.41%，人类为 78.24%"
+      ],
+      "correct": 3,
+      "explanation": "14.41% 对 78.24% 的差距就是 WebArena 发布时报告的数字。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课警告：当 Agent 使用 DOM 或 accessibility API 时，screenshot-only evaluation 会发生什么？",
+      "options": [
+        "不会发生任何变化",
+        "测试会轻易通过",
+        "超出速率限制",
+        "会错过 OSWorld 设计用来衡量的 grounding 挑战"
+      ],
+      "correct": 3,
+      "explanation": "在 screenshot-only 基准上评估使用 accessibility API 的 Agent，会跳过 grounding 测试。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "为什么忽略轨迹长度是一种基准评估失败？",
+      "options": [
+        "长度是唯一重要的指标",
+        "它会隐藏仅凭成功率无法发现的成本和低效率（OSWorld-Human 揭示了 1.4–2.7 倍的差距）",
+        "轨迹无法测量",
+        "轨迹长度总是与黄金轨迹一致"
+      ],
+      "correct": 1,
+      "explanation": "两个成功率都是 60% 的 Agent，步骤数可能相差 2–3 倍；只有测量轨迹长度，才能看见成本和效率差异。"
+    }
+  ]
+}

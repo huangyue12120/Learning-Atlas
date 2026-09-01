@@ -31,7 +31,7 @@ status: reviewed
 
 推理需要提出多个候选、评估它们、选出有希望的候选，并在出现死路时回溯。这类过程属于搜索，思维树和 LATS 是两种经典表达。
 
-## 核心概念
+## 核心概念 <!-- learning-atlas: the-concept -->
 
 ### 思维树（Yao 等，NeurIPS 2023）
 

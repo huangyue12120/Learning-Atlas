@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/44-plan-from-evidence/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "faeffd315da601d19739445771308ec4d5580ac97bb8e561d5187e963f42f7be"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "execution plan 与 to-do list 的区别是什么？",
+      "options": [
+        "模型建议",
+        "固定数量的步骤",
+        "更多文字",
+        "包含 evidence 和 proof 的 dependency graph"
+      ],
+      "correct": 3,
+      "explanation": "依赖关系、凭据和完成证明让 plan 可以执行，也可以恢复。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "为什么要在实现之前定义 shared contract？",
+      "options": [
+        "为了避免文档",
+        "为了推迟所有工作",
+        "让依赖它的操作面不会各自发明相互冲突的行为",
+        "让只有一个 Agent 可以工作"
+      ],
+      "correct": 2,
+      "explanation": "固定的 contract 可以解除依赖操作面上的安全并行工作的阻塞。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "dependency cycle 通常暴露什么？",
+      "options": [
+        "良好的并行性",
+        "一个隐藏的未决策事项或糟糕的分解",
+        "快速执行",
+        "有力的证据"
+      ],
+      "correct": 1,
+      "explanation": "循环依赖的工作项无法建立有效的起点。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "什么时候两个工作项可以共享一个 execution wave？",
+      "options": [
+        "它们的依赖已完成，并且除此之外相互独立时",
+        "它们会修改同一文件时",
+        "两者都没有 proof 时",
+        "两者都很重要时"
+      ],
+      "correct": 0,
+      "explanation": "一个 wave 包含当前所有已解除阻塞且相互独立的工作。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "为什么要为每个工作项附加 evidence？",
+      "options": [
+        "说明这项变更为何属于当前任务，并允许新证据修订它",
+        "替代测试",
+        "装饰 plan",
+        "满足 token 目标"
+      ],
+      "correct": 0,
+      "explanation": "Evidence 必须能说明计划合理，也必须能够促使计划改变。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "什么会让 plan 可以恢复？",
+      "options": [
+        "一个 Worker 负责一切",
+        "一个很长的初始 prompt",
+        "带有 status、artifacts、dependencies 和 proof 的小工作项",
+        "Chat history"
+      ],
+      "correct": 2,
+      "explanation": "持久的工作项状态可以让另一个 session 继续工作，而不必重新发现上下文。"
+    }
+  ]
+}

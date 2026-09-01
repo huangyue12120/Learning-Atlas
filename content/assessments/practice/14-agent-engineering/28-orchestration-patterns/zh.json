@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/28-orchestration-patterns/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "8d1b3b15d2b750b2808528587316058d1f70983cd31d8eeb62ef5750e7919b9b"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "本课列出了哪四种 orchestration pattern？",
+      "options": [
+        "Push、pull、batch、stream",
+        "Supervisor-worker、swarm/peer-to-peer、hierarchical、debate",
+        "Sequential、parallel、distributed、federated",
+        "Plan、act、reflect、refine"
+      ],
+      "correct": 1,
+      "explanation": "Supervisor-worker、swarm、hierarchical 和 debate 会在 2026 年的各种框架中反复出现。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "关于 supervision，2026 年 LangChain 的建议是什么？",
+      "options": [
+        "始终使用 create_supervisor",
+        "完全避免 supervision",
+        "相比 create_supervisor，优先使用直接工具调用，以便更精细地控制上下文工程",
+        "在 GPU 上运行 supervisor"
+      ],
+      "correct": 2,
+      "explanation": "基于工具调用的 supervision 可以精确控制每个专家所看到的内容。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "swarm 与 supervisor-worker 拓扑有什么区别？",
+      "options": [
+        "Swarm 只能由 cron 运行",
+        "Swarm 没有中央路由器；Agent 通过共享工具面直接交接",
+        "Swarm 使用 GPU",
+        "Swarm 是单 Agent"
+      ],
+      "correct": 1,
+      "explanation": "Swarm 是点对点的；supervisor 则通过一个 LLM 集中路由。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "什么时候采用 hierarchical orchestration 是合理的？",
+      "options": [
+        "永远不合理；这是反模式",
+        "只有使用 GPU 时",
+        "当单个 supervisor 的上下文预算无法容纳所有专家的描述时",
+        "始终合理；它可以免费扩展"
+      ],
+      "correct": 2,
+      "explanation": "嵌套 supervisor 适用于专家数量很多、超出单个 supervisor 预算的情况。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "Anthropic 支持的推荐决策顺序是什么？",
+      "options": [
+        "从单个 Agent 加 workflow pattern 开始；有需要时再增加拓扑；依次考虑 supervisor、swarm、hierarchical；只有准确率收益超过成本时才使用 debate",
+        "从 debate 开始",
+        "始终从 hierarchical multi-agent 开始",
+        "从 swarm 开始，然后逐步收缩到单 Agent"
+      ],
+      "correct": 0,
+      "explanation": "Anthropic 的建议是为需求构建合适的系统，而不是追求最复杂的系统。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课所说的 fake hierarchy（虚假层级）是什么？",
+      "options": [
+        "为了显得“企业级”而设置三层 supervisor，但实际上只有两个团队；应将其合并",
+        "用 TypeScript 编写的 orchestrator",
+        "标记错误的 YAML",
+        "一个测试 fixture"
+      ],
+      "correct": 0,
+      "explanation": "与真实团队不对应的层级只会增加运维复杂度，却没有收益。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "如何缓解 swarm 中来回跳转的 handoff（A → B → A → B）？",
+      "options": [
+        "将 temperature 固定为 0",
+        "降低速率限制",
+        "增加 hop counter，并在 N 次交接后拒绝继续",
+        "禁用 tracing"
+      ],
+      "correct": 2,
+      "explanation": "hop counter 会在 swarm 无限循环前限制其循环次数。"
+    }
+  ]
+}

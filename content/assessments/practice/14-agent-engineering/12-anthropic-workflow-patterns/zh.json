@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/12-anthropic-workflow-patterns/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "f25ba4a20460caff263c4222a92097d63e47841bed1e1e3685c28012574d3bff"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "Anthropic 如何区分 workflow 和 Agent？",
+      "options": [
+        "Workflow 是由工程师维护的预定义图；Agent 的工具方向由模型动态决定",
+        "Workflow 无状态；Agent 有状态",
+        "Workflow 运行在 CPU 上；Agent 需要 GPU",
+        "Workflow 使用嵌入；Agent 使用工具"
+      ],
+      "correct": 0,
+      "explanation": "Workflow 是工程师维护的预定义代码路径；Agent 的图由模型掌控。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "支撑这五种模式的 augmented LLM 具备哪三种能力？",
+      "options": [
+        "搜索（retrieval）、工具（actions）、记忆（persistence）",
+        "Vector、KV、graph",
+        "Plan、execute、reflect",
+        "Embeddings、fine-tuning、RAG"
+      ],
+      "correct": 0,
+      "explanation": "这个原子单元是一个接入了 retrieval、tools 和 memory 的 LLM。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "下面哪一项不是 Anthropic 的五种 workflow pattern 之一？",
+      "options": [
+        "Evaluator-optimizer",
+        "Gradient distillation",
+        "Prompt chaining",
+        "Routing"
+      ],
+      "correct": 1,
+      "explanation": "五种模式是 prompt chaining、routing、parallelization、orchestrator-workers 和 evaluator-optimizer。Gradient distillation 属于训练概念。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "parallelization 有哪两种形式？",
+      "options": [
+        "Sync 和 async",
+        "Stateful 和 stateless",
+        "Hot 和 cold",
+        "Sectioning（不同分块）和 voting（对同一 prompt 调用 N 次后聚合）"
+      ],
+      "correct": 3,
+      "explanation": "Parallelization 分为 sectioning 和 voting；两者都会扇出 N 次调用并聚合结果。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "Self-Refine 泛化后对应哪种 workflow pattern？",
+      "options": [
+        "Orchestrator-workers",
+        "Evaluator-optimizer",
+        "Prompt chaining",
+        "Routing"
+      ],
+      "correct": 1,
+      "explanation": "Evaluator-optimizer 是 Anthropic 对 Self-Refine / CRITIC 迭代模式的称呼。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "根据本课，什么时候 workflow 优于 Agent？",
+      "options": [
+        "始终如此",
+        "只有在 GPU 上时",
+        "对于可预测、成本受限或合规约束的任务，只要图可以枚举并审计",
+        "只用于聊天"
+      ],
+      "correct": 2,
+      "explanation": "Workflow 成本更低、更容易调试，也便于审计；当步骤可以预先确定时，应选择它。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "本课建议的默认起点是什么？",
+      "options": [
+        "多 Agent 框架",
+        "微调模型",
+        "构建自定义 MCTS",
+        "直接调用 API；只有持久状态、Actor 并发或角色模板带来的收益值得成本时才引入框架"
+      ],
+      "correct": 3,
+      "explanation": "Schluntz 和 Zhang 的建议是从简单方案开始；只有在确有理由时才增加框架复杂度。"
+    }
+  ]
+}

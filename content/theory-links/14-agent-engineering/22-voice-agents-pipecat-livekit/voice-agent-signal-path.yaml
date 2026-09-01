@@ -10,7 +10,15 @@ practice:
     slug: the-concept
 card:
   title: 语音智能体的实时信号路径
-  summary: 在连接 VAD、STT、LLM、TTS 和回声/打断控制时，用数字信号处理理论核对采样、帧、延迟和流式缓冲的边界；该关联先保留候选状态。
+  summary: 在连接 VAD、STT、LLM、TTS 和回声/打断控制时，用数字信号处理理论核对采样、帧、延迟和流式缓冲的边界。
+  context: "本课把连续音频拆成帧，经过 VAD、语音识别、语言模型和语音合成，再把结果及时播放给用户。"
+  intuition: "实时语音不是一次传完的大文件，而是一条有采样率和缓冲区的信号流；每个阶段的排队都会累积端到端延迟。"
+  key_points:
+    - "采样率和帧长决定时间分辨率、数据量以及 VAD 的响应速度。"
+    - "缓冲区能吸收抖动，但过大时会增加延迟，过小时容易欠载或丢帧。"
+    - "回声消除、打断和端点检测必须共享明确的时间边界。"
+  application: "为每个音频阶段测量帧级时间戳和队列长度，先用固定音频回放验证信号路径，再测试打断与网络抖动。"
+  check_question: "为什么把音频缓冲区无限增大不能解决实时语音的延迟问题？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/01. digital signal processing.md

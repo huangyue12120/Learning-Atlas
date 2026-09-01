@@ -17,6 +17,29 @@ from report_upstream_changes import Artifact, load_artifacts
 
 REPOSITORY = "ai-engineering-from-scratch"
 
+# This is the product's published practice scope, not a discovery result.  A
+# staged phase can already contain reviewed translations, so deriving this set
+# from content artifacts would silently turn staged work into a monitoring
+# obligation. Keep this list aligned with the published ``phases`` tuple in
+# apps/local-learning/src/server.ts when a phase is opened.
+PUBLISHED_PHASES = {
+    "phases/00-setup-and-tooling",
+    "phases/01-math-foundations",
+    "phases/02-ml-fundamentals",
+    "phases/03-deep-learning-core",
+    "phases/04-computer-vision",
+    "phases/05-nlp-foundations-to-advanced",
+    "phases/06-speech-and-audio",
+    "phases/07-transformers-deep-dive",
+    "phases/08-generative-ai",
+    "phases/09-reinforcement-learning",
+    "phases/10-llms-from-scratch",
+    "phases/11-llm-engineering",
+    "phases/12-multimodal-ai",
+    "phases/13-tools-and-protocols",
+    "phases/14-agent-engineering",
+}
+
 
 @dataclass(frozen=True)
 class MissingTranslation:
@@ -59,8 +82,8 @@ def missing_translations(module: Submodule, artifacts: list[Artifact]) -> tuple[
     source_map = practice_translation_sources(artifacts)
     active_phases = {
         phase
-        for source_path in source_map
-        if (phase := phase_key(source_path)) is not None
+        for phase in PUBLISHED_PHASES
+        if (module.path / phase).is_dir()
     }
     missing: list[MissingTranslation] = []
     for source in sorted(module.path.glob("phases/*/*/docs/en.md")):

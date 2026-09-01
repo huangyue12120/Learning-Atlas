@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/13-langgraph-stateful-graphs/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "2ff19408d73db73a0bbb48a01a2851e8eea929dd604c912a0638c272d3812d2d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "LangGraph 将什么视为 Agent 的核心单元？",
+      "options": [
+        "一个向量索引",
+        "一个状态机，包含 typed state、函数节点和条件边",
+        "一个工具注册表",
+        "一次自由形式的 LLM 调用"
+      ],
+      "correct": 1,
+      "explanation": "LangGraph 将 Agent 建模为状态图：节点是纯函数，边是状态转移，状态是有类型且不可变的。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "durable execution 解决哪类问题？",
+      "options": [
+        "降低推理成本",
+        "更快地生成嵌入",
+        "40 步运行在第 38 步失败后，从精确状态恢复，而不是重新开始",
+        "在不同服务商之间进行翻译"
+      ],
+      "correct": 2,
+      "explanation": "每个节点之后都保存检查点，因此运行时可以从最后一个成功步骤恢复。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "下面哪一项不是 LangGraph 支持的三种拓扑之一？",
+      "options": [
+        "Gradient ring",
+        "Hierarchical（嵌套子图）",
+        "Supervisor",
+        "Swarm（点对点）"
+      ],
+      "correct": 0,
+      "explanation": "拓扑包括 supervisor、swarm 和 hierarchical；Gradient ring 不是 LangGraph 的拓扑。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "为什么节点必须是确定性的，才能可靠地恢复运行？",
+      "options": [
+        "这是 GIL 的要求",
+        "确定性可以降低 token 成本",
+        "恢复运行假设相同输入产生相同状态更新；随机种子、时钟和外部 API 都必须被记录",
+        "服务商要求确定性"
+      ],
+      "correct": 2,
+      "explanation": "如果节点依赖未记录的非确定性因素，恢复时就无法重建步骤完成后的状态。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "什么是 conditional edge（条件边）？",
+      "options": [
+        "带有 TTL 的边",
+        "由一个根据 state 选择的边，用于让图产生分支",
+        "只在 GPU 上运行的边",
+        "按训练损失加权的边"
+      ],
+      "correct": 1,
+      "explanation": "Conditional edge 根据 state 进行分支；过度使用会让图难以理解和推理。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "当检查点过小时会出现什么问题？",
+      "options": [
+        "磁盘会被填满",
+        "图无法到达 END",
+        "工具状态和记忆写入无法恢复；必须序列化完整状态",
+        "模型生成的答案会更短"
+      ],
+      "correct": 2,
+      "explanation": "只为对话轮次保存检查点，会让工具状态和记忆写入处于恢复范围之外。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "human-in-the-loop 如何融入 LangGraph 的设计？",
+      "options": [
+        "在关键节点前暂停，将序列化状态呈现给人类，接受修改后恢复；checkpointer 让这一过程成本很低",
+        "只能在 START 和 END 处",
+        "通过独立的服务商 API",
+        "需要复制一份运行时"
+      ],
+      "correct": 0,
+      "explanation": "由于节点之间的状态已经序列化，人类审查和编辑自然可以采用暂停—恢复模式。"
+    }
+  ]
+}

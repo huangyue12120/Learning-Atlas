@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/42-agent-workbench-capstone/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "2ad50998a6be7b7d5540f49ee829741f0aeaf46c5b41560c257245aed532ec4e"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "这个 capstone 会产出什么？",
+      "options": [
+        "一个监控 dashboard",
+        "一个带版本的即插即用目录（agent-workbench-pack/），包含七个操作面以及可幂等安装它们的 bin/install.sh",
+        "一篇研究论文",
+        "一个新的 LLM"
+      ],
+      "correct": 1,
+      "explanation": "这个 pack 是一份可复用配方；每次安装都是一次部署。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "下面哪一项不是这个 pack 的目录布局组成部分？",
+      "options": [
+        "vendor_proprietary_weights/",
+        "schemas/",
+        "AGENTS.md + docs/",
+        "scripts/"
+      ],
+      "correct": 0,
+      "explanation": "pack 的布局是 AGENTS.md、docs/、schemas/、scripts/、bin/ 和 README.md。这个 pack 与框架和服务商无关。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "为什么这个 pack 要携带 VERSION 文件？",
+      "options": [
+        "用于跟踪 Agent 智商",
+        "为了 SEO",
+        "为了在 Hacker News 上宣传",
+        "主版本用于需要迁移的 schema/script 变更；次版本用于新增内容；补丁版本用于仅文档变更；目标 repo 会记录安装所依据的版本"
+      ],
+      "correct": 3,
+      "explanation": "它的形态类似 npm、Cargo 和 pyproject.toml；VERSION 是契约，而不是营销材料。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "这个 pack 中的跨工具分发是什么样的？",
+      "options": [
+        "一个源文件配合 symlink（ln -s AGENTS.md CLAUDE.md、.cursor/rules/、.github/copilot-instructions.md），让同一来源扩展到每个 coding Agent",
+        "为每个工具手动复制",
+        "为每个工具硬编码路径",
+        "每个工具一个 vendor lock"
+      ],
+      "correct": 0,
+      "explanation": "Nx 的 nx ai-setup 是参考方案；这个 pack 的 installer 也使用同样的 symlink 方式。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "本课建议 uninstaller 如何运行？",
+      "options": [
+        "只删除 docs",
+        "遇到非空的复杂状态时拒绝运行；绝不删除用户的 agent_state.json、task_board.json 或 outputs/；只移除 schemas、scripts、docs 和 AGENTS.md（可选择退出）",
+        "包括 state 在内全部删除",
+        "禁用 Git"
+      ],
+      "correct": 1,
+      "explanation": "State 属于用户；这个 pack 不拥有它。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "哪些内容应留在这个 pack 之外？",
+      "options": [
+        "Scripts",
+        "Schemas",
+        "项目专属任务、vendor SDK 调用和团队入门文案——这个 pack 与框架无关，应位于 onboarding 旁边，而不是其中",
+        "这个 installer"
+      ],
+      "correct": 2,
+      "explanation": "任务属于目标 repo 的 board，而不是这个 pack；vendor SDK 调用会把这个 pack 锁定到一个框架。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "这个 pack 通过什么渠道一次分发给多个 coding Agent？",
+      "options": [
+        "SkillKit 风格的分发（skillkit install agent-workbench-pack）从单一来源将它部署到 32 个 AI Agent",
+        "电子邮件附件",
+        "手工复制",
+        "只有 GitHub release notes"
+      ],
+      "correct": 0,
+      "explanation": "Pack repo 是事实来源；SkillKit 是分发渠道；这样可以避免 vendor lock-in。"
+    }
+  ]
+}

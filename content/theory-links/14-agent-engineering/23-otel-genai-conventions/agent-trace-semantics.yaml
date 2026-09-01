@@ -10,7 +10,15 @@ practice:
     slug: the-concept
 card:
   title: Agent trace 的语义层级
-  summary: 在给模型、工具、任务和会话建立 GenAI span 属性时，用分布式 tracing 理论核对观测数据如何连接请求生命周期和故障定位；该关联先保留候选状态。
+  summary: 在给模型、工具、任务和会话建立 GenAI span 属性时，用分布式 tracing 理论核对观测数据如何连接请求生命周期和故障定位。
+  context: "本课为一次 agent run 记录模型调用、工具执行和任务上下文；如果 span 层级不一致，失败轨迹就无法定位。"
+  intuition: "trace 是一次请求的因果时间线，span 是其中可观察的工作片段；统一语义把“模型慢”具体化为哪一轮、哪一个工具或哪段等待。"
+  key_points:
+    - "父子 span 关系应反映 agent、模型调用和工具执行的真实因果嵌套。"
+    - "名称、状态、时延和 token 等属性需要稳定，才能跨运行聚合比较。"
+    - "输入输出和敏感内容要按隐私边界采样或脱敏，不能为可观测性无限记录。"
+  application: "先定义 run、model、tool 和 handoff 的 span 语义，再用一条成功和一条失败轨迹核对时间线、状态与关联 ID。"
+  check_question: "如果每个工具调用都没有关联到所属 agent run，为什么单个工具 span 很难解释一次任务失败？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

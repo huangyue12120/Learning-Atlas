@@ -18,6 +18,22 @@ const correctFirstQuizAnswers = {
   lora: 0
 };
 
+const t1TheoryIds = [
+  "theory/chapter-07-computational-linguistics/05-advanced-text-generation",
+  "theory/chapter-07-computational-linguistics/04-transformers-and-language-models",
+  "theory/chapter-18-ml-systems-design/03-large-scale-infrastructure",
+  "theory/chapter-17-ai-inference/05-scaling-and-deployment",
+  "theory/chapter-06-machine-learning/04-reinforcement-learning",
+  "theory/chapter-07-computational-linguistics/02-text-processing-and-classic-nlp",
+  "theory/chapter-17-ai-inference/03-serving-and-batching",
+  "theory/chapter-18-ml-systems-design/01-systems-design-fundamentals",
+  "theory/chapter-13-computing-and-os/03-operating-systems",
+  "theory/chapter-06-machine-learning/03-deep-learning",
+  "theory/chapter-10-multimodal-learning/04-cross-modal-generation"
+] as const;
+
+const officialTheoryMainUrl = /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//;
+
 afterEach(() => {
   while (cleanups.length) cleanups.pop()?.();
 });
@@ -96,7 +112,7 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.match(content.markdown, /线性代数直觉/);
   assert.equal(content.theoryCards.length, 3);
   const course = await fetch(`${baseUrl}/api/course`).then((response) => response.json());
-  assert.equal(course.length, 14);
+  assert.equal(course.length, 15);
   const setup = course.find((phase: { slug: string }) => phase.slug === "00-setup-and-tooling");
   const foundations = course.find((phase: { slug: string }) => phase.slug === "01-math-foundations");
   const mlFundamentals = course.find((phase: { slug: string }) => phase.slug === "02-ml-fundamentals");
@@ -111,6 +127,7 @@ test("loads published lesson content and resources by lessonId", async () => {
   const llmEngineering = course.find((phase: { slug: string }) => phase.slug === "11-llm-engineering");
   const multimodalAI = course.find((phase: { slug: string }) => phase.slug === "12-multimodal-ai");
   const toolsAndProtocols = course.find((phase: { slug: string }) => phase.slug === "13-tools-and-protocols");
+  const agentEngineering = course.find((phase: { slug: string }) => phase.slug === "14-agent-engineering");
   assert.ok(setup);
   assert.ok(foundations);
   assert.ok(mlFundamentals);
@@ -125,6 +142,7 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.ok(llmEngineering);
   assert.ok(multimodalAI);
   assert.ok(toolsAndProtocols);
+  assert.ok(agentEngineering);
   assert.equal(setup.lessons.length, 12);
   assert.equal(setup.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(foundations.lessons.length, 22);
@@ -152,6 +170,8 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(multimodalAI.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(toolsAndProtocols.lessons.length, 31);
   assert.equal(toolsAndProtocols.lessons.every((item: { available: boolean }) => item.available), true);
+  assert.equal(agentEngineering.lessons.length, 54);
+  assert.equal(agentEngineering.lessons.every((item: { available: boolean }) => item.available), true);
   assert.deepEqual(foundations.lessons[0], {
     id: firstLesson.id,
     position: "01 / 22",
@@ -173,6 +193,18 @@ test("loads published lesson content and resources by lessonId", async () => {
   const secondQuiz = await fetch(`${baseUrl}/api/quiz?lessonId=${encodeURIComponent(secondLessonId)}`).then((response) => response.json());
   assert.equal(secondQuiz.status, "reviewed");
   assert.equal(secondQuiz.questions[0].id, "matrix-multiplication-shape");
+
+  const p14LessonId = "practice/14-agent-engineering/43-frame-the-task-before-code";
+  const p14Lesson = await fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent(p14LessonId)}`).then((response) => response.json());
+  assert.equal(p14Lesson.title, "在智能体编写代码前界定任务");
+  assert.equal(p14Lesson.position, "43 / 54");
+  assert.equal(p14Lesson.resources.workspace, true);
+  const p14Content = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(p14LessonId)}`).then((response) => response.json());
+  assert.equal(p14Content.translationStatus, "reviewed");
+  assert.deepEqual(p14Content.theoryCards, []);
+  const p14Quiz = await fetch(`${baseUrl}/api/quiz?lessonId=${encodeURIComponent(p14LessonId)}`).then((response) => response.json());
+  assert.equal(p14Quiz.status, "reviewed");
+  assert.equal(p14Quiz.questions.length, 6);
 
   const regressionLessonId = "practice/02-ml-fundamentals/02-linear-regression";
   const regressionContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(regressionLessonId)}`).then((response) => response.json());
@@ -287,14 +319,14 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(allSetupCourses[1].itemContent.theoryCards[0].title, "Git：让一次实验可以被准确追溯");
 });
 
-test("publishes all 223 visible theory cards with the complete rich-content contract", async () => {
+test("publishes all 235 visible theory cards with the complete rich-content contract", async () => {
   const baseUrl = await startTestServer();
   const course = await fetch(`${baseUrl}/api/course`).then((response) => response.json());
   const lessons = course.flatMap((phase: { lessons: Array<{ id: string }> }) => phase.lessons);
   const contents = await Promise.all(lessons.map(({ id }: { id: string }) =>
     fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(id)}`).then((response) => response.json())));
   const cards = contents.flatMap((content: { theoryCards: Array<Record<string, unknown>> }) => content.theoryCards);
-  assert.equal(cards.length, 223);
+  assert.equal(cards.length, 235);
   for (const card of cards) {
     assert.equal(typeof card.context, "string");
     assert.equal(typeof card.intuition, "string");
@@ -372,15 +404,20 @@ test("serves the complete curriculum with safe staged phases and a dynamic targe
   const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
   assert.equal(curriculum.practice.length, 20);
   assert.equal(curriculum.theory.length, 20);
-  assert.equal(curriculum.summary.publishedPracticePhaseCount, 14);
-  assert.equal(curriculum.summary.reviewedTheoryNoteCount, 1);
+  assert.equal(curriculum.summary.publishedPracticePhaseCount, 15);
+  assert.equal(curriculum.summary.reviewedTheoryNoteCount, 12);
   assert.equal(curriculum.target.kind, "start");
   assert.equal(curriculum.target.lessonId, "practice/00-setup-and-tooling/01-dev-environment");
-  assert.equal(curriculum.practice.slice(14).every((phase: { status: string; firstLessonId: string | null }) =>
+  const publishedAgentPhase = curriculum.practice[14];
+  assert.equal(publishedAgentPhase.status, "available");
+  assert.equal(publishedAgentPhase.lessonCount, 54);
+  assert.equal(publishedAgentPhase.availableLessonCount, 54);
+  assert.equal(publishedAgentPhase.firstLessonId, "practice/14-agent-engineering/01-the-agent-loop");
+  assert.equal(curriculum.practice.slice(15).every((phase: { status: string; firstLessonId: string | null }) =>
     phase.status === "staged" && phase.firstLessonId === null), true);
 
-  const stagedLesson = await fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent("practice/14-agent-engineering/01-the-agent-loop")}`);
-  assert.equal(stagedLesson.status, 404);
+  const publishedLesson = await fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent("practice/14-agent-engineering/01-the-agent-loop")}`);
+  assert.equal(publishedLesson.status, 200);
 
   await fetch(`${baseUrl}/api/reading-position?lessonId=${encodeURIComponent(curriculum.target.lessonId)}`, {
     method: "PUT",
@@ -390,6 +427,47 @@ test("serves the complete curriculum with safe staged phases and a dynamic targe
   const continued = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
   assert.equal(continued.target.kind, "continue");
   assert.equal(continued.target.lessonId, curriculum.target.lessonId);
+});
+
+test("publishes every T1 theory translation with official main source links", async () => {
+  const baseUrl = await startTestServer();
+  const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
+  const notes = curriculum.theory.flatMap((chapter: { notes: Array<{
+    theoryId: string;
+    sourcePath: string;
+    sourceUrl: string;
+    latestSourceUrl: string;
+    readKind: string;
+    readLanguage: string;
+    readUrl: string;
+  }> }) => chapter.notes);
+  const t1Notes = t1TheoryIds.map((theoryId) => {
+    const note = notes.find((item) => item.theoryId === theoryId);
+    assert.ok(note, `missing T1 theory note ${theoryId}`);
+    return note;
+  });
+
+  assert.equal(t1Notes.length, 11);
+  for (const note of t1Notes) {
+    assert.equal(note.readKind, "internal");
+    assert.equal(note.readLanguage, "zh");
+    assert.match(note.readUrl, /^\/theory\?theoryId=/);
+    assert.match(note.sourceUrl, officialTheoryMainUrl);
+    assert.match(note.latestSourceUrl, officialTheoryMainUrl);
+    assert.equal(note.sourceUrl, note.latestSourceUrl);
+
+    const response = await fetch(`${baseUrl}/api/theory/content?theoryId=${encodeURIComponent(note.theoryId)}`);
+    assert.equal(response.status, 200);
+    const content = await response.json();
+    assert.equal(content.theoryId, note.theoryId);
+    assert.equal(content.source.path, note.sourcePath);
+    assert.equal(content.source.branch, "main");
+    assert.equal(content.source.revision, "main");
+    assert.equal(content.source.reviewedRevision, "9850ee574a370bc1cde59de98b394e953775b67d");
+    assert.equal(content.sourceUrl, note.sourceUrl);
+    assert.equal(content.latestSourceUrl, note.latestSourceUrl);
+    assert.match(content.markdown.trimStart(), /^#\s+.+/);
+  }
 });
 
 test("publishes the reviewed sampling theory reader and rejects unsafe resources", async () => {
@@ -405,6 +483,8 @@ test("publishes the reviewed sampling theory reader and rejects unsafe resources
   assert.equal(fallback.readKind, "external");
   assert.match(fallback.readUrl, /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//);
   assert.match(fallback.sourceUrl, /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//);
+  assert.match(fallback.latestSourceUrl, officialTheoryMainUrl);
+  assert.equal(fallback.sourceUrl, fallback.latestSourceUrl);
 
   const response = await fetch(`${baseUrl}/api/theory/content?theoryId=${encodeURIComponent(theoryId)}`);
   assert.equal(response.status, 200);
@@ -805,4 +885,9 @@ test("creates a learner-owned workspace without changing the template", () => {
 
   const setupWorkspace = prepareWorkspace(directory, "practice/00-setup-and-tooling/01-dev-environment");
   assert.match(readFileSync(setupWorkspace.sourceFile, "utf8"), /torch/);
+
+  const p14Workspace = prepareWorkspace(directory, "practice/14-agent-engineering/43-frame-the-task-before-code");
+  assert.match(readFileSync(p14Workspace.sourceFile, "utf8"), /task|assumption/i);
+  assert.ok(p14Workspace.exercisesGuide);
+  assert.match(readFileSync(p14Workspace.exercisesGuide, "utf8"), /python3 code\/main\.py/);
 });

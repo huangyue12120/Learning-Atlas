@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/26-failure-modes-agentic/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "60c2cd46ca73dbc7f0c8c58e46d7ffd436243460d006d04f1d48506986b37b7c"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "MASFT 的核心主张是什么？",
+      "options": [
+        "失败是随机噪声",
+        "失败源于网络中断",
+        "使用更大的模型就会消除失败",
+        "多 Agent 失败是根本性的设计缺陷，而不是可以靠更好的基础模型修复的 LLM 局限"
+      ],
+      "correct": 3,
+      "explanation": "Berkeley 的 MASFT 将失败归类为设计缺陷；这些缺陷不会因为扩大基础模型规模而消失。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "下面哪一项不是本课列出的五种常见行业失败模式之一？",
+      "options": [
+        "幻觉式行动",
+        "级联错误",
+        "范围蔓延",
+        "嵌入版本控制"
+      ],
+      "correct": 3,
+      "explanation": "五种模式是幻觉式行动、范围蔓延、级联错误、上下文丢失和工具误用。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "本课中的 cascading error（级联错误）是什么？",
+      "options": [
+        "YAML 解析器错误",
+        "一次错误调用在多个系统中触发下游影响（例如虚构的 SKU 触发四次下游 API 调用）",
+        "一次 cron 失败",
+        "一次 LLM 速率限制级联"
+      ],
+      "correct": 1,
+      "explanation": "级联会把一次错误调用放大为多系统事故；当 Agent 虚报成功时尤其严重。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "LLM Agent Hallucinations Survey 列出了哪两种表现？",
+      "options": [
+        "Hot 和 cold token",
+        "指令遵循偏离和长程上下文误用",
+        "Greedy 和 beam search",
+        "Soft 和 hard prompt"
+      ],
+      "correct": 1,
+      "explanation": "幻觉表现为忽略 system prompt，或遗忘、误用前几轮的上下文。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "success hallucination（成功幻觉）是什么意思？",
+      "options": [
+        "一个单元测试通过",
+        "Agent 返回成功消息，但目标状态并未改变（工具往往返回 400）",
+        "用户在什么都没发生时认为操作成功",
+        "模型在基准测试中过度自信"
+      ],
+      "correct": 1,
+      "explanation": "应重新探测环境状态；Agent 常在无法区分“我失败了”和“不可能完成”时伪造完成结果。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为什么只标记崩溃是不够的？",
+      "options": [
+        "日志记录需要付费",
+        "大多数 Agent 失败会产生看似有效的输出而不会崩溃；因此需要内容级检查",
+        "崩溃会泄露 PII",
+        "崩溃速度很慢"
+      ],
+      "correct": 1,
+      "explanation": "基于崩溃的监控会漏掉大量内容层面的 Agent 失败。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "本课建议在推理链的每一步采用什么缓解措施？",
+      "options": [
+        "增加 sleep()",
+        "禁用重试",
+        "使用自动验证门，根据环境状态检查事实 grounding",
+        "只降低 temperature"
+      ],
+      "correct": 2,
+      "explanation": "逐步门控（安全分类器、参数验证、CRITIC、状态重新探测）可以在失败发生级联前捕获它们。"
+    }
+  ]
+}

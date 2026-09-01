@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/45-delegate-with-isolation/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "cad09c00d1469362278082ea7ed50d40bf1ce0babaac53d715d7c75d1cb2004d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "什么时候并行委派是合理的？",
+      "options": [
+        "工作在决定、路径或等待时间上真正相互独立时",
+        "每个超过十分钟的任务都如此",
+        "只要有更多 Agent 可用就如此",
+        "只用于文档工作"
+      ],
+      "correct": 0,
+      "explanation": "只有各单元可以在不共享可变决定或所有权的情况下推进时，并行才有帮助。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "filesystem isolation 无法提供下面哪项保证？",
+      "options": [
+        "独立的设计和路径所有权",
+        "独立执行命令",
+        "可恢复的分支",
+        "独立目录"
+      ],
+      "correct": 0,
+      "explanation": "两个隔离的 worktree 仍然可能实现相互冲突的设计。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "为什么每个工作单元都必须明确 proof？",
+      "options": [
+        "为了避免 handoff",
+        "为了提高并发度",
+        "让 integrator 获得可复现的证据",
+        "让 Worker 可以宣称成功"
+      ],
+      "correct": 2,
+      "explanation": "integrator 必须验证结果，而不能只相信摘要。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "当两个单元拥有重叠路径时应该怎么办？",
+      "options": [
+        "让最后一个 Worker 获胜",
+        "不经审查直接合并",
+        "让它们运行得更快",
+        "阻止并重新设计这次拆分"
+      ],
+      "correct": 3,
+      "explanation": "重叠的写入所有权会造成本可避免的冲突和歧义。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "什么是 calibrated autonomy（校准后的自治）？",
+      "options": [
+        "只允许手工工作",
+        "在证据和回滚能力充分时给予自由，在后果严重时设置检查点",
+        "完全自动化",
+        "随机审批"
+      ],
+      "correct": 1,
+      "explanation": "权限应当跟随后果严重程度和可逆性来配置。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "integrator 的最终责任是什么？",
+      "options": [
+        "删除 handoff",
+        "选择更大的模型",
+        "重写每个工作单元",
+        "运行完整的跨单元 verification gate 并执行 scope"
+      ],
+      "correct": 3,
+      "explanation": "单元级 proof 不能替代端到端的集成证据。"
+    }
+  ]
+}

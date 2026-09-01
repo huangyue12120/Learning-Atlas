@@ -1,3 +1,58 @@
+# Learning Atlas v0.16.0 发布说明
+
+发布日期：2026-09-01。
+
+本版开放 Phase 14「Agent 工程」：54 节中文实践课程全部接入本地阅读器，阅读器累计开放 Phase 0–14 的 333 节课程；Phase 15–19 的 190 节内容继续保持 staged。
+
+## 本版交付
+
+- 补齐 Phase 14 第 43–54 节中文学习改编，当前快照的 523 节实践课程均有中文译文。
+- 新增并核对 54 份中文测验（01–42 每课 7 题，43–54 每课 6 题），应用按上游题目数量动态处理。
+- 新增 54 套 Python 工作区练习指南；工作区仍只复制缺失文件，不覆盖学习者已有修改。
+- 将 12 条 P14 理论关联补齐为 rich theory card，包含上下文、直觉、关键点、应用和自检问题，并绑定对应的中文课程锚点。
+- 更新覆盖率检查，使监控范围与应用已发布的 Phase 0–14 保持一致；Phase 15–19 的 staged 译文不会误触发缺译 Issue。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1385 条来源指纹）
+- `python3 scripts/check_theory_cards.py`（235 张已发布理论卡）
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`（15 个已发布 Phase，0 个缺译）
+- `cd apps/local-learning && npm run check && npm test`（21/21）
+- `git diff --check`
+
+完整快照、内容计数与剩余 staged 范围见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
+
+---
+
+# Learning Atlas v0.15.0 发布说明
+
+发布日期：2026-08-31。
+
+本版完成 T1 高关联中文理论里程碑：新增 11 篇经维护者逐篇复核的理论译文，连同既有《抽样》共发布 12 / 104 篇中文理论全文，覆盖 154 / 311 张理论卡关联；实践阅读器范围保持不变。
+
+## 本版交付
+
+- 新增 11 篇 `theory-translation`，保持上游章节顺序、标题层级、公式、代码、图片和链接语义；审核表见 [`docs/t1-theory-review.md`](t1-theory-review.md)。
+- 11 篇译文均针对 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 完成语义复核，并将英文原文入口统一保持为官方最新 `main`。
+- 理论目录与 API 现在发布 12 篇 `readKind: internal` 的中文全文；缺失、`draft`、`stale` 或来源指纹不匹配的理论仍安全回退到官方英文 `main`。
+- 更新 T1 应用回归测试，覆盖 11 个理论 ID、中文阅读入口、审核 revision、来源路径和官方 `main` 链接一致性。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1319 条来源指纹）
+- `python3 scripts/check_theory_cards.py`（223 张理论卡）
+- `python3 scripts/check_repository_hygiene.py`
+- `cd apps/local-learning && npm run check && npm test`（21/21）
+- 使用独立临时 Chrome 完成 1440×1200 与 375×900 页面验收：章节目录、KaTeX 公式、4 个代码复制控件和 8 个 SVG 图片均正常；移动端章节抽屉可打开/关闭并恢复焦点，两个视口均无横向溢出。
+- `git diff --check`
+
+完整快照、来源指纹、当前范围和逐篇审核记录见[内容清单](content-manifest.md)、[项目进度](project-progress.md)与 [T1 审核表](t1-theory-review.md)。
+
+---
+
 # Learning Atlas v0.14.0 发布说明
 
 发布日期：2026-08-31。

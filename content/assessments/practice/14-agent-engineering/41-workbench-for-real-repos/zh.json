@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/41-workbench-for-real-repos/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "e4dbeb1f7fd0d44d83e0f983695a1a08c8d1049e5fa37e9a564fd400e9840062"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "让同一个任务分别通过 prompt-only 和 workbench-guided pipeline 的目标是什么？",
+      "options": [
+        "对 GPU 做基准测试",
+        "比较模型",
+        "用数字而不是论点生成一份可以交给质疑者的前后对比报告",
+        "选择服务商"
+      ],
+      "correct": 2,
+      "explanation": "这些数字负责论证；案例建立在接近真实的任务上，而不是玩具任务。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "下面哪一项不是衡量的五个结果之一？",
+      "options": [
+        "files_outside_scope",
+        "model_perplexity",
+        "acceptance_met",
+        "tests_actually_run"
+      ],
+      "correct": 1,
+      "explanation": "五个结果是 tests_actually_run、acceptance_met、files_outside_scope、handoff_quality 和 reviewer_total。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "LangChain 的 Anatomy of an Agent Harness 在 Terminal Bench 2.0 中衡量了什么？",
+      "options": [
+        "顶级模型下降了 25 名",
+        "所有模型都收敛到前三名",
+        "harness 改动没有改变排名",
+        "只改变 harness，同一个模型就从前 30 名之外升到第 5 名"
+      ],
+      "correct": 3,
+      "explanation": "同一个模型出现 25 名的排名差距，是 harness 与模型影响对比的核心证据。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "本课引用的 preprints.org 论文给出的企业 Agent 项目失败率是多少？",
+      "options": [
+        "8%",
+        "约 88% 无法进入生产环境，失败主要集中在 runtime，而不是推理",
+        "约 50%",
+        "没有失败"
+      ],
+      "correct": 1,
+      "explanation": "Harness Engineering for Language Agents 这篇预印本将失败追溯到 runtime 问题（状态过时、重试脆弱、上下文膨胀）。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "在长上下文条件下，WebAgent baseline 的准确率会怎样？",
+      "options": [
+        "保持不变",
+        "从 40–50% 降到 10% 以下，主要因为无限循环和目标丢失",
+        "提高 30%",
+        "降低一半但仍高于 30%"
+      ],
+      "correct": 1,
+      "explanation": "长上下文坍缩正是 Ralph Loop 和 handoff packet 要吸收的问题。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课如何看待 false negative（prompt-only 更快的情况）？",
+      "options": [
+        "单步事实任务、单行 lint 和 formatter 运行用 prompt-only 更快；应如实列出它们，避免把 workbench 说成过度工程",
+        "它们证明 workbench 失败",
+        "它们不存在",
+        "它们使 harness 论点失效"
+      ],
+      "correct": 0,
+      "explanation": "如实列出 prompt-only 更快的案例，可以保持 harness 论证的可信度。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "根据本课，应该在什么场合引用这份报告？",
+      "options": [
+        "内部 HR 审查",
+        "只在黑客松中",
+        "有人想“只为本 sprint”删除 verification gate，或新 Agent 产品上线且需要可移植的节时基准时",
+        "只在营销演示文稿中"
+      ],
+      "correct": 2,
+      "explanation": "这些数字可以脱离具体解释传播；当压力试图绕过操作面时，应引用这份报告。"
+    }
+  ]
+}

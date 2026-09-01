@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/06-tool-use-and-function-calling/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "d3deec25e2eab91a6a3fb4df75f216e685e43e6357a934980fca21c746072e83"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "Toolformer 用什么信号决定是否保留候选工具标注？",
+      "options": [
+        "工具是否在 100 毫秒内返回",
+        "是否与人工标签一致",
+        "加入工具结果后，周围文本的下一个 token 损失是否降低",
+        "工具是否输出有效 JSON"
+      ],
+      "correct": 2,
+      "explanation": "Toolformer 会保留那些能让下一个 token 损失降低的工具结果标注，从而形成自监督信号。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "本课报告的 BFCL V4 划分是什么？",
+      "options": [
+        "100% 单轮",
+        "50% 真实，50% 合成",
+        "33% Agent，33% 规划，33% 反思",
+        "40% Agent，30% 多轮，10% live，10% non-live，10% 幻觉"
+      ],
+      "correct": 3,
+      "explanation": "BFCL V4 的权重是：40% Agent、30% 多轮、10% live、10% non-live、10% 幻觉。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "为什么说工具描述是决定性信息？",
+      "options": [
+        "它是用户在 UI 中看到的内容",
+        "模型通过它选择正确工具；糟糕的描述是选错工具的首要原因",
+        "JSON Schema 要求必须有它",
+        "它控制计费分组"
+      ],
+      "correct": 1,
+      "explanation": "工具描述是模型选择工具时的主要信号；描述不清会导致请求被路由到错误的工具。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "在并行工具调用中，tool_use_id 起什么作用？",
+      "options": [
+        "它把每个工具结果与发起它的调用关联起来，使乱序返回的结果仍能正确路由",
+        "它使用 API key 为调用授权",
+        "它压缩 JSON payload",
+        "它启用缓存"
+      ],
+      "correct": 0,
+      "explanation": "tool_use_id 是关联标记；如果交换它们，结果就会被路由到错误的调用。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "V3 的基于状态的评估试图捕获哪类失败？",
+      "options": [
+        "Token 泄露",
+        "Schema 版本漂移",
+        "工具执行缓慢",
+        "调用在 AST 匹配上看似正确，但让 API 留在错误状态"
+      ],
+      "correct": 3,
+      "explanation": "基于状态的评估会检查最终 API 状态（例如文件是否确实创建），而不是只匹配调用语法。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课没有把下面哪项列为 2026 年 function calling 的开放问题？",
+      "options": [
+        "长时程工具链",
+        "token 级解码速度",
+        "在大量工具之间动态决策",
+        "跨轮次记忆"
+      ],
+      "correct": 1,
+      "explanation": "开放问题包括记忆、动态决策、长时程工具链和幻觉检测；解码速度不在这份清单中。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "为什么本课把通用的 run_shell(cmd) 工具视为危险信号？",
+      "options": [
+        "它无法并行调用",
+        "它扩大了 sandbox 边界；git_status() 这类专用工具能限定读写范围和风险",
+        "它速度慢",
+        "服务商会拒绝它"
+      ],
+      "correct": 1,
+      "explanation": "专用工具可以限制 sandbox 的操作面，而通用 shell 工具会把宿主机的完整操作面交给 Agent。"
+    }
+  ]
+}

@@ -31,7 +31,7 @@ status: reviewed
 
 本节结束时，你会把 `outputs/agent-workbench-pack/` 交付到磁盘上，并拥有一个能将它放入任意目标代码库的 `bin/install.sh`。
 
-## 核心概念
+## 核心概念 <!-- learning-atlas: the-concept -->
 
 ```mermaid
 flowchart TD

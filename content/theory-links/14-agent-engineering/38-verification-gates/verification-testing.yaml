@@ -10,7 +10,15 @@ practice:
     slug: the-concept
 card:
   title: Verification gate 的失败闭合
-  summary: 在把测试、lint、scope 和 acceptance criteria 组成不可绕过的 gate 时，用测试金字塔理论核对检查层级和失败语义；该关联先保留候选状态。
+  summary: 在把测试、lint、scope 和 acceptance criteria 组成不可绕过的 gate 时，用测试金字塔理论核对检查层级和失败语义。
+  context: "本课把“完成”定义为可观察的证据集合，并要求任何失败都阻止交付或进入明确的修复路径。"
+  intuition: "gate 像一组带返回值的闸门：每层检查都回答一个具体问题，任何未通过的闸门都不能被一句“看起来可以”绕过。"
+  key_points:
+    - "语法、类型、单元、集成和验收检查分别覆盖不同风险层级。"
+    - "失败输出要指出证据、责任边界和下一步，而不是只返回一个红色状态。"
+    - "高后果动作应在权限或发布边界再次验证，不能依赖早期检查的旧结果。"
+  application: "先为每个交付声明绑定最小证明集，再把检查接入可阻断的命令或 CI，并测试失败是否真的停止后续步骤。"
+  check_question: "为什么一个通过 lint 但没有满足验收标准的变更仍不能进入交付？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 15 - production software engineering/04. testing and quality assurance.md

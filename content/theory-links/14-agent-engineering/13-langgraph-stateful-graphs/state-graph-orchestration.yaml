@@ -10,7 +10,15 @@ practice:
     slug: the-concept
 card:
   title: 有状态 agent graph 的节点与边
-  summary: 在为节点、条件边、检查点和恢复设计状态图时，用图论理论核对拓扑、遍历和循环边界；该关联先保留候选状态。
+  summary: 在为节点、条件边、检查点和恢复设计状态图时，用图论理论核对拓扑、遍历和循环边界。
+  context: "本课让 agent 在节点之间按条件转移，并在中断或失败后从持久化状态恢复，因此流程图本身就是运行时的一部分。"
+  intuition: "节点是处理步骤，边是状态转移；条件边选择下一步，检查点保存当前节点和状态，使执行可以暂停后继续。"
+  key_points:
+    - "图的状态应包含恢复所需的信息，而不只是最近一条消息。"
+    - "条件边必须覆盖成功、失败和终止分支，避免执行落入未定义路径。"
+    - "循环图需要迭代上限或停止条件，否则状态机会无限运行。"
+  application: "先列出每个节点的输入、输出和状态更新，再为每条条件边写测试，并用故障注入验证检查点恢复。"
+  check_question: "为什么一个没有明确终止边的 agent graph 可能在逻辑正确时仍然无限循环？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 14 - data structures and algorithms/04. graphs.md

@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/14-autogen-actor-model/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "a9a96b62030f6540ac87e23ba8cc57656977decd79971683451d17dc956404a9"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "在 AutoGen v0.4 中，Actor 之间唯一合法的交互方式是什么？",
+      "options": [
+        "直接访问共享字典",
+        "修改彼此的 prompt",
+        "共享 SQL 事务",
+        "通过 inbox 异步交换消息；不共享内存"
+      ],
+      "correct": 3,
+      "explanation": "Actor 拥有私有状态和 inbox；消息是它们唯一的交互方式。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "AutoGen v0.4 的三个 API 层是什么？",
+      "options": [
+        "Core、AgentChat、Extensions",
+        "Frontend、Backend、Database",
+        "Tools、Models、Memory",
+        "Plan、Act、Reflect"
+      ],
+      "correct": 0,
+      "explanation": "Core 是底层 Actor 框架，AgentChat 是任务驱动的高层 API，Extensions 用于集成外部能力。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "为什么将消息投递与处理解耦可以实现故障隔离？",
+      "options": [
+        "运行时会在 B 中捕获处理器故障，不会让 A 崩溃；A 的 send() 会立即返回且不会阻塞",
+        "每个 Actor 都运行在独立机器上",
+        "处理器是纯函数",
+        "运行时在故障时重启操作系统"
+      ],
+      "correct": 0,
+      "explanation": "send() 将消息放入接收方的 inbox 后立即返回；处理器崩溃只影响对应的 Actor。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "哪种 AgentChat 拓扑会按固定顺序轮换 Agent？",
+      "options": [
+        "SelectorGroupChat",
+        "Magentic-One",
+        "RoundRobinGroupChat",
+        "Supervisor"
+      ],
+      "correct": 2,
+      "explanation": "RoundRobinGroupChat 按固定顺序轮换；SelectorGroupChat 使用 selector 选择下一个 Agent。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "在本课中，Magentic-One 是什么？",
+      "options": [
+        "一个基于 AgentChat 构建的参考多 Agent 团队，用于网页浏览、代码执行和文件处理",
+        "一个 OTel exporter",
+        "一个新的 LLM 模型",
+        "一种序列化格式"
+      ],
+      "correct": 0,
+      "explanation": "Magentic-One 是 Microsoft 的参考团队，用于展示 AgentChat API。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课所述的 AutoGen v0.4 在 2026 年初处于什么状态？",
+      "options": [
+        "已弃用并移除",
+        "被 LangGraph 取代",
+        "刚刚发布",
+        "稳定但处于维护模式；Microsoft Agent Framework 是后续发展方向"
+      ],
+      "correct": 3,
+      "explanation": "AutoGen v0.7.x 适合研究使用且已稳定；活跃开发已经转向 Microsoft Agent Framework。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "AutoGen v0.4 默认会输出哪种可观测性标准？",
+      "options": [
+        "Datadog APM",
+        "仅 Prometheus metrics",
+        "OpenTelemetry spans，并按 OTel GenAI 语义约定使用 gen_ai.* attributes",
+        "StatsD"
+      ],
+      "correct": 2,
+      "explanation": "每条消息都会产生一个 span；工具调用会按照 OTel GenAI 约定携带 gen_ai.* attributes。"
+    }
+  ]
+}

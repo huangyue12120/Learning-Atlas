@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/02-rewoo-plan-and-execute/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "8d1c9f618ba159f3a01dce47cd1fc1138033da2b44dee2b9dc0329875f4b9260"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "为什么 ReAct 的 prompt 长度会随深度呈平方级增长？",
+      "options": [
+        "每一步都携带完整的历史上下文，包括此前的每个 Thought 和 Observation",
+        "模型在每一步都会重新对自己进行分词",
+        "每次调用都会重复发送工具 schema",
+        "服务商按字节而不是按 token 收费"
+      ],
+      "correct": 0,
+      "explanation": "ReAct 在每一步都会重新包含先前的 Thought 和 Observation，因此 prompt 总长度会随深度平方级增长。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "定义 ReWOO 的三角色分工是什么？",
+      "options": [
+        "Planner, Workers, Solver",
+        "Reader, Writer, Reviewer",
+        "Generator, Critic, Optimizer",
+        "Actor, Evaluator, Reflector"
+      ],
+      "correct": 0,
+      "explanation": "ReWOO 将系统分为 Planner、Workers 和 Solver：Planner 生成 DAG，Workers 获取证据，Solver 汇总最终答案。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "这篇论文报告的 ReWOO 相比 ReAct 在 HotpotQA 上的核心数字是什么？",
+      "options": [
+        "token 数减少 10 倍，准确率下降 2 个百分点",
+        "token 数约减少 5 倍，绝对准确率提高 4 个百分点",
+        "token 数相同，准确率提高 1 个百分点",
+        "token 数约增加 2 倍，准确率提高 10 个百分点"
+      ],
+      "correct": 1,
+      "explanation": "论文报告称，ReWOO 相比 ReAct 的 token 消耗约减少 5 倍，绝对准确率提高 4 个百分点。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "ReWOO 计划节点中的 #E1 这类占位符表示什么？",
+      "options": [
+        "一个在分发时替换的引用，指向此前某个 Worker 节点的输出",
+        "Planner 的版本标识符",
+        "Worker 1 返回的错误码",
+        "用于获取证据的重试计数器"
+      ],
+      "correct": 0,
+      "explanation": "计划节点使用 #E1、#E2 这样的证据引用，执行器会在运行时将它们替换为上游 Worker 的输出。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "为什么 ReWOO 比 ReAct 更容易定位失败？",
+      "options": [
+        "Planner 在每次出错后都会重新生成一个 DAG",
+        "任何错误都会让 Worker 直接终止整个运行",
+        "ReWOO 会把每个失败调用重试最多十次",
+        "Worker 中的错误会变成 Solver 可在原计划旁看到的字符串，因此降级按节点发生，而不是按步骤发生"
+      ],
+      "correct": 3,
+      "explanation": "按节点记录失败，并在上下文中保留原计划，Solver 就能优雅降级，而不会在推理进行到一半时被错误打断。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "与普通 ReWOO 相比，哪种任务形态最适合 Plan-and-Act？",
+      "options": [
+        "纯算术题",
+        "一条包含 40 步的网页或移动端导航轨迹",
+        "两步即可完成的事实查询",
+        "单轮分类任务"
+      ],
+      "correct": 1,
+      "explanation": "Plan-and-Act 面向长时程任务（超过 30 步）的网页和移动端 Agent；在这类任务中，单条 ReAct 轨迹容易失去连贯性。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "ReWOO 的 Planner 蒸馏结果对生产环境中的 Agent 有什么启示？",
+      "options": [
+        "每一步都必须使用前沿模型",
+        "一个约 7B 的小型 Planner 可以达到大型教师模型的水平，因为它从不读取 Observation",
+        "参数量低于 7B 时规划质量就会下降",
+        "蒸馏需要基于梯度的强化学习数据"
+      ],
+      "correct": 1,
+      "explanation": "由于 Planner 不读取 Observation，大型教师模型生成的规划轨迹可以干净地迁移给小型微调 Planner。"
+    }
+  ]
+}

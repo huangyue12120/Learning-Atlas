@@ -29,7 +29,7 @@ status: reviewed
 
 桌面和网页智能体必须看见屏幕并驱动输入。过去 18 个月中，三家厂商都发布了生产产品，在延迟、范围和安全之间做了不同权衡。在选择之前要了解三者。
 
-## 核心概念
+## 核心概念 <!-- learning-atlas: the-concept -->
 
 ### Claude computer use（Anthropic，2024 年 10 月 22 日）
 

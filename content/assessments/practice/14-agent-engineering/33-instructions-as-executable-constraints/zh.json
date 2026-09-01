@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/33-instructions-as-executable-constraints/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "638c7193692d6fd66ac13e7bf890c663f038bfe85e71ea180f7e01c7da9fb2f5"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "aspirational rule（愿景式规则）与 operational rule（操作式规则）有什么区别？",
+      "options": [
+        "愿景式规则需要经理监督",
+        "愿景式规则没有检查机制（如“要小心”）；操作式规则带有 workbench 可以运行的机器可检查函数",
+        "愿景式规则收费；操作式规则免费",
+        "操作式规则更长"
+      ],
+      "correct": 1,
+      "explanation": "操作式规则可以测试；愿景式规则只是愿望。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "本课用哪五类覆盖大多数规则？",
+      "options": [
+        "Plan、act、reflect、refine、ship",
+        "Read、write、exec、fork、exit",
+        "Low、medium、high、critical、fatal",
+        "Startup、forbidden、definition of done、uncertainty、approval"
+      ],
+      "correct": 3,
+      "explanation": "五类是 startup、forbidden、definition of done、uncertainty handling 和 approval boundaries。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "哪个 severity tag 会停止执行并要求操作员覆盖？",
+      "options": [
+        "soft",
+        "warn",
+        "block",
+        "info"
+      ],
+      "correct": 2,
+      "explanation": "block 表示硬失败；warn 用于标注；info 用于报告。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "为什么本课建议在写入规则时就标记 severity？",
+      "options": [
+        "Linter 要求这样做",
+        "团队早期会夸大严重程度，却在截止日期压力下弱化它；提前写明 severity 可以迫使团队校准",
+        "这样在 Markdown 中更美观",
+        "这样可以节省 token"
+      ],
+      "correct": 1,
+      "explanation": "Severity 校准必须经过有意识的决策，而不能在压力下事后补写。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "markdown-as-source、JSON-as-cache 模式会做什么？",
+      "options": [
+        "替代 Markdown",
+        "加密规则",
+        "禁用审查",
+        "agent-rules.md 是人工编写的文件；agent-rules.lock.json 是由 pre-commit hook 重新生成的热路径缓存（形式类似 package.json + lock）"
+      ],
+      "correct": 3,
+      "explanation": "Markdown 仍然便于审查；JSON 解析被移出热路径。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "把 rule expiry 作为强制机制是什么意思？",
+      "options": [
+        "规则超过 24 小时就以失败关闭",
+        "每条规则都带有 expires_at（默认 90 天）；长期未触发的规则会触发季度审查，以便说明其合理性、弱化或删除",
+        "规则自动过期，不需要审查",
+        "缓存满时规则过期"
+      ],
+      "correct": 1,
+      "explanation": "Cloudflare 的数据显示，使用 expiry 的规则集保持在 30 条以内；不使用 expiry 的规则集则增长到 80 多条未使用规则。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "rules 与 framework guardrails 有什么关系？",
+      "options": [
+        "规则取代 guardrail",
+        "两者只需要一个",
+        "Guardrail 在运行时执行规则；rule set 是 guardrail 所实现的、人类可读的契约",
+        "Guardrail 是规则的替代方案"
+      ],
+      "correct": 2,
+      "explanation": "两者都需要：运行时捕获违规，rule set 证明运行时正在做正确的事。"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/18-agno-and-mastra-runtimes/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "ca939374ff585854a162cf980e2cfd40c7e07870614aab34939b4d99e2c5d77d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "本课建议每个 runtime 使用哪种语言组合？",
+      "options": [
+        "Agno 使用 TypeScript，Mastra 使用 Python",
+        "两者都以 Go 为主",
+        "Agno 使用 Python，Mastra 使用 TypeScript",
+        "两者都以 Rust 为主"
+      ],
+      "correct": 2,
+      "explanation": "Agno 使用 Python（形态类似 FastAPI）；Mastra 使用 TypeScript（形态类似 Vercel AI SDK）。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "Agno 推荐的生产部署形态是什么？",
+      "options": [
+        "一个长期运行的有状态 daemon",
+        "只有 serverless cron worker",
+        "一个无状态、按 session 作用域划分的 FastAPI 后端；每个请求启动新的 Agent，session 状态存放在数据库中",
+        "一个只支持 WebSocket 的服务器"
+      ],
+      "correct": 2,
+      "explanation": "每个请求都使用无状态的 FastAPI；session 状态外置到数据库中。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "Mastra 的三个基本原语是什么？",
+      "options": [
+        "Node、Edge、State",
+        "Plan、Worker、Solver",
+        "Agents、Tools、Workflows",
+        "Actor、Message、Inbox"
+      ],
+      "correct": 2,
+      "explanation": "Agents（LLM + role）、Tools（由 Zod 提供类型）和 Workflows 是 Mastra 的三个基本原语。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "根据文档，Agno 目标中的 Agent 实例化成本大约是多少？",
+      "options": [
+        "每个 Agent 约 1 秒和 1 GiB",
+        "每个 Agent 约 2 微秒和 3.75 KiB",
+        "每个 Agent 约 200 毫秒和 100 MiB",
+        "每个 Agent 约 10 分钟和 4 GiB"
+      ],
+      "correct": 1,
+      "explanation": "Agno 文档给出的数字是每个 Agent 约 2 微秒和 3.75 KiB。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "Mastra 的 Unified Model Router 提供什么？",
+      "options": [
+        "一个向量数据库层",
+        "一个跨多个服务商、面向数千个模型的统一客户端接口",
+        "一个图 checkpointer",
+        "一个用于工具调用的队列"
+      ],
+      "correct": 1,
+      "explanation": "Mastra 的 Unified Model Router 覆盖 94 个服务商的 3300 多个模型。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "什么时候因为追求性能本身而选择 Agno 是错误的理由？",
+      "options": [
+        "使用 Langfuse 时",
+        "每个请求只有一次缓慢的 Agent 调用，且开销不是瓶颈时",
+        "使用 Python 3.13 时",
+        "部署到 AWS 时"
+      ],
+      "correct": 1,
+      "explanation": "2 微秒的优势在聊天扇入规模下才重要；对于每个请求只有一次缓慢调用的场景并不重要。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "在 fork Mastra 之前，哪些许可范围需要仔细阅读？",
+      "options": [
+        "没有 license 文件",
+        "ee/ 目录是 source-available 而不是 Apache 2.0，且限制商业使用",
+        "整个 Mastra 都是 GPL",
+        "Mastra 要求 CLA，但不需要审查许可"
+      ],
+      "correct": 1,
+      "explanation": "Mastra 除 ee/ 外采用 Apache 2.0；ee/ 是 source-available，fork 前应检查相关限制。"
+    }
+  ]
+}

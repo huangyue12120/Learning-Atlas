@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/53-prototype-pilot-or-production/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "846ce6c03c425dbd0bb2a19eb8213a8eb1083dc59521e6ac0b83a8bfb15b5782"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "prototype、pilot 和 production 的主要区别是什么？",
+      "options": [
+        "编程语言",
+        "视觉精致程度",
+        "模型大小",
+        "learning question、真实暴露、后果和 ownership"
+      ],
+      "correct": 3,
+      "explanation": "这些阶段对应不同的证据环境和责任环境。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "什么时候适合处于 prototype 阶段？",
+      "options": [
+        "只用于 UI",
+        "当可以在不接触真实用户或真实数据的情况下回答未知项时",
+        "只要进入生产很困难",
+        "公开发布之后"
+      ],
+      "correct": 1,
+      "explanation": "prototype 应回答机制问题，并将后果控制在最低限度。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "pilot 必须包含什么？",
+      "options": [
+        "没有 stop rule",
+        "自动获得权限",
+        "有界受众、owner、rollback、audit、metrics 和 exit criteria",
+        "不受限制的受众"
+      ],
+      "correct": 2,
+      "explanation": "pilot 会在明确限制内暴露真实条件。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "部署后的构建在什么意义上会成为 production？",
+      "options": [
+        "当组织接受持续可靠性、风险和运维 ownership 时",
+        "它拥有 URL 时",
+        "prototype 看起来精致时",
+        "在第一个 commit 时"
+      ],
+      "correct": 0,
+      "explanation": "Production 是持续的责任，而不只是某种 hosting 状态。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "stage drift（阶段漂移）是什么意思？",
+      "options": [
+        "pilot 结束",
+        "prototype 获得了用户、数据或权限，却没有同步增加控制措施和 ownership",
+        "一个 metric 发生变化",
+        "一个 branch 被重命名"
+      ],
+      "correct": 1,
+      "explanation": "不受控制的暴露会把学习用 artifact 变成不安全的服务。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为什么必须从技术上强制执行阶段边界？",
+      "options": [
+        "warning banner 无法阻止访问或权限",
+        "文档是非法的",
+        "它取代了 ownership",
+        "它改善颜色对比度"
+      ],
+      "correct": 0,
+      "explanation": "Configuration、access control 和 telemetry 可以让阶段可观测且可强制执行。"
+    }
+  ]
+}

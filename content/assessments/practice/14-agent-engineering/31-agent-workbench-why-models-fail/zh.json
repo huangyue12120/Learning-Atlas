@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/31-agent-workbench-why-models-fail/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "9d5dd65d9b8dcd2c84ffbdf16aa3e7f1957e15c6ac445a4a053eb69068b72365"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "本课认为，真实任务中 Agent 失败的根本原因是什么？",
+      "options": [
+        "训练数据过时",
+        "Workbench 失败：模型周围缺少必要的操作面，而不是 LLM 本身的局限",
+        "网络缓慢",
+        "模型参数不足"
+      ],
+      "correct": 1,
+      "explanation": "模型对 Python 本身并没有错；错的是它对工作流程的理解，而模型周围缺少必要的操作面。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "本课提到的七个 workbench 操作面是什么？",
+      "options": [
+        "Read、write、exec、fork、exit、wait、kill",
+        "Plan、act、reflect、refine、debate、vote、ship",
+        "Instructions、state、scope、feedback、verification、review、handoff",
+        "Train、eval、deploy、monitor、retrain、scale、retire"
+      ],
+      "correct": 2,
+      "explanation": "七个操作面是 instructions、state、scope、feedback、verification、review 和 handoff。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "下面哪一项不是本课将操作面映射到的八个分布式系统原语之一？",
+      "options": [
+        "Worker",
+        "Backpropagation",
+        "Function",
+        "Trigger"
+      ],
+      "correct": 1,
+      "explanation": "八个原语是 function、worker、trigger、runtime、HTTP/RPC、queue、session persistence 和 authorization policy。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "Vercel 报告的 harness 改动将成功率从多少提高到多少？",
+      "options": [
+        "50% 提高到 70%，通过增加 RAG",
+        "20% 提高到 60%",
+        "0% 提高到 100%，通过更换模型",
+        "80% 提高到 100%，通过删除 Agent 的 80% 工具"
+      ],
+      "correct": 3,
+      "explanation": "删除 80% 的工具后，Vercel 的 Agent 成功率从 80% 提高到了 100%。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "Terminal Bench 2.0 说明了模型与 harness 之间的什么关系？",
+      "options": [
+        "只改变 harness，同一个模型就从前 30 名之外升到第 5 名",
+        "排名完全由模型决定",
+        "只有 GPU 重要",
+        "harness 的变化没有影响"
+      ],
+      "correct": 0,
+      "explanation": "LangChain 的 Anatomy of an Agent Harness 表明：同一个模型只因 harness 改变，排名就能提升 25 名以上。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "听到新的 harness 术语时，本课建议怎么做？",
+      "options": [
+        "拒绝它",
+        "等待 OpenAI 将其标准化",
+        "原样采用这套术语",
+        "先将它还原为原语（function、worker、trigger、runtime、HTTP/RPC、queue、persistence、policy），再决定是否采用"
+      ],
+      "correct": 3,
+      "explanation": "应从原语出发，而不是从服务商的分类出发；术语会变化，但工程事实不会。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "相对于 workbench，chat history 处于什么位置？",
+      "options": [
+        "Chat 是系统记录",
+        "Chat 是易失的；repo 才是系统记录",
+        "两者等价",
+        "两者都不重要"
+      ],
+      "correct": 1,
+      "explanation": "循环通过 state file 闭合，而不是依赖 chat history。"
+    }
+  ]
+}

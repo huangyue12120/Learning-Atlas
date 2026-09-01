@@ -10,7 +10,15 @@ practice:
     slug: the-concept
 card:
   title: Tree of Thoughts 的搜索树
-  summary: 在展开候选思路、评估节点并回溯选择路径时，用图论理论核对节点、边、遍历和搜索边界；该关联先保留候选状态。
+  summary: 在展开候选思路、评估节点并回溯选择路径时，用图论理论核对节点、边、遍历和搜索边界。
+  context: "本课不只沿一条思路生成答案，而是维护多个候选节点并选择继续展开或回溯的分支。"
+  intuition: "把每个部分解看成节点、把一步推导看成边，Tree of Thoughts 就把语言生成变成了可剪枝的状态空间搜索。"
+  key_points:
+    - "节点保存部分解及其评估值，边表示从一个思路到下一步思路的转移。"
+    - "宽度、深度和剪枝策略共同决定搜索成本与可能遗漏的分支。"
+    - "回溯需要保留父节点关系，不能只保存当前候选文本。"
+  application: "为每个候选记录父节点、深度和评分，先用小规模搜索验证扩展与回溯，再调节 beam width 或 rollout budget。"
+  check_question: "为什么只保留当前最高分思路会让 Tree of Thoughts 失去回溯价值？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 14 - data structures and algorithms/04. graphs.md

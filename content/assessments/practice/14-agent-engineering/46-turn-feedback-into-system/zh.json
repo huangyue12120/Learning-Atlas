@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/46-turn-feedback-into-system/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "4ebccb383be3e1bf1aa367c696df67248132707dd7c3508888204cdb9d58eca9"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "一次反复出现的 Agent 修正揭示了什么？",
+      "options": [
+        "工作系统中缺失或薄弱的控制",
+        "跳过测试的理由",
+        "需要更多 chat history",
+        "只有模型能力不足"
+      ],
+      "correct": 0,
+      "explanation": "修正是关于缺失测试、边界、示例、工具或决策的观察结果。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "regression correction 应该在哪里变成持久机制？",
+      "options": [
+        "更长的 prompt",
+        "一个 test 或 evaluation",
+        "一个新模型",
+        "一份会议记录"
+      ],
+      "correct": 1,
+      "explanation": "可执行的 proof 可以防止同一个错误结果再次静默出现。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "为什么要在写规则前找到 root cause？",
+      "options": [
+        "它消除了 evidence 的需要",
+        "规则要求引用",
+        "它可以避免所有复杂性",
+        "同一症状可能由不同的缺失控制引起"
+      ],
+      "correct": 3,
+      "explanation": "只针对症状的规则，在同一原因以不同形式出现时就会失效。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "一次性修正什么时候足以证明永久控制是合理的？",
+      "options": [
+        "始终如此",
+        "从不",
+        "当复发性或后果严重程度足以证明长期复杂性合理时",
+        "只在发布之后"
+      ],
+      "correct": 2,
+      "explanation": "这个 ratchet 应保留有意义的判断，而不是累积每一种偏好。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "为什么要为已提升的控制建立 fingerprint？",
+      "options": [
+        "为了隐藏所有权",
+        "为了视觉设计",
+        "为了替代验证",
+        "为了合并重复教训，同时不丢失不同的成因"
+      ],
+      "correct": 3,
+      "explanation": "稳定的身份可以防止同一控制被反复添加。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为什么每项控制都需要 retirement check？",
+      "options": [
+        "控制可能过时、相互矛盾或被取代",
+        "Agent 不喜欢指令",
+        "测试无法持久化",
+        "所有规则每天过期"
+      ],
+      "correct": 0,
+      "explanation": "工作系统应保持精简和最新，而不是一味累积策略。"
+    }
+  ]
+}

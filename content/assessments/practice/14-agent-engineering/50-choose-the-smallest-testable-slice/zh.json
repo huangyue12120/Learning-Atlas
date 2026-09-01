@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/14-agent-engineering/50-choose-the-smallest-testable-slice/quiz.json",
+    "revision": "a56b4b8ad43a3767c771953d217036813f697bc7",
+    "sha256": "5d132398fe59a76312cb546ace1b49efcf87eda2ad6b171b3deb85a73ad1d45f"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "什么会让一个小切片有用？",
+      "options": [
+        "它包含的代码很少",
+        "它避开了真实的不确定性",
+        "它可以改变一个重要决定",
+        "它有精致的 UI"
+      ],
+      "correct": 2,
+      "explanation": "规模只有相对于决定性证据而言才重要。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "比较候选切片前必须定义什么？",
+      "options": [
+        "一个 release 名称",
+        "一个 framework",
+        "一个最终架构",
+        "required proof set"
+      ],
+      "correct": 3,
+      "explanation": "是否合格取决于它是否覆盖了需要证据验证的高风险 assumption。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "为什么廉价的 dashboard mockup 可能是错误的最小切片？",
+      "options": [
+        "它太可逆",
+        "它有用户",
+        "它可能把数据和操作不确定性从测试中移除",
+        "Dashboard 总是不好"
+      ],
+      "correct": 2,
+      "explanation": "避开高风险机制的切片无法回答当前决定。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "对于得分很高但缺少 required proof 的切片，正确反应是什么？",
+      "options": [
+        "以不合格为由拒绝它",
+        "提高它的分数",
+        "选择它",
+        "称它为生产版本"
+      ],
+      "correct": 0,
+      "explanation": "Coverage 是优化之前的门槛。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "为什么要添加 stop rule？",
+      "options": [
+        "为了避免测量",
+        "为了明确什么证据会导致重新构想、修订或放弃",
+        "为了限制文档",
+        "为了让每个结果都支持这个想法"
+      ],
+      "correct": 1,
+      "explanation": "experiment 必须能够改变这个决定。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "下面哪种切片通常更适合安全地测试诊断？",
+      "options": [
+        "生产环境自动修复",
+        "针对代表性事故的只读 replay",
+        "一次 migration",
+        "一个完整平台"
+      ],
+      "correct": 1,
+      "explanation": "Replay 可以测试核心未知项，同时后果较低且可逆性较高。"
+    }
+  ]
+}
