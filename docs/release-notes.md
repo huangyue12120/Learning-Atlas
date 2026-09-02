@@ -1,3 +1,30 @@
+# Learning Atlas v0.17.0 发布说明
+
+发布日期：2026-09-02。
+
+本版完成 T2「中关联理论 A」里程碑：新增 13 篇经维护者逐篇复核的理论译文，连同既有《抽样》和 T1 的 11 篇译文共发布 25 / 104 篇中文理论全文，覆盖 230 / 311 张理论卡关联；实践阅读器范围保持不变。
+
+## 本版交付
+
+- 新增 13 篇 `theory-translation`，保持上游章节顺序、标题层级、公式、代码、图片、表格、Mermaid 和链接语义；逐篇审核记录见 [`docs/t2-theory-review.md`](t2-theory-review.md)。
+- 13 篇译文均针对 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 完成语义、结构、公式、代码和图示复核，并将英文原文入口统一保持为官方最新 `main`。
+- 理论目录与 API 现在发布 25 篇 `readKind: internal` 的中文全文；缺失、`draft`、`stale` 或来源指纹不匹配的理论仍安全回退到官方英文 `main`。
+- 更新 T2 应用回归测试，覆盖 13 个理论 ID、中文阅读入口、审核 revision、来源路径和官方 `main` 链接一致性；来源指纹检查扩展到 1398 条记录。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1398 条来源指纹）
+- `python3 scripts/check_theory_cards.py`（235 张已发布理论卡）
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`（15 个已发布 Phase，0 个缺译）
+- `cd apps/local-learning && npm run check && npm test`（22/22）
+- `git diff --check`
+
+完整快照、内容计数与剩余理论缺口见[内容清单](content-manifest.md)、[项目进度](project-progress.md)和 [T2 审核表](t2-theory-review.md)。
+
+---
+
 # Learning Atlas v0.16.0 发布说明
 
 发布日期：2026-09-01。
