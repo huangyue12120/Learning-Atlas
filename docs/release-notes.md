@@ -1,3 +1,29 @@
+# Learning Atlas v0.17.1 发布说明
+
+发布日期：2026-09-08。
+
+本版完成 Issue #8 的上游更新审核：将 `ai-engineering-from-scratch` 的可复现快照从 `a56b4b8ad43a3767c771953d217036813f697bc7` 更新到 `a63ead400272c339441f07d0f920e76cdfb0d1d1`。对比确认本次上游变更未触及课程正文、测验或理论来源，中文学习内容与发布范围保持不变。
+
+## 本版交付
+
+- 审核上游提交 `2cde5bc4`（站点计数、操作入口和公共资源修复）与 `a63ead40`（站点数据重建）；改动仅涉及上游网站、文档、API、脚本和生成资源。
+- 按审核结论同步 `ai-engineering-from-scratch` submodule 指针；未修改任何中文译文、测验、理论卡或来源指纹。
+- 保持阅读器 333 节课程、523 节实践译文、228 份中文测验、25 篇中文理论全文和 230 / 311 条理论卡关联等发布统计不变。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1398 条来源指纹）
+- `python3 scripts/check_theory_cards.py`（235 张已发布理论卡）
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`（15 个已发布 Phase，0 个缺译）
+- `cd apps/local-learning && npm run check && npm test`（22/22）
+- `git diff --check`
+
+Issue #8：[上游原文更新待审核](https://github.com/huangyue12120/Learning-Atlas/issues/8) 已完成审核，修复已提交至 [PR #9](https://github.com/huangyue12120/Learning-Atlas/pull/9)，合并后将自动关闭本 Issue。完整快照与当前范围见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
+
+---
+
 # Learning Atlas v0.17.0 发布说明
 
 发布日期：2026-09-02。
