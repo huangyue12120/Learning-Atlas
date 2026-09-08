@@ -17,6 +17,8 @@ jobs:
   review-dependencies:
     name: Review dependency changes
     runs-on: ubuntu-latest
+    # Only run if Advanced Security is enabled
+    if: github.event.repository.security_and_analysis.advanced_security.status == 'enabled'
     steps:
       - name: Review dependency changes
         uses: actions/dependency-review-action@v4
