@@ -85,17 +85,18 @@ python3 scripts/manage_upstreams.py --sync
 
 若来源指纹检查失败，先逐项更新和审核受影响的译文、测验或理论关联，再提交新的 submodule 指针。不要把未通过检查的同步结果直接发布。
 
-GitHub Actions 提供五类自动化检查：
+GitHub Actions 提供四类仓库自定义自动化检查：
 
 - **CI / Validate content and application** 在每次推送和面向 `main` 的 PR 中检查译文结构、1398 项来源指纹、仓库卫生、前端/服务端语法和应用 API 测试。同步 PR 必须在内容更新后通过此检查才能合入。
 - **Automation / Open upstream synchronization PR** 可手动把上游 commit 指针放入一个独立 PR；它不自动合并。
-- **Monitoring / Report upstream source changes** 每日检测 `main` 是否领先于当前发布快照；明确发现新提交时故意失败，并自动生成上游文件、关联中文内容、SHA-256 影响和具体 diff 的报告，创建或更新 `[Upstream] Source updates require review` Issue。
+- **Monitoring / Report upstream source changes** 每日检测 `main` 是否领先于当前发布快照；报告器先按来源路径匹配已登记的译文、测验或理论关联，只有命中中文学习内容时才将报告用于创建或更新 `[Upstream] Source updates require review` Issue。未命中已登记内容的上游站点、构建工具和其他文件不会创建 Issue，也不会让 workflow 失败。
 - **Monitoring / Check translation coverage** 每周检查已进入中文学习范围的 Phase 是否有缺少对应中文实践译文的上游课程，并创建或更新 `[Coverage] Chinese practice translations missing` Issue；尚未接入的 Phase 不会被纳入。
-- **Security / Review dependency changes** 在面向 `main` 的 Pull Request 中运行官方 dependency review；high 及以上严重度的依赖变更会阻断合并。
 
 `manage_upstreams.py --check` 只判断上游跟踪分支是否有新 commit；**Monitoring / Report upstream source changes** 再对已确认的更新生成改动文件、关联内容、SHA-256 影响和 diff 报告。前者是 freshness 信号，后者是 review 报告层。
 
-上游 freshness 检查将退出码 2 解释为“跟踪分支有新提交”；这不是网络或权限错误。报告器随后把目标 revision 中的原文 SHA-256 与内容元数据中的已记录指纹比较：只有报告明确标注“确认 SHA-256 漂移”时，才可确认对应英文文件已改变。Issue 会通过 GitHub 的仓库/Issue 关注通知送达维护者；邮件服务不在仓库内保存凭据。
+由于当前仓库未启用 GitHub Advanced Security，官方 dependency-review action 不支持本仓库并会把 Pull Request 标为失败；对应 workflow 暂停，依赖图和 Dependabot 告警仍由 GitHub 的 Security 页面提供。
+
+上游 freshness 检查将退出码 2 解释为“跟踪分支有新提交”；这不是网络或权限错误。报告器随后按内容元数据中的已登记来源路径筛选影响，再把目标 revision 中的原文 SHA-256 与对应指纹比较：只有命中中文内容时才创建 Issue；命中后，报告明确标注“确认 SHA-256 漂移”才能确认对应英文文件已改变。Issue 会通过 GitHub 的仓库/Issue 关注通知送达维护者；邮件服务不在仓库内保存凭据。
 
 ## 当前边界与限制
 

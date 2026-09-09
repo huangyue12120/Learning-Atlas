@@ -120,19 +120,20 @@ python3 scripts/manage_upstreams.py --check
 python3 scripts/manage_upstreams.py --sync
 ```
 
-同步后，先更新并人工审核受影响内容；待全部校验通过后，再提交新的 submodule 指针。GitHub Actions 也会每天检查一次并在发现待审核上游更新时提示维护者。对需要在 GitHub 中处理的更新，可手动运行 **Automation / Open upstream synchronization PR**：它仅创建更新 submodule 指针的 PR；合并前必须让验证工作流恢复为绿色。
+同步后，先更新并人工审核受影响内容；待全部校验通过后，再提交新的 submodule 指针。GitHub Actions 也会每天检查一次；只有上游改动命中已登记的中文译文、测验或理论关联来源时，才会提示维护者。对需要在 GitHub 中处理的更新，可手动运行 **Automation / Open upstream synchronization PR**：它仅创建更新 submodule 指针的 PR；合并前必须让验证工作流恢复为绿色。
 
 每次推送和面向 `main` 的 PR 都会运行 **CI / Validate content and application**，覆盖译文结构、来源指纹、仓库卫生、浏览器脚本语法、服务端语法和 API 测试。
 
-GitHub Actions 的命名采用统一的 `<类别> / <动作与对象>` 形式：workflow 的显示名面向维护者，job ID 使用稳定的 kebab-case，job 的显示名使用自然语言。当前五条 workflow 为：
+GitHub Actions 的命名采用统一的 `<类别> / <动作与对象>` 形式：workflow 的显示名面向维护者，job ID 使用稳定的 kebab-case，job 的显示名使用自然语言。当前四条仓库自定义 workflow 为：
 
 - **CI / Validate content and application**：在 push、面向 `main` 的 PR 和手动触发时运行内容及应用校验。
 - **Automation / Open upstream synchronization PR**：手动更新 submodule 指针并创建待审核 PR，不自动合并。
-- **Monitoring / Report upstream source changes**：每天检查上游分支；确认存在新提交（退出码 2）后，生成包含变更文件、关联本地内容、SHA-256 影响和 diff 的报告，并创建或更新去重 Issue `[Upstream] Source updates require review`。
+- **Monitoring / Report upstream source changes**：每天检查上游分支；确认存在新提交（退出码 2）后，先按来源路径匹配已登记的中文译文、测验或理论关联。只有命中这些内容时，才将报告用于创建或更新去重 Issue `[Upstream] Source updates require review`；仅涉及上游站点、构建工具或其他未接入文件的更新不会创建 Issue，也不会让 workflow 失败。
 - **Monitoring / Check translation coverage**：每周检查已经进入中文学习范围的 Phase 是否有上游课程缺少对应中文实践译文；发现缺口时创建或更新 `[Coverage] Chinese practice translations missing` Issue。尚未接入中文学习范围的 Phase 不纳入检查。
-- **Security / Review dependency changes**：面向 `main` 的 Pull Request 使用 GitHub 官方 dependency review 检查新增或升级依赖；high 及以上严重度会阻断合并。
 
-`manage_upstreams.py --check` 只回答“上游跟踪分支是否有新 commit”；**Monitoring / Report upstream source changes** 是它之后的影响分析层，负责列出具体改动文件、关联本地内容、SHA-256 影响和 diff。因此两者是底层 freshness 信号与上层 review 报告的关系，不是两个重复的检查。
+`manage_upstreams.py --check` 只回答“上游跟踪分支是否有新 commit”；**Monitoring / Report upstream source changes** 是它之后的影响分析层，负责按已登记来源路径筛选内容影响，并在需要时列出具体改动文件、关联本地内容、SHA-256 影响和 diff。因此两者是底层 freshness 信号与上层 review 报告的关系，不是两个重复的检查。
+
+由于当前仓库未启用 GitHub Advanced Security，官方 dependency-review action 不支持本仓库并会把 Pull Request 标为失败；对应 workflow 暂停，依赖图和 Dependabot 告警仍由 GitHub 的 Security 页面提供。
 
 上游检查的网络、权限或 fetch 故障使用其他退出码，不会被误判为英文原文变更，也不会自动创建内容 Issue。Issue 遵循 GitHub 的关注/订阅通知；SMTP 或第三方邮件通知需要额外的收件地址和仓库 secret，当前不在仓库中配置。
 
