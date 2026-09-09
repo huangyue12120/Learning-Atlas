@@ -21,7 +21,7 @@
 - `cd apps/local-learning && npm run check && npm test`
 - `git diff --check`
 
-Issue #10：[上游原文更新待审核](https://github.com/huangyue12120/Learning-Atlas/issues/10) 已完成审核；变更将通过专用 PR 合并后自动关闭本 Issue。完整快照与当前范围见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
+Issue #10：[上游原文更新待审核](https://github.com/huangyue12120/Learning-Atlas/issues/10) 已完成审核，修复已提交至 [PR #11](https://github.com/huangyue12120/Learning-Atlas/pull/11)，合并后将自动关闭本 Issue。完整快照与当前范围见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
 
 ---
 
