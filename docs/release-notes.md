@@ -1,3 +1,30 @@
+# Learning Atlas v0.17.2 发布说明
+
+发布日期：2026-09-09。
+
+本版完成 Issue #10 的上游更新审核：将 `ai-engineering-from-scratch` 的可复现快照从 `a63ead400272c339441f07d0f920e76cdfb0d1d1` 更新到 `d18b8fe5a913c46011a3b06cb6ebd6a924414fd3`。对比 `bcd09d91`、`f068c1e6` 和 `d18b8fe5` 三个提交确认，改动只涉及 EPUB/PDF 图书构建、排版过滤器、主题和渲染测试，没有命中课程正文、测验或理论来源，中文学习内容与发布范围保持不变。
+
+## 本版交付
+
+- 按审核结论同步 `ai-engineering-from-scratch` submodule 指针到 `d18b8fe5`；不复制上游图书构建脚本或生成文件到根项目。
+- 未修改任何中文译文、测验、理论卡或来源指纹；保持阅读器 333 节课程、523 节实践译文、228 份中文测验、25 篇中文理论全文和 230 / 311 条理论卡关联等发布统计不变。
+- 上游 PDF 构建现在验证长代码、URL、表格标识符和字面量 token 的排版边界，并在渲染失败时终止构建；这些变化不改变 Learning Atlas 的学习语义。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1398 条来源指纹）
+- `python3 scripts/check_theory_cards.py`（235 张已发布理论卡）
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`（15 个已发布 Phase，0 个缺译）
+- `cd ai-engineering-from-scratch && python3 scripts/test_book_rendering.py`（6 项测试，1 项因缺少 `xelatex` 跳过）
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+Issue #10：[上游原文更新待审核](https://github.com/huangyue12120/Learning-Atlas/issues/10) 已完成审核，修复已提交至 [PR #11](https://github.com/huangyue12120/Learning-Atlas/pull/11)，合并后将自动关闭本 Issue。完整快照与当前范围见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
+
+---
+
 # Learning Atlas v0.17.1 发布说明
 
 发布日期：2026-09-08。
