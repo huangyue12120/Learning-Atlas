@@ -31,6 +31,7 @@ MAX_DIFF_PER_FILE_CHARS = 12_000
 MAX_COMMIT_LINES = 30
 TRUNCATION_NOTICE = "\n\n> Issue 正文中的 diff 已达到大小上限或单文件上限；请使用各上游 compare 链接查看未展示部分。"
 OUTPUT_TRAILING_NEWLINE = "\n"
+RELEVANCE_MARKER = "upstream-freshness-relevant"
 
 
 @dataclass(frozen=True)
@@ -228,6 +229,19 @@ def changed_artifacts(snapshot: Snapshot, index: dict[tuple[str, str], list[Arti
     return sorted(result.values(), key=lambda artifact: (artifact.path, artifact.kind))
 
 
+def has_relevant_changes(snapshots: list[Snapshot], artifacts: list[Artifact]) -> bool:
+    """Return whether an upstream diff touches a tracked Chinese artifact source.
+
+    The freshness check is intentionally broader than the review gate: upstream
+    repositories contain sites, tooling, and other files that are not copied into
+    Learning Atlas.  Only a changed path explicitly recorded by a translation,
+    assessment, or theory-link source is a content-review trigger.
+    """
+
+    index = artifact_index(artifacts)
+    return any(changed_artifacts(snapshot, index) for snapshot in snapshots)
+
+
 def diagnosis(module: Submodule, snapshot: Snapshot, artifact: Artifact) -> tuple[str, str]:
     current = blob(module.path, snapshot.base, artifact.source_path)
     target = blob(module.path, snapshot.target, artifact.source_path)
@@ -315,10 +329,15 @@ def render_snapshot(snapshot: Snapshot, index: dict[tuple[str, str], list[Artifa
 
 def render_report(snapshots: list[Snapshot], artifacts: list[Artifact]) -> str:
     if not snapshots:
-        return "# 上游原文更新待审核\n\n当前没有检测到领先于锁定快照的上游提交。"
+        return (
+            "# 上游原文更新待审核\n\n"
+            f"<!-- {RELEVANCE_MARKER}: false -->\n\n"
+            "当前没有检测到领先于锁定快照的上游提交。"
+        )
 
     key = ";".join(f"{item.module.name}:{item.base}:{item.target}" for item in snapshots)
     index = artifact_index(artifacts)
+    relevant = has_relevant_changes(snapshots, artifacts)
     sections: list[str] = []
     for item in snapshots:
         section, _, _ = render_snapshot(item, index)
@@ -328,6 +347,7 @@ def render_report(snapshots: list[Snapshot], artifacts: list[Artifact]) -> str:
         "# 上游原文更新待审核",
         "",
         f"<!-- upstream-freshness-key: {key} -->",
+        f"<!-- {RELEVANCE_MARKER}: {'true' if relevant else 'false'} -->",
         "",
         f"检测日期：{date.today().isoformat()}",
         "",

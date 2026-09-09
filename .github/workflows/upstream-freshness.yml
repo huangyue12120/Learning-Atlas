@@ -40,13 +40,27 @@ jobs:
           echo "exit_code=$status" >> "$GITHUB_OUTPUT"
           exit "$status"
       - name: Generate upstream change report
+        id: report
         if: steps.freshness.outputs.exit_code == '2'
-        run: python3 scripts/report_upstream_changes.py --output upstream-report.md
+        shell: bash
+        run: |
+          python3 scripts/report_upstream_changes.py --output upstream-report.md
+          relevant="$(sed -n 's/^<!-- upstream-freshness-relevant: \(true\|false\) -->$/\1/p' upstream-report.md)"
+          if [ "$relevant" != "true" ] && [ "$relevant" != "false" ]; then
+            echo "Upstream report is missing its relevance marker." >&2
+            exit 1
+          fi
+          echo "relevant=$relevant" >> "$GITHUB_OUTPUT"
+          if [ "$relevant" = "true" ]; then
+            echo "Upstream changes touch tracked Chinese content. Review is required."
+          else
+            echo "Upstream changes do not touch tracked Chinese content. No review issue is needed."
+          fi
       - name: Add upstream report to job summary
         if: steps.freshness.outputs.exit_code == '2'
         run: cat upstream-report.md >> "$GITHUB_STEP_SUMMARY"
       - name: Create or update upstream review issue
-        if: steps.freshness.outputs.exit_code == '2'
+        if: steps.freshness.outputs.exit_code == '2' && steps.report.outputs.relevant == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_TITLE: "[Upstream] Source updates require review"
@@ -66,7 +80,7 @@ jobs:
             fi
           fi
       - name: Fail when upstream review is required
-        if: steps.freshness.outputs.exit_code != '0'
+        if: steps.freshness.outputs.exit_code == '1' || (steps.freshness.outputs.exit_code == '2' && steps.report.outputs.relevant == 'true')
         env:
           EXIT_CODE: ${{ steps.freshness.outputs.exit_code }}
         run: exit "$EXIT_CODE"
