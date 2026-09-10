@@ -1,3 +1,30 @@
+# Learning Atlas v0.19.0 发布说明
+
+发布日期：2026-09-10。
+
+本版完成 T3「中关联理论 B」里程碑：以 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 为依据，新增 13 篇经维护者逐篇复核的中文理论全文，覆盖 53 条已批准理论关联；实践阅读器范围保持为 Phase 0–15 的 355 节课程。
+
+## 本版交付
+
+- 新增 13 篇 `theory-translation`，涵盖范数与度量、多元微积分、梯度与分布式深度学习、语言学基础、数字信号处理、自动语音识别、文本转语音与声音、说话人与音频分析、视觉语言模型、图像与视频 token 化、并发与并行、量化；全部正文保留源文件的标题层级、公式、代码、图片、表格、链接和教学顺序，逐篇审核记录见 [`docs/t3-theory-review.md`](t3-theory-review.md)。
+- 中文理论全文从 25 / 104 增至 38 / 104，进入应用内中文阅读的理论卡关联从 230 / 311 增至 283 / 311；其中当前已开放课程的 248 张理论卡继续满足 rich-content 契约，尚未接入 Phase 16–19 的关联仍保持 staged。
+- 增加 T3 13 个理论 ID 的目录、全文 API、审核 revision、来源路径和官方 `main` 链接回归测试；stale 或 draft 内容仍安全回退到英文原文。
+- 同步 `README.md`、内容清单、项目进度和应用 SemVer 至 v0.19.0；理论正文的英文入口继续指向官方最新 `main`，不因本地中文全文而复制或冻结上游链接。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1411 条来源指纹）
+- `python3 scripts/check_theory_cards.py`（248 张已发布理论卡）
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`（16 个已发布 Phase，0 个缺译）
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+完整快照、来源路径、结构统计、理论卡计数和剩余 staged 范围见[内容清单](content-manifest.md)、[项目进度](project-progress.md)和 [T3 审核表](t3-theory-review.md)。
+
+---
+
 # Learning Atlas v0.18.0 发布说明
 
 发布日期：2026-09-10。

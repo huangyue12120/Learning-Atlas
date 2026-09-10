@@ -48,6 +48,22 @@ const t2TheoryIds = [
   "theory/chapter-05-probability/04-bayesian"
 ] as const;
 
+const t3TheoryIds = [
+  "theory/chapter-01-vectors/03-norms-and-metrics",
+  "theory/chapter-03-calculus/03-multivariate-calculus",
+  "theory/chapter-06-machine-learning/02-gradient-machine-learning",
+  "theory/chapter-06-machine-learning/05-distributed-deep-learning",
+  "theory/chapter-07-computational-linguistics/01-linguistic-foundations",
+  "theory/chapter-09-audio-and-speech/01-digital-signal-processing",
+  "theory/chapter-09-audio-and-speech/02-automatic-speech-recognition",
+  "theory/chapter-09-audio-and-speech/03-text-to-speech-and-voice",
+  "theory/chapter-09-audio-and-speech/04-speaker-and-audio-analysis",
+  "theory/chapter-10-multimodal-learning/02-vision-language-models",
+  "theory/chapter-10-multimodal-learning/03-image-and-video-tokenisation",
+  "theory/chapter-13-computing-and-os/04-concurrency-and-parallelism",
+  "theory/chapter-17-ai-inference/01-quantisation"
+] as const;
+
 const officialTheoryMainUrl = /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//;
 
 afterEach(() => {
@@ -448,7 +464,7 @@ test("serves the complete curriculum with safe staged phases and a dynamic targe
   assert.equal(curriculum.practice.length, 20);
   assert.equal(curriculum.theory.length, 20);
   assert.equal(curriculum.summary.publishedPracticePhaseCount, 16);
-  assert.equal(curriculum.summary.reviewedTheoryNoteCount, 25);
+  assert.equal(curriculum.summary.reviewedTheoryNoteCount, 38);
   assert.equal(curriculum.target.kind, "start");
   assert.equal(curriculum.target.lessonId, "practice/00-setup-and-tooling/01-dev-environment");
   const publishedAgentPhase = curriculum.practice[14];
@@ -540,6 +556,47 @@ test("publishes every T2 theory translation with official main source links", as
 
   assert.equal(t2Notes.length, 13);
   for (const note of t2Notes) {
+    assert.equal(note.readKind, "internal");
+    assert.equal(note.readLanguage, "zh");
+    assert.match(note.readUrl, /^\/theory\?theoryId=/);
+    assert.match(note.sourceUrl, officialTheoryMainUrl);
+    assert.match(note.latestSourceUrl, officialTheoryMainUrl);
+    assert.equal(note.sourceUrl, note.latestSourceUrl);
+
+    const response = await fetch(`${baseUrl}/api/theory/content?theoryId=${encodeURIComponent(note.theoryId)}`);
+    assert.equal(response.status, 200);
+    const content = await response.json();
+    assert.equal(content.theoryId, note.theoryId);
+    assert.equal(content.source.path, note.sourcePath);
+    assert.equal(content.source.branch, "main");
+    assert.equal(content.source.revision, "main");
+    assert.equal(content.source.reviewedRevision, "9850ee574a370bc1cde59de98b394e953775b67d");
+    assert.equal(content.sourceUrl, note.sourceUrl);
+    assert.equal(content.latestSourceUrl, note.latestSourceUrl);
+    assert.match(content.markdown.trimStart(), /^#\s+.+/);
+  }
+});
+
+test("publishes every T3 theory translation with official main source links", async () => {
+  const baseUrl = await startTestServer();
+  const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
+  const notes = curriculum.theory.flatMap((chapter: { notes: Array<{
+    theoryId: string;
+    sourcePath: string;
+    sourceUrl: string;
+    latestSourceUrl: string;
+    readKind: string;
+    readLanguage: string;
+    readUrl: string;
+  }> }) => chapter.notes);
+  const t3Notes = t3TheoryIds.map((theoryId) => {
+    const note = notes.find((item) => item.theoryId === theoryId);
+    assert.ok(note, `missing T3 theory note ${theoryId}`);
+    return note;
+  });
+
+  assert.equal(t3Notes.length, 13);
+  for (const note of t3Notes) {
     assert.equal(note.readKind, "internal");
     assert.equal(note.readLanguage, "zh");
     assert.match(note.readUrl, /^\/theory\?theoryId=/);
