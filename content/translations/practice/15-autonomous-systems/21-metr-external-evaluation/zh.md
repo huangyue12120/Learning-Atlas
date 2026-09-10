@@ -35,7 +35,7 @@ METR 是 2024–2026 年间定义了许多此类数值的外部评估组织。�
 - 合作实验室：Anthropic、OpenAI（2025–2026 年有多次合作）。
 - 代表交付物：Time Horizon 1.0（2025 年 3 月）、Time Horizon 1.1（2026 年 1 月）、监控评估原型。
 
-### 时间跨度拟合
+### 时间跨度拟合 <!-- learning-atlas: the-time-horizon-fit -->
 
 方法（来自 METR 博客和论文）：
 

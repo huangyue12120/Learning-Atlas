@@ -11,6 +11,14 @@ practice:
 card:
   title: CodeAct 的组合能力与沙箱爆炸半径
   summary: 在比较 CodeAct 单动作可运行整段 Python 与逐项 JSON 工具调用时，用命名空间、cgroup、最小权限和系统调用限制理解为何前者需要更强隔离，以及如何约束其单动作爆炸半径。
+  context: "本课比较 CodeAct 一次执行整段代码与 JSON 原子工具调用；需要用 OS 进程和隔离机制估算组合动作的爆炸半径。"
+  intuition: "JSON 工具把能力切成受控接口，CodeAct 把多步组合交给一个进程；组合自由度越大，单次错误能触及的资源越多。"
+  key_points:
+    - "进程通过系统调用访问文件、网络和子进程，工具边界不能替代操作系统隔离。"
+    - "命名空间、cgroup 与 seccomp 分别收紧可见对象、资源上限和调用面。"
+    - "最小权限和短生命周期沙箱把一次 CodeAct 动作的影响限制在任务所需范围。"
+  application: "用同一任务比较两种脚手架的轮次和可触及文件数，并为 CodeAct 进程配置独立用户、目录与资源配额。"
+  check_question: "为什么 CodeAct 的单动作爆炸半径通常比单个 JSON 工具调用更大？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 13 - computing and OS/03. operating systems.md

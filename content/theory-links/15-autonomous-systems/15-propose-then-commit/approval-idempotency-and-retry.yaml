@@ -11,6 +11,14 @@ practice:
 card:
   title: 幂等键与批准动作的安全重试
   summary: 在把一次批准绑定到唯一副作用、并处理网络闪断后的重试时，用韧性模式中的幂等操作概念区分“重复请求”与“重复转账”，从而为提议记录设计不会双执行的幂等键。
+  context: "本课在批准后提交真实动作并处理网络重试；需要用幂等操作保证同一批准不会产生两次副作用。"
+  intuition: "幂等键把一次意图绑定到唯一结果；请求可以重试多次，但相同键只能让副作用成功一次。"
+  key_points:
+    - "幂等操作重复执行后的最终状态与执行一次相同，适合在不确定响应时安全重试。"
+    - "POST 等创建或扣款动作默认可能非幂等，必须由服务端保存键与结果。"
+    - "把时间戳放进键会让每次重试看起来像新意图，从而失去去重保护。"
+  application: "以 `(thread_id, action_signature)` 生成稳定键，将批准记录和执行结果持久化，并在重试时返回原结果。"
+  check_question: "网络超时后重试一次已批准转账时，稳定幂等键如何阻止重复扣款？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/01. systems design fundamentals.md

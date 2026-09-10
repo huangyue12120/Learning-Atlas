@@ -11,6 +11,14 @@ practice:
 card:
   title: 安全分类器的阈值、漏报与误报
   summary: 在为输入/输出 guard 设定阻断、路由或人工复核动作时，用分类问题的阈值、混淆矩阵、精确率和召回率评估命中率下降究竟是漏报、误报还是类别边界不清，并据此校准每类风险的处理。
+  context: "本课用 Llama Guard 与 NeMo Guardrails 处理输入和输出；需要用混淆矩阵解释阈值选择的安全代价。"
+  intuition: "分类器把连续或复杂文本压成风险标签；阈值移动会在漏报和误报之间交换，不能只看总体准确率。"
+  key_points:
+    - "召回率衡量实际危险样本被捕获的比例，漏报会让不安全请求继续执行。"
+    - "精确率衡量被拦截样本中真正危险的比例，误报会增加正常请求的摩擦。"
+    - "类别不平衡时准确率可能掩盖少数高风险类别的失败，应按类别检查混淆矩阵。"
+  application: "分别测量原文、emoji/同形字和释义攻击的 TP、FP、FN，按风险类别设定阻断、路由或人工复核阈值。"
+  check_question: "在高后果风险场景中，提高分类器召回率通常会带来哪一种代价？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/02. gradient machine learning.md

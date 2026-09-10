@@ -11,6 +11,14 @@ practice:
 card:
   title: 执行生成代码的沙箱边界
   summary: 在为 AI Scientist v2 运行 LLM 生成的实验代码配置 Docker、seccomp 或 gVisor 时，用操作系统中的最小权限、命名空间、cgroup 与系统调用限制，分别界定文件、网络、进程和资源边界。
+  context: "本课执行 LLM 生成的实验代码并讨论沙箱逃逸；需要把操作系统的权限和资源隔离映射为可检查的边界。"
+  intuition: "沙箱不是一个开关，而是让进程只能看到、调用和消耗被授权的资源；任何一层失效都可能扩大爆炸半径。"
+  key_points:
+    - "命名空间隔离进程、网络和挂载视图，限制代码能看见的系统对象。"
+    - "cgroup 限制 CPU、内存和 I/O，避免失控实验耗尽宿主资源。"
+    - "seccomp 等机制限制系统调用，最小权限与非 root 身份减少逃逸后的影响。"
+  application: "为生成代码列出文件、网络、进程和资源四类权限，分别用容器命名空间、cgroup 和系统调用策略收紧。"
+  check_question: "即使容器限制了文件系统，为什么仍需要 cgroup 和系统调用限制？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 13 - computing and OS/03. operating systems.md

@@ -57,7 +57,7 @@ status: reviewed
 
 操作员调整发生在声明的边界内。操作员不能通过重新命名硬编码禁止项来移除它。
 
-### 2022 年 CAI 训练
+### 2022 年 CAI 训练 <!-- learning-atlas: the-2022-cai-training -->
 
 原始的宪法 AI（Bai 等，2022）训练无害性：
 

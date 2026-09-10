@@ -11,6 +11,14 @@ practice:
 card:
   title: 用成功概率拟合时间跨度
   summary: 对每项任务记录成功或失败后，将结果视为 Bernoulli 试验；以任务时长为条件的成功概率曲线说明了为何 50% 交点可以成为可比较的时间跨度指标。
+  context: "本课把外部评估的每个任务记录为成功或失败；需要用 Bernoulli 试验和条件概率理解 50% 时间跨度交点。"
+  intuition: "每个任务是一次带 0/1 结果的试验，任务时长改变成功概率；把这些点拟合成曲线后，50% 交点成为可比较的能力标尺。"
+  key_points:
+    - "Bernoulli 变量只有成功和失败两类，成功概率 p 决定其期望值。"
+    - "时间跨度曲线估计 P(success | expert_time)，不是把一次成功当作所有任务都可靠。"
+    - "改变任务分布、评估上下文或样本量会改变拟合曲线，50% 交点应带着方法说明阅读。"
+  application: "用模拟任务结果拟合 logistic 曲线，报告 10%、50% 和 90% 交点，并标注评估上界与不确定性。"
+  check_question: "为什么把成功/失败编码为 Bernoulli 结果后，仍需按任务时长拟合条件成功概率？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 05 - probability/03. distributions.md

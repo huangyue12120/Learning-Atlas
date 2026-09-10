@@ -11,6 +11,14 @@ practice:
 card:
   title: 结果奖励、策略优化与捷径
   summary: 在比较“答案正确即保留”的 STaR、验证器选择与过程监督时，用强化学习中策略由奖励信号优化的框架区分结果信号与可靠的中间过程证据，并识别代理目标可能保留的捷径。
+  context: "本课比较 STaR、V-STaR 与 Quiet-STaR 如何保留高分推理；需要把答案过滤看成由奖励驱动的策略更新。"
+  intuition: "策略把状态映射到行动或推理，奖励只告诉它结果好坏；若奖励只看最终答案，策略会学会最便宜的得分捷径。"
+  key_points:
+    - "策略 π(a|s) 给出状态下各行动的概率，训练目标是最大化期望累计回报。"
+    - "结果奖励只约束终点，过程监督才会为中间推理提供额外信号。"
+    - "Q 值或优势衡量行动对回报的贡献，不能自动证明推理过程真实可靠。"
+  application: "对比训练集与 OOD 任务的准确率，记录被保留的 shortcut rationale，并设计能惩罚捷径的过程或外部评估。"
+  check_question: "如果只保留最终答案正确的推理轨迹，为什么策略可能在分布外任务上失效？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/04. reinforcement learning.md

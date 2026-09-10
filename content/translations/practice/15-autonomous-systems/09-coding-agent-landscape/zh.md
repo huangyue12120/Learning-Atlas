@@ -41,7 +41,7 @@ SWE-bench（Jimenez 等）从带有真实补丁的 GitHub issue 出发，要求�
 
 曲线的斜率来自三个复合来源：更好的基座模型、更好的脚手架（CodeAct、反思、验证器循环）与更好的基准（Verified 去除噪声）。
 
-### CodeAct 与 JSON 工具调用
+### CodeAct 与 JSON 工具调用 <!-- learning-atlas: codeact-vs-json-tool-calls -->
 
 OpenHands（All-Hands-AI，arXiv:2407.16741，原 OpenDevin）押注了一种具体架构：模型不再发出由宿主解码执行的 JSON 工具调用，而是发出 Python 代码，由 Jupyter 风格内核在沙箱中运行。智能体可以在一个动作中遍历文件、串联工具，并捕获自身异常。
 

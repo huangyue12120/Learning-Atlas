@@ -10,7 +10,7 @@ submodules also carry their complete license files at the paths below.
 ### `ai-engineering-from-scratch`
 
 - Repository: <https://github.com/rohitg00/ai-engineering-from-scratch>
-- Published snapshot: `a56b4b8ad43a3767c771953d217036813f697bc7`
+- Published snapshot: `d18b8fe5a913c46011a3b06cb6ebd6a924414fd3`
 - License: MIT, as stated in `ai-engineering-from-scratch/LICENSE`
 - Copyright notice in the snapshot: Rohit Ghumare
 - Scope in this repository: source lessons and the Chinese adaptations that

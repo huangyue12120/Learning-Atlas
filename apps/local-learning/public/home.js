@@ -48,7 +48,7 @@ function theoryDirectory(chapters) {
 
 function courseMarquee(phases, chapters) {
   const fields = [
-    ...phases.slice(0, 15).map((phase) => phase.title),
+    ...phases.slice(0, 16).map((phase) => phase.title),
     ...chapters.map((chapter) => chapter.title)
   ];
   const content = fields.map((field) => `<span>${escapeHtml(field)}</span>`).join("");
@@ -173,7 +173,7 @@ function render() {
         <section id="practice-course" class="practice-map-section" aria-labelledby="practice-title">
           <div class="practice-map-heading">
             <h2 id="practice-title">20 个 Phase，一条实践主线</h2>
-            <p>Phase 0-14 可进入学习。Phase 15-19 已审核，等待接入阅读器。</p>
+            <p>Phase 0-15 可进入学习。Phase 16-19 已审核，等待接入阅读器。</p>
           </div>
           <div class="phase-carousel" aria-roledescription="carousel" aria-label="实践课程 Phase">
             <div class="phase-carousel-controls"><button type="button" data-phase-prev aria-label="查看上一组 Phase">上一组</button><p id="phase-carousel-status" role="status" aria-live="polite">当前显示 Phase 00</p><button type="button" data-phase-next aria-label="查看下一组 Phase">下一组</button></div>

@@ -1,3 +1,34 @@
+# Learning Atlas v0.18.0 发布说明
+
+发布日期：2026-09-10。
+
+本版完成 P15「自主系统」里程碑：以 `ai-engineering-from-scratch` 快照 `39ea8a1c6d0b61f071226eff7ede4d4105fed820` 和 `maths-cs-ai-compendium` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 为依据，将 22 节经审核中文实践课程接入本地阅读器，补齐 22 套 Python 工作区练习指南，并把 13 条已批准理论关联迁移为完整 rich theory card。由于上游没有 `quiz.json`，本版不凭空创建测验。
+
+## 本版交付
+
+- 开放 Phase 15「自主系统」的 22 节课程；阅读器累计开放 Phase 0–15 的 355 节课程，Phase 16–19 的 168 节内容继续保持 staged。
+- 为 22 节 Python 课程建立工作区练习指南；工作区仍只复制缺失文件，不覆盖学习者已有修改。
+- 为 13 条 P15 理论关联补齐中文课程标题锚点、上下文、核心直觉、关键点、应用和自检问题；当前开放课程的 248 张理论卡全部满足 rich-content 契约。
+- 更新课程服务、首页开放状态、动态继续目标、覆盖率和理论卡检查；P15 22 节课程均可加载，资源标记为 workspace，测验 API 对所有课程安全返回 `unavailable`。
+- 同步文档与应用 SemVer 至 v0.18.0；剩余待接入范围为 Phase 16–19 的 168 节课程、166 套 Python 工作区和 63 条理论关联。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1398 条来源指纹）
+- `python3 scripts/check_theory_cards.py`（248 张已发布理论卡）
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`（16 个已发布 Phase，0 个缺译）
+- `cd apps/local-learning && npm run check && npm test`
+- 逐个运行 P15 的 22 个 `code/main.py`
+- `git diff --check`
+
+使用临时 Chrome 在 1440×1200 与 375×900 视口完成首页和 P15 首课的桌面/窄屏视觉验收；理论卡可展开，页面无错误状态和横向滚动。服务端与浏览器脚本语法检查也已通过。
+
+完整快照、内容计数与剩余 staged 范围见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
+
+---
+
 # Learning Atlas v0.17.2 发布说明
 
 发布日期：2026-09-09。

@@ -128,7 +128,7 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.match(content.markdown, /线性代数直觉/);
   assert.equal(content.theoryCards.length, 3);
   const course = await fetch(`${baseUrl}/api/course`).then((response) => response.json());
-  assert.equal(course.length, 15);
+  assert.equal(course.length, 16);
   const setup = course.find((phase: { slug: string }) => phase.slug === "00-setup-and-tooling");
   const foundations = course.find((phase: { slug: string }) => phase.slug === "01-math-foundations");
   const mlFundamentals = course.find((phase: { slug: string }) => phase.slug === "02-ml-fundamentals");
@@ -144,6 +144,7 @@ test("loads published lesson content and resources by lessonId", async () => {
   const multimodalAI = course.find((phase: { slug: string }) => phase.slug === "12-multimodal-ai");
   const toolsAndProtocols = course.find((phase: { slug: string }) => phase.slug === "13-tools-and-protocols");
   const agentEngineering = course.find((phase: { slug: string }) => phase.slug === "14-agent-engineering");
+  const autonomousSystems = course.find((phase: { slug: string }) => phase.slug === "15-autonomous-systems");
   assert.ok(setup);
   assert.ok(foundations);
   assert.ok(mlFundamentals);
@@ -159,6 +160,7 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.ok(multimodalAI);
   assert.ok(toolsAndProtocols);
   assert.ok(agentEngineering);
+  assert.ok(autonomousSystems);
   assert.equal(setup.lessons.length, 12);
   assert.equal(setup.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(foundations.lessons.length, 22);
@@ -188,6 +190,8 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(toolsAndProtocols.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(agentEngineering.lessons.length, 54);
   assert.equal(agentEngineering.lessons.every((item: { available: boolean }) => item.available), true);
+  assert.equal(autonomousSystems.lessons.length, 22);
+  assert.equal(autonomousSystems.lessons.every((item: { available: boolean }) => item.available), true);
   assert.deepEqual(foundations.lessons[0], {
     id: firstLesson.id,
     position: "01 / 22",
@@ -221,6 +225,29 @@ test("loads published lesson content and resources by lessonId", async () => {
   const p14Quiz = await fetch(`${baseUrl}/api/quiz?lessonId=${encodeURIComponent(p14LessonId)}`).then((response) => response.json());
   assert.equal(p14Quiz.status, "reviewed");
   assert.equal(p14Quiz.questions.length, 6);
+
+  const p15Lessons = await Promise.all(autonomousSystems.lessons.map(async (item: { id: string }) => {
+    const encoded = encodeURIComponent(item.id);
+    const [itemLesson, itemContent, itemQuiz] = await Promise.all([
+      fetch(`${baseUrl}/api/lesson?lessonId=${encoded}`).then((response) => response.json()),
+      fetch(`${baseUrl}/api/lesson/content?lessonId=${encoded}`).then((response) => response.json()),
+      fetch(`${baseUrl}/api/quiz?lessonId=${encoded}`).then((response) => response.json())
+    ]);
+    return { itemLesson, itemContent, itemQuiz };
+  }));
+  assert.equal(p15Lessons.every(({ itemLesson, itemContent, itemQuiz }) =>
+    itemLesson.resources.workspace === true && itemContent.translationStatus === "reviewed" &&
+    itemQuiz.status === "unavailable" && itemQuiz.questions.length === 0), true);
+  assert.equal(p15Lessons.reduce((total, { itemContent }) => total + itemContent.theoryCards.length, 0), 13);
+  assert.equal(p15Lessons.filter(({ itemContent }) => itemContent.theoryCards.length > 0).length, 13);
+  assert.equal(p15Lessons.every(({ itemContent }) => itemContent.theoryCards.every((card: Record<string, unknown>) =>
+    typeof card.context === "string" && typeof card.intuition === "string" && Array.isArray(card.keyPoints) &&
+    typeof card.application === "string" && typeof card.checkQuestion === "string")), true);
+  const p15First = p15Lessons[0].itemLesson;
+  assert.equal(p15First.phase, "Phase 15 · 自主系统");
+  assert.equal(p15First.position, "01 / 22");
+  assert.equal(p15First.title, "从聊天机器人到长时程智能体的转变");
+  assert.equal(p15Lessons[0].itemContent.theoryCards[0].title, "长轨迹可靠性与概率连乘");
 
   const regressionLessonId = "practice/02-ml-fundamentals/02-linear-regression";
   const regressionContent = await fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(regressionLessonId)}`).then((response) => response.json());
@@ -335,14 +362,14 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(allSetupCourses[1].itemContent.theoryCards[0].title, "Git：让一次实验可以被准确追溯");
 });
 
-test("publishes all 235 visible theory cards with the complete rich-content contract", async () => {
+test("publishes all 248 visible theory cards with the complete rich-content contract", async () => {
   const baseUrl = await startTestServer();
   const course = await fetch(`${baseUrl}/api/course`).then((response) => response.json());
   const lessons = course.flatMap((phase: { lessons: Array<{ id: string }> }) => phase.lessons);
   const contents = await Promise.all(lessons.map(({ id }: { id: string }) =>
     fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(id)}`).then((response) => response.json())));
   const cards = contents.flatMap((content: { theoryCards: Array<Record<string, unknown>> }) => content.theoryCards);
-  assert.equal(cards.length, 235);
+  assert.equal(cards.length, 248);
   for (const card of cards) {
     assert.equal(typeof card.context, "string");
     assert.equal(typeof card.intuition, "string");
@@ -420,7 +447,7 @@ test("serves the complete curriculum with safe staged phases and a dynamic targe
   const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
   assert.equal(curriculum.practice.length, 20);
   assert.equal(curriculum.theory.length, 20);
-  assert.equal(curriculum.summary.publishedPracticePhaseCount, 15);
+  assert.equal(curriculum.summary.publishedPracticePhaseCount, 16);
   assert.equal(curriculum.summary.reviewedTheoryNoteCount, 25);
   assert.equal(curriculum.target.kind, "start");
   assert.equal(curriculum.target.lessonId, "practice/00-setup-and-tooling/01-dev-environment");
@@ -429,11 +456,18 @@ test("serves the complete curriculum with safe staged phases and a dynamic targe
   assert.equal(publishedAgentPhase.lessonCount, 54);
   assert.equal(publishedAgentPhase.availableLessonCount, 54);
   assert.equal(publishedAgentPhase.firstLessonId, "practice/14-agent-engineering/01-the-agent-loop");
-  assert.equal(curriculum.practice.slice(15).every((phase: { status: string; firstLessonId: string | null }) =>
+  const publishedAutonomousPhase = curriculum.practice[15];
+  assert.equal(publishedAutonomousPhase.status, "available");
+  assert.equal(publishedAutonomousPhase.lessonCount, 22);
+  assert.equal(publishedAutonomousPhase.availableLessonCount, 22);
+  assert.equal(publishedAutonomousPhase.firstLessonId, "practice/15-autonomous-systems/01-long-horizon-agents");
+  assert.equal(curriculum.practice.slice(16).every((phase: { status: string; firstLessonId: string | null }) =>
     phase.status === "staged" && phase.firstLessonId === null), true);
 
   const publishedLesson = await fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent("practice/14-agent-engineering/01-the-agent-loop")}`);
   assert.equal(publishedLesson.status, 200);
+  const publishedAutonomousLesson = await fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent("practice/15-autonomous-systems/01-long-horizon-agents")}`);
+  assert.equal(publishedAutonomousLesson.status, 200);
 
   await fetch(`${baseUrl}/api/reading-position?lessonId=${encodeURIComponent(curriculum.target.lessonId)}`, {
     method: "PUT",
@@ -947,4 +981,9 @@ test("creates a learner-owned workspace without changing the template", () => {
   assert.match(readFileSync(p14Workspace.sourceFile, "utf8"), /task|assumption/i);
   assert.ok(p14Workspace.exercisesGuide);
   assert.match(readFileSync(p14Workspace.exercisesGuide, "utf8"), /python3 code\/main\.py/);
+
+  const p15Workspace = prepareWorkspace(directory, "practice/15-autonomous-systems/01-long-horizon-agents");
+  assert.match(readFileSync(p15Workspace.sourceFile, "utf8"), /METR-style time-horizon simulator/);
+  assert.ok(p15Workspace.exercisesGuide);
+  assert.match(readFileSync(p15Workspace.exercisesGuide, "utf8"), /python3 code\/main\.py/);
 });

@@ -11,6 +11,14 @@ practice:
 card:
   title: RLAIF 的奖励信号与策略更新
   summary: 在从宪法批评生成修订回答、再以 RLAIF 训练模型时，用强化学习中的策略、奖励与累积回报概念区分“宪法给出评价信号”与“模型在该信号下更新行为”的两个步骤。
+  context: "本课展示宪法批评、修订回答和 RLAIF 训练的两步流程；需要区分评价信号与策略更新。"
+  intuition: "宪法像一套给回答打分的规则，RLAIF 再把这些偏好转成奖励并更新策略；规则本身不会自动改变模型参数。"
+  key_points:
+    - "策略 π 产生回答，奖励函数把符合宪法的行为映射为更高回报。"
+    - "RLAIF 用 AI 反馈替代部分人工偏好标注，但仍受奖励定义与评估偏差影响。"
+    - "累积回报会让模型偏向可测的规则信号，不能保证覆盖未写入宪法的情境。"
+  application: "把批评/修订样本视为奖励数据，说明哪些回答获得高分，再观察策略更新是否保留帮助性与安全性的平衡。"
+  check_question: "在 RLAIF 中，宪法批评文本和策略参数更新分别对应奖励流程的哪两个阶段？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/04. reinforcement learning.md

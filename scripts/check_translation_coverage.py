@@ -38,6 +38,7 @@ PUBLISHED_PHASES = {
     "phases/12-multimodal-ai",
     "phases/13-tools-and-protocols",
     "phases/14-agent-engineering",
+    "phases/15-autonomous-systems",
 }
 
 

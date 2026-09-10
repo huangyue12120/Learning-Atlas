@@ -11,6 +11,14 @@ practice:
 card:
   title: 最小权限与权限模式阶梯
   summary: 在为智能体选择 `plan`、`acceptEdits`、`auto` 或临时容器中的 `bypassPermissions` 时，用操作系统的文件权限、身份与最小权限原则，让每项任务只获得完成当前操作所需的最小能力面。
+  context: "本课在六种权限模式之间选择自治程度；需要用操作系统的身份、权限与隔离概念解释每一级能力面。"
+  intuition: "权限模式是能力集合的阶梯，不是信任分数；模式越自动，进程可直接施加的副作用越多。"
+  key_points:
+    - "文件权限由用户、组和读写执行位控制，进程身份决定默认可访问范围。"
+    - "特权分离让服务只拥有完成任务所需的能力，避免以 root 运行扩大后果。"
+    - "容器、seccomp 和强制访问控制可在应用审批之外再加一层沙箱。"
+  application: "按任务的文件、网络、凭据和 shell 需求选择最小模式，只有在隔离环境中才考虑无人值守的高权限模式。"
+  check_question: "如果任务只需修改工作区文件，为什么不应直接使用可访问宿主机一切资源的 root 权限？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 13 - computing and OS/03. operating systems.md
