@@ -11,6 +11,14 @@ practice:
 card:
   title: 从 PPO 与 actor–critic 到 MAPPO
   summary: MAPPO 将 PPO 的策略更新与集中式价值函数结合。先复习策略、价值函数、actor–critic 和 PPO 的裁剪目标，便能理解为什么训练时的全局价值估计可以降低多智能体策略更新的方差，而部署时仍只运行局部策略。
+  context: "本课比较 MADDPG、QMIX 和 MAPPO；要理解 MAPPO 为何成为合作式 MARL 默认基线，先把 actor、critic、优势估计和 PPO 更新放回同一张图。"
+  intuition: "actor 决定行动，critic 估计行动好坏；MAPPO 训练时让 critic 看全局状态来提供稳定基准，部署时仍由每个 actor 根据局部观察独立行动。"
+  key_points:
+    - "CTDE 允许训练使用联合状态或动作信息，但执行策略必须满足各智能体的局部观测约束。"
+    - "PPO 的裁剪目标限制单次策略比率更新，降低高方差回报造成的破坏性步长。"
+    - "集中式 critic 不等于集中式控制；它只在训练阶段提供价值或优势信号。"
+  application: "在小型网格世界中比较独立策略、MADDPG 风格、QMIX 风格和 MAPPO 风格运行，观察集中式信息只改变训练信号而不改变部署接口。"
+  check_question: "MAPPO 的集中式 critic 为什么不会违反部署时的去中心化执行约束？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/04. reinforcement learning.md

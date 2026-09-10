@@ -1,3 +1,31 @@
+# Learning Atlas v0.20.0 发布说明
+
+发布日期：2026-09-10。
+
+本版完成 P16「多智能体与群体」里程碑：以 `ai-engineering-from-scratch` 快照 `39ea8a1c6d0b61f071226eff7ede4d4105fed820` 的 25 节课程为依据，将经审核中文实践接入阅读器，补齐两份上游测验的中文改编、23 套 Python 工作区练习指南和 9 条已批准理论关联。`01-why-multi-agent` 与 `03-communication-protocols` 保留 TypeScript 上游实现，不创建平行 Python 路径。
+
+## 本版交付
+
+- 开放 Phase 16「多智能体与群体智能」的 25 节课程；阅读器累计开放 Phase 0–16 的 380 节课程，Phase 17–19 的 143 节内容继续保持 staged。
+- 新增 2 份经审核中文测验（各 5 题），并按上游 SHA-256 提供 stale 保护；没有 `quiz.json` 的 23 节课程仍安全返回 `unavailable`。
+- 为 23 节 Python 课程建立工作区练习指南；01、03 课明确标记为 TypeScript-only，并由课程正文保留上游实现链接。
+- 为 9 条理论关联补齐中文课程锚点、上下文、核心直觉、关键点、应用和自检问题；当前开放理论卡从 248 张增至 257 张，重复理论来源仍按目标去重。
+- 更新课程服务、首页开放状态、动态继续目标、理论卡发布门禁和 API 回归测试；Phase 16 的 25 节译文、2 份测验、23 个工作区资源和 9 张理论卡均通过指纹与内容检查。
+- 同步 `README.md`、内容清单、项目进度和应用 SemVer 至 v0.20.0；理论正文数量保持 38 / 104，覆盖 283 / 311 条理论卡关联。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1413 条来源指纹）
+- `python3 scripts/check_theory_cards.py`（257 张已发布理论卡）
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`（17 个已发布 Phase，0 个缺译）
+- `cd apps/local-learning && npm run check && npm test`
+- 逐个运行 P16 的 23 个 `code/main.py`
+- `git diff --check`
+
+完整快照、来源路径、结构统计、理论卡计数和剩余 staged 范围见[内容清单](content-manifest.md)、[项目进度](project-progress.md)。
+
 # Learning Atlas v0.19.0 发布说明
 
 发布日期：2026-09-10。

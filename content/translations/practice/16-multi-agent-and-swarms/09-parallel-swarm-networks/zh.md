@@ -26,7 +26,7 @@ status: reviewed
 
 ## 概念
 
-### 形状
+### 形状 <!-- learning-atlas: the-shape -->
 
 ```
                 ┌──── 共享队列 ────┐

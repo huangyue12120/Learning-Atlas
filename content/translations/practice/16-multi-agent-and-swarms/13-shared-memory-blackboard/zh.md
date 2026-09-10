@@ -91,7 +91,7 @@ status: reviewed
 
 按智能体投影扩展得更远，但需要模式。没有模式，你会在每个智能体的提示词中重建临时投影。
 
-### 写入竞争模式
+### 写入竞争模式 <!-- learning-atlas: write-contention-patterns -->
 
 多个智能体同时写入属于并发问题，LLM 只是其中一个参与者。三种模式有效：
 

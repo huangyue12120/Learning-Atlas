@@ -11,6 +11,14 @@ practice:
 card:
   title: 用嵌入相似度检索智能体记忆
   summary: 为记忆流按相关性选取 top-k 条目时，用嵌入空间与余弦相似度理解为何自然语言记忆可按语义接近度排序，再与新近度和重要性共同决定当前上下文。
+  context: "本课的生成式智能体要从记忆流中挑选下一步行动所需的少量上下文；只按时间顺序读取会遗漏语义上相关但较早的事件。"
+  intuition: "嵌入把文本映射到向量空间，语义相近的记忆方向更接近；余弦相似度因此能把相关事件召回，再与新近度和重要性合并排序。"
+  key_points:
+    - "余弦相似度比较向量方向而非绝对长度，适合衡量文本语义接近度。"
+    - "top-k 检索是近似选择；k 太小会遗漏证据，k 太大则挤占当前上下文窗口。"
+    - "相关性、新近度和重要性是不同信号，不能把嵌入相似度当成唯一的记忆价值。"
+  application: "运行记忆流检索实验，改变查询、k 值和三种评分权重，记录召回条目如何改变智能体的计划与行动。"
+  check_question: "为什么生成式智能体不能只按最近时间排序记忆，而还需要嵌入相似度？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/03. embeddings and sequence models.md

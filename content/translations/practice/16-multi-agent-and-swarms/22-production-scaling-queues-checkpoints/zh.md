@@ -38,7 +38,7 @@ status: reviewed
 
 ## 概念
 
-### 持久化执行：模式
+### 持久化执行：模式 <!-- learning-atlas: durable-execution-the-pattern -->
 
 持久化执行引擎会在每个“步骤”（LangGraph 称为超级步骤）后持久化完整程序状态。崩溃时：
 
@@ -102,7 +102,7 @@ Ashpreet Bedi 的“Scaling Agentic Software”（2026）认为，大多数团�
 
 规则是：当你遇到简单架构无法解决的具体问题时，才采用持久化执行框架。过早采用会把时间花在无法产生回报的仪式上。
 
-### 恰好一次语义
+### 恰好一次语义 <!-- learning-atlas: exactly-once-semantics -->
 
 对于付费智能体运行，你需要“有效恰好一次”（至少一次投递 + 幂等消费者）。工程手段包括：
 

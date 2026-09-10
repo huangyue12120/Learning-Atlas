@@ -11,6 +11,14 @@ practice:
 card:
   title: 用幂等操作实现有效恰好一次
   summary: 为付费智能体运行设计去重键、outbox 和至少一次投递时，韧性模式中的幂等操作可区分“可安全重试的请求”与“不可重复的副作用”，从而让消费者达到有效恰好一次。
+  context: "本课要求在崩溃和重试下处理计费、通知等副作用；传输层通常只能提供至少一次，因此必须在业务边界设计幂等和去重。"
+  intuition: "把每次副作用绑定到稳定的幂等键，重复消息就变成一次查询而不是第二次扣款；outbox 则把状态提交与待发送事件放进同一事务。"
+  key_points:
+    - "至少一次投递可能重复，恰好一次的业务效果依赖消费者保存已处理键并安全重试。"
+    - "幂等操作重复执行结果不变；不可幂等的外部调用需要去重、补偿或人工对账。"
+    - "outbox 解决数据库状态与消息发布的双写间隙，但仍需处理投递重试和过期记录。"
+  application: "为检查点恢复流程加入 run_id 与 step_id 去重键，模拟重复消费和超时，验证计费记录最终只有一个有效结果。"
+  check_question: "在至少一次投递下，消费者如何利用幂等键实现有效恰好一次的业务结果？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/01. systems design fundamentals.md

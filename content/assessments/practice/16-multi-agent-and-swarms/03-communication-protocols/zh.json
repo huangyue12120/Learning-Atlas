@@ -1,0 +1,77 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/16-multi-agent-and-swarms/03-communication-protocols/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "2b22aa7d31b30d2f7f00c5910a60c4a56ae38a7e0d1c90485f6c5ed49c3c128e"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "MCP（模型上下文协议）为 AI 智能体解决了什么问题？",
+      "options": [
+        "加密智能体之间的通信",
+        "压缩大型上下文窗口以适配更小的模型",
+        "为发现和调用外部服务器提供的工具提供标准方式，无需把工具实现硬编码进智能体",
+        "提供训练数据的标准格式"
+      ],
+      "correct": 2,
+      "explanation": "MCP 标准化工具访问：服务器用 JSON 模式公开工具，兼容客户端可以发现并调用它们，从而将工具实现与智能体代码解耦。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "MCP 和 A2A 的区别是什么？",
+      "options": [
+        "MCP 面向 Python 智能体，A2A 面向 JavaScript 智能体",
+        "MCP 开源而 A2A 专有",
+        "MCP 连接智能体与工具，A2A 连接智能体与其他智能体以委派任务",
+        "MCP 是同步的，A2A 是异步的"
+      ],
+      "correct": 2,
+      "explanation": "MCP 解决工具访问层，A2A 解决智能体协作和任务委派层；两者针对不同的通信关系。"
+    },
+    {
+      "id": "q3",
+      "stage": "post",
+      "question": "在 A2A 中，什么是“智能体卡片”，它为什么重要？",
+      "options": [
+        "用于认证智能体身份的安全凭据",
+        "设置智能体系统提示词的配置文件",
+        "显示智能体性能指标的可视化面板",
+        "位于约定 URL 的 JSON 文档，描述智能体能力、技能和端点，让其他智能体可以发现并委派任务"
+      ],
+      "correct": 3,
+      "explanation": "智能体卡片通常位于 `/.well-known/agent.json`，列出技能、输入输出格式和任务端点，其他智能体据此判断是否以及如何委派。"
+    },
+    {
+      "id": "q4",
+      "stage": "post",
+      "question": "为什么多智能体系统需要结构化通信协议，而不能只在智能体间传递字符串？",
+      "options": [
+        "字符串解析对 LLM 来说计算开销太大",
+        "结构化协议提供类型安全、可发现性、错误处理和跨团队互操作性",
+        "字符串太大，无法通过 HTTP 发送",
+        "所有云服务商都强制要求结构化协议"
+      ],
+      "correct": 1,
+      "explanation": "没有共享契约，不同团队的智能体会误解输出，错误处理各自为政，也无法发现对方能力；结构化协议提供共同语言。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "ACP（智能体通信协议）在设计目标上如何区别于 A2A？",
+      "options": [
+        "ACP 使用 WebSocket，而 A2A 使用 HTTP",
+        "ACP 比 A2A 更适合实时应用，因此速度更快",
+        "ACP 只在单一组织内工作，而 A2A 可以跨组织",
+        "ACP 侧重完整消息历史和合规跟踪的企业可审计性，A2A 侧重轻量级任务委派"
+      ],
+      "correct": 3,
+      "explanation": "ACP 为受监管企业保留可审计、可追踪的交互记录；A2A 的重点是轻量地发现智能体并完成任务协作。"
+    }
+  ]
+}

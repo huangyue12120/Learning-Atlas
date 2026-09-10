@@ -78,7 +78,7 @@ arXiv:2509.16941。它跨 41 个仓库提供 1865 个问题，覆盖业务应用
 
 AAAI 2026 Bridge Program——多智能体协调工作坊（https://multiagents.org/2026/）。它是 2026 年多智能体 AI 研究的社区焦点。被接收的论文和工作坊论文集是评估新方法的规范性场所；做生产决策时，应优先参考 WMAC 接收的主张，而不是 arXiv 预印本。
 
-### 审慎阅读基准主张：2026 检查表
+### 审慎阅读基准主张：2026 检查表 <!-- learning-atlas: read-benchmark-claims-skeptically-the-2026-checklist -->
 
 当有人声称取得某项多智能体结果时：
 

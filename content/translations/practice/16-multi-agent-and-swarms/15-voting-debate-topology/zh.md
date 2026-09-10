@@ -43,7 +43,7 @@ Wang 等人 2022 年（“Self-Consistency Improves Chain of Thought Reasoning�
 
 异构辩论在 2026 年常被称为**A-HMAD**——对抗性异构多智能体辩论。该名称并未普遍采用，但论文用它表示“不同模型辩论，从而减少单一文化坍缩的相关错误”。
 
-### 四种拓扑
+### 四种拓扑 <!-- learning-atlas: the-four-topologies -->
 
 ```
 星形                链形               树形                图形
