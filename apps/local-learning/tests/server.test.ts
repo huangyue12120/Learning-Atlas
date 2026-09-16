@@ -64,6 +64,28 @@ const t3TheoryIds = [
   "theory/chapter-17-ai-inference/01-quantisation"
 ] as const;
 
+const t4TheoryIds = [
+  "theory/chapter-01-vectors/01-vector-spaces",
+  "theory/chapter-01-vectors/04-products",
+  "theory/chapter-02-matrices/01-matrix-properties",
+  "theory/chapter-02-matrices/04-linear-transformations",
+  "theory/chapter-03-calculus/01-differential-calculus",
+  "theory/chapter-04-statistics/02-measures",
+  "theory/chapter-04-statistics/04-hypothesis-testing",
+  "theory/chapter-05-probability/02-probability-concepts",
+  "theory/chapter-08-computer-vision/05-video-and-3d-vision",
+  "theory/chapter-09-audio-and-speech/05-source-separation-and-noise",
+  "theory/chapter-10-multimodal-learning/01-multimodal-representations",
+  "theory/chapter-10-multimodal-learning/05-unified-multimodal-architectures",
+  "theory/chapter-11-autonomous-systems/02-robot-learning",
+  "theory/chapter-11-autonomous-systems/03-vision-language-action-models",
+  "theory/chapter-15-production-software-engineering/01-linux-and-cmd",
+  "theory/chapter-15-production-software-engineering/02-git-and-repository-management",
+  "theory/chapter-16-simd-and-gpu-programming/04-gpu-architecture-and-cuda",
+  "theory/chapter-17-ai-inference/04-edge-inference",
+  "theory/chapter-18-ml-systems-design/02-cloud-computing"
+] as const;
+
 const officialTheoryMainUrl = /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//;
 
 afterEach(() => {
@@ -294,8 +316,8 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(p16Lessons.reduce((total, { itemContent }) => total + itemContent.theoryCards.length, 0), 9);
   const p16Cards = p16Lessons.flatMap(({ itemContent }) => itemContent.theoryCards);
   assert.equal(p16Cards.length, 9);
-  assert.equal(p16Cards.filter((card: { readKind: string }) => card.readKind === "internal").length, 8);
-  assert.equal(p16Cards.filter((card: { readKind: string }) => card.readKind === "external").length, 1);
+  assert.equal(p16Cards.filter((card: { readKind: string }) => card.readKind === "internal").length, 9);
+  assert.equal(p16Cards.filter((card: { readKind: string }) => card.readKind === "external").length, 0);
   assert.equal(p16Cards.every((card: Record<string, unknown>) =>
     typeof card.context === "string" && typeof card.intuition === "string" && Array.isArray(card.keyPoints) &&
     typeof card.application === "string" && typeof card.checkQuestion === "string"), true);
@@ -501,7 +523,7 @@ test("serves the complete curriculum with safe staged phases and a dynamic targe
   assert.equal(curriculum.practice.length, 20);
   assert.equal(curriculum.theory.length, 20);
   assert.equal(curriculum.summary.publishedPracticePhaseCount, 17);
-  assert.equal(curriculum.summary.reviewedTheoryNoteCount, 38);
+  assert.equal(curriculum.summary.reviewedTheoryNoteCount, 57);
   assert.equal(curriculum.target.kind, "start");
   assert.equal(curriculum.target.lessonId, "practice/00-setup-and-tooling/01-dev-environment");
   const publishedAgentPhase = curriculum.practice[14];
@@ -662,12 +684,55 @@ test("publishes every T3 theory translation with official main source links", as
   }
 });
 
+test("publishes every T4 theory translation with official main source links", async () => {
+  const baseUrl = await startTestServer();
+  const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
+  const notes = curriculum.theory.flatMap((chapter: { notes: Array<{
+    theoryId: string;
+    sourcePath: string;
+    sourceUrl: string;
+    latestSourceUrl: string;
+    readKind: string;
+    readLanguage: string;
+    readUrl: string;
+  }> }) => chapter.notes);
+  const t4Notes = t4TheoryIds.map((theoryId) => {
+    const note = notes.find((item) => item.theoryId === theoryId);
+    assert.ok(note, `missing T4 theory note ${theoryId}`);
+    return note;
+  });
+
+  assert.equal(t4Notes.length, 19);
+  for (const note of t4Notes) {
+    assert.equal(note.readKind, "internal");
+    assert.equal(note.readLanguage, "zh");
+    assert.match(note.readUrl, /^\/theory\?theoryId=/);
+    assert.match(note.sourceUrl, officialTheoryMainUrl);
+    assert.match(note.latestSourceUrl, officialTheoryMainUrl);
+    assert.equal(note.sourceUrl, note.latestSourceUrl);
+
+    const response = await fetch(`${baseUrl}/api/theory/content?theoryId=${encodeURIComponent(note.theoryId)}`);
+    assert.equal(response.status, 200);
+    const content = await response.json();
+    assert.equal(content.theoryId, note.theoryId);
+    assert.equal(content.source.path, note.sourcePath);
+    assert.equal(content.source.branch, "main");
+    assert.equal(content.source.revision, "main");
+    assert.equal(content.source.reviewedRevision, "9850ee574a370bc1cde59de98b394e953775b67d");
+    assert.equal(content.sourceUrl, note.sourceUrl);
+    assert.equal(content.latestSourceUrl, note.latestSourceUrl);
+    assert.match(content.markdown.trimStart(), /^#\s+.+/);
+  }
+});
+
 test("publishes the reviewed sampling theory reader and rejects unsafe resources", async () => {
   const baseUrl = await startTestServer();
   const theoryId = "theory/chapter-04-statistics/03-sampling";
   const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
   const sampling = curriculum.theory[3].notes.find((note: { theoryId: string }) => note.theoryId === theoryId);
-  const fallback = curriculum.theory[0].notes[0];
+  const fallback = curriculum.theory[0].notes.find((note: { theoryId: string }) =>
+    note.theoryId === "theory/chapter-01-vectors/02-vector-properties");
+  assert.ok(fallback);
   assert.equal(sampling.readKind, "internal");
   assert.equal(sampling.readLanguage, "zh");
   assert.match(sampling.readUrl, /^\/theory\?theoryId=/);

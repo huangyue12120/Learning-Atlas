@@ -1,3 +1,29 @@
+# Learning Atlas v0.21.0 发布说明
+
+发布日期：2026-09-16。
+
+本版完成 T4「关联长尾理论」里程碑：以 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 为依据，新增 19 篇经维护者逐篇复核的中文理论全文，覆盖剩余 28 条已批准理论关联。理论目录现在有 57 / 104 篇中文全文，311 / 311 条理论卡关联均可进入中文全文；实践阅读器仍开放 Phase 0–16 的 380 节课程。
+
+## 本版交付
+
+- 新增 19 份 `theory-translation`，覆盖向量与矩阵、微积分与统计、概率、视频与三维视觉、音频源分离、多模态表示、机器人、Linux/Git、CUDA、边缘推理和云计算；保留源文件的标题层级、公式、代码、图片、链接和教学顺序，逐篇审核记录见 [`docs/t4-theory-review.md`](t4-theory-review.md)。
+- 中文理论全文从 38 / 104 增至 57 / 104，理论卡关联从 283 / 311 补齐至 311 / 311；尚未被理论卡引用的 47 篇笔记仍安全回退到官方英文 `main`。
+- 增加 T4 19 个理论 ID 的目录、全文 API、审核 revision、来源路径和官方 `main` 链接回归测试；stale 或 draft 内容仍安全回退到英文原文。
+- 同步 `README.md`、内容清单、项目进度和应用 SemVer 至 v0.21.0；来源指纹检查覆盖 1432 条记录，理论原文入口继续跟随官方最新 `main`。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1432 条来源指纹）
+- `python3 scripts/check_theory_cards.py`（257 张已发布理论卡）
+- `python3 scripts/check_repository_hygiene.py`
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+完整快照、来源路径、结构统计和理论卡计数见[内容清单](content-manifest.md)、[项目进度](project-progress.md)和 [T4 审核表](t4-theory-review.md)。
+
+---
+
 # Learning Atlas v0.20.0 发布说明
 
 发布日期：2026-09-10。
