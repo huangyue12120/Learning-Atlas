@@ -11,6 +11,14 @@ practice:
 card:
   title: 按硬件和负载选择自托管推理框架
   summary: 在 CPU、AMD 或 NVIDIA 硬件上为不同规模和前缀复用负载选择 llama.cpp、vLLM、SGLang、TGI 或 Ollama 时，推理框架的核心机制说明了连续批处理、PagedAttention、RadixAttention、GGUF 量化与硬件支持如何改变选型结果。
+  context: "本课按 CPU、AMD/NVIDIA、单用户开发、共享生产和前缀复用比较五种自托管推理引擎。"
+  intuition: "没有引擎在所有硬件和规模上最好；开发体验、staging 兼容性和生产批处理/观测需求应分层选择。"
+  key_points:
+    - "llama.cpp 以 GGUF 和 CPU/边缘支持见长，vLLM 以连续批处理和大规模 GPU serving 见长。"
+    - "SGLang 的 RadixAttention 适合多轮 Agent，TGI 的维护模式影响新项目。"
+    - "Ollama 适合开发机，不应因易用就直接承担共享生产并发。"
+  application: "改变硬件、规模和工作负载，记录同一 GGUF/HF 权重从开发到 staging 再到生产的引擎路径。"
+  check_question: "为什么同一组模型权重可以在开发、staging 和生产阶段选择不同的推理引擎？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/05. scaling and deployment.md

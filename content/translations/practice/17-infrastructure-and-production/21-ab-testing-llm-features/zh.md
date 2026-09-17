@@ -33,7 +33,7 @@ status: reviewed
 
 ## 概念
 
-### 评估与 A/B 测试
+### 评估与 A/B 测试 <!-- learning-atlas: evals-vs-ab-tests -->
 
 **评估**——离线、带标签集合、评审器（量规或 LLM-as-judge 或人工）。回答：“在这个固定分布上，输出正确 / 有帮助 / 安全吗？”
 

@@ -11,6 +11,14 @@ practice:
 card:
   title: 将 AI 网关看作模型调用的控制平面
   summary: 在为多供应商 LLM 调用集中路由、认证、限流、回退与使用量记录时，API 网关作为反向代理的机制说明了为什么这些跨服务职责应置于应用外部，并可按 LLM 特有的护栏和成本归因扩展。
+  context: "本课把 AI 网关放在应用和多个模型供应商之间，集中处理路由、回退、限流、密钥和观测。"
+  intuition: "网关是 LLM 调用的控制平面：应用面对统一契约，供应商差异和策略变化在边界处收敛。"
+  key_points:
+    - "网关抽离认证、重试、回退、预算和使用量记录，避免每个应用重复实现。"
+    - "网关自身的延迟、并发上限和级联故障必须在真实负载下测量。"
+    - "数据驻留要求通常决定自托管还是托管网关，比供应商数量更具强制性。"
+  application: "注入 429/5xx 并比较成功率、延迟和网关开销，记录一份控制平面决策。"
+  check_question: "为什么把跨供应商路由和密钥策略集中在 AI 网关，而不是复制到每个应用？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/01. systems design fundamentals.md

@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/22-load-testing-llm-apis/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "e8787b920cd79563403538d45d650012effd8c742e0dad8649ba9df645f61715"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "基于 Locust 的 LLM 压力测试有什么 GIL 陷阱？",
+      "options": [
+        "客户端 tokenizer 在 Python GIL 下运行，会排在请求生成之后，夸大报告的 token 间延迟",
+        "Locust 需要 CUDA",
+        "Locust 只能运行在 Windows 上",
+        "Locust 不支持 HTTP"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“客户端 tokenizer 在 Python GIL 下运行，会排在请求生成之后，夸大报告的 token 间延迟”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "什么是提示词均一性陷阱？",
+      "options": [
+        "均一提示词总会让服务器变慢",
+        "从真实分布采样会低估长提示词",
+        "循环使用同一提示词会让前缀缓存看起来像完整并发解码，从而夸大报告吞吐量",
+        "均一提示词必须使用流式请求"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“循环使用同一提示词会让前缀缓存看起来像完整并发解码，从而夸大报告吞吐量”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "本课推荐哪四种负载模式？",
+      "options": [
+        "只做突发",
+        "手动点击测试",
+        "稳态、爬坡、尖峰、浸泡",
+        "连续 1 RPS 运行 10 天"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“稳态、爬坡、尖峰、浸泡”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "本课建议如何构建真实的提示词分布？",
+      "options": [
+        "每次请求生成随机字符",
+        "始终使用同一提示词以最大化缓存命中",
+        "手写 5 个提示词后打乱",
+        "从真实分布按均值和标准差采样（例如使用 LLMPerf 的 --mean-input-tokens / --stddev-input-tokens），或回放真实流量"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“从真实分布按均值和标准差采样，或回放真实流量”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "哪种 2026 工具组合最适合 CI/CD SLA 闸门和 Kubernetes 原生分布式运行？",
+      "options": [
+        "只用 guidellm",
+        "只用 Vegeta",
+        "k6 v2026.1.0 搭配已 GA 的 k6 Operator 1.0（TestRun / PrivateLoadZone CRD）",
+        "原版 Locust 2.43.3"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“k6 v2026.1.0 搭配已 GA 的 k6 Operator 1.0”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "浸泡负载模式能捕获哪种故障？",
+      "options": [
+        "冷启动尾延迟",
+        "tokenizer 的 GIL 竞争",
+        "数小时运行后的内存泄漏、连接池漂移和可观测性溢出",
+        "缓存驱逐风暴"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“数小时运行后的内存泄漏、连接池漂移和可观测性溢出”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

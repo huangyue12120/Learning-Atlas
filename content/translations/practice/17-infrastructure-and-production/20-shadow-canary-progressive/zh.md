@@ -68,7 +68,7 @@ status: reviewed
 
 好 20% 的模型单次调用成本可能是 3 倍。每请求成本是五项闸门之一。发布“更好”却破坏单位经济性的模型，应当回滚。
 
-### 回滚是武器
+### 回滚是武器 <!-- learning-atlas: rollback-is-the-weapon -->
 
 - 策略标志（feature flag 系统）：翻转 config 中的百分比，耗时数秒。
 - 模型固定（registry digest）：固定模型不会自动升级。

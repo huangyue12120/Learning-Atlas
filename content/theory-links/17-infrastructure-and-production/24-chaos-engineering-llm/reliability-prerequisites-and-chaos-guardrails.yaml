@@ -11,6 +11,14 @@ practice:
 card:
   title: 以 SLO 和错误预算为混沌实验设定安全边界
   summary: 在生产 LLM 服务上安排故障注入前，可靠性的 SLO、错误预算和混沌工程原则说明了为什么必须先定义中止条件、观察信号与回滚路径，才能让实验暴露韧性缺口而非成为真实事故。
+  context: "本课要求生产混沌实验先具备 SLI/SLO、可观测性、自动回滚、结构化运行手册和 on-call。"
+  intuition: "混沌不是随机制造事故，而是在受控爆炸半径内验证系统能否观测、止损、恢复并复盘。"
+  key_points:
+    - "控制、目标、安全、可观测四个平面共同决定实验能否中止。"
+    - "burn-rate 超过预期倍数时应暂停实验，不能继续消耗错误预算。"
+    - "KV eviction storm 和 malformed prompt 等实验需预先定义 guardrail。"
+  application: "改变错误率和爆炸半径，确认 burn-rate、中止条件与回滚信号按预期工作。"
+  check_question: "为什么没有 SLO、观测信号和自动回滚时，不应直接在生产 LLM 服务上做混沌实验？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

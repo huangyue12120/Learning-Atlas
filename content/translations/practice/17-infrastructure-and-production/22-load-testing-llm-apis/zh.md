@@ -74,7 +74,7 @@ Locust 使用 Python，并在 GIL 下于客户端运行 tokenization。高并发
 
 **Locust 2.43.3 原版**——对 LLM 有 GIL 陷阱，只有加上 LLM-Locust 扩展才适用。
 
-### CI 中的 SLA 闸门
+### CI 中的 SLA 闸门 <!-- learning-atlas: sla-gate-in-ci -->
 
 在 PR 中运行 k6：
 

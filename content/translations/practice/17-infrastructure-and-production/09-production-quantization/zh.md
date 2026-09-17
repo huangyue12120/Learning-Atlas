@@ -33,7 +33,7 @@ status: reviewed
 
 ## 概念
 
-### 六种格式
+### 六种格式 <!-- learning-atlas: the-six-formats -->
 
 | 格式 | 位数 | 最适场景 | 引擎 |
 |------|------|----------|------|
@@ -82,8 +82,7 @@ AWQ 和 GPTQ 需要校准数据集——通常是 C4 或 WikiText。对于领域
 
 修复方式是用领域内数据校准。几百个领域样本通常已足够。交付前请在评估集上测试。
 
-### KV 缓存陷阱
-
+### KV 缓存陷阱 <!-- learning-atlas: the-kv-cache-trap -->
 AWQ 将权重缩小到 4 位，而 KV 缓存是独立的，仍保持 FP16/FP8。对于采用 AWQ 的 70B 模型：
 
 - 权重：约 35 GB（从 140 GB 的 INT4）。

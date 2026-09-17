@@ -11,6 +11,14 @@ practice:
 card:
   title: 将数据驻留纳入跨框架合规控制
   summary: 当产品服务欧盟用户时，云基础设施中的数据复制、跨区故障转移和数据驻留约束说明了为什么 GDPR 不能只出现在采购声明中，用户数据的位置与传输路径也必须进入控制矩阵。
+  context: "本课把 SOC 2、HIPAA、GDPR、PCI-DSS、EU AI Act 和 ISO 42001 映射到统一控制矩阵。"
+  intuition: "合规不是采购页上的徽标，而是把访问、加密、驻留、删除和供应商责任变成可执行控制和运行证据。"
+  key_points:
+    - "SOC 2 Type I 证明控制已设计，Type II 还要求 6–12 个月运行有效证据。"
+    - "GDPR 脱敏应发生在模型调用前，事后清理无法撤回模型已看到的数据。"
+    - "跨框架映射允许一个访问日志控制同时支持多套要求。"
+  application: "给欧盟医疗客户选择框架，检查区域路由、BAA、审计日志和删除流程是否覆盖。"
+  check_question: "为什么跨区域故障转移和数据驻留必须进入合规控制矩阵，而不能只写在供应商声明里？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/02. cloud computing.md

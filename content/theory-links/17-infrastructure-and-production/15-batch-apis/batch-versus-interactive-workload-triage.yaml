@@ -11,6 +11,14 @@ practice:
 card:
   title: 按时效需求区分批处理与交互式 LLM 工作
   summary: 在为一项 LLM 工作负载选择同步、异步队列或夜间 batch 时，批处理与流处理的延迟—吞吐量取舍说明了为什么生产环境本身不是低延迟要求，应由用户可接受的周转 SLA 决定分流。
+  context: "本课按用户可接受的周转 SLA 把工作分到同步、异步队列和 batch，强调生产不等于低延迟。"
+  intuition: "batch 用较长周转换折扣和吞吐，交互请求才需要即时反馈；缓存与 batch 叠加可继续降低输入成本。"
+  key_points:
+    - "主流 batch 产品普遍提供约 50% 折扣和 24 小时周转承诺。"
+    - "供应商的 JSONL、BigQuery 或 GCS 格式不同，客户端需要适配层。"
+    - "用户不在意 24 小时交付时，内容管线和离线标注应优先考虑 batch。"
+  application: "改变用户 SLA、共享系统提示和缓存命中，比较同步、缓存、batch 和混合配置的成本。"
+  check_question: "什么简单的用户体验判断可以帮助你把一项工作分流到 batch？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

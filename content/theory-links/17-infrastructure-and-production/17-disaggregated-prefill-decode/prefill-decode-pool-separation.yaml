@@ -11,6 +11,14 @@ practice:
 card:
   title: 根据 prefill 与 decode 的相反瓶颈拆分 GPU 池
   summary: 在比较共置与解耦服务、并评估 KV 传输税是否值得时，prefill/decode 的计算与内存带宽差异及解耦服务模式解释了为什么每个池应按自己的瓶颈定尺寸，而短请求可能无法回收传输开销。
+  context: "本课比较共置与解耦的 prefill/decode 服务，并估算通过 NIXL 传输 KV 的成本。"
+  intuition: "prefill 偏矩阵乘法计算，decode 偏 HBM 带宽；把两者放在同一 GPU 会让一类工作等待另一类资源。"
+  key_points:
+    - "NIXL 在 RDMA/InfiniBand 可用时搬运 KV，并以 TCP 作为 fallback。"
+    - "短 prompt 和短输出的传输税可能超过解耦收益，长前缀更容易获益。"
+    - "Dynamo 是引擎之上的编排栈，llm-d 把角色建模为 Kubernetes Service。"
+  application: "扫描 prompt 长度和输出长度，比较共置与解耦的 TTFT/E2E，找出传输税与吞吐收益的交叉点。"
+  check_question: "为什么同一套 GPU 配置难以同时优化 prefill 的计算吞吐和 decode 的内存带宽？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/03. serving and batching.md

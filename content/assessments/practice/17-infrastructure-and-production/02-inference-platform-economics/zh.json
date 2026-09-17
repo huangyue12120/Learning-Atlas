@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/02-inference-platform-economics/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "18755cc93169ffb58313de925bfa5b2eeab3d0f542aaa20fb1405bc01f72b08d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "本课用哪三个市场分段来组织 2026 年的推理供应商？",
+      "options": [
+        "单租户、多租户、本地部署",
+        "免费、付费、企业版",
+        "开源、商业、混合",
+        "专用芯片、GPU 平台、API 优先的模型市场"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“专用芯片、GPU 平台、API 优先的模型市场”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "在持续 GPU 利用率达到大约多少时，按分钟计费（Baseten、Modal）开始优于按 token 计费（Fireworks、Together）？",
+      "options": [
+        "5%",
+        "90%",
+        "60%",
+        "30%"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“30%”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "哪家平台被描述为 Python 原生、按秒计费的无服务器服务，在预热后冷启动约为 2–4 秒？",
+      "options": [
+        "Anyscale",
+        "Baseten",
+        "Fireworks",
+        "Modal"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“Modal”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "Fireworks 的 LoRA 定价有什么显著差异？",
+      "options": [
+        "LoRA 请求必须签订独立的专用 GPU 合同",
+        "使用 LoRA 的请求按基础模型的每 token 费率计费",
+        "使用 LoRA 的请求比基础模型更贵",
+        "完全不支持 LoRA"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“使用 LoRA 的请求按基础模型的每 token 费率计费”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "受监管的医疗客户需要 SOC 2 Type II、HIPAA 就绪姿态和专用 GPU，哪家平台最匹配？",
+      "options": [
+        "Together",
+        "Anyscale",
+        "Baseten",
+        "Replicate"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“Baseten”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为什么本课说平台层的“自定义引擎”宣传大多只是营销话术？",
+      "options": [
+        "自定义引擎从来不会胜过 vLLM",
+        "每 token 价格是唯一真正的差异",
+        "vLLM 和 SGLang 约占生产开源推理的 80%，平台差异更多来自开发体验、归因和 SLA，而不是引擎名称",
+        "所有自定义引擎都是 TensorRT-LLM 的分支"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“vLLM 和 SGLang 约占生产开源推理的 80%，平台差异更多来自开发体验、归因和 SLA，而不是引擎名称”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

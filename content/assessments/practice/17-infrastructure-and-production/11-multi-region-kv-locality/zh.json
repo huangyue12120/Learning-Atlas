@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/11-multi-region-kv-locality/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "d9321d92db55334a225c68eaedf1c8e24e8c506394d2eba08447a5e5f10d85b8"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "为什么轮询负载均衡会主动伤害带缓存的 LLM 推理？",
+      "options": [
+        "轮询会破坏 TLS",
+        "轮询只对有状态数据库有效",
+        "轮询要求粘性会话",
+        "请求若没有落到持有其前缀的节点，就要支付完整 prefill 成本而不是命中缓存"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“请求若没有落到持有其前缀的节点，就要支付完整 prefill 成本而不是命中缓存”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "缓存感知路由器会使用哪两个输入？",
+      "options": [
+        "只有 user_id 和 tenant_id",
+        "轮询计数器和 TLS 密钥",
+        "副本发出的 KV 缓存事件，以及传入请求的前缀 hash",
+        "随机打乱结果和请求大小"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“副本发出的 KV 缓存事件，以及传入请求的前缀 hash”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "在 Llama 3.3 70B FP8、2K token prompt 上，缓存命中与冷 prefill 的 TTFT 差距大约是多少？",
+      "options": [
+        "约 1000 倍",
+        "约 10 倍（约 80 ms 对 800 ms）",
+        "约 1.1 倍",
+        "完全相同"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“约 10 倍（约 80 ms 对 800 ms）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "为什么跨区域路由不总能胜过区域内路由的缓存命中？",
+      "options": [
+        "跨区域不可能做缓存感知路由",
+        "所有超大规模云厂商都禁止跨区路由",
+        "GORGO 研究发现缓存命中没有帮助",
+        "节省的 prefill 可能被网络 RTT 抵消，例如 440 ms 往返会超过从 800 ms 降到 80 ms 的节省"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“节省的 prefill 可能被网络 RTT 抵消，例如 440 ms 往返会超过从 800 ms 降到 80 ms 的节省”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "本课指出导致 32% LLM 灾备失败的原因是什么？",
+      "options": [
+        "备份包含权重，却漏了 tokenizer 文件或量化配置",
+        "区域配额耗尽",
+        "负载均衡器配置错误",
+        "备份未加密"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“备份包含权重，却漏了 tokenizer 文件或量化配置”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课如何评价 Bedrock CRI 等商业跨区域推理服务？",
+      "options": [
+        "它们优化可用性而非 TTFT，并把推理当作黑盒；仍需要应用层缓存感知路由器",
+        "它们受 GDPR 禁止",
+        "它们已经感知 KV 缓存，可以取代应用层路由",
+        "它们只能在 us-east-1 工作"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“它们优化可用性而非 TTFT，并把推理当作黑盒；仍需要应用层缓存感知路由器”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

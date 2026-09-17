@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/13-llm-observability/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "f0ae301248818c070382324e9b0b5f811a773b7a44e8ecb9b6202109ef91a8c2"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "本课如何划分 2026 年的 LLM 可观测性市场？",
+      "options": [
+        "开发平台（捆绑评估、提示词和会话）与网关/遥测工具",
+        "Python 与 TypeScript",
+        "供应商与开源",
+        "本地部署与云端"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“开发平台（捆绑评估、提示词和会话）与网关/遥测工具”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "哪款工具被定位为 MIT 许可、强自托管能力，并提供每月 50K 事件免费云层？",
+      "options": [
+        "Phoenix",
+        "Arize AX",
+        "LangSmith",
+        "Langfuse"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“Langfuse”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "相对于 Datadog 等单体可观测栈，Arize AX 的主要规模主张是什么？",
+      "options": [
+        "始终更贵",
+        "通过零拷贝 Iceberg/Parquet 集成，在大规模下约便宜 100 倍",
+        "每天少于 100 万事件免费",
+        "便宜 10%"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“通过零拷贝 Iceberg/Parquet 集成，在大规模下约便宜 100 倍”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "本课称哪一层是错误的可移植性插桩位置？",
+      "options": [
+        "在 HTTP/OpenAI SDK 层插桩",
+        "成功请求只采样 5%",
+        "使用 OpenTelemetry GenAI 语义约定",
+        "把插桩写进 Agent 框架，因为这会把系统绑定到该框架"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“把插桩写进 Agent 框架，因为这会把系统绑定到该框架”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "本课认为 2026 年工具间的 OpenTelemetry 互操作层是哪组约定？",
+      "options": [
+        "GenAI 语义约定（gen_ai.system、gen_ai.request.model、gen_ai.usage.input_tokens）",
+        "OTel HTTP 语义约定",
+        "OTel messaging 语义约定",
+        "OTel database 语义约定"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“GenAI 语义约定（gen_ai.system、gen_ai.request.model、gen_ai.usage.input_tokens）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为什么每天超过 100 万请求后保留全部 trace 无法扩展？",
+      "options": [
+        "供应商会阻止它",
+        "Phoenix 只支持 100 万 trace",
+        "保留存储成本可能超过 LLM 调用本身，团队必须采样（例如 100% 错误、100% 高成本、5% 成功）",
+        "OpenTelemetry 限制 trace 数量"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“保留存储成本可能超过 LLM 调用本身，团队必须采样（例如 100% 错误、100% 高成本、5% 成功）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

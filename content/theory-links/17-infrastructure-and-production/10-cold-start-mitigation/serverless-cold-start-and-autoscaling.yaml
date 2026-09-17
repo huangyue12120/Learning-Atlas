@@ -11,6 +11,14 @@ practice:
 card:
   title: 在无服务器弹性与冷启动延迟之间作预算
   summary: 为 TTFT SLA 决定预热副本数量时，无服务器的冷启动机制、自动扩缩容与本地 SSD 权重缓存说明了为什么缩容至零会引入启动税，以及何时应以持续 GPU 成本换取交互路径的可用延迟。
+  context: "本课把节点、镜像、权重和引擎初始化拆成冷启动链路，比较缩容到零与保留预热副本。"
+  intuition: "预热副本用持续 GPU 成本换可预测就绪时间；SSD、流式加载和 GPU 快照分别压缩不同步骤。"
+  key_points:
+    - "没有单一工具能同时消除节点创建、镜像拉取、权重加载和引擎初始化。"
+    - "min_workers >= 1 避开交互路径的冷启动，但空闲时仍产生容量成本。"
+    - "盈亏平衡要同时看到达率、TTFT SLA 和闲置预算。"
+  application: "改变到达率，比较原始、预种植、流式、GPU 快照和预热池的总时延与成本。"
+  check_question: "在交互式 TTFT SLA 下，为什么保留一个预热 GPU 副本可能比缩容到零更合理？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/02. cloud computing.md

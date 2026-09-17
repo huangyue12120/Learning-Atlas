@@ -11,6 +11,14 @@ practice:
 card:
   title: 用边缘设备资源约束选择模型与运行时
   summary: 在为 Apple ANE、Qualcomm Hexagon、WebGPU 或 Jetson 选择模型大小、量化格式和运行时时，边缘推理的内存、算力、功耗与设备端运行时约束解释了为什么模型压缩和硬件匹配比单看 TOPS 更重要。
+  context: "本课为手机、浏览器和 Jetson 选择模型与运行时，强调边缘 decode 的带宽、功耗和内存约束。"
+  intuition: "每个 token 都要读取大量权重，移动 DRAM 远慢于 HBM3；减少字节数和匹配硬件比单看 TOPS 更有效。"
+  key_points:
+    - "统一内存避免 CPU 与 ANE 的额外复制，但仍受共享带宽约束。"
+    - "WebGPU/WebLLM 需要合适的 MLC 格式，浏览器覆盖率也是产品约束。"
+    - "权重、KV 缓存和操作系统共同消耗手机 RAM，长上下文很快超预算。"
+  application: "比较不同设备带宽、量化格式和上下文长度，记录理论 token/s、内存占用与运行时可用性。"
+  check_question: "为什么边缘推理选型不能只看芯片标称 TOPS，而要先估算内存带宽和完整内存预算？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/04. edge inference.md

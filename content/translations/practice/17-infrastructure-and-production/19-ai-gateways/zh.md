@@ -33,7 +33,7 @@ status: reviewed
 
 ## 概念
 
-### 六项核心能力
+### 六项核心能力 <!-- learning-atlas: six-core-features -->
 
 1. **供应商路由**——在一个 API 后接入 OpenAI、Anthropic、Gemini、自托管等。
 2. **回退**——遇到 429、5xx 或质量失败时，在其他地方重试。

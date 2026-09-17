@@ -11,6 +11,14 @@ practice:
 card:
   title: 从分页 KV 缓存与抢占判断何时需要卸载层
   summary: 在 HBM 满载时选择引擎本地 CPU 卸载或跨引擎 LMCache 时，PagedAttention 的按需 KV 页面分配与抢占机制说明了缓存块为何可被换出、何时恢复比重复 prefill 更划算，以及为何低压力场景会只看到卸载开销。
+  context: "本课在 HBM 压力下比较 vLLM 原生 CPU 卸载与跨引擎 LMCache，重点是前缀是否跨副本复用。"
+  intuition: "Paged KV 块可在 HBM 紧张时被抢占换出；单引擎局部压力和跨引擎共享需要不同层次的缓存。"
+  key_points:
+    - "Connector API 让 KV 后端可插拔，异步卸载可避免常见路径被 I/O 阻塞。"
+    - "LMCache 适合共享 RAG 前缀、租户或 LoRA 变体，不是所有 HBM 场景的默认答案。"
+    - "KV 远小于 HBM 时，外部缓存可能只有 3–5% 开销而没有收益。"
+  application: "改变 HBM 利用率和前缀共享率，比较重算次数、吞吐量和卸载开销。"
+  check_question: "什么时候跨引擎 LMCache 的共享命中收益足以抵消网络与序列化成本？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/03. serving and batching.md

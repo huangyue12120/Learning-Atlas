@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/08-inference-metrics-goodput/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "0e12df338317843484644b68a690af8ba3f9be38505b093a56ce7fe2a32c0ac3"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "哪些组成部分主导 TTFT（首 token 时间）？",
+      "options": [
+        "权重的磁盘 I/O",
+        "队列时间、网络请求时间和 prefill 时间",
+        "Tokenizer 的 GIL 开销",
+        "仅 decode 前向计算时间"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“队列时间、网络请求时间和 prefill 时间”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "本课称哪项指标才是真正对产品重要的指标？",
+      "options": [
+        "Goodput：同时满足所有 SLO 约束的请求比例",
+        "每秒 token 的汇总吞吐量",
+        "平均 ITL",
+        "GPU 占空比"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“Goodput：同时满足所有 SLO 约束的请求比例”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "为什么平均值不是报告 LLM 延迟的正确统计量？",
+      "options": [
+        "LLM 延迟分布通常右偏，用户会遇到被平均值掩盖的 P99 长尾",
+        "流式响应无法计算平均值",
+        "平均值只适用于 prefill，不适用于 decode",
+        "GenAI-Perf 不支持平均值"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“LLM 延迟分布通常右偏，用户会遇到被平均值掩盖的 P99 长尾”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "为什么同一轮运行中 GenAI-Perf 和 LLMPerf 的 TPOT 会不同？",
+      "options": [
+        "它们采样了不同的请求",
+        "GenAI-Perf 只能在 Blackwell 上运行",
+        "LLMPerf 使用微秒而 GenAI-Perf 使用毫秒",
+        "GenAI-Perf 将 TTFT 排除在 ITL 计算之外，而 LLMPerf 将其计入，因此工具选择会改变数值"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“GenAI-Perf 将 TTFT 排除在 ITL 计算之外，而 LLMPerf 将其计入，因此工具选择会改变数值”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "对于长输出（超过 500 token）的请求，哪项指标主导端到端延迟？",
+      "options": [
+        "网络响应时间",
+        "TPOT × 输出长度",
+        "TTFT",
+        "冷启动时间"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“TPOT × 输出长度”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "对于 2026 年的 70B 聊天模型，哪组指标最符合本课建议的面向用户 SLO？",
+      "options": [
+        "只看 P50，不看更高百分位数",
+        "TTFT P99 800 ms、TPOT P99 25 ms、少于 300 token 输出的 E2E P99 3 s，goodput ≥ 99%",
+        "TTFT P99 8 s、TPOT P99 200 ms、goodput 50%",
+        "平均 TTFT 10 ms、平均 TPOT 1 ms"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“TTFT P99 800 ms、TPOT P99 25 ms、少于 300 token 输出的 E2E P99 3 s，goodput ≥ 99%”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

@@ -86,7 +86,7 @@ status: reviewed
 - Apache 2.0。通过 OpenTelemetry 同时处理通用 APM 和 LLM。
 - 最适场景：跨服务和 LLM 调用的统一可观测性。
 
-### 粘合层：OpenTelemetry + GenAI 语义约定
+### 粘合层：OpenTelemetry + GenAI 语义约定 <!-- learning-atlas: the-glue-opentelemetry-genai-semantic-conventions -->
 
 OpenTelemetry 在 2025 年末发布了 GenAI 语义约定（`gen_ai.system`、`gen_ai.request.model`、`gen_ai.usage.input_tokens`）。消费 OTel 的工具可以互操作。正在出现的生产模式：
 

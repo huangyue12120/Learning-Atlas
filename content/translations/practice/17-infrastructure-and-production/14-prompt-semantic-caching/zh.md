@@ -68,7 +68,7 @@ status: reviewed
 
 修复：先顺序执行第一个请求，随后在请求 1 的缓存已填充后再发出请求 2–10。这样为第一次工具调用增加 300 ms，却能节省 5–10 倍账单。
 
-### 动态内容反模式
+### 动态内容反模式 <!-- learning-atlas: the-dynamic-content-anti-pattern -->
 
 你的系统提示词如下：
 

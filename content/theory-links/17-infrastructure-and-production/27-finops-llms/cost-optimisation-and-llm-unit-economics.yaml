@@ -11,6 +11,14 @@ practice:
 card:
   title: 从推理成本优化走向 LLM 单位经济学
   summary: 在按用户、任务和租户归因成本，并叠加缓存、批处理、路由与网关策略时，推理部署中的 GPU 选型、自动扩缩、批处理和量化原理说明了这些杠杆如何共同降低每个已解决任务的成本。
+  context: "本课把 GPU 选型、量化、缓存、batch、路由和网关的节省叠加到用户、任务和租户单位经济学。"
+  intuition: "每个单项优化只减少一段成本，叠加后才会显著降低每个成功任务的成本；trace ID 把使用量与账单接起来。"
+  key_points:
+    - "第一天就应记录 user_id、task_id/route 和 tenant_id 三个归因维度。"
+    - "prompt、tool、memory、response 等 token 层要和 GPU、网关、观测开销分开。"
+    - "telemetry joiner 可把 trace 与账单关联，异常 z-score 触发暂停租户和告警。"
+  application: "改变缓存命中、模型路由和租户支出，比较每个解决任务成本和执行阶梯。"
+  check_question: "为什么“每百万 token 成本”不足以作为产品经营指标，应该改看每个成功任务的成本？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/05. scaling and deployment.md

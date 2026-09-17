@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/28-self-hosted-serving-selection/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "179ffe7757879b07929d5f9840c17303b0113419a54d99a8cad36a95381b05a3"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "本课选作开发笔记本一条命令默认项的引擎是什么？",
+      "options": [
+        "llama.cpp",
+        "vLLM",
+        "TGI",
+        "Ollama"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“Ollama”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "哪个 2025 年事件让新项目默认避开 TGI？",
+      "options": [
+        "TGI 于 2025 年 12 月 11 日进入维护模式，后续只进行 bug 修复",
+        "TGI 放弃了 CUDA 支持",
+        "TGI 提高了价格",
+        "TGI 被 Anthropic 收购"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“TGI 于 2025 年 12 月 11 日进入维护模式”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "哪项硬件约束会迫使你选择 llama.cpp，并排除 vLLM / TRT-LLM？",
+      "options": [
+        "只有 CPU（没有加速器）",
+        "AMD MI300X",
+        "NVIDIA Hopper",
+        "Apple M4"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“只有 CPU（没有加速器）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "得益于 RadixAttention，哪种引擎适合智能体多轮和重前缀工作负载？",
+      "options": [
+        "SGLang",
+        "Ollama",
+        "TGI",
+        "llama.cpp"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“SGLang”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "本课建议在相同 GGUF 或 HF 权重上采用什么开发到生产流水线？",
+      "options": [
+        "全程使用 TGI",
+        "开发用 Ollama，生产也用 Ollama",
+        "开发用 Ollama，预发布用 llama.cpp，生产用 vLLM（前缀密集时用 SGLang）",
+        "从头到尾只用 TRT-LLM"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“开发用 Ollama，预发布用 llama.cpp，生产用 vLLM 或前缀密集时的 SGLang”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为什么不建议在共享生产环境使用 Ollama？",
+      "options": [
+        "它不能加载 GGUF",
+        "它只能运行在 Windows 上",
+        "它是闭源的",
+        "Go HTTP 序列化会增加开销，并发管理比 vLLM 简单，OpenTelemetry 支持也落后"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“Go HTTP 序列化增加开销、并发管理较简单且 OpenTelemetry 支持落后”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

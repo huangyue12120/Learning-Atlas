@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/19-ai-gateways/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "ee577dfa5e307c98753a543acfb3850517b8d68923c4c4a5f42706701c4046f1"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "本课中 AI 网关的核心角色是什么？",
+      "options": [
+        "用于检索的向量数据库",
+        "模型微调服务",
+        "位于应用和模型供应商之间的进程，在一个 API 后统一路由、回退、重试、限流、密钥引用、观测和护栏",
+        "只负责日志的 sidecar"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“位于应用和模型供应商之间的进程，在一个 API 后统一路由、回退、重试、限流、密钥引用、观测和护栏”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "Kong 基准报告 LiteLLM 的规模上限是什么？",
+      "options": [
+        "LiteLLM 无法进行基准测试",
+        "超过 10K RPS 仍线性扩展",
+        "8 GB 内存约 2000 RPS 开始崩溃，持续负载下出现级联故障",
+        "上限为 50 RPS"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“8 GB 内存约 2000 RPS 开始崩溃，持续负载下出现级联故障”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "在等价 CPU 上，Kong 基准中的 Kong AI Gateway 比 Portkey 和 LiteLLM 快多少？",
+      "options": [
+        "速度相同",
+        "快约 10% 和 20%",
+        "比 Portkey 快 228%，比 LiteLLM 快 859%",
+        "比两者都慢"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“比 Portkey 快 228%，比 LiteLLM 快 859%”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "哪款网关被定位为增加 20–40 ms 延迟，并侧重护栏、PII 脱敏和 jailbreak 检测？",
+      "options": [
+        "Cloudflare AI Gateway",
+        "Portkey",
+        "Kong AI Gateway",
+        "LiteLLM"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“Portkey”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "本课说自托管与托管网关决策的强制因素是什么？",
+      "options": [
+        "支持的供应商数量",
+        "每请求成本",
+        "数据驻留要求",
+        "网关是否开源"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“数据驻留要求”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "当 SLA 要求 TTFT P99 < 100 ms 时，哪些网关仍在预算内？",
+      "options": [
+        "只有 Portkey",
+        "任何网关",
+        "只有 LiteLLM",
+        "Kong（约 3–8 ms）或 Cloudflare/Vercel 边缘网关（约 1–3 ms）；Portkey 的 20–40 ms 太重"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“Kong（约 3–8 ms）或 Cloudflare/Vercel 边缘网关（约 1–3 ms）；Portkey 的 20–40 ms 太重”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

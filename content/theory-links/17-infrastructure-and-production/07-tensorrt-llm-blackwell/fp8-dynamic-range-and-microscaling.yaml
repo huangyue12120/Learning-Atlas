@@ -11,6 +11,14 @@ practice:
 card:
   title: 用浮点格式的动态范围理解 FP8 与 NVFP4 的分工
   summary: 为 Blackwell + TRT-LLM 选择权重、激活值与 KV 缓存精度时，FP8 的指数/尾数取舍说明了为什么 KV 缓存需要更宽动态范围，而块级微缩放让 NVFP4 能在权重和激活值上节省带宽。
+  context: "本课在 Blackwell 上比较 NVFP4 权重/激活值与 FP8 KV 缓存，关注动态范围和注意力精度。"
+  intuition: "权重和激活值可用块级 scale 压到四位，但 KV 跨长序列参与点积，过窄的动态范围会放大累积误差。"
+  key_points:
+    - "FP8 为 KV 提供更宽动态范围，NVFP4 更适合校准后的权重和激活值。"
+    - "Day-0 FP4 权重减少转换步骤，不代表所有张量都应使用 FP4。"
+    - "精度组合必须按模型和任务评测，不能只凭理论带宽收益上线。"
+  application: "用计算器比较 HBM 与吞吐量，再在任务评测集比较 FP8 KV 和更低精度 KV 的质量差异。"
+  check_question: "为什么 NVFP4 可以用于部分权重，却不应默认用于需要宽动态范围的 KV 缓存？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/01. quantisation.md

@@ -67,7 +67,7 @@ SLO 是多约束的。只有每项约束都成立，请求才是“好”的。G
 
 2026 年，goodput 是 MLPerf Inference v6.0 提交以及 AI 平台提供方内部 SLA 跟踪中使用的指标。
 
-### 为什么平均值是错误统计量
+### 为什么平均值是错误统计量 <!-- learning-atlas: why-mean-is-the-wrong-statistic -->
 
 LLM 延迟分布右偏。一个 decode 批次中，某个长 prefill 的相邻序列可能使 20 个 token 的 TPOT 达到约 60 ms，其余 500 个 token 的 TPOT 约为 7 ms。平均 TPOT 是 9 ms，P99 TPOT 却是 65 ms。用户经常遭遇 P99，这会促使他们离开。
 

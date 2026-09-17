@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/21-ab-testing-llm-features/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "878b19f91a06bc81337cb1423b4743e9bf329ff438232f86974c0b8a01ea91b4"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "本课对评估和 A/B 测试的准确区分是什么？",
+      "options": [
+        "只需要 A/B 测试",
+        "评估在带标签集合上回答“模型能完成任务吗”；A/B 测试用在线随机流量回答“用户在乎吗”",
+        "评估面向用户；A/B 测试在线下进行",
+        "两者可以互换"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“评估在带标签集合上回答模型能完成任务吗；A/B 测试用在线随机流量回答用户在乎吗”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "CUPED 会为实验做什么？",
+      "options": [
+        "禁用多重比较校正",
+        "在比较实验后期之前回归掉前期方差，通常降低 30–70% 方差并提高有效样本量",
+        "通过招募更多用户增加样本量",
+        "完全取代序贯测试"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“在比较实验后期之前回归掉前期方差，通常降低 30–70% 方差并提高有效样本量”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "运行许多 A/B 测试时，为什么需要多重比较校正（Bonferroni 或 Benjamini–Hochberg）？",
+      "options": [
+        "它们能加速实验",
+        "只有序贯测试才需要它们",
+        "GDPR 强制要求它们",
+        "在 95% 置信度下运行 20 个测试，随机情况下会出现一个假阳性；校正用于控制家族错误率或假发现率"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“在 95% 置信度下运行 20 个测试，随机情况下会出现一个假阳性；校正用于控制家族错误率或假发现率”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "SRM（样本比例失配）检测什么？",
+      "options": [
+        "tokenizer 性能缓慢",
+        "PII 泄露",
+        "分配哈希 bug 导致实际拆分偏离目标拆分，例如目标 50/50 却交付 47/53",
+        "实验平台的内存泄漏"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“分配哈希 bug 导致实际拆分偏离目标拆分，例如目标 50/50 却交付 47/53”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "为什么 LLM 的非确定性需要为样本量留出余量？",
+      "options": [
+        "非确定性会降低所需样本量",
+        "它破坏 IID 假设，有效样本量下降，因此将所需样本量乘以约 1.3–1.5 倍作为安全余量",
+        "它与功效计算无关",
+        "它只影响离线实验"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“它破坏 IID 假设，有效样本量下降，因此将所需样本量乘以约 1.3–1.5 倍作为安全余量”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课如何对比 Statsig 和 GrowthBook？",
+      "options": [
+        "GrowthBook 是闭源的",
+        "两者功能完全相同",
+        "Statsig 只能原生使用数据仓库",
+        "Statsig 是一体化 SaaS（2025 年 9 月被 OpenAI 以 11 亿美元收购）；GrowthBook 是 MIT 开源、仓库原生，提供 Bayesian/Frequentist/Sequential 引擎以及 CUPED/SRM/BH"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“Statsig 是一体化 SaaS；GrowthBook 是 MIT 开源、仓库原生并提供多种统计引擎与校正”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

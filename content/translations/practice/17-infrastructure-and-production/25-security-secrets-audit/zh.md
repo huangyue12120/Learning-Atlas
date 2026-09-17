@@ -57,7 +57,7 @@ LLM 服务的安全必须处理全部三个向量：基于 vault 的凭证、PII
 
 每次 commit 都运行。若发现新密钥，阻止 PR。
 
-### 零信任立场
+### 零信任立场 <!-- learning-atlas: zero-trust-posture -->
 
 - 所有账户必须 MFA。
 - 通过 SAML/OIDC 使用 SSO。

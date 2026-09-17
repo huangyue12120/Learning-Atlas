@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/03-gpu-autoscaling-kubernetes/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "c04d02480b74db4023a55ac856c75db6afe8661e87c38e67337768b4281a7b71"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "HPA 默认通常依据哪项信号扩缩容，而本课认为它不适合 vLLM 风格的服务？",
+      "options": [
+        "P99 TTFT",
+        "DCGM_FI_DEV_GPU_UTIL 占空比",
+        "队列深度",
+        "KV 缓存利用率"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“DCGM_FI_DEV_GPU_UTIL 占空比”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "KAI Scheduler 的 gang scheduling 主要防止哪种问题？",
+      "options": [
+        "Tokenizer 的 GIL 竞争",
+        "部分分配陷阱：8 张 GPU 中只有 7 张就绪，全部空闲等待第 8 张",
+        "冷启动延迟",
+        "GPU 显存碎片"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“部分分配陷阱：8 张 GPU 中只有 7 张就绪，全部空闲等待第 8 张”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "Karpenter 默认的 consolidationPolicy 为 WhenEmptyOrUnderutilized，为什么对推理 GPU 池有风险？",
+      "options": [
+        "它只会整合 Spot 实例",
+        "它阻止 Karpenter 预配新节点",
+        "它会终止运行中的 GPU 节点来迁移 Pod，驱逐正在处理的请求并重新加载权重",
+        "它拒绝在突发流量下扩容"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“它会终止运行中的 GPU 节点来迁移 Pod，驱逐正在处理的请求并重新加载权重”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "与 Cluster Autoscaler 相比，Karpenter 预配 GPU 节点大约快多少？",
+      "options": [
+        "快约 5%",
+        "速度相同",
+        "快约 40%（约 45–60 秒，相比约 90–120 秒）",
+        "慢约 10 倍"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“快约 40%（约 45–60 秒，相比约 90–120 秒）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "对于解耦 prefill/decode 的 Pod（Phase 17 · 17），本课建议使用哪些扩缩信号？",
+      "options": [
+        "两类 Pod 都使用 Cluster Autoscaler",
+        "在两类 Pod 上共用一个按占空比扩缩的 HPA",
+        "只允许手动扩缩",
+        "prefill Pod 使用队列深度，decode Pod 使用 KV 缓存压力，按角色配置独立 HPA"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“prefill Pod 使用队列深度，decode Pod 使用 KV 缓存压力，按角色配置独立 HPA”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为了避免驱逐运行中的任务，本课建议推理 GPU 池使用哪项 Karpenter disruption 设置？",
+      "options": [
+        "始终使用 Spot 且不做整合",
+        "完全禁用 Karpenter",
+        "consolidationPolicy: WhenEmptyOrUnderutilized，并设置 consolidateAfter: 0s",
+        "consolidationPolicy: WhenEmpty，并设置 consolidateAfter: 1h"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“consolidationPolicy: WhenEmpty，并设置 consolidateAfter: 1h”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

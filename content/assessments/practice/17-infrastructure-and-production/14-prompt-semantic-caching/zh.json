@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/14-prompt-semantic-caching/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "abed0d781e712d1189775c0523ec995bc10f67bb9d313c5138e400bc36ac5dcd"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "L1 语义缓存与 L2 提示词/前缀缓存有什么区别？",
+      "options": [
+        "L2 存 embedding，L1 存 attention KV",
+        "L1 由供应商提供，L2 由客户端提供",
+        "L1 与 L2 完全相同",
+        "L1 在 embedding 相似命中时跳过 LLM，L2 在供应商侧复用重复前缀的 attention KV"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“L1 在 embedding 相似命中时跳过 LLM，L2 在供应商侧复用重复前缀的 attention KV”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "Anthropic 用什么机制把请求块标记为 L2 可缓存？",
+      "options": [
+        "请求块上的显式 cache_control 属性",
+        "工具定义中的文件名后缀",
+        "隐式的 prompt 长度阈值",
+        "独立的 /caches 端点"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“请求块上的显式 cache_control 属性”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "并行化反模式为什么会增加账单？",
+      "options": [
+        "并行请求无法使用批处理",
+        "并行化触发逐请求护栏费用",
+        "所有并行请求会自动共享一个缓存条目",
+        "相同前缀的 N 个请求在第一次写入完成前同时到达，每个都支付写入溢价且没有折扣"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“相同前缀的 N 个请求在第一次写入完成前同时到达，每个都支付写入溢价且没有折扣”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "可缓存前缀中的动态内容反模式是什么？",
+      "options": [
+        "把每次都会变化的内容（当前分钟、request ID、随机示例顺序）放进前缀，导致命中率下降",
+        "系统提示词太短",
+        "始终使用流式响应",
+        "把工具 schema 放进前缀"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“把每次都会变化的内容（当前分钟、request ID、随机示例顺序）放进前缀，导致命中率下降”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "batch 加缓存的组合如何在夜间管线中降本？",
+      "options": [
+        "batch 与缓存不兼容",
+        "缓存会让请求失去 batch 资格",
+        "batch 只节省输出成本",
+        "Batch API 提供 50% 折扣，缓存输入再便宜约 10 倍；组合后夜间管线约为同步未缓存成本的 10%"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“Batch API 提供 50% 折扣，缓存输入再便宜约 10 倍；组合后夜间管线约为同步未缓存成本的 10%”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课如何解释语义缓存“95% accuracy”的说法？",
+      "options": [
+        "95% 表示应期待 95% 命中率",
+        "95% 是 OpenAI 默认缓存命中率",
+        "95% 是供应商记录的命中率基线",
+        "95% 指匹配正确率而非命中率；生产命中率约从开放聊天的 10% 到结构化 FAQ 的 70%"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“95% 指匹配正确率而非命中率；生产命中率约从开放聊天的 10% 到结构化 FAQ 的 70%”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

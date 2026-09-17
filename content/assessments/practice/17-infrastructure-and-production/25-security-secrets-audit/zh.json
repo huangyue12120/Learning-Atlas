@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/25-security-secrets-audit/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "2b81b70d8dd92d2a1213802b2e5aaeab84a950e0808511efc509bda0530e9c10"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "2026 年 LLM 服务凭证的标准模式是什么？",
+      "options": [
+        "为追求速度把 API key 硬编码在配置文件中",
+        "把 key 发邮件给每位工程师",
+        "把 key 存在 Slack 频道",
+        "AI 网关在运行时通过 IAM 角色从集中式 vault 拉取 key；在 vault 中轮换后所有应用几分钟内生效"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“AI 网关通过 IAM 角色在运行时从集中式 vault 拉取并轮换 key”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "本课建议 API key、vault root token 和 CI/CD 凭证采用什么轮换周期？",
+      "options": [
+        "90 天内轮换，尽可能自动化；手动操作要记录并跟踪",
+        "只在泄露后轮换",
+        "永不轮换",
+        "每 5 年轮换"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“90 天内轮换，尽可能自动化；手动操作要记录并跟踪”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "为什么用一致 tokenization（Mesh 方法）做 PII 清理？",
+      "options": [
+        "它会把提示词加密后再发给模型",
+        "ISO 27001 强制要求它",
+        "同一源值映射到同一占位符，LLM 能在整个提示词中保留代码和关系语义",
+        "它比正则表达式占用更少内存"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“同一源值映射到同一占位符，LLM 能保留代码和关系语义”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "本课建议 LLM 服务子网采用什么出站姿态？",
+      "options": [
+        "只允许少量域名（api.openai.com、api.anthropic.com、向量数据库、vault），其余全部丢弃，并使用仅允许列表的 DNS 解析器",
+        "包括供应商在内阻断所有出站",
+        "允许 DNS 但阻断 HTTP",
+        "允许所有出站流量"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“只允许少量供应商、向量数据库和 vault 域名，其余全部丢弃”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "2026 年 Vercel 供应链事故对 CI/CD 凭证说明了什么？",
+      "options": [
+        "CI/CD 凭证风险低，可以留在环境文件中",
+        "CI/CD secret 不可能被盗",
+        "Vercel 没有受到影响",
+        "CI/CD 凭证等同生产凭证，应存入 vault、严格限权并积极轮换"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“CI/CD 凭证等同生产凭证，应存入 vault、严格限权并积极轮换”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课建议为每次 LLM 调用保留哪些审计日志字段？",
+      "options": [
+        "只有成本",
+        "时间戳、用户/租户、提示词哈希（不存原文）、模型与版本、token 数、成本、响应哈希及护栏触发情况",
+        "只保留原始提示词",
+        "只保留响应"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“时间戳、用户/租户、提示词与响应哈希、模型版本、token 数、成本及护栏触发情况”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

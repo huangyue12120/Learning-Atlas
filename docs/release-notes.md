@@ -1,3 +1,32 @@
+# Learning Atlas v0.22.0 发布说明
+
+发布日期：2026-09-17。
+
+本版完成 P17「基础设施与生产」里程碑：以 `ai-engineering-from-scratch` 实践快照 `d18b8fe5a913c46011a3b06cb6ebd6a924414fd3` 为依据，将 28 节经审核中文课程从 staged 接入阅读器。阅读器累计开放 Phase 0–17 的 408 节课程；Phase 18–19 的 115 节译文继续保持 staged。
+
+## 本版交付
+
+- 接入 P17 的 28 节中文实践课程，保留原文路径、revision 与 SHA-256 来源指纹；每课的 Python `code/main.py` 均可创建学习者私有工作区。
+- 新增 28 份中文测验，保留上游题目数量（01 课 7 题，其余各 6 题）、正确选项和来源指纹，全部标记 `reviewed`。
+- 新增 28 套 Python 工作区练习指南，覆盖推理平台、GPU 调度、服务引擎、缓存、发布、可观测性、安全、合规、FinOps 和引擎选型。
+- 为 P17 的 27 条已批准理论关联补齐中文课程锚点和 rich-content 字段；当前开放课程的 284 张理论卡全部通过扩展内容契约，剩余 27 张随 Phase 18–19 接入。
+- 更新首页、课程服务、动态继续目标、覆盖率与理论卡检查、API 回归测试和版本化文档；Phase 18–19 仍以 staged 状态呈现。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1460 条来源指纹）
+- `python3 scripts/check_theory_cards.py`（284 张已发布理论卡）
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+- 逐个运行 P17 的 28 个 `code/main.py`
+
+完整快照、来源路径、结构统计和理论卡计数见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
+
+---
+
 # Learning Atlas v0.21.0 发布说明
 
 发布日期：2026-09-16。

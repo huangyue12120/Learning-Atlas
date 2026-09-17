@@ -11,6 +11,14 @@ practice:
 card:
   title: 用渐进式交付将模型回滚缩短至数秒
   summary: 在将候选模型从影子流量推进到金丝雀、并以策略标志和固定模型 digest 回滚时，蓝绿、金丝雀和 feature flag 的持续交付模式说明了如何限制爆炸半径，并把发布和用户可见的启用操作分离。
+  context: "本课把影子流量、金丝雀和 A/B 测试排成发布顺序，并为每个阶段设质量和成本闸门。"
+  intuition: "影子流量零影响地暴露回归，金丝雀限制爆炸半径，稳定后再用 A/B 比较产品偏好；固定 digest 让回滚可预测。"
+  key_points:
+    - "影子模式可发现成本、长度、拒答和硬错误回归，但不能替代离线质量评测。"
+    - "金丝雀每推进一档都检查延迟、成本、错误、输出长度和反馈。"
+    - "策略标志切换加固定模型 digest 可在数秒内回滚而无需重新部署。"
+  application: "注入延迟或成本回归，观察哪一档停止扩大流量，并演练策略标志与 digest 回滚。"
+  check_question: "为什么固定模型 digest 加策略开关比重新部署一个旧版本更适合作为快速回滚？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

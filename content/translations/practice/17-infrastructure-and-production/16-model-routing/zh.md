@@ -33,7 +33,7 @@ status: reviewed
 
 ## 概念
 
-### 四种路由信号
+### 四种路由信号 <!-- learning-atlas: four-routing-signals -->
 
 1. **任务分类：** 简单/复杂/代码生成/数学/聊天。可以是规则分类器、小 LLM（Haiku 级，$0.25/M），或与标记 bucket 的嵌入相似度。输出：route = cheap / balanced / frontier。
 

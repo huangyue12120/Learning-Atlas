@@ -40,6 +40,7 @@ PUBLISHED_PHASES = {
     "phases/14-agent-engineering",
     "phases/15-autonomous-systems",
     "phases/16-multi-agent-and-swarms",
+    "phases/17-infrastructure-and-production",
 }
 
 

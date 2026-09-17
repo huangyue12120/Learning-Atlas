@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/06-sglang-radixattention/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "96a9a71652ca49ab7d9e83d6ac60b6b3b700a484a2ce95328638e8c5ab4b5c54"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "SGLang 的 KV 缓存复用由哪种核心数据结构支持？",
+      "options": [
+        "基数树：每个节点拥有一个 token 范围及其 KV 块",
+        "按 request id 索引的跳表",
+        "按完整 prompt 索引的哈希表",
+        "按 attention 分数组织的 B 树"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“基数树：每个节点拥有一个 token 范围及其 KV 块”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "为什么 FCFS 调度对前缀密集型的 SGLang 流量不合适？",
+      "options": [
+        "FCFS 是 SGLang 推荐的策略",
+        "FCFS 可能在下一个长前缀请求命中前驱逐热前缀分支，破坏基数树复用",
+        "FCFS 只适用于 AMD GPU",
+        "FCFS 与 PagedAttention 不兼容"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“FCFS 可能在下一个长前缀请求命中前驱逐热前缀分支，破坏基数树复用”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "SGLang 的缓存感知调度采用什么驱逐粒度来匹配基数树形状？",
+      "options": [
+        "仅按请求驱逐",
+        "随机驱逐",
+        "单个 token",
+        "整棵分支，从最久未使用的短叶子开始"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“整棵分支，从最久未使用的短叶子开始”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "保持基数树共享前缀可发现的最直接工程手段是什么？",
+      "options": [
+        "始终使用静态批处理",
+        "固定提示词模板顺序，让不可变内容（系统提示、工具、schema）始终在前",
+        "降低 GPU 显存利用率参数",
+        "禁用连续批处理"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“固定提示词模板顺序，让不可变内容（系统提示、工具、schema）始终在前”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "本课不期待 RadixAttention 在哪种工作负载上获胜？",
+      "options": [
+        "共享工具 schema 的 Agent",
+        "没有共享系统提示、每次 prompt 都唯一的单次生成",
+        "共享检索前导的 RAG",
+        "重复使用前导的语音工作负载"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“没有共享系统提示、每次 prompt 都唯一的单次生成”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "ProjectDiscovery 将前缀缓存命中率从 7% 提高到 74%，采用了什么做法？",
+      "options": [
+        "把 GPU 数量从 8 张增加到 16 张",
+        "禁用连续批处理",
+        "把动态内容移出可缓存前缀",
+        "不改变提示词就从 vLLM 切换到 SGLang"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“把动态内容移出可缓存前缀”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

@@ -35,7 +35,7 @@ status: reviewed
 
 ## 概念
 
-### 为什么 FP8 仍是 KV 缓存的下限
+### 为什么 FP8 仍是 KV 缓存的下限 <!-- learning-atlas: why-fp8-is-still-the-floor-for-kv-cache -->
 
 2026 年常见的误解是：NVFP4 适用于一切。KV 缓存需要 FP8（8 位浮点），因为其中存放的注意力 key 和 value 跨越很宽的动态范围。将 KV 量化为 FP4 会造成灾难性精度损失——分布尾部被截断，注意力分数随之崩溃。FP8 的指数位提供了 KV 缓存所需的范围。
 

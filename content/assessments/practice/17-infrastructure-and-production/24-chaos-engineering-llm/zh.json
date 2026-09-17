@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/24-chaos-engineering-llm/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "f6e9178f18d4f8ffdc6dfa1c506bb8aa2f1765e0f17d9f71dc05c650ae182760"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "在生产环境运行混沌实验前，本课要求哪五项前置条件？",
+      "options": [
+        "Slack 频道、贴纸包、吉祥物、话题标签、博客文章",
+        "只有向量数据库",
+        "SLI/SLO、可观测性、自动回滚、结构化运行手册、值班人员",
+        "三个前沿模型"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“SLI/SLO、可观测性、自动回滚、结构化运行手册、值班人员”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "混沌架构包含哪四个平面以及反馈回路？",
+      "options": [
+        "前端、后端、移动端、Web",
+        "摄取、转换、存储、服务",
+        "训练、评估、部署、归档",
+        "控制、目标、安全、可观测性，并将反馈用于调整 SLO"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“控制、目标、安全、可观测性，并将反馈用于调整 SLO”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "混沌实验中的燃烧率告警闸门做什么？",
+      "options": [
+        "当每日错误预算燃烧超过预期约 2 倍时暂停实验",
+        "自动把实验提升到生产",
+        "禁用可观测性",
+        "加速实验"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“当每日错误预算燃烧超过预期约 2 倍时暂停实验”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "下列哪项是本课列出的 LLM 专属混沌实验？",
+      "options": [
+        "随机降低风扇转速",
+        "重启整个数据中心",
+        "强制 vLLM block budget 饱和的 KV 驱逐风暴",
+        "丢弃所有 DNS"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“强制 vLLM block budget 饱和的 KV 驱逐风暴”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "本课建议采用什么混沌演练节奏？",
+      "options": [
+        "只在每年运行一次",
+        "每天制造完整生产中断",
+        "永不运行",
+        "每周小型金丝雀、每月 game day 加复盘、每季度跨团队韧性审计"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“每周小型金丝雀、每月 game day 加复盘、每季度跨团队韧性审计”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "格式错误提示词实验会揭示哪种 LLM 专属故障？",
+      "options": [
+        "输入深度嵌套 Unicode 或巨大 UTF-8 codepoint 时 tokenizer 停滞并锁住 worker",
+        "GPU 降压",
+        "网络丢包",
+        "磁盘 I/O 争用"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“输入深度嵌套 Unicode 或巨大 UTF-8 codepoint 时 tokenizer 停滞并锁住 worker”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

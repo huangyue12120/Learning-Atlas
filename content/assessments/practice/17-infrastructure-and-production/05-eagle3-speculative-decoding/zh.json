@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/05-eagle3-speculative-decoding/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "d95ff962479bb990ecbf873493c605641c4df61599ee828f0d9813001031bfa6"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "为什么推测解码能利用普通 decode 中存在的空隙？",
+      "options": [
+        "Decode 无法从批处理获益",
+        "Decode 受内存带宽限制，GPU 大多在等待从 HBM 读取权重",
+        "Decode 受计算限制，因此增加计算是免费的",
+        "Decode 比 prefill 需要更多网络带宽"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“Decode 受内存带宽限制，GPU 大多在等待从 HBM 读取权重”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "接受率 alpha 衡量什么？",
+      "options": [
+        "草稿模型的延迟开销",
+        "目标模型接受的草稿 token 比例",
+        "KV 缓存命中率",
+        "Decode 期间使用的 GPU 显存比例"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“目标模型接受的草稿 token 比例”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "相比 EAGLE-2，EAGLE-3 做了什么，使一般聊天的 alpha 提高到约 0.6–0.8？",
+      "options": [
+        "草稿头利用目标模型的多层信息，而不只使用最后一层",
+        "使用同一模型族的完整规模草稿模型",
+        "改为在 CPU 上运行",
+        "完全移除验证步骤"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“草稿头利用目标模型的多层信息，而不只使用最后一层”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "在大多数 2026 硬件的高并发下，alpha 低于大约多少时，推测解码会变成净负收益？",
+      "options": [
+        "0.85",
+        "0.95",
+        "0.05",
+        "0.55"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“0.55”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "启用 EAGLE-3 后，即使平均 ITL 下降，也应最密切关注哪个指标？",
+      "options": [
+        "GPU 显存利用率",
+        "冷启动时间",
+        "平均 E2E 延迟",
+        "P99 ITL，因为被拒绝的草稿会产生两次计算，并可能在满批次下串行化"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“P99 ITL，因为被拒绝的草稿会产生两次计算，并可能在满批次下串行化”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "根据本课，为什么 2026 年 vLLM 将推测解码设为可选而非默认？",
+      "options": [
+        "它与 PagedAttention 不兼容",
+        "它只能运行在 Blackwell GPU 上",
+        "它需要单独的许可证",
+        "接受率依赖工作负载，未测量 alpha 就开启是生产反模式"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“接受率依赖工作负载，未测量 alpha 就开启是生产反模式”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

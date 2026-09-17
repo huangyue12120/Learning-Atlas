@@ -11,6 +11,14 @@ practice:
 card:
   title: 用接受率判断 EAGLE-3 是否值得部署
   summary: 在根据草稿长度 K、接受率 α 与验证开销决定是否开启 EAGLE-3 时，推测解码的拒绝采样与速度模型解释了为何必须在真实流量和目标并发度上测量 alpha，而非只看草稿模型速度。
+  context: "本课用 EAGLE-3 的草稿长度、接受率和验证开销判断推测解码是否值得部署。"
+  intuition: "草稿模型先提出 token，目标模型批量验证并拒绝不一致部分；接受率越高，一次目标前向推进的 token 越多。"
+  key_points:
+    - "alpha 表示草稿 token 被目标模型接受的比例，且随任务和并发变化。"
+    - "EAGLE-3 利用目标模型多层信息提高一般对话的接受率。"
+    - "高并发的拒绝会增加验证轮次，必须同时观察 P99 ITL。"
+  application: "在代表性提示词和并发度上扫描 K、alpha 与验证开销，比较启用前后的 ITL、E2E 延迟和吞吐量。"
+  check_question: "为什么 EAGLE-3 必须用真实流量测量 alpha，而不能只依据草稿模型的速度？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/05. scaling and deployment.md

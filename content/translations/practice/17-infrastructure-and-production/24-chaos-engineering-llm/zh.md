@@ -33,7 +33,7 @@ status: reviewed
 
 ## 概念
 
-### 先决条件
+### 先决条件 <!-- learning-atlas: prerequisites -->
 
 没有以下条件，不要在生产中运行混沌：
 

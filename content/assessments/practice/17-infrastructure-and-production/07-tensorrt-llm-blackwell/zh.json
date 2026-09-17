@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/07-tensorrt-llm-blackwell/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "e9d22306a73815c3e55881a19366691e26f7d923839582232463f39127fce96d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "在可比的 120B 级工作负载上，本课报告 Blackwell + TRT-LLM + Dynamo 与 H100 + vLLM 的每百万 token 成本差距约为多少？",
+      "options": [
+        "约 2 倍",
+        "约 7 倍",
+        "约 1.1 倍",
+        "约 100 倍"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“约 7 倍”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "为什么本课建议 Blackwell 上的 KV 缓存保持 FP8，而不是 NVFP4？",
+      "options": [
+        "任何引擎都尚未支持 NVFP4 KV 缓存",
+        "KV 缓存跨越很宽的动态范围，FP4 量化会让注意力分数严重失真",
+        "FP8 比 FP4 更省内存",
+        "FP8 是 NVLink 5 唯一支持的精度"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“KV 缓存跨越很宽的动态范围，FP4 量化会让注意力分数严重失真”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "TRT-LLM 利用 Blackwell 的哪项能力，使模型无需后训练转换就能加载？",
+      "options": [
+        "BF16 KV 缓存",
+        "FP64 注意力",
+        "通过 bitsandbytes 使用 INT2 权重",
+        "模型供应商直接提供 Day-0 FP4 权重"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“模型供应商直接提供 Day-0 FP4 权重”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "根据本课，选择 TRT-LLM 栈的主要取舍是什么？",
+      "options": [
+        "它要求完全自主的故障修复",
+        "它无法服务 MoE 模型",
+        "它只能在小规模运行",
+        "它锁定 NVIDIA 硬件，不支持 AMD、Intel 或 ARM"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“它锁定 NVIDIA 硬件，不支持 AMD、Intel 或 ARM”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "本课所述的典型 Blackwell 精度组合是哪一个？",
+      "options": [
+        "全部使用 BF16",
+        "权重 NVFP4、激活值 NVFP4、KV 缓存 FP8、注意力累加 FP32",
+        "权重 INT8、激活值 FP32、KV 缓存 INT4",
+        "权重 FP4、KV 缓存 FP4、注意力使用 INT8"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“权重 NVFP4、激活值 NVFP4、KV 缓存 FP8、注意力累加 FP32”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "对于推理密集型工作负载，如果 NVFP4 权重转换让 MATH 准确率下降几个百分点，本课建议怎么做？",
+      "options": [
+        "切换到 AMD MI300X",
+        "禁用推测解码",
+        "按模型在自己的评测集验证任务质量；团队通常改用 FP8 权重 + FP4 激活值，或全程在 H200 上使用 FP8",
+        "无论如何上线 NVFP4，因为降本收益更重要"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“按模型在自己的评测集验证任务质量；团队通常改用 FP8 权重 + FP4 激活值，或全程在 H200 上使用 FP8”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

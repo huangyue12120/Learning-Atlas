@@ -33,7 +33,7 @@ status: reviewed
 
 ## 概念
 
-### 带宽才是真正的上限
+### 带宽才是真正的上限 <!-- learning-atlas: bandwidth-is-the-real-ceiling -->
 
 Decode 为每个 token 读取完整权重集合。一个 Q4 7B 模型为 3.5 GB。以 50 GB/s 读取 3.5 GB 需要 70 ms——理论上限约 14 tok/s。在 90 GB/s（高端移动 DRAM）时，上限升至约 25 tok/s。在此数值之下，再多算力也无济于事。
 

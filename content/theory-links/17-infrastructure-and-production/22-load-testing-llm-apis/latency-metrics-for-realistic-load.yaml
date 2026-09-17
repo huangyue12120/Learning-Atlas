@@ -11,6 +11,14 @@ practice:
 card:
   title: 用 TTFT、TPOT 与吞吐量为负载测试设定正确闸门
   summary: 在将真实提示词分布和流式延迟纳入 CI 压力测试时，推理指标的 prefill/decode 区分说明了为何应同时设置 TTFT 与 TPOT 百分位数闸门，而不能只以一次 HTTP 请求或汇总吞吐量判断服务质量。
+  context: "本课展示 k6、Locust 等工具在 LLM 压测中的偏差，并为 CI 设定真实负载下的 SLA 闸门。"
+  intuition: "重复短请求会把缓存和并发形态理想化；TTFT、TPOT、P99 和吞吐量要一起观察。"
+  key_points:
+    - "Locust 客户端的 Python GIL 和 tokenization 可能把客户端排队误报为服务端 ITL。"
+    - "重复 prompt 制造前缀命中，会夸大吞吐量；应按真实分布采样或回放。"
+    - "steady、ramp、spike、soak 分别揭示稳态、扩容、突发和长期泄漏。"
+  application: "用重复 prompt 和真实分布运行压测，比较 TTFT/TPOT 百分位数并设计 Kubernetes-native CI gate。"
+  check_question: "为什么 LLM 压测必须同时设置 TTFT 与 TPOT 的百分位数闸门，而不能只看总吞吐量？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/03. serving and batching.md

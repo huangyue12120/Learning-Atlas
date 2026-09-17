@@ -33,7 +33,7 @@ status: reviewed
 
 ## 概念
 
-### 七个框架
+### 七个框架 <!-- learning-atlas: the-seven-frameworks -->
 
 | 框架 | 范围 | LLM 专属要求 |
 |------|------|--------------|

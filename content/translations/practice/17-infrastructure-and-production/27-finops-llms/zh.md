@@ -107,7 +107,7 @@ trace_id: abc123
 
 每次调用都发出，存入数据湖，按维度聚合。第 17 阶段 · 13 的可观测性栈就是这一机制所在。
 
-### 复合节省栈
+### 复合节省栈 <!-- learning-atlas: the-compounded-savings-stack -->
 
 叠加：缓存 + batch + 路由 + 网关。四者齐用：
 

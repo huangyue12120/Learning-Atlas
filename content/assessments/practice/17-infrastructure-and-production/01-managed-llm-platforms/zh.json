@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/01-managed-llm-platforms/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "449cfc444f6a9a7daae2d4b0cd33cdeb0fc06964a39ca6af78c1ebc37c929d8d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "如果客户需要通过一个 API 使用 Claude、Llama 和 Cohere，你首先会选择哪个平台？",
+      "options": [
+        "AWS Bedrock",
+        "Vertex AI",
+        "Anthropic 直连 API",
+        "Azure OpenAI Service"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“AWS Bedrock”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "pre",
+      "question": "哪家超大规模云厂商押注的是“独家合作关系”，而不是模型市场？",
+      "options": [
+        "Vertex AI",
+        "AWS Bedrock",
+        "OCI Generative AI",
+        "Azure OpenAI"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“Azure OpenAI”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "在等价的 Llama 3.1 405B 部署上，Azure OpenAI（PTU）与 Bedrock 按需服务的实测中位 TTFT 差距大约是多少？",
+      "options": [
+        "约 250 ms",
+        "约 5 ms",
+        "约 100 ms",
+        "约 25 ms"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“约 25 ms”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "Bedrock 在 2025 年提供了哪项功能，可以在 CloudWatch 中原生完成最清晰的产品级成本归因？",
+      "options": [
+        "Bedrock Agents",
+        "Bedrock Knowledge Bases",
+        "Application Inference Profiles",
+        "Bedrock Guardrails"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“Application Inference Profiles”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "check",
+      "question": "Azure PTU 相比按需服务通常在怎样的持续利用率区间达到盈亏平衡？",
+      "options": [
+        "40–60%",
+        "80–95%",
+        "5–10%",
+        "20–30%"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“40–60%”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为什么本课建议 2026 年产品关键 LLM 调用至少使用两个供应商？",
+      "options": [
+        "超大规模云厂商只有在同时使用竞争对手时才签 BAA",
+        "单一供应商的价格总是更高",
+        "这是 SOC 2 Type II 的强制要求",
+        "前沿模型每月轮换，锁定单一供应商会错过约三分之二的前沿能力"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“前沿模型每月轮换，锁定单一供应商会错过约三分之二的前沿能力”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q7",
+      "stage": "post",
+      "question": "下列哪项最准确地概括了三个平台的 FinOps 归因面？",
+      "options": [
+        "三者都提供相同的逐请求归因",
+        "Bedrock 原生最干净，Vertex 借助 BigQuery 最灵活，Azure 没有额外埋点时最不透明",
+        "Vertex 完全没有归因能力",
+        "Azure 原生最干净，而 Bedrock 最不透明"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“Bedrock 原生最干净，Vertex 借助 BigQuery 最灵活，Azure 没有额外埋点时最不透明”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

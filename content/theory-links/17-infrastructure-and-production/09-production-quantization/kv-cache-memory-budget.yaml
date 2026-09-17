@@ -11,6 +11,14 @@ practice:
 card:
   title: 将 KV 缓存纳入量化后的 HBM 预算
   summary: 在计算量化模型能否容纳指定并发和上下文长度时，KV 缓存大小公式揭示了为什么权重降至 INT4 后，缓存仍可能主导 HBM；它也区分权重量化与会直接影响注意力精度的 KV 缓存量化。
+  context: "本课计算量化模型能否容纳目标并发和长上下文，强调权重缩小后 KV 缓存仍是独立预算。"
+  intuition: "量化只改变权重存储格式；KV 会随层数、序列数和 token 数增长，长上下文时可能反过来主导 HBM。"
+  key_points:
+    - "KV 大小由层数、头数、head dimension、序列长度、并发和元素字节数共同决定。"
+    - "权重量化不会自动量化 KV，KV 量化会直接影响注意力读取精度。"
+    - "容量预算还要留出激活值和运行时余量，不能只看模型文件大小。"
+  application: "改变精度、上下文长度和并发运行内存计算器，找出 KV 从次要项变为主导项的交叉点。"
+  check_question: "为什么一个“只有 4 GB 权重”的 INT4 模型仍可能因 KV 缓存无法承载生产并发？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/01. quantisation.md

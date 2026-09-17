@@ -65,7 +65,7 @@ KAI Scheduler（项目最初名为 “Karp”，后改名）处理默认 kube-sc
 
 KAI 与 kube-scheduler 并排部署，作为辅助调度器；你通过注释让工作负载使用它。Ray 和 vLLM 生产栈都已集成。
 
-### 第 3 层：应用层信号
+### 第 3 层：应用层信号 <!-- learning-atlas: layer-3-application-level-signals -->
 
 **HPA 陷阱：** `DCGM_FI_DEV_GPU_UTIL` 是占空比指标——它测量每个采样间隔中 GPU 是否在工作。100% 利用率可能代表 10 个并发请求，也可能代表 100 个；GPU 无论如何都在忙。按占空比扩缩等于盲目扩缩。
 

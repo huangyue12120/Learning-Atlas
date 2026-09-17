@@ -11,6 +11,14 @@ practice:
 card:
   title: 用权重量化机制选择 AWQ、GPTQ 与 GGUF
   summary: 在按硬件、服务引擎和多 LoRA 需求选择生产量化格式时，权重专用量化笔记说明了 GPTQ 的误差补偿、AWQ 对显著通道的保护以及 GGUF K-quant 的格式取舍，帮助把格式名称转化为可验证的选择条件。
+  context: "本课在 CPU、数据中心 GPU、服务引擎和多 LoRA 需求之间选择 AWQ、GPTQ、GGUF、FP8 等格式。"
+  intuition: "GPTQ 侧重误差补偿，AWQ 保护显著通道，GGUF K-quant 面向 llama.cpp；格式选择应从硬件和负载倒推。"
+  key_points:
+    - "AWQ/GPTQ 通常量化权重而保留较高精度激活值与 KV。"
+    - "GPTQ + Marlin 适合 vLLM 的多 LoRA GPU 场景，GGUF 更适合 CPU/边缘生态。"
+    - "校准数据分布会影响保护哪些通道，通用网页文本可能损害领域质量。"
+  application: "为同一模型建立 CPU、单 GPU 和多 LoRA 需求表，记录格式、内存、吞吐量与质量取舍。"
+  check_question: "为什么量化格式不能只按文件大小排序，而要结合硬件、引擎和 LoRA 需求选择？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/01. quantisation.md

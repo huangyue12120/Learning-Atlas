@@ -11,6 +11,14 @@ practice:
 card:
   title: 将稳定内容置于可复用的提示词前缀
   summary: 在重构供应商 L2 提示词缓存的 cache boundary 时，前缀缓存原理说明了为什么系统规则、示例等稳定内容必须位于前部，而时间、请求 ID 与用户数据必须在后部，才能跳过重复 prefill 并获得命中率收益。
+  context: "本课比较 L1 语义缓存和 L2 前缀缓存，说明可缓存前缀的边界如何决定命中率。"
+  intuition: "稳定规则、工具 schema 和示例可以共享 KV；时间、请求 ID 和用户数据若放在前缀中，每次都会制造新 token。"
+  key_points:
+    - "L1 语义命中可跳过整个 LLM，L2 命中只复用 provider 侧 attention KV。"
+    - "并行请求在首次写入完成前到达，会重复支付写入溢价。"
+    - "“95% accuracy”是匹配正确率，不等于生产命中率。"
+  application: "改变提示词顺序、并发度和 batch 配置，比较两层缓存与同步未缓存基线的成本。"
+  check_question: "为什么把当前时间和 request ID 放进可缓存前缀会让命中率迅速下降？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/05. scaling and deployment.md

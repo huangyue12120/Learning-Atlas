@@ -35,7 +35,7 @@ status: reviewed
 
 ## 概念
 
-### 多智能体架构
+### 多智能体架构 <!-- learning-atlas: multi-agent-architecture -->
 
 ```
           事故

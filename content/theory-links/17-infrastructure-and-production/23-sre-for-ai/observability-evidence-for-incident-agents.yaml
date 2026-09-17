@@ -11,6 +11,14 @@ practice:
 card:
   title: 以日志、指标和追踪为 AI SRE 的可核验证据
   summary: 在让日志、指标和运行手册智能体共同提出事故假设时，可观测性的结构化日志、资源指标和分布式追踪基础说明了每个专用智能体应检索什么证据，以及为何人类批准前必须保留可追溯的链路。
+  context: "本课把 AI SRE 事故响应拆成日志、指标和运行手册智能体，再由主管综合并交给人类。"
+  intuition: "专用智能体提供不同观测面的证据，主管对齐假设；独立分析不一致时升级人类，避免幻觉成为根因。"
+  key_points:
+    - "安全自动修复限于预批准的重启、回滚、有限扩容和 feature flag。"
+    - "对抗性评估让两个模型独立分析同一事故，分歧本身就是升级信号。"
+    - "runbook 和 post-mortem 的持久化记忆让团队更替后仍可检索证据。"
+  application: "运行事故 triage，比较各智能体证据和一致性评分，设计一个需要人类批准的修复门。"
+  check_question: "为什么 AI SRE 的主管必须保留各专用智能体的原始证据，而不能只输出一个根因？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

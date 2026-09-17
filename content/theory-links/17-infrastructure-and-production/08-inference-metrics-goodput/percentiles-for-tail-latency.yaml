@@ -11,6 +11,14 @@ practice:
 card:
   title: 用百分位数读取推理延迟的长尾
   summary: 在制定 TTFT、TPOT 和 E2E 的 P50/P90/P99 SLO 时，位置统计量说明了百分位数为何比平均值更能代表右偏延迟分布中的用户体验，也为 goodput 的多约束门槛提供了可解释的输入。
+  context: "本课把 TTFT、TPOT、ITL 和 goodput 组合成用户可感知的推理 SLO，重点处理右偏长尾。"
+  intuition: "百分位数回答大多数请求最慢到哪里，goodput 则只计入同时满足多项约束的请求。"
+  key_points:
+    - "TTFT 反映队列与 prefill，TPOT/ITL 反映逐 token decode，不能互相替代。"
+    - "P99 对尾部用户体验和容量规划敏感，适合做生产闸门。"
+    - "goodput 是同时满足延迟、错误率和输出约束的请求比例。"
+  application: "生成右偏延迟样本，比较 mean 与 P50/P90/P99，并改变 SLO 约束观察 goodput。"
+  check_question: "在延迟右偏且存在长尾的 LLM 服务中，为什么 P99 比平均延迟更能代表用户风险？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 04 - statistics/02. measures.md

@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/27-finops-llms/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "4449dccab9143ca1d22bc0d32330a9254e06ea28f8748a781af7382b39380815"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "为什么传统 FinOps 在 LLM 支出上会失效？",
+      "options": [
+        "LLM 不花钱",
+        "云供应商拒绝提供明细",
+        "LLM 账单总是免费",
+        "成本是 token 交易而不是资源运行时间；标签不会从 API 调用自动传播，必须在调用点写入用户、任务和租户信息"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“LLM 成本是 token 交易，必须在调用点写入用户、任务和租户信息”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "本课要求从第一天就插桩的三个归因维度是什么？",
+      "options": [
+        "供应商、模型、API 版本",
+        "区域、可用区、数据中心",
+        "按用户（user_id）、按任务（task_id + route）、按租户（tenant_id）",
+        "GPU、CPU、RAM"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“按用户、按任务和按租户”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "成本归因应拆分哪四个 token 层？",
+      "options": [
+        "GPU、CPU、RAM、存储",
+        "缓存、模型、网关、可观测性",
+        "输入、输出、网络、磁盘",
+        "提示词、工具、记忆、响应"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“提示词、工具、记忆、响应”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "执行阶梯中的 kill switch 触发条件是什么？",
+      "options": [
+        "一分钟支出超过 1 美元",
+        "任意 5xx 响应",
+        "租户支出相对基线的 z-score > 4；自动暂停租户并呼叫值班",
+        "P50 延迟超过 2 秒"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“租户支出相对基线的 z-score > 4，并自动暂停和呼叫值班”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "本课建议用什么单位指标替代 $/M tokens？",
+      "options": [
+        "每秒成本",
+        "每 GPU 小时成本",
+        "每个产品结果的成本，例如每张已解决工单、每篇生成文章或每个成功智能体任务",
+        "每个网关的成本"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“每个产品结果的成本”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "成熟团队使用的最高准确度归因模式是什么？",
+      "options": [
+        "只打标签再聚合",
+        "基于模型分摊",
+        "Telemetry joiner：通过 trace ID 将链路与账单连接",
+        "采样后外推"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“通过 trace ID 将链路与账单连接的 Telemetry joiner”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

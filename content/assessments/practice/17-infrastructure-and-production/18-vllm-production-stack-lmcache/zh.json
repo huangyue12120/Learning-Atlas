@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/18-vllm-production-stack-lmcache/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "bc5c2cd2a1b3ed3a8a8aacf1007f2bc8de421820d2994a543dbb9ee2e6fe417d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "LMCache 在 vLLM 部署中主要解决什么问题？",
+      "options": [
+        "Tokenizer GIL 竞争",
+        "网络出口过滤",
+        "冷启动镜像拉取",
+        "HBM 中的 KV 缓存压力导致抢占和同一前缀重复 prefill"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“HBM 中的 KV 缓存压力导致抢占和同一前缀重复 prefill”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "vLLM 哪个 API 引入了可插拔的 KV 缓存后端？",
+      "options": [
+        "前缀缓存开关",
+        "vLLM v0.9.0 的 Connector API",
+        "PagedAttention v2",
+        "ChunkedPrefill API"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“vLLM v0.9.0 的 Connector API”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "vLLM 0.11.0（2026 年 1 月）为 KV 卸载路径增加了什么？",
+      "options": [
+        "移除 LMCache 支持",
+        "强制使用 FP8 KV 缓存",
+        "异步卸载路径，常见路径不会被卸载阻塞",
+        "只支持同步卸载"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“异步卸载路径，常见路径不会被卸载阻塞”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "什么时候应选 LMCache 而不是原生 CPU 卸载？",
+      "options": [
+        "只运行 CPU 时",
+        "多个引擎在租户、LoRA 变体或重复 RAG 上下文之间共享前缀，跨引擎复用能产生收益",
+        "单个引擎有 HBM 压力但没有前缀共享",
+        "希望完全禁用 KV 缓存"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“多个引擎在租户、LoRA 变体或重复 RAG 上下文之间共享前缀，跨引擎复用能产生收益”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "当 KV footprint 远低于 HBM 时，LMCache 的收益怎样？",
+      "options": [
+        "LMCache 会自动禁用",
+        "配置接近基线但有约 3–5% 开销，没有实际收益",
+        "引擎会崩溃",
+        "吞吐量仍会翻倍"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“配置接近基线但有约 3–5% 开销，没有实际收益”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为什么 LMCache 能与解耦服务（Phase 17 · 17）组合？",
+      "options": [
+        "Prefill 传给 decode 的 KV 会进入 LMCache，后续查询可从 LMCache 取出并跳过 prefill，缓存感知路由可选择本地或共享缓存匹配的引擎",
+        "两者不能组合",
+        "因为 LMCache 取代了 NIXL",
+        "因为 LMCache 与引擎运行在同一 GPU"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“Prefill 传给 decode 的 KV 会进入 LMCache，后续查询可从 LMCache 取出并跳过 prefill，缓存感知路由可选择本地或共享缓存匹配的引擎”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

@@ -69,7 +69,7 @@ FCFS 违反二者。一个共享 2,000 token 的请求会排在共享 50 token �
 - SGLang 客户的生产命中率：取决于提示词纪律，介于 50–99%。
 - 2026 年部署在 40 万+ GPU 上。
 
-### 排序陷阱
+### 排序陷阱 <!-- learning-atlas: the-ordering-gotcha -->
 
 6.4 倍依赖一致的提示词模板排序。若客户端在某些请求中构造 `[system, tools, context, history, question]`，另一些则构造 `[system, context, tools, history, question]`，树无法找到共享前缀。对人类看似共享前缀，对基数树却是两条不同序列。
 

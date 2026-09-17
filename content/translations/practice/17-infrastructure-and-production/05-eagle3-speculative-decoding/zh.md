@@ -37,7 +37,7 @@ Decode 受内存带宽限制。在运行 Llama 3.3 70B FP8 的 H100 上，每个
 
 ## 概念
 
-### 推测解码实际获得什么
+### 推测解码实际获得什么 <!-- learning-atlas: what-speculative-decoding-actually-buys -->
 
 没有推测解码时，每 token 成本为一次目标模型前向传播。草稿长度 K、接受率 alpha 时，每次目标前向传播的期望 token 数为 `1 + K * alpha`。加速比为 `(1 + K * alpha) / (1 + epsilon)`，其中 epsilon 是草稿加验证开销。K=5、alpha=0.7 时：`(1 + 5*0.7) / (1 + 0.1) = 4.5 / 1.1 = 4.1x`。真实世界通常聚集在 2–3 倍，因为生产流量上的 alpha 很少这么高，且 epsilon 会随批次变大而增长。
 

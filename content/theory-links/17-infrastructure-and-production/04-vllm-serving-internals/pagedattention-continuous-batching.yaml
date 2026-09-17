@@ -11,6 +11,14 @@ practice:
 card:
   title: PagedAttention 的 KV 分页与连续批处理
   summary: 为 vLLM 调度器配置 KV 块预算、接纳新序列和分块 prefill 时，使用 PagedAttention 的页表、按需分配与 prefill/decode 机制理解为何连续批处理能降低碎片并提高 goodput。
+  context: "本课用 vLLM 的 PagedAttention、连续批处理和 chunked prefill 解释混合长度请求的调度。"
+  intuition: "KV 缓存像虚拟内存：逻辑序列通过块表映射到按需分配的固定大小物理块，不必为最长请求预留连续空间。"
+  key_points:
+    - "固定 KV 块和 per-sequence block table 将逻辑序列与物理显存解耦。"
+    - "连续批处理在每个 decode 迭代接纳和释放序列，减少等待最长请求的空转。"
+    - "chunked prefill 让长输入分片执行，主要保护混合负载的尾部 ITL。"
+  application: "运行模拟器比较静态、连续和分块 prefill，记录碎片、吞吐量、TTFT 与 P99 ITL。"
+  check_question: "PagedAttention 的块表如何同时减少 KV 碎片并允许不同长度序列连续加入批次？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/03. serving and batching.md

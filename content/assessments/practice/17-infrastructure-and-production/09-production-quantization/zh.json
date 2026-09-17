@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/09-production-quantization/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "5e8e8f531d44a5f097e92ba3bebb6a1ee4a5cc7d9535cfebd9955c5032296d93"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "本课称哪种量化格式是 CPU 和边缘服务的生产默认选择？",
+      "options": [
+        "GGUF Q4_K_M / Q5_K_M",
+        "NVFP4",
+        "FP8",
+        "AWQ INT4"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“GGUF Q4_K_M / Q5_K_M”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "在 vLLM 数据中心 GPU 且需要多 LoRA 的场景下，本课选择哪种格式？",
+      "options": [
+        "NVFP4",
+        "GGUF Q4_K_M",
+        "使用 Marlin 内核的 GPTQ",
+        "AWQ"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“使用 Marlin 内核的 GPTQ”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "AWQ 带来“我的模型现在只有 4 GB 了”的陷阱是什么？",
+      "options": [
+        "AWQ 实际不会缩小权重",
+        "AWQ 与 vLLM 不兼容",
+        "AWQ 只缩小权重；KV 缓存和激活值是独立部分，在生产批次下还可能增加 30–50 GB",
+        "AWQ 要求使用 INT8 KV 缓存"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“AWQ 只缩小权重；KV 缓存和激活值是独立部分，在生产批次下还可能增加 30–50 GB”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "为什么在通用网页文本上校准 AWQ 会伤害领域模型？",
+      "options": [
+        "它会增大模型",
+        "它只适用于 AMD GPU",
+        "算法会错误决定应保护哪些权重，使领域准确率下降（例如 HumanEval 的 Pass@1 下降数个百分点）",
+        "它会禁用 Marlin 内核"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“算法会错误决定应保护哪些权重，使领域准确率下降（例如 HumanEval 的 Pass@1 下降数个百分点）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "对于质量不可妥协的推理密集型工作负载，本课默认推荐哪种精度？",
+      "options": [
+        "NVFP4 权重",
+        "GPTQ INT4",
+        "FP8 权重",
+        "INT2 GGUF"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“FP8 权重”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "本课指出 NVFP4 在 2026 年初有什么限制？",
+      "options": [
+        "不能与 FP8 KV 缓存组合",
+        "只能在 CPU 上运行",
+        "尚不支持 LoRA",
+        "不支持 H100"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“尚不支持 LoRA”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

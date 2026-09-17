@@ -35,7 +35,7 @@ status: reviewed
 
 ## 概念
 
-### 为什么瓶颈不同
+### 为什么瓶颈不同 <!-- learning-atlas: why-the-bottlenecks-differ -->
 
 **Prefill**——在一次前向传播中让 Transformer 运行完整输入提示词。矩阵乘法占主导，受计算约束。H100 FP8 提供约 2000 TFLOPS 的有效吞吐量。批处理效率很高——一次前向传播可处理许多 token。
 

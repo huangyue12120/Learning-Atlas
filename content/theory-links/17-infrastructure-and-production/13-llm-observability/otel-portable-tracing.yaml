@@ -11,6 +11,14 @@ practice:
 card:
   title: 用 OpenTelemetry 解耦 LLM 遥测与观测后端
   summary: 在选择网关和评估平台并为每次 LLM 调用规定 GenAI 属性时，日志、指标与分布式追踪的三支柱说明了为何应在可移植的 OpenTelemetry 层插桩，而不是把 trace 绑定到单一智能体框架或后端。
+  context: "本课在多种 LLM 可观测性工具之间做选型，重点是让插桩位于可迁移的 OpenTelemetry 互操作层。"
+  intuition: "日志、指标和 trace 提供不同证据，GenAI 语义约定为模型、token 和调用结果定义共同字段。"
+  key_points:
+    - "HTTP/OpenAI SDK 边界适合保留通用 trace，但不应绑定某个 Agent 框架。"
+    - "gen_ai.system、gen_ai.request.model 和 gen_ai.usage.input_tokens 构成互操作契约。"
+    - "百万请求规模下应优先保留错误、高成本和少量成功 trace，避免存储失控。"
+  application: "给模拟调用添加 OTel GenAI 属性，比较不同采样策略的保留率、查询能力和存储成本。"
+  check_question: "为什么把 LLM trace 插在可移植的 OpenTelemetry 层，比绑定某个智能体框架更能抵抗工具更换？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

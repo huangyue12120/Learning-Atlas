@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/15-batch-apis/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "542281e7a517b0f15633c2cc662bb6423bb9e84ef1937cbbe369ea6cdeb18929"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "2026 年 OpenAI、Anthropic 和 Google 的 Batch API 共同提供什么？",
+      "options": [
+        "90% 折扣、7 天周转",
+        "50% 折扣、24 小时周转",
+        "10% 折扣、1 小时周转",
+        "低于 1K token 时免费"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“50% 折扣、24 小时周转”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "本课所说的“24 小时周转”实际保证什么？",
+      "options": [
+        "24 小时是缓存 TTL",
+        "供应商承诺在 24 小时内返回，典型 P50 约为 2–6 小时",
+        "batch 总是恰好耗时 24 小时",
+        "只有低于 1K 请求的 batch 才符合"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“供应商承诺在 24 小时内返回，典型 P50 约为 2–6 小时”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "在共享系统提示的工作负载上，batch 与缓存叠加相对同步未缓存账单会怎样？",
+      "options": [
+        "只有模型位于 Vertex 时才有效",
+        "成本可以降到同步未缓存基线的约 10%",
+        "成本增加 50%",
+        "没有影响，因为缓存会自动发生"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“成本可以降到同步未缓存基线的约 10%”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "对于内容管线和离线标注，哪条工作负载分流结论不应作为 2026 年默认？",
+      "options": [
+        "混合 batch 与缓存",
+        "交互式，因为听起来更紧急",
+        "Batch，因为用户看不到 24 小时延迟",
+        "半交互式异步队列"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“交互式，因为听起来更紧急”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "不同供应商之间有什么输出 schema 陷阱？",
+      "options": [
+        "所有供应商使用相同的 OpenAI JSONL 格式",
+        "Batch 文件格式因供应商而异（OpenAI JSONL、Anthropic JSONL、Vertex BigQuery/GCS），可移植客户端需要适配器",
+        "Vertex 只接受 Parquet",
+        "Anthropic 不支持 JSONL"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“Batch 文件格式因供应商而异（OpenAI JSONL、Anthropic JSONL、Vertex BigQuery/GCS），可移植客户端需要适配器”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "根据本课，把工作分流到 batch 的最简单规则是什么？",
+      "options": [
+        "prompt 少于 1K token 就 batch",
+        "如果用户不会注意到 24 小时交付，就总是 batch（并叠加缓存）",
+        "只有网关要求时才 batch",
+        "只要使用工具就 batch"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“如果用户不会注意到 24 小时交付，就总是 batch（并叠加缓存）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

@@ -11,6 +11,14 @@ practice:
 card:
   title: 前缀缓存的命中率取决于提示词布局
   summary: 为 SGLang 的基数树缓存安排系统提示、工具模式、检索上下文与用户问题的顺序时，前缀缓存原理说明了为什么稳定内容必须位于前缀，动态内容必须置后，才能复用 prefill KV 块。
+  context: "本课把 SGLang 的 RadixAttention 与提示词模板设计放在一起考察，缓存边界由 token 顺序决定。"
+  intuition: "基数树沿共享前缀保存 KV 块；稳定内容放在前面，动态问题放在后面，就能让请求走同一条热分支。"
+  key_points:
+    - "缓存命中要求从开头共享连续 token，内容相同但位置不同也不能复用。"
+    - "缓存感知调度按分支局部性驱逐冷叶子，尽量保留热前缀。"
+    - "时间戳、请求 ID 和随机示例顺序会把稳定前缀变成 miss。"
+  application: "分别运行稳定前缀和动态前缀实验，记录命中率与 TTFT，再重排模板验证改动收益。"
+  check_question: "为什么只把动态内容移到提示词末尾就可能大幅提高 RadixAttention 的命中率？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/05. scaling and deployment.md

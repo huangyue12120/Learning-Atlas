@@ -35,7 +35,7 @@ vLLM 同时解决三个问题。PagedAttention 阻止传统连续分配会造成
 
 ## 概念
 
-### 作为虚拟内存系统的 PagedAttention
+### 作为虚拟内存系统的 PagedAttention <!-- learning-atlas: pagedattention-as-a-virtual-memory-system -->
 
 每个序列的 KV 缓存是 `num_layers × 2 × num_heads × head_dim × seq_len × bytes_per_element`。对于 8192 token 的 Llama 3.3 70B，每序列 BF16 约为 1.25 GB。若为每个请求预留 8192 个槽位，但平均请求仅用 1500 token，就浪费约 82% 预留 HBM。传统批处理承担这种浪费。
 

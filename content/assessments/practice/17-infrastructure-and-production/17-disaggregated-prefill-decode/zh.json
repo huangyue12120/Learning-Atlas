@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/17-disaggregated-prefill-decode/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "bc4c1c6ded269f2208dc91cf3030934ca74fec7a3038caa96431d00765e07c64"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "为什么 prefill 和 decode 需要不同的最优 GPU 配置？",
+      "options": [
+        "Prefill 必须运行在 AMD、decode 必须运行在 NVIDIA",
+        "它们使用不同的模型权重",
+        "Prefill 受矩阵乘吞吐限制，decode 受 HBM 带宽限制，共置会浪费一种资源",
+        "Decode 需要更多网络带宽"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“Prefill 受矩阵乘吞吐限制，decode 受 HBM 带宽限制，共置会浪费一种资源”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "NVIDIA Dynamo 使用什么传输方式在 prefill 与 decode 池之间移动 KV 缓存？",
+      "options": [
+        "只使用 gRPC 双向流",
+        "NIXL（可用时使用 RDMA/InfiniBand，回退到 TCP）",
+        "普通 HTTP",
+        "NFS 共享文件系统"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“NIXL（可用时使用 RDMA/InfiniBand，回退到 TCP）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "根据本课，什么时候解耦不值得？",
+      "options": [
+        "8K 以上前缀的 RAG",
+        "Blackwell 上的 MoE 工作负载",
+        "共享系统提示的多租户服务",
+        "prompt 少于 512 token 且输出少于 200 token，此时 KV 传输税会超过收益"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“prompt 少于 512 token 且输出少于 200 token，此时 KV 传输税会超过收益”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "Dynamo 与 llm-d 的核心架构差异是什么？",
+      "options": [
+        "Dynamo 开源，llm-d 闭源",
+        "Dynamo 运行在 CPU，llm-d 运行在 GPU",
+        "Dynamo 是位于 vLLM/SGLang/TRT-LLM 之上的编排器；llm-d 是 Kubernetes 原生，把 prefill、decode、router 作为独立 Service",
+        "Dynamo 要求 AMD，llm-d 要求 NVIDIA"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“Dynamo 是位于 vLLM/SGLang/TRT-LLM 之上的编排器；llm-d 是 Kubernetes 原生，把 prefill、decode、router 作为独立 Service”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "Dynamo 的哪些组件会为 SLO 自动调整 prefill:decode 比例？",
+      "options": [
+        "Marlin 内核",
+        "Planner Profiler 和 SLA Planner",
+        "Cluster Autoscaler",
+        "Sidecar proxy 和 Envoy filter"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“Planner Profiler 和 SLA Planner”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "解耦服务如何与 Phase 17 · 11 的缓存感知路由交互？",
+      "options": [
+        "解耦会完全禁用 KV 复用",
+        "缓存感知路由器可把请求放到已经持有其前缀的 decode 池；未命中时流经 prefill → decode，两者可以叠加",
+        "两者互相排斥",
+        "缓存感知路由只适用于共置服务"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“缓存感知路由器可把请求放到已经持有其前缀的 decode 池；未命中时流经 prefill → decode，两者可以叠加”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}

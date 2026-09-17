@@ -11,6 +11,14 @@ practice:
 card:
   title: 用在线随机实验验证 LLM 功能的产品影响
   summary: 在区分离线能力评估与用户是否真的偏好的问题时，在线评估的随机 A/B、样本量、周期和护栏指标解释了为什么模型或提示词变更还需要真实流量实验，而不能只凭评测集或直觉上线。
+  context: "本课区分离线能力评估和真实用户实验，分别回答模型能否完成任务以及用户是否在意改动。"
+  intuition: "离线分数提升不代表用户会更喜欢或愿意承担成本；随机实验提供真实流量下的因果比较。"
+  key_points:
+    - "eval 依赖固定任务与标签，A/B 需要随机分流、实验周期和护栏指标。"
+    - "CUPED 可用前期协变量降低方差，但不能替代实验设计。"
+    - "多重比较、SRM 和模型非确定性都会改变显著性判断。"
+  application: "运行顺序 A/B 模拟器，比较固定样本、序贯检验和 CUPED，并检查 50/50 分流是否发生 SRM。"
+  check_question: "为什么离线评测集上的提升仍需要在线随机实验来证明 LLM 功能的产品价值？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/04. ML systems design.md

@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/10-cold-start-mitigation/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "45d3463dd3726a826c8a2a296dc7378087524672295159055ddca56caef1256a"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "q1",
+      "stage": "pre",
+      "question": "对于没有任何缓解措施的新节点，70B 模型的冷启动通常需要多久？",
+      "options": [
+        "3–8 分钟",
+        "超过 1 小时",
+        "少于 10 秒",
+        "30–60 秒"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“3–8 分钟”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q2",
+      "stage": "check",
+      "question": "本课建议使用哪项 AWS 功能预先植入容器镜像，从而省掉第二步的镜像拉取？",
+      "options": [
+        "Bottlerocket 双卷架构（由 EC2NodeClass 引用）",
+        "Spot fleet 放置",
+        "仅 EBS 卷快照",
+        "ECS task definition"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“Bottlerocket 双卷架构（由 EC2NodeClass 引用）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q3",
+      "stage": "check",
+      "question": "Modal 的哪项功能可以把加载后的状态直接反序列化到 HBM，接近“几秒内温暖启动 GPU”？",
+      "options": [
+        "GPU 内存快照（checkpoint）",
+        "NVMe 到 DRAM 的分层加载",
+        "Run:ai Model Streamer",
+        "实时迁移"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“GPU 内存快照（checkpoint）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q4",
+      "stage": "check",
+      "question": "为什么实时迁移在节点之间传输输入 token，而不是 KV 缓存？",
+      "options": [
+        "KV 缓存已加密，无法移动",
+        "实时迁移是 GDPR 要求",
+        "输入 token 的熵更大",
+        "在目标节点重新计算 KV，比通过网络传输 GB 级 KV 缓存更便宜"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“在目标节点重新计算 KV，比通过网络传输 GB 级 KV 缓存更便宜”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q5",
+      "stage": "post",
+      "question": "哪一层无服务器能力通过至少保持一个副本在线，以 GPU 直接成本换取可预测就绪？",
+      "options": [
+        "分层加载",
+        "实时迁移",
+        "预热池（min_workers >= 1）",
+        "Bottlerocket 预植入"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“预热池（min_workers >= 1）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    },
+    {
+      "id": "q6",
+      "stage": "post",
+      "question": "为什么本课说冷启动缓解必须跨层叠加，而不能只选一个工具？",
+      "options": [
+        "Modal 拥有整个栈",
+        "五个层次都已经捆绑在 vLLM 中",
+        "这是监管要求",
+        "没有单层能消除节点预配、镜像拉取、权重加载和引擎初始化的全部步骤；叠加才能压缩每一步"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“没有单层能消除节点预配、镜像拉取、权重加载和引擎初始化的全部步骤；叠加才能压缩每一步”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+    }
+  ]
+}
