@@ -86,6 +86,25 @@ const t4TheoryIds = [
   "theory/chapter-18-ml-systems-design/02-cloud-computing"
 ] as const;
 
+const t5TheoryIds = [
+  "theory/chapter-01-vectors/02-vector-properties",
+  "theory/chapter-01-vectors/05-basis-and-duality",
+  "theory/chapter-02-matrices/02-matrix-types",
+  "theory/chapter-03-calculus/02-integral-calculus",
+  "theory/chapter-03-calculus/04-function-approximation",
+  "theory/chapter-04-statistics/01-fundamentals",
+  "theory/chapter-04-statistics/05-inference",
+  "theory/chapter-05-probability/01-counting",
+  "theory/chapter-08-computer-vision/01-image-fundamentals",
+  "theory/chapter-08-computer-vision/02-convolutional-networks",
+  "theory/chapter-08-computer-vision/03-object-detection-and-segmentation",
+  "theory/chapter-11-autonomous-systems/01-perception",
+  "theory/chapter-11-autonomous-systems/04-self-driving",
+  "theory/chapter-11-autonomous-systems/05-space-and-extreme-robotics",
+  "theory/chapter-12-graph-neural-networks/01-geometric-deep-learning",
+  "theory/chapter-12-graph-neural-networks/02-graph-theory"
+] as const;
+
 const officialTheoryMainUrl = /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//;
 
 afterEach(() => {
@@ -554,7 +573,7 @@ test("serves the complete curriculum with safe staged phases and a dynamic targe
   assert.equal(curriculum.practice.length, 20);
   assert.equal(curriculum.theory.length, 20);
   assert.equal(curriculum.summary.publishedPracticePhaseCount, 18);
-  assert.equal(curriculum.summary.reviewedTheoryNoteCount, 57);
+  assert.equal(curriculum.summary.reviewedTheoryNoteCount, 73);
   assert.equal(curriculum.target.kind, "start");
   assert.equal(curriculum.target.lessonId, "practice/00-setup-and-tooling/01-dev-environment");
   const publishedAgentPhase = curriculum.practice[14];
@@ -763,13 +782,54 @@ test("publishes every T4 theory translation with official main source links", as
   }
 });
 
+test("publishes every T5 theory translation with official main source links", async () => {
+  const baseUrl = await startTestServer();
+  const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
+  const notes = curriculum.theory.flatMap((chapter: { notes: Array<{
+    theoryId: string;
+    sourcePath: string;
+    sourceUrl: string;
+    latestSourceUrl: string;
+    readKind: string;
+    readLanguage: string;
+    readUrl: string;
+  }> }) => chapter.notes);
+  const t5Notes = t5TheoryIds.map((theoryId) => {
+    const note = notes.find((item) => item.theoryId === theoryId);
+    assert.ok(note, `missing T5 theory note ${theoryId}`);
+    return note;
+  });
+
+  assert.equal(t5Notes.length, 16);
+  for (const note of t5Notes) {
+    assert.equal(note.readKind, "internal");
+    assert.equal(note.readLanguage, "zh");
+    assert.match(note.readUrl, /^\/theory\?theoryId=/);
+    assert.match(note.sourceUrl, officialTheoryMainUrl);
+    assert.match(note.latestSourceUrl, officialTheoryMainUrl);
+    assert.equal(note.sourceUrl, note.latestSourceUrl);
+
+    const response = await fetch(`${baseUrl}/api/theory/content?theoryId=${encodeURIComponent(note.theoryId)}`);
+    assert.equal(response.status, 200);
+    const content = await response.json();
+    assert.equal(content.theoryId, note.theoryId);
+    assert.equal(content.source.path, note.sourcePath);
+    assert.equal(content.source.branch, "main");
+    assert.equal(content.source.revision, "main");
+    assert.equal(content.source.reviewedRevision, "9850ee574a370bc1cde59de98b394e953775b67d");
+    assert.equal(content.sourceUrl, note.sourceUrl);
+    assert.equal(content.latestSourceUrl, note.latestSourceUrl);
+    assert.match(content.markdown.trimStart(), /^#\s+.+/);
+  }
+});
+
 test("publishes the reviewed sampling theory reader and rejects unsafe resources", async () => {
   const baseUrl = await startTestServer();
   const theoryId = "theory/chapter-04-statistics/03-sampling";
   const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
   const sampling = curriculum.theory[3].notes.find((note: { theoryId: string }) => note.theoryId === theoryId);
-  const fallback = curriculum.theory[0].notes.find((note: { theoryId: string }) =>
-    note.theoryId === "theory/chapter-01-vectors/02-vector-properties");
+  const fallback = curriculum.theory[12].notes.find((note: { theoryId: string }) =>
+    note.theoryId === "theory/chapter-13-computing-and-os/01-discrete-maths");
   assert.ok(fallback);
   assert.equal(sampling.readKind, "internal");
   assert.equal(sampling.readLanguage, "zh");
