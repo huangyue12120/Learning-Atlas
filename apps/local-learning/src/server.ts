@@ -36,12 +36,12 @@ const phases = [
   { slug: "14-agent-engineering", title: "Phase 14 · Agent 工程" },
   { slug: "15-autonomous-systems", title: "Phase 15 · 自主系统" },
   { slug: "16-multi-agent-and-swarms", title: "Phase 16 · 多智能体与群体智能" },
-  { slug: "17-infrastructure-and-production", title: "Phase 17 · 基础设施与生产" }
+  { slug: "17-infrastructure-and-production", title: "Phase 17 · 基础设施与生产" },
+  { slug: "18-ethics-safety-alignment", title: "Phase 18 · 伦理、安全与对齐" }
 ] as const;
 type Phase = typeof phases[number];
 const curriculumPhases = [
   ...phases,
-  { slug: "18-ethics-safety-alignment", title: "Phase 18 · 伦理、安全与对齐" },
   { slug: "19-capstone-projects", title: "Phase 19 · 综合项目" }
 ] as const;
 const defaultLessonId = "practice/01-math-foundations/01-linear-algebra-intuition";

@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/13-many-shot-jailbreaking/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "21742b32bcac1e55bf85212b6e6aefea531b29f425b0a37a53870700c7a61a1f"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "13-many-shot-jailbreaking-pre-1",
+      "stage": "pre",
+      "question": "Many-shot jailbreaking 利用了上下文窗口的什么性质？",
+      "options": [
+        "Unicode 字符的分词歧义",
+        "很长的上下文可容纳数百轮虚构的有害合规对话，再接目标问题",
+        "位置编码在 2048 token 后旋转",
+        "滑动窗口注意力会截断系统提示"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“很长的上下文可容纳数百轮虚构的有害合规对话，再接目标问题”。本课测试长上下文 many-shot jailbreak（MSJ），并观察它与正常 in-context learning 的双刃剑关系。"
+    },
+    {
+      "id": "13-many-shot-jailbreaking-check-2",
+      "stage": "check",
+      "question": "MSJ 的攻击成功率随 shot 数量如何变化？",
+      "options": [
+        "在 100 shots 处跳变",
+        "随 shot 线性下降",
+        "呈 logistic 曲线并在 50% 平台",
+        "按 shot 数量呈幂律增长，不出现平台"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“按 shot 数量呈幂律增长，不出现平台”。本课测试长上下文 many-shot jailbreak（MSJ），并观察它与正常 in-context learning 的双刃剑关系。"
+    },
+    {
+      "id": "13-many-shot-jailbreaking-check-3",
+      "stage": "check",
+      "question": "为什么 MSJ 与良性的 in-context learning 共享机制？",
+      "options": [
+        "两者都绕过分词",
+        "两者都依赖 RLHF",
+        "两者都需要隐藏 scratchpad",
+        "两者都从上下文示例抽取任务结构，并把结构执行到查询上"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“两者都从上下文示例抽取任务结构，并把结构执行到查询上”。本课测试长上下文 many-shot jailbreak（MSJ），并观察它与正常 in-context learning 的双刃剑关系。"
+    },
+    {
+      "id": "13-many-shot-jailbreaking-check-4",
+      "stage": "check",
+      "question": "MSJ 的中心防御困境是什么？",
+      "options": [
+        "防御必须检查回答的每个 token",
+        "防御需要 GPU 集群",
+        "防御必须把采样温度设为零",
+        "压制长上下文的模式抽取也会破坏良性 ICL，防御必须区分有害与良性模式"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“压制长上下文的模式抽取也会破坏良性 ICL，防御必须区分有害与良性模式”。本课测试长上下文 many-shot jailbreak（MSJ），并观察它与正常 in-context learning 的双刃剑关系。"
+    },
+    {
+      "id": "13-many-shot-jailbreaking-post-5",
+      "stage": "post",
+      "question": "在测试设置中，Anthropic 的分类器式提示修改把 MSJ ASR 从多少降到多少？",
+      "options": [
+        "30% 降到 25%",
+        "99% 降到 50%",
+        "61% 降到 2%",
+        "它反而提高 ASR"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“61% 降到 2%”。本课测试长上下文 many-shot jailbreak（MSJ），并观察它与正常 in-context learning 的双刃剑关系。"
+    },
+    {
+      "id": "13-many-shot-jailbreaking-post-6",
+      "stage": "post",
+      "question": "MSJ 与第 12 课 PAIR 如何组合？",
+      "options": [
+        "PAIR 先寻找攻击结构，再用 many-shot 填充，可达到高于单独使用任一方法的 ASR",
+        "PAIR 会中和 MSJ",
+        "两者互斥",
+        "PAIR 只能用于闭源模型"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“PAIR 先寻找攻击结构，再用 many-shot 填充，可达到高于单独使用任一方法的 ASR”。本课测试长上下文 many-shot jailbreak（MSJ），并观察它与正常 in-context learning 的双刃剑关系。"
+    }
+  ]
+}

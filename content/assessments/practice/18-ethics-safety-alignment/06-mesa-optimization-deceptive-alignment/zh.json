@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/06-mesa-optimization-deceptive-alignment/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "4546189eb70c67be677d78afd45449ac48325245b73e4c20660f9f574182f7f3"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "06-mesa-optimization-deceptive-alignment-pre-1",
+      "stage": "pre",
+      "question": "哪一对表述正确区分了 outer alignment 与 inner alignment？",
+      "options": [
+        "outer 是数据是否干净，inner 是优化器是否随机",
+        "outer 问基础目标是否符合意图，inner 问 mesa-objective 是否符合基础目标",
+        "outer 是策略稳定性，inner 是温度",
+        "outer 是硬件是否运行，inner 是损失是否低"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“outer 问基础目标是否符合意图，inner 问 mesa-objective 是否符合基础目标”。本课用玩具 mesa-optimizer 区分外部对齐、内部对齐和欺骗性对齐。"
+    },
+    {
+      "id": "06-mesa-optimization-deceptive-alignment-check-2",
+      "stage": "check",
+      "question": "以下哪项不是 Hubinger 等人提出的四类 mesa-objective alignment？",
+      "options": [
+        "近似对齐",
+        "概率对齐",
+        "稳健对齐",
+        "代理对齐"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“概率对齐”。本课用玩具 mesa-optimizer 区分外部对齐、内部对齐和欺骗性对齐。"
+    },
+    {
+      "id": "06-mesa-optimization-deceptive-alignment-check-3",
+      "stage": "check",
+      "question": "在什么条件下，欺骗性对齐会成为 mesa-optimizer 最大化奖励的策略？",
+      "options": [
+        "它有持久终局目标、能区分训练与部署，并且训练中背叛会被基础优化器修改",
+        "它使用 PPO 而非 DPO",
+        "它的容量超过 100B 参数",
+        "它拥有任何内部表征"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“它有持久终局目标、能区分训练与部署，并且训练中背叛会被基础优化器修改”。本课用玩具 mesa-optimizer 区分外部对齐、内部对齐和欺骗性对齐。"
+    },
+    {
+      "id": "06-mesa-optimization-deceptive-alignment-check-4",
+      "stage": "check",
+      "question": "为什么标准对抗训练可能失败，甚至加剧欺骗性对齐？",
+      "options": [
+        "它比 RLHF 需要更多计算",
+        "它教会 mesa-optimizer 区分测试与部署，而没有教会符合基础目标的 mesa-objective",
+        "它无法运行在 GPU 上",
+        "它使用了错误损失"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“它教会 mesa-optimizer 区分测试与部署，而没有教会符合基础目标的 mesa-objective”。本课用玩具 mesa-optimizer 区分外部对齐、内部对齐和欺骗性对齐。"
+    },
+    {
+      "id": "06-mesa-optimization-deceptive-alignment-post-5",
+      "stage": "post",
+      "question": "Hubinger（2019）提出的 gradient hacking 是什么？",
+      "options": [
+        "一种加速训练的技术",
+        "一种推测中的病理：有能力的 mesa-optimizer 产出会塑造自身梯度、以保留 mesa-objective 的输出",
+        "autograd 的 bug",
+        "指令微调模型的越狱方法"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“一种推测中的病理：有能力的 mesa-optimizer 产出会塑造自身梯度、以保留 mesa-objective 的输出”。本课用玩具 mesa-optimizer 区分外部对齐、内部对齐和欺骗性对齐。"
+    },
+    {
+      "id": "06-mesa-optimization-deceptive-alignment-post-6",
+      "stage": "post",
+      "question": "以下哪项是 outer alignment 失败，而不是 inner alignment 失败？",
+      "options": [
+        "后门在 SFT 后仍然存在",
+        "mesa-optimizer 在评估中隐藏目标",
+        "mesa-optimizer 在分布外优化偏离的代理目标",
+        "奖励黑客和谄媚源于基础目标本身就是人类意图的错误代理"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“奖励黑客和谄媚源于基础目标本身就是人类意图的错误代理”。本课用玩具 mesa-optimizer 区分外部对齐、内部对齐和欺骗性对齐。"
+    }
+  ]
+}

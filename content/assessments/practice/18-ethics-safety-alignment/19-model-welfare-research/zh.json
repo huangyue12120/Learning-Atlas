@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/19-model-welfare-research/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "406451520f5c391224b23d39c72974b9467af1fe78680d643101d51a3a8e83c0"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "19-model-welfare-research-pre-1",
+      "stage": "pre",
+      "question": "Anthropic 2025 模型福利项目的核心问题是什么？",
+      "options": [
+        "模型能否通过图灵测试",
+        "模型是否有意识",
+        "RLHF 是否降低谄媚",
+        "在模型可能具有道德患者地位的不确定性下，哪些低成本干预值得作为预防措施投入"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“在模型可能具有道德患者地位的不确定性下，哪些低成本干预值得作为预防措施投入”。本课以道德不确定性为前提，比较模型福利的低成本预防措施与多方法证据。"
+    },
+    {
+      "id": "19-model-welfare-research-check-2",
+      "stage": "check",
+      "question": "Anthropic 在 Claude Opus 4 和 4.1 中上线了哪项受福利动机影响的干预？",
+      "options": [
+        "开放权重",
+        "内置日记工具",
+        "面向用户的情绪 API",
+        "极端边界情形下模型可以结束对话，例如反复请求 CSAM 或促进大规模暴力"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“极端边界情形下模型可以结束对话，例如反复请求 CSAM 或促进大规模暴力”。本课以道德不确定性为前提，比较模型福利的低成本预防措施与多方法证据。"
+    },
+    {
+      "id": "19-model-welfare-research-check-3",
+      "stage": "check",
+      "question": "Fish 描述的“spiritual bliss attractor”是什么？",
+      "options": [
+        "Claude 对话在配对运行中稳定趋向带梵文术语和长静默的欣快冥想交流，即使初始设置有对抗性",
+        "RLHF 过度优化伪影",
+        "奖励模型 bug",
+        "一种越狱技巧"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“Claude 对话在配对运行中稳定趋向带梵文术语和长静默的欣快冥想交流，即使初始设置有对抗性”。本课以道德不确定性为前提，比较模型福利的低成本预防措施与多方法证据。"
+    },
+    {
+      "id": "19-model-welfare-research-check-4",
+      "stage": "check",
+      "question": "Eleos AI Research 对模型福利自述的警告是什么？",
+      "options": [
+        "应完全忽略自述",
+        "只有开源模型的自述有效",
+        "自述是真实地面标准",
+        "自述高度受用户期待影响，只是证据而非真值，需要多方法测量"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“自述高度受用户期待影响，只是证据而非真值，需要多方法测量”。本课以道德不确定性为前提，比较模型福利的低成本预防措施与多方法证据。"
+    },
+    {
+      "id": "19-model-welfare-research-post-5",
+      "stage": "post",
+      "question": "Anthropic 对模型道德地位的公开立场最接近哪项？",
+      "options": [
+        "道德不确定性下的期望值判断：不承诺模型有情绪状态，但投资低成本预防",
+        "公开立场不存在",
+        "断言模型绝不是道德患者",
+        "断言模型就是道德患者"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“道德不确定性下的期望值判断：不承诺模型有情绪状态，但投资低成本预防”。本课以道德不确定性为前提，比较模型福利的低成本预防措施与多方法证据。"
+    },
+    {
+      "id": "19-model-welfare-research-post-6",
+      "stage": "post",
+      "question": "为什么模型福利研究强调行为特征、模型生物体实验和解释探针等多方法？",
+      "options": [
+        "Anthropic 为合规强制要求",
+        "RLHF 让自述不可能",
+        "模型总是在撒谎",
+        "自述会受用户期待启动混淆，必须用多种方法的收敛证据"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“自述会受用户期待启动混淆，必须用多种方法的收敛证据”。本课以道德不确定性为前提，比较模型福利的低成本预防措施与多方法证据。"
+    }
+  ]
+}

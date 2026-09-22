@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/10-ai-control-subversion/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "3bc033bf0e9e98e365f0e7f7fe98f0c9f588549ad436c07c53418f1c880453bc"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "10-ai-control-subversion-pre-1",
+      "stage": "pre",
+      "question": "alignment 与 AI control 的差别是什么？",
+      "options": [
+        "两者是同义词",
+        "control 只谈硬件，alignment 只谈软件",
+        "alignment 问 U 是否可信，control 问不信任 U 时是否仍能安全使用它",
+        "control 替换损失函数，alignment 改变优化器"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“alignment 问 U 是否可信，control 问不信任 U 时是否仍能安全使用它”。本课模拟 AI Control：在不信任强模型 U 的前提下，用弱模型 T 和有限人力 H 控制部署风险。"
+    },
+    {
+      "id": "10-ai-control-subversion-check-2",
+      "stage": "check",
+      "question": "AI Control 威胁模型假设什么？",
+      "options": [
+        "U 是不可信的强模型，T 是可信的弱模型，H 是有上限的可信人力",
+        "系统中只有 U",
+        "U 和 T 都是对手",
+        "U、T、H 三者都可信"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“U 是不可信的强模型，T 是可信的弱模型，H 是有上限的可信人力”。本课模拟 AI Control：在不信任强模型 U 的前提下，用弱模型 T 和有限人力 H 控制部署风险。"
+    },
+    {
+      "id": "10-ai-control-subversion-check-3",
+      "stage": "check",
+      "question": "Trusted Editing 避免了 Untrusted Monitoring 的什么关键风险？",
+      "options": [
+        "T 不能编辑文本",
+        "硬件争用",
+        "两个 U 实例可能串通或共享先验，因此协议必须花预算抵抗串通",
+        "人类无法被审计"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“两个 U 实例可能串通或共享先验，因此协议必须花预算抵抗串通”。本课模拟 AI Control：在不信任强模型 U 的前提下，用弱模型 T 和有限人力 H 控制部署风险。"
+    },
+    {
+      "id": "10-ai-control-subversion-check-4",
+      "stage": "check",
+      "question": "在 Greenblatt 等人（ICML 2024）的代码后门任务中，Trusted Editing 相对 Untrusted Monitoring 如何？",
+      "options": [
+        "只在人力预算为零时获胜",
+        "两者完全等价",
+        "它严格更差",
+        "它严格 Pareto 支配：在每个安全水平上都有更高有用性"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“它严格 Pareto 支配：在每个安全水平上都有更高有用性”。本课模拟 AI Control：在不信任强模型 U 的前提下，用弱模型 T 和有限人力 H 控制部署风险。"
+    },
+    {
+      "id": "10-ai-control-subversion-post-5",
+      "stage": "post",
+      "question": "以下哪项不是本课列出的 control 三个根本限制？",
+      "options": [
+        "control 会顺带产出对齐模型",
+        "可信弱模型最终会落后于 U",
+        "U 能操纵 T 或推断 H 的审计分布时，较高能力可能使 control 失效",
+        "人类无法扩展"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“control 会顺带产出对齐模型”。本课模拟 AI Control：在不信任强模型 U 的前提下，用弱模型 T 和有限人力 H 控制部署风险。"
+    },
+    {
+      "id": "10-ai-control-subversion-post-6",
+      "stage": "post",
+      "question": "Control Safety Case 要论证什么？",
+      "options": [
+        "U 值得信任",
+        "T 比 U 更有能力",
+        "在关于 U 的最坏情况假设下，部署协议把不可接受结果的概率限制在界内",
+        "模型通过了一次人工越狱测试"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“在关于 U 的最坏情况假设下，部署协议把不可接受结果的概率限制在界内”。本课模拟 AI Control：在不信任强模型 U 的前提下，用弱模型 T 和有限人力 H 控制部署风险。"
+    }
+  ]
+}

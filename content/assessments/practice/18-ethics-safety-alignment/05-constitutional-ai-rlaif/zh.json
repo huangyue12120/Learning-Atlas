@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/05-constitutional-ai-rlaif/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "27e1bdcaecd5bd4f3c20f5c0ceed84ae64dfaaafd67e0eeb5f66cf5e33e37432"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "05-constitutional-ai-rlaif-pre-1",
+      "stage": "pre",
+      "question": "Constitutional AI 相对于标准 RLHF 的核心替换是什么？",
+      "options": [
+        "完全移除奖励模型",
+        "使用合成提示词而不是真实提示词",
+        "用阅读一组原则的 AI 标注者替代人类偏好标注者",
+        "用 DPO 替代 PPO"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“用阅读一组原则的 AI 标注者替代人类偏好标注者”。本课用批评—修订循环说明 Constitutional AI，以及 RLAIF 相对 RLHF 的信号替换。"
+    },
+    {
+      "id": "05-constitutional-ai-rlaif-check-2",
+      "stage": "check",
+      "question": "Constitutional AI 的第一阶段（SFT）做什么？",
+      "options": [
+        "聚类标注者评论来生成原则",
+        "生成初始回答，用抽取的宪法原则批评并修订，再把修订结果作为 SFT 目标",
+        "使用宪法奖励执行 PPO",
+        "只在 AI 偏好上训练奖励模型"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“生成初始回答，用抽取的宪法原则批评并修订，再把修订结果作为 SFT 目标”。本课用批评—修订循环说明 Constitutional AI，以及 RLAIF 相对 RLHF 的信号替换。"
+    },
+    {
+      "id": "05-constitutional-ai-rlaif-check-3",
+      "stage": "check",
+      "question": "第二阶段 RLAIF 做什么？",
+      "options": [
+        "跳过 PPO，只用一次监督损失",
+        "在反馈模型生成的 AI 偏好上训练奖励模型，再对其运行 PPO",
+        "让人类重新标注 SFT 输出",
+        "把宪法蒸馏进分词器"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“在反馈模型生成的 AI 偏好上训练奖励模型，再对其运行 PPO”。本课用批评—修订循环说明 Constitutional AI，以及 RLAIF 相对 RLHF 的信号替换。"
+    },
+    {
+      "id": "05-constitutional-ai-rlaif-check-4",
+      "stage": "check",
+      "question": "Anthropic 2026 年 1 月四层 Claude constitution 的优先级顺序是什么？",
+      "options": [
+        "有帮助 > 广泛伦理 > 平台规则 > 避免灾难",
+        "避免灾难性结果 > 遵循 Anthropic 指南 > 广泛伦理 > 有帮助且坦诚",
+        "广泛伦理 > 有帮助 > 平台规则 > 避免灾难",
+        "平台规则 > 避免灾难 > 有帮助 > 广泛伦理"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“避免灾难性结果 > 遵循 Anthropic 指南 > 广泛伦理 > 有帮助且坦诚”。本课用批评—修订循环说明 Constitutional AI，以及 RLAIF 相对 RLHF 的信号替换。"
+    },
+    {
+      "id": "05-constitutional-ai-rlaif-post-5",
+      "stage": "post",
+      "question": "从 RLHF 切换到 RLAIF 后，哪种失败模式不一定被修复？",
+      "options": [
+        "标注者稀缺",
+        "标注者成本",
+        "奖励黑客 / Goodhart 定律",
+        "标注者心理不一致"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“奖励黑客 / Goodhart 定律”。本课用批评—修订循环说明 Constitutional AI，以及 RLAIF 相对 RLHF 的信号替换。"
+    },
+    {
+      "id": "05-constitutional-ai-rlaif-post-6",
+      "stage": "post",
+      "question": "2026 年 Constitutional Classifiers v1 到 v2 的主要变化是什么？",
+      "options": [
+        "计算开销从 1% 升到 23.7%",
+        "v2 移除分类器，只依赖宪法",
+        "计算开销从 23.7% 降到约 1%，同时保持较低攻击成功率",
+        "v2 只运行在输入而不运行在输出"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“计算开销从 23.7% 降到约 1%，同时保持较低攻击成功率”。本课用批评—修订循环说明 Constitutional AI，以及 RLAIF 相对 RLHF 的信号替换。"
+    }
+  ]
+}

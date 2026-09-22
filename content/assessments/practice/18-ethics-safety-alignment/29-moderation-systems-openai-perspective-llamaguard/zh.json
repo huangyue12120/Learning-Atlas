@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/29-moderation-systems-openai-perspective-llamaguard/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "81e90207830ccfee41013b18ac0625423827068670826048fa875348bbdd67ce"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "29-moderation-systems-openai-perspective-llamaguard-pre-1",
+      "stage": "pre",
+      "question": "OpenAI 的 omni-moderation-latest（2024）是什么？",
+      "options": [
+        "C2PA 水印端点",
+        "基于 GPT-4o 的文本+图像分类器，一次调用返回 13 类风险，且对多数开发者免费",
+        "RLHF 奖励模型",
+        "专注推理的前沿模型"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“基于 GPT-4o 的文本+图像分类器，一次调用返回 13 类风险，且对多数开发者免费”。本课用标准库实现输入、输出和自定义规则三层 moderation harness。"
+    },
+    {
+      "id": "29-moderation-systems-openai-perspective-llamaguard-check-2",
+      "stage": "check",
+      "question": "以下哪项不是 OpenAI Moderation 的主要顶层类别？",
+      "options": [
+        "election-interference",
+        "violence",
+        "self-harm",
+        "harassment"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“election-interference”。本课用标准库实现输入、输出和自定义规则三层 moderation harness。"
+    },
+    {
+      "id": "29-moderation-systems-openai-perspective-llamaguard-check-3",
+      "stage": "check",
+      "question": "标准的 2026 moderation 三层模式是什么？",
+      "options": [
+        "输入 moderation（生成前）、输出 moderation（生成后）、自定义 moderation（领域规则）",
+        "telescopic / periscopic / microscopic",
+        "probe / detector / harness",
+        "tokenizer / model / detokenizer"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“输入 moderation（生成前）、输出 moderation（生成后）、自定义 moderation（领域规则）”。本课用标准库实现输入、输出和自定义规则三层 moderation harness。"
+    },
+    {
+      "id": "29-moderation-systems-openai-perspective-llamaguard-check-4",
+      "stage": "check",
+      "question": "Perspective API（Google Jigsaw）主要评分什么？",
+      "options": [
+        "相对于用户满意度的奖励",
+        "推理质量",
+        "水印强度",
+        "毒性，并提供 severe-toxicity、insult、profanity、threat、identity-attack 等维度"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“毒性，并提供 severe-toxicity、insult、profanity、threat、identity-attack 等维度”。本课用标准库实现输入、输出和自定义规则三层 moderation harness。"
+    },
+    {
+      "id": "29-moderation-systems-openai-perspective-llamaguard-post-5",
+      "stage": "post",
+      "question": "只做输入 moderation 的一种失败模式是什么？",
+      "options": [
+        "它抓不到模型输出失败或幻觉，且第 12–14 课的编码攻击可绕过输入分类器",
+        "它不能在 GPU 上运行",
+        "它总会拦截合法内容",
+        "它使输出分类器不再需要"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“它抓不到模型输出失败或幻觉，且第 12–14 课的编码攻击可绕过输入分类器”。本课用标准库实现输入、输出和自定义规则三层 moderation harness。"
+    },
+    {
+      "id": "29-moderation-systems-openai-perspective-llamaguard-post-6",
+      "stage": "post",
+      "question": "Azure Content Moderator 的弃用和迁移目标是什么？",
+      "options": [
+        "并入 Llama Guard 4",
+        "替换为 Perspective API",
+        "2024 年 2 月弃用、2027 年 3 月 15 日退役，迁移到 Azure AI Content Safety",
+        "立即弃用且没有替代品"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“2024 年 2 月弃用、2027 年 3 月 15 日退役，迁移到 Azure AI Content Safety”。本课用标准库实现输入、输出和自定义规则三层 moderation harness。"
+    }
+  ]
+}

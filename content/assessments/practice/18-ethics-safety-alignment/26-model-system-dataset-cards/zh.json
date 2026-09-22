@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/26-model-system-dataset-cards/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "a13687c5c5ac95ff4ca8a087e88a5b46dd424382d154b2f9c2ccd6ca05340236"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "26-model-system-dataset-cards-pre-1",
+      "stage": "pre",
+      "question": "Mitchell 等人（2019）的 Model Card 最准确的描述是什么？",
+      "options": [
+        "只有模型 checkpoint 清单",
+        "监管法律合同",
+        "像 ML 模型的营养标签：训练数据、用途、指标、分组分析、伦理考量和限制",
+        "OpenAPI 规范"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“像 ML 模型的营养标签：训练数据、用途、指标、分组分析、伦理考量和限制”。本课生成 Model Card、Datasheet 和 System Card，比较三种面向不同读者的透明度层次。"
+    },
+    {
+      "id": "26-model-system-dataset-cards-check-2",
+      "stage": "check",
+      "question": "Oreamuno 等人（2023）对 Hugging Face 模型卡的伦理考量记录发现什么？",
+      "options": [
+        "没有模型卡包含文字",
+        "约 0.3% 的模型卡记录伦理考量",
+        "约 80% 记录伦理考量",
+        "所有模型卡都记录伦理考量"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“约 0.3% 的模型卡记录伦理考量”。本课生成 Model Card、Datasheet 和 System Card，比较三种面向不同读者的透明度层次。"
+    },
+    {
+      "id": "26-model-system-dataset-cards-check-3",
+      "stage": "check",
+      "question": "Data Cards 的 telescopic / periscopic / microscopic 分层提供什么？",
+      "options": [
+        "RLHF 前审计清单",
+        "望远镜主题的可视化库",
+        "同一文档服务不同读者的 boundary-object 框架，用三个缩放层级提供细节",
+        "隐私保护查询接口"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“同一文档服务不同读者的 boundary-object 框架，用三个缩放层级提供细节”。本课生成 Model Card、Datasheet 和 System Card，比较三种面向不同读者的透明度层次。"
+    },
+    {
+      "id": "26-model-system-dataset-cards-check-4",
+      "stage": "check",
+      "question": "System Card 覆盖了 Model Card 没有覆盖的哪种范围？",
+      "options": [
+        "只有分词器",
+        "端到端 AI 系统：模型、安全栈和部署上下文，包括安全能力、提示注入防护、数据外泄检测、对齐和事故响应",
+        "只有提示模板",
+        "只有数据集"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“端到端 AI 系统：模型、安全栈和部署上下文，包括安全能力、提示注入防护、数据外泄检测、对齐和事故响应”。本课生成 Model Card、Datasheet 和 System Card，比较三种面向不同读者的透明度层次。"
+    },
+    {
+      "id": "26-model-system-dataset-cards-post-5",
+      "stage": "post",
+      "question": "Liang 等人（2024）报告模型卡细节与 Hugging Face 下载量有什么关系？",
+      "options": [
+        "只有伦理章节影响下载",
+        "详细模型卡降低下载量",
+        "详细模型卡让处理组周下载量提升约 29%，采用压力已不只是合规而是市场驱动",
+        "细节对下载没有影响"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“详细模型卡让处理组周下载量提升约 29%，采用压力已不只是合规而是市场驱动”。本课生成 Model Card、Datasheet 和 System Card，比较三种面向不同读者的透明度层次。"
+    },
+    {
+      "id": "26-model-system-dataset-cards-post-6",
+      "stage": "post",
+      "question": "Laminator（Duddu 等，2024）给文档带来什么？",
+      "options": [
+        "自动基准测试 harness",
+        "利用硬件 TEE/加密签名提供可验证 attestation，使模型卡带有证明而不只是声明",
+        "LLM 摘要生成器",
+        "Datasheets 标准的替代品"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“利用硬件 TEE/加密签名提供可验证 attestation，使模型卡带有证明而不只是声明”。本课生成 Model Card、Datasheet 和 System Card，比较三种面向不同读者的透明度层次。"
+    }
+  ]
+}

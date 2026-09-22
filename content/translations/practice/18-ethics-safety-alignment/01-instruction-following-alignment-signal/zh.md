@@ -51,7 +51,7 @@ L_RM = -log sigmoid(r(x, y_w) - r(x, y_l))
 
 奖励模型可以很小：对 175B InstructGPT 而言，6B 已经足够。它们也很脆弱，论文第 5 节的大部分内容都在讨论小规模训练中出现的奖励黑客行为。
 
-### 阶段 3：带 KL 惩罚的 PPO
+### 阶段 3：带 KL 惩罚的 PPO <!-- learning-atlas: stage-3-ppo-with-a-kl-penalty -->
 
 定义目标：
 

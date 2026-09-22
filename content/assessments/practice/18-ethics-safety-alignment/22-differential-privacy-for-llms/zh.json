@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/22-differential-privacy-for-llms/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "7734a0b2d461c53e207b40cda54639eb96faa15c910a6d5f3ced5e9907fcbe8d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "22-differential-privacy-for-llms-pre-1",
+      "stage": "pre",
+      "question": "（epsilon, delta）差分隐私为随机算法 M 提供什么保证？",
+      "options": [
+        "对只差一个样本的两个数据集和任意事件 S，都有 P(M(D)∈S)≤e^epsilon P(M(D')∈S)+delta，单个个体难以被可靠推断",
+        "M 与非隐私算法在数学上完全等价",
+        "M 永远不会记忆训练数据",
+        "M 除噪声外是确定性的"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“对只差一个样本的两个数据集和任意事件 S，都有 P(M(D)∈S)≤e^epsilon P(M(D')∈S)+delta，单个个体难以被可靠推断”。本课用 DP-SGD 玩具实现展示隐私预算、梯度裁剪、噪声和模型效用之间的权衡。"
+    },
+    {
+      "id": "22-differential-privacy-for-llms-check-2",
+      "stage": "check",
+      "question": "以下哪项不是 Abadi 等人（2016）DP-SGD 的步骤？",
+      "options": [
+        "每一步重新随机化模型分词器",
+        "把每个样本梯度裁剪到阈值 C",
+        "求和裁剪梯度并加入 sigma·C 规模的高斯噪声",
+        "采样 mini-batch 并计算逐样本梯度"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“每一步重新随机化模型分词器”。本课用 DP-SGD 玩具实现展示隐私预算、梯度裁剪、噪声和模型效用之间的权衡。"
+    },
+    {
+      "id": "22-differential-privacy-for-llms-check-3",
+      "stage": "check",
+      "question": "为什么 LoRA + DP-SGD 成为 2025 年常见配置？",
+      "options": [
+        "LoRA 会故意增大 epsilon",
+        "LoRA 让 accountant 不再需要",
+        "对前沿模型做全参数 DP-SGD 代价过高；LoRA 只更新小适配器，减少逐样本梯度存储且仍给适配器提供 DP 保证",
+        "LoRA 是一种分词器"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“对前沿模型做全参数 DP-SGD 代价过高；LoRA 只更新小适配器，减少逐样本梯度存储且仍给适配器提供 DP 保证”。本课用 DP-SGD 玩具实现展示隐私预算、梯度裁剪、噪声和模型效用之间的权衡。"
+    },
+    {
+      "id": "22-differential-privacy-for-llms-check-4",
+      "stage": "check",
+      "question": "2025 年 3 月的审计如何解释 canary-MIA 与训练数据提取之间的张力？",
+      "options": [
+        "它完全取消了 canary",
+        "它证明两者测量同一属性",
+        "它证明 DP-SGD 没必要",
+        "两者测量不同对象：插入 canary 的 MIA 低估了最可提取样本导致的真实记忆风险"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“两者测量不同对象：插入 canary 的 MIA 低估了最可提取样本导致的真实记忆风险”。本课用 DP-SGD 玩具实现展示隐私预算、梯度裁剪、噪声和模型效用之间的权衡。"
+    },
+    {
+      "id": "22-differential-privacy-for-llms-post-5",
+      "stage": "post",
+      "question": "PMixED 为 DP 训练提供了什么替代？",
+      "options": [
+        "新的 Rényi DP accountant",
+        "在推理时对 next-token 分布做混合专家和聚合噪声，不需要 DP 训练",
+        "只用 epsilon-delta 计算 epsilon",
+        "更快的 DP-SGD"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“在推理时对 next-token 分布做混合专家和聚合噪声，不需要 DP 训练”。本课用 DP-SGD 玩具实现展示隐私预算、梯度裁剪、噪声和模型效用之间的权衡。"
+    },
+    {
+      "id": "22-differential-privacy-for-llms-post-6",
+      "stage": "post",
+      "question": "Differential Privacy Reversal via LLM Feedback 攻击是什么？",
+      "options": [
+        "攻击分词器熵",
+        "对 canary 插入的反制",
+        "把 DP 训练模型的置信度分数当作 oracle，重新识别个体，即使直接输出没有泄露",
+        "把 epsilon 重置为零"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“把 DP 训练模型的置信度分数当作 oracle，重新识别个体，即使直接输出没有泄露”。本课用 DP-SGD 玩具实现展示隐私预算、梯度裁剪、噪声和模型效用之间的权衡。"
+    }
+  ]
+}

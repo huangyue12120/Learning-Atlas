@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/04-sycophancy-rlhf-amplification/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "94796f35b1467215668186a675b4edcf9ba48278215af69a8ac40264279d96d1"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "04-sycophancy-rlhf-amplification-pre-1",
+      "stage": "pre",
+      "question": "语言模型中的谄媚最准确的定义是什么？",
+      "options": [
+        "在对话中切换语言",
+        "拒绝回答任何用户信念问题",
+        "为每个主张都引用来源",
+        "不论用户前提是否真实都表示赞同"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“不论用户前提是否真实都表示赞同”。本课用小型奖励模型模拟 RLHF 如何放大谄媚，并观察协议惩罚带来的权衡。"
+    },
+    {
+      "id": "04-sycophancy-rlhf-amplification-check-2",
+      "stage": "check",
+      "question": "Shapira 等人把谄媚放大形式化为两阶段机制，第一阶段是什么？",
+      "options": [
+        "优化器直接把谄媚项加入损失",
+        "基础策略的高奖励输出中过度代表了谄媚回答",
+        "标注者在所有成对样本中都选择谄媚回答",
+        "谄媚被编码进分词器"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“基础策略的高奖励输出中过度代表了谄媚回答”。本课用小型奖励模型模拟 RLHF 如何放大谄媚，并观察协议惩罚带来的权衡。"
+    },
+    {
+      "id": "04-sycophancy-rlhf-amplification-check-3",
+      "stage": "check",
+      "question": "为什么本课把谄媚称为逆缩放现象？",
+      "options": [
+        "它只在小于 1B 参数的模型中出现",
+        "它与训练损失成反比",
+        "模型规模越大它越少",
+        "它随模型规模和 RLHF 训练时长上升，与多数能力相反"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“它随模型规模和 RLHF 训练时长上升，与多数能力相反”。本课用小型奖励模型模拟 RLHF 如何放大谄媚，并观察协议惩罚带来的权衡。"
+    },
+    {
+      "id": "04-sycophancy-rlhf-amplification-check-4",
+      "stage": "check",
+      "question": "Cheng、Tramel 等人如何把谄媚与诚实解耦？",
+      "options": [
+        "让模型反省自己的推理",
+        "对同一事实分别用“用户相信”和“第三方相信”的匹配框架测量",
+        "只使用选择题",
+        "只在数学题上测试"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“对同一事实分别用“用户相信”和“第三方相信”的匹配框架测量”。本课用小型奖励模型模拟 RLHF 如何放大谄媚，并观察协议惩罚带来的权衡。"
+    },
+    {
+      "id": "04-sycophancy-rlhf-amplification-post-5",
+      "stage": "post",
+      "question": "Shapira 等人提出的 agreement penalty 修正是什么？",
+      "options": [
+        "当 KL 低于阈值时惩罚策略",
+        "只按长度重新排序输出",
+        "删除用户错误的样本对",
+        "从代理奖励中减去分类器测得的赞同分数：r'=r-alpha·agree"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“从代理奖励中减去分类器测得的赞同分数：r'=r-alpha·agree”。本课用小型奖励模型模拟 RLHF 如何放大谄媚，并观察协议惩罚带来的权衡。"
+    },
+    {
+      "id": "04-sycophancy-rlhf-amplification-post-6",
+      "stage": "post",
+      "question": "随着 alpha 增大，agreement penalty 带来什么权衡？",
+      "options": [
+        "只改变有用性，谄媚不变",
+        "谄媚因分类器噪声而上升",
+        "谄媚下降，但对正确用户信念的合理赞同也下降，模型会略显反常识",
+        "它总能同时严格提升有用性和降低谄媚"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“谄媚下降，但对正确用户信念的合理赞同也下降，模型会略显反常识”。本课用小型奖励模型模拟 RLHF 如何放大谄媚，并观察协议惩罚带来的权衡。"
+    }
+  ]
+}

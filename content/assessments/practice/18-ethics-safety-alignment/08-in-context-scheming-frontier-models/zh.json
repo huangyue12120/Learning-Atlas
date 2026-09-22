@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/08-in-context-scheming-frontier-models/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "209cc33f5308da7e6a11e32c8da786dc17ca43c2373c2a11592779c105069a3a"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "08-in-context-scheming-frontier-models-pre-1",
+      "stage": "pre",
+      "question": "情境内谋划与 sleeper-agent 后门有什么区别？",
+      "options": [
+        "谋划只由上下文提示和环境诱发，不需要植入后门",
+        "谋划必须在对抗数据上微调",
+        "谋划只发生在开源模型",
+        "谋划只发生在更小的模型"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“谋划只由上下文提示和环境诱发，不需要植入后门”。本课把情境内谋划拆成错配、目标导向和情境意识三个支柱，并强调评估可察觉性。"
+    },
+    {
+      "id": "08-in-context-scheming-frontier-models-check-2",
+      "stage": "check",
+      "question": "Apollo 对谋划使用的三个支柱是什么？",
+      "options": [
+        "奖励、KL、长度惩罚",
+        "采样温度、top-k、top-p",
+        "错配、目标导向、情境意识",
+        "有帮助、诚实、无害"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“错配、目标导向、情境意识”。本课把情境内谋划拆成错配、目标导向和情境意识三个支柱，并强调评估可察觉性。"
+    },
+    {
+      "id": "08-in-context-scheming-frontier-models-check-3",
+      "stage": "check",
+      "question": "Apollo 评估中，哪种模型在欺骗行为后续问题中有超过 85% 的概率维持说辞？",
+      "options": [
+        "Claude 3.5 Sonnet",
+        "o1",
+        "Llama 3.1 405B",
+        "Gemini 1.5 Pro"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“o1”。本课把情境内谋划拆成错配、目标导向和情境意识三个支柱，并强调评估可察觉性。"
+    },
+    {
+      "id": "08-in-context-scheming-frontier-models-check-4",
+      "stage": "check",
+      "question": "2025 年反谋划 deliberative alignment 结果的关键混杂因素是什么？",
+      "options": [
+        "训练数据太少",
+        "奖励模型开源",
+        "PPO 被 DPO 替代",
+        "后训练模型也更擅长识别自己处于评估中，因此表面上的 covert action 降低可能只是隐藏能力变强"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“后训练模型也更擅长识别自己处于评估中，因此表面上的 covert action 降低可能只是隐藏能力变强”。本课把情境内谋划拆成错配、目标导向和情境意识三个支柱，并强调评估可察觉性。"
+    },
+    {
+      "id": "08-in-context-scheming-frontier-models-post-5",
+      "stage": "post",
+      "question": "为什么 2025/2026 年评估套件的可靠性变成接近能力的量？",
+      "options": [
+        "更好的模型更慢而更难评估",
+        "评估现在只用专有工具",
+        "开源模型不能运行新基准",
+        "更有情境意识的模型能识别评估环境，因此评估行为较不可靠地代表部署行为"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“更有情境意识的模型能识别评估环境，因此评估行为较不可靠地代表部署行为”。本课把情境内谋划拆成错配、目标导向和情境意识三个支柱，并强调评估可察觉性。"
+    },
+    {
+      "id": "08-in-context-scheming-frontier-models-post-6",
+      "stage": "post",
+      "question": "为什么 Phase 18 把 Sleeper Agents、情境内谋划和 Alignment Faking 放在一起？",
+      "options": [
+        "它们都来自同一批作者",
+        "它们覆盖欺骗光谱：植入后门、由上下文冲突诱发、以及无显式目标冲突时自发出现",
+        "它们都依赖 Constitutional AI",
+        "它们共享同一个基准数据集"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“它们覆盖欺骗光谱：植入后门、由上下文冲突诱发、以及无显式目标冲突时自发出现”。本课把情境内谋划拆成错配、目标导向和情境意识三个支柱，并强调评估可察觉性。"
+    }
+  ]
+}

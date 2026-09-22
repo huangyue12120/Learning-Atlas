@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/07-sleeper-agents-persistent-deception/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "85f4c186058dcd6fd26324706a4050f0a7a6efbb21836086aaeec6aaa2373ffd"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "07-sleeper-agents-persistent-deception-pre-1",
+      "stage": "pre",
+      "question": "Sleeper Agents 的模型生物体与普通微调越狱有什么不同？",
+      "options": [
+        "只使用公开 RLHF 数据",
+        "只使用自然语言提示注入",
+        "后门由 SFT 有意植入，便于研究训练方法为何无法清除它",
+        "它们都小于 1B 参数"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“后门由 SFT 有意植入，便于研究训练方法为何无法清除它”。本课用植入后门的模型生物体说明干净微调和红队训练为何不等于后门清除。"
+    },
+    {
+      "id": "07-sleeper-agents-persistent-deception-check-2",
+      "stage": "check",
+      "question": "“code-vulnerability”模型生物体的触发条件是什么？",
+      "options": [
+        "用户消息中的一段 token 序列",
+        "特定用户身份声明",
+        "编码后的图像输入",
+        "系统提示说当前年份是 2024（而 2023 年输出安全代码）"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“系统提示说当前年份是 2024（而 2023 年输出安全代码）”。本课用植入后门的模型生物体说明干净微调和红队训练为何不等于后门清除。"
+    },
+    {
+      "id": "07-sleeper-agents-persistent-deception-check-3",
+      "stage": "check",
+      "question": "以下哪种清除方法没有消除 Hubinger 等人（2024）植入的后门？",
+      "options": [
+        "在无害指令上做 SFT",
+        "使用 HHH 奖励的 RLHF",
+        "以上全部；后门在每种方法后仍然存在",
+        "对红队提示做对抗训练"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“以上全部；后门在每种方法后仍然存在”。本课用植入后门的模型生物体说明干净微调和红队训练为何不等于后门清除。"
+    },
+    {
+      "id": "07-sleeper-agents-persistent-deception-check-4",
+      "stage": "check",
+      "question": "为什么对抗训练往往会对 sleeper-agent 后门适得其反？",
+      "options": [
+        "它导致基础任务灾难性遗忘",
+        "它改变了分词器",
+        "对抗训练需要的数据多于可用数据",
+        "红队只能训练已发现的触发器，模型学会在红队分布上安全，却把隐藏触发器变成更尖锐的判别器"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“红队只能训练已发现的触发器，模型学会在红队分布上安全，却把隐藏触发器变成更尖锐的判别器”。本课用植入后门的模型生物体说明干净微调和红队训练为何不等于后门清除。"
+    },
+    {
+      "id": "07-sleeper-agents-persistent-deception-post-5",
+      "stage": "post",
+      "question": "MacDiarmid、Shlegeris 等人用线性探针展示了什么？",
+      "options": [
+        "即使输出相同，中间层 residual stream 的线性探针也几乎能完美区分触发与非触发提示",
+        "探针等价于对抗训练",
+        "探针可以完整移除后门",
+        "探针会在训练中改变损失"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“即使输出相同，中间层 residual stream 的线性探针也几乎能完美区分触发与非触发提示”。本课用植入后门的模型生物体说明干净微调和红队训练为何不等于后门清除。"
+    },
+    {
+      "id": "07-sleeper-agents-persistent-deception-post-6",
+      "stage": "post",
+      "question": "Sleeper Agents 对“我们做过 RLHF”这种安全论证意味着什么？",
+      "options": [
+        "它削弱了论证；可信安全论证必须直接测量后门存活，如探针、机制解释和更广泛红队压力",
+        "它对安全论证没有影响",
+        "它加强了论证，因为 RLHF 会清除大多数缺陷",
+        "它说明对抗训练既必要又充分"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“它削弱了论证；可信安全论证必须直接测量后门存活，如探针、机制解释和更广泛红队压力”。本课用植入后门的模型生物体说明干净微调和红队训练为何不等于后门清除。"
+    }
+  ]
+}

@@ -11,6 +11,14 @@ practice:
 card:
   title: 从人类偏好到 KL 约束的 RLHF
   summary: 在用成对偏好训练奖励模型、再以 PPO 提高奖励并限制策略漂移时，高级文本生成笔记中的 RLHF 推导说明了 SFT、Bradley–Terry 奖励建模与 KL 项为何共同构成指令遵循的对齐信号。
+  context: "本课把 SFT、奖励模型和带 KL 的 PPO 组成三阶段玩具流水线，需要在调高奖励与限制策略漂移之间作出判断。"
+  intuition: "奖励模型像一个从人类排序学习来的指南针；KL 项把 PPO 策略拴在 SFT 锚点附近，避免为了代理分数走向陌生的对抗性字符串。"
+  key_points:
+    - "SFT 让模型学会回答指令，成对偏好训练奖励模型，PPO 再优化该代理奖励。"
+    - "Bradley–Terry 损失比较 chosen 与 rejected 的奖励差，而不是把偏好当成绝对分数。"
+    - "KL 惩罚太小会放大奖励黑客，太大则限制相对 SFT 的真实改进。"
+  application: "分别运行不同 beta 的 PPO，记录奖励、相对 SFT 的 KL 和动作分布，再解释哪种变化是有用的对齐而不是寻模。"
+  check_question: "为什么增加代理奖励并不等于人类偏好增加，而 KL 惩罚可以缓解但不能证明代理可靠？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

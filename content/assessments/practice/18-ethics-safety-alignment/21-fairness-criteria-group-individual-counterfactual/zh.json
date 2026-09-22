@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/21-fairness-criteria-group-individual-counterfactual/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "19aa402c30833895586c07b78f8d7fc9a44c2bbc6ab749c471bddf482cda27bb"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "21-fairness-criteria-group-individual-counterfactual-pre-1",
+      "stage": "pre",
+      "question": "以下哪组三项属于本课的群体公平标准？",
+      "options": [
+        "demographic parity、equalized odds、conditional use accuracy equality",
+        "准确率、召回率、F1",
+        "个体公平、反事实公平、校准",
+        "隐私、公平、鲁棒"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“demographic parity、equalized odds、conditional use accuracy equality”。本课在同一玩具分类器上比较群体公平、个体公平和反事实公平，并观察不可兼得的条件。"
+    },
+    {
+      "id": "21-fairness-criteria-group-individual-counterfactual-check-2",
+      "stage": "check",
+      "question": "Dwork 等人（2012）的个体公平用什么思想形式化？",
+      "options": [
+        "每个群体必须有相同正例率",
+        "敏感属性必须从数据中删除",
+        "相似个体应得到相似决策，即决策映射满足 Lipschitz 条件",
+        "只在反事实世界中运行模型"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“相似个体应得到相似决策，即决策映射满足 Lipschitz 条件”。本课在同一玩具分类器上比较群体公平、个体公平和反事实公平，并观察不可兼得的条件。"
+    },
+    {
+      "id": "21-fairness-criteria-group-individual-counterfactual-check-3",
+      "stage": "check",
+      "question": "Kusner 等人（2017）的反事实公平要求什么？",
+      "options": [
+        "不同群体的平均结果相同",
+        "在因果模型中反事实改变敏感属性时，该个体的决定保持不变",
+        "所有输入都不含敏感属性",
+        "只要模型准确率高就公平"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“在因果模型中反事实改变敏感属性时，该个体的决定保持不变”。本课在同一玩具分类器上比较群体公平、个体公平和反事实公平，并观察不可兼得的条件。"
+    },
+    {
+      "id": "21-fairness-criteria-group-individual-counterfactual-check-4",
+      "stage": "check",
+      "question": "为什么三类公平标准通常不能同时满足？",
+      "options": [
+        "因为它们使用不同编程语言",
+        "因为公平只适用于回归",
+        "因为反事实变量不能被观测",
+        "不同基准率、误差率和因果结构会产生不可兼得的约束"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“不同基准率、误差率和因果结构会产生不可兼得的约束”。本课在同一玩具分类器上比较群体公平、个体公平和反事实公平，并观察不可兼得的条件。"
+    },
+    {
+      "id": "21-fairness-criteria-group-individual-counterfactual-post-5",
+      "stage": "post",
+      "question": "backtracking counterfactuals 试图解决什么问题？",
+      "options": [
+        "把模型改成随机模型",
+        "移除所有保护属性",
+        "不需要直接干预法律保护属性，也能构造反事实比较",
+        "只用群体平均值替代个体"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“不需要直接干预法律保护属性，也能构造反事实比较”。本课在同一玩具分类器上比较群体公平、个体公平和反事实公平，并观察不可兼得的条件。"
+    },
+    {
+      "id": "21-fairness-criteria-group-individual-counterfactual-post-6",
+      "stage": "post",
+      "question": "ICLR Blogposts 2024 的哲学调和观点是什么？",
+      "options": [
+        "给定显式因果图，满足某些群体公平条件可蕴含反事实公平；表面对立部分来自省略因果模型",
+        "群体公平与反事实公平完全无关",
+        "只有个体公平合理",
+        "重新加权就能解决所有不可能定理"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“给定显式因果图，满足某些群体公平条件可蕴含反事实公平；表面对立部分来自省略因果模型”。本课在同一玩具分类器上比较群体公平、个体公平和反事实公平，并观察不可兼得的条件。"
+    }
+  ]
+}

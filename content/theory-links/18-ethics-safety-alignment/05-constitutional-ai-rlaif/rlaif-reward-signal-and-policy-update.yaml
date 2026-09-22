@@ -11,6 +11,14 @@ practice:
 card:
   title: RLAIF 的奖励信号与策略更新
   summary: 在用宪法原则生成批评、修订和偏好排序，再以 RLAIF 训练模型时，强化学习中的策略、奖励与累计回报框架帮助区分“AI 标注者给出评价信号”与“模型在该信号下更新行为”两个步骤。
+  context: "本课把宪法原则、AI 反馈和 PPO 串成两阶段流程，容易把“生成评价”误认为“更新策略”。"
+  intuition: "原则先像评分标准一样产生批评和修订，RLAIF 再把 AI 反馈蒸馏成奖励模型；策略只有在后续 RL 更新中才会改变输出分布。"
+  key_points:
+    - "Constitutional AI 的 SFT 阶段用批评—修订结果制造训练目标。"
+    - "RLAIF 阶段用反馈模型的偏好训练奖励模型，再以 PPO 优化策略。"
+    - "替换标注者来源不等于消除了奖励偏差、Goodhart 或原则冲突。"
+  application: "改变原则列表或有害词替换，比较修订后的 token rate，再说明哪一部分是评价信号、哪一部分是策略更新。"
+  check_question: "为什么 AI 生成的批评可以改变奖励信号，却不会在没有策略更新的情况下直接改变模型行为？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/04. reinforcement learning.md

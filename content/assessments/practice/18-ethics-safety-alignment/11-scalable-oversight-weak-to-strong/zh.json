@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/11-scalable-oversight-weak-to-strong/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "e558b4dc2782046411f3b668423b2fa32312edf72393dc83d210ce486f737315"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "11-scalable-oversight-weak-to-strong-pre-1",
+      "stage": "pre",
+      "question": "Superalignment 议程的核心问题是什么？",
+      "options": [
+        "人类是否总比奖励模型准确",
+        "RLHF 能否扩展到 1B 以上参数",
+        "更弱的监督者能否可靠监督更强且对齐的模型",
+        "对抗训练能否移除所有后门"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“更弱的监督者能否可靠监督更强且对齐的模型”。本课用 PGR 指标和弱到强泛化模拟可扩展监督：弱监督信号如何训练更强模型。"
+    },
+    {
+      "id": "11-scalable-oversight-weak-to-strong-check-2",
+      "stage": "check",
+      "question": "Burns 等人（2023）的 weak-to-strong 泛化设置是什么？",
+      "options": [
+        "奖励模型只在合成数据上训练",
+        "两个强模型辩论并由人类裁判",
+        "把弱模型（GPT-2 级）产生的标签用于微调强模型（GPT-4 级），再与强模型的监督上限比较",
+        "用 GPT-4 标签微调 GPT-2"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“把弱模型（GPT-2 级）产生的标签用于微调强模型（GPT-4 级），再与强模型的监督上限比较”。本课用 PGR 指标和弱到强泛化模拟可扩展监督：弱监督信号如何训练更强模型。"
+    },
+    {
+      "id": "11-scalable-oversight-weak-to-strong-check-3",
+      "stage": "check",
+      "question": "Performance Gap Recovered（PGR）如何定义？",
+      "options": [
+        "（微调后 - 弱模型）/（上限 - 弱模型）",
+        "（弱模型 - 上限）/上限",
+        "微调后 / 上限",
+        "（上限 - 微调后）/弱模型"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“（微调后 - 弱模型）/（上限 - 弱模型）”。本课用 PGR 指标和弱到强泛化模拟可扩展监督：弱监督信号如何训练更强模型。"
+    },
+    {
+      "id": "11-scalable-oversight-weak-to-strong-check-4",
+      "stage": "check",
+      "question": "以下哪项不是本课列出的可扩展监督机制？",
+      "options": [
+        "递归奖励建模",
+        "Tokenizer Distillation",
+        "任务分解",
+        "辩论"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“Tokenizer Distillation”。本课用 PGR 指标和弱到强泛化模拟可扩展监督：弱监督信号如何训练更强模型。"
+    },
+    {
+      "id": "11-scalable-oversight-weak-to-strong-post-5",
+      "stage": "post",
+      "question": "可扩展监督与 W2SG 如何互补？",
+      "options": [
+        "两者都需要白盒访问",
+        "两者优化同一个指标",
+        "可扩展监督提升监督者有效信号质量，W2SG 再弥合强模型从不完美信号中恢复的差距",
+        "两者互斥"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“可扩展监督提升监督者有效信号质量，W2SG 再弥合强模型从不完美信号中恢复的差距”。本课用 PGR 指标和弱到强泛化模拟可扩展监督：弱监督信号如何训练更强模型。"
+    },
+    {
+      "id": "11-scalable-oversight-weak-to-strong-post-6",
+      "stage": "post",
+      "question": "AI-safety-via-debate 机制的核心假设是什么？",
+      "options": [
+        "找到令人信服的真答案比找到令人信服的假答案更容易",
+        "辩论记录总比直接答案短",
+        "裁判一定比辩手更强",
+        "两个辩手总是说真话"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“找到令人信服的真答案比找到令人信服的假答案更容易”。本课用 PGR 指标和弱到强泛化模拟可扩展监督：弱监督信号如何训练更强模型。"
+    }
+  ]
+}

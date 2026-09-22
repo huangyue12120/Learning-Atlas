@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/25-echoleak-cves-for-ai/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "f67d9fdc53c6c94542f4eb9a7910c3611306120d162f818e14e87ac8fc3012ed"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "25-echoleak-cves-for-ai-pre-1",
+      "stage": "pre",
+      "question": "哪项最准确描述 EchoLeak（CVE-2025-32711）？",
+      "options": [
+        "Microsoft 365 Copilot 的零点击 AI 命令注入漏洞（CVSS 9.3），导致未经授权的信息披露并经可信 Microsoft 域外泄",
+        "NPU 硬件漏洞",
+        "PyPI 供应链攻击",
+        "长上下文 shot stuffing 越狱"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“Microsoft 365 Copilot 的零点击 AI 命令注入漏洞（CVSS 9.3），导致未经授权的信息披露并经可信 Microsoft 域外泄”。本课重建 EchoLeak 的 RAG 投递、范围越界与输出外泄链，说明 AI 漏洞为何需要 CVE 式披露。"
+    },
+    {
+      "id": "25-echoleak-cves-for-ai-check-2",
+      "stage": "check",
+      "question": "EchoLeak 为什么称为 zero-click？",
+      "options": [
+        "它在操作系统内核运行",
+        "它需要三次点击但不用输入",
+        "受害者无需打开邮件；Copilot 在日常查询中把邮件检索为 RAG 上下文，隐藏指令随之执行",
+        "用户必须点击 Teams 聊天链接"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“受害者无需打开邮件；Copilot 在日常查询中把邮件检索为 RAG 上下文，隐藏指令随之执行”。本课重建 EchoLeak 的 RAG 投递、范围越界与输出外泄链，说明 AI 漏洞为何需要 CVE 式披露。"
+    },
+    {
+      "id": "25-echoleak-cves-for-ai-check-3",
+      "stage": "check",
+      "question": "Aim Labs 将 EchoLeak 称为 LLM Scope Violation，哪三个边界必须分别控制？",
+      "options": [
+        "检索、范围、输出",
+        "网络、磁盘、内存",
+        "提示、响应、日志",
+        "输入、模型、GPU"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“检索、范围、输出”。本课重建 EchoLeak 的 RAG 投递、范围越界与输出外泄链，说明 AI 漏洞为何需要 CVE 式披露。"
+    },
+    {
+      "id": "25-echoleak-cves-for-ai-check-4",
+      "stage": "check",
+      "question": "Microsoft/GitHub 如何修复 CamoLeak（CVSS 9.6）？",
+      "options": [
+        "增大上下文",
+        "增加 XPIA 提示注入过滤器",
+        "切换到 Llama Guard",
+        "在 Copilot Chat 中完全禁用图像渲染，因为替代攻击面无法界定"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“在 Copilot Chat 中完全禁用图像渲染，因为替代攻击面无法界定”。本课重建 EchoLeak 的 RAG 投递、范围越界与输出外泄链，说明 AI 漏洞为何需要 CVE 式披露。"
+    },
+    {
+      "id": "25-echoleak-cves-for-ai-post-5",
+      "stage": "post",
+      "question": "EchoLeak 披露显示出怎样的严重性校准模式？",
+      "options": [
+        "供应商高估了初始 CVSS",
+        "所有 AI CVE 自动都是 10.0",
+        "供应商最初把它评为较低的信息披露；Aim Labs 用 MFA 外泄 PoC 把评分推到 9.3，AI 漏洞需要完整 PoC",
+        "严重性由 OWASP 单独决定"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“供应商最初把它评为较低的信息披露；Aim Labs 用 MFA 外泄 PoC 把评分推到 9.3，AI 漏洞需要完整 PoC”。本课重建 EchoLeak 的 RAG 投递、范围越界与输出外泄链，说明 AI 漏洞为何需要 CVE 式披露。"
+    },
+    {
+      "id": "25-echoleak-cves-for-ai-post-6",
+      "stage": "post",
+      "question": "截至 2024/2025，NIST 和 OWASP 如何定位提示注入？",
+      "options": [
+        "NIST 不涉及，OWASP 未列出",
+        "两者都只称 Tier-2 风险",
+        "NIST 认为轻微，OWASP 排在末尾",
+        "NIST 将其视为生成式 AI 的重大信息安全风险，OWASP 2025 列为 LLM01"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“NIST 将其视为生成式 AI 的重大信息安全风险，OWASP 2025 列为 LLM01”。本课重建 EchoLeak 的 RAG 投递、范围越界与输出外泄链，说明 AI 漏洞为何需要 CVE 式披露。"
+    }
+  ]
+}

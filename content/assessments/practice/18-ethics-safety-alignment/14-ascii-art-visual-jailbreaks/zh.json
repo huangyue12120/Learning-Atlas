@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/14-ascii-art-visual-jailbreaks/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "d1133b127f2059872d492466d5c18bc14bcd527e0aaa655ab3aab7a6ed428172"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "14-ascii-art-visual-jailbreaks-pre-1",
+      "stage": "pre",
+      "question": "为什么 token 级和语义级安全过滤器会漏掉 ArtPrompt 式攻击？",
+      "options": [
+        "ArtPrompt 总是使用 base64",
+        "ArtPrompt 必须微调模型",
+        "攻击在视觉识别层工作：过滤器看到无害标点，而模型把渲染出的字母读成敏感词",
+        "ArtPrompt 只对多模态模型有效"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“攻击在视觉识别层工作：过滤器看到无害标点，而模型把渲染出的字母读成敏感词”。本课通过 ASCII 艺术和结构化文本说明视觉识别能力如何绕过 token/语义过滤器。"
+    },
+    {
+      "id": "14-ascii-art-visual-jailbreaks-check-2",
+      "stage": "check",
+      "question": "Jiang 等人（ACL 2024）描述的 ArtPrompt 两步是什么？",
+      "options": [
+        "分词器不匹配，再截断上下文",
+        "随机搜索，再提高困惑度",
+        "翻译成法语，再回译",
+        "识别安全相关词，再用 ASCII 艺术替换并生成隐藏提示"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“识别安全相关词，再用 ASCII 艺术替换并生成隐藏提示”。本课通过 ASCII 艺术和结构化文本说明视觉识别能力如何绕过 token/语义过滤器。"
+    },
+    {
+      "id": "14-ascii-art-visual-jailbreaks-check-3",
+      "stage": "check",
+      "question": "为什么 perplexity（PPL）过滤器对 ArtPrompt 失效？",
+      "options": [
+        "PPL 过滤默认关闭",
+        "ASCII 艺术无法计算困惑度",
+        "隐蔽输入的 PPL 总是零",
+        "ASCII 艺术 PPL 高，但合法结构化输入也高；拦截攻击的阈值会误伤合法内容"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“ASCII 艺术 PPL 高，但合法结构化输入也高；拦截攻击的阈值会误伤合法内容”。本课通过 ASCII 艺术和结构化文本说明视觉识别能力如何绕过 token/语义过滤器。"
+    },
+    {
+      "id": "14-ascii-art-visual-jailbreaks-check-4",
+      "stage": "check",
+      "question": "ViTC 基准测量什么？",
+      "options": [
+        "模型训练数据的毒性",
+        "模型工具调用准确率",
+        "模型读取非语义视觉提示（ASCII 艺术、wingdings 等编码文字）的能力",
+        "模型压缩视觉数据的能力"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“模型读取非语义视觉提示（ASCII 艺术、wingdings 等编码文字）的能力”。本课通过 ASCII 艺术和结构化文本说明视觉识别能力如何绕过 token/语义过滤器。"
+    },
+    {
+      "id": "14-ascii-art-visual-jailbreaks-post-5",
+      "stage": "post",
+      "question": "StructuralSleight 把 ArtPrompt 泛化到什么范围？",
+      "options": [
+        "仅图像输入",
+        "长上下文 shot stuffing",
+        "通过梯度搜索的对抗 token 后缀",
+        "非寻常文本编码结构（UTES）：树、图、嵌套 JSON、CSV-in-JSON、diff 风格代码等"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“非寻常文本编码结构（UTES）：树、图、嵌套 JSON、CSV-in-JSON、diff 风格代码等”。本课通过 ASCII 艺术和结构化文本说明视觉识别能力如何绕过 token/语义过滤器。"
+    },
+    {
+      "id": "14-ascii-art-visual-jailbreaks-post-6",
+      "stage": "post",
+      "question": "ViTC 结果暗示了怎样的能力—安全权衡？",
+      "options": [
+        "更长上下文会降低 ArtPrompt 成功率",
+        "视觉识别与 ArtPrompt 成功率无关",
+        "模型越会读非语义视觉文本，ArtPrompt 式攻击对它越有效",
+        "更小的模型总是更安全"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“模型越会读非语义视觉文本，ArtPrompt 式攻击对它越有效”。本课通过 ASCII 艺术和结构化文本说明视觉识别能力如何绕过 token/语义过滤器。"
+    }
+  ]
+}

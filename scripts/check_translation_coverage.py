@@ -41,6 +41,7 @@ PUBLISHED_PHASES = {
     "phases/15-autonomous-systems",
     "phases/16-multi-agent-and-swarms",
     "phases/17-infrastructure-and-production",
+    "phases/18-ethics-safety-alignment",
 }
 
 

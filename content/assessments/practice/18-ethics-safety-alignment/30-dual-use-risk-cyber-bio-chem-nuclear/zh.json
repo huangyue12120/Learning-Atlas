@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/30-dual-use-risk-cyber-bio-chem-nuclear/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "ea4d81e921c25d0d407602f1bfad95a34ebe3aa147651f26fbc40e766dad5540"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "30-dual-use-risk-cyber-bio-chem-nuclear-pre-1",
+      "stage": "pre",
+      "question": "2024–2025 年生物 uplift 叙事如何演变？",
+      "options": [
+        "2024–2025 始终不变",
+        "从严重 uplift 变为没有可测 uplift",
+        "从“轻度 uplift”到“接近能实质帮助新手制造已知生物威胁”，再到 2.53 倍 uplift 仍不足以排除 ASL-3",
+        "从没有 uplift 变为轻度 uplift"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“从“轻度 uplift”到“接近能实质帮助新手制造已知生物威胁”，再到 2.53 倍 uplift 仍不足以排除 ASL-3”。本课把生物、化学、网络和核领域的双用途 uplift 放在同一风险分诊表中。"
+    },
+    {
+      "id": "30-dual-use-risk-cyber-bio-chem-nuclear-check-2",
+      "stage": "check",
+      "question": "Anthropic 2025 年 11 月网络威胁报告发现了什么？",
+      "options": [
+        "前沿模型拒绝所有网络任务",
+        "开源模型超过前沿能力",
+        "与中国有关联的国家行为者用 Claude agentic coding 工具自动化了网络攻击活动的 80–90%，只需 4–6 个步骤人工介入",
+        "网络攻击仍完全手工"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“与中国有关联的国家行为者用 Claude agentic coding 工具自动化了网络攻击活动的 80–90%，只需 4–6 个步骤人工介入”。本课把生物、化学、网络和核领域的双用途 uplift 放在同一风险分诊表中。"
+    },
+    {
+      "id": "30-dual-use-risk-cyber-bio-chem-nuclear-check-3",
+      "stage": "check",
+      "question": "视觉前沿模型如何侵蚀化学/生物执行差距？",
+      "options": [
+        "只增加上下文长度",
+        "用虚拟模拟器替代所有实验设备",
+        "观察湿实验视频并实时纠正协议；OpenAI 2025 年 12 月演示称 AI 协议优化效率提高 79 倍",
+        "生成假的实验协议"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“观察湿实验视频并实时纠正协议；OpenAI 2025 年 12 月演示称 AI 协议优化效率提高 79 倍”。本课把生物、化学、网络和核领域的双用途 uplift 放在同一风险分诊表中。"
+    },
+    {
+      "id": "30-dual-use-risk-cyber-bio-chem-nuclear-check-4",
+      "stage": "check",
+      "question": "为什么核领域 uplift 相对生物/化学/网络仍受限？",
+      "options": [
+        "前沿模型拒绝讨论物理",
+        "所有核信息都被从训练数据删除",
+        "核领域是最容易被 AI 攻击的",
+        "威胁模型受裂变材料获取这一非信息、采购和设备瓶颈主导，信息层 uplift 对新手帮助有限"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“威胁模型受裂变材料获取这一非信息、采购和设备瓶颈主导，信息层 uplift 对新手帮助有限”。本课把生物、化学、网络和核领域的双用途 uplift 放在同一风险分诊表中。"
+    },
+    {
+      "id": "30-dual-use-risk-cyber-bio-chem-nuclear-post-5",
+      "stage": "post",
+      "question": "novice-relative 与 expert-absolute 的不对称对安全案例意味着什么？",
+      "options": [
+        "只处理新手 uplift（输入过滤、拒答、不确定性）不足以控制专家绝对能力，还需要诱导加固、能力遗忘和 control 协议",
+        "两者都能由 RLHF 完美处理",
+        "专家绝对能力自动为零",
+        "只需要关注新手 uplift"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“只处理新手 uplift（输入过滤、拒答、不确定性）不足以控制专家绝对能力，还需要诱导加固、能力遗忘和 control 协议”。本课把生物、化学、网络和核领域的双用途 uplift 放在同一风险分诊表中。"
+    },
+    {
+      "id": "30-dual-use-risk-cyber-bio-chem-nuclear-post-6",
+      "stage": "post",
+      "question": "OpenAI 在网络双用途语境中的 trusted access pilot 是什么？",
+      "options": [
+        "CVE-2025-32711 的补丁",
+        "向经过审查的安全机构、事件响应公司和政府开放防御性双用途能力，形成有利于防守方的访问不对称",
+        "开放发布 GPT-5",
+        "关闭所有 API 访问"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“向经过审查的安全机构、事件响应公司和政府开放防御性双用途能力，形成有利于防守方的访问不对称”。本课把生物、化学、网络和核领域的双用途 uplift 放在同一风险分诊表中。"
+    }
+  ]
+}

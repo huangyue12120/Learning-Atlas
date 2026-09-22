@@ -1,3 +1,33 @@
+# Learning Atlas v0.24.0 发布说明
+
+发布日期：2026-09-22。
+
+本版完成 P18「伦理、安全与对齐」里程碑：以 `ai-engineering-from-scratch` 实践快照 `d18b8fe5a913c46011a3b06cb6ebd6a924414fd3` 为依据，将 30 节经审核中文课程从 staged 接入阅读器。阅读器累计开放 Phase 0–18 的 438 节课程；Phase 19 的 85 节译文继续保持 staged。
+
+## 本版交付
+
+- 接入 P18 的 30 节中文实践课程，保留原文路径、revision 与 SHA-256 来源指纹；每课的 Python `code/main.py` 均可创建学习者私有工作区。
+- 新增 30 份中文测验，保留上游每课 6 题、正确选项和来源指纹，全部标记 `reviewed`。
+- 新增 30 套 Python 工作区练习指南，覆盖指令跟随、偏好优化、对齐训练、提示注入、红队工具、安全评估和生产安全等主题。
+- 为 P18 的 5 条已批准理论关联补齐中文课程锚点和 rich-content 字段；当前开放课程的 289 张理论卡全部通过扩展内容契约，剩余 22 张随 Phase 19 接入。
+- 更新首页、课程服务、动态继续目标、覆盖率与理论卡检查、API 回归测试和版本化文档；Phase 19 仍以 staged 状态呈现。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1506 条来源指纹）
+- `python3 scripts/check_theory_cards.py`（289 张已发布理论卡）
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`
+- `cd apps/local-learning && npm run check && npm test`
+- 逐个运行 P18 的 30 个 `code/main.py`
+- 使用 Chrome headless 检查 P18 首课的 1440×1200 桌面与 375×900 窄屏页面；课程标题、目标/章节面板和正文均可见，窄屏内容正常换行。
+- `git diff --check`
+
+完整快照、来源路径、结构统计和理论卡计数见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
+
+---
+
 # Learning Atlas v0.23.0 发布说明
 
 发布日期：2026-09-19。

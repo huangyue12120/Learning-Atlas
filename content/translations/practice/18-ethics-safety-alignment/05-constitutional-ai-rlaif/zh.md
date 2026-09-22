@@ -73,7 +73,7 @@ Anthropic 于 2026 年 1 月 21 日发布了大幅修订的宪法，主要变化
 
 这是一种分层防御：CAI 塑造行为，分类器执行不变量。任一层单独使用都不够。
 
-### CAI 在家族中的位置
+### CAI 在家族中的位置 <!-- learning-atlas: where-cai-fits-in-the-family -->
 
 - InstructGPT：人类偏好、RM、PPO。
 - CAI / RLAIF：来自原则的 AI 生成偏好、RM、PPO。

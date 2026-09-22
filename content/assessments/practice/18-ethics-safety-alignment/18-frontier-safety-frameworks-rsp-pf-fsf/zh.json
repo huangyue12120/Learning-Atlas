@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/18-frontier-safety-frameworks-rsp-pf-fsf/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "bb3fa9a9967d048a8f2ea1e5d20caf0f8ef4b9c1959960926b85e2b5e5f91fce"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "18-frontier-safety-frameworks-rsp-pf-fsf-pre-1",
+      "stage": "pre",
+      "question": "Anthropic 的 ASL 结构以什么为模型？",
+      "options": [
+        "欧盟 AI Act 类别",
+        "生物安全等级（BSL）",
+        "互联网 RFC 层级",
+        "ITIL 事故严重性"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“生物安全等级（BSL）”。本课并列 Anthropic ASL、OpenAI Preparedness Framework 和 DeepMind FSF 的安全案例结构。"
+    },
+    {
+      "id": "18-frontier-safety-frameworks-rsp-pf-fsf-check-2",
+      "stage": "check",
+      "question": "OpenAI Preparedness Framework v2 中，哪项标准表示“伤害发生很快或不可逆”？",
+      "options": [
+        "全新（Net-new）",
+        "可信（Plausible）",
+        "可测量（Measurable）",
+        "即时或不可逆（Instantaneous-or-irremediable）"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“即时或不可逆（Instantaneous-or-irremediable）”。本课并列 Anthropic ASL、OpenAI Preparedness Framework 和 DeepMind FSF 的安全案例结构。"
+    },
+    {
+      "id": "18-frontier-safety-frameworks-rsp-pf-fsf-check-3",
+      "stage": "check",
+      "question": "DeepMind FSF v3.0（2025 年 9 月）新增了哪个 Critical Capability Level？",
+      "options": [
+        "有害操纵",
+        "网络提升",
+        "生物武器提升",
+        "ML 研发加速"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“有害操纵”。本课并列 Anthropic ASL、OpenAI Preparedness Framework 和 DeepMind FSF 的安全案例结构。"
+    },
+    {
+      "id": "18-frontier-safety-frameworks-rsp-pf-fsf-check-4",
+      "stage": "check",
+      "question": "2025 年之后前沿安全框架的 competitor-adjustment clause 是什么？",
+      "options": [
+        "如果同行发布而没有相当防护，实验室可以降低自己的安全要求",
+        "出口管制豁免",
+        "模型卡披露要求",
+        "API 访问定价规则"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“如果同行发布而没有相当防护，实验室可以降低自己的安全要求”。本课并列 Anthropic ASL、OpenAI Preparedness Framework 和 DeepMind FSF 的安全案例结构。"
+    },
+    {
+      "id": "18-frontier-safety-frameworks-rsp-pf-fsf-post-5",
+      "stage": "post",
+      "question": "本课描述安全案例的三个标准支柱是什么？",
+      "options": [
+        "有帮助、诚实、无害",
+        "监控、不可读性、无能力",
+        "速度、准确率、成本",
+        "外部、内部、mesa"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“监控、不可读性、无能力”。本课并列 Anthropic ASL、OpenAI Preparedness Framework 和 DeepMind FSF 的安全案例结构。"
+    },
+    {
+      "id": "18-frontier-safety-frameworks-rsp-pf-fsf-post-6",
+      "stage": "post",
+      "question": "Anthropic 的 Capability Thresholds、OpenAI 的 High Capability thresholds 与 DeepMind 的 Critical Capability Levels 存在哪种结构对齐？",
+      "options": [
+        "没有任何公开文档",
+        "都是分层的前沿能力阈值并公布评估标准，虽然术语不同",
+        "术语和数值截点完全相同",
+        "三者使用完全相同的评估"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“都是分层的前沿能力阈值并公布评估标准，虽然术语不同”。本课并列 Anthropic ASL、OpenAI Preparedness Framework 和 DeepMind FSF 的安全案例结构。"
+    }
+  ]
+}

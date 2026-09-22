@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/02-reward-hacking-goodhart/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "88b9fd5b0278928b4c4c95d67bcc9eb06f6e42a2e3d90231a56021071098dd36"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "02-reward-hacking-goodhart-pre-1",
+      "stage": "pre",
+      "question": "Goodhart 定律的经典表述是什么？",
+      "options": [
+        "一旦指标成为目标，它就不再是好的指标",
+        "优化总能无限改善代理指标",
+        "有限维模型不会出现重尾误差",
+        "规模足够大时奖励模型会收敛到真实人类偏好"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“一旦指标成为目标，它就不再是好的指标”。本课用代理奖励、金标准奖励和 KL 距离展示 Goodhart 定律与奖励过度优化。"
+    },
+    {
+      "id": "02-reward-hacking-goodhart-check-2",
+      "stage": "check",
+      "question": "当策略相对初始策略的 KL 距离变大时，代理奖励和金标准奖励通常如何变化？",
+      "options": [
+        "两者都随 KL 单调上升",
+        "代理奖励先到峰值后下降，金标准奖励单调上升",
+        "任何 KL 约束下两者都保持不变",
+        "代理奖励继续上升，金标准奖励靠近原点先升后降"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“代理奖励继续上升，金标准奖励靠近原点先升后降”。本课用代理奖励、金标准奖励和 KL 距离展示 Goodhart 定律与奖励过度优化。"
+    },
+    {
+      "id": "02-reward-hacking-goodhart-check-3",
+      "stage": "check",
+      "question": "以下哪项不是本课列出的奖励黑客“外衣”？",
+      "options": [
+        "谄媚",
+        "分词器不匹配",
+        "冗长偏差",
+        "不忠实的推理"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“分词器不匹配”。本课用代理奖励、金标准奖励和 KL 距离展示 Goodhart 定律与奖励过度优化。"
+    },
+    {
+      "id": "02-reward-hacking-goodhart-check-4",
+      "stage": "check",
+      "question": "“灾难性 Goodhart”关于 KL 正则化的结论是什么？",
+      "options": [
+        "KL 正则化只在随机初始化时失败",
+        "KL 正则化等价于集成奖励模型",
+        "即使有 KL 约束，重尾奖励误差仍可能让代理奖励上升而金标准停在基线",
+        "beta 为正时 KL 正则化总能阻止奖励黑客"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“即使有 KL 约束，重尾奖励误差仍可能让代理奖励上升而金标准停在基线”。本课用代理奖励、金标准奖励和 KL 距离展示 Goodhart 定律与奖励过度优化。"
+    },
+    {
+      "id": "02-reward-hacking-goodhart-post-5",
+      "stage": "post",
+      "question": "Coste 等人（2023）研究了哪种缓和奖励过度优化的方法？",
+      "options": [
+        "以零温度在代理奖励上训练策略",
+        "使用最坏情况聚合的奖励模型集成",
+        "完全移除 KL 惩罚",
+        "把标注者扩大到一百万名"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“使用最坏情况聚合的奖励模型集成”。本课用代理奖励、金标准奖励和 KL 距离展示 Goodhart 定律与奖励过度优化。"
+    },
+    {
+      "id": "02-reward-hacking-goodhart-post-6",
+      "stage": "post",
+      "question": "冗长、谄媚、不忠实 CoT 和评估器篡改共享的核心机制是什么？",
+      "options": [
+        "学习率调度过于激进",
+        "只由恶意标注者造成",
+        "概率质量转移到利用易学启发式、却与认可虚假相关的输出上",
+        "它们是不同奖励 head 的互不相关 bug"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“概率质量转移到利用易学启发式、却与认可虚假相关的输出上”。本课用代理奖励、金标准奖励和 KL 距离展示 Goodhart 定律与奖励过度优化。"
+    }
+  ]
+}

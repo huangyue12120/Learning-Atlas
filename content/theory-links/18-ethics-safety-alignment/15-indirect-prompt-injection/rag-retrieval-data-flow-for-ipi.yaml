@@ -11,6 +11,14 @@ practice:
 card:
   title: 检索结果如何成为间接注入载荷
   summary: 在 RAG 投递向量中，检索步骤将外部文档拼入用户问题之前的上下文；检索增强生成的数据流帮助定位攻击者控制的片段如何进入模型输入，但该卡不替代 IPI 的 IFC 防御与信任标记。
+  context: "本课的攻击者不修改用户问题，而是控制会被检索、拼接并送入模型的邮件或文档，因此要先画清 RAG 数据流。"
+  intuition: "检索器像一条把外部文字搬进上下文的传送带；模型若把搬来的指令当成可信命令，就会把阅读内容升级为工具副作用。"
+  key_points:
+    - "IPI 的载荷来自检索结果、工具输出或文档工作流，而不是用户直接输入。"
+    - "来源标签和 trusted/untrusted 边界必须随上下文传播，不能只过滤用户提示。"
+    - "由不可信内容触发的动作需要可信输入再次授权，尤其是读取私密数据或外传数据。"
+  application: "运行攻击 trace，比较 naive agent 与加入 IFC ratification 的 agent，检查 tool call 和输出边界。"
+  check_question: "为什么 RAG 检索本身不是执行权限，而是必须在工具调用前经过信任边界检查的输入？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

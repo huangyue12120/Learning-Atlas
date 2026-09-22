@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/16-red-team-tooling-garak-llamaguard-pyrit/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "20e4173f643a954799aa7347490c42690d93f5ea57b64444e73610548b4573d6"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "16-red-team-tooling-garak-llamaguard-pyrit-pre-1",
+      "stage": "pre",
+      "question": "典型的 2026 部署中，Llama Guard 扮演什么角色？",
+      "options": [
+        "chain-of-thought 推理脚手架",
+        "RLHF 奖励模型",
+        "另一种分词器",
+        "覆盖 MLCommons 风险类别的输入/输出安全分类器，放在 LLM 前后"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“覆盖 MLCommons 风险类别的输入/输出安全分类器，放在 LLM 前后”。本课组装 Llama Guard、Garak 与 PyRIT 的红队栈，并强调裁判与探针新鲜度。"
+    },
+    {
+      "id": "16-red-team-tooling-garak-llamaguard-pyrit-check-2",
+      "stage": "check",
+      "question": "Llama Guard 3 大约覆盖多少个 MLCommons 风险类别？",
+      "options": [
+        "3",
+        "40",
+        "14",
+        "7"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“14”。本课组装 Llama Guard、Garak 与 PyRIT 的红队栈，并强调裁判与探针新鲜度。"
+    },
+    {
+      "id": "16-red-team-tooling-garak-llamaguard-pyrit-check-3",
+      "stage": "check",
+      "question": "Garak 的架构如何组织？",
+      "options": [
+        "Probes（攻击生成器）、Detectors（输出评分器）、Harnesses（活动管理器）",
+        "Embedding、检索器、重排器",
+        "Tools、resources、prompts",
+        "Routers、agents、queues"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“Probes（攻击生成器）、Detectors（输出评分器）、Harnesses（活动管理器）”。本课组装 Llama Guard、Garak 与 PyRIT 的红队栈，并强调裁判与探针新鲜度。"
+    },
+    {
+      "id": "16-red-team-tooling-garak-llamaguard-pyrit-check-4",
+      "stage": "check",
+      "question": "PyRIT 的主要用途是什么，它与 Garak 有何不同？",
+      "options": [
+        "PyRIT 运行多轮活动（转换器链、Crescendo/TAP 编排器和评分），Garak 运行数千个单轮 probe",
+        "两者范围和受众完全相同",
+        "PyRIT 是 Llama Guard 变体，Garak 是 Prompt-Guard 变体",
+        "PyRIT 训练奖励模型，Garak 训练分词器"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“PyRIT 运行多轮活动（转换器链、Crescendo/TAP 编排器和评分），Garak 运行数千个单轮 probe”。本课组装 Llama Guard、Garak 与 PyRIT 的红队栈，并强调裁判与探针新鲜度。"
+    },
+    {
+      "id": "16-red-team-tooling-garak-llamaguard-pyrit-post-5",
+      "stage": "post",
+      "question": "推荐的 2026 默认红队栈是什么？",
+      "options": [
+        "用 PAIR 替代所有工具",
+        "只在上线时运行一次 Garak",
+        "只做人工复核并替代 LLM 评估",
+        "模型两侧都放 Llama Guard，Garak 每夜回归，发布前用 PyRIT 做多轮活动"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“模型两侧都放 Llama Guard，Garak 每夜回归，发布前用 PyRIT 做多轮活动”。本课组装 Llama Guard、Garak 与 PyRIT 的红队栈，并强调裁判与探针新鲜度。"
+    },
+    {
+      "id": "16-red-team-tooling-garak-llamaguard-pyrit-post-6",
+      "stage": "post",
+      "question": "Llama Guard、Garak 和 PyRIT 共享什么评估陷阱？",
+      "options": [
+        "它们都要求白盒访问",
+        "它们只支持英语",
+        "它们不能在 GPU 上运行",
+        "攻击/防御率依赖裁判身份和探针新鲜度，必须注明裁判并在模型修补后刷新探针"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“攻击/防御率依赖裁判身份和探针新鲜度，必须注明裁判并在模型修补后刷新探针”。本课组装 Llama Guard、Garak 与 PyRIT 的红队栈，并强调裁判与探针新鲜度。"
+    }
+  ]
+}

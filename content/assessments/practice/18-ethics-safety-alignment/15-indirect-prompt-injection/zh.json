@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/15-indirect-prompt-injection/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "81184e54df9c4feb17f85d39cb8409b8564c5b6f28dc615552f1022508d95ff8"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "15-indirect-prompt-injection-pre-1",
+      "stage": "pre",
+      "question": "间接提示注入（IPI）与直接提示注入的区别是什么？",
+      "options": [
+        "IPI 是越狱的同义词",
+        "IPI 把指令藏在网页、邮件或工具输出等外部内容里，由正常运行中的 agent 消费，而攻击者不接触用户提示",
+        "IPI 只对多模态模型有效",
+        "IPI 要求微调目标模型"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“IPI 把指令藏在网页、邮件或工具输出等外部内容里，由正常运行中的 agent 消费，而攻击者不接触用户提示”。本课把间接提示注入放进生产 RAG、工具输出和收件箱流程，并用信息流控制约束副作用。"
+    },
+    {
+      "id": "15-indirect-prompt-injection-check-2",
+      "stage": "check",
+      "question": "以下哪项不是本课列出的 IPI 投递向量？",
+      "options": [
+        "用户直接修改 system prompt",
+        "工具输出",
+        "收件箱或文档工作流",
+        "被投毒的检索增强生成"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“用户直接修改 system prompt”。本课把间接提示注入放进生产 RAG、工具输出和收件箱流程，并用信息流控制约束副作用。"
+    },
+    {
+      "id": "15-indirect-prompt-injection-check-3",
+      "stage": "check",
+      "question": "为什么用户输入过滤器会漏掉 IPI？",
+      "options": [
+        "过滤器读不了 JSON",
+        "过滤器只在模型回答后运行",
+        "过滤器区分大小写",
+        "载荷不在用户输入中，而在检索或工具提供的内容中"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“载荷不在用户输入中，而在检索或工具提供的内容中”。本课把间接提示注入放进生产 RAG、工具输出和收件箱流程，并用信息流控制约束副作用。"
+    },
+    {
+      "id": "15-indirect-prompt-injection-check-4",
+      "stage": "check",
+      "question": "AI agent 的 Information Flow Control（IFC）核心原则是什么？",
+      "options": [
+        "默认禁用所有工具",
+        "加密所有检索内容",
+        "按来源给内容标记可信/不可信；不可信内容触发的动作必须由可信输入再次授权",
+        "只使用单轮提示"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“按来源给内容标记可信/不可信；不可信内容触发的动作必须由可信输入再次授权”。本课把间接提示注入放进生产 RAG、工具输出和收件箱流程，并用信息流控制约束副作用。"
+    },
+    {
+      "id": "15-indirect-prompt-injection-post-5",
+      "stage": "post",
+      "question": "Nasr 等人（2025）的自适应攻击研究对 12 个已发表 IPI 防御发现了什么？",
+      "options": [
+        "自适应攻击太贵，无法评估",
+        "它们报告的近零 ASR 在自适应攻击下仍成立",
+        "梯度、RL、随机搜索和人工红队等自适应攻击击破了其中超过 90%",
+        "只有一个防御被击破"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“梯度、RL、随机搜索和人工红队等自适应攻击击破了其中超过 90%”。本课把间接提示注入放进生产 RAG、工具输出和收件箱流程，并用信息流控制约束副作用。"
+    },
+    {
+      "id": "15-indirect-prompt-injection-post-6",
+      "stage": "post",
+      "question": "2025 年 OWASP LLM Top 10 把 prompt injection 排在哪里？",
+      "options": [
+        "LLM10（最低）",
+        "LLM01（第一，应用层首要威胁）",
+        "未列入",
+        "LLM05"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“LLM01（第一，应用层首要威胁）”。本课把间接提示注入放进生产 RAG、工具输出和收件箱流程，并用信息流控制约束副作用。"
+    }
+  ]
+}

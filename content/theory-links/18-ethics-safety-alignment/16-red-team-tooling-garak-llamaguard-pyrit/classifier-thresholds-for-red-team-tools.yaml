@@ -11,6 +11,14 @@ practice:
 card:
   title: 用分类阈值校准红队工具的安全判断
   summary: 在为 Llama Guard 设定输入/输出门控、解读 Garak 的 TBSA 等级和比较不同裁判的 ASR 时，分类学习中的阈值、混淆矩阵、精确率和召回率帮助区分漏报、误报与裁判校准偏差。
+  context: "本课把分类器、攻击生成器和多轮红队活动串在一起，阈值变化会同时改变安全漏报、正常内容误报和报告的 ASR。"
+  intuition: "安全门像一个可调阈值的二分类器：阈值降低能抓到更多攻击但会挡住更多正常请求，阈值升高则反过来；裁判本身也是测量仪器。"
+  key_points:
+    - "Llama Guard 的输入/输出 flag 需要结合混淆矩阵，而不能只看一个总体准确率。"
+    - "Garak 的 probes、detectors、harnesses 与 PyRIT 的多轮 orchestrator 产生不同覆盖和新鲜度。"
+    - "ASR 依赖查询预算、裁判身份和探针版本，跨实验比较前必须固定这些条件。"
+  application: "改变 toy classifier threshold 和 judge 规则，记录漏报、误报与攻击成功率，并为 nightly 回归标注探针版本。"
+  check_question: "为什么相同的攻击样本在更换 judge 或 threshold 后会得到不同 ASR，而这不一定表示模型行为改变？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 06 - machine learning/02. gradient machine learning.md

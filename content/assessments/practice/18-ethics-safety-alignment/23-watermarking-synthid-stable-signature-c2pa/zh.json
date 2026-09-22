@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/23-watermarking-synthid-stable-signature-c2pa/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "a4f62804bd69ace862900af8415881871ffad65fc3a0f43d90dede434858c229"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "23-watermarking-synthid-stable-signature-c2pa-pre-1",
+      "stage": "pre",
+      "question": "Kirchenbauer 风格（SynthID-text）的 token 水印如何嵌入信号？",
+      "options": [
+        "使用公钥加密输出",
+        "每步哈希前 K 个词元，把词表分成 green/red，并偏向 green；检测时用 z-score 统计 green 比例",
+        "插入隐藏 HTML 注释",
+        "修改提示模板"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“每步哈希前 K 个词元，把词表分成 green/red，并偏向 green；检测时用 z-score 统计 green 比例”。本课比较 token 水印、Stable Signature 和 C2PA 的互补性与对抗鲁棒性边界。"
+    },
+    {
+      "id": "23-watermarking-synthid-stable-signature-c2pa-check-2",
+      "stage": "check",
+      "question": "文本水印面对改写/释义的主要局限是什么？",
+      "options": [
+        "改写只影响图像水印",
+        "它们能稳定穿过改写",
+        "改写会增强水印",
+        "重写会破坏 green-token 的统计信号"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“重写会破坏 green-token 的统计信号”。本课比较 token 水印、Stable Signature 和 C2PA 的互补性与对抗鲁棒性边界。"
+    },
+    {
+      "id": "23-watermarking-synthid-stable-signature-c2pa-check-3",
+      "stage": "check",
+      "question": "Stable Signature（Fernandez 等，ICCV 2023）做什么？",
+      "options": [
+        "在图像角落加入可见水印",
+        "用私钥签署元数据",
+        "上传时用 C2PA 签署图像",
+        "微调 latent diffusion decoder，使每张生成图像带有可从 latent 检测的固定消息"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“微调 latent diffusion decoder，使每张生成图像带有可从 latent 检测的固定消息”。本课比较 token 水印、Stable Signature 和 C2PA 的互补性与对抗鲁棒性边界。"
+    },
+    {
+      "id": "23-watermarking-synthid-stable-signature-c2pa-check-4",
+      "stage": "check",
+      "question": "2024 年 5 月“Stable Signature is Unstable”说明什么？",
+      "options": [
+        "水印在数学上不可伪造",
+        "水印必须依赖 C2PA",
+        "水印只会在 JPEG 压缩时失败",
+        "对 decoder 做生成后微调即可移除水印而保持图像质量，削弱了对抗鲁棒性"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“对 decoder 做生成后微调即可移除水印而保持图像质量，削弱了对抗鲁棒性”。本课比较 token 水印、Stable Signature 和 C2PA 的互补性与对抗鲁棒性边界。"
+    },
+    {
+      "id": "23-watermarking-synthid-stable-signature-c2pa-post-5",
+      "stage": "post",
+      "question": "C2PA 元数据与水印如何互补？",
+      "options": [
+        "C2PA 完全替代水印",
+        "元数据可被剥离但携带丰富来源链，水印能穿过转码但只携带少量比特；叠加后更实用",
+        "水印与 C2PA 使用同一套密钥",
+        "两者可互换"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“元数据可被剥离但携带丰富来源链，水印能穿过转码但只携带少量比特；叠加后更实用”。本课比较 token 水印、Stable Signature 和 C2PA 的互补性与对抗鲁棒性边界。"
+    },
+    {
+      "id": "23-watermarking-synthid-stable-signature-c2pa-post-6",
+      "stage": "post",
+      "question": "为什么“没有 SynthID 信号”不能证明内容来自人类？",
+      "options": [
+        "因为 SynthID 闭源",
+        "因为 SynthID 对人类文本总是假阳性",
+        "SynthID 只标记启用它的模型生成内容，未启用 SynthID 的模型默认没有该水印",
+        "因为 SynthID 只支持 Gemini"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“SynthID 只标记启用它的模型生成内容，未启用 SynthID 的模型默认没有该水印”。本课比较 token 水印、Stable Signature 和 C2PA 的互补性与对抗鲁棒性边界。"
+    }
+  ]
+}

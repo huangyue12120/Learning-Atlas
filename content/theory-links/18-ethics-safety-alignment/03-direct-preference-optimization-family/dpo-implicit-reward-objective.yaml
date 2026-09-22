@@ -11,6 +11,14 @@ practice:
 card:
   title: 从隐式奖励推导 DPO 偏好目标
   summary: 在比较 DPO、IPO、KTO、SimPO、ORPO 和 BPO 时，高级文本生成笔记中的闭式 DPO 推导说明了如何由带 KL 约束的 RLHF 最优策略消去奖励模型，并直接根据 chosen/rejected 偏好对更新策略。
+  context: "本课需要比较六种直接偏好算法，关键是理解 DPO 如何把带 KL 的 RLHF 最优策略改写成一个不显式训练奖励模型的偏好损失。"
+  intuition: "如果参考策略提供语言先验，chosen/rejected 相对参考策略的对数概率比就可以充当隐式奖励差；DPO 直接推动这个差值，而不是先拟合一个独立 RM。"
+  key_points:
+    - "DPO 的闭式推导依赖 KL 正则化的最优策略与 Bradley–Terry 偏好模型。"
+    - "IPO、KTO、SimPO、ORPO 和 BPO 分别改变概率间隔、标签形态、参考策略或长度偏差处理。"
+    - "直接对齐仍可能过度优化，不能因为没有显式 RM 就假设 Goodhart 消失。"
+  application: "在同一玩具偏好对上运行六种损失，比较 chosen/rejected 对数概率、隐式奖励间隔与策略 KL。"
+  check_question: "DPO 消去显式奖励模型后，哪个参考策略对数概率比仍然承担了奖励代理的作用？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

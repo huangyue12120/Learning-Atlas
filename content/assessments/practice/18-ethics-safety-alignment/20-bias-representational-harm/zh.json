@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/20-bias-representational-harm/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "d309f0af3dbd8c0cd8db14dc6d772449ae1d5665ebfe746d1175cd78f039b182"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "20-bias-representational-harm-pre-1",
+      "stage": "pre",
+      "question": "本课如何区分 representational harm 与 allocational harm？",
+      "options": [
+        "再现性伤害是计算的，分配性伤害是统计的",
+        "分配性伤害只在线下发生",
+        "再现性伤害只与视觉模型有关",
+        "再现性伤害是刻板印象、抹除或贬损呈现；分配性伤害是群体间不平等的物质结果"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“再现性伤害是刻板印象、抹除或贬损呈现；分配性伤害是群体间不平等的物质结果”。本课用 WEAT 形状的嵌入探针区分再现性伤害、分配性伤害与交叉性偏差。"
+    },
+    {
+      "id": "20-bias-representational-harm-check-2",
+      "stage": "check",
+      "question": "Gallegos 等人（2024）归纳的三类评估指标是什么？",
+      "options": [
+        "视觉、音频、文本",
+        "WEAT、BLEU、ROUGE",
+        "基于嵌入、基于概率、基于生成文本",
+        "RLHF 前、中、后"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“基于嵌入、基于概率、基于生成文本”。本课用 WEAT 形状的嵌入探针区分再现性伤害、分配性伤害与交叉性偏差。"
+    },
+    {
+      "id": "20-bias-representational-harm-check-3",
+      "stage": "check",
+      "question": "为什么需要交叉性公平评估，而不能只看单一轴？",
+      "options": [
+        "单轴指标更省计算",
+        "交叉性就是交叉验证",
+        "法律只允许单轴评估",
+        "只看一个轴会漏掉仅在性别×种族等交叉身份上出现的偏差"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“只看一个轴会漏掉仅在性别×种族等交叉身份上出现的偏差”。本课用 WEAT 形状的嵌入探针区分再现性伤害、分配性伤害与交叉性偏差。"
+    },
+    {
+      "id": "20-bias-representational-harm-check-4",
+      "stage": "check",
+      "question": "WinoIdentity（COLM 2025）引入了什么？",
+      "options": [
+        "不确定性的交叉性公平评估，比较模型对交叉身份组合结果的 uncertainty，而不只看点预测",
+        "人口分类器的对抗攻击",
+        "嵌入空间中 WEAT 的替代品",
+        "身份词的新分词器"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“不确定性的交叉性公平评估，比较模型对交叉身份组合结果的 uncertainty，而不只看点预测”。本课用 WEAT 形状的嵌入探针区分再现性伤害、分配性伤害与交叉性偏差。"
+    },
+    {
+      "id": "20-bias-representational-harm-post-5",
+      "stage": "post",
+      "question": "以下哪项属于用机制解释研究偏差的方法？",
+      "options": [
+        "重新标注训练集",
+        "识别 MLP 中的性别神经元、用 SAE 找到与种族相关的特征，或操纵特定注意力头（UniBias）",
+        "从 PPO 换到 DPO",
+        "增加 KL 正则"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“识别 MLP 中的性别神经元、用 SAE 找到与种族相关的特征，或操纵特定注意力头（UniBias）”。本课用 WEAT 形状的嵌入探针区分再现性伤害、分配性伤害与交叉性偏差。"
+    },
+    {
+      "id": "20-bias-representational-harm-post-6",
+      "stage": "post",
+      "question": "十年元批评（arXiv:2508.11067）对偏差文献提出了什么？",
+      "options": [
+        "文献过度聚焦二元性别，忽视残障、宗教、移民身份和多语言身份等其他轴",
+        "文献已均衡覆盖所有身份轴",
+        "文献避免定量方法",
+        "文献过度强调交叉性"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“文献过度聚焦二元性别，忽视残障、宗教、移民身份和多语言身份等其他轴”。本课用 WEAT 形状的嵌入探针区分再现性伤害、分配性伤害与交叉性偏差。"
+    }
+  ]
+}

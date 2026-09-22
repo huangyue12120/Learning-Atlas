@@ -51,7 +51,7 @@ r(x, y) = beta * log(pi*(y|x) / pi_ref(y|x)) + beta * log Z(x)
 
 ## 概念
 
-### DPO（Rafailov 等，2023）
+### DPO（Rafailov 等，2023） <!-- learning-atlas: dpo-rafailov-et-al-2023 -->
 
 ```
 L_DPO = -log sigmoid(

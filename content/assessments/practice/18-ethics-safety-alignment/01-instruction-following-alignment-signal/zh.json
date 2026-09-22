@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/01-instruction-following-alignment-signal/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "bc3a2599b279f83ae538d322b9021a09ee9b3b4d0a0de10dfafb4a21a1fb01fa"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "01-instruction-following-alignment-signal-pre-1",
+      "stage": "pre",
+      "question": "为什么原始预训练语言模型常把“写一个反转列表的 Python 函数”续写成另一个提示词，而不是代码？",
+      "options": [
+        "默认温度为零",
+        "词表没有 Python 词元",
+        "它学习的是网页式文本续写，提示词后面常常还会有提示词",
+        "没有微调就无法表示函数签名"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“它学习的是网页式文本续写，提示词后面常常还会有提示词”。本课用 InstructGPT 的 SFT、奖励模型和带 KL 惩罚的 PPO 建立后续对齐课程的参照线。"
+    },
+    {
+      "id": "01-instruction-following-alignment-signal-check-2",
+      "stage": "check",
+      "question": "InstructGPT 的奖励模型在成对偏好标签上使用哪种损失？",
+      "options": [
+        "预测奖励与标签奖励之间的交叉熵",
+        "对标注者分数使用均方误差",
+        "带固定间隔的 hinge loss",
+        "Bradley–Terry 损失：-log sigmoid(r(x,y_w)-r(x,y_l))"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“Bradley–Terry 损失：-log sigmoid(r(x,y_w)-r(x,y_l))”。本课用 InstructGPT 的 SFT、奖励模型和带 KL 惩罚的 PPO 建立后续对齐课程的参照线。"
+    },
+    {
+      "id": "01-instruction-following-alignment-signal-check-3",
+      "stage": "check",
+      "question": "InstructGPT 第三阶段的 KL 惩罚主要防止什么？",
+      "options": [
+        "分词器统计发生灾难性遗忘",
+        "优化器找到利用奖励模型漏洞的对抗性高奖励字符串",
+        "采样时上下文窗口溢出",
+        "PPO 梯度更新的数值不稳定"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“优化器找到利用奖励模型漏洞的对抗性高奖励字符串”。本课用 InstructGPT 的 SFT、奖励模型和带 KL 惩罚的 PPO 建立后续对齐课程的参照线。"
+    },
+    {
+      "id": "01-instruction-following-alignment-signal-check-4",
+      "stage": "check",
+      "question": "PPO-ptx 把什么问题混入 RL 目标以缓解对齐税？",
+      "options": [
+        "RLHF 没有瞄准的标准基准出现回归",
+        "SFT 与奖励模型的分词器不匹配",
+        "KL 项变成负数",
+        "PPO 过程中奖励模型漂移"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“RLHF 没有瞄准的标准基准出现回归”。本课用 InstructGPT 的 SFT、奖励模型和带 KL 惩罚的 PPO 建立后续对齐课程的参照线。"
+    },
+    {
+      "id": "01-instruction-following-alignment-signal-post-5",
+      "stage": "post",
+      "question": "1.3B InstructGPT 约 70% 的时间比 175B 基础 GPT-3 更受偏好，这说明什么？",
+      "options": [
+        "对齐与能力是不同轴，基础模型设定能力下限",
+        "超过 50% 就证明代理奖励等同人类价值",
+        "规模足够大时能力和对齐就是同一轴",
+        "更大的基础模型总会输给小型对齐模型"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“对齐与能力是不同轴，基础模型设定能力下限”。本课用 InstructGPT 的 SFT、奖励模型和带 KL 惩罚的 PPO 建立后续对齐课程的参照线。"
+    },
+    {
+      "id": "01-instruction-following-alignment-signal-post-6",
+      "stage": "post",
+      "question": "InstructGPT 的奖励模型从什么模型初始化？",
+      "options": [
+        "保留 LM head 的基础预训练模型",
+        "将 LM head 换成标量 head 的 SFT 模型",
+        "独立的 encoder-only Transformer",
+        "没有预训练的随机标量回归器"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“将 LM head 换成标量 head 的 SFT 模型”。本课用 InstructGPT 的 SFT、奖励模型和带 KL 惩罚的 PPO 建立后续对齐课程的参照线。"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/18-ethics-safety-alignment/24-regulatory-frameworks-eu-us-uk-korea/quiz.json",
+    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
+    "sha256": "607815920a1fd675a659f08292beea730fd300c4c1eec0bee621da7c45cb9a6c"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "24-regulatory-frameworks-eu-us-uk-korea-pre-1",
+      "stage": "pre",
+      "question": "EU AI Act 何时生效，最先适用什么类别？",
+      "options": [
+        "2025 年 8 月，所有类别同时适用",
+        "2024 年 1 月，高风险系统当天适用",
+        "2024 年 8 月生效；禁止性实践和 AI literacy 于 2025 年 2 月 2 日适用",
+        "2026 年 8 月生效，只适用 GPAI"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“2024 年 8 月生效；禁止性实践和 AI literacy 于 2025 年 2 月 2 日适用”。本课把 EU AI Act、GPAI Code、英美机构重命名和韩国 AI Framework Act 放在同一时间线。"
+    },
+    {
+      "id": "24-regulatory-frameworks-eu-us-uk-korea-check-2",
+      "stage": "check",
+      "question": "从 2026 年 8 月 2 日起，EU AI Act 的最高金钱处罚是多少？",
+      "options": [
+        "最高 500 万欧元或全球营业额 1%",
+        "最高 100 万欧元或全球营业额 0.1%",
+        "最高 1500 万欧元或全球营业额 3%",
+        "无限额"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“最高 1500 万欧元或全球营业额 3%”。本课把 EU AI Act、GPAI Code、英美机构重命名和韩国 AI Framework Act 放在同一时间线。"
+    },
+    {
+      "id": "24-regulatory-frameworks-eu-us-uk-korea-check-3",
+      "stage": "check",
+      "question": "2025 年 7 月 10 日 GPAI Code of Practice 的三章是什么？",
+      "options": [
+        "能力、控制、合规",
+        "透明度、版权、安全与安保",
+        "隐私、偏差、水印",
+        "训练、推理、部署"
+      ],
+      "correct": 1,
+      "explanation": "正确答案是“透明度、版权、安全与安保”。本课把 EU AI Act、GPAI Code、英美机构重命名和韩国 AI Framework Act 放在同一时间线。"
+    },
+    {
+      "id": "24-regulatory-frameworks-eu-us-uk-korea-check-4",
+      "stage": "check",
+      "question": "英国 AISI 在 2025 年 2 月改名为 AI Security Institute 表示什么？",
+      "options": [
+        "范围收窄到前沿能力安全，淡化算法偏差和言论自由框架",
+        "英国停止前沿评估",
+        "与 EU AI Office 合并",
+        "扩展到算法偏差"
+      ],
+      "correct": 0,
+      "explanation": "正确答案是“范围收窄到前沿能力安全，淡化算法偏差和言论自由框架”。本课把 EU AI Act、GPAI Code、英美机构重命名和韩国 AI Framework Act 放在同一时间线。"
+    },
+    {
+      "id": "24-regulatory-frameworks-eu-us-uk-korea-post-5",
+      "stage": "post",
+      "question": "美国 CAISI（2025 年 6 月）改名反映怎样的政策方向？",
+      "options": [
+        "强制前沿模型开源",
+        "与 FDA 合并",
+        "转向 pro-growth AI 政策，重视标准与创新支持，降低对部署前评估的强调",
+        "更严格的部署前安全评估"
+      ],
+      "correct": 2,
+      "explanation": "正确答案是“转向 pro-growth AI 政策，重视标准与创新支持，降低对部署前评估的强调”。本课把 EU AI Act、GPAI Code、英美机构重命名和韩国 AI Framework Act 放在同一时间线。"
+    },
+    {
+      "id": "24-regulatory-frameworks-eu-us-uk-korea-post-6",
+      "stage": "post",
+      "question": "韩国 AI Framework Act（2026 年 1 月生效）的核心义务是什么？",
+      "options": [
+        "完全照搬 EU AI Act",
+        "全面禁止外国 AI 提供商",
+        "所有生成模型必须开放权重",
+        "第 12 条在 MSIT 下设 AISI，并要求外国公司本地代表、高影响系统风险评估和安全措施"
+      ],
+      "correct": 3,
+      "explanation": "正确答案是“第 12 条在 MSIT 下设 AISI，并要求外国公司本地代表、高影响系统风险评估和安全措施”。本课把 EU AI Act、GPAI Code、英美机构重命名和韩国 AI Framework Act 放在同一时间线。"
+    }
+  ]
+}
