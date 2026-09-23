@@ -1,3 +1,30 @@
+# Learning Atlas v0.25.0 发布说明
+
+发布日期：2026-09-23。
+
+本版完成 T6「独立理论 B」里程碑：以 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 为依据，按理论目录章节顺序新增 16 篇此前未被理论卡引用的中文理论全文。理论目录现在有 89 / 104 篇中文全文；剩余 15 篇独立笔记继续按章节顺序留待 T7。
+
+## 本版交付
+
+- 新增 16 份 `theory-translation`，覆盖图神经网络、离散数学、计算机体系结构、编程语言、数据结构与算法、生产软件工程以及 SIMD/ARM；保留源文件的标题层级、公式、代码、图片和链接顺序，逐篇审核记录见 [`docs/t6-theory-review.md`](t6-theory-review.md)。
+- 16 篇译文均声明跟踪 `main`，记录审核 revision 和当前源文件 SHA-256，并通过结构对应与来源指纹门禁；它们不新增理论卡或 theory-link。
+- 更新理论目录、全文 API 和 API 回归测试；89 篇中文理论全文均返回 `readKind: internal`，stale 或 draft 内容仍安全回退到官方英文 `main`，原文入口继续跟随官方最新 `main`。
+- 同步 `README.md`、内容清单、项目进度、审核表以及应用 SemVer 至 v0.25.0；应用版本文件和锁文件保持一致。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1522 条来源指纹）
+- `python3 scripts/check_theory_cards.py`（289 张已发布理论卡）
+- `python3 scripts/check_repository_hygiene.py`
+- `cd apps/local-learning && npm run check && npm test`
+- 桌面与窄屏理论阅读器 smoke check：抽查图神经网络、数据结构与 ARM/NEON 长文档的标题、代码、图片资源和窄屏换行。
+- `git diff --check`
+
+完整快照、来源路径、结构统计和理论卡计数见[内容清单](content-manifest.md)、[项目进度](project-progress.md)和 [T6 审核表](t6-theory-review.md)。
+
+---
+
 # Learning Atlas v0.24.0 发布说明
 
 发布日期：2026-09-22。

@@ -105,6 +105,25 @@ const t5TheoryIds = [
   "theory/chapter-12-graph-neural-networks/02-graph-theory"
 ] as const;
 
+const t6TheoryIds = [
+  "theory/chapter-12-graph-neural-networks/03-graph-neural-networks",
+  "theory/chapter-12-graph-neural-networks/04-graph-attention-networks",
+  "theory/chapter-12-graph-neural-networks/05-3d-graph-networks",
+  "theory/chapter-13-computing-and-os/01-discrete-maths",
+  "theory/chapter-13-computing-and-os/02-computer-architecture",
+  "theory/chapter-13-computing-and-os/05-programming-languages",
+  "theory/chapter-14-data-structures-and-algorithms/00-foundations",
+  "theory/chapter-14-data-structures-and-algorithms/01-arrays-and-hashing",
+  "theory/chapter-14-data-structures-and-algorithms/02-linked-lists-stacks-and-queues",
+  "theory/chapter-14-data-structures-and-algorithms/03-trees",
+  "theory/chapter-14-data-structures-and-algorithms/05-sorting-and-search",
+  "theory/chapter-15-production-software-engineering/03-codebase-design",
+  "theory/chapter-15-production-software-engineering/05-deployment-and-devops",
+  "theory/chapter-16-simd-and-gpu-programming/00-why-c-and-how-ml-frameworks-work",
+  "theory/chapter-16-simd-and-gpu-programming/01-hardware-fundamentals",
+  "theory/chapter-16-simd-and-gpu-programming/02-arm-and-neon"
+] as const;
+
 const officialTheoryMainUrl = /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//;
 
 afterEach(() => {
@@ -602,7 +621,7 @@ test("serves the complete curriculum with safe staged phases and a dynamic targe
   assert.equal(curriculum.practice.length, 20);
   assert.equal(curriculum.theory.length, 20);
   assert.equal(curriculum.summary.publishedPracticePhaseCount, 19);
-  assert.equal(curriculum.summary.reviewedTheoryNoteCount, 73);
+  assert.equal(curriculum.summary.reviewedTheoryNoteCount, 89);
   assert.equal(curriculum.target.kind, "start");
   assert.equal(curriculum.target.lessonId, "practice/00-setup-and-tooling/01-dev-environment");
   const publishedAgentPhase = curriculum.practice[14];
@@ -859,13 +878,54 @@ test("publishes every T5 theory translation with official main source links", as
   }
 });
 
+test("publishes every T6 theory translation with official main source links", async () => {
+  const baseUrl = await startTestServer();
+  const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
+  const notes = curriculum.theory.flatMap((chapter: { notes: Array<{
+    theoryId: string;
+    sourcePath: string;
+    sourceUrl: string;
+    latestSourceUrl: string;
+    readKind: string;
+    readLanguage: string;
+    readUrl: string;
+  }> }) => chapter.notes);
+  const t6Notes = t6TheoryIds.map((theoryId) => {
+    const note = notes.find((item) => item.theoryId === theoryId);
+    assert.ok(note, `missing T6 theory note ${theoryId}`);
+    return note;
+  });
+
+  assert.equal(t6Notes.length, 16);
+  for (const note of t6Notes) {
+    assert.equal(note.readKind, "internal");
+    assert.equal(note.readLanguage, "zh");
+    assert.match(note.readUrl, /^\/theory\?theoryId=/);
+    assert.match(note.sourceUrl, officialTheoryMainUrl);
+    assert.match(note.latestSourceUrl, officialTheoryMainUrl);
+    assert.equal(note.sourceUrl, note.latestSourceUrl);
+
+    const response = await fetch(`${baseUrl}/api/theory/content?theoryId=${encodeURIComponent(note.theoryId)}`);
+    assert.equal(response.status, 200);
+    const content = await response.json();
+    assert.equal(content.theoryId, note.theoryId);
+    assert.equal(content.source.path, note.sourcePath);
+    assert.equal(content.source.branch, "main");
+    assert.equal(content.source.revision, "main");
+    assert.equal(content.source.reviewedRevision, "9850ee574a370bc1cde59de98b394e953775b67d");
+    assert.equal(content.sourceUrl, note.sourceUrl);
+    assert.equal(content.latestSourceUrl, note.latestSourceUrl);
+    assert.match(content.markdown.trimStart(), /^#\s+.+/);
+  }
+});
+
 test("publishes the reviewed sampling theory reader and rejects unsafe resources", async () => {
   const baseUrl = await startTestServer();
   const theoryId = "theory/chapter-04-statistics/03-sampling";
   const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
   const sampling = curriculum.theory[3].notes.find((note: { theoryId: string }) => note.theoryId === theoryId);
-  const fallback = curriculum.theory[12].notes.find((note: { theoryId: string }) =>
-    note.theoryId === "theory/chapter-13-computing-and-os/01-discrete-maths");
+  const fallback = curriculum.theory[15].notes.find((note: { theoryId: string }) =>
+    note.theoryId === "theory/chapter-16-simd-and-gpu-programming/03-x86-and-avx");
   assert.ok(fallback);
   assert.equal(sampling.readKind, "internal");
   assert.equal(sampling.readLanguage, "zh");
