@@ -14,215 +14,205 @@ status: reviewed
 
 
 
-*Graph neural networks learn from graph-structured data by passing messages between connected nodes. This file covers the message-passing framework, GCN, GraphSAGE, GIN, over-smoothing, graph pooling, and node/edge/graph-level tasks; the core architectures that power molecular property prediction, social network analysis, and recommendation systems.*
+*Graph神经网络通过在相接的节点之间传递消息来从图结构数据中学习. 该文件涵盖信息传递框架、GCN、GraphSAGE、GIN、过度流畅、图集和节点/网格/图级任务;以及推动分子属性预测、社交网络分析和推荐系统的核心架构。*
 
-- In the previous files, we established the mathematical foundations: geometric deep learning (file 1) tells us to exploit symmetries, and graph theory (file 2) gives us the language of nodes, edges, and adjacency. Now we build neural networks that operate directly on graphs.
+- 在之前的文档中,我们建立了数学基础:几何深层学习(file 1)告诉我们要利用对称性,而图理论(file 2)给了我们节点,边缘和相接性的语言. 现在我们建立神经网络,直接在图表上运行。
 
-- The core challenge: graph data is **irregular**. Unlike images (fixed grid) or sequences (fixed ordering), graphs have variable numbers of nodes, variable connectivity, and no canonical node ordering. A neural network for graphs must handle all of this while being permutation-equivariant (relabelling nodes should not change the output).
+- 核心挑战:图表数据不正规**。与图像(固定网格)或序列(固定顺序)不同的是,图有可变的节点数,可变的连通性,而无克尼克节点命令. 一个用于图的神经网络在进行通配-等分时必须处理所有这一切(重新标记的节点不应改变输出).
 
 ## 消息传递框架
 
-> **中文导读**：本节围绕“消息传递框架”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Nearly all GNNs follow the same recipe, called **message passing** (also called neighbourhood aggregation). The idea is simple and elegant: each node updates its representation by collecting information from its neighbours.
+- 几乎所有的GNN都遵循同样的食谱,称为"消息传来**"(也叫邻里聚合). 这个想法简单而优雅:每个节点通过从邻国收集信息来更新其代表.
 
-- At each layer $l$, every node $i$ does three things:
+- 每层$l$,每个节点$i$做三件事:
 
-    1. **Message**: each neighbour $j$ of node $i$ computes a message $\mathbf{m}_{j \to i}$ based on its current features.
-    2. **Aggregate**: node $i$ collects all incoming messages and combines them with a permutation-invariant function (sum, mean, or max).
-    3. **Update**: node $i$ combines the aggregated message with its own features to produce a new representation.
+    1. ** 信息**:每个邻居$j$节点$i$计算信件$\mathbf{m}_{j \to i}$基于其目前的特点。
+    2. ** 外接门**:节点$i$收集所有来电信息,并将其与通量-变量函数(和、平或最大)相融合。
+    3. ** 最新**:节点$i$将汇总信息与自身特征结合起来,形成新的表述.
 
-- Formally:
+- 形式上:
 
 $$\mathbf{m}_i^{(l)} = \bigoplus_{j \in \mathcal{N}(i)} \phi^{(l)}\left(\mathbf{h}_i^{(l)}, \mathbf{h}_j^{(l)}, \mathbf{e}_{ij}\right)$$
 
 $$\mathbf{h}_i^{(l+1)} = \psi^{(l)}\left(\mathbf{h}_i^{(l)}, \mathbf{m}_i^{(l)}\right)$$
 
-- where $\mathcal{N}(i)$ is the set of neighbours of node $i$, $\bigoplus$ is a permutation-invariant aggregation (sum, mean, max), $\phi$ is the message function, $\psi$ is the update function, and $\mathbf{e}_{ij}$ is the optional edge feature.
+- 地点$\mathcal{N}(i)$是节点的邻接者$i$, $\bigoplus$是一种永久性-变量聚合(和、正、最大),$\phi$是消息函数,$\psi$是更新函数,并且$\mathbf{e}_{ij}$是可选的边缘特性。
 
-![Message passing: neighbours send messages, a permutation-invariant function aggregates them, and the node updates its features](../images/message_passing_gnn.svg)
+![消息传递: 邻居发送信件, 常态- 不定函数聚合它们, 节点更新其特性](../images/message_passing_gnn.svg)
 
-- The aggregation $\bigoplus$ must be permutation-invariant (it does not matter what order the neighbours are processed in) to ensure the overall function is permutation-equivariant. This directly implements the symmetry principle from file 1.
+- 汇总$\bigoplus$必须具有永久性-变异性(无论邻居的处理顺序如何),以确保整体功能具有永久性-等同性。这直接执行文件 1 的对称原则。
 
-- After $k$ layers of message passing, each node's representation encodes information from its **$k$-hop neighbourhood**: all nodes reachable within $k$ edges. Layer 1 sees immediate neighbours, layer 2 sees neighbours of neighbours, and so on. This is how local information propagates to build global understanding.
+- 之后$k$每个节点的表达方式编码来自其**$k$- 跳出邻里**:所有节点可在内部达到$k$边缘 第1层见到近邻,第2层看见相邻等. 地方信息就是以此传播全球知识。
 
-- The receptive field of a GNN grows with depth, just like the receptive field of a CNN grows with layers (chapter 8). But unlike CNNs on regular grids, the receptive field shape varies per node depending on the graph topology.
+- 全球网络的可接受性领域随着深度而增长,就像CNN的可接受性领域随着层层而增长(第8章)一样. 但与正格上的CNN不同,可接受场形状因地貌而异,每个节点的可接受场形状因地而异.
 
 ## 图卷积网络（GCN）
 
-> **中文导读**：本节围绕“图卷积网络（GCN）”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- The **GCN** (Kipf & Welling, 2017) is the foundational GNN architecture. It simplifies spectral graph convolution (from file 2) into an elegant, efficient formula.
+- **GCN** (Kipf & Welling, 2017)是基础GNN建筑. 它将光谱图的卷积(从文件2)简化为优雅而高效的公式.
 
-- Starting from the spectral convolution $g_\theta \star \mathbf{x} = U \, \text{diag}(\hat{g}_\theta) \, U^T \mathbf{x}$, Kipf and Welling approximate the spectral filter with a first-order Chebyshev polynomial, which avoids computing the eigendecomposition entirely. After simplification, the layer-wise update becomes:
+- 从光谱卷积开始$g_\theta \star \mathbf{x} = U \, \text{diag}(\hat{g}_\theta) \, U^T \mathbf{x}$, Kipf和 Welling 将光谱滤波器与一阶切比舍夫多诺米亚尔相近,这避免了完全计算出等分分解. 简化后,分层更新变为:
 
 $$H^{(l+1)} = \sigma\left(\hat{A} H^{(l)} W^{(l)}\right)$$
 
-- where:
-    - $H^{(l)} \in \mathbb{R}^{n \times d}$ is the matrix of node features at layer $l$
-    - $W^{(l)} \in \mathbb{R}^{d \times d'}$ is a learnable weight matrix
-    - $\hat{A} = \tilde{D}^{-1/2} \tilde{A} \tilde{D}^{-1/2}$ is the symmetrically normalised adjacency matrix with self-loops
-    - $\tilde{A} = A + I$ adds self-loops (so each node also receives its own message)
-    - $\tilde{D}$ is the degree matrix of $\tilde{A}$
-    - $\sigma$ is a nonlinear activation (ReLU, as in chapter 6)
+- 在下列地点:
+    - $H^{(l)} \in \mathbb{R}^{n \times d}$是分层节点特性的矩阵$l$
+    - $W^{(l)} \in \mathbb{R}^{d \times d'}$是可学习的重量矩阵
+    - $\hat{A} = \tilde{D}^{-1/2} \tilde{A} \tilde{D}^{-1/2}$是具有自带光圈的对称常态相邻矩阵
+    - $\tilde{A} = A + I$添加自带(所以每个节点也收到自己的消息)
+    - $\tilde{D}$是度矩阵$\tilde{A}$
+    - $\sigma$非线性活化(ReLU,如第6章)
 
-- The matrix multiplication $\hat{A} H^{(l)}$ is the aggregation step: for each node, it computes a weighted average of its neighbours' features (plus its own, via the self-loop). The weight matrix $W^{(l)}$ is the learnable transformation, shared across all nodes. The activation adds nonlinearity.
+- 矩阵乘法$\hat{A} H^{(l)}$是聚合步骤:对于每个节点,它计算其邻国特征的加权平均值(加上其本身的,通过自跳)。加权矩阵$W^{(l)}$是所有节点共享的可学习的转变。活化增加了非线性.
 
-- This is remarkably simple: it is just matrix multiplication followed by a learned linear map and activation. The entire GCN layer can be written in one line of code. The normalisation by $\tilde{D}^{-1/2}$ prevents nodes with many neighbours from dominating: high-degree nodes have their messages scaled down.
+- 这非常简单:它只是矩阵乘法,然后是学习到的线性地图和活化。整个GCN层可以被写入一行代码. 正常化:$\tilde{D}^{-1/2}$防止许多相邻的节点占据主导地位:高等节点会缩小其消息.
 
-- In the message-passing framework, GCN uses:
-    - Message: $\phi(\mathbf{h}_j) = \mathbf{h}_j$ (just send your features)
-    - Aggregation: normalised sum (weighted by degree)
-    - Update: linear transformation + activation
+- 在通訊框架中,GCN使用:
+    - 消息(T) :$\phi(\mathbf{h}_j) = \mathbf{h}_j$(只是发送您的特性)
+    - 合计:正常总和(按学位加权)
+    - 更新:线性转换+活化
 
-## GraphSAGE
-
-> **中文导读**：本节围绕“GraphSAGE”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
+## 图表
 
 
-- GCN is **transductive**: it requires the full graph during training and cannot handle new, unseen nodes. If a new user joins a social network, the GCN must be retrained on the entire graph. **GraphSAGE** (Hamilton et al., 2017) fixes this with an **inductive** approach.
 
-- The key idea is **neighbourhood sampling**: instead of using all neighbours, sample a fixed-size subset. This makes computation independent of the full graph structure and allows generalisation to unseen nodes and graphs.
+- GCN是**可转换的**:在训练时需要完整的图表,无法处理新的,看不见的节点. 如果有新用户加入一个社交网络,则GCN必须对整个图表进行再培训. ** GraphSAGE**(Hamilton等人,2017年)用**诱导**方法来解决这个问题。
 
-- The GraphSAGE update for node $i$:
+- 关键的想法是**邻居抽样**:不要使用所有邻居,而要抽样一个固定大小的子集. 这使得计算独立于完整的图表结构,并允许通缩到看不见的节点和图表.
+
+- 节点的图形SAGE更新$i$:
 
 $$\mathbf{h}_i^{(l+1)} = \sigma\left(W^{(l)} \cdot \text{CONCAT}\left(\mathbf{h}_i^{(l)}, \text{AGG}\left(\{\mathbf{h}_j^{(l)} : j \in \mathcal{S}(i)\}\right)\right)\right)$$
 
-- where $\mathcal{S}(i)$ is a **sampled** subset of neighbours (e.g., randomly sample 10 out of 500 neighbours). The CONCAT operation explicitly separates the node's own features from the aggregated neighbour features, letting the network learn different transformations for "self" and "neighbourhood."
+- 地点$\mathcal{S}(i)$是一个**抽样**的邻居子集(例如,随机抽样500个邻居中的10个)。CONCAT操作明确将节点本身的特征与聚合相邻的特征区分开来,让网络为"自己"和"邻居"学习不同的转变.
 
-- GraphSAGE supports multiple aggregation functions:
-    - **Mean**: $\text{AGG} = \frac{1}{|\mathcal{S}|} \sum_{j \in \mathcal{S}} \mathbf{h}_j$ (simple, effective)
-    - **LSTM**: feed the sampled neighbours through an LSTM (but this introduces an ordering dependency, somewhat violating permutation invariance)
-    - **Pool**: $\text{AGG} = \max(\{\sigma(W_{\text{pool}} \mathbf{h}_j + \mathbf{b})\})$ (nonlinear transform then max)
+- GraphSAGE 支持多个聚合函数:
+    - ** 内容**:$\text{AGG} = \frac{1}{|\mathcal{S}|} \sum_{j \in \mathcal{S}} \mathbf{h}_j$(简单,有效)
+    - ** LSTM**:通过LSTM向被抽样的邻居提供食物(但这引入了命令依赖,有些违反常态变化)
+    - ** Pool**:$\text{AGG} = \max(\{\sigma(W_{\text{pool}} \mathbf{h}_j + \mathbf{b})\})$(非线性变换然后最大)
 
-- The sampling strategy makes GraphSAGE scalable to very large graphs. Training uses mini-batches of nodes: for each target node, sample $k_1$ neighbours at layer 1, then $k_2$ neighbours for each of those at layer 2. With $k_1 = k_2 = 10$ and 2 layers, each node's computation tree has at most $10 \times 10 = 100$ nodes, regardless of the graph size.
+- 采样策略使得"图SAGE"可以被放大到非常大的图表. 训练使用小型节点:每个目标节点的样本$k_1$邻居在第一层,然后$k_2$第2层的邻居 与$k_1 = k_2 = 10$和两层,每个节点的计算树最多$10 \times 10 = 100$节点,不论图大小.
 
 ## 图同构网络（GIN）
 
-> **中文导读**：本节围绕“图同构网络（GIN）”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Different GNN architectures have different **expressive power**: their ability to distinguish structurally different graphs. GCN and GraphSAGE, despite being effective in practice, are provably limited in what graph structures they can distinguish.
+- 不同的GNN架构有不同的**表达力**:它们区分结构上不同的图表的能力. GCN和GraphSAGE虽然在实践中是有效的,但在它们能够区分哪些图表结构方面却非常有限。
 
-- The theoretical tool for measuring GNN expressiveness is the **Weisfeiler-Lehman (WL) test**, a classical algorithm for testing graph isomorphism (whether two graphs are structurally identical). The WL test iteratively refines node labels by hashing each node's label together with the multiset of its neighbours' labels.
+- 测量GNN表达性的理论工具是**Weisfeiler-Lehman (WL)测试**,一种用于测试图异态性的古典算法(两个图是否结构上完全相同). WL测试通过将每个节点的标签与相邻的标签多集一起用散去来反复地完善节点标签.
 
-- **GIN** (Xu et al., 2019) is designed to be as expressive as the WL test, making it the most powerful message-passing GNN (within the theoretical limits of message passing). The key insight: the aggregation function must be **injective** on multisets (different multisets of neighbour features must produce different aggregated values).
+- **GIN**(徐等,2019年)被设计为与WL测试一样有表达力,使其成为最强大的通电GNN(在通电的理论范围内). 关键洞察力:聚合函数必须是多集的**注入**(相邻特性的不同多集必须产生不同的集合值).
 
-- Sum aggregation is injective on multisets (summing $\{1, 1, 2\}$ gives 4, while $\{1, 3\}$ gives 4 too, but over feature vectors with enough dimensions, sums of different multisets are generically distinct). Mean and max are not injective: mean cannot distinguish $\{1, 1\}$ from $\{2, 2\}$, and max cannot distinguish $\{1, 2, 3\}$ from $\{1, 1, 3\}$.
+- 集合在多集(summe) 上注入$\{1, 1, 2\}$给予 4, 而$\{1, 3\}$给出4,但相对于具有足够尺寸的特性向量,不同多集的总和一般是不同的。平均值和最大值不是注射式的:表示不能区分$\{1, 1\}$从$\{2, 2\}$最大值无法区分$\{1, 2, 3\}$从$\{1, 1, 3\}$.
 
-- The GIN update is:
+- GIN更新为:
 
 $$\mathbf{h}_i^{(l+1)} = \text{MLP}^{(l)}\left((1 + \epsilon^{(l)}) \cdot \mathbf{h}_i^{(l)} + \sum_{j \in \mathcal{N}(i)} \mathbf{h}_j^{(l)}\right)$$
 
-- where $\epsilon$ is a learnable scalar (or fixed to 0) and the MLP provides the nonlinear, injective mapping. The sum aggregation preserves the multiset structure, and the MLP can learn to distinguish any two different aggregated values.
+- 地点$\epsilon$是一种可学习的平面图(或固定为0),MLP提供非线性,注射式的映射. 总和集合保留了多集结构,而MLP可以学习区分任意两个不同的总和值.
 
 ## 过平滑
 
-> **中文导读**：本节围绕“过平滑”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- A major challenge in GNNs is **over-smoothing**: as the number of layers increases, all node representations converge to the same value, losing the ability to distinguish different nodes.
+- 在GNNs中,一个主要的挑战是**过平滑**:随着层数的增加,所有节点表示都趋同到同值,失去了区分不同节点的能力.
 
-![Over-smoothing: distinct node features at layer 1 gradually blend into uniform features at deeper layers](../images/over_smoothing_gnn.svg)
+![过平滑:第1层有明显的节点特征,在更深层逐渐融合为统一特征](../images/over_smoothing_gnn.svg)
 
-- The mechanism is intuitive. Each message-passing layer averages a node's features with its neighbours'. After many rounds of averaging, every node has seen (and blended with) every other node in its connected component. The features become a uniform average, the graph equivalent of blurring an image too many times until it becomes a solid colour.
+- 机能自在. 每个传递消息的层 平均一个节点的特征 与它的邻居。经过多轮平均,每个节点都已经看到(并和)其连接组件中的所有其他节点相融合. 特征成为了统一的平均值,图中等同的模糊了一幅图像的多倍,直到它变成一副坚实的颜色.
 
-- Formally, repeated application of the normalised adjacency $\hat{A}$ converges to a rank-1 matrix (every row becomes proportional to the stationary distribution of a random walk on the graph). This is the same convergence as power iteration towards the dominant eigenvector (chapter 2).
+- 正式、反复适用常态化的附庸$\hat{A}$与一级矩阵相汇合(每行都与图上随机行走的固定分布成正比). 这与权力迭接对主导支配者的趋同(第二章)。
 
-- Over-smoothing limits GNNs to shallow depths (typically 2-4 layers), unlike CNNs and transformers that benefit from dozens or hundreds of layers. This means each node can only see a limited neighbourhood, which is problematic for tasks requiring long-range information.
+- 过沉将GNN限制为浅深(典型的为2-4层),不同于从数十或数百层中受益的CNN和变压器. 这意味着每个节点只能看到一个有限的相邻区域,这对需要远程信息的任务来说是个问题.
 
-- Mitigations include:
-    - **Residual connections** (from ResNets, chapter 8): $\mathbf{h}_i^{(l+1)} = \mathbf{h}_i^{(l+1)} + \mathbf{h}_i^{(l)}$, preserving information from earlier layers.
-    - **Jumping knowledge**: concatenate or attention-pool representations from all layers, not just the last.
-    - **DropEdge**: randomly remove edges during training, slowing the information spread.
-    - **Graph Transformers** (file 4): bypass the local message-passing bottleneck with global attention.
+- 缓解措施包括:
+    - ** 应急连接**(来自ResNets, 第8章):$\mathbf{h}_i^{(l+1)} = \mathbf{h}_i^{(l+1)} + \mathbf{h}_i^{(l)}$,从更早的地层保存信息。
+    - ** 跳跃性知识**:从所有层面提出或集中注意力的表述,而不仅仅是最后一种。
+    - ** DropEdge**:在训练期间随机去除边缘,减缓了信息传播.
+    - ** Graph Transformers**(文件4):绕过本地消息传递瓶颈,引起全球关注.
 
 ## 图池化
 
-> **中文导读**：本节围绕“图池化”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- For **graph-level tasks** (predicting a property of the entire graph, like a molecule's toxicity), we need to collapse all node representations into a single graph-level vector. This is **graph pooling**, the graph analogue of global average pooling in CNNs (chapter 8).
+- 对于**graph-level任务**(预想整个图的属性,就像分子的毒性),我们需要将所有节点表示分解为单一的图形级向量. 这是**图集**,CNNs全球平均集合的图表模拟(第8章)。
 
-- The simplest approach is **readout**: apply a permutation-invariant function to the set of all node features:
+- 最简单的方法是**readout**:对所有节点特征集应用一个通量-变量函数:
 
 $$\mathbf{h}_G = \text{READOUT}(\{\mathbf{h}_i^{(L)} : i \in V\}) = \sum_i \mathbf{h}_i^{(L)} \quad \text{or} \quad \frac{1}{|V|} \sum_i \mathbf{h}_i^{(L)} \quad \text{or} \quad \max_i \mathbf{h}_i^{(L)}$$
 
-- This is the DeepSets aggregation from file 1, applied after the final GNN layer. Sum preserves size information (a graph with 100 nodes will have a larger sum than one with 10), while mean normalises for size.
+- 这是文件 1 的 DeepSets 聚合, 在 GNN 最终层后应用。Sum保留了大小信息(一个有100个节点的图将有一个大于一个有10个的和),而大小的平均值为常态.
 
-- **Hierarchical pooling** progressively coarsens the graph, mirroring how CNNs progressively downsample images. At each level, groups of nodes are merged into "supernodes":
+- ** 高阶组合** 逐渐收缩图表,反映CNN如何逐步降低图像样本。在每个级别,节点组被合并为"超级节点":
 
-- **DiffPool** (Differentiable Pooling) learns a soft assignment matrix $S^{(l)} \in \mathbb{R}^{n_l \times n_{l+1}}$ that assigns each node to a cluster:
+- ** DiffPool**(差异组合)学习软任务矩阵$S^{(l)} \in \mathbb{R}^{n_l \times n_{l+1}}$,将每个节点指定为集群:
 
 $$X^{(l+1)} = S^{(l)T} H^{(l)}, \quad A^{(l+1)} = S^{(l)T} A^{(l)} S^{(l)}$$
 
-- The assignment matrix is predicted by a separate GNN, making the clustering end-to-end differentiable. This creates a hierarchy: the original graph → a coarsened graph with fewer nodes → an even coarser graph → a single node (the graph representation).
+- 任务矩阵是由单独的GNN预测的,使得集群的端到端可有差异. 这就形成了一个分级:原始图 → 节点较少的相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相
 
-- **TopKPool** takes a simpler approach: learn a scalar score for each node, keep the top-$k$ scoring nodes, and drop the rest. This is a hard selection (not soft assignment) and is computationally cheaper than DiffPool.
+- ** TopKPool ** 采取更简单的做法:为每个节点学习一个分数,保持顶端-$k$分出节点,然后放下剩下的。这是一个硬选取(不是软派),在计算上比地夫宝便宜.
 
 ## 异构图
 
-> **中文导读**：本节围绕“异构图”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- All GNNs so far assume a **homogeneous graph**: one type of node, one type of edge. But most real-world graphs are **heterogeneous**: multiple node types and multiple edge types. A knowledge graph has person nodes, organisation nodes, and location nodes, connected by "works at," "born in," and "located in" edges. A recommender system has user nodes and item nodes connected by "purchased," "viewed," and "rated" edges.
+- 目前所有的GNN假设一个**同心图**:一种节点,一种边缘. 但大多数现实世界的图表是**异相**:多节点类型和多边缘类型. 一个知识图有人物节点,组织节点,以及位置节点,通过"works at","born in"和"地处"边缘相接. 一个推荐者系统有用户节点和项目节点通过"购买","查看"和"分级"边缘相接.
 
-- A heterogeneous graph has a **schema** (also called a metagraph) that defines the allowed node types and edge types. Each edge type connects a specific source type to a specific target type. For example, "works at" connects Person → Organisation.
+- 相异的图有**schema**(也叫元),它定义了允许的节点类型和边缘类型. 每个边缘类型将特定源类型与特定目标类型相接. 例如"works at"连接了Person-Organization.
 
-- **Relational GCN (R-GCN)** (Schlichtkrull et al., 2018) handles heterogeneous edges by using a separate weight matrix for each edge type:
+- ** 关系性GCN(R-GCN)**(Schlichtkrull等,2018年)通过对每种边缘类型使用单独的权重矩阵来处理各种边缘:
 
 $$\mathbf{h}_i^{(l+1)} = \sigma\left(\sum_{r \in \mathcal{R}} \sum_{j \in \mathcal{N}_r(i)} \frac{1}{|\mathcal{N}_r(i)|} W_r^{(l)} \mathbf{h}_j^{(l)} + W_0^{(l)} \mathbf{h}_i^{(l)}\right)$$
 
-- where $\mathcal{R}$ is the set of edge types, $\mathcal{N}_r(i)$ is the set of neighbours connected to node $i$ via relation $r$, and $W_r$ is the weight matrix specific to relation $r$. The self-connection $W_0$ handles the node's own features separately.
+- 地点$\mathcal{R}$是边缘类型的一组,$\mathcal{N}_r(i)$是连接到节点的相邻区域$i$通过关系$r$,以及$W_r$是相对于关系的权重矩阵$r$。。。自我连接$W_0$分别处理节点本身的特性。
 
-- The problem: with many relation types, the number of parameters explodes (one $d \times d$ matrix per relation). R-GCN mitigates this with **basis decomposition**: $W_r = \sum_{b=1}^{B} a_{rb} V_b$, where $V_b$ are shared basis matrices and $a_{rb}$ are scalar coefficients per relation. This is analogous to low-rank factorisation (chapter 2): the relation-specific matrices live in a low-dimensional subspace.
+- 问题:在许多关系类型下,参数数会爆炸(一)$d \times d$矩阵(每个关系)。R-GCN通过** Basis分解** 来缓解这种情况:$W_r = \sum_{b=1}^{B} a_{rb} V_b$,在其中$V_b$共享基质矩阵和$a_{rb}$每个关系为平分系数。这类似于低等分级因子化(第2章):关系特异性矩阵活在一个低维子空间.
 
-- **Heterogeneous Graph Transformer (HGT)** (Hu et al., 2020) applies the attention mechanism to heterogeneous graphs. The key insight is that attention should depend on both the node types and the edge type connecting them. HGT uses type-specific projection matrices for queries, keys, and values:
+- ** 异相图变形器(HGT)**(Hu等,2020年)将注意机制应用于多相图. 关键洞察力是注意力应该取决于节点类型和连接它们的边缘类型. HGT 使用特定类型投影矩阵进行查询,键和值:
 
 $$\text{Attention}(i, j) = \left(W_{\tau(i)}^Q \mathbf{h}_i\right)^T \cdot \frac{W_{\phi(i,j)}^{\text{ATT}}}{\sqrt{d}} \cdot \left(W_{\tau(j)}^K \mathbf{h}_j\right)$$
 
-- where $\tau(i)$ is the type of node $i$ and $\phi(i,j)$ is the edge type between them. This ensures that the model attends differently to different relationship types: a paper attending to its authors should use different attention weights than when attending to its references.
+- 地点$\tau(i)$是节点的类型$i$财务报告和已审计财务报表$\phi(i,j)$是它们之间的边缘类型。这保证了模型对不同关系类型有不同的处理:为作者撰写的论文应当使用与参考文献不同的关注分量.
 
-- **Metapath-based methods** define meaningful paths through the schema (e.g., Author → Paper → Author for co-authorship) and aggregate information along these paths. **HAN** (Heterogeneous Attention Network) applies attention at two levels: within each metapath (which neighbours along this path matter?) and across metapaths (which relationship patterns matter?).
+- ** 基于Metapath的方法** 界定了通过计划(例如作者-论文-作者-共同作者)的有意义的路径,并沿这些路径汇总了信息。** HAN**(异地关注网络)在两个层面给予注意:在每个元道内(沿着这条路径的哪个邻国?) 以及跨越元道(哪些关系模式很重要?)
 
 ## 链接预测与知识图谱补全
 
-> **中文导读**：本节围绕“链接预测与知识图谱补全”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **Link prediction** asks: given the existing edges, which missing edges are likely to exist? This is the core task for knowledge graph completion (predict missing facts), recommendation (predict which items a user will like), and social network analysis (predict future friendships).
+- ** Link 预测** 问:鉴于现有的边缘,哪些缺失的边缘可能存在? 这是完成知识图(预计缺失的事实)、建议(预测用户喜欢的项目)和社会网络分析(预计未来友谊)的核心任务。
 
-- **Embedding-based methods** learn a vector for each entity and a transformation for each relation, then score potential edges by how well the entities and relation fit together:
+- ** 基于编辑的方法** 学习每个实体的向量和每个关系的变换,然后根据各实体和关系如何结合而得分:
 
-- **TransE** models relations as translations in embedding space: if $(h, r, t)$ is a valid triple (head entity, relation, tail entity), then $\mathbf{h} + \mathbf{r} \approx \mathbf{t}$. The scoring function is $f(h, r, t) = -\|\mathbf{h} + \mathbf{r} - \mathbf{t}\|$. Intuitively, the relation vector "moves" the head entity to the tail entity in embedding space.
+- ** TransE** 模式关系作为嵌入空间中的翻译:如果$(h, r, t)$是有效的三重体(头实体、关系实体、尾实体),然后$\mathbf{h} + \mathbf{r} \approx \mathbf{t}$。。。得分函数是$f(h, r, t) = -\|\mathbf{h} + \mathbf{r} - \mathbf{t}\|$。。。直觉上,在嵌入空间中,关系向量"移动"头实体到尾实体.
 
-- **RotatE** models relations as rotations in complex space: $\mathbf{t} = \mathbf{h} \circ \mathbf{r}$, where $\circ$ is element-wise complex multiplication and $|\mathbf{r}_i| = 1$ (unit complex numbers are rotations). This can model symmetry, antisymmetry, inversion, and composition patterns that TransE cannot.
+- ** RotatE ** 模拟关系作为复杂空间的自转:$\mathbf{t} = \mathbf{h} \circ \mathbf{r}$,在其中$\circ$是元素的复杂乘法,并且$|\mathbf{r}_i| = 1$(单位复数为回转). 这可以模型化对称,反对称,倒置,以及TransE所不能的构成模式.
 
-- **ComplEx** uses complex-valued embeddings with a Hermitian dot product, enabling it to model asymmetric relations (if A is the boss of B, B is not the boss of A).
+- **ContlEx**使用带有赫米底点产品的复杂价值嵌入,使其能模拟不对称关系(如果A是B的上司,B不是A的上司).
 
-- GNN-based link prediction computes node embeddings with message passing, then scores edges using the endpoint embeddings. This combines the structural reasoning of GNNs with the relational modelling of embedding methods. The GNN encoder captures multi-hop neighbourhood structure that single-embedding methods miss.
+- 基于GNN的链接预测计算出带消息传入的节点嵌入,再用端点嵌入来打分边缘. 这结合了GNNs的结构推理和嵌入方法的关系建模. GNN编码器捕捉出单嵌入方法所忽略的多跳相邻结构.
 
 ## 任务类型
 
-> **中文导读**：本节围绕“任务类型”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- GNNs solve three categories of tasks:
+- GNNs解决了三类任务:
 
-- **Node-level tasks**: predict a property for each node. Examples: classifying users in a social network (bot or human), predicting the function of each protein in an interaction network, semi-supervised node classification (label a few nodes, predict the rest). The output is the node embedding $\mathbf{h}_i^{(L)}$ passed through a classifier.
+- **节点级任务**:为每个节点预测一个属性. 例子:在社交网络(bot或human)中对用户进行分类,在一个互动网络中预测每个蛋白质的功能,半监督的节点分类(label a few nodes, provide the rest). 输出为嵌入节点$\mathbf{h}_i^{(L)}$通过分类器。
 
-- **Edge-level tasks**: predict a property for each edge or predict whether an edge exists. Examples: link prediction (will these two users become friends?), knowledge graph completion (does this relationship hold between these entities?), drug-drug interaction prediction. The output typically uses the embeddings of both endpoint nodes: $\hat{y}_{ij} = f(\mathbf{h}_i, \mathbf{h}_j)$, where $f$ is a dot product, concatenation + MLP, or other combination.
+- ** Edge-level 任务**:预测每个边缘的属性或预测是否存在边缘. 例如:链接预测(这两个用户会成为朋友吗?),知识图补全(这些实体之间的这种关系是否维持?),药物与药物相互作用预测. 输出一般使用两个端点节点的嵌入:$\hat{y}_{ij} = f(\mathbf{h}_i, \mathbf{h}_j)$,在其中$f$是一种点产品,通配+MLP,或者其他组合.
 
-- **Graph-level tasks**: predict a property for the entire graph. Examples: molecular property prediction (is this molecule toxic?), graph classification (is this social network a bot network?), graph generation (design a molecule with desired properties). The output uses graph pooling to produce $\mathbf{h}_G$, which is then classified or regressed.
+- ** Graph 级任务**:为整个图预测一个属性. 例如:分子属性预测(是这个分子有毒吗?),图解分类(是这个社交网络是bot网络?),图解生成(设计一个具有所期望的特性的分子). 输出使用图集生成$\mathbf{h}_G$,然后被分类或倒置。
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务（使用 Colab 或 notebook）”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Implement a single GCN layer from scratch using the normalised adjacency matrix. Apply it to a small graph and observe how node features are smoothed.
+1. 使用常态化的相位矩阵从零开始执行单一的GCN层. 应用到一个小的图上,观察节点特征是如何平滑的.
 ```python
 import jax
 import jax.numpy as jnp
@@ -257,7 +247,7 @@ print(jnp.round(H_new, 3))
 print("\nNotice: connected nodes now have similar representations")
 ```
 
-2. Implement message passing with sum aggregation (GIN-style) and compare with mean aggregation (GCN-style). Show that sum can distinguish multisets that mean cannot.
+2. 执行以总和聚合(GIN-style)传递消息,并与平均聚合(GCN-style)进行比较. 显示总和可以区分表示不能的多集.
 ```python
 import jax.numpy as jnp
 
@@ -280,7 +270,7 @@ print(f"Sum A:  {sum_A},  Sum B:  {sum_B},  Same: {jnp.allclose(sum_A, sum_B)}")
 print("\nSum distinguishes these multisets; mean does not!")
 ```
 
-3. Demonstrate over-smoothing. Apply the normalised adjacency repeatedly and watch node features converge.
+3. 表现出过度吸气。反复应用常态化的相接功能并监视节点特性会汇合.
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt

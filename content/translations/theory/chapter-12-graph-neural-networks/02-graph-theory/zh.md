@@ -13,181 +13,173 @@ status: reviewed
 *图论提供描述关系、网络和连接结构的数学语言。本篇覆盖节点与边、邻接矩阵、图的类型、度与路径、图拉普拉斯、谱图论、社区检测和现实世界图。*
 
 
-*Graph theory provides the mathematical language for describing relationships between entities. This file covers nodes, edges, adjacency matrices, graph types, degree and connectivity, the graph Laplacian, spectral graph theory, and real-world graph applications. We will go deepe into graphs in the pure computer science chapters*
+*格勒克理论为描述实体之间的关系提供了数学语言. 此文件涵盖节点,边缘,相接矩阵,图类型,程度和连通性,图拉普拉斯(Laplacian),光谱图形理论,以及现实世界的图表应用. 我们将深入研究纯计算机科学章节中的图表*
 
-- So far in this book, data has lived on regular structures: vectors in $\mathbb{R}^n$ (chapter 1), matrices as grids of numbers (chapter 2), images as pixel grids (chapter 8), sequences as ordered lists (chapter 7). But many real-world systems are **irregular**: a social network has no grid structure, a molecule has no left-to-right order, and a road network does not tile neatly into rows and columns.
+- 至今为止,本书中的数据一直生活在常规结构上:$\mathbb{R}^n$(第1章),矩阵作为数字网格(第2章),图像作为像素网格(第8章),序列作为所命令列表(第7章). 但许多现实世界的系统是**不规范的**:一个社交网络没有网格结构,一个分子没有从左到右的顺序,一个道路网络不会被整齐地拼接成行和列.
 
-- **Graphs** are the mathematical tool for representing these irregular, relational structures. A graph captures **entities** (nodes) and **relationships** (edges) between them. Once data is represented as a graph, we can apply the geometric deep learning principles from file 1 to learn from it.
+- **Graphs**是代表这些不规则,关系结构的数学工具. 图一取出它们之间的**实体**(节点)和**关系**(尖端)。一旦数据被作为图来表示,我们可以应用文件1的几何深度学习原理来从中学习.
 
 ## 节点、边与邻接
 
-> **中文导读**：本节围绕“节点、边与邻接”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- A **graph** $G = (V, E)$ consists of a set of **nodes** (or vertices) $V = \{v_1, v_2, \ldots, v_n\}$ and a set of **edges** $E \subseteq V \times V$ connecting pairs of nodes.
+- 地图**$G = (V, E)$由一组**个节点**(或顶点)组成.$V = \{v_1, v_2, \ldots, v_n\}$和一套**网格**$E \subseteq V \times V$连接一对节点。
 
-- Nodes represent entities: people, atoms, cities, web pages, neurons. Edges represent relationships: friendships, chemical bonds, roads, hyperlinks, synapses.
+- 节点代表实体:人,原子,城市,网页,神经元. 边缘代表了关系:友谊,化学债券,道路,超链接,突触.
 
-- The **adjacency matrix** $A$ is the matrix representation of a graph. For a graph with $n$ nodes, $A$ is an $n \times n$ matrix where $A_{ij} = 1$ if there is an edge from node $i$ to node $j$, and $A_{ij} = 0$ otherwise.
+- ** 延迟矩阵**$A$是图表的矩阵。对于一个图$n$节点,$A$是一个$n \times n$矩阵$A_{ij} = 1$如果有来自节点的边缘$i$到节点$j$,以及$A_{ij} = 0$否则。
 
-- For example, a triangle graph (3 nodes, all connected) has:
+- 例如,三角形图(3个节点,全部连接)有:
 
 ```math
 A = \begin{bmatrix} 0 & 1 & 1 \\ 1 & 0 & 1 \\ 1 & 1 & 0 \end{bmatrix}
 ```
 
-![A triangle graph and its adjacency matrix: 1 where edges exist, 0 otherwise](../images/graph_adjacency_matrix.svg)
+![三角形图及其相邻矩阵: 1 有边缘, 0 否则](../images/graph_adjacency_matrix.svg)
 
-- The diagonal is zero because nodes are not connected to themselves (no self-loops by default). The adjacency matrix is a direct application of the Boolean matrices we studied in chapter 2: each entry is a binary relationship.
+- 对角是零,因为节点没有连接到自己(默认情况下没有自来Loops). 相接矩阵是直接应用我们在第二章所研究的布尔矩阵:每个条目都是二进制关系.
 
-- The adjacency matrix encodes the graph's structure completely. Matrix operations on $A$ reveal graph properties: $A^2_{ij}$ counts the number of paths of length 2 between nodes $i$ and $j$ (recall matrix multiplication from chapter 2: each entry is a sum of products over intermediate nodes). More generally, $A^k_{ij}$ counts length-$k$ paths.
+- 附式矩阵将图的结构完全编码. 矩阵操作$A$显示图表属性 :$A^2_{ij}$计算节点之间长度 2 的路径数$i$财务报告和已审计财务报表$j$(第2章的召回矩阵乘法:每个条目都是中间节点上的产品的总和. 更笼统地说,$A^k_{ij}$计数长度 -$k$路径。
 
-- Each node can carry a **feature vector** $\mathbf{x}_i \in \mathbb{R}^d$. For a social network, this might be a user's profile information. For a molecule, it encodes atom type, charge, and other properties. The full set of node features is a matrix $X \in \mathbb{R}^{n \times d}$, where each row is one node's features.
+- 每个节点可携带**地段向量**$\mathbf{x}_i \in \mathbb{R}^d$。。。对于一个社交网络来说,这可能是用户的概况信息. 对于一分子,它编码原子类型,电荷等属性. 完整的节点特性集是一个矩阵$X \in \mathbb{R}^{n \times d}$,其中每行都是一个节点的特征。
 
-- Edges can also carry features: bond type in molecules, distance in spatial graphs, relationship type in knowledge graphs. The **edge feature** for edge $(i, j)$ is a vector $\mathbf{e}_{ij} \in \mathbb{R}^{d_e}$.
+- 边缘还可以携带特征:分子中的结合类型,空间图中的距离,知识图中的关系类型. 边缘的** 尖端特征 **$(i, j)$是向量$\mathbf{e}_{ij} \in \mathbb{R}^{d_e}$.
 
 ## 图的类型
 
-> **中文导读**：本节围绕“图的类型”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- An **undirected graph** has symmetric edges: if $i$ is connected to $j$, then $j$ is connected to $i$. The adjacency matrix is symmetric: $A = A^T$ (a symmetric matrix, chapter 2). Friendships and chemical bonds are undirected.
+- ** 未定向图** 有对称边: 如果$i$连接到$j$,则$j$连接到$i$。。。相邻矩阵对称性:$A = A^T$(对称矩阵 第2章). 友谊和化学债券是没有方向性的。
 
-- A **directed graph** (digraph) has edges with direction: an edge from $i$ to $j$ does not imply an edge from $j$ to $i$. The adjacency matrix is asymmetric. Twitter follows, web hyperlinks, and citation networks are directed.
+- ** 定向图** (绘图) 有有方向的边缘:来自$i$改为$j$并不意味着从$j$改为$i$。。。相接矩阵不对称. 推特跟随,网络超链接,并引导引用网络.
 
-- A **weighted graph** assigns a numerical weight to each edge. The adjacency matrix has real-valued entries instead of binary: $A_{ij} = w_{ij}$. Distances in a road network, correlation strengths in brain connectivity, and interaction frequencies in social networks are weighted.
+- ** 加权图** 给每个边缘分配一个数值加权. 相邻矩阵有真实值的条目而不是二进制:$A_{ij} = w_{ij}$。。。道路网络中的距离、大脑连通性方面的相关优势以及社交网络中的互动频率都是加权的。
 
-- A **bipartite graph** has two disjoint sets of nodes, with edges only between the sets (never within). Users and products form a bipartite graph: users rate products, but users do not rate users. The adjacency matrix of a bipartite graph has a block structure:
+- 一个**双相图**有两个脱节的节点,边缘只在各节点之间(从未在其中). 用户和产品形成双相图:用户对产品进行评分,但用户不对用户进行评分. 双相图的相邻矩阵有一个块结构:
 
 ```math
 A = \begin{bmatrix} 0 & B \\ B^T & 0 \end{bmatrix}
 ```
 
-- where $B$ is the bipartite adjacency matrix between the two node sets.
+- 地点$B$是两个节点集之间的双相接矩阵。
 
-- A **multigraph** allows multiple edges between the same pair of nodes and/or self-loops. Knowledge graphs are typically multigraphs: two entities can have multiple relationships (e.g., "born in," "lives in," "works in").
+- **多图**允许同一对节点和/或自带相间的多边. 知识图是典型的多图:两个实体可以有多种关系(如"生于","活于","活于"等).
 
-- A **hypergraph** generalises edges to connect more than two nodes at once. A **hyperedge** connects a set of nodes, representing higher-order relationships. A research paper co-authored by five people is a hyperedge connecting five author nodes.
+- 一个**hypergraph ** 通俗化边缘,可以同时连接两个以上节点. 一个**hyperedge**连接了一组节点,代表了高阶关系. 由5人共同撰写的研究论文是连接了5个作者节点的"超尖端".
 
-- A **complete graph** $K_n$ has an edge between every pair of nodes. This is the graph analogue of a fully connected layer, and it is the structure that transformers operate on (every token attends to every other token).
+- a ** 完整的图表**$K_n$每对节点之间都有边缘。这是完全连接的地层的图模拟,而变压器运行的结构(每个符都注意其他符).
 
 ## 度、路径与连通性
 
-> **中文导读**：本节围绕“度、路径与连通性”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- The **degree** of a node is the number of edges connected to it. In an undirected graph, the degree of node $i$ is $d_i = \sum_j A_{ij}$. High-degree nodes are "hubs" with many connections.
+- 一个节点的**度**是与之相接的边缘数. 在不定向的图表中,节点的度$i$实值$d_i = \sum_j A_{ij}$。。。高分节点为"接地",多有接地.
 
-- The **degree matrix** $D$ is a diagonal matrix with degrees on the diagonal: $D_{ii} = d_i$. This matrix appears throughout graph theory and GNN formulas.
+- **度矩阵**$D$是一个对角矩阵,在对角上标有学位:$D_{ii} = d_i$。。。这个矩阵在整个图理和GNN公式中出现.
 
-- A **path** between two nodes is a sequence of edges connecting them. The **shortest path** (or geodesic) between $i$ and $j$ is the path with the fewest edges (or lowest total weight in a weighted graph). **Dijkstra's algorithm** finds shortest paths in $O((|V| + |E|) \log |V|)$ time.
+- 两个节点之间的**path**是连接它们的边缘的序列. 最短路径**(或大地测量)$i$财务报告和已审计财务报表$j$是边缘最小的路径(或加权图中总重最小)。** Dijkstra 的算法** 发现最短的路径在$O((|V| + |E|) \log |V|)$时间。
 
-- A graph is **connected** if there is a path between every pair of nodes. If not, it has multiple **connected components**: isolated subgraphs with no edges between them.
+- 如果每个节点之间都有一条路径,则图是**相接**. 如果没有,它有多个**相接组件**:孤立的子图而它们之间没有边缘.
 
-- The **diameter** of a graph is the longest shortest path between any pair of nodes. It measures how "spread out" the graph is. Social networks have famously small diameters ("six degrees of separation").
+- 一个图中的**直径**是任意一对节点之间最短的路径. 它测量图的"扩张"程度. 社交网络有出名的小直径("六度分离").
 
-- A **cycle** is a path that starts and ends at the same node. A graph with no cycles is a **tree**. Trees are the simplest connected graphs: $n$ nodes and exactly $n-1$ edges.
+- **周期**是在同一节点开始和结束的路径. 无周期的图表是树。树是最简单的连接图:$n$节点和确切的$n-1$边缘
 
-- **Centrality** measures the importance of a node. **Degree centrality** is simply the degree. **Betweenness centrality** counts how many shortest paths pass through a node. **Eigenvector centrality** assigns importance based on the importance of a node's neighbours, leading to the eigenvector equation $A\mathbf{x} = \lambda \mathbf{x}$ (chapter 2). Google's PageRank is a variant of eigenvector centrality for directed graphs.
+- ** 中央**衡量节点的重要性。** Degree中心** 仅仅是学位。** 贝特温内斯中心** 算上一个节点经过的最短路径。** Eigenvector 中心** 基于节点相邻者的重要性而给予重要性,导致 eigenvector 等式$A\mathbf{x} = \lambda \mathbf{x}$(第2章) 第3行,第1行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第2行,第4行,第2行,第5行,第7行,第6行,第10行. Google's PageRank)为指向图形学的eigenvector中心学的一个变种.
 
 ## 图拉普拉斯算子
 
-> **中文导读**：本节围绕“图拉普拉斯算子”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- The **graph Laplacian** is perhaps the most important matrix in graph theory. It is defined as:
+- **图 Laplacian ** 也许是图论中最重要的矩阵. 定义如下:
 
 $$L = D - A$$
 
-- where $D$ is the degree matrix and $A$ is the adjacency matrix. For our triangle example:
+- 地点$D$是学位矩阵和$A$是辅助矩阵。我们的三角形的例子:
 
 ```math
 L = \begin{bmatrix} 2 & 0 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 2 \end{bmatrix} - \begin{bmatrix} 0 & 1 & 1 \\ 1 & 0 & 1 \\ 1 & 1 & 0 \end{bmatrix} = \begin{bmatrix} 2 & -1 & -1 \\ -1 & 2 & -1 \\ -1 & -1 & 2 \end{bmatrix}
 ```
 
-- The Laplacian has remarkable properties:
+- 拉普拉斯人有显著的特性:
 
-    - It is always **symmetric** and **positive semi-definite** (recall from chapter 2: all eigenvalues are $\geq 0$). For any vector $\mathbf{x}$:
+    - 它总是**对称** 和** 阳性半定值**(从第2章中回顾:所有等值都是$\geq 0$) (中文(简体)). 对于任何向量$\mathbf{x}$:
 
 $$\mathbf{x}^T L \mathbf{x} = \sum_{(i,j) \in E} (x_i - x_j)^2$$
 
-![Graph Laplacian measures signal smoothness: smooth signals have similar values on connected nodes, non-smooth signals vary sharply](../images/graph_laplacian_smoothness.svg)
+![图形 Laplacian 测量信号平滑度:平滑信号在相接节点上具有相近的值,非平滑信号差异很大](../images/graph_laplacian_smoothness.svg)
 
-    - This quadratic form measures how much a signal $\mathbf{x}$ on the graph varies across edges. If neighbouring nodes have similar values, $\mathbf{x}^T L \mathbf{x}$ is small. If they differ sharply, it is large. The Laplacian measures **smoothness** of signals on the graph.
+    - 这个四进制表示一个多少信号$\mathbf{x}$在图上, 不同边缘。如果相邻的节点有相似的值,$\mathbf{x}^T L \mathbf{x}$是个小的。如果它们差异很大,就大了。拉普拉斯测量图上信号的**平滑度**.
 
-    - The smallest eigenvalue is always 0, with eigenvector $\mathbf{1} = [1, 1, \ldots, 1]^T$ (a constant signal has zero variation). The number of zero eigenvalues equals the number of connected components.
+    - 最小的等值总是0,有等值$\mathbf{1} = [1, 1, \ldots, 1]^T$(一常数信号有零变相). 0 eigen值数等于连接组件数.
 
-    - The second-smallest eigenvalue $\lambda_2$ is the **algebraic connectivity** (Fiedler value). It measures how well-connected the graph is: $\lambda_2 = 0$ means the graph is disconnected, large $\lambda_2$ means the graph is tightly connected.
+    - 第二小的精华$\lambda_2$是**等数连通**(Fiedler值)。它测量了图的连接程度:$\lambda_2 = 0$表示图断开, 大$\lambda_2$表示图被紧密地连接.
 
-- The **normalised Laplacian** scales by the degrees:
+- ** 通常的拉普拉斯式**分级:
 
 $$\hat{L} = D^{-1/2} L D^{-1/2} = I - D^{-1/2} A D^{-1/2}$$
 
-- This normalisation ensures that the Laplacian's properties do not depend on the absolute scale of node degrees. The term $D^{-1/2} A D^{-1/2}$ is the **symmetrically normalised adjacency**, and it appears directly in the GCN formula (file 3).
+- 这种正常化保证了拉普拉斯的属性不依赖于节点度的绝对分量. 术语$D^{-1/2} A D^{-1/2}$是**对称的常态相接处**,它直接出现在GCN公式(文件3)中.
 
 ## 谱图论
 
-> **中文导读**：本节围绕“谱图论”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- The eigenvalues and eigenvectors of the graph Laplacian define the **spectrum** of the graph, and they serve as the graph analogue of the Fourier transform.
+- 图拉普拉西安的等分值和等分值定义了图的**光谱**,它们充当了傅里叶变换的相模.
 
-- In classical signal processing, the Fourier transform decomposes a signal into frequency components (sines and cosines). On a graph, the eigenvectors of the Laplacian play the role of these frequency bases. Low-eigenvalue eigenvectors vary slowly across the graph (low frequency, smooth), while high-eigenvalue eigenvectors vary rapidly (high frequency, oscillatory).
+- 在古典信号处理中,Fourier将一个信号分解为频率元件(sine和cosines). 在图上,拉普拉西安人的精子扮演了这些频率基的作用. 低等同位素的相位值在图中变化缓慢(低频,平滑),而高等同位素的相位值相位值则变化迅速(高频,振荡).
 
-- The **Graph Fourier Transform (GFT)** of a signal $\mathbf{x}$ on the graph is:
+- **Graph Fourier变换(GFT)** 信号$\mathbf{x}$图表为:
 
 $$\hat{\mathbf{x}} = U^T \mathbf{x}$$
 
-- where $U$ is the matrix of Laplacian eigenvectors (recall eigendecomposition from chapter 2: $L = U \Lambda U^T$). The inverse transform is $\mathbf{x} = U \hat{\mathbf{x}}$.
+- 地点$U$是拉普拉西安精子的基质(回顾出第2章的精子分解:$L = U \Lambda U^T$) (中文(简体)). 反向变换是$\mathbf{x} = U \hat{\mathbf{x}}$.
 
-- **Graph convolution** in the spectral domain is pointwise multiplication in the frequency domain, just as convolution in the spatial domain corresponds to multiplication in the Fourier domain (the convolution theorem from chapter 8):
+- **光谱域中的Graph convolution**是频率域的指向相乘法,正如空间域中的同分相乘法对应于傅里叶域(从第8章的卷积定理):
 
-$$g_\theta \star \mathbf{x} = U \left( (U^T g_\theta) \odot (U^T \mathbf{x}) \right) = U \, \text{diag}(\hat{g}_\theta) \, U^T \mathbf{x}$$
+$$g_\theta \star \mathbf{x} = U \left((U^T g_\theta) \odot (U^T \mathbf{x}) \right) = U \, \text{diag}(\hat{g}_\theta) \, U^T \mathbf{x}$$
 
-- The filter $\hat{g}_\theta$ is a learnable function of the eigenvalues. This is the foundation of spectral GNNs, which we will simplify into the practical GCN in file 3.
+- 过滤器$\hat{g}_\theta$是eigenvalues 的一个可学习的函数。这是光谱GNN的基础,我们将简化成文件3中实用的GCN.
 
-- The computational bottleneck is the eigendecomposition of $L$, which costs $O(n^3)$ for a graph with $n$ nodes. This is impractical for large graphs (millions of nodes). Polynomial approximations (Chebyshev polynomials) avoid the eigendecomposition entirely, and this approximation leads directly to the GCN.
+- 计算瓶颈是$L$,费用$O(n^3)$用于图表$n$节点。这对大图(百万个节点)来说是不切实际的. 多能相近(Chebyshev polynomials)完全避免了等分分解,而这种相近直接导致GCN.
 
 ## 社区检测
 
-> **中文导读**：本节围绕“社区检测”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Many real-world graphs have **community structure**: clusters of densely connected nodes with sparse connections between clusters. Social networks have friend groups, biological networks have functional modules, citation networks have research fields.
+- 许多现实世界的图表有**社区结构**:集群间连接密集的节点群,并有稀疏的集群. 社交网络有好友小组,生物网络有功能模块,引用网络有研究领域.
 
-- **Spectral clustering** uses the Laplacian eigenvectors to find communities. The idea: embed each node using the $k$ smallest non-trivial eigenvectors of $L$, then apply k-means (chapter 6) in this embedding space. Nodes in the same community end up close together in the spectral embedding.
+- ** Spectral Crouping ** 使用拉普拉斯语的egenvectors来寻找社区. 想法是:使用$k$最小的非三角化编辑器$L$,然后在此嵌入空间中应用 k- 含义(第6章)。同一社区中的节点最终会相接相接地被光谱嵌入.
 
-- This works because the Fiedler vector (eigenvector of $\lambda_2$) naturally separates the graph into two groups: nodes with positive values and nodes with negative values, cutting through the sparsest connections. Higher eigenvectors refine this into more groups.
+- 这之所以可行,是因为费德勒向量(从E.$\lambda_2$)自然地将图分出为两个组:带正值的节点和带负值的节点,切入最稀少的连接. 高层次的领袖们将这一点完善为更多的群体.
 
-- **Modularity** $Q$ measures the quality of a community partition. It compares the number of within-community edges to the expected number in a random graph:
+- ** 模式**$Q$衡量社区分区的质量。它在随机图中将社区内边缘的数目与预期的数字进行比较:
 
-$$Q = \frac{1}{2|E|} \sum_{ij} \left( A_{ij} - \frac{d_i d_j}{2|E|} \right) \delta(c_i, c_j)$$
+$$Q = \frac{1}{2|E|} \sum_{ij} \left(A_{ij} - \frac{d_i d_j}{2|E|} \right) \delta(c_i, c_j)$$
 
-- where $c_i$ is the community assignment of node $i$ and $\delta$ is 1 if nodes are in the same community. $Q$ ranges from $-0.5$ to $1$, with higher values indicating stronger community structure.
+- 地点$c_i$是社区指定节点$i$财务报告和已审计财务报表$\delta$如果节点在同一社区,则为 1。$Q$范围从$-0.5$改为$1$,更高的价值表明社区结构更强.
 
 ## 现实世界中的图
 
-> **中文导读**：本节围绕“现实世界中的图”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **Social networks**: nodes are people, edges are friendships or interactions. Facebook has billions of nodes and hundreds of billions of edges. These graphs are typically sparse (each person has hundreds of friends, not billions), exhibit small-world properties (short average path length), and have heavy-tailed degree distributions (a few hubs with millions of connections).
+- ** 社会网络**:节点是人,边缘是友谊或互动. Facebook拥有数十亿个节点和上千亿个边缘. 这些图表一般是稀有的(每个人有上百个朋友,而不是上亿个),展现出小世界属性(短平均路径长度),并有重尾分学位分布(几个有着上百万个连接的枢纽).
 
-- **Molecular graphs**: nodes are atoms, edges are chemical bonds. Each atom has features (element type, charge, hybridisation) and each bond has features (single, double, triple, aromatic). Molecular graphs are small (tens to hundreds of nodes) but highly structured. Predicting molecular properties from graph structure is a major application of GNNs.
+- **分子图**:节点为原子,边缘为化学结合. 每个原子都有特征(元素类型,充电,混合),而每个键有特征(单原子,双原子,三原子,芳香原子). 分子图体较小(有10至数百个节点),但结构高度. 从图结构中预测分子性质是GNNs的主要应用.
 
-- **Knowledge graphs**: nodes are entities (people, places, concepts), edges are typed relationships ("born in," "capital of," "instance of"). Knowledge graphs power search engines, recommendation systems, and question-answering. They are typically directed multigraphs with millions of entities and billions of relationships.
+- **知识图**:节点是实体(人,地,概念),边缘是被打出的关系("生于","资本","INSTANCE"). 知识图解 动力搜索引擎,推荐系统,以及问答. 它们通常是与数百万个实体和数十亿个关系进行定向的多图。
 
-- **Citation networks**: nodes are papers, edges are citations (directed). Clustering reveals research communities. Node features include title, abstract, and publication year.
+- ** 选取网**:节点为论文,边缘为引用(指向). 集群揭示出研究群落. 节点特征包括标题,抽象和出版年份.
 
-- **Protein interaction networks**: nodes are proteins, edges indicate physical interactions or functional associations. Understanding these graphs helps identify drug targets and disease mechanisms.
+- ** 蛋白质相互作用网络**:节点为蛋白质,边缘表示物理相互作用或功能关联. 了解这些图表有助于确定药物目标和疾病机制。
 
-- **Road networks and transportation**: nodes are intersections, edges are road segments with distance/time weights. Shortest-path algorithms on these graphs power navigation systems. Self-driving motion prediction (chapter 11) represents agent interactions as graphs.
+- ** 公路网和运输**:节点为相交道口,边缘为有距离/时间重量的路段. 这些图上最短的路径算法是动力导航系统. 自驾车运动预测(第11章)代表了作为图的剂相互作用.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Build a small graph as an adjacency matrix and compute basic properties: degree of each node, number of paths of length 2, and whether the graph is connected.
+1. 构建一个小的图作为相接矩阵并计算出基本属性:每个节点的度,长度2的路径数,以及图是否相连.
 ```python
 import jax.numpy as jnp
 
@@ -213,7 +205,7 @@ connected = jnp.all(An > 0)
 print(f"Connected: {connected}")
 ```
 
-2. Compute the graph Laplacian and its eigenvalues. Verify that the smallest eigenvalue is 0 and the corresponding eigenvector is constant.
+2. 计算图 Laplacian 及其等值。验证最小的eigen值为 0,相应的eigenvector为常数.
 ```python
 import jax.numpy as jnp
 
@@ -237,7 +229,7 @@ smoothness = x @ L @ x
 print(f"Smoothness of two-group signal: {smoothness:.2f}")
 ```
 
-3. Perform spectral clustering on a graph with two communities. Embed nodes using the Fiedler vector and separate them by sign.
+3. 将光谱组合在一个图上,与两个社区相接。使用Fiedler向量嵌入节点,并用符号将其分出.
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt

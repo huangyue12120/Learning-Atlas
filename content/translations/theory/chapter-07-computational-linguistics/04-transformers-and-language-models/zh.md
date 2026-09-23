@@ -77,7 +77,7 @@ $$\mathcal{L}_{\text{CLM}} = -\sum_{i=1}^{n} \log P(w_i \mid w_1, \ldots, w_{i-1
 
 - **GPT-2** 将规模扩展到 15 亿参数，展示了强大的 zero-shot 表现：无需微调，只要给出自然语言 prompt（“Translate English to French: ...”），它就能执行任务。
 
-- **GPT-3**（1750 亿参数）表明，单纯扩大规模就能产生**上下文学习（in-context learning）**：在 prompt 中提供少量输入—输出示例，模型无需任何梯度更新就能执行新任务。
+- **GPT-3**（1750 亿参数）表明，单纯扩大规模就能产生**上下文学习（in-context learning）**：在 prompt 中提供少量输入，输出示例，模型无需任何梯度更新就能执行新任务。
 
 - **Encoder-decoder 模型**（如 **T5**，Text-to-Text Transfer Transformer，文本到文本迁移 Transformer；Raffel 等，2020）把每个 NLP 任务都表达成 text-to-text：输入是文本字符串（可能带有“translate English to German:”这样的任务前缀），输出也是文本字符串。Encoder 使用双向 attention 处理输入，decoder 通过对 encoder 的 cross-attention 自回归地产生输出。
 
@@ -101,7 +101,7 @@ $$W' = W + BA$$
 
     - **Zero-shot prompting** 用自然语言描述任务（“Classify the sentiment of the following review:”）。
 
-    - **Few-shot prompting** 在实际查询之前提供输入—输出示例。
+    - **Few-shot prompting** 在实际查询之前提供输入，输出示例。
 
     - **思维链（chain-of-thought，CoT）提示**加入“Let's think step by step”，或在示例中包含推理轨迹；通过引导模型分解问题，它能显著提高算术和逻辑推理任务的表现。
 
@@ -181,7 +181,7 @@ $$\text{BLEU} = \text{BP} \cdot \exp\!\left(\sum_{n=1}^{N} w_n \log p_n\right)$$
 
 - 它奖励完全相同的 n-gram，却捕捉不到有效释义：“the cat is on the mat”和“a feline sits atop the rug”即使含义相同，也没有任何二元语法重叠。
 
-- BLEU 还完全忽略 recall——只输出最常见的词，也能在 precision 上得分不错。
+- BLEU 还完全忽略 recall，，只输出最常见的词，也能在 precision 上得分不错。
 
 - **ROUGE**（Recall-Oriented Understudy for Gisting Evaluation，面向召回的摘要评估替代；Lin，2004）是摘要的标准指标。不同于强调 precision 的 BLEU，ROUGE 强调 recall：参考 n-gram 中有多少出现在候选中？
 
@@ -225,7 +225,7 @@ $$R_{\text{BERT}} = \frac{1}{|r|} \sum_{r_i \in r} \max_{c_j \in c} \cos(r_i, c_
 
 - 其中 $r_i$ 和 $c_j$ 是参考与候选 token 的上下文 embedding。这能捕捉 n-gram 指标遗漏的语义相似度：“automobile”和“car”即使没有共同字符，由于 BERT embedding 相似，也会得到高分。
 
-- **BLEURT**（Sellam 等，2020）更进一步，直接在人工质量判断上微调 BERT。给定参考—候选对，它输出一个标量质量分数。BLEURT 先在合成数据上训练（对参考翻译随机扰动，并用 BLEU、METEOR 等指标评分），再用人工评分微调。它与人类判断的相关性优于任何表层指标。
+- **BLEURT**（Sellam 等，2020）更进一步，直接在人工质量判断上微调 BERT。给定参考，候选对，它输出一个标量质量分数。BLEURT 先在合成数据上训练（对参考翻译随机扰动，并用 BLEU、METEOR 等指标评分），再用人工评分微调。它与人类判断的相关性优于任何表层指标。
 
 - **COMET**（Crosslingual Optimized Metric for Evaluation of Translation，跨语言优化翻译评估指标；Rei 等，2020）是一个机器翻译学习式指标，它以源句、参考和候选为条件，而不仅仅看参考与候选。它使用多语言 encoder（XLM-R）将三者编码，再预测质量分数。看到源句后，COMET 能发现只看参考的指标无法发现的含义错误（例如流畅但事实错误的翻译）。
 
@@ -317,7 +317,7 @@ $$\text{pass@}k = 1 - \frac{\binom{n-c}{k}}{\binom{n}{k}}$$
 
 - **基准饱和**：当模型接近或超过人类表现时，基准就不再提供信息。GLUE、SQuAD 1.1 和其他一些基准已经饱和。
 
-- 研究领域会持续创造更难的基准，但“创建—饱和—替换”的循环使纵向比较变得困难。
+- 研究领域会持续创造更难的基准，但“创建，饱和，替换”的循环使纵向比较变得困难。
 
 - **人工评估**仍然是黄金标准，但成本高、速度慢且难以复现。不同评审群体（众包人员与领域专家、不同文化和不同语言）会产生不同判断。为了可复现，必须报告评审者间一致性和评审者人口统计信息。
 

@@ -13,99 +13,98 @@ status: reviewed
 *基定义向量空间的坐标系，对偶性揭示线性函数如何作用于向量。本篇介绍线性无关、张成集、换基、对偶空间和余向量，以及它们与 PCA、特征变换和注意力查询的关系。*
 
 
-*Bases define the coordinate systems of vector spaces, and duality reveals how linear functions act on vectors. This file covers linear independence, spanning sets, change of basis, dual spaces, and covectors, concepts behind PCA, feature transforms, and attention queries in ML.*
+*Bases定义了向量空间的坐标系统,二元性揭示了线性函数如何对向量作用. 该文件涵盖线性独立、跨套、基数变化、双重空间和相思者、常设仲裁法院背后的概念、特性转换以及ML.* 中的注意问题。
 
-- We have seen that vectors live in spaces with a certain number of dimensions. But what defines those dimensions? This is where **basis vectors** come in.
+- 我们看到载体生活在空间中,具有一定的维度. 但是,这些维度的定义是什么? 这是 ** 基准向量 ** 的输入。
 
-- A **basis** is a set of vectors that can build every other vector in the space through scaling and adding (linear combination), with no redundancy. They are the building blocks of the space.
+- ** Basis**是一组向量,通过缩放和加成(线性组合),可以构建空间中每一个其他向量,没有冗余. 他们是空间的构件。
 
-- A basis must satisfy two conditions:
+- 依据必须满足两个条件:
 
-    - **Linearly independent**: No basis vector can be built from the others. Each one contributes a genuinely new direction.
+    - ** 微小独立**:不能从其他部分建立基准向量。每一份都提供了真正的新方向。
 
-    - **Spanning**: Every vector in the space can be expressed as a combination of the basis vectors. Nothing is left out.
+    - ** Spanning**:空间中每个向量都可以被以基向量的组合来表示. 什么都没有留下。
 
-- The number of vectors in a basis equals the **dimension** of the space. In $\mathbb{R}^2$ you need 2, in $\mathbb{R}^3$ you need 3, and so on.
+- 一个基中向量数等于空间的**dimension **. 单位$\mathbb{R}^2$需要2个$\mathbb{R}^3$你需要3个,等等
 
-- The most natural basis is the **standard basis**, the unit vectors along each axis:
+- 最自然的基是**标准基**,单位向量沿每个轴:
 
-    - In $\mathbb{R}^2$: $\hat{\mathbf{i}} = (1, 0)$ and $\hat{\mathbf{j}} = (0, 1)$
-    - In $\mathbb{R}^3$: $\hat{\mathbf{i}} = (1, 0, 0)$, $\hat{\mathbf{j}} = (0, 1, 0)$, $\hat{\mathbf{k}} = (0, 0, 1)$
+    - 单位$\mathbb{R}^2$: $\hat{\mathbf{i}} = (1, 0)$财务报告和已审计财务报表$\hat{\mathbf{j}} = (0, 1)$
+    - 单位$\mathbb{R}^3$: $\hat{\mathbf{i}} = (1, 0, 0)$, $\hat{\mathbf{j}} = (0, 1, 0)$, $\hat{\mathbf{k}} = (0, 0, 1)$
 
-- Any vector is just a weighted sum of these basis vectors. The vector $(3, 2)$ is really $3\hat{\mathbf{i}} + 2\hat{\mathbf{j}}$. The weights (3 and 2) are the **coordinates** of the vector in that basis.
+- 任何向量只是这些基向量的加权和. 向量$(3, 2)$痷$3\hat{\mathbf{i}} + 2\hat{\mathbf{j}}$。。。权重(3和2)是向量的**坐标**。
 
-- But the standard basis is not the only valid basis. In $\mathbb{R}^2$, the vectors $(1, 1)$ and $(-1, 1)$ also form a basis. They are linearly independent and can reach any point in the plane. The same vector will just have different coordinates in this new basis.
+- 但标准依据并不是唯一的有效依据. 单位$\mathbb{R}^2$,向量$(1, 1)$财务报告和已审计财务报表$(-1, 1)$还构成一个基础。它们具有线性独立,可以到达平面上的任何点. 同样的向量在这个新基础上只会有不同的坐标.
 
-- A **change of basis** re-expresses the same vector using different basis. The vector has not moved, we are just describing it from a different perspective.
+- ** 基础的改变** 用不同的基础重新表达同一个向量。向量没有移动,我们只是从不同的角度描述它。
 
-- This is done by multiplying by a **change of basis matrix** $P$, whose columns are the new basis vectors written in the old coordinates. To go back, multiply by $P^{-1}$.
+- 方法是乘以**基数矩阵的变化**$P$,其列是用旧坐标书写的新的基准向量。回去,乘以$P^{-1}$.
 
-- Think of it as two friends giving directions to the same café. You navigate by streets: $(3, 2)$ means "3 blocks east, 2 blocks north". Your friend navigates by diagonals: their directions are $\mathbf{b}_1 = (1, 1)$ (north-east) and $\mathbf{b}_2 = (-1, 1)$ (north-west), the new basis from earlier. Same café, two languages for describing how to get there.
+- 把它当成是两个朋友给同一个咖啡馆指路. 你走在街道上:$(3, 2)$意思是"以东3个街区,以北2个街区". 你的朋友通过对角导航:$\mathbf{b}_1 = (1, 1)$(东北)和$\mathbf{b}_2 = (-1, 1)$(西北),从更早开始的新基础. 同样的咖啡馆,两种语言用来描述如何到达那里.
 
-- Your friend says the café is at $(2.5, -0.5)$: "walk 2.5 steps along my north-east diagonal, then half a step *backwards* along my north-west diagonal". To find out what that means in your street language, you simply follow their recipe:
+- 你朋友说咖啡馆在$(2.5, -0.5)$:"沿着我的东北对角走出2.5步,然后沿着我的西北对角走出半步". 为了了解你街上语言的含义 你只是按照他们的食谱
 
 $$2.5 \begin{bmatrix} 1 \\ 1 \end{bmatrix} - 0.5 \begin{bmatrix} -1 \\ 1 \end{bmatrix} = \begin{bmatrix} 3 \\ 2 \end{bmatrix}$$
 
-- It is the same café you call $(3, 2)$!
+- 和你所谓的咖啡馆一样$(3, 2)$!
 
-- That "follow the recipe" step is exactly what multiplying by $P$ does. Stack the friend's basis vectors as columns, and multiplying by a vector of their coordinates takes 2.5 of the first column and -0.5 of the second, the recipe again, just written compactly:
+- "跟随食谱"的步子 恰恰是乘以$P$已经。将朋友的基向量堆成一列,乘以坐标的向量,则取出第一列的2.5分和第二列的-0.5分,再次取出食谱,仅简洁地写道:
 
 $$P = \begin{bmatrix} 1 & -1 \\ 1 & 1 \end{bmatrix}, \qquad P \begin{bmatrix} 2.5 \\ -0.5 \end{bmatrix} = \begin{bmatrix} 3 \\ 2 \end{bmatrix}$$
 
-- Translating the other way, from your $(3, 2)$ into the friend's language, means *undoing* the recipe, and undoing $P$ is precisely what $P^{-1}$ does:
+- 从你那里翻译过来$(3, 2)$进入朋友的语言,意味着"放弃" 食谱,并取消$P$这正是什么$P^{-1}$是否为:
 
 $$P^{-1} \begin{bmatrix} 3 \\ 2 \end{bmatrix} = \begin{bmatrix} 2.5 \\ -0.5 \end{bmatrix}$$
 
-- Nothing moved. $(3, 2)$ and $(2.5, -0.5)$ are two descriptions of one point, and $P$ is the dictionary for translating between them.
+- 什么都没有移动。$(3, 2)$财务报告和已审计财务报表$(2.5, -0.5)$是两个关于一点的描述,$P$是它们之间翻译的词典。
 
-- In ML, change of basis appears frequently. PCA, for example, finds a new basis (the principal components) where the data is easier to understand, the axes align with the directions of greatest variation.
+- 在《示范法》中,经常出现改变依据的情况。例如,五氯苯甲醚找到了一个新的基础(主要组成部分),即数据更容易理解,轴与最大变化的方向一致。
 
-- The next set of concepts would be abstract and quite challenging to grasp for now, until when we apply the comepts in later chapters, so brace yourselff for impact, sorry.
+- 接下来的一组概念是抽象的,现在很难掌握,直到我们在后几章中应用彗星时,所以请自己做好准备,以便产生影响。
 
-- Now, there is a deeper idea hiding here. When we write $\mathbf{v} = (3, 2)$, the coordinates 3 and 2 are really the result of "measuring" $\mathbf{v}$ along each basis direction. The first coordinate asks "how much of $\hat{\mathbf{i}}$ is in $\mathbf{v}$?", the second asks "how much of $\hat{\mathbf{j}}$?"
+- 现在,有一个更深层次的想法藏在这里。当我们写的时候$\mathbf{v} = (3, 2)$,坐标3和2是"测量"的结果$\mathbf{v}$沿着每个方向。第一个坐标问"有多少$\hat{\mathbf{i}}$已经进入$\mathbf{v}$,第二个问 "多少$\hat{\mathbf{j}}$?"
 
-- In the café story, these measurements were the friend's questions: "how far along my north-east diagonal did you walk?" and "how far along my north-west one?". Every basis comes with its own set of questions, one per direction.
+- 在咖啡馆的故事中,这些测量是这位朋友的疑问:"你沿着我的东北对角走多远? 和"我的西北一多远?" 每一个基础都有自己的问题,一个方向。
 
-- Each question is a **linear functional**: a function that takes in a vector and returns a single number, the reading.
+- 每个问题是一个**线性函数**:一个函数在向量中取出并返回一个单数,读取.
 
-- The word *linear* means the functional respects the two vector space operations. Measure a sum of vectors and you get the sum of the readings; double a vector and the reading doubles:
+- *线性*一词指功能尊重两个向量空间操作. 测量向量和读取的相和; 双向向量和读取的相:
 
 $$f(\mathbf{u} + \mathbf{v}) = f(\mathbf{u}) + f(\mathbf{v}), \qquad f(c\mathbf{v}) = c\,f(\mathbf{v})$$
 
-- In other words, linear functionals are *honest rulers*. Vectors are the objects, linear functionals are the rulers that measure them, and the collection of all possible rulers forms the **dual space** $V^\ast$.
+- 换句话说,线性函数是"诚实的统治者". 向量是物体,线性函数是测量它们的统治者,所有可能的统治者的集合构成**双相空间**$V^\ast$.
 
-- For every basis $\{\mathbf{e}_1, \mathbf{e}_2, \ldots, \mathbf{e}_n\}$ there is a matched set of rulers, the **dual basis** $\{\mathbf{e}_1^\ast, \mathbf{e}_2^\ast, \ldots, \mathbf{e}_n^\ast\}$, where $\mathbf{e}_i^\ast$ answers exactly one question: "how many steps of $\mathbf{e}_i$?". A well-calibrated ruler reads 1 on its own basis vector and completely ignores all the others, which is written compactly using the **Kronecker delta** $\delta_{ij}$:
+- 每一个方面$\{\mathbf{e}_1, \mathbf{e}_2, \ldots, \mathbf{e}_n\}$有一套匹配的统治者,** 双重基础**$\{\mathbf{e}_1^\ast, \mathbf{e}_2^\ast, \ldots, \mathbf{e}_n^\ast\}$,在其中$\mathbf{e}_i^\ast$回答一个问题: "有多少步骤,$\mathbf{e}_i$? ? 吗? 一个精准的尺子在自己的基础上读取了 1 个向量,完全忽略了其他所有,它用**克罗内克三角洲** 的缩写.$\delta_{ij}$:
 
 ```math
 \mathbf{e}_i^\ast(\mathbf{e}_j) = \delta_{ij} = \begin{cases} 1 & \text{if } i = j \\ 0 & \text{if } i \neq j \end{cases}
 ```
 
-- That tiny calibration rule is all a ruler needs, because linearity does the rest. Watch $\mathbf{e}_1^\ast$ read the first coordinate of $\mathbf{v} = 3\mathbf{e}_1 + 2\mathbf{e}_2$:
+- 微小的校正规则是所有的规则, 因为线性是其他。看着$\mathbf{e}_1^\ast$读取第一个坐标$\mathbf{v} = 3\mathbf{e}_1 + 2\mathbf{e}_2$:
 
 $$\mathbf{e}_1^\ast(3\mathbf{e}_1 + 2\mathbf{e}_2) = 3\,\mathbf{e}_1^\ast(\mathbf{e}_1) + 2\,\mathbf{e}_1^\ast(\mathbf{e}_2) = 3 \cdot 1 + 2 \cdot 0 = 3$$
 
-- The ruler ignores every direction except its own and reports the coordinate. Coordinates *are* dual basis readings.
+- 统治者无视除自己以外的每一个方向,并报告坐标. 坐标*是*双基读取.
 
-- So what does a ruler look like concretely? In $\mathbb{R}^n$, every linear functional is just a row of numbers applied with a dot product. And for the friend's basis we have already built the rulers without noticing: translating $(3, 2)$ into the friend's language meant multiplying by $P^{-1}$, and each row of $P^{-1}$ produced one coordinate. **The rows of $P^{-1}$ are the dual basis**:
+- 那么,什么是统治者 看起来像具体? 单位$\mathbb{R}^n$,每个线性函数只是用点产品应用的一行数字. 为了朋友的基础,我们已经建立了统治者 而不注意:翻译$(3, 2)$进入朋友的语言意味着乘以$P^{-1}$,每行$P^{-1}$制作了一个坐标。** 页 次$P^{-1}$具有双重基础**:
 
 $$P^{-1} = \frac{1}{2}\begin{bmatrix} 1 & 1 \\ -1 & 1 \end{bmatrix} \quad\Rightarrow\quad \mathbf{b}_1^\ast = (0.5,\ 0.5), \qquad \mathbf{b}_2^\ast = (-0.5,\ 0.5)$$
 
-- Check it against the café trip: $\mathbf{b}_1^\ast \cdot (3, 2) = 0.5 \cdot 3 + 0.5 \cdot 2 = 2.5$, exactly the friend's first coordinate. The two halves of this file are one idea: a change of basis swaps the building blocks, and the dual basis is the matched set of rulers that reads off the new coordinates.
+- 检查一下咖啡馆旅行的情况:$\mathbf{b}_1^\ast \cdot (3, 2) = 0.5 \cdot 3 + 0.5 \cdot 2 = 2.5$这正是朋友的第一个坐标 这个文件的两半是一个想法:换个基础交换构件,双重基础是匹配的一组从新坐标上读取的统治者.
 
-- The calibration rule was hiding in plain sight too: $P^{-1}P = I$ says precisely that ruler $i$ reads 1 on basis vector $i$ and 0 on the others. The identity matrix is the Kronecker delta written out as a table.
+- 校正规则也隐藏在眼前:$P^{-1}P = I$说对了 尺子$i$根据向量读取 1$i$和0对其他人。身份矩阵是克罗内克三角洲作为表格被写出.
 
-- One warning. It is tempting to guess that the ruler for $\mathbf{b}_1$ is $\mathbf{b}_1$ itself, i.e. just dot with $(1, 1)$. But $(1, 1) \cdot (3, 2) = 5$, double the true coordinate of 2.5. Dotting with a basis vector reads off its own coordinate only when the basis is **orthonormal** (mutually perpendicular, each of length 1), like the standard basis. That is the only reason $\mathbf{e}_1^\ast$ happens to look identical to $\mathbf{e}_1$. For every other basis, the rulers live in the rows of $P^{-1}$.
+- 一个警告。令人惊奇的是,统治者$\mathbf{b}_1$实值$\mathbf{b}_1$本身,即: 只是点点$(1, 1)$。。。不过$(1, 1) \cdot (3, 2) = 5$将2.5的正坐标翻一番 有基准向量的点点读取它自己的坐标时,只有当基是**正态**(相对垂直,每长一),就像标准基. 这是唯一的原因$\mathbf{e}_1^\ast$恰好看起来与$\mathbf{e}_1$。。。统治者们生活在每条基础上$P^{-1}$.
 
-- This also explains the dot product's double life. Every vector $\mathbf{u}$ secretly defines a ruler (measure $\mathbf{v}$ by computing $\mathbf{u} \cdot \mathbf{v}$), and every ruler is a dot product with some vector. In finite dimensions, the dual space is essentially a mirror image of the original space.
+- 这也解释了"点"产品"双活"的原因. 每个向量$\mathbf{u}$秘密定义尺(度量衡)$\mathbf{v}$通过计算$\mathbf{u} \cdot \mathbf{v}$),而每个标尺都是点出物,带有一定的向量. 在有限度的维度中,双相空间本质上是原始空间的镜像.
 
-- Duality may seem abstract now, but it underlies many practical ideas: coordinates are dual basis evaluations, the dot product is a duality pairing, and transformations like attention in neural networks operate by having one set of vectors "query" another, which is duality in action.
+- 质量现在可能看起来是抽象的,但它支撑了许多实际的想法:坐标是双基评价,点产物是双相配对,神经网络中的注意等转变通过有一套向量"克瑞"来操作,这是行动中的双相.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Express a vector in two different bases and verify they represent the same point. Try creating your own basis and see what coordinates the vector gets.
+1. 在两个不同的基座上显示一个向量,并验证它们代表同一点. 尝试创建自己的基础, 看看向量得到什么坐标。
 ```python
 import jax.numpy as jnp
 
@@ -125,7 +124,7 @@ reconstructed = new_coords[0] * P[:, 0] + new_coords[1] * P[:, 1]
 print(f"Reconstructed: {reconstructed}")
 ```
 
-2. Build the dual basis for the friend's basis from task 1 (the rows of P⁻¹) and verify each ruler reads off exactly one coordinate. Then see why dotting with a basis vector itself only works for orthonormal bases.
+2. 从任务1(一行为P− 1)中建立朋友基础的双重基础,并核实每个标尺读取一个精确的坐标. 那么,看看为什么用一个基向量本身来做点 仅仅为正态基础工作。
 ```python
 import jax.numpy as jnp
 

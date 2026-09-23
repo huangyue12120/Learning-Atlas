@@ -13,29 +13,27 @@ status: reviewed
 
 *本篇将Linux 与命令行放回 AI 工程语境，保留源文中的定义、公式、代码、图示和实践边界，便于逐项核对。*
 
-*The command line is the primary interface for ML engineering: training jobs, server management, data pipelines, and cluster administration all happen through the terminal. This file covers the shell, file system, permissions, process management, package managers, environment variables, SSH, and the essential commands every ML engineer uses daily.*
+*指令行是ML工程的主要接口:培训工作,服务器管理,数据管道,集群管理都通过终端实现. 此文件涵盖 shell, 文件系统,权限, 流程管理, 包管理器, 环境变量, SSH, 以及每个 ML 工程师每天使用的基本命令. *
 
-- GUIs are convenient for browsing the web. They are terrible for running a training job on a remote GPU cluster at 2 AM. The **command line** (or terminal, or shell) is the tool that scales: it works on any machine, can be scripted, is composable, and is the same on your laptop, a cloud VM, and an HPC cluster.
+- 图形用户界面方便浏览网页. 早上2点, **命令行**(或终端,或外壳)是缩放的工具:它工作在任意一台机器上,可以被脚本,可被堆放,在你的笔记本电脑上也是一样,一个云VM,和一个HPC集群.
 
-- If you are an ML engineer who only uses Jupyter notebooks and VS Code buttons, you are leaving enormous productivity on the table. Every production ML system is deployed, monitored, and debugged through the command line.
+- 如果你是只使用Jupyter笔记本和VS代码按钮的 ML 工程师, 你就会在桌上留下巨大的生产力。每个出品的ML系统都部署,监控并调试通过命令行.
 
-## Shell
+## 贝壳
 
-> **中文导读**：本节围绕“Shell”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- A **shell** is a program that reads commands from you and executes them. It is the intermediary between you and the operating system (chapter 13). The most common shells are **bash** (the default on most Linux systems) and **zsh** (the default on macOS).
+- 一个**shell**是一个读取你的命令并执行命令的程序. 这是你和操作系统之间的中介(第13章)。最常见的贝壳有:**bash**(大多数Linux系统的默认)和**zsh**(macOS的默认).
 
-- A command has the form: `command [options] [arguments]`
+- 命令有格式:`command [options] [arguments]`
 
 ```bash
 ls -la /home/user    # command=ls, options=-la, argument=/home/user
 ```
 
-- Options modify behaviour (usually prefixed with `-` for short or `--` for long form). `ls -l` lists in long format, `ls --all` shows hidden files. Many options can be combined: `ls -la` means `-l` and `-a` together.
+- 选项修改行为(通常是前缀)`-`用于短或`--`长形的).`ls -l`长格式列表,`ls --all`显示隐藏文件。许多选项可以合并:`ls -la`表示`-l`财务报告和已审计财务报表`-a`一起来
 
 ### 基本导航
 
-> **中文导读**：本节围绕“基本导航”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
 ```bash
 pwd                 # print working directory (where am I?)
@@ -49,14 +47,13 @@ cd -                # go back to previous directory
 
 ### 文件操作
 
-> **中文导读**：本节围绕“文件操作”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
 ```bash
 cp source dest      # copy file
 cp -r dir1 dir2     # copy directory recursively
 mv old new          # move/rename file
-rm file             # delete file (no recycle bin — gone forever)
-rm -rf dir          # delete directory recursively (DANGEROUS — no confirmation)
+rm file             # delete file (no recycle bin ， gone forever)
+rm -rf dir          # delete directory recursively (DANGEROUS ， no confirmation)
 mkdir -p a/b/c      # create nested directories
 touch file.txt      # create empty file (or update timestamp)
 cat file.txt        # print file contents
@@ -64,15 +61,14 @@ head -n 20 file     # first 20 lines
 tail -f logfile     # follow a log file in real-time (invaluable for monitoring training)
 ```
 
-- **Pitfall**: `rm -rf` is the most dangerous command in computing. There is no undo. Triple-check the path before pressing enter. Never run `rm -rf /` or `rm -rf ~`.
+- ** 意外**:`rm -rf`是计算中最危险的指令。没有什么是逆向的。按下输入前三重检查路径。永远不要跑`rm -rf /`或 为`rm -rf ~`.
 
 ### 管道与重定向
 
-> **中文导读**：本节围绕“管道与重定向”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- The shell's killer feature is **composability**: small commands connected together to do complex things.
+- 外壳的杀手特征为**相交**:小指令连接在一起,以做复杂的事情.
 
-- **Pipe** (`|`): sends the output of one command as input to the next.
+- ** Pipe** (中文(简体)).`|`:将一个命令的输出作为输入发送给下一个命令.
 
 ```bash
 cat training.log | grep "loss" | tail -5    # last 5 lines containing "loss"
@@ -80,7 +76,7 @@ ps aux | grep python                        # find running Python processes
 history | grep "docker"                     # find previous docker commands
 ```
 
-- **Redirection**: send output to a file instead of the screen.
+- ** 重定向**:将输出发送给一个文件而不是屏幕.
 
 ```bash
 python train.py > output.log 2>&1    # stdout AND stderr to file
@@ -89,11 +85,10 @@ echo "data" > file.txt               # overwrite file
 echo "more" >> file.txt              # append to file
 ```
 
-- `2>&1` redirects stderr (file descriptor 2) to stdout (file descriptor 1). Without it, error messages still appear on screen while only normal output goes to the file.
+- `2>&1`将 stderr (文件描述符 2) 重定向为 stdout (文件描述符 1)。没有它,错误信息仍然出现在屏幕上,而只有正常的输出会到文件.
 
 ### 文本处理
 
-> **中文导读**：本节围绕“文本处理”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
 ```bash
 grep "error" logfile.txt             # find lines containing "error"
@@ -114,7 +109,7 @@ awk '{print $1, $3}' data.txt       # print 1st and 3rd whitespace-separated fie
 sed 's/old/new/g' file.txt          # replace all occurrences of "old" with "new"
 ```
 
-- These compose beautifully:
+- 这些精美地编曲:
 
 ```bash
 # Find the 10 most common error types in a log file
@@ -123,7 +118,6 @@ grep "ERROR" app.log | awk -F': ' '{print $2}' | sort | uniq -c | sort -rn | hea
 
 ### 查找文件
 
-> **中文导读**：本节围绕“查找文件”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
 ```bash
 find . -name "*.py"                  # find all Python files
@@ -137,38 +131,36 @@ locate filename                      # fast file search (uses pre-built index)
 
 ## 文件系统层级
 
-> **中文导读**：本节围绕“文件系统层级”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- Linux organises everything in a single tree rooted at `/`:
+- Linux 将所有东西组织在一个树上`/`:
 
-| Directory | Purpose |
+|Directory|Purpose|
 |-----------|---------|
-| `/` | Root of the entire file system |
-| `/home/user` | Your personal files, configs, projects |
-| `/etc` | System-wide configuration files |
-| `/usr` | User programs, libraries, documentation |
-| `/usr/local` | Locally installed software (not from package manager) |
-| `/var` | Variable data: logs (`/var/log`), databases, caches |
-| `/tmp` | Temporary files (cleared on reboot) |
-| `/opt` | Optional third-party software |
-| `/proc` | Virtual file system exposing kernel and process info |
-| `/dev` | Device files (disks, GPUs show up here) |
+| `/` |Root of the entire file system|
+|`/home/user`|Your personal files, configs, projects|
+|`/etc`|System-wide configuration files|
+|`/usr`|User programs, libraries, documentation|
+|`/usr/local`|Locally installed software (not from package manager)|
+|`/var`|Variable data: logs (`/var/log`), databases, caches|
+|`/tmp`|Temporary files (cleared on reboot)|
+|`/opt`|Optional third-party software|
+|`/proc`|Virtual file system exposing 卷积核 and process info|
+|`/dev`|Device files (disks, GPUs show up here)|
 
-- For ML: your training data is typically in `/data` or `/home/user/data`, models in `/home/user/models`, and CUDA lives in `/usr/local/cuda`. GPU devices appear as `/dev/nvidia0`, `/dev/nvidia1`, etc.
+- 对于 ML : 您的培训数据通常在`/data`或 为`/home/user/data`中,模型输入`/home/user/models`,而CUDA则生活在`/usr/local/cuda`。。。GPU 设备显示为`/dev/nvidia0`, `/dev/nvidia1`等 类.
 
 ## 文件权限
 
-> **中文导读**：本节围绕“文件权限”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- Every file and directory has three permission types for three user classes:
+- 每个文件和目录有三个用户类别的许可类型:
 
-| Permission | File | Directory |
+|Permission|File|Directory|
 |------------|------|-----------|
-| **r** (read) | View contents | List contents |
-| **w** (write) | Modify contents | Create/delete files inside |
-| **x** (execute) | Run as program | Enter (cd into) the directory |
+|**r** (read)|View contents|List contents|
+|**w** (write)|Modify contents|Create/delete files inside|
+|**x** (execute)|Run as program|Enter (cd into) the directory|
 
-- Three user classes: **owner** (u), **group** (g), **others** (o).
+- 三种用户类别:**所有者**(u),**组**(g),**其他人**(o)。
 
 ```bash
 ls -l script.py
@@ -185,13 +177,12 @@ chmod u+w,g-w file.txt    # add write for owner, remove write for group
 chown henry:ml_team file  # change owner and group
 ```
 
-- **Pitfall**: a Python script with `#!/usr/bin/env python3` at the top needs execute permission (`chmod +x`) to be run as `./script.py`. Without it, you must use `python3 script.py`.
+- ** Pitfall**:一个带有 Python 脚本`#!/usr/bin/env python3`在最需要时执行权限(E)`chmod +x`以`./script.py`。。。没有它,你必须用`python3 script.py`.
 
 ## 进程管理
 
-> **中文导读**：本节围绕“进程管理”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- A **process** is a running program (chapter 13). The shell gives you tools to manage them:
+- **进程**是一个运行中的程序(第13章)。外壳给你管理它们的工具:
 
 ```bash
 ps aux                    # list all running processes
@@ -210,9 +201,9 @@ python train.py &                    # run in background
 nohup python train.py > log.txt &    # run in background, survive logout
 ```
 
-- **`nohup`** is critical for ML training: without it, closing your SSH connection kills the training job. `nohup` detaches the process from the terminal.
+- **`nohup`** 对ML培训至关重要:没有它,关闭你的SSH连接会杀死培训工作.`nohup`将过程从终端解开。
 
-- **`screen`** and **`tmux`** are terminal multiplexers that create persistent sessions. You can start a training job in a tmux session, disconnect from SSH, reconnect later, and the session (and training) is still running.
+- **`screen`** 和 **。`tmux`** 是生成持续会话的终端多路分流器。您可以在 tmux 会话中开始培训工作, 断开与SSH的连接, 稍后重新连接, 而会话(和训练) 仍在运行。
 
 ```bash
 tmux new -s training          # create named session
@@ -224,9 +215,8 @@ tmux ls                       # list sessions
 
 ## 包管理器
 
-> **中文导读**：本节围绕“包管理器”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- **System packages** (OS-level software):
+- ** 系统包**(OS级软件):
 
 ```bash
 # Debian/Ubuntu
@@ -238,7 +228,7 @@ sudo apt upgrade              # upgrade all packages
 brew install wget             # install via Homebrew
 ```
 
-- **Python packages**:
+- ** Python 包件**:
 
 ```bash
 pip install torch             # install from PyPI
@@ -252,13 +242,12 @@ conda activate myenv
 conda install pytorch torchvision cudatoolkit=12.1 -c pytorch
 ```
 
-- **Pitfall**: never `pip install` into the system Python. Always use a virtual environment (`python -m venv env`, `conda create`, or `uv venv`). System Python is shared by OS tools; breaking it can break your system.
+- ** 意外**:从未`pip install`进入系统Python。总是使用虚拟环境(E)`python -m venv env`, `conda create`,或`uv venv`) (中文(简体)). System Python由OS工具共享;破解它可以打破你的系统.
 
 ## 环境变量
 
-> **中文导读**：本节围绕“环境变量”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- **Environment variables** are key-value pairs accessible to all programs. They configure behaviour without changing code.
+- ** 环境变量** 是所有程序都可以使用的钥匙值对。它们不改变代码就配置行为.
 
 ```bash
 export CUDA_VISIBLE_DEVICES=0,1    # use only GPUs 0 and 1
@@ -269,15 +258,14 @@ echo $PATH                         # see current PATH
 export PATH=$PATH:/usr/local/cuda/bin  # add CUDA to PATH
 ```
 
-- **`.bashrc`** (or `.zshrc`): commands run every time you open a shell. Put your `export` statements here so they persist.
+- **`.bashrc`** (或`.zshrc`:每次打开外壳时,命令运行. 把你的东西放下`export`他们在这里发言,所以他们坚持下去。
 
-- **`.env` files**: project-specific variables loaded by tools like `python-dotenv`. Keep secrets (API keys, database passwords) in `.env` and add `.env` to `.gitignore`. Never commit secrets to git.
+- **`.env`文件 **: 由工具加载的特定项目变量`python-dotenv`。。。保存机密(API 密钥、数据库密码)。`.env`添加`.env`改为`.gitignore`。。。永远不要做出秘密
 
 ## SSH（安全 Shell）
 
-> **中文导读**：本节围绕“SSH（安全 Shell）”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- **SSH** connects you to remote machines over an encrypted channel. This is how you access cloud VMs, GPU servers, and HPC clusters.
+- **SSH**通过加密信道将您连接到远程机器. 这就是您访问云VM,GPU服务器和HPC集群的方式.
 
 ```bash
 ssh user@hostname              # connect to remote machine
@@ -285,7 +273,7 @@ ssh -i ~/.ssh/key.pem user@ip  # connect with specific key
 ssh -L 8888:localhost:8888 user@server  # port forwarding (Jupyter on remote)
 ```
 
-- **SSH keys** (public/private key pair) replace passwords:
+- ** SSH 密钥**(公用/私用密钥对)替换密码:
 
 ```bash
 ssh-keygen -t ed25519          # generate key pair
@@ -293,7 +281,7 @@ ssh-copy-id user@server        # copy public key to server
 # now you can SSH without typing a password
 ```
 
-- **SSH config** (`~/.ssh/config`) saves connection details:
+- ** SSH 配置** (`~/.ssh/config`)保存连接细节:
 
 ```
 Host gpu-server
@@ -303,9 +291,9 @@ Host gpu-server
     LocalForward 8888 localhost:8888
 ```
 
-- Now `ssh gpu-server` connects with all those settings automatically.
+- 现在`ssh gpu-server`自动与所有这些设置连接。
 
-- **`scp`** and **`rsync`** transfer files between machines:
+- **`scp`** 和 **。`rsync`** 机器之间的文件传输 :
 
 ```bash
 scp model.pt user@server:/data/models/     # copy file to remote
@@ -315,7 +303,6 @@ rsync -avz --progress data/ user@server:/data/  # sync with progress (smarter th
 
 ## ML 常用命令速查
 
-> **中文导读**：本节围绕“ML 常用命令速查”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
 ```bash
 # GPU monitoring

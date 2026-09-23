@@ -55,7 +55,7 @@ $$W = [W_1 | W_2 | \cdots | W_N], \quad Y_i = X W_i, \quad Y = \text{concat}(Y_1
 
 $$\text{Speedup} \approx \frac{k \times \text{acceptance\_rate}}{\text{cost\_ratio}} \approx 2\text{-}3\times$$
 
-- **为什么没有质量损失**：拒绝采样方案保证输出分布与 target 模型完全一致。推测解码是无损的——统计上它和只运行 target 模型得到的输出相同，只是更快。
+- **为什么没有质量损失**：拒绝采样方案保证输出分布与 target 模型完全一致。推测解码是无损的，，统计上它和只运行 target 模型得到的输出相同，只是更快。
 
 - **变体**：
     - **Medusa**（Cai 等，2024）：不使用独立 draft 模型，而是在 target 模型上添加多个轻量级“头”，同时预测多个未来 token，不需要额外模型。
@@ -88,7 +88,7 @@ $$\text{Speedup} \approx \frac{k \times \text{acceptance\_rate}}{\text{cost\_rat
 
 - **动态淘汰 + StreamingLLM**：把 attention sink（永久保留最初几个 token）与动态淘汰（保留最近 token + 重击者）结合起来。这是面向超长生成的内存效率最高的方案，可在质量有界下降的情况下实现无限长度生成。
 
-- 所有淘汰方法的共同洞见是：LLM 的 attention 在实践中是**稀疏的**——虽然架构会对所有缓存 token 计算 attention，但实际权重会集中在一小部分上。淘汰其余 token 对输出质量的影响很小。
+- 所有淘汰方法的共同洞见是：LLM 的 attention 在实践中是**稀疏的**，，虽然架构会对所有缓存 token 计算 attention，但实际权重会集中在一小部分上。淘汰其余 token 对输出质量的影响很小。
 
 ## 推理框架
 
@@ -128,8 +128,8 @@ $$\text{Speedup} \approx \frac{k \times \text{acceptance\_rate}}{\text{cost\_rat
 
 | 部署方式 | 每 100 万 token 成本 |
 |-------|-------------------|
-| GPT-4o API | $2.50 |
-| Claude 3.5 Sonnet API | $3.00 |
+|GPT-4o API| $2.50 |
+|Claude 3.5 Sonnet API| $3.00 |
 | H100 上的 Llama-70B（vLLM，FP16） | $0.50 |
 | H100 上的 Llama-70B（TRT-LLM，INT8） | $0.25 |
 | A10G 上的 Llama-8B（vLLM，INT4） | $0.05 |

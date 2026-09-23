@@ -1,3 +1,30 @@
+# Learning Atlas v0.25.1 发布说明
+
+发布日期：2026-09-23。
+
+本版完成 T1–T6 理论中文体验的复核收尾：在保持 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 不变的前提下，统一修订 89 篇中文理论正文的术语与结构，并为理论引用的 255 个 SVG 图示提供本地中文版本。
+
+## 本版交付
+
+- 复核并修订 T1–T6 的 89 篇中文理论正文，保留上游标题层级、公式、代码、图片引用和来源指纹；统一常用数学、机器学习、视觉、音频、图神经网络和系统术语。
+- 新增 255 个本地中文 SVG 图示；理论资源服务优先返回本地译图，不存在本地资源时继续安全回退到上游英文图示。
+- 扩展理论资源 API 回归测试，确认抽样图示返回中文内容，同时保留路径遍历和非图像资源拒绝行为。
+- 同步 README、内容清单、项目进度以及应用 SemVer 至 v0.25.1；应用版本文件和锁文件保持一致。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1522 条来源指纹）
+- `python3 scripts/check_theory_cards.py`（289 张已发布理论卡）
+- `python3 scripts/check_translation_coverage.py`（19 个已发布 Phase，0 个缺失译文）
+- `python3 scripts/check_repository_hygiene.py`
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+完整快照、来源路径、结构统计和理论卡计数见[内容清单](content-manifest.md)、[项目进度](project-progress.md)和 [T6 审核表](t6-theory-review.md)。
+
+---
+
 # Learning Atlas v0.25.0 发布说明
 
 发布日期：2026-09-23。

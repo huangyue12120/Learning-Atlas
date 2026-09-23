@@ -13,115 +13,110 @@ status: reviewed
 *几何深度学习把对称性、不变性和等变性作为设计神经网络的原则。本篇覆盖群作用、五类几何域、尺度分离与粗化，并连接到图、点云和网格数据。*
 
 
-*Geometric deep learning is the unifying framework that reveals CNNs, transformers, and GNNs as instances of the same principle: exploiting symmetry. This file covers symmetry groups, group actions, invariance, equivariance, the five geometric domains, and scale separation*
+* 几何深度学习是显示CNN、变压器和GNN作为同一原则的例子的统一框架:利用对称性。此文件涵盖对称组,群动作,偏差,等分,五相几何域,以及比例分隔*
 
-- Throughout this book, we have studied many architectures: CNNs for images (chapter 8), transformers for language (chapter 7), and RL policies for sequential decisions (chapter 6). These look like completely different models designed for completely different problems. But there is a deeper pattern.
+- 在整个书中,我们研究了许多架构:有线电视新闻网的图像(第8章),变形器的语文(第7章)和RL政策的相继决定(第6章)。这些看起来完全不同的模型是针对完全不同的问题设计的. 但有一个更深层次的模式。
 
-- **Geometric deep learning** reveals that all of these architectures are instances of the same idea: build networks that respect the **symmetries** of the data. CNNs exploit translation symmetry in images. Transformers exploit permutation symmetry in sequences (attention does not depend on absolute position). GNNs exploit permutation symmetry in graphs. Once you see this, the zoo of architectures becomes a single, coherent framework.
+- ** 几何深度学习** 揭示出所有这些架构都是相同想法的例子:建立尊重数据**同义**的网络。CNN利用图像中的翻译对称性. 变形器在序列中利用通相对称(意向不取决于绝对位置). GNNs在图中利用通相对称. 一旦你看到这个, 建筑的动物园变成了一个单一的,连贯的框架。
 
 ## 对称性与群
 
-> **中文导读**：本节围绕“对称性与群”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- A **symmetry** of an object is a transformation that leaves it unchanged. A square has 8 symmetries: 4 rotations (0°, 90°, 180°, 270°) and 4 reflections. A circle has infinitely many: any rotation about its centre. The key insight is that symmetries tell you what does not matter, and knowing what does not matter is enormously powerful for learning.
+- 物体的**对称**是使其不变的变相. 一个广场有8个对称:4个旋转(0°,90°,180°,270°)和4个反相. 一个圆圈有无数个: 任何关于它的中心的旋转。关键的观点是,对称性告诉你什么不重要,知道什么无关紧要对于学习来说是非常强大的。
 
-- In ML terms: if a task has a symmetry, the model should give the same answer regardless of which "version" of the input it sees. A cat detector should work whether the cat is in the top-left or bottom-right of the image. That is translation symmetry.
+- 在ML术语中:如果一个任务有对称性,无论它看到的输入的"版本"是哪一种,模型都应该给出相同的答案. 猫的探测器应该工作 无论猫在图像的上-左或下-右. 这就是翻译对称。
 
-- Symmetries are formalised as **groups**. A group $G$ is a set of transformations with four properties:
+- 共鸣被正式化为**群**. 一组$G$是一个具有四个属性的转换组:
 
-    - **Closure**: combining two transformations gives another transformation in the set. Rotating by 90° then 90° gives 180°, which is also in the set.
-    - **Associativity**: $(g_1 \circ g_2) \circ g_3 = g_1 \circ (g_2 \circ g_3)$. The order of grouping does not matter (recall associativity of matrix multiplication from chapter 2).
-    - **Identity**: there is a "do nothing" transformation $e$ such that $e \circ g = g \circ e = g$.
-    - **Inverse**: every transformation has an undo: $g \circ g^{-1} = e$.
+    - ** Closure**:结合两个变换,使组合中出现另一个变换. 旋转90°再旋转90°得到180°,这在集中也是.
+    - ** 协会**:$(g_1 \circ g_2) \circ g_3 = g_1 \circ (g_2 \circ g_3)$。。。分组顺序并不重要(从第二章中回顾矩阵乘法的关联性)。
+    - ** 身份**:有"无所事事"的转变$e$这样的话$e \circ g = g \circ e = g$.
+    - ** 反向**:每个转变都有一个倒数:$g \circ g^{-1} = e$.
 
-- These are the same axioms as vector spaces (chapter 1) but for transformations instead of vectors. The connection is deep: groups act on vector spaces, and this action is what neural networks must respect.
+- 这些与向量空格(第一章)相同,但用于转换而不是向量. 联系是深层的:团体在向量空间上行动,而这一行动是神经网络必须尊重的.
 
-- Key groups that appear in deep learning:
+- 在深入学习中出现的关键群体:
 
-    - **Translation group** $(\mathbb{R}^n, +)$: shifting an image or signal. This is the symmetry that CNNs exploit.
-    - **Symmetric group** $S_n$: all permutations of $n$ elements. This is the symmetry that GNNs and transformers exploit (reordering nodes or tokens should not change the result).
-    - **Rotation group** $SO(n)$: all rotations in $n$-dimensional space. $SO(2)$ is rotations in the plane, $SO(3)$ is rotations in 3D (crucial for molecular and 3D vision tasks).
-    - **Euclidean group** $E(n)$: all rotations, reflections, and translations. The symmetry of physical space.
-    - **Special Euclidean group** $SE(n)$: rotations and translations (no reflections). The symmetry of rigid body motion.
+    - ** 翻译组**$(\mathbb{R}^n, +)$: 移动图像或信号。这就是CNN利用的对称性.
+    - ** 对称组**$S_n$: 所有布局$n$元素。这就是GNNs和变压器所利用的对称性(重排节点或道具不应改变结果).
+    - ** 轮调组**$SO(n)$: 所有旋转$n$- 维空间。$SO(2)$是飞机上的旋转,$SO(3)$是3D中的旋转(分子和3D视觉任务的关键)。
+    - ** 欧克利德语组**$E(n)$:所有旋转,反想,和翻译. 物理空间相对.
+    - ** 特别欧几利得集团**$SE(n)$: 旋转和翻译(无反省). 硬体运动的对称性.
 
-- A **group action** describes how a group transforms the data. If $G$ is a group and $X$ is a data space, the action $\rho: G \times X \to X$ maps each group element $g$ and data point $x$ to a transformed point $\rho(g, x)$. For images, the translation group acts by shifting pixel coordinates. For graphs, the symmetric group acts by relabelling nodes.
+- 一个 ** 组动作** 描述一个组如何转换数据. 若为$G$是一个团体,$X$是数据空间, 动作$\rho: G \times X \to X$映射每个组元素$g$和数据点$x$切换到转换点$\rho(g, x)$。。。对于图像,翻译组通过移位像素坐标来进行动作. 对于图,对称组通过重新给节点贴上标签来进行.
 
 ## 不变性与等变性
 
-> **中文导读**：本节围绕“不变性与等变性”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Given a symmetry group, a function can relate to it in two important ways:
+- 鉴于一个对称组,一个函数可以两个重要方式与之相联:
 
-- A function $f$ is **invariant** to a group $G$ if the output does not change when the input is transformed:
+- 一个函数$f$属于一个集团的**invatant**$G$如果输入转换时输出不改变:
 
 $$f(\rho(g, x)) = f(x) \quad \text{for all } g \in G$$
 
-- Example: the total brightness of an image does not change if you shift the image. Image classification should be translation-invariant: the class "cat" is the same regardless of where the cat sits.
+- 示例:一幅图像的全亮度如果移动图像则不会改变. 图像分类应该为翻译-变相:无论猫坐在哪里,类"猫"都是一样的.
 
-- A function $f$ is **equivariant** to $G$ if transforming the input transforms the output in a corresponding way:
+- 一个函数$f$等价**为$G$如果转换输入以相应方式改变输出:
 
 $$f(\rho_{\text{in}}(g, x)) = \rho_{\text{out}}(g, f(x)) \quad \text{for all } g \in G$$
 
-- Example: if you shift an image right by 5 pixels, the feature map in a CNN also shifts right by 5 pixels. The convolution operation is translation-equivariant: it preserves the spatial relationship. Object detection should be equivariant: if the cat moves, the bounding box should move with it.
+- 示例:如果将一幅图像右移为5像素,CNN中的特征图也右移为5像素. 卷积操作为翻译-等同:它保持了空间关系. 对象检测应当等同:如果猫会移动,则被绑定的盒子应该随它移动.
 
-![Invariance: output stays the same regardless of transformation. Equivariance: output transforms correspondingly](../images/invariance_vs_equivariance.svg)
+![变相:不管变相,输出都保持不变. 等效:输出相应变换](../images/invariance_vs_equivariance.svg)
 
-- The distinction matters: **intermediate layers** should typically be equivariant (preserving structure for downstream layers), while the **final output** should be invariant (the answer should not depend on the transformation). A CNN achieves this by stacking equivariant convolution layers, then applying global pooling (which is invariant) at the end.
+- 区分事项:**中间层**一般应当是等同的(为下游地层保留结构),而**最后产出**则应当不相干(答案不应取决于转变)。CNN通过堆放等分的相生层来达到这个目的,然后在结尾处应用全球集合(这是无变相的).
 
-- Building equivariance into the architecture is far more efficient than learning it from data. A translation-equivariant CNN with weight sharing needs far fewer parameters than a fully-connected network that must independently learn "cat at position (10,10)" and "cat at position (200,150)." The symmetry constraint reduces the hypothesis space exponentially.
+- 建筑结构中的等同性比从数据中学习要高效得多。一个能分享重量的翻译-等同的CNN需要比一个完全连接的网络要少得多的参数,这个网络必须独立地学习"猫在位置(10,10)"和"猫在位置(200,150)". 对称的制约使假说空间指数地减小.
 
 ## 五类几何域
 
-> **中文导读**：本节围绕“五类几何域”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Geometric deep learning identifies **five fundamental domains** of data, each with its own symmetry group. Every neural network architecture can be understood as exploiting the symmetry of one of these domains.
+- 几何深度学习确定了**5个基本领域**数据,每个领域都有自己的对称组. 每一个神经网络架构都可以被理解为利用其中一个域的对称性.
 
-![The five geometric domains: grids, sets, sequences, graphs, and manifolds, each with its own symmetry and architecture](../images/five_geometric_domains.svg)
+![5个几何域:网格、套接字、相序、图和多相,每个都具有自己的对称和架构](../images/five_geometric_domains.svg)
 
-- **1. Grids (Euclidean data)**: images, audio spectrograms, volumetric data. The underlying structure is a regular grid with translation symmetry. The group is the translation group (plus possibly rotations and reflections). The architecture that exploits this symmetry is the **CNN**: convolution is exactly the operation that is equivariant to translation. Weight sharing across spatial positions is translation equivariance made concrete.
+- 缩写:A/CN.9/WG.III/WP.96。网格 (欧克利得数据)**:图像,音频分光谱,量子数据. 基础结构为有翻译对称性的正格网. 组是翻译组(外加可能的轮回和反思). 利用这种对称性的建筑是**CNN**:卷积正是相当于翻译的操作. 不同空间位置的重量共享是翻译等效制成的混凝土。
 
-- **2. Sets (unordered collections)**: point clouds, particle systems. The symmetry is permutation invariance: the order of elements does not matter. The architecture is **DeepSets** (and PointNet from chapter 8): apply a shared function to each element, then aggregate with a permutation-invariant operation (sum, mean, or max). Formally, $f(\{x_1, \ldots, x_n\}) = \phi\left(\sum_i \psi(x_i)\right)$.
+- **2 (中文(简体)). 集(无序集)**:点云,粒子系统. 对称性是通相的无常:元素的顺序无关紧要. 架构为**Depetz**(并取自第8章的PointNet):对每个元素应用一个共享函数,再以通量-变量操作(和数,正数,或最大数)进行聚合. 形式上$f(\{x_1, \ldots, x_n\}) = \phi\left(\sum_i \psi(x_i)\right)$.
 
-- **3. Sequences (ordered data)**: text, time series. Sequences are grids in 1D, but with a twist: the symmetry is more nuanced. Absolute position may or may not matter. RNNs process sequences autoregressively. Transformers with positional encodings can attend to any position, and their self-attention is equivariant to permutation (before positional encoding is added). This is why transformers generalise so well: they start permutation-equivariant and add just enough positional structure.
+- **3 , (中文(简体)). 序列(顺序数据)**:文本,时间序列. 花序为1D的网格,但有扭矩:对称性更细微. 绝对地位可能或不会重要。RNNs处理序列自动递归. 有位置编码的变形器可以处理任何位置,它们的自取是等同于活化(在添加位置编码之前). 这就是为什么变压器能如此的通俗化:它们开始具有平整-等分性,并且只是添加了足够多的位置结构.
 
-- **4. Graphs (relational data)**: social networks, molecules, knowledge graphs. The symmetry is permutation of nodes: relabelling the nodes should not change the graph's properties. The architecture is the **GNN**: message passing between connected nodes, using shared functions that do not depend on node ordering. This is the focus of the rest of this chapter.
+- **4 (中文(简体)). 图表(关系数据)**:社交网络,分子,知识图. 对称是结点的通接:重新给结点贴上标签不应改变图的属性. 该架构为**GNN**:消息在连接节点之间传递,使用共享的功能不依赖于节点命令. 本章其余部分的焦点就是此.
 
-- **5. Manifolds and meshes**: surfaces, 3D shapes. The symmetry includes diffeomorphisms (smooth deformations). The architecture uses intrinsic operators (e.g., Laplace-Beltrami) that are defined by the surface geometry itself, independent of how the surface is embedded in space. This connects to differential geometry and is relevant for shape analysis, climate modelling on the sphere, and protein surface analysis.
+- **5 (中文(简体)). 马尼弗斯和梅舍斯**:表面,3D形状. 对称性包括二相变形(smooth deform). 该架构使用由地表几何本身定义的内在操作符(如:Laplace-Beltrami),独立于地表嵌入空间的方式. 这与差分几何相关,并与形状分析,球体气候建模,蛋白质地表分析有关.
 
-- The power of this framework is unification. A CNN is a GNN on a grid graph. A transformer is a GNN on a fully connected graph. DeepSets is a GNN with no edges. Seeing these as instances of the same principle guides the design of new architectures: identify the symmetry of your data, and build a network that respects it.
+- 这个框架的力量就是统一. CNN是网格图上的GNN. 变压器是全相通图上的GNN. DeepSets是一个没有边际的GNN. 将这些作为同一原则的例子来看待,指导了新架构的设计:识别您数据的对称性,并建立一个尊重它的网络.
 
 ## 尺度分离与粗化
 
-> **中文导读**：本节围绕“尺度分离与粗化”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Real-world data has structure at multiple scales. An image has fine-grained texture (pixel level), local patterns (edges, corners), object parts (wheels, windows), and global structure (the entire scene). A molecule has atom-level features, functional groups, and overall molecular shape.
+- 现实世界数据具有多尺度的结构. 图像有精细的纹理(像素等位),局部图案(尖端,角),物体部件(轮子,窗口)和全局结构(整个场景). 分子具有原子级特征,功能组,并有整体分子形状.
 
-- **Scale separation** is the principle that these levels of detail can be processed hierarchically: first capture local structure, then progressively aggregate into coarser representations. This is **coarsening** or **pooling**.
+- ** 规模分离**是这些详细程度可以按等级处理的原则:首先捕捉出局部结构,然后逐渐地汇总为相近的表示. 这是**穿梭** 或**拼接**。
 
-- In CNNs, pooling layers (max pooling, average pooling) downsample the spatial resolution, forcing higher layers to capture larger-scale patterns. In the receptive field view (chapter 8), deeper layers "see" more of the image. This is scale separation in action.
+- 在有线电视新闻网中,集合层(最大集合,平均集合)对空间分辨率进行下图,迫使高层捕捉出更大规模的模式. 在可接受的字段视图(第8章)中,更深层"见"更多图像. 这是规模分离行动。
 
-- In graphs, coarsening means clustering groups of nodes into "supernodes," producing a smaller graph that preserves the essential structure. This is graph pooling, which we will cover in detail in file 3. The analogy to image pooling is direct: reduce resolution while preserving important features.
+- 在图中,同心合指将节点组成"超节点",生成一个能保留基本结构的更小的图. 这是图集,我们将在文件3中详细叙述。图像集合的类比是直接的:在保留重要特征的同时降低分辨率.
 
-- In sequences, hierarchical processing (e.g., sentence → paragraph → document) captures structure at different temporal or semantic scales. The Swin Transformer (chapter 8) applies this idea to images with its shifted window hierarchy.
+- 按顺序,分级处理(例如句子-段-文档)捕捉不同时间或语义尺度的结构. "斯温变形器"(第8章)将这个想法应用于其窗口分级变化的图像.
 
-- Mathematically, coarsening defines a **hierarchy of increasingly abstract representations**:
+- 数学上,收缩定义了日益抽象的表达**的等级**:
 
 $$x \xrightarrow{\text{local features}} h^{(1)} \xrightarrow{\text{coarsen}} h^{(2)} \xrightarrow{\text{coarsen}} \cdots \xrightarrow{\text{global}} y$$
 
-- At each level, the representation is equivariant to the symmetry group of that level. The final global representation is invariant, capturing the essence of the input without sensitivity to irrelevant transformations.
+- 在每一职等,代表人数与该职等对称组相等。最终的全球代表性不尽相同,捕捉投入的精髓,而不对无关的转变敏感.
 
-- This hierarchy is why deep networks work better than shallow ones for structured data: each layer adds one level of abstraction, and the composition of many equivariant layers builds up complex invariant features from simple local ones.
+- 这种分级制是深层网络比浅层网络对结构化数据更起作用的原因:每层都增加了一层抽象,许多等分层的构成从简单的局部地层中积累出复杂的不相干特征.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Verify translation equivariance of convolution. Apply a convolution to an image, then shift the image and convolve again. Check that the outputs are shifted versions of each other.
+1. 校验翻译是否等同卷积。将一个卷积应用到一个图像上,然后转换图像并再转动. 检查输出是否相互转换版本。
 ```python
 import jax
 import jax.numpy as jnp
@@ -141,7 +136,7 @@ print(f"Shift then conv:  {conv_shifted}")
 print(f"Equivariant: {jnp.allclose(shifted_conv, conv_shifted, atol=1e-5)}")
 ```
 
-2. Verify permutation invariance of DeepSets-style aggregation. Apply a shared function to each element of a set, sum the results, and check that the output is the same regardless of element ordering.
+2. 校验 Depsets 类聚合的变相。将一个共享函数应用到一个集合的每个元素,对结果进行总和,并检查输出是否相同,无论元素顺序如何.
 ```python
 import jax
 import jax.numpy as jnp
@@ -168,7 +163,7 @@ print(f"Permuted order:  {result2}")
 print(f"Invariant: {jnp.allclose(result1, result2)}")
 ```
 
-3. Explore group structure. Verify that 2D rotation matrices form a group by checking closure, associativity, identity, and inverse.
+3. 探索组群结构. 通过检查关闭、关联性、身份和反向,验证2D旋转矩阵组成一个组。
 ```python
 import jax.numpy as jnp
 

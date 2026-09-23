@@ -14,202 +14,193 @@ status: reviewed
 
 
 
-*Computer architecture is how we build machines that execute instructions. This file covers number systems, logic gates, CPU design, instruction set architectures, pipelining, the memory hierarchy, and virtual memory, the hardware foundation that every program, framework, and AI model ultimately runs on.*
+* 计算机架构是我们如何建造执行指令的机器。此文件涵盖数字系统,逻辑门,CPU设计,指令集架构,管线,内存层次,以及虚拟内存,每个程序,框架,以及AI模型最终运行的硬件基础. *
 
-- Every neural network, every training loop, every inference call eventually becomes a sequence of electrical signals flowing through transistors. Understanding the hardware is not optional for serious ML practitioners: it explains why matrix multiplications are fast, why memory is the bottleneck, why GPUs dominate AI training, and why cache-friendly code can be 100x faster than naive code.
+- 每个神经网络,每个训练回路,每个推断调用最终会成为流经晶体管的电信号序列. 理解硬件对于严肃的ML从业者来说并不是可选的:它解释了矩阵乘法为何快,内存为何为瓶颈,GPU为何主导AI训练,以及缓存友好码为何能比天真码快100x.
 
 ## 数制
 
-> **中文导读**：本节围绕“数制”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Computers represent everything as **binary** (base 2): sequences of 0s and 1s. Each digit is a **bit**. A group of 8 bits is a **byte**. The value of a binary number $b_{n-1} b_{n-2} \ldots b_1 b_0$ is $\sum_{i=0}^{n-1} b_i \cdot 2^i$.
+- 计算机代表一切为**二元**(基数2):序列为0和1. 每个数字是**位**. 一组8个比特是一个**字节**. 二进制数字的值$b_{n-1} b_{n-2} \ldots b_1 b_0$实值$\sum_{i=0}^{n-1} b_i \cdot 2^i$.
 
-- For example, $1011_2 = 1 \cdot 8 + 0 \cdot 4 + 1 \cdot 2 + 1 \cdot 1 = 11_{10}$.
+- 举例来说,$1011_2 = 1 \cdot 8 + 0 \cdot 4 + 1 \cdot 2 + 1 \cdot 1 = 11_{10}$.
 
-- **Hexadecimal** (base 16) is a compact notation for binary. Each hex digit represents 4 bits: $0\text{-}9$ map to $0000\text{-}1001$, and $A\text{-}F$ map to $1010\text{-}1111$. So $\text{0xFF} = 1111\,1111_2 = 255_{10}$. Memory addresses and colour codes are typically written in hex.
+- ** 十六进制**(基准16)是二进制的紧凑符号。每个十六进制数字代表 4 比特:$0\text{-}9$地图到$0000\text{-}1001$,以及$A\text{-}F$地图到$1010\text{-}1111$。。。这么说$\text{0xFF} = 1111\,1111_2 = 255_{10}$。。。内存地址和颜色代码一般用六进制来写.
 
-- **Two's complement** represents signed integers. For an $n$-bit number, the most significant bit has weight $-2^{n-1}$ instead of $+2^{n-1}$. An 8-bit two's complement ranges from $-128$ to $+127$. To negate a number: flip all bits and add 1. This representation makes addition and subtraction use the same hardware circuit, which is why it is universal.
+- ** 2's suppl** 表示已签名的整数。对于一个$n$- 位数,最显著的位有重量$-2^{n-1}$改为$+2^{n-1}$。。。8位2的补体从$-128$改为$+127$。。。要否定一个数字:翻转所有位并添加 1。这种表示法使增减使用相同的硬件回路,这就是它具有普遍性的原因.
 
-- **IEEE 754 floating point** represents real numbers as $(-1)^s \times 1.m \times 2^{e-\text{bias}}$, where $s$ is the sign bit, $m$ is the mantissa (fractional part), and $e$ is the biased exponent.
+- **IEEE 754起浮点** 表示实际数字,作为$(-1)^s \times 1.m \times 2^{e-\text{bias}}$,在其中$s$是标志位,$m$即为曼茶罗;$e$是偏执的解释者。
 
-![IEEE 754 float32 layout: 1 sign bit, 8 exponent bits, 23 mantissa bits](../images/ieee754_float.svg)
+![IEEE 754 浮标32布局: 1个符号位, 8个缩写位, 23个曼提萨位](../images/ieee754_float.svg)
 
-    - **float32** (single precision): 1 sign + 8 exponent + 23 mantissa = 32 bits. Range: $\approx \pm 3.4 \times 10^{38}$, precision: $\approx 7$ decimal digits.
-    - **float64** (double precision): 1 sign + 11 exponent + 52 mantissa = 64 bits. Range: $\approx \pm 1.8 \times 10^{308}$, precision: $\approx 15$ decimal digits.
-    - **float16** (half precision): 1 + 5 + 10 = 16 bits. Limited range and precision, but uses half the memory and bandwidth. Widely used in ML training (mixed precision, chapter 6).
-    - **bfloat16**: 1 + 8 + 7 = 16 bits. Same exponent range as float32 but lower precision. Designed by Google specifically for ML: the full exponent range prevents overflow during training, and the reduced precision is acceptable for gradient updates.
+    - **float32** (单精度): 1个标志+8个出征者+23个mantissa=32位. 范围 :$\approx \pm 3.4 \times 10^{38}$,精确度 :$\approx 7$小数位数
+    - **float64** (双精度): 1个标志+11个出征者+52 mantissa=64位. 范围 :$\approx \pm 1.8 \times 10^{308}$,精确度 :$\approx 15$小数位数
+    - **float16**(半精度): 1+5+10=16位. 范围有限,精度也有限,但使用了一半的内存和带宽. 被广泛用于ML训练(混合精度,第6章).
+    - **bfloat16**: 1+8+7=16位. 与浮点32相同但精度更低. 由Google专门为ML所设计:全缩射范围防止训练中外溢出,而降低的精度对于梯度更新是可以接受的.
 
-- Floating-point arithmetic is **not exact**. $0.1 + 0.2 \neq 0.3$ in float64 (it equals $0.30000000000000004$). This is because $0.1$ has no exact binary representation, just as $1/3$ has no exact decimal representation. Accumulating these errors over millions of operations (like gradient descent) can cause numerical instability, which is why techniques like loss scaling (chapter 6) and Kahan summation exist.
+- 浮点算术为**不准确**.$0.1 + 0.2 \neq 0.3$以浮点64(等于$0.30000000000000004$) (中文(简体)). 这是因为$0.1$没有精确的二进制代表,就像$1/3$没有精确的十进制代表。在数百万个操作(如梯度回落)中累积这些错误会造成数字不稳定,这就是为何存在诸如损失回落(第六章)和卡汉相接等技术.
 
 ## 逻辑门
 
-> **中文导读**：本节围绕“逻辑门”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- All computation reduces to **logic gates**: physical circuits that implement Boolean operations (the propositional logic from file 1).
+- 所有计算都减少到了**logic cates**:执行布尔操作的物理电路(从文件 1 的命题逻辑).
 
-- The fundamental gates:
-    - **AND**: output is 1 only if both inputs are 1.
-    - **OR**: output is 1 if at least one input is 1.
-    - **NOT** (inverter): flips the input.
-    - **NAND** (NOT-AND): the universal gate. Any other gate can be built from NAND gates alone. This is why NAND is the fundamental building block of digital circuits.
-    - **XOR** (exclusive OR): output is 1 if inputs differ. Essential for addition (the sum bit of binary addition is XOR) and cryptography.
+- 基本大门:
+    - ** AND**:只有两种输入均为一,产出才为一.
+    - **OR**:如果至少一个输入为一,输出为一.
+    - **NOT**(倒转):翻出输入.
+    - **NAND**（NOT-AND）：与非门。其他逻辑门都可以只用 NAND 门构造，因此 NAND 是数字电路的基本构件。
+    - **XOR**（exclusive OR）：异或门。当两个输入不同，输出为 1。异或用于加法（二进制加法的和位就是 XOR）和密码学。
 
-- A **half adder** adds two single bits using XOR (sum) and AND (carry). A **full adder** adds two bits plus a carry-in, chaining together to create an $n$-bit adder. This is how CPUs perform integer addition: a cascade of simple logic gates.
+- 使用XOR(和)和 (载体)加出两个单位。加上两个比特加一个带入,连锁在一起$n$- 位加码。这就是CPU如何执行整数加法:一个简单的逻辑门的级联.
 
-- A **multiplexer** (MUX) selects one of several inputs based on a control signal. With $n$ control bits, it selects from $2^n$ inputs. Multiplexers are the hardware equivalent of an if-else chain and are used extensively in CPU datapaths to route data.
+- 一个**多相器**(MUX)根据控制信号选择几个输入中的一个. 与$n$控件位,它从$2^n$投入。Multilxers是等同于一个if-else链条的硬件,被广泛用于CPU数据路径来获取路由数据.
 
-- Modern processors contain billions of transistors, each acting as a tiny switch. A transistor is either on (conducting, representing 1) or off (not conducting, representing 0). Gates are built from transistors, adders from gates, ALUs from adders, and CPUs from ALUs. The entire hierarchy of computing rests on this foundation.
+- 现代的处理器中包含数十亿个晶体管,每个都起到一个微小开关的作用. 晶体管要么开(导出,代表出 1),要么关闭(非导出,代表出 0). 盖子由晶体管,出闸接通的加器,出闸接通的ALU,出闸接通的CPU. 整个计算层次的分层都建立在这种基础上.
 
 ## CPU 体系结构
 
-> **中文导读**：本节围绕“CPU 体系结构”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- The **Central Processing Unit (CPU)** executes instructions. Its core components:
+- ** 中央处理股** 执行指示。其核心组成部分:
 
-    - **ALU** (Arithmetic Logic Unit): performs integer arithmetic (add, subtract, multiply) and logical operations (AND, OR, XOR, shift). This is where the actual computation happens, built from the logic gates described above.
+    - **ALU**(算术逻辑单位):执行整数算术(加、减、乘)和逻辑操作(AND、OR、XOR、移)。这就是从上述逻辑门所构建的实际计算结果。
 
-    - **Registers**: tiny, ultra-fast storage locations inside the CPU. A modern CPU has dozens of general-purpose registers, each holding one word (64 bits on a 64-bit CPU). Registers are the fastest memory in the system: access takes ~0.3 nanoseconds.
+    - ** 登记器**:CPU内部的微小,超快存储位置. 一个现代CPU拥有数十个通用的收录器,每个收录器都持有一个单词(64位在一个64位CPU上). 注册是系统最快的内存:访问需要~0.3纳秒.
 
-    - **Program Counter (PC)**: holds the memory address of the next instruction to execute.
+    - ** 程序计数器(PC)**:持有下一个执行指令的内存地址.
 
-    - **Control Unit**: decodes instructions and orchestrates the datapath, telling the ALU what operation to perform and which registers to use.
+    - ** 控制股**:解码指令并整理数据路径,告诉ALU要进行什么操作以及使用哪个登记册。
 
-- The **instruction cycle** (fetch-decode-execute) repeats billions of times per second:
+- ** 指令周期** (fetch-decode-execute) 每秒重复数十亿次:
 
-    1. **Fetch**: read the instruction from memory at the address in the PC.
-    2. **Decode**: determine what the instruction does (add? load from memory? branch?) and which operands it uses.
-    3. **Execute**: perform the operation (ALU computation, memory access, or branch).
-    4. Increment the PC (unless the instruction is a branch/jump).
+    1. ** Fetch**:在PC地址读取内存的指令.
+    2. ** 十进制**:确定该指示是做什么的(添加? 从内存装入? 树枝?) 以及它所用的操作。
+    3. ** 执行**:执行操作(ALU计算、内存访问或分支)。
+    4. 增加个人计算机(除非指令是分支/跳动).
 
-- A CPU running at 4 GHz performs 4 billion cycles per second. Each cycle takes 0.25 nanoseconds. In that time, light travels about 7.5 centimetres, which is why physical chip size matters: signals cannot cross a large chip in one cycle.
+- 一个运行在4GHz的CPU每秒执行40亿个周期. 每个周期需要0.25纳秒. 在那段时间里,光线行走约7.5厘米,这就是物理芯片尺寸重要的原因:信号无法在一个周期内穿过一个大芯片.
 
 ## 指令集体系结构
 
-> **中文导读**：本节围绕“指令集体系结构”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- The **Instruction Set Architecture (ISA)** is the contract between hardware and software: it defines the instructions the CPU understands, the register set, the memory model, and the encoding format.
+- **指令集架构 (ISA)**是硬件和软件之间的契约:它定义了CPU理解的指令,寄存器集,内存模型,以及编码格式.
 
-- **CISC** (Complex Instruction Set Computer): instructions can be complex, variable-length, and may access memory directly. A single instruction might multiply two memory values and store the result. **x86** (Intel/AMD) is the dominant CISC ISA, powering most desktops and servers. Its backward compatibility (modern x86 CPUs still run 1980s code) is both its strength and its burden.
+- ** CISC**(Complex Directing Set Computer):指令可以复杂,可变长,并且可以直接访问内存. 单一指令可以将两个内存值相乘并存储结果. **x86**(英特尔/AMD)是主导性CISC ISA,为大多数桌面和服务器提供动力. 它的后向相容性(现代x86CPU还运行着1980年代的代码)既是它的强项,也是它的负担.
 
-- **RISC** (Reduced Instruction Set Computer): instructions are simple, fixed-length, and operate only on registers. Memory access requires separate load/store instructions. Simpler instructions enable faster clock speeds and easier pipelining.
+- **RISC**(减少指令集计算机):指令简单,固定长度,仅在登记册上操作. 内存访问需要单独的负载/存储指令. 更简单的指令可以使时钟速度更快,并更容易地进行管道衬线.
 
-    - **ARM**: the dominant RISC ISA for mobile devices and increasingly for servers and laptops (Apple M-series chips are ARM). ARM's power efficiency makes it ideal for battery-powered and thermally constrained devices.
-    - **RISC-V**: an open-source RISC ISA. Anyone can design a RISC-V chip without licensing fees. Growing adoption in embedded systems, research, and AI accelerators.
+    - **ARM**:主要用于移动设备的RISC ISA,并越来越多地用于服务器和笔记本电脑(Apple M系列芯片为ARM). ARM的功率效率使得电池动力和受热限制的装置最理想.
+    - **RISC-V**:一个开源的RISC ISA. 任何人都可以设计出RISC-V芯片而无需许可证费. 在嵌入式系统,研究和AI加速器中逐渐被采纳.
 
-- The CISC vs RISC distinction has blurred: modern x86 CPUs internally decode complex CISC instructions into simpler micro-operations (essentially RISC internally), getting the benefits of both worlds.
+- CISC vs RISC区分模糊不清:现代x86CPU内部将复杂的CISC指令解码为更简单的微操作(主要是RISC内部),得到两个世界的利益.
 
 ## 流水线
 
-> **中文导读**：本节围绕“流水线”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Without pipelining, the CPU completes one instruction fully before starting the next. This wastes hardware: while the ALU executes, the fetch and decode units sit idle.
+- 在不铺设管线的情况下,CPU在开始下个指令前完全完成一个指令. 这浪费了硬件:当ALU执行时,取出和解码单元闲置.
 
-![CPU pipeline: instructions overlap across fetch, decode, execute, memory, and writeback stages](../images/cpu_pipeline.svg)
+![CPU 管道:指令重叠到获取、解码、执行、内存和回写阶段](../images/cpu_pipeline.svg)
 
-- **Pipelining** overlaps instruction execution, like an assembly line. While instruction 1 is executing, instruction 2 is decoding, and instruction 3 is being fetched. A 5-stage pipeline (fetch, decode, execute, memory access, write-back) can have 5 instructions in flight simultaneously.
+- ** Pipelin** 与指令执行重叠,就像装配线。指令1在执行时,指令2正在解码,指令3正在取用. 5级管线(牵引,解码,执行,内存访问,回写)可以同时在飞行中拥有5个指令.
 
-- The throughput approaches one instruction per cycle (even though each instruction takes 5 cycles to complete). This is the same principle as pipelining in ML: data parallelism overlaps computation and communication (chapter 6).
+- 吞吐量接近每个周期一个指令(尽管每个指令需要5个周期才能完成)。这与ML中的管道衬线原理相同:数据相平行性与计算和通信重叠(第六章)。
 
-- **Hazards** are situations where pipelining breaks:
+- ** 危险情况** 是管道中断的情况:
 
-    - **Data hazard**: instruction 2 needs a result that instruction 1 has not yet produced. "Add R1, R2, R3" followed by "Sub R4, R1, R5" -- the second instruction needs R1, which the first is still computing. **Forwarding** (bypassing) solves this by routing the result directly from one pipeline stage to another without waiting for the write-back stage.
+    - ** 数据危险**:第2项要求得到第1项尚未产生的结果。"Add R1,R2,R3"后接"Sub R4,R1,R5"，，第二作指令需要R1,而第一部仍在计算. ** 前导**(通过)解决了这个问题,方法是将结果从一个管道阶段直接传送到另一个管道阶段,而不等待回写阶段。
 
-    - **Control hazard**: a branch instruction (if-else) means the CPU does not know which instruction to fetch next until the branch is resolved. **Branch prediction** guesses which way the branch will go and speculatively fetches instructions along the predicted path. Modern predictors are >95% accurate, using history tables and neural-network-like pattern matching. A misprediction costs ~15 cycles (the pipeline must be flushed and restarted).
+    - ** 控制危险**:分支指令(if-else)指CPU在分支解决之前不知道下一步要获取哪个指令. ** Branch 预测** 猜测树枝将走哪条路,并推测沿着所预测的路径获取指示. 现代预测器的精确度大于95%,使用历史表和神经网络式模式匹配. 错误预测成本~15个周期(管道必须冲出并重新启动).
 
-    - **Structural hazard**: two instructions need the same hardware resource simultaneously (e.g., both need the memory port). Resolved by duplicating resources or inserting a stall.
+    - **结构危险**:两个指令同时需要相同的硬件资源(例如,两者都需要内存端口). 通过重复资源或插入档位来解决.
 
 ## 内存层级
 
-> **中文导读**：本节围绕“内存层级”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- The fundamental tension in computer memory: fast memory is expensive and small, cheap memory is slow and large. The **memory hierarchy** bridges this gap by exploiting **locality**: programs tend to access the same data repeatedly (temporal locality) and access nearby data (spatial locality).
+- 计算机内存的根本张力:快的内存昂贵而小,便宜的内存缓慢而大. ** 模型等级** 利用** 地点** 弥补了这一差距:程序往往反复取用同样的数据(时间地点)并取用附近的数据(空间地点)。
 
-![Memory hierarchy pyramid: registers at the top (fast, small) down to HDD at the bottom (slow, large)](../images/memory_hierarchy.svg)
+![记忆分级金字塔:顶端(快,小)下至底部(慢,大)的HDD的收录器](../images/memory_hierarchy.svg)
 
-- The hierarchy, from fastest to slowest:
+- 从最快到最慢的等级:
 
-    - **Registers**: ~0.3 ns access, ~KB total. Inside the CPU.
-    - **L1 cache**: ~1 ns, 32-64 KB per core. Split into instruction cache and data cache.
-    - **L2 cache**: ~4 ns, 256 KB-1 MB per core.
-    - **L3 cache**: ~10 ns, 8-64 MB shared across cores.
-    - **RAM (DRAM)**: ~50-100 ns, 8-512 GB. Main memory.
-    - **SSD**: ~10-100 μs, 256 GB-8 TB. Persistent storage.
-    - **HDD**: ~5-10 ms, 1-20 TB. Mechanical, very slow for random access.
+    - ** 登记**:~0.3个ns访问,~KB总计. CPU内部.
+    - **L1缓存**:~1纳秒,每核32-64克. 分拆为指令缓存和数据缓存.
+    - **L2缓存**:~4纳秒,每核心256克B-1 MB.
+    - **L3缓存**:~10ns,8-64MB在核心之间共享.
+    - **RAM(DRAM)**:~50-100ns,8-512 GB. 主记.
+    - **SSD**:~10-100μs,256GB-8 TB. 持续储存。
+    - ** HDD**:~5-10 ms, 1-20 TB. 克活化. 机械,对随机进入非常缓慢.
 
-- The speed gap between registers and RAM is ~300x. Between registers and disk, it is ~30,000,000x. The cache hierarchy hides this gap: if the data the CPU needs is in L1 cache (a **cache hit**), access is fast. If not (a **cache miss**), the CPU stalls while data is fetched from a slower level.
+- 登记册和RAM之间的速度差距为~300x. 在登记和磁盘之间,为-3,000,000x. 缓存分级隐藏了这个缺口:如果CPU需要的数据在L1缓存中(a **cache hit**),访问速度快. 如果不是(a ** cache miss **), CPU 在数据从更慢的级别获取时会拖放。
 
-- **Cache associativity** determines where a memory address can be stored in the cache:
-    - **Direct-mapped**: each address maps to exactly one cache line. Simple but causes conflicts.
-    - **Fully associative**: any address can go anywhere. Flexible but expensive to search.
-    - **Set-associative** ($k$-way): each address maps to a set of $k$ locations. The practical compromise used in real CPUs (typically 4-way or 8-way).
+- ** 缓存关联** 确定存储存储地址的位置:
+    - ** Direct-mapped**:每个地址映射到一个精确的缓存行. 简单但会引起冲突。
+    - ** 联系**:任何地址都可以去任何地方。灵活但昂贵的搜索。
+    - ** 特定协会**$k$- 道:每个地址图到一组$k$地点。真实CPU中使用的实际折衷(典型的为4-way或8-way).
 
-- **Cache coherence** ensures that all CPU cores see a consistent view of memory. When core 1 writes to an address that core 2 has cached, the coherence protocol (e.g., MESI) invalidates or updates core 2's copy. This is critical for concurrent programming (file 4) and is one reason that shared-memory parallelism is hard.
+- **Cache一致性**确保所有CPU核心都能看到对内存的一致观点. 当Core 1写到一个核心 2 已缓存的地址时,一致性协议(如MESI)会使Core 2 的副本失效或更新. 这对同时编程(文件4)至关重要,也是共享-记忆并行主义难以实现的原因之一.
 
-- For ML practitioners, the memory hierarchy explains why:
-    - Matrix operations should access memory sequentially (row-major vs column-major layout matters).
-    - Batch size affects performance: larger batches amortise memory latency.
-    - Mixed precision (float16/bfloat16) doubles the effective memory bandwidth, which is often the bottleneck.
+- 对于ML的从业者,记忆分级解释为什么:
+    - 矩阵操作应依次访问内存(row-major vs 列-major布局事项).
+    - 批量大小会影响性能:较大的批量分期摊还内存间隔.
+    - 混合精度(float16/bfloat16)使有效的内存带宽翻了一番,这常常是瓶颈.
 
 ## 虚拟内存
 
-> **中文导读**：本节围绕“虚拟内存”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **Virtual memory** gives each process the illusion of having its own large, contiguous memory space, even though physical RAM is limited and shared among processes.
+- ** 虚拟内存** 给每个过程带来拥有自己庞大而相接的内存空间的幻觉,尽管物理RAM是有限的,并且在各个过程之间共享.
 
-- The address space is divided into fixed-size **pages** (typically 4 KB). The **page table** maps virtual page numbers to physical frame numbers. When a program accesses virtual address 0x1234, the CPU translates it to a physical address by looking up the page table.
+- 地址空间分为固定大小**页**(典型为4 KB). **页表**将虚拟页码与物理帧码相映射. 当一个程序访问虚拟地址0x1234时,CPU通过向上查看页面表来将其翻译为物理地址.
 
-- The **Translation Lookaside Buffer (TLB)** is a cache for page table entries. Since the page table lives in RAM (slow), the TLB stores recently used translations in fast hardware. A TLB miss requires walking the page table in memory, costing hundreds of cycles.
+- ** 翻译 Lookaside 缓冲器(TLB)** 是页面表格条目的缓存. 由于页面表活在RAM(慢)中,TLB商店最近使用快硬件的翻译. TLB出错需要将页面表走入内存,花费了上百个周期.
 
-- A **page fault** occurs when a program accesses a page that is not in physical RAM. The OS loads the page from disk (swapping), which takes millions of cycles. Excessive page faults (**thrashing**) devastates performance. This is why ML training requires enough RAM to hold the model, optimiser states, and a reasonable batch of data.
+- **页错误** 当程序访问一个没有物理RAM的页面时发生. OS从磁盘上加载页面(抖动),这需要上百万个循环. 过量的页断(**trushing **)会破坏性能. 这就是为什么ML培训需要足够的RAM来持有模型,可选择状态,以及合理的批次数据.
 
-- **Page replacement** algorithms decide which page to evict when RAM is full:
-    - **LRU** (Least Recently Used): evict the page that has not been accessed for the longest time. Optimal in practice for most workloads. Approximated in hardware with the **clock algorithm** (a circular list with reference bits).
-    - **FIFO**: evict the oldest page. Simple but can evict frequently used pages.
-    - **Optimal** (Bélády's): evict the page that will not be used for the longest time. Impossible to implement (requires future knowledge) but useful as a theoretical benchmark.
+- ** Page 替换** 算法决定当 RAM 满后要删除的页面 :
+    - ** LRU**(最近使用时间最长):将没有访问的时间最长的页面逐出. 在实践中对大多数工作量进行优化。与**时钟算法**(一个带有参考位数的循环列表)在硬件中相近.
+    - ** 国际家庭调查组织**:驱逐最古老的一页。简单但可以驱逐经常使用的页面。
+    - ** Optimal** (Bélády's):将不会被使用的时间最长的页面驱逐出. 无法实施(需要未来的知识),但作为一个理论基准有用。
 
-- Virtual memory also provides **isolation**: each process has its own virtual address space. A bug in one process cannot corrupt another process's memory, because their virtual addresses map to different physical frames. This is the foundation of OS security and stability.
+- 虚拟内存还提供**同化**:每个进程都有自己的虚拟地址空间. 一个过程中的bug不能腐蚀另一个过程的内存,因为他们的虚拟地址映射到不同的物理框架. 这是OS安全与稳定的基础.
 
 ## I/O、中断与 DMA
 
-> **中文导读**：本节围绕“I/O、中断与 DMA”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- The CPU needs to communicate with the outside world: disks, network cards, keyboards, GPUs. This is the **I/O subsystem**.
+- CPU需要与外界沟通:磁盘,网络卡,键盘,GPU. 这是**I/O子系统**.
 
-- **Programmed I/O** (polling): the CPU repeatedly checks a device's status register in a loop, waiting for data to be ready. Simple but wastes CPU cycles spinning instead of doing useful work.
+- ** 程序 I/O** (polling):CPU在循环中再三检查设备的状态登记册,等待数据准备. 简单但浪费的CPU循环旋转而不是做有用的活.
 
-- **Interrupt-driven I/O**: the device sends a hardware **interrupt** when data is ready. The CPU continues normal execution until the interrupt arrives, then runs an **interrupt handler** (a kernel function) to process the data. This is far more efficient than polling because the CPU is not idle while waiting.
+- ** 中断驱动 I/O**:当数据准备就绪时设备发送硬件**中断**. CPU继续正常执行直到中断到达,然后运行**中断处理器**(一个内核函数)来处理数据. 这比投票效率要高得多,因为CPU在等待时不会闲置.
 
-- The interrupt mechanism:
-    1. A device signals an interrupt via a hardware line.
-    2. The CPU finishes the current instruction, saves the current state (registers, program counter) onto the stack.
-    3. The CPU looks up the interrupt handler address in the **interrupt vector table** (a table of function pointers, one per interrupt type).
-    4. The handler runs in kernel mode, processes the I/O, and returns.
-    5. The CPU restores the saved state and resumes the interrupted program.
+- 中断机制 :
+    1. 一个设备通过硬件线发出中断信号.
+    2. CPU完成当前指令,将当前状态(注册程序计数器)保存到栈上.
+    3. CPU查看了 ** 中断向量表** (一个函数指针表,每个中断类型一个)中的中断处理器地址.
+    4. 处理器以内核模式运行,处理 I/O,并返回.
+    5. CPU恢复保存状态并恢复被中断的程序.
 
-- This is the same save/restore pattern as a context switch (file 3), but triggered by hardware rather than a timer.
+- 这是与上下文开关(文件3)相同的保存/恢复模式,但由硬件而不是定时器所触发.
 
-- **DMA** (Direct Memory Access): for large data transfers (disk reads, network packets, GPU memory copies), having the CPU copy data byte by byte is wasteful. A **DMA controller** transfers data directly between a device and RAM without involving the CPU. The CPU sets up the transfer (source, destination, size), the DMA controller handles it, and the CPU gets an interrupt when it is done.
+- **DMA**(直接内存访问):对于大数据传输(磁盘已读取,网络包,GPU内存副本),有CPU复制数据字节字节是浪费. 一个**DMA控制器**在设备与RAM之间直接传输数据而不涉及CPU. CPU设置了传输(出自源头,目的地,大小),DMA控制器处理它,完成后CPU会得到中断.
 
-- DMA is critical for ML: when you call `model.to('cuda')`, the data is transferred from system RAM to GPU memory via DMA over the PCIe bus. During training, gradient synchronisation across GPUs uses DMA-based RDMA (Remote DMA) for high-bandwidth, low-latency transfers (chapter 6).
+- DMA 对 ML 至关重要: 当你打电话时`model.to('cuda')`,数据从系统RAM通过DMA传输到GPU内存上,超过PCIe总线. 在训练期间,跨GPU的梯度同步使用基于DMA的RDMA(Remote DMA)进行高带宽,低纬度的传输(第六章).
 
-- The **bus** connects the CPU to memory and I/O devices. Modern systems use **PCIe** (Peripheral Component Interconnect Express) for high-speed devices (GPUs, NVMe SSDs, network cards). PCIe 4.0 provides ~32 GB/s per x16 slot; PCIe 5.0 doubles this. The bus bandwidth is often the bottleneck for GPU training: the GPU can compute faster than data can be fed to it.
+- **bus**将CPU连接到内存和I/O设备. 现代系统使用**PCIe** (Peripheral Cupinity Interconnect Express)用于高速设备(GPU,NVMe SSDs,网络卡). PCIe 4.0每x16个槽提供~32GB/s;PCIe 5.0倍于此. 巴士带宽往往是GPU训练的瓶颈:GPU比数据可以输入它更快地计算出.
 
-- **MMIO** (Memory-Mapped I/O): device registers are mapped to memory addresses. The CPU reads and writes to these addresses using normal load/store instructions, and the hardware routes the access to the device instead of RAM. This unifies memory and I/O access into a single mechanism, simplifying both hardware and software.
+- **MMIO**(记忆-Maped I/O):设备登记册被映射到内存地址。CPU使用正常的负载/存储指令读取并写入这些地址,而硬件则会引导访问设备而不是RAM. 这统一了内存和I/O进入一个单一的机制,简化了硬件和软件两种功能.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务（使用 Colab 或 notebook）”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Explore IEEE 754 floating-point representation. Convert a float to its binary representation and observe the sign, exponent, and mantissa fields.
+1. 探索IEEE 754浮点代表. 将浮标转换为二进制表示,并观察标志、示意图和曼提萨字段。
 ```python
 import struct
 
@@ -227,7 +218,7 @@ for val in [1.0, -1.0, 0.1, 0.5, 3.14, float('inf'), float('nan')]:
     print(f"{val:>10}  sign={s}  exp={e} ({int(e, 2) - 127:>4d})  mantissa={m[:10]}...")
 ```
 
-2. Simulate a direct-mapped cache. Track hits and misses for a sequence of memory accesses.
+2. 模拟一个直接映射的缓存。跟踪点击和丢失一系列内存访问。
 ```python
 def simulate_cache(accesses, cache_size=8, block_size=1):
     """Simulate a direct-mapped cache."""
@@ -256,7 +247,7 @@ print("\nStrided access (stride = cache size):")
 simulate_cache([0, 8, 0, 8, 0, 8])
 ```
 
-3. Demonstrate why floating-point arithmetic is not associative. Show cases where $(a + b) + c \neq a + (b + c)$.
+3. 演示浮点算术为何不具有关联性. 显示实例$(a + b) + c \neq a + (b + c)$.
 ```python
 import jax.numpy as jnp
 

@@ -13,54 +13,54 @@ status: reviewed
 *函数逼近用简单、可计算的函数表示复杂关系。本篇覆盖 Taylor 展开、Fourier 展开、样条、基函数和神经网络逼近，并说明逼近误差与泛化之间的联系。*
 
 
-*Function approximation replaces complex functions with simpler ones that are close enough to be useful. This file covers linearisation, Taylor series, polynomial approximation, Fourier series, and the universal approximation theorem, the theoretical backbone of why neural networks can learn arbitrary mappings.*
+*功能近似用更简单的功能来取代复杂的功能,这些功能相近到足够有用. 这个文件涵盖线性化,泰勒系列,多名近似相,傅里叶系列,以及通用近似定理,神经网络为何可以学习任意绘图的理论骨干. *
 
-- Many functions we encounter are too complex to work with directly. Computing $e^{0.1}$ on paper, predicting the trajectory of a satellite, etc. all involve functions that do not have simple closed-form answers.
+- 我们遇到的许多功能过于复杂,无法直接与之合作。计算$e^{0.1}$在纸上,预测卫星的轨迹等等。全部包含没有简单的闭合式答案的函数。
 
-- **Function approximation** replaces a complicated function with a simpler one that is "close enough" over the region we care about.
+- ** 功能相近** 用一个“足够接近”我们所关心的区域的更简单的函数取代了复杂的函数。
 
-- The most natural approximation is a polynomial. Polynomials are just sums of powers of $x$ with coefficients, and they are easy to evaluate, differentiate, and integrate.
+- 最自然的近似是多名相. 波利诺密尔只是权力的集合$x$并易于评估、区分和整合。
 
-- But why do polynomials work so well as approximators? Consider what each power of $x$ contributes.
+- 但是,为什么多名制的功能 和近似性一样好呢? 想想每个力量$x$贡献。
 
-    - The constant term $a_0$ sets the baseline value.
-    - The $a_1 x$ term adds a slope.
-    - The $a_2 x^2$ term adds curvature.
-    - Each higher power captures finer detail about the function's shape.
+    - 常数$a_0$设置基线值。
+    - 该$a_1 x$术语添加了坡度。
+    - 该$a_2 x^2$术语增加了曲率。
+    - 每个更高的功率捕捉到关于函数形状的更细细的细节.
 
-![Each polynomial term adds another layer of detail to the approximation](../images/polynomial_buildup.svg)
+![每个多名词在近似值中添加了又一层细节](../images/polynomial_buildup.svg)
 
-- By choosing the right coefficients, we can match a function's value, slope, curvature, and higher-order behaviour at a point, one piece at a time.
+- 通过选择正确的系数,我们可以匹配一个函数的值,坡度,曲率,以及一个点的更高顺序的行为,一个点一个地.
 
-- With enough terms, the polynomial can mimic almost any smooth function.
+- 有了足够的条件,多名制可以模仿几乎任何平滑的功能.
 
-- The question becomes: how do we find the right coefficients?
+- 问题是:我们如何找到正确的系数?
 
-- **Linearisation** is the simplest approximation. Near a point $x = a$, we replace the function with its tangent line:
+- ** 学习**是最简单的近似。接近一点$x = a$,我们用其正线替换此功能:
 
 $$L(x) = f(a) + f'(a)(x - a)$$
 
-- This is the first-order **Taylor approximation**. It says: start at the known value $f(a)$, then adjust by the slope times the distance from $a$.
+- 这是第一顺序**Taylor近似**。上面写着:从已知值开始$f(a)$,然后按坡度乘以距离$a$.
 
-- For example, linearise $\sin(x)$ at $x = 0$: $f(0) = 0$, $f'(0) = \cos(0) = 1$, so $L(x) = x$. Near zero, $\sin(x) \approx x$. Try it: $\sin(0.1) = 0.0998\ldots \approx 0.1$.
+- 例如,线性化$\sin(x)$时间$x = 0$: $f(0) = 0$, $f'(0) = \cos(0) = 1$,这样$L(x) = x$。。。接近0, 已经接近0,$\sin(x) \approx x$。。。试试看:$\sin(0.1) = 0.0998\ldots \approx 0.1$.
 
-- But linearisation is only good very close to $a$. Move further away and the approximation falls apart. To do better, we include higher-order terms.
+- 但线性化很接近$a$。。。更远地走去,近似会分崩离析. 为了做得更好,我们列入了更高顺序的术语。
 
-- The **Taylor series** represents a function as an infinite sum of polynomial terms, each capturing finer detail about the function's behaviour near a point $a$:
+- ** Taylor 系列** 代表了一种功能,作为无限的多名词的总和,每个函数在某个点附近捕捉到关于函数行为的更细微的细节.$a$:
 
 $$f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!}(x - a)^n = f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2 + \frac{f'''(a)}{3!}(x-a)^3 + \cdots$$
 
-![Taylor series: adding more terms gives a better approximation](../images/taylor_approximation.svg)
+![泰勒系列:增加更多名词给出了更好的近似.](../images/taylor_approximation.svg)
 
-- Each successive term adds a correction. The first term matches the value, the second matches the slope, the third matches the curvature, and so on. The more terms we include, the larger the region where the approximation is accurate.
+- 每届任期都增加一个更正. 第一个名词与值相匹配,第二个名词与坡度相匹配,第三个名词与曲率相匹配等. 我们包括的词汇越多,近似值准确的区域就越大.
 
-- The $n!$ in the denominator is not arbitrary. When you differentiate $(x - a)^n$ exactly $n$ times, you get $n!$. The factorial cancels this out, ensuring that the $n$-th derivative of the Taylor polynomial equals the $n$-th derivative of the original function at $x = a$.
+- 该$n!$在分母中不是任意的。当你分辨$(x - a)^n$没错$n$# 时间,你得到#$n!$。。。要素取消,确保$n$-泰勒的多名衍生物等于$n$- 原始函数的第1个衍生词:$x = a$.
 
-- A **Maclaurin series** is simply a Taylor series centred at $a = 0$:
+- **Maclaurin系列**只是泰勒系列,其中心是$a = 0$:
 
 $$f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(0)}{n!} x^n$$
 
-- Some famous Maclaurin series:
+- 一些著名的麦克劳林系列:
 
 $$e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots$$
 
@@ -68,44 +68,43 @@ $$\sin x = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots$$
 
 $$\cos x = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots$$
 
-- Notice that $\sin x$ has only odd powers (it is an odd function) and $\cos x$ has only even powers (it is an even function). The alternating signs cause the approximation to oscillate around the true value, converging from both sides.
+- 请注意:$\sin x$仅具有奇异能力(这是一个奇异功能)和$\cos x$甚至只有权力(这是偶数函数). 交替的标志导致近似值在正值上相绕,从两侧会合.
 
-- Let us approximate $e^{0.5}$ using four terms: $1 + 0.5 + \frac{0.25}{2} + \frac{0.125}{6} = 1 + 0.5 + 0.125 + 0.02083 \approx 1.6458$. The true value is $1.6487\ldots$, so four terms already give us three correct decimal places.
+- 来,我们来做个大概的$e^{0.5}$使用四个术语:$1 + 0.5 + \frac{0.25}{2} + \frac{0.125}{6} = 1 + 0.5 + 0.125 + 0.02083 \approx 1.6458$。。。真正的价值是$1.6487\ldots$四个词已经给我们三个正确的小数位数
 
-- Not every Taylor series converges everywhere. The **radius of convergence** tells us how far from the centre $a$ the series gives valid results. Within that radius, the polynomial approximation can be made as accurate as we want by adding more terms. Outside it, the series diverges.
+- 并不是每个泰勒系列都聚集在各地. 交汇的光线告诉我们离中心有多远$a$该系列给出了有效的结果。在这个半径内,可以通过增加更多术语来使多名近似性达到我们想要的准确度. 在它之外,系列有分歧。
 
-- A **power series** is the general form: $\sum_{n=0}^{\infty} a_n (x - c)^n$. Taylor series are power series where the coefficients are determined by derivatives. Other power series might be defined by some other rule. The **ratio test** determines convergence: compute $\lim_{n \to \infty} \left|\frac{a_{n+1}}{a_n}\right|$. If this limit is $L$, the radius of convergence is $R = 1/L$.
+- 一个**功率系列**是一般形式:$\sum_{n=0}^{\infty} a_n (x - c)^n$。。。Taylor系列是功率系列,其中系数由衍生物决定. 其他权力系列可能由其他一些规则来定义。** ratio测试**确定趋同:计算$\lim_{n \to \infty} \left|\frac{a_{n+1}}{a_n}\right|$。。。如果这个限制是$L$,趋同的半径是$R = 1/L$.
 
-- When we truncate a Taylor series after $n$ terms, we incur an error. The **Lagrange remainder** bounds this error:
+- 当我们在之后中断一个泰勒系列$n$条件,我们犯了一个错误。** Lagrange 所剩** 将这个错误限定为:
 
 $$R_n(x) = \frac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}$$
 
-- Here $c$ is some unknown point between $a$ and $x$. We do not know $c$ exactly, but we can often bound $|f^{(n+1)}(c)|$ to get a worst-case error estimate. The $(n+1)!$ in the denominator grows extremely fast, so the error shrinks rapidly as we add more terms (for functions within the radius of convergence).
+- 给$c$是一个未知的点$a$财务报告和已审计财务报表$x$。。。我们不知道$c$没错,但我们常常可以捆绑$|f^{(n+1)}(c)|$要获取最坏情况错误估计。该$(n+1)!$在分母中生长极快,因此在我们增加更多术语(对于在收缩半径范围内的函数)时,误差会迅速收缩.
 
-- For a function of multiple variables, the Taylor expansion includes mixed partial derivatives. The second-order approximation of $f(\mathbf{x})$ around a point $\mathbf{a}$ is:
+- 对于多变量的函数,泰勒扩展包括混合部分衍生物. 第二顺序近似$f(\mathbf{x})$环绕一个点$\mathbf{a}$即:
 
 $$f(\mathbf{x}) \approx f(\mathbf{a}) + \nabla f(\mathbf{a})^T (\mathbf{x} - \mathbf{a}) + \frac{1}{2} (\mathbf{x} - \mathbf{a})^T H(\mathbf{a}) (\mathbf{x} - \mathbf{a})$$
 
-- The first term is the value, the second uses the gradient (a vector, as we saw in multivariate calculus), and the third uses the Hessian matrix (which captures curvature). This connects our matrices chapter directly to calculus: the Hessian is a matrix of second derivatives that describes the shape of the function's surface.
+- 第一个术语是值,第二个术语使用梯度(一个向量,我们在多变量微积分中看到),第三个术语使用黑森矩阵(它捕获曲率). 这把我们的矩阵分会直接连接到微积分: 黑森是描述函数表面形状的第二个衍生物的矩阵.
 
-- This multivariate second-order approximation is the foundation of Newton's method and other second-order optimisation techniques, which we will see in the next file.
+- 这种多变的二等相近是牛顿方法和其他二等相优化技术的基础,我们将在下个文件中看到.
 
-- Beyond polynomials, there are other approximation methods worth knowing about:
+- 除了多名之外,还有其他的近似方法值得了解:
 
-    - **Spline interpolation**: instead of one high-degree polynomial, use many low-degree polynomials stitched together smoothly. This avoids the wild oscillations that high-degree polynomials can produce.
-    - **Fourier series**: approximate periodic functions as sums of sines and cosines. Essential in signal processing and audio.
-    - **Neural networks**: universal function approximators. With enough neurons, they can approximate any continuous function to arbitrary accuracy. This is the theoretical justification for deep learning.
+    - ** Spline interpliation**:不使用一个高分多音,而是使用许多低分多相接而成的平稳相接. 这避免了高等多诺米能产生的野生振荡.
+    - ** 4个系列**:大约周期性函数为正弦和余弦之和。在信号处理和音频方面至关重要。
+    - ** 神经网络**:通用功能近似. 如果神经元足够多,它们可以将任何连续的功能相近到任意的精确. 这就是深层次学习的理论依据.
 
-- A function is called "well-behaved" if it has properties that make approximation reliable: continuity (no jumps), differentiability (no sharp corners), smoothness (derivatives of all orders exist), and boundedness (outputs stay finite).
+- 一个函数如果具有使近似性变得可靠的属性,则被称作"良好行为":连续性(无跳跃),相异性(无锐角),平滑性(所有订单的衍生物存在),和定界性(输出会保持有限度).
 
-- Polynomials, exponentials, and trigonometric functions are all well-behaved. The better-behaved a function is, the fewer Taylor terms you need for a good approximation.
+- 多诺分数,指数和三角函数都表现良好. 表现得越好 一个功能是,泰勒术语 你需要一个很好的近似。
 
 ## 编程任务（使用 Colab 或 notebook)
 
-> **中文导读**：本节围绕“编程任务（使用 Colab 或 notebook)”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Approximate $e^x$ using increasing numbers of Taylor terms and visualise how the approximation improves.
+1. 大约$e^x$使用越来越多的泰勒名词,并直观地描述近似性如何改善.
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
@@ -125,7 +124,7 @@ plt.title("Taylor approximation of eˣ")
 plt.show()
 ```
 
-2. Compute the Lagrange remainder to bound the error of approximating $\sin(1)$ with different numbers of Taylor terms.
+2. 计算 Lagrange 剩余值以约束近似错误$\sin(1)$和不同的泰勒条款。
 ```python
 import jax.numpy as jnp
 
@@ -142,7 +141,7 @@ for n in range(8):
     print(f"terms={n+1}  approx={taylor:.10f}  error={error:.2e}  bound={bound:.2e}")
 ```
 
-3. Compare linearisation vs quadratic Taylor approximation of $\cos(x)$ near $x = 0$. Plot both approximations alongside the true function and observe the range where each is accurate.
+3. 比较线性化与四相式泰勒近似$\cos(x)$相邻$x = 0$。。。在真函数相并列的相近图上标出,并观察每个相并准确的区域.
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt

@@ -13,87 +13,80 @@ status: reviewed
 
 *本篇将云计算放回 AI 工程语境，保留源文中的定义、公式、代码、图示和实践边界，便于逐项核对。*
 
-*Cloud computing provides on-demand infrastructure for ML workloads without owning hardware. This file covers service models, major cloud providers, containers and Kubernetes, storage, cloud networking, serverless computing, cost management, and infrastructure as code*
+* 云计算为ML工作量提供按需基础设施,而不拥有硬件。该文件涵盖服务模型、主要云提供商、集装箱和库伯内特、存储、云联网、无服务器计算、成本管理以及作为代码的基础设施*
 
-- Training a frontier model requires thousands of GPUs for months. No startup owns that hardware. Cloud computing lets you rent it by the hour, scale up for training, scale down for inference, and pay only for what you use. Understanding cloud infrastructure is essential for anyone building ML systems beyond a laptop.
+- 培训前沿模式需要数以千计的GPU数月。没有启动拥有硬件。云计算让您按小时租取,扩大训练规模,降低推论,只支付您使用的费用. 了解云基础设施对任何人建造计算机以外的多功能控制系统都至关重要。
 
 ## 云服务模型
 
-> **中文导读**：本节围绕“云服务模型”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
 ![图示](../images/cloud_service_layers.svg)
 
-- Cloud services are layered by how much the provider manages:
+- 云服务由提供方管理多少来分层:
 
-| Model | You Manage | Provider Manages | Example |
+|Model|You Manage|Provider Manages|Example|
 |-------|-----------|-----------------|---------|
-| **IaaS** (Infrastructure) | OS, runtime, app | Hardware, virtualisation, networking | AWS EC2, GCP Compute Engine |
-| **PaaS** (Platform) | App, data | OS, runtime, scaling, patching | AWS SageMaker, GCP Vertex AI |
-| **SaaS** (Software) | Nothing (just use it) | Everything | OpenAI API, Weights & Biases |
-| **FaaS** (Function) | Individual functions | Everything else | AWS Lambda, GCP Cloud Functions |
+|**IaaS** (Infrastructure)|OS, runtime, app|Hardware, virtualisation, networking|AWS EC2, GCP Compute Engine|
+|**PaaS** (Platform)|App, data|OS, runtime, scaling, patching|AWS SageMaker, GCP Vertex AI|
+|**SaaS** (Software)|Nothing (just use it)|Everything|OpenAI API, Weights & Biases|
+|**FaaS** (Function)|Individual functions|Everything else|AWS Lambda, GCP Cloud Functions|
 
-- **For ML**: most teams use a mix. IaaS for custom training (full control over GPU instances), PaaS for managed training and serving (SageMaker, Vertex AI handle the orchestration), and SaaS for tools (W&B for experiment tracking, OpenAI API for baseline comparisons).
+- ** 对于ML**:大多数球队使用混合. IaaS用于自定义培训(全面控制GPU实例),PaaS用于管理下培训和服务(SageMaker,Vertex AI处理管弦),SaaS用于工具(W&B用于实验跟踪,OpenAI API用于基线比较).
 
 ## 主要云厂商
 
-> **中文导读**：本节围绕“主要云厂商”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-### AWS（Amazon Web Services）
+### AWS(Amazon 网络服务)
 
-> **中文导读**：本节围绕“AWS（Amazon Web Services）”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- The largest cloud provider (~32% market share). Key ML services:
-    - **EC2**: virtual machines. GPU instances: p4d (A100), p5 (H100), g5 (A10G for inference).
-    - **S3**: object storage. The standard for storing datasets and model weights. Virtually unlimited capacity, ~$0.023/GB/month.
-    - **SageMaker**: managed ML platform. Handles training, hyperparameter tuning, deployment, and monitoring.
-    - **EKS**: managed Kubernetes.
-    - **Lambda**: serverless functions. Not suitable for GPU workloads but useful for preprocessing and orchestration.
+- 最大的云提供商(~32%的市场份额). 关键ML服务:
+    - **EC2**:虚拟机。GPU例:p4d(A100),p5(H100),g5(A10G为推论).
+    - ** S3**:物体存储。数据集和模型权重的存储标准. 几乎无限容量,~0.023美元/GB/月.
+    - ** SageMaker**:管理下的ML平台。处理训练、超参数调整、部署和监测。
+    - ** EKS**:管理型Kubernetes。
+    - ** Lambda**:无服务器功能。不适合GPU工作量,而可用于预处理和管弦.
 
-### GCP（Google Cloud Platform）
+### GCP(谷歌云平台)
 
-> **中文导读**：本节围绕“GCP（Google Cloud Platform）”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- Google's cloud (~11% market share). Key ML services:
-    - **Compute Engine**: VMs. GPU instances with A100, H100. **TPU VMs** for TPU access.
-    - **GCS**: object storage (like S3).
-    - **Vertex AI**: managed ML platform. Native JAX/TPU support.
-    - **GKE**: managed Kubernetes (the most mature K8s offering, since Google created Kubernetes).
-    - **Cloud TPUs**: exclusive to GCP. v5e and v5p for large-scale training.
+- 谷歌云(~11%市场份额). 关键ML服务:
+    - ** 计算引擎**:VM. 带有A100,H100的GPU实例. ** TPU VMs**用于TPU访问.
+    - **GCS**:对象存储(同S3一样).
+    - ** Vertex AI**:管理ML平台。原生JAX/TPU支持.
+    - **GKE**:管理库伯内特(自谷歌创建库伯内特后最成熟的K8s提供).
+    - ** Cloud TPU**:专供GCP使用. v5e和v5p进行大规模训练.
 
-### Azure（Microsoft）
+### Azure(微软)
 
-> **中文导读**：本节围绕“Azure（Microsoft）”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- Microsoft's cloud (~23% market share). Key ML services:
-    - **Azure VMs**: GPU instances with A100, H100.
-    - **Azure Blob Storage**: object storage.
-    - **Azure ML**: managed ML platform.
-    - **AKS**: managed Kubernetes.
-    - **OpenAI Service**: exclusive access to OpenAI models via Azure API.
+- 微软云(~23%市场份额). 关键ML服务:
+    - ** Azure VMS**:带有A100、H100的GPU实例。
+    - ** Azure 斑点 存储**:物体存储。
+    - ** Azure ML**:管理下的ML平台。
+    - ** AKS**:管理型Kubernetes。
+    - ** OpenAI Service**:通过Azure API独家访问OpenAI模型.
 
 ## 容器与 Kubernetes
 
-> **中文导读**：本节围绕“容器与 Kubernetes”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- We covered containers (Docker) and Kubernetes conceptually in chapter 13 (OS) and practically in chapter 15 (deployment). Here we focus on the **cloud-specific** patterns:
+- 我们从概念上在第13章(OS)和实际上在第15章(部署)中涵盖了集装箱(Docker)和Kubernetes。在这里,我们着重讨论** 云的具体** 模式:
 
 ### 用于 ML 的 Kubernetes
 
-> **中文导读**：本节围绕“用于 ML 的 Kubernetes”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- **Kubernetes (K8s)** orchestrates containers at scale. Key concepts:
+- ** Kubernetes (K8s)** 大型管弦乐容器。关键概念:
 
-    - **Pod**: the smallest deployable unit. Contains one or more containers sharing networking and storage. A model serving pod might contain: the model server container + a sidecar container for metrics collection.
+    - ** Pod**:最小的可部署部队。包含一个或多个容器,共享联网和存储. 一个模型服务舱可能包含:模型服务器容器+一个用于收集度量衡的侧车容器.
 
-    - **Deployment**: manages a set of identical pods. Specifies the desired number of replicas. If a pod crashes, K8s automatically creates a replacement.
+    - ** 调动**:管理一套相同的舱位。指定想要的复制件数量。如果一个吊舱出事,K8s会自动生成替换.
 
-    - **Service**: a stable network endpoint for a set of pods. Clients connect to the service; K8s routes to a healthy pod. Types: ClusterIP (internal), NodePort (external via node port), LoadBalancer (external via cloud LB).
+    - **Service**:一组吊舱的稳定网络端点. 客户端连接到服务;K8的线路连接到健康舱. 类型: ClusterIP(内部),NodePort(外部通过节点端口),LoadBalancer(外部通过云LB).
 
-    - **StatefulSet**: like a Deployment but for stateful workloads. Each pod gets a persistent identity and stable storage. Used for databases and distributed training (each worker needs a stable identity for communication).
+    - ** 说明**:如部署,但因工作繁重。每个舱都有一个持续的身份 和稳定的存储。用于数据库和分布式培训(每个工人都需要稳定的通信身份).
 
-    - **DaemonSet**: runs one pod on every node. Used for: monitoring agents (Prometheus node exporter), log collectors (Fluentd), GPU device plugins (NVIDIA device plugin).
+    - ** DaemonSet**:运行每个节点上的一个吊舱. 用于:监测代理(Prometheus node export),日志采集器(Fluentd),GPU设备插件(NVIDIA设备插件).
 
-- **GPU scheduling in K8s**: the NVIDIA device plugin exposes GPUs as a K8s resource. Pods request GPUs:
+- **K8s中的GPU调度**:NVIDIA设备插件将GPU曝光为K8s资源. Pods 请求 GPU :
 
 ```yaml
 resources:
@@ -101,108 +94,101 @@ resources:
     nvidia.com/gpu: 2  # this pod needs 2 GPUs
 ```
 
-- K8s schedules the pod onto a node with 2 available GPUs. This is how cloud ML platforms allocate GPUs for training and inference.
+- K8s 将吊舱排入带有 2个可用的 GPU 的节点。这就是云ML平台如何分配GPU用于培训和推论.
 
 ### 自动扩缩容
 
-> **中文导读**：本节围绕“自动扩缩容”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- **Horizontal Pod Autoscaler (HPA)**: scales the number of pods based on metrics (CPU usage, request rate, custom metrics like GPU utilisation or queue depth).
+- ** Horizontal Pod Autoscaler(HPA)**:根据度量衡(CPU的使用,请求率,GPU使用或队列深度等自定义度量衡)来标定输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出输出
 
-- **Cluster Autoscaler**: scales the number of nodes. If pods cannot be scheduled because there are not enough nodes, the cluster autoscaler provisions new VMs from the cloud provider. When nodes are underutilised, it drains and terminates them.
+- ** Cluster 自动缩放器**:缩放节点数. 如果由于节点不够而不能安排出吊舱,则集群自动缩放器从云提供方提供新的VM. 当节点被利用不足时会排出并终止.
 
-- **KEDA** (Kubernetes Event-Driven Autoscaling): scales based on external event sources (Kafka queue depth, HTTP request rate). Perfect for inference: scale up model servers when the request queue grows, scale down when it is empty.
+- **KEDA**(Kubernetes Event-Driven Autoscaleing):基于外部事件源的尺度(Kafka队列深度,HTTP请求率). 适合推论:当请求队列增大时放大模型服务器,当是空的时放大.
 
 ## 存储
 
-> **中文导读**：本节围绕“存储”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-| Type | Characteristics | Use Case | Example |
+|Type|Characteristics|Use Case|Example|
 |------|----------------|----------|---------|
-| **Block** | Low-latency, attached to one VM | OS disks, databases | AWS EBS, GCP Persistent Disk |
-| **Object** | Unlimited capacity, HTTP access | Datasets, model weights, logs | AWS S3, GCS, Azure Blob |
-| **File** | Shared across VMs, POSIX | Shared training data | AWS EFS, GCP Filestore, NFS |
-| **Data lake** | Schema-on-read, raw data | Analytics, feature engineering | Delta Lake, Iceberg, Hudi |
+|**Block**|Low-延迟, attached to one VM|OS disks, databases|AWS EBS, GCP Persistent Disk|
+|**Object**|Unlimited capacity, HTTP access|Datasets, model weights, logs|AWS S3, GCS, Azure 斑点|
+|**File**|Shared across VMs, POSIX|Shared training data|AWS EFS, GCP Filestore, NFS|
+|**Data lake**|Schema-on-read, raw data|Analytics, feature engineering|Delta Lake, Iceberg, Hudi|
 
-- **For ML training**: datasets are stored in object storage (S3/GCS). Training scripts read data from object storage into RAM. For fast random access (shuffled data loading), either: (1) download the dataset to local SSD before training, (2) use a high-throughput file system (Lustre, FSx), or (3) use a data loading library that streams and caches efficiently (WebDataset, FFCV).
+- ** 用于ML培训**:数据集被存储在对象存储中(S3/GCS). 训练脚本从对象存储读取数据到RAM. 对于快速随机访问(shuffled data load),要么:(1)在培训前将数据集下载到本地SSD,(2)使用高通量文件系统(Lustre,FSx),或(3)使用能高效地流出和缓存的数据加载库(WebDataset,FFCV).
 
-- **Model weights**: stored in object storage with versioning. A 70B model in FP16 is ~140 GB. Loading from S3 at 1 GB/s takes ~2.5 minutes. Caching on local SSD reduces cold start time for inference.
+- **模型重量**:以版本存储在物体存储中。FP16中的70B型号为~140 GB. 从S3以1GB/s的速度装入需要~2.5分. 在本地 SSD 上缓存会减少冷起算时间。
 
 ## 云网络
 
-> **中文导读**：本节围绕“云网络”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- **VPC** (Virtual Private Cloud): an isolated network within the cloud. Your VMs, databases, and services communicate within the VPC. External traffic enters through load balancers or gateways.
+- **VPC** (虚拟的私人云:云中一个孤立的网络. 您的VMS,数据库,服务 在VPC内部通信。对外交通通过负载平衡器或网关进入.
 
-- **Subnets**: divide the VPC into segments. Public subnets have internet access (for API servers). Private subnets do not (for databases, GPU workers). This is the network equivalent of the security principle of least privilege.
+- ** 子网**:将VPC分成几个部分。公共子网有互联网接入(用于API服务器). 私人子网不(对于数据库,GPU工人). 这是相当于最低特权安全原则的网络。
 
-- **Security groups** (AWS) / **Firewall rules** (GCP): control which traffic is allowed. "Allow inbound HTTP on port 80 from anywhere. Allow inbound SSH on port 22 from my IP only. Block everything else." Misconfigured security groups are the number one cause of cloud security incidents.
+- ** 安全小组**(AWS)/**防火墙规则**(GCP):允许何种交通的控制。"从任何地方进入80号港口的HTTP。仅允许从我的IP进入端口的SSH. 封锁其他一切". 配置不整的保安集团是云安全事件的首要原因.
 
-- **Service mesh** (Istio, Envoy): manages service-to-service communication within K8s. Provides: mTLS encryption (every service-to-service call is encrypted), traffic routing (A/B testing: route 10% of traffic to the new model), retries, timeouts, circuit breaking, and observability (which service called which, how long did it take).
+- ** 服务网**(伊斯蒂奥,特使):管理K8s内部的服务间通信。提供:mTLS加密(每一次服务到服务呼叫都是加密的),交通通路(A/B测试:向新模式的流量的10%),回路,超时,断电,可观察性(服务称哪个,需要多长时间).
 
 ## 无服务器
 
-> **中文导读**：本节围绕“无服务器”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- **Serverless** (AWS Lambda, GCP Cloud Functions): you upload a function, and the cloud provider runs it when triggered. No servers to manage, no scaling to configure. You pay per invocation (typically $0.20 per 1M invocations + compute time).
+- **Serverless** (AWS Lambda, GCP Cloud 函数):您上传一个函数,而云提供者在被触发时运行. 没有服务器可以管理, 没有缩放配置。每一次引用费用(通常为每1M引用0.20美元+计算时间).
 
-- **Cold starts**: the first invocation after a period of inactivity takes longer (the provider must allocate a container and load your code). Cold starts are 0.5-5 seconds, making serverless unsuitable for latency-sensitive ML inference.
+- ** Cold 开始**:在一段时间后第一次援引需要更长的时间(提供者必须分配一个容器并加载您的代码)。冷起子为0.5-5秒,使无服务器不适合耐久敏感ML推论.
 
-- **For ML**: serverless is useful for: preprocessing (resize images before sending to the model), postprocessing (format model output, send notifications), orchestration (trigger a training pipeline when new data arrives), and lightweight inference (small models with tolerance for cold starts).
+- ** 对于ML**:无服务器对于:预处理(在发送到模型之前修改图像大小),后处理(格式模型输出,发送通知),管弦(在新数据到达时触发培训管道)和轻量级推论(能容忍冷起动的小模型)都是有用的.
 
-- Serverless is **not** suitable for: GPU inference (no GPU support in most serverless platforms), long-running training jobs (15-minute timeout in Lambda), or stateful services (no persistent state between invocations).
+- 无服务器是 ** 不** 适合: GPU 推论(大多数无服务器平台中没有GPU支持),长期训练工作(Lambda的15分钟超时),或状态服务(引用之间没有持续状态).
 
 ## 成本管理
 
-> **中文导读**：本节围绕“成本管理”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- Cloud costs are the number one operational concern for ML teams. A single H100 instance costs ~$8/hour. A 64-GPU training run costs ~$500/hour. A month-long training run costs ~$360,000. Cost optimisation is engineering, not accounting.
+- 云成本是ML团队的首要业务考虑. 一个H100实例成本~$8/hour. A 64-GPU training run costs ~$500分/小时. 为期一个月的培训费用为36万美元。成本优化是工程学,而不是会计学.
 
-- **Spot/preemptible instances**: unused cloud capacity sold at 60-90% discount. The provider can reclaim them with 30-second to 2-minute notice. Use for: fault-tolerant training (checkpoint frequently, resume on new instances), batch inference, data preprocessing. Not for: latency-sensitive serving (interruption = downtime).
+- ** 现货/可控情况**:未使用的云容量以60-90%的折扣出售。供应商可以提前30秒至2分钟收回。用于:容错培训(经常检查点、恢复新情况)、批量推断、数据处理。不用于:对耐久性敏感的服务(中断=停机时间).
 
-- **Reserved instances**: commit to 1-3 years of usage for 30-60% discount. Use for: steady-state inference serving where you know the baseline load.
+- ** 保留情况**:承诺使用1-3年,折扣30-60%。用于:稳定状态推论服务于您知道基线负载的地方.
 
-- **Autoscaling**: scale up during peak hours, scale down at night/weekends. A model server that needs 10 GPUs at peak and 2 at night saves ~60% by autoscaling vs running 10 GPUs 24/7.
+- ** 自动升级**:在高峰时段扩大,在夜间/周末缩小。一个在高峰需要10个GPU,夜间需要2个的模型服务器通过自动缩放对运行10个GPU24/7来节省~60%.
 
-- **Right-sizing**: do not use an H100 for a 7B model that runs fine on an A10G. Match the GPU to the workload. Use profiling (chapter 16) to determine which GPU is the best fit.
+- ** 正确尺寸**:不使用H100来做对A10G进行精细操作的7B型号。将GPU与工作量匹配. 使用剖面分析(第16章)来确定哪个GPU最适合.
 
-- **Storage costs**: object storage is cheap ($0.023/GB/month for S3 Standard), but accumulates. A team storing every training checkpoint (10 GB each, 100 per experiment, 50 experiments) accumulates 50 TB = $1,150/month. Set lifecycle policies to delete old checkpoints automatically.
+- ** 套装成本**:物品存储费用低廉($0.023/GB/month for S3 Standard), but accumulates. A team storing every training checkpoint (10 GB each, 100 per experiment, 50 experiments) accumulates 50 TB = $1,150个月。设定生命周期政策,以自动删除旧的检查站。
 
 ## 多区域部署
 
-> **中文导读**：本节围绕“多区域部署”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- For global ML systems (serving users worldwide), deploying in a single region means high latency for distant users (a user in Tokyo hitting a US server adds ~150ms network round trip) and a single point of failure (if the region goes down, the entire service is offline).
+- 对于全球ML系统(服务于全球用户),部署在一个单一区域意味着远方用户的高度耐用性(在东京打入一个美国服务器的用户会增加~150ms网络往返)和单一故障点(如果该区域下线,则整个服务已下线).
 
-- **Multi-region patterns**:
+- ** 多边区域模式**:
 
-    - **Active-passive**: one primary region handles all traffic. A secondary region has a warm standby (replicated data, ready to receive traffic). On primary failure, DNS switches to the secondary. Downtime during failover: 30 seconds to several minutes.
+    - ** 主动被动**:一个主要区域处理所有交通。二级区域有暖能备用(复制数据,随时可接收流量). 在初级故障时,DNS切换到二级. 故障期间的停工时间:30秒至几分钟.
 
-    - **Active-active**: both regions handle traffic simultaneously. Users are routed to the nearest region. Both regions have up-to-date data (replicated asynchronously or synchronously). No downtime during a single-region failure — traffic is rerouted automatically.
+    - ** 主动活动**:两个区域同时处理交通问题。用户被路由到最近的区域. 这两个区域都有最新数据(同步或同步复制)。单地故障期间无停站时间，，交通自动改道.
 
-- **Data replication**: the hard part. Model weights can be replicated easily (copy to S3 in each region). Feature store data must be replicated with acceptable staleness. User data may have **data residency requirements** (GDPR: European user data must stay in Europe).
+- ** 数据复制**:困难部分。模型权重可以轻易地复制(每个区域复制到S3). 地物储存数据必须以可接受的陈旧方式复制。用户数据可能具有**数据居住要求**(GDPR:欧洲用户数据必须留在欧洲).
 
-- **GPU cloud pricing comparison** (approximate, 2026):
+- **GPU云定价比较**(近似,2026年):
 
-| GPU | AWS | GCP | Azure | Typical Use |
+|GPU|AWS|GCP|Azure|Typical Use|
 |-----|-----|-----|-------|-------------|
-| A10G (24 GB) | $1.00/hr (g5) | $0.90/hr | $0.90/hr | Small model inference |
-| A100 (80 GB) | $4.10/hr (p4d) | $3.70/hr | $3.40/hr | Training, large inference |
-| H100 (80 GB) | $8.00/hr (p5) | $7.50/hr | $7.00/hr | Frontier training |
-| TPU v5e | n/a | $1.20/hr | n/a | JAX training at scale |
+|A10G (24 GB)|$1.00/hr (g5)|$0.90/hr|$0.90/hr|Small model inference|
+|A100 (80 GB)|$4.10/hr (p4d)|$3.70/hr|$3.40/hr|Training, large inference|
+|H100 (80 GB)|$8.00/hr (p5)|$7.50/hr|$7.00/hr|Frontier training|
+|TPU v5e|n/a|$1.20/hr|n/a|JAX training at scale|
 
-- Spot/preemptible pricing is typically 60-70% off these rates. Prices vary by region and availability.
+- 定点/预价通常比这些费率低60%-70%。价格因区域和可用性而异。
 
 ## 基础设施即代码
 
-> **中文导读**：本节围绕“基础设施即代码”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- **IaC** defines infrastructure (VMs, networks, databases, K8s clusters) in version-controlled configuration files. Instead of clicking buttons in the AWS console, you write code that describes what you want, and a tool creates it.
+- **IaC**在版本控制的配置文件中定义了基础设施(VM,网络,数据库,K8s集群). 与其在AWS控制台上点击按钮,不如写出描述自己想要的代码,一个工具创建它.
 
-- **Terraform** (HashiCorp): the standard IaC tool. Works with all major cloud providers. Declarative: you describe the desired state, Terraform figures out what to create/modify/delete to reach it.
+- **Terraform** (HashiCorp):标准IaC工具. 与所有主要云提供商合作. 声明:您描述所期望的状态,Terraform会找出创建/修改/删除以达到它的方法.
 
 ```hcl
-# main.tf — create a GPU VM for inference
+# main.tf ， create a GPU VM for inference
 resource "aws_instance" "model_server" {
   ami           = "ami-0abcdef1234567890"  # Deep Learning AMI
   instance_type = "g5.xlarge"               # A10G GPU
@@ -228,6 +214,6 @@ terraform apply     # create the infrastructure
 terraform destroy   # tear it all down
 ```
 
-- **Why IaC matters**: reproducibility (recreate the entire infrastructure from code), auditing (git history shows who changed what), disaster recovery (rebuild in a different region from the same config), and environment parity (dev, staging, and prod use the same templates with different parameters).
+- ** IaC为何重要**:可复制性(从代码中重建整个基础设施)、审计(历史显示谁改变了什么)、灾后恢复(在同一个配置不同的区域重建)和环境等同(dev、cluding和prod使用具有不同参数的同一种模板)。
 
-- **Pulumi**: like Terraform but uses real programming languages (Python, TypeScript, Go) instead of HCL. Useful when your infrastructure logic is complex (conditionals, loops, dynamic configuration).
+- ** Pulumi**:类似Terraform但使用真实的编程语言(Python, TypeScript, Go)来代替HCL. 当您的基础设施逻辑复杂时(条件性,循环性,动态配置)是有用的.

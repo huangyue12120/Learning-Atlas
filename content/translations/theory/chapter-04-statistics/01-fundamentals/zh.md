@@ -13,129 +13,128 @@ status: reviewed
 *统计学基础帮助我们从数据描述分布、估计不确定性并理解随机性。本篇介绍总体与样本、描述统计、概率模型、期望、方差和常见抽样直觉。*
 
 
-*Statistics provides the language for describing data and quantifying uncertainty. This file covers distributions, random variables, PMFs, PDFs, CDFs, expectation, variance, moments, and the central limit theorem, the concepts that underpin every ML evaluation metric and loss function.*
+* 统计为描述数据和量化不确定性提供了语言。此文件涵盖了分布,随机变量,PMF,PDF,CDF,期望,差异,瞬间,以及中央限制定理,支撑每个ML评价度量和损失函数的概念. *
 
-- Statistics is the science of learning from data. You collect observations, summarise them, and draw conclusions, often about things you cannot measure directly.
+- 统计学是从数据中学习的科学. 你收集观察,总结, 并得出结论, 经常关于一些你无法直接测量的东西。
 
-- Imagine you want to know the average height of every adult in a country. You cannot measure everyone, so you measure a sample and use statistics to make an informed guess about the whole population.
+- 想象一下你想知道一个国家每个成年人的平均身高. 你无法衡量每个人,所以你测量一个样本,并用统计来对全体人口作出知情的猜测.
 
-- There are two main branches:
-    - **Descriptive statistics**: summarising data you already have (averages, charts, tables)
-    - **Inferential statistics**: using a sample to make claims about a larger group
+- 主要有两大分支:
+    - ** 描述性统计**:你已有的汇总数据(平均数、图表)
+    - ** 参考统计**:使用样本对较大群体提出索赔
 
-- The building block of statistics is the **distribution**, a description of how values are spread out. Everything else, averages, tests, predictions, flows from understanding distributions.
+- 统计数据的构成部分是**分配**,这是对数值如何分布的说明。其他一切,均分,测试,预测,从理解分布流出.
 
-- A **frequency distribution** counts how often each value (or range of values) appears in your data. Think of sorting exam scores into bins and counting how many students fall in each bin. The result is a histogram.
+- ** 频率分布** 计算您数据中每个值(或数值范围)的频率。想想把考试分数分数分到垃圾桶中,并计算每个垃圾桶里有多少学生倒下. 结果是直方图.
 
-- A **probability distribution** replaces raw counts with probabilities. Instead of "12 students scored between 70 and 80," it says "there is a 0.24 probability of scoring between 70 and 80." The histogram bars become a smooth curve when the data is continuous.
+- ** 概率分配** 以概率取代生数。与其"12名学生得分在70到80分之间",它表示"有0.24的概率在70到80分之间". 直方图条在数据连续时成为平滑曲线.
 
-![Frequency distribution as a histogram vs probability distribution as a smooth curve](../images/distribution_types.svg)
+![作为直方图的频率分布与作为平滑曲线的概率分布](../images/distribution_types.svg)
 
-- The histogram on the left is built from actual data you collected. The smooth curve on the right is a mathematical model that describes the pattern behind the data. One is empirical, the other is theoretical.
+- 左侧的直方图是根据你收集的实际数据构建的. 右侧的平滑曲线是一个数学模型来描述数据背后的规律. 一个是经验论,另一个是理论论.
 
-- To work with distributions mathematically, we need a way to assign numbers to outcomes. That is exactly what a **random variable** does.
+- 为了在数学上处理分布问题,我们需要一种方法来分配结果的数字。这正是一个随机变量所做的。
 
-- A random variable is a function that maps each outcome of an experiment to a real number. Flip a coin: the outcome is "heads" or "tails," but a random variable $X$ converts this to $X(\text{heads}) = 1$ and $X(\text{tails}) = 0$. Now we can do arithmetic.
+- 一个随机变量是一个函数,它将实验的每个结果映射到一个真实的数字. 翻转一分硬币:结果为"头"或"尾",但随机可变$X$转换为$X(\text{heads}) = 1$财务报告和已审计财务报表$X(\text{tails}) = 0$。。。现在可以算算了
 
-![Random variable mapping outcomes (coin, die) to a number line](../images/random_variable.svg)
+![随机可变映射结果(coin, die) 到数字行](../images/random_variable.svg)
 
-- A **discrete** random variable takes on a countable set of values: the number of heads in 10 flips, the roll of a die, the number of emails you receive in an hour.
+- 一个**discrete ** 随机可变的值会取出一组可计数的值:10个翻转中头数,一死一活卷,一个小时后收到的电子邮件数.
 
-- A **continuous** random variable can take any value in an interval: your exact height, the time until the next bus arrives, the temperature at noon.
+- 一个**连续**随机变量可以在一个间隔中取出任何值:你准确的高度,直到下一班车到达的时间,中午的温度.
 
-- The distinction matters because it changes how we compute probabilities. For discrete variables, we sum. For continuous variables, we integrate (recall integrals from Chapter 3).
+- 区别很重要,因为它改变了我们计算概率的方式。对于离散变量,我们进行汇总。对于连续变量,我们加以整合(回顾第3章的组成部分)。
 
-- For a discrete random variable, the **probability mass function (PMF)** gives the probability of each specific value:
+- 对于一个离散的随机变量,**概率质量函数(PMF)**给出了每个具体值的概率:
 
 $$P(X = x) = p(x), \quad \text{where } \sum_{x} p(x) = 1$$
 
-- For a continuous random variable, the **probability density function (PDF)** gives the probability of falling within a range. The probability of any single exact value is zero; only intervals have positive probability:
+- 对于一个连续的随机变量,**概率密度函数 (PDF) ** 给出了在一个范围内坠入的概率. 任何单一精确值的概率为零;只有间隔有正概率:
 
 $$P(a \le X \le b) = \int_a^b f(x)\, dx, \quad \text{where } \int_{-\infty}^{\infty} f(x)\, dx = 1$$
 
-- Now that we can assign numbers to outcomes, the most natural question is: what value do we expect on average?
+- 既然我们可以为结果分配数字,最自然的问题是:我们平均期望什么价值?
 
-- **Expectation** (or expected value) is the weighted average of all possible values, where the weights are the probabilities. Think of it as the "centre of gravity" of the distribution.
+- ** 估计**(或预期值)是所有可能数值的加权平均值,其中加权为概率。把它想成分布的"重心".
 
-- If you roll a fair die many times, your average roll converges to 3.5. That is the expected value, even though you can never actually roll a 3.5.
+- 如果你翻出一个集市死了很多次, 你的平均卷会合到3.5。这是预期值,尽管你永远不能实际卷出3.5。
 
-- For a discrete random variable:
+- 对于离散随机变量:
 
 $$E[X] = \sum_{x} x \cdot p(x)$$
 
-- For a continuous random variable (using the integral from Chapter 3):
+- 对于一个连续随机变量(使用第3章的组成部分):
 
 $$E[X] = \int_{-\infty}^{\infty} x \cdot f(x)\, dx$$
 
-- Example: a fair six-sided die has $p(x) = 1/6$ for $x = 1, 2, 3, 4, 5, 6$.
+- 举例来说,一个六面体的死亡$p(x) = 1/6$(单位:千美元)$x = 1, 2, 3, 4, 5, 6$.
 
 $$E[X] = 1 \cdot \tfrac{1}{6} + 2 \cdot \tfrac{1}{6} + 3 \cdot \tfrac{1}{6} + 4 \cdot \tfrac{1}{6} + 5 \cdot \tfrac{1}{6} + 6 \cdot \tfrac{1}{6} = \frac{21}{6} = 3.5$$
 
-- Expectation is linear, meaning $E[aX + b] = aE[X] + b$. This property is extremely useful and shows up constantly in ML loss functions.
+- 期望是线性的,意思$E[aX + b] = aE[X] + b$。。。这种财产极为有用,经常出现在ML损失功能中.
 
-- Expectation tells us the centre, but it says nothing about how spread out the values are. To describe the full shape of a distribution, we need **moments**.
+- 期望告诉我们中心,但它没有说价值的分布。为了描述一个分布的全貌,我们需要**分秒**.
 
-- A moment is an expectation of a power of $X$. The $k$-th **raw moment** is:
+- 片刻就是对$X$。。。该$k$- 时间是:
 
 $$\mu_k' = E[X^k]$$
 
-- The first raw moment ($k = 1$) is just the mean: $\mu_1' = E[X] = \mu$.
+- 初生时分($k = 1$) 仅是恶道:$\mu_1' = E[X] = \mu$.
 
-- Raw moments are measured from zero. Often we care about deviation from the mean instead. The $k$-th **central moment** centres the measurement:
+- 原始瞬间从零度度量. 我们往往关心偏离恶行。该$k$- 第1项** 中点**
 
 $$\mu_k = E[(X - \mu)^k]$$
 
-- The first central moment is always zero (deviations above and below the mean cancel). The second central moment is the **variance**.
+- 第一个中心时刻总是零(在平均取消额上下显示). 第二个中心时刻是**变相**.
 
-- To compare distributions on different scales, we **standardise** by dividing by the appropriate power of the standard deviation $\sigma$:
+- 为了比较不同尺度的分布,我们通过除去标准偏差的适当功率,** 实现标准化**$\sigma$:
 
 $$\tilde{\mu}_k = \frac{\mu_k}{\sigma^k}$$
 
-- Each moment captures a different aspect of the distribution's shape:
+- 每分秒都捕捉到分布形状的不同方面:
 
-![Bell curve annotated with what each moment captures: mean (centre), variance (spread), skewness (asymmetry), kurtosis (tail weight)](../images/moments_shape.svg)
+![铃声曲线附加了每分秒所捕获的:正(中心),差分(扩展),相克(不对称),克托斯(尾重)](../images/moments_shape.svg)
 
-- **1st moment (Mean)**: Where the distribution is centred. The balance point.
-- **2nd moment (Variance)**: How spread out values are around the mean. Higher variance means wider.
-- **3rd moment (Skewness)**: Whether the distribution leans left or right. Zero skewness means symmetric.
-- **4th moment (Kurtosis)**: How heavy the tails are. Higher kurtosis means more extreme outliers.
+- ** 第1分(Mean)**:分布中心所在. 平衡点。
+- ** 第2分(变化)**:平均值的分布如何。较大差异意味着更大的差异。
+- ** 第3分(Skewness)**:分布是向左还是向右倾. 零相克指对称.
+- ** 第4分 (Kurtosis)**:尾巴多重. 高克多斯症意味着更极端的外出者.
 
-- Let us work through all four moments for a concrete dataset: $X = \{2, 4, 4, 4, 5, 5, 7, 9\}$.
+- 让我们在四个时刻努力建立具体的数据集:$X = \{2, 4, 4, 4, 5, 5, 7, 9\}$.
 
-- **Step 1: Mean** (1st raw moment)
+- ** 第1步:平均值**(第1起生地)
 
 $$\mu = \frac{2 + 4 + 4 + 4 + 5 + 5 + 7 + 9}{8} = \frac{40}{8} = 5$$
 
-- **Step 2: Variance** (2nd central moment). Subtract the mean from each value, square, then average:
+- ** 第2步:差异**(第2个中心时刻)。将平均值从每个值平方减去:
 
 $$\sigma^2 = \frac{(2{-}5)^2 + (4{-}5)^2 + (4{-}5)^2 + (4{-}5)^2 + (5{-}5)^2 + (5{-}5)^2 + (7{-}5)^2 + (9{-}5)^2}{8}$$
 
 $$= \frac{9 + 1 + 1 + 1 + 0 + 0 + 4 + 16}{8} = \frac{32}{8} = 4$$
 
-- The **standard deviation** is $\sigma = \sqrt{4} = 2$.
+- 标准偏差**是$\sigma = \sqrt{4} = 2$.
 
-- **Step 3: Skewness** (standardised 3rd central moment). Cube the deviations, average, divide by $\sigma^3$:
+- ** 第3步:滑动**(标准化的第3个中心时刻)。立方体偏移,平均,除以$\sigma^3$:
 
 $$\tilde{\mu}_3 = \frac{1}{8} \cdot \frac{(-3)^3 + (-1)^3 + (-1)^3 + (-1)^3 + 0^3 + 0^3 + 2^3 + 4^3}{2^3}$$
 
 $$= \frac{1}{8} \cdot \frac{-27 -1 -1 -1 + 0 + 0 + 8 + 64}{8} = \frac{42}{64} = 0.656$$
 
-- Positive skewness means the right tail is longer, which makes sense since 9 is far above the mean.
+- 正滑指右尾更长,这有道理,因为9远高于正差.
 
-- **Step 4: Kurtosis** (standardised 4th central moment). Raise deviations to the 4th power:
+- ** 第4步:库尔托西斯**(标准的第4个中心时刻)。将偏差提升到第四电源:
 
 $$\tilde{\mu}_4 = \frac{1}{8} \cdot \frac{(-3)^4 + (-1)^4 + (-1)^4 + (-1)^4 + 0^4 + 0^4 + 2^4 + 4^4}{2^4}$$
 
 $$= \frac{1}{8} \cdot \frac{81 + 1 + 1 + 1 + 0 + 0 + 16 + 256}{16} = \frac{356}{128} = 2.781$$
 
-- A normal distribution has kurtosis of 3 (called "mesokurtic"). Our value of 2.781 is close, suggesting the tails are roughly normal. Values above 3 ("leptokurtic") signal heavier tails; below 3 ("platykurtic") signal lighter tails. Some formulas report **excess kurtosis** by subtracting 3, so our excess kurtosis would be $-0.219$.
+- 正常的分布有3克特氏(被称作"mesokurtic"). 我们的2.781值接近,表明尾巴大致正常. 数值高于3 ("去皮克")信号更重的尾;低于3 ("白克")信号更轻的尾. 某些公式报告**夸克多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多斯多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多尔多$-0.219$.
 
 ## 编程任务（使用 Colab 或 notebook)
 
-> **中文导读**：本节围绕“编程任务（使用 Colab 或 notebook)”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Compute the expected value of a loaded die where face 6 has probability 0.3 and all other faces share the remaining probability equally. Verify by simulating 100,000 rolls.
+1. 在面额为6有概率0.3且所有其他面额均匀分享所余概率的情况下,计算所装载的死因的预期值. 以相模出十万卷为验.
 ```python
 import jax
 import jax.numpy as jnp
@@ -154,7 +153,7 @@ rolls = jax.random.choice(key, faces, shape=(100_000,), p=probs)
 print(f"Expected value (simulation): {rolls.mean():.4f}")
 ```
 
-2. Compute all four moments (mean, variance, skewness, kurtosis) for the dataset from the worked example, then modify the data and observe how each moment changes.
+2. 计算所有四个瞬间(平均,差分,skewness,kurtosis)从工作示例中计算数据集,然后修改数据并观察每个瞬间的变化.
 ```python
 import jax.numpy as jnp
 
@@ -174,7 +173,7 @@ print(f"Kurtosis: {kurtosis:.3f}")
 print(f"Excess K: {kurtosis - 3:.3f}")
 ```
 
-3. Visualise a PMF and CDF side by side for a fair die roll. Try changing the probabilities to see how the shapes shift.
+3. 并肩观望PMF和CDF,以获得一个公平的死亡卷. 尝试改变概率,看看形状如何变化.
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt

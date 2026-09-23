@@ -10,7 +10,7 @@ status: reviewed
 ---
 # 自动语音识别
 
-*自动语音识别（ASR）把口语音频转换为书面文字，连接人类语音与机器可读语言。本篇从经典流水线到现代神经架构，介绍 GMM-HMM、CTC 损失、RNN-Transducer、基于注意力的编码器—解码器模型（LAS）、Whisper 和端到端 ASR。*
+*自动语音识别（ASR）把口语音频转换为书面文字，连接人类语音与机器可读语言。本篇从经典流水线到现代神经架构，介绍 GMM-HMM、CTC 损失、RNN-Transducer、基于注意力的编码器，解码器模型（LAS）、Whisper 和端到端 ASR。*
 
 - **自动语音识别**（Automatic Speech Recognition，ASR）是把口语音频转换为书面文字的任务。它既是 AI 最早的问题之一（20 世纪 50 年代的系统只能识别单个数字），也是商业部署最广泛的问题之一（语音助手、转写服务、字幕）。
 
@@ -26,7 +26,7 @@ status: reviewed
 
 - 三音素的组合数量极大（40 个音素的三次方为 64,000），因此**决策树聚类**会把声学相似的三音素分组为**senone**（通常 2000–10,000 类）。每个 senone 都有自己的声学模型。这种聚类属于第 06 章介绍的决策树算法。
 
-- **GMM-HMM**（高斯混合模型—隐马尔可夫模型）从 20 世纪 80 年代到 2010 年代初一直是主流声学建模方法。HMM（见第 05 章）负责建模语音的时间结构：每个音素是一个从左到右的 HMM，含 3–5 个状态，每个状态代表音素的子片段（起始、中段、结束）；状态间转移隐式地建模持续时间。
+- **GMM-HMM**（高斯混合模型，隐马尔可夫模型）从 20 世纪 80 年代到 2010 年代初一直是主流声学建模方法。HMM（见第 05 章）负责建模语音的时间结构：每个音素是一个从左到右的 HMM，含 3–5 个状态，每个状态代表音素的子片段（起始、中段、结束）；状态间转移隐式地建模持续时间。
 
 - 在每个 HMM 状态上，发射概率（给定该状态时观测到某特征向量的可能性）由**高斯混合模型**（GMM）建模，即多个多元高斯分布的加权和（见第 05 章）：
 
@@ -58,7 +58,7 @@ $$P(\mathbf{y} | \mathbf{x}) = \sum_{\boldsymbol{\pi} \in \mathcal{B}^{-1}(\math
 
 ![CTC 对齐示意：经过 blank 和字符 token 的多条路径最终都折叠为同一输出文字](../images/ctc_alignment.svg)
 
-- 直接求和需要枚举指数级数量的对齐路径；**CTC 前向—后向算法**利用动态规划在 $O(T \cdot |\mathbf{y}|)$ 时间内高效计算，原理类似第 05 章的 HMM 前向—后向算法。
+- 直接求和需要枚举指数级数量的对齐路径；**CTC 前向，后向算法**利用动态规划在 $O(T \cdot |\mathbf{y}|)$ 时间内高效计算，原理类似第 05 章的 HMM 前向，后向算法。
 
 - CTC 做了**条件独立假设**：给定输入后，每个时间步的输出彼此独立。因此 CTC 无法建模输出之间的依赖（例如无法学到 “q” 几乎总跟着 “u”）。这类依赖必须由外部语言模型处理。
 
@@ -74,9 +74,9 @@ $$P(\mathbf{y} | \mathbf{x}) = \sum_{\boldsymbol{\pi} \in \mathcal{B}^{-1}(\math
 
 $$p(y | t, u) = \text{softmax}(W \cdot \text{tanh}(W_\text{enc} \mathbf{h}_t^\text{enc} + W_\text{pred} \mathbf{h}_u^\text{pred} + b))$$
 
-- RNN-T 在一个时间步可以发出零个或多个标签（在进入下一时间步前连续发出非 blank token，或发出 blank 而不输出便前进）。训练在二维（时间、标签）网格上使用前向—后向算法，复杂度为 $O(T \cdot U)$，其中 $U$ 是输出长度。RNN-T 天然支持流式处理，因此成为端侧流式 ASR 的主流架构（用于 Google Pixel 等手机）：编码器从左到右处理音频，预测网络增量生成输出。
+- RNN-T 在一个时间步可以发出零个或多个标签（在进入下一时间步前连续发出非 blank token，或发出 blank 而不输出便前进）。训练在二维（时间、标签）网格上使用前向，后向算法，复杂度为 $O(T \cdot U)$，其中 $U$ 是输出长度。RNN-T 天然支持流式处理，因此成为端侧流式 ASR 的主流架构（用于 Google Pixel 等手机）：编码器从左到右处理音频，预测网络增量生成输出。
 
-- **Listen, Attend and Spell**（LAS）（Chan 等，2016）是基于注意力的编码器—解码器模型（第 06 章的序列到序列架构），包含三个组件：
+- **Listen, Attend and Spell**（LAS）（Chan 等，2016）是基于注意力的编码器，解码器模型（第 06 章的序列到序列架构），包含三个组件：
     - **Listener（编码器）**：金字塔式双向 LSTM 处理完整输入序列，每层拼接相邻隐藏状态并将序列下采样 8 倍，得到更短的编码器隐藏序列。
     - **Attention**：每个解码步在全部编码器状态上计算注意力权重，形成上下文向量（与第 07 章的注意力机制相同）。
     - **Speller（解码器）**：自回归 LSTM 逐字符生成转写，条件是上下文向量与此前生成的字符。
@@ -89,11 +89,11 @@ $$p(y | t, u) = \text{softmax}(W \cdot \text{tanh}(W_\text{enc} \mathbf{h}_t^\te
     3. **卷积模块**：逐点卷积、门控线性单元（GLU）、一维深度可分离卷积、批归一化、Swish 激活和另一个逐点卷积。深度卷积捕获局部上下文，类似在特征序列上使用 n-gram。
     4. **前馈模块**（半步）：与模块 1 相同。
 
-- 输出为：$\mathbf{y} = \text{LayerNorm}(\mathbf{x} + \frac{1}{2}\text{FFN}_1 + \text{MHSA} + \text{Conv} + \frac{1}{2}\text{FFN}_2)$。经验表明，带半步残差的 Macaron 式 FFN—Attention—Conv—FFN 排列优于其他顺序。Conformer 已成为 CTC 和 RNN-T 的默认编码器，优于纯 Transformer 或纯 LSTM 编码器。
+- 输出为：$\mathbf{y} = \text{LayerNorm}(\mathbf{x} + \frac{1}{2}\text{FFN}_1 + \text{MHSA} + \text{Conv} + \frac{1}{2}\text{FFN}_2)$。经验表明，带半步残差的 Macaron 式 FFN，Attention，Conv，FFN 排列优于其他顺序。Conformer 已成为 CTC 和 RNN-T 的默认编码器，优于纯 Transformer 或纯 LSTM 编码器。
 
 ![Conformer 块示意：前馈、自注意力、卷积、前馈构成夹心结构](../images/conformer_block.svg)
 
-- **Whisper**（Radford 等，2023）是 OpenAI 的大规模注意力 ASR 模型。它采用标准编码器—解码器 Transformer，在从互联网抓取的 68 万小时弱监督数据（音频配近似转写）上训练。关键设计包括：
+- **Whisper**（Radford 等，2023）是 OpenAI 的大规模注意力 ASR 模型。它采用标准编码器，解码器 Transformer，在从互联网抓取的 68 万小时弱监督数据（音频配近似转写）上训练。关键设计包括：
     - 输入：80 通道对数梅尔频谱图（见文件 01），窗长 25 ms、帧移 10 ms，标准化为零均值和单位方差。
     - 编码器：带正弦位置嵌入和前激活层归一化的标准 Transformer 编码器。
     - 解码器：使用字节级 BPE 分词器（第 07 章）自回归生成 token 的 Transformer 解码器。
@@ -133,13 +133,13 @@ $$\mathcal{L} = -\log \frac{\exp(\text{sim}(\mathbf{c}_t, \mathbf{q}_t) / \kappa
 
 - **Massively Multilingual Speech（MMS）**（Pratap 等，2023，Meta）利用宗教录音等多语种音频，把 wav2vec 2.0 预训练扩展到 1100 多种语言。MMS 覆盖的语言远多于以往 ASR 系统，让许多资源稀缺语言首次具备语音识别能力。
 
-- 现代 ASR 正汇聚为几种主流模式：(1) 流式场景使用带 CTC 或 RNN-T 的 Conformer 编码器；(2) 离线/多任务场景使用编码器—解码器 Transformer；(3) 低资源场景使用自监督预训练；(4) 通过更多数据和更大模型提升准确率。具体选择取决于延迟预算、可用算力、语言数量，以及应用是流式还是批处理。
+- 现代 ASR 正汇聚为几种主流模式：(1) 流式场景使用带 CTC 或 RNN-T 的 Conformer 编码器；(2) 离线/多任务场景使用编码器，解码器 Transformer；(3) 低资源场景使用自监督预训练；(4) 通过更多数据和更大模型提升准确率。具体选择取决于延迟预算、可用算力、语言数量，以及应用是流式还是批处理。
 
 - **语言模型融合**利用声学模型之外的语言知识来提升 ASR。基本做法是在解码时把声学模型分数 $p(\mathbf{x} | \mathbf{y})$（音频与转写的匹配程度）和语言模型分数 $p(\mathbf{y})$（转写作为句子的可能性）结合起来。
 
 - **浅融合**在束搜索时组合这些分数：
 
-$$\hat{\mathbf{y}} = \arg\max_\mathbf{y} \left[ \log p_\text{AM}(\mathbf{y} | \mathbf{x}) + \lambda \log p_\text{LM}(\mathbf{y}) \right]$$
+$$\hat{\mathbf{y}} = \arg\max_\mathbf{y} \left[\log p_\text{AM}(\mathbf{y} | \mathbf{x}) + \lambda \log p_\text{LM}(\mathbf{y}) \right]$$
 
 - 其中 $\lambda$ 是可调权重，$p_\text{LM}$ 是外部语言模型（通常是第 07 章的 n-gram 或神经语言模型）。方法简单有效，但要求语言模型与 ASR 模型使用同一 token 词表。
 
@@ -151,7 +151,7 @@ $$\hat{\mathbf{y}} = \arg\max_\mathbf{y} \left[ \log p_\text{AM}(\mathbf{y} | \m
 
 - **内部语言模型估计**（ILME）处理一个隐蔽问题：端到端模型会从训练转写中隐式学到内部 LM，浅融合时它可能与外部 LM 冲突（相当于重复计算语言先验）。ILME 估计内部 LM，并在融合时减去其分数：
 
-$$\hat{\mathbf{y}} = \arg\max_\mathbf{y} \left[ \log p_\text{E2E}(\mathbf{y} | \mathbf{x}) - \beta \log p_\text{ILM}(\mathbf{y}) + \lambda \log p_\text{LM}(\mathbf{y}) \right]$$
+$$\hat{\mathbf{y}} = \arg\max_\mathbf{y} \left[\log p_\text{E2E}(\mathbf{y} | \mathbf{x}) - \beta \log p_\text{ILM}(\mathbf{y}) + \lambda \log p_\text{LM}(\mathbf{y}) \right]$$
 
 - **流式与离线 ASR**是一个根本架构选择。离线（批处理）ASR 先处理完整语句再输出；流式 ASR 随音频到达逐步输出，并将延迟控制在有限范围。
 
@@ -278,7 +278,7 @@ plt.colorbar(im, ax=ax, label='Normalised probability')
 plt.tight_layout(); plt.show()
 ```
 
-2. **构建基于注意力的编码器—解码器 ASR 模型（LAS 风格）。** 使用一维卷积编码器和单层解码器的点积注意力，在合成数据上运行并可视化注意力权重。
+2. **构建基于注意力的编码器，解码器 ASR 模型（LAS 风格）。** 使用一维卷积编码器和单层解码器的点积注意力，在合成数据上运行并可视化注意力权重。
 ```python
 import jax
 import jax.numpy as jnp

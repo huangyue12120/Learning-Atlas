@@ -18,6 +18,7 @@ const repositoryDirectory = resolve(applicationDirectory, "../..");
 const practiceDirectory = join(repositoryDirectory, "ai-engineering-from-scratch/phases");
 const theoryDirectory = join(repositoryDirectory, "maths-cs-ai-compendium");
 const theoryTranslationDirectory = join(repositoryDirectory, "content/translations/theory");
+const theoryTranslatedAssetDirectory = join(theoryTranslationDirectory, "assets");
 const phases = [
   { slug: "00-setup-and-tooling", title: "Phase 0 · 环境与工具" },
   { slug: "01-math-foundations", title: "Phase 1 · 数学基础" },
@@ -1322,7 +1323,9 @@ function serveTheoryAsset(pathname: string, response: ServerResponse) {
   if (![".gif", ".jpeg", ".jpg", ".png", ".svg", ".webp"].includes(extname(requestedPath).toLowerCase())) {
     return sendText(response, 403, "Forbidden");
   }
-  return serveFile(theoryDirectory, requestedPath, response);
+  const translatedAsset = resolve(theoryTranslatedAssetDirectory, requestedPath);
+  const assetRoot = existsSync(translatedAsset) ? theoryTranslatedAssetDirectory : theoryDirectory;
+  return serveFile(assetRoot, requestedPath, response);
 }
 
 export function createApp(dataDirectory = join(applicationDirectory, "data")): App {

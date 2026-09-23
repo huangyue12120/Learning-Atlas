@@ -11,7 +11,7 @@ status: reviewed
 
 # 矩阵运算
 
-*矩阵运算是深度学习的计算引擎。本篇涵盖矩阵加法、标量乘法、矩阵—向量乘法、矩阵乘法、逐元素运算、克罗内克积和广播；每一次前向传播和梯度更新都建立在这些运算之上。*
+*矩阵运算是深度学习的计算引擎。本篇涵盖矩阵加法、标量乘法、矩阵，向量乘法、矩阵乘法、逐元素运算、克罗内克积和广播；每一次前向传播和梯度更新都建立在这些运算之上。*
 
 - 矩阵可以像向量一样相加和缩放。
 
@@ -27,7 +27,7 @@ status: reviewed
 3 \times \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} = \begin{bmatrix} 3 & 6 \\ 9 & 12 \end{bmatrix}
 ```
 
-- 对矩阵最简单的操作，是把它与向量相乘。**矩阵—向量乘法** $A\mathbf{x}$ 使用 $\mathbf{x}$ 中的元素作为权重，对 $A$ 的列进行组合：
+- 对矩阵最简单的操作，是把它与向量相乘。**矩阵，向量乘法** $A\mathbf{x}$ 使用 $\mathbf{x}$ 中的元素作为权重，对 $A$ 的列进行组合：
 
 ```math
 \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} \begin{bmatrix} 5 \\ 6 \end{bmatrix} = 5 \begin{bmatrix} 1 \\ 3 \end{bmatrix} + 6 \begin{bmatrix} 2 \\ 4 \end{bmatrix} = \begin{bmatrix} 17 \\ 39 \end{bmatrix}
@@ -107,7 +107,7 @@ $$2x_1 + 1x_2 = 5 \qquad \text{(row 1)} \qquad \qquad x_1 + 3x_2 = 10 \qquad \te
 
 - 由第 1 行得 $x_2 = 5 - 2x_1$。代入第 2 行：$x_1 + 3(5 - 2x_1) = 10$，得到 $x_1 = 1$，进而 $x_2 = 3$。苹果每个 1 美元，香蕉每根 3 美元。
 
-- 验证一下——结果确实成立：
+- 验证一下，，结果确实成立：
 
 ```math
 \begin{bmatrix} 2 & 1 \\ 1 & 3 \end{bmatrix} \begin{bmatrix} 1 \\ 3 \end{bmatrix} = \begin{bmatrix} 2 + 3 \\ 1 + 9 \end{bmatrix} = \begin{bmatrix} 5 \\ 10 \end{bmatrix}

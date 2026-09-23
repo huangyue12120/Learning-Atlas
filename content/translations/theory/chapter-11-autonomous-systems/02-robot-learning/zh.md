@@ -13,222 +13,213 @@ status: reviewed
 
 *本篇将机器人学习放回 AI 工程语境，保留源文中的定义、公式、代码、图示和实践边界，便于逐项核对。*
 
-*Robot learning bridges the gap between algorithms and physical action. This file covers kinematics, dynamics, classical control, imitation learning, sim-to-real transfer, manipulation, locomotion, and safety, the techniques that give robots the ability to move, grasp, walk, and interact with the real world.*
+*Robot学习弥补了算法与物理动作之间的差距. 这个文件涵盖了动能,动力学,古典控制,模仿学习,模拟到真实的转移,操控,运动,以及安全等技术,这些技术使机器人能够移动,抓住,走,并与现实世界互动. *
 
-- In previous chapters, we studied how to perceive the world (chapter 8, chapter 11 file 1) and how to learn from data (chapter 6). But perception and learning are not enough. A robot must **act**: move its arm to grasp a cup, walk across uneven terrain, or navigate a warehouse. This is where robot learning comes in.
+- 在前几章中,我们研究了如何看待世界(第8章,第11分卷1)以及如何从数据中学习(第6分会)。但认识和学习是不够的。机器人必须**活**:将手臂移动来抓起杯子,走过不均匀的地形,或者航行到仓库. 机器人的学习就是在这里进行的。
 
-- The central challenge is that the physical world is continuous, high-dimensional, contact-rich, and unforgiving. A classification error in image recognition is an incorrect label. A control error in robotics is a broken robot or a dropped object. The stakes are different.
+- 中心挑战是,物理世界是连续的、高维的、接触丰富的和无法原谅的。图像识别中的分类错误是一个错误的标签. 机器人学中的一个控制错误是被破坏的机器人或被丢弃的物体. 利害各有不同.
 
 ## 机器人运动学
 
-> **中文导读**：本节围绕“机器人运动学”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- **Kinematics** describes the geometry of motion without considering forces. A robot arm is a chain of rigid links connected by joints. Each joint has one degree of freedom (DoF): it either rotates (revolute joint) or slides (prismatic joint).
+- ** Kinematics** 描述了运动的几何学而不考虑力. 机器人臂由关节连接而成的一串刚性链. 每个关节都有一等的自由度(DoF):它要么旋转(旋转关节),要么滑行(原始关节).
 
-- The **configuration** of a robot is the set of all joint angles (or displacements) $\mathbf{q} = [q_1, q_2, \ldots, q_n]^T$. This vector lives in **joint space** (or configuration space), an $n$-dimensional space where each axis corresponds to one joint. A 6-DoF robot arm has a 6D configuration space.
+- 机器人的**配置**是所有关节角(或相位)的集合$\mathbf{q} = [q_1, q_2, \ldots, q_n]^T$。。。此向量生活在** 联合空间** (或配置空间), a$n$-每个轴对应于一个关节的维空间。6-DoF机器人臂有6D配置空间.
 
 ![图示](../images/robot_arm_fk.svg)
 
-- **Forward kinematics (FK)** computes the position and orientation of the end-effector (the "hand") given the joint angles. This is a function $\mathbf{x} = f(\mathbf{q})$ that maps from joint space to **task space** (the 3D position and orientation of the end-effector, also called Cartesian space).
+- **前向动能(FK)**计算出关节角所对应的末端效应器("手")的位置和取向. 这是函数$\mathbf{x} = f(\mathbf{q})$绘制从联合空间到**任务空间**(端效应器的3D位置和方向,也叫笛卡尔空间)的地图。
 
-- Each joint is described by a $4 \times 4$ homogeneous transformation matrix (recall affine transformations from chapter 2). The **Denavit-Hartenberg (DH) convention** parameterises each joint with four numbers: link length $a$, link twist $\alpha$, link offset $d$, and joint angle $\theta$. The transformation for joint $i$ is:
+- 每种关节分别由以下一种描述:$4 \times 4$等同变换矩阵(从第2章中回顾等同变换). ** Denavit-Hartenberg(DH)公约** 将每个连号参数为:链接长度$a$,链接扭矩$\alpha$页:1$d$,和联合角度$\theta$。。。联合改造$i$即:
 
 $$T_i = \begin{bmatrix} \cos\theta_i & -\sin\theta_i \cos\alpha_i & \sin\theta_i \sin\alpha_i & a_i \cos\theta_i \\ \sin\theta_i & \cos\theta_i \cos\alpha_i & -\cos\theta_i \sin\alpha_i & a_i \sin\theta_i \\ 0 & \sin\alpha_i & \cos\alpha_i & d_i \\ 0 & 0 & 0 & 1 \end{bmatrix}$$
 
-- The full forward kinematics is the product of all joint transformations: $T_{0 \to n} = T_1 T_2 \cdots T_n$. This is matrix multiplication chaining transformations (chapter 2): each joint's transformation is applied in sequence, rotating and translating the frame from the base to the end-effector.
+- 完全前向动能是所有联想变换的产物:$T_{0 \to n} = T_1 T_2 \cdots T_n$。。。这是矩阵相乘链变换(第2章):每个关节的变换按顺序应用,旋转并把帧从基到末端效分.
 
-- **Inverse kinematics (IK)** is the reverse problem: given a desired end-effector pose $\mathbf{x}^*$, find the joint angles $\mathbf{q}$ such that $f(\mathbf{q}) = \mathbf{x}^*$. This is much harder because:
+- ** 逆动能(IK)** 是反向问题:考虑到所期望的终极效应器$\mathbf{x}^*$,查找关节角$\mathbf{q}$这样的话$f(\mathbf{q}) = \mathbf{x}^*$。。。这困难得多,因为:
 
-    - The mapping is nonlinear (involves sines and cosines).
-    - There may be multiple solutions (different arm configurations reach the same point).
-    - There may be no solution (the target is out of reach).
+    - 绘图是非线性的(涉及正弦和相弦).
+    - 可能有多个解决方案(不同的臂配置达到同点).
+    - 可能没有解决办法(目标无法达到)。
 
-- Analytical solutions exist only for specific robot geometries. For general robots, IK is solved iteratively using the **Jacobian**. The Jacobian $J(\mathbf{q})$ relates small changes in joint angles to small changes in end-effector position (recall the Jacobian from chapter 3):
+- 分析解决方案只针对特定的机器人几何美图. 对于普通机器人,IK是使用**Jacobian**的迭代解. 雅各比亚人$J(\mathbf{q})$将关节角的小变化与末端效应器位置的小变化联系起来(从第三章中回顾雅各比亚人):
 
 $$\dot{\mathbf{x}} = J(\mathbf{q}) \dot{\mathbf{q}}$$
 
-- To move the end-effector by a small amount $\Delta \mathbf{x}$, we need $\Delta \mathbf{q} = J^{-1} \Delta \mathbf{x}$ (or $J^+ \Delta \mathbf{x}$ using the pseudo-inverse when $J$ is not square). This is iterated until the end-effector reaches the target, which is essentially Newton's method (chapter 3) applied to the kinematics equation.
+- 将最终效果器移动到一个小数额$\Delta \mathbf{x}$我们需要$\Delta \mathbf{q} = J^{-1} \Delta \mathbf{x}$(或 减:$J^+ \Delta \mathbf{x}$使用伪倒数$J$不是正方形。这是延后到末端效应器到达目标为止,这基本上是牛顿的方法(第3章)被应用于动能方程.
 
-- Near **singularities**, the Jacobian loses rank (some columns become linearly dependent, as we studied in chapter 2). Physically, this means the robot loses a degree of freedom: no matter how fast the joints move, the end-effector cannot move in certain directions. The pseudo-inverse blows up near singularities, so damped least-squares (adding a regularisation term $\lambda^2 I$) is used instead:
+- 接近**同位素**,雅各宾人失去等级(一些列成为线性依附,如我们在第二章所研究). 从物理上讲,这意味着机器人失去了一定程度的自由:无论关节移动多快,最终效应器都不能朝某些方向移动. 假反向爆炸接近奇数,所以挡住最小平方(加上正则名词)$\lambda^2 I$改为:
 
 $$\Delta \mathbf{q} = J^T(JJ^T + \lambda^2 I)^{-1} \Delta \mathbf{x}$$
 
 ## 动力学与控制
 
-> **中文导读**：本节围绕“动力学与控制”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- **Dynamics** adds forces to the picture. The equations of motion for a robot arm follow the **manipulator equation**:
+- ** 动画** 为画面增添了力量。机器人手臂的运动方程式遵循**操纵器等式**:
 
 $$M(\mathbf{q})\ddot{\mathbf{q}} + C(\mathbf{q}, \dot{\mathbf{q}})\dot{\mathbf{q}} + \mathbf{g}(\mathbf{q}) = \boldsymbol{\tau}$$
 
-- where $M(\mathbf{q})$ is the mass (inertia) matrix, $C(\mathbf{q}, \dot{\mathbf{q}})$ captures Coriolis and centrifugal effects, $\mathbf{g}(\mathbf{q})$ is the gravity vector, and $\boldsymbol{\tau}$ is the vector of joint torques (the control input). This is a system of second-order differential equations, one per joint.
+- 地点$M(\mathbf{q})$是质量的矩阵,$C(\mathbf{q}, \dot{\mathbf{q}})$捕捉出克里奥利斯和离心效应,$\mathbf{g}(\mathbf{q})$是重力向量,而且$\boldsymbol{\tau}$是联合扭矩的向量(控制输入)。这是一个二等相微分方程系统,每关节一个.
 
-- The mass matrix $M$ is always symmetric and positive definite (recall from chapter 2 that positive definite matrices guarantee a unique minimum, here it ensures the system responds predictably to applied torques).
+- 质量矩阵$M$总是对称和肯定的(从第2章中回顾到,正定矩阵保证一个独特的最低值,在这里它确保该系统能够预测地对应用的矩形作出反应)。
 
-- **PID control** is the most widely used controller in robotics. For each joint, it computes a torque based on the error $e(t) = q_{\text{desired}}(t) - q_{\text{actual}}(t)$:
+- **PID Control**是机器人中使用最广泛的控制器. 每个关节,它根据错误计算出一个扭矩$e(t) = q_{\text{desired}}(t) - q_{\text{actual}}(t)$:
 
 $$\tau(t) = K_p e(t) + K_i \int_0^t e(s) \, ds + K_d \dot{e}(t)$$
 
-- The three terms have intuitive roles:
-    - **Proportional** ($K_p$): corrects proportionally to the current error. Larger error → larger correction. Like a spring pulling the joint towards the target.
-    - **Integral** ($K_i$): accumulates past errors to eliminate steady-state offset. If the joint consistently undershoots, the integral term builds up and provides extra push.
-    - **Derivative** ($K_d$): reacts to the rate of change of error, providing damping. It slows the response as the error decreases, preventing overshoot and oscillation.
+- 这三个术语具有直观的作用:
+    - ** 利润** ($K_p$: 与当前错误成正比校正. 较大出错_较大校正. 就像一个把关节拉到目标旁的春天
+    - ** 综合** (中文(简体)).$K_i$:累积过去的错误来消除稳态偏移. 如果联合体持续不足,整体术语就会逐渐形成并提供额外的推动。
+    - ** 有效** (中文(简体)).$K_d$:对出错变化速度作出反应,提供起坝. 它会随着出错的减少而减缓反应,防止过量射击和振荡.
 
 ![图示](../images/pid_response.svg)
 
-- Tuning $K_p, K_i, K_d$ is a balance: too much $K_p$ causes oscillation, too much $K_d$ makes the system sluggish, too much $K_i$ causes wind-up (the integral grows unbounded during sustained error).
+- 调试$K_p, K_i, K_d$是一个平衡:太多$K_p$引起振荡,太多$K_d$系统太迟钝了,太慢了$K_i$导致收尾(在持续错误中,整体生长而无限制)。
 
-- **Model Predictive Control (MPC)** looks ahead. At each timestep, it solves an optimisation problem: find the sequence of future controls that minimises a cost function (e.g., tracking error + control effort) over a finite horizon, subject to the dynamics model and constraints. Only the first control is applied, then the process repeats at the next timestep.
+- ** 模式预测控制** 展望未来。在每一时段,它都会解决一个优化问题:在有限的地平线上,根据动态模型和制约,找到能将成本函数最小化的未来控制序列(如跟踪出错+控制努力). 只有第一个控制被应用,然后过程在下个时间步重复.
 
-$$\min_{\mathbf{u}_{0:T}} \sum_{t=0}^{T} \left[ \|\mathbf{x}_t - \mathbf{x}_t^*\|_Q^2 + \|\mathbf{u}_t\|_R^2 \right] \quad \text{subject to} \quad \mathbf{x}_{t+1} = f(\mathbf{x}_t, \mathbf{u}_t)$$
+$$\min_{\mathbf{u}_{0:T}} \sum_{t=0}^{T} \left[\|\mathbf{x}_t - \mathbf{x}_t^*\|_Q^2 + \|\mathbf{u}_t\|_R^2 \right] \quad \text{subject to} \quad \mathbf{x}_{t+1} = f(\mathbf{x}_t, \mathbf{u}_t)$$
 
-- Here $\|\mathbf{x}\|_Q^2 = \mathbf{x}^T Q \mathbf{x}$ is a weighted norm using positive definite matrix $Q$ (chapter 2), which lets you penalise different state errors differently. MPC naturally handles constraints (joint limits, torque limits, obstacle avoidance) because they are explicitly included in the optimisation.
+- 给$\|\mathbf{x}\|_Q^2 = \mathbf{x}^T Q \mathbf{x}$是使用正定矩阵的加权规范$Q$(第2章),它让你以不同的方式惩罚不同的国家错误。MPC自然处理限制(联想限制,扭矩限制,障碍避让),因为这些限制被明确包括在优化中.
 
-- **Impedance control** regulates the relationship between force and motion rather than tracking a rigid trajectory. Instead of commanding "go to position $x$," it commands "behave like a spring-damper system centred at $x$":
+- ** 加速控制** 规范了力与运动之间的关系,而不是跟踪僵硬的轨迹。而不是指挥"去位置"$x$它命令"行为就像一个 以弹簧护花系统为中心$x$":
 
 $$F = K_s(\mathbf{x}^* - \mathbf{x}) + D(\dot{\mathbf{x}}^* - \dot{\mathbf{x}})$$
 
-- where $K_s$ is a stiffness matrix and $D$ is a damping matrix. This makes the robot compliant: if it contacts an obstacle, it yields rather than forcing through. Impedance control is essential for contact-rich tasks like inserting a peg into a hole or handing an object to a human.
+- 地点$K_s$是一个硬度矩阵,$D$是一个起锚矩阵。这使得机器人遵守:如果它接触了障碍,就会产生而不是强迫通过. 障碍控制对于接触丰富的任务至关重要,比如将接线插入到洞中或者将物体交给人.
 
 ## 模仿学习
 
-> **中文导读**：本节围绕“模仿学习”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- Instead of hand-designing controllers, we can learn control policies from demonstrations. A human performs the task, the robot observes, and a learning algorithm extracts a policy. This is **imitation learning** (or learning from demonstration).
+- 而不是手工设计控制器,我们可以从演示中学习控制政策. 人类执行任务,机器人观察,学习算法提取出政策. 这是**模拟学习**(或从演示中学习).
 
-- **Behavioural cloning (BC)** is the simplest approach: treat the demonstrations as a supervised learning dataset. Given observation-action pairs $\{(\mathbf{o}_t, \mathbf{a}_t)\}$ from an expert, train a policy $\pi_\theta(\mathbf{a} \mid \mathbf{o})$ to predict the expert's action from the observation. This is standard supervised learning (chapter 6): minimise the loss:
+- ** 行为克隆(BC)**是最简单的方法:将演示作为监督学习数据集。鉴于观察-行动对$\{(\mathbf{o}_t, \mathbf{a}_t)\}$从专家,训练政策$\pi_\theta(\mathbf{a} \mid \mathbf{o})$从观察中预测专家的行动。这是标准监督学习(第六章):尽量减少损失:
 
-$$\mathcal{L}(\theta) = \mathbb{E}_{(\mathbf{o}, \mathbf{a}) \sim \mathcal{D}} \left[ \| \pi_\theta(\mathbf{o}) - \mathbf{a} \|^2 \right]$$
+$$\mathcal{L}(\theta) = \mathbb{E}_{(\mathbf{o}, \mathbf{a}) \sim \mathcal{D}} \left[\| \pi_\theta(\mathbf{o}) - \mathbf{a} \|^2 \right]$$
 
 ![图示](../images/distribution_shift_bc.svg)
 
-- The problem is **distribution shift** (also called the **compounding error problem**). During training, the policy sees the expert's states. During deployment, the policy's own small errors push it into states the expert never visited. These unfamiliar states lead to worse actions, which lead to even more unfamiliar states, and errors compound rapidly.
+- 问题在于**分配转移**(也叫**编错问题**). 在训练期间,政策会看专家的状态. 在部署期间,保险单本身的小错误将其推入专家从未访问过的说法. 这些不熟悉的状态导致更糟糕的行动,从而导致更加不熟悉的状态,而错误又迅速复杂化.
 
-- Imagine learning to drive by watching a perfect driver. You have never seen what happens after a small swerve because the expert never swerved. The first time you drift slightly, you have no idea how to recover.
+- 想象一下,通过看一个完美的司机来学习驾驶. 你从未见过一个小转弯后会发生什么 因为专家从未转弯过 第一次你轻轻地漂移, 你根本不知道如何恢复。
 
-- **DAgger** (Dataset Aggregation) addresses this by iterating:
-    1. Train a policy on current data.
-    2. Run the policy in the environment, collecting new states.
-    3. Ask the expert to label these new states with the correct action.
-    4. Add the new data to the dataset and retrain.
+- ** DAgger**(数据汇总)通过下列方式解决这一问题:
+    1. 就当前数据制定政策。
+    2. 在环境上执行政策,收集新州.
+    3. 要求专家用正确的动作给这些新状态贴上标签.
+    4. 将新数据添加到数据集并重排.
 
-- Over iterations, the dataset covers states the learned policy actually visits, not just the expert's trajectory. The policy improves because it has seen and learned to recover from its own mistakes.
+- 数据组在重复时会说明所学的政策实际访问情况,而不仅仅是专家的轨迹。这项政策之所以得到改善,是因为它已经看到并学会从自己的错误中恢复过来。
 
-- **Action Chunking with Transformers (ACT)** is a modern approach where the policy predicts a sequence of future actions (a "chunk") rather than one action at a time. This is implemented using a conditional VAE with a transformer backbone. Predicting action chunks is more robust because it captures temporal correlations: the smoothness of a reaching motion is encoded in the chunk rather than relying on autoregressive single-step predictions that can drift.
+- ** Action Chunking with Transformers (ACT)**是一种现代方法,政策预测未来行动的顺序("chunk")而不是一次一次行动. 采用有条件的VAE并有变压器骨干来实施. 预测动作块更强,因为它能捕捉时间相关性:一个到达运动的平滑性被编码在块中而不是依赖可漂移的自旋单步预测.
 
-- **Diffusion Policy** applies diffusion models (chapter 8) to action generation. Instead of predicting a single action, it models the full distribution of possible actions conditioned on the observation. Starting from noise, it iteratively denoises to produce an action sequence. This handles **multimodality** naturally: when there are multiple valid ways to complete a task (reach from the left or the right), the diffusion model can represent both modes, whereas a regression policy would average them (and reach somewhere in the middle, which might be neither valid).
+- ** 传播政策** 将传播模式(第8章)应用于行动生成。它不是预测一个单一的行动,而是模拟以观测为条件的可能行动的全面分布. 从噪音开始,它迭代地输出一个动作序列. 这处理**多模式** 自然:当有多种有效方法完成某项任务(从左到右)时,扩散模式可以代表两种模式,而回归政策则会平均使用这两种模式(并到达中间的某个地方,可能两者都无效)。
 
 ## 仿真到现实迁移
 
-> **中文导读**：本节围绕“仿真到现实迁移”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- Training robots in the real world is expensive, slow, and dangerous. A robot learning to grasp by trial and error might take thousands of attempts, breaking objects and itself along the way. **Simulation** offers unlimited, safe, fast experience. But simulators are imperfect: physics is approximated, visuals are synthetic, contacts are simplified.
+- 在现实世界中训练机器人是昂贵的,缓慢的,危险的. 一个学习如何通过试验和错误来把握的机器人,可能要经过上千次尝试,破碎物体和自身沿途. **模拟**提供无限、安全、快的经验。但模拟器不完善:物理是相近的,视觉是合成的,接触简化了.
 
-- The **sim-to-real gap** is the difference between simulated and real performance. A policy that works perfectly in simulation may fail completely on the real robot because it has overfit to simulator-specific details.
+- **sim-to-real difference**是模拟性能和真实性能的区别. 一种在模拟中完美工作的政策可能完全失败于真正的机器人,因为它过于适合模拟器特定的细节.
 
 ![图示](../images/sim_to_real.svg)
 
-- **Domain randomisation** combats this by training across a wide range of simulator settings. Instead of one simulation, use thousands with randomised:
-    - Physics: friction coefficients, mass, damping
-    - Visuals: lighting, textures, colours, camera position
-    - Dynamics: motor delays, noise levels
+- ** 域随机化** 通过在广泛的模拟器设置中进行培训来对付这种情况。而不是一次模拟,用千个随机:
+    - 物理:摩擦系数、质量、起坝
+    - 视觉:照明、纹理、颜色、相机位置
+    - 动力学:运动延迟,噪音水平
 
-- The idea is that if the policy works across all these variations, the real world is just "another variation" within the distribution. The policy learns features that are invariant to the randomised properties, and these invariant features transfer.
+- 其理念是,如果政策在所有这些变异中发挥作用,那么现实世界只是分布中的"另一种变异". 政策学习了对随机属性不相适应的特征,这些不相适应的特征会转移.
 
-- **System identification** takes the opposite approach: instead of randomising everything, carefully measure the real system's physical parameters and tune the simulator to match. This gives a more accurate simulation but is brittle (any unmodelled effect causes a gap).
+- ** 系统识别** 采取相反的方法:而不是随意地对一切进行分辨,而是仔细地测量真系统的物理参数并调和模拟器相匹配. 这给出了更准确的模拟,但很简洁(任何未建模效应都会导致缺口).
 
-- In practice, the best results combine both: system identification to get the simulator reasonably close, then domain randomisation to cover the remaining uncertainty.
+- 在实践中,最佳结果结合了两种:系统识别使模拟器合理接近,然后域随机化以覆盖剩余的不确定性.
 
-- **Sim-to-real via fine-tuning** trains primarily in simulation, then does a small amount of real-world fine-tuning. The simulation provides a good initialisation, and the real-world data corrects simulator-specific biases. This requires far less real-world data than training from scratch.
+- **通过微调**列车主要进行模拟,然后进行少量的活地微调. 模拟提供了良好的初始化,而现实世界的数据纠正了模拟器特有的偏差. 这需要的现实世界数据远远少于从零开始的培训。
 
 ## 机器人世界模型
 
-> **中文导读**：本节围绕“机器人世界模型”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- All of the RL and imitation learning approaches above are **model-free**: the policy learns to act through direct interaction (or demonstrations) without explicitly modelling how the world works. An alternative is **model-based** learning: first learn a model of the environment's dynamics, then use that model to plan or to generate synthetic experience.
+- 上面所有RL和模仿学习方法都是**模范-免费**:政策通过直接互动(或演示)学习行动,而没有明确模拟世界的运作方式. 另一种方法是**模型**学习:首先学习环境动力学模型,再用该模型进行规划或产生合成经验.
 
-- A **world model** learns the transition function $p(s_{t+1} \mid s_t, a_t)$: given the current state and an action, predict the next state (as introduced in chapter 10). In robotics, this means predicting what will happen if the robot takes a particular action: "if I push this block left, it will slide 3cm and the cup behind it will topple."
+- 一个**世界模型**学会了过渡功能$p(s_{t+1} \mid s_t, a_t)$:鉴于当前状态和动作,预测下一个状态(如第十章所介绍). 在机器人学中,这意味着预测如果机器人采取特定行动会发生什么:"如果我将这个块推向左侧,它会滑出3cm,而后方的杯子会翻出".
 
-- The appeal is **sample efficiency**. Real-world robot interaction is expensive. If the robot can learn a world model from a modest amount of real data, it can then "imagine" thousands of trajectories by rolling out the model in its head, planning and refining its policy without touching the physical world. This is analogous to how a chess player thinks ahead by simulating moves mentally.
+- 上诉是**抽样效率**。现实世界的机器人互动是昂贵的. 如果机器人能够从少量真实数据中学习出一个世界模型,那么它就可以通过在脑中推出模型来"想象"出上千个轨迹,在不触及物理世界的情况下规划和完善其政策. 这类似于棋手通过模拟精神动作而向前想的.
 
-- **DreamerV3** is a general-purpose model-based RL agent. It learns three components jointly:
-    - A **representation model** that encodes observations into a compact latent state.
-    - A **transition model** (the world model) that predicts the next latent state given the current state and action.
-    - A **reward model** that predicts the reward from the latent state.
+- ** DreamerV3**是一种基于通用模型的RL剂. 它共同学习三个组成部分:
+    - ** 表示模式** 将观测编码为紧凑的潜在状态。
+    - ** 过渡模式** (世界模式),根据目前的状况和行动预测下一个潜在状态。
+    - 一个**奖励模式** 预言从潜在状态得到的奖励。
 
-- The agent then "dreams" by rolling out the transition model for many steps in latent space, trains a policy on these imagined trajectories, and transfers the policy to the real environment. The key innovation is that all imagination happens in latent space (compact learned representations), not in pixel space, making it computationally feasible.
+- 代理商通过在潜伏空间推出许多步骤的过渡模型,对这些所想象的轨迹进行政策培训,并将政策转移到真实环境,从而"梦想". 关键的创新在于所有想象力都发生在潜在空间(compact learned approintments)中,而不是像素空间中,使其在计算上可行.
 
 $$\hat{s}_{t+1} = f_\theta(s_t, a_t), \quad \hat{r}_t = g_\theta(s_t)$$
 
-- The transition model $f_\theta$ and reward model $g_\theta$ are trained on real experience, and the policy is trained on imagined rollouts. This decouples data collection from policy optimisation.
+- 过渡模式$f_\theta$和奖励模式$g_\theta$政策是按设想推出的。这种数据收集与政策优化脱钩。
 
-- For robot manipulation, world models enable **mental rehearsal**. Before attempting a grasp, the robot can simulate several approaches in its learned model and pick the one most likely to succeed. This is especially valuable for contact-rich tasks where real-world trial and error is slow and risky.
+- 对于机器人操控,世界模型可以进行**心灵排练**. 在尝试抓取之前,机器人可以模拟其所学模型中的几种方法并选择最有可能成功的方法. 在现实世界的试验和出错缓慢和有风险的情况下,这对于接触丰富的任务特别有价值。
 
-- World models also connect naturally to **sim-to-real**: a world model trained on real data is effectively a learned simulator that automatically captures real-world physics, bypassing the sim-to-real gap entirely. The model may be less accurate than a hand-built simulator for well-understood scenarios, but it captures effects (friction, deformation, contact dynamics) that hand-built simulators often get wrong.
+- 世界模型也自然地连接到**sim-to- real**:一个接受过真实数据训练的世界模型,实际上是一个能自动捕捉到现实世界物理,完全绕过模拟到真实差距的已学模拟器. 该模型可能比手建模拟器更准确,用于了解清楚的情景,但能捕捉到手建模拟器经常出错的效果(软体,变形,接触动态).
 
-- The **JEPA** (Joint Embedding Predictive Architecture, introduced in chapter 10) offers an alternative to pixel-level prediction. Instead of predicting exact future observations, JEPA predicts in embedding space: "the latent representation of the next state will be close to this vector." This avoids the difficulty of predicting pixel-perfect futures (which is both unnecessary and computationally wasteful) and focuses on predicting the aspects of the future that matter for decision-making.
+- ** JEPA**(第10章所介绍的联合嵌入预测结构)提供了像素水平预测的替代方案。JEPA没有预测确切的未来观测结果,而是在嵌入空间中预测:"下一个状态的潜在代表将接近这个向量". 这避免了预测像素完美未来(既不必要的又在计算上浪费)的难度,并专注于预测未来对决策至关重要的方面.
 
-- The limitation of world models is **compounding prediction error**. Small inaccuracies in the transition model accumulate over long rollouts, causing imagined trajectories to diverge from reality. Mitigations include short imagination horizons, ensemble models (using uncertainty to detect when predictions become unreliable), and periodically grounding the model with fresh real-world data.
+- 世界模型的局限性是**计算出预测错误**. 过渡模式中小的不准确现象在长期推出后累积,导致想象中的轨迹与现实相去甚远. 缓解措施包括短的想象视野、全聚模型(在预测变得不可靠时利用不确定性来探测),以及定期用新的现实世界数据来打地基。
 
 ## 操作与抓取
 
-> **中文导读**：本节围绕“操作与抓取”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- **Manipulation** is the art of using a robot's end-effector to interact with objects: picking, placing, pushing, inserting, assembling.
+- ** 管理** 是利用机器人的末端效应器与物体相互作用的艺术:取出,放出,推出,插入,集合.
 
-- **Grasping** is the foundational manipulation skill. The goal is to find a stable grasp pose: a position and orientation for the gripper that will securely hold the object.
+- ** Grasping**是基础操控技能. 目标是找到一个稳定的把握姿势:一个能牢牢地控制物体的抓取者的位置和取向.
 
-- **Analytical grasp planning** uses physics. A grasp is stable if the contact forces can resist external wrenches (forces and torques). For a parallel-jaw gripper, the simplest criterion is the **force closure** condition: the contact normals must span all directions of force, so the grasp can resist any disturbance. This involves checking the rank of the grasp wrench matrix, a direct application of the rank concept from chapter 2.
+- ** 分析把握计划** 使用物理学。如果接触部队能够抵抗外部扳手(部队与扭矩),则掌握力是稳定的. 对于一个平行的抓取者来说,最简单的标准是**力量关闭**条件:接触正常必须横跨出所有力量方向,这样抓取就可以抵御任何扰动. 这涉及检查抓取扳手矩阵的分级,这是从第二章直接应用分级概念.
 
-- **Data-driven grasping** learns to predict grasp success from sensory input. Given a depth image of objects on a table, a network predicts a grasp quality score for each candidate gripper pose. **GraspNet** and similar architectures use point cloud encoders (PointNet-style, chapter 8) to predict 6-DoF grasp poses (position + orientation) with confidence scores.
+- ** 数据驱动的把握** 学习通过感官输入来预测把握成功。鉴于表上物体的深度图像,一个网络预测每个候选抓取者所摆姿势的抓取质量分. **GraspNet**和相类似的架构使用点云编码器(PointNet-style, 第8章)来预测6-DoF的抓取平面(位置+取向)并带有置信分.
 
-- **Dexterous manipulation** goes beyond simple pick-and-place. A multi-fingered hand has 20+ DoF and can perform tasks like in-hand rotation (spinning a pen between fingers), tool use, and delicate assembly. The state space is enormous and contacts are complex, making this one of the hardest problems in robotics.
+- ** 极端的操纵** 超越了简单的挑取和放置。多指手有20+ DoF,可以执行诸如手自转(在手指间打出一支笔),工具使用和微妙组装等任务. 国家空间巨大而接触复杂,使这成为机器人领域最难解决的问题之一.
 
-- Learning dexterous manipulation often uses reinforcement learning (chapter 6) in simulation with heavy domain randomisation. OpenAI's work on Rubik's cube solving with a Shadow hand trained PPO policies in simulation with randomised physics, achieving transfer to a real robot hand.
+- 学习自相机操纵经常使用加固学习(第六章)来模拟重域随机. OpenAI关于Rubik用"影子手"进行立方体解析的作品,将PPO政策训练为用随机物理进行模拟,实现了向真正的机器人手的转移.
 
-- **Contact-rich tasks** like peg-in-hole insertion or wiping a surface require the robot to maintain controlled contact with the environment. These tasks demand force sensing and compliant control (impedance control), and they are difficult to simulate accurately because contact physics is notoriously hard to model.
+- ** 接触丰富的任务** 如插入孔口或擦去表面,需要机器人保持与环境的控制接触。这些任务需要强感感知和相容控制(障碍控制),它们很难准确模拟,因为接触物理臭名昭著地难以被模拟.
 
 ## 运动与行走
 
-> **中文导读**：本节围绕“运动与行走”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- Locomotion is moving the robot's body through the world: walking, running, climbing, swimming. The key difference from manipulation is that the robot must maintain balance while moving, and the contact points with the ground change over time.
+- **运动（locomotion）** 是让机器人身体在环境中移动，包括行走、跑步、爬行和游泳。它与操控的关键区别在于：机器人移动时必须保持平衡，接触地面的支撑点也会随时间变化。
 
-- **Legged locomotion** is challenging because it is inherently unstable. A bipedal robot (humanoid) standing on one leg during a step is like an inverted pendulum. The centre of mass must stay above the support polygon (the convex hull of the feet in contact with the ground), or the robot falls.
+- ** 脱落的地盘**具有挑战性,因为它本身不稳定。踩出一脚时站起一脚的双管机器人(humanoid)就如同倒地的倒接. 质量中心必须停留在支撑的多边形上方(与地相接的脚的对流船体),否则机器人会倒下.
 
-- The **Zero Moment Point (ZMP)** is the point on the ground where the net torque from gravity and inertial forces is zero. If the ZMP stays inside the support polygon, the robot will not tip over. Traditional humanoid controllers (like Honda's ASIMO) plan trajectories that keep the ZMP within bounds.
+- **零相位点(ZMP)**是地上由重力和惯性力产生的净扭矩为0的点. 如果ZMP留在支持的多边形内,机器人就不会倾斜. 传统的人形控制器(同本田的ASIMO一样)计划了将ZMP控制在极限的轨迹.
 
-- **Central Pattern Generators (CPGs)** are oscillator-based controllers inspired by biology. Animals generate rhythmic locomotion patterns (walking, trotting, galloping) using neural circuits in the spinal cord, without constant brain involvement. CPG models use coupled differential equations:
+- ** 中央模式生成器** 是受生物学启发的振荡控制器。动物在脊髓中利用神经回路产生有节奏的运动规律(行走,出步,出行),而脑部没有常态参与. CPG 模型使用相配微分方程:
 
 $$\dot{\phi}_i = \omega_i + \sum_j w_{ij} \sin(\phi_j - \phi_i - \psi_{ij})$$
 
-- where $\phi_i$ is the phase of oscillator $i$, $\omega_i$ is the natural frequency, $w_{ij}$ is the coupling strength, and $\psi_{ij}$ is the desired phase offset. Different phase relationships produce different gaits: all legs in sync (bound), alternating pairs (trot), sequential (walk). The sine coupling naturally synchronises the oscillators, analogous to how Fourier series (chapter 3) decompose motion into frequency components.
+- 地点$\phi_i$是振荡器的相$i$, $\omega_i$是自然的频率,$w_{ij}$即结合之力;$\psi_{ij}$页:1 不同的相相关系产生不同的相相:所有相 正弦耦合自然会同步振荡器,类似于傅里叶系列(第3章)如何将运动分解为频率元件.
 
-- **Reinforcement learning for locomotion** has become the dominant approach for agile quadruped and humanoid robots. The robot learns a policy $\pi(\mathbf{a} \mid \mathbf{o})$ through trial and error in simulation (chapter 6), with rewards for forward velocity, stability, and energy efficiency, and penalties for falling, joint limit violations, and jerky motions.
+- ** 为运动而进行强制学习** 已成为敏捷的四相和人造机器人的主要方法。机器人学习政策$\pi(\mathbf{a} \mid \mathbf{o})$(b) 利用模拟中的试验和错误(第六章),对前进速度、稳定性和能源效率进行奖励,并对下降、联合限制违反规定的行为和干劲动议进行处罚。
 
-- The key insight from recent work (e.g., by Agility Robotics, Boston Dynamics, and academic labs) is that RL-trained locomotion policies are far more robust than hand-designed controllers. They naturally learn to recover from pushes, adapt to terrain changes, and handle situations that no engineer anticipated. Training typically uses PPO (chapter 6) with domain randomisation.
+- 从最近的工作(例如由Acility Robotics, Boston Dynamics, 和学术实验室)中得出的关键的洞察力是,经过RL训练的运动器政策远比手工设计的控制器更强. 他们自然学会从推力中恢复,适应地貌变化,并处理没有工程师预料到的情况. 训练一般使用PPO(第6章)并有域随机化.
 
-- **Quadruped robots** (like Boston Dynamics Spot or Unitree Go2) have become the workhorse of legged robotics. Four legs provide inherent stability (a tripod of three legs can always support the body while one leg moves). RL policies for quadrupeds achieve impressive results: running at 3+ m/s, climbing stairs, navigating rocky terrain, and recovering from kicks.
+- 被绕行的机器人**(同波士顿动力点或Unitree Go2一样)已经成为被腿相撞的机器人的工作马. 四条腿提供内在稳定性(由三条腿组成的三脚架在一条腿行走时总是可以支撑身体). 四重奏者的RL政策取得了令人印象深刻的成果:跑出3+米/秒,爬上楼梯,航行地势多岩石,从踢出后恢复.
 
-- **Humanoid locomotion** is harder because bipeds have a smaller support polygon and higher centre of mass. Recent advances (Tesla Optimus, Figure, Unitree H1) use RL trained in simulation with careful reward shaping. The humanoid must learn not just to walk but to coordinate arm swings for balance, navigate uneven surfaces, and recover from perturbations.
+- ** 人体运动力**比较困难,因为双体具有较小的支撑多边形和更高的质量中心。最近的进步(Tesla Optimus, Figure, Unitree H1)使用在模拟中经过训练的RL,并用谨慎的奖励塑造. 人造人必须学会不仅行走,而且协调手臂的摆动以求平衡,导航不均匀的地表并从扰动中恢复.
 
 ## 机器人学习中的安全
 
-> **中文导读**：本节围绕“机器人学习中的安全”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- A robot that explores randomly to learn (as in RL) may damage itself, its environment, or nearby humans. **Safe robot learning** constrains exploration to avoid catastrophic outcomes.
+- 随机探索学习的机器人(如RL)可能会损害自身,环境,或附近人类. ** 安全机器人学习** 制约了探索,以避免灾难性的结果。
 
-- **Constrained RL** adds safety constraints to the MDP (chapter 6). The objective becomes: maximise reward subject to $J_c(\pi) \leq d$, where $J_c$ is the expected cumulative cost (e.g., collision events) and $d$ is the maximum allowable cost. Algorithms like Constrained Policy Optimisation (CPO) extend PPO to handle these constraints.
+- ** 限制的RL**为多边发展方案增加了安全限制(第6章)。目标改为:尽量扩大奖励范围,但须遵守$J_c(\pi) \leq d$,在其中$J_c$是预期累积成本(例如碰撞事件)和$d$是最高允许成本。Constrain Policy Optimation(CPO)等算法将PPO扩展为处理这些制约因素.
 
-- **Safety envelopes** define hard boundaries that the robot must never cross, regardless of what the learned policy says. A safety controller monitors the robot's state and overrides the learned policy when a constraint is about to be violated (e.g., approaching a joint limit, moving too fast near a human, or exceeding a force threshold). This is a layered architecture: the learning algorithm handles performance, and the safety layer handles constraints.
+- **安全信封** 定义机器人绝对不能跨越的硬界限,无论学到的政策怎么说. 安全控制器在即将被违反的制约(例如接近联想极限,靠近人行走过快,或超过出力阈值)时,对机器人状态进行监测并推翻所学政策. 这是一个分层结构:学习算法处理性能,而安全层处理约束.
 
-- **Risk-aware planning** explicitly models uncertainty in the environment and the robot's own state estimate. Instead of planning for the most likely outcome, it plans for the worst case within a confidence bound. This connects to the condition number concept (chapter 2): a well-conditioned system is robust to perturbations, and risk-aware planning seeks control strategies that remain safe under perturbation.
+- ** Risk-aware planning** 明确模拟环境的不确定性和机器人自己的状态估计. 它没有规划最可能的结果,而是在信任范围内计划最严重的情况。这与条件编号概念(第2章)相接:一个条件良好的系统对扰动是强健的,而风险意识规划则寻求在扰动下仍然安全的控制策略.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务（使用 Colab 或 notebook）”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-1. Implement forward kinematics for a simple 2-link planar robot arm. Compute and visualise the end-effector position for different joint angles.
+1. 实施前动能,用于简单的2-连通平面机器人臂. 计算和可视化不同关节角度的终端-效果器位置.
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
@@ -256,7 +247,7 @@ ax.set_title("2-Link Robot Arm: Forward Kinematics")
 plt.show()
 ```
 
-2. Implement inverse kinematics using the Jacobian pseudo-inverse. Start from a random configuration and iteratively move the end-effector to a target.
+2. 使用雅各语伪反相执行反相动能. 从随机配置开始,并迭代地将最终效果器移动到目标上.
 ```python
 import jax
 import jax.numpy as jnp
@@ -294,7 +285,7 @@ plt.title(f"IK converged in {len(trajectory)-1} steps")
 plt.show()
 ```
 
-3. Simulate a simple PID controller tracking a desired joint trajectory. Observe the effect of tuning the gains.
+3. 模拟一个简单的 PID 控制器跟踪想要的联合轨道。观察调和增益之效.
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt

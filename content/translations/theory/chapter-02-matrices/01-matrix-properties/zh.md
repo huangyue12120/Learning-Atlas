@@ -13,71 +13,71 @@ status: reviewed
 
 *本篇将矩阵性质放回 AI 工程语境，保留源文中的定义、公式、代码、图示和实践边界，便于逐项核对。*
 
-*Matrices are the data structures that store datasets, encode transformations, and define every neural network layer. This file covers matrix dimensions, elements, transpose, trace, determinant, inverse, rank, and null space, the foundational properties used throughout linear algebra and ML.*
+*Matrices是存储数据集,编码转换,定义每个神经网络层的数据结构. 此文件涵盖矩阵维度,元素,转录,痕量,决定因素,倒数,分级和无效空格,整个线性代数和ML所使用的基础属性. *
 
-- At its core, a **matrix** is a rectangular grid of numbers arranged in rows and columns. If a vector is a single list of numbers, a matrix as a stack of vectors.
+- 其核心为**matrix**为一长方形网格,以行和列排列数字. 如果向量是单数列表,则矩阵作为向量栈.
 
 ```math
 A = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{bmatrix}
 ```
 
-- If a single person is described by the vector $[\text{age}, \text{height}, \text{weight}]$, then three people form a matrix where each row is one person:
+- 如果向量描述一个人$[\text{age}, \text{height}, \text{weight}]$,然后三人组成矩阵,其中每行为一人:
 
 ```math
 \begin{bmatrix} 25 & 170 & 65 \\ 30 & 180 & 80 \\ 22 & 160 & 55 \end{bmatrix}
 ```
 
-- This matrix has 3 rows and 3 columns, so we call it a $3 \times 3$ matrix.
+- 这个矩阵有3行和3列 所以我们称之为$3 \times 3$矩阵。
 
-- Each number in the grid is called an **element** or **entry**, identified by its row and column: $A_{ij}$ is the element in row $i$, column $j$.
+- 网格中的每个数字称为**元素**或**条目**,按其行和列识别:$A_{ij}$是行中的元素$i$栏$j$.
 
-- The **transpose** of a matrix flips it along its diagonal, turning rows into columns and columns into rows. If $A$ is $m \times n$, then $A^T$ is $n \times m$.
+- 矩阵的 ** 转换** 沿它的对角翻转,将行变为一列并作一行. 若为$A$实值$m \times n$,则$A^T$实值$n \times m$.
 
 ```math
 A = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{bmatrix} \quad \Rightarrow \quad A^T = \begin{bmatrix} 1 & 4 \\ 2 & 5 \\ 3 & 6 \end{bmatrix}
 ```
 
-- Multiplying a matrix by its transpose always gives a square matrix: $AA^T$ is $m \times m$ and $A^TA$ is $n \times n$.
+- 将一个矩阵乘以其转接器总是给出一个平方矩阵:$AA^T$实值$m \times m$财务报告和已审计财务报表$A^TA$实值$n \times n$.
 
-- The **trace** of a square matrix is the sum of its diagonal elements: $\text{tr}(A) = A_{11} + A_{22} + \cdots + A_{nn}$. The trace equals the sum of the eigenvalues (which we will see later).
+- 平方矩阵的**跟踪**是其对角元素的总和:$\text{tr}(A) = A_{11} + A_{22} + \cdots + A_{nn}$。。。微分等同于等值(后相会见).
 
 ![图示](../images/matrix_trace.svg)
 
-- For the matrix above, $\text{tr}(A) = 1 + 4 + 9 = 14$. Only the highlighted diagonal matters.
+- 关于上述矩阵,$\text{tr}(A) = 1 + 4 + 9 = 14$。。。只有突出的对角问题。
 
-- If two matrices represent the same linear transformation under different bases, their traces will be the same. The trace is "basis-independent."
+- 如果两个矩阵代表不同基底下相同的线性变换,它们的踪迹就会相同. 追踪是"基础-独立".
 
-- The **rank** of a matrix is the number of linearly independent rows (or equivalently, columns). It tells you how much "useful information" the matrix carries.
+- 矩阵的**名**为线性独立行数(或等同列). 它告诉你有多少"有用的信息" 矩阵携带。
 
-- For example, the following matrix has rank 2 because neither row is a multiple of the other:
+- 例如,以下矩阵具有第2等号,因为两个行都不是另一行的多相:
 
 ```math
 \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}
 ```
 
-But this matrix has rank 1 because the second row is just twice the first, so it adds no new information:
+但这个矩阵有一级,因为第二行只是第一行的两倍,所以它没有增加新的信息:
 
 ```math
 \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}
 ```
 
-- A $5 \times 3$ matrix can have rank at most 3. If some rows are just scaled or combined versions of others, the rank drops. A matrix with maximum possible rank is called **full rank**.
+- A 类$5 \times 3$矩阵最多可有3个级别. 如果有些行只是缩放或者其他行的合并版本,则军衔会下降. 最高军衔的矩阵称为**全军衔**。
 
 ![图示](../images/matrix_rank.svg)
 
-- A square matrix is invertible (has an inverse) if and only if it is full rank.
+- 平方矩阵(有倒数),如果且只有完全排位的话,是不可逆的.
 
-- The rank is connected to the **null space** (the set of vectors that the matrix maps to zero) through the **rank-nullity theorem**: $\text{rank}(A) + \text{nullity}(A) = \text{number of columns of } A$. What the matrix keeps (rank) plus what it destroys (nullity) equals the total dimension.
+- 分级通过**分级-分级定理**与**null空间**(矩阵映射到零的向量集)相接:$\text{rank}(A) + \text{nullity}(A) = \text{number of columns of } A$。。。矩阵所保持的(排名)加上所破坏的(数值)等于总维.
 
-- The **column space** of a matrix is the set of all possible outputs when you multiply the matrix by any vector. It is spanned by the columns of the matrix. If a matrix has 3 columns but only 2 are independent, the column space is a 2D plane, not all of 3D space.
+- 矩阵的**列空间**是将矩阵乘以任何向量时所有可能输出的集合. 它由矩阵的分栏横跨。如果矩阵有3个列但只有2个是独立的,则柱的空间是一个2D平面,而不是所有的3D空地.
 
 ![图示](../images/column_space.svg)
 
-- The **row space** is the same idea but from the perspective of rows. The rank equals the dimension of both the column space and the row space, so they always agree.
+- **行空间**是同一个想法,但从行的角度来说. 分级等于列空间和行空间的尺寸,所以他们总是同意.
 
-- Together, the column space tells you "what outputs can this matrix produce?" and the null space tells you "what inputs get mapped to zero?" These two spaces completely describe what the matrix does.
+- 一起,列空间告诉你"这个矩阵能产生什么产出?" 空格告诉你"什么输入被映射到零?" 这两个空格完全描述了矩阵的作用.
 
-- The **determinant** of a square matrix is a single number that captures how the matrix scales space. Think of a $2 \times 2$ matrix as transforming a unit square into a parallelogram. The determinant is the area of that parallelogram (with a sign).
+- 平方矩阵的**决定因素**是一个单数,可以捕捉矩阵如何缩放空间. 想想看,你觉得呢?$2 \times 2$矩阵将单位正方形转换成平行图。决定因素是这一平行图的面积(有标志)。
 
 ```math
 \det\begin{bmatrix} a & b \\ c & d \end{bmatrix} = ad - bc
@@ -85,77 +85,76 @@ But this matrix has rank 1 because the second row is just twice the first, so it
 
 ![图示](../images/determinant.svg)
 
-- For example:
+- 例如:
 
 ```math
 \det\begin{bmatrix} 2 & 1 \\ 0 & 3 \end{bmatrix} = 2 \cdot 3 - 1 \cdot 0 = 6
 ```
 
-The transformation stretches the unit square into a parallelogram with area 6.
+变相将单位平方拉长为与面积为6的平行图.
 
-- If the determinant is positive, the transformation preserves orientation (things don't get "flipped"). If negative, it flips orientation (like a mirror reflection). If zero, the matrix squashes space into a lower dimension, collapsing the parallelogram to a line or point.
+- 如果决定因素是正向的,则转变会保留取向(事物不会得到"飞出"). 如果负,则会翻转取向(如镜反射). 如果为零,矩阵会将空间压入更低的维度,使平行图折叠到一行或一点。
 
-- A matrix with determinant zero is called **singular**. It has no inverse and has lost information permanently.
+- 有决定性的零的矩阵称为**singular**. 它没有反向的,并且永远失去了信息。
 
-- For matrices larger than $2 \times 2$, the determinant is computed using **minors** and **cofactors**. The **minor** $M_{ij}$ is the determinant of the smaller matrix you get by deleting row $i$ and column $j$.
+- 大于$2 \times 2$,则使用**未成年人**和**因子**计算决定因素。** 未成年人**$M_{ij}$是您通过删除行获得的较小矩阵的决定因素$i$和栏$j$.
 
 ![图示](../images/cofactor.svg)
 
-- The **cofactor** $C_{ij} = (-1)^{i+j} M_{ij}$ attaches a sign to each minor (alternating like a checkerboard: $+, -, +, \ldots$). The determinant of the full matrix is then the sum along any row or column: $\det(A) = \sum_j A_{1j} \cdot C_{1j}$. This is called **cofactor expansion**.
+- ** 因素**$C_{ij} = (-1)^{i+j} M_{ij}$在每个未成年人身上加一个标记(修改后如棋盘:$+, -, +, \ldots$) (中文(简体)). 整个矩阵的决定因素是任何一行或一列的总和:$\det(A) = \sum_j A_{1j} \cdot C_{1j}$。。。这被称为**因素扩展**.
 
-- The **inverse** of a square matrix $A$, written $A^{-1}$, is the matrix that undoes what $A$ does: $AA^{-1} = A^{-1}A = I$ (the identity matrix). Only non-singular matrices have inverses.
+- 平方矩阵的**反**$A$,写入$A^{-1}$,是取消$A$是否为:$AA^{-1} = A^{-1}A = I$(身份矩阵). 只有非单相基团有反相.
 
-- For a $2 \times 2$ matrix, the inverse has a direct formula:
+- 用于a$2 \times 2$矩阵,倒数有直接公式:
 
 ```math
 \begin{bmatrix} a & b \\ c & d \end{bmatrix}^{-1} = \frac{1}{ad - bc}\begin{bmatrix} d & -b \\ -c & a \end{bmatrix}
 ```
 
-Notice the determinant in the denominator, which is why singular matrices (determinant zero) have no inverse.
+注意到分母中的决定因素,这就是单数矩阵(决定为0)没有倒数的原因.
 
-- The **condition number** measures how sensitive a matrix is to small changes in its input. It is defined as $\kappa(A) = \|A\| \cdot \|A^{-1}\|$.
+- ** 条件号** 衡量矩阵对输入小幅变化的敏感度。它的定义是:$\kappa(A) = \|A\| \cdot \|A^{-1}\|$.
 
-- A condition number close to 1 means the matrix is **well-conditioned**: small input changes produce small output changes. A large condition number means it is **ill-conditioned**: tiny errors get amplified enormously. Orthogonal and identity matrices have condition number 1, while singular matrices have infinite condition number.
+- 条件号接近1表示矩阵是**条件好**:小输入变化产生小输出变化. 一个大的条件号表示它是**ill-entered**:小错误被放大了巨大的. 正形和身份矩阵有条件1,而单数矩阵则有无限的条件编号.
 
-- For example, the following matrix has condition number $10^8$. One direction is scaled normally while the other is nearly squashed to zero, so small perturbations along that direction get wildly distorted:
+- 例如,以下矩阵有条件编号$10^8$。。。一个方向被正常地缩放,而另一个方向则被挤压到零,因此沿着这个方向的小扰动会被疯狂地扭曲:
 
 ```math
 \begin{bmatrix} 1 & 0 \\ 0 & 10^{-8} \end{bmatrix}
 ```
 
-- Just as vectors have norms (length), matrices have **norms** that measure their "size." The most common is the **Frobenius norm**, which treats the matrix as a long vector and computes its length:
+- 与向量有规范(长度)一样,矩阵也有**正则**,用来测量它们的"大小". 最常见的是**Frobenius规范**,它把矩阵当作一个长向量来对待并计算它的长度:
 
 ```math
 \|A\|_F = \sqrt{\sum_{i}\sum_{j} A_{ij}^2}
 ```
 
-- For example:
+- 例如:
 
 ```math
 \left\|\begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}\right\|_F = \sqrt{1 + 4 + 9 + 16} = \sqrt{30} \approx 5.48
 ```
 
-- The **spectral norm** $\|A\|_2$ is the largest singular value of $A$. It measures the maximum amount the matrix can stretch any unit vector. In ML, matrix norms are used for weight regularisation (penalising large weights) and monitoring training stability.
+- ** 光谱规范**$\|A\|_2$是最大单数$A$。。。它测量矩阵能够拉长出任何单位向量的最大量. 在ML中,矩阵规范用于重量调节(惩罚大重量)和监测训练稳定性.
 
-- A symmetric matrix $A$ is **positive definite** if for every non-zero vector $\mathbf{x}$: $\mathbf{x}^T A \mathbf{x} > 0$. This quadratic form always produces a positive number.
+- 对称矩阵$A$如果每个非零向量为**正值**$\mathbf{x}$: $\mathbf{x}^T A \mathbf{x} > 0$。。。这种四相形式总是产生正数.
 
-- For example, the following matrix is positive definite:
+- 例如,下列矩阵是肯定的:
 
 ```math
 A = \begin{bmatrix} 2 & 1 \\ 1 & 3 \end{bmatrix}
 ```
 
-Pick any vector, say $\mathbf{x} = [1, -1]^T$: $\mathbf{x}^T A \mathbf{x} = 2 - 1 - 1 + 3 = 3 > 0$. No matter which non-zero $\mathbf{x}$ you try, you always get a positive result.
+随便选一个向量,说$\mathbf{x} = [1, -1]^T$: $\mathbf{x}^T A \mathbf{x} = 2 - 1 - 1 + 3 = 3 > 0$。。。无论哪一个是零$\mathbf{x}$你尝试,你总是得到一个积极的结果。
 
-- Positive definite matrices are important because they guarantee that optimisation problems have a unique minimum.
+- 肯定的矩阵很重要,因为它们保证优化问题具有独特的最低程度。
 
-- If the condition is relaxed to $\mathbf{x}^T A \mathbf{x} \geq 0$ (allowing zero), the matrix is **positive semi-definite** (PSD). PSD matrices come up constantly: covariance matrices, kernel matrices in SVMs, and Hessians at local minima are all PSD. The difference is that PSD allows some directions to be "flat" (zero curvature) rather than strictly curving upward.
+- 如果条件放松到$\mathbf{x}^T A \mathbf{x} \geq 0$矩阵为**正半定值**(PSD)。私营部门司的矩阵不断出现:共同变量矩阵、特别志愿人员项目内核矩阵和当地微型项目的黑森州都是私营部门司。不同的是,PSD允许一些方向被"平面"(零曲率)而不是严格向上曲折.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务（使用 Colab 或 notebook）”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-1. Compute the trace, rank, and determinant of a matrix. Try making one row a multiple of another and see how rank and determinant change.
+1. 计算矩阵的跟踪、排名和决定因素。尝试使一行一行相乘,看看等级和决定因素是如何变化的.
 ```python
 import jax.numpy as jnp
 
@@ -167,7 +166,7 @@ print(f"Rank: {jnp.linalg.matrix_rank(A)}")
 print(f"Determinant: {jnp.linalg.det(A):.2f}")
 ```
 
-2. Compute the inverse of a matrix, multiply it by the original, and verify you get the identity. Then try a singular matrix and observe what happens.
+2. 计算矩阵的倒数,用正本乘以正本,并验证你的身份. 然后试试单数矩阵 观察会发生什么
 ```python
 import jax.numpy as jnp
 

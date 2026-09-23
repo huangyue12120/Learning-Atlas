@@ -35,7 +35,7 @@ $$h = \sigma(Wx + b)$$
 
 ![ReLU、Sigmoid、Tanh 与 GELU 的并列曲线及其关键性质](../images/activation_functions.svg)
 
-- 一个有 $d_{\text{in}}$ 个输入和 $d_{\text{out}}$ 个输出的 dense 层有 $d_{\text{in}} \times d_{\text{out}} + d_{\text{out}}$ 个参数（权重加偏置）。矩阵乘法 $Wx$ 就是第 02 章中的矩阵—向量乘法。在 batch 场景中，形状为 $(B, d_{\text{in}})$ 的输入矩阵 $X$ 产生形状为 $(B, d_{\text{out}})$ 的输出 $XW^T + b$。
+- 一个有 $d_{\text{in}}$ 个输入和 $d_{\text{out}}$ 个输出的 dense 层有 $d_{\text{in}} \times d_{\text{out}} + d_{\text{out}}$ 个参数（权重加偏置）。矩阵乘法 $Wx$ 就是第 02 章中的矩阵，向量乘法。在 batch 场景中，形状为 $(B, d_{\text{in}})$ 的输入矩阵 $X$ 产生形状为 $(B, d_{\text{out}})$ 的输出 $XW^T + b$。
 
 - **通用逼近定理**指出，只要神经元足够多，单个隐藏层就能以任意精度逼近紧致域上的任意连续函数。这听起来像是深度不重要，但关键在于“神经元足够多”。在实践中，深层网络可以用比浅层网络少指数级的参数表示相同函数。深度带来的是效率，而不仅仅是表达能力。
 
@@ -92,7 +92,7 @@ $$(\text{input} * K)[i,j] = \sum_{m=0}^{k-1} \sum_{n=0}^{k-1} \text{input}[i+m, 
 
 - CNN 构建了**特征层次**。早期层检测边缘和纹理；中间层把它们组合成部件（眼睛、车轮）；后期层识别完整对象。每一层的感受野（它能够“看到”的输入区域）都会随深度增长。
 
-- **Embedding** 把离散 token（单词、字符、项目 ID）映射为稠密向量。embedding 层其实只是一个查找表：形状为（词表大小，embedding 维度）的矩阵 $E$。查找 token $i$ 就是选取 $E$ 的第 $i$ 行。这等价于与 one-hot 向量相乘，而 one-hot 向量只是矩阵—向量乘法的一个特例（第 02 章）。Embedding 在训练中学习，因此相似 token 最终会得到相似向量。
+- **Embedding** 把离散 token（单词、字符、项目 ID）映射为稠密向量。embedding 层其实只是一个查找表：形状为（词表大小，embedding 维度）的矩阵 $E$。查找 token $i$ 就是选取 $E$ 的第 $i$ 行。这等价于与 one-hot 向量相乘，而 one-hot 向量只是矩阵，向量乘法的一个特例（第 02 章）。Embedding 在训练中学习，因此相似 token 最终会得到相似向量。
 
 - **分词（tokenisation）**是把原始文本转换为 token 序列的过程。词级分词按空格切分，但无法处理未见过的词。**子词分词（subword tokenisation）**（BPE、WordPiece、SentencePiece）把文本拆成高频子词单元，在词表大小和覆盖率之间取得平衡。单词 “unhappiness” 可能变成 ["un", "happiness"] 或 ["un", "happ", "iness"]。
 

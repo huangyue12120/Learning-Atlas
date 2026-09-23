@@ -14,244 +14,233 @@ status: reviewed
 
 
 
-*Discrete maths is the mathematics of countable, separated structures, the foundation that computing is built on. This file covers propositional and predicate logic, proof techniques, sets, relations, functions, graph theory fundamentals, and recurrence relations*
+*分数数学是可计数,分离结构的数学,是计算所基于的基础. 此文件涵盖命题逻辑和上游逻辑,证明技术,套接字,关系,函数,图论基本原理,再现关系*
 
-- In earlier chapters, we worked with continuous mathematics: calculus (chapter 3), probability distributions (chapter 5), and optimisation over real-valued parameters (chapter 6). But computers are fundamentally **discrete** machines. They store bits (0 or 1), process integers, follow branching logic, and operate on finite data structures. **Discrete maths** provides the formal language for reasoning about these structures.
+- 在前几章中,我们与连续数学合作:微积分(第3章),概率分布(第5章),以及相对于实际值参数的优化(第6章)。但计算机从根本上来说是**discrete**机器. 它们存储比特(0或1),过程整数,遵循分支逻辑,并运行在有限度的数据结构上. ** 不同数学**为这些结构的推理提供了正式语言。
 
-- Everything in this chapter rests on discrete maths: processor logic gates are Boolean algebra, scheduling algorithms need proof of correctness, memory management uses set operations, and algorithm analysis requires recurrence relations.
+- 本章的一切都以离散数学为主:处理器逻辑门是布尔代数,调度算法需要证明正确性,内存管理使用设定操作,而算法分析则需要再现关系.
 
 ## 命题逻辑
 
-> **中文导读**：本节围绕“命题逻辑”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **Propositional logic** is the algebra of true/false statements. A **proposition** is a statement that is either true (T) or false (F), never both. "It is raining" is a proposition. "What time is it?" is not (it is a question, not a statement with a truth value).
+- ** 提议逻辑**是真实/虚假陈述的代数. ** 提法** 是真实的(T)或虚假的(F)声明,绝不是两者兼有。"下雨了"是一个提议。"现在几点了?" 而不是(这是一个问题,不是一个具有真理价值的声明)。
 
-- Propositions can be combined using **logical connectives**:
+- 提案可以使用**逻辑连接**合并:
 
-    - **AND** (conjunction, $p \wedge q$): true only when both $p$ and $q$ are true.
-    - **OR** (disjunction, $p \vee q$): true when at least one of $p$ or $q$ is true.
-    - **NOT** (negation, $\neg p$): flips the truth value.
-    - **IMPLIES** (implication, $p \to q$): false only when $p$ is true and $q$ is false. "If it rains, the ground is wet" is only violated when it rains and the ground is dry.
-    - **IFF** (biconditional, $p \leftrightarrow q$): true when both have the same truth value.
+    - **AND**(连接,$p \wedge q$: 只有在两者兼有时才为真$p$财务报告和已审计财务报表$q$是真的,我确实在想
+    - **OR**(分离,$p \vee q$: 真实, 至少当其中之一$p$或 为$q$是真的,你说得对。
+    - ** NOT** (否定,$\neg p$:翻出真实值.
+    - **IMPLES**(影响,$p \to q$:只有当$p$是真的,还有$q$错的 "若有雨出地,地为湿"等被侵犯时才有雨出地干.
+    - **IFF**(有条件,$p \leftrightarrow q$:真实,当两者具有相同的真理价值时.
 
-- A **truth table** exhaustively lists all possible input combinations and the resulting output. For $n$ propositions, the table has $2^n$ rows. This is how we verify logical equivalences:
+- ** 真实表** 详尽地列出了所有可能的投入组合和由此产生的产出。用于$n$提议,表上有$2^n$排行相会. 这就是我们验证逻辑等同性的方法:
 
-| $p$ | $q$ | $p \wedge q$ | $p \vee q$ | $p \to q$ |
+|$p$|$q$|$p \wedge q$|$p \vee q$|$p \to q$|
 |-----|-----|--------------|------------|-----------|
-| T | T | T | T | T |
-| T | F | F | T | F |
-| F | T | F | T | T |
-| F | F | F | F | T |
+|T|T|T|T|T|
+|T|F|F|T|F|
+|F|T|F|T|T|
+|F|F|F|F|T|
 
-- The implication row where $p$ is false deserves attention: $F \to q$ is always true, regardless of $q$. This is **vacuous truth**. "If pigs fly, then I am the king of England" is logically true because the premise is false. This seems counterintuitive but is essential for mathematical reasoning.
+- 隐含的一行$p$假的值得注意:$F \to q$永远是真实的,不管$q$。。。这是虚无的事实。"如果猪飞了,那么我是英格兰国王"在逻辑上是真实的,因为前提是假的. 这似乎与直觉相反,但对数学推理至关重要。
 
-- **Logical equivalences** are identities that hold for all truth values:
+- ** 逻辑等同** 是所有真理价值的特性:
 
-    - **De Morgan's laws**: $\neg(p \wedge q) \equiv \neg p \vee \neg q$ and $\neg(p \vee q) \equiv \neg p \wedge \neg q$. To negate an AND, negate each part and switch to OR (and vice versa). These appear directly in programming: `!(a && b)` is equivalent to `(!a || !b)`.
+    - ** 摩根法律**:$\neg(p \wedge q) \equiv \neg p \vee \neg q$财务报告和已审计财务报表$\neg(p \vee q) \equiv \neg p \wedge \neg q$。。。否定一个和,否定每个部分并切换到OR(反之亦然). 这些直接出现在方案拟订中:`!(a && b)`等同为`(!a || !b)`.
 
-    - **Contrapositive**: $p \to q \equiv \neg q \to \neg p$. "If it rains, the ground is wet" is equivalent to "if the ground is not wet, it is not raining." This is a powerful proof technique.
+    - ** 累积**:$p \to q \equiv \neg q \to \neg p$。。。""若有雨出地,地相湿取"等同"如地相湿取地相克而为所克". 这是一个强大的证明技术。
 
-    - **Double negation**: $\neg(\neg p) \equiv p$.
+    - ** 双重否定**:$\neg(\neg p) \equiv p$.
 
-    - **Distributive**: $p \wedge (q \vee r) \equiv (p \wedge q) \vee (p \wedge r)$.
+    - ** 分配**:$p \wedge (q \vee r) \equiv (p \wedge q) \vee (p \wedge r)$.
 
-- A formula that is always true (for all truth assignments) is a **tautology**. One that is always false is a **contradiction**. One that is sometimes true and sometimes false is **contingent**. For example, $p \vee \neg p$ is a tautology and $p \wedge \neg p$ is a contradiction.
+- 一种总是真实的公式(对于所有真理任务)是**tautology**. 总是不实的就是**被束缚了**。有时是真实的,有时是虚假的。举例来说,$p \vee \neg p$是一种同义词,$p \wedge \neg p$是一个矛盾。
 
 ## 谓词逻辑与量词
 
-> **中文导读**：本节围绕“谓词逻辑与量词”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Propositional logic cannot express statements about *all* or *some* elements of a set. "Every prime greater than 2 is odd" requires **predicate logic**, which extends propositional logic with variables, predicates, and quantifiers.
+- 提议逻辑不能表达对一个集合的 * 所有* 或 * 一些* 元素的声明. "每个质数大于2是奇数"需要**preptect logical**,它用变量,上游,和分词来延伸命题逻辑.
 
-- A **predicate** is a statement that depends on a variable: $P(x)$ = "$x$ is even." It becomes a proposition when $x$ is given a specific value: $P(4)$ is true, $P(7)$ is false.
+- ** 预置** 是取决于变量的语句:$P(x)$ = "$x$都一样" 当它成为一个命题,当$x$给出一个特定值:$P(4)$没错$P(7)$错的
 
-- **Quantifiers** express scope:
+- 量化方** 明确范围:
 
-    - **Universal quantifier** ($\forall$): "for all." $\forall x \, P(x)$ means "$P(x)$ is true for every $x$ in the domain."
-    - **Existential quantifier** ($\exists$): "there exists." $\exists x \, P(x)$ means "there is at least one $x$ for which $P(x)$ is true."
+    - ** 通用限定词** (中文(简体)).$\forall$曰:"为人所取. "$\forall x \, P(x)$谓 "$P(x)$每一个字都是真实的$x$"在域内"
+    - ** 现有限定词** (中文(简体)).$\exists$:"存在"。$\exists x \, P(x)$意思是"至少有一个$x$用于$P(x)$是真的" 说得没错
 
-- Negating quantifiers flips them: $\neg(\forall x \, P(x)) \equiv \exists x \, \neg P(x)$. "Not everyone passed" means "someone failed." And $\neg(\exists x \, P(x)) \equiv \forall x \, \neg P(x)$. "There is no perfect algorithm" means "every algorithm has a flaw."
+- 提及修饰者时,$\neg(\forall x \, P(x)) \equiv \exists x \, \neg P(x)$。。。"不是每个人都通过了"的意思是"有人失败了". 还有$\neg(\exists x \, P(x)) \equiv \forall x \, \neg P(x)$。。。"没有完美的算法"的意思是"每个算法都有缺陷".
 
-- Nested quantifiers express complex relationships. $\forall x \, \exists y \, (y > x)$ means "for every number, there is a larger one" (true for integers). The order matters: $\exists y \, \forall x \, (y > x)$ means "there is a number larger than all others" (false for integers).
+- 巢穴分解词表达了复杂的关系.$\forall x \, \exists y \, (y > x)$意思是"对于每一个数字来说,有一个更大的"(对整数来说是真实的). 命令很重要:$\exists y \, \forall x \, (y > x)$指"有一个比其他所有数字都大"(假指整数).
 
-- Predicate logic is the language of formal specification. When we say an algorithm is "correct," we mean $\forall \text{inputs} \, x, \, \text{output}(x) = \text{desired}(x)$. When we say it "terminates," we mean $\forall x \, \exists t \, \text{halts}(x, t)$.
+- 优先逻辑是正式规格的语言. 当我们说一个算法是"正确",我们的意思是$\forall \text{inputs} \, x, \, \text{output}(x) = \text{desired}(x)$。。。当我们说它"终结",我们的意思是$\forall x \, \exists t \, \text{halts}(x, t)$.
 
 ## 证明技术
 
-> **中文导读**：本节围绕“证明技术”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- A **proof** is a logical argument that establishes a statement's truth beyond doubt. Unlike empirical evidence (which shows something works for tested cases), a proof guarantees it works for all cases. This is the standard of correctness in CS.
+- ** priversity** 是一个逻辑论证,可以确定一个陈述的真理,是毫无疑问的. 与经验证据不同(它显示一些对被检验的案件有用的东西),一种证据保证对所有案件都有效. 这是CS中正确性的标准.
 
-- **Direct proof**: assume the hypothesis, derive the conclusion through logical steps. To prove "if $n$ is even, then $n^2$ is even": assume $n = 2k$ for some integer $k$, then $n^2 = 4k^2 = 2(2k^2)$, which is even.
+- ** 直接证明**:假设假设,通过逻辑步骤得出结论. 证明"如果$n$都一样,那么$n^2$假设$n = 2k$某些整数$k$,则$n^2 = 4k^2 = 2(2k^2)$,这是均匀的。
 
-- **Proof by contradiction**: assume the statement is false and derive a contradiction. To prove $\sqrt{2}$ is irrational: assume $\sqrt{2} = a/b$ (fully reduced). Then $2 = a^2/b^2$, so $a^2 = 2b^2$, meaning $a^2$ is even, so $a$ is even, say $a = 2c$. Then $4c^2 = 2b^2$, so $b^2 = 2c^2$, meaning $b$ is also even. But we said $a/b$ was fully reduced -- contradiction.
+- ** 矛盾证明**:假设陈述是虚假的并得出矛盾. 为了证明$\sqrt{2}$不合理:假设$\sqrt{2} = a/b$(完全减少) 礛$2 = a^2/b^2$,这样$a^2 = 2b^2$,含义$a^2$都一样,所以$a$甚至是,说$a = 2c$。。。礛$4c^2 = 2b^2$,这样$b^2 = 2c^2$,含义$b$也是一样。但我们说$a/b$被完全缩小 -- -- 矛盾。
 
-- **Proof by induction**: prove a statement for all natural numbers by showing: (1) the **base case** holds (typically $n = 0$ or $n = 1$), and (2) the **inductive step**: if the statement holds for $n = k$ (the inductive hypothesis), then it holds for $n = k + 1$.
+- ** 通过诱导证明**:通过显示(1) 基准案例** (通常为) 持有,以证明所有自然数字的说明。$n = 0$或 为$n = 1$)和(2)**诱导步骤**:如果该声明支持$n = k$(诱导假设),然后它坚持$n = k + 1$.
 
-- For example, prove $\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$:
-    - Base case: $n = 1$: $1 = \frac{1 \cdot 2}{2} = 1$. True.
-    - Inductive step: assume $\sum_{i=1}^{k} i = \frac{k(k+1)}{2}$. Then $\sum_{i=1}^{k+1} i = \frac{k(k+1)}{2} + (k+1) = \frac{k(k+1) + 2(k+1)}{2} = \frac{(k+1)(k+2)}{2}$. This is the formula with $n = k+1$. Done.
+- 例如,证明$\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$:
+    - 基本情况 :$n = 1$: $1 = \frac{1 \cdot 2}{2} = 1$。。。没错
+    - 诱导步骤:假设$\sum_{i=1}^{k} i = \frac{k(k+1)}{2}$。。。礛$\sum_{i=1}^{k+1} i = \frac{k(k+1)}{2} + (k+1) = \frac{k(k+1) + 2(k+1)}{2} = \frac{(k+1)(k+2)}{2}$。。。这是公式$n = k+1$。。。结束了。
 
-- Induction is the workhorse for proving properties of recursive algorithms and data structures. Every recursive algorithm has an implicit inductive proof of correctness: the base case is the termination condition, and the inductive step is the recursive call.
+- 入门是用来证明递归算法和数据结构属性的工作马. 每个递归算法都有隐含的引出正确性的证据:基子是终止条件,而取出步骤是回转调.
 
-- **Strong induction** assumes the statement holds for all values up to $k$ (not just $k$), then proves it for $k + 1$. This is useful when the recursion depends on more than just the previous value.
+- ** Strong入门** 假设所有价值的语句持有,直到$k$(不仅仅是)$k$然后证明$k + 1$。。。当复发依赖于的不仅仅是先前的值时,这一点是有用的.
 
-- The **pigeonhole principle**: if $n+1$ objects are placed into $n$ boxes, at least one box contains two objects. Simple but surprisingly powerful. It proves that in any group of 13 people, at least two share a birthday month. In networking, it proves that hash collisions are inevitable when more items than buckets exist.
+- ** pigeonhole原则**:如果$n+1$对象被放置到$n$框中,至少有一个框包含两个对象。很简单,但很强大 这证明在任何13个人群中,每个生日至少要分享两分. 在网络中,它证明当存在比桶子更多的物品时,散列相撞是不可避免的.
 
 ## 集合
 
-> **中文导读**：本节围绕“集合”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- A **set** is an unordered collection of distinct elements. Sets are the most primitive data structure in maths, and they underpin everything from type systems to database queries.
+- ** set**是一组不同要素的无序集合。集是数学中最原始的数据结构,它们支撑着从类型系统到数据库查询的一切.
 
-- **Set operations** (connecting to chapter 5 where we used these for probability):
+- ** 设定操作**(与第5章有关,我们用它来计算概率):
 
-    - **Union** $A \cup B$: elements in $A$ or $B$ or both.
-    - **Intersection** $A \cap B$: elements in both $A$ and $B$.
-    - **Complement** $\bar{A}$: elements not in $A$ (relative to a universal set).
-    - **Difference** $A \setminus B$: elements in $A$ but not in $B$.
-    - **Cartesian product** $A \times B$: all ordered pairs $(a, b)$ with $a \in A, b \in B$.
+    - ** 联盟**$A \cup B$: 元素在$A$或 为$B$或两者兼有。
+    - ** 接口**$A \cap B$: 两者的要素$A$财务报告和已审计财务报表$B$.
+    - ** 内容**$\bar{A}$: 未在$A$(与通用集有关).
+    - ** 差异**$A \setminus B$: 元素在$A$但不是在$B$.
+    - ** 笛卡尔产品**$A \times B$: 所有订购的对$(a, b)$与$a \in A, b \in B$.
 
-- The **power set** $\mathcal{P}(A)$ is the set of all subsets of $A$. If $|A| = n$, then $|\mathcal{P}(A)| = 2^n$. For $A = \{1, 2\}$: $\mathcal{P}(A) = \{\emptyset, \{1\}, \{2\}, \{1, 2\}\}$.
+- ** 电源集**$\mathcal{P}(A)$是所有子集的一组$A$。。。若为$|A| = n$,则$|\mathcal{P}(A)| = 2^n$。。。用于$A = \{1, 2\}$: $\mathcal{P}(A) = \{\emptyset, \{1\}, \{2\}, \{1, 2\}\}$.
 
-- **Cardinality** measures set size. Finite sets have integer cardinality. Infinite sets come in different sizes: the natural numbers $\mathbb{N}$ and rationals $\mathbb{Q}$ are **countably infinite** (can be listed), while the reals $\mathbb{R}$ are **uncountably infinite** (cannot be listed, proven by Cantor's diagonal argument). This distinction matters in computability theory: there are uncountably many functions but only countably many programs, so most functions are uncomputable.
+- ** 度量衡的大小。固定的组合有整数重心。无限相机的大小不同:自然数$\mathbb{N}$和理性$\mathbb{Q}$数量上是无限的**(可以列出),而实数则$\mathbb{R}$(不能列出,由坎托尔的对角论点证明)。这种区分在可计算性理论中很重要:有很多功能是无法计算的,但只有无数的程序,所以大多数功能都是不可计算的.
 
 ## 关系
 
-> **中文导读**：本节围绕“关系”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- A **relation** $R$ on a set $A$ is a subset of $A \times A$: a set of ordered pairs specifying which elements are related. For example, $\leq$ on integers is the set $\{(a, b) : a \leq b\}$.
+- A ** 关系**$R$一组$A$是一个子集$A \times A$: 指定哪些元素是相通的一组有序对. 举例来说,$\leq$整数为集合$\{(a, b) : a \leq b\}$.
 
-- Important properties of relations:
+- 关系的重要特性:
 
-    - **Reflexive**: every element is related to itself. $a R a$ for all $a$. Example: $\leq$ (every number is $\leq$ itself).
-    - **Symmetric**: if $a R b$ then $b R a$. Example: "is a sibling of."
-    - **Antisymmetric**: if $a R b$ and $b R a$ then $a = b$. Example: $\leq$.
-    - **Transitive**: if $a R b$ and $b R c$ then $a R c$. Example: $<$, $\leq$, "is an ancestor of."
+    - ** 参考**:每个要素都与自身有关。$a R a$对所有国家的$a$。。。示例$\leq$(每个数字是:$\leq$报告提交日期
+    - ** 对称**:如果$a R b$接下来$b R a$。。。例:"是师兄之相.
+    - ** 对应**:如果$a R b$财务报告和已审计财务报表$b R a$接下来$a = b$。。。示例$\leq$.
+    - ** 过渡**:如果$a R b$财务报告和已审计财务报表$b R c$接下来$a R c$。。。示例$<$, $\leq$,"是祖先的".
 
-- An **equivalence relation** is reflexive, symmetric, and transitive. It partitions the set into **equivalence classes** where all elements within a class are related to each other but not to elements in other classes. Modular arithmetic is an equivalence relation: $a \equiv b \pmod{n}$ partitions integers into $n$ classes. Type equivalence in programming languages is an equivalence relation.
+- **等同关系** 具有反射性、对称性和过渡性。它将集合分割为**等同类**,其中一个类中的所有元素都相通而与其他类中的元素无关. 模块算术是一种等同关系:$a \equiv b \pmod{n}$分区整数$n$课程。编程语言中的等同类型是一种等同关系.
 
-- A **partial order** is reflexive, antisymmetric, and transitive. It defines a "less than or equal to" structure that may leave some elements incomparable. File system directories form a partial order (parent-child), but sibling directories are incomparable. A **total order** is a partial order where every pair is comparable (like $\leq$ on integers).
+- ** 部分顺序**是反射、反对称和中转的。它定义了一个"小于或等同"的结构,它可能留下一些元素无法相比. 文件系统目录构成部分顺序(亲子),但兄弟姐妹目录是不可比较的. **总订单** 是一种部分订单,每对相类似(例如:$\leq$以整数表示。
 
-- Partial orders are essential in concurrency: the "happens-before" relation on events is a partial order. Events that are not ordered by happens-before are concurrent and may execute in any relative order.
+- 部分命令在通用语上是不可或缺的:对于事件"发生-之前"的关系是部分命令. 事发前没有发生的情况是同时发生的,可以按任何相对顺序执行。
 
 ## 函数
 
-> **中文导读**：本节围绕“函数”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- A **function** $f: A \to B$ maps each element of $A$ (the domain) to exactly one element of $B$ (the codomain). Functions are the mathematical model of deterministic computation: given an input, there is exactly one output.
+- A. 职务**$f: A \to B$地图$A$(域) 完全适用于$B$(众相. 函数是确定计算方法的数学模型:给定一个输入,就是输出一个.
 
-- **Injective** (one-to-one): different inputs always give different outputs. $f(a) = f(b) \implies a = b$. Lossless compression is injective: different inputs must compress to different outputs (otherwise you cannot decompress uniquely).
+- ** 注入**(一对一):不同的投入总是提供不同的产出。$f(a) = f(b) \implies a = b$。。。无损失压缩是注射:不同的输入必须压缩到不同的输出(否则你无法单独解压缩).
 
-- **Surjective** (onto): every element of $B$ is hit by some element of $A$. The range equals the codomain. A hash function mapping strings to 256-bit hashes is not surjective if there are fewer strings than possible hashes.
+- ** 预测**(上):$B$被一些元素击中$A$。。。范围等于codomain. 散列函数映射字符串至256位散列,如果有比可能有散列的短线要少的话,则不会产生出自外.
 
-- **Bijective**: both injective and surjective. A perfect one-to-one correspondence between $A$ and $B$. Bijections have inverses. Encryption must be bijective: each plaintext maps to a unique ciphertext, and the decryption function is the inverse.
+- ** Biogive**:既可注射又可被取出. 完美的一对一的对应$A$财务报告和已审计财务报表$B$。。。出比喻有倒相. 加密必须是双写:每个平正文字映射到一个独特的密码文本,而解密功能是倒转.
 
-- **Composition** $(g \circ f)(x) = g(f(x))$: apply $f$ first, then $g$. Function composition is associative (chapter 2: same as matrix multiplication being associative). Pipelines in software are function composition: data flows through a chain of transformations.
+- ** 组成**$(g \circ f)(x) = g(f(x))$: 应用$f$先说$g$。。。函数组成是关联的(第2章:与矩阵乘法是关联的相同). 软件中的管道是函数组成:数据通过一连串的转换来流动.
 
 ## 图论基础
 
-> **中文导读**：本节围绕“图论基础”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- We covered graphs extensively in chapter 12 (graph neural networks), including adjacency matrices, graph types, the Laplacian, and spectral theory. Here we focus on the **algorithmic** and **structural** properties relevant to CS.
+- 我们在第12章(图神经网络)中广泛涵盖了图表,包括相接矩阵,图表类型,拉普拉克语和光谱理论. 在此,我们着重讨论与CS有关的**算法**和**结构**属性。
 
-- A **tree** is a connected graph with no cycles. Equivalently, it has $n$ nodes and $n-1$ edges. Trees are the structure of file systems, XML/HTML documents, decision processes, and recursive decompositions. A **rooted tree** has a designated root node; every other node has exactly one parent.
+- A树**是连通的图,没有循环. 同样,它已经$n$节点和$n-1$边缘 树是文件系统,XML/HTML文档,决定过程和递归分解的结构. 一个**根树**有一个指定的根节点;其他每个节点都有完全一个的父.
 
-- A **spanning tree** of a graph $G$ is a tree that includes all nodes of $G$ using a subset of its edges. **Minimum spanning trees (MST)** minimise the total edge weight. Kruskal's algorithm (sort edges, greedily add the lightest that does not create a cycle) and Prim's algorithm (grow the tree from a starting node, always adding the lightest edge to a new node) both find MSTs in $O(|E| \log |V|)$.
+- 图中的一棵树$G$是一个包含所有节点的树$G$使用它的边缘的子集。** 最小跨树(MST)** 将总边重最小化。Kruskal的算法(sort singers,贪婪地添加了不创建循环的最轻)和Prim的算法(从起步节点将树长出,总是将最轻的边缘添加到新的节点上)都发现MST在$O(|E| \log |V|)$.
 
-- **Planarity**: a graph is planar if it can be drawn in the plane with no edge crossings. By **Euler's formula**, for a connected planar graph: $|V| - |E| + |F| = 2$, where $|F|$ is the number of faces (regions, including the outer face). This implies $|E| \leq 3|V| - 6$ for planar graphs, so planar graphs are sparse. Circuit board routing and map colouring exploit planarity.
+- ** Planarial**:如果在飞机上可以画出没有边缘交叉点的图是平面图。以**Euler的公式**表示,一个相连的平面图:$|V| - |E| + |F| = 2$,在其中$|F|$是面相的数量(区域,包括外相)。这意味着$|E| \leq 3|V| - 6$对于平面图, 所以平面图是稀有的。电路板的路由和地图彩色 开发性。
 
-- **Graph colouring** assigns colours to nodes such that no two adjacent nodes share a colour. The minimum number of colours needed is the **chromatic number** $\chi(G)$. The **four-colour theorem** states $\chi(G) \leq 4$ for any planar graph. In CS, graph colouring models register allocation (assign variables to CPU registers so that simultaneously live variables get different registers) and scheduling (assign tasks to time slots so conflicting tasks do not overlap).
+- ** Graph 彩色** 为节点指定了颜色,这样相邻的两个节点都无法共享颜色. 所需颜色的最低数量为**色码**$\chi(G)$。。。** 四色定理** 状态$\chi(G) \leq 4$任何平面图。在CS中,图彩模型注册分配(向CPU注册分配变量,以便同时活的变量获得不同的注册)和排程(将任务分配给时间档如此相冲突的任务不会重叠).
 
-- **Euler paths** visit every edge exactly once. They exist if and only if the graph has exactly 0 or 2 nodes with odd degree. **Hamiltonian paths** visit every node exactly once. Determining whether a Hamiltonian path exists is NP-complete -- one of the classic hard problems in CS. This contrast (Euler: polynomial, Hamilton: NP-complete) illustrates how similar-sounding problems can have vastly different computational complexities.
+- * Euler路径** 访问每个边缘一次。它们的存在条件是,而且只有在图中完全有0或2个有奇异程度的节点时才存在. 访问每个节点一次。确定汉密尔顿路径是否存在是NP-完成，，CS中经典的难题之一. 这种对比(Euler:polynomial,汉密尔顿:NP-complete)说明了类似音响的问题如何可以有差分极大的计算复杂性.
 
 ## 递推关系
 
-> **中文导读**：本节围绕“递推关系”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- A **recurrence relation** defines a sequence where each term depends on previous terms. They arise naturally from recursive algorithms.
+- **再现关系** 定义了每个术语取决于以前术语的序列。它们自然地产生于递归算法.
 
-- The simplest example: $T(n) = T(n-1) + 1$ with $T(0) = 0$. Unrolling: $T(n) = T(n-1) + 1 = T(n-2) + 2 = \cdots = n$. This is $O(n)$, the time complexity of a simple loop.
+- 最简单的例子:$T(n) = T(n-1) + 1$与$T(0) = 0$。。。正在撤销 :$T(n) = T(n-1) + 1 = T(n-2) + 2 = \cdots = n$。。。这是$O(n)$简单循环的时间复杂性。
 
-- **Merge sort** gives $T(n) = 2T(n/2) + O(n)$: split the array in half (two subproblems of size $n/2$), recursively sort each half, then merge ($O(n)$ work). The solution is $T(n) = O(n \log n)$.
+- ** 元排序** 给定$T(n) = 2T(n/2) + O(n)$: 将阵列一分为二(大小的两个子问题)$n/2$,每半个递归排序,然后合并($O(n)$工作) (中文(简体)). 解决办法是$T(n) = O(n \log n)$.
 
-- The **Master Theorem** solves recurrences of the form $T(n) = aT(n/b) + O(n^d)$:
+- **主定理** 解决了形式重复的问题$T(n) = aT(n/b) + O(n^d)$:
 
-    - If $d > \log_b a$: $T(n) = O(n^d)$ (the work at each level dominates)
-    - If $d = \log_b a$: $T(n) = O(n^d \log n)$ (work is balanced across levels)
-    - If $d < \log_b a$: $T(n) = O(n^{\log_b a})$ (the number of subproblems dominates)
+    - 若为$d > \log_b a$: $T(n) = O(n^d)$(每个级别的工作占主导地位)
+    - 若为$d = \log_b a$: $T(n) = O(n^d \log n)$(工作在各级别之间平衡)
+    - 若为$d < \log_b a$: $T(n) = O(n^{\log_b a})$(子问题数为主).
 
-- For merge sort: $a = 2, b = 2, d = 1$. Since $d = \log_2 2 = 1$, we are in the balanced case: $T(n) = O(n \log n)$.
+- 合并类型 :$a = 2, b = 2, d = 1$。。。自兹$d = \log_2 2 = 1$,我们是在平衡的情况下:$T(n) = O(n \log n)$.
 
-- The **Fibonacci recurrence** $F(n) = F(n-1) + F(n-2)$ with $F(0) = 0, F(1) = 1$ has the closed-form solution $F(n) = \frac{\phi^n - \psi^n}{\sqrt{5}}$ where $\phi = \frac{1+\sqrt{5}}{2}$ (the golden ratio) and $\psi = \frac{1-\sqrt{5}}{2}$. This shows the Fibonacci sequence grows exponentially as $O(\phi^n)$, which is why naive recursive Fibonacci is exponentially slow.
+- ** Fibonacci的复发**$F(n) = F(n-1) + F(n-2)$与$F(0) = 0, F(1) = 1$有闭合式解决方案$F(n) = \frac{\phi^n - \psi^n}{\sqrt{5}}$地点$\phi = \frac{1+\sqrt{5}}{2}$(黄金比例)和$\psi = \frac{1-\sqrt{5}}{2}$。。。这显示Fibonacci序列呈指数增长$O(\phi^n)$这也是为什么天真回转的Fibonacci指数性地慢。
 
-- **Combinatorics** (permutations, combinations, the binomial theorem, and inclusion-exclusion) is covered in chapter 5 (probability). These counting techniques are essential for algorithm analysis (how many possible inputs? how many comparisons?), but we will not repeat them here.
+- ** 综合论**(通相,并相,二分法定理,和包容-排除)在第五章(概率)中被涵盖. 这些计数技术对于算法分析至关重要(有多少可能的输入?). 我们不会在这里重复这些比较。
 
 ## 可计算性
 
-> **中文导读**：本节围绕“可计算性”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Not everything can be computed. This is one of the most profound results in all of mathematics, and it sets the fundamental limits of what computers can do.
+- 并不是一切都可以计算 这是所有数学中最深刻的结果之一,它为计算机所能做的设定了根本的限度.
 
-- A **Turing machine** is an abstract model of computation: an infinite tape of cells (each holding a symbol), a read/write head, and a finite set of states with transition rules. Despite its simplicity, a Turing machine can compute anything that any real computer can. This is the **Church-Turing thesis**: any effectively computable function can be computed by a Turing machine.
+- **图灵机**是一个抽象的计算模型:无限的单元格磁带(每个有符号),读取/写出头像,以及一组具有过渡规则的有限状态. 尽管它很简单,图灵机可以计算出任何真正的计算机所能计算到的任何东西. 这是**Church-Turing论文**:任何有效的可计算函数都可以由图灵机来计算.
 
-- Every programming language (Python, C, Haskell) is **Turing complete**: it can simulate a Turing machine and therefore compute anything that is computable. The differences between languages are in convenience, speed, and safety, not in what they can fundamentally compute.
+- 每个编程语言(Python, C, Haskell)都是**Turin complete**:它可以模拟一出图灵机并因此计算出任何可以计算出的东西. 语言之间的区别在于方便,速度,和安全,而不是它们从根本上计算出来的.
 
-- The **halting problem** asks: given a program and an input, will the program eventually stop, or will it run forever? Turing proved (1936) that no algorithm can solve this in general. The proof is by contradiction: assume a halting detector $H(P, x)$ exists. Construct a program $D$ that runs $H(D, D)$ and does the opposite of whatever $H$ says. If $H$ says $D$ halts, $D$ loops forever. If $H$ says $D$ loops, $D$ halts. Contradiction.
+- ** 吸气问题** 问:如果有一个程序和输入,程序最终会停止,还是永远运行? 图灵被证明(1936年),没有算法可以一般地解决这个问题. 证据是矛盾的:假设一个停止的探测器$H(P, x)$已存在。构建一个程序$D$运行$H(D, D)$做相反的任何事情,$H$说吧 若为$H$说$D$停下来,$D$循环永远。若为$H$说$D$循环,$D$停车 相违.
 
-- This is not a limitation of current technology; it is a mathematical impossibility. No amount of compute, cleverness, or AI will ever solve the halting problem in general. It is the computer science analogue of Gödel's incompleteness theorem.
+- 这不是对目前技术的限制;这是数学上不可能做到的。没有多少计算,聪明, 或AI永远无法解决 停止问题 总体上。这是格德尔不完全定理的计算机科学模拟.
 
-- Practical consequences: you cannot write a perfect deadlock detector, a perfect virus scanner, or a perfect optimising compiler. Each of these would require solving the halting problem (or an equivalent undecidable problem) in general. Real tools use heuristics and approximations that work in common cases but cannot guarantee correctness for all inputs.
+- 实际后果:你不能写一个完美的僵局探测器,一个完美的病毒扫描仪,或者一个完美的优化编译器. 每项措施都需要解决一般的停顿问题(或同等的无法断定的问题)。真正的工具使用在常见情况下起作用但不能保证所有投入的正确性的热度和近似值.
 
-- A problem is **decidable** if an algorithm exists that always terminates with the correct yes/no answer. It is **undecidable** if no such algorithm exists. The halting problem is undecidable. Primality testing is decidable. Type checking in most programming languages is decidable (by design).
+- 如果一个算法总是以正确的是/否答案终止,则问题**是可以确定的。如果没有这种算法,则不可确定**。停止的问题无法断定。初级测试是可裁定的。大多数编程语言的类型检查是可决定的(通过设计).
 
 ## 复杂度理论
 
-> **中文导读**：本节围绕“复杂度理论”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Even among computable problems, some are vastly harder than others. **Complexity theory** classifies problems by the resources (time, space) required to solve them as the input grows.
+- 即使在可以计算出的问题中,有些问题比其他问题困难得多。**Complexity ory** 将问题按所需资源(时间,空间)分类,以随着投入的增加而解决.
 
-![P, NP, and NP-Complete: P is contained in NP, NP-Complete sits at the boundary, and whether P=NP is the central open question](../images/p_np_complexity.svg)
+![P,NP,和NP-Conflete:P被包含在NP中,NP-Conflete坐落于边界上,而P=NP是否是中心待决问题.](../images/p_np_complexity.svg)
 
-- **P** (Polynomial time): problems solvable in $O(n^k)$ time for some constant $k$. Sorting ($O(n \log n)$), shortest path ($O(|V|^2)$), matrix multiplication ($O(n^3)$). These are considered "efficient" or "tractable."
+- ** P**(邮政时间):问题可在$O(n^k)$一定恒定的时间$k$。。。排序(E)$O(n \log n)$),最短路径($O(|V|^2)$),矩阵乘法($O(n^3)$) (中文(简体)). 这些被认为是"高效"或"可操作".
 
-- **NP** (Nondeterministic Polynomial time): problems where a proposed solution can be **verified** in polynomial time, even if **finding** the solution might take exponential time. For example, given a claimed Hamiltonian path, you can verify it in $O(n)$ by checking each edge. But finding one might require trying exponentially many possibilities.
+- ** NP**(非决定性多元时间):在多边时间可以**核实**拟议解决方案的问题,即使** 调查**该解决方案可能需要指数化时间。例如,如果有一条声称的汉密尔顿路径,你可以在$O(n)$通过检查每个边缘。但找到人可能需要尝试 成倍的多种可能性。
 
-- Every problem in P is also in NP (if you can solve it quickly, you can certainly verify a solution quickly). The central question is whether $P = NP$: is every problem whose solution can be quickly verified also quickly solvable? This is the most important open problem in computer science, with a \$1 million Clay Millennium Prize.
+- P中每个问题也都存在于NP(如果你能迅速解决,你肯定可以快速验证一个解决方案). 中心问题是$P = NP$:每个问题,其解决办法能够迅速核实,是否也能迅速解决? 这是计算机科学中最重要的公开问题,有100万美元的克莱千年奖.
 
-- Most experts believe $P \neq NP$, meaning some problems are fundamentally harder to solve than to verify. If $P = NP$, cryptography would collapse (breaking encryption is in NP), and optimisation, scheduling, and drug design would become trivially easy.
+- 大多数专家认为$P \neq NP$,意思是有些问题根本上比核实更难解决. 若为$P = NP$密码学会崩溃(破解加密在NP中), 优化、调度和药物设计将变得微不足道。
 
-- **NP-complete** problems are the hardest problems in NP. A problem is NP-complete if: (1) it is in NP, and (2) every other NP problem can be **reduced** to it in polynomial time. If you could solve any NP-complete problem efficiently, you could solve all of them (and $P = NP$).
+- ** NP-完成**问题是NP中最难解决的问题. 如果:(1) 在NP中,一个问题就是NP-完成;(2) 所有其他NP问题在多诺时段内可以被**减少**。如果你能有效解决任何NP完成问题,你就能解决所有这些问题(和$P = NP$).
 
-- A **reduction** transforms one problem into another. If problem A reduces to problem B, then B is at least as hard as A. Cook (1971) showed that **SAT** (Boolean satisfiability: given a logical formula, is there an assignment of variables that makes it true?) is NP-complete. Karp (1972) showed 21 other classic problems are NP-complete by reducing SAT to each one.
+- ** 减少**将一个问题转变为另一个问题。如果问题A减少为问题B,那么B至少和A一样困难. Cook(1971年)表明**SAT**(Boolean satisficiality:给定了逻辑公式,是否有一个变量的指定使之真实化?) 是 NP 完成的。卡普(1972年)通过将SAT降低为每个NP-完成,显示了另外21个经典问题.
 
-- Famous NP-complete problems:
-    - **Travelling Salesman Problem (TSP)**: find the shortest route visiting all cities exactly once.
-    - **Graph colouring**: colour nodes with $k$ colours such that no adjacent nodes share a colour ($k \geq 3$).
-    - **Subset sum**: given a set of integers, is there a subset that sums to a target value?
-    - **Boolean satisfiability (SAT)**: is there a truth assignment that satisfies a logical formula?
-    - **Hamiltonian path** (mentioned above in graph theory).
+- 著名的NP完成问题:
+    - ** 旅行推销员问题(TSP):寻找一次访问所有城市的最短路线。
+    - ** 图形取色**:有颜色节点$k$颜色, 使相邻的节点没有共享颜色(Q)$k \geq 3$).
+    - ** 子集和**:给定一组整数,是否有子集将集合到目标值?
+    - ** Boolean satisfiable(SAT)**:是否有符合逻辑公式的真理任务?
+    - ** 哈密尔顿路径**(上图理论中已提及).
 
-- When you encounter an NP-complete problem in practice, you do not solve it exactly for large inputs. Instead, you use: **approximation algorithms** (find a solution within a guaranteed factor of optimal), **heuristics** (greedy, local search, simulated annealing), or **special-case solvers** (many NP-complete problems are easy for restricted inputs). Modern SAT solvers, for example, routinely solve instances with millions of variables, despite the worst-case exponential complexity, by exploiting structure in practical instances.
+- 当在实际操作中遇到 NP 完成的问题时,您不会完全为大输入解决它. 相反,你使用:**近似算法**(在最佳的保证系数内找到一个解决方案),**热度**(粗略,局部搜索,模拟反射),或**特例解析器**(许多NP-完成问题对于受限制的输入来说是容易的). 例如,现代SAT解析器通过在实际情况下利用结构,例行地用上百万个变量解决各种情况,尽管最糟糕的情况是指数化的复杂性。
 
-- **NP-hard** problems are at least as hard as NP-complete but may not be in NP (their solutions might not even be verifiable in polynomial time). Optimisation versions of NP-complete problems are typically NP-hard: "find the shortest TSP tour" is NP-hard, while "is there a TSP tour shorter than $k$?" is NP-complete.
+- ** NP-hard**问题至少与NP-完成一样困难,但可能不是NP(其解决方案甚至可能在多名时间内无法核实). NP-完成问题的优化版本一般为NP-硬:"找到最短的TSP巡演"是NP-硬,而"是否有一个TSP巡演比"更短.$k$? 吗? 是 NP 完成的。
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务（使用 Colab 或 notebook）”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Build a truth table generator. Given a logical expression, enumerate all input combinations and compute the output.
+1. 构建一个真相表生成器。在逻辑表达式中,列出所有输入组合并计算出输出.
 ```python
 import itertools
 
@@ -270,7 +259,7 @@ print("De Morgan's Law verification:")
 truth_table(2, lambda p, q: (not (p and q)) == ((not p) or (not q)))
 ```
 
-2. Prove the sum formula by induction -- numerically verify for many values, then implement the closed-form solution.
+2. 通过诱导来证明总和公式 -- -- 对许多数值进行数字验证,然后执行封闭式解决方案。
 ```python
 import jax.numpy as jnp
 
@@ -281,7 +270,7 @@ for n in [1, 5, 10, 100, 1000, 10000]:
     print(f"n={n:5d}  sum={brute:>10d}  formula={formula:>10d}  match={brute == formula}")
 ```
 
-3. Solve the merge sort recurrence using the Master Theorem and verify empirically by counting operations.
+3. 使用主定理解决合并的重现,并通过计算操作来经验验证.
 ```python
 import jax.numpy as jnp
 

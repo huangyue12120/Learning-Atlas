@@ -13,113 +13,112 @@ status: reviewed
 
 *本篇将假设检验放回 AI 工程语境，保留源文中的定义、公式、代码、图示和实践边界，便于逐项核对。*
 
-*Hypothesis testing provides a rigorous framework for deciding whether observed effects are real or due to chance. This file covers null and alternative hypotheses, p-values, significance levels, t-tests, chi-squared tests, ANOVA, and Type I/II errors, the same logic used in A/B testing, model comparison and research.*
+* 体外试验为决定所观察到的效果是真实的还是偶然的提供了一个严格的框架。此文件涵盖无效和可替代的假设,p值,意义水平,t测试,chi-squared测试,ANOVA,以及类型一/II错误,与A/B测试,模型比较和研究中所使用的逻辑相同. *
 
-- Statistics is not just about describing data. Often you need to make a decision: does a new drug work? Is one algorithm faster than another? Has the average changed? Hypothesis testing gives you a structured framework for answering these questions using data.
+- 统计不仅仅是描述数据。你常常需要做决定:新药有用吗? 一个算法比另一个算法快吗? 平均变化了吗? 假想测试为您提供了使用数据回答这些问题的结构化框架.
 
-- The idea is simple: assume nothing has changed (the "null hypothesis"), then check whether the data is so extreme that this assumption becomes hard to believe.
+- 这个想法很简单:假设什么也没有改变("null system"),然后检查数据是否如此极端,以致于这个假设变得难以相信.
 
-- The **null hypothesis** ($H_0$) is the default claim, usually a statement of "no effect" or "no difference." For example: "the average delivery time is still 30 minutes" or "the new model is no better than the old one."
+- **null假设** ($H_0$)是默认债权,通常为"无效果"或"无差别"的表述. 例如:"平均交付时间还剩30分钟"或"新模式不比旧模式好".
 
-- The **alternative hypothesis** ($H_1$ or $H_a$) is what you suspect might be true instead: "the average delivery time has changed" or "the new model is better."
+- ** 备选假设** ($H_1$或 为$H_a$)是您所怀疑的可能是真实的:"平均交货时间已经改变"或"新模式更好".
 
-- You never prove $H_1$ directly. Instead, you ask: if $H_0$ were true, how likely is it that I would see data this extreme? If it is very unlikely, you reject $H_0$ in favour of $H_1$.
+- 你从不证明$H_1$直接来. 相反,你问:$H_0$我是多么有可能看到如此极端的数据? 如果不太可能,你就会拒绝$H_0$赞成:$H_1$.
 
-- The **test statistic** is a single number that summarises how far your sample result is from what $H_0$ predicts. Different tests use different formulas, but the logic is always the same: measure the distance between observed and expected.
+- 测试统计**是一个单一的数字,它总结了您的样本结果从什么得到多少。$H_0$预言 不同的测试使用不同的公式,但逻辑总是相同的:测量所观测到和预期的距离.
 
-- The **p-value** is the probability of observing a test statistic at least as extreme as yours, assuming $H_0$ is true. A small p-value means the data is surprising under $H_0$.
+- **p值**是观测测试统计的概率,至少与你的一样极端,假设$H_0$是真的,你说得对。一个小的p值表示数据令人惊讶$H_0$.
 
-- The **significance level** ($\alpha$) is the threshold you set before looking at the data. If $p \le \alpha$, you reject $H_0$. Common choices are $\alpha = 0.05$ (5%) and $\alpha = 0.01$ (1%).
+- ** 职等**$\alpha$)是您在查看数据之前设定的阈值。若为$p \le \alpha$你拒绝$H_0$。。。常见的选择是:$\alpha = 0.05$(5%)和$\alpha = 0.01$ (1%).
 
 ![图示](../images/hypothesis_test.svg)
 
-- The shaded tails are the rejection regions. If your test statistic lands there, the data is surprising enough under $H_0$ that you reject it. The green area shows the p-value for a particular test statistic.
+- 被遮蔽的尾巴是拒绝区域. 如果你的测试统计数据落地了, 这些数据足够令人惊讶$H_0$你将拒绝它。绿地显示特定测试统计的p值。
 
-- Here is the step-by-step procedure:
-    - **Step 1**: State $H_0$ and $H_1$
-    - **Step 2**: Choose a significance level $\alpha$
-    - **Step 3**: Collect data and compute the test statistic
-    - **Step 4**: Find the p-value (or compare the test statistic to a critical value)
-    - **Step 5**: If $p \le \alpha$, reject $H_0$. Otherwise, fail to reject $H_0$
+- 以下是逐步程序:
+    - ** 步骤1**:国家$H_0$财务报告和已审计财务报表$H_1$
+    - ** 第2步 **:选择一个意义级别$\alpha$
+    - ** 第3步**:收集数据并计算测试统计数据
+    - ** 第4步 **: 查找 p 值(或将测试统计与临界值进行比较)
+    - ** 步骤5**:如果$p \le \alpha$拒绝$H_0$。。。否则,拒绝$H_0$
 
-- **Worked example**: A factory claims their bolts have a mean length of 10 cm. You measure 36 bolts and find a sample mean of 10.3 cm. The known population standard deviation is 0.9 cm. Is there evidence that the mean has changed?
+- ** 工作实例**:一家工厂声称其螺栓的平均长度为10厘米。测量出36个螺栓 并找到10.3厘米的样本 已知的人口标准差为0.9厘米. 是否有证据表明,这种恶行已经改变?
 
 - $H_0$: $\mu = 10$, $H_1$: $\mu \neq 10$, $\alpha = 0.05$
 
-- Test statistic (z-test, since $\sigma$ is known and $n$ is large):
+- 测试统计(z-测试,自$\sigma$已知,且$n$宽度 :
 
 $$z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}} = \frac{10.3 - 10}{0.9 / \sqrt{36}} = \frac{0.3}{0.15} = 2.0$$
 
-- For a two-tailed test at $\alpha = 0.05$, the critical values are $\pm 1.96$. Our $z = 2.0 > 1.96$, so we reject $H_0$. The p-value is approximately 0.046, which is less than 0.05.
+- 做个双尾测试$\alpha = 0.05$,关键值是$\pm 1.96$。。。我们$z = 2.0 > 1.96$我们拒绝$H_0$。。。p值约为0.046,低于0.05.
 
-- Conclusion: there is statistically significant evidence that the mean bolt length differs from 10 cm.
+- 结论:有统计上重要的证据表明,平均螺栓长度与10厘米不同.
 
-- A **one-tailed test** checks for an effect in one specific direction ($H_1$: $\mu > 10$ or $\mu < 10$). The entire $\alpha$ goes into one tail, making it easier to reject $H_0$ in that direction but impossible to detect an effect in the opposite direction.
+- 检查某一具体方向的效果($H_1$: $\mu > 10$或 为$\mu < 10$) (中文(简体)). 整个$\alpha$掉入一尾 就更容易拒绝$H_0$但无法发现相反方向的效应。
 
-- A **two-tailed test** checks for any difference ($H_1$: $\mu \neq 10$). The $\alpha$ is split between both tails ($\alpha/2$ each). This is more conservative but catches effects in either direction.
+- 任何差异的检查(b)$H_1$: $\mu \neq 10$) (中文(简体)). 该$\alpha$将两尾相分($\alpha/2$(每个) 这样做比较保守,但渔获效果在两个方向都不同。
 
-- Even with a good procedure, mistakes happen. There are exactly two types of errors:
+- 即使程序良好 错误也会发生 错误有两种:
 
 ![图示](../images/type_errors.svg)
 
-- **Type I Error** (false positive): you reject $H_0$ when it is actually true. The probability of this is $\alpha$, which you control by choosing your significance level. Like a fire alarm going off when there is no fire.
+- ** 类型 I 错误** (假阳性): 您拒绝$H_0$当它是真实的。这概率是$\alpha$,通过选择意义级别来控制它。就像火警响起时没有起火
 
-- **Type II Error** (false negative): you fail to reject $H_0$ when it is actually false. The probability of this is $\beta$. Like a fire alarm staying silent during a real fire.
+- ** Type II 出错** (假负): 您无法拒绝$H_0$当它实际上是虚假的。这概率是$\beta$。。。就像火警在火灾中保持沉默一样
 
-- **Power** is $1 - \beta$, the probability of correctly rejecting a false $H_0$. Higher power means you are better at detecting real effects. Power increases when:
-    - The true effect size is larger (bigger differences are easier to detect)
-    - The sample size is larger (more data = more precision)
-    - The significance level $\alpha$ is larger (but this raises Type I error risk)
-    - The variability is lower (less noise)
+- ** 国 家 **$1 - \beta$,正确拒绝虚假的概率$H_0$。。。强力意味着你更能检测到真正的效果 电量增加时:
+    - 真实效果大小较大(跳鼠差异比较容易检测)
+    - 样本大小较大(更多数据 = 更精确)
+    - 意义级别$\alpha$较大(但这会增加I型出错风险)
+    - 变异性较低(低噪音)
 
-- There is a tension between Type I and Type II errors. Lowering $\alpha$ (being more cautious about false positives) increases $\beta$ (more false negatives). You cannot minimise both simultaneously with a fixed sample size.
+- 第一类错误和第二类错误之间有张力. 降级$\alpha$(对虚假阳性持更谨慎态度)$\beta$(更假阴. 您不能同时将两者与固定样本大小最小化。
 
-- **Parametric tests** assume the data follows a specific distribution (usually normal). They are more powerful when the assumptions hold.
+- ** 参数测试** 假设数据遵循一个特定的分布(通常是正常的). 当假设成立时,它们的力量更大。
 
-- **Z-test**: compares a sample mean to a known value when $\sigma$ is known and $n$ is large ($n \ge 30$). Test statistic:
+- **Z-测试**:将样本平均值与已知值进行比较,当$\sigma$已知,且$n$大型(4个)$n \ge 30$) (中文(简体)). 测试统计 :
 
 $$z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}}$$
 
-- **T-test**: like the z-test, but for when $\sigma$ is unknown (estimated from the sample) or $n$ is small. Uses the t-distribution, which has heavier tails than the normal. The heavier tails account for the extra uncertainty from estimating $\sigma$.
+- **T测试**:像z测试,但何时$\sigma$未知(从样本中估算)或$n$是个小的。使用t-分布,其尾部比平时更重. 更重的尾巴是估计值时额外不确定性的原因$\sigma$.
 
 $$t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}$$
 
-- The t-distribution has a parameter called **degrees of freedom** ($df = n - 1$). As $df$ increases, the t-distribution approaches the normal distribution.
+- t-分布有一个参数,叫做**度自由**($df = n - 1$) (中文(简体)). 作为$df$增加时,t分配接近正态分配.
 
-- There are several flavours of t-test:
-    - **One-sample t-test**: is the sample mean different from a specific value?
-    - **Independent two-sample t-test**: are the means of two separate groups different?
-    - **Paired t-test**: are the means of two related measurements different (e.g. before and after treatment on the same subjects)?
+- 有几种t-t-test的味道:
+    - **一样本t测试**:样本意指与特定值是否不同?
+    - ** 独立的双样本 t-测试**:两个单独组别的手段是否不同?
+    - **Paired t-test**:是两种相关测量方法不同(例如: 在同一科目上治疗前后)?
 
-- **ANOVA (Analysis of Variance)**: tests whether three or more group means are equal. Instead of running multiple t-tests (which inflates the Type I error rate), ANOVA does a single test by comparing the variance between groups to the variance within groups.
+- ** ANOVA(差异分析)**:测试是否三个或三个以上组别是相等的。ANOVA没有运行多个t-测试(它夸大了I型出错率),而是通过将组之间的差异与组内的差异进行比较来进行单一测试.
 
 $$F = \frac{\text{variance between groups}}{\text{variance within groups}}$$
 
-- A large $F$ ratio means the groups differ more than you would expect from random variation alone.
+- 一个大$F$比率意味着各组的差异大于你对随机变化的预期。
 
-- **Non-parametric tests** make fewer assumptions about the data distribution. They work on ranks rather than raw values, making them robust to outliers and non-normality.
+- ** 非参数测试** 对数据分布的假设较少。他们靠的不是原始价值,而是排名,使他们强壮到超越和不正常。
 
-- **Chi-square test** ($\chi^2$): tests whether observed frequencies match expected frequencies. Used for categorical data. For example: do the proportions of red, blue, and green cars match the manufacturer's claimed proportions?
+- ** Chi-square 测试** ($\chi^2$:测试观测到的频率是否与预期频率相匹配. 用于绝对数据。例如:红色,蓝色和绿色汽车的比例是否与制造商声称的比例相匹配?
 
 $$\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}$$
 
-- **Mann-Whitney U test**: the non-parametric alternative to the independent two-sample t-test. It tests whether one group tends to have larger values than the other by comparing ranks.
+- **Mann-Whitney U测试**:独立二样t测试的非参数化替代. 它通过比较排名来检验一个群体是否倾向于拥有比另一个更大的值.
 
-- **Wilcoxon signed-rank test**: the non-parametric alternative to the paired t-test. Compares paired observations by looking at the magnitude and direction of differences.
+- **Wilcoxon签名排名测试**:配对t测试的非参数替代. 比较对等观测,看差异的程度和方向。
 
-- **Kruskal-Wallis test**: the non-parametric alternative to one-way ANOVA. Tests whether multiple groups come from the same distribution by comparing ranks across all groups.
+- ** Kruskal-Wallis试验**:单向ANOVA的非参数化替代品。通过比较所有团体的排名来检验多个团体是否来自同一分布.
 
-- **Goodness-of-fit tests** check whether your data follows a specific theoretical distribution. The chi-square goodness-of-fit test compares observed bin counts to expected counts under the hypothesised distribution.
+- ** 适中测试** 检查您的数据是否遵循特定的理论分布. Chi-square film-fit测试将所观测到的bin计数与假设分布下的预期计数进行比较.
 
-- **Normality tests** specifically check whether data is normally distributed. Common ones include the Shapiro-Wilk test (powerful for small samples) and the Kolmogorov-Smirnov test (compares the sample CDF to the theoretical CDF).
+- ** 标准测试** 具体检查数据是否正常分布。常见的有:沙皮罗-维尔克测试(能为小样本提供能力)和科尔莫戈罗夫-斯米尔诺夫测试(将样本CDF与理论CDF相比较).
 
-- In ML, hypothesis testing appears when you compare model performance. If model A achieves 92% accuracy and model B achieves 91%, is the difference real or just noise? A paired t-test on cross-validation scores can answer this.
+- 在ML中,假想测试在比较模型性能时会出现. 如果模型A实现92%的精度,而模型B实现91%,那么差异是真实的还是仅仅是噪音? 交叉验证分数上的一对t测试可以回答这个问题.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务（使用 Colab 或 notebook）”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-1. Perform a z-test for the bolt factory example from the text. Compute the test statistic, p-value, and make a decision.
+1. 从文本中为螺栓厂实例进行z测试。计算测试统计,p值,并作出决定。
 ```python
 import jax.numpy as jnp
 
@@ -141,7 +140,7 @@ print(f"p-value = {p_value:.4f}")
 print(f"Reject H₀? {p_value <= alpha}")
 ```
 
-2. Simulate Type I error: when $H_0$ is true, how often do we mistakenly reject it? Run 10,000 experiments and check that the rejection rate matches $\alpha$.
+2. 模拟类型 I 出错: 当$H_0$是真的,我们多久才错误地拒绝? 进行一万次实验,检查拒绝率是否相符$\alpha$.
 ```python
 import jax
 import jax.numpy as jnp
@@ -166,7 +165,7 @@ print(f"Rejection rate: {rejections/n_experiments:.4f}")
 print(f"Expected (α):   {alpha}")
 ```
 
-3. Compare a t-test and a Mann-Whitney U test on two groups. Generate data where one group has a slightly higher mean and see which test detects the difference.
+3. 比较T测试和曼-惠特尼U测试两组. 生成数据,其中一个组的平均值略高,并看到哪个测试检测到差异.
 ```python
 import jax
 import jax.numpy as jnp

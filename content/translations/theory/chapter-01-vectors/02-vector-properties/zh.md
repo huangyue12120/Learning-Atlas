@@ -13,86 +13,85 @@ status: reviewed
 *向量性质描述向量在几何和代数上的行为。本篇覆盖大小、方向、单位向量、相等、平行、正交和线性无关性，这些概念构成机器学习特征空间的基础。*
 
 
-*Vector properties describe the geometric and algebraic characteristics that define how vectors behave. This file covers magnitude, direction, unit vectors, equality, parallelism, orthogonality, and linear independence, the building blocks of every ML feature space.*
+* 维克特属性描述几何和代数特征,用以定义向量的行为方式. 此文件包括了星等,方向,单位向量,平等,平行,正交,线性独立,每个ML特征空间的构件. *
 
-- The **magnitude** (or length) of a vector tells you *how far* it reaches. Think of it as the length of the arrow. For a vector $\mathbf{a} = (a_1, a_2, a_3)$, its magnitude is:
+- 向量的**放大** (或长度) 告诉你它有多远。以为箭之长. 对于向量$\mathbf{a} = (a_1, a_2, a_3)$,其规模为:
 
 $$\|\mathbf{a}\| = \sqrt{a_1^2 + a_2^2 + a_3^2}$$
 
-- This is just the Pythagorean theorem extended to higher dimensions and measuring the straight-line distance from the origin to the point.
+- 这仅仅是毕达哥里安定理延伸至更高维度并测量从起源到点的直线距离.
 
-- The **direction** of a vector tells you *where* it points; simply visualise a straight line from the origin to the coordinate's point.
+- 向量的**方向**告诉你它指向何方;简单地直观从出处到坐标点的一行.
 
-- When origin is not explicitly specifies, we often imply (0,0,...0), the centerpoint, at least for visualisation purposes.
+- 当来源没有明确指定时,我们往往暗示(0,0.0)是中心点,至少是为了可视化的目的.
 
-- Position doesn't matter, its always about displacement: a vector $(3, 2)$ drawn from the origin and the same $(3, 2)$ drawn from another point are still equal.
+- 位置无关紧要,总是关于迁移:一个向量$(3, 2)$来源和来源$(3, 2)$从另一个角度推断出来的,仍然是平等的。
 
-![Vector equality: same (3,2) vector drawn from two different starting points](../images/vector_equality.svg)
+![向量平等:从两个不同的起点取出相同的向量(3,2)](../images/vector_equality.svg)
 
-- Two vectors can have the same length but point in completely different directions, or point the same way but differ in length.
+- 两种向量的长度可以相同,但指向完全不同的方向,或者指向相同的方式但长度不同.
 
-![Same direction, different magnitudes (v and 2v) vs same magnitude, different directions](../images/magnitude_direction.svg)
+![相同的方向,不同的等分(v和2v)对等等分,不同的等分.](../images/magnitude_direction.svg)
 
-- Two vectors are **equal** if and only if all their corresponding components match; same length, same direction, the exact same arrow.
+- 两个向量是**等**,如果并且只有在它们的所有相应组件相匹配的情况下;相同长度,相同方向,完全相同的箭头.
 
 $$\mathbf{a} = \mathbf{b} \iff a_i = b_i \text{ for all } i$$
 
-- Two vectors are **parallel** if one is a scalar multiple of the other. They point along the same line, either in the same direction or exactly opposite.
+- 两个向量是**平行的** 如果其中一个是相加的相分数。它们沿着同一条线指向同一方向或完全相反.
 
 $$\mathbf{a} \parallel \mathbf{b} \iff \mathbf{a} = k\mathbf{b} \text{ for some scalar } k \neq 0$$
 
-![Parallel vectors: a and b point the same way, a and -b point opposite](../images/parallel_vectors.svg)
+![平行向量: a和b 指向相同方向, a和-b 指向相反方向](../images/parallel_vectors.svg)
 
-- If $k > 0$, they point the same way. If $k < 0$, they point in opposite directions. Either way, they lie on the same line through the origin.
+- 若为$k > 0$他们指着同样的方式。若为$k < 0$他们指向相反的方向 无论哪种方式,他们都在同一条线上 穿过源头。
 
-- Intuitively, parallel vectors carry no "new" directional information. One is just a stretched or flipped version of the other.
+- 直觉上,平行向量携带"新"方向信息. 一个只是另一个的拉伸或翻转版本。
 
-- Two vectors are **orthogonal** (perpendicular) if they point in completely independent directions. Moving along one gives you zero progress along the other.
+- 两个向量如果指向完全独立的方向,是**正弦**(双向). 沿着这条路走下去,你从另一条路走来,没有进展。
 
-![Orthogonal vectors: u and v meet at a right angle](../images/orthogonal_vectors.svg)
+![正向向量:u和v在正确的角度相会](../images/orthogonal_vectors.svg)
 
-- Think of walking north and then walking east, these are orthogonal directions, no amount of walking north will ever move you east. We will encounter orthogonality very often.
+- 想想往北走然后往东走, 这些是正向方向, 没有太多的走来走去 你永远不能向东走. 我们将经常遇到矫形。
 
-- Orthogonality is central to ML: features that are orthogonal carry completely independent information, which is ideal for representation.
+- 矫形是ML的核心:是正交式的特征,可以完全独立地传递信息,这是代表的理想.
 
-- More generally, any two vectors have an **angle** $\theta$ between them, ranging from $0°$ to $180°$.
+- 更一般地说,任何两种向量都有**angle**$\theta$在他们之间,$0°$改为$180°$.
 
-- This angle captures the entire relationship between two directions: $0°$ means parallel (same direction), $180°$ means parallel (opposite direction), and $90°$ means orthogonal. Everything in between is a blend.
+- 这个角度可以捕捉两个方向之间的整个关系:$0°$表示平行(相同的方向),$180°$表示平行(对面方向),以及$90°$指正统. 中间的一切都是混合的
 
-- Most vector relationships in ML live somewhere in this spectrum. Later, we will see exact tools (dot product, cosine similarity) to compute this angle.
+- ML中的大多数向量关系都生活在这个谱系中. 稍后,我们将看到精确的工具(点出产物,同位素相似性)来计算这个角度.
 
-- A set of vectors is **linearly dependent** if at least one of them can be built from the others by scaling and adding. It brings no new information to the set.
+- 如果至少有一个向量能够通过缩放和添加从其他向量中被构建出来,则一组向量是**线性依赖**. 它没有给剧组带来新的信息。
 
-- For example, if $\mathbf{c} = 2\mathbf{a} + 3\mathbf{b}$, then $\mathbf{c}$ is redundant, you already have everything $\mathbf{c}$ offers through $\mathbf{a}$ and $\mathbf{b}$.
+- 例如,如果$\mathbf{c} = 2\mathbf{a} + 3\mathbf{b}$,则$\mathbf{c}$多余的,你已经拥有一切了$\mathbf{c}$通过提供$\mathbf{a}$财务报告和已审计财务报表$\mathbf{b}$.
 
-- Parallel vectors are always linearly dependent, since one is just a scaled copy of the other. Any set containing the zero vector is also linearly dependent.
+- 平行向量总是线性依赖,因为一个只是另一个的缩放副本. 任何包含零向量的集,也都具有线性依赖性.
 
-- Vectors are **linearly independent** if none of them can be built from the others. Each one contributes a genuinely new direction. Orthogonal vectors are always linearly independent.
+- 向量是**线性独立的** 如果它们都无法从其他的构造出来. 每一份都提供了真正的新方向。正向向量总是线性独立的.
 
-- Some intuition: if you want to study different humans and represent them as a vector, linearly dependent vectors (humans) will skew the observation in favour of the oversampled data point, an important factor in designing dataset for training AI.
+- 某些直觉:如果想研究不同的人类并把他们作为向量来代表,线性依赖的向量(humans)会扭曲观测结果而倾向于被过度抽样的数据点,这是设计用于训练AI的数据集的一个重要因素.
 
-- In 2D, two linearly independent vectors can reach any point in the plane. In 3D, you need three. This idea of "how many independent vectors you need" connects directly to dimension.
+- 在2D中,两个线性独立的向量可以到达平面上的任何点. 3D里,你需要三个 这种"你需要多少个独立向量"的想法直接连接到维度.
 
-- A vector is **sparse** when most of its components are zero. The opposite, most components being nonzero, is called **dense**.
+- 当其大部分组件为零时,向量为**sparse**. 与之相反,大多数成分为非零,称为**dense**.
 
 $$\mathbf{s} = [0, 0, 3, 0, 0, 0, 1, 0, 0, 0]$$
 
-- Sparsity matters because it affects both storage and computation. Sparse vectors can be stored and processed much more efficiently by only tracking the nonzero entries.
+- 相和性之所以重要,是因为它既会影响存储,也会影响计算. 只能通过跟踪非零条目来更高效地存储和处理 Sparse向量.
 
-- A **unit vector** is a vector with magnitude exactly 1. It purely represents a direction with no length information. You can turn any vector into a unit vector by dividing by its magnitude:
+- **单位向量**是一个向量,其分数正好为1. 它纯粹是一个没有长度信息的方向。您可以通过除以其大小来将任何向量变为单位向量 :
 
 $$\hat{\mathbf{a}} = \frac{\mathbf{a}}{\|\mathbf{a}\|}$$
 
-- This process is called **normalisation**. It strips away "how far" and keeps only "which way", this is an important factor in machine learning.
+- 这个过程称为**正统化**. 它剥去"多远",只保留"哪条路",这是机器学习的一个重要因素.
 
-- The standard unit vectors point along each axis: $\hat{\mathbf{i}} = (1, 0, 0)$, $\hat{\mathbf{j}} = (0, 1, 0)$, $\hat{\mathbf{k}} = (0, 0, 1)$. Any vector can be written as a combination of these, e.g. $(3, 2, 4) = 3\hat{\mathbf{i}} + 2\hat{\mathbf{j}} + 4\hat{\mathbf{k}}$.
+- 标准单位向量沿着每个轴点:$\hat{\mathbf{i}} = (1, 0, 0)$, $\hat{\mathbf{j}} = (0, 1, 0)$, $\hat{\mathbf{k}} = (0, 0, 1)$。。。任何向量都可以被写作这些组合,例如.$(3, 2, 4) = 3\hat{\mathbf{i}} + 2\hat{\mathbf{j}} + 4\hat{\mathbf{k}}$.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Compute the magnitude of a vector and verify it matches the Pythagorean theorem, then modify to compute the unit vector.
+1. 计算向量的大小并验证它与毕达哥里安定理相匹配,再修改以计算单位向量.
 ```python
 import jax.numpy as jnp
 
@@ -102,7 +101,7 @@ magnitude = jnp.sqrt(jnp.sum(a ** 2))
 print(f"Magnitude of a: {magnitude}")
 ```
 
-2. Check whether two vectors are parallel by testing if one is a scalar multiple of the other.
+2. 检查两个向量是否平行, 如果其中一个是相加的分数。
 ```python
 import jax.numpy as jnp
 

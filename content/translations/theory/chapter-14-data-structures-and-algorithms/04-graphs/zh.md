@@ -206,7 +206,7 @@ def can_finish(num_courses, prerequisites):
 
 - **问题**：返回一种有效的课程顺序（拓扑序）。
 
-- **模式（Kahn 算法——基于 BFS）**：从没有入边的节点（入度为 0）开始。处理这些节点，并减少其邻居的入度。重复这一过程。
+- **模式（Kahn 算法，，基于 BFS）**：从没有入边的节点（入度为 0）开始。处理这些节点，并减少其邻居的入度。重复这一过程。
 
 ```python
 from collections import deque
@@ -312,23 +312,23 @@ def network_delay(times, n, k):
 ## 课后问题（NeetCode）
 
 ### BFS 模式
-- [岛屿数量](https://neetcode.io/problems/count-number-of-islands) — 网格 BFS/DFS
-- [腐烂的橘子](https://neetcode.io/problems/rotting-fruit) — 多源 BFS
-- [克隆图](https://neetcode.io/problems/clone-graph) — BFS + 哈希表克隆
-- [太平洋大西洋水流](https://neetcode.io/problems/pacific-atlantic-water-flow) — 从两个海洋执行 BFS
-- [单词接龙](https://neetcode.io/problems/word-ladder) — 在隐式图上执行 BFS
+- [岛屿数量](https://neetcode.io/problems/count-number-of-islands) ， 网格 BFS/DFS
+- [腐烂的橘子](https://neetcode.io/problems/rotting-fruit) ， 多源 BFS
+- [克隆图](https://neetcode.io/problems/clone-graph) ， BFS + 哈希表克隆
+- [太平洋大西洋水流](https://neetcode.io/problems/pacific-atlantic-water-flow) ， 从两个海洋执行 BFS
+- [单词接龙](https://neetcode.io/problems/word-ladder) ， 在隐式图上执行 BFS
 
 ### DFS 模式
-- [岛屿的最大面积](https://neetcode.io/problems/max-area-of-island) — 统计面积的 DFS
-- [课程表](https://neetcode.io/problems/course-schedule) — 有向图环检测
-- [课程表 II](https://neetcode.io/problems/course-schedule-ii) — 拓扑排序
-- [连通分量数量](https://neetcode.io/problems/count-connected-components) — DFS 或并查集
-- [图是否为树](https://neetcode.io/problems/valid-tree) — 连通且无环
+- [岛屿的最大面积](https://neetcode.io/problems/max-area-of-island) ， 统计面积的 DFS
+- [课程表](https://neetcode.io/problems/course-schedule) ， 有向图环检测
+- [课程表 II](https://neetcode.io/problems/course-schedule-ii) ， 拓扑排序
+- [连通分量数量](https://neetcode.io/problems/count-connected-components) ， DFS 或并查集
+- [图是否为树](https://neetcode.io/problems/valid-tree) ， 连通且无环
 
 ### 最短路径
-- [网络延迟时间](https://neetcode.io/problems/network-delay-time) — Dijkstra
-- [K 站中转内最便宜的航班](https://neetcode.io/problems/cheapest-flight-path) — 带约束的修改版 BFS/Bellman–Ford
-- [上升水位中的游泳](https://neetcode.io/problems/swim-in-rising-water) — 二分搜索 + 网格 BFS 或 Dijkstra
+- [网络延迟时间](https://neetcode.io/problems/network-delay-time) ， Dijkstra
+- [K 站中转内最便宜的航班](https://neetcode.io/problems/cheapest-flight-path) ， 带约束的修改版 BFS/Bellman–Ford
+- [上升水位中的游泳](https://neetcode.io/problems/swim-in-rising-water) ， 二分搜索 + 网格 BFS 或 Dijkstra
 
 ### 进阶
-- [外星词典](https://neetcode.io/problems/foreign-dictionary) — 根据字符顺序进行拓扑排序
+- [外星词典](https://neetcode.io/problems/foreign-dictionary) ， 根据字符顺序进行拓扑排序

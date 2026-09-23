@@ -13,39 +13,39 @@ status: reviewed
 
 *本篇将源分离与噪声消除放回 AI 工程语境，保留源文中的定义、公式、代码、图示和实践边界，便于逐项核对。*
 
-*Source separation and noise cancellation recover individual signals from mixed audio; the computational cocktail party problem. This file covers ICA, NMF, time-frequency masking, beamforming, deep learning separation networks (Conv-TasNet, SepFormer), speech enhancement, and adaptive noise cancellation.*
+* 来源分离和噪音取消从混合音频中恢复单个信号;计算鸡尾酒派对问题. 该文件涵盖ICA,NMF,时间频率遮掩,光束造型,深度学习分离网络(Conv-TasNet,SepFormer),语音增强和适应性噪声取消. *
 
-- Imagine standing at a crowded cocktail party. Dozens of people are talking simultaneously, music is playing, glasses are clinking, yet you can focus on one conversation and follow it clearly. This remarkable ability, the **cocktail party problem** (Cherry, 1953), is something the human auditory system solves effortlessly but machines find extraordinarily difficult. This file covers the algorithms that attempt it: separating mixed audio sources, cancelling unwanted noise, and enhancing speech in adverse conditions.
+- 想象一下,站在一个拥挤的鸡尾酒会。数十人同时交谈,音乐在演奏,眼镜在凝结,然而你却可以专心于一次对话,并清晰地遵循. 这种非凡的能力,即**鸡尾酒会问题**(Cherry,1953),是人类听力系统无劳地解决的,但机器发现异常困难. 此文件涵盖了尝试它的算法:分离混合音频源,取消不想要的噪音,在不利条件下增强语音.
 
-- The signal-processing foundations from file 01 (STFT, spectrograms, filterbanks) underpin every method here. The matrix decomposition techniques from chapter 02 (NMF, ICA, SVD) provide the classical toolkit. The deep learning architectures from chapter 06 (CNNs, RNNs, attention) and the probability theory from chapter 04/05 inform the modern approaches.
+- 文件01(STFT,分光克,滤波库)的信号处理基础支撑着这里的每一种方法. 第02章(NMF,ICA,SVD)的矩阵分解技术提供了经典工具包. 第06章(CNNs,RNNs,注意)的深度学习架构和从第04/05章起的概率理论为现代方法提供了参考.
 
 ![图示](../images/cocktail_party.svg)
 
-- **Problem formulation**: a mixture signal $x(t)$ is observed at one or more microphones. The mixture is a sum (in the simplest case) of $C$ source signals:
+- ** 问题制剂**:混合信号$x(t)$在一个或多个麦克风上观察到。混合物是(最简单的情况下)$C$源信号 :
 
 $$x(t) = \sum_{c=1}^{C} s_c(t) + n(t)$$
 
-- where $s_c(t)$ is the $c$-th source signal and $n(t)$ is background noise. The goal is to recover the individual $s_c(t)$ from $x(t)$. In the single-microphone case this is severely underdetermined: one equation, $C$ unknowns. Additional assumptions (statistical independence, spectral structure, learned priors) are needed to make the problem tractable.
+- 地点$s_c(t)$是那个$c$- 源信号和$n(t)$是背景噪声。目标是恢复个人$s_c(t)$从$x(t)$。。。在单个麦克风的情况下, 情况严重不足:$C$未知数 需要更多的假设(统计独立性、光谱结构、学到的前科),使问题能够被引导。
 
-- In the frequency domain (via STFT from file 01), the mixture becomes:
+- 在频率域(通过文件01的STFT),混合物会变成:
 
 $$X(t, f) = \sum_{c=1}^{C} S_c(t, f) + N(t, f)$$
 
-- Many separation methods work in the time-frequency domain by estimating a **mask** $M_c(t, f) \in [0, 1]$ for each source, then recovering the source as $\hat{S}_c(t, f) = M_c(t, f) \cdot X(t, f)$. The **ideal binary mask (IBM)** sets $M_c(t, f) = 1$ if source $c$ dominates that time-frequency bin and 0 otherwise. The **ideal ratio mask (IRM)** is a soft version:
+- 许多分离方法通过估计**mask**在时间频率领域起作用.$M_c(t, f) \in [0, 1]$,然后将源恢复为$\hat{S}_c(t, f) = M_c(t, f) \cdot X(t, f)$。。。双面罩(IBM)**套$M_c(t, f) = 1$如果来源$c$控制了时间频率的bin和0。** 理想比率口罩**是一个软版本:
 
 $$\text{IRM}_c(t, f) = \frac{|S_c(t, f)|^2}{\sum_{j=1}^{C} |S_j(t, f)|^2}$$
 
-- **Independent Component Analysis (ICA)** is the classical approach when the number of microphones equals or exceeds the number of sources. ICA (chapter 02) finds a linear unmixing matrix $W$ such that $\hat{s} = Wx$, where the recovered sources $\hat{s}$ are maximally statistically independent. The key assumption is that source signals are non-Gaussian and independent, which is typically valid for speech and music.
+- ** 独立组件分析**是麦克风数等于或超过来源数时的经典方法。ICA(第02章) 找到一个线性未混合矩阵$W$这样的话$\hat{s} = Wx$,其中回收来源$\hat{s}$在统计上是最大的独立。关键假设是源信号是非高斯函数且独立,这通常对语音和音乐有效.
 
-- For the multi-microphone instantaneous mixing model $x = As$ (where $A$ is the mixing matrix), ICA recovers $W \approx A^{-1}$ by maximising the non-Gaussianity of the outputs (FastICA uses negentropy) or by minimising mutual information. ICA works well in controlled settings but fails when mixing involves convolution (room reverberation), when sources outnumber microphones, or when the independence assumption is violated.
+- 多麦克风瞬间混合模型$x = As$(何处)$A$是混合矩阵, ICA 恢复$W \approx A^{-1}$最大限度地提高产出的非高斯性(FastICA使用阴性)或尽量减少相互信息。ICA在受控环境下运作良好,但在混合涉及分化(室回响),源数超过麦克风,或独立性假设被违反时失败.
 
-- **Non-negative Matrix Factorisation (NMF)** decomposes the magnitude spectrogram $V \in \mathbb{R}_+^{F \times T}$ into a product of two non-negative matrices (chapter 02):
+- ** 非负矩阵因子化(NMF)** 分解等分光谱$V \in \mathbb{R}_+^{F \times T}$成为两个非负性矩阵的产物(第02章):
 
 $$V \approx WH$$
 
-- where $W \in \mathbb{R}_+^{F \times K}$ is a dictionary of $K$ spectral basis vectors and $H \in \mathbb{R}_+^{K \times T}$ contains the activation coefficients over time. The non-negativity constraint is physically motivated: magnitudes are non-negative, and sounds combine additively.
+- 地点$W \in \mathbb{R}_+^{F \times K}$是一个字典,其中包含$K$光谱基向量和$H \in \mathbb{R}_+^{K \times T}$包含随时间推移的活化系数。非负性约束是生理上的动机: 等分是非负性的,而音能结合了添加.
 
-- For source separation, NMF learns separate dictionaries for each source: $W_{\text{speech}}$ captures the spectral patterns of speech (formant structures), while $W_{\text{noise}}$ captures noise patterns. The mixture is decomposed as $V \approx W_{\text{speech}} H_{\text{speech}} + W_{\text{noise}} H_{\text{noise}}$, and each source is recovered by masking. NMF is minimised using multiplicative updates with either the Frobenius norm or KL divergence as the cost function:
+- 关于源分立,NMF学习了每个源的分出词典:$W_{\text{speech}}$捕捉语音的光谱模式(成型结构),同时$W_{\text{noise}}$捕捉出噪音图案。混合物被分解为:$V \approx W_{\text{speech}} H_{\text{speech}} + W_{\text{noise}} H_{\text{noise}}$,每个来源都通过蒙面恢复。将使用带有Frobenius规范或KL差分的乘法更新作为成本函数最小化:
 
 ```math
 \begin{aligned}
@@ -54,17 +54,17 @@ $$V \approx WH$$
 \end{aligned}
 ```
 
-- **Beamforming** exploits spatial information from microphone arrays. When a source signal arrives at different microphones with different delays (due to the spatial arrangement), these delays can be used to enhance the signal from one direction while suppressing others.
+- ** 光束形成**利用麦克风阵列提供的空间信息。当一个源信号到达不同的麦克风并有不同的延迟(因为空间安排)时,这些延迟可以用来从一个方向增强信号,同时压制其他方向.
 
 ![图示](../images/beamforming.svg)
 
-- **Delay-and-sum beamforming** is the simplest approach. If the desired source is at angle $\theta$ relative to the array, the time delay at microphone $m$ is $\tau_m(\theta) = d_m \sin \theta / c$, where $d_m$ is the microphone position and $c$ is the speed of sound. The beamformer output aligns and sums the microphone signals:
+- ** 延后和通束制**是最简单的办法。如果想要的源处于角度上$\theta$相对于阵列,麦克风上的延迟时间$m$实值$\tau_m(\theta) = d_m \sin \theta / c$,在其中$d_m$是麦克风的位置,并且$c$是声音的速度。光束输出对齐并汇总麦克风信号:
 
 $$y(t) = \frac{1}{M} \sum_{m=1}^{M} x_m(t - \tau_m(\theta))$$
 
-- Signals from the target direction add coherently, while signals from other directions add incoherently, providing spatial filtering. The array geometry determines the spatial resolution: larger arrays give narrower beams.
+- 从目标方向发出的信号会连贯地添加出信号,而从其他方向发出的信号会不连贯地添加出信号,提供空间过滤. 阵列几何决定了空间分辨率:较大的阵列给出更窄的束.
 
-- **Minimum Variance Distortionless Response (MVDR)** beamforming optimises the weights to minimise total output power while passing the target direction without distortion:
+- ** 最小差异扭曲反应** 光束选择式在不扭曲地通过目标方向时将加权以最小化总输出功率:
 
 ```math
 \begin{aligned}
@@ -73,33 +73,33 @@ $$y(t) = \frac{1}{M} \sum_{m=1}^{M} x_m(t - \tau_m(\theta))$$
 \end{aligned}
 ```
 
-- where $\Phi_{nn}$ is the noise spatial covariance matrix and $\mathbf{d}(\theta)$ is the steering vector for direction $\theta$. The closed-form solution is:
+- 地点$\Phi_{nn}$是噪声空间相变矩阵和$\mathbf{d}(\theta)$是方向的向导$\theta$。。。封闭式解决方案是:
 
 $$\mathbf{w}_{\text{MVDR}} = \frac{\Phi_{nn}^{-1} \mathbf{d}(\theta)}{\mathbf{d}(\theta)^H \Phi_{nn}^{-1} \mathbf{d}(\theta)}$$
 
-- MVDR adapts to the noise environment by using the estimated noise covariance, providing better interference rejection than delay-and-sum. It is widely used in hearing aids, smart speakers, and teleconferencing systems.
+- MVDR通过使用估计的噪声共变来适应噪声环境,提供比延迟和更好的干扰拒绝. 它被广泛用于助听器,智能扬声器和电话会议系统.
 
-- **Deep learning for source separation** has dramatically improved performance, especially in the single-microphone case where classical methods struggle. The general paradigm is: encode the mixture, estimate masks or source representations with a neural network, and decode to recover individual sources.
+- ** 深入学习源分离** 显著地改善了业绩,特别是在古典方法挣扎的单麦克风案件中。一般的范式是:用神经网络来编码混合物,估计口罩或源表示,并解码以回收单个源.
 
-- **Deep clustering** (Hershey et al., 2016) embeds each time-frequency bin into a high-dimensional space where bins belonging to the same source are close together and bins from different sources are far apart. A bidirectional LSTM (chapter 06) maps each T-F bin $(t, f)$ to an embedding $v_{t,f} \in \mathbb{R}^D$. The training objective is:
+- **深聚**(Hershey等,2016年)将每个时间频率的bin嵌入到一个高维空间中,属于同源的bin相接相接相接相接,不同来源的bin相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接 双向 LSTM(第06章) 映射每个 T-F 弹框$(t, f)$到嵌入处$v_{t,f} \in \mathbb{R}^D$。。。培训目标是:
 
 $$\mathcal{L} = \|VV^T - YY^T\|_F^2$$
 
-- where $V$ is the matrix of embeddings and $Y$ is the one-hot matrix of source assignments. The product $VV^T$ is an affinity matrix (how similar two bins' embeddings are), and $YY^T$ is the ideal affinity (1 if same source, 0 otherwise). At inference, K-means clustering on the embeddings produces binary masks.
+- 地点$V$是嵌入和$Y$是源任务的一个热矩阵。产品$VV^T$是一个相近矩阵(两个相近的宾箱嵌入物是如何存在的),以及$YY^T$是理想的亲和性(如果同一来源,0 否则)。推想出,嵌入物上的K-意指集群产生二进制口罩.
 
-- **Conv-TasNet** (Luo and Mesgarani, 2019) operates entirely in the time domain, bypassing the STFT. It has three components:
+- ** Conv-TasNet**(Luo和Mesgarani,2019年)完全运行在时间域,绕过STFT. 它有三个组成部分:
 
 ![图示](../images/conv_tasnet.svg)
 
-- **Encoder**: a 1D convolution maps short segments of the mixture waveform to a latent representation. For a mixture $x \in \mathbb{R}^T$, the encoder output is $w = \text{ReLU}(U \ast x) \in \mathbb{R}^{N \times L}$, where $U$ is a learnable basis (analogous to the STFT basis but learned from data), $N$ is the number of basis functions, and $L$ is the number of segments. The encoder kernel size and stride (typically 2ms and 1ms) determine the temporal resolution.
+- ** Encoder**:一维分解图将混合物波形的短段图示为潜在代表. 对于混合物$x \in \mathbb{R}^T$,编码器输出为$w = \text{ReLU}(U \ast x) \in \mathbb{R}^{N \times L}$,在其中$U$是一种可学习的基础(类似于STFT基础,但从数据中吸取了教训);$N$是基础函数的数量,以及$L$是分数。编码器内核大小和出行速度(通常为2ms和1ms)决定了时间分辨率.
 
-- **Separator**: a **Temporal Convolutional Network (TCN)** processes the encoded mixture and outputs $C$ masks. The TCN stacks dilated 1D depthwise separable convolutions (from chapter 08's efficient convolutions) in blocks with exponentially increasing dilation factors $1, 2, 4, \ldots, 2^{B-1}$, repeated $R$ times. This gives a very large receptive field while keeping computation efficient.
+- ** 分离器**:一个** 临时卷积网络** 处理编码的混合物和输出$C$口罩 口罩 口罩 口罩 TCN堆积了被放大的 1D 深度分解的相分化(从 第08章高效相分解) 成块并有指数式增长的相分化因子$1, 2, 4, \ldots, 2^{B-1}$,重复$R$时间。这使得在保持计算效率的同时,有一个非常大的可接受字段.
 
-- **Decoder**: a transposed 1D convolution (with a learned basis $V$) converts each masked representation back to the time domain: $\hat{s}_c = V^T (M_c \odot w)$.
+- ** Decoder**:转录的1D卷积(有学习基础)$V$)将每个被遮住的表示器转换回时间域:$\hat{s}_c = V^T (M_c \odot w)$.
 
-- Conv-TasNet significantly outperforms spectrogram-based methods because the learned encoder-decoder basis can capture information (particularly phase) that the STFT magnitude discards.
+- Conv-TasNet显著地超越了基于分光克的方法,因为所学的编码器-解码器基础可以捕捉STFT分量所丢弃的信息(尤其是相位).
 
-- **Dual-Path RNN (DPRNN)** (Luo et al., 2020) addresses the long sequence modelling problem in separation. Rather than processing the entire encoded sequence with a single RNN or TCN, DPRNN splits the sequence into overlapping chunks and applies RNNs along two paths: an **intra-chunk** path (modelling local patterns within each chunk) and an **inter-chunk** path (modelling global patterns across chunks). This reduces the RNN sequence length from $L$ to $\sqrt{L}$ in each dimension:
+- ** Dual-Path RNN(DPRNN)** (Luo等,2020年)解决了分离中的长序列建模问题. DPRNN不是用单个RNN或TCN处理整个被编码的序列,而是将序列分成相重叠的块并沿两条路径应用RNNs:一** in-chunk**路径(在每个块内模拟局部图案)和一** achunk**路径(跨块模拟全局图案). 这会减少 RNN 序列长度从$L$改为$\sqrt{L}$在每一方面:
 
 ```math
 \begin{aligned}
@@ -108,17 +108,17 @@ $$\mathcal{L} = \|VV^T - YY^T\|_F^2$$
 \end{aligned}
 ```
 
-- where $k$ indexes the chunk and $n$ indexes the position within the chunk. The intra-chunk LSTM processes across $n$ for a fixed $k$; the inter-chunk LSTM processes across $k$ for a fixed $n$.
+- 地点$k$索引块和$n$索引块内的位置。内部的 LSTTM 进程$n$固定费用$k$; 跨圆柱的 LSTTM 进程$k$固定费用$n$.
 
-- **SepFormer** (Subakan et al., 2021) replaces the RNNs in the dual-path framework with transformers (chapter 07). The intra-chunk transformer captures local dependencies with self-attention, and the inter-chunk transformer captures global dependencies. Multi-head attention's ability to model long-range dependencies without the vanishing gradient problem (chapter 06) makes SepFormer particularly effective for long recordings. SepFormer achieves state-of-the-art results on the WSJ0-2mix benchmark.
+- ** SepFormer**(Subakan等人,2021年)用变压器取代双路径框架中的RNN(第07章)。圆通内变压器以自心取局部依赖性,圆通间变压器取全球依赖性. 多头注意力在不消失的梯度问题(第06章)下模拟长程依赖的能力使得SepFormer对长相录音特别有效. SepFormer在WSJ0-2mix基准上实现了最先进的成绩.
 
-- **Permutation Invariant Training (PIT)** solves a fundamental problem in supervised source separation: the label assignment ambiguity. If the network has two outputs (for two speakers), which output should correspond to which speaker? There is no natural ordering. PIT computes the loss for all possible assignments and takes the minimum:
+- ** Permutation Invariant Training (PIT)**解决了受监督源分离中的一个根本问题:标签分配模糊. 如果网络有两个产出(两个发言者),哪些产出应对应哪个发言者? 没有自然的命令。PIT计算所有可能的任务的损失,并至少采取以下措施:
 
 $$\mathcal{L}_{\text{PIT}} = \min_{\pi \in \mathcal{P}} \sum_{c=1}^{C} \ell(\hat{s}_{\pi(c)}, s_c)$$
 
-- where $\mathcal{P}$ is the set of all permutations of $\{1, \ldots, C\}$ and $\ell$ is the per-source loss (typically scale-invariant signal-to-distortion ratio, SI-SDR). For $C = 2$ sources there are only 2 permutations; for $C = 3$ there are 6. This is computed efficiently using the Hungarian algorithm for larger $C$.
+- 地点$\mathcal{P}$是所有布局的一组$\{1, \ldots, C\}$财务报告和已审计财务报表$\ell$即每源损失(典型的尺度-不变量信号-分解比,SI-SDR). 用于$C = 2$来源只有2个;$C = 3$有6个 使用匈牙利算法高效计算$C$.
 
-- **Scale-Invariant Signal-to-Distortion Ratio (SI-SDR)** is the standard evaluation metric for source separation:
+- ** 比例-不变量信号对分解比率(SI-SDR)** 是源分离的标准评价指标:
 
 ```math
 \begin{aligned}
@@ -128,92 +128,91 @@ e_{\text{noise}} &= \hat{s} - s_{\text{target}} \\
 \end{aligned}
 ```
 
-- where $\hat{s}$ is the estimated source and $s$ is the ground truth. SI-SDR is invariant to the overall scale of the estimate, which is desirable because absolute volume is less important than the quality of the separation. Higher SI-SDR (in dB) is better. State-of-the-art systems achieve around 20-22 dB SI-SDR improvement on WSJ0-2mix.
+- 地点$\hat{s}$是估计来源,并且$s$才是事实 SI-SDR与估计的整体尺度不相干,这是可取的,因为绝对体积不如分离的质量重要. 更高的SI-SDR(以dB计)更好. 先进系统在WSJ0-2mix上实现约20-22分贝SI-SDR改进.
 
-- **Music source separation** separates a music recording into stems: vocals, drums, bass, and other instruments. This enables applications like karaoke (remove vocals), remixing (adjust instrument levels), and transcription (analyse one instrument at a time).
+- **Music source screw** 将一首音乐录音分出出来:相声,鼓,低音等乐器. 这使得各种应用如卡拉OK(移相相声),再混合(正弦乐等),以及抄写(一次分析一款乐器).
 
-- **Open-Unmix** (Stoter et al., 2019) is a reference baseline that uses a 3-layer bidirectional LSTM to predict a soft mask for each source in the magnitude STFT domain. It processes each source independently with a dedicated model. Simple but effective, Open-Unmix established reproducible benchmarks on MUSDB18.
+- ** Open-Unmix**(Stoter等,2019年)是参考基准,使用3层双向LSTM来预测星等STFT域中每个源的软口罩. 它用一个专门的模型独立处理每个源. 简单而有效的开放-Unmix为MUSDB18建立了可复制的基准。
 
-- **Demucs** (Defossez et al., 2019; updated as Hybrid Demucs, 2021) uses a U-Net architecture (chapter 08) that operates directly on the waveform. The encoder compresses the mixture through strided convolutions, the decoder expands it back through transposed convolutions with skip connections, and each source gets its own decoder head. **Hybrid Demucs** combines time-domain and frequency-domain processing: the encoder has parallel time-domain and STFT branches whose features are fused before the decoder. This captures both fine temporal details and spectral structure.
+- ** Demucs**(Defossez等,2019;更新为Hybrid Demucs,2021)使用一款直接在波形上运行的U-Net架构(第08章). 编码器会通过被扭曲的相接子来压缩混合物,解码器通过有跳过连接的转接相接子来将混合物回放,每个源都会得到自有的分解头. **Hybrid Demucs**结合了时间域和频率域处理:编码器有平行的时间域和STFT分支,其特性在解码器之前被熔化. 这既能捕捉出细微的时间细节,又能捕捉出光谱结构.
 
-- Demucs achieves state-of-the-art separation quality on MUSDB18, with particularly strong vocal separation. Its U-Net architecture is reminiscent of the image segmentation architectures from chapter 08, treating the separation problem as a form of "audio segmentation".
+- Demucs在MUSDB18上实现了最先进的分出质量,相声特别强. 其U-Net架构从第08章中回想起了图像分解架构,将分解问题视为"音频分解"的一种形式.
 
-- **Active noise cancellation (ANC)** reduces unwanted sound by generating an anti-noise signal that destructively interferes with the noise. Think of noise-cancelling headphones: a microphone picks up ambient noise, the ANC system generates an inverted version, and the combined signal (noise + anti-noise) ideally cancels to silence.
+- **活性噪声取消(ANC)**通过产生破坏性干扰噪声的反噪信号来减少不想要的声音. 想想噪音封杀耳机:麦克风接起环境噪声,ANC系统产生倒置版本,而组合信号(噪声+反噪声)理想地取消沉默.
 
-- The physics is simple: if the noise is $n(t)$, generating $-n(t)$ at the same point in space produces silence: $n(t) + (-n(t)) = 0$. The challenge is that the anti-noise must be precisely aligned in time, amplitude, and phase. Even small errors produce residual noise or artifacts.
+- 物理学很简单:如果噪音是$n(t)$,生成$-n(t)$在同一空间点上产生沉默:$n(t) + (-n(t)) = 0$。。。挑战在于,反噪声必须在时间、振幅和相位上精确一致。甚至小错误也会产生残留噪音或文物.
 
-- **Feedforward ANC** uses a reference microphone that picks up the noise before it reaches the listener. The system has time to process the noise and generate the anti-noise. The reference signal passes through an adaptive filter whose output is subtracted from the noise at the error microphone (near the listener). This works well for predictable, broadband noise (engine hum, fan noise).
+- ** Feedforward ANC** 使用参考麦克风,在噪音到达收听器前取出. 系统有时间处理噪声并产生出反噪声. 参考信号通过一个适应性过滤器,其输出从出错麦克风(靠近收听器)的噪音中减去. 这对可预见的宽带噪音(引擎哼声,风扇噪音)来说是很好的.
 
-- **Feedback ANC** uses only an error microphone at the listener's ear. The system estimates the noise from the residual signal (what the listener actually hears) and adjusts the anti-noise. Feedback ANC is simpler (no reference microphone needed) but has limited bandwidth and can become unstable.
+- ** Feedback ANC**只使用一个错误麦克风在收听者的耳边. 系统估计了从剩余信号(听众实际听到的)发出的噪声,并调整了反噪. 反馈ANC比较简单(不需要参考麦克风),但带宽有限,可能变得不稳定.
 
-- **Adaptive filtering** is the mathematical engine behind ANC. The filter coefficients must continuously adapt to the changing noise environment. The most common algorithm is the **Least Mean Squares (LMS)** filter.
+- ** Adaptive filtering**是ANC背后的数学引擎. 过滤系数必须不断适应不断变化的噪音环境。最常见的算法是**东平方(LMS)**滤波器.
 
 ![图示](../images/lms_adaptive_filter.svg)
 
-- **LMS algorithm**: an FIR filter with coefficients $\mathbf{w} = [w_0, w_1, \ldots, w_{L-1}]^T$ processes the reference signal $\mathbf{x}(n) = [x(n), x(n-1), \ldots, x(n-L+1)]^T$. The output is $y(n) = \mathbf{w}^T \mathbf{x}(n)$, the error is $e(n) = d(n) - y(n)$ (where $d(n)$ is the desired/primary signal), and the weight update is:
+- ** LMS 算法**:带有系数的飞行情报过滤器$\mathbf{w} = [w_0, w_1, \ldots, w_{L-1}]^T$处理参考信号$\mathbf{x}(n) = [x(n), x(n-1), \ldots, x(n-L+1)]^T$。。。输出为$y(n) = \mathbf{w}^T \mathbf{x}(n)$,错误是$e(n) = d(n) - y(n)$(何处)$d(n)$是理想/主要信号,重量更新如下:
 
 $$\mathbf{w}(n+1) = \mathbf{w}(n) + \mu \, e(n) \, \mathbf{x}(n)$$
 
-- where $\mu$ is the step size (learning rate). This is a stochastic gradient descent step on the mean squared error $E[e^2(n)]$, using the instantaneous gradient estimate $-2 e(n) \mathbf{x}(n)$ instead of the true gradient (chapter 03's gradient descent and chapter 06's SGD).
+- 地点$\mu$是步法大小(学习率)。这是平均平方误差上一个有花纹的梯度下移步骤$E[e^2(n)]$,使用瞬时梯度估计值$-2 e(n) \mathbf{x}(n)$而不是真正的梯度(第03章的梯度下降和 第06章的 SGD).
 
-- The step size $\mu$ controls the trade-off between convergence speed and steady-state error. Too large and the filter oscillates or diverges; too small and adaptation is sluggish. The stability condition is $0 < \mu < 2 / (\lambda_{\max})$, where $\lambda_{\max}$ is the largest eigenvalue of the input autocorrelation matrix $R = E[\mathbf{x}\mathbf{x}^T]$.
+- 步骤大小$\mu$控制汇合速度和稳定状态出错之间的取舍。过于庞大,过滤器会振荡或分化;太小和适应缓慢。稳定状态是$0 < \mu < 2 / (\lambda_{\max})$,在其中$\lambda_{\max}$是输入自动连接矩阵中最大的 eigen 值$R = E[\mathbf{x}\mathbf{x}^T]$.
 
-- **Normalised LMS (NLMS)** normalises the step size by the input power, making convergence independent of the signal level:
+- ** 正常LMS(NLMS)** 以输入功率使步骤大小正常化,使收缩独立于信号级别:
 
 $$\mathbf{w}(n+1) = \mathbf{w}(n) + \frac{\mu}{\|\mathbf{x}(n)\|^2 + \epsilon} \, e(n) \, \mathbf{x}(n)$$
 
-- where $\epsilon$ is a small regularisation constant to prevent division by zero. NLMS converges more reliably than LMS because the effective step size adapts to the input power.
+- 地点$\epsilon$是一个小的正则化常数,以防止被零除去。NLMS比LMS更能可靠地聚合,因为有效的步骤尺寸适应了输入力.
 
-- **Recursive Least Squares (RLS)** is a faster-converging alternative that minimises the weighted least squares cost $\sum_{k=1}^{n} \lambda^{n-k} e^2(k)$, where $\lambda \in (0, 1]$ is a forgetting factor. RLS maintains an estimate of the inverse autocorrelation matrix and updates it recursively, achieving optimal convergence at the cost of $O(L^2)$ computation per sample (versus $O(L)$ for LMS).
+- ** 递归性最小平方块(RLS)**是一个更快的交汇方式,可以将加权最小平方块成本降到最低$\sum_{k=1}^{n} \lambda^{n-k} e^2(k)$,在其中$\lambda \in (0, 1]$是一个遗忘的因素。RLS对逆自转矩阵进行估计,并进行回溯更新,以达到最佳的趋同,代价是$O(L^2)$计算每个样本(相对于$O(L)$(关于LMS).
 
-- **Noise reduction and speech enhancement** aim to improve speech quality and intelligibility in noisy recordings. Unlike source separation (which separates distinct sources), speech enhancement specifically targets the speech-plus-noise case, recovering clean speech from a noisy observation.
+- ** 减少噪音和增强语音** 旨在提高音频录音的语音质量和通晓性。与源分化(分离出不同的源)不同,语音增强特别针对语音+-噪音案例,从吵闹的观察中恢复干净的语音.
 
-- **Spectral subtraction** is the simplest approach. During noise-only frames (detected by VAD from file 03), estimate the noise spectrum $|\hat{N}(f)|^2$. Then subtract it from each frame:
+- ** 具体减法**是最简单的办法。在只发出噪音的框架(由VAD从文件03中检测出)中,估计噪音频谱$|\hat{N}(f)|^2$。。。然后从每个框中减去:
 
 $$|\hat{S}(f)|^2 = \max(|X(f)|^2 - \alpha |\hat{N}(f)|^2, \beta |X(f)|^2)$$
 
-- where $\alpha$ is an over-subtraction factor (typically 1-4, aggressive subtraction removes more noise but introduces more artifacts) and $\beta$ is a spectral floor that prevents negative values and reduces "musical noise" artifacts (isolated tonal remnants that sound like random musical notes).
+- 地点$\alpha$是一个过低的因子(典型的为1-4,积极的去除会去除更多的噪音但引入更多的文物)和$\beta$是一种能防止负值并减少"音乐噪声"文物的光谱地层(同位素的通体残迹,听起来像随机的乐谱).
 
-- **Wiener filtering** provides the minimum mean squared error estimate of the clean speech spectrum:
+- ** Wiener过滤** 提供了干净语音频谱最小平均平方误差估计:
 
 $$\hat{S}(t, f) = \frac{|S(t,f)|^2}{|S(t,f)|^2 + |N(t,f)|^2} \cdot X(t, f) = G(t, f) \cdot X(t, f)$$
 
-- The Wiener gain $G(t, f) = \text{SNR}(t, f) / (1 + \text{SNR}(t, f))$ ranges from 0 (pure noise) to 1 (pure speech), acting as a soft mask. The challenge is estimating the speech and noise power spectra. The **a priori SNR** $\xi(t, f) = |S(t,f)|^2 / |N(t,f)|^2$ is estimated using the "decision-directed" approach: a smoothed combination of the current frame's estimate and the previous frame's Wiener-filtered output.
+- 维纳增益$G(t, f) = \text{SNR}(t, f) / (1 + \text{SNR}(t, f))$从0(纯噪音)到1(纯语音),作为软口罩。挑战在于估计语音和噪声动力光谱. ** 预先确定的国家自然资源保护**$\xi(t, f) = |S(t,f)|^2 / |N(t,f)|^2$使用“决定导向”方法进行估计:将当前框架的估计和前一个框架的Wiener-过滤输出平滑组合起来。
 
-- **Neural speech enhancement** uses deep learning to estimate either a mask (like the Wiener gain) or the clean spectrogram directly. Architectures range from simple feedforward networks to U-Nets (chapter 08), CRNs (Convolutional Recurrent Networks), and transformers.
+- ** 神经语音增强** 使用深层学习来估计口罩(如Wiener增益)或直接用干净分光克来估计. 建筑范围从简单的向后传输网络到U-Net(第08章)、CNN(革命经常性网络)和变压器。
 
-- **DCCRN** (Deep Complex Convolutional Recurrent Network) operates on the complex STFT (both magnitude and phase), using complex-valued convolutions that naturally handle the real and imaginary parts. This avoids the phase estimation problem that plagues magnitude-only approaches.
+- ** DCCRN**(深复杂再生网络)在复杂的STFT(大小和相位)上运作,使用复杂价值的再生,自然处理真实和想象的部分。这样做可以避免造成只采用量法的相位估计问题。
 
-- **FullSubNet** uses a dual-path architecture with a full-band model (capturing global spectral patterns) and a sub-band model (capturing local harmonic details). The full-band model processes the entire spectrum, while the sub-band model processes narrow frequency bands centred on each frequency bin. Their outputs are combined for the final mask estimate.
+- **FullSubNet** 采用了双向结构,具有全频段模型(Caption Global光谱图案)和分频段模型(Caption local harmonic complete). 全波段模型处理整个频谱,而分波段模型则处理以每个频被子为中心的窄频段. 其产出合并为最后口罩估计数。
 
-- **DNS (Deep Noise Suppression) Challenge** by Microsoft benchmarks speech enhancement systems annually. Winners typically use large-scale training with diverse noise types, data augmentation (adding noise at various SNRs, reverberation, codec artifacts), and real-time-capable architectures.
+- ** 微软基准语音增强系统每年的挑战。胜出者一般使用具有多种噪声类型的大规模训练,数据增强(在各种SNRs上添加噪声,回声,可编码文物),以及实时能建构.
 
-- **Echo cancellation** removes acoustic echo in two-way communication. When you are on a phone call, the far-end speaker's voice plays through your loudspeaker, bounces around the room, and is picked up by your microphone, creating an echo that the far-end speaker hears. **Acoustic Echo Cancellation (AEC)** models the acoustic path from loudspeaker to microphone and subtracts the predicted echo.
+- ** Echo 取消** 在双向通信中去除相声回声. 打电话时,远端扬声器的声音会通过你的扩音器播放,弹出在房间周围,被你的麦克风接起,产生远端扬声器所听到的回声. ** 声波回声取消(AEC)** 模拟声波路径从扬声器到麦克风,并减去所预测的回声.
 
-- The acoustic path is modelled as an adaptive FIR filter (using LMS or NLMS) with the far-end signal as input. The filter models the room impulse response, which includes direct path, early reflections, and late reverberation. Room impulse responses can be hundreds of milliseconds long, requiring filters with thousands of taps.
+- 相声道被模拟为适应性FIR过滤器(使用LMS或NLMS),以远端信号为输入. 滤波器模拟了室冲应,包括直接路径,早期反射,和后反射. 室冲反应可长达数百毫秒,需要有上千个水龙头的过滤器.
 
-- **Double-talk detection** is critical for AEC: when both the near-end and far-end speakers talk simultaneously, the adaptive filter must freeze (stop updating) to prevent it from cancelling the near-end speaker's voice. Double-talk detectors compare the energy of the error signal with the far-end signal energy; a sudden increase in error energy that is not explained by the far-end signal suggests near-end speech.
+- ** 双对口检测** 对AEC至关重要:当近端和远端的演讲者同时交谈时,适应性过滤器必须被冻结(停止更新)以防止其取消近端演讲者的声音. 双口探测器将出错信号的能量与远端信号能进行比较;远端信号未解释的错误能量突然增加,提示了近端语音.
 
-- The **normalised cross-correlation** between the far-end signal $x(n)$ and the microphone signal $d(n)$ provides a double-talk indicator:
+- 远端信号之间**正态的交叉对接**$x(n)$和麦克风信号$d(n)$提供双对讲指标:
 
 $$\xi(n) = \frac{|\sum_{k=0}^{L-1} x(n-k) d(n-k)|}{\sqrt{\sum_{k} x^2(n-k)} \sqrt{\sum_{k} d^2(n-k)}}$$
 
-- During single-talk (far-end only), $\xi$ is high because $d$ is mostly echo of $x$. During double-talk, $\xi$ drops because the near-end speech is uncorrelated with $x$.
+- 在单人谈话期间(只有远端),$\xi$高是因为$d$主要是回声$x$。。。在双人谈话时$\xi$下放,因为近端的演讲与$x$.
 
-- Modern AEC systems combine adaptive filtering with neural networks: the adaptive filter provides an initial echo estimate, and a neural network (similar to the speech enhancement models above) cleans up residual echo and handles non-linearities (loudspeaker distortion) that linear filters cannot capture.
+- 现代AEC系统将适应性滤波与神经网络结合:适应性滤波器提供了初始回声估计,神经网络(类似于上方的语音增强模型)清理出剩余回声并处理线性非线性(loudspeaker s扭曲),线性滤波器无法捕捉.
 
-- **Evaluation metrics for separation and enhancement**:
-    - **SI-SDR** (defined above): standard for source separation.
-    - **SDR** (Signal-to-Distortion Ratio): from BSS Eval, measures overall separation quality including artifacts and interference.
-    - **PESQ** (Perceptual Evaluation of Speech Quality): ITU standard that predicts subjective quality scores. Range: -0.5 to 4.5.
-    - **STOI** (Short-Time Objective Intelligibility): predicts speech intelligibility. Range: 0 to 1.
-    - **DNSMOS**: Microsoft's deep noise suppression MOS predictor, a neural network trained to predict human MOS scores without requiring clean reference audio.
+- ** 分离和加强评价指标**:
+    - ** SI-SDR**(上文定义):源分离标准。
+    - ** SDR**(符号对分比):从BSS Eval中,衡量整体分离质量,包括文物和干扰.
+    - **PESQ(语音质量的认知评价):电联标准预测主观质量分数. 范围:-0.5至4.5.
+    - **STOI** (Short-Time Goal Incellibility):预测语音能被理解. 范围:0至1.
+    - ** DNSMOS**:微软深层噪声压制MOS预测器,一个神经网络,训练以预测人类MOS分数而不需要干净的参考音频.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务（使用 Colab 或 notebook）”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-- **Task 1: Independent Component Analysis for source separation.** Implement FastICA to separate two mixed audio sources, demonstrating the classical cocktail party solution for the determined case (equal sources and microphones).
+- ** 任务1:独立组件分析,用于源分离。** 实施FastICA,将两个混合音频源分离出,以展示典型的鸡尾酒派对解决方案(平等来源和麦克风)。
 
 ```python
 import jax
@@ -348,7 +347,7 @@ for i in range(2):
     print(f"Source {i+1} recovery correlation: {corr:.4f}")
 ```
 
-- **Task 2: NMF-based source separation on spectrograms.** Use non-negative matrix factorisation (chapter 02) to separate a spectrogram into two components, demonstrating how NMF learns spectral dictionaries for each source.
+- **任务2:基于NMF的源分取光谱. ** 使用非负矩阵分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分出分分出分出分出分出分出分出分的分出分的分的分分出分出分出分出分出分出分出分分出分出分
 
 ```python
 import jax
@@ -488,7 +487,7 @@ print(f"Reconstruction error: {jnp.sum((V - W @ H)**2):.2f}")
 print(f"NMF learns spectral bases that capture each source's frequency profile.")
 ```
 
-- **Task 3: LMS adaptive filter for noise cancellation.** Implement the LMS and NLMS algorithms for echo/noise cancellation, showing convergence behaviour and the effect of step size.
+- ** 任务3:LMS适应性过滤器用于噪声取消.** 采用回声/噪声取消的LMS和NLMS算法,显示同位素行为和步长的效果.
 
 ```python
 import jax
@@ -658,7 +657,7 @@ print(f"NLMS residual: {10*jnp.log10(nlms_residual):.1f} dB "
       f"(ERLE: {10*jnp.log10(echo_power/nlms_residual):.1f} dB)")
 ```
 
-- **Task 4: Time-frequency masking for speech enhancement.** Implement a simple spectral masking approach (ideal ratio mask) and compare it with spectral subtraction, visualising the separation quality on a synthetic noisy speech signal.
+- **任务4:为语音增强而进行时间频率遮罩. ** 采用简单的光谱遮罩方法(理想比掩罩)并和光谱减法相比较,可视化地在合成的吵闹语音信号上实现分出质量.
 
 ```python
 import jax

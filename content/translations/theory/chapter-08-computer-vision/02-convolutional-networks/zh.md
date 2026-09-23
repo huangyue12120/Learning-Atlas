@@ -13,137 +13,136 @@ status: reviewed
 *卷积网络利用局部连接和权重共享从图像中学习层次化特征。本篇介绍卷积、池化、感受野、架构选择、迁移学习和 Grad-CAM 可解释性。*
 
 
-*Convolutional neural networks learn spatial feature hierarchies directly from pixel data, replacing hand-designed filters with gradient-optimised ones. This file covers convolution mechanics, pooling, stride, dilation, receptive fields, and landmark architectures (LeNet, AlexNet, VGG, ResNet, Inception, EfficientNet) that defined image classification.*
+* 革命神经网络直接从像素数据中学习空间特征分级,用梯度优化的滤波器来取代手工设计的滤波器. 此文件涵盖自旋力学,集合,出步,放大,可接受字段,以及定义图像分类的地标建筑(LeNet, AlexNet, VGG, ResNet, Inception, 高效率网络). *
 
-- In file 01, we hand-designed filters for edge detection, blurring, and corner detection. The natural question is: can we learn the optimal filters from data? That is exactly what convolutional neural networks (CNNs) do.
+- 在文件01中,我们手工设计的过滤器用于边缘检测,模糊化,和角检测. 自然的问题是:我们能否从数据中学习到最佳的过滤器? 这正是卷积神经网络(CNNs)所做的.
 
-- Instead of choosing filter weights by hand, CNNs learn them via gradient descent (chapter 06), discovering features that are directly useful for the task at hand.
+- CNN不是通过手工选择滤波器的权重,而是通过梯度下降来学习(第06章),发现直接对手头的任务有用的特性.
 
-- In chapter 06, we introduced the convolution operation, CNN basics, and the idea of filter learning. Here we go deeper into the architectural innovations that made CNNs the dominant paradigm in computer vision for over a decade.
+- 在"06章"中,我们介绍了"革命"行动,CNN基础知识,以及过滤学习的想法. 我们更深入地研究了建筑创新, 使CNN成为十多年来计算机视觉中的主要范例。
 
-- Recall the core **convolution operation**: a filter $K$ of size $k \times k$ slides over the input feature map, computing a dot product at each position (chapter 06). The output size is controlled by three hyperparameters:
+- 回顾核心**革命行动**:过滤器$K$大小变化$k \times k$在输入特性图上滑动,在每个位置计算出一个点产品(第06章)。输出大小由三个超参数控制:
 
-    - **Stride**: how many pixels the filter moves between positions. Stride 1 means the filter shifts one pixel at a time. Stride 2 means it shifts two pixels, halving the spatial dimensions. Strided convolution is an alternative to pooling for downsampling.
-    - **Padding**: adding zeros around the input border. "Same" padding ($p = \lfloor k/2 \rfloor$) preserves spatial dimensions. "Valid" padding ($p = 0$) reduces them.
-    - **Dilation**: inserting gaps between filter elements. A 3x3 filter with dilation 2 covers a 5x5 receptive field using only 9 parameters. Dilated convolutions expand the receptive field without increasing computation.
+    - **Stride**:过滤器在位置间移动多少像素. Stride 1指滤波器一次移动一像素. Stride 2表示它会转移出两个像素,将空间维度减半. 拼接地卷积是集中进行下采样的替代方法.
+    - ** Padding**:在输入边框上加上零。"同"作活贴.$p = \lfloor k/2 \rfloor$保持空间维度。"瓦利德"贴纸($p = 0$)减少它们.
+    - ** 编号**:插入过滤元素之间的间隙。3x3滤波器有Dilation 2,覆盖了只使用9个参数的5x5可接受域. 分化的卷积在不增加计算的情况下扩展了可接受字段.
 
-- The output spatial size after convolution:
+- 卷积后输出空间大小 :
 
 $$\text{out} = \left\lfloor \frac{\text{in} - k + 2p}{s} \right\rfloor + 1$$
 
-- where $\text{in}$ is the input size, $k$ is the kernel size, $p$ is padding, and $s$ is stride. This formula applies independently to height and width.
+- 地点$\text{in}$是输入大小,$k$是内核大小,$p$正在铺设,$s$脚步。此公式独立地适用于高度和宽度.
 
-- The **receptive field** of a neuron is the region of the original input that can influence its value.
-    - Early layers have small receptive fields (they see local patterns like edges).
-    - Deeper layers have larger receptive fields (they see larger structures like object parts).
+- 神经元的**受体场**是原始输入能影响其价值的区域.
+    - 早期地层有小的可接受地段(它们看到边缘等局部地型).
+    - 更深层有更大的可接受字段(它们看到更大的结构如物体部分).
 
-- The receptive field grows with each layer: roughly by $k - 1$ pixels per convolutional layer (more with stride or dilation).
+- 接受的字段随每一层而增长:大致由$k - 1$每个相位层的像素(更需要步入或拓扑).
 
-![Receptive field growing across layers: layer 1 neurons see a 3x3 patch, layer 2 neurons see a 5x5 patch, layer 3 neurons see a 7x7 patch of the original input](../images/receptive_field.svg)
+![受体场生长于多层间: 第1层神经元见3x3补丁, 第2层神经元见5x5补丁, 第3层神经元见7x7补丁原输入.](../images/receptive_field.svg)
 
-- **Pooling** layers reduce spatial dimensions while retaining the most important information.
-    - **Max pooling** takes the maximum value in each window, preserving the strongest activation (the most prominent feature).
-    - **Average pooling** takes the mean, smoothing the feature map. A 2x2 pool with stride 2 halves both spatial dimensions.
+- ** Pooling**地层减少空间尺寸,同时保留最重要的信息。
+    - **Max Collection**在每个窗口中取出最大值,保留最强活性(最突出的特征).
+    - **Average Collection**取平分,平分地物映射. 2x2的相距相距相距相距相距相距相距相距相距相距相距相距相径相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相距相
 
-- **Global Average Pooling (GAP)** averages the entire spatial extent of each channel into a single number, producing a vector of length equal to the number of channels. GAP replaces the fully connected layers at the end of many modern architectures, drastically reducing parameter count and acting as a structural regulariser.
+- ** 全球平均聚合(GAP)** 将每个信道的整个空间范围平均为一数,产生一个长度等于信道数的向量。GAP取代了许多现代建筑末端的全相通层,大幅地减少了参数计数并起到结构正则器的作用.
 
-- **Batch Normalisation (BatchNorm)** normalises activations within each mini-batch to have zero mean and unit variance, then applies a learnable scale and shift (chapter 06). In CNNs, BatchNorm is applied per-channel: statistics are computed across the batch and spatial dimensions for each channel independently. It stabilises training, allows higher learning rates, and acts as a mild regulariser.
+- ** 批量正常化(BatchNorm)** 每个小批量中的活性化以零平均值和单位差分,然后应用可学习的尺度和班次(第06章). 在有线电视新闻网中,BatchNorm按频道进行应用:统计是按批量计算,每个频道的空间尺寸独立计算。它稳定培训,允许高等教育率,并起到轻微的常客作用。
 
-- **Dropout** (chapter 06) randomly zeroes neurons during training.
+- ** Dropout**(第06章)在训练时随机地将神经元零出.
 
-- In CNNs, **spatial dropout** (Dropout2D) drops entire feature map channels rather than individual pixels, which is more effective because neighbouring pixels in a feature map are highly correlated.
+- 在有线电视新闻网中,**空间退位**(Dropout2D)将整个地物映射通道而不是单个像素降下,这更有效,因为地物映射中的相邻像素高度相关.
 
-- **Data augmentation** artificially expands the training set by applying random transformations to each image during training: horizontal flips, random crops, rotations, colour jitter (adjusting brightness, contrast, saturation, hue), and cutout (masking random rectangular patches). The network sees each image in many different forms, forcing it to learn transformation-invariant features rather than memorising specific pixel patterns.
+- **数据增强** 通过在训练期间对每个图像进行随机变换,人工地扩展了所设置的训练:水平翻转,随机收成,旋转,色彩快活(调整亮度,对比度,饱和度,修饰)和剪接(抹出随机长方形补丁). 网络以许多不同的形式看待每个图像,迫使它学习变相-不变量特征而不是记忆出特定的像素图案.
 
-- Advanced augmentation strategies include **Mixup** (blending two images and their labels: $\tilde{x} = \lambda x_i + (1-\lambda) x_j$, $\tilde{y} = \lambda y_i + (1-\lambda) y_j$), **CutMix** (pasting a rectangular patch from one image onto another and mixing labels proportionally to area), and **RandAugment** (randomly sampling a sequence of augmentations from a fixed set with a single strength parameter).
+- 高级增强策略包括**混合**(将两个图像及其标签混合:$\tilde{x} = \lambda x_i + (1-\lambda) x_j$, $\tilde{y} = \lambda y_i + (1-\lambda) y_j$),**CutMix**(将一个长方形的补丁从一幅图像粘贴到另一幅图像上并按面积比例混合标签),和**RandAugment**(随机抽样从固定集中抽取一个带单一强度参数的增强序列).
 
-- The history of CNN architectures is a story of progressively deeper, more efficient designs, each solving a problem that limited its predecessor.
+- CNN架构的历史是一个逐渐更深入,效率更高的设计的故事,每个设计都解决了一个限制其前身的问题.
 
-- **LeNet-5** (LeCun et al., 1998) was the original CNN, designed for handwritten digit recognition. Two convolutional layers followed by three fully connected layers, with average pooling and tanh activations. It proved that learned filters outperform hand-designed features, but it was tiny by modern standards (60K parameters).
+- ** LeNet-5**(LeCun等人,1998年)是CNN的原作,设计为手写数字识别. 两层相接,三层相接 平均集合和Tunh激活 它证明了所学的滤波器比手设计的特性表现得更好,但按现代标准(60K参数)它很小.
 
-- **AlexNet** (Krizhevsky et al., 2012) won the ImageNet competition by a massive margin, igniting the deep learning revolution. Key innovations: ReLU activation (instead of tanh, which suffers from vanishing gradients), dropout for regularisation, data augmentation, and training on GPUs. Five convolutional layers, three fully connected layers, 60 million parameters.
+- ** AlexNet**(Krizhevsky等,2012年)以一分之差赢得了ImageNet的比赛,引发了深刻的学习革命. 关键创新:再LU激活(而不是Tanh,它有消亡的梯度),取消规范化、数据增强和关于GPU的培训。5个卷积地层,3个全相通地层,6000万个参数.
 
-- **VGG** (Simonyan and Zisserman, 2014) showed that using only 3x3 filters stacked deeply works better than larger filters. Two stacked 3x3 filters have the same receptive field as one 5x5 filter but fewer parameters ($2 \times 3^2 = 18$ vs $5^2 = 25$) and an extra nonlinearity. VGG-16 (16 layers) and VGG-19 (19 layers) are still widely used as feature extractors. The architecture is remarkably simple: convolution blocks with increasing channels (64, 128, 256, 512), each followed by max pooling.
+- ** VGG**(Simonyan和Zisserman,2014年)表明,仅使用3x3堆放的过滤器深度比更大的过滤器效果更好. 两个堆叠的3x3过滤器具有与一个5x5过滤器相同的可接受字段,但参数较少($2 \times 3^2 = 18$数字$5^2 = 25$)和额外的非线性. VGG-16 (16层)和VGG-19 (19层)仍然被广泛用作特征提取器. 建筑结构非常简单:各有不断增长的通道(64,128,256,512)的分块,每条后是最大集合.
 
-![VGG architecture: stacked 3x3 conv blocks with increasing channel depth (64→128→256→512), max pooling between blocks, ending with fully connected layers](../images/vgg_architecture.svg)
+![VGG架构:堆放有增加通道深度的3x3凸起区块(64_128_256_512),最大区块之间汇合,以全连接地层为结束.](../images/vgg_architecture.svg)
 
-- **GoogLeNet/Inception** (Szegedy et al., 2014) introduced the **Inception module**: instead of choosing a single filter size, use 1x1, 3x3, and 5x5 convolutions in parallel, concatenate their outputs, and let the network decide which scale is most useful. 1x1 convolutions are used as bottlenecks before the larger filters to reduce computation. GoogLeNet achieved better accuracy than VGG with 12x fewer parameters (6.8M vs 138M).
+- **GoogleNet/Inception**(Szegedy等,2014年)引入了**Inception模块**:不选择单一的滤波器大小,而是平行地使用1x1,3x3和5x5的分解来压缩其输出,让网络决定哪个比例表最有用. 1x1分解被用做在更大的滤波器之前的瓶颈来减少计算. GoogleNet比VGG更精准,减少了12个参数(6.8M对138M).
 
-![Inception module: four parallel branches (1×1, 3×3, 5×5, and pooling) with 1×1 bottlenecks, concatenated along the channel dimension](../images/inception_module.svg)
+![入门模块:四个平行分支(1×1,3×3,5×5和集合),有1×1瓶颈,沿通道维相接.](../images/inception_module.svg)
 
-- The Inception module captures features at multiple scales simultaneously. A 1x1 filter captures point-wise patterns, a 3x3 captures local texture, and a 5x5 captures larger structures. The concatenation combines all perspectives into a rich representation.
+- Inception模块同时捕获多个尺度的特征. 1x1滤波器能捕捉输出点的图案,3x3能捕捉出局部的纹理,而5x5能捕捉出更大的结构. 协和会将所有观点融合为丰富的代表性.
 
-- **ResNet** (He et al., 2016) solved the **degradation problem**: deeper networks performed worse than shallower ones, not because of overfitting, but because they were harder to optimise. The solution is the **skip connection** (residual connection):
+- **ResNet**(He等,2016年)解决了**降解问题**:深度网络的表现比更浅的要差,不是因为过于适应,而是因为它们更难于优化. 溶液是**skip连接**(剩余连接):
 
 $$\text{output} = F(x) + x$$
 
-- The layer learns the residual $F(x) = \text{output} - x$. If the optimal transformation is close to identity (which is common in deep networks), learning a near-zero residual is much easier than learning the full mapping. Skip connections also provide a direct gradient highway, reducing vanishing gradients. ResNet trained networks with 152 layers, far deeper than anything before.
+- 层层会学习残存$F(x) = \text{output} - x$。。。如果优化的转变接近身份(这在深层网络中很常见),学习近零的剩余比学习完整的地圖要容易得多. 跳过连接也提供直接梯度高速公路,减少已消失的梯度. ResNet训练的网络有152个层,比以前任何一层都深.
 
-![ResNet block: input x passes through two conv layers to produce F(x), then the skip connection adds x back, giving output F(x) + x](../images/resnet_block.svg)
+![ResNet块:输入x通过两个凸起层生成F(x),然后跳转连接会再添加x回放,给输出F(x)+x](../images/resnet_block.svg)
 
-- When the input and output dimensions differ (due to stride or channel change), a **projection shortcut** applies a 1x1 convolution to $x$ to match dimensions: $\text{output} = F(x) + W_s x$.
+- 当输入和输出的维度不同(由于速度或信道变化)时,** 预测快捷键** 将 1x1 缩进应用到$x$以匹配尺寸 :$\text{output} = F(x) + W_s x$.
 
-- The **bottleneck block** (used in ResNet-50 and deeper) uses three convolutions: 1x1 to reduce channels, 3x3 for spatial processing, and 1x1 to expand channels back. This is cheaper than two 3x3 convolutions and allows much deeper networks.
+- **bottleneck块**(被使用于ResNet-50和更深)使用三个回旋:一是减少通道;三是空间处理;一是扩大回旋通道. 这比两个3x3的卷积更便宜,并允许更深的网络.
 
-- **DenseNet** (Huang et al., 2017) takes the skip connection idea further: every layer is connected to every subsequent layer within a dense block. Layer $l$ receives the feature maps from all preceding layers as input: $x_l = H_l([x_0, x_1, \ldots, x_{l-1}])$, where $[\cdot]$ denotes concatenation along the channel dimension. This encourages feature reuse, strengthens gradient flow, and reduces the total number of parameters.
+- ** DenseNet** (Huang等, 2017)将跳过连接的想法取而代之:每层在密集区块内与后层相接. 层$l$接收来自前几层的特征图作为输入:$x_l = H_l([x_0, x_1, \ldots, x_{l-1}])$,在其中$[\cdot]$表示沿着通道维度的调和。这鼓励特征再利用,加强梯度流,并减少参数总数.
 
-![DenseNet dense block: every layer receives feature maps from all preceding layers via concatenation, creating dense connectivity for maximum feature reuse](../images/densenet_block.svg)
+![DenseNet 稠密块:每层都通过接合方式接收所有上层的地物图,为最大地物再利用创造密集的连接](../images/densenet_block.svg)
 
-- **Efficient architectures** target deployment on mobile devices and edge hardware, where compute, memory, and energy are constrained.
+- ** 有效架构** 在移动设备和边缘硬件上的目标部署,其中计算、内存和能量受到限制。
 
-- **MobileNet** (Howard et al., 2017) replaces standard convolutions with **depthwise separable convolutions**, which factorise the operation into two steps:
-    1. **Depthwise convolution**: apply a single $k \times k$ filter per input channel (no cross-channel interaction)
-    2. **Pointwise convolution**: apply 1x1 convolutions to combine information across channels
+- ** MobileNet**(Howard等,2017年)用** 深度可分解的相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相
+    1. ** 深度卷积**:适用单一$k \times k$每个输入通道过滤器(无跨通道交互)
+    2. ** 抽出**:采用1x1的分出法将信息综合到不同渠道。
 
-- A standard $k \times k$ convolution with $C_{\text{in}}$ input channels and $C_{\text{out}}$ output channels costs $k^2 \cdot C_{\text{in}} \cdot C_{\text{out}}$ multiplications per spatial position. Depthwise separable convolution costs $k^2 \cdot C_{\text{in}} + C_{\text{in}} \cdot C_{\text{out}}$, a reduction of roughly $k^2$ times. For a 3x3 filter, this is approximately 9x cheaper.
+- 一个标准$k \times k$与$C_{\text{in}}$输入通道和$C_{\text{out}}$输出通道费用$k^2 \cdot C_{\text{in}} \cdot C_{\text{out}}$乘法每相相位. 深度可分化的相接成本$k^2 \cdot C_{\text{in}} + C_{\text{in}} \cdot C_{\text{out}}$,大约减少$k^2$时间。对于一个3x3滤波器来说,这大约是9x更便宜的.
 
-![Depthwise separable convolution: depthwise step applies one k×k filter per channel, then pointwise 1×1 convolutions mix channels — same output shape, ~9× fewer operations](../images/depthwise_separable_conv.svg)
+![深度可分解分解分解分解:深度可分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解分解](../images/depthwise_separable_conv.svg)
 
-- **MobileNet-V2** introduced the **inverted residual block**: expand channels with a 1x1 convolution, apply depthwise convolution in the expanded space, then project back down with a 1x1 convolution. The skip connection is placed on the narrow (bottleneck) layers, inverting the ResNet pattern. The expansion ratio is typically 6.
+- **MobileNet-V2**引入了**倒置后残块**:以1x1的回旋来扩展通道,在扩大的空间中应用深度回旋,再以1x1回旋来投放回旋. 跳过连接被放入窄(bottleneck)层上,倒置ResNet模式. 扩张率一般为6.
 
-- **EfficientNet** (Tan and Le, 2019) introduced **compound scaling**: instead of scaling only depth, only width, or only resolution independently, scale all three dimensions together using a fixed ratio. Given a scaling coefficient $\phi$:
+- **EfficientNet**(Tan和Le,2019年)引入了**compond缩放**:而不是只缩放深度,只宽度,或只独立解析度,而是使用固定比例来将所有三个维相加. 以缩放系数为准$\phi$:
 
 $$\text{depth}: d = \alpha^\phi, \quad \text{width}: w = \beta^\phi, \quad \text{resolution}: r = \gamma^\phi$$
 
-- subject to $\alpha \cdot \beta^2 \cdot \gamma^2 \approx 2$ (so that total computation roughly doubles per unit increase in $\phi$). A grid search finds $\alpha = 1.2$, $\beta = 1.1$, $\gamma = 1.15$ as the baseline ratios. EfficientNet-B0 through B7 scale up progressively, achieving state-of-the-art accuracy with far fewer parameters and FLOPs than previous models.
+- 须遵守$\alpha \cdot \beta^2 \cdot \gamma^2 \approx 2$(因此,计算总数大约是每单位增加一倍)$\phi$) (中文(简体)). 查找网格$\alpha = 1.2$, $\beta = 1.1$, $\gamma = 1.15$作为基线比率。通过B7实现高效Net-B0逐步升级,以比以往模型少得多的参数和FLOP达到最先进的精度.
 
-![EfficientNet compound scaling: scaling width, depth, or resolution alone vs scaling all three together with a single coefficient φ](../images/efficientnet_scaling.svg)
+![高效网络复合缩放:仅缩放宽度、深度或分辨率与所有三个比例并用单一系数 −](../images/efficientnet_scaling.svg)
 
-- **ShuffleNet** reduces the cost of 1x1 convolutions (which dominate in MobileNet-style architectures) by using **group convolutions** followed by a **channel shuffle**. Group convolutions split channels into groups and convolve within each group independently, but this prevents cross-group information flow. The shuffle operation rearranges channels between groups, restoring the information mixing at negligible cost.
+- **ShuffleNet**通过使用**群变**后再用**道打乱**来降低1x1回旋(在MobileNet风格建筑中占主导地位)的成本. 集团化将渠道分解为集团,并在每个集团内部独立地进行分化,但这阻碍了跨集团的信息流. 洗牌行动在各组之间重新安排了渠道,以可忽略不计的成本恢复了信息混合.
 
-- **Transfer learning** is the practice of taking a model trained on one task and adapting it to a different task. In computer vision, this almost always means starting from a model pre-trained on ImageNet (1.4 million images, 1,000 classes) and adapting to a domain-specific dataset (medical images, satellite images, manufacturing defects).
+- ** 转让学习** 是采用一个经过一项任务培训的模型,并把它适应不同的任务。在计算机视觉中,这几乎总是意味着从一个在ImageNet上预先训练的模型(140万个图像,1000个类)开始,并适应特定域数据集(医疗图像,卫星图像,制造缺陷等).
 
-- **Feature extraction**: freeze all convolutional layers, remove the final classification head, and train only a new head on top. The frozen layers act as a generic feature extractor. This works well when the target domain is similar to ImageNet and the target dataset is small.
+- ** 特征提取**:冻结所有分层,去掉最终的分类头部,并只在上部训练出一副新的头部. 被冻结的地层充当了一般特征提取器. 当目标域类似于ImageNet,而目标数据集也很小时,这效果很好.
 
-- **Fine-tuning**: unfreeze some or all convolutional layers and train with a small learning rate. The pre-trained weights serve as a starting point rather than fixed features. Fine-tuning typically starts by unfreezing only the later layers (which capture high-level, task-specific features) and optionally unfreezing earlier layers as well.
+- **精调**:解冻部分或全部入会地层并进行训练,学习率小. 被预先训练的重量作为起点而不是固定特征。精细调整一般从仅解冻后层开始(它能捕捉高层次,任务特定特征),也可以选择解冻更早的地层.
 
-- Transfer learning works because the early layers of a CNN learn universal features (edges, textures, colours) that are useful across tasks, while later layers learn task-specific features. A network trained to classify animals still has useful edge detectors for classifying buildings.
+- 转移学习之所以有用,是因为CNN的早期地层会学习跨任务有用的通用地物(尖端,纹理,颜色),而后期地层则会学习特定任务地物. 训练有素的动物分类网络仍有有用的边缘探测器,可用于建筑物的分类。
 
-- **Visualising CNNs** reveals what the network has learned and helps debug unexpected behaviour.
+- ** 视觉CNN** 揭示了网络学到了什么,并帮助调试出意料之外的行为。
 
-- **Activation maps** (feature maps) show the output of each filter for a given input image. Early layer activations look like edge maps; deeper layers produce increasingly abstract, spatially coarse activations.
+- ** 活动图**(地貌图)显示每个过滤器对某一输入图像的输出。早期地层活化看起来像边缘地图;更深地层产生越来越抽象,空间粗糙活化.
 
-- **Grad-CAM** (Gradient-weighted Class Activation Mapping, Selvaraju et al., 2017) highlights the regions of the input image that were most important for the model's prediction. It works by:
-    1. Computing the gradient of the target class score with respect to the feature maps of the last convolutional layer (using the chain rule from chapter 03)
-    2. Global average pooling these gradients to get per-channel importance weights
-    3. Computing a weighted combination of the feature maps and applying ReLU
+- ** Grad-CAM**(Gradient-quented Class Activation Magazine, Selvaraju等, 2017)突出显示输入图像中对于模型预测最重要的区域. 其作用者为:
+    1. 计算目标类分数相对于上个卷积层特征图的梯度(使用从第03章起的链条规则)
+    2. 全球平均值将这些梯度组合起来,以获得每个频道的重要性权重
+    3. 计算特征图的加权组合和应用ReLU
 
 $$L_{\text{Grad-CAM}} = \text{ReLU}\!\left(\sum_k \alpha_k A^k\right), \quad \alpha_k = \frac{1}{Z} \sum_i \sum_j \frac{\partial y^c}{\partial A^k_{ij}}$$
 
-- where $A^k$ is the $k$-th feature map, $\alpha_k$ is the importance weight for channel $k$, and $y^c$ is the score for class $c$. The result is a coarse heatmap showing which regions drove the classification. ReLU is applied because we are interested in features that have a positive influence on the class.
+- 地点$A^k$是那个$k$-第一张地图$\alpha_k$是频道的重要重量$k$,以及$y^c$是类的分数$c$。。。结果是粗糙的加热图显示哪个区域推动了分类。ReLU之所以被应用,是因为我们对对阶级有积极影响的特征感兴趣.
 
-![Grad-CAM: input image of a dog, feature maps from the last conv layer, gradient-weighted combination, and the resulting heatmap overlaid on the original image highlighting the dog's face](../images/grad_cam.svg)
+![渐变-CAM:狗的输入图像,从上个凸起层的特征图,梯度加权组合,以及由此产生的热映射在原始图像上突出狗的脸.](../images/grad_cam.svg)
 
-- **Feature inversion** reconstructs an input image from its feature representation by optimising a random image to match the target features (using gradient descent on the pixel values). This reveals what information the network retains at each layer. Early layers reconstruct near-perfect images; deeper layers produce recognisable but distorted images, showing that fine spatial detail is lost while semantic content is preserved.
+- ** Feature inversion**通过优化随机图像来从它的特性表示中重建出一个输入图像来匹配目标特性(在像素值上使用梯度回落). 这揭示了网络在每个层次上保留的信息. 早期地层重建出近乎完美的图像;更深地地层产生可识别但被扭曲的图像,显示细微的空间细节被丢失而语义内容被保存.
 
-- **Deep Dream** and **neural style transfer** are creative applications of feature visualisation. Deep Dream maximises the activation of neurons at a chosen layer to produce surreal, pattern-amplified images. Neural style transfer optimises a target image to match the content features (from a deep layer) of one image and the style features (Gram matrix of filter activations, which captures texture statistics) of another.
+- **"深梦"**和"神经风格传入"**是特色可视化的创造性应用. 深梦将神经元在所选层的活化最大化,以产生超现实,图案被放大的图像. 神经风格转移选择一个目标图像,以匹配一个图像的内容特征(从深层)和另一个图像的风格特征(滤波器活化的奶奶矩阵,它捕捉出纹理统计).
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Implement a simple CNN from scratch in JAX with two convolutional layers, max pooling, and a classification head. Train it on a synthetic 2D pattern classification task.
+1. 在JAX中从零开始执行简单的CNN,带有两个分层,最大集合和一个分类头. 以合成2D图案分类任务对其进行训练.
 ```python
 import jax
 import jax.numpy as jnp
@@ -223,7 +222,7 @@ acc = jnp.mean(preds == labels)
 print(f"Accuracy: {acc:.2%}")
 ```
 
-2. Visualise how different filter sizes affect the receptive field. Show that two stacked 3x3 filters cover the same receptive field as one 5x5 filter but with fewer parameters.
+2. 可视化不同滤波器大小如何影响可接受字段. 显示两个堆叠的3x3滤镜覆盖与一个5x5滤镜相同的可接受字段,但参数较少.
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
@@ -269,7 +268,7 @@ plt.suptitle('Receptive Field Comparison')
 plt.tight_layout(); plt.show()
 ```
 
-3. Implement Grad-CAM from scratch. Given a pre-built simple CNN, compute the gradient-weighted activation map for a specific class and visualise it as a heatmap.
+3. 从零开始执行 Grad-CAM。鉴于一个预建的简单的CNN,计算特定类的梯度加权活化图,并视同为热映射.
 ```python
 import jax
 import jax.numpy as jnp
@@ -331,7 +330,7 @@ axes[2].set_title(f'Grad-CAM (pred={pred:.2f})'); axes[2].axis('off')
 plt.tight_layout(); plt.show()
 ```
 
-4. Compare depthwise separable convolution with standard convolution. Count the parameters and FLOPs for both and show they produce similar outputs with far less computation.
+4. 比较深度可与标准可分化相融合. 计算两者的参数和FLOP,并显示它们产生的类似输出远不如计算.
 ```python
 import jax
 import jax.numpy as jnp

@@ -953,6 +953,7 @@ test("publishes the reviewed sampling theory reader and rejects unsafe resources
   const image = await fetch(`${baseUrl}/api/theory/assets/images/sampling_methods.svg`);
   assert.equal(image.status, 200);
   assert.match(image.headers.get("content-type") ?? "", /image\/svg\+xml/);
+  assert.match(await image.text(), /简单随机|分层|整群/);
   const markdownAsset = await fetch(`${baseUrl}/api/theory/assets/chapter%2004%20-%20statistics/03.%20sampling.md`);
   assert.equal(markdownAsset.status, 403);
   const traversal = await fetch(`${baseUrl}/api/theory/assets/%2e%2e/package.json`);

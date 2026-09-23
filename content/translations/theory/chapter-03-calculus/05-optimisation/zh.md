@@ -95,7 +95,7 @@ $$2xy - 2\lambda x = 0, \quad x^2 - 2\lambda y = 0, \quad x^2 + y^2 = 1$$
 
     - **二阶方法**（使用梯度和 Hessian）：Newton 方法收敛快，但计算和求逆 Hessian 的成本很高（对 $n$ 个参数为 $O(n^3)$）。**拟 Newton 方法**（如 BFGS 和 L-BFGS）只用梯度信息近似 Hessian，在不承担二阶方法全部成本的情况下，比一阶方法收敛更快。
 
-    - **共轭梯度**：适用于大型稀疏系统，只使用矩阵—向量乘法，而不是存储完整 Hessian。
+    - **共轭梯度**：适用于大型稀疏系统，只使用矩阵，向量乘法，而不是存储完整 Hessian。
 
     - **Gauss–Newton** 和 **Levenberg–Marquardt**：专用于最小二乘问题（回归中很常见），通过 Jacobian 近似 Hessian。
 

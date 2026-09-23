@@ -13,187 +13,178 @@ status: reviewed
 *太空和极端环境机器人必须在通信受限、辐射、地形不确定和救援风险高的条件下自主运行。本篇介绍太空机器人、水下机器人、搜索救援、群体机器人和人机交互。*
 
 
-*Space and extreme environment robotics push autonomy to its limits, where communication delays, radiation, and unstructured terrain demand robots that think for themselves. This file covers planetary rovers, orbital servicing, communication-constrained autonomy, radiation-hardened computing, underwater robotics, search-and-rescue, swarm robotics, and human-robot interaction*
+*空间和极端环境机器人将自主性推向了极限,即通信延迟,辐射,和无结构地形需要自觉的机器人. 这个文件包括行星轨道飞行器、轨道服务、通信限制自主性、辐射硬化计算、水下机器人、搜索和救援、群机器人以及人与机器人互动*
 
-- Throughout this chapter, we have studied autonomous systems that operate in relatively benign environments: roads with lane markings, warehouses with flat floors, kitchens with known object categories. But some of the most impactful applications of robotics are in environments where humans cannot go, or where the cost of human presence is extreme: the surface of Mars, the deep ocean floor, nuclear disaster sites, and burning buildings.
+- 在整个本章中,我们研究了在相对良性的环境中运作的自主系统:道路有道标;仓库有平地;厨房有已知的物体类别。但是机器人的一些最有影响的应用是在人类无法去的地方,或者在人类存在的代价是极端的的环境中:火星地表,深海地底,核灾难地,和被烧毁的建筑物.
 
-- These **extreme environments** share common challenges: communication is limited or delayed, the terrain is unstructured and unpredictable, hardware must survive harsh conditions, and there is no human nearby to fix things when they go wrong. The robot must be truly autonomous, not just "autonomous with a human watching a screen."
+- 这些**极地环境** 有着共同的挑战:通信有限或被拖延,地形结构不合理和难以预测,硬件必须活过严酷的条件,当事物出错时附近没有人类来修复. 机器人必须是真正自主的,而不仅仅是"与人类一起观看屏幕的自主".
 
 ## 太空机器人
 
-> **中文导读**：本节围绕“太空机器人”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Space is the ultimate extreme environment. There is no air, temperatures swing from -170°C to +120°C, radiation bombards electronics, and help is millions of kilometres away. Space robots must be extraordinarily reliable, energy-efficient, and autonomous.
+- 空间是极端的终极环境。没有空气,气温从-170°C到+120°C的波动,辐射炸弹电子,帮助距离数百万公里. 空间机器人必须非常可靠、节能和自主。
 
-- **Planetary rovers** are mobile robots that explore the surfaces of other worlds. NASA's Mars rovers (Spirit, Opportunity, Curiosity, Perseverance) are the most famous examples. Each generation has been more autonomous than the last.
+- **行星漫游者**是探索其他世界表面的移动机器人. NASA的火星漫游者(Spirit, Captainity, Curiosity, Perseverance)是最出名的例子. 每代人都比上一代更自主.
 
-![Earth-Mars communication delay: 4-24 minutes one way, 8-48 minutes round trip, making real-time control impossible](../images/earth_mars_delay.svg)
+![地球火星通讯延迟:单程4-24分,往返8-48分,使实时控制无法进行.](../images/earth_mars_delay.svg)
 
-- The fundamental constraint is the **communication delay**. Mars is 4-24 minutes away by radio (depending on orbital positions), so round-trip communication takes 8-48 minutes. A rover cannot be joysticked in real time. If it encounters a rock, it cannot ask Earth for help and wait for a response. It must decide for itself.
+- 根本的制约因素是**通信延迟**。火星由无线电(视轨道位置而定)相距4-24分钟,所以往返通信需要8-48分钟. 不能实时摆出一副欢乐相 如果遇到岩石,它不能向地球求救并等待回应. 它必须自己决定。
 
-- Early rovers (Spirit, Opportunity) relied heavily on ground-in-the-loop planning: humans would study images, plan a path, upload commands, and the rover would execute them. A single drive cycle took an entire Martian day (sol). The rover could traverse maybe 50-100 metres per sol.
+- 早期的流浪者(Spirit, Captain)大量依赖地上-"走入"规划:人类会研究图像,计划出一条路径,上传命令,而"走入"则会执行. 单个驾驶周期需要整个火星日(Sol). 翻车可以穿行 也许50-100米每索尔。
 
-- **AutoNav** (Autonomous Navigation) on Curiosity and Perseverance dramatically increased autonomy. The rover uses stereo cameras to build a local 3D map (recall stereo depth from chapter 8), evaluates terrain traversability (slope, roughness, rock size), and plans a safe path using a grid-based planner with a traversability cost map. The rover drives autonomously while the human team sleeps, increasing daily traverse distance to 100+ metres.
+- ** 关于好奇心和毅力的AutoNav**(自主导航)大大提高了自主权。漫游者使用立体相机来绘制出一幅本地的3D地图(从第8章中召回立体深度),评价地势可转性(斜道,粗糙度,岩石大小),并计划一条使用以网格为主的有可转性成本图的路由. 漫游者在人类团队入睡时自主地行驶,将每日的穿行距离提高到100+米.
 
-- The perception pipeline on Mars rovers is constrained by radiation-hardened processors that are orders of magnitude slower than consumer hardware (discussed below). Algorithms must be computationally frugal: classical stereo matching rather than deep neural networks, simple cost-map planners rather than learned policies.
+- 火星漫游器上的感知管道受到辐射硬化处理器的限制,这些处理器比消费硬件慢(下面讨论)等量级. 算法必须从计算上节俭:古典立体匹配而不是深神经网络,简单的成本图规划者而不是所学的政策.
 
-- **Orbital servicing** involves robots that inspect, repair, refuel, or deorbit satellites in orbit. This is a growing field as space becomes more congested. Missions like **OSAM-1** (NASA) and commercial ventures (Astroscale, Northrop Grumman MEV) use robotic arms and docking mechanisms to service satellites.
+- ** 轨道服务** 涉及在轨检查、修理、加油或离轨卫星的机器人。随着空间变得拥挤,这是一个越来越大的领域。**OSAM-1**(美国航天局)等飞行任务和商业企业(Astroscale,Northrop Grumman MEV)使用机器人武器和对接机制为卫星服务。
 
-- The challenge is **proximity operations**: a servicing spacecraft must approach a target satellite (which may be tumbling, uncooperative, and lacking docking interfaces) and perform precise manipulation in microgravity. Vision-based pose estimation (determining the target's 3D position and orientation from camera images) is critical. This uses techniques from chapter 8: feature detection, PnP (Perspective-n-Point) solving, and more recently, deep learning-based pose estimators.
+- 挑战在于**近距离操作**:服务航天器必须接近目标卫星(可能倾覆、不合作和缺乏对接接口),并对微重力进行精确操纵。基于视觉的平面估计(从相机图像中确定目标3D的位置和取向)至关重要. 这使用了从第8章:特征检测,PnP(Perspective-n-Point)解析的技术,以及更近的以深层学习为基础的外观模型.
 
-- **Satellite inspection** uses small spacecraft to visually examine other satellites for damage or anomalies. The inspector must autonomously navigate around the target, avoid collision, and capture high-resolution imagery from optimal viewpoints. This is a planning problem: find the trajectory that covers all inspection points while respecting fuel constraints, lighting conditions, and collision avoidance.
+- ** 卫星检查** 使用小型航天器对其它卫星进行视像检查,以了解损坏或异常情况。检查员必须自主地绕过目标,避免相撞,并从最佳角度获取高分辨率图像。这是一个规划问题:找到涵盖所有检查点的轨道,同时尊重燃料限制、照明条件和避免相撞。
 
 ## 通信约束
 
-> **中文导读**：本节围绕“通信约束”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- In space, communication is limited by the speed of light, available bandwidth, and orbital geometry (a rover on the far side of Mars cannot communicate with Earth at all without relay satellites).
+- 在空间中,通信受到光速,可用带宽,轨道几何等限制(火星最远一侧的一圈环形山完全没有中继卫星无法与地球通信).
 
-- These constraints fundamentally change the autonomy architecture. On Earth, a robot can stream HD video to a cloud server, run inference on a GPU cluster, and receive commands in milliseconds. In space, the robot must do everything onboard.
+- 这些制约因素从根本上改变了自治结构。在地球上,机器人可以将HD视频流到云端服务器上,运行GPU集群的推论,并以毫秒得到指令. 在太空中,机器人必须做船上的一切.
 
-- **High latency** means the robot must plan and act without real-time human guidance. The autonomy software must handle nominal operations, detect anomalies, and respond to hazards without waiting for human input. This requires robust onboard state estimation, fault detection, and contingency planning.
+- **高潜伏度**指机器人必须在没有人类实时指导的情况下进行规划和行动. 自主软件必须处理名义操作,检测出异常情况并应对危险而无需等待人类输入. 这需要强有力的机载状态估计、断层探测和应急规划。
 
-- **Limited bandwidth** means the robot cannot transmit raw sensor data. A single high-resolution image might be several megabytes, but the Mars-to-Earth data rate is only a few kilobits per second through direct-to-Earth links (higher through orbital relays, but still limited). The robot must compress data aggressively, prioritise which data to send, and make most decisions locally.
+- ** 有限度带宽** 表示机器人不能传输原始传感器数据. 单一高分辨的图像可能是数兆字节,但火星对地数据速率通过直接对地连接(轨道中继较高,但仍然有限)每秒只有几千比特. 机器人必须积极压缩数据,优先处理要发送的数据,并在当地作出大多数决定。
 
-- **Communication windows** are intermittent. A Mars rover can communicate with Earth only during specific orbital geometries, typically a few hours per sol via relay satellites. Outside these windows, the rover is entirely on its own.
+- ** 通信窗口** 间断。火星漫游者只能在特定的轨道地貌中与地球通信,通常每个梭子通过中继卫星进行几个小时. 在这些窗户外,"漫游"完全靠自己.
 
-- The implication for AI is that **onboard autonomy** must be highly reliable. The system needs to detect if something is wrong (a wheel is stuck, a sensor has failed, the terrain ahead is impassable), decide on a safe response, and continue operating until the next communication window when it can report back and receive updated instructions.
+- 对大赦国际来说,** 机上自主** 必须高度可靠。系统需要检测出某事是否出错(一个车轮卡住,传感器已失效,前方地形无法通行),决定安全响应,并持续运行到下一个通信窗口,当它能够报告并收到更新指令时.
 
 ## 抗辐射计算
 
-> **中文导读**：本节围绕“抗辐射计算”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Space is flooded with ionising radiation: cosmic rays, solar particle events, and trapped radiation in planetary magnetic fields. High-energy particles can flip bits in memory (**single-event upsets, SEUs**), permanently damage transistors (**total ionising dose, TID**), or cause destructive latch-up in circuits.
+- 太空被电离辐射所淹没:宇宙射线,太阳粒子事件,被困于行星磁场的辐射. 高能粒子可以在内存中翻转位点(**单事件扰动,SEUs**),永久损坏晶体管(**总电离剂量,TID**),或者在回路中引起破坏性的挂接.
 
-- **Radiation-hardened (rad-hard)** processors are designed to withstand this environment. They use larger transistor geometries, redundant logic (triple modular redundancy: three copies of each circuit vote on the output), and specialised manufacturing processes. The cost is performance: a state-of-the-art rad-hard processor might deliver 200 MIPS, compared to billions of operations per second on a consumer GPU.
+- ** 硬化(rad-hard)** 处理器的设计能够承受这种环境。它们使用更大的晶体管几何仪,冗余逻辑(三相模块冗余:每台电路对输出投出三张票),以及专用制造工艺. 成本是性能:最先进的rad-hard处理器可能提供200个MIPS,而消费者GPU每秒的操作量为数十亿个.
 
-- The **RAD750** (BAE Systems) powered Curiosity and many other spacecraft. It runs at 200 MHz with about 400 MIPS of processing power, comparable to a mid-1990s desktop computer. Perseverance uses a similar class of processor. Running a modern neural network (millions of parameters, billions of multiply-accumulate operations) is infeasible on such hardware.
+- **RAD750**(BAE系统)为好奇心和许多其他航天器提供动力。它以200兆赫运行,拥有大约400个MIPS的处理功率,可与1990年代中期的台式计算机相媲美. 恒用相类似的处理器类. 运行现代神经网络(百万参数,数十亿倍积分操作)对于这种硬件来说是不可行的.
 
-- **Model compression** becomes essential. Techniques from chapter 6 (quantisation, pruning, knowledge distillation) are used to shrink neural networks to fit within the extreme computational budget. A model that runs in milliseconds on a laptop GPU might need minutes on a rad-hard processor, or might not fit in memory at all.
+- ** 模块压缩**变得至关重要。第6章(定量、分泌、知识分馏)的技术用于收缩神经网络,以适应极端计算预算。一个在笔记本电脑GPU上运行以毫秒为单位的模型可能需要在rad-hard处理器上几分钟,或者可能根本不适合内存.
 
-- An alternative approach uses **commercial off-the-shelf (COTS)** processors with radiation mitigation in software: error-correcting codes, watchdog timers, periodic memory scrubbing, and graceful degradation strategies. Some modern missions use this approach to access more powerful compute at the cost of increased software complexity and risk.
+- 另一种方法是使用**商业现成(COTS)** 软件中的辐射减缓处理器:错误校正代码、监督计时器、定期内存洗涤和优雅的降解策略。一些现代特派团利用这种方法,以软件复杂性和风险增加为代价,使用更强大的计算。
 
-- Future planetary missions are exploring **FPGAs** and specialised AI accelerators that can be radiation-tolerant while providing significantly more compute than traditional rad-hard CPUs, potentially enabling onboard deep learning for the first time.
+- 未来的行星飞行任务正在探索**FPGA**和专门的AI加速器,这些加速器可以耐辐射,同时提供比传统硬度CPU多得多的计算,有可能首次使机上深入学习成为可能。
 
 ## 非结构化地形中的自主导航
 
-> **中文导读**：本节围绕“非结构化地形中的自主导航”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- On Earth, roads are flat, well-marked, and mapped. On Mars, the Moon, or a disaster site, there are no roads. The terrain is unstructured: rocks, slopes, sand, crevasses, and surfaces that may not support the robot's weight.
+- 在地球上,道路平坦,有良好的标志和地图。在火星上,月亮上,或者一个灾难地点,没有道路. 地势无结构:岩石,坡地,沙地,碎屑等地,地表可能不支持机器人的重量.
 
-- **Terrain classification** evaluates whether each patch of ground is safe to traverse. Features include slope (from 3D reconstruction), roughness (variance of surface normals), rock density, and soil type. Classical approaches compute these features from stereo depth maps; modern approaches use learned classifiers on visual and geometric features.
+- ** 火车分类** 评价每一块地段是否安全可穿越。地貌包括坡度(从3D重建),粗糙度(地表常态变化),岩石密度和土壤类型等. 古典方法从立体深度图中计算出这些特征;现代方法在视觉和几何特征上使用已学到的分类器.
 
-- **Visual-inertial odometry (VIO)** estimates the robot's motion by tracking visual features across camera frames and fusing with IMU measurements. This is a core SLAM component (chapter 8) adapted for extreme conditions. On Mars, VIO must handle: featureless sandy terrain (few visual features to track), harsh lighting (extreme shadows), and limited compute.
+- ** 视觉-惯性偏振测量(VIO)** 通过跟踪相机相框上的视觉特征并用IMU的测量来估计机器人的运动. 这是SLAM(第8章)的核心部分,适应了极端条件。在火星上,VIO必须处理:无地貌的沙地地(为跟踪而选择视觉特征),严酷的照明(极光阴影)和有限的计算.
 
-- The estimation fuses visual and inertial data using an **Extended Kalman Filter (EKF)** or factor graph optimisation. The state vector includes position, velocity, orientation, and IMU biases. The prediction step uses IMU integration:
+- 估计值将使用**扩展卡尔曼滤波器** 或系数图优化,从而影响视觉和惯性数据。状态向量包括位置、速度、取向和IMU偏差。预测步骤使用IMU集成:
 
 $$\mathbf{x}_{t+1} = f(\mathbf{x}_t, \mathbf{u}_t)$$
 
-- where $\mathbf{u}_t$ is the IMU measurement (acceleration and angular velocity). The update step corrects the prediction using visual feature observations. This is Bayesian estimation (chapter 5): the IMU provides a prior, and visual observations update the belief.
+- 地点$\mathbf{u}_t$是IMU测量(加速和角速度)。更新步骤用视觉特征观测来校正预测. 这是贝叶斯人的估计(第五章):IMU提供了一种先验的,视觉观察更新了信仰.
 
-- **Hazard avoidance** is critical during planetary landing. As a spacecraft descends towards the surface, it must identify safe landing zones in real-time using onboard cameras or LiDAR. NASA's **Terrain Relative Navigation (TRN)** system on Perseverance compared onboard camera images to pre-loaded orbital maps to determine its position during descent, then steered away from hazardous terrain. This enabled landing in Jezero Crater, a scientifically rich but terrain-hazardous site that would have been too risky for previous missions.
+- ** 在行星着陆期间,严重避险** 至关重要。当航天器向地表下降时,它必须使用机上相机或LiDAR实时识别安全着陆区. NASA的**Train相对导航(TRN)**系统在恒定上将机载相机图像比作预装轨道图以确定其降落时的位置,再从危险地上向外方向行走. 这使得能够降落在杰斯罗-克拉特,这是一个科学上丰富但地形危险的地点,对前几次任务来说风险太大。
 
 ## 水下机器人
 
-> **中文导读**：本节围绕“水下机器人”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- The deep ocean is as alien as space: crushing pressure (1000+ atmospheres at full ocean depth), near-zero visibility, no GPS, and limited communication. Underwater robots are essential for ocean science, offshore infrastructure inspection, deep-sea mining, and search operations.
+- 深海与太空一样陌生:压出压力(1000+全洋深度的大气),能见度接近零,没有GPS,通信有限. 水下机器人对海洋科学、近海基础设施检查、深海采矿和搜索作业至关重要。
 
-- **AUVs** (Autonomous Underwater Vehicles) operate untethered, carrying their own power and computing. They follow pre-programmed survey patterns or use onboard intelligence to adapt to discoveries. AUVs are used for seafloor mapping, pipeline inspection, and environmental monitoring.
+- ** AUVs**(水下自主车辆)操作无节制,自带电能并进行计算。它们遵循预先编程的勘测模式,或使用机上智能来适应发现. AUV用于海底测绘、管道检查和环境监测。
 
-- **ROVs** (Remotely Operated Vehicles) are tethered to a surface ship by a cable that provides power and communication. They are used for tasks requiring real-time human control: deep-sea manipulation, construction, and repair. The tether removes the communication constraint but limits range and adds operational complexity.
+- **ROVs**(远程运行的车辆)由提供电力和通信的电缆同水面船只接上。它们被用于需要人类实时控制的任务:深海操纵、建造和修理。绳索可以去除通信的制约,但限制了范围并增加了操作的复杂性.
 
-- **Acoustic communication** is the primary underwater communication method (radio waves attenuate rapidly in water). Acoustic modems achieve data rates of 1-10 kbps at ranges of a few kilometres, compared to gigabits per second for radio on land. This is even more constrained than Mars communication, forcing AUVs to be highly autonomous.
+- ** 声波通信**是水下的主要通信方法(无线电波在水中迅速减弱)。相较于陆地上的张量,声调调制解调器在几公里范围内的数据速率达到1-10克/秒。这比火星通信更受制约,迫使AUV高度自主.
 
-- **Underwater SLAM** is particularly challenging. Sonar provides range measurements but with poor angular resolution and significant noise (multipath reflections off the seafloor and surface). Cameras work only at very short range (a few metres in clear water, less in turbid conditions). Feature-based visual SLAM (chapter 8) must be adapted for the unique visual characteristics of underwater scenes: colour attenuation (red light is absorbed first), backscatter, and artificial lighting that creates bright spots and deep shadows.
+- ** 水下LAMM**尤其具有挑战性。声纳提供测距测量,但角分辨度差,噪音大(海底和地表的多路径反射)。相机只在很短的距离内工作(在清水中几米,在扰动条件下较少). 基于地貌的视觉 SLAM(第8章)必须适应水下场景独特的视觉特征:颜色衰减(红光被先被吸收),后散射,以及产生亮点和深影的人工照明.
 
-- Navigation without GPS uses **dead reckoning** (integrating velocity from a Doppler Velocity Log, DVL, which measures speed relative to the seafloor using acoustic Doppler shifts), aided by occasional surfacing for GPS fixes or acoustic positioning from surface transponders. This is the same drift problem as IMU-only navigation: small velocity errors accumulate over long missions.
+- 没有全球定位系统的导航使用**死计数**(利用声波多普勒转动测量海底速度的多普勒高速日志DVL集成速度),借助于偶尔从地表转发器上对全球定位系统进行校正或声波定位。这与IMU唯一的导航相同:小速度出错在长时间的任务中累积.
 
 ## 搜索与救援机器人
 
-> **中文导读**：本节围绕“搜索与救援机器人”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- After earthquakes, building collapses, or industrial accidents, robots can enter spaces too dangerous for human rescuers: structurally unstable buildings, toxic environments, fire, or confined spaces.
+- 在地震,建筑倒塌,或工业事故后,机器人会进入对人类救援人员来说太危险的空间:结构不稳定的建筑物,有毒的环境,火灾,或者被封闭的空间.
 
-- The requirements are: rapid deployment (minutes, not hours), operation in GPS-denied environments (inside buildings, underground), robust communication through walls and rubble, and the ability to navigate highly cluttered, partially collapsed spaces with debris, dust, and poor lighting.
+- 要求是:快速部署(分钟,而非小时),在全球定位系统所拒绝的环境(内部建筑、地下)运作,通过墙壁和瓦砾进行强力通信,以及能够以碎片、灰尘和灯光不佳的方式导航高度杂乱的、部分倒塌的空间。
 
-- **Multi-robot coordination** is valuable in search and rescue because a team of robots can cover a large area faster than a single robot. The challenge is coordination: the robots must divide the search area, avoid duplicating effort, and share discoveries.
+- **多机器人协调**在搜索和救援中很有价值,因为一队机器人能够覆盖大面积的速度快于单个机器人. 挑战在于协调:机器人必须划分搜索区域,避免重复努力,分享发现.
 
-- **Frontier-based exploration** assigns robots to the boundaries between explored and unexplored space (the "frontier"). Each robot navigates to the nearest unexplored frontier, maps it, and moves on. A central or distributed planner allocates frontiers to robots to minimise total exploration time. This is a coverage optimisation problem.
+- **Frontier-based exploration**将机器人指定为被探索和未探索空间的界限("边"). 每个机器人都航行到最近的未探索边界,绘制地图,然后继续前进。中央或分布式规划师将疆域分配给机器人,以将探索时间减少到最小程度。这是一个覆盖优化的问题。
 
-- Communication through rubble is unreliable. Robots may lose contact with the operator and each other. The system must be robust to intermittent communication: each robot should be able to operate independently, building its own local map and making its own decisions, then merge information when communication is restored.
+- 通过瓦砾进行通信是不可靠的。机器人可能与操作员和对方失去联系. 系统必须坚固以断断续续的通信:每个机器人都应该能够独立运行,建立自己的本地地图并做出自己的决定,然后在恢复通信时合并信息.
 
 ## 群体机器人
 
-> **中文导读**：本节围绕“群体机器人”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **Swarm robotics** uses large numbers of simple, low-cost robots that achieve complex collective behaviour through local interactions. No single robot is individually capable, but the swarm as a whole can perform tasks that no individual could.
+- ** Swarm 机器人** 使用大量简单而低成本的机器人,通过本地互动实现复杂的集体行为. 没有一个单一的机器人能够单独完成,但整个群星可以完成任何个体都无法完成的任务.
 
-- Inspiration comes from biological swarms: ants building bridges with their bodies, bees making collective decisions about nest sites, fish schools evading predators through coordinated movement. In each case, simple local rules (follow your neighbours, avoid collisions, move towards food) produce sophisticated global behaviour.
+- 灵感来源于生物群:蚂蚁用身体搭起桥梁,蜜蜂对巢穴地作出集体决定,鱼校通过协调运动来躲避捕食者. 在每一种情况下,简单的当地规则(跟随相邻者,避免相撞,走向食物)都会产生复杂的全球行为.
 
-- **Decentralised control** means there is no central commander. Each robot follows the same local rules, reacting only to its neighbours and immediate environment. The global behaviour **emerges** from these local interactions. This makes swarms inherently robust: if one robot fails, the swarm continues. There is no single point of failure.
+- ** 权力下放控制** 意味着没有中央指挥官。每个机器人都遵循相同的本地规则,只对其相邻者和即时环境作出反应. 全球行为**产生于这些地方互动**。这使得群生具有内在的坚固性:如果一个机器人失败,群生会继续. 不存在一个失败点。
 
-- **Consensus algorithms** enable a swarm to agree on a collective decision (e.g., which direction to move, which task to prioritise) through local communication only. A simple consensus protocol has each robot average its value with its neighbours:
+- ** Consensus算法** 使一群人能够只通过本地通信就集体决定达成一致(例如,哪个方向移动,哪个任务优先). 一个简单的共识协议 每一个机器人平均对它的邻国的价值:
 
-$$x_i(t+1) = \frac{1}{|N_i| + 1} \left( x_i(t) + \sum_{j \in N_i} x_j(t) \right)$$
+$$x_i(t+1) = \frac{1}{|N_i| + 1} \left(x_i(t) + \sum_{j \in N_i} x_j(t) \right)$$
 
-![Swarm consensus: robots start scattered, iteratively average with neighbours, and converge to a shared location](../images/swarm_consensus.svg)
+![Swarm共识:机器人开始分散,与邻居反复平均,并汇合到一个共享的地点](../images/swarm_consensus.svg)
 
-- where $N_i$ is the set of robot $i$'s neighbours. This is iterated until all robots converge to the same value (the global average). The convergence rate depends on the communication graph's topology, specifically its algebraic connectivity (the second-smallest eigenvalue of the graph Laplacian, connecting to eigenvalues from chapter 2).
+- 地点$N_i$是机器人的一组$i$邻居 这被延长,直到所有机器人都汇合到同值(全球平均值). 趋同率取决于通信图的地貌,具体来说是其代数连接(图Laplacian的第二小等同值,从第二章连接到等同值).
 
-![Reynolds' three flocking rules: separation avoids collisions, alignment matches heading, cohesion stays with the group](../images/reynolds_flocking.svg)
+![雷诺兹的三条羊群规则: 分离可以避免相撞,对齐方向,凝聚力和群体在一起](../images/reynolds_flocking.svg)
 
-- **Flocking algorithms** (Reynolds' rules) produce coordinated group motion with three simple rules per robot:
-    - **Separation**: steer away from neighbours that are too close (avoid collision).
-    - **Alignment**: steer towards the average heading of neighbours (move in the same direction).
-    - **Cohesion**: steer towards the average position of neighbours (stay with the group).
+- ** Flocking算法**(Reynolds' rules)产生协调的群动,每个机器人有三条简单的规则:
+    - ** 分离**:远离距离太近的邻国(避免碰撞)。
+    - ** 调整**:向邻居的平均方向行进(朝同一方向行走)。
+    - ** 配合**:向邻国的平均地位方向行进(与该组保持距离)。
 
-- Each rule is a vector contribution to the robot's velocity. The weighted sum of these vectors produces naturalistic flocking behaviour. This is a linear combination of vectors (chapter 1), where the weights control the relative importance of each behaviour.
+- 每条规则都是对机器人速度的向量贡献. 这些载体的加权总和产生自然的群集行为. 这是向量的线性组合(第一章),其中权重控制了每种行为的相对重要性.
 
-- Applications of swarm robotics include environmental monitoring (distributing sensors across a large area), precision agriculture (coordinating drones for crop spraying), construction (robots collectively assembling structures), and search operations (covering a large area efficiently).
+- 成群机器人的应用包括环境监测(在大面积分布传感器)、精密农业(协调用于作物喷洒的无人机)、建筑(机器人集体组装结构)和搜索作业(有效覆盖了大面积区域)。
 
 ## 人机交互
 
-> **中文导读**：本节围绕“人机交互”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Most real-world autonomous systems operate alongside humans, not in isolation. The interaction between human and robot, how they communicate, share control, and build trust, is as important as the robot's technical capabilities.
+- 大多数现实世界的自主系统与人类并肩运作,而不是孤立地运作. 人和机器人之间的互动,他们如何沟通,共享控制,建立信任,与机器人的技术能力同样重要.
 
-![Shared autonomy spectrum: from full human teleoperation (alpha=1) through blended control to full robot autonomy (alpha=0)](../images/shared_autonomy_spectrum.svg)
+![共享自主谱:从完全人类远程操作(alpha=1)到混合控制到完全机器人自主(alpha=0)](../images/shared_autonomy_spectrum.svg)
 
-- **Shared autonomy** blends human and robot control. Instead of full teleoperation (human controls everything) or full autonomy (robot controls everything), shared autonomy lets the human provide high-level intent while the robot handles low-level execution. For example, a human might point to an object and say "pick that up," and the robot autonomously plans the grasp and arm motion.
+- ** 分享自主性** 结合了人和机器人的控制。与其说完全的远程操作(人类控制一切)或完全自主(机器人控制一切),共享自主让人类提供高层次的意向,而机器人则处理低层次的处决. 例如,一个人类可能指向一个物体并说"捡起",机器人自主地计划了抓取和手臂运动.
 
-- Mathematically, shared autonomy can be modelled as a blending of the human's input $\mathbf{u}_h$ and the robot's autonomous action $\mathbf{u}_r$:
+- 数学上,共享自主可以模拟为人类输入的混合$\mathbf{u}_h$机器人的自主动作$\mathbf{u}_r$:
 
 $$\mathbf{u} = \alpha \mathbf{u}_h + (1 - \alpha) \mathbf{u}_r$$
 
-- where $\alpha \in [0, 1]$ is the blending parameter. When $\alpha = 1$, the human has full control (teleoperation). When $\alpha = 0$, the robot is fully autonomous. Adaptive shared autonomy adjusts $\alpha$ based on the situation: the robot takes more control when it is confident and cedes control when it is uncertain or the situation is novel.
+- 地点$\alpha \in [0, 1]$是混合参数。何时$\alpha = 1$,人类有完全的控制(电信操作). 何时$\alpha = 0$机器人是完全自主的 适应性共享自主调整$\alpha$基于情况:机器人在自信时掌握更多的控制权,在不确定或情况新颖时放弃控制权.
 
-- **Teleoperation** remains important for tasks beyond current autonomous capabilities. A human operator controls the robot remotely, viewing the scene through the robot's cameras. The challenge is **latency**: even a 100ms delay makes teleoperation difficult, and the multi-second delays in space make it nearly impossible for fine manipulation. Predictive displays (showing the robot's predicted future state) and virtual fixtures (software guides that prevent the operator from commanding dangerous motions) help compensate.
+- ** 对于超出目前自主能力的任务,电信业务**仍然很重要。人类操作员对机器人进行远程控制,通过机器人相机观看现场. 挑战是**适切性**:即使100米的延迟也使得远程操作变得困难,而空间多秒的延迟则几乎不可能进行精细的操纵. 预测性显示(显示机器人的预测未来状态)和虚拟固定(防止操作员指挥危险运动的软件指南)有助于补偿.
 
-- **Trust calibration** is the problem of ensuring humans have appropriate trust in the robot: not too much (over-trust leads to complacency and failure to intervene when needed), not too little (under-trust leads to unnecessary intervention and underutilisation). Trust should be calibrated to the robot's actual capabilities: trust it in situations it handles well, and be sceptical in situations near the edge of its competence.
+- ** 信任校正** 是确保人类对机器人有适当信任的问题:不是太多(过度信任会导致自满,在需要时无法干预),也不是太少(不信任导致不必要的干预和使用不足)。信任应该与机器人的实际能力相适应:相信它能很好地处理情况,并在接近其能力边缘的情况下持怀疑态度.
 
-- Research shows that trust is affected by: the robot's transparency (does it explain its decisions?), reliability (does it fail predictably or randomly?), and communication (does it express uncertainty?). A robot that says "I am 40% confident this is a safe path, should I proceed?" enables better human decision-making than one that silently drives forward.
+- 研究显示,信任受到以下因素的影响:机器人的透明度(它是否解释其决定?),可靠性(它是预测失败还是随机失败?),以及通信(它是否表示不确定性?). 一个机器人说,“我百分之四十相信这是一条安全的道路, 我应该继续吗?” 能够比默默地推动人类作出更好的决策。
 
-- **Legibility** in robot motion means the robot moves in ways that communicate its intent to nearby humans. If a robot reaches for an object, its path should make it obvious which object it is targeting, even before it arrives. This involves planning trajectories that maximise the observer's ability to infer the goal early, which can be formalised as maximising the posterior probability of the true goal given the observed partial trajectory:
+- **可识别性**在机器人运动中指机器人以向附近的人类传达其意图的方式移动. 如果一个机器人到达某个物体,其路径应该能够使它的目标对象明显,甚至在它到达之前. 这涉及规划出轨迹,最大限度地使观察者及早推断出目标的能力,鉴于观察到的部分轨迹,可将其正规化为最大地实现真正目标的后几率:
 
 $$\pi^* = \arg\max_\pi P(G \mid \xi_{0:t})$$
 
-- where $G$ is the goal and $\xi_{0:t}$ is the trajectory observed so far. This uses Bayesian inference (chapter 5): the observer has a prior over possible goals, and the robot's trajectory provides evidence that updates this belief.
+- 地点$G$目标是$\xi_{0:t}$是迄今为止观测到的轨迹。这使用了贝叶斯推论(第五章):观察者有一个比可能的目标更先入为主,机器人的轨迹提供了更新这种信念的证据.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Simulate a consensus algorithm for a swarm of robots agreeing on a target position. Start with random initial positions and watch convergence.
+1. 模拟一组机器人就目标位置达成一致的共识算法. 起先随机起步位置并观看会合.
 ```python
 import jax
 import jax.numpy as jnp
@@ -235,7 +226,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-2. Implement Reynolds' flocking rules (separation, alignment, cohesion) and simulate a swarm moving together.
+2. 执行雷诺兹的群集规则(分化,会合,会聚)并模拟一群人一起移动.
 ```python
 import jax
 import jax.numpy as jnp
@@ -303,7 +294,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-3. Simulate shared autonomy blending: a human provides noisy directional input, and the robot's autonomous system provides a smooth path to the goal. Blend them with different alpha values.
+3. 模拟共享自主混合:人提供吵闹的方向输入,机器人的自发系统为入球提供了平滑的路径. 用不同的α值来混合它们.
 ```python
 import jax
 import jax.numpy as jnp

@@ -13,95 +13,94 @@ status: reviewed
 
 *本篇将统计量放回 AI 工程语境，保留源文中的定义、公式、代码、图示和实践边界，便于逐项核对。*
 
-*Statistical measures summarise data with single numbers that capture spread, position, shape, and association. This file covers variance, standard deviation, quartiles, skewness, kurtosis, covariance, correlation, and z-scores, the toolkit for exploratory data analysis and feature engineering in ML.*
+* 统计计量方法以单一数字汇总数据,记录分布、位置、形状和关联。该文件涵盖差异、标准偏差、四分法、skewness、kurtosis、同源性、相关性和z分数、探索性数据分析工具包和ML的特征工程。*
 
-- In the previous file we introduced moments as a family of summary statistics. Here we unpack the practical tools that flow from them: measures of dispersion, position, shape, and association.
+- 在前一个档案中,我们把瞬间作为简要统计的一族。在这里,我们整理出它们所产生的实用工具:分散、位置、形状和联系的度量。
 
-- **Dispersion** answers the question: how spread out is the data? Two classrooms can have the same average test score, but very different spreads.
+- ** 分散** 回答问题:数据如何分散? 两个教室的平均测试分数可以相同,但差幅差分很大.
 
 ![图示](../images/variance_spread.svg)
 
-- The narrow (blue) distribution has low variance: most values cluster tightly around the mean. The wide (red) distribution has high variance: values are scattered further out.
+- 狭义(蓝色)的分布有低差异:大多数值组紧绕正值. 宽(红色)分布差异很大:数值更分散。
 
-- **Variance** is the average squared distance from the mean. We square to avoid positive and negative deviations cancelling each other out.
+- ** 变化** 是平均平方距离平均值。我们正向避免正向和负向的偏差 相互抵消。
 
 $$\sigma^2 = \frac{1}{N} \sum_{i=1}^{N} (x_i - \mu)^2$$
 
-- When working with a sample (not the full population), we divide by $N - 1$ instead of $N$. This correction (called Bessel's correction) accounts for the fact that a sample tends to underestimate the true variability:
+- 当与样本(不是全部人口)合作时,我们按$N - 1$改为$N$。。。这种更正(被称作"贝塞尔的更正")说明一个样本往往低估了真实可变性:
 
 $$s^2 = \frac{1}{N-1} \sum_{i=1}^{N} (x_i - \bar{x})^2$$
 
-- **Standard deviation** is the square root of variance: $\sigma = \sqrt{\sigma^2}$. It brings the measure back to the original units. If your data is in centimetres, variance is in cm$^2$, but standard deviation is back in cm.
+- ** 标准偏差** 是差异的平方根 :$\sigma = \sqrt{\sigma^2}$。。。它将测量结果带回原单位. 如果您的数据为厘米, 差异为厘米$^2$,但标准偏差在cm.
 
-- **Mean Absolute Deviation (MAD)** is a simpler alternative. Instead of squaring, take the absolute value of each deviation:
+- ** “绝对偏离”** 是一个比较简单的备选办法。而不是纠缠,取每个偏差的绝对值:
 
 $$\text{MAD} = \frac{1}{N} \sum_{i=1}^{N} |x_i - \mu|$$
 
-- MAD is more robust to outliers than variance because it does not amplify large deviations by squaring them. However, variance is more mathematically convenient (it decomposes nicely in proofs and ML optimisation).
+- MAD比差异更强,因为它不会通过挤压而扩大大的偏差。然而,差异在数学上更为方便(它在证明和ML最优化中分解良好).
 
-- **Position** answers a different question: where does a specific value sit relative to the rest of the data?
+- ** 观点** 回答一个不同的问题:与其他数据相比,具体值位于何处?
 
-- **Quartiles** split sorted data into four equal parts. Q1 (25th percentile) is the value below which 25% of data falls. Q2 is the median (50th percentile). Q3 is the 75th percentile.
+- uartiles** 将分类数据分为四个等分部分。Q1(25%)是数据下降25%的数值. Q2为中位数(第50百分位). Q3为75%.
 
-- The **Interquartile Range (IQR)** is $Q3 - Q1$. It captures the spread of the middle 50% of data, ignoring extremes.
+- ** 间距(IQR)**$Q3 - Q1$。。。它捕捉了中间50%数据的传播,忽略了极端.
 
 ![图示](../images/quartiles_boxplot.svg)
 
-- The box plot is one of the most useful visualisations in statistics. The box spans Q1 to Q3, the line inside is the median, whiskers extend to the most extreme non-outlier values, and dots beyond the whiskers are outliers.
+- 盒式地圖是统计中最有用的可视化之一. 框跨出Q1到Q3,内部的线是中位数,胡子延伸至最极端的非输出值,而胡子以外的点是输出值.
 
-- **Percentiles** generalise quartiles. The $p$-th percentile is the value below which $p\%$ of observations fall. Q1 is the 25th percentile, the median is the 50th, and Q3 is the 75th.
+- ** 百分数** 泛指四分数。该$p$- 百分位数是下方的值$p\%$观察的下降。Q1为25%,中位数为50;而Q3为75.
 
-- The **z-score** tells you how many standard deviations a value is from the mean:
+- **z-score** 告诉你一个值从平均值中有多少标准差:
 
 $$z = \frac{x - \mu}{\sigma}$$
 
-- A z-score of 2 means the value is 2 standard deviations above the mean. A z-score of $-1.5$ means it is 1.5 standard deviations below. This is also called **standardisation** and is used heavily in ML for feature scaling, as it transforms any distribution to have mean 0 and standard deviation 1.
+- z分数为2表示值为2个标准差高于正数. 一个Z分数$-1.5$表示下方为1.5个标准差. 这又被称作**标准化**,在ML中被大量用于特征缩放,因为它将任何分布都转换为有平均值0和标准偏差1.
 
-- **Shape** describes the geometry of a distribution beyond its centre and spread.
+- ** 形状** 描述一个分布在中心外并扩散的几何.
 
-- **Skewness** (the standardised 3rd moment from the previous file) measures asymmetry. A perfectly symmetric distribution like the normal curve has skewness of zero. Positive skewness means a longer right tail (e.g. income distributions). Negative skewness means a longer left tail (e.g. age at retirement).
+- ** Skewness**(从上个文件起的标准第3分)测量不对称。完全对称的分布,像正常曲线一样,具有零的扭曲性. 正滑行指更长的右尾(如. 收入分配。负斯克活性指更长的左尾(例如. 退休年龄)。
 
 $$\text{Skewness} = \frac{1}{N} \sum_{i=1}^{N} \left(\frac{x_i - \mu}{\sigma}\right)^3$$
 
-- **Kurtosis** (the standardised 4th moment) measures tail heaviness. The normal distribution has kurtosis of 3. Distributions with heavier tails (more prone to outliers) have kurtosis greater than 3.
+- ** Kurtosis**(标准为第4分秒)测量尾部重力. 正常分布为克多斯分出3. 有较重尾巴(更容易出局)的分布有大于3.
 
 $$\text{Kurtosis} = \frac{1}{N} \sum_{i=1}^{N} \left(\frac{x_i - \mu}{\sigma}\right)^4$$
 
-- **Correlation** measures the strength and direction of a relationship between two variables. It answers: when one variable goes up, does the other tend to go up, go down, or do nothing?
+- ** 校正** 衡量两个变量之间关系的强度和取向。它回答:当一个变量上升时,另一个变量倾向于上升,下降,还是什么都不做?
 
 ![图示](../images/correlation_scatter.svg)
 
-- **Pearson correlation** ($r$) measures *linear* association. It ranges from $-1$ (perfect negative) through $0$ (none) to $+1$ (perfect positive).
+- ** 皮尔逊关系** ($r$* 措施 *线性*协会。范围从$-1$(完美负)$0$(无)改为$+1$(完美阳性).
 
 $$r = \frac{\sum_{i=1}^{N} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum (x_i - \bar{x})^2} \cdot \sqrt{\sum (y_i - \bar{y})^2}}$$
 
-- If you recall dot products from Chapter 1, Pearson correlation is essentially the cosine similarity between the mean-centred versions of $\mathbf{x}$ and $\mathbf{y}$.
+- 如果你记得第一章的点产品 皮尔逊关联性基本上是 以平分为中心的版本之间的同心相似性$\mathbf{x}$财务报告和已审计财务报表$\mathbf{y}$.
 
-- **Spearman correlation** ($\rho$) measures *monotonic* association. Instead of using raw values, it ranks them first and then computes Pearson correlation on the ranks. This makes it robust to outliers and works even when the relationship is nonlinear, as long as it is consistently increasing or decreasing.
+- ** 斯皮尔曼关系** ($\rho$* 措施 * 运动*协会。与其使用生值,不如先对其进行分级,再计算出皮尔逊在分级上的关联. 这使得它变得强大到超越,即使在关系非线性时也起作用,只要这种关系在不断增加或减少.
 
-- **Geometric mean** is the appropriate average when values multiply together, like growth rates. If your investment grows by 10%, then 20%, then 30%, the average growth factor is not the arithmetic mean of those rates. Instead:
+- ** 数值相乘时,如增长率,几何平均值为适当平均值。如果你的投资增长10%,那么20%,然后是30%,平均增长系数不是这些增长率的算术平均值。相反:
 
 $$\bar{x}_{\text{geo}} = \left(\prod_{i=1}^{N} x_i\right)^{1/N}$$
 
-- For growth rates specifically, convert percentages to factors first (1.10, 1.20, 1.30), compute the geometric mean, then subtract 1.
+- 对于具体增长率,先将百分比换算为系数(1.10、1.20和1.30),计算几何平均值后再减去系数1。
 
-- **Exponential Moving Average (EMA)** gives more weight to recent observations. Unlike a simple moving average where all points in the window are equally weighted, EMA decays exponentially:
+- ** 责任移动平均值** 对最近观测结果给予更多重视。与窗口中所有点均匀加权的简单移动平均值不同,EMA衰变指数化:
 
 $$\text{EMA}_t = \alpha \cdot x_t + (1 - \alpha) \cdot \text{EMA}_{t-1}$$
 
-- The smoothing factor $\alpha$ (between 0 and 1) controls how quickly old observations lose influence. Higher $\alpha$ means more responsive to recent changes, lower $\alpha$ means smoother. In ML, EMA is used in optimisers like Adam and in batch normalisation's running statistics.
+- 平滑因素$\alpha$(0到1之间)控制了老的观测失去影响力的速度. 高级$\alpha$表示对最近的变化反应更迅速,较低$\alpha$意思是比较平滑 在ML中,EMA被用在亚当等选取器和分批正常化运行统计中.
 
-- **Outlier detection** identifies data points that are unusually far from the rest. Two common methods:
-    - **IQR method**: a point is an outlier if it falls below $Q1 - 1.5 \times \text{IQR}$ or above $Q3 + 1.5 \times \text{IQR}$
-    - **Z-score method**: a point is an outlier if $|z| > 3$ (more than 3 standard deviations from the mean)
+- ** 外部探测** 发现的数据点与其它数据点相去甚远。两种常见的方法:
+    - ** IQR 方法**:如果一个点低于$Q1 - 1.5 \times \text{IQR}$或以上$Q3 + 1.5 \times \text{IQR}$
+    - **Z分数方法**:如果$|z| > 3$(超过3个标准偏差与平均值差分)
 
-- The IQR method is more robust because it does not assume a normal distribution. The z-score method works well when data is approximately normal but can fail when the distribution is heavily skewed.
+- IQR方法由于不假设正常分布而更强. Z分数方法在数据大致正常时效果良好,但当分布严重扭曲时可能失败.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务（使用 Colab 或 notebook）”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-1. Compute variance, standard deviation, and MAD for a dataset and compare them. Observe what happens when you add an extreme outlier.
+1. 计算一个数据集的差异、标准偏差和MAD,并进行比较。观察加一极外出者后会如何.
 ```python
 import jax.numpy as jnp
 
@@ -122,7 +121,7 @@ print(f"\nWith outlier (100):")
 print(f"  Variance: {jnp.var(data_outlier):.3f}, Std: {jnp.std(data_outlier):.3f}, MAD: {jnp.mean(jnp.abs(data_outlier - mean2)):.3f}")
 ```
 
-2. Compute Pearson and Spearman correlation between two variables. Experiment with different relationships.
+2. 计算出皮尔逊和斯皮尔曼两个变量之间的关联. 实验不同的关系。
 ```python
 import jax
 import jax.numpy as jnp
@@ -145,7 +144,7 @@ print(f"Pearson r:  {pearson(x, y):.4f}")
 print(f"Spearman ρ: {spearman(x, y):.4f}")
 ```
 
-3. Implement outlier detection using both the IQR and z-score methods, then compare their results on skewed data.
+3. 使用IQR和z分数方法进行外部检测,然后根据扭曲的数据比较结果。
 ```python
 import jax.numpy as jnp
 
@@ -166,7 +165,7 @@ print(f"\nZ-scores: {z_scores}")
 print(f"Z-score outliers (|z| > 3): {z_outliers}")
 ```
 
-4. Compute and plot an Exponential Moving Average with different smoothing factors on noisy data.
+4. 计算和绘制带有不同平滑因素的有声数据的指数移动平均值。
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt

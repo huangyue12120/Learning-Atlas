@@ -13,122 +13,121 @@ status: reviewed
 *矩阵的结构类型决定了它如何存储信息、进行变换以及高效计算。本篇覆盖方阵、对角矩阵、对称矩阵、正交矩阵、稀疏矩阵、三角矩阵和块矩阵等常见类型。*
 
 
-*Special matrix structures unlock computational shortcuts and mathematical guarantees. This file covers identity, diagonal, symmetric, triangular, orthogonal, positive definite, sparse, and stochastic matrices, types that appear in covariance estimation, graph algorithms, regularisation, and Markov chains.*
+*特殊矩阵结构解锁了计算快捷键和数学保证. 该文件涵盖身份、对角、对称、三角、正交、正向、肯定、稀有和分层矩阵、在共变估计中出现的类型、图表算法、正则化和Markov链。*
 
-- Not all matrices are the same. Different structures give matrices special properties that make them faster to compute with, easier to reason about, or both. Here are the types you will encounter most.
+- 并非所有的矩阵都是相同的. 不同的结构给出了矩阵的特殊属性,使得它们更快地计算,更容易解释,或者两者兼而有之. 这是你最会遇到的类型。
 
-- A **square matrix** has the same number of rows and columns ($n \times n$). Most of the interesting properties (determinant, eigenvalues, inverse) only apply to square matrices.
+- **平方矩阵**的行数和列数相同($n \times n$) (中文(简体)). 大多数有趣的属性(决定性,eigenvalus,反向)只适用于平方矩阵.
 
-- The **identity matrix** $I$ is a square matrix with 1s on the diagonal and 0s everywhere else. It is the "do nothing" transformation: $AI = IA = A$ for any compatible matrix $A$.
+- **标识矩阵**$I$是方形矩阵,对角上为一等分,而其他地方为一等分。这是"什么都不做"的转变:$AI = IA = A$用于任何相容矩阵$A$.
 
 ```math
 I = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}
 ```
 
-- The **zero matrix** $O$ has all elements equal to zero. It maps every vector to the zero vector, destroying all information.
+- **零矩阵**$O$所有元素均等于零。它将每个向量映射到零向量,摧毁所有信息.
 
-- A **diagonal matrix** is all zeros except on the main diagonal. Multiplying a vector by a diagonal matrix simply scales each component independently, making it very efficient.
+- **对角矩阵**除主对角上外,都为零. 用对角矩阵来将一个向量相乘,简单地将每个组件独立地缩放,使其非常高效.
 
 ```math
 D = \begin{bmatrix} 3 & 0 \\ 0 & 7 \end{bmatrix}
 ```
 
-- A **symmetric matrix** equals its own transpose: $A = A^T$, meaning $A_{ij} = A_{ji}$. Symmetric matrices have the special property that their eigenvectors are always perpendicular to each other. Covariance matrices are always symmetric.
+- ** 对称矩阵** 等于它自己的转写:$A = A^T$,含义$A_{ij} = A_{ji}$。。。对称矩阵具有特殊属性,它们的精子总是相向相向. 相变矩阵总是对称的.
 
 ```math
 S = \begin{bmatrix} 3 & -1 \\ -1 & 6 \end{bmatrix}
 ```
 
-- A **triangular matrix** has all zeros on one side of the diagonal. **Lower triangular** has zeros above, **upper triangular** has zeros below. They are essential for solving systems of equations efficiently through forward or back substitution.
+- 一个**三角矩阵**在对角的一面有所有零. ** 下三角** 以上为零;上三角** 下为零。它们对于通过前向或后向替代有效解决等式系统至关重要。
 
 ```math
 L = \begin{bmatrix} 2 & 0 & 0 \\ 1 & 3 & 0 \\ -1 & 2 & 4 \end{bmatrix} \qquad U = \begin{bmatrix} 5 & -1 & 2 \\ 0 & 1 & 3 \\ 0 & 0 & -2 \end{bmatrix}
 ```
 
-- The determinant of a triangular matrix is simply the product of its diagonal elements.
+- 三角矩阵的决定因素仅仅是其对角元素的产物.
 
-- An **orthogonal matrix** has the property that its transpose equals its inverse: $Q^TQ = QQ^T = I$.
+- **正交矩阵** 的转置等于其逆矩阵：$Q^TQ = QQ^T = I$。
 
-- This means you can "undo" the transformation just by transposing, which is computationally cheap. Its columns are orthonormal (unit length and mutually perpendicular).
+- 这意味着你可以仅仅通过转接来"取消"转换,这在计算上是便宜的. 其柱为正交形(单位长度和相通.
 
-- A **sparse matrix** has most of its elements equal to zero, while a **dense matrix** has most elements nonzero.
+- 一个**sparse矩阵**的元素多为零;而一个**dense矩阵**的元素多为非零.
 
-![Sparse vs dense: dots represent nonzero entries](../images/sparse_dense.svg)
+![Sparse vs 密度: 点代表非零项](../images/sparse_dense.svg)
 
-- In practice, many real-world matrices are extremely sparse.
+- 实际上,许多现实世界的矩阵极为稀少。
 
-- A social network with a million users could be represented as a $10^6 \times 10^6$ matrix, but each person only connects to a handful of others, so nearly all entries are zero.
+- 拥有100万用户的社会网络可以作为代表$10^6 \times 10^6$矩阵,但每个人只连接到少数其他人,因此几乎所有条目都是零.
 
-![A small social network and its adjacency matrix: most entries are zero](../images/social_network_matrix.svg)
+![小型社交网络及其相接性矩阵:大多数条目为零](../images/social_network_matrix.svg)
 
-- A **permutation matrix** is obtained by rearranging the rows of an identity matrix. Multiplying by it shuffles the elements of a vector. Every row and every column has exactly one 1 and the rest are 0s.
+- 通过重新排列身份矩阵的行,获得**周度矩阵**。乘以它会洗涤向量的元素. 每行和每列都有一个1,其余的都是0s.
 
-- For example, the matrix below moves element 3 to position 1, element 1 to position 2, and element 2 to position 3:
+- 例如,下面的矩阵将元素3移到第1位,元素1移到第2位,元素2移到第3位:
 
 ```math
 P = \begin{bmatrix} 0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0 \end{bmatrix}
 ```
 
-- A **Toeplitz matrix** has the same value along every diagonal (upper-left to lower-right). Notice how each diagonal is constant:
+- ** Toeplitz 矩阵** 每对角(上-左到下-右)都有相同的值. 注意每个对角的常数 :
 
 ```math
 T = \begin{bmatrix} a & b & c \\ d & a & b \\ e & d & a \end{bmatrix}
 ```
 
-- This structure appears in signal processing and convolution, because sliding a fixed filter across a signal is equivalent to multiplying by a Toeplitz matrix.
+- 这种结构出现在信号处理和卷积中,因为一个固定的滤波器会滑过一个信号,相当于被一个托普利茨矩阵相乘.
 
-- A **circulant matrix** is a special Toeplitz matrix where each row is a cyclic shift of the one above. When a row reaches the end, it wraps around:
+- **(**circulant matrium **)是一种特殊的托普利茨矩阵,其中每行是上行的回转. 当一行到达尾端时,它会环绕:
 
 ```math
 C = \begin{bmatrix} 1 & 3 & 2 \\ 2 & 1 & 3 \\ 3 & 2 & 1 \end{bmatrix}
 ```
 
-- Circulant matrices are closely connected to the discrete Fourier transform (DFT) and are central to how circular convolution works.
+- 环状基质与离散的傅里叶变换(DFT)紧密相通,是循环卷积方式的核心.
 
-- A **Hermitian matrix** is the complex equivalent of a symmetric matrix: $A = A^\ast$ (where $A^\ast$ is the conjugate transpose).
+- ** 赫尔米特矩阵**是一个对称矩阵的复杂等同物:$A = A^\ast$(何处)$A^\ast$是相接转接器。
 
-- For real-valued matrices, Hermitian and symmetric are the same thing. You will encounter these in quantum computing and signal processing.
+- 对于真实价值的矩阵来说,赫米地语和对称语是相同的. 你会在量子计算和信号处理中遇到这些.
 
-- A **unitary matrix** is the complex equivalent of an orthogonal matrix: $U^\ast U = UU^\ast = I$. Just as orthogonal matrices preserve lengths in real spaces, unitary matrices preserve lengths in complex spaces.
+- ** 统一处理矩阵** 是正交矩阵的复杂等同物:$U^\ast U = UU^\ast = I$。。。与正向基团在真实空间中保存长度一样,单相基团在复杂的空间中保存长度.
 
-- An **idempotent matrix** satisfies $A^2 = A$. Applying the transformation twice is the same as applying it once, which makes it a **projection**. Once you have projected, projecting again changes nothing.
+- 符合**专有矩阵**$A^2 = A$。。。两次应用变换与一次应用相同,这使其成为了**预测**. 一旦你预测了, 投影再次改变什么。
 
-- A **nilpotent matrix** satisfies $A^k = O$ (the zero matrix) for some power $k$. Apply the transformation enough times and everything collapses to zero. For example:
+- ** 无能矩阵** 满足$A^k = O$某电源的零矩阵$k$。。。应用足够多的转换时间 并且一切崩溃到零。例如:
 
 ```math
 \begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix}^2 = \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}
 ```
 
-- A **Boolean matrix** (or binary matrix) contains only 0s and 1s. It represents yes/no relationships. For example, in a graph with 3 nodes, the **adjacency matrix** records which nodes are connected:
+- **Boolean矩阵**(或二进制矩阵)只包含0s和1s. 它代表了是/否的关系。例如,在有3个节点的图中,**adjacency矩阵**记录了连接到节点:
 
 ```math
 B = \begin{bmatrix} 0 & 1 & 1 \\ 1 & 0 & 0 \\ 1 & 0 & 0 \end{bmatrix}
 ```
 
-- Here, node 1 connects to nodes 2 and 3, but nodes 2 and 3 are not connected to each other.
+- 在这里,1号节点连接到2号和3号节点,但2号和3号节点互不相通.
 
-- A **Vandermonde matrix** is built from consecutive powers of a set of values. Given values $x_1, x_2, x_3$:
+- ** 凡德蒙德矩阵** 由一组数值的相继功率所建立。既定价值$x_1, x_2, x_3$:
 
 ```math
 V = \begin{bmatrix} 1 & x_1 & x_1^2 \\ 1 & x_2 & x_2^2 \\ 1 & x_3 & x_3^2 \end{bmatrix}
 ```
 
-- This structure appears in polynomial interpolation: finding the unique polynomial that passes through a given set of points.
+- 这种结构出现在多名相插法中: 找寻经过一整组给定分数的独特多名相.
 
-- A **Hessenberg matrix** is "almost" triangular, with zeros below the first subdiagonal:
+- 一个**赫森堡矩阵**是"几乎"三角形,在第一个子对角下方为零:
 
 ```math
 H = \begin{bmatrix} 4 & 2 & 1 \\ 3 & 5 & -1 \\ 0 & 1 & 6 \end{bmatrix}
 ```
 
-- It is a useful intermediate form for computing eigenvalues efficiently. Reducing a matrix to Hessenberg form first makes iterative algorithms converge faster.
+- 它是高效计算等值的有用的中间形式。将一个矩阵减小为黑森堡形式首先使得迭代算法更快地汇合.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Create an orthogonal matrix (rotation matrix), multiply it by its transpose, and verify you get the identity. Try different angles.
+1. 创建正交矩阵(旋转矩阵),用其转接器来相乘,并验证您的身份。尝试不同的角度。
 ```python
 import jax.numpy as jnp
 
@@ -140,7 +139,7 @@ print(f"Q @ Q.T:\n{Q @ Q.T}")
 print(f"Determinant: {jnp.linalg.det(Q):.2f}")
 ```
 
-2. Create a symmetric matrix and verify that it equals its transpose. Then compute its eigenvalues and check that the eigenvectors are perpendicular.
+2. 创建对称矩阵并验证其等同其转录. 然后计算其等分值,并检查等分值是否为相分相.
 ```python
 import jax.numpy as jnp
 

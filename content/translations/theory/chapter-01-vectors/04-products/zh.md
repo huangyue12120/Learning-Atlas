@@ -13,93 +13,92 @@ status: reviewed
 
 *本篇将向量积放回 AI 工程语境，保留源文中的定义、公式、代码、图示和实践边界，便于逐项核对。*
 
-*Vector products are the fundamental operations for measuring similarity and computing projections. This file covers inner products, the dot product, cosine similarity, the cross product, and outer products, operations that power attention mechanisms, embeddings, and geometric reasoning in AI.*
+* 变量产品是测量相似性和计算预测的基本操作。这个文件涵盖了内出产,点出产,同心相近,交叉出产,外出出产,能使注意力机理,嵌入,以及AI中的几何推理. *
 
-- We have seen how to add and scale vectors. But can we *multiply* two vectors together? It turns out there is more than one way to do it, and each answers a different question.
+- 我们已经看到如何添加和放大向量。但是,我们能不能“乘以”两个向量? 原来有不止一种方法可以做到,每个方法都回答一个不同的问题.
 
-- An **inner product** is the general idea: a function that takes two vectors and produces a single number (a scalar). It is the abstract blueprint for "multiplying" vectors.
+- **内出物**是一般的构想:一种功能,取出两个向量并产生出一个单数(一个scalar). 它是“倍增”向量的抽象蓝图。
 
-- Any inner product must satisfy three rules:
+- 任何内出产品都必须符合三项规则:
 
-    - **Positive definiteness**: $\langle \mathbf{v}, \mathbf{v} \rangle \geq 0$, and equals zero only for the zero vector. Multiplying a vector with itself always gives a non-negative result.
+    - ** 积极确定性**:$\langle \mathbf{v}, \mathbf{v} \rangle \geq 0$,并仅等于零向量。将向量与自身相乘,总是给出非负的结果.
 
-    - **Symmetry**: $\langle \mathbf{u}, \mathbf{v} \rangle = \langle \mathbf{v}, \mathbf{u} \rangle$. The order does not matter.
+    - ** 对称**:$\langle \mathbf{u}, \mathbf{v} \rangle = \langle \mathbf{v}, \mathbf{u} \rangle$。。。令无所取.
 
-    - **Linearity**: $\langle a\mathbf{u} + b\mathbf{v}, \mathbf{w} \rangle = a\langle \mathbf{u}, \mathbf{w} \rangle + b\langle \mathbf{v}, \mathbf{w} \rangle$. It distributes over addition and scaling.
+    - ** 线性**:$\langle a\mathbf{u} + b\mathbf{v}, \mathbf{w} \rangle = a\langle \mathbf{u}, \mathbf{w} \rangle + b\langle \mathbf{v}, \mathbf{w} \rangle$。。。它通过增加和规模分配。
 
-- The **dot product** is the most common inner product. It is the concrete version you will use almost everywhere. For two vectors $\mathbf{a} = (a_1, a_2, \ldots, a_n)$ and $\mathbf{b} = (b_1, b_2, \ldots, b_n)$:
+- **点产品**是最常见的内出物. 这是你几乎会使用的具体版本。对于两个向量$\mathbf{a} = (a_1, a_2, \ldots, a_n)$财务报告和已审计财务报表$\mathbf{b} = (b_1, b_2, \ldots, b_n)$:
 
 $$\mathbf{a} \cdot \mathbf{b} = a_1 b_1 + a_2 b_2 + \cdots + a_n b_n$$
 
-- Multiply matching components, then add everything up. That is all it is.
+- 相匹配组件相乘,然后将全部相加. 就是这样
 
-- But what does this number *mean*? The dot product has a beautiful geometric interpretation:
+- 但这个号码是什么意思? 点产品有美丽的几何解释:
 
 $$\mathbf{a} \cdot \mathbf{b} = \|\mathbf{a}\| \, \|\mathbf{b}\| \cos(\theta)$$
 
 ![图示](../images/dot_product.svg)
 
-- This connects the dot product directly to the angle $\theta$ between the two vectors. The result tells you how much the two vectors "agree" in direction.
+- 这将点产品直接连接到角度$\theta$两个向量之间。结果告诉你两个向量"同意"方向的多少.
 
-- If they point the same way ($\theta = 0°$), $\cos(\theta) = 1$ and the dot product is maximised.
+- 如果他们指的相同方式($\theta = 0°$), $\cos(\theta) = 1$点的产物是最大的。
 
-- If they are orthogonal ($\theta = 90°$), $\cos(\theta) = 0$ and the dot product is exactly zero. This gives us a precise test for orthogonality.
+- 如果它们是正交的(如:$\theta = 90°$), $\cos(\theta) = 0$而点产品完全为零。这让我们能精确地检验矫形
 
-- If they point in opposite directions ($\theta = 180°$), $\cos(\theta) = -1$ and the dot product is negative.
+- 如果它们指向相反的方向($\theta = 180°$), $\cos(\theta) = -1$而点产品为负.
 
-- A vector dotted with itself gives its magnitude squared: $\mathbf{a} \cdot \mathbf{a} = \|\mathbf{a}\|^2$.
+- 向量点本身表示其大小平方:$\mathbf{a} \cdot \mathbf{a} = \|\mathbf{a}\|^2$.
 
-- The dot product also gives us **projection**, the shadow one vector casts onto another. The projection of $\mathbf{a}$ onto $\mathbf{b}$ is:
+- 点产品也给我们**投影**,一个向量投出另一个. 预测$\mathbf{a}$打开$\mathbf{b}$即:
 
 $$\text{proj}_{\mathbf{b}}(\mathbf{a}) = \frac{\mathbf{a} \cdot \mathbf{b}}{\|\mathbf{b}\|^2} \, \mathbf{b}$$
 
-- Think of shining a light straight down onto $\mathbf{b}$. The shadow of $\mathbf{a}$ on that line is the projection. It tells you how much of $\mathbf{a}$ lies in the direction of $\mathbf{b}$.
+- 想想把一盏光直照到$\mathbf{b}$。。。阴影$\mathbf{a}$线上是投影 它告诉你多少$\mathbf{a}$位于方向上$\mathbf{b}$.
 
-- **Cosine similarity** normalises the dot product by dividing out both magnitudes:
+- ** 共心相近性** 通过将两个分量分为两种来使点产物正常化:
 
 $$\cos(\theta) = \frac{\mathbf{a} \cdot \mathbf{b}}{\|\mathbf{a}\| \, \|\mathbf{b}\|}$$
 
-- This gives a value between $-1$ and $1$ that measures direction alignment, ignoring how long the vectors are. It is widely used in ML to compare things like documents, embeddings, and user preferences.
+- 这给出了一个值在$-1$财务报告和已审计财务报表$1$测量方向对齐,而忽略向量的长度。在ML中被广泛用于比较诸如文档,嵌入和用户偏好等事物.
 
-- Now, the dot product takes two vectors and returns a scalar. The **cross product** does the opposite, it takes two vectors and returns a *new vector*.
+- 现在,点产品要取出两个向量,然后还回一个平板. **十字产品** 做相反的,它需要两个向量并返回一个 * 新向量*.
 
-- The cross product $\mathbf{a} \times \mathbf{b}$ produces a vector that is perpendicular to both $\mathbf{a}$ and $\mathbf{b}$:
+- 交叉产品$\mathbf{a} \times \mathbf{b}$生成一个垂直于两者的向量$\mathbf{a}$财务报告和已审计财务报表$\mathbf{b}$:
 
 $$\mathbf{a} \times \mathbf{b} = (a_2 b_3 - a_3 b_2, \; a_3 b_1 - a_1 b_3, \; a_1 b_2 - a_2 b_1)$$
 
-- The cross product only works in 3D. While the dot product works in any number of dimensions, the cross product is specific to three-dimensional space.
+- 交叉产品只在3D中工作. 虽然点产品在任何个个维度上都有作用,但交叉出产是三维空间所特有的.
 
-- Its magnitude equals the area of the parallelogram formed by the two vectors:
+- 它的等分度等于两个向量形成的平行图的区域:
 
 $$\|\mathbf{a} \times \mathbf{b}\| = \|\mathbf{a}\| \, \|\mathbf{b}\| \sin(\theta)$$
 
-- Notice the pattern: the dot product uses $\cos(\theta)$ and the cross product uses $\sin(\theta)$. The dot product measures how much two vectors align, the cross product measures how much they *differ* in direction.
+- 注意模式:点产品使用$\cos(\theta)$和交叉产品用途$\sin(\theta)$。。。点产品衡量两种向量的相通度,交叉产品衡量它们*偏差*方向相通度.
 
-- The direction of the result follows the **right-hand rule**: curl the fingers of your right hand from $\mathbf{a}$ towards $\mathbf{b}$, and your thumb points in the direction of $\mathbf{a} \times \mathbf{b}$.
+- 结果的方向遵循了** 右手规则**:将你右手的手指从$\mathbf{a}$目标$\mathbf{b}$,拇指指向方向$\mathbf{a} \times \mathbf{b}$.
 
-- Unlike the dot product, the cross product is **not commutative**: $\mathbf{a} \times \mathbf{b} = -(\mathbf{b} \times \mathbf{a})$. Swapping the order flips the direction.
+- 与点产品不同,交叉产品为**不共通**:$\mathbf{a} \times \mathbf{b} = -(\mathbf{b} \times \mathbf{a})$。。。捣乱取令倒向.
 
-- If two vectors are parallel, their cross product is the zero vector (since $\sin(0°) = 0$). No area, no perpendicular direction.
+- 如果两个向量是平行的,它们的交叉产物是零向量(因为$\sin(0°) = 0$) (中文(简体)). 没有区域,没有垂直方向。
 
-- What happens when you combine three vectors using both products? This gives us **triple products**.
+- 使用两种产品结合三个向量时会发生什么? 这给我们带来了** 三重产品**。
 
-- The **scalar triple product** $\mathbf{a} \cdot (\mathbf{b} \times \mathbf{c})$ first takes the cross product of two vectors, then dots the result with the third. The output is a single number that equals the volume of the parallelepiped (a slanted 3D box) formed by the three vectors.
+- 高薪三重产品**$\mathbf{a} \cdot (\mathbf{b} \times \mathbf{c})$首先取出两个向量的交叉产物,再将结果与第三个相去相去. 输出为单数,等同由三个向量所形成的相平行管(一个斜出3D框)的体积.
 
-- If the scalar triple product is zero, the three vectors are **coplanar**, they all lie in the same flat plane and form no volume.
+- 如果平板三相产物为零,三个向量为**coplanar**,它们都位于同平面并形成无容积.
 
-- The order can be cycled without changing the result: $\mathbf{a} \cdot (\mathbf{b} \times \mathbf{c}) = \mathbf{b} \cdot (\mathbf{c} \times \mathbf{a}) = \mathbf{c} \cdot (\mathbf{a} \times \mathbf{b})$.
+- 顺序可以循环而不改变结果:$\mathbf{a} \cdot (\mathbf{b} \times \mathbf{c}) = \mathbf{b} \cdot (\mathbf{c} \times \mathbf{a}) = \mathbf{c} \cdot (\mathbf{a} \times \mathbf{b})$.
 
-- The **vector triple product** $\mathbf{a} \times (\mathbf{b} \times \mathbf{c})$ applies the cross product twice and returns a vector. It expands neatly using the identity:
+- **活体三重产品**$\mathbf{a} \times (\mathbf{b} \times \mathbf{c})$将交叉产品应用两次,并返回向量。它利用身份来清晰地扩展:
 
 $$\mathbf{a} \times (\mathbf{b} \times \mathbf{c}) = (\mathbf{a} \cdot \mathbf{c})\mathbf{b} - (\mathbf{a} \cdot \mathbf{b})\mathbf{c}$$
 
-- The result always lies in the plane spanned by $\mathbf{b}$ and $\mathbf{c}$. Note that the cross product is **not associative**: $\mathbf{a} \times (\mathbf{b} \times \mathbf{c}) \neq (\mathbf{a} \times \mathbf{b}) \times \mathbf{c}$.
+- 结果总是在飞机上$\mathbf{b}$财务报告和已审计财务报表$\mathbf{c}$。。。注意交叉产品为**不关联**:$\mathbf{a} \times (\mathbf{b} \times \mathbf{c}) \neq (\mathbf{a} \times \mathbf{b}) \times \mathbf{c}$.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务（使用 Colab 或 notebook）”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-1. Compute the dot product of two vectors and use it to find the angle between them. Try making them orthogonal, parallel, or opposite and see how the angle changes.
+1. 计算出两个向量的点出产物,并用它来找到它们之间的角度. 尝试使其为正交,平行,或相向,并查看角度的变化.
 ```python
 import jax.numpy as jnp
 
@@ -113,7 +112,7 @@ print(f"Dot product: {dot}")
 print(f"Angle: {jnp.degrees(angle):.1f}°")
 ```
 
-2. Compute the cross product of two 3D vectors and verify the result is perpendicular to both by checking that its dot product with each original vector is zero.
+2. 计算出两个3D向量的交叉产物并验证结果,通过检查其与每个原始向量的点出产物是否为零,对两者均具有垂直性.
 ```python
 import jax.numpy as jnp
 

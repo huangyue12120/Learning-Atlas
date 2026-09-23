@@ -13,54 +13,54 @@ status: reviewed
 
 *本篇将线性变换放回 AI 工程语境，保留源文中的定义、公式、代码、图示和实践边界，便于逐项核对。*
 
-*Every matrix multiplication is a linear transformation, a function that reshapes, rotates, or projects vectors while preserving linearity. This file covers rotation, reflection, scaling, shearing, projection, the kernel and image of a map, and how neural network layers chain these transformations.*
+*每个矩阵乘法是一个线性转换,这个函数在保持线性的同时重塑,旋转或预测向量. 此文件涵盖旋转,反射,缩放,剪切,投影,地图的内核和图像,以及神经网络层如何将这些变换链. *
 
-- A **linear transformation** (or linear map) is a function that takes a vector and produces another vector, while preserving addition and scaling. If $T$ is linear, then:
+- **线性转换**(或线性映射)是一种函数,它取出一个向量并产生另一个向量,同时保留添加和缩放. 若为$T$线性,然后:
 
     - $T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$
     - $T(c\mathbf{u}) = cT(\mathbf{u})$
 
-- Every linear transformation can be represented as multiplication by a matrix. The matrix *is* the transformation. When you multiply a vector by a matrix, you are applying a linear transformation to it.
+- 每个线性变相都可以被矩阵表示为乘法. 矩阵 *是 * 转变。当一个向量被矩阵相乘时,您正在对它进行线性转换。
 
-- Think of a $2 \times 2$ matrix as a machine that takes in 2D vectors and outputs new 2D vectors. The columns of the matrix tell you where the standard basis vectors $\hat{\mathbf{i}}$ and $\hat{\mathbf{j}}$ end up after the transformation. Everything else follows from linearity.
+- 想想看,你觉得呢?$2 \times 2$矩阵作为机器,取入2D向量并输出出新的2D向量. 矩阵的列告诉你标准基准向量的位置$\hat{\mathbf{i}}$财务报告和已审计财务报表$\hat{\mathbf{j}}$最终在转型后。其它一切都从线性。
 
 ![图示](../images/basis_transform.svg)
 
-- For example, if
+- 例如,如果
 
 ```math
 A = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}
 ```
 
-  then $\hat{\mathbf{i}} = [1, 0]^T$ lands at $[2, 1]^T$ (column 1) and $\hat{\mathbf{j}} = [0, 1]^T$ lands at $[1, 2]^T$ (column 2). Every other vector is a combination of these two, so its output follows automatically.
+  接下来$\hat{\mathbf{i}} = [1, 0]^T$陆地在$[2, 1]^T$(栏1)和$\hat{\mathbf{j}} = [0, 1]^T$陆地在$[1, 2]^T$(栏2). 每个其他向量都是这两个的结合,因此其输出会自动跟随.
 
-- Multiplying two matrices can be thought of as applying one transformation after another. If $B$ transforms vectors from one space and $A$ transforms the result, then $AB$ does both in sequence. In a game engine, rotating a character and then moving them forward is a different result from moving them first and then rotating, which is why matrix multiplication is not commutative.
+- 将两个矩阵相乘可以认为是应用一个又一个的转变. 若为$B$从一个空格转换向量$A$改变结果,然后$AB$都按顺序进行。在游戏引擎中,将一个字符旋转后再向前移动是与其先移动后再旋转不同的结果,这就是矩阵乘法不是共通性的原因.
 
-- **Rotation** turns vectors by an angle $\theta$ without changing their length. The vector stays the same size, it just points in a new direction.
+- ** 旋转** 向量按角度旋转$\theta$而不改变它们的长度。向量保持不变,只是指向一个新的方向。
 
 ![图示](../images/rotation.svg)
 
-- In 2D, the rotation matrix is:
+- 在2D中,自转矩阵是:
 
 ```math
 R(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix}
 ```
 
-- For $\theta = 90°$:
+- 用于$\theta = 90°$:
 
 ```math
 R = \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}
 ```
 
-  so $[1, 0]^T$ becomes $[0, 1]^T$. The vector pointing right now points up. Rotation matrices are orthogonal and always have determinant 1. When you rotate a photo on your phone, this is the exact matrix being applied to every pixel coordinate.
+  这么说$[1, 0]^T$变成$[0, 1]^T$。。。向量指向现在的指向。旋转矩阵是正交的,总是有决定因素1. 当你在手机上旋转一张照片时,这是每个像素坐标都应用的精确矩阵.
 
-- In 3D, there are separate rotation matrices for each axis. A robotic arm rotates each joint around a specific axis, and each joint is one rotation matrix. Rotation around the z-axis looks like the 2D case embedded in 3D:
+- 在3D中,每个轴都有单独的自转矩阵. 机器人臂将每个关节围绕一个特定的轴心旋转,而每个关节是一个自转矩阵. Z轴周围的旋转看起来像嵌入了3D的2D大小写:
 
 ```math
 R_z(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{bmatrix}
 ```
 
-- **Scaling** stretches or shrinks vectors along each axis independently:
+- ** 缩放** 沿着每个轴线伸展或收缩向量:
 
 ```math
 S(s_x, s_y) = \begin{bmatrix} s_x & 0 \\ 0 & s_y \end{bmatrix}
@@ -68,9 +68,9 @@ S(s_x, s_y) = \begin{bmatrix} s_x & 0 \\ 0 & s_y \end{bmatrix}
 
 ![图示](../images/scaling.svg)
 
-- $S(2, 1.5)$ doubles the x-component and multiplies the y-component by 1.5. Scaling by $-1$ along an axis flips that component. A diagonal matrix is always a scaling transformation. When you resize an image to 50%, you are applying $S(0.5, 0.5)$ to every pixel coordinate.
+- $S(2, 1.5)$将 X 组件相乘,将 Y 组件相乘 1.5。缩放$-1$沿轴翻转该组件。对角矩阵总是一个缩放的转变. 当图像大小调整到50%时,您正在应用$S(0.5, 0.5)$每个像素坐标。
 
-- **Reflection** flips vectors across an axis or line, like a mirror. Reflecting across the x-axis keeps the x-component and negates the y-component:
+- ** Reflection**将向量翻过一轴或一行,像一面镜子. 反射到x轴上保持x-组件并否定y组件:
 
 ```math
 \text{Ref}_x = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}
@@ -78,17 +78,17 @@ S(s_x, s_y) = \begin{bmatrix} s_x & 0 \\ 0 & s_y \end{bmatrix}
 
 ![图示](../images/reflection.svg)
 
-- For example, $[3, 2]^T$ becomes $[3, -2]^T$. When your phone flips a selfie horizontally so text reads correctly, it is applying a reflection matrix. Reflecting across the line $y = x$ swaps the two components:
+- 举例来说,$[3, 2]^T$变成$[3, -2]^T$。。。当你的手机水平翻转一个自拍 所以文本读取正确, 它正在应用一个反射矩阵。跨线反射$y = x$互换两个组件:
 
 ```math
 \text{Ref}_{y=x} = \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}
 ```
 
-- Reflection matrices have determinant $-1$, confirming they flip orientation.
+- 反射矩阵有决定因素$-1$证实它们的方向翻转。
 
-- Rotations and reflections are both **rigid transformations**: they preserve distances and angles. The matrices that represent them are orthogonal matrices, which is why orthogonal matrices always have determinant $+1$ (rotation) or $-1$ (reflection).
+- 旋转和反射都是**刚性转变**:它们保持了距离和角度. 代表它们的矩阵是正交矩阵,这就是正交矩阵总是有决定因素的原因.$+1$(旋转)或$-1$(反语).
 
-- **Shearing** skews vectors along one axis proportionally to the other. A horizontal shear by factor $k$:
+- ** 听**沿一轴向量相向相向。横向剪切(按因素)$k$:
 
 ```math
 \text{Sh}_x(k) = \begin{bmatrix} 1 & k \\ 0 & 1 \end{bmatrix}
@@ -96,47 +96,46 @@ S(s_x, s_y) = \begin{bmatrix} s_x & 0 \\ 0 & s_y \end{bmatrix}
 
 ![图示](../images/shearing.svg)
 
-- Each point slides horizontally by $k$ times its height. With $k = 0.5$, a point at height 2 shifts right by 1. The bottom row stays put, the top row slides. This is how italic text works: upright letters are sheared so they slant to the right.
+- 每个点横向滑动$k$乘以其高处. 与$k = 0.5$,高度2的一分 右转1。下行会保持放入,上行会滑出. 斜体文字就是这样工作的:直立字母被剪去,这样就向右倾斜了.
 
-- All of the above (rotation, scaling, reflection, shearing) are **linear** transformations. They keep the origin fixed and preserve straight lines. But what about **translation** (shifting everything by a fixed amount)?
+- 上述所有(旋转,缩放,反射,剪接)都是**线性**变相. 他们保留原生地固定并保留正线. 但是,**翻译**(用固定数额转移一切)呢?
 
-- Translation is *not* a linear transformation because it moves the origin. If you shift every point right by 3, the zero vector moves to $[3, 0]^T$, breaking linearity. To handle it, we use an **affine transformation**, which combines a linear transformation with a translation:
+- 翻译是 * 不是 * 线性转换,因为它会移动源. 如果您将每点右移到 3, 零向量移动到$[3, 0]^T$打破线性。为了处理它,我们使用**affine转换**,将线性转换和翻译结合起来:
 
 $$\mathbf{y} = A\mathbf{x} + \mathbf{t}$$
 
-- To represent this as a single matrix multiplication, we use **homogeneous coordinates**: add an extra 1 to every vector and use an $(n+1) \times (n+1)$ matrix:
+- 为了将它作为单一的矩阵乘法来表示,我们使用**同心座标**:在每一个向量中再加一个 1 并使用一个$(n+1) \times (n+1)$矩阵 :
 
 ```math
 \begin{bmatrix} A & \mathbf{t} \\ \mathbf{0}^T & 1 \end{bmatrix} \begin{bmatrix} \mathbf{x} \\ 1 \end{bmatrix} = \begin{bmatrix} A\mathbf{x} + \mathbf{t} \\ 1 \end{bmatrix}
 ```
 
-- Affine transformations preserve straight lines and parallelism, but not necessarily angles or lengths. Every object in a video game is positioned using affine transformations: rotate it, scale it, then place it at the right location, all encoded in a single matrix.
+- 芳香转化保留了直线和平行主义,但不一定是角度或长度. 电子游戏中的每个对象都使用affine变换来定位:旋转,缩放,再放在正确的位置上,全部被编码为一个矩阵.
 
-- A **degenerate transformation** (singular matrix) collapses space into a lower dimension. 
+- ** 脱原变换**(单质矩阵)会使空间倒塌为更低的维度.
 
-- For example, the matrix
+- 例如,矩阵
 
 ```math
 \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}
 ```
 
-  maps every 2D vector onto a single line, because both columns point in the same direction. The determinant is zero, information is lost, and the transformation cannot be undone.
+  将每个2D向量映射到一行,因为两列都指向同一个方向。决定因素是零,信息被丢失,变相无法被逆转.
 
-- Converting a colour image (3 values per pixel: red, green, blue) to grayscale (1 value per pixel) is a degenerate transformation: the colour information is permanently gone.
+- 将一个彩色图像(每个像素值为3:红色,绿色,蓝色)转换为灰度(每个像素值为1)是一种已退化的转变:颜色信息已永久消失.
 
-- In ML, linear transformations are the core of neural networks, data is represented as a matrix (a stack of vectors representing features of an object like humans, planes, text, image...anything!)
+- 在ML中,线性变换是神经网络的核心,数据被作为矩阵来表示(一叠的向量代表物体的特征,如人类,平面,文字,图像. 任何!)
 
-- Each layer applies a matrix multiplication (linear transformation), details are provided in other chapters, we need to explain hpw to structure these data and motivate neural networks properly. 
+- 每层应用矩阵乘法(线性转换),细节在其他章节中提供,我们需要解释hpw来构建这些数据并适当激励神经网络.
 
-- However, the most used techniques today often almost exclusively passes the data through a bunch of linear transformations, we call these **Transformers**. 
+- 然而,今天最常用的技术 往往几乎完全通过 一系列线性转换传递数据 我们称之为** Transfers **.
 
-- Gemini, ChatGPT, Claude, Qwen, DeepSeek and the best performing AI in the world today, are transformers!
+- 双子座 ChatGPT 克洛德 Quen DeepSeek 以及当今世界上表现最好的AI都是变压器!
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务（使用 Colab 或 notebook）”说明概念、适用条件与工程取舍；下方技术细节保持与上游 main 快照一致。
 
-1. Apply a rotation matrix to a vector and plot both the original and rotated vector. Try different angles.
+1. 将旋转矩阵应用到向量上,并同时绘制原始向量和旋转向量。尝试不同的角度。
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
@@ -156,7 +155,7 @@ plt.grid(True); plt.legend(); plt.gca().set_aspect('equal')
 plt.show()
 ```
 
-2. Apply a shearing transformation to a set of points forming a square and visualise the deformed shape.
+2. 将剪切变换应用到一组形成正方形的点上,并可以直观地看到已变形的形状.
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt

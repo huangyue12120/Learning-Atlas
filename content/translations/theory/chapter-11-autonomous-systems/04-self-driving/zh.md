@@ -13,215 +13,205 @@ status: reviewed
 *自动驾驶把感知、预测、规划和控制组合成一个需要安全约束的闭环系统。本篇覆盖自动驾驶栈、高精地图、运动预测、规划、端到端驾驶、世界模型、仿真、安全和自动化等级。*
 
 
-*Self-driving cars are the most commercially advanced autonomous systems, integrating perception, prediction, planning, and control into a single vehicle. This file covers the autonomous driving stack, HD maps, motion prediction, planning, end-to-end driving, simulation, safety standards, and levels of autonomy*
+*自驾汽车是商业上最先进的自主系统,将感知,预测,规划,控制整合为一款车辆. 这个文件涵盖自主驱动栈,HD地图,运动预测,规划,端到端驱动,模拟,安全标准,自主程度*
 
-- Self-driving cars are arguably the hardest robotics problem being attempted at scale. Unlike a factory robot that operates in a controlled environment, a self-driving car must handle an open world: unpredictable human drivers, pedestrians who jaywalk, construction zones that appear overnight, and weather that changes by the minute.
+- 自驾车是规模最大的机器人问题 与在受控环境中运行的工厂机器人不同,自驾车必须处理一个开放的世界:不可预测的人类驾驶员,行人行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行走行行走行走行走行走行走行走行走行
 
-- The stakes are also uniquely high. A self-driving car operates at highway speeds among vulnerable road users. The error tolerance is near zero for safety-critical failures.
+- 利害关系也特别高。一辆自驾车在弱势道路使用者中以高速行驶。安全关键故障的容错度接近于零.
 
 ## 自动驾驶栈
 
-> **中文导读**：本节围绕“自动驾驶栈”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- The classical self-driving architecture is a **modular pipeline** with four stages, each feeding into the next:
+- 古典自驾式建筑是一个有四个阶段的**模态管道**,每个阶段都注入下一个阶段:
 
 $$\text{Perception} \to \text{Prediction} \to \text{Planning} \to \text{Control}$$
 
-![The autonomous driving stack: sensors feed perception, which feeds prediction, planning, and finally control](../images/autonomous_driving_stack.svg)
+![自动驱动栈:传感器反馈感知,用于预测、规划和最终控制](../images/autonomous_driving_stack.svg)
 
-- **Perception** (covered in file 1 of this chapter) processes raw sensor data into a structured scene representation: detected objects with 3D positions, velocities, and class labels; lane markings; traffic lights; drivable surface boundaries.
+- ** Perception**(本章第1卷所覆盖)将原始传感器数据处理成结构化的场景表现:被检测出具有3D位置,速度,和类标签的物体;道道标;交通灯;可驾驶地表边界.
 
-- **Prediction** forecasts how other agents (vehicles, pedestrians, cyclists) will move in the future. Given the current state of the scene, the prediction module outputs trajectories for each agent over a time horizon (typically 3-8 seconds into the future).
+- ** 预测**预测其他人员(车辆、行人、骑自行车者)今后将如何行动。鉴于场景的目前状况,预测模块输出出在一定时间范围内(通常为未来3-8秒)每种剂的轨迹.
 
-- **Planning** decides what the ego vehicle should do: which path to follow, when to change lanes, when to yield, when to accelerate or brake. It takes the predicted scene and produces a trajectory for the ego vehicle that is safe, comfortable, and makes progress towards the destination.
+- ** 规划** 决定自负车应做什么:走哪条路,何时改变车道,何时屈服,何时加速或刹车。它需要预想的场景,为自负飞行器制造出一条安全,舒适并朝着目的地前进的轨迹.
 
-- **Control** converts the planned trajectory into actuator commands: steering angle, throttle, and brake. This is the lowest level, translating the abstract trajectory into physical motion.
+- ** 控制** 将计划轨迹转换成起动器命令:方向角、节流和制动。这是最低的关卡,将抽象的轨迹转化为物理运动.
 
-- The modular design has clear engineering advantages: each module can be developed, tested, and improved independently. But it also has weaknesses: errors propagate downstream (a missed detection is invisible to the planner), and information is lost at each interface (the planner sees bounding boxes, not the rich sensor data that produced them).
+- 模块化设计具有明显的工程优势:每个模块都可以独立开发,测试,改进. 但是它也有缺点:错误在下游传播(计划者看不见错失的检测),在每个接口丢失信息(规划者看到绑定的盒子,而不是产生这些盒子的丰富的传感器数据).
 
 ## 高精地图
 
-> **中文导读**：本节围绕“高精地图”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **High-Definition (HD) maps** are detailed, centimetre-accurate digital maps that encode the road structure: lane boundaries, lane connectivity (which lane connects to which at an intersection), traffic sign positions, speed limits, crosswalk locations, and road surface elevation.
+- ** 高定(HD)地图**是详细、精确的数字地图,其中编码了道路结构:道道界;道道连接(在相交处与道道相接);交通标志位置;速度限制;横道位置;和公路地表高地。
 
-- HD maps provide a strong prior for the driving task. The perception module does not need to discover lane boundaries from scratch every frame; it just needs to localise the vehicle within the map and verify that reality matches the stored structure. This dramatically simplifies planning.
+- HD地图为驱动任务提供了很强的先导. 感知模块不需要从头发现每个帧的道边;它只需要在地图中定位飞行器,并验证现实与所存储的结构相匹配. 这大大简化了规划。
 
-- Building HD maps requires specialised survey vehicles equipped with high-end LiDAR, cameras, and RTK-GPS. The maps must be maintained and updated as roads change. This is expensive and does not scale easily to every road on Earth.
+- 建造HD地图需要配备高端LiDAR、相机和RTK-GPS的专用勘测车。随着道路的改变,必须保持和更新地图。这很昂贵,而且不易在地球上的每条道路上推广。
 
-- **Mapless driving** (also called "online mapping") aims to eliminate the dependency on pre-built HD maps. Instead, the vehicle constructs a local map in real-time from its sensors. Models like **MapTR** and **MapTRv2** use transformer architectures to predict vectorised map elements (lane centrelines, road boundaries, pedestrian crossings) directly from camera images, outputting polylines as ordered point sequences.
+- **无线驱动**(也叫"在线映射")旨在消除对已预先建成的HD地图的依赖. 相反,该车辆从传感器上实时绘制出本地地图。如**MapTR**和**MapTRv2**等模型利用变压器架构,直接从相机图像中预测向量化的地图元素(行车中线,道路边界,行人过道),输出多线作为定点序列.
 
-- The mapless approach trades map accuracy for scalability: any road the car can drive on, it can map. But it requires the perception system to be robust enough to detect all relevant road structure in real-time, including in complex intersections, highway ramps, and construction zones.
+- 无地平线取而代之的是地图精度可伸缩性:汽车可以开走的任何道路,都可以出地平线. 但是,它要求感知系统足够强大,能够实时地检测出所有相关的道路结构,包括复杂的相交道口,高速公路坡道和建筑区.
 
-- In practice, many systems use a hybrid approach: a lightweight map with coarse road topology (from existing map providers), enriched in real-time by the vehicle's sensors.
+- 在实际操作中,许多系统采用混合方式:一种带有粗糙道路地貌的轻量级地图(从现有的地图提供者),由车辆传感器实时丰富.
 
 ## 运动预测
 
-> **中文导读**：本节围绕“运动预测”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Predicting where other road users will go is one of the hardest subproblems in self-driving. Humans are unpredictable, intentions are hidden, and the space of possible futures branches rapidly.
+- 预测其他道路使用者将到哪里去是自驾车中最难解决的次问题之一. 人类是无法预测的,意图是隐藏的,可能的未来的分枝空间迅速.
 
-- The input to a prediction model is the **scene context**: the positions and velocities of all detected agents over the recent past (typically 1-2 seconds of history), plus static context (lane geometry, traffic signals, road boundaries).
+- 对预测模型的输入是: ** scene上下文**:近代所有被检测到的物剂的位置和速度(典型的为1-2秒历史),加上静态上下文(线程几何,交通信号,道路边界等).
 
-- The output is a set of **predicted trajectories** for each agent, typically covering 3-8 seconds into the future. Since the future is uncertain, good prediction models output multiple possible trajectories with associated probabilities, not a single point estimate.
+- 输出为每剂的一套**预想轨迹**,通常覆盖3-8秒到未来. 由于未来的不确定性,好预测模型输出出多个可能的轨迹,并伴有相联的概率,而不是一个点估计.
 
-- **Trajectory forecasting** as a regression problem: predict the future $(x, y)$ coordinates of each agent at discrete future timesteps. The loss is typically the minimum average displacement error (minADE) over the $K$ predicted trajectories:
+- ** 预测**作为一个回归问题:预测未来$(x, y)$在离散的未来时间步骤上,每个剂的坐标。损失一般是:$K$预测轨迹 :
 
 $$\text{minADE}_K = \min_{k \in \{1, \ldots, K\}} \frac{1}{T} \sum_{t=1}^{T} \| \hat{\mathbf{p}}_t^{(k)} - \mathbf{p}_t \|_2$$
 
-- This is a "best of $K$" metric: the model gets credit if any of its $K$ predictions is close to the ground truth. This encourages diverse, multimodal predictions.
+- 这是最佳 $K$ 个预测（best-of-$K$）指标：只要模型给出的 $K$ 个轨迹中有一个接近真实轨迹，就能获得较高分数。这鼓励模型生成多样的多模态预测。
 
-- **Social forces** model pedestrian behaviour as a dynamical system where each person experiences attractive forces (towards their goal) and repulsive forces (away from other pedestrians and obstacles). The acceleration of person $i$ is:
+- ** 社会力量** 示范行人行为是一种动态系统,每个人在其中都经历有吸引力的力量(向着目标走去)和反感力量(远离其他行人和障碍物)。人的加速$i$即:
 
 $$\mathbf{a}_i = \frac{\mathbf{v}_i^{\text{desired}} - \mathbf{v}_i}{\tau} + \sum_{j \neq i} \mathbf{f}_{ij}^{\text{repulsive}} + \sum_{\text{walls}} \mathbf{f}_{\text{wall}}$$
 
-- This is a system of differential equations similar to the robot dynamics equation from file 2 of this chapter. The model is elegant but relies on hand-tuned force parameters and struggles with complex multi-agent interactions.
+- 这是一个与本章文件2的机器人动力学方程相类似的微分方程系统. 该模型优雅但依赖于手调力参数,并和复杂的多剂相互作用相抗衡.
 
-- **Graph Neural Networks (GNNs)** for prediction model the scene as a graph: each agent is a node, and edges represent spatial relationships (proximity, lane sharing). Message passing between nodes captures interactions: "this car is yielding to that pedestrian" or "these two vehicles are merging into the same lane."
+- **GNNs)**用于预测场景的模型作为图:每个物剂是一个节点,边缘代表空间关系(相近,道共享). 节点之间传来的信息捕捉到交互:"这辆车正在向行人屈服"或"这两辆车正在合并入同道".
 
-- Modern prediction architectures (e.g., **MTR**, **QCNet**) use transformer-based models that jointly reason about agent history, map context, and agent-agent interactions. Agents attend to relevant map features (their current lane, upcoming intersections) and to other agents (the car in front, the pedestrian at the crosswalk) via cross-attention. The output is a set of trajectory hypotheses generated autoregressively or via a mixture model.
+- 现代预测架构（如 **MTR**、**QCNet**）使用基于 Transformer 的模型，共同推理交通参与者的历史、地图上下文以及参与者之间的交互。模型通过交叉注意力关注相关地图特征（当前车道、前方路口）和其他参与者（前车、斑马线上的行人），再以自回归方式或混合模型生成一组轨迹假设。
 
-- **Goal-conditioned prediction** first predicts where an agent is likely to go (a set of candidate goal points, like lane endpoints or intersection exits), then predicts the trajectory to reach each goal. This decomposes the problem into "where" (discrete, manageable) and "how" (continuous path given the goal), making the multimodal prediction problem more tractable.
+- **目标条件预测**首先预测某剂可能去的地方(一组候选入球点,如道端点或相交出站等),然后预测通向每个入球的轨迹. 这把问题分解为"哪里"(分明,可管理)和"如何"(持续给定了目标路径),使得多式预测问题更容易被取道.
 
 ## 规划
 
-> **中文导读**：本节围绕“规划”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Given the predicted scene, the planner must produce a trajectory for the ego vehicle. This is a constrained optimisation problem: find a trajectory that is safe, comfortable, efficient, and legal.
+- 考虑到预想的场景,计划者必须为自负飞行器制造出一个轨迹. 这是一个受限制的优化问题:找到安全、舒适、高效和合法的轨道。
 
-- **Rule-based planners** encode driving behaviour as a set of if-then rules: "if a pedestrian is in the crosswalk, yield," "if the gap to the vehicle ahead is less than 2 seconds, do not change lanes," "if approaching a red light, decelerate to stop at the stop line." These rules are interpretable and auditable, but they become unwieldy for complex scenarios (thousands of rules, many edge cases, interactions between rules).
+- **基于规则的规划者** 将驾驶行为编码为一套如果当时的规则:"如果行人走在横道上,屈服","如果前面与车辆的间隔不足2秒,不要改变车道","如果靠近一盏红灯,减速到停站线停车". 这些规则是可解释和可审计的,但对复杂的情景(上千个规则,许多边缘案例,规则之间的相互作用)来说,它们变得毫无用处.
 
-- **Optimisation-based planners** formulate driving as trajectory optimisation. The ego trajectory is parameterised (e.g., as a sequence of $(x, y, \theta, v)$ states at future timesteps) and an objective function is minimised:
+- ** 基于优化的规划者** 将驾驶作为轨道优化。自我轨迹是参数化的(例如,作为下列序列):$(x, y, \theta, v)$并尽量减少客观函数:
 
 $$\min_{\boldsymbol{\xi}} \underbrace{w_1 \cdot J_{\text{progress}}(\boldsymbol{\xi})}_{\text{get to destination}} + \underbrace{w_2 \cdot J_{\text{comfort}}(\boldsymbol{\xi})}_{\text{smooth ride}} + \underbrace{w_3 \cdot J_{\text{safety}}(\boldsymbol{\xi})}_{\text{avoid collisions}}$$
 
 $$\text{subject to: } \text{kinematic constraints, speed limits, lane boundaries}$$
 
-- The progress term penalises deviations from the desired route. The comfort term penalises high lateral acceleration, jerk (derivative of acceleration), and abrupt steering, because passengers feel these. The safety term penalises proximity to other agents, using predicted trajectories to evaluate collision risk.
+- 进步一词惩罚偏离所希望的路线的行为。舒适的名词惩罚高平向上加速,混蛋(加速的衍生物)和出乎意料地方向行驶,因为乘客有这种感觉. 安全术语惩罚接近其他物剂的行为,使用预测的轨迹来评价相撞风险.
 
-- This is constrained optimisation (chapter 3): minimise a cost function subject to inequality constraints. The weights $w_1, w_2, w_3$ trade off competing objectives (aggressive driving is faster but less comfortable and less safe).
+- 这是受限制的优化(第3章):尽量减少受到不平等制约的成本函数。重量$w_1, w_2, w_3$(攻击性驾驶速度快,但不太舒适,安全性也较差)。
 
-- **Learning-based planners** use neural networks trained on human driving data to generate trajectories. The model observes the scene and directly outputs a planned trajectory, learning the complex trade-offs implicitly from examples of expert human driving.
+- ** 基于学习的规划者** 利用接受过人类驾驶数据培训的神经网络产生出轨迹。该模型观察现场,直接输出计划轨迹,从人类驾驶专家的例子中吸取复杂的取舍。
 
-- The advantage is that human driving behaviour is captured holistically, including the subtle, hard-to-formalise aspects: how aggressively to merge, when to nudge forward at an intersection, how much space to give a cyclist. The disadvantage is the same distribution shift problem from imitation learning (file 2): the model may behave unpredictably in situations not well-represented in training data.
+- 其优点是人类驾驶行为被整体地抓住,包括微妙而难于正规化的方面:如何激烈地合并,何时在十字路口向前推进,给骑自行车的人多少空间. 缺点是模仿学习(文件2)的同一分布转移问题:在培训数据中代表性不高的情况下,模型可能表现不可预测。
 
 ## 端到端驾驶
 
-> **中文导读**：本节围绕“端到端驾驶”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **End-to-end driving** removes the modular boundaries entirely. A single neural network takes raw sensor inputs (camera images, LiDAR point clouds) and directly outputs driving commands (steering, throttle, brake) or a planned trajectory. No separate perception, prediction, or planning modules.
+- ** 端到端驱动** 完全去除模块边界。单个神经网络取原始的传感器输入(相机图像,LiDAR点云)并直接输出驱动指令(steering,prottle,brake)或计划轨迹. 没有单独的感知、预测或规划模块。
 
-- The appeal is that the entire system is jointly optimised for the final task (safe driving), so no information is lost at module boundaries. The perception module learns to extract exactly the features the planner needs, rather than generic object detections that may not capture task-relevant details.
+- 吸引力在于整个系统都为最终任务(安全驾驶)共同优化,因此在模块边界没有丢失任何信息. 感知模块学习精确地取出规划者所需的特征,而不是可能不捕捉任务相关细节的通用对象检测.
 
-- **UniAD** (Unified Autonomous Driving) is a landmark end-to-end architecture. It processes multi-camera images through a BEV encoder, then applies a cascade of transformer-based modules: tracking, online mapping, motion prediction, occupancy prediction, and planning. While it has internal modules, they are all differentiable and trained jointly end-to-end, with the planning loss backpropagating through the entire network.
+- **UniAD**(统一自主驾驶)是一个标志性的端到端架构. 它通过一个BEV编码器处理多相机图像,然后应用以变压器为基础的模块的级联:跟踪,在线映射,运动预测,占用率预测和规划. 虽然它有内部模块,但它们都是不同的,经过联合培训的端到端,规划损失通过整个网络进行回传.
 
-- The planning module in UniAD generates future ego-vehicle waypoints by attending to the predicted BEV features, predicted agent trajectories, and predicted occupancy. This is the multivariate chain rule (chapter 3) in action: gradients flow from the planning loss all the way back to the image encoder, telling the perception features how to be more useful for planning.
+- UniAD的规划模块通过关注预测的BEV特征,预测的物剂轨迹和预测的入住量,产生出未来的自负车辆出行点. 这就是动作中的多变链规则(第3章):梯度从规划丢失一直流回图像编码器,告诉感知特征如何对规划更有用.
 
-- More recent end-to-end approaches use VLA-style architectures (file 3 of this chapter). Models like **DriveVLM** take camera images and a navigation instruction (or route), and produce driving actions using a VLM backbone. This brings the benefits of large-scale pretraining (visual understanding, reasoning) directly into the driving stack.
+- 更近期的端到端方法使用VLA风格的架构(本章文件3). 如**DriveVLM**等型号取相机图像和导航指令(或路线),并使用VLM主干线产生驱动动作. 这使得大规模预训(视觉理解,推理)的好处直接被推入了驱动堆.
 
-- The tension in end-to-end driving is **interpretability**. A modular system can report "I detected a pedestrian at (x, y) and predicted they will cross" -- the failure mode is diagnosable. An end-to-end system is a black box that produces a steering angle. When it fails, diagnosing why is difficult, which is a serious concern for safety certification.
+- 端到端驱动的紧张是**可解释性**. 一个模块化系统可以报告"我检测出行人于(x,y)并预言他们会穿越"，，故障模式是可诊断的. 端到端系统是产生方向角的黑匣子. 失败后,诊断为何困难,这是对安全认证的严重关切.
 
 ## 驾驶世界模型
 
-> **中文导读**：本节围绕“驾驶世界模型”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- A **world model** learns to predict the future state of the driving scene given the current state and the ego vehicle's actions: $p(s_{t+1} \mid s_t, a_t)$ (as introduced in chapter 10). In driving, this means generating realistic future frames or BEV layouts: "if I accelerate and steer left, the scene will look like this in 3 seconds."
+- 一个**世界模式** 学会预测驾驶场的未来状态,$p(s_{t+1} \mid s_t, a_t)$(如第十章所介绍). 在驾驶中,这意味着生成现实的未来相框或BEV布局:"如果我加速并左转,场景将在3秒后看起来像这样".
 
-- World models offer two powerful capabilities for self-driving:
+- 世界模型提供了两种强大的自我驾驶能力:
 
-    - **Imagination-based planning**: instead of committing to an action and seeing what happens, the planner can "imagine" multiple candidate trajectories by rolling them out through the world model, evaluate each one for safety and comfort, and pick the best. This is model-based RL (covered in file 2 of this chapter) applied to driving.
+    - **以想象为基础的规划**:计划者不但没有承诺采取行动并看到结果,还可以通过世界模式推出多个候选的轨迹来"想象",评价每个轨迹是否安全舒适,选择最佳. 这是适用于驾驶的基于模型的RL(覆盖在本章文件2中).
 
-    - **Learned simulation**: a world model trained on real driving data is effectively a data-driven simulator. It generates realistic scenarios (including rare edge cases) without the manual effort of building a hand-crafted simulator. Crucially, it captures the statistical patterns of real driving: how other drivers actually behave, how lighting changes, how rain affects visibility.
+    - ** 学习模拟**:接受过真实驱动数据培训的世界模型实际上是一个由数据驱动的模拟器。它产生现实的情景(包括罕见的边缘案例),而无需人工建造手动模拟器. 关键的是,它捕捉了真实驱动的统计规律:其他驱动器的实际行为方式,照明的变化方式,雨水如何影响能见度.
 
-- **GAIA-1** (Wayve) is a generative world model for driving. Given a sequence of past camera frames and ego-vehicle actions, it autoregressively generates future video frames. It uses a video diffusion architecture conditioned on action inputs. The model learns to generate plausible futures: vehicles that obey traffic rules, pedestrians that walk on sidewalks, and traffic lights that transition correctly, all emergent from training data rather than programmed rules.
+- **GAIA-1** (Wayve)是一款以基因为主的驱动世界模型. 鉴于过去相机帧和自负车辆动作的顺序,它自动地生成了未来的视频帧. 它使用以动作输入为条件的视频传播架构. 该模型学习产生可信的未来:遵守交通规则的车辆,行人行道上行走的行人,以及正确过渡的交通信号灯,都来自训练数据而不是编程规则.
 
-- **DriveDreamer** and **GenAD** take a similar approach but operate in BEV space rather than pixel space. Predicting future BEV layouts is more compact than generating full video frames (similar to how DreamerV3 in robotics predicts in latent space rather than pixel space, as discussed in file 2). The BEV world model predicts where all agents will be, what the road structure will look like, and where free space exists, and the planner uses this directly.
+- ** DriveDreamer**和**GenAD**采取类似的做法,但在BEV空间而不是像素空间中运行. 预测未来的BEV布局比生成完整的视频帧更为紧凑(类似于机器人中的DreamerV3在潜在空间而不是像素空间中如何预测,文件2中对此有讨论). BEV世界模型预测所有物剂将在哪里,道路结构会是什么样子,以及存在自由空间的地方,规划者直接使用这个.
 
-- **Neural closed-loop simulation** uses world models to replace hand-built simulators for testing. Given a real driving log as a starting point, the world model generates what would have happened if the ego vehicle had taken a different action. This enables counterfactual evaluation: "what if I had braked 0.5 seconds later?" without ever needing to recreate the scenario physically.
+- **神经闭路模拟**使用世界模型来取代手建模拟器进行测试. 鉴于一个真正的驾驶记录作为起点,世界模型会产生如果自负车采取了不同行动会发生什么. 这样可以进行反事实评价:“如果我在0.5秒后刹车呢?” 不需要重新创造这个情景
 
-- The connection to the **JEPA** framework (chapter 10) is natural here. Driving world models do not need to predict pixel-perfect futures (exact RGB values of every pixel). They need to predict the aspects that matter for planning: where are the agents, how fast are they moving, where is free space. Embedding-space prediction (JEPA-style) captures these semantically meaningful properties without wasting capacity on irrelevant visual details like exact cloud textures.
+- 与**JEPA**框架(第十章)的联系是自然的。驱动世界模型不需要预测像素完美的未来(每个像素精确的RGB值). 他们需要预测规划中很重要的方面:代理人在哪里,他们移动的速度有多快,自由空间在哪里. 嵌入-空间预测(JEPA-style)捕捉出这些具有分解意义的属性,而不将能力浪费在像精确的云纹等无关的视觉细节上.
 
-- The main challenge is **long-horizon fidelity**. World models accumulate errors over time: a small mistake in frame 2 shifts all subsequent frames. For driving, a 3-second prediction horizon is useful for tactical decisions (should I merge now?), but a 30-second horizon (needed for strategic decisions like route planning) remains unreliable. Current work mitigates this with re-anchoring (periodically resetting the model with real observations) and uncertainty estimation (flagging when predictions become unreliable).
+- 主要挑战在于**长期忠诚**。世界模型随时间推移而累积出错误:帧2的一个小错误会转移出所有后续的帧. 对于驾驶来说,3秒的预测视野对于战术决策(我是否应该现在合并?)是有用的,但30秒的视野(像路线规划这样的战略决策需要)仍然不可靠. 目前的工作通过重新选择(定期用真实的观察来重新确定模型)和不确定性估计(预测变得不可靠时会摇摆)减轻了这种情况。
 
 ## 仿真
 
-> **中文导读**：本节围绕“仿真”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Testing a self-driving car by driving on real roads is necessary but insufficient. Dangerous scenarios (near-collisions, edge cases) are rare, so testing by miles driven is inefficient. A car would need to drive hundreds of millions of miles to statistically demonstrate safety, which is infeasible.
+- 在真正的公路上驾驶自驾汽车进行测试是必要的,但还不够。危险的情景(近碰撞,边缘病例)是罕见的,因此由英里驱动的测试效率低下. 一辆汽车需要开上亿英里的车 才能从统计学上证明安全 这不可行
 
-- **Simulation** provides unlimited, controllable, and safe testing. Scenarios that are rare in the real world (a child running into the road, a tyre blowout, a sudden obstacle) can be tested millions of times in simulation.
+- ** 模拟**提供无限、可控制和安全的测试。现实世界中罕见的情景(一个孩子跑入道路,轮胎爆裂,突然障碍)可以在模拟中测试上千万次.
 
-- **CARLA** is an open-source driving simulator built on Unreal Engine. It provides realistic urban environments, dynamic weather, traffic agents, and sensor simulation (cameras, LiDAR, radar). Researchers use CARLA for training RL-based driving agents and evaluating perception algorithms.
+- ** CARLA**是一款开源驱动模拟器,由不真实引擎所建. 它提供现实的城市环境,动态天气,交通代理,以及传感器模拟(相机,LiDAR,雷达). 研究人员使用CARLA来培训基于RL的驾驶员并评价感知算法.
 
-- **nuPlan** (Motional) is a closed-loop planning benchmark. Unlike open-loop evaluation (replay logged data and compare the planner's output to the human driver's actual trajectory), closed-loop evaluation lets the planner's decisions affect the simulation: if the planner decides to change lanes, the simulation evolves accordingly. This tests reactive behaviour, not just trajectory similarity.
+- **nu Plan** (Motional)是一个闭路规划基准. 与开放评价(重放已记录的数据并比较计划员的输出与人驾驶员的实际轨迹)不同,闭放评价让计划员的决定会影响模拟:如果计划员决定改变车道,模拟则会相应演变. 这测试了反应行为,而不仅仅是轨迹相似.
 
-![Open-loop replays logs without interaction; closed-loop lets the model's actions change the simulation state](../images/open_vs_closed_loop.svg)
+![Open-loop 不交互重放日志; Closed-loop 让模型的动作改变模拟状态](../images/open_vs_closed_loop.svg)
 
-- The distinction between **open-loop** and **closed-loop** evaluation is critical:
+- 将**开放-开放**和**封闭-开放**的评价加以区分至关重要:
 
-    - Open-loop: replay a recorded scenario, compute how similar the model's output is to the human driver's actions. This is easy to set up but misleading: a model that always predicts "go straight" might have low error on highways but would crash at the first turn.
+    - Open-loop:重放被记录的情景,计算模型的输出与人类驱动器动作有多相近. 这很容易设置,但误导:一个总是预测"走直"的模型可能会在高速公路上出现低误差,但在一转弯时会崩溃.
 
-    - Closed-loop: the model's actions change the simulation state, and the simulation evolves in response. This tests the model's ability to recover from its own mistakes and react to dynamic situations. It is much more expensive but far more meaningful.
+    - 闭路:模型的动作会改变模拟状态,而模拟则会因应而演变. 这考验了模型从自己的错误中恢复和对动态情况作出反应的能力. 其费用要高得多,但意义要大得多。
 
-- **Scenario generation** creates test cases that stress the system. Adversarial scenarios (a vehicle suddenly braking, a pedestrian hidden behind a parked car) are generated by optimising for situations where the self-driving system performs worst. This is related to adversarial training in ML (chapter 6): finding the inputs that maximise the loss.
+- ** 假设生成** 产生强调该系统的试验案例。不良情景(车辆突然刹车,行人隐藏在停放的汽车后)是通过优化自驾系统表现最差的情况产生的. 这与ML的对抗性培训有关(第六章):寻找最大限度地减少损失的投入。
 
 ## 安全
 
-> **中文导读**：本节围绕“安全”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Safety in self-driving is governed by engineering standards, not just ML metrics.
+- 自驾车的安全性受工程标准规范,而不只是ML度量衡.
 
-- **ISO 26262** (Functional Safety) is the automotive standard for safety-critical electronic systems. It defines **Automotive Safety Integrity Levels (ASILs)** from A (lowest) to D (highest), based on the severity, exposure, and controllability of potential hazards. A self-driving system's perception and planning components are typically ASIL-D, the highest level, requiring extensive verification, redundancy, and fail-safe design.
+- **ISO 26262**(功能安全)是安全关键电子系统的汽车标准. 它根据潜在危害的严重程度、暴露程度和可控性,从A(最低)到D(最高)界定了**自传式安全完整性水平。自动驾驶系统的感知和规划组件一般是ASIL-D,是最高的一级,需要广泛的核查,冗余,并进行故障安全设计.
 
-- **SOTIF** (Safety of the Intended Functionality, ISO 21448) addresses a different class of hazards: not hardware failures (which ISO 26262 covers), but situations where the system works as designed but still produces an unsafe outcome. A perception model that misclassifies a white truck as sky (a real incident) is a SOTIF issue: the hardware works fine, but the algorithm's limitation causes a hazard.
+- ** SOTIF**(预期功能的安全,ISO 21448)处理的是不同类别的危害:不是硬件故障(ISO 26262覆盖),而是系统按照设计运作但依然产生不安全结果的情况. 一个将一辆白色卡车错误地归类为"天空"的感知模型(一个真正的事件)是一个SOTIF问题:硬件工作正常,但算法的局限性造成了危险.
 
-- The **Operational Design Domain (ODD)** defines the conditions under which the self-driving system is designed to operate: specific geographic areas, road types (highway only, urban, both), weather conditions (no heavy snow), speed ranges, and time of day. Operating outside the ODD is not permitted: if the system cannot handle snow, it must not drive in snow.
+- ** 业务设计域** 界定了自驾系统在下列条件下运行:具体地理区域、道路类型(仅高速公路、城市、两地)、天气条件(无大雪)、速度范围以及白天时间。ODD以外的操作是不允许的:如果系统不能处理下雪,它就不得在下雪中行驶.
 
-- **Fail-safe** vs **fail-operational** design:
-    - Fail-safe: when a fault is detected, the system transitions to a safe state (e.g., pulls over and stops). This is the minimum requirement.
-    - Fail-operational: the system continues to operate safely despite the fault, using redundant components. A self-driving car with redundant steering, braking, and compute can survive a single component failure and still drive to a safe location.
+- ** 故障保险**与** 故障保险** 设计:
+    - 故障安全:当检测出断层时,系统会向安全状态过渡(例如,拉倒和停止). 这是最起码的要求。
+    - 操作失败:尽管存在故障,该系统仍继续安全运行,使用冗余组件. 配备了冗余方向盘,制动和计算功能的自驾车可以在单个组件故障后幸存下来并仍能驾驶到安全地点.
 
-- **Redundancy** is fundamental. Critical perception sensors are duplicated: multiple cameras covering overlapping fields of view, both LiDAR and radar providing independent depth measurements, dual compute platforms running the same software. If any single component fails, the others provide sufficient information to drive safely.
+- ** 解雇**是根本问题。临界感知传感器被复制:多个相机覆盖了相重叠的视域,LiDAR和雷达都提供独立的深度测量,双计算平台运行同一软件. 如果任何单个组件失败,其他部件则提供足够的信息来安全地驱动.
 
 ## 自动驾驶等级
 
-> **中文导读**：本节围绕“自动驾驶等级”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-![SAE levels of autonomy from L0 (no automation) to L5 (full automation), showing where responsibility shifts from human to system](../images/sae_autonomy_levels.svg)
+![SAE自主水平从L0(无自动化)到L5(完全自动化),显示责任从人转移到系统的地方.](../images/sae_autonomy_levels.svg)
 
-- The **SAE J3016** standard defines six levels of driving automation, from 0 (no automation) to 5 (full automation):
+- **SAE J3016**标准定义了从0(无自动化)到5(全自动化)的6个驾驶自动化等级:
 
-    - **Level 0 (No Automation)**: the human does everything. The system may provide warnings (lane departure alert) but does not control the vehicle.
+    - ** 0级(不自动化)**:人类什么都做. 该系统可能提供警告(出站提示),但并不控制车辆。
 
-    - **Level 1 (Driver Assistance)**: the system controls either steering or speed, but not both. Adaptive cruise control (maintains speed and following distance) or lane keeping assist (keeps the car centred in the lane) are Level 1.
+    - ** 1级(司机协助)**:系统控制方向或速度,但两者不同时进行。适应性巡航控制(保持速度并跟随距离)或车道守备协助(保持车道以车道为中心)为一级.
 
-    - **Level 2 (Partial Automation)**: the system controls both steering and speed simultaneously, but the human must monitor at all times and be ready to take over. Tesla Autopilot, GM Super Cruise, and most current "self-driving" features are Level 2. The human is still the responsible driver.
+    - ** 第2级(Partial Automation)**:系统同时控制方向和速度,但人必须随时监测并准备接任. Tesla Autopilot,GM超级巡航,以及目前大多数"自驾车"的功能都是第2级. 人类仍然是负责的驱动者.
 
-    - **Level 3 (Conditional Automation)**: the system drives and monitors the environment, but only in specific conditions (the ODD). The human can disengage but must be ready to take over when the system requests it (with a time buffer, typically 10+ seconds). Mercedes Drive Pilot (on certain highways, below 60 km/h) is the first certified Level 3 system.
+    - ** 第三级(有条件自动化)**:系统驱动并监测环境,但只在具体条件下(ODD). 人类可以脱离,但必须在系统要求时做好准备接任(带有时间缓冲,一般为10+秒). 梅赛德斯驱动驾驶所(某些高速公路上,低于60km/h)是第一个认证的三级系统.
 
-    - **Level 4 (High Automation)**: the system drives and handles all situations within its ODD, with no human intervention needed. If it encounters a situation outside its ODD, it can safely stop itself. Waymo's robotaxi service operates at Level 4 in specific geographic areas.
+    - ** 第4级(高度自动化)**:系统驱动和处理其ODD范围内的所有情况,不需要人干预。如果在ODD之外遇到某种情况,它可以安全地停止自己. Waymo的机器人轴服务在特定地理区域运行于4级.
 
-    - **Level 5 (Full Automation)**: the system drives everywhere a human can, in all conditions. No steering wheel or pedals needed. This does not exist yet.
+    - ** 第5级(Full Automation)**:系统在各种条件下,将人类的能动器驱动到任何地方. 不需要方向盘或踏板。这还不存在。
 
-- The critical distinction is **who is responsible for safety**. At Levels 0-2, the human is responsible. At Levels 3-5, the system is responsible (within its ODD). This has profound legal, insurance, and ethical implications.
+- 关键区别在于**谁负责安全**。在0 -2级,人类负责。在3至5级,该系统负责(在其ODD范围内)。这具有深刻的法律、保险和道德影响。
 
-- The current industry state is a mix of Level 2 (widely deployed), Level 3 (beginning deployment), and Level 4 (limited geographic deployment). Level 5 remains a long-term research goal.
+- 目前的工业状态是二级(广泛部署)、三级(开始部署)和四级(有限的地域部署)的混合。5级仍然是长期的研究目标.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Implement a simple trajectory optimisation planner. Given a start position, goal, and an obstacle, find the smoothest collision-free path using gradient descent.
+1. 执行简单的轨道优化规划器。鉴于一个起步位置,目标,以及障碍,利用梯度下移找到最平滑的无相撞路径.
 ```python
 import jax
 import jax.numpy as jnp
@@ -274,7 +264,7 @@ plt.title("Trajectory Optimisation: Smooth Collision-Free Path")
 plt.show()
 ```
 
-2. Simulate a constant-velocity motion prediction model and compare with ground truth for a turning vehicle.
+2. 模拟匀速运动预测模型，并将转弯车辆的预测结果与真实轨迹比较。
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
@@ -310,7 +300,7 @@ plt.title("Constant Velocity Prediction vs Turning Vehicle")
 plt.show()
 ```
 
-3. Implement a simple rule-based planner that decides between lane-keeping and stopping based on detected obstacles.
+3. 实施一个简单的基于规则的规划员,根据所发现的障碍来决定车道的保持和停站。
 ```python
 import jax.numpy as jnp
 

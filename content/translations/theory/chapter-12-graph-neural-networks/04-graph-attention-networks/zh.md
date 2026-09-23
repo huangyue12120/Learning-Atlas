@@ -14,166 +14,158 @@ status: reviewed
 
 
 
-*Graph attention networks replace uniform neighbour aggregation with learned, data-dependent weighting. This file covers GAT, multi-head graph attention, GATv2, Graph Transformers, positional and structural encodings, and scalability*
+* 注意力网络用有学问、依赖数据的加权取代统一的相邻汇总。此文件涵盖 GAT,多头图注意度, GATv2, 图形变形器, 位置和结构编码, 以及可缩放性*
 
-- In the GCN (file 3), each node aggregates its neighbours' features using fixed weights determined by the graph structure (the normalised adjacency). A node with three neighbours gives each neighbour roughly equal weight ($\approx 1/3$). But not all neighbours are equally important: a message from a close collaborator should matter more than one from a distant acquaintance.
+- 在GCN(文件3)中,每个节点使用由图表结构(正态的相接性)确定的固定加权来汇总其相邻的特征. 有三个邻国的节点使每个邻国大致相等地分量($\approx 1/3$) (中文(简体)). 但并非所有邻国都同样重要:一个亲密的合作者发出的信息应该不止是一个遥远的熟人发出的信息。
 
-- **Graph Attention Networks** solve this by learning **which neighbours to attend to**, using the same attention mechanism that powers transformers (chapter 7). Instead of fixed, structure-based weights, each node computes dynamic, content-based attention scores over its neighbours.
+- ** Graph Region Networks**通过学习** 邻居要注意的** ,使用同样的能给变压器提供动力的注意力机制来解决这个问题(第七章)。而不是固定的,基于结构的权重,每个节点都会计算出动态的,基于内容的注意力的分数来超过它的邻居.
 
 ## GAT：图注意力网络
 
-> **中文导读**：本节围绕“GAT：图注意力网络”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **GAT** (Veličković et al., 2018) computes attention coefficients between each node and its neighbours. For node $i$ and neighbour $j$:
+- ** GAT**(Veličković等,2018年)计算出每个节点与其相邻地区之间的注意系数. 对于节点$i$和邻居$j$:
 
 $$e_{ij} = \text{LeakyReLU}\left(\mathbf{a}^T \left[W\mathbf{h}_i \| W\mathbf{h}_j\right]\right)$$
 
-- where $W \in \mathbb{R}^{d' \times d}$ is a shared linear transformation, $\|$ denotes concatenation, and $\mathbf{a} \in \mathbb{R}^{2d'}$ is a learnable attention vector. The score $e_{ij}$ measures how important node $j$'s features are to node $i$.
+- 地点$W \in \mathbb{R}^{d' \times d}$是一个共享的线性转换,$\|$表示结合,和$\mathbf{a} \in \mathbb{R}^{2d'}$是一个可以学习的注意向量。分数$e_{ij}$节点的重要性$j$'其特性是去节点'$i$.
 
-- The raw scores are normalised across all neighbours using softmax:
+- 原始分数在所有邻居之间都通过软马克法实现正常化:
 
 $$\alpha_{ij} = \text{softmax}_j(e_{ij}) = \frac{\exp(e_{ij})}{\sum_{k \in \mathcal{N}(i)} \exp(e_{ik})}$$
 
-- This ensures attention weights sum to 1 across each node's neighbourhood, just like transformer attention (chapter 7). The node's updated features are:
+- 这保证了每个节点的相邻区域,就像变压器的注意力一样,注意的分量等于1(第七章)。节点的更新功能有: .
 
 $$\mathbf{h}_i' = \sigma\left(\sum_{j \in \mathcal{N}(i)} \alpha_{ij} W\mathbf{h}_j\right)$$
 
-![GCN assigns fixed equal weights to all neighbours; GAT learns data-dependent attention weights](../images/gat_attention_weights.svg)
+![GCN为所有邻居指定固定的等分权; GAT 学习数据依赖的注意力权重](../images/gat_attention_weights.svg)
 
-- The crucial difference from GCN: the weights $\alpha_{ij}$ are **learned from the data**, not fixed by the graph structure. A node can learn to focus on the most informative neighbours while ignoring noisy or irrelevant ones.
+- 与GCN的关键区别:权重$\alpha_{ij}$** 从数据中汲取**,而不是由图表结构所固定。一个节点可以学习专注于信息最丰富的邻居,而忽略吵闹或无关紧要的邻居.
 
-- Note that attention is computed only over edges (node $i$ attends only to its neighbours $\mathcal{N}(i)$), not over all node pairs. This keeps computation proportional to the number of edges, not the square of the number of nodes.
+- 注意注意只计算出边缘(节点)$i$只接待邻居$\mathcal{N}(i)$),不是在所有节点对上. 这保持了与边数成正比的计算,而不是节点数的平方.
 
 ## 多头图注意力
 
-> **中文导读**：本节围绕“多头图注意力”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Just as in transformers (chapter 7), **multi-head attention** runs $K$ independent attention mechanisms in parallel, each with its own parameters $W^k$ and $\mathbf{a}^k$. The results are concatenated (in intermediate layers) or averaged (in the final layer):
+- 与变压器一样(第七章),** 多头注意** 运行$K$独立关注机制,每个机制都有自己的参数$W^k$财务报告和已审计财务报表$\mathbf{a}^k$。。。其结果被收缩(中间层)或平均(最后层):
 
 $$\mathbf{h}_i' = \Big\|_{k=1}^{K} \sigma\left(\sum_{j \in \mathcal{N}(i)} \alpha_{ij}^k W^k \mathbf{h}_j\right)$$
 
-- Each head can attend to different aspects of the neighbourhood: one head might focus on structural features, another on semantic similarity. This is the same motivation as multi-head attention in transformers: different heads capture different types of relationships.
+- 每个头可以关注邻里的不同方面:一个头可能注重结构特征,另一个则注重语义相似性. 这与变压器中的多头注意力的动机相同:不同的头捕捉出不同类型的关系.
 
-- With $K$ heads and output dimension $d'$ per head, the concatenated output has dimension $K \times d'$. The final layer typically averages instead of concatenating to produce a fixed-size output.
+- 与$K$标题和产出层面$d'$每个头, 缩合输出有尺寸$K \times d'$。。。最后一层一般是平均的,而不是平整地产生固定大小的产出。
 
 ## GATv2：修复静态注意力
 
-> **中文导读**：本节围绕“GATv2：修复静态注意力”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- The original GAT has a subtle limitation: its attention function is **static** (also called ranking-based). The attention score depends on the concatenation $[W\mathbf{h}_i \| W\mathbf{h}_j]$, but because the attention vector $\mathbf{a}$ is applied after concatenation, it can be decomposed into two independent components: $\mathbf{a}^T [W\mathbf{h}_i \| W\mathbf{h}_j] = \mathbf{a}_1^T W\mathbf{h}_i + \mathbf{a}_2^T W\mathbf{h}_j$.
+- 最初的GAT有一个微妙的局限性:它的注意力功能是**static**(也叫以排名为主). 注意力的分数取决于凝聚$[W\mathbf{h}_i \| W\mathbf{h}_j]$,但因为注意向量$\mathbf{a}$被接合后应用,可分解为两个独立的组件:$\mathbf{a}^T [W\mathbf{h}_i \| W\mathbf{h}_j] = \mathbf{a}_1^T W\mathbf{h}_i + \mathbf{a}_2^T W\mathbf{h}_j$.
 
-- This means the ranking of neighbours for a given node $i$ is determined entirely by the neighbours' features $\mathbf{h}_j$ (the term $\mathbf{a}_1^T W\mathbf{h}_i$ is constant across all neighbours of $i$). The attention ranking does not truly depend on the query node's features. Node $i$ and node $k$ will rank the same set of neighbours identically, which limits expressiveness.
+- 意思是某个节点的邻居排名$i$完全由邻居的特点决定$\mathbf{h}_j$(该术语$\mathbf{a}_1^T W\mathbf{h}_i$在所有邻国之间恒定$i$) (中文(简体)). 注意排名并不真正依赖于查询节点的特征. 节点$i$和节点$k$将同样的邻居排成相同的等级,这限制了表达性。
 
-- **GATv2** (Brody et al., 2022) fixes this by applying the nonlinearity before the attention vector:
+- ** GATv2**(Broody等人,2022年)通过在注意向量之前应用非线性来解决这个问题:
 
 $$e_{ij} = \mathbf{a}^T \text{LeakyReLU}\left(W \left[\mathbf{h}_i \| \mathbf{h}_j\right]\right)$$
 
-- Moving LeakyReLU inside the computation means the attention score is a nonlinear function of the joint features, not decomposable into independent terms. This makes attention **dynamic**: the ranking of neighbours now depends on the specific query node. GATv2 is strictly more expressive than GAT with no additional computational cost.
+- 将LeakyReLU移入计算中意味着注意分数是联合特征的非线性函数,不能分解成独立的术语. 这引起了注意**动态**:现在邻国的排名取决于具体的查询节点. GATv2在严格意义上比GAT更能表达,没有额外的计算成本.
 
 ## 图 Transformer
 
-> **中文导读**：本节围绕“图 Transformer”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Standard message-passing GNNs are limited by the graph topology: a node can only attend to its direct neighbours. After $k$ layers, information from $k$-hop neighbours has been mixed through multiple aggregation steps, losing fidelity. This local bottleneck (combined with over-smoothing, file 3) limits the ability to capture long-range dependencies.
+- 标准通訊-通訊GNN受圖形地貌所限制:一个节点只能照顾到它的直邻. 之后$k$层,从$k$- 跳跃的邻居们通过多个聚合步骤混合在一起,失去忠诚. 这个本地瓶颈(与过度流出相加, 文件 3) 限制了捕捉远程依赖性的能力。
 
-- **Graph Transformers** break this bottleneck by applying **global self-attention** to all node pairs, regardless of whether they share an edge. Every node can attend to every other node in a single layer, just like in a standard transformer (chapter 7).
+- ** Graph Transformers** 打破了这个瓶颈,将** 全球自觉** 应用到所有节点对上,不管它们是否共享一个边. 每个节点可以在一分层中关注其他每个节点,就像标准变压器(第七章)一样.
 
-- The basic idea: treat all nodes as tokens and apply transformer self-attention:
+- 基本思想:将所有节点当作符号,应用变压器自意:
 
 $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 
-- where $Q = XW_Q$, $K = XW_K$, $V = XW_V$ are the query, key, and value projections of the node features $X$ (exactly as in chapter 7). This is a GNN on a fully connected graph (complete graph $K_n$, file 2).
+- 地点$Q = XW_Q$, $K = XW_K$, $V = XW_V$是节点特性的查询、密钥和值预测$X$(确切如第7章所言). 这是全连接图上的GNN(完整图)$K_n$,文件2) (中文(简体)).
 
-- The problem: a fully connected graph ignores the actual graph structure. The edge information (who is actually connected to whom) is lost. Two approaches restore this:
+- 问题:一个完全连接的图表忽略了实际的图表结构. 边缘信息(实际与谁连接)被丢失. 两种方法恢复了这一点:
 
-- **Graphormer** (Ying et al., 2021) injects graph structure into the transformer via **bias terms** in the attention scores:
+- ** Graphormer**(Ying等人,2021年)在注意分数中,通过**bias值**向变压器注入了图结构:
 
 $$A_{ij} = \frac{(\mathbf{h}_i W_Q)(W_K^T \mathbf{h}_j^T)}{\sqrt{d_k}} + b_{\text{spatial}}(i, j) + b_{\text{edge}}(i, j)$$
 
-- The spatial bias $b_{\text{spatial}}$ encodes the shortest-path distance between nodes $i$ and $j$. The edge bias $b_{\text{edge}}$ encodes edge features along the shortest path. Additionally, Graphormer uses a **centrality encoding** that adds the node's degree to its input embedding, giving the model information about each node's structural role.
+- 空间偏差$b_{\text{spatial}}$编码节点之间的最短路径距离$i$财务报告和已审计财务报表$j$。。。边缘偏差$b_{\text{edge}}$编码沿最短路径的边缘特征。此外,Graphormer使用**中枢编码**,在输入嵌入中添加了节点的程度,给出了每个节点的结构作用的模型信息.
 
-- **GPS** (General, Powerful, Scalable Graph Transformer, Rampášek et al., 2022) combines local message passing with global attention in each layer:
+- ** GPS**(通用、强力、可缩放的图变形器、Rampášek等,2022年)将传递的地方信息与全球关注结合起来,每一层:
 
 $$\mathbf{h}_i' = \text{MLP}\left(\mathbf{h}_i^{\text{MPNN}} + \mathbf{h}_i^{\text{Attention}}\right)$$
 
-- Each layer applies both a standard GNN (for local structure) and a transformer (for global context), then combines the results. This gets the best of both worlds: local structure from message passing and long-range dependencies from attention.
+- 每层都同时应用一个标准的GNN(用于局部结构)和一个变压器(用于全球背景),然后结合结果. 这得到了两个世界中最好的:来自消息传递的本地结构,以及来自关注的远程依赖.
 
 ## 位置编码与结构编码
 
-> **中文导读**：本节围绕“位置编码与结构编码”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- Transformers on sequences use positional encodings (chapter 7) to inject order information. Graphs have no canonical ordering, so graph-specific encodings are needed.
+- 序列上的变形器使用位置编码(第七章)来注入顺序信息. 图表没有条形顺序,所以需要图上特有的编码.
 
-- **Laplacian eigenvector encodings** use the eigenvectors of the graph Laplacian (file 2) as positional features. The $k$ smallest non-trivial eigenvectors provide a spectral embedding of the graph: nodes that are "nearby" in the graph have similar eigenvector values. These are concatenated to the node features.
+- ** 拉普拉西安 eigenvector 编码** 使用图 Laplacian (文件 2)的eigenvectors作为位置特征. 该$k$最小的非三相异构能提供图的光谱嵌入:图中"相近"的节点具有相近异构值. 这些被调和到节点特征上.
 
-- A subtlety: Laplacian eigenvectors have a sign ambiguity (if $\mathbf{u}$ is an eigenvector, so is $-\mathbf{u}$). The model must be invariant to these sign flips. Solutions include using random sign flips as data augmentation during training, or learning sign-invariant transformations.
+- 一个微妙之处:拉普拉西安的egenvectors有一个标志模糊(如果$\mathbf{u}$是个先锋,也是$-\mathbf{u}$) (中文(简体)). 模型必须对这些标志翻转不灵活。解决方案包括使用随机的符号翻转作为培训期间的数据增强,或者学习符号-变量转换.
 
-- **Random walk encodings** compute the probability of a random walk starting at node $i$ returning to node $i$ after $k$ steps, for $k = 1, 2, \ldots, K$. These probabilities encode local structural information: nodes in dense clusters have high return probabilities, while nodes in sparse regions have low ones. The landing probability $p_{ii}^{(k)} = (A_{\text{rw}}^k)_{ii}$ where $A_{\text{rw}} = D^{-1}A$ is the random walk transition matrix.
+- ** Random 行走编码** 计算从节点开始随机行走的概率$i$返回节点$i$之后$k$步骤,用于$k = 1, 2, \ldots, K$。。。这些概率编码了本地结构信息:密集集群中的节点有很高的回报概率,而稀有区域的节点则有较低的概率. 着陆概率$p_{ii}^{(k)} = (A_{\text{rw}}^k)_{ii}$地点$A_{\text{rw}} = D^{-1}A$是随机行走过渡矩阵。
 
-- **Degree encodings** simply add the node degree as a feature. This is surprisingly effective because degree is a strong structural signal: leaf nodes (degree 1), bridge nodes, and hub nodes behave differently.
+- **Degree编码** 简单地添加节点度作为特性. 这令人惊讶的是有效的,因为度是一个强大的结构信号:叶节点(一级),桥节点,和枢纽节点的行为不同.
 
-- These encodings provide the structural information that vanilla transformers lack, enabling Graph Transformers to outperform standard message-passing GNNs on tasks requiring long-range reasoning.
+- 这些编码提供了香草变压器所缺乏的结构信息,使Graph变压器在需要远程推理的任务上能够超越标准消息传递GNN.
 
 ## 可扩展性
 
-> **中文导读**：本节围绕“可扩展性”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- The fundamental scalability challenge for GNNs is that graphs can have millions of nodes and billions of edges. Training a GNN on the full graph requires storing all node features and the entire adjacency matrix in memory, which is often infeasible.
+- GNNs的基本可伸缩性挑战在于:图可以有上百万个节点和数十亿个边缘. 在全图上培训一个GNN需要将所有节点特征和整个相邻矩阵存储在内存中,这往往不可行.
 
-- **Mini-batch training** for GNNs is more complex than for images or sequences because nodes are interconnected. Naively sampling a batch of nodes requires their neighbours (layer 1), their neighbours' neighbours (layer 2), and so on. This **neighbourhood explosion** means a batch of 1000 target nodes might require millions of nodes in the computation graph.
+- **GNNs的Mini-batch训练**比图像或序列复杂,因为节点是相通的. 自然地对一批节点进行取样,需要邻居(一级),邻居(二级)等. 这起**邻接爆炸** 是指在计算图中,有一批1000个目标节点可能需要上百万个节点.
 
-- **Neighbourhood sampling** (GraphSAGE-style, file 3) limits the explosion by sampling a fixed number of neighbours per node per layer. With 2 layers and 15 samples per layer, each target node's subgraph has at most $15^2 = 225$ nodes, regardless of the full graph size.
+- ** 邻居取样**(GraphSAGE-style,文件3)通过每层节点取样固定的邻居数目来限制爆炸。每个目标节点的子图最多只有两层和每层15个样本$15^2 = 225$节点,无论图形大小。
 
-- **Cluster-GCN** (Chiang et al., 2019) partitions the graph into clusters using a graph clustering algorithm (e.g., METIS), then trains on one cluster at a time. Within-cluster edges are dense (most neighbours are in the same cluster), so the subgraph captures the relevant structure. Cross-cluster edges are handled by occasionally including edges between clusters.
+- ** Cluster-GCN**(Chiang等,2019年)使用图表集成算法(如METIS)将图分出为集群,再一次在一个集群上进行列车. 集群内边缘为密集(大多数相邻者同为集群),因此子图捕捉到相关的结构. 跨集群边缘偶尔会由包含集群之间的边缘处理.
 
-- **Graph Transformer scalability** is harder because global attention is $O(n^2)$. For graphs with millions of nodes, full attention is infeasible. Solutions include:
-    - Sparse attention patterns (attend only to $k$-nearest nodes in the graph)
-    - Linear attention approximations
-    - Combining local message passing (cheap, $O(|E|)$) with global attention on a coarsened graph (fewer nodes)
+- ** 变形器可伸缩性** 由于全球关注程度$O(n^2)$。。。对于拥有上百万个节点的图表,充分关注是不可行的. 解决办法包括:
+    - 分解注意模式(只到$k$-图中最靠近的节点).
+    - 线性注意近似
+    - 合并本地消息传递(便宜,$O(|E|)$)全球关注于收缩的图表(发条节点)
 
 ## 时间图与动态图
 
-> **中文导读**：本节围绕“时间图与动态图”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- The graphs we have studied so far are **static**: the nodes, edges, and features are fixed. But many real-world graphs **evolve over time**: new users join social networks, financial transactions create edges, traffic patterns shift throughout the day, and molecular interactions fluctuate.
+- 我们迄今研究的图是**static**:节点,边缘和特征是固定的. 但许多现实世界的图**随时间推移**:新用户加入社交网络,金融交易创造边缘,流量模式一时变化,分子相互作用起伏.
 
-- A **temporal graph** augments each edge with a timestamp: $(i, j, t)$ means node $i$ interacted with node $j$ at time $t$. The challenge is to learn representations that capture both the graph structure and the temporal dynamics.
+- ** 时态图** 用时间戳来增加每个边:$(i, j, t)$表示节点$i$与节点交互$j$时间$t$。。。挑战在于学习既能反映图表结构又能反映时间动态的表述.
 
-- There are two paradigms:
+- 有两个范例:
 
-- **Discrete-time dynamic graphs (DTDG)**: the graph is represented as a sequence of snapshots $G_1, G_2, \ldots, G_T$, one per timestep. A GNN processes each snapshot, and an RNN or temporal attention mechanism captures the evolution across snapshots. This is simple but loses fine-grained timing information (events between snapshots are lost) and requires choosing a snapshot frequency.
+- ** 不同时段动态图(DTDG)**:该图作为快照的序列来表示.$G_1, G_2, \ldots, G_T$,每个时间步一个。一个GNN处理每个快照,一个RNN或时间关注机制能够捕捉到跨越快照的卷积. 这很简单,但损失了精细的计时信息(快照之间的事件丢失),需要选择快取频率.
 
-- **Continuous-time dynamic graphs (CTDG)**: events are modelled as a stream of timestamped interactions. Each event $(i, j, t)$ updates the representations of nodes $i$ and $j$ at the exact time it occurs. This preserves all temporal information.
+- ** 连续-时间动态图(CTDG)**:事件模拟为一流的时序互动. 每个活动$(i, j, t)$更新节点的表达式$i$财务报告和已审计财务报表$j$确切时间。这保存了所有的时间信息。
 
-- **Temporal Graph Network (TGN)** (Rossi et al., 2020) is the leading CTDG architecture. Each node maintains a **memory state** $\mathbf{s}_i(t)$ that is updated whenever the node participates in an interaction:
+- ** 临时图网(TGN)** (Rossi等,2020年)是领先的CTDG架构. 每个节点都保持了**模态**$\mathbf{s}_i(t)$当节点参与交互时,该节点会更新:
 
 $$\mathbf{s}_i(t^+) = \text{GRU}\left(\mathbf{s}_i(t^-), \; \mathbf{m}_i(t)\right)$$
 
-- where $\mathbf{m}_i(t)$ is a message computed from the interaction (combining the features of both nodes, the edge features, and the time encoding). The GRU (chapter 6) selectively retains and forgets past information, allowing the memory to capture long-term patterns while adapting to recent events.
+- 地点$\mathbf{m}_i(t)$是一个从交互中计算出来的信息(将节点、边缘特征和时间编码的特性合并)。GRU(第6章)有选择地保留并忘记了过去的信息,使得记忆能够捕捉出长期规律,同时适应最近的事件.
 
-- **Time encoding** represents the elapsed time since the last interaction as a feature vector, analogous to positional encoding in transformers (chapter 7). A common approach uses learnable Fourier features:
+- ** 时间编码** 代表自上次相互作用以来作为特性向量的所经过的时间,类似于变压器中的位置编码(第七章)。共同的方法使用可学习的傅里叶特征:
 
 $$\Phi(t) = \left[\cos(\omega_1 t), \sin(\omega_1 t), \ldots, \cos(\omega_d t), \sin(\omega_d t)\right]$$
 
-- This gives the model a rich representation of temporal gaps: "this user was last active 5 minutes ago" vs "3 months ago" are embedded differently.
+- 这使得模型对时间间隙有丰富的表现:"这个用户在5分钟前最后一次活动"对"3个月前"的嵌入不同.
 
-- **Temporal Graph Attention (TGAT)** applies self-attention over a node's temporal neighbourhood: the set of recent interactions, each weighted by both feature relevance (like GAT) and temporal recency. Interactions from the distant past are naturally down-weighted.
+- ** 时间图注意** 对节点的时间相邻处适用自我注意:最近的一系列相互作用,每个作用均按特征相关性(如GAT)和时间回放度加以加权。来自遥远过去的互动自然被压低。
 
-- Applications include fraud detection (anomalous transaction patterns in financial graphs), traffic forecasting (predicting congestion from historical flow patterns), social network dynamics (predicting viral content spread), and drug interaction prediction over time.
+- 应用包括:欺诈侦测(金融图中异常的交易模式),流量预测(从历史流量模式中预测拥堵),社交网络动态(预测病毒内容传播),以及药物相互作用预测随时间推移而变化.
 
 ## 编程任务（使用 Colab 或 notebook）
 
-> **中文导读**：本节围绕“编程任务（使用 Colab 或 notebook）”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-1. Implement a single GAT attention head from scratch. Compute attention weights between a node and its neighbours and verify they sum to 1.
+1. 从零开始执行一个单一的GAT关注头. 计算出节点和相邻点之间的注意力分量,并验证其相和为一.
 ```python
 import jax
 import jax.numpy as jnp
@@ -217,7 +209,7 @@ h_new = sum(alpha[k] * Wh[neighbours_of_0[k]] for k in range(len(neighbours_of_0
 print(f"Updated node 0 features: {h_new}")
 ```
 
-2. Compare GCN (fixed weights) vs GAT (learned weights) aggregation. Show that GAT can assign different weights to neighbours while GCN treats them uniformly.
+2. 比较GCN(固定权重)与GAT(吸取权重)汇总. 显示GAT可以给邻居分配不同的权重,而GCN则统一对待.
 ```python
 import jax
 import jax.numpy as jnp
@@ -253,7 +245,7 @@ print(f"\nGCN output: {gcn_output}  (diluted by noise)")
 print(f"GAT output: {gat_output}  (focused on signal)")
 ```
 
-3. Demonstrate the benefit of positional encodings. Compute Laplacian eigenvector encodings for a graph and show that structurally similar nodes get similar encodings.
+3. 展示位置编码的好处. 计算出一个图的Laplacian eigenvector编码,并显示结构相近的节点得到类似的编码.
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt

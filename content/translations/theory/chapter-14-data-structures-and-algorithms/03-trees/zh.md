@@ -14,23 +14,22 @@ status: reviewed
 
 
 
-*Trees are the hierarchical data structure behind file systems, databases, compilers, and countless interview problems. This file covers binary trees, BSTs, balanced trees, tries, segment trees, Fenwick trees, and Union-Find, with traversal patterns, recursive thinking, and progressively harder problems.*
+*Trees是文件系统,数据库,编译器以及无数的采访问题背后的分级数据结构. 此文件涵盖二进制树, BST , 平衡树, 尝试, 分块树, Fenwick 树, 以及 Union-Find, 具有横向图案, 递归思维, 并逐渐更难的问题。*
 
-- A **tree** is a connected, acyclic graph (chapter 13). The most important variant is the **binary tree**: each node has at most two children (left and right). Trees appear everywhere: parse trees in compilers, DOM trees in browsers, decision trees in ML, and B-trees in databases.
+- A树**是相通的循环图(第13章). 最重要的变种是**二元树**:每个节点最多有两个孩子(左右). 树会随处可见:在编译器中剖析出树;浏览器中解析出DOM树;在ML中解析出决定树;在数据库中解析出B-树.
 
-- The key insight for tree problems: **most tree problems are solved recursively**. The structure is recursive (a tree is a root with two subtrees), so the solutions should be too. Master the pattern of "solve for left subtree, solve for right subtree, combine" and you can solve most tree problems.
+- 对树木问题的关键见解:** 大部分树木问题都是递归解决的**. 结构是递归性的(一棵树是根有两棵子树),所以溶液应该是也. 掌握"解决左子树,解决右子树,结合"的模式,可以解决大多数树木问题.
 
 ## 二叉树遍历
 
-> **中文导读**：本节围绕“二叉树遍历”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- There are four standard ways to visit every node:
+- 每个节点有四种标准访问方式:
 
-    - **Inorder** (left, root, right): for BSTs, this visits nodes in sorted order.
-    - **Preorder** (root, left, right): useful for serialisation and copying trees.
-    - **Postorder** (left, right, root): useful for deletion and computing sizes.
-    - **Level-order** (BFS): visit nodes level by level using a queue.
+    - ** 不有序** (左, root, 右): 对于 BST, 此访问节点按排序顺序进行.
+    - ** 序号**(根,左,右):用于串行和复制树.
+    - **后序**(左,右,根):用于删除和计算大小.
+    - ** 等级顺序** (BFS):使用队列按级别访问节点级别.
 
 ```python
 class TreeNode:
@@ -73,7 +72,7 @@ def level_order(root):
     return result
 ```
 
-- **Pitfall**: the recursive traversals above create new lists at each step (due to `+` concatenation), which is $O(n^2)$. For efficiency, pass a result list and append in-place:
+- ** 倒计时**:上面的递归式转录在每一步骤上创建新的列表(因为`+`协和),即$O(n^2)$。。。为了提高效率,通过结果列表和附加到位置:
 
 ```python
 def inorder_efficient(root, result=None):
@@ -88,7 +87,6 @@ def inorder_efficient(root, result=None):
 
 ### 简单：二叉树的最大深度
 
-> **中文导读**：本节围绕“简单：二叉树的最大深度”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
 ```python
@@ -98,11 +96,10 @@ def max_depth(root):
     return 1 + max(max_depth(root.left), max_depth(root.right))
 ```
 
-- **The recursive pattern**: base case (null → 0), recurse on children, combine (1 + max). This same pattern applies to dozens of tree problems.
+- ** 递归模式**:基本病例(无)-0;儿童复发,合并(1+最大)。同样的模式适用于数十个树木问题.
 
 ### 简单：翻转二叉树
 
-> **中文导读**：本节围绕“简单：翻转二叉树”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
 ```python
@@ -115,12 +112,11 @@ def invert_tree(root):
 
 ### 中等：最近公共祖先
 
-> **中文导读**：本节围绕“中等：最近公共祖先”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **Problem**: find the lowest node that is an ancestor of both $p$ and $q$.
+- ** 问题**:找到两者的祖先的最低节点$p$财务报告和已审计财务报表$q$.
 
-- **Pattern**: if both $p$ and $q$ are in the left subtree, the LCA is in the left subtree. If both are in the right, it is in the right. If they split (one left, one right), the current node is the LCA.
+- ** 两者兼有:$p$财务报告和已审计财务报表$q$LCA在左边的树上,LCA在左边的树上。如是等正觉相. 如果它们分裂出(左一分,右一分),当前的节点是LCA.
 
 ```python
 def lowest_common_ancestor(root, p, q):
@@ -135,14 +131,13 @@ def lowest_common_ancestor(root, p, q):
     return left if left else right
 ```
 
-- **Pitfall**: this assumes $p$ and $q$ both exist in the tree. If they might not, you need additional checks.
+- ** 意外**:假设$p$财务报告和已审计财务报表$q$两者都存在于树上。如果可能不行,你需要额外的检查。
 
 ### 困难：二叉树中的最大路径和
 
-> **中文导读**：本节围绕“困难：二叉树中的最大路径和”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **Problem**: find the maximum sum path between any two nodes (the path does not need to go through the root).
+- ** problem**:在任意两个节点之间找到最大和道(路径不需要通过根来).
 
 ```python
 def max_path_sum(root):
@@ -164,14 +159,13 @@ def max_path_sum(root):
     return best[0]
 ```
 
-- **Key insight**: at each node, there are two questions: (1) what is the best path that goes *through* this node (left + node + right)? (2) what is the best path this node can contribute to its *parent* (node + max(left, right), since a path cannot fork at two levels)? Confusing these two is the most common mistake.
+- **关键见解**:在每个节点,有两个问题:(1) 哪个路径是最佳途径,能通通* 这个节点(左+节点+正)? (2) 这个节点能促进其 * parent * (node + max(左,右)) 的最佳路径是什么? 因为路径无法分叉在两个级别上) ? 混淆这两个是最常见的错误.
 
 ## 二叉搜索树（BST）
 
-> **中文导读**：本节围绕“二叉搜索树（BST）”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- A **BST** satisfies: for every node, all values in the left subtree are smaller, all values in the right subtree are larger. This enables $O(\log n)$ search, insert, and delete (when balanced).
+- a **BST**满足:对于每一个节点,左子树上的所有值都较小,而右子树上的所有值都更大. 这样可以$O(\log n)$搜索、插入和删除(平衡时)。
 
 ```python
 def search_bst(root, target):
@@ -194,11 +188,10 @@ def insert_bst(root, val):
     return root
 ```
 
-- **Pitfall**: BST operations are $O(\log n)$ only when the tree is balanced. A BST built from sorted insertions degenerates to a linked list: $O(n)$ per operation. This is why balanced BSTs (AVL, red-black) exist.
+- ** 意外**:BST业务是$O(\log n)$惟树平时. 从排序插入构建的 BST 已退化为链接列表 :$O(n)$每次行动 这就是为什么平衡的BST(AVL,红-黑)存在.
 
 ### 中等：验证二叉搜索树
 
-> **中文导读**：本节围绕“中等：验证二叉搜索树”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
 ```python
@@ -211,14 +204,13 @@ def is_valid_bst(root, lo=float('-inf'), hi=float('inf')):
             is_valid_bst(root.right, root.val, hi))
 ```
 
-- **Pitfall**: checking only `left.val < root.val < right.val` is wrong. The constraint is that *all* nodes in the left subtree are smaller, not just the immediate child. The `lo`/`hi` bounds propagate this constraint down.
+- ** 意外**:仅检查`left.val < root.val < right.val`错了 限制在于左下行树上的所有**节点都较小,而不仅仅是近亲. 该`lo`/`hi`界限传播这种限制。
 
 ### 中等：BST 中第 K 小的元素
 
-> **中文导读**：本节围绕“中等：BST 中第 K 小的元素”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **Pattern**: inorder traversal of a BST visits nodes in sorted order. The $k$th node visited is the answer.
+- ** Pattern**:BST访问节点按排序顺序不规则转接. 该$k$访问的节点就是答案。
 
 ```python
 def kth_smallest(root, k):
@@ -241,10 +233,9 @@ def kth_smallest(root, k):
 
 ## Trie（前缀树）
 
-> **中文导读**：本节围绕“Trie（前缀树）”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- A **trie** stores strings character by character in a tree. Each edge represents a character, and paths from root to marked nodes represent stored strings. Tries enable $O(L)$ lookup where $L$ is the string length, regardless of how many strings are stored.
+- 一个** trie ** 将字符串按字符存储在树上. 每个边缘代表一个字符,从根到被标记的节点的路径代表被存储的字符串. 启动三次$O(L)$寻找哪里$L$是字符串长度,而不论存储了多少个字符串。
 
 ```python
 class TrieNode:
@@ -281,25 +272,23 @@ class Trie:
         return True
 ```
 
-- **When to use**: autocomplete, spell check, word games, IP routing tables. Whenever you need prefix-based operations.
+- **何时使用**:自动完成,拼写检查,文字游戏,IP路由表. 当您需要前缀操作时。
 
 ### 困难：单词搜索 II
 
-> **中文导读**：本节围绕“困难：单词搜索 II”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **Problem**: given a board of characters and a list of words, find all words that can be formed by traversing adjacent cells.
+- ** problem**:给一个字符板和一个单词列表,寻找所有能由相邻细胞穿行而形成的单词.
 
-- **Pattern**: build a trie from the word list, then DFS from each cell using the trie to prune branches early (if no word starts with the current prefix, stop).
+- ** Pattern**:从单词列表中构建出一个三重词,然后从每个单元格使用三重词到prune分支提前(如果没有单词开头的是当前前缀,则停止).
 
-- **Pitfall**: without the trie, you would DFS for each word separately: $O(w \cdot m \cdot n \cdot 4^L)$. The trie shares prefix computation across words, dramatically reducing work.
+- ** 意外**:没有三个字,你们将分别处理每个字:$O(w \cdot m \cdot n \cdot 4^L)$。。。tree 共享跨字面的前缀计算,显著地减少了工作.
 
 ## 并查集
 
-> **中文导读**：本节围绕“并查集”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **Union-Find** tracks a collection of disjoint sets. Two operations: `find(x)` returns the representative of $x$'s set, and `union(x, y)` merges the sets containing $x$ and $y$.
+- ** Union-Find** 跟踪一组脱节相机。两项行动:`find(x)`返回代表$x$设定,和`union(x, y)`合并包含$x$财务报告和已审计财务报表$y$.
 
 ```python
 class UnionFind:
@@ -327,13 +316,12 @@ class UnionFind:
         return True
 ```
 
-- With path compression and union by rank, both operations run in $O(\alpha(n)) \approx O(1)$ amortised (inverse Ackermann, effectively constant).
+- 通过路径压缩和按级别排列的结合,两个操作都运行在$O(\alpha(n)) \approx O(1)$分期摊还(反向Ackermann,有效恒定).
 
-- **When to use**: connected components, cycle detection in undirected graphs, Kruskal's MST, grouping equivalent items.
+- ** 当使用**:相接组件,循环检测在未定向图中,克罗斯卡尔的MST,分组等同项目.
 
 ### 中等：连通分量的数量
 
-> **中文导读**：本节围绕“中等：连通分量的数量”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
 ```python
@@ -346,12 +334,11 @@ def count_components(n, edges):
 
 ### 中等：冗余连接
 
-> **中文导读**：本节围绕“中等：冗余连接”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **Problem**: find the edge that, when removed, makes the graph a tree (i.e., the edge that creates a cycle).
+- ** problem**:找到在去除后使图成为一棵树的边缘(即产生循环的边缘).
 
-- **Pattern**: process edges one by one. The first edge where both endpoints are already in the same component creates the cycle.
+- ** Pattern**:过程边缘相接. 两个端点已经在同一组件中的第一个边缘产生循环.
 
 ```python
 def find_redundant(edges):
@@ -363,12 +350,11 @@ def find_redundant(edges):
 
 ## 线段树与 Fenwick 树
 
-> **中文导读**：本节围绕“线段树与 Fenwick 树”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-- **Segment trees** answer range queries (sum, min, max over a subarray) and support point updates, both in $O(\log n)$.
+- ** 分区树** 答案范围查询(和、分、最大在一个子阵列上)和支持点更新,均载于$O(\log n)$.
 
-- **Fenwick trees** (Binary Indexed Trees) are a simpler, faster alternative for prefix sum queries and point updates. They use a clever bit manipulation trick: each position stores a partial sum covering a range determined by the lowest set bit.
+- **Fenwick树**(Binary Indexed Trees)是用于前缀总和查询和点更新的更简单,更快的替代. 他们使用一个聪明的比特操纵技巧:每个位置存储一个部分和数,覆盖由最低设置比特决定的范围.
 
 ```python
 class FenwickTree:
@@ -394,62 +380,56 @@ class FenwickTree:
         return self.prefix_sum(r) - (self.prefix_sum(l - 1) if l > 0 else 0)
 ```
 
-- **When to use**: problems requiring repeated range queries with updates. Fenwick trees are preferred when you only need prefix sums; segment trees when you need arbitrary range operations (min, max, GCD).
+- ** 何时使用**:需要反复查询并更新范围的问题。Fenwick 树在只需要前缀总和时首选;在需要任意范围操作时首选分块树(min, max, GCD).
 
 ---
 
 ## 常见陷阱总结
 
-> **中文导读**：本节围绕“常见陷阱总结”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
-| Pitfall | Example | Fix |
+|Pitfall|Example|Fix|
 |---------|---------|-----|
-| Checking only direct children for BST | `left.val < root.val` misses deeper violations | Pass `lo`/`hi` bounds |
-| $O(n^2)$ list concatenation in recursion | `inorder(left) + [val] + inorder(right)` | Append to shared list |
-| Forgetting base case | Infinite recursion on empty tree | `if not root: return` |
-| Confusing path-through vs path-to-parent | Max path sum: forking at two levels | Return single-branch to parent, track two-branch separately |
-| 1-indexed vs 0-indexed Fenwick | Off-by-one in tree array | Always `i += 1` at entry |
-| Union-Find without path compression | $O(n)$ per find in worst case | `self.parent[x] = self.find(self.parent[x])` |
+|Checking only direct children for BST|`left.val < root.val` misses deeper violations|Pass `lo`/`hi` bounds|
+|$O(n^2)$ list concatenation in recursion|`inorder(left) + [val] + inorder(right)`|Append to shared list|
+|Forgetting base case|Infinite recursion on empty tree|`if not root: return`|
+|Confusing path-through vs path-to-parent|Max path sum: forking at two levels|Return single-branch to parent, track two-branch separately|
+|1-indexed vs 0-indexed Fenwick|Off-by-one in tree array|Always `i += 1` at entry|
+|Union-Find without path compression|$O(n)$ per find in worst case|`self.parent[x] = self.find(self.parent[x])`|
 
 ---
 
 ## 课后题（NeetCode）
 
-> **中文导读**：本节围绕“课后题（NeetCode）”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
 
 ### 二叉树模式
 
-> **中文导读**：本节围绕“二叉树模式”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
-- [Invert Binary Tree](https://neetcode.io/problems/invert-a-binary-tree) — basic recursion
-- [Maximum Depth of Binary Tree](https://neetcode.io/problems/depth-of-binary-tree) — recursive depth
-- [Same Tree](https://neetcode.io/problems/same-binary-tree) — simultaneous traversal
-- [Subtree of Another Tree](https://neetcode.io/problems/subtree-of-a-binary-tree) — nested recursion
-- [Binary Tree Level Order Traversal](https://neetcode.io/problems/level-order-traversal-of-binary-tree) — BFS with level tracking
-- [Binary Tree Maximum Path Sum](https://neetcode.io/problems/binary-tree-maximum-path-sum) — DFS with global best
-- [Serialize and Deserialize Binary Tree](https://neetcode.io/problems/serialize-and-deserialize-binary-tree) — preorder + null markers
+- [倒转二进制树](https://neetcode.io/problems/invert-a-binary-tree)，，基本重复
+- [二进制树的最大深度](https://neetcode.io/problems/depth-of-binary-tree)，，递归深度
+- [同一树](https://neetcode.io/problems/same-binary-tree)，，同时穿行.
+- [又一树的子树](https://neetcode.io/problems/subtree-of-a-binary-tree)，，巢接复发.
+- [二进制树级顺序](https://neetcode.io/problems/level-order-traversal-of-binary-tree)- 有级别跟踪的BFS
+- [二进制树最大路径和](https://neetcode.io/problems/binary-tree-maximum-path-sum)，，外勤部全球最佳
+- [二进制树的序列化和去序列化](https://neetcode.io/problems/serialize-and-deserialize-binary-tree)，，序号+无标记
 
 ### BST 模式
 
-> **中文导读**：本节围绕“BST 模式”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
-- [Validate Binary Search Tree](https://neetcode.io/problems/valid-binary-search-tree) — bound propagation
-- [Kth Smallest Element in a BST](https://neetcode.io/problems/kth-smallest-integer-in-bst) — inorder traversal
-- [Lowest Common Ancestor of a BST](https://neetcode.io/problems/lowest-common-ancestor-in-binary-search-tree) — exploit BST ordering
+- [验证二进制搜索树](https://neetcode.io/problems/valid-binary-search-tree)- 捆绑传播
+- [BST 中最小元素](https://neetcode.io/problems/kth-smallest-integer-in-bst)，，无序转弯.
+- [BST 最低常见祖先](https://neetcode.io/problems/lowest-common-ancestor-in-binary-search-tree)- 利用BST订单
 
-### Trie
+### 尝试
 
-> **中文导读**：本节围绕“Trie”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
-- [Implement Trie](https://neetcode.io/problems/implement-prefix-tree) — basic trie operations
-- [Design Add and Search Words](https://neetcode.io/problems/design-word-search-data-structure) — trie + DFS with wildcards
-- [Word Search II](https://neetcode.io/problems/search-for-word-ii) — trie-guided backtracking
+- [执行 Trie](https://neetcode.io/problems/implement-prefix-tree)，，基本三轮操作.
+- [设计和搜索单词](https://neetcode.io/problems/design-word-search-data-structure)3个+外勤部带通配卡
+- [词搜索 二](https://neetcode.io/problems/search-for-word-ii)，，三相制导回溯跟踪
 
 ### 并查集
 
-> **中文导读**：本节围绕“并查集”说明核心概念、关键公式和工程直觉；下方保留源文的完整技术细节，便于与上游逐项核对。
 
-- [Number of Connected Components](https://neetcode.io/problems/count-connected-components) — basic union-find
-- [Redundant Connection](https://neetcode.io/problems/redundant-connection) — cycle detection via union-find
+- [连接组件数量](https://neetcode.io/problems/count-connected-components)- 基本工会
+- [冗余连接](https://neetcode.io/problems/redundant-connection)，，通过加盟检测循环.
