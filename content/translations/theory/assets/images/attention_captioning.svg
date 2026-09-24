@@ -9,40 +9,40 @@
   </defs>
 
   <!-- Title -->
-  <text x="350" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">基于注意的图像说明</text>
+  <text x="350" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">Attention-Based Image Captioning</text>
 
   <!-- Image patch grid (3x3) -->
-  <text x="100" y="52" font-size="11" fill="#666" text-anchor="middle">图像补丁</text>
+  <text x="100" y="52" font-size="11" fill="#666" text-anchor="middle">图像补丁 (Image Patches)</text>
 
   <!-- Row 1 -->
   <rect x="35" y="60" width="42" height="42" rx="3" fill="#3498db" fill-opacity="0.08" stroke="#ccc" stroke-width="1"/>
-  <text x="56" y="85" font-size="8" fill="#999" text-anchor="middle">天空(O)</text>
+  <text x="56" y="85" font-size="8" fill="#999" text-anchor="middle">天空 (sky)</text>
 
   <rect x="79" y="60" width="42" height="42" rx="3" fill="#3498db" fill-opacity="0.08" stroke="#ccc" stroke-width="1"/>
-  <text x="100" y="85" font-size="8" fill="#999" text-anchor="middle">树</text>
+  <text x="100" y="85" font-size="8" fill="#999" text-anchor="middle">树 (tree)</text>
 
   <rect x="123" y="60" width="42" height="42" rx="3" fill="#3498db" fill-opacity="0.08" stroke="#ccc" stroke-width="1"/>
-  <text x="144" y="85" font-size="8" fill="#999" text-anchor="middle">天空(O)</text>
+  <text x="144" y="85" font-size="8" fill="#999" text-anchor="middle">天空 (sky)</text>
 
   <!-- Row 2 -->
   <rect x="35" y="104" width="42" height="42" rx="3" fill="#3498db" fill-opacity="0.08" stroke="#ccc" stroke-width="1"/>
-  <text x="56" y="129" font-size="8" fill="#999" text-anchor="middle">草类</text>
+  <text x="56" y="129" font-size="8" fill="#999" text-anchor="middle">草地 (grass)</text>
 
   <rect x="79" y="104" width="42" height="42" rx="3" fill="#e74c3c" fill-opacity="0.2" stroke="#e74c3c" stroke-width="2"/>
-  <text x="100" y="126" font-size="8" fill="#e74c3c" text-anchor="middle" font-weight="bold">狗类</text>
+  <text x="100" y="126" font-size="8" fill="#e74c3c" text-anchor="middle" font-weight="bold">狗 (dog)</text>
 
   <rect x="123" y="104" width="42" height="42" rx="3" fill="#3498db" fill-opacity="0.08" stroke="#ccc" stroke-width="1"/>
-  <text x="144" y="129" font-size="8" fill="#999" text-anchor="middle">围栏</text>
+  <text x="144" y="129" font-size="8" fill="#999" text-anchor="middle">栅栏 (fence)</text>
 
   <!-- Row 3 -->
   <rect x="35" y="148" width="42" height="42" rx="3" fill="#f39c12" fill-opacity="0.12" stroke="#f39c12" stroke-width="1"/>
-  <text x="56" y="173" font-size="8" fill="#999" text-anchor="middle">球头</text>
+  <text x="56" y="173" font-size="8" fill="#999" text-anchor="middle">球 (ball)</text>
 
   <rect x="79" y="148" width="42" height="42" rx="3" fill="#3498db" fill-opacity="0.08" stroke="#ccc" stroke-width="1"/>
-  <text x="100" y="173" font-size="8" fill="#999" text-anchor="middle">草类</text>
+  <text x="100" y="173" font-size="8" fill="#999" text-anchor="middle">草地 (grass)</text>
 
   <rect x="123" y="148" width="42" height="42" rx="3" fill="#3498db" fill-opacity="0.08" stroke="#ccc" stroke-width="1"/>
-  <text x="144" y="173" font-size="8" fill="#999" text-anchor="middle">草类</text>
+  <text x="144" y="173" font-size="8" fill="#999" text-anchor="middle">草地 (grass)</text>
 
   <!-- Attention arrows from patches to decoder word "dog" -->
   <!-- Strong attention from dog patch -->
@@ -55,29 +55,29 @@
   <line x1="56" y1="146" x2="315" y2="132" stroke="#ccc" stroke-width="0.7" stroke-opacity="0.3"/>
 
   <!-- Attention weights label -->
-  <text x="220" y="110" font-size="9" fill="#e74c3c" text-anchor="middle" font-style="italic">强烈关注</text>
-  <text x="220" y="175" font-size="9" fill="#ccc" text-anchor="middle" font-style="italic">注意不够</text>
+  <text x="220" y="110" font-size="9" fill="#e74c3c" text-anchor="middle" font-style="italic">强注意力 (strong attention)</text>
+  <text x="220" y="175" font-size="9" fill="#ccc" text-anchor="middle" font-style="italic">弱注意力 (weak attention)</text>
 
   <!-- Decoder generating words -->
-  <text x="460" y="52" font-size="11" fill="#666" text-anchor="middle">解码器输出</text>
+  <text x="460" y="52" font-size="11" fill="#666" text-anchor="middle">解码器输出 (Decoder Output)</text>
 
   <!-- Word boxes -->
   <rect x="320" y="65" width="50" height="28" rx="5" fill="#9b59b6" fill-opacity="0.12" stroke="#9b59b6" stroke-width="1.2"/>
   <text x="345" y="84" font-size="11" fill="#9b59b6" text-anchor="middle" font-weight="bold">"A"</text>
 
   <rect x="320" y="118" width="50" height="28" rx="5" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="345" y="137" font-size="11" fill="#e74c3c" text-anchor="middle" font-weight="bold">"狗" 狗 狗 狗 狗</text>
+  <text x="345" y="137" font-size="11" fill="#e74c3c" text-anchor="middle" font-weight="bold">"狗" (dog)</text>
 
   <rect x="320" y="170" width="60" height="28" rx="5" fill="#9b59b6" fill-opacity="0.12" stroke="#9b59b6" stroke-width="1.2"/>
-  <text x="350" y="189" font-size="11" fill="#9b59b6" text-anchor="middle" font-weight="bold">"游戏"</text>
+  <text x="350" y="189" font-size="11" fill="#9b59b6" text-anchor="middle" font-weight="bold">"玩耍" (plays)</text>
 
   <!-- Arrows between words (autoregressive) -->
   <line x1="345" y1="93" x2="345" y2="116" stroke="#666" stroke-width="1" marker-end="url(#ac-arrow)"/>
   <line x1="345" y1="146" x2="350" y2="168" stroke="#666" stroke-width="1" marker-end="url(#ac-arrow)"/>
 
   <!-- Attention heatmap visualization -->
-  <text x="560" y="52" font-size="11" fill="#666" text-anchor="middle">注意地图</text>
-  <text x="560" y="65" font-size="9" fill="#999" text-anchor="middle">(给"狗")</text>
+  <text x="560" y="52" font-size="11" fill="#666" text-anchor="middle">注意力图 (Attention Map)</text>
+  <text x="560" y="65" font-size="9" fill="#999" text-anchor="middle">(针对 "狗")((for "dog"))</text>
 
   <!-- Heatmap grid 3x3 -->
   <rect x="510" y="75" width="32" height="32" rx="2" fill="#e74c3c" fill-opacity="0.05" stroke="#ddd" stroke-width="0.5"/>
@@ -108,9 +108,9 @@
   <text x="594" y="163" font-size="7" fill="#999" text-anchor="middle">0.04</text>
 
   <!-- Caption sentence at bottom -->
-  <text x="350" y="230" font-size="11" fill="#333" text-anchor="middle">生成说明 :</text>
-  <text x="350" y="248" font-size="12" fill="#9b59b6" text-anchor="middle" font-weight="bold">"一只狗在草地上玩球"</text>
+  <text x="350" y="230" font-size="11" fill="#333" text-anchor="middle">生成文本: (Generated Caption:) </text>
+  <text x="350" y="248" font-size="12" fill="#9b59b6" text-anchor="middle" font-weight="bold">"一只狗在草地上玩球" (A dog plays with a ball on the grass)</text>
 
   <!-- Note -->
-  <text x="350" y="280" font-size="9" fill="#999" text-anchor="middle">在每一个解码步骤上,模型都关注图像的不同空间区域</text>
+  <text x="350" y="280" font-size="9" fill="#999" text-anchor="middle">在每个解码步骤中，模型会关注图像的不同空间区域 (At each decoding step, the model attends to different spatial regions of the image)</text>
 </svg>

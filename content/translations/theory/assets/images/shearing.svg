@@ -10,14 +10,14 @@
   <circle cx="20" cy="140" r="3" fill="#333"/>
   <!-- original square -->
   <polygon points="20,140 100,140 100,60 20,60" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="2"/>
-  <text x="60" y="105" text-anchor="middle" fill="#e74c3c" font-size="10">原文</text>
+  <text x="60" y="105" text-anchor="middle" fill="#e74c3c" font-size="10">original</text>
   <!-- sheared parallelogram (k=0.5, top shifts right by 40px) -->
   <polygon points="20,140 100,140 140,60 60,60" fill="#3498db" fill-opacity="0.1" stroke="#3498db" stroke-width="2" stroke-dasharray="5"/>
-  <text x="110" y="50" fill="#3498db" font-size="10">剪切</text>
+  <text x="110" y="50" fill="#3498db" font-size="10">被㮍断的</text>
   <!-- horizontal arrow showing the slide -->
   <line x1="100" y1="55" x2="135" y2="55" stroke="#27ae60" stroke-width="1.5" marker-end="url(#sh-arr)"/>
-  <text x="115" y="45" fill="#27ae60" font-size="9">幻灯片</text>
+  <text x="115" y="45" fill="#27ae60" font-size="9">滑移</text>
   <line x1="20" y1="55" x2="55" y2="55" stroke="#27ae60" stroke-width="1.5" marker-end="url(#sh-arr)"/>
   <!-- bottom stays fixed -->
-  <text x="140" y="155" fill="#666" font-size="10">底部已固定, 右上方幻灯片</text>
+  <text x="140" y="155" fill="#666" font-size="10">下部固定，顶部向右滑动</text>
 </svg>

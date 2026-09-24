@@ -6,7 +6,7 @@
   </defs>
 
   <!-- Title -->
-  <text x="350" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">OCR- 无文档理解</text>
+  <text x="350" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">OCR无缝文档理解</text>
 
   <!-- Document image -->
   <rect x="20" y="50" width="110" height="150" rx="4" fill="white" stroke="#ccc" stroke-width="1.5"/>
@@ -46,8 +46,8 @@
 
   <!-- Vision Encoder -->
   <rect x="180" y="85" width="120" height="55" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="240" y="108" font-size="10" fill="#333" text-anchor="middle">视野编码器</text>
-  <text x="240" y="124" font-size="9" fill="#666" text-anchor="middle">(胜/维.</text>
+  <text x="240" y="108" font-size="10" fill="#333" text-anchor="middle">视觉编码器</text>
+  <text x="240" y="124" font-size="9" fill="#666" text-anchor="middle">{"model": "Swin / ViT",</text>
 
   <!-- Arrow to Text Decoder -->
   <line x1="300" y1="112" x2="345" y2="112" stroke="#666" stroke-width="1.5" marker-end="url(#od-arrow)"/>
@@ -55,7 +55,7 @@
   <!-- Text Decoder -->
   <rect x="350" y="85" width="120" height="55" rx="8" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
   <text x="410" y="108" font-size="10" fill="#333" text-anchor="middle">文本解码器</text>
-  <text x="410" y="124" font-size="9" fill="#666" text-anchor="middle">(翻译)</text>
+  <text x="410" y="124" font-size="9" fill="#666" text-anchor="middle">{"框架": "Transformer",</text>
 
   <!-- Arrow to Output -->
   <line x1="470" y1="112" x2="505" y2="112" stroke="#666" stroke-width="1.5" marker-end="url(#od-arrow)"/>
@@ -64,27 +64,27 @@
   <rect x="510" y="65" width="170" height="112" rx="6" fill="#27ae60" fill-opacity="0.06" stroke="#27ae60" stroke-width="1.2"/>
   <text x="595" y="82" font-size="10" fill="#27ae60" text-anchor="middle" font-weight="bold">结构化输出</text>
 
-  <text x="525" y="100" font-size="9" fill="#333" font-family="monospace">{"标题":"报告",</text>
-  <text x="525" y="114" font-size="9" fill="#333" font-family="monospace">""日期":"2024-01",(简体中文)</text>
-  <text x="525" y="128" font-size="9" fill="#333" font-family="monospace">"表": [</text>
-  <text x="525" y="142" font-size="9" fill="#333" font-family="monospace">["A","B","C"],".</text>
+  <text x="525" y="100" font-size="9" fill="#333" font-family="monospace">{"title": "报告",</text>
+  <text x="525" y="114" font-size="9" fill="#333" font-family="monospace">"date": "2024-01",</text>
+  <text x="525" y="128" font-size="9" fill="#333" font-family="monospace">"table": </text>
+  <text x="525" y="142" font-size="9" fill="#333" font-family="monospace">   ["A", "B", "C"],</text>
   <text x="525" y="156" font-size="9" fill="#333" font-family="monospace">   [1, 2, 3]</text>
   <text x="525" y="170" font-size="9" fill="#333" font-family="monospace"> ]}</text>
 
   <!-- Crossed-out OCR box -->
   <rect x="220" y="165" width="70" height="32" rx="6" fill="#e74c3c" fill-opacity="0.06" stroke="#e74c3c" stroke-width="1.2" stroke-dasharray="4,3"/>
-  <text x="255" y="185" font-size="11" fill="#e74c3c" text-anchor="middle">OCR (英语).</text>
+  <text x="255" y="185" font-size="11" fill="#e74c3c" text-anchor="middle">OCR (光学字符识别) </text>
   <!-- Cross-out X -->
   <line x1="225" y1="168" x2="285" y2="194" stroke="#e74c3c" stroke-width="2.5"/>
   <line x1="285" y1="168" x2="225" y2="194" stroke="#e74c3c" stroke-width="2.5"/>
 
-  <text x="255" y="210" font-size="8" fill="#e74c3c" text-anchor="middle">没必要!</text>
+  <text x="255" y="210" font-size="8" fill="#e74c3c" text-anchor="middle">不需要！</text>
 
   <!-- Direct path label -->
-  <text x="310" y="60" font-size="9" fill="#27ae60" text-anchor="middle" font-weight="bold">直接: 像素到文本</text>
+  <text x="310" y="60" font-size="9" fill="#27ae60" text-anchor="middle" font-weight="bold">直接：从像素到文本</text>
   <path d="M 180 60 L 470 60" fill="none" stroke="#27ae60" stroke-width="1" stroke-dasharray="3,3"/>
 
   <!-- Model names -->
-  <text x="350" y="248" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">甜甜圈 / Pix2Struct / 努加特</text>
-  <text x="350" y="268" font-size="9" fill="#999" text-anchor="middle">端到端:没有OCR引擎,没有文本检测,没有后处理</text>
+  <text x="350" y="248" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">多纳 / Pix2Struct / 努嘎(</text>
+  <text x="350" y="268" font-size="9" fill="#999" text-anchor="middle">端到端：没有 OCR 引擎，没有文本检测，没有后处理</text>
 </svg>

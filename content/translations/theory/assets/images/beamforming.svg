@@ -9,13 +9,13 @@
   </defs>
 
   <!-- Title -->
-  <text x="350" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">用麦克风阵列做束子</text>
+  <text x="350" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">麦克风阵列波束成形</text>
 
   <!-- Sound source -->
   <circle cx="80" cy="50" r="14" fill="rgba(231,76,60,0.15)" stroke="#e74c3c" stroke-width="1.5"/>
   <text x="80" y="53" text-anchor="middle" font-size="8" font-weight="bold" fill="#e74c3c">S</text>
   <text x="80" y="78" text-anchor="middle" font-size="8" fill="#e74c3c">声音</text>
-  <text x="80" y="88" text-anchor="middle" font-size="8" fill="#e74c3c">来源</text>
+  <text x="80" y="88" text-anchor="middle" font-size="8" fill="#e74c3c">声源</text>
 
   <!-- Sound waves (arcs) -->
   <path d="M100,50 Q120,30 130,60" fill="none" stroke="#e74c3c" stroke-width="0.7" opacity="0.4"/>
@@ -31,7 +31,7 @@
   <!-- Angle theta -->
   <line x1="210" y1="100" x2="210" y2="190" stroke="#666" stroke-width="0.6" stroke-dasharray="2,2"/>
   <path d="M210,130 Q195,115 185,105" fill="none" stroke="#f39c12" stroke-width="1"/>
-  <text x="190" y="125" font-size="9" font-weight="bold" fill="#f39c12">西塔岛</text>
+  <text x="190" y="125" font-size="9" font-weight="bold" fill="#f39c12">θ（角度）</text>
 
   <!-- Microphones (vertical array) -->
   <rect x="230" y="95" width="24" height="18" rx="4" fill="rgba(52,152,219,0.15)" stroke="#3498db" stroke-width="1.5"/>
@@ -58,19 +58,19 @@
 
   <!-- Delay blocks -->
   <rect x="313" y="92" width="65" height="24" rx="4" fill="rgba(243,156,18,0.12)" stroke="#f39c12" stroke-width="1.2"/>
-  <text x="345" y="108" text-anchor="middle" font-size="7" fill="#333">延迟_1</text>
+  <text x="345" y="108" text-anchor="middle" font-size="7" fill="#333">延迟 τ₁</text>
 
   <rect x="313" y="117" width="65" height="24" rx="4" fill="rgba(243,156,18,0.12)" stroke="#f39c12" stroke-width="1.2"/>
-  <text x="345" y="133" text-anchor="middle" font-size="7" fill="#333">延迟_2</text>
+  <text x="345" y="133" text-anchor="middle" font-size="7" fill="#333">延迟 τ₂</text>
 
   <rect x="313" y="142" width="65" height="24" rx="4" fill="rgba(243,156,18,0.12)" stroke="#f39c12" stroke-width="1.2"/>
-  <text x="345" y="158" text-anchor="middle" font-size="7" fill="#333">延迟 tau_3</text>
+  <text x="345" y="158" text-anchor="middle" font-size="7" fill="#333">延迟 τ₃</text>
 
   <rect x="313" y="167" width="65" height="24" rx="4" fill="rgba(243,156,18,0.12)" stroke="#f39c12" stroke-width="1.2"/>
-  <text x="345" y="183" text-anchor="middle" font-size="7" fill="#333">延迟 tau_4</text>
+  <text x="345" y="183" text-anchor="middle" font-size="7" fill="#333">延迟 τ₄</text>
 
   <!-- Delay formula -->
-  <text x="345" y="202" text-anchor="middle" font-size="7" fill="#666">tau_i=i*d *sin(theta)/c 维基百科中的相关条目: 克特克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克多克</text>
+  <text x="345" y="202" text-anchor="middle" font-size="7" fill="#666">τᵢ = i·d·sin(θ)/c</text>
 
   <!-- Arrows from delays to sum -->
   <line x1="378" y1="104" x2="430" y2="135" stroke="#333" stroke-width="1" marker-end="url(#arrow-bf)"/>
@@ -81,7 +81,7 @@
   <!-- Sum block -->
   <circle cx="445" cy="142" r="18" fill="rgba(39,174,96,0.12)" stroke="#27ae60" stroke-width="1.8"/>
   <text x="445" y="147" text-anchor="middle" font-size="16" font-weight="bold" fill="#27ae60">+</text>
-  <text x="445" y="170" text-anchor="middle" font-size="7" fill="#27ae60">总计</text>
+  <text x="445" y="170" text-anchor="middle" font-size="7" fill="#27ae60">求和</text>
 
   <!-- Arrow to output -->
   <line x1="463" y1="142" x2="498" y2="142" stroke="#333" stroke-width="1.2" marker-end="url(#arrow-bf)"/>
@@ -99,8 +99,8 @@
 
   <!-- Note box -->
   <rect x="30" y="215" width="640" height="55" rx="6" fill="#f5f5f5" stroke="#333" stroke-width="1"/>
-  <text x="50" y="235" font-size="10" font-weight="bold" fill="#333">延和分光束成型 :</text>
-  <text x="260" y="235" font-size="10" fill="#666">调整信号,补偿传播延迟,然后是总和。</text>
-  <text x="50" y="252" font-size="9" fill="#666">来自目标方向的信号会增加建设性;离轴噪声部分被取消. 拖延时间</text>
-  <text x="50" y="264" font-size="9" fill="#666">每个麦克风都取决于到达和麦克风间距的角度。神经束前人学习结合的分量.</text>
+  <text x="50" y="235" font-size="10" font-weight="bold" fill="#333">延迟求和波束成形：</text>
+  <text x="260" y="235" font-size="10" fill="#666">通过补偿传播延迟对齐信号，然后求和。</text>
+  <text x="50" y="252" font-size="9" fill="#666">目标方向的信号相长叠加；离轴噪声部分抵消。每个麦克风的延迟取决于</text>
+  <text x="50" y="264" font-size="9" fill="#666">入射角和麦克风间距。神经波束成形器学习组合权重。</text>
 </svg>

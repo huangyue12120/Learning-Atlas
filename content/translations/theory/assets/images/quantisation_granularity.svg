@@ -1,22 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" width="800" height="280">
-  <text x="400" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">量化外观: 纯度对正度</text>
+  <text x="400" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">量化粒度：按张（Tensor） vs 按通道 (Channel) vs 按组 (Group) </text>
 
   <!-- Per-tensor -->
-  <text x="130" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e74c3c">传感器</text>
-  <text x="130" y="66" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">整个矩阵的 1个比例尺</text>
+  <text x="130" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e74c3c">按通道 (Channel) </text>
+  <text x="130" y="66" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">每个矩阵使用一个标量进行量化 </text>
 
   <rect x="50" y="75" width="160" height="120" rx="4" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="2"/>
   <text x="130" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#e74c3c">s = 0.031</text>
-  <text x="130" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">一次大出击</text>
-  <text x="130" y="222" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">· 各地分辨率差</text>
+  <text x="130" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">一个离群值（Outlier）迫使使用大标量 </text>
+  <text x="130" y="222" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">→ 精度下降，全局一致性差 </text>
 
   <!-- Outlier dot -->
   <circle cx="180" cy="90" r="5" fill="#e74c3c" fill-opacity="0.6"/>
-  <text x="192" y="93" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">外层!</text>
+  <text x="192" y="93" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">离群值！</text>
 
   <!-- Per-channel -->
-  <text x="400" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">每道</text>
-  <text x="400" y="66" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">每个栏(输出通道)1个比例尺</text>
+  <text x="400" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">按通道 (Channel) </text>
+  <text x="400" y="66" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">每个列（输出通道）使用一个标量进行量化 </text>
 
   <rect x="320" y="75" width="40" height="120" rx="2" fill="#3498db" fill-opacity="0.15" stroke="#3498db" stroke-width="1.5"/>
   <text x="340" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#3498db">s₁</text>
@@ -30,12 +30,12 @@
   <rect x="440" y="75" width="40" height="120" rx="2" fill="#9b59b6" fill-opacity="0.15" stroke="#9b59b6" stroke-width="1.5"/>
   <text x="460" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#9b59b6">s₄</text>
 
-  <text x="400" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">每个频道都有自己的尺度</text>
-  <text x="400" y="222" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">外线只影响它的航道</text>
+  <text x="400" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">每个通道都有自己的标量 </text>
+  <text x="400" y="222" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">→ 离群值仅影响其通道，精度较高 </text>
 
   <!-- Per-group -->
-  <text x="660" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">每组(克=4)</text>
-  <text x="660" y="66" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">每组克元素1个比例</text>
+  <text x="660" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">按组 (Group) (g=4) </text>
+  <text x="660" y="66" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">每个 g 个元素的组使用一个标量进行量化 </text>
 
   <!-- 4x4 grid of groups -->
   <rect x="580" y="75" width="40" height="28" rx="2" fill="#3498db" fill-opacity="0.15" stroke="#3498db" stroke-width="1"/>
@@ -58,11 +58,11 @@
   <rect x="660" y="165" width="40" height="28" rx="2" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1"/>
   <rect x="700" y="165" width="40" height="28" rx="2" fill="#3498db" fill-opacity="0.15" stroke="#3498db" stroke-width="1"/>
 
-  <text x="660" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">每个小块都有自己的尺度</text>
-  <text x="660" y="222" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">● 最佳准确性,更能衡量间接费用</text>
+  <text x="660" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">每个小块（Block）都有自己的标量 </text>
+  <text x="660" y="222" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">→ 精度最高，但标量开销大 </text>
 
   <!-- Accuracy arrow -->
   <line x1="100" y1="260" x2="700" y2="260" stroke="#999" stroke-width="1.5"/>
   <polygon points="705,260 695,255 695,265" fill="#999"/>
-  <text x="400" y="276" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#999">提高准确性(更大规模因素)_</text>
+  <text x="400" y="276" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#999">提高精度 (增加标量因子) → </text>
 </svg>

@@ -7,7 +7,7 @@
       <path d="M8,0 L0,3 L8,6 Z" fill="#3498db"/>
     </marker>
   </defs>
-  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">地球-火星通信延迟</text>
+  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">地球-火星通讯延迟</text>
 
   <!-- Earth -->
   <circle cx="100" cy="110" r="40" fill="#3498db" fill-opacity="0.2" stroke="#3498db" stroke-width="2"/>
@@ -19,16 +19,16 @@
 
   <!-- Signal out -->
   <line x1="145" y1="95" x2="565" y2="95" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="8,4" marker-end="url(#em-arr)"/>
-  <text x="355" y="88" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#f39c12">命令信号，4-24分钟</text>
+  <text x="355" y="88" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#f39c12">命令信号 → 4-24 分钟</text>
 
   <!-- Signal back -->
   <line x1="565" y1="125" x2="145" y2="125" stroke="#3498db" stroke-width="1.5" stroke-dasharray="8,4" marker-end="url(#em-arr-b)"/>
-  <text x="355" y="142" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#3498db">遥测响应 4-24分</text>
+  <text x="355" y="142" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#3498db">← 天线 telemetry 响应 4-24 分钟</text>
 
   <!-- Round trip -->
   <rect x="250" y="155" width="200" height="28" rx="6" fill="#9b59b6" fill-opacity="0.12" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="350" y="174" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#9b59b6">往返:8-48分钟</text>
+  <text x="350" y="174" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#9b59b6">往返时间：8-48 分钟</text>
 
   <!-- Implication -->
-  <text x="350" y="198" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">没有实时的游乐，，漫游者必须自己决定</text>
+  <text x="350" y="198" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">没有真正的实时操纵杆 — 火星车必须自己决定</text>
 </svg>

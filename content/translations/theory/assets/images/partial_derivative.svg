@@ -5,7 +5,7 @@
     </marker>
   </defs>
 
-  <text x="190" y="14" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">部分衍生物:在固定 Y 时切出表面</text>
+  <text x="190" y="14" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">偏导数：固定y截取表面</text>
 
   <!-- 3D surface suggestion (bowl) -->
   <ellipse cx="130" cy="110" rx="90" ry="40" fill="none" stroke="#9b59b6" stroke-width="1.5" stroke-dasharray="4"/>
@@ -14,11 +14,11 @@
 
   <!-- Bowl bottom point -->
   <circle cx="130" cy="70" r="3" fill="#9b59b6"/>
-  <text x="138" y="68" fill="#9b59b6" font-size="9">最低</text>
+  <text x="138" y="68" fill="#9b59b6" font-size="9">最小值（minimum）</text>
 
   <!-- Slice plane -->
   <line x1="40" y1="95" x2="220" y2="95" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5,3"/>
-  <text x="225" y="98" fill="#e74c3c" font-size="10">固定 Y</text>
+  <text x="225" y="98" fill="#e74c3c" font-size="10">固定y（fixed y）</text>
 
   <!-- Resulting 2D curve from slice -->
   <!-- Right side: the sliced curve -->
@@ -34,7 +34,7 @@
   <!-- Tangent at a point -->
   <circle cx="318" cy="65" r="4" fill="#3498db"/>
   <line x1="290" y1="90" x2="350" y2="50" stroke="#3498db" stroke-width="1.5" stroke-dasharray="4"/>
-  <text x="352" y="48" fill="#3498db" font-size="9">坡度= *∂f/×x</text>
+  <text x="352" y="48" fill="#3498db" font-size="9">斜率 = ∂f/∂x</text>
 
-  <text x="190" y="195" text-anchor="middle" fill="#666" font-size="10">保持常数,沿着x找到斜坡</text>
+  <text x="190" y="195" text-anchor="middle" fill="#666" font-size="10">保持y不变，找到沿x的斜率（hold y constant, find slope along x）</text>
 </svg>

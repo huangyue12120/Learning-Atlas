@@ -22,7 +22,7 @@
 
   <!-- projection segment on b -->
   <line x1="40" y1="155" x2="228" y2="155" stroke="#27ae60" stroke-width="3"/>
-  <text x="110" y="180" fill="#27ae60" font-size="12" font-weight="bold">Proj_b(a) 语法</text>
+  <text x="110" y="180" fill="#27ae60" font-size="12" font-weight="bold">投影向量b(a) </text>
 
   <!-- right angle mark at projection foot -->
   <rect x="216" y="138" width="12" height="12" fill="none" stroke="#999" stroke-width="1.2"/>
@@ -32,5 +32,5 @@
   <text x="78" y="132" fill="#333" font-size="13">θ</text>
 
   <!-- label -->
-  <text x="40" y="15" fill="#666" font-size="12">a = b = = = = = = = = = = = = = = = = = =</text>
+  <text x="40" y="15" fill="#666" font-size="12">向量 a 与向量 b 的点积等于标量 (a) 和 (b) 的乘积，其值等于向量 a 和向量 b 的模的乘积乘以角 θ 的余弦值。 </text>
 </svg>

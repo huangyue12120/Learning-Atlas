@@ -1,3 +1,27 @@
+# Learning Atlas v0.25.2 发布说明
+
+发布日期：2026-09-24。
+
+本版是 T1–T6 理论中文内容的修订补丁：重新整理 89 篇中文理论正文，修复结构对应问题，并重新生成 255 个本地中文 SVG 图示；上游 `maths-cs-ai-compendium` 快照保持不变。
+
+## 本版交付
+
+- 更新 89 篇理论译文，保留标题层级、公式、代码、图片引用和来源指纹。
+- 更新 255 个理论 SVG 图示，保留原有几何结构并清理 XML 特殊字符与翻译占位符。
+- 同步 README、内容清单、项目进度以及应用 SemVer 至 v0.25.2；应用版本文件和锁文件保持一致。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`
+- `python3 scripts/check_theory_cards.py`
+- `python3 scripts/check_translation_coverage.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+---
+
 # Learning Atlas v0.25.1 发布说明
 
 发布日期：2026-09-23。

@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 230" width="700" height="230">
-  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">图拉普拉西安:测量信号平滑度</text>
+  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">图拉普拉希算：测量信号的平滑度</text>
 
   <line x1="350" y1="35" x2="350" y2="220" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
 
   <!-- Smooth signal (left) -->
-  <text x="175" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#27ae60">平滑信号(下 x^T L x)</text>
+  <text x="175" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#27ae60">平滑信号 (低 xᵀ L x)</text>
 
   <circle cx="100" cy="110" r="22" fill="#27ae60" fill-opacity="0.7" stroke="#1e8449" stroke-width="1.5"/>
   <text x="100" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">0.9</text>
@@ -23,10 +23,10 @@
   <line x1="175" y1="110" x2="175" y2="148" stroke="#666" stroke-width="1.2"/>
   <line x1="115" y1="125" x2="158" y2="160" stroke="#666" stroke-width="1.2"/>
 
-  <text x="175" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27ae60">邻居有相似的价值观</text>
+  <text x="175" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27ae60">邻近点的值相似</text>
 
   <!-- Non-smooth signal (right) -->
-  <text x="525" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e74c3c">非发光信号(高 x^T L x)</text>
+  <text x="525" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e74c3c">非平滑信号 (高 xᵀ L x)</text>
 
   <circle cx="450" cy="110" r="22" fill="#e74c3c" fill-opacity="0.8" stroke="#c0392b" stroke-width="1.5"/>
   <text x="450" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">0.9</text>
@@ -45,5 +45,5 @@
   <line x1="525" y1="110" x2="525" y2="148" stroke="#666" stroke-width="1.2"/>
   <line x1="465" y1="125" x2="508" y2="160" stroke="#666" stroke-width="1.2"/>
 
-  <text x="525" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#e74c3c">邻居的价值很不一样</text>
+  <text x="525" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#e74c3c">邻近点的值差异大 </text>
 </svg>

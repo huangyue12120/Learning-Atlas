@@ -1,14 +1,14 @@
 <svg width="700" height="320" xmlns="http://www.w3.org/2000/svg">
-  <text x="350" y="25" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">乘法规则: 三件衬衫×4条裤子=12件服装</text>
+  <text x="350" y="25" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">乘法规则：3 件衬衫 × 4 条裤子 = 12 套服装</text>
 
   <!-- Shirt column -->
   <text x="100" y="55" fill="#666" font-size="12" text-anchor="middle">衬衫</text>
   <rect x="60" y="65" width="80" height="30" rx="4" fill="#e74c3c" opacity="0.8"/>
-  <text x="100" y="85" fill="white" font-size="11" text-anchor="middle">S1(红色)</text>
+  <text x="100" y="85" fill="white" font-size="11" text-anchor="middle">S₁ (红色)</text>
   <rect x="60" y="110" width="80" height="30" rx="4" fill="#3498db" opacity="0.8"/>
-  <text x="100" y="130" fill="white" font-size="11" text-anchor="middle">S2(蓝色)</text>
+  <text x="100" y="130" fill="white" font-size="11" text-anchor="middle">S₂ (蓝色)</text>
   <rect x="60" y="155" width="80" height="30" rx="4" fill="#27ae60" opacity="0.8"/>
-  <text x="100" y="175" fill="white" font-size="11" text-anchor="middle">S3(绿色)</text>
+  <text x="100" y="175" fill="white" font-size="11" text-anchor="middle">S₃ (绿色)</text>
 
   <!-- Pants column -->
   <text x="300" y="55" fill="#666" font-size="12" text-anchor="middle">裤子</text>
@@ -40,21 +40,21 @@
   <line x1="140" y1="170" x2="260" y2="200" stroke="#27ae60" stroke-width="1.2" opacity="0.5"/>
 
   <!-- Outcomes grid -->
-  <text x="530" y="55" fill="#666" font-size="12" text-anchor="middle">所有12个成果</text>
-  <text x="460" y="80" fill="#e74c3c" font-size="10">(S1,P1) (中文(简体)).</text>
-  <text x="530" y="80" fill="#e74c3c" font-size="10">(S1,P2) (单位:千美元)</text>
-  <text x="600" y="80" fill="#e74c3c" font-size="10">(S1,P3) (单位:千美元)</text>
-  <text x="460" y="100" fill="#e74c3c" font-size="10">(S1,P4) (单位:千美元)</text>
+  <text x="530" y="55" fill="#666" font-size="12" text-anchor="middle">全部 12 个结果</text>
+  <text x="460" y="80" fill="#e74c3c" font-size="10">(S₁,P₁)</text>
+  <text x="530" y="80" fill="#e74c3c" font-size="10">(S₁,P₂)</text>
+  <text x="600" y="80" fill="#e74c3c" font-size="10">(S₁,P₃)</text>
+  <text x="460" y="100" fill="#e74c3c" font-size="10">(S₁,P₄)</text>
 
-  <text x="460" y="130" fill="#3498db" font-size="10">(S2,P1) (单位:千美元)</text>
-  <text x="530" y="130" fill="#3498db" font-size="10">(S-2,P2)</text>
-  <text x="600" y="130" fill="#3498db" font-size="10">(S2,P3) (中文(简体)).</text>
-  <text x="460" y="150" fill="#3498db" font-size="10">(S2,P4) (中文(简体)).</text>
+  <text x="460" y="130" fill="#3498db" font-size="10">(S₂,P₁)</text>
+  <text x="530" y="130" fill="#3498db" font-size="10">(S₂,P₂)</text>
+  <text x="600" y="130" fill="#3498db" font-size="10">(S₂,P₃)</text>
+  <text x="460" y="150" fill="#3498db" font-size="10">(S₂,P₄)</text>
 
-  <text x="460" y="180" fill="#27ae60" font-size="10">(S3,P1) (中文(简体)).</text>
-  <text x="530" y="180" fill="#27ae60" font-size="10">(S3,P2) (中文(简体)).</text>
-  <text x="600" y="180" fill="#27ae60" font-size="10">(S3,P3) 资源</text>
-  <text x="460" y="200" fill="#27ae60" font-size="10">(S3,P4) (中文(简体)).</text>
+  <text x="460" y="180" fill="#27ae60" font-size="10">(S₃,P₁)</text>
+  <text x="530" y="180" fill="#27ae60" font-size="10">(S₃,P₂)</text>
+  <text x="600" y="180" fill="#27ae60" font-size="10">(S₃,P₃)</text>
+  <text x="460" y="200" fill="#27ae60" font-size="10">(S₃,P₄)</text>
 
   <!-- Arrow -->
   <line x1="350" y1="140" x2="430" y2="140" stroke="#333" stroke-width="1.5" marker-end="url(#arrowhead)"/>
@@ -65,7 +65,7 @@
   </defs>
 
   <!-- Bottom note -->
-  <text x="350" y="260" fill="#333" font-size="12" text-anchor="middle">每件衬衫配有每平底裤:3×4=12个总组合</text>
-  <text x="350" y="280" fill="#666" font-size="11" text-anchor="middle">这就是乘法规则:如果选择A有m选项,选择B有n选项,</text>
-  <text x="350" y="298" fill="#666" font-size="11" text-anchor="middle">综合结果的总数为m××n.</text>
+  <text x="350" y="260" fill="#333" font-size="12" text-anchor="middle">每件衬衫都与每条裤子配对：3 × 4 = 12 个总组合数</text>
+  <text x="350" y="280" fill="#666" font-size="11" text-anchor="middle">这就是乘法规则：如果选项 A 有 m 个选项，并且选项 B 有 n 个选项，</text>
+  <text x="350" y="298" fill="#666" font-size="11" text-anchor="middle">那么合并后的结果总数为 m × n。</text>
 </svg>

@@ -1,33 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 230" width="700" height="230">
-  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">注意模式: 完全对滑动窗口对平面</text>
+  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">注意力模式：全量 vs 滑动窗口 vs 稀疏</text>
 
   <!-- Full attention -->
-  <text x="120" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e74c3c">充分注意 注意</text>
-  <text x="120" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">○(n2)</text>
+  <text x="120" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e74c3c">全量注意力 (Full Attention) </text>
+  <text x="120" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">O(n²)</text>
 
   <rect x="40" y="70" width="160" height="120" rx="4" fill="#eee" stroke="#ccc" stroke-width="1"/>
   <!-- Lower triangle filled (causal mask) -->
   <polygon points="40,70 200,190 40,190" fill="#e74c3c" fill-opacity="0.25"/>
-  <text x="100" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">每一个符号都出席</text>
-  <text x="100" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">对所有上一个</text>
-  <text x="40" y="205" font-family="Arial, sans-serif" font-size="8" fill="#666">问 题 *</text>
-  <text x="35" y="80" font-family="Arial, sans-serif" font-size="8" fill="#666" transform="rotate(-90, 35, 80)">键 +</text>
+  <text x="100" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">每个标记（token）都与所有先前查询（query）进行交互，</text>
+  <text x="100" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">即，每当一个新标记进入时，它会与之前的所有标记进行交互。</text>
+  <text x="40" y="205" font-family="Arial, sans-serif" font-size="8" fill="#666">查询 (queries) → </text>
+  <text x="35" y="80" font-family="Arial, sans-serif" font-size="8" fill="#666" transform="rotate(-90, 35, 80)">键 (keys) → </text>
 
   <!-- Sliding window -->
-  <text x="350" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">滑动窗口</text>
-  <text x="350" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">O(n-w) 语法</text>
+  <text x="350" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">滑动窗口 (Sliding Window) </text>
+  <text x="350" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">O(n·w)</text>
 
   <rect x="270" y="70" width="160" height="120" rx="4" fill="#eee" stroke="#ccc" stroke-width="1"/>
   <!-- Diagonal band -->
   <polygon points="270,70 320,70 430,153 430,190 380,190 270,107" fill="#3498db" fill-opacity="0.25"/>
   <!-- Clip to box -->
   <rect x="270" y="70" width="160" height="120" rx="4" fill="none" stroke="#ccc" stroke-width="1"/>
-  <text x="350" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">每个符号出席</text>
-  <text x="350" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">仅上一个</text>
+  <text x="350" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">每个标记都与前 *w* 个标记进行交互，</text>
+  <text x="350" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">只考虑本地窗口 + 全局标记。</text>
 
   <!-- Local + Global -->
-  <text x="580" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">当地+全球</text>
-  <text x="580" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">O(n为w+n为g)</text>
+  <text x="580" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">局部 + 全局 </text>
+  <text x="580" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">O(n·w + n·g)</text>
 
   <rect x="500" y="70" width="160" height="120" rx="4" fill="#eee" stroke="#ccc" stroke-width="1"/>
   <!-- Diagonal band (local) -->
@@ -43,6 +43,6 @@
   <rect x="500" y="150" width="160" height="5" fill="#f39c12" fill-opacity="0.3"/>
   <rect x="500" y="70" width="160" height="120" rx="4" fill="none" stroke="#ccc" stroke-width="1"/>
 
-  <text x="580" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">本地窗口 + 全局符号</text>
-  <text x="580" y="217" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#f39c12">(黄色=全球关注).</text>
+  <text x="580" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">局部窗口 + 全局标记 </text>
+  <text x="580" y="217" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#f39c12">(黄色 = 全局注意力) </text>
 </svg>

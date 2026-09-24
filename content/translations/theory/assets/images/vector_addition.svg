@@ -18,7 +18,7 @@
   <text x="230" y="100" fill="#3498db" font-size="14" font-weight="bold">b</text>
   <!-- a + b resultant -->
   <line x1="40" y1="160" x2="256" y2="60" stroke="#2ecc71" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arrow-sum)"/>
-  <text x="130" y="95" fill="#2ecc71" font-size="14" font-weight="bold">a +b 数字</text>
+  <text x="130" y="95" fill="#2ecc71" font-size="14" font-weight="bold">a + b</text>
   <!-- origin label -->
   <circle cx="40" cy="160" r="3" fill="#333"/>
   <text x="28" y="178" fill="#333" font-size="12">O</text>

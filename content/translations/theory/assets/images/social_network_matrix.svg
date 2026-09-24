@@ -1,6 +1,6 @@
 <svg width="440" height="170" xmlns="http://www.w3.org/2000/svg">
   <!-- Left: small graph -->
-  <text x="80" y="14" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">社会网络</text>
+  <text x="80" y="14" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">社交网络</text>
   <!-- nodes -->
   <circle cx="80" cy="50" r="14" fill="#3498db" fill-opacity="0.2" stroke="#3498db" stroke-width="1.5"/>
   <text x="80" y="55" text-anchor="middle" fill="#3498db" font-size="11" font-weight="bold">A</text>
@@ -21,7 +21,7 @@
   <text x="190" y="105" text-anchor="middle" fill="#333" font-size="20">=</text>
 
   <!-- Right: adjacency matrix -->
-  <text x="330" y="14" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">附带性矩阵</text>
+  <text x="330" y="14" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">邻接矩阵</text>
   <!-- column labels -->
   <text x="268" y="38" text-anchor="middle" fill="#3498db" font-size="10" font-weight="bold">A</text>
   <text x="298" y="38" text-anchor="middle" fill="#e74c3c" font-size="10" font-weight="bold">B</text>

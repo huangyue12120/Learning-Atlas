@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 260" width="800" height="260">
-  <text x="400" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">MHA vs GQA vs MQA: KV 头部共享</text>
+  <text x="400" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">MHA 与 GQA 与 MQA：KV 头共享</text>
 
   <line x1="267" y1="35" x2="267" y2="245" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
   <line x1="533" y1="35" x2="533" y2="245" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
 
   <!-- MHA -->
-  <text x="134" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e74c3c">多头(MHA)</text>
-  <text x="134" y="66" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">8个Q头,8个KV</text>
+  <text x="134" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e74c3c">多头 (MHA) </text>
+  <text x="134" y="66" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">8 个 Q 头，8 个 KV 集合 </text>
 
   <!-- Q heads -->
-  <text x="35" y="88" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">问题头:</text>
+  <text x="35" y="88" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">Q 头：</text>
   <rect x="60" y="78" width="22" height="18" rx="3" fill="#3498db" fill-opacity="0.3" stroke="#3498db" stroke-width="1"/>
   <rect x="84" y="78" width="22" height="18" rx="3" fill="#3498db" fill-opacity="0.3" stroke="#3498db" stroke-width="1"/>
   <rect x="108" y="78" width="22" height="18" rx="3" fill="#3498db" fill-opacity="0.3" stroke="#3498db" stroke-width="1"/>
@@ -20,7 +20,7 @@
   <rect x="228" y="78" width="22" height="18" rx="3" fill="#3498db" fill-opacity="0.3" stroke="#3498db" stroke-width="1"/>
 
   <!-- KV sets (one per head) -->
-  <text x="35" y="128" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">KV 组合 :</text>
+  <text x="35" y="128" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">KV 集合：</text>
   <rect x="60" y="118" width="22" height="18" rx="3" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="1"/>
   <rect x="84" y="118" width="22" height="18" rx="3" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="1"/>
   <rect x="108" y="118" width="22" height="18" rx="3" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="1"/>
@@ -40,11 +40,11 @@
   <line x1="215" y1="96" x2="215" y2="118" stroke="#666" stroke-width="0.8"/>
   <line x1="239" y1="96" x2="239" y2="118" stroke="#666" stroke-width="0.8"/>
 
-  <text x="134" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">KV 缓存: 每层 8x</text>
+  <text x="134" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">KV 缓存：每层 8 倍，即 8 个 </text>
 
   <!-- GQA -->
-  <text x="400" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f39c12">分组查询(GQA)</text>
-  <text x="400" y="66" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#f39c12">8个Q头,2个KV</text>
+  <text x="400" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f39c12">分组查询 (GQA) </text>
+  <text x="400" y="66" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#f39c12">8 个 Q 头，2 个 KV 集合 </text>
 
   <!-- Q heads -->
   <rect x="296" y="78" width="22" height="18" rx="3" fill="#3498db" fill-opacity="0.3" stroke="#3498db" stroke-width="1"/>
@@ -58,9 +58,9 @@
 
   <!-- KV sets (2 shared) -->
   <rect x="320" y="118" width="46" height="18" rx="3" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="343" y="131" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">KV1 车型</text>
+  <text x="343" y="131" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">KV₁</text>
   <rect x="428" y="118" width="46" height="18" rx="3" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="451" y="131" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">KV2 车型</text>
+  <text x="451" y="131" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">KV₂</text>
 
   <!-- Lines: 4 heads → KV1, 4 heads → KV2 -->
   <line x1="307" y1="96" x2="335" y2="118" stroke="#666" stroke-width="0.8"/>
@@ -72,11 +72,11 @@
   <line x1="463" y1="96" x2="454" y2="118" stroke="#666" stroke-width="0.8"/>
   <line x1="487" y1="96" x2="459" y2="118" stroke="#666" stroke-width="0.8"/>
 
-  <text x="400" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#f39c12">KV 缓存: 每层2× (4×更小)</text>
+  <text x="400" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#f39c12">KV 缓存：每层 2 倍 (4 倍小)，即 4 个 </text>
 
   <!-- MQA -->
-  <text x="666" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#27ae60">多查询(MQA)</text>
-  <text x="666" y="66" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">8个Q头,1个KV</text>
+  <text x="666" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#27ae60">多查询 (MQA) </text>
+  <text x="666" y="66" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">8 个 Q 头，1 个 KV 集合 </text>
 
   <!-- Q heads -->
   <rect x="570" y="78" width="22" height="18" rx="3" fill="#3498db" fill-opacity="0.3" stroke="#3498db" stroke-width="1"/>
@@ -90,7 +90,7 @@
 
   <!-- Single KV set -->
   <rect x="642" y="118" width="46" height="18" rx="3" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="2"/>
-  <text x="665" y="131" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" font-weight="bold" fill="#e74c3c">KV 车次</text>
+  <text x="665" y="131" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" font-weight="bold" fill="#e74c3c">KV</text>
 
   <!-- All lines converge -->
   <line x1="581" y1="96" x2="655" y2="118" stroke="#666" stroke-width="0.8"/>
@@ -102,12 +102,12 @@
   <line x1="725" y1="96" x2="673" y2="118" stroke="#666" stroke-width="0.8"/>
   <line x1="749" y1="96" x2="676" y2="118" stroke="#666" stroke-width="0.8"/>
 
-  <text x="666" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">KV 缓存: 每层1× (8×更小)</text>
+  <text x="666" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">KV 缓存：每层 1 倍 (8 倍小)，即 8 个 </text>
 
   <!-- Bottom summary -->
   <rect x="50" y="175" width="700" height="60" rx="8" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
-  <text x="400" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">用于FP16中序列长度32K的70B型号(80层,64个头):</text>
-  <text x="200" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">MHA: 40GB (英语).</text>
-  <text x="400" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#f39c12">全球质量评估(8组):5GB</text>
-  <text x="600" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">MQA: 0.6 GB (英语).</text>
+  <text x="400" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">对于一个 70B 模型 (80 层，64 头) 在序列长度为 32K 时，使用 FP16 精度时：</text>
+  <text x="200" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">MHA: 40 GB </text>
+  <text x="400" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#f39c12">GQA (8 个组)：5 GB </text>
+  <text x="600" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">MQA：0.6 GB </text>
 </svg>

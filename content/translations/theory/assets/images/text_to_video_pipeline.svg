@@ -12,12 +12,12 @@
   </defs>
 
   <!-- Title -->
-  <text x="400" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">文本到视频生成管道</text>
+  <text x="400" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">文本到视频生成流程</text>
 
   <!-- Text Prompt -->
   <rect x="20" y="110" width="105" height="36" rx="8" fill="#e74c3c" fill-opacity="0.08" stroke="#e74c3c" stroke-width="1.2" stroke-dasharray="4,2"/>
-  <text x="72" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">"一只狗在跑动"</text>
-  <text x="72" y="143" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">在沙滩上</text>
+  <text x="72" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">“一只狗在海滩上奔跑”</text>
+  <text x="72" y="143" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">"在海滩上跑步"</text>
 
   <!-- Arrow -->
   <line x1="125" y1="128" x2="148" y2="128" stroke="#333" stroke-width="1.2" marker-end="url(#tv-arr)"/>
@@ -25,11 +25,11 @@
   <!-- Text Encoder -->
   <rect x="155" y="108" width="100" height="40" rx="8" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
   <text x="205" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">文本编码器</text>
-  <text x="205" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">《国际油污防备方案》 / T5</text>
+  <text x="205" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">CLIP / T5</text>
 
   <!-- Arrow from text encoder downward to cross-attention -->
   <line x1="205" y1="148" x2="205" y2="175" stroke="#e74c3c" stroke-width="1.2" marker-end="url(#tv-arr-red)"/>
-  <text x="205" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">文本嵌入</text>
+  <text x="205" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">文本嵌入向量</text>
 
   <!-- Spacetime Noise (3D volume) -->
   <text x="88" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#666">时空噪声</text>
@@ -49,35 +49,35 @@
   <circle cx="108" cy="248" r="1.2" fill="#3498db" opacity="0.45"/>
 
   <!-- Dimension labels -->
-  <text x="93" y="272" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#999">Hx Wx T 号</text>
+  <text x="93" y="272" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#999">H x W x T</text>
 
   <!-- Arrow from noise to denoiser -->
   <line x1="120" y1="238" x2="175" y2="238" stroke="#333" stroke-width="1.2" marker-end="url(#tv-arr)"/>
 
   <!-- Temporal DiT / U-Net (large box) -->
   <rect x="182" y="185" width="250" height="75" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="307" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">时态 DiT / 三维 U-Net</text>
-  <text x="307" y="226" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">空间+时间注意</text>
-  <text x="307" y="242" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#999">去噪器联合建模时空信息</text>
+  <text x="307" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">Temporal DiT / 3D U-Net </text>
+  <text x="307" y="226" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">空间 + 时刻注意力机制</text>
+  <text x="307" y="242" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#999">同时降噪，覆盖空间和时间维度</text>
 
   <!-- Cross-attention arrow entering from top -->
   <path d="M205,175 L205,185" fill="none" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#tv-arr-red)"/>
 
   <!-- Circular iteration arrow -->
   <path d="M432,210 C458,190 462,225 448,240 C438,252 420,252 410,248" fill="none" stroke="#3498db" stroke-width="1.5" marker-end="url(#tv-arr-blue)"/>
-  <text x="470" y="225" text-anchor="start" font-family="Arial, sans-serif" font-size="8" fill="#3498db">登场</text>
-  <text x="470" y="236" text-anchor="start" font-family="Arial, sans-serif" font-size="8" fill="#3498db">T级</text>
+  <text x="470" y="225" text-anchor="start" font-family="Arial, sans-serif" font-size="8" fill="#3498db">降噪</text>
+  <text x="470" y="236" text-anchor="start" font-family="Arial, sans-serif" font-size="8" fill="#3498db">T 个步骤</text>
 
   <!-- Arrow from denoiser to decoder -->
   <line x1="432" y1="222" x2="510" y2="222" stroke="#333" stroke-width="1.2" marker-end="url(#tv-arr)"/>
 
   <!-- Denoised latents label -->
-  <text x="475" y="212" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#666">已取消</text>
-  <text x="475" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#666">潜伏</text>
+  <text x="475" y="212" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#666">降噪后状态 </text>
+  <text x="475" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#666">潜向量集合 (Latent Vector Set) </text>
 
   <!-- 3D VAE Decoder -->
   <rect x="518" y="200" width="110" height="45" rx="8" fill="#27ae60" fill-opacity="0.12" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="573" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">3D VAE 数据</text>
+  <text x="573" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">3D VAE (变异自动编码器) </text>
   <text x="573" y="234" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">解码器</text>
 
   <!-- Arrow to video frames -->
@@ -92,9 +92,9 @@
   <rect x="700" y="215" width="42" height="32" rx="3" fill="#27ae60" fill-opacity="0.25" stroke="#27ae60" stroke-width="1.2"/>
 
   <!-- Frame labels -->
-  <text x="714" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">视频框架</text>
-  <text x="714" y="267" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#999">f1, f2,..., fN (英语).</text>
+  <text x="714" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">视频帧集合 </text>
+  <text x="714" y="267" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#999">f1, f2, ..., fN</text>
 
   <!-- Bottom annotation -->
-  <text x="400" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">例如:Sora、CogVideo、Make-A-Video、图像视频</text>
+  <text x="400" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">例子：Sora, CogVideo, Make-A-Video, Imagen Video </text>
 </svg>

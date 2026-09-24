@@ -8,85 +8,83 @@ source:
   sha256: 3636c9a2e0d4c76110cacd027928d23dfad312063d641c1b9b0a3cde4184be02
 status: reviewed
 ---
-# 文本转语音与声音
+# Text to Speech and Voice
 
-*文本转语音（TTS）合成把 ASR 流水线反过来，根据书面文本生成自然语音。本篇介绍 TTS 流水线（文本规范化、G2P、声学模型、声码器）、Tacotron、WaveNet、HiFi-GAN、语音克隆、声音转换和语音活动检测（VAD）。*
+*Text-to-speech synthesis reverses the ASR pipeline, generating natural-sounding audio from written text. This file covers the TTS pipeline (text normalisation, G2P, acoustic models, vocoders), Tacotron, WaveNet, HiFi-GAN, voice cloning, voice conversion, and voice activity detection (VAD).*
 
-- 文件 01 建立了信号处理工具箱：波形、频谱图、梅尔滤波器组和 MFCC；文件 02 把语音变成文字。现在反向处理：给定文本，合成自然语音。这就是**文本转语音**（TTS），并进一步打开声音转换、语音克隆和语音活动检测的大门。
+- In file 01, we built the signal-processing toolkit: waveforms, spectrograms, mel filterbanks, and MFCCs. In file 02, we turned speech into text. Now we reverse the arrow: given text, synthesise natural-sounding speech. This is **text-to-speech (TTS)**, a problem that also opens the door to voice conversion, voice cloning, and voice activity detection.
 
-- 可以把 TTS 想成舞台表演：剧本是文本输入，导演（声学模型）决定每句的音色、音高、时长和重音，乐队（声码器）再演奏这份乐谱，产生观众听到的声波。现代神经 TTS 用接近真人的表演替代了规则系统僵硬、机械的朗读。
+- Think of TTS like a stage performance. The script is the text input. A director (the acoustic model) decides how each line should sound, its pitch, timing, emphasis. The orchestra (the vocoder) then performs the score, producing the actual sound waves the audience hears. Modern neural TTS replaces the stiff, robotic delivery of rule-based systems with performances that rival human speakers.
 
-![TTS 流水线：文本规范化后转换为音素，由声学模型生成梅尔频谱图，再经声码器生成最终波形](../images/tts_pipeline.svg)
+![TTS pipeline: text is normalised, converted to phonemes, processed by an acoustic model to produce a mel spectrogram, then passed through a vocoder to generate the final waveform](../images/tts_pipeline.svg)
 
-- **文本转语音流水线**通常包含四个阶段：(1) 文本规范化；(2) 音素转换；(3) 声学模型；(4) 声码器。一些现代系统把第 3、4 阶段合并为端到端模型，但概念上的分解仍然有帮助。
 
-- **文本规范化**把原始文本变成可发音形式：展开缩写（“Dr.” 变为 “Doctor”）、把数字变成单词（“1984” 变为 “nineteen eighty-four”）、读出货币符号（“$5” 变为 “five dollars”），并处理 URL 或特殊字符。该阶段通常依赖语言特定语法的规则，也有神经规范化模型。这里的错误会传递到所有下游阶段：如果把 “St.” 读成 “saint” 而不是 “street”，整句话都会错。
+- **Text-to-speech pipeline** the standard TTS pipeline has four stages: (1) text normalisation, (2) phoneme conversion, (3) acoustic model, and (4) vocoder. Some modern systems collapse stages 3 and 4 into a single end-to-end model, but the conceptual decomposition remains useful.
 
-- **字素到音素（G2P）转换**把规范化文本映射为音素序列。英语拼写极不规则（“though”“through”“tough” 对 “ough” 的读法各不相同），所以常见词用词典（CMU 发音词典）查找，词表外词则由神经序列到序列模型（第 06 章的编码器，解码器或第 07 章的 Transformer）处理。拼写浅的语言（西班牙语、芬兰语）需要的 G2P 更简单。输出通常是 IPA（国际音标）序列或等价的内部音素集合。
+- **Text normalisation** converts raw text into a pronounceable form. Abbreviations expand ("Dr." to "Doctor"), numbers become words ("1984" to "nineteen eighty-four"), currency symbols are verbalised ("$5" to "five dollars"), and URLs or special characters are handled. This stage is often rule-based with language-specific grammars, though neural normalisation models exist. Errors here propagate to every downstream stage: if "St." is read as "saint" instead of "street", the entire utterance is wrong.
 
-- **声学模型**接收音素序列并生成中间声学表示，几乎总是**梅尔频谱图**（见文件 01）。梅尔频谱图记录每个时间帧的频谱包络，包含声码器重建波形所需的感知信息。声学模型必须决定时长（每个音素持续多久）、音高（基频 $F_0$）和能量（响度）。
+- **Grapheme-to-phoneme (G2P) conversion** maps normalised text to a phoneme sequence. English is notoriously irregular ("though", "through", "tough" all use "ough" differently), so dictionary lookup (the CMU Pronouncing Dictionary) handles common words while a neural sequence-to-sequence model (chapter 06's encoder-decoder or chapter 07's transformer) handles out-of-vocabulary words. Languages with shallow orthographies (Spanish, Finnish) need simpler G2P. The output is typically an IPA (International Phonetic Alphabet) sequence or an equivalent internal phoneme set.
 
-- **声码器**接收梅尔频谱图并生成原始音频波形。这是一个病态逆问题：由于相位信息被丢弃，同一频谱图可能对应很多波形。经典声码器（Griffin-Lim、WORLD）采用迭代或信号模型方法，而如今质量最好的通常是神经声码器。
+- **Acoustic models** consume the phoneme sequence and produce an intermediate acoustic representation, almost always a **mel spectrogram** (file 01). The mel spectrogram captures the spectral envelope at each time frame, which encodes the perceptually relevant information a vocoder needs to reconstruct the waveform. The acoustic model must decide timing (how long each phoneme lasts), pitch (fundamental frequency $F_0$), and energy (loudness).
 
-- **声码器：WaveNet**（van den Oord 等，2016）是第一个生成几乎无法与真人录音区分的神经声码器。它自回归地建模波形，在给定全部历史采样的条件下预测每个采样 $x_t$：
+- **Vocoders** take the mel spectrogram and produce the raw audio waveform. This is an ill-posed inversion problem: many waveforms can produce the same spectrogram because phase information was discarded. Classical vocoders (Griffin-Lim, WORLD) use iterative or signal-model approaches, but neural vocoders now dominate in quality.
+
+- **Vocoders: WaveNet** (van den Oord et al., 2016) was the first neural vocoder to produce speech nearly indistinguishable from human recordings. It models the waveform autoregressively, predicting each sample $x_t$ conditioned on all previous samples:
 
 $$P(x) = \prod_{t=1}^{T} P(x_t \mid x_1, \ldots, x_{t-1}, c)$$
+- where $c$ is the conditioning signal (mel spectrogram). Each sample is 16-bit, so a naive softmax over 65536 values is impractical. WaveNet uses **mu-law companding** to reduce to 256 quantisation levels, or later variants use a mixture of logistics distribution.
 
-- 其中 $c$ 是条件信号（梅尔频谱图）。每个采样为 16 位，直接在 65,536 个值上做 softmax 不切实际。WaveNet 使用 **mu-law 压扩**把级别降到 256 个，后续变体则使用逻辑斯蒂混合分布。
+- WaveNet's core building block is the **dilated causal convolution**. Causal means filter weights only look at past samples (no future leakage). Dilated means the filter skips samples with exponentially increasing gaps: dilation factors $1, 2, 4, 8, \ldots, 512$. This gives an exponentially large receptive field while keeping the parameter count linear.
 
-- WaveNet 的核心构件是**膨胀因果卷积**。因果意味着卷积权重只看过去采样（不会泄露未来）；膨胀意味着卷积以指数增加的间隔跳过采样，膨胀因子为 $1, 2, 4, 8, \ldots, 512$。这样参数量仍线性增长，却能获得指数级大的感受野。
-
-- 每层的门控激活为：
+- The gated activation for each layer is:
 
 $$z = \tanh(W_{f} \ast x) \odot \sigma(W_{g} \ast x)$$
+- where $W_f$ and $W_g$ are filter and gate convolution weights, $\ast$ denotes dilated causal convolution, and $\odot$ is element-wise multiplication. This gating mechanism (from chapter 06's LSTMs) allows the network to control information flow.
 
-- 其中 $W_f$、$W_g$ 是滤波器和门控卷积权重，$\ast$ 表示膨胀因果卷积，$\odot$ 是逐元素乘法。这种门控机制来自第 06 章的 LSTM，允许网络控制信息流。
+- WaveNet produces exceptional quality but is painfully slow at inference: generating one second of 24 kHz audio requires 24000 sequential forward passes. This motivated all subsequent vocoder research.
 
-- WaveNet 质量出色，但推理极慢：生成 1 秒、24 kHz 的音频需要 24,000 次串行前向传播。这推动了之后的声码器研究。
+- **WaveRNN** (Kalchbrenner et al., 2018) replaces WaveNet's deep convolutional stack with a single-layer recurrent network. It splits each 16-bit sample into coarse (upper 8 bits) and fine (lower 8 bits) components, predicting each with a GRU (chapter 06). This dual softmax approach reduces computation significantly while maintaining high quality. WaveRNN is fast enough for real-time on mobile CPUs with careful kernel optimisation.
 
-- **WaveRNN**（Kalchbrenner 等，2018）用单层循环网络替代 WaveNet 的深卷积栈。它把每个 16 位采样拆成粗粒度（高 8 位）和细粒度（低 8 位）两部分，分别用 GRU（第 06 章）预测。双 softmax 显著减少计算，同时保持较高质量；经过内核优化后，WaveRNN 足以在移动 CPU 上实时运行。
-
-- **WaveGlow**（Prenger 等，2019）是**基于流**的声码器，完全避免自回归生成。它使用一系列可逆变换（仿射耦合层，第 06 章的归一化流），把简单高斯分布映射为波形分布。训练通过变量变换公式最大化精确对数似然：
+- **WaveGlow** (Prenger et al., 2019) is a **flow-based** vocoder that avoids autoregressive generation entirely. It uses a sequence of invertible transformations (affine coupling layers, chapter 06's normalising flows) to map a simple Gaussian distribution to the waveform distribution. Training maximises the exact log-likelihood using the change-of-variables formula:
 
 $$\log P(x) = \log P(z) + \sum_{i} \log \left| \det \frac{\partial f_i}{\partial f_{i-1}} \right|$$
+- where $z = f(x)$ is the latent variable obtained by passing $x$ through the flow. At inference, a sample $z \sim \mathcal{N}(0, I)$ is drawn and pushed through the inverted flow in a single parallel pass. WaveGlow trades model size (large networks for the coupling layers) for generation speed.
 
-- 其中 $z = f(x)$ 是将 $x$ 经过流得到的潜变量。推理时从 $z \sim \mathcal{N}(0, I)$ 采样，再通过逆流一次并行生成。WaveGlow 用耦合层的大型网络换取生成速度。
+- **HiFi-GAN** (Kong et al., 2020) uses a **generative adversarial network** to synthesise waveforms from mel spectrograms. The generator upsamples the mel spectrogram through a series of transposed convolutions, each followed by a **multi-receptive field fusion (MRF)** module. The MRF module applies multiple residual blocks with different kernel sizes and dilation rates in parallel, then sums their outputs. This allows the generator to capture patterns at multiple time scales simultaneously.
 
-- **HiFi-GAN**（Kong 等，2020）使用**生成对抗网络**从梅尔频谱图合成波形。生成器通过一系列转置卷积对梅尔频谱图上采样，每层后接**多感受野融合（MRF）**模块。MRF 并行应用不同卷积核大小和膨胀率的多个残差块，再求和输出，从而同时捕获多个时间尺度的模式。
+![HiFi-GAN generator architecture: mel spectrogram input passes through transposed convolution upsampling layers, each followed by multi-receptive field fusion blocks that combine parallel residual stacks with different dilation patterns](../images/hifi_gan_generator.svg)
 
-![HiFi-GAN 生成器架构：梅尔频谱图经过转置卷积上采样，每层后接融合不同膨胀模式的多感受野残差块](../images/hifi_gan_generator.svg)
 
-- HiFi-GAN 使用两类判别器。**多周期判别器（MPD）**按不同周期（2、3、5、7、11）把一维波形折叠为二维，再应用二维卷积，以捕获不同基频的周期结构。**多尺度判别器（MSD）**处理原始波形、2 倍下采样和 4 倍下采样版本，捕获不同时间分辨率的模式。
+- HiFi-GAN uses two discriminator types. The **multi-period discriminator (MPD)** reshapes the 1D waveform into 2D by folding it at different periods (2, 3, 5, 7, 11), then applies 2D convolutions. This captures periodic structures at different fundamental frequencies. The **multi-scale discriminator (MSD)** operates on the raw waveform, 2x downsampled, and 4x downsampled versions, capturing patterns at different temporal resolutions.
 
-- 训练目标结合对抗损失、**梅尔频谱图重构损失**（合成音频与真实音频梅尔频谱图之间的 L1 距离）和**特征匹配损失**（判别器中间特征之间的 L1 距离）：
+- The training objective combines adversarial loss, **mel spectrogram reconstruction loss** (L1 distance between the mel spectrogram of synthesised and ground truth audio), and **feature matching loss** (L1 distance between intermediate discriminator features):
 
 $$\mathcal{L}_G = \mathcal{L}_{\text{adv}}(G) + \lambda_{\text{mel}} \mathcal{L}_{\text{mel}}(G) + \lambda_{\text{fm}} \mathcal{L}_{\text{fm}}(G)$$
+- HiFi-GAN achieves synthesis quality comparable to WaveNet while being over 1000x faster, enabling real-time generation on a single GPU.
 
-- HiFi-GAN 的合成质量可与 WaveNet 媲美，但速度快逾 1000 倍，可在单张 GPU 上实时生成。
+- **Neural source-filter (NSF) models** combine traditional signal processing with neural networks. In the classical source-filter model, voiced speech is produced by a source excitation (periodic pulse train at the fundamental frequency $F_0$) passed through a vocal tract filter (the spectral envelope). NSF models replace the handcrafted filter with a neural network while keeping the explicit source signal. The input $F_0$ contour provides fine pitch control that purely data-driven vocoders sometimes struggle with.
 
-- **神经源，滤波器（NSF）模型**结合传统信号处理与神经网络。在经典源，滤波器模型中，有声音频由源激励（基频 $F_0$ 上的周期脉冲串）通过声道滤波器（频谱包络）产生。NSF 用神经网络替代手工滤波器，同时保留显式源信号。输入的 $F_0$ 轮廓提供精细音高控制，纯数据驱动的声码器有时难以做到这一点。
+- **Acoustic models: Tacotron** (Wang et al., 2017) was the first end-to-end neural TTS system that directly converted character sequences to mel spectrograms. It uses an encoder-decoder architecture with attention (chapter 07). The encoder processes the character/phoneme sequence with a convolution bank, highway network, and bidirectional GRU. The decoder is an autoregressive GRU that predicts mel frames one at a time, using the previous frame and the attention context as input.
 
-- **声学模型：Tacotron**（Wang 等，2017）是第一个直接把字符序列转换为梅尔频谱图的端到端神经 TTS 系统。它使用带注意力的编码器，解码器架构（第 07 章）：编码器用卷积组、高速公路网络和双向 GRU 处理字符/音素序列；解码器是自回归 GRU，利用上一帧和注意力上下文逐帧预测梅尔帧。
+- **Tacotron 2** (Shen et al., 2018) refines the architecture significantly. The encoder is a 3-layer 1D convolution stack followed by a bidirectional LSTM (chapter 06). The decoder is a 2-layer LSTM with **location-sensitive attention**, which conditions the attention mechanism not only on the encoder outputs and decoder 状态 but also on the cumulative attention weights from previous steps. This prevents the common failure mode of attention skipping or repeating words.
 
-- **Tacotron 2**（Shen 等，2018）大幅改进了架构。编码器是三层一维卷积栈，后接双向 LSTM（第 06 章）；解码器是带**位置敏感注意力**的两层 LSTM。它不仅使用编码器输出和解码器状态，还使用此前步骤累积的注意力权重，从而避免跳词或重复词这一常见失败模式。
+![Tacotron 2 architecture: character/phoneme encoder with convolution layers and BiLSTM, location-sensitive attention aligning to mel spectrogram frames, autoregressive decoder with stop token prediction](../images/tacotron2_architecture.svg)
 
-![Tacotron 2 架构：字符/音素编码器、卷积层与双向 LSTM，位置敏感注意力对齐梅尔帧，自回归解码器预测停止 token](../images/tacotron2_architecture.svg)
 
-- 解码器第 $i$ 步对编码器位置 $j$ 的位置敏感注意力能量为：
+- The location-sensitive attention energy for encoder position $j$ at decoder step $i$ is:
 
 $$e_{i,j} = w^T \tanh(W_s s_{i-1} + W_h h_j + W_f f_{i,j} + b)$$
+- where $s_{i-1}$ is the previous decoder 状态, $h_j$ is the encoder output at position $j$, and $f_{i,j}$ is the location feature obtained by convolving the cumulative attention weights $\sum_{k<i} \alpha_{k,j}$ with a 1D convolution filter. The attention weights are $\alpha_{i,j} = \text{softmax}(e_{i,j})$.
 
-- 其中 $s_{i-1}$ 是上一步解码器状态，$h_j$ 是位置 $j$ 的编码器输出，$f_{i,j}$ 是位置特征：把累积注意力权重 $\sum_{k<i} \alpha_{k,j}$ 通过一维卷积得到。注意力权重为 $\alpha_{i,j} = \text{softmax}(e_{i,j})$。
+- Tacotron 2's decoder also predicts a **stop token** probability at each step, indicating when the mel spectrogram is complete. The output mel spectrogram is then passed to a vocoder (originally WaveNet, later replaced by HiFi-GAN or similar).
 
-- Tacotron 2 解码器还会在每一步预测**停止 token**概率，表示梅尔频谱图何时结束。输出频谱图随后送入声码器（最初是 WaveNet，后来替换为 HiFi-GAN 等）。
+- The autoregressive nature of Tacotron 2 means synthesis speed is limited by the number of mel frames. For a typical 80-frame-per-second mel spectrogram, a 5-second utterance requires 400 sequential decoder steps.
 
-- Tacotron 2 的自回归特性意味着合成速度受梅尔帧数限制。典型梅尔频谱图每秒 80 帧，因此 5 秒语句需要 400 次串行解码。
+- **FastSpeech** (Ren et al., 2019) solves the speed problem with a **non-autoregressive** acoustic model. Instead of generating mel frames sequentially, FastSpeech generates all frames in parallel. The key challenge is determining how many mel frames each phoneme should produce, which FastSpeech handles with a **duration predictor**.
 
-- **FastSpeech**（Ren 等，2019）用**非自回归**声学模型解决速度问题：它并行生成全部帧，而不是逐帧生成。关键挑战是确定每个音素应生成多少梅尔帧，FastSpeech 用**时长预测器**处理这一问题。
+- The duration predictor is a small convolutional network that predicts the integer duration (number of mel frames) for each phoneme. During training, ground-truth durations are extracted from a pre-trained autoregressive teacher model (Tacotron 2) using its attention alignments. During inference, the predicted durations are used to expand the phoneme-level hidden sequence to the frame level using a **length regulator** that simply repeats each phoneme's hidden representation for the predicted number of frames.
 
-- 时长预测器是一个小型卷积网络，预测每个音素的整数时长（梅尔帧数）。训练时，用预训练自回归教师模型（Tacotron 2）的注意力对齐提取真实时长；推理时，预测时长通过**长度调节器**把音素级隐藏序列扩展到帧级，方法只是把每个音素的隐藏表示重复预测的帧数。
-
-- **FastSpeech 2**（Ren 等，2021）移除了教师，学生蒸馏，改进 FastSpeech。它直接用强制对齐（文件 02 的声学模型框架）提取真实时长，并在时长之外增加音高（$F_0$）与能量的显式**方差适配器**。每个适配器都是小型卷积预测器，其输出作为解码器条件：
+- **FastSpeech 2** (Ren et al., 2021) improves on FastSpeech by removing the teacher-student distillation. It extracts ground-truth durations directly using forced alignment (from file 02's acoustic model 框架s) and adds explicit **variance adaptors** for pitch ($F_0$) and energy in addition to duration. Each adaptor is a small convolutional predictor whose output conditions the decoder:
 
 ```math
 \begin{aligned}
@@ -96,102 +94,103 @@ $$e_{i,j} = w^T \tanh(W_s s_{i-1} + W_h h_j + W_f f_{i,j} + b)$$
 \end{aligned}
 ```
 
-- 其中 $h_i$ 是音素 $i$ 的编码器隐藏状态。训练时使用真实值，推理时使用预测值即可显式控制韵律。这是 FastSpeech 2 的重要优势：只需缩放预测器输出，就能调节音高、速度或能量。
+- where $h_i$ is the encoder hidden 状态 for phoneme $i$. At training time, ground-truth values are used; at inference, the predicted values give explicit control over prosody. This controllability is a major advantage of FastSpeech 2: adjusting pitch, speed, or energy is as simple as scaling the predictor outputs.
 
-- FastSpeech 2 的推理速度通常比 Tacotron 2 快 10–20 倍，并避免跳词、重复和注意力坍缩等自回归失败模式。
+- FastSpeech 2 is typically 10-20x faster than Tacotron 2 at inference and avoids common autoregressive failure modes like word skipping, repetition, and attention collapse.
 
-- **VITS**（Kim 等，2021）是直接从文本生成波形的**端到端** TTS 模型，取消独立声码器阶段。VITS 将条件变分自编码器（第 06 章）与归一化流、对抗训练结合：后验编码器把真实梅尔频谱图映射到潜空间，先验编码器把音素（经 Transformer 文本编码器和时长预测器）映射到同一潜空间，解码器（基于 HiFi-GAN）从潜样本生成波形。
+- **VITS** (Kim et al., 2021) is an **end-to-end** TTS model that directly generates waveforms from text, eliminating the separate vocoder stage. VITS combines a conditional variational autoencoder (chapter 06) with normalising flows and adversarial training. The posterior encoder maps ground-truth mel spectrograms to a latent space, the prior encoder maps phonemes (through a transformer-based text encoder and duration predictor) to the same latent space, and the decoder (HiFi-GAN-based) generates waveforms from latent samples.
 
-- VITS 的训练目标包括：
-    - **重构损失**：VAE 迫使潜分布编码声学信息。
-    - **KL 散度**：让文本条件先验与音频条件后验对齐。
-    - **对抗损失**：判别器保证波形质量。
-    - **时长损失**：训练随机时长预测器。
+- The training objective for VITS combines:
+    - **Reconstruction loss**: the VAE forces the latent distribution to encode acoustic information
+    - **KL divergence**: aligns the text-conditioned prior with the audio-conditioned posterior
+    - **Adversarial loss**: discriminators ensure waveform quality
+    - **Duration loss**: trains the stochastic duration predictor
 
-- 相比两阶段系统（FastSpeech 2 + HiFi-GAN），VITS 的声学模型和声码器联合优化，避免预测梅尔频谱图与真实频谱图不匹配造成的退化，因此质量更高。
+- VITS produces higher quality than two-stage systems (FastSpeech 2 + HiFi-GAN) because the acoustic model and vocoder are jointly optimised, avoiding the mismatch between predicted and ground-truth mel spectrograms that degrades two-stage systems.
 
-- **VALL-E**（Wang 等，2023）彻底把 TTS 重构为离散音频 token 上的**语言建模问题**。它用神经音频编解码器（EnCodec）将语音表示为多个码本层级的离散码。给定文本提示和一段 3 秒的注册语音（同样编码为离散 token），VALL-E 用 Transformer 语言模型自回归预测音频 token。
+- **VALL-E** (Wang et al., 2023) radically reframes TTS as a **language modelling problem** over discrete audio tokens. It uses a neural audio codec (EnCodec) to represent speech as a sequence of discrete codes from multiple codebook levels. Given a text prompt and a 3-second enrollment utterance (also encoded as discrete tokens), VALL-E uses a transformer language model to predict the audio tokens autoregressively.
 
-- VALL-E 使用两个模型：**自回归（AR）模型**逐 token 生成第一个码本层，**非自回归（NAR）模型**并行预测其余码本层，并以第一层及彼此为条件。这种 codec 语言模型实现了惊人的零样本声音克隆：只需 3 秒样本就能复现说话人的声音、音色甚至情绪。
+- VALL-E uses two models: an **autoregressive (AR) model** that generates the first codebook level token-by-token, and a **non-autoregressive (NAR) model** that predicts the remaining codebook levels in parallel, conditioned on the first level and each other. This codec language model approach enables remarkable zero-shot voice cloning: a 3-second sample is enough to reproduce a speaker's voice, timbre, and even emotional tone.
 
-- **StyleTTS**（Li 等，2022）和 **StyleTTS 2** 将语音解耦为内容与风格。风格编码器从参考音频提取风格向量，捕获说话人身份、韵律和录音条件；推理时可从学习到的先验采样风格，或从参考语句迁移风格。StyleTTS 2 使用扩散模型（第 08 章）作为风格先验，生成多样自然的韵律。
+- **StyleTTS** (Li et al., 2022) and **StyleTTS 2** disentangle speech into content and style components. A style encoder extracts a style vector from reference audio, capturing speaker identity, prosody, and recording conditions. During inference, style can be sampled from a learned prior distribution or transferred from a reference utterance. StyleTTS 2 uses diffusion models (chapter 08) for the style prior, generating diverse and natural prosody.
 
-- **Kokoro**（2024）是轻量、高质量的开源 TTS 模型，以小体积（约 8200 万参数）和出色自然度著称。它采用受 StyleTTS 2 启发的架构，用基于扩散的风格先验和微调后的 ISTFTNet 声码器，直接预测 STFT 系数（见文件 01）而非原始波形采样。尽管只有 VALL-E 等模型的一小部分规模，Kokoro 在英语、日语、法语、韩语和中文上都接近真人自然度，说明精心整理的数据和高效架构可以与蛮力扩展竞争。其小型模型体积适合本地和边缘部署。
+- **Kokoro** (2024) is a lightweight, high-quality open-source TTS model notable for its small size (~82M parameters) and impressive naturalness. It uses a StyleTTS 2-inspired architecture with a diffusion-based style prior and a fine-tuned ISTFTNet vocoder that directly predicts STFT coefficients (from file 01) rather than raw waveform samples. Despite being a fraction of the size of models like VALL-E, Kokoro achieves near-human naturalness for English, Japanese, French, Korean, and Chinese, demonstrating that carefully curated training data and efficient architecture design can compete with brute-force scale. Kokoro's small footprint makes it practical for local and edge deployment.
 
-- **Orpheus**（Canopy Labs，2025）是一系列基于 VALL-E **codec 语言模型**范式的开源 TTS 模型（10 亿和 30 亿参数）。它使用 LLM 骨干（微调 Llama 3）直接生成 SNAC 音频 codec token。突出特点是接近真人的情绪表达：能自然处理笑声、叹气、犹豫和情感韵律；输入文本中加入 `[laugh]` 或 `[sigh]` 标签即可细粒度控制副语言表达。
+- **Orpheus** (Canopy Labs, 2025) is a family of open-source TTS models (1B and 3B parameters) built on the **codec language model** paradigm pioneered by VALL-E. Orpheus takes the idea further with an LLM backbone (fine-tuned Llama 3) that generates SNAC audio codec tokens directly. Its standout feature is human-like emotional expressiveness: it handles laughter, sighs, hesitations, and affective prosody with remarkable naturalness. Orpheus can be prompted with tags like `[laugh]` or `[sigh]` in the input text, giving fine-grained control over paralinguistic expression.
 
-- **Dia**（Nari Labs，2025）是开源对话 TTS 模型，可从一份文本转写生成逼真的多说话人对话。它基于 16 亿参数的编码器，解码器 Transformer，处理轮次切换、说话人特定声音和笑声、停顿等非语言线索，也支持用短音频提示进行声音克隆，在对话上下文中零样本生成说话人。
+- **Dia** (Nari Labs, 2025) is an open-source dialogue TTS model that generates realistic multi-speaker conversations from a single text transcript. Built on a 1.6B-parameter encoder-decoder transformer, Dia handles turn-taking, speaker-specific voices, and non-verbal cues (laughter, pauses) within a conversation. It also supports voice cloning from a short audio prompt, enabling zero-shot speaker generation in dialogue context.
 
-- **Sesame CSM**（Conversational Speech Model，2025）关注自然的多轮对话语音。它不优化朗读式 TTS，而是建模真实对话的动态：应答声（“uh huh”）、打断、说话人间节奏变化和情绪响应。模型以文本和音频历史为对话上下文，用 Transformer 骨干生成随对话流动而调整风格的语音。
+- **Sesame CSM** (Conversational Speech Model, 2025) focuses on natural multi-turn conversational speech. Rather than optimising for reading-style TTS, Sesame models the dynamics of real conversation: backchannels ("uh huh"), interruptions, rhythm changes between speakers, and emotional responsiveness. The model uses a transformer backbone conditioned on conversational context (both text and audio history), producing speech that adapts its style to the flow of the dialogue.
 
-- **Fish Speech**（Fish Audio，2024）是采用双自回归架构的开源 TTS：大型语言模型从文本生成语义 token，小模型把它们转换为 VQGAN 声学 token，再由声码器解码成波形。Fish Speech 可用 10–15 秒参考音频零样本克隆声音，并具备适合实时应用的低延迟；模块化设计允许独立替换组件（如声码器）。
+- **Fish Speech** (Fish Audio, 2024) is an open-source TTS system that uses a dual autoregressive architecture: a large language model generates semantic tokens from text, and a smaller model converts these to VQGAN acoustic tokens, which are decoded into waveforms by a vocoder. Fish Speech supports zero-shot voice cloning from a 10-15 second reference and achieves low latency suitable for real-time applications. Its modular design allows swapping components (e.g., different vocoders) independently.
 
-- **ChatTTS**（2024）是面向聊天机器人和虚拟助手等对话应用的开源 TTS。它通过嵌入文本的特殊 token 控制笑声、停顿、填充词等韵律特征，生成自然对话式语音，支持中英混合合成和多说话人生成。
+- **ChatTTS** (2024) is an open-source conversational TTS model designed for dialogue applications like chatbots and virtual assistants. It generates natural, conversational-sounding speech with fine-grained control over prosodic features (laughter, pauses, filler words) using special tokens embedded in the text input. ChatTTS supports mixed Chinese-English synthesis and multi-speaker generation.
 
-- **Bark**（Suno，2023）是基于 Transformer 的开源模型，可从文本提示生成语音、音乐和音效。它采用三阶段 Transformer 流水线（文本 → 语义 token → 粗粒度声学 token → 细粒度声学 token），支持声音克隆、多语言合成和音乐、环境声等非语音音频。通用性牺牲了可控性：它不如专用 TTS 精确，但更灵活。
+- **Bark** (Suno, 2023) is a transformer-based open-source model that generates speech, music, and sound effects from text prompts. It uses a three-stage pipeline of transformer models (text → semantic tokens → coarse acoustic tokens → fine acoustic tokens) and supports voice cloning, multilingual synthesis, and non-speech audio like music and ambient sounds. Bark's generality comes at the cost of controllability — it is less precise than dedicated TTS systems but more flexible.
 
-- **Parler-TTS**（Hugging Face，2024）用**自然语言描述**控制声音：无需风格参考音频，用户只需输入“安静房间里，一位声音温暖、富有表现力的女声”之类的描述。Parler-TTS 在带标注语音上训练，每段语音都配有说话风格的自然语言描述，因此无需参考音频即可直观控制。
+- **Parler-TTS** (Hugging Face, 2024) takes a **natural language description** approach to voice control: instead of requiring a reference audio clip for style, the user provides a text description like "a female speaker with a warm, expressive voice in a quiet room." Parler-TTS is trained on annotated speech data where each utterance is paired with a natural language description of the speaking style, enabling intuitive control without any reference audio.
 
-- **Neuphonic** 是面向 API 的 TTS 平台，优化超低延迟合成，目标是实时语音代理和对话式 AI。通过在完整文本到达前就开始生成音频的流式架构，它把首个音频延迟降到 100 ms 以下。Neuphonic 重点解决部署与延迟优化，而不是提出全新架构，为现代神经 TTS 提供生产级基础设施。
+- **Neuphonic** is an API-based TTS platform optimised for ultra-low-latency speech synthesis, targeting real-time voice agents and conversational AI applications. It achieves time-to-first-audio under 100 ms through a streaming architecture that begins generating audio before the full input text is available. Neuphonic focuses on the deployment and latency optimisation layer rather than novel model architecture, providing production-grade infrastructure around modern neural TTS.
 
-- **KittenTTS** 是紧凑、快速的 TTS 模型，面向高效和低资源部署。它优先保证边缘与嵌入式应用的低延迟、小模型体积，在 CPU 和移动设备上实时运行时牺牲少量自然度。
+- **KittenTTS** is a compact, fast TTS model designed for efficiency and low-resource deployment. It prioritises minimal latency and small model size for edge and embedded applications, trading some naturalness for real-time performance on CPUs and mobile devices.
 
-- 现代 TTS 正分化为两种范式：(1) **codec 语言模型**（VALL-E、Orpheus、Fish Speech）把语音生成看作离散音频码的下一 token 预测，利用 LLM 扩展定律；(2) **流/扩散模型**（VITS、StyleTTS 2、Kokoro）通过迭代细化生成连续梅尔频谱图或波形。codec LM 擅长零样本克隆和表达力，流/扩散模型通常更小更快；两者都在快速接近真人自然度。
+- The modern TTS landscape is bifurcating into two paradigms: (1) **codec language models** (VALL-E, Orpheus, Fish Speech) that treat speech generation as next-token prediction over discrete audio codes, leveraging the scaling laws of LLMs; and (2) **flow/diffusion-based models** (VITS, StyleTTS 2, Kokoro) that generate continuous mel spectrograms or waveforms through iterative refinement. Codec LMs excel at zero-shot cloning and expressiveness; flow/diffusion models tend to be smaller and faster. Both are rapidly converging toward human-level naturalness.
 
-- **韵律建模**控制语音的“音乐性”：音高、时长、能量、节奏和语调。即使单个音素清楚，韵律不好也会让合成语音平板、机械。可以把韵律理解为单调 GPS 声音与富有表现力的有声书朗读者之间的差别。
+- **Prosody modelling** controls the "music" of speech: pitch, duration, energy, rhythm, and intonation. Without good prosody, synthesised speech sounds flat and robotic even if individual phonemes are clear. Think of prosody as the difference between a monotone GPS voice and an expressive audiobook narrator.
 
-- **音高**（基频 $F_0$）是感知到的高低。疑问句末尾通常上扬，陈述句末尾通常下降，情绪语音中会连续变化。$F_0$ 可用 CREPE（神经音高跟踪器）或 YIN（基于自相关，见文件 01）从音频提取。TTS 中，音高可以由声学模型（FastSpeech 2 的音高预测器）预测，也可以隐式学习（Tacotron 2）。
+- **Pitch** (fundamental frequency $F_0$) is the perceived highness or lowness of speech. It rises at the end of questions, falls at the end of 状态ments, and varies continuously during emotional speech. $F_0$ is extracted from audio using algorithms like CREPE (a neural pitch tracker) or YIN (autocorrelation-based, from file 01). In TTS, pitch is either predicted by the acoustic model (FastSpeech 2's pitch predictor) or implicitly learned (Tacotron 2).
 
-- **时长**决定说话速度和节奏。重读音节更长，功能词会缩短，停顿标记短语边界。非自回归模型（FastSpeech）显式建模时长，自回归模型（Tacotron）则由注意力对齐隐式决定时长。
+- **Duration** determines the speaking rate and rhythm. Stressed syllables are longer, function words are shortened, and pauses mark phrase boundaries. Duration modelling is explicit in non-autoregressive models (FastSpeech) and implicit in autoregressive models (Tacotron's attention alignment determines duration).
 
-- **能量**（响度）承载重音。“I didn't say HE stole it” 和 “I didn't say he STOLE it” 的含义不同，完全由能量模式传达。
+- **Energy** (loudness) carries emphasis. "I didn't say HE stole it" vs "I didn't say he STOLE it" have different meanings conveyed entirely through energy patterns.
 
-- **风格嵌入**捕获更高层的韵律模式。**全局风格 token（GST）**框架（Wang 等，2018）学习一组风格 token（在可学习嵌入集合上的软注意力），表示“兴奋”“悲伤”“耳语”等说话风格。风格编码器从参考语句提取风格嵌入并加入编码器输出，推理时即可迁移风格。
+- **Style embeddings** capture higher-level prosodic patterns. The **Global Style Token (GST)** 框架 (Wang et al., 2018) learns a bank of style tokens (soft attention over a learned set of embeddings) that capture speaking styles like "excited", "sad", or "whispering". The style embedding is extracted from a reference utterance and added to the encoder output, allowing style transfer at inference.
 
-- **声音转换（VC）**在保留语言内容的同时改变语句的说话人身份。想象录下自己的声音，输出却像某个目标说话人。VC 必须把说话人身份与内容解耦。
+- **Voice conversion (VC)** changes the speaker identity of an utterance while preserving the linguistic content. Imagine recording yourself and having the output sound like a specific target speaker. VC requires disentangling speaker identity from content.
 
-![声音转换流水线：源语音分解为内容表示和说话人嵌入，替换为目标说话人嵌入后由解码器重构目标声音](../images/voice_conversion_pipeline.svg)
+![Voice conversion pipeline: source speech is decomposed into content representation and speaker embedding, the target speaker embedding replaces the source, and the decoder reconstructs speech in the target voice](../images/voice_conversion_pipeline.svg)
 
-- **说话人嵌入**（详见文件 04）用定长向量编码说话人身份，可以来自预训练说话人验证模型（x-vector、ECAPA-TDNN）。VC 先把源语音编码为与说话人无关的内容表示，再结合目标说话人嵌入解码。
 
-- **解耦表示**把语音分成相互独立的因素：内容（音素）、说话人身份、音高和节奏。常见方法包括：
-    - **信息瓶颈**：把内容表示压缩得足够紧，使说话人信息丢失（AutoVC）。
-    - **对抗训练**：在内容表示上训练说话人分类器，并通过梯度反转移除说话人信息。
-    - **向量量化**：VQ-VAE 迫使内容经过离散瓶颈，自然去除说话人身份（码本条目表示音素类别，而非说话人特征）。
+- **Speaker embeddings** (detailed further in file 04) encode speaker identity as a fixed-dimensional vector. These can come from a pre-trained speaker verification model (x-vectors, ECAPA-TDNN). In VC, the source speech is encoded into a content representation that is speaker-independent, then decoded with the target speaker embedding.
 
-- **声音克隆**以目标说话人的声音合成语音。**多说话人 TTS**在多说话人数据上训练，以说话人嵌入为条件；推理时从注册音频提取新说话人的嵌入，作为生成条件。
+- **Disentangled representations** separate speech into independent factors: content (phonemes), speaker identity, pitch, and rhythm. Approaches include:
+    - **Information bottleneck**: compress the content representation so tightly that speaker information is lost (AutoVC)
+    - **Adversarial training**: train a speaker classifier on the content representation and use gradient reversal to remove speaker information
+    - **Vector quantisation**: VQ-VAE forces the content through a discrete bottleneck, which naturally strips speaker identity (since codebook entries represent phonetic categories, not speaker traits)
 
-- **少样本声音克隆**用少量数据（几分钟）适应新说话人。说话人编码器从注册音频提取嵌入，TTS 模型以此为条件生成语音。SV2TTS（Jia 等，2018）采用这一思路：独立训练的说话人编码器、以说话人嵌入为条件的 Tacotron 2 合成器，以及 WaveRNN 声码器。
+- **Voice cloning** synthesises speech in a target speaker's voice. **Multi-speaker TTS** trains on data from many speakers, conditioning the model on a speaker embedding. At inference, a new speaker's embedding is extracted from enrollment audio and used to condition generation.
 
-- **零样本声音克隆**完全不需要适应：一段 3–30 秒的短语音就够了。VALL-E 把注册音频当作语言模型提示；模型在大规模多说话人数据上训练，语句内声音保持一致是统计常态，因此能继续生成同一声音。
+- **Few-shot voice cloning** adapts to a new speaker using a small amount of data (a few minutes). The speaker encoder extracts an embedding from the enrollment audio, and the TTS model generates speech conditioned on this embedding. This is the approach used in SV2TTS (Jia et al., 2018): a separately trained speaker encoder, a Tacotron 2 synthesiser conditioned on the speaker embedding, and a WaveRNN vocoder.
 
-- **语音活动检测（VAD）**在每个时间帧回答一个二元问题：此刻有人说话吗？尽管简单，VAD 是 ASR（文件 02）、说话人分离（文件 04）和降噪（文件 05）的关键预处理步骤。好的 VAD 跳过静音以减少计算，并避免把噪声当成语音来处理，从而提升准确率。
+- **Zero-shot voice cloning** requires no adaptation at all: a single short utterance (3-30 seconds) is enough. VALL-E achieves this by treating the enrollment audio as a prompt for the language model. The model learns to continue generating in the same voice because it was trained on large-scale multi-speaker data where voice consistency within an utterance is the statistical norm.
 
-- 经典 VAD 使用能量阈值（语音比静音更响）、过零率（语音有特征性的过零模式）和频谱特征。在低信噪比的噪声环境中，这些方法会失效。
+- **Voice activity detection (VAD)** answers a simple binary question at each time frame: is someone speaking or not? Despite its simplicity, VAD is a critical preprocessing step for ASR (file 02), speaker diarisation (file 04), and noise reduction (file 05). A good VAD reduces computation by skipping silence and improves accuracy by preventing noise from being processed as speech.
 
-- **神经 VAD**把问题看成帧级二分类。小型 RNN 或 CNN 接收声学特征（文件 01 的对数梅尔能量），预测语音/非语音概率。
+- Classical VAD uses energy thresholding (speech is louder than silence), zero-crossing rate (speech has characteristic crossing patterns), and spectral features. These fail in noisy environments where the signal-to-noise ratio is low.
 
-- **WebRTC VAD**（Google）是经典的轻量 VAD，用基于 GMM 的分类器处理简单频谱特征。它有四个激进程度等级（0–3），速度极快，但在音乐、非语音发声和低信噪比环境中表现较差。由于零依赖且简单，仍广泛用作基线。
+- **Neural VAD** models treat the problem as frame-level binary classification. A small RNN or CNN takes acoustic features (log mel energies from file 01) and predicts speech/non-speech probabilities.
 
-- **Silero VAD**（Silero Team，2021）是生产环境事实上的神经 VAD 标准。其架构是小型深度可分离一维卷积栈（把第 08 章 MobileNet 思想用于音频），后接用于时间上下文的单层 LSTM，最后用线性头输出每帧语音概率。整个模型小于 2 MB（约 100 万参数），按 30–100 ms 分块处理音频。
-    - **输入**：原始 16 kHz 音频（无需手工特征提取，卷积前端直接从波形学习特征）。
-    - **带窗口的有状态推理**：LSTM 隐状态在块之间传递，因此无需重复处理完整历史即可处理流式音频。每次调用处理 30、60 或 100 ms 的块，返回 $[0, 1]$ 中的语音概率。
-    - **自适应阈值**：Silero VAD 不使用单一固定阈值，而是设置独立的起始/结束阈值以及最小语音/静音时长，防止噪声边界快速抖动。语音段必须超过起始阈值并持续足够时间才确认，静音低于结束阈值并持续一段时间才关闭语音段。
-    - **性能**：Silero VAD 在 CPU 上的实时因子为 1–2%（处理 1 秒音频约需 10–20 ms），适合边缘设备、手机和实时流水线。在噪声和音乐较多的音频上明显优于 WebRTC VAD，同时足够小，可端侧部署。
-    - Silero VAD 常作为 Whisper（文件 02）的前端，在转写前把长音频切成语句块；也用于说话人分离流水线（文件 04），在提取说话人嵌入前定位语音区域。
+- **WebRTC VAD** (Google) is a classic lightweight VAD using a GMM-based classifier on simple spectral features. It operates at four aggressiveness levels (0-3) and is extremely fast, but struggles with music, non-speech vocalisations, and low-SNR environments. It remains widely used as a baseline due to its zero-dependency simplicity.
 
-- **声学活动检测（AAD）**把 VAD 扩展到检测所有声学活动，而不只是语音。这对智能家居、安防系统和野生动物监测很有用。AAD 模型可检测玻璃破碎、狗叫或警报等事件，通常使用文件 04 中的音频分类框架。
+- **Silero VAD** (Silero Team, 2021) is the de facto standard neural VAD for production use. Its architecture is a small stack of depthwise separable 1D convolutions (chapter 08's MobileNet idea applied to audio) followed by a single LSTM layer for temporal context, with a final linear head producing a speech probability per frame. The entire model is under 2MB (~1M parameters) and processes audio in 30-100 ms chunks.
+    - **Input**: raw 16 kHz audio (no manual feature extraction — the convolutional front-end learns its own features from the waveform directly).
+    - **Windowed 状态ful inference**: the LSTM hidden 状态 carries over between chunks, so the model handles streaming audio without reprocessing the full history. Each call processes a 30, 60, or 100 ms chunk and returns a speech probability in $[0, 1]$.
+    - **Adaptive thresholding**: rather than a single fixed threshold, Silero VAD uses separate start and end thresholds with a minimum speech/silence duration, preventing rapid toggling on noisy boundaries. A speech segment must exceed the start threshold for a minimum duration before being confirmed, and silence must persist below the end threshold before the segment is closed.
+    - **Performance**: Silero VAD runs at 1-2% real-time factor on CPU (processing 1 second of audio takes ~10-20 ms), making it suitable for edge devices, mobile phones, and real-time pipelines. It significantly outperforms WebRTC VAD on noisy and music-heavy audio while remaining small enough for on-device deployment.
+    - Silero VAD is commonly used as the front-end for Whisper (file 02) to segment long audio into utterance-level chunks before transcription, and for speaker diarisation pipelines (file 04) to identify speech regions before extracting speaker embeddings.
 
-- **TTS 评估指标**同时衡量客观质量与主观自然度：
-    - **平均意见分（MOS）**：人类听众以 1–5 分评价自然度，是金标准，但昂贵且耗时。
-    - **梅尔倒谱失真（MCD）**：衡量合成与参考梅尔倒谱之间的距离。越低越好，但不总与感知一致。
-    - **PESQ / POLQA**：最初为电话设计的标准化感知评估指标。
-    - **说话人相似度**：合成音频与参考音频的说话人嵌入余弦相似度（声音克隆时很重要）。
-    - **可懂度**：把合成音频送入 ASR 系统（文件 02），计算 WER。
+- **Acoustic activity detection (AAD)** generalises VAD to detect any acoustic activity, not just speech. This is useful in smart home devices, security systems, and wildlife monitoring. AAD models detect events like glass breaking, dogs barking, or alarms, often using the audio classification 框架s described in file 04.
 
-## 编程任务（使用 Colab 或 notebook）
+- **Evaluation metrics for TTS** measure both objective quality and subjective naturalness:
+    - **Mean Opinion Score (MOS)**: human listeners rate naturalness on a 1-5 scale. The gold standard, but expensive and slow.
+    - **Mel cepstral distortion (MCD)**: measures the distance between synthesised and reference mel cepstra. Lower is better, but does not always correlate with perception.
+    - **PESQ / POLQA**: standardised perceptual evaluation metrics originally designed for telephony.
+    - **Speaker similarity**: cosine similarity between speaker embeddings of synthesised and reference audio (relevant for voice cloning).
+    - **Intelligibility**: measured by feeding synthesised audio through an ASR system (file 02) and computing WER.
 
-- **任务 1：从梅尔频谱图实现 Griffin-Lim 声码器。** 实现迭代式相位重构算法，把梅尔频谱图转换回波形，理解声码器问题以及为什么需要神经声码器。
+## Coding Tasks (use CoLab or notebook)
+
+- **Task 1: Griffin-Lim vocoder from mel spectrogram.** Implement the Griffin-Lim iterative phase reconstruction algorithm to convert a mel spectrogram back to a waveform. This demonstrates the vocoder problem and why neural vocoders are needed.
 
 ```python
 import jax
@@ -312,7 +311,7 @@ print(f"MSE between original and reconstructed: {mse:.6f}")
 print("Note: phase information loss through mel inversion causes artifacts.")
 ```
 
-- **任务 2：时长预测器（FastSpeech 风格）。** 训练小型卷积时长预测器，把音素嵌入映射到时长；这是实现非自回归 TTS 的核心组件。
+- **Task 2: Duration predictor (FastSpeech-style).** Train a small convolutional duration predictor that maps phoneme embeddings to durations. This is the core component enabling non-autoregressive TTS.
 
 ```python
 import jax
@@ -436,7 +435,8 @@ axes[1].legend()
 plt.tight_layout()
 plt.show()
 ```
-- **任务 3：使用上采样卷积的简单神经声码器。** 构建最小 HiFi-GAN 风格生成器，用转置卷积和残差块把梅尔频谱图上采样为波形。
+
+- **Task 3: Simple neural vocoder with upsampling convolutions.** Build a minimal HiFi-GAN-style generator that upsamples a mel spectrogram to a waveform using transposed convolutions and residual blocks.
 
 ```python
 import jax
@@ -577,7 +577,7 @@ print("Note: The output is noise because the generator is untrained.")
 print("In practice, adversarial + mel loss training shapes this into speech.")
 ```
 
-- **任务 4：使用简单 RNN 的语音活动检测。** 在合成音频特征上训练小型 GRU VAD 模型，把帧分类为语音或静音。
+- **Task 4: Voice activity detection with a simple RNN.** Train a small GRU-based VAD model on synthetic audio features to classify frames as speech or silence.
 
 ```python
 import jax

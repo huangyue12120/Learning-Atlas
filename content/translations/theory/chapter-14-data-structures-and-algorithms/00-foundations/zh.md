@@ -8,86 +8,73 @@ source:
   sha256: 5d071a6a3d64e87765b2cc479b7e8efc383b7663a8c54fd588ced1af5a296ca6
 status: reviewed
 ---
-# 基础：大 O、递归、回溯与动态规划
+# Foundations: Big O, Recursion, Backtracking, and Dynamic Programming
 
-*本篇建立算法分析的共同语言：用大 O 描述增长率，用递归拆解结构，用回溯系统搜索，用动态规划复用重叠子问题。重点是识别模式，而不是死记答案。*
+*Before diving into data structures and algorithms, you need four foundational concepts: Big O notation for measuring efficiency, recursion for breaking problems into subproblems, backtracking for exhaustive search with pruning, and dynamic programming for avoiding redundant computation. This file teaches each from first principles.*
 
+- The remaining files in this chapter assume you are comfortable with these four ideas. If you skip this file, the $O(n \log n)$ annotations, recursive tree traversals, backtracking templates, and DP 状态 transitions in later files will feel like magic rather than engineering.
 
+## Why Patterns, Not Memorisation
 
-*在潜入数据结构和算法之前,您需要四个基础概念:用于测量效率的大O符号;将问题分解为子问题的重现;回溯追踪,以普鲁斯来进行详尽的搜索;以及为了避免冗余计算而进行动态编程. 此文件从第一原理中教来每个。*
+- There are thousands of coding problems on LeetCode, NeetCode, and HackerRank. Nobody can memorise them all, and trying to is a losing strategy. Interviewers do not pick problems from a fixed list, they modify, combine, and disguise them. A memorised solution to "Two Sum" will not help you when the interviewer asks a variant you have never seen.
 
-- 本章中剩下的文件假设你对这四个想法很满意. 如果你跳过这个文件,$O(n \log n)$注释,递归树倒行本,回溯跟踪模板,后期文件中的DP状态过渡会感觉像魔法而非工程.
+- The good news: there are only about **15-20 core patterns** (two pointers, sliding window, BFS/DFS, DP, backtracking, etc.). Every problem, no matter how novel it looks on the surface, reduces to one or a combination of these patterns. The interview is not testing whether you have seen this exact problem before. It is testing whether you can **peel away the context**, the story, the specific data types, the edge cases, and recognise the underlying pattern.
 
-## 为什么学习模式，而不是死记
+- Consider these three problems:
+    - "Find two numbers in an array that sum to a target."
+    - "Find two molecules whose binding energies sum to a threshold."
+    - "Given a list of account balances, find two accounts whose combined value equals a debt."
 
+- They look different. They are the same problem: **Two Sum**. The context (numbers, molecules, accounts) is irrelevant. The structure is: search for a complement in a collection → hash map lookup.
 
+- This is why this chapter teaches **patterns through intuition**, not solutions through repetition. For each pattern, we explain:
+    - **What structural property** of the problem signals this pattern (sorted input → two pointers; subarray constraint → sliding window; optimal substructure + overlapping subproblems → DP).
+    - **Why the pattern works** — the mathematical or logical reasoning, not just "it gives the right answer."
+    - **How to adapt it** — by showing easy, medium, and hard variants where the same core idea applies in different contexts.
 
-- 在LetCode,NeetCode,和HackerRank上都有上千个编码问题. 没有人能记住他们所有人, 试图是一个失败的策略。采访者不从固定名单中挑出问题,他们修改、合并和伪装这些问题。当采访者问到一个你从未见过的变体时,对"两个和"的记忆式解决方案不会有所帮助.
+- When you deeply understand *why* sliding window works (the monotonicity of the constraint means expanding/contracting is sufficient), you can apply it to any problem with that structure, even one you have never seen. When you only memorise the code for "Longest Substring Without Repeating Characters," you are stuck the moment the problem changes.
 
-- 好消息:只有大约**15-20个核心模式**(两个指针,滑动窗口,BFS/DFS,DP,回溯跟踪等). 每一个问题,不管它表面上看起来多么小说,都缩小到这些图案的一种或组合. 采访不是在测试你以前是否见过这个问题。它正在测试你是否可以** peel 远离上下文**,故事,特定数据类型,边缘大小写,并识别基本模式。
-
-- 考虑这三个问题:
-    - 找到两个数组,总和到目标
-    - "找到两分子,它们的结合能量 等于一个阈值"
-    - "给出账户余额清单,发现两个账号,其合并价值等于债务".
-
-- 他们看起来不一样。它们是同样的问题:**两个总和**。上下文(数字,分子,账户)无关紧要. 其结构是:在集合中寻找补充-散列地图取景.
-
-- 这就是为什么本章通过直觉来教导**patters**,而不是通过重复来教授解决方案。对于每一种模式,我们解释:
-    - ** 问题的结构属性** 表示这种模式(各种输入-两个指针;次阵列约束-滑动窗口;最佳子结构+相重叠的分问题-DP)。
-    - **为什么图案工作**，，数学或逻辑推理,而不仅仅是"它给出了正确的答案".
-    - ** 如何加以调整**，，通过显示在不同的场合适用同一核心思想的简单、中和硬变体。
-
-- 当你深刻理解 * 为什么 滑动窗口工作(限制的单一性意味着扩展/订约就足够了)时,你可以把它应用于任何与该结构有关的问题,即使是你从未见过的问题. 当您只记住“ 不重复字符的长子字符串” 的代码时, 当问题发生改变时, 您就会被卡住。
-
-- 实际战略:
-    1. ** 学习图案**(本章)。
-    2. ** 在变相问题中实践认识**(每个文件末尾的NeetCode带回家)。
-    3. ** 在时间压力下实施。
-    4. 在访谈中:读出问题 · 剥去上下文 · 确定模式 - 执行.
+- The practical strategy:
+    1. **Learn the pattern** (this chapter).
+    2. **Practise recognising it** in disguised problems (the NeetCode take-homes at the end of each file).
+    3. **Practise implementing it** under time pressure.
+    4. In the interview: read the problem → strip the context → identify the pattern → implement.
 
 ---
 
-## 大 O 表示法
+## Big O Notation
 
+- When we say an algorithm is "fast" or "slow," we need a precise way to measure it. **Big O notation** describes how an algorithm's runtime (or space usage) grows as the input size $n$ increases, ignoring constant factors and lower-order terms.
 
+- The formal definition: $f(n) = O(g(n))$ means there exist constants $c > 0$ and $n_0$ such that $f(n) \leq c \cdot g(n)$ for all $n \geq n_0$. In plain English: $f$ grows no faster than $g$ for large inputs.
 
-- 当我们说一个算法是"快"或"慢"时,我们需要精确的测量方法. ** 大 O 标记** 描述一个算法的运行时间(或空间使用)如何随着输入大小增长$n$增加,忽略了常数因素和排序更低的术语.
+- Why ignore constants? Because a $2n$ algorithm and a $5n$ algorithm are both $O(n)$: they scale the same way. On a faster computer, the constants change, but the scaling does not. Big O captures the **intrinsic** difficulty of the problem, independent of hardware.
 
-- 正式定义:$f(n) = O(g(n))$表示存在常数$c > 0$财务报告和已审计财务报表$n_0$这样的话$f(n) \leq c \cdot g(n)$对所有国家的$n \geq n_0$。。。简单英语:$f$生长速度不快于$g$用于大量投入。
+### The Growth Rate Hierarchy
 
-- 为什么忽略常数? 因为$2n$算法和 a$5n$算法是两个$O(n)$:它们大小相同。在更快的计算机上,常数会改变,但缩放不会. 大 O 捕捉出问题的**intrinsic ** 难度,独立于硬件.
+- From fastest to slowest:
 
-### 增长率层级
+| Big O | Name | Example | $n = 10^6$ operations |
+|-------|------|---------|----------------------| $O(1)$ | Constant | Array access, hash lookup | 1 |
+| $O(\log n)$ | Logarithmic | Binary search | 20 |
+| $O(n)$ | Linear | Linear scan, single loop | $10^6$ |
+| $O(n \log n)$ | Linearithmic | Merge sort, efficient sorting | $2 \times 10^7$ |
+| $O(n^2)$ | Quadratic | Nested loops, brute-force pairs | $10^{12}$ (too slow) |
+| $O(n^3)$ | Cubic | Triple nested loops, matrix multiply | $10^{18}$ (way too slow) |
+| $O(2^n)$ | Exponential | All subsets, brute-force backtracking | $10^{301030}$ (impossible) |
+| $O(n!)$ | Factorial | All permutations | absurd |
 
+- **Rule of thumb**: modern computers execute roughly $10^8$–$10^9$ simple operations per second. For a 1-second time limit:
+    - $O(n)$ works for $n \leq 10^8$
+    - $O(n \log n)$ works for $n \leq 10^7$
+    - $O(n^2)$ works for $n \leq 10^4$
+    - $O(2^n)$ works for $n \leq 25$
 
+- This table tells you immediately whether your approach is fast enough. If $n = 10^5$ and your solution is $O(n^2)$, it will be $10^{10}$ operations — too slow. You need a better algorithm.
 
-- 从快到慢:
+### How to Analyse Big O
 
-|Big O|Name|Example|$n = 10^6$ operations|
-|-------|------|---------|----------------------|
-|$O(1)$|Constant|Array access, hash lookup| 1 |
-|$O(\log n)$|Logarithmic|Binary search| 20 |
-|$O(n)$|Linear|Linear scan, single loop| $10^6$ |
-|$O(n \log n)$|Linearithmic|Merge sort, efficient sorting|$2 \times 10^7$|
-|$O(n^2)$|Quadratic|Nested loops, brute-force pairs|$10^{12}$ (too slow)|
-|$O(n^3)$|Cubic|Triple nested loops, matrix multiply|$10^{18}$ (way too slow)|
-|$O(2^n)$|Exponential|All subsets, brute-force backtracking|$10^{301030}$ (impossible)|
-|$O(n!)$|Factorial|All permutations|absurd|
-
-- ** 拇指规则**:现代计算机大致执行$10^8$–$10^9$简单操作每秒。1秒时限:
-    - $O(n)$工作为$n \leq 10^8$
-    - $O(n \log n)$工作为$n \leq 10^7$
-    - $O(n^2)$工作为$n \leq 10^4$
-    - $O(2^n)$工作为$n \leq 25$
-
-- 这个表格立刻告诉你,你的方法是否足够快. 若为$n = 10^5$你的解决办法是$O(n^2)$这将是$10^{10}$操作，，太慢了。你需要一个更好的算法。
-
-### 如何分析大 O
-
-
-
-- ** 单回旋** 结束$n$要素 :$O(n)$.
+- **Single loop** over $n$ elements: $O(n)$.
 
 ```python
 total = 0
@@ -96,7 +83,7 @@ for x in arr:   # n iterations
 # Total: O(n)
 ```
 
-- ** 循环**:重复数乘以。
+- **Nested loops**: multiply the iteration counts.
 
 ```python
 for i in range(n):       # n iterations
@@ -105,7 +92,7 @@ for i in range(n):       # n iterations
 # Total: O(n^2)
 ```
 
-- ** 半径**:$O(\log n)$。。。每次迭接都会把问题大小减半,所以需要$\log_2 n$迭代相续.
+- **Loop with halving**: $O(\log n)$. Each iteration halves the problem size, so it takes $\log_2 n$ iterations.
 
 ```python
 i = n
@@ -115,7 +102,7 @@ while i > 0:
 # Total: O(log n)
 ```
 
-- ** 内在依赖外向的内向环**:
+- **Nested loop where inner depends on outer**:
 
 ```python
 for i in range(n):
@@ -124,60 +111,52 @@ for i in range(n):
 # Total: 0 + 1 + 2 + ... + (n-1) = n(n-1)/2 = O(n^2)
 ```
 
-- **Reursive**:写出重现关系并解决(第13章涵盖了主定理). 例如,合并排序 :$T(n) = 2T(n/2) + O(n) = O(n \log n)$.
+- **Recursive**: write the recurrence relation and solve it (chapter 13 covered the Master Theorem). For example, merge sort: $T(n) = 2T(n/2) + O(n) = O(n \log n)$.
 
-### 常见陷阱
+### Common Traps
 
-
-
-- ** 隐藏回路**:`x in list`实值$O(n)$在 Python (线性扫描) 中,但`x in set`实值$O(1)$。。。使用`in`在一个循环中的列表中$O(n^2)$没有$O(n)$.
+- **Hidden loops**: `x in list` is $O(n)$ in Python (linear scan), but `x in set` is $O(1)$. Using `in` on a list inside a loop gives $O(n^2)$, not $O(n)$.
 
 ```python
-# BAD: O(n^2) ， "in" on a list is O(n)
+# BAD: O(n^2) — "in" on a list is O(n)
 for x in arr:
     if x in another_list:
         process(x)
 
-# GOOD: O(n) ， convert to set first
+# GOOD: O(n) — convert to set first
 another_set = set(another_list)
 for x in arr:
     if x in another_set:
         process(x)
 ```
 
-- ** 结扎**:`s += c`在 Python 中,每次复制整个字符串。内环$n$迭代数 :$O(1 + 2 + \cdots + n) = O(n^2)$.
+- **String concatenation**: `s += c` in Python copies the entire string each time. Inside a loop of $n$ iterations: $O(1 + 2 + \cdots + n) = O(n^2)$.
 
-- ** 吸附主导**:如果您的算法类型($O(n \log n)$)然后进行线性扫描($O(n)$),总计为$O(n \log n)$- 那种东西占优势
+- **Sorting dominance**: if your algorithm sorts ($O(n \log n)$) and then does a linear scan ($O(n)$), the total is $O(n \log n)$ — the sort dominates.
 
-- ** 复杂不堪:有些业务偶尔费用高而平均费用低。动态数组附加为$O(1)$被摊还是因为$O(n)$调整大小分布于各地$n$廉价的附着物. 不要混淆摊销$O(1)$最坏情况$O(1)$.
+- **Amortised complexity**: some operations are expensive occasionally but cheap on average. Dynamic array append is $O(1)$ amortised because the rare $O(n)$ resize is spread across $n$ cheap appends. Do not confuse amortised $O(1)$ with worst-case $O(1)$.
 
-### 空间复杂度
+### Space Complexity
 
+- Space complexity follows the same Big O rules, applied to memory usage instead of time.
 
+- **In-place** algorithms use $O(1)$ extra space (not counting the input). Quicksort is $O(\log n)$ space (recursion stack depth). Merge sort is $O(n)$ (temporary arrays for merging).
 
-- 空间复杂性遵循相同的"大O"规则,被应用于内存使用而不用时间.
+- **Recursion stack**: every recursive call uses stack space. A recursion $n$ levels deep uses $O(n)$ space, even if each call does not allocate additional memory. This is why recursive DFS on a graph with $n$ nodes uses $O(n)$ space.
 
-- ** 在位** 算法使用$O(1)$额外空间(不计算输入)。快速游戏是$O(\log n)$空格(折叠深度)。合并排序$O(n)$(合并所需的临时数组).
-
-- ** 折叠堆 **:每一次回转调用堆放空间. 复发$n$深度使用量$O(n)$空格,即使每个调用都不分配额外的内存。因此,外勤支助部在图表中与$n$节点用途$O(n)$空间。
-
-- 对于访谈,总是同时说明时间和空间的复杂性。一个$O(n)$时间$O(n)$空间解决方案通常可以接受,但$O(n)$时间$O(1)$空间解决方案更好。采访者可以要求您优化其中之一。
+- For interviews, always 状态 both time and space complexity. An $O(n)$ time, $O(n)$ space solution is often acceptable, but an $O(n)$ time, $O(1)$ space solution is better. The interviewer may ask you to optimise one or the other.
 
 ---
 
-## 递归
+## Recursion
 
+- **Recursion** is when a function calls itself to solve a smaller instance of the same problem. It is the most natural approach for problems with recursive structure: trees, nested structures, divide-and-conquer, and mathematical sequences.
 
+- Every recursive function has two parts:
+    1. **Base case**: the smallest instance that can be solved directly (without recursion). This is what stops the recursion.
+    2. **Recursive case**: break the problem into smaller subproblems, solve them recursively, and combine the results.
 
-- ** 追溯** 是当一个函数自称解决同一问题的较小实例时。它是处理递归结构问题最自然的方法:树木、巢状结构、分和相接以及数学序列。
-
-- 每个递归函数都有两个部分:
-    1. ** Base case**:可以直接解决的最小实例(不重复)。这就是阻止复发的原因。
-    2. **递归性案例**:将问题分解为更小的子问题,以递归性方式解决,并结合结果.
-
-### 示例：阶乘
-
-
+### Example: Factorial
 
 ```python
 def factorial(n):
@@ -186,33 +165,29 @@ def factorial(n):
     return n * factorial(n - 1)  # recursive case
 ```
 
-- 如何执行`factorial(4)`:
-    - `factorial(4)`电话`factorial(3)`
-    - `factorial(3)`电话`factorial(2)`
-    - `factorial(2)`电话`factorial(1)`
-    - `factorial(1)`返回时`1`(基数)
-    - `factorial(2)`返回时`2 * 1 = 2`
-    - `factorial(3)`返回时`3 * 2 = 6`
-    - `factorial(4)`返回时`4 * 6 = 24`
+- How it executes for `factorial(4)`:
+    - `factorial(4)` calls `factorial(3)`
+    - `factorial(3)` calls `factorial(2)`
+    - `factorial(2)` calls `factorial(1)`
+    - `factorial(1)` returns `1` (base case)
+    - `factorial(2)` returns `2 * 1 = 2`
+    - `factorial(3)` returns `3 * 2 = 6`
+    - `factorial(4)` returns `4 * 6 = 24`
 
-- 每通电话都被推到**呼叫堆 **。栈会增长,直到达到基数大小写,然后随着每个调用返回而解开风. 如果复发性太深(例如,`factorial(1000000)`在平顶山上,堆积不绝。`RecursionError`) (中文(简体)). Python的默认回转极限为1000.
+- Each call is pushed onto the **call stack**. The stack grows until the base case is reached, then unwinds as each call returns. If the recursion is too deep (e.g., `factorial(1000000)` in Python), the stack overflows (`RecursionError`). Python's default recursion limit is 1000.
 
-### 如何递归地思考
+### How to Think Recursively
 
+- The key mental shift: **trust the recursion**. When writing a recursive function, assume that the recursive call returns the correct answer for the smaller subproblem. Your job is only to:
+    1. Handle the base case.
+    2. Break the problem into smaller pieces.
+    3. Combine the results.
 
+- You do not need to trace through every recursive call in your head. That is like trying to understand a loop by mentally executing every iteration. Instead, verify: "if the recursive call gives me the right answer for the smaller input, does my combination step give the right answer for the full input?"
 
-- 关键的精神转变:**相信重现**。在写入递归函数时,假设递归调回小分问题的正确答案. 你的工作是: 做个好人
-    1. 处理大案
-    2. 把问题拆成小块
-    3. 综合结果.
+### Example: Recursion on a Linked List
 
-- 你不需要跟踪你脑中的每一次循环通话 这就像试图理解一个循环 通过精神执行每一个迭代。相反,验证:"如果递归式呼叫给我一个对更小的输入的正确答案,我的组合步骤是否为全部输入给出正确的答案?".
-
-### 示例：链表递归
-
-
-
-- 反转链接列表 :
+- Reverse a linked list recursively:
 
 ```python
 def reverse(head):
@@ -225,13 +200,11 @@ def reverse(head):
     return new_head
 ```
 
-- ** 相信重犯**:`reverse(head.next)`正确反转列表的其余部分并返回新标题。我们只需要在结尾附上当前节点.
+- **Trust the recursion**: `reverse(head.next)` correctly reverses the rest of the list and returns the new head. We just need to attach the current node at the end.
 
-### 示例：树递归
+### Example: Recursion on a Tree
 
-
-
-- 计算二进制树的高度 :
+- Compute the height of a binary tree:
 
 ```python
 def height(root):
@@ -242,51 +215,42 @@ def height(root):
     return 1 + max(left_h, right_h)  # this node adds 1 level
 ```
 
-- 这种图案，，"左起而后起,右起而后起相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接相接
+- This pattern — "recurse on left, recurse on right, combine" — solves the vast majority of tree problems (see file 03).
 
-### 递归与迭代
+### Recursion vs Iteration
 
+- Every recursive algorithm can be converted to an iterative one (using an explicit stack or loop). Iteration avoids the call stack overhead and the risk of stack overflow.
 
+- **When to prefer recursion**: the problem has natural recursive structure (trees, nested data, divide-and-conquer). The recursive solution is cleaner and easier to reason about.
 
-- 每个递归算法都可以被转换为迭接(使用一个显式栈或回路). 迭接避免了调用栈的起落和栈溢出的风险.
+- **When to prefer iteration**: the recursion depth could be very large (e.g., processing a linked list of $10^6$ nodes). The iterative solution avoids stack overflow.
 
-- ** 何时选择重复**:问题具有自然的循环结构(树木、巢数据、分割和征服)。递归式解决办法比较干净,更容易解释。
+- **Tail recursion**: a recursive call is "tail recursive" if it is the last operation in the function (no work is done after the recursive call returns). Some languages (Scheme, Scala) optimise tail calls to use constant stack space. Python does **not** optimise tail calls, so tail recursion in Python still uses $O(n)$ stack space.
 
-- ** 何时更喜欢重迭**:重现深度可能很大(例如,处理一个链接的列表,其中包含以下内容:$10^6$节点). 迭接解决方案避免堆叠溢出.
+### Common Pitfalls
 
-- ** Tail recursion**:如果是函数中最后一个操作,则一个递归式调用是"尾接回"(在递归式调用回话后没有做任何工作). 一些语言(Scheme, Scala)将尾声调优化为使用常数堆放空间. Python 做** 不** 优化尾声调,所以 Python 中的尾声复发仍然使用$O(n)$栈空间。
-
-### 常见误区
-
-
-
-|Pitfall|Example|Fix|
-|---------|---------|-----|
-|Missing base case|Infinite recursion → stack overflow|Always define when to stop|
-|Wrong base case|Off-by-one in recursive decomposition|Test with the smallest inputs (0, 1, 2)|
-|Not reducing the problem|`f(n)` calls `f(n)` instead of `f(n-1)`|Ensure subproblem is strictly smaller|
-|Redundant computation|Fibonacci: `f(n) = f(n-1) + f(n-2)` recomputes exponentially|Use memoisation (→ DP)|
-|Python recursion limit|`factorial(10000)` crashes|Use `sys.setrecursionlimit` or convert to iteration|
+| Pitfall | Example | Fix |
+|---------|---------|-----| Missing base case | Infinite recursion → stack overflow | Always define when to stop |
+| Wrong base case | Off-by-one in recursive decomposition | Test with the smallest inputs (0, 1, 2) |
+| Not reducing the problem | `f(n)` calls `f(n)` instead of `f(n-1)` | Ensure subproblem is strictly smaller |
+| Redundant computation | Fibonacci: `f(n) = f(n-1) + f(n-2)` recomputes exponentially | Use memoisation (→ DP) |
+| Python recursion limit | `factorial(10000)` crashes | Use `sys.setrecursionlimit` or convert to iteration |
 
 ---
 
-## 回溯
+## Backtracking
 
+- **Backtracking** is a systematic way to explore all possible solutions by building them incrementally and abandoning partial solutions that cannot possibly lead to a valid answer.
 
+- Think of it as navigating a maze. At each junction, you pick a path. If you hit a dead end, you go back to the last junction and try a different path. You do not start over from the beginning — you **backtrack** to the most recent decision point.
 
-- ** 追踪** 是探索所有可能的解决办法的系统方法,办法是逐步建立这些解决办法,并放弃不可能导致有效答案的部分解决办法。
+### The Three Steps
 
-- 把它当成是导航迷宫 在每个路口,你选择一条道路。如果撞到一死胡同,就回上个路口去尝试另一条路. 你从头开始不会，，你** 回到最近的决定点。
+Every backtracking algorithm follows the same pattern:
 
-### 三个步骤
-
-
-
-每个回溯算法都遵循相同的模式:
-
-1. ** 选择一个候选人来延长目前的部分解决方案。
-2. ** 爆炸**:不断设法从该候选人那里找到一个完整的解决办法。
-3. ** 取消选择(后退),并尝试下一个候选人。
+1. **Choose**: select a candidate to extend the current partial solution.
+2. **Explore**: recursively try to build a complete solution from this candidate.
+3. **Unchoose**: undo the choice (backtrack) and try the next candidate.
 
 ```python
 def backtrack(state, choices, result):
@@ -301,21 +265,17 @@ def backtrack(state, choices, result):
             state.remove(choice)        # 3. unchoose (backtrack)
 ```
 
-- ** 无选择** 步骤是后行与平地再行的区别。没有它,国家会累积所有的选择,你不能探索其他路径。
+- The **unchoose** step is what distinguishes backtracking from plain recursion. Without it, the 状态 accumulates all choices and you cannot explore alternative paths.
 
-### 何时使用回溯
+### When to Use Backtracking
 
+- The problem asks to **enumerate all valid configurations**: all permutations, all subsets, all valid arrangements (e.g., N-Queens).
+- The problem asks to **find any valid configuration**: Sudoku solving, maze path finding.
+- The search space is large but can be **pruned**: most partial solutions can be rejected early without exploring them fully.
 
+### How Pruning Makes It Fast
 
-- 问题要求**假设所有有效的配置**:所有外接,所有子集,所有有效的安排(如N-Queens).
-- 问题要求 ** 找到任何有效的配置**:数独解析,迷宫路径寻出.
-- 搜索空间很大,但可以被**pruned**:大多数部分解决方案可以提前被否决而无需充分探索.
-
-### 剪枝为何能加速
-
-
-
-- 不搞花花样,回溯追踪探索每一个可能的组合，，指数时间. 切分枝子很早:
+- Without pruning, backtracking explores every possible combination — exponential time. **Pruning** cuts branches early:
 
 ```python
 for choice in choices:
@@ -327,11 +287,9 @@ for choice in choices:
     state.remove(choice)
 ```
 
-- 在N-Queens(文件05)中,在放出后方前检查列和对角相冲突情况,从$n^n$大约$n!$候选人。用于$n = 8$即1 600万~40 000. 良好的分数使指数算法对中度实用$n$.
+- In N-Queens (file 05), checking column and diagonal conflicts before placing a queen prunes the search tree from $n^n$ to roughly $n!$ candidates. For $n = 8$, that is 16 million → 40,000. Good pruning makes exponential algorithms practical for moderate $n$.
 
-### 生成所有子集（最简单的回溯）
-
-
+### Generating All Subsets (The Simplest Backtracking)
 
 ```python
 def subsets(nums):
@@ -349,14 +307,12 @@ def subsets(nums):
     return result
 ```
 
-- 用于`[1, 2, 3]`,复数树:
-    - `[]` → `[1]` → `[1,2]` → `[1,2,3]`(后行道) •`[1,3]`(后行道) •`[2]` → `[2,3]`(后行道) •`[3]`
+- For `[1, 2, 3]`, the recursion tree:
+    - `[]` → `[1]` → `[1,2]` → `[1,2,3]` (backtrack) → `[1,3]` (backtrack) → `[2]` → `[2,3]` (backtrack) → `[3]`
 
-- 树上的每个节点都叫`backtrack`。。。每个叶子(和中间节点)产生一个子集. 子集总数:$2^n$.
+- Each node in the tree is one call to `backtrack`. Each leaf (and intermediate node) produces a subset. Total subsets: $2^n$.
 
-### 生成所有排列
-
-
+### Generating All Permutations
 
 ```python
 def permutations(nums):
@@ -376,36 +332,29 @@ def permutations(nums):
     return result
 ```
 
-- 总布局:$n!$。。。每一个都要求$O(n)$工程施工`remaining`,所以总数是$O(n \cdot n!)$.
+- Total permutations: $n!$. Each requires $O(n)$ work to construct `remaining`, so the total is $O(n \cdot n!)$.
 
-### 常见误区
+### Common Pitfalls
 
-
-
-|Pitfall|Example|Fix|
-|---------|---------|-----|
-|Forgetting to copy the path|`result.append(path)` ， all entries share the same list|`result.append(path[:])` or `path.copy()`|
-|Not backtracking (unchoosing)|State keeps growing, later candidates see stale state|Always `path.pop()` or `state.remove()` after recursive call|
-|Wrong loop start|Subsets with duplicates, or permutations with unwanted reuse|Use `start` parameter to avoid revisiting earlier indices|
-|Skipping pruning|Exploring obviously invalid branches|Add `if not is_valid: continue` before the recursive call|
+| Pitfall | Example | Fix |
+|---------|---------|-----| Forgetting to copy the path | `result.append(path)` — all entries share the same list | `result.append(path[:])` or `path.copy()` |
+| Not backtracking (unchoosing) | 状态 keeps growing, later candidates see stale 状态 | Always `path.pop()` or `状态.remove()` after recursive call |
+| Wrong loop start | Subsets with duplicates, or permutations with unwanted reuse | Use `start` parameter to avoid revisiting earlier indices |
+| Skipping pruning | Exploring obviously invalid branches | Add `if not is_valid: continue` before the recursive call |
 
 ---
 
-## 动态规划
+## Dynamic Programming
 
+- **Dynamic programming (DP)** is an optimisation technique for problems where the same subproblems are solved repeatedly. Instead of recomputing, DP solves each subproblem once and stores the result.
 
+- DP applies when a problem has two properties:
+    1. **Optimal substructure**: the optimal solution can be built from optimal solutions to subproblems.
+    2. **Overlapping subproblems**: the same subproblems appear multiple times in the recursion.
 
-- ** Dynamic programming (DP)** 是针对同一子问题反复被解决的问题的一种优化技术. DP不重算,而是一次解决每个子问题并存储结果.
+### The Fibonacci Motivation
 
-- 当一个问题有两个属性时,DP适用:
-    1. **Optimal子结构**:最佳解决方案可以由最优解决方案到次问题构建.
-    2. **重叠子问题**:同样的子问题在复发中多次出现.
-
-### 从斐波那契数列理解动机
-
-
-
-- 直径回转 Fibonacci:
+- Naive recursive Fibonacci:
 
 ```python
 def fib(n):
@@ -414,14 +363,14 @@ def fib(n):
     return fib(n - 1) + fib(n - 2)
 ```
 
-- 用于`fib(5)`,复数树:
-    - `fib(5)`电话`fib(4)`财务报告和已审计财务报表`fib(3)`
-    - `fib(4)`电话`fib(3)`财务报告和已审计财务报表`fib(2)`
-    - `fib(3)`计算**两次**,`fib(2)`计算 ** 三倍**
+- For `fib(5)`, the recursion tree:
+    - `fib(5)` calls `fib(4)` and `fib(3)`
+    - `fib(4)` calls `fib(3)` and `fib(2)`
+    - `fib(3)` is computed **twice**, `fib(2)` is computed **three times**
 
-- 这是$O(2^n)$因为树枝在每个级别上, 和大多数的树枝重算相同的值。用于`fib(50)`,它接管了$10^{15}$操作，，不可行。
+- This is $O(2^n)$ because the tree branches at every level, and most branches recompute the same values. For `fib(50)`, it takes over $10^{15}$ operations — infeasible.
 
-- 与**回忆**(自上而下DP):
+- With **memoisation** (top-down DP):
 
 ```python
 def fib_memo(n, memo={}):
@@ -433,9 +382,9 @@ def fib_memo(n, memo={}):
     return memo[n]
 ```
 
-- 现在`fib(3)`被计算一次,存储,并查看以后的电话。共计:$O(n)$时间$O(n)$空间。
+- Now `fib(3)` is computed once, stored, and looked up on subsequent calls. Total: $O(n)$ time, $O(n)$ space.
 
-- 与**抽打**(自下而上DP):
+- With **tabulation** (bottom-up DP):
 
 ```python
 def fib_tab(n):
@@ -448,43 +397,39 @@ def fib_tab(n):
     return dp[n]
 ```
 
-- 一样$O(n)$时间,但从下而上地构建不重复的解决方案。可进一步优化为$O(1)$空格,因为每个值只取决于前两个值。
+- Same $O(n)$ time, but builds the solution from the bottom up without recursion. Can be further optimised to $O(1)$ space since each value depends only on the previous two.
 
-### 动态规划配方
+### The DP Recipe
 
+For any DP problem, follow these steps:
 
+1. **Define the 状态**: what does `dp[i]` (or `dp[i][j]`) represent? This is the hardest step. The 状态 must capture enough information to make optimal decisions.
 
-对于任何DP问题,请遵循这些步骤:
+2. **Write the recurrence**: how does `dp[i]` relate to smaller subproblems? This is the transition formula.
 
-1. ** 保卫国家**:做什么工作`dp[i]`(或 减:`dp[i][j]`代表吗? 这是最艰难的一步。国家必须掌握足够的信息,以便作出最佳决定。
+3. **Identify the base case**: what are the smallest subproblems that can be solved directly?
 
-2. ** 写入重现**:如何`dp[i]`与较小的分问题有关? 这是过渡公式。
+4. **Determine the iteration order**: which subproblems must be solved before which? Bottom-up: iterate in an order that ensures dependencies are resolved. Top-down: recursion handles this automatically.
 
-3. ** 确定基本情况**:可以直接解决的最小分问题是什么?
+5. **Optimise space** (optional): if `dp[i]` only depends on the previous row or the previous few entries, you do not need the full table.
 
-4. ** 确定重复顺序**:哪一个子问题必须先解决? 自下而上:按顺序排列,以确保依赖性得到解决。自上而下:递归自动处理此操作.
+### Example: The Thinking Process
 
-5. ** 优化空间**(可选):如果`dp[i]`仅取决于上行或前几个条目,您不需要完整的表格。
+**Problem**: given an array of positive integers, find the maximum sum of non-adjacent elements (House Robber).
 
-### 示例：思考过程
+**Step 1 — Define the 状态**: `dp[i]` = maximum sum considering elements `nums[0..i]`.
 
+**Step 2 — Write the recurrence**: for element $i$, we either:
+- Skip it: `dp[i] = dp[i-1]` (best sum without element $i$).
+- Take it: `dp[i] = dp[i-2] + nums[i]` (must skip element $i-1$, then add element $i$).
 
+So: `dp[i] = max(dp[i-1], dp[i-2] + nums[i])`.
 
-** problem**:给正整数阵列,寻找非相邻元素的最大和量(House Robber).
+**Step 3 — Base cases**: `dp[0] = nums[0]`, `dp[1] = max(nums[0], nums[1])`.
 
-** 步骤1，，界定国家**:`dp[i]`= 考虑到各项要素的最高和数`nums[0..i]`.
+**Step 4 — Iteration order**: left to right (each 状态 depends on the two previous 状态s).
 
-** 第2步，，写出重现**:用于元素$i$我们要么:
-- 跳过它:`dp[i] = dp[i-1]`(无元素的最佳和数)$i$).
-- 拿着`dp[i] = dp[i-2] + nums[i]`(必须跳过元素)$i-1$,然后添加元素$i$).
-
-这么说吧:`dp[i] = max(dp[i-1], dp[i-2] + nums[i])`.
-
-** 步骤3，，基本案件**:`dp[0] = nums[0]`, `dp[1] = max(nums[0], nums[1])`.
-
-** 第4步，，迭代顺序**:从左到右(每个州取决于前两个州).
-
-** 第5步，，空间优化**:只需要最后两个数值。
+**Step 5 — Space optimisation**: only need the last two values.
 
 ```python
 def rob(nums):
@@ -500,75 +445,63 @@ def rob(nums):
     return prev1
 ```
 
-### 如何识别动态规划问题
+### How to Identify DP Problems
 
+- The problem asks for an **optimum** (minimum cost, maximum profit, longest sequence) or a **count** (number of ways).
+- The problem has **choices at each step** (take/skip, go left/right, use this coin or not), and the best overall answer depends on the best answers to subproblems.
+- Drawing the recursion tree reveals **repeated subproblems**.
+- The brute force is exponential, but there are far fewer **distinct 状态s** than recursive calls.
 
+### Categories of DP
 
-- 问题要求达到最佳**(最低成本、最高利润、最长序列)或**(方法数目)。
-- 问题在每个步骤**都有**选择(取出/滑行,去出左/右,用出这枚硬币与否),最好的整体答案取决于对次问题的最好答案.
-- 绘制回转树显示**重复的子问题**.
-- 野蛮的力量是指数化的, 但有远为少 歧义状态** 远远少于循环呼叫。
+- **1D DP**: 状态 depends on a single index. Examples: climbing stairs, house robber, maximum subarray.
 
-### 动态规划的类别
+- **2D DP**: 状态 depends on two indices. Examples: longest common subsequence (`dp[i][j]` for first $i$ chars of string 1 and first $j$ chars of string 2), edit distance, grid path problems.
 
+- **Interval DP**: 状态 is a range `dp[i][j]` representing the subproblem on `arr[i..j]`. Examples: matrix chain multiplication, burst balloons.
 
+- **Knapsack DP**: 状态 is an item index and a capacity. Examples: 0/1 knapsack, coin change, subset sum.
 
-- **1D DP**:状态取决于单一指数. 例子:攀登楼梯,入室抢劫,最大分库.
+- **Bitmask DP**: 状态 includes a bitmask representing which elements have been used. Examples: TSP, assignment problem. The 状态 space is $O(2^n \cdot n)$, feasible for $n \leq 20$.
 
-- **2D DP**:状态取决于两个指数。例如:最长的常见子序列(`dp[i][j]`首个$i$字符串 1 和第一个字符$j$字符串 2,编辑距离,网格路径问题.
+### Top-Down vs Bottom-Up
 
-- ** Interval DP**:状态是一个范围`dp[i][j]`代表子问题`arr[i..j]`。。。例子:矩阵链相乘,爆出气球.
+| | Top-Down (Memoisation) | Bottom-Up (Tabulation) |
+|--|---|---| Implementation | Recursive + cache | Iterative + table |
+| Computes | Only subproblems that are actually needed | All subproblems up to the target |
+| Stack overflow risk | Yes (deep recursion) | No |
+| Space optimisation | Harder | Easier (use rolling array) |
+| Ease of coding | Often more natural (write recursion, add cache) | Requires thinking about iteration order |
 
-- ** Knapsack DP**:状态是一个项目指数和一个能力. 例子:0/1 knapsack,硬币变化,子集和.
+- In interviews, top-down is often faster to code. In production, bottom-up is usually preferred for performance (no recursion overhead, better cache behaviour).
 
-- ** Bitmask DP**:状态包括一个代表哪些元素的位图. 例如:TSP,任务问题. 状态空间是$O(2^n \cdot n)$,可行$n \leq 20$.
+### Common Pitfalls
 
-### 自顶向下与自底向上
-
-
-
-| |Top-Down (Memoisation)|Bottom-Up (Tabulation)|
-|--|---|---|
-|Implementation|Recursive + cache|Iterative + table|
-|Computes|Only subproblems that are actually needed|All subproblems up to the target|
-|Stack overflow risk|Yes (deep recursion)|No|
-|Space optimisation|Harder|Easier (use rolling array)|
-|Ease of coding|Often more natural (write recursion, add cache)|Requires thinking about iteration order|
-
-- 在采访中,自上而下往往比编码更快. 在生产中,通常偏好自下而上的业绩(不重复高管,更好的缓存行为).
-
-### 常见误区
-
-
-
-|Pitfall|Example|Fix|
-|---------|---------|-----|
-|Wrong state definition|`dp[i]` does not capture enough info to make decisions|Add dimensions (e.g., `dp[i][j]` instead of `dp[i]`)|
-|Missing base case|`dp[0]` is wrong → all subsequent values are wrong|Verify base case by hand|
-|Wrong iteration order|Computing `dp[i]` before its dependencies|Draw the dependency arrows and iterate accordingly|
-|Not initialising `dp` correctly|Using 0 when it should be infinity (for min problems)|`float('inf')` for minimisation, `float('-inf')` for maximisation|
-|Forgetting to consider "skip" option|Always taking the current element|The recurrence usually has `max(take, skip)`|
-|Mutable default argument|`def f(memo={})` shares cache across calls|`def f(memo=None): if memo is None: memo = {}`|
-|Off-by-one in 2D DP|Indexing `text1[i]` when `dp` is 1-indexed|`dp` has size `(m+1) x (n+1)`, access `text1[i-1]`|
+| Pitfall | Example | Fix |
+|---------|---------|-----| Wrong 状态 definition | `dp[i]` does not capture enough info to make decisions | Add dimensions (e.g., `dp[i][j]` instead of `dp[i]`) |
+| Missing base case | `dp[0]` is wrong → all subsequent values are wrong | Verify base case by hand |
+| Wrong iteration order | Computing `dp[i]` before its dependencies | Draw the dependency arrows and iterate accordingly |
+| Not initialising `dp` correctly | Using 0 when it should be infinity (for min problems) | `float('inf')` for minimisation, `float('-inf')` for maximisation |
+| Forgetting to consider "skip" option | Always taking the current element | The recurrence usually has `max(take, skip)` |
+| Mutable default argument | `def f(memo={})` shares cache across calls | `def f(memo=None): if memo is None: memo = {}` |
+| Off-by-one in 2D DP | Indexing `text1[i]` when `dp` is 1-indexed | `dp` has size `(m+1) x (n+1)`, access `text1[i-1]` |
 
 ---
 
-## 综合运用
+## Putting It All Together
 
+- These four concepts form a progression:
+    1. **Big O** tells you whether an approach is fast enough.
+    2. **Recursion** breaks problems into subproblems.
+    3. **Backtracking** is recursion + choices + undo, for exhaustive search.
+    4. **DP** is recursion + caching, for optimisation over overlapping subproblems.
 
+- When you see a new problem:
+    - Estimate the input size $n$. What Big O is acceptable?
+    - If the brute force is exponential and the problem asks to enumerate/find configurations: **backtracking** (with pruning to make it practical).
+    - If the brute force is exponential and the problem asks for an optimum or count, and you see overlapping subproblems: **DP**.
+    - If the problem has structure that halves the search space: **binary search** or **divide and conquer**.
+    - If the problem is on sequences with a constraint on subarrays: **sliding window** or **two pointers**.
+    - If the problem needs fast lookups: **hash map**.
 
-- 这四个概念构成一个进步:
-    1. **大O**告诉你一个方法是否足够快.
-    2. ** 复议** 将问题分成子问题。
-    3. ** 回溯**是重复+选择+取消,以进行详尽搜索。
-    4. ** DP**是再现+缓存,以优化于重叠子问题。
-
-- 当你看到一个新问题时:
-    - 估计输入大小$n$。。。什么大O是可以接受的吗?
-    - 如果蛮力是指数性的,问题要求列举/查找配置:**回溯**(并用螺旋来使其切实可行).
-    - 如果野蛮的力量是指数性的,问题要求有一个最佳或计数,你就会看到重叠的副问题:**DP**。
-    - 如果问题的结构将搜索空间减半:**二进制搜索**或**分割并征服**.
-    - 如果问题发生在对子阵列有限制的序列上:**滑动窗口**或**两个指针**.
-    - 如果问题需要快速检查:**hash映射**.
-
-- 本章所剩文件将这些想法应用于特定数据结构和模式.
+- The remaining files in this chapter apply these ideas to specific data structures and patterns.

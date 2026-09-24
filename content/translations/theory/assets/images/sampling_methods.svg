@@ -31,7 +31,7 @@
   <circle cx="165" cy="175" r="6" fill="#ccc"/>
   <circle cx="105" cy="200" r="6" fill="#ccc"/>
 
-  <text x="110" y="240" fill="#3498db" font-size="11" text-anchor="middle">随机选择</text>
+  <text x="110" y="240" fill="#3498db" font-size="11" text-anchor="middle">从所有元素中进行随机抽取</text>
 
   <!-- Stratified Sampling -->
   <text x="380" y="22" fill="#333" font-size="13" font-weight="bold" text-anchor="middle">分层抽样</text>
@@ -61,10 +61,10 @@
   <circle cx="410" cy="181" r="6" fill="#ccc"/>
   <circle cx="440" cy="181" r="6" fill="#9b59b6" opacity="0.7"/>
 
-  <text x="380" y="240" fill="#333" font-size="11" text-anchor="middle">从每组样本</text>
+  <text x="380" y="240" fill="#333" font-size="11" text-anchor="middle">从每个组中抽取样本</text>
 
   <!-- Cluster Sampling -->
-  <text x="620" y="22" fill="#333" font-size="13" font-weight="bold" text-anchor="middle">整群抽样</text>
+  <text x="620" y="22" fill="#333" font-size="13" font-weight="bold" text-anchor="middle">聚类抽样</text>
   <rect x="530" y="32" width="180" height="180" rx="8" fill="#f9f9f9" stroke="#ccc" stroke-width="1"/>
 
   <!-- Cluster 1 (not selected) -->
@@ -95,8 +95,8 @@
   <circle cx="655" cy="168" r="5" fill="#3498db"/>
   <circle cx="672" cy="163" r="5" fill="#3498db"/>
 
-  <text x="620" y="240" fill="#333" font-size="11" text-anchor="middle">选择整组</text>
+  <text x="620" y="240" fill="#333" font-size="11" text-anchor="middle">选取整个组</text>
 
   <!-- Legend -->
-  <text x="360" y="272" fill="#666" font-size="11" text-anchor="middle">彩色点=选入样本</text>
+  <text x="360" y="272" fill="#666" font-size="11" text-anchor="middle">彩色圆点代表被选中加入样本中</text>
 </svg>

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 250" width="800" height="250" font-family="Arial, sans-serif">
   <!-- Title -->
-  <text x="400" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">统一视野-语言图文集序列</text>
+  <text x="400" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">统一视觉语言标记序列</text>
 
   <defs>
     <marker id="uArr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
@@ -12,13 +12,13 @@
   <g transform="translate(30, 50)">
     <!-- Text tokens (red) -->
     <rect x="0" y="0" width="44" height="36" rx="4" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.2"/>
-    <text x="22" y="22" text-anchor="middle" font-size="10" font-weight="bold" fill="#e74c3c">该</text>
+    <text x="22" y="22" text-anchor="middle" font-size="10" font-weight="bold" fill="#e74c3c">的</text>
 
     <rect x="50" y="0" width="44" height="36" rx="4" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.2"/>
     <text x="72" y="22" text-anchor="middle" font-size="10" font-weight="bold" fill="#e74c3c">猫</text>
 
     <rect x="100" y="0" width="44" height="36" rx="4" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.2"/>
-    <text x="122" y="22" text-anchor="middle" font-size="10" font-weight="bold" fill="#e74c3c">实值</text>
+    <text x="122" y="22" text-anchor="middle" font-size="10" font-weight="bold" fill="#e74c3c">is</text>
 
     <!-- Separator bracket -->
     <text x="156" y="22" text-anchor="middle" font-size="12" fill="#ccc">[</text>
@@ -47,10 +47,10 @@
 
     <!-- More text tokens (red) -->
     <rect x="482" y="0" width="64" height="36" rx="4" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.2"/>
-    <text x="514" y="22" text-anchor="middle" font-size="10" font-weight="bold" fill="#e74c3c">坐着</text>
+    <text x="514" y="22" text-anchor="middle" font-size="10" font-weight="bold" fill="#e74c3c">坐在</text>
 
     <rect x="552" y="0" width="44" height="36" rx="4" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.2"/>
-    <text x="574" y="22" text-anchor="middle" font-size="10" font-weight="bold" fill="#e74c3c">打开</text>
+    <text x="574" y="22" text-anchor="middle" font-size="10" font-weight="bold" fill="#e74c3c">on</text>
 
     <rect x="602" y="0" width="44" height="36" rx="4" fill="#3498db" fill-opacity="0.15" stroke="#3498db" stroke-width="1.2"/>
     <text x="624" y="22" text-anchor="middle" font-size="10" font-weight="bold" fill="#3498db">64</text>
@@ -58,13 +58,13 @@
     <text x="658" y="22" font-size="14" fill="#999">...</text>
 
     <!-- Labels above -->
-    <text x="72" y="-8" text-anchor="middle" font-size="9" fill="#e74c3c">文本符号</text>
+    <text x="72" y="-8" text-anchor="middle" font-size="9" fill="#e74c3c">文本标记</text>
     <line x1="0" y1="-4" x2="144" y2="-4" stroke="#e74c3c" stroke-width="0.5" stroke-dasharray="2,2"/>
 
-    <text x="310" y="-8" text-anchor="middle" font-size="9" fill="#3498db">图像符号</text>
+    <text x="310" y="-8" text-anchor="middle" font-size="9" fill="#3498db">图像标记</text>
     <line x1="166" y1="-4" x2="460" y2="-4" stroke="#3498db" stroke-width="0.5" stroke-dasharray="2,2"/>
 
-    <text x="548" y="-8" text-anchor="middle" font-size="9" fill="#e74c3c">文本符号</text>
+    <text x="548" y="-8" text-anchor="middle" font-size="9" fill="#e74c3c">文本标记</text>
     <line x1="482" y1="-4" x2="596" y2="-4" stroke="#e74c3c" stroke-width="0.5" stroke-dasharray="2,2"/>
   </g>
 
@@ -83,18 +83,18 @@
 
   <!-- Transformer box -->
   <rect x="170" y="132" width="460" height="60" rx="8" fill="#9b59b6" fill-opacity="0.1" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="400" y="160" text-anchor="middle" font-size="14" font-weight="bold" fill="#9b59b6">变形器</text>
-  <text x="400" y="178" text-anchor="middle" font-size="9" fill="#666">在所有标志类型上共享自留</text>
+  <text x="400" y="160" text-anchor="middle" font-size="14" font-weight="bold" fill="#9b59b6">Transformer </text>
+  <text x="400" y="178" text-anchor="middle" font-size="9" fill="#666">在所有标记类型上共享自注意力机制</text>
 
   <!-- Uniform treatment annotation -->
   <rect x="190" y="204" width="420" height="28" rx="6" fill="#333" fill-opacity="0.04" stroke="#ccc" stroke-width="0.8"/>
-  <text x="400" y="222" text-anchor="middle" font-size="10" fill="#333">所有符号(文本 + 图像) 均按单一顺序处理</text>
+  <text x="400" y="222" text-anchor="middle" font-size="10" fill="#333">所有标记（文本+图像）在一个序列中被统一处理，例如向量空间</text>
 
   <!-- Legend -->
   <g transform="translate(250, 238)">
     <rect x="0" y="0" width="14" height="10" rx="2" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1"/>
-    <text x="20" y="9" font-size="9" fill="#666">文本符 (从发号符)</text>
+    <text x="20" y="9" font-size="9" fill="#666">文本标记（来自词元化器）</text>
     <rect x="170" y="0" width="14" height="10" rx="2" fill="#3498db" fill-opacity="0.15" stroke="#3498db" stroke-width="1"/>
-    <text x="190" y="9" font-size="9" fill="#666">图像符号(来自 VQ 编码器)</text>
+    <text x="190" y="9" font-size="9" fill="#666">图像标记（来自 VQ 编码器）</text>
   </g>
 </svg>

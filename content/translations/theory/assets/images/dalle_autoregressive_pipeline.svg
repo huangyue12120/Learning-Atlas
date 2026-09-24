@@ -12,21 +12,21 @@
   </defs>
 
   <!-- Title -->
-  <text x="400" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">DALL- E: 自动反向图像生成</text>
+  <text x="400" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">DALL-E: 自回归图像生成</text>
 
   <!-- Text tokens (red squares) -->
-  <text x="45" y="58" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">文本键</text>
+  <text x="45" y="58" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">文本标记 (Tokens)</text>
   <rect x="15" y="66" width="28" height="28" rx="4" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.2"/>
   <text x="29" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">a</text>
   <rect x="47" y="66" width="28" height="28" rx="4" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.2"/>
-  <text x="61" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">猫</text>
+  <text x="61" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">猫 (cat)</text>
   <rect x="79" y="66" width="28" height="28" rx="4" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.2"/>
-  <text x="93" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">打开</text>
+  <text x="93" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">on</text>
   <rect x="111" y="66" width="28" height="28" rx="4" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="1.2"/>
-  <text x="125" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">垫子</text>
+  <text x="125" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">矩阵 (mat)</text>
 
   <!-- Image tokens (blue squares) -->
-  <text x="205" y="58" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">图像托肯斯</text>
+  <text x="205" y="58" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">图像标记 (Image Tokens)</text>
   <rect x="155" y="66" width="28" height="28" rx="4" fill="#3498db" fill-opacity="0.15" stroke="#3498db" stroke-width="1.2"/>
   <text x="169" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">42</text>
   <rect x="187" y="66" width="28" height="28" rx="4" fill="#3498db" fill-opacity="0.15" stroke="#3498db" stroke-width="1.2"/>
@@ -39,7 +39,7 @@
   <text x="297" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">?</text>
 
   <!-- Concatenation bracket -->
-  <text x="165" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">相接顺序</text>
+  <text x="165" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">拼接的序列 (concatenated sequence)</text>
   <line x1="15" y1="100" x2="310" y2="100" stroke="#ccc" stroke-width="1" stroke-dasharray="3,2"/>
 
   <!-- Arrow down to transformer -->
@@ -47,19 +47,19 @@
 
   <!-- Transformer Decoder -->
   <rect x="70" y="140" width="190" height="55" rx="8" fill="#9b59b6" fill-opacity="0.12" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="165" y="163" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#9b59b6">变形器解码器</text>
-  <text x="165" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">12B参数,因果注意</text>
+  <text x="165" y="163" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#9b59b6">Transformer 解码器 (Transformer Decoder)</text>
+  <text x="165" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">12B 个参数，因果注意力 (12B parameters, causal attention)</text>
 
   <!-- Autoregressive arrow (curved, looping) -->
   <path d="M260,167 C290,167 290,130 310,100 C320,85 310,75 297,80" fill="none" stroke="#9b59b6" stroke-width="1.2" stroke-dasharray="4,2" marker-end="url(#arr-purple)"/>
-  <text x="318" y="130" text-anchor="start" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">预测下一个</text>
-  <text x="318" y="140" text-anchor="start" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">图像符号</text>
+  <text x="318" y="130" text-anchor="start" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">预测下一个 (predict next)</text>
+  <text x="318" y="140" text-anchor="start" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">图像标记 (image token)</text>
 
   <!-- Arrow from transformer to predicted tokens -->
   <line x1="165" y1="195" x2="165" y2="215" stroke="#333" stroke-width="1.2" marker-end="url(#arr)"/>
 
   <!-- Predicted image tokens row -->
-  <text x="165" y="233" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">预想的图像符号序列(1024个符号)</text>
+  <text x="165" y="233" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">生成的图像标记序列 (1024 tokens) (Predicted image token sequence (1024 tokens))</text>
 
   <!-- Predicted tokens -->
   <rect x="70" y="240" width="22" height="22" rx="3" fill="#3498db" fill-opacity="0.25" stroke="#3498db" stroke-width="1"/>
@@ -76,8 +76,8 @@
 
   <!-- dVAE Decoder -->
   <rect x="420" y="125" width="140" height="50" rx="8" fill="#27ae60" fill-opacity="0.12" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="490" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">dVAE 解码器</text>
-  <text x="490" y="163" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">8192-vocab 密码簿</text>
+  <text x="490" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">dVAE 解码器 (dVAE Decoder)</text>
+  <text x="490" y="163" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">8192 词汇表编码书 (8192-vocab codebook)</text>
 
   <!-- Arrow connecting predicted tokens to dVAE -->
   <line x1="310" y1="251" x2="420" y2="160" stroke="#333" stroke-width="1.2" marker-end="url(#arr)"/>
@@ -88,11 +88,11 @@
   <!-- Output image placeholder -->
   <rect x="620" y="100" width="100" height="100" rx="8" fill="#3498db" fill-opacity="0.08" stroke="#3498db" stroke-width="1.5"/>
   <!-- Simple cat silhouette hint -->
-  <text x="670" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#3498db">已生成</text>
-  <text x="670" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#3498db">图像</text>
+  <text x="670" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#3498db">生成 (Generated)</text>
+  <text x="670" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#3498db">图像 (Image)</text>
   <text x="670" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">256 x 256</text>
 
   <!-- Stage labels at bottom -->
-  <text x="165" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">第1阶段:自动回转符号预测</text>
-  <text x="560" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">阶段2:托肯对像素解码</text>
+  <text x="165" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">第一阶段：自回归标记预测 (Stage 1: Autoregressive token prediction)</text>
+  <text x="560" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">第二阶段：标记到像素解码 (Stage 2: Token-to-pixel decoding)</text>
 </svg>

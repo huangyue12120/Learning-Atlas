@@ -12,7 +12,7 @@
   </defs>
 
   <!-- Title -->
-  <text x="350" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">视觉问答管道</text>
+  <text x="350" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">视觉问答流水线</text>
 
   <!-- Image placeholder -->
   <rect x="20" y="55" width="90" height="70" rx="4" fill="#eee" stroke="#ccc" stroke-width="1"/>
@@ -22,8 +22,8 @@
   <text x="65" y="130" font-size="9" fill="#666" text-anchor="middle">图像</text>
 
   <!-- Question text -->
-  <text x="65" y="175" font-size="9" fill="#666" text-anchor="middle">"什么颜色</text>
-  <text x="65" y="187" font-size="9" fill="#666" text-anchor="middle">车是么?"</text>
+  <text x="65" y="175" font-size="9" fill="#666" text-anchor="middle">“什么颜色</text>
+  <text x="65" y="187" font-size="9" fill="#666" text-anchor="middle">是这辆车？”</text>
   <text x="65" y="205" font-size="9" fill="#999" text-anchor="middle">问题</text>
 
   <!-- Arrow: Image to Vision Encoder -->
@@ -31,8 +31,8 @@
 
   <!-- Vision Encoder -->
   <rect x="160" y="60" width="120" height="55" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="220" y="84" font-size="11" fill="#333" text-anchor="middle">视野编码器</text>
-  <text x="220" y="100" font-size="9" fill="#666" text-anchor="middle">(视频/ResNet)</text>
+  <text x="220" y="84" font-size="11" fill="#333" text-anchor="middle">视觉编码器</text>
+  <text x="220" y="100" font-size="9" fill="#666" text-anchor="middle">(ViT / ResNet) </text>
 
   <!-- Arrow: Question to Text Encoder -->
   <line x1="110" y1="185" x2="155" y2="185" stroke="#e74c3c" stroke-width="1.5" marker-end="url(#vqa-arrow-red)"/>
@@ -40,17 +40,17 @@
   <!-- Text Encoder -->
   <rect x="160" y="160" width="120" height="55" rx="8" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
   <text x="220" y="184" font-size="11" fill="#333" text-anchor="middle">文本编码器</text>
-  <text x="220" y="200" font-size="9" fill="#666" text-anchor="middle">(BERT/GPT) (英语:</text>
+  <text x="220" y="200" font-size="9" fill="#666" text-anchor="middle">(BERT / GPT) </text>
 
   <!-- Image features label -->
   <line x1="280" y1="87" x2="320" y2="87" stroke="#3498db" stroke-width="1.2"/>
   <text x="300" y="78" font-size="8" fill="#3498db" text-anchor="middle">图像</text>
-  <text x="300" y="100" font-size="8" fill="#3498db" text-anchor="middle">特性</text>
+  <text x="300" y="100" font-size="8" fill="#3498db" text-anchor="middle">特征</text>
 
   <!-- Text features label -->
   <line x1="280" y1="187" x2="320" y2="187" stroke="#e74c3c" stroke-width="1.2"/>
   <text x="300" y="178" font-size="8" fill="#e74c3c" text-anchor="middle">文本</text>
-  <text x="300" y="200" font-size="8" fill="#e74c3c" text-anchor="middle">特性</text>
+  <text x="300" y="200" font-size="8" fill="#e74c3c" text-anchor="middle">特征</text>
 
   <!-- Arrows converging to Fusion -->
   <line x1="320" y1="87" x2="365" y2="125" stroke="#3498db" stroke-width="1.5" marker-end="url(#vqa-arrow)"/>
@@ -58,16 +58,16 @@
 
   <!-- Fusion box -->
   <rect x="370" y="110" width="120" height="55" rx="8" fill="#9b59b6" fill-opacity="0.12" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="430" y="134" font-size="11" fill="#333" text-anchor="middle">多式联运</text>
-  <text x="430" y="150" font-size="11" fill="#333" text-anchor="middle">组合</text>
+  <text x="430" y="134" font-size="11" fill="#333" text-anchor="middle">多模态</text>
+  <text x="430" y="150" font-size="11" fill="#333" text-anchor="middle">融合</text>
 
   <!-- Arrow to Classifier -->
   <line x1="490" y1="137" x2="530" y2="137" stroke="#9b59b6" stroke-width="1.5" marker-end="url(#vqa-arrow)"/>
 
   <!-- Classifier -->
   <rect x="535" y="110" width="80" height="55" rx="8" fill="#f39c12" fill-opacity="0.12" stroke="#f39c12" stroke-width="1.5"/>
-  <text x="575" y="134" font-size="11" fill="#333" text-anchor="middle">回答</text>
-  <text x="575" y="150" font-size="11" fill="#333" text-anchor="middle">头</text>
+  <text x="575" y="134" font-size="11" fill="#333" text-anchor="middle">答案</text>
+  <text x="575" y="150" font-size="11" fill="#333" text-anchor="middle">头部</text>
 
   <!-- Arrow to Answer -->
   <line x1="615" y1="137" x2="640" y2="137" stroke="#f39c12" stroke-width="1.5" marker-end="url(#vqa-arrow)"/>
@@ -75,8 +75,8 @@
   <!-- Answer -->
   <rect x="645" y="118" width="45" height="38" rx="6" fill="#27ae60" fill-opacity="0.15" stroke="#27ae60" stroke-width="1.5"/>
   <text x="667" y="133" font-size="9" font-weight="bold" fill="#27ae60" text-anchor="middle">红色</text>
-  <text x="667" y="147" font-size="8" fill="#666" text-anchor="middle">回答</text>
+  <text x="667" y="147" font-size="8" fill="#666" text-anchor="middle">答案</text>
 
   <!-- Bottom legend -->
-  <text x="350" y="258" font-size="9" fill="#999" text-anchor="middle">特定模式编码器 → 跨模式聚变 → 任务特定预测</text>
+  <text x="350" y="258" font-size="9" fill="#999" text-anchor="middle">模态特定编码器 → 跨模态融合 → 任务特定预测 </text>
 </svg>

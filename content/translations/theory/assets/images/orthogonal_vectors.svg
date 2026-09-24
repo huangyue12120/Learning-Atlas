@@ -17,5 +17,5 @@
   <line x1="50" y1="97" x2="50" y2="22" stroke="#3498db" stroke-width="2.5" marker-end="url(#arr-v)"/>
   <text x="36" y="20" fill="#3498db" font-size="13" font-weight="bold">v</text>
   <!-- label -->
-  <text x="30" y="160" fill="#666" font-size="11">90°, 完全独立</text>
+  <text x="30" y="160" fill="#666" font-size="11">90°，完全正交</text>
 </svg>

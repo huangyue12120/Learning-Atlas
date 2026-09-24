@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 250" width="650" height="250" font-family="Arial, sans-serif">
   <!-- Title -->
-  <text x="325" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">代码簿 Utilisation: 健康 vs 折叠</text>
+  <text x="325" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">代码使用：健康状态与崩溃状态</text>
 
   <!-- LEFT: Healthy Codebook -->
-  <text x="160" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#27ae60">健康代码</text>
+  <text x="160" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#27ae60">健康代码书</text>
 
   <!-- Grid of codebook entries - healthy (most coloured) -->
   <g transform="translate(55, 56)">
@@ -26,7 +26,7 @@
     <rect x="168" y="22" width="24" height="18" rx="2" fill="#ccc" fill-opacity="0.5" stroke="#ccc" stroke-width="0.8"/>
     <rect x="196" y="22" width="24" height="18" rx="2" fill="#f39c12" fill-opacity="0.5" stroke="#f39c12" stroke-width="0.8"/>
   </g>
-  <text x="160" y="108" text-anchor="middle" font-size="9" fill="#666">15/16项活动</text>
+  <text x="160" y="108" text-anchor="middle" font-size="9" fill="#666">15/16 个条目已激活</text>
 
   <!-- Bar chart - healthy -->
   <g transform="translate(60, 118)">
@@ -48,15 +48,15 @@
     <rect x="186" y="22" width="10" height="68" rx="1" fill="#e74c3c" fill-opacity="0.6"/>
     <rect x="200" y="85" width="10" height="5" rx="1" fill="#ccc" fill-opacity="0.6"/>
     <!-- Axis label -->
-    <text x="105" y="106" text-anchor="middle" font-size="8" fill="#999">代码簿条目索引</text>
-    <text x="-8" y="55" text-anchor="middle" font-size="8" fill="#999" transform="rotate(-90 -8 55)">使用量</text>
+    <text x="105" y="106" text-anchor="middle" font-size="8" fill="#999">代码书条目索引</text>
+    <text x="-8" y="55" text-anchor="middle" font-size="8" fill="#999" transform="rotate(-90 -8 55)">使用情况</text>
   </g>
 
   <!-- Divider -->
   <line x1="325" y1="40" x2="325" y2="240" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
 
   <!-- RIGHT: Collapsed Codebook -->
-  <text x="490" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#e74c3c">折叠的代码簿</text>
+  <text x="490" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#e74c3c">崩溃代码书</text>
 
   <!-- Grid of codebook entries - collapsed (mostly grey) -->
   <g transform="translate(385, 56)">
@@ -79,7 +79,7 @@
     <rect x="168" y="22" width="24" height="18" rx="2" fill="#27ae60" fill-opacity="0.6" stroke="#27ae60" stroke-width="1.2"/>
     <rect x="196" y="22" width="24" height="18" rx="2" fill="#ccc" fill-opacity="0.4" stroke="#ccc" stroke-width="0.8"/>
   </g>
-  <text x="490" y="108" text-anchor="middle" font-size="9" fill="#666">3/16 项活动</text>
+  <text x="490" y="108" text-anchor="middle" font-size="9" fill="#666">3/16 个条目已激活</text>
 
   <!-- Bar chart - collapsed -->
   <g transform="translate(390, 118)">
@@ -101,11 +101,11 @@
     <rect x="186" y="30" width="10" height="60" rx="1" fill="#27ae60" fill-opacity="0.6"/>
     <rect x="200" y="85" width="10" height="5" rx="1" fill="#ccc" fill-opacity="0.5"/>
     <!-- Axis label -->
-    <text x="105" y="106" text-anchor="middle" font-size="8" fill="#999">代码簿条目索引</text>
-    <text x="-8" y="55" text-anchor="middle" font-size="8" fill="#999" transform="rotate(-90 -8 55)">使用量</text>
+    <text x="105" y="106" text-anchor="middle" font-size="8" fill="#999">代码书条目索引</text>
+    <text x="-8" y="55" text-anchor="middle" font-size="8" fill="#999" transform="rotate(-90 -8 55)">使用情况</text>
   </g>
 
   <!-- Bottom annotations -->
-  <text x="160" y="242" text-anchor="middle" font-size="9" fill="#27ae60">高质量重建</text>
-  <text x="490" y="242" text-anchor="middle" font-size="9" fill="#e74c3c">重建不善,能力被浪费</text>
+  <text x="160" y="242" text-anchor="middle" font-size="9" fill="#27ae60">高重建质量</text>
+  <text x="490" y="242" text-anchor="middle" font-size="9" fill="#e74c3c">重建质量差，浪费容量</text>
 </svg>

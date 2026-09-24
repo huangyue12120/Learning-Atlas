@@ -8,35 +8,29 @@ source:
   sha256: f32813ef8142c3e5f8b99576ed24f1d8f4fb5e0626b4456f16e22d4a4cce37da
 status: reviewed
 ---
+# Edge Inference
 
-# 边缘推理
+*Edge inference runs models on user devices (phones, laptops, IoT sensors) without sending data to the cloud. This file covers edge constraints, the model compression pipeline, on-device runtimes, the compiler stack, hardware targets (NPUs, Neural Engines), on-device LLMs, federated learning, and latency optimisation*
 
-*本篇将边缘推理放回 AI 工程语境，保留源文中的定义、公式、代码、图示和实践边界，便于逐项核对。*
+- Cloud inference requires network connectivity, adds latency (50-200 ms round trip), costs money per request, and sends user data to third-party servers. **Edge inference** eliminates all four: the model runs locally, responds instantly, costs nothing per inference, and keeps data private.
 
-*Edge推论在用户设备(手机,笔记本电脑,IOT传感器)上运行模型而未将数据发送到云中. 此文件涵盖边缘限制,模型压缩管道,在线设备运行时间,编译器栈,硬件目标(NPU,神经引擎),在线设备LLMs,联合学习,以及即时优化*
+- The tradeoff: edge devices have 100-1000x less compute and memory than data centre GPUs. Making models run within these constraints requires aggressive optimisation at every level.
 
-- 云推论需要网络连接,会增加耐用性(50-200ms回程),每个请求要花钱,并将用户数据发送给第三方服务器. ** Edge 推论** 消除了所有四个:模型在本地运行,即时响应,每推论不费一分钱,并保持数据保密.
+- **Cactus** ([github.com/cactus-compute/cactus](https://github.com/cactus-compute/cactus)) is a low-latency AI engine purpose-built for mobile and wearable devices. It demonstrates many of the techniques covered in this file in production: custom ARM SIMD kernels for attention and matrix operations (chapter 16), KV-cache quantisation (chapter 17 file 01), chunked prefill, NPU-accelerated inference on Apple and Qualcomm chips, zero-copy memory mapping for 10x lower RAM usage, and automatic cloud fallback when on-device compute is insufficient. Cactus supports multimodal inference (LLMs, vision, speech) across iOS, Android, macOS, and embedded Linux, with SDKs for Swift, Kotlin, Python, Flutter, React Native, and Rust. Its benchmarks show 100 tokens/s decode on M4 Pro and 48 tokens/s on iPhone 17 Pro for a 1.2B model at INT4, a concrete example of what optimised edge inference looks like.
 
-- 取舍:边缘设备的计算和内存比数据中心GPU少100-1000x. 使模型在这些限制范围内运作,需要在各个层次积极优化。
+## Edge Constraints
 
-- ** 仙人掌**([github.com/cactus-compute/cactus (中文(简体)).](https://github.com/cactus-compute/cactus))是一种低纬度的AI引擎,为移动和可穿戴设备而专门建造. 它证明了这个文件在生产中覆盖的许多技术:用于注意和矩阵操作的自定义ARM SIMD内核(第16章),KV-cache分数(第17章文件01),被块预填,苹果和Qualcomm芯片的NPU加速推论,为10x低RAM使用量的零复制内存映射,以及当上解码计算不足时自动回落云. Cactus支持跨iOS,Android,macOS和嵌入式Linux的多模式推论(LLMs,视觉,语音),并配有SDKs用于斯威夫特,克特林,Python,Flutter,React Introduct,和Rust. 它的基准显示在M4 Pro上100个令牌/s解码,在iPhone 17 Pro上48个令牌/s解码,用于INT4上一个1.2B模型,这是优化边缘推论看起来的具体例子.
+| Resource | Cloud GPU (H100) | Laptop (M4) | Phone (Snapdragon 8 Gen 3) | IoT (ESP32) |
+|----------|-----------------|-------------|---------------------------|-------------| RAM | 80 GB HBM3 | 16-36 GB unified | 8-12 GB LPDDR5 | 520 KB |
+| Compute | 989 TFLOPS (FP8) | 38 TOPS (Neural Engine) | 45 TOPS (NPU) | 0.001 TOPS |
+| Power | 700 W | 15-30 W | 5-10 W | 0.1 W |
+| Storage | TB | 256 GB-2 TB | 128-512 GB | 4 MB |
 
-## 边缘约束
+- The compute gap between a cloud GPU and a phone NPU is ~20x. Between a GPU and a microcontroller, it is ~1,000,000x. Different devices require different levels of compression and different model architectures.
 
+## The Model Compression Pipeline
 
-|Resource|Cloud GPU (H100)|Laptop (M4)|Phone (Snapdragon 8 Gen 3)|IoT (ESP32)|
-|----------|-----------------|-------------|---------------------------|-------------|
-|RAM|80 GB HBM3|16-36 GB unified|8-12 GB LPDDR5|520 KB|
-|Compute|989 TFLOPS (FP8)|38 TOPS (Neural Engine)|45 TOPS (NPU)|0.001 TOPS|
-|Power|700 W|15-30 W|5-10 W|0.1 W|
-|Storage|TB|256 GB-2 TB|128-512 GB|4 MB|
-
-- 云GPU和手机NPU的计算间隔为~20x. 在GPU和微控制器之间,是~1,000,000x. 不同的设备需要不同程度的压缩和不同的模型架构.
-
-## 模型压缩流水线
-
-
-- 对于边缘部署来说,压缩不是一个单一的技术，，它是按顺序应用的补充技术的**接线**:
+- For edge deployment, compression is not a single technique — it is a **pipeline** of complementary techniques applied in sequence:
 
 ```
 Full model (FP32, 70B params)
@@ -47,29 +41,27 @@ Full model (FP32, 70B params)
     ↓ Runtime → on-device execution
 ```
 
-- 每一步都减少体积和耐久性. 顺序很重要:先是分解(减结构),再分解出prune(再移动结构),再分解出(减精度),再分解出(优化目标硬件). 量子化后的消沉会试图压缩一个已经很亏损的模型.
+- Each step reduces size and latency. The order matters: distil first (reduce architecture), then prune (remove structure), then quantise (reduce precision), then compile (optimise for target hardware). Distilling after quantisation would try to compress an already-lossy model.
 
-## 端侧运行时
+## On-Device Runtimes
 
+- A **runtime** loads a model, allocates memory, and executes inference on the target hardware. Each platform has its preferred runtime:
 
-- **运行时间** 加载一个模型,分配内存,并执行对目标硬件的推论. 每个平台都有其首选的运行时间:
+- **ONNX Runtime**: cross-platform (Windows, Linux, macOS, iOS, Android). Supports CPU, GPU (CUDA, DirectML, CoreML, NNAPI), and many accelerator backends. The most portable option. Models are exported to ONNX format from PyTorch/TensorFlow.
 
-- **ONNX Runtime**:跨平台(Windows,Linux,macOS,iOS,Android). 支持CPU,GPU(CUDA, DirectML, CoreML, NNAPI),以及许多加速器后端. 最便携的选择 模型从PyTorch/TensorFlow中导出为ONNX格式.
+- **TensorFlow Lite (TFLite)**: Google's edge runtime. Optimised for ARM CPUs and Android NPUs. Tiny binary (~1 MB). Supports INT8 and float16. The standard for Android deployment.
 
-- **TensorFlow Lite (TFLite)**:谷歌的边缘跑步时间. 优化了ARMCPU和Android NPU. 微小二进制 (~1 MB). 支持INT8并被浮起16. 安卓部署标准.
+- **Core ML**: Apple's runtime for iOS/macOS. Automatically uses the Neural Engine, GPU, or CPU depending on model characteristics. Models are converted from PyTorch/TensorFlow using `coremltools`. Tight integration with Apple hardware (unified memory, Neural Engine).
 
-- ** Core ML**:苹果公司运行时间为iOS/macOS. 根据模型特性自动使用神经引擎,GPU或CPU. 从 PyTorch / 传感器花转换模型`coremltools`。。。与Apple硬件(统一内存,神经引擎)的紧密整合.
+- **ExecuTorch**: Meta's new runtime for on-device PyTorch. Designed for edge deployment with ahead-of-time compilation and operator-level delegation to hardware accelerators. Successor to PyTorch Mobile.
 
-- **ExecuTorch**:Meta的新运行时间为上接设备PyTorch. 为边缘部署而设计,采用提前编译,操作员一级授权硬件加速器. 继承人为PyTorch Mobile.
+- **TensorRT**: NVIDIA's runtime for GPU inference optimisation (chapter 15). Fuses layers, selects optimal kernels, and quantises automatically. 2-5x faster than PyTorch eager mode on NVIDIA GPUs.
 
-- ** TensorRT**:NVIDIA对GPU推论优化的运行时间(第15章). 花序分层,选择最佳内核,并自动进行定量. 在NVIDIA GPU上比PyTorch急切模式快2-5x.
+- **llama.cpp**: single-file C++ inference engine for LLMs. Supports GGUF quantisation (Q4, Q5, Q8), CPU (AVX/NEON), Metal (Apple GPU), CUDA, and Vulkan. The go-to for running LLMs on consumer hardware.
 
-- **llama.cpp**:用于LLMs的单文件 C++推论引擎. 支持GGUF量化(Q4,Q5,Q8),CPU(AVX/NEON),Metal(Apple GPU),CUDA和Vulkan. 在消费硬件上运行LLMs的游戏.
+## The Compiler Stack
 
-## 编译器栈
-
-
-- 在高阶模型(PyTorch graph)和硬件(NPU指针)之间坐落了**编译器栈**,该栈选择了特定目标的模型:
+- Between the high-level model (PyTorch graph) and the hardware (NPU instructions) sits the **compiler stack**, which optimises the model for the specific target:
 
 ```
 PyTorch model
@@ -91,90 +83,82 @@ Hardware-specific IR
 Machine code / NPU instructions
 ```
 
-- **操作器聚变**是最有影响的优化. 变压器块有~20个操作(matmul,加成,层诺姆,软max等). 没有核聚变,每个都将其输出写入内存并被下个读回. 通过聚变,多个操作被合并成一个将数据保存在登记册/缓存中的单一内核. 这可以更快地达到2-5x(第16章,屋顶线型号).
+- **Operator fusion** is the most impactful optimisation. A transformer block has ~20 operations (matmul, add, layernorm, softmax, etc.). Without fusion, each writes its output to memory and the next reads it back. With fusion, multiple operations are combined into a single kernel that keeps data in registers/cache. This can be 2-5x faster (chapter 16, roofline model).
 
-- ** Memory plansion**:编译器分析模型图,以确定哪些百分位数在一生中重叠,并可共享相同的内存缓冲. 一个具有100个中间式抗震器的模型可能只需要10个内存,因为大多数都是被消耗和释放后才能被创造出其他的. 这对内存有限的设备至关重要。
+- **Memory planning**: the compiler analyses the model graph to determine which tensors overlap in lifetime and can share the same memory buffer. A model with 100 intermediate tensors might only need memory for 10, because most are consumed and freed before others are created. This is critical on devices with limited RAM.
 
-## 硬件目标
+## Hardware Targets
 
+### Mobile GPUs
 
-### 移动 GPU
+- **Qualcomm Adreno** (Android): supports OpenCL, Vulkan compute (chapter 16), and Qualcomm's proprietary SNPE (Snapdragon Neural Processing Engine). Adreno GPUs have 256-1024 ALUs with FP16 and INT8 support.
 
+- **ARM Mali** (Android): supports OpenCL and Vulkan. Mali GPUs use a tile-based architecture (different from desktop GPUs), which affects optimal memory access patterns.
 
-- **Qualcomm Adreno**（Android）：支持 OpenCL、Vulkan Compute（第 16 章）和 Qualcomm 的专有 SNPE（Snapdragon Neural Processing Engine）。Adreno GPU 拥有 256–1024 个 ALU，并支持 FP16 与 INT8。
+- **Apple GPU** (iOS/macOS): accessed via Metal (Apple's GPU API). Unified memory architecture means no CPU↔GPU copy overhead. Metal Performance Shaders (MPS) provide optimised ML primitives.
 
-- **ARM马里** (Android):支持OpenCL和Vulkan. 马里GPU使用以平板为主的架构(不同于桌面GPU),这影响了最佳内存访问模式.
+### Neural Processing Units (NPUs)
 
-- **Apple GPU**(iOS/macOS):通过Metal(Apple's GPU API)访问. 统一内存架构意味着没有CPUQGPU的复制机在间接费用上. Metal Performance Shaders(MPS)提供最优化的ML原始.
+- NPUs are fixed-function accelerators designed specifically for ML inference. They are far more power-efficient than GPUs for standard ML operations (matmul, conv, activation).
 
-### 神经处理单元（NPU）
+- **Apple Neural Engine**: 16 cores, ~38 TOPS (INT8). Accessed via Core ML. Excellent for vision models and on-device diffusion. Cannot run arbitrary code — only operations supported by Core ML.
 
+- **Qualcomm Hexagon NPU**: integrated into Snapdragon SoCs. Supports INT8 and INT4 inference. Accessed via SNPE or ONNX Runtime with QNN backend. Powers on-device features like background blur, speech recognition, and real-time translation.
 
-- NPU是专门为ML推论而设计的固定功能加速器. 它们比GPU在标准ML操作(matmul, conv,活化)中更能高效.
+- **Google Edge TPU**: a small, low-power version of the cloud TPU. 4 TOPS, 2W. Used in Coral devices for on-device inference. Supports only INT8 quantised TFLite models.
 
-- **Apple神经引擎**:16个核心,~38 TOPS (INT8). 通过Core ML访问. 对视觉模型和机能传播来说是很好的 无法运行任意代码，，只有Core ML支持的操作.
+- **The delegation pattern**: the runtime splits the model graph between the NPU (for supported operations) and the CPU (for unsupported ones). Maximising the fraction that runs on the NPU is key to performance and power efficiency.
 
-- XQualcomm Hixagon NPU**:被集成到Snapdragon SoCs. 支持INT8和INT4推论. 以QNN后端通过SNPE或ONNX运行时访问. 权力在设备上的功能如背景模糊,语音识别,以及实时翻译等.
+## On-Device LLMs
 
-- **"Google Edge TPU"**:一个小而低功率的版本云"TPU". (原始内容存档于2019-03-21). 4 TOPS, 2W. 用于珊瑚设备,用于探测推论。仅支持INT8四分数的TFLite模型.
+- Running LLMs on phones and laptops has become feasible with small models and aggressive quantisation:
 
-- ** 授权模式**:运行时间将模式图从NPU(用于支持的操作)和CPU(用于不支持的操作)中分出. 将运行在NPU上的分数最大化是性能和功率效率的关键.
+| Model | Params | Quantised Size | Target Device | Performance |
+|-------|--------|---------------|---------------|-------------| Phi-3 Mini | 3.8B | ~2 GB (Q4) | Phone/Laptop | ~15 tokens/s on iPhone 15 |
+| Gemma 2B | 2B | ~1.5 GB (Q4) | Phone | ~20 tokens/s on Pixel 8 |
+| Llama 3.2 1B | 1B | ~700 MB (Q4) | Phone | ~30 tokens/s |
+| Llama 3.2 3B | 3B | ~2 GB (Q4) | Phone/Laptop | ~15 tokens/s |
+| Llama 3.1 8B | 8B | ~4.5 GB (Q4) | Laptop | ~20 tokens/s on M2 |
 
-## 端侧 LLM
+- **Challenges**:
+    - **Memory**: a 3B Q4 model fits in 2 GB, but the KV-cache for long conversations adds significantly. Context length is typically limited to 2-4K tokens on phones.
+    - **Thermal throttling**: sustained inference heats the phone. After 30 seconds of continuous generation, the SoC throttles clock speeds to prevent overheating, reducing performance by 30-50%.
+    - **Battery**: running a 3B model at 15 tokens/s consumes ~3-5W. A 30-minute conversation drains ~5% of a typical phone battery. Acceptable for occasional use, problematic for always-on applications.
 
+- **llama.cpp** is the standard for on-device LLMs. It runs on CPU (AVX2, NEON, I8MM), Apple GPU (Metal), NVIDIA GPU (CUDA), AMD GPU (ROCm/Vulkan), and even phones (via Termux on Android).
 
-- 在手机和笔记本电脑上运行LLMS已变得可行,
+## Federated Learning
 
-|Model|Params|Quantised Size|Target Device|Performance|
-|-------|--------|---------------|---------------|-------------|
-|Phi-3 Mini|3.8B|~2 GB (Q4)|Phone/Laptop|~15 tokens/s on iPhone 15|
-|Gemma 2B|2B|~1.5 GB (Q4)|Phone|~20 tokens/s on Pixel 8|
-|Llama 3.2 1B|1B|~700 MB (Q4)|Phone|~30 tokens/s|
-|Llama 3.2 3B|3B|~2 GB (Q4)|Phone/Laptop|~15 tokens/s|
-|Llama 3.1 8B|8B|~4.5 GB (Q4)|Laptop|~20 tokens/s on M2|
+- **Federated learning** trains models across many devices without centralising the data. Each device trains on its local data, computes a gradient update, and sends only the update (not the data) to a central server that aggregates the updates.
 
-- ** 挑战**:
-    - ** Memory**:一个3B Q4型号能与2GB相匹配,但用于长对话的KV-cache会大大增加. 上下文长度一般限于手机上2-4K个令牌.
-    - **热脉冲**:持续推论使电话加热. 经过30秒的连续生成后,SoC节奏时钟速度可以防止过热,将性能降低30%-50%.
-    - **Batterry**:以15个令牌/s消耗~3-5W运行一款3B型. 30分钟的谈话排出~5%的典型电话电池. 偶尔可以使用,总是在应用中遇到问题。
+- **The algorithm** (FedAvg):
+    1. Server sends the current model to $K$ selected devices.
+    2. Each device fine-tunes the model on its local data for a few steps.
+    3. Each device sends its updated model (or the difference) back to the server.
+    4. Server averages the updates: $W_{\text{new}} = \frac{1}{K} \sum_{k=1}^{K} W_k$.
+    5. Repeat.
 
-- **lama.cpp**是在线电子设备的规范。它运行于CPU(AVX2,NEONN,I8MM),苹果GPU(Metal),NVIDIA GPU(CUDA),AMD GPU(ROCm/Vulkan)甚至手机上(通过Termux在Android上).
+- **Privacy**: raw data never leaves the device. The server only sees aggregated model updates. **Differential privacy** adds noise to the updates so that individual data points cannot be reverse-engineered from the gradient.
 
-## 联邦学习
+- **Communication efficiency**: model updates are large (same size as the model). Compression techniques reduce this: **gradient quantisation** (send INT8 gradients instead of FP32), **sparsification** (send only the largest gradients), and **gradient accumulation** (do more local steps, send less often).
 
+- **Applications**: Google's keyboard predictions (Gboard), Apple's voice recognition, health monitoring (train on sensitive health data without centralising it).
 
-- ** 联邦学习** 跨越许多设备的火车模型,而不集中数据。每个设备都会在其本地数据上运行,计算出一个梯度更新,并且只将更新(而不是数据)发送到集成更新的中央服务器.
+## Latency Optimisation
 
-- **算法**(FedAvg):
-    1. 服务器将当前模型发送到$K$选定的设备。
-    2. 每个设备都对其局部数据上的模型进行微调,以进行几个步骤.
-    3. 每个设备都会将其更新的模型(或差数)发回服务器.
-    4. 服务器平均更新 :$W_{\text{new}} = \frac{1}{K} \sum_{k=1}^{K} W_k$.
-    5. 复说.
+- Beyond compression, several techniques reduce end-to-end inference latency:
 
-- ** Privace**:原始数据从未离开设备。服务器只看到汇总模型更新. ** 差异性隐私** 为更新添加了噪音,这样单个数据点不能从梯度反向工程.
+- **Early exit**: add classification heads at intermediate layers. If the model is confident at layer 6 (out of 24), return the prediction without running layers 7-24. Easy inputs exit early, hard inputs use the full model. Average latency drops significantly for tasks with a mix of easy and hard inputs.
 
-- **通信效率**:模型更新量大(与模型大小相同). 压缩技术减小了这个:**梯度分数**(送出INT8梯度而不是FP32),**分数**(只送出最大梯度),和**梯度积分**(做更多的局部步骤,发送较少).
+- **Model partitioning**: split the model between the NPU (efficient for matmul), GPU (efficient for irregular operations), and CPU (handles everything else). The compiler decides which operations go where based on profiling.
 
-- **应用**:谷歌的键盘预测(Gboard),苹果的语音识别,健康监测(在敏感健康数据上的培训而不集中).
+- **Caching**: for applications with repeated queries (autocomplete, code completion), cache recent computations. If the user types "How do I" and the model has recently generated completions for "How do I," the cached KV-cache can be reused, skipping the prefill phase entirely.
 
-## 延迟优化
+- **Speculative prefetching**: predict what the user will do next and start inference before they ask. A chat app might start generating a response to the likely follow-up question while the user is reading the current answer.
 
+## Coding Tasks (use CoLab or notebook)
 
-- 除了压缩外,一些技术还减少了端到端的推断延迟:
-
-- ** Early出道**:在中间地层中添加分类头. 如果模型在第6层(24层)有自信,则返回预测而不运行第7-24层. 方便输入提前退出,硬输入使用全模式. 对于容易和硬投入相结合的任务,平均延迟率大幅下降。
-
-- ** 模式分出**:将模式分出NPU(高效用于matmul),GPU(高效用于不规则操作)和CPU(处理其他所有东西). 编译器根据剖面分析决定哪些操作到哪里去.
-
-- ** Caching**:用于重复查询(自动完成,代码完成)的应用程序,缓存最近计算. 如果用户键入"How Do I"和模型最近为"How Do I"生成了完成,缓存的KV-cache可以被再用,完全跳过预填相.
-
-- ** 预测性预取**:预测用户接下来会做什么,在询问前开始推论. 聊天应用程序可能在用户读取当前答案时开始生成对可能后续问题的响应.
-
-## 编程任务（使用 Colab 或 notebook）
-
-
-1. 模拟模型压缩管. 从浮点32模型起,应用蒸馏(mock),分流,并分解,并跟踪每个步骤的大小.
+1. Simulate the model compression pipeline. Start with a float32 model, apply distillation (mock), pruning, and quantisation, and track the size at each step.
 ```python
 def compression_pipeline(original_params_M, original_bits=32):
     size_mb = original_params_M * 1e6 * original_bits / 8 / 1e6
@@ -204,7 +188,7 @@ print("\n=== Starting from 7B model ===")
 compression_pipeline(7000)
 ```
 
-2. 估计空穴入洞 考虑到一个模型的操作计数和硬件规格,计算它是否满足了潜伏目标.
+2. Estimate on-device inference latency. Given a model's operations count and hardware specs, compute whether it meets a latency target.
 ```python
 def estimate_latency(model_name, params_M, bits, compute_tops, mem_bw_gbs, seq_len=256):
     """Estimate token generation latency for a memory-bandwidth-bound model."""

@@ -2,7 +2,7 @@
   <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">图像强度直方图</text>
 
   <!-- Dark image -->
-  <text x="120" y="48" fill="#666" font-size="11" text-anchor="middle">黑暗图像</text>
+  <text x="120" y="48" fill="#666" font-size="11" text-anchor="middle">暗图像</text>
   <rect x="60" y="55" width="120" height="80" rx="4" fill="#333" stroke="#555" stroke-width="1.5"/>
   <rect x="64" y="59" width="40" height="36" fill="#444"/>
   <rect x="104" y="59" width="36" height="36" fill="#3a3a3a"/>
@@ -47,12 +47,12 @@
   <text x="448" y="244" fill="#666" font-size="8">255</text>
 
   <!-- Labels -->
-  <text x="120" y="254" fill="#3498db" font-size="9" text-anchor="middle">向左滑 (强度低)</text>
-  <text x="400" y="254" fill="#e74c3c" font-size="9" text-anchor="middle">右侧(高强度)</text>
+  <text x="120" y="254" fill="#3498db" font-size="9" text-anchor="middle">偏左（低强度）</text>
+  <text x="400" y="254" fill="#e74c3c" font-size="9" text-anchor="middle">偏右（高强度）</text>
 
   <!-- Equalisation arrow -->
   <text x="570" y="100" fill="#27ae60" font-size="11" font-weight="bold" text-anchor="middle">之后</text>
-  <text x="570" y="115" fill="#27ae60" font-size="11" font-weight="bold" text-anchor="middle">平等化</text>
+  <text x="570" y="115" fill="#27ae60" font-size="11" font-weight="bold" text-anchor="middle">均化</text>
   <!-- Flat histogram -->
   <line x1="520" y1="230" x2="620" y2="230" stroke="#999" stroke-width="1"/>
   <line x1="520" y1="160" x2="520" y2="230" stroke="#999" stroke-width="1"/>
@@ -64,5 +64,5 @@
   <rect x="574" y="192" width="8" height="38" fill="#27ae60" opacity="0.6"/>
   <rect x="584" y="198" width="8" height="32" fill="#27ae60" opacity="0.6"/>
   <rect x="594" y="195" width="8" height="35" fill="#27ae60" opacity="0.6"/>
-  <text x="570" y="244" fill="#27ae60" font-size="9" text-anchor="middle">统一放放</text>
+  <text x="570" y="244" fill="#27ae60" font-size="9" text-anchor="middle">分布均匀</text>
 </svg>

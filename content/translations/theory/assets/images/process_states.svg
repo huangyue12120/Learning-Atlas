@@ -4,50 +4,50 @@
       <path d="M0,0 L8,3 L0,6 Z" fill="#666"/>
     </marker>
   </defs>
-  <text x="300" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">进程国家过渡</text>
+  <text x="300" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">进程状态转换</text>
 
   <!-- New -->
   <rect x="30" y="90" width="70" height="40" rx="8" fill="#9b59b6" fill-opacity="0.15" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="65" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#9b59b6">新设</text>
+  <text x="65" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#9b59b6">新 (Xīn)</text>
 
   <!-- Ready -->
   <rect x="170" y="90" width="90" height="40" rx="8" fill="#f39c12" fill-opacity="0.15" stroke="#f39c12" stroke-width="2"/>
-  <text x="215" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f39c12">准备</text>
+  <text x="215" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f39c12">就绪 (Jiù shì) </text>
 
   <!-- Running -->
   <rect x="340" y="90" width="90" height="40" rx="8" fill="#27ae60" fill-opacity="0.15" stroke="#27ae60" stroke-width="2"/>
-  <text x="385" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">运行</text>
+  <text x="385" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">运行 (Yún jìn) </text>
 
   <!-- Blocked -->
   <rect x="250" y="180" width="90" height="40" rx="8" fill="#e74c3c" fill-opacity="0.15" stroke="#e74c3c" stroke-width="2"/>
-  <text x="295" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e74c3c">已封锁</text>
+  <text x="295" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e74c3c">阻塞 (Jǐ block) </text>
 
   <!-- Terminated -->
   <rect x="500" y="90" width="80" height="40" rx="8" fill="#555" fill-opacity="0.15" stroke="#555" stroke-width="1.5"/>
-  <text x="540" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#555">完成(E)</text>
+  <text x="540" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#555">完成 (Wán chéng) </text>
 
   <!-- Arrows -->
   <!-- New → Ready -->
   <line x1="100" y1="110" x2="162" y2="110" stroke="#666" stroke-width="1.5" marker-end="url(#ps-arr)"/>
-  <text x="131" y="103" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">承认</text>
+  <text x="131" y="103" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">承认 (Chéngrèn) </text>
 
   <!-- Ready → Running -->
   <line x1="260" y1="100" x2="332" y2="100" stroke="#27ae60" stroke-width="1.5" marker-end="url(#ps-arr)"/>
-  <text x="296" y="93" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">时间表</text>
+  <text x="296" y="93" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">排队 (Páiduì) </text>
 
   <!-- Running → Ready (preempt) -->
   <line x1="340" y1="125" x2="268" y2="125" stroke="#f39c12" stroke-width="1.5" marker-end="url(#ps-arr)"/>
-  <text x="304" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#f39c12">预览</text>
+  <text x="304" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#f39c12">抢占 (Jiǎozhàn) </text>
 
   <!-- Running → Blocked -->
   <line x1="370" y1="130" x2="335" y2="175" stroke="#e74c3c" stroke-width="1.5" marker-end="url(#ps-arr)"/>
-  <text x="370" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">我/O 等待(等待)</text>
+  <text x="370" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">I/O 等待 (I/O děng dài) </text>
 
   <!-- Blocked → Ready -->
   <line x1="255" y1="185" x2="225" y2="138" stroke="#f39c12" stroke-width="1.5" marker-end="url(#ps-arr)"/>
-  <text x="222" y="168" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#f39c12">我/O完成了</text>
+  <text x="222" y="168" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#f39c12">I/O 完成 (I/O wán chéng) </text>
 
   <!-- Running → Terminated -->
   <line x1="430" y1="110" x2="492" y2="110" stroke="#555" stroke-width="1.5" marker-end="url(#ps-arr)"/>
-  <text x="461" y="103" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#555">退出</text>
+  <text x="461" y="103" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#555">退出 (Quyết chū) </text>
 </svg>

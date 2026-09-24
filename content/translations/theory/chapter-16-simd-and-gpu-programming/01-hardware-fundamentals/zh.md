@@ -8,55 +8,44 @@ source:
   sha256: 52a4be5d15da937eaa42892d49fa46ec78f76ce1d8a1e9741212b84e754e590f
 status: reviewed
 ---
-# 硬件基础
+# Hardware Fundamentals
 
-*现代硬件的性能不再自动免费增长。本篇介绍 CPU 执行、SIMD、Roofline 模型、延迟与吞吐、芯片架构、功耗约束，以及如何用 C++ 实测性能。*
+*Before writing SIMD or GPU code, you need to understand the hardware you are programming. This file covers why parallelism replaced clock speed, how modern CPUs execute instructions, what SIMD is, the roofline model for reasoning about performance, and the landscape of chip architectures*
 
+- For decades, software got faster for free: buy a new CPU with a higher clock speed, and your program runs faster without changing a line of code. That era ended around 2005. Understanding why it ended, and what replaced it, is essential for anyone who wants to write fast code.
 
+## The End of Free Performance
 
-*在写出SIMD或GPU代码之前,需要了解你正在编程的硬件. 此文件涵盖平行主义取代时钟速度的原因,现代CPU如何执行指令,SIMD是什么,关于性能推理的屋顶线模型,以及芯片架构的地貌*
+- **Moore's Law** (1965) observed that the number of transistors on a chip doubles roughly every two years. This held for 60 years. More transistors meant smaller transistors, which meant higher clock speeds, which meant faster programs.
 
-- 数十年来,软件变得更快免费:购买一个时钟速度更高的新CPU,而您的程序运行得更快而无需更改一行代码. 这个时代大约在2005年结束。了解它为什么结束,以及什么取代它,对于任何想写快码的人来说都是至关重要的.
-
-## 免费性能增长的终点
-
-
-
-- ** Moore's Law**(1965年)指出,芯片上的晶体管数量大约每两年翻一番. 这件事持续了60年。更多的晶体管意味着更小的晶体管,这意味着更高的时钟速度,这意味着更快的程序.
-
-- 但在2005年前后,时钟速度以~4GHz撞入一堵墙. 问题在于**力量**。芯片消耗的动力约为:
+- But around 2005, clock speeds hit a wall at ~4 GHz. The problem is **power**. The power consumed by a chip is approximately:
 
 $$P \propto C \cdot V^2 \cdot f$$
+- where $C$ is capacitance (proportional to transistor count), $V$ is voltage, and $f$ is clock frequency. To increase frequency, you must increase voltage (to switch transistors faster). But power scales with $V^2 \cdot f$, so a small increase in frequency causes a large increase in power (and heat). At 4 GHz, chips were already hitting 100+ watts. Going to 8 GHz would require impractical cooling.
 
-- 地点$C$电容(与晶体管计数的比例),$V$是电压,和$f$是时钟频率。要增加频率,必须增加电压(以更快地切换晶体管). 但电量级$V^2 \cdot f$,因此频率小幅增加会导致功率(和热能)大增. 4 GHz时,芯片已经打出100+瓦特. 8千兆赫需要不切实际的冷却
+- The solution: instead of making one core faster, put **multiple cores** on the same chip. A 4-core chip at 3 GHz uses similar power to a single core at 4.5 GHz but can do 4x the parallel work. This is why every modern CPU has multiple cores, and why parallelism (SIMD, multithreading, GPU computing) is the only path to more performance.
 
-- 溶液:不使一核更快,而是将**多核**放入同芯片上. 3GHz的4-核芯片使用与4.5GHz的单核相似的功率,但能做4x并行工作. 这就是为什么每一个现代CPU都有多个核心,为什么并行主义(SIMD,多线程,GPU计算)是获得更多性能的唯一路径.
+- **Implication for ML**: a training step that takes 10 minutes on one core cannot be made faster by buying a faster CPU. It can only be made faster by using more cores (data parallelism, chapter 6), wider SIMD units (this chapter), or GPUs (thousands of cores).
 
-- ** ML**的影响:一个核心需要10分钟的训练步骤不能通过购买更快的CPU来更快地完成. 它只能通过使用更多的核心(数据平行主义,第六章),更宽的SIMD单位(本章),或GPU(千个核心)来更快地被制取.
+## How Modern CPUs Execute Instructions
 
-## 现代 CPU 如何执行指令
+- A modern CPU core is far more complex than the simple fetch-decode-execute model from chapter 13. It uses several tricks to execute more instructions per cycle:
 
+- **Superscalar execution**: the CPU has multiple execution units (ALUs, FPUs, load/store units) and can execute multiple independent instructions simultaneously. A modern core might execute 4-6 instructions per cycle if they do not depend on each other.
 
+- **Out-of-order execution (OoO)**: the CPU does not execute instructions in program order. It looks ahead in the instruction stream, finds instructions whose inputs are ready, and executes them immediately, regardless of their position. This hides latency: while one instruction waits for data from memory (100+ cycles), the CPU executes other instructions that are ready.
 
-- 现代CPU核心远比第13章的简单取出-解码-执行模型复杂. 它使用几个技巧来执行每个周期更多的指令:
+- **Branch prediction**: conditional branches (`if` 状态ments, loop conditions) create uncertainty: the CPU does not know which path to take until the condition is evaluated. Rather than stall, the CPU **predicts** the outcome and speculatively executes down the predicted path. If the prediction is correct (>95% of the time with modern predictors), no time is lost. If wrong, the speculative work is discarded and the correct path is executed (~15 cycle penalty).
 
-- **Superscalar执行**:CPU有多个执行单元(ALU,FPU,负载/存储单元),可以同时执行多个独立指令. 现代核心如果不互相依赖,每个周期可能执行4-6指令.
+- **Speculative execution**: an extension of branch prediction. The CPU executes instructions that *might* not be needed, betting that they will be. This fills the pipeline and keeps execution units busy.
 
-- **出令执行(OoO)**:CPU不按程序顺序执行指令. 它在指令流中向前看,找到其投入已经准备好的指令,并立即执行,不管其位置如何. 这隐藏了延迟性:当一个指令等待来自内存(100+周期)的数据时,CPU会执行其他已经准备好的指令.
+- All of these are automatic — the CPU does them without any programmer intervention. But they only help with **instruction-level parallelism** (ILP): independent instructions within a single stream. For **data-level parallelism** (the same operation on many data elements), we need SIMD.
 
-- ** Branch 预测**: 有条件的分支(`if`语句,回路条件)产生不确定性:CPU在评估条件之前不知道要走哪条路径. CPU**预测结果, 如果预测是正确的(用现代预测器计算时的95%),则不会失去时间. 如果错误,则将投机性工作丢弃,并执行正确的路径(~15个周期处罚).
+## SIMD: Single Instruction, Multiple Data
 
-- ** 特定执行**:分支预测的延伸. CPU执行指令,即不需要 * might*,打赌它们将会是. 这填补了管道,使执行单位忙碌.
+- **SIMD** is the idea of applying one instruction to multiple data elements simultaneously. Instead of adding two numbers, add two vectors of 4 (or 8, or 16) numbers in a single instruction.
 
-- 所有这些都是自动的，，CPU在没有任何程序员干预的情况下进行. 但它们只帮助**指令级并行主义**(ILP):单流内的独立指令. 对于**数据级并行论**(在许多数据元素上相同的操作),我们需要SIMD.
-
-## SIMD：单指令多数据
-
-
-
-- ** SIMD**是同时对多个数据元素应用一个指令的想法. 与其增加两个数字,不如在一个指令中增加两个由4个(或8个或16个)数字组成的向量.
-
-- 没有SIMD(scalar) :
+- Without SIMD (scalar):
 
 ```cpp
 // Add two arrays element by element: 4 add instructions
@@ -65,7 +54,7 @@ for (int i = 0; i < 4; i++) {
 }
 ```
 
-- 使用 SIMD(授权):
+- With SIMD (vectorised):
 
 ```cpp
 // Add two arrays: 1 SIMD instruction does all 4 adds
@@ -77,141 +66,114 @@ __m128 vc = _mm_add_ps(va, vb); // add all 4 pairs simultaneously
 _mm_store_ps(c, vc);            // store 4 results
 ```
 
-- SIMD版本在指令的1/4中做同样的工作. 这是理论上的4x加速,通过每个指令处理4个浮点而不是1实现.
+- The SIMD version does the same work in 1/4 of the instructions. This is a theoretical 4x speedup, achieved by processing 4 floats per instruction instead of 1.
 
-### 向量寄存器
+### Vector Registers
 
+- SIMD instructions operate on **vector registers**: wide registers that hold multiple data elements.
 
+| Register Width | Floats (32-bit) | Doubles (64-bit) | Name |
+|----------------|-----------------|-------------------|------| 128-bit | 4 | 2 | SSE (x86), NEON (ARM) |
+| 256-bit | 8 | 4 | AVX/AVX2 (x86) |
+| 512-bit | 16 | 8 | AVX-512 (x86) |
+| Variable (128-2048) | varies | varies | SVE/SVE2 (ARM) |
 
-- SIMD指令运行在**vector注册**:拥有多数据元素的宽注册.
+- Wider registers = more parallelism. A 512-bit AVX-512 instruction processes 16 floats at once, a theoretical 16x speedup over scalar code. In practice, the speedup is lower due to memory bandwidth limitations (you can compute faster than you can feed data to the CPU).
 
-|Register Width|Floats (32-bit)|Doubles (64-bit)|Name|
-|----------------|-----------------|-------------------|------|
-|128-bit| 4 | 2 |SSE (x86), NEON (ARM)|
-|256-bit| 8 | 4 |AVX/AVX2 (x86)|
-|512-bit| 16 | 8 |AVX-512 (x86)|
-|Variable (128-2048)|varies|varies|SVE/SVE2 (ARM)|
+- For ML: a matrix multiplication of float32 values benefits enormously from SIMD. The inner loop (dot product of two vectors) maps directly to SIMD multiply-accumulate instructions. This is why BLAS libraries (which NumPy and PyTorch call) are so heavily optimised with SIMD.
 
-- 更广泛的登记册=更加平行。512位AVX-512指令一次处理出16个浮点,一个理论上的16x加速超过scalar码. 实际操作中,由于内存带宽限制(可以比向CPU提供数据更快地计算出),速度降低.
+## The Roofline Model
 
-- 就ML而言:浮标32值的矩阵乘法从SIMD中大有裨益。内环(两个向量的点出产)直接到SIMD乘积指令. 因此,BLAS库(NumPy和PyTorch称其为"活页")与SIMD非常地优化.
+- How do you know if your code is fast? The **roofline model** provides a 框架 by characterising performance in terms of two hardware limits:
 
-## Roofline 模型
+1. **Peak compute** (FLOPS): the maximum floating-point operations per second. For a 4 GHz CPU with 256-bit AVX (8 floats per instruction) and 2 FMA units: $4 \times 10^9 \times 8 \times 2 = 64$ GFLOPS.
 
+2. **Peak memory bandwidth** (bytes/second): how fast data can be moved from memory to the CPU. A modern CPU might have 50 GB/s of memory bandwidth.
 
-
-- 你怎么知道你的密码是不是快? **roofline模型**通过对性能进行两个硬件限制的特性化提供了一个框架:
-
-1. **Peak计算**(FLOPS):每秒最大浮点操作. 4GHz CPU,拥有256位AVX(每个指令可有8个浮点)和2个FMA单元:$4 \times 10^9 \times 8 \times 2 = 64$(原始内容存档于2018-03-21). GLOPS.
-
-2. **Peak内存带宽**(字节/秒):数据从内存移动到CPU的速度如何. 现代CPU可能有50GB/s的内存带宽.
-
-- 您代码的** 分子强度** 是计算与内存访问的比例:
+- The **arithmetic intensity** of your code is the ratio of computation to memory access:
 
 $$\text{Arithmetic Intensity} = \frac{\text{FLOPS}}{\text{Bytes transferred}}$$
+- If arithmetic intensity is low (few operations per byte loaded), your code is **memory-bound**: it spends most of its time waiting for data. Making compute faster (wider SIMD, higher clock) will not help.
 
-- 如果算术强度低(每装入字节的操作数),则您的代码为**memory-bound**:它花费了大部分时间等待数据. 更快的计算(宽度更大的SIMD,高钟)不会有什么帮助.
+- If arithmetic intensity is high (many operations per byte), your code is **compute-bound**: it spends most of its time computing. Faster memory will not help.
 
-- 如果算术强度高(每个字节有许多操作),你的代码是**compute-bound**:它花费了大部分时间来计算. 更快的记忆不会帮助。
-
-- 屋顶线:
+- The roofline:
 
 $$\text{Achievable FLOPS} = \min\left(\text{Peak FLOPS}, \; \text{Bandwidth} \times \text{Arithmetic Intensity}\right)$$
+- **Matrix multiplication** has high arithmetic intensity: $O(n^3)$ operations on $O(n^2)$ data, so intensity $\approx O(n)$. For large matrices, it is compute-bound. This is why GPUs (high compute) dominate matrix-heavy ML workloads.
 
-- ** 马特里克斯乘法** 具有高计算强度:$O(n^3)$运行$O(n^2)$数据,所以强度$\approx O(n)$。。。对于大型矩阵来说,它是计算自带的。这就是为什么GPU(高计算)主导了矩阵-重的ML工作量.
+- **Element-wise operations** (ReLU, add, multiply) have low arithmetic intensity: 1 operation per element loaded. These are memory-bound. Making the GPU faster does not help; you need faster memory (or fuse these operations with compute-heavy ones to avoid separate memory round-trips).
 
-- ** 元素偏导操作**(ReLU,加法,乘法)的算术强度较低:每装入元素1个操作. 这些都是有记忆的。使GPU更快无济于事;你需要更快的内存(或将这些操作与计算重的操作相接以避免单独的内存回转).
+- The roofline model explains why **kernel fusion** matters so much: combining a matmul with a bias add and ReLU into a single kernel avoids writing intermediate results to memory and reading them back, turning three memory-bound operations into one compute-bound operation.
 
-- 天花板模型解释了为什么**内核聚变**如此重要:将一个有偏差的matmul加成并再将ReLU合并为单个内核,避免将中间结果写入内存并读回,将三个内存捆绑的操作变成一个计算捆绑的操作.
+## Latency vs Throughput
 
-## 延迟与吞吐
+- **Latency** is the time to complete one operation. **Throughput** is the number of operations completed per unit time.
 
+- An analogy: a bus has high latency (waits at every stop) but high throughput (carries 50 people at once). A taxi has low latency (goes directly to your destination) but low throughput (carries 1-4 people).
 
+- GPUs are buses: high latency per operation (each instruction takes many cycles to complete) but enormous throughput (thousands of cores processing simultaneously). CPUs are taxis: low latency (out-of-order execution, branch prediction, deep caches minimise delays) but limited throughput (4-64 cores).
 
-- ** 耐心** 是完成一项行动的时间。** 透出**是单位时间完成的作业次数。
+- This is why GPUs are better for ML training (throughput matters: process millions of examples) and CPUs are better for OS tasks (latency matters: respond to a keypress immediately).
 
-- 类比:一班公交车有高的耐用性(每站候车),但吞吐量高(一次载50人). 出租车有低空(直接前往目的地),但吞吐量(1至4人)。
+- **Pipelining** converts latency into throughput. If an instruction takes 5 cycles but the pipeline starts a new instruction every cycle, the throughput is 1 instruction per cycle (even though each takes 5 cycles to complete). This is the same principle as the CPU pipeline from chapter 13, but it applies at every level: SIMD units, memory controllers, and GPU cores are all pipelined.
 
-- GPU是客车:每次运行时间隔很长(每个指令需要许多周期才能完成),但吞吐量巨大(同时处理数千个核心). CPU是出租车:低延迟(出令执行,分行预测,深缓存能将延迟最小化)但吞吐量有限(4-64个核心).
+## Chip Architecture Landscape
 
-- 这就是为什么GPU更适合ML训练(通量事项:处理上百万个实例),CPU更适合OS任务(关系事项:立即响应按键压).
+- The hardware you write code for determines which SIMD instructions are available:
 
-- ** 管道** 将延迟转化为吞吐量。如果一项指令需要5个周期,但管道每个周期开始一个新的指令,则通过量是每个周期1个指令(尽管每个周期需要5个周期才能完成)。这与第13章的CPU管线一样原则,但适用于每个关口:SIMD单元,内存控制器,和GPU核心全部被管道.
+### x86 (Intel, AMD)
 
-## 芯片架构版图
+- Dominates desktops, laptops, and data centre CPUs. SIMD: SSE (128-bit), AVX/AVX2 (256-bit), AVX-512 (512-bit). Intel AMX provides dedicated matrix multiply units for AI workloads.
 
+- **Strengths**: highest single-core performance, widest SIMD, mature software ecosystem (MKL, oneDNN).
+- **Weaknesses**: high power consumption, complex instruction set, expensive.
 
+### ARM
 
-- 您为确定哪些 SIMD 指令可用而写入的硬件 :
+- Dominates mobile (every smartphone), growing in servers (AWS Graviton, Ampere Altra) and laptops (Apple M-series). SIMD: NEON (128-bit), SVE/SVE2 (scalable, 128-2048 bit).
 
-### x86(英特尔- AMD)
+- **Strengths**: excellent power efficiency (performance per watt), custom cores (Apple M4 rivals Intel in single-core performance at fraction of the power).
+- **Weaknesses**: narrower SIMD (NEON is only 128-bit, though SVE can be wider), smaller software ecosystem for HPC.
 
+### Apple Silicon (M1/M2/M3/M4)
 
+- ARM-based with custom additions. Includes **AMX** (Apple Matrix eXtensions) — undocumented matrix multiply units that Accelerate 框架 uses for BLAS operations. Unified memory architecture: CPU and GPU share the same physical memory, eliminating the CPU↔GPU copy bottleneck.
 
-- 主导桌面,笔记本电脑,以及数据中心CPU. SIMD:SSE (128-bit), AVX/AVX2(256-bit), AVX-512 (512-bit). Intel AMX为AI工作量提供专用矩阵乘法单位.
+- **For ML**: Apple's Neural Engine (16-core, dedicated ML accelerator) and unified memory make M-series chips surprisingly capable for local ML inference and small-scale training. No CUDA, though: you must use Metal (Apple's GPU API) or MLX (Apple's ML 框架).
 
-- **Strengths**:最高单核性能,最宽的SIMD,成熟的软件生态系统(MKL, oneDNN).
-- **微软**:高能耗,复杂指令集,昂贵.
+### RISC-V
 
-### 亚美尼亚
+- Open-source ISA. No licensing fees (unlike ARM). Growing in embedded systems, IoT, and research. SIMD: the "V" (vector) extension provides scalable vector processing similar to ARM SVE.
 
+- **For ML**: not yet competitive with x86/ARM for ML workloads, but watch this space. Several AI accelerator startups use RISC-V cores.
 
+### GPUs (NVIDIA, AMD, Intel)
 
-- 主导移动(每部智能手机),在服务器(AWS Graviton,Ampere Altra)和笔记本电脑(Apple M-series)中成长. SIMD: NEONN (128-bit), SVE/SVE2(可缩放,128-2048 bit.
+- Covered in depth in files 04-05. Thousands of simple cores optimised for throughput. NVIDIA dominates ML with CUDA; AMD competes with ROCm; Intel enters with Arc GPUs and Gaudi accelerators.
 
-- **Strengths**:优秀的功率效率(每瓦功率),自定义芯(Apple M4与单核功率中英特尔在分量功率中的对手).
-- **Weakneses**:更窄的SIMD(NEON只有128位,虽然SVE可以更宽),HPC的软件生态系统更小.
+### TPUs (Google)
 
-### 苹果硅(M1/ M2/ M3/ M4)
+- Custom ASIC designed specifically for ML. Systolic arrays optimised for matrix multiplication. Covered in file 05.
 
+## Thermal and Power Constraints
 
+- Performance is ultimately limited by power and cooling:
 
-- 基于自定义添加的ARM. 包括**AMX** (Apple Matrix eXtension)，，无证的矩阵乘法单位,加速框架用于BLAS操作. 统一内存架构:CPU和GPU共享相同的物理内存,去除CPUQGPU复制瓶颈.
+- **TDP** (Thermal Design Power): the maximum sustained power a chip can consume. A laptop CPU might have a 15W TDP; a server CPU 250W; a data centre GPU 700W (NVIDIA B200).
 
-- ** 对于ML**:苹果的"神经引擎"(16-core,专用ML加速器)和统一的内存使得M系列芯片出人意料地能够进行本地ML推论和小规模训练. 但是没有 CUDA: 您必须使用Metal(Apple的GPU API)或MLX(Apple的ML框架).
+- **Dark silicon**: at any given moment, a significant fraction of transistors must be powered off to stay within the thermal budget. A chip could theoretically use all its transistors simultaneously, but it would melt.
 
-### RISC-V 火箭发射场
+- **Power efficiency** (FLOPS/watt) is increasingly the metric that matters, not raw FLOPS. This is why:
+    - ARM is taking over data centres (better FLOPS/watt than x86).
+    - TPUs compete with GPUs despite lower peak FLOPS (much better FLOPS/watt for ML workloads).
+    - Quantisation (INT8, FP8) is not just about memory: it also reduces power per operation.
 
+- For ML at scale: training a frontier LLM consumes megawatts of power for months. The electricity cost can exceed the hardware cost. Power efficiency directly impacts the economics of AI research.
 
+## Practical: Measuring Performance in C++
 
-- 开源ISA. 不收取许可证费(与ARM不同)。成长于嵌入式系统,IoT和研究. SIMD:"V"(vector)扩展提供类似于ARM SVE的可伸缩向向量处理.
-
-- ** 对于ML**:对于ML工作量,尚未与x86/ARM竞争,但请注意这一空间。多个AI加速器启动公司使用RISC-V核心.
-
-### GPU(NVIDIA; AMD; 英特尔)
-
-
-
-- 已深入档案04-05. 数千个简单的芯片优化了,以达到吞吐量. NVIDIA以CUDA为主的ML;AMD与ROCm相竞争;Intel以Arc GPUs和Gaudi加速器入会.
-
-### TPU(谷歌)
-
-
-
-- 专门为ML设计的自定义ASIC. 为矩阵乘法优化了 Systolic 阵列. 档案05
-
-## 温度与功耗约束
-
-
-
-- 性能最终受到动力和冷却的限制:
-
-- **TDP**(热能设计动力):芯片能消耗的最大持续功率. 一个笔记本电脑CPU可能拥有一个15W TDP;一个服务器CPU 250W;一个数据中心GPU 700W(NVIDIA B200).
-
-- ** 暗硅**:在任何特定时刻,必须有相当一部分晶体管的电源才能保持在热能预算范围内。芯片理论上可以同时使用所有的晶体管,但会融化.
-
-- ** 功率效率** (FLOPS/wat)越来越重要,而不是原始的FLOPS。这就是为什么:
-    - ARM正在接管数据中心(比x86更好的FLOPS/wat).
-    - TPU与GPU竞争,尽管峰值较低FLOPS(ML工作量的FLOPS/wat).
-    - 量子化(INT8,FP8)不仅仅是关于内存:它也减少了每次操作的功率.
-
-- 就大规模电力发电而言:培训边境液压电能耗为多兆瓦。电费可以超过硬件成本. 电能效率直接影响到AI研究的经济学.
-
-## 实践：用 C++ 测量性能
-
-
-
-- 为了说明表现的原因,你需要衡量它。以下是一个最小的 C++ 基准设置:
+- To reason about performance, you need to measure it. Here is a minimal C++ benchmarking setup:
 
 ```cpp
 #include <iostream>
@@ -258,21 +220,19 @@ g++ -O3 -march=native -o bench bench.cpp
 ./bench
 ```
 
-- ** 本代码中的关键C++概念**:
-    - `#include <vector>`: 动态数组(3)`std::vector<float>`)，，同"活佛会".`list`但输入和连接在记忆中。
-    - `a.data()`: 返回一个生指针(`float*`)到基础阵列，，SIMD内在需要.
-    - `std::chrono`:用于基准的高分辨率定时器.
-    - `-O3`: 最大编译器优化级别. 编译器可以自动编辑您的循环(自动使用 SIMD)。`-march=native`启用您的 CPU 支持的所有 SIMD 指令。
+- **Key C++ concepts in this code**:
+    - `#include <vector>`: dynamic array (`std::vector<float>`) — like Python's `list` but typed and contiguous in memory.
+    - `a.data()`: returns a raw pointer (`float*`) to the underlying array — needed for SIMD intrinsics.
+    - `std::chrono`: high-resolution timer for benchmarking.
+    - `-O3`: maximum compiler optimisation level. The compiler may auto-vectorise your loops (use SIMD automatically). `-march=native` enables all SIMD instructions your CPU supports.
 
-- **为什么取暖**:第一次运行会填充缓存并可能触发CPU频率缩放(turbo cap). 随后的竞选更具代表性.
+- **Why warm up**: the first run fills caches and may trigger CPU frequency scaling (turbo boost). Subsequent runs are more representative.
 
-- **为什么测量带宽**:对于内存绑定的操作(类似元素加法),有意义的度量是带宽(GB/s),而不是FLOPS. 如果测量到的带宽接近硬件限制(DDR5的~50 GB/s),那么你就是内存受限,而SIMD也不会帮助多少(瓶颈是内存,而不是计算).
+- **Why measure bandwidth**: for memory-bound operations (like element-wise add), the meaningful metric is bandwidth (GB/s), not FLOPS. If your measured bandwidth is close to the hardware limit (~50 GB/s for DDR5), you are memory-bound and SIMD will not help much (the bottleneck is memory, not compute).
 
-## 编程任务（使用 Colab 或 notebook）
+## Coding Tasks (use CoLab or notebook)
 
-
-
-1. 计算常见的ML操作的算术强度,并归类为内存约束或计算约束.
+1. Compute the arithmetic intensity of common ML operations and classify them as memory-bound or compute-bound.
 ```python
 import jax.numpy as jnp
 
@@ -302,7 +262,7 @@ conv_bytes = (9 * C_in * C_out + C_in * H * W + C_out * H * W) * 4
 print(f"Conv3x3: {arithmetic_intensity(conv_flops, conv_bytes):.0f} FLOPS/byte → compute-bound")
 ```
 
-2. 说明平行主义为何重要。随着数据大小的增长,比较相继对平行(NumPy)执行.
+2. Demonstrate why parallelism matters. Compare sequential vs parallel (NumPy) execution as data size grows.
 ```python
 import numpy as np
 import time

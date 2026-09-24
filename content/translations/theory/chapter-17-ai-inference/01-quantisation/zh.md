@@ -8,86 +8,84 @@ source:
   sha256: d4f8131dbcb120ce518005d0ba6814466873b4ae50d7e5228260cd0e95e1ef55
 status: reviewed
 ---
+# Quantisation
 
-# 量化
+*Quantisation reduces the precision of model weights and activations, making models smaller, faster, and cheaper to run. This file covers number formats, post-training quantisation, quantisation-aware training, weight-only methods (GPTQ, AWQ), activation quantisation, mixed precision, and KV-cache quantisation*
 
-*量化降低模型权重和激活的精度，让模型更小、更快、更省钱。本篇介绍数值格式、训练后量化、量化感知训练、仅权重量化方法（GPTQ、AWQ）、激活量化、混合精度以及 KV-cache 量化。*
+- A 70B parameter model in float16 requires 140 GB of memory, more than any single GPU. Quantise to INT4 and it fits in 35 GB (one A100) or even 20 GB (consumer RTX 4090 with offloading). Quantisation is not an optimisation nicety; it is what makes large model deployment economically viable.
 
-- 一个 700 亿参数的模型使用 float16 时需要 140 GB 内存，超过任何单张 GPU 的容量。量化到 INT4 后只需 35 GB（可以放进一张 A100），甚至能在卸载后放进 20 GB 的消费级 RTX 4090。量化不是锦上添花的优化，而是让大型模型部署在经济上可行的关键。
+- The fundamental tradeoff: lower precision means less memory, higher throughput, and lower power, but introduces **quantisation error** that can degrade model quality. The art of quantisation is minimising this degradation.
 
-- 基本权衡是：精度越低，内存越少、吞吐越高、功耗越低，但会引入可能降低模型质量的**量化误差**。量化的艺术就在于让这种降低尽可能小。
+## Why Quantise
 
-## 为什么要量化
+- **Memory reduction**: INT8 is 2x smaller than FP16, INT4 is 4x smaller. For LLMs, model weights dominate memory. Halving precision halves the memory requirement.
 
-- **减少内存**：INT8 比 FP16 小 2 倍，INT4 小 4 倍。对 LLM 来说，模型权重占据主要内存；精度减半，内存需求也减半。
+- **Throughput gains**: lower precision means more operations per second. NVIDIA Tensor Cores (chapter 16) achieve 2x throughput for FP16 vs FP32, 2x again for INT8 vs FP16, and 2x again for INT4 vs INT8. An H100 does 989 TFLOPS in FP8 vs 67 TFLOPS in FP32 — a 15x difference.
 
-- **提高吞吐**：低精度意味着每秒可执行更多操作。NVIDIA Tensor Core（第 16 章）中，FP16 相比 FP32 吞吐翻倍，INT8 相比 FP16 再翻倍，INT4 相比 INT8 又翻倍。H100 的 FP8 性能为 989 TFLOPS，而 FP32 为 67 TFLOPS，差距约 15 倍。
+- **Bandwidth savings**: LLM inference is usually **memory-bandwidth-bound** (chapter 16, roofline model). The bottleneck is loading weights from GPU memory, not computing with them. Smaller weights mean fewer bytes to transfer, directly increasing tokens per second. This is why quantisation often gives nearly linear speedups for LLM inference.
 
-- **节省带宽**：LLM 推理通常受**内存带宽限制**（第 16 章的 roofline 模型）。瓶颈是从 GPU 显存加载权重，而不是对权重做计算。权重更小意味着需要传输的字节更少，token 每秒数直接提高。这就是量化常常能让 LLM 推理获得近似线性加速的原因。
+- **Energy savings**: lower precision uses less energy per operation. At data centre scale (thousands of GPUs), this translates to significant electricity cost reduction.
 
-- **节省能源**：低精度的每次操作能耗更低。在数据中心规模（数千张 GPU）上，这会转化为显著的电费降低。
+## Number Formats
 
-## 数值格式
+- We covered IEEE 754 floating-point in chapter 13 (computer architecture). Here is the full precision landscape for ML:
 
-- 第 13 章（计算机体系结构）介绍过 IEEE 754 浮点数。下面是机器学习完整的精度版图：
+![Precision formats bit layout: FP32 through ternary, showing how sign, exponent, and mantissa bits are arranged in memory, with memory-per-parameter comparison](../images/precision_formats_memory.svg)
 
-![精度格式的位布局：从 FP32 到三值格式，展示符号位、指数位和尾数位在内存中的排列，以及每参数内存比较](../images/precision_formats_memory.svg)
 
-| 格式 | 位数 | 指数 | 尾数 | 范围 | 用途 |
-|--------|------|----------|----------|-------|----------|
-| FP32 | 32 | 8 | 23 | ±3.4×10³⁸ | 训练（黄金标准） |
-| TF32 | 19 | 8 | 10 | ±3.4×10³⁸ | Tensor Core 训练（A100+） |
-| FP16 | 16 | 5 | 10 | ±65504 | 混合精度训练 |
-| BF16 | 16 | 8 | 7 | ±3.4×10³⁸ | 训练（范围与 FP32 相同） |
-| FP8 E4M3 | 8 | 4 | 3 | ±448 | 前向传播（Hopper+） |
-| FP8 E5M2 | 8 | 5 | 2 | ±57344 | 梯度（范围更大） |
-| INT8 | 8 | ， | ， | -128 到 127 | PTQ 推理 |
-| INT4 | 4 | ， | ， | -8 到 7 | 仅权重量化 |
-| INT2/三值 | 2 | ， | ， | {-1, 0, 1} | 极限压缩 |
+| Format | Bits | Exponent | Mantissa | Range | Use Case |
+|--------|------|----------|----------|-------|----------| FP32 | 32 | 8 | 23 | ±3.4×10³⁸ | Training (gold standard) |
+| TF32 | 19 | 8 | 10 | ±3.4×10³⁸ | Tensor Core training (A100+) |
+| FP16 | 16 | 5 | 10 | ±65504 | Mixed-precision training |
+| BF16 | 16 | 8 | 7 | ±3.4×10³⁸ | Training (same range as FP32) |
+| FP8 E4M3 | 8 | 4 | 3 | ±448 | Forward pass (Hopper+) |
+| FP8 E5M2 | 8 | 5 | 2 | ±57344 | Gradients (wider range) |
+| INT8 | 8 | — | — | -128 to 127 | PTQ inference |
+| INT4 | 4 | — | — | -8 to 7 | Weight-only quantisation |
+| INT2/Ternary | 2 | — | — | {-1, 0, 1} | Extreme compression |
 
-- **FP8**有两种变体：**E4M3**（4 位指数、3 位尾数，范围较窄但精度更高）用于前向传播；**E5M2**（5 位指数、2 位尾数，范围较宽但精度较低）用于梯度。Transformer Engine（第 16 章）会为每个张量自动在二者之间切换。
+- **FP8** comes in two variants: **E4M3** (4-bit exponent, 3-bit mantissa, narrower range but more precision) for the forward pass, and **E5M2** (5-bit exponent, 2-bit mantissa, wider range but less precision) for gradients. The Transformer Engine (chapter 16) switches between them automatically per tensor.
 
-- **BF16 与 FP16**：BF16 的指数范围与 FP32 相同（没有溢出风险），但尾数精度较低；FP16 精度更高，但范围较窄（最大 65504），训练时需要损失缩放。推理时二者都很好用；训练时 BF16 更安全。
+- **BF16 vs FP16**: BF16 has the same exponent range as FP32 (no overflow risk) but less mantissa precision. FP16 has more precision but a narrow range (max 65504), requiring loss scaling during training. For inference, both work well; for training, BF16 is safer.
 
-- **整数格式**没有指数，只表示定点值。要在浮点数与整数之间转换，需要一个**缩放因子**，还可以选择一个**零点**：$x_{\text{float}} = \text{scale} \times (x_{\text{int}} - \text{zero\_point})$。
+- **Integer formats** have no exponent — they represent fixed-point values. To convert between float and int, you need a **scale factor** and optionally a **zero point**: $x_{\text{float}} = \text{scale} \times (x_{\text{int}} - \text{zero\_point})$.
 
-## 量化方程
+## The Quantisation Equation
 
-- 所有量化方法都把浮点值映射到整数，再映射回来：
+- All quantisation methods map floating-point values to integers and back:
 
 $$x_q = \text{clamp}\left(\text{round}\left(\frac{x}{\text{scale}}\right) + \text{zero\_point}, \; q_{\min}, \; q_{\max}\right)$$
-
 $$\hat{x} = \text{scale} \times (x_q - \text{zero\_point})$$
+- The **scale** determines the resolution: $\text{scale} = \frac{x_{\max} - x_{\min}}{q_{\max} - q_{\min}}$. For INT8: $q_{\min} = -128$, $q_{\max} = 127$.
 
-- **scale** 决定分辨率：$\text{scale} = \frac{x_{\max} - x_{\min}}{q_{\max} - q_{\min}}$。对于 INT8，$q_{\min} = -128$，$q_{\max} = 127$。
+- **Symmetric quantisation** sets $\text{zero\_point} = 0$, so $\text{scale} = \frac{\max(|x|)}{127}$. Simpler and faster (no zero-point subtraction during inference).
 
-- **对称量化**设置 $\text{zero\_point} = 0$，于是 $\text{scale} = \frac{\max(|x|)}{127}$。它更简单、更快（推理时不必减去零点）。
+- **Asymmetric quantisation** uses a non-zero $\text{zero\_point}$ to handle asymmetric distributions (e.g., ReLU outputs are all non-negative). Maps $[x_{\min}, x_{\max}]$ to $[0, 255]$ for unsigned INT8.
 
-- **非对称量化**使用非零 $\text{zero\_point}$ 来处理非对称分布（例如 ReLU 输出全部非负），把 $[x_{\min}, x_{\max}]$ 映射到无符号 INT8 的 $[0, 255]$。
+![Quantisation granularity: per-tensor uses one scale for the entire matrix, per-channel one per column, per-group one per small block](../images/quantisation_granularity.svg)
 
-![量化粒度：逐张量为整个矩阵使用一个缩放因子，逐通道每列一个，逐组每个小块一个](../images/quantisation_granularity.svg)
 
-- **量化粒度**表示有多少值共享同一个缩放因子：
-    - **逐张量**：整个张量使用一个缩放因子。最简单但精度最低（一个离群值会扭曲整个张量的缩放范围）。
-    - **逐通道**：卷积中每个输出通道一个缩放因子，或线性层中每行一个。精度好得多，而额外开销很小。
-    - **逐组**：每 $g$ 个元素一组、每组一个缩放因子（例如 $g = 128$）。精度最好，现代仅权重量化（GPTQ、AWQ）都采用它。
-    - **逐 token**：激活中每个 token 一个缩放因子，能处理不同 token 的激活幅度相差很大的情况。
+- **Quantisation granularity**: how many values share the same scale factor:
+    - **Per-tensor**: one scale for the entire tensor. Simplest but lowest accuracy (one outlier distorts the entire tensor's scale).
+    - **Per-channel**: one scale per output channel (for convolutions) or per-row (for linear layers). Much better accuracy with minimal overhead.
+    - **Per-group**: one scale per group of $g$ elements (e.g., $g = 128$). Best accuracy, used in modern weight-only quantisation (GPTQ, AWQ).
+    - **Per-token**: one scale per token for activations. Handles the fact that different tokens have very different activation magnitudes.
 
-## 训练后量化（PTQ）
+## Post-Training Quantisation (PTQ)
 
-- **PTQ** 在不重新训练的情况下量化预训练模型。让一个**校准集**（通常为 128–512 个样本的小型代表性数据集）通过模型，收集激活统计量，然后计算最优缩放因子。
+- **PTQ** quantises a pre-trained model without any retraining. You pass a **calibration set** (a small representative dataset, typically 128-512 samples) through the model to collect activation statistics, then compute optimal scale factors.
 
-### 校准方法
+### Calibration Methods
 
-- **最小，最大**：根据观测到的最小值和最大值设置缩放因子。简单，但对离群值敏感（一个极端值就可能把大部分量化范围浪费在很少使用的值上）。
+- **Min-max**: set scale based on the observed minimum and maximum values. Simple but sensitive to outliers (one extreme value wastes most of the quantisation range on rarely-used values).
 
-- **百分位数**：使用 99.99 百分位，而不是绝对最大值。它会裁剪极端离群值，为大多数值提供更好的分辨率；被裁剪的值会饱和到 $q_{\min}$ 或 $q_{\max}$。
+- **Percentile**: use the 99.99th percentile instead of the absolute max. Clips extreme outliers, giving better resolution for the majority of values. The clipped values saturate to $q_{\min}$ or $q_{\max}$.
 
-- **MSE 最优**：寻找能让原始张量与量化张量均方误差最小的缩放因子。这是一维优化（搜索可能的裁剪值），通常带来最好的 PTQ 精度。
+- **MSE-optimal**: find the scale that minimises the mean squared error between the original and quantised tensors. This is a 1D optimisation (search over possible clip values) and usually gives the best PTQ accuracy.
 
-- **基于熵**（KL 散度）：寻找能让原始值分布与量化值分布之间 KL 散度最小的缩放因子。TensorRT 的 INT8 校准使用这种方法。
+- **Entropy-based** (KL divergence): find the scale that minimises the KL divergence between the original and quantised value distributions. Used in TensorRT's INT8 calibration.
 
-### PTQ 实践
+### PTQ in Practice
 
 ```python
 # Simplified PTQ with PyTorch (conceptual)
@@ -113,158 +111,155 @@ print(f"Mean absolute error: {error:.6f}")
 print(f"Compression: {weight.numel() * 4 / (weight_q.numel() * 1 + 4):.1f}x")  # +4 bytes for scale
 ```
 
-- 对大多数模型，INT8 的 PTQ 效果很好，精度下降不到 1%。对 INT4，PTQ 质量会显著下降；后面的仅权重方法能更好地处理 INT4。
+- PTQ works well for INT8 on most models with <1% accuracy degradation. For INT4, PTQ quality drops significantly — weight-only methods (below) handle INT4 much better.
 
-## 量化感知训练（QAT）
+## Quantisation-Aware Training (QAT)
 
-- **QAT** 把伪量化操作插入训练图：前向传播期间对权重和激活做量化与反量化，但梯度传播时仿佛没有量化一样（使用**直通估计器**）。
+- **QAT** inserts fake quantisation operations into the training graph: weights and activations are quantised and dequantised during the forward pass, but gradients flow through as if no quantisation happened (the **straight-through estimator**).
 
 $$\text{Forward: } \hat{W} = \text{dequant}(\text{quant}(W))$$
 $$\text{Backward: } \frac{\partial L}{\partial W} \approx \frac{\partial L}{\partial \hat{W}}$$
+- The model learns to be robust to quantisation noise during training. QAT typically recovers most or all of the accuracy lost by PTQ, especially at low bit-widths (INT4, INT2).
 
-- 模型会在训练过程中学会对量化噪声保持鲁棒。QAT 通常可以恢复 PTQ 丢失的大部分或全部精度，尤其是在低比特宽度（INT4、INT2）下。
+- **Cost**: QAT requires retraining (or fine-tuning) the model, which is expensive for large models. For a 70B parameter model, QAT might cost $10,000-$100,000 in compute. PTQ costs essentially nothing (just calibration).
 
-- **成本**：QAT 要求重新训练（或微调）模型，对大模型很昂贵。一个 70B 参数模型的 QAT 计算成本可能为 10,000–100,000 美元，而 PTQ 基本没有成本（只需校准）。
+- **When to use QAT**: when PTQ quality is unacceptable (usually INT4 or lower), when you are deploying to edge devices with strict latency budgets, or when the model will be quantised millions of times (the one-time QAT cost is amortised).
 
-- **何时使用 QAT**：PTQ 质量不可接受（通常是 INT4 或更低）时；部署到延迟预算严格的边缘设备时；或模型将被量化数百万次时（一次 QAT 成本可以摊销）。
+## Weight-Only Quantisation
 
-## 仅权重量化
+- For LLM inference, the bottleneck is loading weights from memory, not computing with them (memory-bandwidth-bound regime). **Weight-only quantisation** quantises weights to INT4 or INT3 while keeping activations in FP16. The compute happens in FP16 (after dequantising the weights on the fly), but memory consumption and bandwidth are reduced by 4-8x.
 
-- 对 LLM 推理，瓶颈是从内存加载权重，而不是使用权重做计算（内存带宽受限区间）。**仅权重量化**把权重量化到 INT4 或 INT3，同时保持激活为 FP16。计算在 FP16 中进行（即时反量化权重后），但内存占用和带宽需求降低 4–8 倍。
+### GPTQ
 
-### GPTQ 图像
-
-- **GPTQ**（Frantar 等，2022）一次量化一列权重，并通过调整后续列来补偿该列误差。它使用**海森矩阵**（来自校准集的二阶信息）决定最优量化顺序和误差补偿：
+- **GPTQ** (Frantar et al., 2022) quantises weights one column at a time, compensating for the error of each column by adjusting subsequent columns. It uses the **Hessian** (second-order information from a calibration set) to determine the optimal quantisation order and error compensation:
 
 $$\hat{W}_{:,j} = \text{quant}(W_{:,j}), \quad W_{:,j+1:} \mathrel{-}= \frac{(\hat{W}_{:,j} - W_{:,j}) \cdot H_{j,j+1:}}{H_{j,j}}$$
+- The key insight: quantising column $j$ introduces an error. GPTQ immediately compensates by adjusting all remaining columns so that the overall output of the layer ($XW$) changes as little as possible. This is **optimal brain quantisation** (OBQ) applied to transformers.
 
-- 关键洞见是：量化第 $j$ 列会引入误差，GPTQ 立即调整所有剩余列，让层的整体输出（$XW$）尽可能少地改变。这是把**最优脑量化**（OBQ）应用到 Transformer 上。
+- GPTQ with 4-bit group quantisation (group size 128) achieves <1% perplexity degradation on most LLMs. The quantisation takes ~1 hour per 70B model on a single GPU.
 
-- 使用 4 位逐组量化（组大小 128）的 GPTQ，在大多数 LLM 上带来的困惑度下降不到 1%。在单张 GPU 上量化一个 70B 模型大约需要 1 小时。
+### AWQ
 
-### AWQ 战时
+- **AWQ** (Activation-Aware Weight Quantisation, Lin et al., 2023) observes that a small fraction of weight channels (1-3%) are far more important than others — they correspond to activation channels with large magnitudes. Protecting these salient channels dramatically reduces quantisation error.
 
-- **AWQ**（Activation-Aware Weight Quantisation，激活感知权重量化；Lin 等，2023）观察到，少数权重通道（1–3%）比其他通道重要得多，它们对应激活幅度较大的通道。保护这些显著通道能大幅减少量化误差。
+- AWQ scales these important channels by a factor $s$ before quantisation (making them larger and thus less affected by rounding) and scales the corresponding activations by $1/s$ (to preserve the output). The scale $s$ is optimised per-group to minimise the overall quantisation error.
 
-- AWQ 在量化前把这些重要通道乘以因子 $s$（让它们变大，从而较少受舍入影响），再把对应激活乘以 $1/s$（保持输出不变）。它按组优化 $s$，以最小化总体量化误差。
+- AWQ is simpler than GPTQ (no Hessian computation), faster to run, and achieves comparable quality. It has become the default for many open-source LLM quantisation pipelines.
 
-- AWQ 比 GPTQ 简单（无需计算海森矩阵）、运行更快且质量相当，已经成为许多开源 LLM 量化流水线的默认选择。
+### GGUF / llama.cpp Quantisation
 
-### GGUF / llama.cpp 量化
+- **GGUF** (GGML Universal Format) is the format used by llama.cpp for CPU inference. It supports many quantisation schemes:
+    - **Q4_0**: 4-bit, 32-element blocks, symmetric.
+    - **Q4_K_M**: 4-bit with mixed-precision important channels (k-quants).
+    - **Q5_K_M**: 5-bit with k-quants (higher quality).
+    - **Q8_0**: 8-bit, simple and fast.
 
-- **GGUF**（GGML Universal Format）是 llama.cpp 用于 CPU 推理的格式，支持多种量化方案：
-    - **Q4_0**：4 位、32 元素块、对称。
-    - **Q4_K_M**：4 位，对重要通道采用混合精度（k-quant）。
-    - **Q5_K_M**：5 位、k-quant（质量更高）。
-    - **Q8_0**：8 位，简单快速。
+- The "K" variants (k-quants) allocate more bits to important weight blocks, similar to AWQ's insight but implemented at the format level. Q4_K_M is the sweet spot for most models: 4-bit average with minimal quality loss.
 
-- “K”变体（k-quant）给重要权重块分配更多比特，与 AWQ 的洞见类似，但在格式层面实现。Q4_K_M 是大多数模型的最佳折中：平均 4 位，质量损失极小。
+### QuIP and QuIP#
 
-### QuIP 与 QuIP#
+- **QuIP** (Chee et al., 2023) introduces **incoherence processing**: rotate the weight matrix using a random orthogonal transformation before quantisation. This spreads the information across all weights, preventing a few outlier weights from dominating the quantisation error.
 
-- **QuIP**（Chee 等，2023）引入**非相干处理**：在量化前使用随机正交变换旋转权重矩阵，把信息分散到所有权重，避免少数离群权重主导量化误差。
+- The intuition: if one weight is 100 and the rest are ~1, quantising all with the same scale wastes most of the INT4 range on the outlier. After an orthogonal rotation (which preserves the matrix's mathematical properties), all weights have similar magnitude, and uniform quantisation works much better.
 
-- 直觉是：如果一个权重为 100、其余权重约为 1，用同一缩放因子量化全部权重会把大部分 INT4 范围浪费在离群值上。正交旋转保持矩阵的数学性质，同时让所有权重的幅度相近，均匀量化因此效果好得多。
+- **QuIP#** extends this with **lattice codebooks**: instead of mapping to a uniform integer grid, map to points in an optimal lattice (the E8 lattice in 8D). Lattice codes pack more quantisation points into the same number of bits, achieving better rate-distortion than uniform quantisation. QuIP# achieves usable quality at **2-bit** precision — half the bits of typical INT4 methods.
 
-- **QuIP#**进一步引入**格码本**：不再映射到均匀整数网格，而是映射到最优格（8 维 E8 格）的点。格码在相同比特数中打包更多量化点，比均匀量化有更好的率失真表现。QuIP# 在**2 位**精度下就能获得可用质量，只有典型 INT4 方法一半的比特数。
+### SpQR
 
-### SpQR 数据
+- **SpQR** (Dettmers et al., 2023) observes that a tiny fraction of weights (0.1-1%) are **outliers** that contribute disproportionately to output quality. Instead of quantising everything to the same precision, SpQR:
 
-- **SpQR**（Dettmers 等，2023）发现极少数权重（0.1–1%）是对输出质量影响不成比例的**离群值**。SpQR 不把所有权重都量化到同一精度，而是：
+    1. Identifies outlier weights using sensitivity analysis (how much does quantising this weight change the layer output?).
+    2. Stores outliers at **full precision** (FP16) in a sparse format.
+    3. Quantises all remaining weights to INT3 or INT4.
 
-    1. 使用敏感度分析识别离群权重（量化该权重会让层输出改变多少）。
-    2. 在稀疏格式中以**全精度**（FP16）保存离群值。
-    3. 把其余权重量化到 INT3 或 INT4。
+- The result: ~99% of weights are aggressively quantised (small), while the critical 1% retain full precision (accurate). The sparse outlier storage adds minimal overhead (<5% of total size).
 
-- 结果是约 99% 的权重被激进压缩，而关键的 1% 保持全精度；稀疏离群值只增加很小开销（总大小不到 5%）。
+### HQQ
 
-### 腾讯网.
+- **HQQ** (Half-Quadratic Quantisation, Badri & Shaji, 2023) is a **zero-shot** weight quantisation method that requires no calibration data at all. It formulates quantisation as a half-quadratic optimisation problem, solving for optimal quantised weights and scale factors iteratively.
 
-- **HQQ**（Half-Quadratic Quantisation，半二次量化；Badri 与 Shaji，2023）是一种**零样本**权重量化方法，完全不需要校准数据。它把量化表述为半二次优化问题，通过迭代求解最优量化权重和缩放因子。
+- The advantage: no calibration set means no data dependency, instant quantisation, and no risk of calibration data mismatch. HQQ is particularly useful for models where representative calibration data is unavailable or sensitive.
 
-- 优点是没有校准集，因此没有数据依赖、可以立即量化，也没有校准数据不匹配的风险。当无法获得代表性校准数据或数据很敏感时，HQQ 特别有用。
+### AQLM
 
-### AQLM 数据
-
-- **AQLM**（Egiazarian 等，2024）把**加性量化**（多码本向量量化）应用于 LLM。它不独立量化每个权重，而是把权重分成向量，用多个学习到的码本条目之和表示每个向量：
+- **AQLM** (Egiazarian et al., 2024) applies **additive quantisation** (multi-codebook vector quantisation) to LLMs. Instead of quantising each weight independently, AQLM groups weights into vectors and represents each vector as the sum of entries from multiple learned codebooks:
 
 $$\mathbf{w} \approx \mathbf{c}_1^{(1)} + \mathbf{c}_2^{(2)} + \cdots + \mathbf{c}_M^{(M)}$$
+- where $\mathbf{c}_i^{(m)}$ is an entry from codebook $m$. With $M = 2$ codebooks of 256 entries each, a 8-element vector is encoded as two 8-bit indices = 2 bytes for 8 weights = **2 bits per weight** effective. AQLM achieves 状态-of-the-art quality at 2-bit precision, outperforming GPTQ and AWQ at this extreme compression level.
 
-- 其中 $\mathbf{c}_i^{(m)}$ 是码本 $m$ 中的一个条目。使用两个各含 256 个条目的码本（$M = 2$）时，一个 8 元素向量由两个 8 位索引编码：8 个权重只需 2 字节，实际为**每权重 2 位**。AQLM 在 2 位精度下达到当前最先进质量，超过 GPTQ 和 AWQ 在这种极限压缩下的表现。
+### BitNet and 1-Bit LLMs
 
-### BitNet 与 1 位 LLM
+- **BitNet** (Wang et al., 2023) takes quantisation to the extreme: weights are ternary ($\{-1, 0, +1\}$), requiring only ~1.58 bits per weight. Matrix multiplication becomes **addition and subtraction only** — no floating-point multiplies needed.
 
-- **BitNet**（Wang 等，2023）把量化推向极端：权重为三值（$\{-1, 0, +1\}$），每个权重只需约 1.58 位。矩阵乘法变成**只做加法和减法**，不需要浮点乘法。
+- **BitNet b1.58** (Ma et al., 2024) constrains every weight to $\{-1, 0, +1\}$. The "1.58 bits" comes from $\log_2(3) \approx 1.58$. At this precision, a 70B model fits in ~15 GB and inference requires no multiply operations — just adds, subtracts, and sign flips.
 
-- **BitNet b1.58**（Ma 等，2024）把每个权重限制在 $\{-1, 0, +1\}$。所谓“1.58 位”来自 $\log_2(3) \approx 1.58$。在这种精度下，70B 模型约 15 GB，推理无需乘法，只需加法、减法和符号翻转。
-
-- 矩阵乘法变为：
+- The matmul becomes:
 
 $$y_j = \sum_i W_{ij} \cdot x_i = \sum_{i: W_{ij}=+1} x_i - \sum_{i: W_{ij}=-1} x_i$$
+- This is dramatically cheaper than FP16 matmul on any hardware, and could enable LLM inference on devices without floating-point units. The quality tradeoff is significant for current models but improves with scale and training-time quantisation-awareness.
 
-- 这在任何硬件上都比 FP16 矩阵乘法便宜得多，甚至可能让没有浮点单元的设备运行 LLM。对当前模型而言质量权衡仍然明显，但随着模型规模扩大和训练时加入量化感知，这种方法会继续改善。
+### Microscaling (MX) Formats
 
-### 微缩放（MX）格式
+- **Microscaling** (MX) formats are a new industry standard (supported by AMD, Arm, Intel, Meta, Microsoft, NVIDIA, Qualcomm) that use **block floating point**: a group of elements shares a single exponent, and each element has its own mantissa.
 
-- **微缩放（MX）**格式是新的行业标准（AMD、Arm、Intel、Meta、Microsoft、NVIDIA、Qualcomm 均支持），采用**块浮点**：一组元素共享一个指数，每个元素拥有自己的尾数。
+| Format | Shared Exponent | Element Bits | Total (per element) | Equivalent |
+|--------|----------------|-------------|--------------------|----| MXFP8 | 8-bit per block | 8 (E4M3/E5M2) | ~8 | Like FP8 with better range |
+| MXFP6 | 8-bit per block | 6 | ~6.5 | Between FP8 and INT4 |
+| MXFP4 | 8-bit per block | 4 | ~4.5 | Like INT4 with float-like behaviour |
+| MXINT8 | 8-bit per block | 8 (integer) | ~8.5 | INT8 with shared scaling |
 
-| 格式 | 共享指数 | 元素位数 | 总计（每元素） | 等效 |
-|--------|----------------|-------------|--------------------|----|
-| MXFP8 | 每块 8 位 | 8（E4M3/E5M2） | 约 8 | 类似 FP8，但范围更好 |
-| MXFP6 | 每块 8 位 | 6 | 约 6.5 | 位于 FP8 与 INT4 之间 |
-| MXFP4 | 每块 8 位 | 4 | 约 4.5 | 类似 INT4，但行为像浮点数 |
-| MXINT8 | 每块 8 位 | 8（整数） | 约 8.5 | 共享缩放的 INT8 |
+- The shared exponent amortises the exponent cost across a block (typically 16-32 elements). Each element retains more mantissa bits than it would with an individual exponent, giving better precision per bit. MX formats are expected to replace individual FP8 and INT8 formats in future hardware.
 
-- 共享指数把指数成本分摊到一个块（通常 16–32 个元素）上。每个元素比使用独立指数时保留更多尾数位，因此每比特的精度更高。预计未来硬件会用 MX 格式取代独立的 FP8 和 INT8 格式。
+### FP8 Training
 
-### FP8 训练
+- Training in FP8 (not just inference) is now practical on NVIDIA Hopper and Blackwell GPUs. The recipe:
 
-- 在 NVIDIA Hopper 和 Blackwell GPU 上，使用 FP8 训练（不只是推理）已经可行。流程如下：
+    - **Forward pass**: weights and activations in E4M3 (higher precision, narrower range). The Transformer Engine dynamically computes per-tensor scale factors using delayed scaling (track statistics from the previous iteration, apply them to the current one).
 
-    - **前向传播**：权重和激活使用 E4M3（精度更高、范围更窄）。Transformer Engine 使用延迟缩放动态计算逐张量缩放因子（跟踪上一次迭代的统计量，把它应用到当前迭代）。
-    - **反向传播**：梯度使用 E5M2（范围更宽、精度更低）。梯度的数值范围比权重/激活更宽，因此额外的指数位可以防止溢出。
-    - **主权重**：为优化器状态保留 FP32（类似第 06 章的 FP16 混合精度训练）。FP8 只用于矩阵乘法，不用于权重更新。
-    - **损失缩放**：FP8 仍然需要损失缩放，就像 FP16 一样。动态损失缩放器调整缩放因子，使梯度值落在 FP8 可表示范围内。
+    - **Backward pass**: gradients in E5M2 (wider range, lower precision). Gradients have a broader value range than weights/activations, so the extra exponent bit prevents overflow.
 
-- 对大多数模型规模，FP8 训练质量可与 BF16 相当，同时吞吐提高约 2 倍；它是 H100 集群新大规模训练的默认选择。
+    - **Master weights**: maintained in FP32 for the optimiser 状态 (like standard mixed-precision training with FP16, chapter 6). The FP8 computation is only for the matmuls, not for the weight updates.
 
-## 激活量化
+    - **Loss scaling**: still needed for FP8, just as for FP16. The dynamic loss scaler adjusts the scale factor to keep gradient values within FP8's representable range.
 
-- 也可以量化激活（层与层之间流动的中间张量），从而实现完全 INT8 的计算（权重和激活都是 INT8，并用 INT32 累加）。
+- FP8 training achieves quality comparable to BF16 training for most model sizes, with ~2x throughput improvement. It is the default for new large-scale training runs on H100 clusters.
 
-- **动态量化**：在运行时根据实际激活值计算缩放因子。更准确（适应每个输入），但会增加开销（每层都要计算最小/最大值或百分位数）。
+## Activation Quantisation
 
-- **静态量化**：在校准期间计算一次缩放因子并固定。推理更快（无需运行时统计），但校准数据不具代表性时精度较低。
+- Activations (the intermediate tensors flowing between layers) can also be quantised, enabling fully INT8 computation (both weights and activations in INT8, with INT32 accumulation).
 
-- **逐 token 量化**：为序列中的每个 token 计算独立缩放因子。对 LLM 至关重要，因为不同 token 的激活幅度可能非常不同（有些 token 产生的激活比其他 token 大 100 倍）。
+- **Dynamic quantisation**: compute the scale factor at runtime from the actual activation values. More accurate (adapts to each input) but adds overhead (computing min/max or percentile at each layer).
 
-- 激活量化比权重量化更难，因为激活依赖数据（每次输入都会变化），而权重是固定的。“离群值”问题尤其严重：少数激活通道的值可能是均值的 100 倍，用与普通通道相同的缩放因子量化会浪费精度。
+- **Static quantisation**: compute scale factors once during calibration and fix them. Faster at inference (no runtime statistics) but less accurate if the calibration data is not representative.
 
-- **SmoothQuant**（Xiao 等，2022）通过数学方式把量化难点从激活（有离群值、难以量化）迁移到权重（容易量化）：把激活乘以 $1/s$、权重乘以 $s$，其中 $s$ 平衡两者的难度。输出 $XW = (X \cdot \text{diag}(s^{-1})) \cdot (\text{diag}(s) \cdot W)$ 不变。
+- **Per-token quantisation**: compute a separate scale for each token in a sequence. Critical for LLMs because different tokens can have very different activation magnitudes (some tokens produce activations 100x larger than others).
 
-## 混合精度量化
+- Activation quantisation is harder than weight quantisation because activations are data-dependent (they change with every input), while weights are fixed. The "outlier" problem is especially severe: a few activation channels have extreme values (100x the mean), and quantising them with the same scale as normal channels wastes precision.
 
-- 并非所有层对量化同样敏感。注意力层通常能接受 INT4，而嵌入层和最终分类器需要更高精度。
+- **SmoothQuant** (Xiao et al., 2022) addresses outliers by mathematically migrating the quantisation difficulty from activations (hard to quantise due to outliers) to weights (easy to quantise): multiply activations by $1/s$ and weights by $s$, where $s$ balances the difficulty. The output $XW = (X \cdot \text{diag}(s^{-1})) \cdot (\text{diag}(s) \cdot W)$ is unchanged.
 
-- **敏感度分析**：逐层量化并测量精度影响。敏感度高的层分配更多比特，不敏感的层使用更少比特。
+## Mixed-Precision Quantisation
 
-- Transformer Engine（第 16 章，NVIDIA Hopper）在操作层面实现动态混合精度：每次矩阵乘法根据张量统计量选择 FP8 或 FP16，在保持质量的同时最大化吞吐。
+- Not all layers are equally sensitive to quantisation. Attention layers often tolerate INT4, while embedding layers and the final classifier need higher precision.
 
-## KV-cache 量化
+- **Sensitivity analysis**: quantise each layer individually and measure the accuracy impact. Layers with high sensitivity get more bits; insensitive layers get fewer bits.
 
-- LLM 生成期间，**KV-cache** 保存此前所有 token 的 key 和 value 张量。对长序列，它会占据主要内存：
+- The Transformer Engine (chapter 16, NVIDIA Hopper) implements dynamic mixed precision at the operation level: each matmul chooses between FP8 and FP16 based on the tensor statistics, maximising throughput while maintaining quality.
+
+## KV-Cache Quantisation
+
+- During LLM generation, the **KV-cache** stores the key and value tensors for all previous tokens. For long sequences, this dominates memory:
 
 $$\text{KV-cache size} = 2 \times n_{\text{layers}} \times n_{\text{heads}} \times d_{\text{head}} \times \text{seq\_len} \times \text{bytes\_per\_element}$$
+- A 70B model with 80 layers, 64 heads, 128-dim heads, at sequence length 128K in FP16: $2 \times 80 \times 64 \times 128 \times 131072 \times 2 = 330$ GB. This exceeds the GPU memory.
 
-- 一个 70B 模型有 80 层、64 个头、每个头 128 维，在 FP16 和 128K 序列长度下需要 $2 \times 80 \times 64 \times 128 \times 131072 \times 2 = 330$ GB，超过 GPU 显存。
+- **KV-cache quantisation** reduces this by storing cached keys and values in INT8 or INT4 instead of FP16. The quantisation error accumulates over the sequence (each new token attends to all cached K/V), but with per-channel or per-head quantisation, the degradation is acceptable.
 
-- **KV-cache 量化**把缓存的 key 和 value 从 FP16 改为 INT8 或 INT4，从而减少内存。误差会沿序列累积（每个新 token 都会关注所有缓存的 K/V），但逐通道或逐头量化可以把质量下降控制在可接受范围。
+- **KV-cache quantisation is multiplicatively beneficial**: it enables longer sequences (more context), larger batch sizes (more concurrent users), and faster inference (less memory bandwidth to load the cache). This is one of the highest-impact optimisations for LLM serving.
 
-- **KV-cache 量化具有乘法级收益**：它支持更长序列（更多上下文）、更大 batch size（更多并发用户）以及更快推理（加载缓存所需内存带宽更少），是 LLM 服务中影响最大的优化之一。
+## Coding Tasks (use CoLab or notebook)
 
-## 编程任务（使用 Colab 或 notebook）
-
-1. 从零实现对称 INT8 量化。量化一个权重矩阵、反量化它，并测量重构误差随数值分布的变化。
+1. Implement symmetric INT8 quantisation from scratch. Quantise a weight matrix, dequantise it, and measure the reconstruction error as a function of the value distribution.
 ```python
 import jax.numpy as jnp
 import jax
@@ -291,7 +286,7 @@ print(f"Max abs err:  {jnp.abs(weights - recon).max():.6f}")
 print(f"Relative err: {jnp.abs(weights - recon).mean() / jnp.abs(weights).mean():.4%}")
 ```
 
-2. 演示离群值问题。创建带有少数极端通道的激活，展示逐张量量化为何失败、逐通道量化为何成功。
+2. Demonstrate the outlier problem. Create activations with a few extreme channels and show how per-tensor quantisation fails while per-channel succeeds.
 ```python
 import jax.numpy as jnp
 import jax
@@ -323,7 +318,7 @@ print(f"\nOutlier channels waste {(activations.shape[1] - 2) / activations.shape
       f"of the quantisation range for {2 / activations.shape[1]:.1%} of channels")
 ```
 
-3. 计算不同模型规模和序列长度下的 KV-cache 内存，说明长上下文模型为何必须量化 KV-cache。
+3. Compute the KV-cache memory for different model sizes and sequence lengths. Show why KV-cache quantisation is essential for long-context models.
 ```python
 def kv_cache_gb(n_layers, n_heads, d_head, seq_len, bytes_per_elem):
     return 2 * n_layers * n_heads * d_head * seq_len * bytes_per_elem / 1e9

@@ -4,12 +4,12 @@
       <path d="M0,0 L7,2.5 L0,5 Z" fill="#666"/>
     </marker>
   </defs>
-  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">GCN (Fixed Weights) vs GAT (Learned attention) (法语).</text>
+  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">GCN (固定权重) 与 GAT (学习注意力)</text>
 
   <line x1="350" y1="35" x2="350" y2="220" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
 
   <!-- GCN (left) -->
-  <text x="175" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#3498db">GCN:按学位固定</text>
+  <text x="175" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#3498db">GCN: 权重由度数固定 </text>
 
   <circle cx="175" cy="130" r="22" fill="#e74c3c" fill-opacity="0.2" stroke="#e74c3c" stroke-width="2"/>
   <text x="175" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e74c3c">i</text>
@@ -27,10 +27,10 @@
   <text x="250" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">⅓</text>
   <text x="100" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">⅓</text>
 
-  <text x="175" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">所有邻居都一样</text>
+  <text x="175" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">所有邻居贡献相等 </text>
 
   <!-- GAT (right) -->
-  <text x="525" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f39c12">GAT: 获得关注</text>
+  <text x="525" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f39c12">GAT: 学习注意力 </text>
 
   <circle cx="525" cy="130" r="22" fill="#e74c3c" fill-opacity="0.2" stroke="#e74c3c" stroke-width="2"/>
   <text x="525" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e74c3c">i</text>
@@ -48,5 +48,5 @@
   <text x="600" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#f39c12">0.1</text>
   <text x="450" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#f39c12">0.3</text>
 
-  <text x="525" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">重要邻居的体重会增加</text>
+  <text x="525" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">重要邻居获得更多权重 </text>
 </svg>

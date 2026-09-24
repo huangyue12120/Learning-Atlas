@@ -6,16 +6,16 @@
   </defs>
 
   <!-- Title -->
-  <text x="325" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">召回@ K 为图像文本检索</text>
+  <text x="325" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">回想@K 用于图像-文本检索</text>
 
   <!-- ====== Example 1 (top half) ====== -->
-  <text x="30" y="52" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#333">例1 数据</text>
+  <text x="30" y="52" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#333">示例 1 </text>
 
   <!-- Query image box -->
   <rect x="30" y="60" width="70" height="55" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="65" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">查询</text>
-  <text x="65" y="97" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">图像</text>
-  <text x="65" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#3498db">xx1F304; (中文(简体)).</text>
+  <text x="65" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">查询 (Query) </text>
+  <text x="65" y="97" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">图像 (Image) </text>
+  <text x="65" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#3498db">&#x1F304;</text>
 
   <!-- Arrow to ranked list -->
   <line x1="100" y1="87" x2="140" y2="87" stroke="#666" stroke-width="1.5" marker-end="url(#rk-gray)"/>
@@ -24,49 +24,49 @@
   <!-- #1 (wrong) -->
   <rect x="148" y="48" width="190" height="22" rx="5" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
   <text x="158" y="63" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#999">#1</text>
-  <text x="178" y="63" font-family="Arial, sans-serif" font-size="9" fill="#666">"一幅花的画"</text>
+  <text x="178" y="63" font-family="Arial, sans-serif" font-size="9" fill="#666">"一幅花卉的油画" </text>
 
   <!-- #2 (wrong) -->
   <rect x="148" y="74" width="190" height="22" rx="5" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
   <text x="158" y="89" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#999">#2</text>
-  <text x="178" y="89" font-family="Arial, sans-serif" font-size="9" fill="#666">"一个城市的照片"</text>
+  <text x="178" y="89" font-family="Arial, sans-serif" font-size="9" fill="#666">"一张城市照片" </text>
 
   <!-- #3 (CORRECT — green) -->
   <rect x="148" y="100" width="190" height="22" rx="5" fill="#27ae60" fill-opacity="0.15" stroke="#27ae60" stroke-width="1.5"/>
   <text x="158" y="115" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#27ae60">#3</text>
-  <text x="178" y="115" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#27ae60">"美丽的日出"X×2713;</text>
+  <text x="178" y="115" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#27ae60">"美丽的日落" ✓ </text>
 
   <!-- #4 -->
   <rect x="148" y="126" width="190" height="22" rx="5" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
   <text x="158" y="141" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#999">#4</text>
-  <text x="178" y="141" font-family="Arial, sans-serif" font-size="9" fill="#666">"海滩上的狗"</text>
+  <text x="178" y="141" font-family="Arial, sans-serif" font-size="9" fill="#666">"一只狗在海滩上" </text>
 
   <!-- #5 -->
   <rect x="148" y="152" width="190" height="22" rx="5" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
   <text x="158" y="167" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#999">#5</text>
-  <text x="178" y="167" font-family="Arial, sans-serif" font-size="9" fill="#666">"一个雨下下午"</text>
+  <text x="178" y="167" font-family="Arial, sans-serif" font-size="9" fill="#666">"一个下雨的下午" </text>
 
   <!-- Top-K=3 bracket -->
   <line x1="345" y1="50" x2="355" y2="50" stroke="#9b59b6" stroke-width="1.5"/>
   <line x1="355" y1="50" x2="355" y2="120" stroke="#9b59b6" stroke-width="1.5"/>
   <line x1="345" y1="120" x2="355" y2="120" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="365" y="90" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#9b59b6">顶级K=3</text>
+  <text x="365" y="90" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#9b59b6">Top-K = 3 </text>
 
   <!-- Result label -->
   <rect x="460" y="72" width="175" height="32" rx="8" fill="#27ae60" fill-opacity="0.12" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="547" y="86" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">回顾@3=1</text>
-  <text x="547" y="99" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">在上三所找到的正确匹配</text>
+  <text x="547" y="86" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">Recall@3 = 1 </text>
+  <text x="547" y="99" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">在 Top 3 中找到正确的匹配项 </text>
 
   <!-- ====== Example 2 (bottom half) ====== -->
   <line x1="20" y1="185" x2="640" y2="185" stroke="#ccc" stroke-width="0.8" stroke-dasharray="4,3"/>
 
-  <text x="30" y="202" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#333">实例2</text>
+  <text x="30" y="202" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#333">示例 2 </text>
 
   <!-- Query image box -->
   <rect x="30" y="210" width="70" height="55" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="65" y="232" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">查询</text>
-  <text x="65" y="247" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">图像</text>
-  <text x="65" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#3498db">××1F431; 2.</text>
+  <text x="65" y="232" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">查询 (Query) </text>
+  <text x="65" y="247" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">图像 (Image) </text>
+  <text x="65" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#3498db">&#x1F431;</text>
 
   <!-- Arrow to ranked list -->
   <line x1="100" y1="237" x2="140" y2="237" stroke="#666" stroke-width="1.5" marker-end="url(#rk-gray)"/>
@@ -75,36 +75,36 @@
   <!-- #1 -->
   <rect x="148" y="198" width="190" height="18" rx="4" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
   <text x="158" y="211" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#999">#1</text>
-  <text x="178" y="211" font-family="Arial, sans-serif" font-size="8" fill="#666">"狗玩取"</text>
+  <text x="178" y="211" font-family="Arial, sans-serif" font-size="8" fill="#666">"一只狗玩飞盘" </text>
 
   <!-- #2 -->
   <rect x="148" y="219" width="190" height="18" rx="4" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
   <text x="158" y="232" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#999">#2</text>
-  <text x="178" y="232" font-family="Arial, sans-serif" font-size="8" fill="#666">"山地风景"</text>
+  <text x="178" y="232" font-family="Arial, sans-serif" font-size="8" fill="#666">"一座山景" </text>
 
   <!-- #3 -->
   <rect x="148" y="240" width="190" height="18" rx="4" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
   <text x="158" y="253" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#999">#3</text>
-  <text x="178" y="253" font-family="Arial, sans-serif" font-size="8" fill="#666">"花园"</text>
+  <text x="178" y="253" font-family="Arial, sans-serif" font-size="8" fill="#666">"一个花园" </text>
 
   <!-- Top-K=3 bracket (bottom) -->
   <line x1="345" y1="200" x2="355" y2="200" stroke="#9b59b6" stroke-width="1.5"/>
   <line x1="355" y1="200" x2="355" y2="256" stroke="#9b59b6" stroke-width="1.5"/>
   <line x1="345" y1="256" x2="355" y2="256" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="365" y="232" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#9b59b6">顶级3级</text>
+  <text x="365" y="232" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#9b59b6">Top-3 </text>
 
   <!-- #4 -->
   <rect x="148" y="261" width="190" height="18" rx="4" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
   <text x="158" y="274" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#999">#4</text>
-  <text x="178" y="274" font-family="Arial, sans-serif" font-size="8" fill="#666">"运动车"</text>
+  <text x="178" y="274" font-family="Arial, sans-serif" font-size="8" fill="#666">"一辆运动型汽车" </text>
 
   <!-- #5 (CORRECT but outside top 3) -->
   <rect x="148" y="282" width="190" height="18" rx="4" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.2"/>
   <text x="158" y="295" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">#5</text>
-  <text x="178" y="295" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">"可爱的猫咪" ××××××××××××××××××××××;</text>
+  <text x="178" y="295" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">"一只可爱的小猫" ✓ </text>
 
   <!-- Result label -->
   <rect x="460" y="222" width="175" height="32" rx="8" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="547" y="236" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">回顾@3=0</text>
-  <text x="547" y="249" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">右配对不位于前三</text>
+  <text x="547" y="236" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">Recall@3 = 0 </text>
+  <text x="547" y="249" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">没有在 Top 3 中找到正确的匹配项 </text>
 </svg>

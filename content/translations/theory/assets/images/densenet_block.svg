@@ -4,28 +4,28 @@
       <polygon points="0 0, 7 2.5, 0 5" fill="#555"/>
     </marker>
   </defs>
-  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">DenseNet: 有特性的 Dense 块</text>
+  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">DenseNet: Dense Block with Feature Reuse</text>
 
   <!-- Layer boxes -->
   <rect x="40" y="60" width="80" height="40" rx="6" fill="#3498db" opacity="0.15" stroke="#3498db" stroke-width="2"/>
   <text x="80" y="77" fill="#3498db" font-size="10" text-anchor="middle" font-weight="bold">x₀</text>
-  <text x="80" y="91" fill="#3498db" font-size="8" text-anchor="middle">投入</text>
+  <text x="80" y="91" fill="#3498db" font-size="8" text-anchor="middle">输入</text>
 
   <rect x="180" y="60" width="80" height="40" rx="6" fill="#27ae60" opacity="0.15" stroke="#27ae60" stroke-width="2"/>
   <text x="220" y="77" fill="#27ae60" font-size="10" text-anchor="middle" font-weight="bold">H₁</text>
-  <text x="220" y="91" fill="#27ae60" font-size="8" text-anchor="middle">BN-ReLU-Con 银行</text>
+  <text x="220" y="91" fill="#27ae60" font-size="8" text-anchor="middle">BN→ReLU→卷积层</text>
 
   <rect x="320" y="60" width="80" height="40" rx="6" fill="#e74c3c" opacity="0.15" stroke="#e74c3c" stroke-width="2"/>
   <text x="360" y="77" fill="#e74c3c" font-size="10" text-anchor="middle" font-weight="bold">H₂</text>
-  <text x="360" y="91" fill="#e74c3c" font-size="8" text-anchor="middle">BN-ReLU-Con 银行</text>
+  <text x="360" y="91" fill="#e74c3c" font-size="8" text-anchor="middle">BN→ReLU→卷积层</text>
 
   <rect x="460" y="60" width="80" height="40" rx="6" fill="#f39c12" opacity="0.15" stroke="#f39c12" stroke-width="2"/>
   <text x="500" y="77" fill="#f39c12" font-size="10" text-anchor="middle" font-weight="bold">H₃</text>
-  <text x="500" y="91" fill="#f39c12" font-size="8" text-anchor="middle">BN-ReLU-Con 银行</text>
+  <text x="500" y="91" fill="#f39c12" font-size="8" text-anchor="middle">BN→ReLU→Conv</text>
 
   <rect x="600" y="60" width="80" height="40" rx="6" fill="#9b59b6" opacity="0.15" stroke="#9b59b6" stroke-width="2"/>
-  <text x="640" y="77" fill="#9b59b6" font-size="10" text-anchor="middle" font-weight="bold">产出</text>
-  <text x="640" y="91" fill="#9b59b6" font-size="8" text-anchor="middle">[x0],x1,x2,x3] (中文(简体)).</text>
+  <text x="640" y="77" fill="#9b59b6" font-size="10" text-anchor="middle" font-weight="bold">输出（Output）</text>
+  <text x="640" y="91" fill="#9b59b6" font-size="8" text-anchor="middle">[x₀,x₁,x₂,x₃]</text>
 
   <!-- Direct forward arrows -->
   <line x1="120" y1="80" x2="175" y2="80" stroke="#555" stroke-width="1.2" marker-end="url(#dn-arrow)"/>
@@ -60,6 +60,6 @@
 
   <!-- Bottom note -->
   <rect x="60" y="190" width="580" height="50" rx="6" fill="#f5f5f5" stroke="#333" stroke-width="1"/>
-  <text x="350" y="210" fill="#333" font-size="10" text-anchor="middle">层 l 接收所有前面的特征地图: x_l = H_l([x0, x1,..., xXQ%l-1}])</text>
-  <text x="350" y="228" fill="#666" font-size="9" text-anchor="middle">每层都添加了 k 新通道(生长率 k)。凝聚线性地增长通道,鼓励特性再利用.</text>
+  <text x="350" y="210" fill="#333" font-size="10" text-anchor="middle">层 l 接收所有先前特征图：x_l = H_l([x₀, x₁, ..., x_{l-1}])</text>
+  <text x="350" y="228" fill="#666" font-size="9" text-anchor="middle">每层添加 k 个新通道（增长率 k）。拼接方式线性增长通道数，鼓励特征重用。</text>
 </svg>

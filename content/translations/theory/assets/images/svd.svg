@@ -6,12 +6,12 @@
   </defs>
 
   <!-- Step 1: circle -->
-  <text x="40" y="14" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">投入</text>
+  <text x="40" y="14" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">输入</text>
   <circle cx="40" cy="60" r="30" fill="#3498db" fill-opacity="0.15" stroke="#3498db" stroke-width="1.5"/>
 
   <!-- Arrow + V^T -->
   <line x1="78" y1="60" x2="105" y2="60" stroke="#999" stroke-width="1.2" marker-end="url(#svd-arr)"/>
-  <text x="92" y="52" fill="#9b59b6" font-size="10" font-weight="bold">(一) 用于生产、生产、生产、生产、生产、使用或销售的软件;</text>
+  <text x="92" y="52" fill="#9b59b6" font-size="10" font-weight="bold">V&#x1D40;</text>
 
   <!-- Step 2: rotated circle (still circle) -->
   <text x="140" y="14" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">旋转</text>
@@ -41,5 +41,5 @@
   <text x="395" y="14" text-anchor="middle" fill="#333" font-size="10" font-weight="bold">旋转</text>
   <ellipse cx="395" cy="60" rx="42" ry="20" fill="#27ae60" fill-opacity="0.1" stroke="#27ae60" stroke-width="1.5" transform="rotate(-30,395,60)"/>
 
-  <text x="220" y="108" text-anchor="middle" fill="#666" font-size="10">A = UΣV&#x1D40;旋转 → 比例 → 旋转</text>
+  <text x="220" y="108" text-anchor="middle" fill="#666" font-size="10">A = UΣV&#x1D40;: 旋转 → 缩放 → 旋转</text>
 </svg>

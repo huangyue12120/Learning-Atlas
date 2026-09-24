@@ -13,7 +13,7 @@
   <text x="50" y="135" text-anchor="middle" fill="#e74c3c" font-size="10">1 x 1</text>
   <!-- scaled rectangle (sx=2, sy=1.5) -->
   <rect x="20" y="70" width="120" height="90" fill="#3498db" fill-opacity="0.1" stroke="#3498db" stroke-width="2" stroke-dasharray="5"/>
-  <text x="80" y="55" text-anchor="middle" fill="#3498db" font-size="10">缩放:2个宽,1.5个高</text>
+  <text x="80" y="55" text-anchor="middle" fill="#3498db" font-size="10">scaled: 2x wide, 1.5x tall</text>
   <!-- labels -->
-  <text x="110" y="14" text-anchor="middle" fill="#333" font-size="11">S(2, 1. 5) 展出每个轴</text>
+  <text x="110" y="14" text-anchor="middle" fill="#333" font-size="11">S(2, 1.5) extends each axis by a factor of 2 in the horizontal direction and a factor of 1.5 in the vertical direction.</text>
 </svg>

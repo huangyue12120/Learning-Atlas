@@ -8,21 +8,15 @@ source:
   sha256: 8144302e82b10eb82d7862530d84cabb8ec2bfab0c5efbefad8f7431e1a66453
 status: reviewed
 ---
-# 链表、栈与队列
+# 链表、栈和队列
 
-*本篇介绍链表的指针操作、快慢指针、栈与单调栈、队列、优先队列和堆，并用经典题目练习这些数据结构的选择与不变量。*
+*链表、栈和队列是更复杂数据结构的基础。本文件涵盖了它们的机制，然后通过逐步增加的难题，构建出关键模式：快慢指针、单调栈和基于堆的优先队列。每个步骤都包含常见陷阱。*
 
-
-
-* 链接列表、栈和队列是更复杂数据结构的构件。此文件覆盖了它们的力学,然后构建出关键模式;快/慢指针,单音堆,以及基于堆积的优先排队,通过逐渐更难的问题,每个步骤都有共同的陷阱. *
-
-- 阵列可以快速随机进入,但插入费用昂贵。** 链接列表** 快速插入但无随机访问。**Stacks**和**queues**限制进入一两个端,而这种限制使得它们具有强大的:通过限制你所能做的事情,它们简化了你需要思考的东西.
+- 数组提供快速随机访问，但插入操作昂贵。 **链表** 提供快速插入操作，但没有随机访问。 **栈** 和 **队列** 限制了对一端或两端的访问，这种限制使得它们变得强大：通过限制可以做的事情，简化了需要思考的内容。
 
 ## 链表
 
-
-
-- ** 连通列表** 是一个节点链. 每个节点存储一个值和一个指向下一个节点. 最后一个节点指向`null`.
+- **单向链表** 是一个节点链。每个节点存储一个值和指向下一个节点的指针。最后一个节点指向 `null`。
 
 ```python
 class ListNode:
@@ -31,23 +25,23 @@ class ListNode:
         self.next = next
 ```
 
-- ** 数组的好处**:在已知位置插入或删除为$O(1)$(只要重新点出指针). 无需转移元素.
+- **相对于数组的优势**：在已知位置插入或删除元素是 $O(1)$（只需重新指向指针）。不需要移动元素。
 
-- ** 不利之处**:访问要素$i$要求$O(i)$横行(无随机访问)。缓存位置差(节点分散在记忆中)。
+- **相对于数组的劣势**：访问第 $i$ 个元素需要 $O(i)$ 次遍历（没有随机访问）。缓存局部性 差（节点在内存中分散）。
 
-- ** 链接清单** 添加一个`prev`指针,可以向后转 用于 LRU 缓存(经常删除任何节点)和浏览器历史(回/ 前置)。
+- 双向链表添加一个 `prev` 指针，支持逆向遍历。常用于 LRU 缓存（常数时间删除任意节点）和浏览器历史（后退/前进）。
 
-|Operation|Singly|Doubly|
+| 操作 | 单向链表 | 双向链表 |
 |-----------|--------|--------|
-|Access by index|$O(n)$|$O(n)$|
-|Insert at head|$O(1)$|$O(1)$|
-|Insert at tail|$O(n)$ or $O(1)$*|$O(1)$|
-|Delete given node|$O(n)$**|$O(1)$|
-|Search|$O(n)$|$O(n)$|
+| 通过索引访问 | $O(n)$ | $O(n)$ |
+| 在头部插入 | $O(1)$ | $O(1)$ |
+| 在尾部插入 | $O(n)$ 或 $O(1)$* | $O(1)$ |
+| 删除给定节点 | $O(n)$** | $O(1)$ |
+| 搜索 | $O(n)$ | $O(n)$ |
 
-* 有尾指针. ** 需要前身,这需要曲折。
+*带有尾指针。 **需要前驱节点，这需要遍历。**
 
-- ** Sentinel 节点**(口味为"头"/"尾")简化了边缘外壳. 没有假头,插入头部或删除头部需要特殊的情况代码. 有了假人 每个真正的节点都有前身
+- **哨兵节点**（虚拟头/尾）简化边缘情况。没有虚拟头，插入在头部或删除头部时需要特殊代码。有了虚拟头，每个真实节点都有一个前驱节点。
 
 ```python
 # Without dummy: special case for head deletion
@@ -62,23 +56,19 @@ dummy.next = head
 # now every deletion is: prev.next = prev.next.next
 ```
 
-- ** 意外**:忘记处理空列表(`head is None`)或单元素列表. 总是测试这些边缘的病例。
+- **陷阱**: 忘记处理空列表（`head is None`）或单元素列表。总是测试这些边缘情况。
 
 ---
 
-## 模式：快慢指针（Floyd）
+## 模式：快慢指针（弗洛伊德算法）
 
+- 使用两个不同速度移动的指针来检测链表的属性。**慢**指针每一步移动一次；**快**指针移动两步。
 
+### 简单：环形链表
 
-- 使用两个以不同速度移动的指针来检测链接列表的属性. **slow**指针一相走一相;**快**指针一相走二相.
+- **问题**: 确定一个链表是否有环。
 
-### 简单：链表环
-
-
-
-- ** 问题**:确定链接清单是否有周期。
-
-- ** Pattern**:如果有一个循环,快指将最终将拉出慢指(它们会相会). 如果没有循环,快速指针就会到达`null`.
+- **模式**：如果有环，快指针最终会追上慢指针（它们会在某个点相遇）。如果没有环，快指针会到达 `null`。
 
 ```python
 def has_cycle(head):
@@ -91,17 +81,15 @@ def has_cycle(head):
     return False
 ```
 
-- ** 为何有效**:如果周期有长度$c$,快速指针每步将1个节点关闭缺口. 他们必须在内部相会$c$步骤。
+- 为什么它有效：如果循环长度为 $c$，快指针每步缩短距离1个节点。他们必须在慢指针进入循环后 $c$ 步内相遇。
 
-- ** 意外**:检查`fast and fast.next`(不仅仅是)`fast.next`) (中文(简体)). 若为`fast`实值`None`,电话`fast.next`坠机
+- **陷阱**: 检查 `fast and fast.next`（而不是 `fast.next`）。如果 `fast` 是 `None`，调用 `fast.next` 会崩溃。
 
-### 中等：寻找链表中点
+### 中等：找到链表的中间节点
 
+- **问题**：返回中间节点。
 
-
-- ** 问题**:返回中间节点。
-
-- ** Pattern**:当快指手到端后,慢指手就位于中间.
+- **模式**：当快指针到达末尾时，慢指针位于中间。
 
 ```python
 def find_middle(head):
@@ -112,13 +100,11 @@ def find_middle(head):
     return slow  # slow is at the middle (or second middle if even length)
 ```
 
-### 中等：链表环 II（寻找环入口）
+### 中等: 环形链表 II (找到环的入口)
 
+- **问题**：返回环开始的节点。
 
-
-- ** 问题**:返回开始周期的节点。
-
-- ** Pattern**:在快慢相会后,重置一指头. 以一号速度移动两个 他们在循环开始时相遇
+- **模式**：在快指针和慢指针相遇后，将其中一个指针重置为头节点。同时以速度 1 移动两者。它们会在环入口相遇。
 
 ```python
 def detect_cycle(head):
@@ -136,13 +122,11 @@ def detect_cycle(head):
     return None
 ```
 
-- ** 为什么这样有效**:让从头到循环的距离开始$a$,从周期开始到会点的距离是$b$。。。慢指针走过$a + b$。。。快速指针飞来$2(a + b)$。。。区别在于整个周期:$a + b = c$(周期长度). 这么说$a = c - b$:从头到循环的距离起等于从会点到循环起步(绕循环向前走)的距离.
+- **为什么有效**：设从头到环的初始距离为 $a$，从环初始点到相遇点的距离为 $b$。慢指针走了 $a + b$ 步，快指针走了 $2(a + b)$ 步。两者之间的差值是一个完整的环： $a + b = c$（环长度）。因此 $a = c - b$：从头到环初始点的距离等于从相遇点到环初始点的距离（沿着环向前走）。
 
-### 困难：按 K 个一组翻转链表
+### 困难：将链表按 K 组反转
 
-
-
-- ** 问题**:倒置$k$链接列表中连续的节点。
+- **问题**：在链表中每 $k$ 个连续节点进行反转。
 
 ```python
 def reverse_k_group(head, k):
@@ -167,27 +151,23 @@ def reverse_k_group(head, k):
     return prev  # prev is the new head of this group
 ```
 
-- ** 降级**:位置倒转模式(`prev, curr, nxt`值得回忆 画出它: 在每一个步骤,你指`curr.next`向后移动`prev`,然后推进所有三个指针。令出错使名单腐败.
+- **陷阱**：在地平线反转模式（ `prev, curr, nxt`）中值得记忆。画出来：每次步骤，你将 `curr.next` 向后指向 `prev`，然后同时移动三个指针。顺序错误会破坏列表。
 
 ---
 
 ## 栈
 
+- **栈**是 LIFO（最后进先出）：最近添加的元素首先被移除。想象一下一个盘子堆。
 
+- 操作： `push(x)` 在顶部添加， `pop()` 从顶部移除， `peek()` 查看顶部而不移除。所有 $O(1)$。
 
-- 一个**stack**是LIFO(上入,先出):最近添加的元素被先去掉. 想一叠盘子.
+- 栈是递归（调用栈）、表达式求值（将中缀转换为后缀）和撤销操作（每次操作都压入栈，撤销弹出最后一个）的隐含栈结构。
 
-- 操作 :`push(x)`上面加点,`pop()`从顶部删除,`peek()`看着顶部而不取出. 全体$O(1)$.
+### 简单：有效的括号
 
-- 栈是**折叠**(调用栈),**表达评价**(转换为后缀)和**undo操作**(每个动作被推出,去掉后缀)背后的隐含结构.
+- **问题**：给定一个字符串 `()[]{}`，确定它们是否平衡。
 
-### 简单：有效括号
-
-
-
-- ** 问题**:给定一串括号`()[]{}`,确定它们是否平衡。
-
-- ** Pattern**:将开口括号推入堆放处。当看到一个收尾括号时,请检查栈的顶部是相匹配的开口器.
+- **模式**：将开括号压入栈中。当你看到闭括号时，检查栈顶是否是匹配的 opener。
 
 ```python
 def is_valid(s):
@@ -205,25 +185,21 @@ def is_valid(s):
     return len(stack) == 0
 ```
 
-- ** 意外**:忘记`len(stack) == 0`最终。字符串“ (())” 没有错配, 但是无效, 因为未加括号的括号仍然保留。
+- **陷阱**：忘记在结尾处 `len(stack) == 0`。字符串 "(((" 没有不匹配的情况，但因为未关闭的括号仍然存在，因此不是有效的。
 
 ---
 
 ## 模式：单调栈
 
+- **单调栈** 保持元素按有序顺序（递增或递减）排列。当新元素违反排序时，通过弹出元素直到恢复秩序为止。
 
+- **何时使用**：问题要求“对于每个元素，找到下一个/前一个更大的/更小的元素”。栈提供了 $O(n)$ 总数，因为每个元素最多被压入和弹出一次。
 
-- ** monotonic sack** 将元素按排序顺序保持(增减). 当新元素违反命令时,您会弹出元素直到命令被恢复为止.
+### 中等: 每日温度
 
-- ** 当使用**:问题要求"针对每个元素,找到下一个/之前的更大/更小的元素". 堆叠给$O(n)$总计,因为每个元素最多被推出一次。
+- **问题**：给定每日温度，对于每一天找到比当前温度更高的天数。
 
-### 中等：每日温度
-
-
-
-- ** 问题**:鉴于每日气温,每一天都能找到离更暖和的温度还有多多天的时间。
-
-- ** Pattern**:使用一叠指数。当当前温度高于栈顶部时,会弹出并记录出相距.
+- **模式**: 使用索引栈。当当前温度高于栈顶时，弹出并记录距离。
 
 ```python
 def daily_temperatures(temperatures):
@@ -240,17 +216,15 @@ def daily_temperatures(temperatures):
     return result
 ```
 
-- 每个元素被推出一次,并跳出最多一次:$O(n)$总计。
+- 每个元素最多被压入和弹出一次：$O(n)$个总次数。
 
-- ** 降价**:将指数存储在栈上(不是值)。你需要索引来计算距离。
+- **陷阱**: 在栈中存储索引（而不是值）。你需要索引来计算距离。
 
-### 困难：柱状图中最大的矩形
+### 难：直方图中的最大矩形
 
+- **问题**: 给定一个柱子高度数组，找到最大矩形的面积。
 
-
-- ** 问题**:鉴于一连串的栏高,找出最大的矩形区域。
-
-- ** Pattern**:对于每个栏目,查找其能延伸多远(即每边最短的栏目). 单音箱不断增大的轨迹
+- **模式**: 对于每个柱子，找出它左右可以扩展多远（即两侧最近较矮的柱子）。单调递增栈高效地跟踪这一点。
 
 ```python
 def largest_rectangle(heights):
@@ -270,29 +244,25 @@ def largest_rectangle(heights):
     return max_area
 ```
 
-- ** 伤亡**:`start = idx`线条很微妙 当我们弹出一个比现在的酒吧高的酒吧时,现在的酒吧可以向后延伸到被弹出酒吧起步的地方(因为中间的所有酒吧都至少和被弹出酒吧一样高). 缺少此线会给出不正确的区域。
+- **陷阱**: `start = idx`行微妙。当我们弹出一个比当前柱子高的柱子时，当前柱子可以向后扩展到它开始的地方（因为所有中间的柱子至少与弹出的柱子一样高）。缺少这一行会导致错误的面积。
 
-- ** 意外**:哨兵`heights.append(0)`确保栈中所有剩余条得到处理。没有它,那些从来没有遇到 右侧短杠的酒吧就会被错过。
+- **陷阱**: `heights.append(0)`确保了栈中剩余的所有柱子都被处理。没有它，那些从未遇到右侧较矮柱子的柱子会被遗漏。
 
 ---
 
 ## 队列
 
+- **队列**是FIFO（先入先出）：元素从后添加，从前删除。想象一下商店的排队线。
 
+- 队列（双端队列）支持 $O(1)$ 插入和删除两端。Python的 `collections.deque` 这是标准实现。
 
-- 一个**queue**是FIFO(First In, First Out):元素被添加到后部并被从前部取出. 想想在商店排队
+- 队列是 **BFS**（广度优先搜索，第 14 章文件 4）、任务调度和消息传递等结构的基础。
 
-- 一个**deque**(双限队列)支持$O(1)$在两端插入并删除。Python 的 (美国英语)`collections.deque`是标准执行。
+### 简单：使用栈实现队列
 
-- 类型是**BFS**背后的结构(breadth-first search, 第14章文件4),**任务调度**,和**消息通过**.
+- **问题**: 实现一个队列，只使用两个栈。
 
-### 简单：用栈实现队列
-
-
-
-- ** problem**:只使用两堆来执行队列.
-
-- ** Pattern**:用一叠来作推取,一叠来作起出. 当弹出栈为空时,从推放栈中传输所有元素(倒转顺序).
+- **模式**: 使用一个栈用于插入，另一个用于删除。当弹出栈为空时，将所有元素从插入栈（反转顺序）转移过去。
 
 ```python
 class MyQueue:
@@ -319,26 +289,24 @@ class MyQueue:
         return not self.push_stack and not self.pop_stack
 ```
 
-- 摊还$O(1)$每个操作:每个元素最多一次在栈之间移动.
+- 平摊 $O(1)$ 操作：每个元素最多在两个栈之间移动一次。
 
 ---
 
-## 优先队列与堆
+## 优先队列和堆
 
+- 优先队列返回最小（或最大）元素首先，与插入顺序无关。标准实现是二叉堆。
 
+- 一个 **最小堆** 是一棵完全二叉树，其中每个父节点都比其子节点小。最小值总是位于根节点。存储为数组：节点 $i$ 的子节点位于位置 $2i + 1$ 和 $2i + 2$。
 
-- 一个 ** 优先排队** 先返回最小(或最大)元素,无论插入顺序如何. 标准实施是**二元堆积**.
-
-- 一个**min-heap**是一棵完整的二进制树,其中每个父母都比孩子小. 最小分常为根. 存储为阵列: 节点子$i$已经到位$2i + 1$财务报告和已审计财务报表$2i + 2$.
-
-|Operation|Time|
+| 操作 | 时间 |
 |-----------|------|
-|Insert|$O(\log n)$|
-|Get min|$O(1)$|
-|Extract min|$O(\log n)$|
-|Build heap from array|$O(n)$|
+| 插入 | $O(\log n)$ |
+| 获取最小值 | $O(1)$ |
+| 提取最小值 | $O(\log n)$ |
+| 从数组构建堆 | $O(n)$ |
 
-- Python 的 (美国英语)`heapq`模块提供一分高。对于最大重的,否定这些值。
+- Python的 `heapq` 模块提供了一个最小堆。对于最大堆，需要将值取反。
 
 ```python
 import heapq
@@ -355,13 +323,11 @@ heapq.heappush(h, -10)
 print(-heapq.heappop(h))  # 10 (largest)
 ```
 
-### 中等：数组中的第 K 个最大元素
+### 中等: 数组中的第 K 大元素
 
+- **问题**: 找到数组中的第 k 大元素。
 
-
-- ** 问题**:找到最大元素kth。
-
-- ** Pattern**:维持一个小幅的平地$k$。。。堆起的根是克特最大的. 如果这堆东西有$k$元素和一个新元素大于根,取而代之。
+- **模式**: 保持一个大小为 $k$ 的最小堆。堆的根是第 k 大的元素。如果堆有 $k$ 个元素，并且新元素大于根，则替换根。
 
 ```python
 import heapq
@@ -377,17 +343,15 @@ def find_kth_largest(nums, k):
     return heap[0]
 ```
 
-- $O(n \log k)$时间$O(k)$空间。比排序好得多($O(n \log n)$当$k \ll n$.
+- $O(n \log k)$ 时间，$O(k)$ 空间。比排序（$O(n \log n)$）更好，当 $k \ll n$ 时。
 
-- ** 降价**:使用最大重的大小$n$弹出$k$时间也起作用,但速度较慢:$O(n + k \log n)$。。。体型的平缓$k$是最佳办法。
+- **陷阱**: 使用大小为 $n$ 的最大堆，并弹出 $k$ 次也行，但速度较慢：$O(n + k \log n)$。最小堆大小为 $k$ 是最优的解决方案。
 
-### 困难：合并 K 个有序链表
+### 难：合并 K 个有序链表
 
+- **问题**：将 $k$ 个已排序的链表合并成一个有序链表。
 
-
-- ** 问题**:合并$k$排序链接列表为一个排序列表。
-
-- ** Pattern**:使用包含每份清单头的平缓。弹出最小的,加到结果上, 并推它的下个节点到堆积。
+- **模式**：使用一个最小堆，包含每个列表的头节点。弹出最小值并将其添加到结果中，然后将下一个节点推入堆中。
 
 ```python
 import heapq
@@ -411,56 +375,46 @@ def merge_k_lists(lists):
     return dummy.next
 ```
 
-- $O(n \log k)$地点$n$是节点的总数。堆积总是最多$k$元素。
+- $O(n \log k)$ 中 $n$ 是所有节点的总数。堆最多包含 $k$ 个元素。
 
-- ** 伤亡**:`i`(index)在堆积的Tuple是一个打结器。没有它,Python试图比较`ListNode`当值相等时对象,该值会崩溃,因为`ListNode`不支持`<`。。。该指数确保了有效的比较。
+- **陷阱**：在堆元组中，`i`（索引）是 Tiebreaker。如果没有它，Python 尝试比较 `ListNode` 对象时会崩溃，因为 `ListNode` 不支持 `<`。索引确保了有效的比较。
 
 ---
 
-## 常见陷阱总结
+## 共同陷阱总结
 
-
-
-|Pitfall|Example|Fix|
+| 错误 | 示例 | 修复 |
 |---------|---------|-----|
-|Null pointer on `fast.next`|Cycle detection with `while fast.next`|Check `fast and fast.next`|
-|Not handling empty list|Reverse of `None`|Add `if not head` guard|
-|Stack underflow|Popping from empty stack|Check `len(stack) > 0` or `if stack`|
-|Forgetting sentinel|Histogram misses last bars|Append 0 to flush the stack|
-|Missing tiebreaker in heap|Comparing uncomparable objects|Add index to heap tuple|
-|Modifying list during iteration|Removing nodes while traversing|Use prev/curr pattern or dummy head|
+| 空指针 on `fast.next` | 使用 `while fast.next` 进行环检测 | 检查 `fast and fast.next` |
+| 未处理空列表 | 反转 `None` | 添加 `if not head` 守护符 |
+| 栈下溢出 | 从空栈弹出元素 | 检查 `len(stack) > 0` 或 `if stack` |
+| 忘记哨兵 | 直方图漏掉最后一个条目 | 在堆栈上追加 0 来清空堆栈 |
+| 缺少堆排序中的破平局器 | 比较不可比较对象 | 向堆元组中添加索引 |
+| 在遍历过程中修改列表 | 遍历时删除节点 | 使用 prev/curr 模式或虚拟头结点 |
 
 ---
 
-## 课后题（NeetCode）
-
-
+## 作业题 (NeetCode)
 
 ### 链表
-
-
-- [倒转链接列表](https://neetcode.io/problems/reverse-a-linked-list)，，根本的就地倒置.
-- [合并两个排序列表](https://neetcode.io/problems/merge-two-sorted-linked-lists)，，双点合并
-- [链接列表循环](https://neetcode.io/problems/linked-list-cycle-detection)快速/慢指针
-- [重排列表](https://neetcode.io/problems/reorder-linked-list)，，找到中间+倒转+合并
-- [从末尾删除 Nth 节点](https://neetcode.io/problems/remove-node-from-end-of-linked-list)，，有缺口的两个指针.$n$
-- [LRU 缓存](https://neetcode.io/problems/lru-cache)，，散列地图+双链接列表
+- [反转链表](https://neetcode.io/problems/reverse-a-linked-list) — 原地翻转的基础操作
+- [合并两个已排序的链表](https://neetcode.io/problems/merge-two-sorted-linked-lists) — 使用双指针合并
+- [链表环检测](https://neetcode.io/problems/linked-list-cycle-detection) — 快慢指针法
+- [重排链表](https://neetcode.io/problems/reorder-linked-list) — 找到中间节点 + 反转后合并
+- [从末尾删除第 N 个节点](https://neetcode.io/problems/remove-node-from-end-of-linked-list) — 使用两个指针和固定间隔 $n$
+- [LRU Cache](https://neetcode.io/problems/lru-cache) — 哈希表 + 双向链表
 
 ### 栈
-
-
-- [有效的括号](https://neetcode.io/problems/validate-parentheses)，相匹配的括号
-- [栈](https://neetcode.io/problems/minimum-stack)，，各级赛道分数.
-- [评价反向波兰标记](https://neetcode.io/problems/evaluate-reverse-polish-notation)，，堆放式评价.
-- [每日温度](https://neetcode.io/problems/daily-temperatures)单调递减栈
-- [直方图中最大的矩形](https://neetcode.io/problems/largest-rectangle-in-histogram)单调增量栈
-- [车队](https://neetcode.io/problems/car-fleet)，，有时间对目标的栈
+- [有效括号](https://neetcode.io/problems/validate-parentheses) — 匹配括号
+- [最小栈](https://neetcode.io/problems/minimum-stack) — 每一层的最小值跟踪
+- [逆波兰表达式求值](https://neetcode.io/problems/evaluate-reverse-polish-notation) — 栈-based评估
+- [每日温度](https://neetcode.io/problems/daily-temperatures) — 单调递减栈
+- [柱状图中最大矩形](https://neetcode.io/problems/largest-rectangle-in-histogram) — 单调递增栈
+- [汽车车队](https://neetcode.io/problems/car-fleet) — 栈与时间到目标的结合
 
 ### 堆 / 优先队列
-
-
-- [串流中的 Kth 最大元素](https://neetcode.io/problems/kth-largest-integer-in-a-stream)- 体积小到零散$k$
-- [最后一块石头重量](https://neetcode.io/problems/last-stone-weight)最大重度模拟
-- [K 从源头关闭点](https://neetcode.io/problems/k-closest-points-to-origin)，，以相距为单位的分速堆放
-- [任务调度器](https://neetcode.io/problems/task-scheduler)贪得无厌 贪得无厌
-- [从数据流中查找中位数](https://neetcode.io/problems/find-median-in-a-data-stream)，，两堆(下半部为最大堆,上半部为小堆)
+- [流中第 K 大元素](https://neetcode.io/problems/kth-largest-integer-in-a-stream) — 大小为 $k$ 的最小堆
+- [最后一块石头的重量](https://neetcode.io/problems/last-stone-weight) — 最大堆模拟
+- [到原点最近的 K 个点](https://neetcode.io/problems/k-closest-points-to-origin) — 根据距离最小堆排序
+- [任务调度器](https://neetcode.io/problems/task-scheduler) — 贪心与最大堆 + 冷却时间
+- [从数据流中找到中位数](https://neetcode.io/problems/find-median-in-a-data-stream) — 两个堆（小根堆用于下半部分，大根堆用于上半部分）

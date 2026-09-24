@@ -24,7 +24,7 @@
   <!-- Curve -->
   <path d="M 60,145 Q 110,110 150,70 Q 190,40 230,38 Q 270,42 300,65 Q 330,95 345,120"
         fill="none" stroke="#e74c3c" stroke-width="2.5"/>
-  <text x="348" y="118" fill="#e74c3c" font-size="11">f(x) 语句</text>
+  <text x="348" y="118" fill="#e74c3c" font-size="11">f(x)</text>
 
   <!-- Boundary markers -->
   <line x1="80" y1="165" x2="80" y2="160" stroke="#333" stroke-width="1.5"/>
@@ -36,5 +36,5 @@
   <line x1="140" y1="165" x2="170" y2="165" stroke="#3498db" stroke-width="2"/>
   <text x="155" y="158" text-anchor="middle" fill="#3498db" font-size="9">Δx</text>
 
-  <text x="200" y="195" text-anchor="middle" fill="#666" font-size="10">更多矩形 + 更好的近似 → 整体</text>
+  <text x="200" y="195" text-anchor="middle" fill="#666" font-size="10">矩形越多 → 近似越好 → 积分</text>
 </svg>

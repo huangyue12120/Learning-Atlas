@@ -8,64 +8,55 @@ source:
   sha256: 743fc0eca70d66a19ea7630e5a4e7cca559f4f52283298a21b20c8a17737225f
 status: reviewed
 ---
+# GPU Architecture and CUDA
 
-# GPU 架构与 CUDA
+*GPUs transformed AI by providing thousands of cores for massive parallelism. This file covers GPU vs CPU design philosophy, the GPU memory hierarchy, CUDA programming in C++, the SIMT execution model, memory access patterns, synchronisation, streams, profiling, and NVIDIA GPU generations, the knowledge needed to write and understand GPU kernels.*
 
-*本篇将GPU 架构与 CUDA放回 AI 工程语境，保留源文中的定义、公式、代码、图示和实践边界，便于逐项核对。*
+- For hands-on CUDA tutorials with full working examples, see the companion repository: [github.com/HenryNdubuaku/cuda-tutorials](https://github.com/HenryNdubuaku/cuda-tutorials).
 
-*GPU通过提供上千个用于大规模平行主义的核心来改变AI. 这个文件涵盖了GPU vs CPU设计哲学,GPU内存分级,C++中的CUDA编程,SIMT执行模式,内存访问模式,同步,流,剖析,以及NVIDIA GPU世代,写作和理解GPU内核所需的知识. *
+- A modern NVIDIA GPU has over 10,000 CUDA cores. A CPU has 4-128 cores. This 100-1000x core advantage is why GPUs dominate ML: training a transformer requires trillions of multiply-add operations, and GPUs process them in parallel at a scale CPUs cannot match.
 
-- 带有完整工作实例的手动 CUDA 教程请参见伴奏寄存器:[github.com/HenryNdubuaku/cuda-tutors (英语). 克格勃大学 克格勃大学](https://github.com/HenryNdubuaku/cuda-tutorials).
+- Even if you never write CUDA kernels yourself, understanding GPU architecture explains: why batch size matters (need enough work to saturate the GPU), why memory is usually the bottleneck (not compute), and why certain operations (scatter, conditional branching) are slow on GPUs.
 
-- 一个现代的NVIDIA GPU拥有超过一万个CUDA核心. 一个CPU有4-128个核心. 这个100-1000x的核心优势是GPU主导ML的原因:训练一个变压器需要数以万亿计的乘积操作,而GPU在规模CPU中并行处理它们不能相匹配.
+## GPU vs CPU: Fundamentally Different Designs
 
-- 即使你从不自己写 CUDA 内核,理解 GPU 架构解释: 批量大小为何重要(需要足够的活来饱和GPU), 为何内存通常为瓶颈(不是计算), 以及为什么某些操作(散出,有条件的分支)在GPU上缓慢.
+- A CPU is designed for **latency**: minimise the time to complete one task. It devotes most of its transistor budget to caches, branch predictors, and out-of-order execution — all tricks to make one thread fast.
 
-## GPU 与 CPU：根本不同的设计
+- A GPU is designed for **throughput**: maximise the number of tasks completed per second. It devotes most transistors to execution units (ALUs). Individual threads are slow, but there are thousands of them.
 
+| | CPU | GPU |
+|--|-----|-----| Cores | 4-128 (complex, fast) | 1,000-20,000 (simple, slow) |
+| Clock speed | 3-5 GHz | 1-2.5 GHz |
+| Cache | Large (32 MB+ L3) | Small (per-SM shared memory) |
+| Branch prediction | Sophisticated | None (all threads follow same path) |
+| Best for | Low-latency, complex control flow | High-throughput, data-parallel work |
+| Typical FLOPS (FP32) | 1-5 TFLOPS | 30-80 TFLOPS |
+| Memory bandwidth | 50-100 GB/s | 1-3 TB/s |
 
-- 设计一个CPU的用途是**相关性**:尽量减少完成一项任务的时间。它将其大部分晶体管预算用于缓存,分支预测器,以及出道执行，，所有使一线快的花招.
+- The GPU's memory bandwidth advantage (10-30x) is often more important than its compute advantage. Many ML operations are memory-bound (element-wise ops, normalization, attention), and the GPU's bandwidth lets it feed data to its cores fast enough.
 
-- 一个GPU是为**通量**而设计的:将每秒完成的任务数最大化. 它将大部分晶体管用于执行单元(ALU). 个别的线程很慢,但有上千条.
+## GPU Memory Hierarchy
 
-| |CPU|GPU|
-|--|-----|-----|
-|Cores|4-128 (complex, fast)|1,000-20,000 (simple, slow)|
-|Clock speed|3-5 GHz|1-2.5 GHz|
-|Cache|Large (32 MB+ L3)|Small (per-SM shared memory)|
-|Branch prediction|Sophisticated|None (all threads follow same path)|
-|Best for|Low-延迟, complex control flow|High-吞吐量, data-parallel work|
-|Typical FLOPS (FP32)|1-5 TFLOPS|30-80 TFLOPS|
-|Memory bandwidth|50-100 GB/s|1-3 TB/s|
+- Understanding GPU memory is critical because **memory access is the primary bottleneck**, not computation.
 
-- GPU的内存带宽优势(10-30x)往往比其计算优势更重要. 许多ML操作都是内存受限的(元素-明智的操作,正常化,注意),而GPU的带宽使其能将数据足够快地输入其核心.
+| Memory | Size | Latency | Bandwidth | Scope |
+|--------|------|---------|-----------|-------| Registers | ~256 KB per SM | 0 cycles | Highest | Per thread |
+| Shared memory | 48-228 KB per SM | ~5 cycles | ~20 TB/s | Per thread block |
+| L1 cache | 128-256 KB per SM | ~30 cycles | | Per SM |
+| L2 cache | 4-96 MB | ~200 cycles | ~6 TB/s | Global |
+| Global memory (HBM) | 24-192 GB | ~400 cycles | 1-3.3 TB/s | Global |
 
-## GPU 内存层级
+- **Registers** are the fastest but most limited. Each thread has a private set of registers (typically 255 max). Using too many registers per thread reduces **occupancy** (fewer threads can run simultaneously).
 
+- **Shared memory** is programmer-managed cache shared by all threads in a block. It is the key to writing fast CUDA kernels: load a tile of data from slow global memory to fast shared memory, then compute on it. This is the **tiling** pattern that dominates GPU programming.
 
-- 理解GPU内存至关重要,因为**元访问是主瓶颈**,而不是计算.
+- **Global memory (HBM)**: the main GPU memory (VRAM). Large but slow (400 cycle latency). All data starts and ends here. The goal of kernel optimisation is to minimise global memory accesses.
 
-|Memory|Size|延迟|Bandwidth|Scope|
-|--------|------|---------|-----------|-------|
-|Registers|~256 KB per SM|0 cycles|Highest|Per thread|
-|Shared memory|48-228 KB per SM|~5 cycles|~20 TB/s|Per thread block|
-|L1 cache|128-256 KB per SM|~30 cycles| |Per SM|
-|L2 cache|4-96 MB|~200 cycles|~6 TB/s|Global|
-|Global memory (HBM)|24-192 GB|~400 cycles|1-3.3 TB/s|Global|
+## CUDA Programming Model
 
-- ** 登记** 是最快但最有限的。每个线程都有一套私人的登记簿(一般为255个最大). 每个线程使用过多的张量可以减少**使用**(fewer 线程可以同时运行).
+- CUDA (Compute Unified Device Architecture) is NVIDIA's programming model for GPUs. You write **kernels**: functions that run on the GPU, executed by thousands of threads simultaneously.
 
-- ** 共享内存** 是程序员管理的缓存,在一个块中由所有线程共享. 它是快速写入 CUDA 内核的关键:从慢全球内存加载一瓦数据到快共享内存,再在上面计算. 这是主导GPU编程的**tilling**模式.
-
-- **全球内存 (HBM)**:主GPU内存 (VRAM). 大而慢 (400个周期性间隔). 所有数据都在这里开始和结束. 内核优化的目标是尽量减少全球内存访问.
-
-## CUDA 编程模型
-
-
-- CUDA (Compute United Device Architecture)是NVIDIA为GPU的编程模式. 您写入**内核**:运行在GPU上的函数,由上千个线程同时执行.
-
-### 层级结构：网格、线程块、线程
-
+### The Hierarchy: Grids, Blocks, Threads
 
 ```
 Grid (the entire launch)
@@ -80,17 +71,16 @@ Grid (the entire launch)
 └── ... (millions of blocks possible)
 ```
 
-- ** Thread**:最小的单位. 每个线程都有一个独特的ID(`threadIdx.x`)在其块内.
-- ** Block**:一组可以共享内存并同步的线程. 块编号 :`blockIdx.x`。。。块大小 :`blockDim.x`(可达1024线.
-- **Grid**:由单个内核发射出的所有块. 可以是1D,2D,也可以是3D.
+- **Thread**: the smallest unit. Each thread has a unique ID (`threadIdx.x`) within its block.
+- **Block**: a group of threads that can share memory and synchronise. Block ID: `blockIdx.x`. Block size: `blockDim.x` (up to 1024 threads).
+- **Grid**: all blocks launched by a single kernel. Can be 1D, 2D, or 3D.
 
-- 每个线程计算其全球指数:`int idx = blockIdx.x * blockDim.x + threadIdx.x;`
+- Each thread computes its global index: `int idx = blockIdx.x * blockDim.x + threadIdx.x;`
 
-### 你的第一个 CUDA kernel
-
+### Your First CUDA Kernel
 
 ```cpp
-// vector_add.cu ， CUDA source file (.cu extension)
+// vector_add.cu — CUDA source file (.cu extension)
 
 #include <stdio.h>
 
@@ -152,18 +142,17 @@ nvcc -O3 -o vector_add vector_add.cu
 ./vector_add
 ```
 
-- ** CUDA**中的关键C++概念:
-    - `__global__`:一个CUDA关键字,标记内核函数. 从 CPU 调用(N)`host`),运行于 GPU (`device`).
-    - `<<<grid_size, block_size>>>`:内核发射语法. 指定要使用多少个块和线程。
-    - `cudaMalloc` / `cudaFree`: 分配/自由 GPU 内存(如`new`/`delete`但对于GPU).
-    - `cudaMemcpy`:在CPU和GPU之间复制数据. 这往往是最大的瓶颈(PCIe带宽为~32 GB/s,而GPU内存带宽为~3 TB/s).
+- **Key C++ concepts in CUDA**:
+    - `__global__`: a CUDA keyword marking a kernel function. Called from CPU (`host`), runs on GPU (`device`).
+    - `<<<grid_size, block_size>>>`: kernel launch syntax. Specifies how many blocks and threads to use.
+    - `cudaMalloc` / `cudaFree`: allocate/free GPU memory (like `new`/`delete` but for the GPU).
+    - `cudaMemcpy`: copy data between CPU and GPU. This is often the biggest bottleneck (PCIe bandwidth is ~32 GB/s, while GPU memory bandwidth is ~3 TB/s).
 
-### Warp 与 SIMT
+### Warps and SIMT
 
+- The GPU executes threads in groups of 32 called **warps**. All 32 threads in a warp execute the **same instruction** at the same time (Single Instruction, Multiple Threads — SIMT). This is the GPU's equivalent of SIMD, but at the thread level.
 
-- GPU执行线程的组为32个,称为**warps**. 曲速中的所有32个线程同时执行**同名指令**(单行指令,多行线-SIMT). 这是GPU的等同SIMD,但在线程级别.
-
-- ** 当同一曲面的线程取一个带子的不同分支时,就会发生Warp差分**`if`语句。GPU不能在一个曲面上同时执行两个不同的指令,因此它会相继执行两个分支,遮蔽出不应该参与的线程. 这可以将性能(或更糟)降低一半.
+- **Warp divergence** occurs when threads in the same warp take different branches of an `if` 状态ment. The GPU cannot execute two different instructions simultaneously in one warp, so it executes both branches sequentially, masking out the threads that should not participate. This halves performance (or worse).
 
 ```cpp
 // BAD: warp divergence (threads in same warp take different paths)
@@ -178,25 +167,23 @@ float sign = (threadIdx.x % 2 == 0) ? 1.0f : -1.0f;
 c[idx] = a[idx] + sign * b[idx];  // all threads execute the same instruction
 ```
 
-### 内存合并访问
+### Memory Coalescing
 
-
-- ** 已协调访问**:当接连线程访问接连内存地址时,GPU将它们合并为一单内存交易. 这对业绩至关重要。
+- **Coalesced access**: when consecutive threads access consecutive memory addresses, the GPU combines them into a single memory transaction. This is critical for performance.
 
 ```cpp
-// GOOD: coalesced ， thread 0 reads a[0], thread 1 reads a[1], ...
+// GOOD: coalesced — thread 0 reads a[0], thread 1 reads a[1], ...
 c[idx] = a[idx] + b[idx];
 
-// BAD: strided ， thread 0 reads a[0], thread 1 reads a[stride], ...
+// BAD: strided — thread 0 reads a[0], thread 1 reads a[stride], ...
 c[idx] = a[idx * stride] + b[idx * stride];  // stride > 1 wastes bandwidth
 ```
 
-- 对于由32个线程组成的曲速,一个交易中可连入128字节(32×4字节为浮点32). 被勒入需要多个交易,每次加载128字节但只使用分数. 步长为32是最坏的情况:每笔交易负载128字节,但只有一个线程使用4字节(3%的利用率).
+- For a warp of 32 threads, coalesced access loads 128 bytes (32 × 4 bytes for float32) in one transaction. Strided access requires multiple transactions, each loading 128 bytes but using only a fraction. A stride of 32 is the worst case: each transaction loads 128 bytes but only one thread uses 4 bytes (3% utilisation).
 
-### 共享内存与分块
+### Shared Memory and Tiling
 
-
-- **tilling图案**是最重要的GPU优化技术. 想法:从慢全球内存装入一块数据到快共享内存,在上计算,再将结果写回.
+- The **tiling pattern** is the most important GPU optimisation technique. The idea: load a block of data from slow global memory into fast shared memory, compute on it, then write results back.
 
 ```cpp
 // Matrix multiply with shared memory tiling (simplified)
@@ -238,14 +225,13 @@ __global__ void matmul_tiled(const float* A, const float* B, float* C,
 }
 ```
 
-- **`__shared__`**: 声明区块内所有线程(快取,接地)共享的内存.
-- **`__syncthreads()`**:一个屏障,它等待到块中所有线程都达到这个点. 需要在写入共享内存和从中读取之间(否则一些线程会读取 stale 数据).
-- **为什么平板工作**:没有它,每个线程从全球记忆中负载每乘. 使用平板,一个TILE_SIZE × TILE_SIZE块的数据被一次装入共享内存并被块中的所有线程再用. 复用因子为TILE_SIZE,通过该因子来减少全球内存流量.
+- **`__shared__`**: declares memory shared by all threads in the block (fast, on-chip).
+- **`__syncthreads()`**: a barrier that waits until all threads in the block have reached this point. Required between writing to shared memory and reading from it (otherwise some threads read stale data).
+- **Why tiling works**: without it, each thread loads from global memory for every multiply. With tiling, a TILE_SIZE × TILE_SIZE block of data is loaded once into shared memory and reused by all threads in the block. The reuse factor is TILE_SIZE, reducing global memory traffic by that factor.
 
-## 流与并发
+## Streams and Concurrency
 
-
-- 默认情况下,CUDA操作是相继进行的:CPU发射一个内核,等待它完成后再发射下个内核. ** 结构**造成重叠:
+- By default, CUDA operations are sequential: the CPU launches a kernel, waits for it to finish, then launches the next one. **Streams** enable overlapping:
 
 ```cpp
 cudaStream_t stream1, stream2;
@@ -260,10 +246,9 @@ kernel1<<<grid, block, 0, stream1>>>(d_a, d_c);
 kernel2<<<grid, block, 0, stream2>>>(d_b, d_d);
 ```
 
-- 流与计算重叠数据传输:同时一个流的内核运行,另一个流复制数据. 这隐藏了PCIe的转会潜伏状态并让GPU忙碌.
+- Streams overlap data transfer with computation: while one stream's kernel runs, another stream copies data. This hides the PCIe transfer latency and keeps the GPU busy.
 
-## 分析 CUDA 代码
-
+## Profiling CUDA Code
 
 ```bash
 # NVIDIA Nsight Compute: kernel-level profiling
@@ -276,21 +261,19 @@ nsys profile ./my_program
 ncu --metrics sm__throughput,dram__throughput ./my_program
 ```
 
-- ** 寻找什么**:
-    - ** 占用**:使用的SM容量的一小部分. 入住率低(< 50%)意味着线条太少,无法隐藏内存的延迟. 原因:每条线程的注册量过多,每块共享内存过多.
-    - ** Memory吞吐量**:与峰值带宽比较. 如果您实现了 < 50%的峰值, 内存访问模式效率低下(非混凝土, 银行冲突)。
-    - ** 计算吞吐量**:与峰值FLOPS比较。如果内存和计算吞吐量都很低,内核就具有耐久性(不够并行性).
+- **What to look for**:
+    - **Occupancy**: fraction of the SM's capacity that is used. Low occupancy (< 50%) means too few threads to hide memory latency. Causes: too many registers per thread, too much shared memory per block.
+    - **Memory throughput**: compare to peak bandwidth. If you achieve < 50% of peak, memory access patterns are inefficient (non-coalesced, bank conflicts).
+    - **Compute throughput**: compare to peak FLOPS. If both memory and compute throughput are low, the kernel is latency-bound (not enough parallelism).
 
-## 高级优化技术
+## Advanced Optimisation Techniques
 
+- Beyond the basics of coalescing and shared memory tiling, high-performance GPU (and CPU) code uses several advanced techniques:
 
-- 高性能的GPU(和CPU)代码除了集成和共享内存平板的基本原理外,还采用几种先进的技术:
+### Data Layout: AoS vs SoA
 
-### 数据布局：AoS 与 SoA
-
-
-- ** 结构阵列(AoS)**:每个元素将其所有字段一起存储.`[{x,y,z}, {x,y,z}, {x,y,z}]`.
-- ** 阵列结构(SoA)**:每个场被储存在自己相接的阵列中。`{[x,x,x], [y,y,y], [z,z,z]}`.
+- **Array of Structures (AoS)**: each element stores all its fields together. `[{x,y,z}, {x,y,z}, {x,y,z}]`.
+- **Structure of Arrays (SoA)**: each field is stored in its own contiguous array. `{[x,x,x], [y,y,y], [z,z,z]}`.
 
 ```cpp
 // AoS: BAD for SIMD/GPU (accessing all x values touches non-contiguous memory)
@@ -302,15 +285,14 @@ Particle particles[N];
 struct Particles {
     float x[N], y[N], z[N], mass[N];
 };
-// x[0], x[1] are 4 bytes apart ， perfect for coalesced access and SIMD
+// x[0], x[1] are 4 bytes apart — perfect for coalesced access and SIMD
 ```
 
-- SoA几乎总是在数据并行工作量(SIMD,GPU)方面更快. 当您总是访问一个元素的所有字段时, AoS 效果更好(在数字代码中少有)。PyTorch loters 本质上是SoA:每个特性都是相接维度.
+- SoA is almost always faster for data-parallel workloads (SIMD, GPU). AoS is better when you always access all fields of one element together (rare in numerical code). PyTorch tensors are SoA by nature: each feature is a contiguous dimension.
 
-### 软件预取
+### Software Prefetching
 
-
-- CPU可以被告知在需要之前开始加载数据,隐藏内存延迟:
+- The CPU can be told to start loading data before it is needed, hiding memory latency:
 
 ```cpp
 #include <xmmintrin.h>  // for _mm_prefetch
@@ -323,12 +305,11 @@ for (int i = 0; i < n; i += 4) {
 }
 ```
 
-- 预选指令是一个提示:如果数据已经处于缓存中,那就是一个不操作. 如果不是,CPU在执行其他指令的同时,开始从背景取来. 预切相距(本例中前面的64个元素)应被调谐来配合内存的延迟和循环迭接时间.
+- The prefetch instruction is a hint: if the data is already in cache, it is a no-op. If not, the CPU starts fetching it in the background while executing other instructions. The prefetch distance (64 elements ahead in this example) should be tuned to match the memory latency and loop iteration time.
 
-### kernel 融合
+### Kernel Fusion
 
-
-- ** 内核聚变** 将多个操作组合为一个内核,以避免将中间结果写入内存. 这是ML最有影响力的GPU优化:
+- **Kernel fusion** combines multiple operations into a single kernel to avoid writing intermediate results to memory. This is the single most impactful GPU optimisation for ML:
 
 ```
 // UNFUSED: 3 kernel launches, 3 global memory round-trips
@@ -340,12 +321,11 @@ out = relu(z)         // read z, write out
 out = fused_matmul_bias_relu(x, W, bias)  // y and z never leave SRAM
 ```
 
-- 对于内存绑定的操作(bias add,ReLU,层规范),内存流量主导了执行时间. 引信可以完全消除交通流量。皮托克的药`torch.compile`和Triton可以自动地或以最小的努力进行核聚变。
+- For memory-bound operations (bias add, ReLU, layer norm), the memory traffic dominates execution time. Fusing eliminates the traffic entirely. PyTorch's `torch.compile` and Triton enable fusion automatically or with minimal effort.
 
-### 混合精度 kernel
+### Mixed-Precision Kernels
 
-
-- 使用更低的精度(FP16,BF16,INT8)来进行计算,并使用更高的精度(FP32)来进行积累使两个世界中最好的:
+- Using lower precision (FP16, BF16, INT8) for computation and higher precision (FP32) for accumulation gives the best of both worlds:
 
 ```cpp
 // Tensor Core: multiply FP16 matrices, accumulate in FP32
@@ -353,53 +333,48 @@ out = fused_matmul_bias_relu(x, W, bias)  // y and z never leave SRAM
 nvcuda::wmma::mma_sync(c_frag, a_frag, b_frag, c_frag);
 ```
 
-- FP16比FP32小2x,因此可以将内存带宽(通常的瓶颈)翻倍并适合缓存中多出2x的数据. Tensor Cores以8-16x的速率为FP32 CUDA核心进行FP16. 这就是为什么混合精度训练(第6章)提供2-3x快取,而精度损失最小.
+- FP16 is 2x smaller than FP32, so it doubles memory bandwidth (the usual bottleneck) and fits 2x more data in cache. Tensor Cores process FP16 at 8-16x the rate of FP32 CUDA cores. This is why mixed-precision training (chapter 6) provides 2-3x speedup with minimal accuracy loss.
 
-### 内存池分配器
+### Memory Pool Allocators
 
+- `cudaMalloc` is slow (~1 ms per call) because it synchronises with the GPU. In a training loop that allocates temporary buffers every iteration, this adds up.
 
-- `cudaMalloc`慢(~每通呼叫1ms),因为它与GPU同步. 在分配每个迭代的临时缓冲器的训练循环中,这个加起来.
-
-- **记忆池**(PyTorch's cacing accident, CUDA memory pool) 预分出一大块GPU内存并从中分出,没有系统调用:
+- **Memory pools** (PyTorch's caching allocator, CUDA memory pools) pre-allocate a large block of GPU memory and sub-allocate from it without system calls:
 
 ```python
-# PyTorch does this automatically ， but understanding why matters
+# PyTorch does this automatically — but understanding why matters
 # Each torch.empty() reuses memory from the pool, no cudaMalloc
 temp = torch.empty(1024, 1024, device='cuda')  # microseconds, not milliseconds
 ```
 
-- 这就是为什么PyTorch的`torch.cuda.memory_allocated()`财务报告和已审计财务报表`torch.cuda.max_memory_allocated()`不同:分配是当前使用的,最大是峰值(池可能持有多于当前使用的).
+- This is why PyTorch's `torch.cuda.memory_allocated()` and `torch.cuda.max_memory_allocated()` differ: allocated is what is currently in use, max is the peak (the pool may hold more than is currently used).
 
-### 基于性能分析的优化
+### Profile-Guided Optimisation
 
+- Do not optimise blindly. **Profile first**, identify the bottleneck, optimise that, and re-profile. The roofline model (file 01) tells you whether the bottleneck is memory or compute:
 
-- 不要盲目地优化。** 标出瓶颈,优化,并重新定位。屋顶线模型(文件01)告诉你瓶颈是记忆还是计算:
+    - **Memory-bound** (low arithmetic intensity): optimise data layout (SoA), fuse kernels, use lower precision, prefetch.
+    - **Compute-bound** (high arithmetic intensity): use Tensor Cores, increase parallelism, use faster instructions (FMA).
+    - **Latency-bound** (insufficient parallelism): increase occupancy, reduce register usage, launch more threads.
 
-    - ** Memory-bound** (低算强度):优化数据布局(SoA),引信内核,使用更低的精度,预取.
-    - ** 计算约束**(高算术强度):使用Tensor Cores,增加并行性,使用更快的指令(FMA).
-    - ** 有限耐受**(并行性不足):增加占用、减少登记使用、推出更多线程。
+- Most ML workloads are **memory-bound**. The surprising implication: a faster GPU (more FLOPS) often does not help. Faster memory (HBM3 vs HBM2e) helps more. This is why the A100→H100 upgrade is not just about FLOPS — the H100 also has 2x the memory bandwidth.
 
-- 多数ML的工作量是**内含的**。令人惊讶的暗示:一个更快的GPU(更FLOPS)往往无济于事. 更快的内存(HBM3 vs HBM2e)帮助更多. 这就是为什么A100-H100升级不仅仅是关于FLOPS，，H100也有2x内存带宽.
+## NVIDIA GPU Generations
 
-## NVIDIA GPU 世代
+| Generation | Year | Key Innovation | AI Relevance |
+|------------|------|----------------|--------------| Pascal (P100) | 2016 | HBM2, NVLink | First serious deep learning GPU |
+| Volta (V100) | 2017 | **Tensor Cores** (mixed-precision matmul) | Enabled FP16 training, 125 TFLOPS TF32 |
+| Ampere (A100) | 2020 | TF32, Sparsity, 3rd gen Tensor Cores | 312 TFLOPS TF32, structural sparsity 2:4 |
+| Hopper (H100) | 2022 | **Transformer Engine** (FP8), HBM3 | 989 TFLOPS FP8, dynamic precision switching |
+| Blackwell (B200) | 2024 | 2nd gen Transformer Engine, NVLink 5 | 2.5 PFLOPS FP4, multi-die design |
 
+- **Tensor Cores** are specialised matrix multiply units. A single Tensor Core instruction computes a 4×4 matrix multiply (D = A×B + C) in one cycle. Regular CUDA cores would need 64 FMA operations. Tensor Cores are why mixed-precision training (float16 compute, float32 accumulation) is fast.
 
-|Generation|Year|Key Innovation|AI Relevance|
-|------------|------|----------------|--------------|
-|Pascal (P100)| 2016 |HBM2, NVLink|First serious deep learning GPU|
-|Volta (V100)| 2017 |**Tensor Cores** (mixed-precision matmul)|Enabled FP16 training, 125 TFLOPS TF32|
-|Ampere (A100)| 2020 |TF32, Sparsity, 3rd gen Tensor Cores|312 TFLOPS TF32, structural sparsity 2:4|
-|Hopper (H100)| 2022 |**Transformer Engine** (FP8), HBM3|989 TFLOPS FP8, dynamic precision switching|
-|Blackwell (B200)| 2024 |2nd gen Transformer Engine, NVLink 5|2.5 PFLOPS FP4, multi-die design|
+- **The Transformer Engine** (Hopper+) dynamically switches between FP8 and FP16 precision within a single layer, choosing higher precision only where needed. This maximises throughput without sacrificing model quality. It is specifically designed for transformer architectures (attention + MLP), which dominate modern AI.
 
-- ** 传感器Cores**是专门的矩阵乘数单位。单倍分芯指令在一个周期内计算出4×4矩阵乘数(D=A×B+C). 常规CUDA核心需要64个FMA操作. Tensor Cores)是混合精度训练(float16 compute, flob32 building)的由来.
+## Coding Tasks (compile with nvcc)
 
-- ** 变压器引擎**(Hopper+)在单层内在FP8和FP16精度之间动态开关,仅在需要的情况下选择更精度. 这样可以最大限度地实现吞吐量,同时又不牺牲模型质量. 它专门设计用于变压器架构(ention + MLP),它主导了现代AI.
-
-## 编程任务（使用 nvcc 编译）
-
-
-1. 写入一个将 ReLU 应用到数组的 CUDA 内核。测量包括内存传输在内的时间。这教内核写作,cudaMalloc/cudaMemcpy, 和主机\%device 传输瓶颈。
+1. Write a CUDA kernel that applies ReLU to an array. Measure the time including memory transfers. This teaches kernel writing, cudaMalloc/cudaMemcpy, and the host↔device transfer bottleneck.
 ```cpp
 // task1_relu.cu
 // Compile: nvcc -O3 -o task1_relu task1_relu.cu
@@ -467,7 +442,7 @@ int main() {
 }
 ```
 
-2. 使用共享内存在 CUDA 中写入平面矩阵乘法。将性能与天真(非平板)版本相提并论. 这教会了共享记忆`__syncthreads`以及为什么板块很重要。
+2. Write a tiled matrix multiply in CUDA using shared memory. Compare the performance against a naive (non-tiled) version. This teaches shared memory, `__syncthreads`, and why tiling matters.
 ```cpp
 // task2_matmul.cu
 // Compile: nvcc -O3 -o task2_matmul task2_matmul.cu
@@ -563,7 +538,7 @@ int main() {
 }
 ```
 
-3. 显示曲率差分。写一个内核,在同一曲面上线程取出不同的分枝,与无分枝版本进行比较.
+3. Demonstrate warp divergence. Write a kernel where threads in the same warp take different branches, and compare against a branchless version.
 ```cpp
 // task3_divergence.cu
 // Compile: nvcc -O3 -o task3_diverge task3_divergence.cu
@@ -571,7 +546,7 @@ int main() {
 #include <stdio.h>
 #include <cuda_runtime.h>
 
-// BAD: warp divergence ， even/odd threads take different paths
+// BAD: warp divergence — even/odd threads take different paths
 __global__ void divergent_kernel(float* data, int n) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n) {
@@ -583,7 +558,7 @@ __global__ void divergent_kernel(float* data, int n) {
     }
 }
 
-// GOOD: branchless ， all threads execute the same instruction
+// GOOD: branchless — all threads execute the same instruction
 __global__ void branchless_kernel(float* data, int n) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n) {

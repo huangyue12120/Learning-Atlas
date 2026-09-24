@@ -8,288 +8,284 @@ source:
   sha256: 297749fe76d1d97e2bfd53936c08cf23e6a422c5487c6acb13264290484bf88e
 status: reviewed
 ---
+# 多模态生成
 
-# 跨模态生成
+*多模态生成在给定另一模态输入的情况下，产生一种输出。例如，文本到图像、图像到文本、文本到音频以及更多。本文件涵盖了DALL-E、Stable Diffusion、分类器自由引导、控制网络、图像描述、文本到视频（Sora）和文本到音频生成等。想象一下，你用文字描述了一个场景给 courtroom sketch艺术家，艺术家必须理解你的语言、回忆物体的外观、空间布局并最终绘制出完整的画作。多模态生成模型同样如此，但它们需要从数据中学习这些技能，而不是通过多年的艺术学校教育来掌握。*
 
-*跨模态生成是在一种模态的输入条件下生成另一种模态的输出，例如文本生成图像、图像生成文本、文本生成音频等。本篇涵盖 DALL-E、Stable Diffusion、classifier-free guidance、ControlNet、图像描述、文本生成视频（Sora）和文本生成音频。*
+- 在本章第01-03节中，你了解了如何表示、对齐和标记不同的模态。现在轮到创造性的行为：从另一种模态生成一种。多模态生成是文本到图像工具、视频合成系统、音乐创作模型以及图像描述的引擎。它就像在教导机器成为一个多媒体艺术家——你用文字描述你想什么，它就能绘画、动画或编曲。
 
-- 在本章第 01–03 篇中，你学习了如何表示、对齐和词元化不同模态。现在进入创造环节：从一种模态生成另一种模态。跨模态生成是文生图工具、视频合成系统、音乐创作模型和图像描述系统背后的引擎。可以把它想象成教机器成为多媒体艺术家，，你用文字描述想要的内容，它负责绘画、动画或作曲。
+- 核心思想是**条件生成**：给定模态$A$（例如文本）的输入，产生模态$B$（例如图像）的输出。形式上，你学习一个模型$p_\theta(y \mid x)$，其中$x$是条件信号，$y$是生成的输出。挑战在于，这个条件分布极其复杂且高维——512x512的图像生活在$\mathbb{R}^{786432}$中，单个文本提示有多个有效的图像选项。
 
-- 核心思想是**条件生成**：给定模态 $A$ 的输入（例如文本），产生模态 $B$ 的输出（例如图像）。形式化地说，我们学习模型 $p_\theta(y \mid x)$，其中 $x$ 是条件信号，$y$ 是生成结果。难点在于这个条件分布极其复杂且维度很高，，一幅 512x512 的图像位于 $\mathbb{R}^{786432}$ 中，而单个文本提示词可能对应许多张有效图像。
+![](../images/cross_modal_generation_overview.svg)
 
-![跨模态生成总览：文本、图像、音频和视频通过有向箭头相连，展示文生图、图生文、文生音频和文生视频等生成路径](../images/cross_modal_generation_overview.svg)
 
-## 文本生成图像
+## 文本到图像生成
 
-- 想象你向法庭速写师描述一个场景。速写师需要理解你的话，回忆物体的外观，在空间中组织它们，再绘制最终图像。文本生成图像模型做的正是这些事，只不过它们必须从数据中学习，而不是经过多年的美术训练。
+- 想象一下，你用文字描述一个场景给 courtroom sketch艺术家。艺术家必须理解你的语言、回忆物体的外观、空间布局并最终绘制出完整的画作。文本到图像模型同样如此，但它们需要从数据中学习这些技能，而不是通过多年的艺术学校教育来掌握。
 
 ### DALL-E：自回归图像生成
 
-- **DALL-E**（Ramesh 等，2021）把图像生成视为序列预测问题，，这与语言模型所使用的范式（第 07 章）相同。关键洞见是：只要能把图像表示为离散 token（回顾第 03 篇的 VQ-VAE），生成图像就只是一个接一个地生成 token。
+- **DALL-E**（Rames et al., 2021）将图像生成视为一个序列预测问题——与语言模型（第07章）使用的相同范式。关键洞察是，如果可以将图像表示为离散标记（回想文件03中的VQ-VAE），那么生成图像只是逐个生成一系列标记。
 
-- 流程分两个阶段。首先，**离散 VAE（dVAE）**把 256x256 图像压缩为来自包含 8192 个条目的 codebook 的 32x32 离散 token 网格，把图像缩短为 1024 个 token 的序列。其次，训练一个 **Transformer decoder** 来建模由 256 个文本 token（使用 BPE 编码）和 1024 个图像 token 拼接而成的联合分布，共 1280 个 token：
+- 管道有两个阶段。首先，一个**离散 VAE (dVAE)**将256x256的图像压缩为32x32网格中的离散标记集（代码书包含8192个条目），从而将图像减少到1024个标记序列。其次，一个**Transformer解码器**被训练来模型256个文本标记（BPE编码）与1024个图像标记的联合分布，总计1280个标记：
 
 $$p(x_{\text{text}}, x_{\text{img}}) = \prod_{i=1}^{1280} p(x_i \mid x_1, \ldots, x_{i-1})$$
+- 在生成时，你将文本标记输入模型，并逐个自回归地采样图像标记。这种设计非常优雅，因为它利用了语言建模中使用的注意力、因果遮蔽和top-k采样等机制来进行图像合成。
 
-- 生成时输入文本 token，模型再以自回归方式逐个采样图像 token。这种方案很优雅，因为它复用了语言建模的完整机制，，attention、因果 mask 和 top-k 采样，，来合成图像。
+- 缺点是自回归生成本质上是顺序性的：逐个生成1024个标记很慢，而且早期的错误会累积。DALL-E通过生成许多候选图像并使用CLIP（来自文件01）重新排名它们来缓解这一点。
 
-- 缺点是自回归生成天然是顺序的：逐个生成 1024 个 token 很慢，而且序列早期的错误会不断累积。DALL-E 通过生成许多候选图像，再用 CLIP（第 01 篇）重新排序并找到与文本提示最匹配的图像来缓解这一问题。
+![](../images/dalle_autoregressive_pipeline.svg)
 
-![DALL-E 流程：文本 token 和图像 token 拼成一个序列，由 Transformer decoder 处理，模型根据文本条件自回归预测图像 token](../images/dalle_autoregressive_pipeline.svg)
 
-### Stable Diffusion：带文本条件的潜空间扩散
+### 稳定扩散：带有文本条件的潜在扩散
 
-- **Stable Diffusion**（Rombach 等，2022）采用了完全不同的方法。它不是逐个预测 token，而是从纯噪声出发，在文本提示的引导下逐步去噪成图像。回顾第 8 章的扩散模型，，Stable Diffusion 在压缩的潜空间而不是像素空间中运行，因此效率大幅提高。
+- **Stable Diffusion** (Rombach et al., 2022) takes a fundamentally different approach. Instead of predicting tokens one by one, it starts with pure noise and gradually denoises it into an image, guided by a text prompt. Recall diffusion models from Chapter 8 — Stable Diffusion operates in a compressed latent space rather than pixel space, making it dramatically more efficient.
 
-- 架构由三个协同工作的组件构成。**VAE encoder** 把图像从像素空间（$512 \times 512 \times 3$）压缩到潜表示（$64 \times 64 \times 4$），使维度减少 48 倍。**文本编码器**（通常是 CLIP 或 OpenCLIP）把文本提示转换为 embedding 向量序列。**U-Net 去噪器**接收带噪潜变量、时间步和文本 embedding，并在每一步预测要减去的噪声。文本条件通过 **cross-attention** 层进入 U-Net：
+- The architecture has three components working in concert. A **VAE encoder** compresses the image from pixel space ($512 \times 512 \times 3$) to a latent representation ($64 \times 64 \times 4$), reducing dimensionality by a factor of 48. A **text encoder** (typically CLIP or OpenCLIP) converts the text prompt into a sequence of embedding vectors. A **U-Net denoiser** takes the noisy latent, the timestep, and the text embeddings, and predicts the noise to subtract at each step. Text conditioning enters the U-Net through **cross-attention** layers:
 
 $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V$$
+- where $Q$ comes from noisy image features, and $K, V$ come from text embeddings. This lets the model attend to relevant words at each spatial location — when denoising the region where a "red ball" should appear, the model attends to the tokens "red" and "ball".
 
-- 其中 $Q$ 来自带噪图像特征，$K,V$ 来自文本 embedding。这样，模型可以在每个空间位置关注相关词语，，在去噪“红球”应该出现的区域时，模型会关注 “red” 和 “ball” 这两个 token。
+- At inference, you sample $z_T \sim \mathcal{N}(0, I)$ in latent space, iteratively denoise using the U-Net for $T$ steps (typically 20-50 with DDIM scheduling), and decode the clean latent $z_0$ back to pixel space with the VAE decoder. The entire forward pass generates a 512x512 image in seconds on a consumer GPU.
 
-- 推理时，在潜空间中采样 $z_T \sim \mathcal{N}(0, I)$，使用 U-Net 迭代去噪 $T$ 步（通常配合 DDIM 调度执行 20–50 步），再由 VAE decoder 把干净潜变量 $z_0$ 解码回像素空间。整个过程可以在消费级 GPU 上用数秒生成一幅 512x512 图像。
+![](../images/stable_diffusion_architecture.svg)
 
-![Stable Diffusion 架构：CLIP 编码文本提示，潜空间中的随机噪声通过与文本 embedding 做 cross-attention 的 U-Net 迭代去噪，最后由 VAE 解码生成图像](../images/stable_diffusion_architecture.svg)
 
-### 实践中的 Classifier-Free Guidance
+### 分类器自由引导在实践中
 
-- **Classifier-free guidance（CFG，无分类器引导）**是让文生图模型真正匹配提示词的关键。回顾第 8 章：CFG 让模型同时进行有条件和无条件训练，然后在采样时放大条件信号：
+- **分类器自由引导 (CFG)** 是使文本到图像模型生成实际匹配其提示的图像的秘密成分。回想一下第 8 章，CFG 训练模型同时条件和无条件地，然后在采样时放大条件信号：
 
 $$\hat{\epsilon} = \epsilon_\theta(x_t, \varnothing) + s \cdot (\epsilon_\theta(x_t, c) - \epsilon_\theta(x_t, \varnothing))$$
+- 其中 $s$ 是引导尺度。将术语 $(\epsilon_\theta(x_t, c) - \epsilon_\theta(x_t, \varnothing))$ 视为“指向提示的方向”——它捕捉了条件预测与无条件预测之间的不同之处。乘以 $s > 1$ 增加了这个方向，使图像更接近文本描述的代价是多样性。
 
-- 其中 $s$ 是引导强度。可以把 $(\epsilon_\theta(x_t, c) - \epsilon_\theta(x_t, \varnothing))$ 看作“朝向提示词的方向”，，它捕捉有条件预测与无条件预测之间的差异。乘以 $s > 1$ 会夸大这个方向，让图像更贴近文字描述，但会牺牲多样性。
+- 在实践中，$s = 7.5$ 是一个常见的默认设置用于 Stable Diffusion。在 $s = 1.0$ 时，你会得到原始模型输出（多样但 loosely匹配提示）。在 $s = 20+$ 时，图像会变得过度饱和且重复，但非常紧密地与文本对齐。最佳的 $s$ 取决于应用：创意探索倾向于较低的引导力，而精确的提示遵循则需要较高的引导力。
 
-- 实践中 $s = 7.5$ 是 Stable Diffusion 的常见默认值。$s = 1.0$ 时得到原始模型输出（多样但与提示词的匹配较松）；$s = 20+$ 时图像会过度饱和、重复度变高，但与文字高度一致。最优 $s$ 取决于应用：创意探索偏好更低的引导强度，精确遵循提示词则需要更高的引导强度。
+### 图像：带有语言理解的级联扩散
 
-### Imagen：结合语言理解的级联扩散
+- **Imagen**（萨哈拉等人，2022年）表明强大的文本编码器比大型图像模型更重要。而不是使用CLIP，Imagen使用来自第7章的冻结**T5-XXL**语言模型作为文本编码器，它对语言语义、组合性和空间关系有更丰富的理解（例如“一个蓝色立方体在红色球体之上”）。
 
-- **Imagen**（Saharia 等，2022）证明，强大的文本编码器比更大的图像模型更重要。Imagen 不使用 CLIP，而是使用冻结的 **T5-XXL** 语言模型（第 07 章）作为文本编码器；它对语言语义、组合关系和空间关系的理解更加丰富，例如“蓝色立方体位于红色球体上方”。
+- Imagen 使用了 **级联扩散** 方法：一个基础扩散模型生成 64x64 的图像，第一个超分辨率模型将其放大到 256x256，第二个超分辨率模型达到 1024x1024。每个阶段都是单独的扩散模型，受文本和（对于上采器）较低分辨率图像的条件约束。这种级联方法避免了在基础分辨率下建模细部细节，允许基础模型专注于构图和语义，而上采器则负责纹理和锐度。
 
-- Imagen 使用**级联扩散**：基础扩散模型生成 64x64 图像，第一个超分辨率模型放大到 256x256，第二个超分辨率模型达到 1024x1024。每一级都是独立的扩散模型，根据文本以及（对放大器而言）低分辨率图像进行条件生成。这个级联避免基础模型在初始分辨率下直接建模细节，让基础模型专注构图和语义，让放大器处理纹理和清晰度。
+- Imagen 还引入了 **动态阈值化**：在每个去噪步骤中，预测像素值被剪裁到百分位数范围而不是固定范围 $[-1, 1]$。这可以防止高引导尺度下饱和 artefacts的出现，这是扩散模型中常见的问题。
 
-- Imagen 还引入了**动态阈值**：在每个去噪步骤中，按照基于百分位数的范围裁剪预测像素值，而不是固定裁剪到 $[-1, 1]$。这能防止高引导强度下常见的饱和伪影。
+### 第一部分：大规模自回归
 
-### Parti：大规模自回归生成
+- **Parti**（基于路径架构的自回归文本到图像模型，由 Yu 等人于 2022 年提出） revived了自回归方法，并在大规模数据集上取得了显著效果。像 DALL-E 一样，它将图像转换为离散标记（使用 ViT-VQGAN），并按顺序生成它们，使用 transformer。然而，Parti 使用了一个基于路径架构的 200 亿参数编码器-解码器 transformer，并展示了当足够大规模时，自回归模型可以与扩散质量相匹配。
 
-- **Parti（Pathways Autoregressive Text-to-Image）**（Yu 等，2022）以巨大的规模重新采用自回归路线。它和 DALL-E 一样把图像转换成离散 token（使用 ViT-VQGAN），再用 Transformer 顺序生成。但 Parti 使用了基于 Pathways 架构、拥有 200 亿参数的 encoder-decoder Transformer，并表明只要规模足够大，自回归模型也能达到扩散模型的质量。
+- Parti's encoder-decoder architecture is a key difference from DALL-E's decoder-only design. The text goes through the encoder; the decoder cross-attends to the encoded text while generating image tokens. This mirrors machine translation (Chapter 07) — you translate from "text language" to "image language".
 
-- Parti 的 encoder-decoder 架构是它与 DALL-E decoder-only 设计的关键区别。文本经过 encoder，decoder 在生成图像 token 时对编码后的文本做 cross-attention。这类似于机器翻译（第 07 章），，把“文本语言”翻译成“图像语言”。
+### DiT and flow-based generation
 
-### DiT 与基于流的生成
+- 扩散变换器（DiT）（Peebles和Xie，2023年）用纯Transformer替换扩散模型的U-Net基础。每个带有噪声的潜伏补丁都被视为一个标记（类似于第8章中的ViT），并由自注意力和交叉注意力处理这些标记以条件文本。DiT表明，与U-Nets相比，变换器在扩散方面表现出更可预测的性能——双倍计算可靠地将FID分数减半。
 
-- **Diffusion Transformers（DiT）**（Peebles 与 Xie，2023）用普通 Transformer 替换扩散模型中的 U-Net 主干。每个带噪潜空间 patch 都被视为一个 token（类似第 8 章的 ViT），Transformer 对这些 token 做 self-attention，并对文本条件做 cross-attention。DiT 表明，对于扩散模型，Transformer 的扩展行为比 U-Net 更可预测，，计算量翻倍可以稳定地让 FID 降低一半。
+- **流量匹配**（从第8章回忆）已成为扩散噪声预测范式的一种替代方案。而不是预测噪声 $\epsilon$ 在进行减法运算时，模型预测了一个速度。 $v_\theta(x_t, t)$ 它将样本沿着噪声到数据的直线路径进行运输。 **Stable Diffusion 3** 和 **Flux** 使用多模态 DiT（MM-DiT）架构，其中文本和图像令牌在双向注意力下由 transformer 块 jointly处理——两种模式都相互关注，而不是仅通过交叉注意力条件化图像特征。
 
-- **Flow matching（流匹配）**（回顾第 8 章）已经成为噪声预测扩散范式的替代方案。模型不再预测要减去的噪声 $\epsilon$，而是预测速度 $v_\theta(x_t, t)$，让样本沿着从噪声到数据的直线路径移动。**Stable Diffusion 3** 和 **Flux** 采用了结合**多模态 DiT（MM-DiT）**的 flow matching：文本和图像 token 在 Transformer block 中联合处理并进行双向 attention，两种模态相互关注，而不只是让文本通过 cross-attention 为图像特征提供条件。
+![](../images/dit_architecture.svg)
 
-![DiT 架构：带噪潜变量 patch 像 ViT 一样词元化，由带时间步和类别条件自适应层归一化的 Transformer block 处理，再解码回空间潜变量](../images/dit_architecture.svg)
 
-## 文本生成视频
+## 文本到视频生成
 
-- 文本生成视频可以看作增加了一个严苛约束的文生图：**时间一致性**。每一帧都必须内部自洽（是一张有效图像），相邻帧还必须平滑连接，，物体应自然移动，光照应连续变化，“摄像机”应沿物理上合理的轨迹运动。它类似于绘制一幅风景与导演一部电影之间的差别。
+- 文本到视频是文本到图像的升级，增加了 **时间一致性** 的额外约束。每个帧必须是一个有效的图像，但连续帧之间也必须 smoothly连接——物体应该自然移动、光照应持续变化，并且“相机”应该遵循物理上合理的轨迹。想象一下画一幅单一的风景和导演一部电影之间的区别。
 
-### 时间维度的挑战
+### 时间挑战
 
-- 与图像生成相比，视频增加了三个挑战。**时间一致性**要求物体在各帧保持身份，，第 1 帧的狗在第 100 帧仍应是同一只狗。**运动建模**要求学习物理动力学：物体如何移动、重力如何作用、流体如何流动。**计算成本**非常高：10 秒、24 fps、512x512 分辨率的视频包含 $10 \times 24 \times 512 \times 512 \times 3 \approx 188$ 百万个数值，约是单幅图像数据量的 240 倍。
+- 视频介绍了除了图像生成之外的三个挑战。 **时间一致性**要求对象在帧之间保持一致——在第1帧中出现的狗仍然在第100帧中出现。 **运动建模**需要学习物理动力学：物体如何移动，重力是如何工作的，流体是如何流动的。 **计算成本**非常严重：以24 fps和512x512分辨率录制的10秒视频包含 $10 \times 24 \times 512 \times 512 \times 3 \approx 188$ 百万个值，大约是单张图像的240倍的数据量。
 
-### Make-A-Video 与延展到视频的方法
+### 录制视频和扩展到视频的方法
 
-- **Make-A-Video**（Singer 等，2022）采用了务实方法：从预训练的文生图模型开始，并加入时间层。关键洞见是，你已经拥有在数十亿图文对上训练的强大文生图模型，只需要从（无标注）视频数据中学习运动。
+- **Make-A-Video**（Singer et al., 2022）采取了实用的方法：从预训练的文本到图像模型开始，并添加时间层。关键洞察是，你已经拥有数十亿对图像和文本的强文本图像模型，而只需要从未标记的视频数据中学习运动。
 
-- Make-A-Video 把**时间 attention**和**时间卷积**插入预训练的空间 U-Net。空间层（在图像上预训练）处理外观，新加入的时间层（在视频上训练）处理运动。空间 self-attention 在每一帧内部运行；时间 attention 在每个空间位置跨帧运行。这种分解很高效，因为时间模式和空间模式在很大程度上可以分开处理。
+- Make-A-Video 在预训练的时空 U-Net 中插入了 **时间注意力** 和 **时间卷积** 层。空间层（基于图像预训练）处理外观，而新的时间层（基于视频训练）处理运动。空间自注意力在每个帧内进行；时间注意力在每个空间位置上跨帧进行。这种分解是高效的，因为时间和空间模式 largely分离了。
 
-- 生成流程类似 Imagen 的级联：基础模型在 64x64 生成 16 帧，然后空间和时间超分辨率模型把它放大到目标分辨率和帧率。帧插值网络会进一步提高时间平滑度。
+- 生成管道模仿 Imagen 的级联：基础模型生成 16 帧，分辨率和帧率为 64x64；然后使用时空超分辨率模型将这些帧 upscale 到最终分辨率和帧率。一个帧插值网络增加了时间平滑性。
 
-### VideoPoet 与基于 token 的视频模型
+### 视频诗人和基于令牌的视频模型
 
-- **VideoPoet**（Kondratyuk 等，2024）把视频生成统一到语言建模范式下。所有模态，，文本、图像、视频和音频，，都被词元化为离散序列，然后训练一个大型语言模型（LLM）在所有模态之间自回归预测 token。这使零样本能力成为可能：文生视频、图生视频、视频生音频、视频编辑和补全都可以从同一个模型中产生。
+- **视频诗人**（Kondratyuk et al., 2024）将视频生成统一在语言建模范式下。所有模态——文本、图像、视频和音频——都被标记为离散序列，并使用单个大型语言模型（LLM）进行自回归预测，以跨模态生成视频。这使得零样本能力得以实现：文本到视频、图像到视频、视频到音频、视频编辑和填充都从同一个模型中涌现出来。
 
-- VideoPoet 使用 MAGVIT-v2 encoder（3D VQ-VAE，见第 03 篇）词元化视频，同时压缩空间与时间维度。音频用 SoundStream 词元化。LLM 主干先在文本上预训练，再在多模态 token 序列上微调，从而学习模态之间的联合分布。
+- 视频诗将视频编码为一个 MAGVIT-v2 编码器（来自文件 03），该编码器同时压缩空间和时间维度。音频通过声流进行编码。LLM 主干在文本上预训练，并在多模态令牌序列上微调，学习不同模态之间的联合分布。
 
-### Sora 风格的时间扩散
+### Sora-style Temporal Diffusion
 
-- **Sora**（OpenAI，2024）凭借生成长而连贯、符合物理规律的视频，把时间扩散带入大众视野。虽然完整架构细节尚未公开，但关键思想包括把 DiT 扩展到时空：视频帧被拆成跨越高度、宽度和时间的**时空 patch（3D 块）**，并将这些 patch 作为大型 Transformer 的 token。
+- **Sora** (OpenAI, 2024) brought temporal diffusion to mainstream attention with its ability to generate long, coherent, physically plausible videos. While full architectural details are not published, the key ideas involve scaling DiT to spacetime: video frames are decomposed into **spacetime patches** (3D chunks across height, width, and time), which are treated as tokens for a large transformer.
 
-- 时空 patch 方法让模型把视频作为原生 3D 信号处理，而不是一串 2D 帧。这使它能够捕获长距离时间依赖，，模型可以在整个视频时长上“提前规划”，而不是一帧一帧地生成。
+- The spacetime patch approach means the model processes video as a native 3D signal rather than a sequence of 2D frames. This allows it to capture long-range temporal dependencies — the model can "plan ahead" across the entire video duration rather than generating frame by frame.
 
-- Sora 可以通过调整时空 patch 数量来处理不同的时长、分辨率和宽高比。在原生分辨率的数据上训练（而不是把所有内容裁成正方形）能够改善构图和取景质量。
+- Sora can handle variable durations, resolutions, and aspect ratios by adjusting the number of spacetime patches. Training on data at its native resolution (rather than cropping everything to squares) improves composition and framing quality.
 
-### Wan：开源视频生成
+### Wan: Open-Source Video generation
 
-- **Wan**（Wan 等，2025）是一组开源视频生成模型（13 亿和 140 亿参数），采用 DiT 主干和 3D VAE 时间压缩。Wan 使用 **flow matching** 而不是传统 DDPM 风格的扩散，学习从噪声到视频潜变量的直线传输路径。3D VAE 在空间和时间上压缩视频（时间压缩 4 倍），DiT 再用完整的 3D attention 处理生成的时空潜变量 token。
+- **Wan**（Wan et al., 2025）是基于DiT基础的开源视频生成模型，包括1.3B和14B参数。Wan使用流匹配而不是传统的DDPM风格扩散，学习从噪声到视频隐变量的直线运输路径。3D VAE在空间和时间上压缩视频（4倍时间压缩），而DiT通过全3D注意力处理这些时空隐变量令牌。
 
-- Wan 支持文本生成视频、图像生成视频（让静态图像动起来）和视频编辑。14B 模型可以生成最长 5 秒、720p 分辨率的连贯视频，说明只要架构和训练配方选择得当，开源模型也能接近闭源系统的质量。
+- Wan支持文本转视频、图像转视频（动画静止图像）和视频编辑。14B模型在720p分辨率下生成长达5秒的 coherent视频，展示了开源模型在架构和训练配方选择得当的情况下可以接近 proprietary系统的质量。
 
-![文本生成视频流程：语言模型编码文本，时间扩散 Transformer 关注文本 embedding 并对时空噪声去噪，3D VAE 将其解码为视频帧](../images/text_to_video_pipeline.svg)
+![](../images/text_to_video_pipeline.svg)
 
-## 文本生成音频
 
-- 想象电影作曲家读完剧本后为电影谱写配乐。文本生成音频模型做类似的事情：给定文本描述（“一场伴随大雨和远处雷声的雷暴”），生成对应的音频波形。难点在于连接文本离散、符号化的性质与声音连续、时间性的性质。
+## 文本到音频生成
 
-### AudioLM：音频语言建模
+- 想象一下电影作曲家阅读剧本并为 soundtrack配乐。文本到音频模型也做类似的事情：给定一个文本描述（“一场大雨和远处的雷声”），它们生成相应的音频波形。挑战在于将离散、符号化的文本与连续、时间性的声音进行连接。
 
-- **AudioLM**（Borsos 等，2023）通过自回归预测离散音频 token 生成音频，采用的语言建模范式与 DALL-E 生成图像时相同。它使用分层 token 结构：**语义 token**（来自 w2v-BERT 等自监督模型，回顾第 9 章）捕捉高层内容（说了什么或演奏了什么），而**声学 token**（来自 SoundStream 神经音频编解码器）捕捉细粒度声学细节（听起来如何，，音色、录音质量）。
+### 音频LM：音频语言建模
 
-- 生成分两个阶段。首先，Transformer 根据可选的音频提示预测语义 token，建立高层内容计划。其次，另一个 Transformer 以语义 token 为条件预测声学 token，补充声学细节。这种层级结构类似文本转语音流程（第 9 章），，语义 token 起到音素的作用，声学 token 起到 mel 频谱帧的作用。
+- **音频LM** (Borsos et al., 2023) 通过预测离散音频标记自回归生成音频，使用与DALL-E为图像设计的语言建模范式。它采用了一种分层的标记结构：**语义标记**（来自一个自我监督模型如w2v-BERT，参考第9章）捕捉高层次内容（说话或播放的内容），而**声学标记**（来自SoundStream，一种神经音频编码器）捕捉细粒度的声学细节（如何听起来——音质、录音质量）。
 
-- AudioLM 可以生成语音续写（给定 3 秒语音，生成接下来的 10 秒）、音乐续写和音效；它只用音频数据训练的单个模型就能完成这些任务，预训练不需要文本标签。
+- 生成分为两个阶段。首先，一个Transformer根据可选的音频提示预测语义标记，确立高层次内容的计划。其次，另一个Transformer在条件上预测声学标记，填充声学细节。这种层级结构与文本到语音管道（第9章）相似——语义标记扮演着音素的角色，而声学标记扮演着梅尔频谱帧的角色。
 
-### MusicLM：文本条件音乐
+- 音频LM可以从单个训练于音频数据的模型中生成说话延续（给定3秒的语音，生成接下来的10秒），音乐延续和声音效果，无需文本标签进行预训练。
 
-- **MusicLM**（Agostinelli 等，2023）把 AudioLM 扩展到文本条件音乐生成。它加入来自 **MuLan** 的文本，音频联合 embedding；MuLan 是类似 CLIP、在音乐，文本对上训练的模型。MuLan embedding 捕捉文本描述（“带萨克斯独奏的欢快爵士乐”）的语义，并引导分层 token 生成。
+### 音乐LM：文本条件下的音乐
 
-- MusicLM 以 24 kHz 生成任意时长的音乐，在长达数分钟的片段中保持旋律和节奏连贯。它还可以同时接收哼唱旋律（由音高跟踪器提取 melody token）和文字描述，生成符合哼唱旋律、风格遵循文字描述的完整编曲。
+- **MusicLM** (Agostinelli et al., 2023) extends AudioLM to text-conditioned music generation. It adds a text-audio joint embedding (from **muLan**, a CLIP-like model trained on music-text pairs) to condition the generation. The MuLan embedding captures semantic meaning of the text description ("upbeat jazz with saxophone solo") and guides the hierarchical token generation.
 
-### MusicGen：高效的单阶段生成
+- MusicLM generates music at 24 kHz for arbitrary durations, maintaining melodic and rhythmic coherence over minutes-long pieces. It can also condition on a hummed melody (using melody tokens extracted by a pitch tracker) plus a text description, generating a full arrangement that follows the hummed tune in the style described by the text.
 
-- **MusicGen**（Copet 等，2023）简化了多阶段方案。它不使用独立的语义模型和声学模型，而是使用单个自回归 Transformer，直接生成音频 codec 的多个 codebook 层级。关键创新是**交错 codebook 模式**：它不是生成一个时间步的所有 codebook 层级后再进入下一时间步，而是按跨 codebook 和时间步交错的模式生成，从而让部分 codebook 层级可以并行解码。
+### MusicGen: 单阶段高效生成
 
-- 条件输入很直接：文本由 T5 encoder 编码，文本 embedding 被添加到音频 token 序列前面（类似语言模型中的前缀提示），或通过 cross-attention 注入。MusicGen 也支持旋律条件：把参考旋律的 chromagram（来自第 9 章讨论的频谱特征）编码后，与文本条件一起使用。
+- **MusicGen** (Copet et al., 2023) 简化了多阶段方法。它不再使用单独的语义和声学模型，而是使用一个直接从音频编解码器生成多个代码书级别的单阶段自回归变换器。关键创新是交错代码书模式：而不是在生成一个时间步的所有代码书级别后再移动到下一个时间步，MusicGen交错代码书中的标记并按特定模式排列，允许一些代码书级别的并行解码。
+
+- 条件很简单：文本通过T5编码器编码，并将文本嵌入添加到音频令牌序列（就像语言模型中的前缀提示）或通过交叉注意力注入。MusicGen还支持旋律条件：一个参考旋律的 chromagram（从第9章讨论的频谱特征中获得）被编码并与其他文本条件一起使用。
 
 $$p(a_1, \ldots, a_T) = \prod_{t=1}^{T} \prod_{k=1}^{K} p(a_{t,k} \mid a_{<t}, c_{\text{text}})$$
+- 在时间步 $t$ 和代码簿级别 $k$ 处，音频令牌 $a_{t,k}$ 与文本条件 $c_{\text{text}}$ 相关联。 $k$ 的乘积在代码簿模式下因预测级别而异——某些级别是并行预测的。
 
-- 其中 $a_{t,k}$ 是时间步 $t$、codebook 层级 $k$ 的音频 token，$c_{\text{text}}$ 是文本条件。对 $k$ 的乘积如何分解取决于 codebook 模式，，有些层级会并行预测。
+![](../images/text_to_audio_pipeline.svg)
 
-![文本生成音频流程：语言模型编码文本，Transformer decoder 按交错模式在多个 codebook 层级上生成离散音频 token，音频 codec decoder 重建波形](../images/text_to_audio_pipeline.svg)
 
-## 图像生成文本
+## 图像到文本生成
 
-- 现在反过来：给定一幅图像，生成自然语言描述。这就是**图像描述（image captioning）**，也是一种条件文本生成，其中图像是条件。可以把它想象成博物馆讲解员描述一幅画，，他必须感知视觉内容、理解物体之间的关系，并用流畅语言表达观察结果。
+- 现在翻转方向：给定一张图片，生成一个自然语言描述。这是 **图像描述**，它是一种条件文本生成，其中图片是条件。想象一下博物馆导游描述一幅画——他们必须感知视觉内容，理解对象之间的关系，并用流畅的语言表达他们的观察结果。
 
-### 把描述视为条件生成
+### 图像描述作为条件生成
 
-- 经典方法采用 **encoder-decoder** 架构（第 07 章）。预训练 CNN 或 ViT（第 8 章）把图像编码为一组特征向量。语言模型 decoder 每次生成一个描述词，并在每一步关注图像特征：
+- 经典方法使用编码器-解码器架构（第7章）。预训练的CNN或ViT（第8章）将图像编码为一组特征向量。语言模型解码器在每个步骤中生成单词，同时关注图像特征：
 
 $$p(w_1, \ldots, w_L \mid I) = \prod_{l=1}^{L} p(w_l \mid w_1, \ldots, w_{l-1}, I)$$
+- where $w_l$ are the caption words and $I$ is the image representation. cross-attention connects the text decoder to the image features, allowing the model to "look at" different regions of the image as it generates different words — attending to the dog region when generating "dog" and the park region when generating "park".
 
-- 其中 $w_l$ 是描述词，$I$ 是图像表示。Cross-attention 把文本 decoder 与图像特征连接起来，使模型生成不同词语时可以“查看”图像的不同区域，，生成 “dog” 时关注狗所在的区域，生成 “park” 时关注公园区域。
+- **CoCa** (Contrastive Captioners, Yu et al., 2022) unified contrastive learning (file 01's CLIP-style objective) with captioning in a single model. The image encoder produces features used both for contrastive alignment with text and for cross-attention in a captioning decoder. This multi-task training gives CoCa strong zero-shot recognition (from contrastive learning) and strong generation (from captioning).
 
-- **CoCa（Contrastive Captioners）**（Yu 等，2022）在同一个模型中统一了对比学习（第 01 篇的 CLIP 风格目标）与图像描述。图像 encoder 生成的特征既用于与文本进行对比对齐，也用于描述 decoder 的 cross-attention。这种多任务训练让 CoCa 兼具很强的零样本识别能力（来自对比学习）和生成能力（来自描述训练）。
+### 现代视觉语言描述
 
-### 现代视觉，语言描述
+- modern approaches often use **large multimodal models** (file 02) for captioning. Models like LLaVA, Qwen-VL, and GPT-4V treat captioning as a special case of visual question answering — the "question" is implicitly "describe this image". The visual encoder (CLIP ViT or SigLIP) produces patch tokens that are projected into the LLM's embedding space, and the LLM generates a free-form description.
 
-- 现代方法经常使用**大型多模态模型**（第 02 篇）进行描述。LLaVA、Qwen-VL 和 GPT-4V 等模型把描述当作视觉问答的特例，，隐含的问题是“描述这幅图”。视觉编码器（CLIP ViT 或 SigLIP）生成 patch token，再投影到 LLM 的 embedding 空间，由 LLM 生成自由形式的描述。
+- The advantage of LLM-based captioning over dedicated encoder-decoder models is **instruction following**: you can ask for different levels of detail ("describe in one sentence" vs. "provide a detailed paragraph"), focus on specific aspects ("describe the colours"), or generate structured output ("list all objects with their positions"). This flexibility comes from the LLM's instruction-tuning (Chapter 07).
 
-- 基于 LLM 的描述相较专用 encoder-decoder 模型的优势是**指令遵循**：你可以要求不同详细程度（“用一句话描述”与“提供一段详细描述”）、聚焦特定方面（“描述颜色”），或生成结构化输出（“列出所有物体及其位置”）。这种灵活性来自 LLM 的指令调优（第 07 章）。
+## 视频音频协同生成
 
-## 视频，音频联合生成
+- 想象一下，观看一部电影时声音被关掉，这种体验是空洞的。视觉内容和音频之间有着深刻耦合：一个弹跳的球有节奏的“咚”声，雨滴产生“ patter”，人群发出欢呼声。 **视频音频协同生成** 的目标是同时生成两种模态，并保持视觉与听觉之间的时间对齐。
 
-- 想象关掉声音看电影，，体验会变得空洞。视觉内容与音频紧密耦合：弹跳的球会发出有节奏的撞击声，下雨会发出滴答声，人群会产生欢呼声。**视频，音频联合生成**试图同时生成两种模态，并保持所见与所闻在时间上的对齐。
+### 协同时间建模
 
-### 联合时间建模
+- 核心挑战是 **时间同步**：鼓声的音符必须恰好与显示鼓槌击打鼓的视觉帧完全一致。这需要一个共享的时间表示，两个模态都可以引用。
 
-- 核心挑战是**时间同步**：鼓声必须恰好与鼓槌击中鼓面的那一帧重合。这需要一种共享的时间表示，让两种模态都能参照它。
+- 一种方法是通过共享的隐式时间线生成视频和音频。像 **CoDi**（由 Tang et al., 2023 年提出）这样的模型使用单独的扩散模型为每个模态生成，但它们在共享的隐式空间中对齐。在训练过程中，交叉模态注意力层学习在每个时间步上同步视觉和音频特征。在生成过程中，两个扩散过程同时运行，并通过共享的对齐条件彼此影响。
 
-- 一种方案是从共享的潜在时间轴生成视频和音频。**CoDi（Composable Diffusion）**（Tang 等，2023）为每种模态使用独立扩散模型，但通过共享潜空间对齐它们。训练时，跨模态 attention 层学习在每个时间步同步视觉和音频特征；生成时，两个扩散过程同时运行，并通过共享对齐相互提供条件。
+- 视频诗人（如上所述）采取了一种更统一的方法：由于所有模态都被标记为一个单一的序列，LLM自然地学习视频和音频令牌之间的时间对应关系。一个狗吠视频 followed by相应的音频令牌教会模型将视觉中的吠声动作与声音联系起来。
 
-- 上文介绍的 VideoPoet 采用更统一的方法：由于所有模态都被词元化到同一个序列中，LLM 会自然学习视频 token 与音频 token 之间的时间对应关系。一段先出现吠叫狗的视频片段，后面跟着对应音频 token，会教模型把狗的吠叫动作与吠叫声关联起来。
-
-- **时间对齐损失**会显式约束同步。一种做法是在帧级别使用对比学习：时间 $t$ 的音频片段应比其他时间的帧更接近时间 $t$ 的视频帧：
+- **时间对齐损失**函数明确地强制同步。一种形式使用帧级对比学习：音频段在时间 $t$ 应该与视频帧在时间 $t$ 更相似，而不是与其他时间的帧更相似：
 
 $$\mathcal{L}_{\text{sync}} = -\mathbb{E}_t \left[\log \frac{\exp(\text{sim}(v_t, a_t) / \tau)}{\sum_{t'} \exp(\text{sim}(v_t, a_{t'}) / \tau)}\right]$$
+- 在时间点 $t$，视频和音频的表示分别为 $v_t$ 和 $a_t$。$\tau$ 是一个温度参数。这种结构与文件 01 中的 InfoNCE 损失相同，但应用在帧级而不是剪辑级。
 
-- 其中 $v_t$ 和 $a_t$ 是时间 $t$ 的视频和音频表示，$\tau$ 是温度参数。它在结构上与第 01 篇的 InfoNCE 损失相同，只是应用在时间帧级别，而不是片段级别。
+## 指令跟随生成
 
-## 指令遵循生成
+- 考虑向艺术家传达“让天空更加戏剧化”或“将帽子替换为王冠”的指令。**指令跟随生成**允许你使用自然语言命令而不是精确的空间掩码或画笔来编辑图像。
 
-- 想象告诉艺术家“让天空更有戏剧性”或“把帽子换成王冠”。**指令遵循生成**让你可以用自然语言命令编辑图像，而不需要精确的空间 mask 或画笔笔触。
+### InstructPix2Pix：通过描述进行编辑
 
-### InstructPix2Pix：按描述编辑
+- **InstructPix2Pix** (Brooks et al., 2023) 训练了一个条件扩散模型，该模型接收输入图像和文本指令，并生成编辑后的图像。聪明的地方在于如何创建训练数据：GPT-3 生成编辑指令（“让它变冷”，“把猫变成狗”）与输入输出文本描述配对，而一个文本到图像模型（Stable Diffusion）生成相应的图像对。
 
-- **InstructPix2Pix**（Brooks 等，2023）训练一个条件扩散模型，接收输入图像和文本指令，再生成编辑后的图像。巧妙之处在于训练数据的构造：GPT-3 生成编辑指令（“把它变成冬天”“把猫变成狗”），并配合输入，输出文本描述；文生图模型（Stable Diffusion）再生成对应的图像对。
-
-- 该模型是修改后的 Stable Diffusion U-Net，同时接收文本指令（通过 cross-attention）和输入图像潜变量（与带噪潜变量按通道拼接）。它使用**双重 classifier-free guidance**，两个引导强度分别对应文本指令（$s_T$）和输入图像（$s_I$）：
+- 模型是一个修改后的 Stable Diffusion U-Net，它接收两个条件：文本指令（通过交叉注意力）和输入图像的潜变量（按通道连接到噪声潜变量）。它使用 **双分类自由引导**，有两个指导尺度——一个用于文本指令（$s_T$），另一个用于输入图像（$s_I$）：
 
 $$\hat{\epsilon} = \epsilon_\theta(x_t, \varnothing, \varnothing) + s_I \cdot (\epsilon_\theta(x_t, c_I, \varnothing) - \epsilon_\theta(x_t, \varnothing, \varnothing)) + s_T \cdot (\epsilon_\theta(x_t, c_I, c_T) - \epsilon_\theta(x_t, c_I, \varnothing))$$
+- 其中 $c_I$ 是输入图像条件，$c_T$ 是文本指令。第一个指导项控制如何保留原始图像；第二个指导项控制遵循指令的程度。这给了用户一个二维旋钮：高 $s_I$ 保留原始图像非常接近，而高 $s_T$ 更加戏剧性地进行编辑。
 
-- 其中 $c_I$ 是输入图像条件，$c_T$ 是文本指令。第一个引导项控制保留原图的程度，第二个控制遵循指令的力度。这为用户提供了一个二维旋钮：较高的 $s_I$ 会更贴近保留原图，较高的 $s_T$ 会产生更大幅度的编辑。
+![](../images/instructpix2pix_pipeline.svg)
 
-![InstructPix2Pix：输入图像和文本指令进入修改后的扩散模型，生成遵循指令且保留未编辑区域的图像](../images/instructpix2pix_pipeline.svg)
 
-### SDEdit 与基于噪声的编辑
+### SDEdit和噪声基于的编辑
 
-- **SDEdit**（Meng 等，2022）提供了一种更简单的编辑方法，不需要专门训练。把噪声加入输入图像（运行前向扩散过程直到中间时间步 $t_0$），再使用描述目标输出的文本提示进行去噪。噪声量控制编辑强度：低噪声保留结构（颜色变化、风格迁移），高噪声允许大幅重构（替换物体、改变布局）。
+- **SDEdit** (Meng et al., 2022) 提供了一个更简单的编辑方法，不需要特殊训练。你取输入图像，给它添加噪声（运行前扩散过程到中间时间 $t_0$），然后用描述所需的输出文本进行去噪。噪声的量控制了编辑强度：低噪声保留结构（颜色变化、风格转换），而高噪声允许重大重组（对象替换、布局更改）。
 
-- 这种权衡可以精确描述：在时间步 $t_0$，带噪图像保留原始信号的 $\bar{\alpha}_{t_0}$ 比例。去噪过程根据新文本提示补全被破坏的细节。这有严格的数学依据：扩散模型从后验 $p(x_0 \mid x_{t_0}, c)$ 采样，其中 $x_{t_0}$ 约束生成结果“接近”原图。
+- 交易精确：在时间步 $t_0$，噪声图像保留了原始信号的 $\bar{\alpha}_{t_0}$ 分割。去噪过程根据新的文本提示填充了被污染的细节。这在数学上是基于扩散模型从后向 $p(x_0 \mid x_{t_0}, c)$ 样本，其中 $x_{t_0}$ 约束生成为“接近”原始的。
 
-### ControlNet：空间条件
+### 控制网：空间条件约束
 
-- **ControlNet**（Zhang 等，2023）为文生图扩散加入细粒度空间控制。它复制一个预训练 U-Net encoder，并训练它接收额外的输入条件，，边缘图（Canny 边缘）、深度图、姿态骨架、分割图等；原始 U-Net 权重保持冻结。ControlNet encoder 的输出通过**零卷积**（初始化为零的 1x1 卷积）加入冻结 U-Net 的 skip connection，从而保证训练初始时仍是预训练模型的行为，再逐渐学习新条件。
+- ControlNet（张等人，2023）在文本到图像扩散中添加了精细的 spatial控制。一个预训练的U-Net编码器被训练来接受额外的输入条件——边缘图（Canny边缘）、深度图、姿态骨架和分割图。原始U-Net权重被冻结。ControlNet编码器的输出通过零卷积（1x1卷积初始化为零）添加到冻结U-Net的跳连接中，确保训练从预训练模型的行为开始，并逐渐学习新的条件。
 
-- 这种架构让你可以提供草图、深度图或人体姿态作为结构引导，让文本提示补充外观。预训练权重负责照片真实感和文本理解，ControlNet 层负责遵循条件的空间结构。
+- 这种架构允许你提供一个草图、深度图或人体姿态作为结构指南，而文本提示则填充外观。预训练的权重负责实现逼真效果和文本理解；ControlNet层负责条件空间的精确性。
 
-## 一致性与对齐指标
+## 一致性与对齐度指标
 
-- 如何衡量生成图像是否优秀？“好”至少有两个维度：**质量**（看起来像真实图像吗？）和**对齐**（符合文本提示吗？）。人们设计了多种指标来量化它们。
+- 如何衡量生成的图像是否好？“好”至少有两个维度：**质量**（它看起来像一个真实图像吗？）和**对齐度**（它是否与文本提示匹配？）。已经开发了几个指标来量化这些。
 
-### Frechet 接收距离(FID)
+### Frechet Inception Distance (FID)
 
-- **Frechet Inception Distance（FID）**（Heusel 等，2017）在预训练 Inception 网络的特征空间中，衡量生成图像分布与真实图像分布之间的距离。可以把它理解为比较两组图像的“指纹”，而不是逐张比较图像。
+- **Frechet Inception Distance (FID)**（Heusel et al., 2017）衡量生成图像分布与真实图像在预训练的Inception网络特征空间中的距离。可以将其视为比较两个图像集合的“指纹”而非单个图像。
 
-- 把真实图像集和生成图像集都输入 Inception-v3，收集倒数第二层的激活。这些激活被建模为多元高斯分布 $\mathcal{N}(\mu_r, \Sigma_r)$ 和 $\mathcal{N}(\mu_g, \Sigma_g)$。FID 是这两个高斯分布之间的 Frechet 距离（Wasserstein-2 距离）：
+- 两个真实和生成的图像集都通过Inception-v3进行处理，并收集了来自倒数第二层的激活。这些激活被建模为多元高斯分布 $\mathcal{N}(\mu_r, \Sigma_r)$ 和 $\mathcal{N}(\mu_g, \Sigma_g)$。FID是这两个高斯之间的Frechet距离（Wasserstein-2距离）。
 
 $$\text{FID} = \|\mu_r - \mu_g\|^2 + \text{Tr}\left(\Sigma_r + \Sigma_g - 2(\Sigma_r \Sigma_g)^{1/2}\right)$$
+- 下降的 FID 更好。FID = 0 表示分布是相同的。FID 捕获了质量和多样性（如果模型遭受模式崩溃，$\Sigma_g$ 将小于 $\Sigma_r$）。在 ImageNet 256x256 上典型的先进值是 FID < 2.0。
 
-- FID 越低越好。FID = 0 表示两个分布相同。FID 同时捕捉质量（如果生成图像模糊，其特征会与真实图像不同）和多样性（如果模型发生 mode collapse，$\Sigma_g$ 会小于 $\Sigma_r$）。在 ImageNet 256x256 上，当前典型的先进结果是 FID < 2.0。
+- FID 有已知的局限性：它假设特征分布是高斯（近似），需要数千个样本才能获得稳定的估计，并且使用了Inception特征（可能无法捕捉所有感知相关的差异）。
 
-- FID 也有已知局限：它假定特征分布为高斯分布（这只是近似），需要数千个样本才能得到稳定估计，并使用 Inception 特征（不一定能捕捉所有感知上重要的差异）。
+### inception 分数（IS）
 
-### 感应分数(IS)
-
-- **Inception Score（IS）**（Salimans 等，2016）衡量两个属性：每幅生成图像都应能被高置信度分类（条件类别分布 $p(y \mid x)$ 应较尖锐），同时生成图像集应覆盖许多类别（边缘分布 $p(y) = \mathbb{E}_x[p(y \mid x)]$ 应接近均匀）。IS 用 KL 散度把这两点结合起来：
+- ** inception 分数（IS）**（Salimans 等，2016 年）衡量两个属性：每个生成的图像应该被自信地分类（条件类分布 $p(y \mid x)$ 应该是尖峰的），并且生成的图像集应该覆盖许多类别（边际 $p(y) = \mathbb{E}_x[p(y \mid x)]$ 应该是均匀的）。IS 通过 KL 散度结合了这些。
 
 $$\text{IS} = \exp\left(\mathbb{E}_x \left[D_{\text{KL}}(p(y \mid x) \| p(y))\right]\right)$$
+- 高 IS 更好。图像集的最大 IS 等于类的数量（对于 ImageNet 为 1000）。IS 奖励质量（锐利、可识别的图像）和多样性（类的覆盖范围），但存在显著限制：它完全忽略了真实数据分布，无法检测同一类中的模式下降，并且偏向于像 ImageNet 那样的图像，因为它是使用 Inception 的类预测。
 
-- IS 越高越好。最大 IS 等于类别数（ImageNet 为 1000）。IS 同时奖励质量（清晰、可识别的图像）和多样性（覆盖多个类别），但局限明显：它完全忽略真实数据分布，不能检测某个类别内部的模式缺失，而且由于使用 Inception 的类别预测，会偏向类似 ImageNet 的图像。
+### CLIPScore: 测量文本-图像对齐度
 
-### CLIPScore：衡量文本，图像对齐
-
-- **CLIPScore**（Hessel 等，2021）使用预训练 CLIP 模型（第 01 篇）直接衡量生成图像与文本提示的匹配程度。其分数就是 CLIP 图像 embedding 与文本 embedding 的余弦相似度：
+- **CLIPScore**（Hessel 等，2021 年）直接使用预训练的 CLIP 模型（文件 01）来衡量生成的图像与文本提示之间的匹配程度。得分是 CLIP 图像嵌入和 CLIP 文本嵌入之间余弦相似度的简单计算：
 
 $$\text{CLIPScore}(I, T) = \max(0, \cos(E_I(I), E_T(T)))$$
+- 其中 $E_I$ 和 $E_T$ 是 CLIP 图像和文本编码器。CLIPScore 参考无关 — 它不需要真实图像，只需要文本提示。它与人类对文本-图像对齐度的判断有很好的相关性，并且已成为评估文本到图像模型中提示一致性的标准指标。
 
-- 其中 $E_I$ 和 $E_T$ 是 CLIP 的图像和文本编码器。CLIPScore 不依赖参考图像，只需要文本提示。它与人类对文本，图像对齐的判断有较好相关性，已经成为评估文生图提示一致性的标准指标。
-
-- 如果要与参考描述进行比较，**RefCLIPScore** 会加入参考图像：
+- 用于与参考标题进行比较，**RefCLIPScore**考虑了参考图像：
 
 $$\text{RefCLIPScore} = \text{HarmonicMean}(\text{CLIPScore}(I, T), \max(0, \cos(E_I(I), E_I(I_{\text{ref}}))))$$
+- 这平衡了文本对齐与视觉相似性到参考图像。
 
-- 这样可以在文本对齐与参考图像的视觉相似度之间取得平衡。
+![](../images/generation_evaluation_metrics.svg)
 
-![评估指标：FID 比较真实和生成图像集的特征分布，IS 单独衡量生成图像的质量与多样性，CLIPScore 衡量图像 embedding 与文本 embedding 的余弦相似度](../images/generation_evaluation_metrics.svg)
 
-### 人工评估
+### 人类评估
 
-- 自动指标只是代理指标，人类判断仍然是黄金标准。常见协议包括**成对比较**（两幅图中哪幅更符合提示？）、**Likert 量表**（以 1–5 分评价质量和对齐度）和 **Elo 评分**（以锦标赛形式对多个模型排序）。DrawBench 和 PartiPrompts 基准提供了标准化的提示词集，可用于系统化的人类评估。
+- 自动化指标是代理；人类判断仍然是黄金标准。常见的协议包括 **成对比较**（哪个图像更符合提示？），**Likert量表**（按1到5评分质量与对齐程度），以及 **Elo评级**（在模型之间进行的锦标赛式排名）。DrawBench和PartiPrompts基准提供了标准化的提示集，用于系统的人类评估。
 
-## 伦理考量
+## 伦理考虑
 
-- 跨模态生成是 AI 中伦理影响最深远的领域之一。根据文字描述生成逼真图像、视频和音频的能力带来了重大风险，实践者必须认真对待。
+- 跨模态生成是人工智能领域最具有伦理重要性的领域之一。从文本描述中创建逼真的图像、视频和音频的能力引发了深远的担忧，这些担忧必须认真对待。
 
-### 深度伪造与错误信息
+### 深fake和 misinformation
 
-- **Deepfake（深度伪造）**是为呈现从未发生过的事件而生成或篡改的媒体。文生图和文生视频模型可以制造公众人物的逼真伪造照片、虚构证据和误导性新闻图像。危险不只是伪造内容本身存在，更在于它的存在会削弱人们对所有媒体的信任，，如果任何图像都有可能是假的，就没有图像能被完全信任。
+- **深度伪造** 是设计用于描绘从未发生事件的媒体。文本到图像和文本到视频模型可以创建令人信服的虚假照片，伪造证据和误导性新闻图像。危险不仅在于假象存在，还在于其存在削弱了所有媒体的信任——如果任何图像都是假的，那么没有任何图像是完全可信的。
 
-- 检测方法包括用真实图像与生成图像训练分类器、分析统计伪影（GAN 生成图像有细微的频谱特征），以及嵌入不可见水印（Stable Diffusion 的不可见水印、Google 的 SynthID）。但这是一场军备竞赛：生成器改进后，检测器也必须持续更新。
+- 检测方法包括训练分类器来区分真实和生成的图像，分析统计 artefacts（GAN生成的图像具有微妙的光谱签名），以及嵌入不可见水印（Stable Diffusion的不可见水印，Google的SynthID）。然而，检测是一个军备竞赛：随着生成器改进，探测器必须不断更新。
 
-### 生成中的偏差
+### 生成中的偏见
 
-- 在互联网规模数据上训练的模型会继承并放大社会偏见。对于未明确说明的提示词，文生图模型倾向生成肤色较浅的面孔，把某些职业与特定性别联系起来，并默认采用西方文化规范。这些偏差来自训练数据分布，也来自 CLIP/T5 文本编码器自身的训练语料。
+- 经过互联网规模数据训练的模型继承并放大了社会偏见。文本到图像模型 disproportionately生成较浅肤色的脸部，将某些职业与特定性别关联起来，并默认使用未指定提示的文化规范。这些偏见根植于训练数据分布和CLIP/T5文本编码器中，它们从自己的训练语料库中编码了偏见。
 
-- 缓解策略包括策划更具代表性的训练数据、对文本编码器采用去偏技术、使用安全分类器过滤有问题的输出，以及让用户控制人口属性。但没有任何一种方案是完整解决方案，持续审计仍然必要。
+- mitigation strategies include curating more representative training data, applying debiasing techniques to text encoders, using safety classifiers to filter problematic outputs, and enabling user control over demographic attributes. None of these are complete solutions, and ongoing auditing is essential.
 
-### 内容过滤与安全
+### 内容过滤和安全性
 
-- 负责任的部署需要多层保护。**输入过滤**在生成前阻断有害提示词；**输出过滤**对生成内容分类并拒绝有害内容；**NSFW 分类器**检测色情、暴力或其他有害内容。例如 Stable Diffusion 的安全检查器会计算生成图像的 CLIP embedding 与一组预定义有害概念 embedding 之间的余弦相似度，标记超过阈值的图像。
+- 负责部署需要多层保护。**输入过滤**在生成之前阻止有害提示。**输出过滤**分类生成的内容并拒绝有害材料。**NSFW分类器**检测色情、暴力或其他有害内容。例如，Stable Diffusion的安全检查器计算生成图像的CLIP嵌入与预定义的有害概念嵌入之间的余弦相似度，标记超过阈值的图像。
 
-- 许多生成模型（Stable Diffusion、Wan）是开源的，这在普及访问与防止滥用之间制造了张力。模型权重一旦发布，内容过滤就可能被绕过。这引发了关于开放程度、模型开发者责任等问题的讨论。
+- 许多生成模型（如 Stable Diffusion 和 Wan）的开源性质在民主化访问和防止滥用之间产生了矛盾。一旦模型权重被释放，内容过滤就可以被绕过。这导致了关于适当开放程度和模型开发者责任的讨论。
 
-### 知识产权与同意
+### 知识产权和同意
 
-- 在互联网数据上训练的生成模型可能未经同意复现受版权保护的风格、商标或真实人物肖像。法律和伦理框架仍在发展，但负责任的实践应尊重退出机制，承认训练数据中包含的创作者贡献，并开发技术防护措施，防止记忆和复述训练样本。
+- 生成模型训练于互联网数据可能会复制受版权保护的风格、商标或真实人物的形象，而无需获得同意。法律和伦理框架仍在发展中，但负责任的做法包括尊重退出机制、承认嵌入在训练数据中的创造性贡献，并开发技术措施来防止记忆和重复训练示例。
 
-## 编程任务（使用 CoLab 或 notebook）
+## 编程任务（使用 CoLab 或笔记本）
 
-1. 为一个二维玩具扩散模型实现 classifier-free guidance。在带标签的二维数据集（例如带标签的簇）上训练条件扩散模型，然后用不同引导强度采样，观察质量，多样性的权衡。
+1. 实现一个无指导分类器的2D扩散模型。使用带有标签簇的数据集训练一个条件扩散模型，然后在不同引导尺度下采样，观察质量多样性之间的trade-off。
 ```python
 import jax
 import jax.numpy as jnp
@@ -332,7 +328,7 @@ plt.tight_layout(); plt.show()
 # then implement the CFG formula to sample with different s values.
 ```
 
-2. 使用完整的 Frechet 距离公式计算两组二维样本之间的 FID。改变生成分布，观察 FID 如何变化。
+2. 计算两个二维样本集之间的FID，使用完整的Frechet距离公式。改变生成的分布，并观察FID如何变化。
 ```python
 import jax
 import jax.numpy as jnp
@@ -374,7 +370,7 @@ plt.tight_layout(); plt.show()
 # How does FID respond to a diversity mismatch vs a location mismatch?
 ```
 
-3. 使用随机投影代替 CLIP，实现文本 embedding 与图像 embedding 之间的 CLIPScore 计算。改变模态之间的“对齐程度”，观察余弦相似度如何变化。
+3. 实现文本和图像嵌入之间CLIPScore的计算，使用随机投影作为CLIP的替代品。观察当模态间“对齐”程度变化时，余弦相似度的行为。
 ```python
 import jax
 import jax.numpy as jnp

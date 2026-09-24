@@ -1,5 +1,5 @@
 <svg width="700" height="300" xmlns="http://www.w3.org/2000/svg">
-  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">正常分布:经验规则(68-95-99.7)</text>
+  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">Normal Distribution: Empirical Rule (68-95-99.7)</text>
 
   <!-- Axes -->
   <line x1="50" y1="240" x2="650" y2="240" stroke="#333" stroke-width="1.5"/>
@@ -44,5 +44,5 @@
   <text x="350" y="225" fill="#27ae60" font-size="12" text-anchor="middle" font-weight="bold">99.7%</text>
 
   <!-- Bottom note -->
-  <text x="350" y="285" fill="#666" font-size="11" text-anchor="middle">几乎所有数据(99.7%)都低于平均值的3个标准差.</text>
+  <text x="350" y="285" fill="#666" font-size="11" text-anchor="middle">近乎所有数据（99.7%）都落在平均数标准差的3倍范围内。</text>
 </svg>

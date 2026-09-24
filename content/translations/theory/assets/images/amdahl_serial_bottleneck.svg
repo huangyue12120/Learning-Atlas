@@ -1,33 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 220" width="650" height="220">
-  <text x="325" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">阿姆达尔定律:连环博特伦克</text>
+  <text x="325" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">阿姆达尔定律：串行瓶颈</text>
 
   <!-- 1 processor -->
-  <text x="30" y="62" text-anchor="start" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#666">1个核心:</text>
+  <text x="30" y="62" text-anchor="start" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#666">1 核：</text>
   <rect x="100" y="48" width="100" height="24" rx="3" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="1"/>
-  <text x="150" y="64" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">序列(10%)</text>
+  <text x="150" y="64" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">串行 (10%) </text>
   <rect x="200" y="48" width="400" height="24" rx="3" fill="#3498db" fill-opacity="0.3" stroke="#3498db" stroke-width="1"/>
-  <text x="400" y="64" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#3498db">平行(90%)</text>
+  <text x="400" y="64" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#3498db">并行 (90%) </text>
 
   <!-- 4 processors -->
-  <text x="30" y="107" text-anchor="start" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#666">4个核心:</text>
+  <text x="30" y="107" text-anchor="start" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#666">4 核：</text>
   <rect x="100" y="93" width="100" height="24" rx="3" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="1"/>
-  <text x="150" y="109" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">序列(10%)</text>
+  <text x="150" y="109" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">串行 (10%) </text>
   <rect x="200" y="93" width="100" height="24" rx="3" fill="#3498db" fill-opacity="0.3" stroke="#3498db" stroke-width="1"/>
   <text x="250" y="109" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#3498db">90% ÷ 4</text>
-  <text x="320" y="109" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27ae60">• 3.1x加速</text>
+  <text x="320" y="109" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27ae60">→ 速度提升 3.1 倍 </text>
 
   <!-- 16 processors -->
-  <text x="30" y="147" text-anchor="start" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#666">16个核心:</text>
+  <text x="30" y="147" text-anchor="start" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#666">16 核：</text>
   <rect x="100" y="133" width="100" height="24" rx="3" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="1"/>
-  <text x="150" y="149" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">序列(10%)</text>
+  <text x="150" y="149" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">串行 (10%) </text>
   <rect x="200" y="133" width="25" height="24" rx="3" fill="#3498db" fill-opacity="0.3" stroke="#3498db" stroke-width="1"/>
-  <text x="253" y="149" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27ae60">• 6.4x加速</text>
+  <text x="253" y="149" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27ae60">→ 速度提升 6.4 倍 </text>
 
   <!-- Infinite processors -->
-  <text x="30" y="187" text-anchor="start" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#666">无限核心：</text>
+  <text x="30" y="187" text-anchor="start" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#666">∞ 核：</text>
   <rect x="100" y="173" width="100" height="24" rx="3" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="1"/>
-  <text x="150" y="189" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">序列(10%)</text>
-  <text x="220" y="189" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">10x最大数!</text>
+  <text x="150" y="189" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">串行 (10%) </text>
+  <text x="220" y="189" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">→ 最大速度 10 倍 </text>
 
-  <text x="325" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">串行分数(红色) 无法并行，，它将最大速度限制为 1 (1 - p)</text>
+  <text x="325" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">串行部分 (红色) 不能并行化，它限制了最大速度提升为 1/(1−p) </text>
 </svg>

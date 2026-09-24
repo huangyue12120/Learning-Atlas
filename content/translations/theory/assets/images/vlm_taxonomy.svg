@@ -6,11 +6,11 @@
   </defs>
 
   <!-- Title -->
-  <text x="375" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">远景-语言模型分类学</text>
+  <text x="375" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">视觉-语言模型分类</text>
 
   <!-- Column 1: Dual Encoder -->
   <rect x="20" y="45" width="220" height="245" rx="8" fill="#3498db" fill-opacity="0.05" stroke="#3498db" stroke-width="1.5"/>
-  <text x="130" y="68" font-size="12" font-weight="bold" fill="#3498db" text-anchor="middle">双重编码器</text>
+  <text x="130" y="68" font-size="12" font-weight="bold" fill="#3498db" text-anchor="middle">双编码器</text>
 
   <!-- Image Encoder -->
   <rect x="45" y="85" width="80" height="40" rx="6" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
@@ -27,24 +27,24 @@
   <line x1="195" y1="125" x2="195" y2="155" stroke="#e74c3c" stroke-width="1.2" marker-end="url(#tax-arrow)"/>
 
   <rect x="60" y="155" width="50" height="20" rx="4" fill="#3498db" fill-opacity="0.2" stroke="none"/>
-  <text x="85" y="169" font-size="9" fill="#3498db" text-anchor="middle">v.img (中文(简体)).</text>
+  <text x="85" y="169" font-size="9" fill="#3498db" text-anchor="middle">v_img</text>
 
   <rect x="170" y="155" width="50" height="20" rx="4" fill="#e74c3c" fill-opacity="0.2" stroke="none"/>
-  <text x="195" y="169" font-size="9" fill="#e74c3c" text-anchor="middle">vtxt (中文(简体)).</text>
+  <text x="195" y="169" font-size="9" fill="#e74c3c" text-anchor="middle">v_txt</text>
 
   <!-- Similarity -->
   <line x1="110" y1="165" x2="170" y2="165" stroke="#666" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="140" y="195" font-size="10" fill="#666" text-anchor="middle">余弦线</text>
-  <text x="140" y="207" font-size="10" fill="#666" text-anchor="middle">类似性</text>
+  <text x="140" y="195" font-size="10" fill="#666" text-anchor="middle">余弦相似度</text>
+  <text x="140" y="207" font-size="10" fill="#666" text-anchor="middle">相似性(</text>
 
   <!-- Example -->
-  <text x="130" y="240" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">《刑法》</text>
-  <text x="130" y="255" font-size="9" fill="#666" text-anchor="middle">阿利冈,西格利普</text>
+  <text x="130" y="240" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">CLIP</text>
+  <text x="130" y="255" font-size="9" fill="#666" text-anchor="middle">ALIGN, SigLIP</text>
   <text x="130" y="270" font-size="9" fill="#999" text-anchor="middle">快速检索</text>
 
   <!-- Column 2: Fusion Encoder -->
   <rect x="265" y="45" width="220" height="245" rx="8" fill="#9b59b6" fill-opacity="0.05" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="375" y="68" font-size="12" font-weight="bold" fill="#9b59b6" text-anchor="middle">组合编码器</text>
+  <text x="375" y="68" font-size="12" font-weight="bold" fill="#9b59b6" text-anchor="middle">融合编码器</text>
 
   <!-- Image input -->
   <rect x="280" y="85" width="65" height="30" rx="6" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
@@ -60,42 +60,42 @@
 
   <!-- Cross-Attention Encoder -->
   <rect x="310" y="145" width="130" height="45" rx="6" fill="#9b59b6" fill-opacity="0.12" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="375" y="164" font-size="10" fill="#333" text-anchor="middle">交叉捐款</text>
+  <text x="375" y="164" font-size="10" fill="#333" text-anchor="middle">跨注意力机制</text>
   <text x="375" y="178" font-size="10" fill="#333" text-anchor="middle">编码器</text>
 
   <!-- Output -->
   <line x1="375" y1="190" x2="375" y2="215" stroke="#9b59b6" stroke-width="1.2" marker-end="url(#tax-arrow)"/>
-  <text x="375" y="230" font-size="10" fill="#666" text-anchor="middle">虚构陈述</text>
+  <text x="375" y="230" font-size="10" fill="#666" text-anchor="middle">融合表示法</text>
 
   <!-- Example -->
-  <text x="375" y="255" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">视觉环境</text>
-  <text x="375" y="270" font-size="9" fill="#666" text-anchor="middle">维尔伯特州</text>
+  <text x="375" y="255" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">视觉BERT</text>
+  <text x="375" y="270" font-size="9" fill="#666" text-anchor="middle">UNITER, VilBERT</text>
 
   <!-- Column 3: Encoder-Decoder -->
   <rect x="510" y="45" width="220" height="245" rx="8" fill="#27ae60" fill-opacity="0.05" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="620" y="68" font-size="12" font-weight="bold" fill="#27ae60" text-anchor="middle">编码-解码器</text>
+  <text x="620" y="68" font-size="12" font-weight="bold" fill="#27ae60" text-anchor="middle">编码器-解码器模型</text>
 
   <!-- Encoder -->
   <rect x="525" y="90" width="80" height="55" rx="6" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
   <text x="565" y="114" font-size="10" fill="#333" text-anchor="middle">编码器</text>
-  <text x="565" y="128" font-size="9" fill="#666" text-anchor="middle">(图像+图文)</text>
+  <text x="565" y="128" font-size="9" fill="#666" text-anchor="middle">(视觉+文本)</text>
 
   <!-- Arrow -->
   <line x1="605" y1="117" x2="640" y2="117" stroke="#666" stroke-width="1.2" marker-end="url(#tax-arrow)"/>
-  <text x="623" y="110" font-size="8" fill="#9b59b6" text-anchor="middle">横</text>
-  <text x="623" y="130" font-size="8" fill="#9b59b6" text-anchor="middle">值为</text>
+  <text x="623" y="110" font-size="8" fill="#9b59b6" text-anchor="middle">跨注意力</text>
+  <text x="623" y="130" font-size="8" fill="#9b59b6" text-anchor="middle">attn</text>
 
   <!-- Decoder -->
   <rect x="645" y="90" width="75" height="55" rx="6" fill="#27ae60" fill-opacity="0.12" stroke="#27ae60" stroke-width="1.5"/>
   <text x="682" y="114" font-size="10" fill="#333" text-anchor="middle">解码器</text>
-  <text x="682" y="128" font-size="9" fill="#666" text-anchor="middle">(遗传)</text>
+  <text x="682" y="128" font-size="9" fill="#666" text-anchor="middle">(生成式)</text>
 
   <!-- Output arrow -->
   <line x1="682" y1="145" x2="682" y2="170" stroke="#27ae60" stroke-width="1.2" marker-end="url(#tax-arrow)"/>
   <text x="682" y="185" font-size="10" fill="#666" text-anchor="middle">生成文本</text>
 
   <!-- Example -->
-  <text x="620" y="240" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">GIT 主题</text>
-  <text x="620" y="255" font-size="9" fill="#666" text-anchor="middle">SimVLM, 可可</text>
-  <text x="620" y="270" font-size="9" fill="#999" text-anchor="middle">说明/生成</text>
+  <text x="620" y="240" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">GIT</text>
+  <text x="620" y="255" font-size="9" fill="#666" text-anchor="middle">SimVLM, CoCa</text>
+  <text x="620" y="270" font-size="9" fill="#999" text-anchor="middle">标题生成 / 生成任务</text>
 </svg>

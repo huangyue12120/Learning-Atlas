@@ -8,164 +8,159 @@ source:
   sha256: d2e677b6ca1dafa667a4f4ff12dfddee367392dd6940f25f5b6934ed21cd071d
 status: reviewed
 ---
-
 # 深度学习
 
-*深度学习堆叠非线性层，构建分层表示，把原始输入自动转换为有用特征。本篇涵盖 MLP、激活函数、反向传播、CNN、RNN、LSTM、attention、Transformer、GAN、VAE、扩散模型和归一化技术。*
+*深度学习通过堆叠非线性层来构建具有层次结构的表示，自动将原始输入转换为有用的特征。本文件涵盖了 MLP、激活函数、反向传播、CNN、RNN、LSTMs、注意力机制、Transformer、GANs、VAEs、扩散模型和归一化技术等*
 
-- 什么样的网络才称得上“深”？浅层网络只有一个隐藏层；深层网络有许多隐藏层。深度让网络能够构建分层表示：早期层学习简单特征（边缘、音调），后面的层将它们组合成复杂概念（面孔、句子）。这种组合性正是深度学习强大的原因。
+- 什么是“深度”？浅层网络只有一个隐藏层；深层网络有多个。深度让网络能够构建层次结构，早期层学习简单的特征（边缘、音调），而后期层将它们组合成复杂的概念（人脸、句子）。这种可组合性是深度学习强大之处的原因。
 
-- 最简单的深层网络是**多层感知机（multi-layer perceptron，MLP）**，也称全连接网络或 dense 网络。每一层计算：
+- 最简单的深度网络是 **多层感知器 (MLP)**，也称为全连接或密集网络。每个层计算：
 
 $$h = \sigma(Wx + b)$$
+- $W$ 是权重矩阵（第 02 章），$b$ 是偏置向量，$\sigma$ 是非线性激活函数。一层的输出成为下一层的输入。没有非线性，堆叠层毫无意义：$W_2(W_1 x) = (W_2 W_1)x$，这只是一个线性变换。这是第 02 章中矩阵乘法坍缩的完全相同情况。
 
-- 这里 $W$ 是权重矩阵（第 02 章），$b$ 是偏置向量，$\sigma$ 是非线性激活函数。一层的输出成为下一层的输入。如果没有非线性，堆叠多层就没有意义：$W_2(W_1 x) = (W_2 W_1)x$，它仍然只是另一个线性变换。这正是第 02 章中的矩阵乘法塌缩。
+- **激活函数** 引入了使深度有意义的非线性。
 
-- **激活函数**引入了让深度有意义的非线性。
+- **ReLU**（激活函数）：$\text{ReLU}(x) = \max(0, x)$。它是最常用的激活函数。它计算速度快，对于正输入不会饱和，并且会产生稀疏的激活（许多神经元输出恰好为零）。缺点：负输入的神经元总是输出零，如果它们永久卡在那里，就会“死亡”并停止学习。
 
-- **ReLU（Rectified Linear Unit，修正线性单元）**：$\text{ReLU}(x) = \max(0, x)$。它是使用最广泛的激活函数，计算快，正输入区域不饱和，并且会产生稀疏激活（许多神经元的输出恰好为零）。缺点是：负输入的神经元总是输出零；如果它们永久卡在那里，就会“死亡”并停止学习。
+- **Sigmoid**：sigmoid函数 $\sigma(x) = \frac{1}{1+e^{-x}}$将输入压缩到 $(0, 1)$对于二分类输出层有用，但在隐藏层中存在困难，因为当输入远离零时梯度消失（曲线几乎平坦）。
 
-- **Sigmoid**：$\sigma(x) = \frac{1}{1+e^{-x}}$，把输入压缩到 $(0, 1)$。它适合二分类的输出层，但在隐藏层中有问题，因为输入远离零时梯度会消失（曲线几乎是平的）。
+- **双曲正切函数** $\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$压缩到 $(-1, 1)$零中心（与sigmoid不同），有助于梯度流动，但仍然在极端时会消失。
 
-- **Tanh**：$\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$，把输入压缩到 $(-1, 1)$。它以零为中心（不同于 sigmoid），有助于梯度流动，但在极端值处仍然会受到梯度消失影响。
+- **GELU**（高斯误差线性单元）：$\text{GELU}(x) = x \cdot \Phi(x)$，其中 $\Phi$ 是标准正态分布的累积概率函数。它是一种比 ReLU 更平滑的近似体，允许小负值通过。GELU 在 GPT 和 BERT 中默认使用。
 
-- **GELU（Gaussian Error Linear Unit，高斯误差线性单元）**：$\text{GELU}(x) = x \cdot \Phi(x)$，其中 $\Phi$ 是标准正态分布的 CDF。它是 ReLU 的平滑近似，允许小的负值通过。GELU 是 GPT 和 BERT 中的默认激活函数。
+- **Swish**: $\text{Swish}(x) = x \cdot \sigma(x)$，另一个平滑门。在实践中类似于GELU。
 
-- **Swish**：$\text{Swish}(x) = x \cdot \sigma(x)$，是另一种平滑门控函数，实际表现与 GELU 相近。
+![四个ReLU、Sigmoid、Tanh和GELU的侧视图及其关键属性](../images/activation_functions.svg)
 
-![ReLU、Sigmoid、Tanh 与 GELU 的并列曲线及其关键性质](../images/activation_functions.svg)
 
-- 一个有 $d_{\text{in}}$ 个输入和 $d_{\text{out}}$ 个输出的 dense 层有 $d_{\text{in}} \times d_{\text{out}} + d_{\text{out}}$ 个参数（权重加偏置）。矩阵乘法 $Wx$ 就是第 02 章中的矩阵，向量乘法。在 batch 场景中，形状为 $(B, d_{\text{in}})$ 的输入矩阵 $X$ 产生形状为 $(B, d_{\text{out}})$ 的输出 $XW^T + b$。
+- 一个密集的层有 $d_{\text{in}}$ 输入和 $d_{\text{out}}$ 输出有 $d_{\text{in}} \times d_{\text{out}} + d_{\text{out}}$ 参数（权重和偏置）。矩阵乘法 $Wx$ 这是矩阵乘法，类似于第2章的内容。在批量设置中，输入是一个矩阵。 $X$ 形状 $(B, d_{\text{in}})$ 输出是 $XW^T + b$ 形状 $(B, d_{\text{out}})$当然，请提供您需要翻译的英文文本。
 
-- **通用逼近定理**指出，只要神经元足够多，单个隐藏层就能以任意精度逼近紧致域上的任意连续函数。这听起来像是深度不重要，但关键在于“神经元足够多”。在实践中，深层网络可以用比浅层网络少指数级的参数表示相同函数。深度带来的是效率，而不仅仅是表达能力。
+- **通用逼近定理**表明，一个包含足够神经元的单隐藏层可以精确地近似任何连续函数在紧凑域上。这听起来似乎深度并不重要，但关键在于“足够的神经元”。实际上，在实践中，深度网络通过使用指数级较少的参数来表示相同的功能。深度提供了效率，而不是表达能力。
 
-- 随着网络变深，会出现两类梯度病态。**梯度消失**：梯度经过许多层（通过第 03 章的链式法则）时，会被许多因子相乘。如果这些因子持续小于 1（sigmoid 和 tanh 饱和时就会这样），梯度会指数级缩小到零，早期层几乎无法学习。**梯度爆炸**：如果这些因子持续大于 1，梯度会指数级增长，导致数值溢出和训练不稳定。
+- 当网络变深时，出现了两种梯度病态。**消失的梯度**：当梯度通过许多层（通过链式法则，第03章）传递时，它们会被许多因子乘以。如果这些因子始终小于1（如sigmoid和tanh饱和），则梯度会指数级地朝零缩小。早期层几乎无法学习。**爆炸的梯度**：如果这些因子始终大于1，梯度会指数级增长，导致数值溢出和不稳定训练。
 
-- 解决梯度消失/爆炸的方法：
-  - 使用 ReLU 或 GELU 激活（正输入的梯度为 1，不会饱和）
-  - 仔细进行权重初始化
-  - 使用归一化层
-  - 使用残差连接（跳跃连接）
-  - 梯度裁剪（针对梯度爆炸）：把梯度范数限制在最大值以内
+- 解决梯度消失/爆炸问题的方法：
+  - 使用ReLU或GELU激活（正输入时梯度为1，无饱和）
+  - 注意权重初始化
+  - 正则化层
+  - 跳连接（残差连接）
+  - 梯度剪裁（对于爆炸的梯度）：将梯度范数上限设置为最大值
 
-- **权重初始化**很重要，因为它决定训练开始时激活和梯度的尺度。权重太大，激活会爆炸；权重太小，激活会消失。
+- **权重初始化**很重要，因为它决定了激活和梯度在训练开始时的尺度。如果权重过大，激活会爆炸；过小，它们会消失
 
-- **Xavier（Glorot）初始化**从方差为 $\frac{2}{d_{\text{in}} + d_{\text{out}}}$ 的分布中采样权重。假设使用线性或 tanh 激活，它可以让各层激活的方差大致保持不变。
+- **Xavier（Glorot）初始化**将权重从分布中设置为$\frac{2}{d_{\text{in}} + d_{\text{out}}}$。这保持了激活在各层之间的方差大致相同，假设线性或tanh激活
 
-- **He（Kaiming）初始化**使用方差 $\frac{2}{d_{\text{in}}}$，针对 ReLU 激活进行校准（因为 ReLU 会把一半激活置零，所以需要将方差加倍来补偿）。
+- **He (Kaiming) 初始化** 使用 $\frac{2}{d_{\text{in}}}$，这是为 ReLU 激活函数调整的方差（因为 ReLU 只激活一半的单元，你需要将方差加倍来补偿）。
 
-- **归一化层**通过确保每一层的输入具有一致的统计量（大致为零均值、单位方差）来稳定训练。
+- **归一化层** 通过确保每个层的输入具有一致的统计特性（大致零均值、单位方差）来稳定训练。
 
-- **批归一化（Batch Normalisation，BatchNorm）**沿 batch 维度归一化：对每个通道/特征，在 mini-batch 的所有样本上计算均值和方差，然后进行归一化。它还加入可学习的缩放（$\gamma$）和偏移（$\beta$）参数，使网络在需要时可以撤销归一化：
+- **批量归一化（BatchNorm）**在批量维度上进行归一化：对于每个通道/特征，计算所有样本在 mini-batch 中的均值和方差，然后进行归一化。它添加可学习的缩放参数（$\gamma$）和偏移参数（$\beta$），以便网络可以逆向进行归一化。
 
 $$\hat{x} = \frac{x - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}, \quad y = \gamma \hat{x} + \beta$$
+- 模型批归一化（Batch Normalization）存在一个问题：它依赖于批次大小。当批次非常小时，统计信息会变得嘈杂。在推理时，使用运行平均值而不是批量统计，这会导致训练集和测试集之间的差异。
 
-- BatchNorm 有一个问题：它依赖 batch 大小。batch 很小时，统计量会有噪声。在推理时使用运行平均值而不是 batch 统计量，这还会造成训练与测试之间的差异。
+- **层归一化（Layer Normalization）**对每个单独样本的特征维度进行归一化。它不依赖于批次中的其他样本，因此是变换器和循环网络的标准选择。
 
-- **层归一化（Layer Normalisation，LayerNorm）**对每个样本独立地沿特征维度归一化。它不依赖 batch 中的其他样本，因此成为 Transformer 和循环网络的标准选择。
+- 实例归一化（Instance Normalization）在每个样本和每个通道上独立地对空间维度进行归一化。它在风格转移中很流行。
 
-- **实例归一化（Instance Normalisation）**对每个样本、每个通道独立地沿空间维度归一化。它常用于风格迁移。
+- **分组归一化**将通道分成若干组，并在每组内进行归一化。它是一种介于层归一化和实例归一化之间的折衷方法。
 
-- **组归一化（Group Normalisation）**把通道分成若干组，并在每组内部归一化。它是 LayerNorm 与 InstanceNorm 之间的折中。
+![带有彩色切片的3D张量，显示BatchNorm、LayerNorm和InstanceNorm分别正常化的维度](../images/normalization_types.svg)
 
-![3D 张量的彩色切片，展示 BatchNorm、LayerNorm 与 InstanceNorm 分别沿哪些维度归一化](../images/normalization_types.svg)
 
-- **Dropout**是一种正则化技术，训练时随机把比例为 $p$ 的一部分神经元置零。这样网络不能依赖某一个神经元，促使它学习冗余表示。测试时所有神经元都激活。**反向 dropout（inverted dropout）**在训练时把激活乘以 $\frac{1}{1-p}$，这样测试时就不需要再缩放。这是标准实现。
+- dropout 是一种正则化技术，它随机地将一个分数置零。 $p$ 在训练过程中，神经元的激活被随机丢弃。这迫使网络不依赖于任何单一神经元，鼓励冗余表示。在测试时间，所有神经元都处于激活状态。**反向dropout**通过缩放激活来实现。 $\frac{1}{1-p}$ 在训练过程中，不需要进行缩放。这是标准实现。
 
-- **卷积神经网络（Convolutional Neural Networks，CNN）**利用空间结构。卷积层不像 dense 层那样把每个输入连接到每个输出，而是让一个小滤波器（kernel）在输入上滑动，在每个位置计算点积。同一组滤波器权重在所有位置共享，这大幅减少参数，并内置了平移不变性。
+- **卷积神经网络（CNNs）**利用空间结构。与全连接层不同，卷积层滑动一个小滤波器（核）在输入上进行计算，每个位置都计算一个点积。相同的滤波器权重在整个位置共享，这大大减少了参数并构建了平移不变性。
 
-- 对于带有 $k \times k$ 滤波器 $K$ 的二维输入，**卷积运算**为：
+- 卷积操作对于一个2D输入，使用大小为$k \times k$的滤波器$K$：
 
 $$(\text{input} * K)[i,j] = \sum_{m=0}^{k-1} \sum_{n=0}^{k-1} \text{input}[i+m, j+n] \cdot K[m, n]$$
+![输入网格，3x3滤镜滑动在其上，产生每个位置元素级相乘和求和的特征图](../images/cnn_convolution.svg)
 
-![3x3 滤波器在输入网格上滑动，在每个位置做逐元素乘法求和并产生输出特征图](../images/cnn_convolution.svg)
 
-- 输出大小取决于三个超参数。**步幅（stride）**控制滤波器每次移动多少像素（stride 为 2 会让空间尺寸减半）。**填充（padding）**在输入边界周围补零（“same” padding 保持空间尺寸，“valid” padding 不保持）。输出大小公式为：$\text{out} = \lfloor (\text{in} - k + 2p) / s \rfloor + 1$。
+- 输出大小取决于三个超参数。 **步长** 控制滤波器在位置之间移动的像素数（步长为2会减半空间维度）。 **填充** 在输入边界周围添加零 ("same"填充保留空间尺寸，"valid"填充不保留）。输出大小公式：$\text{out} = \lfloor (\text{in} - k + 2p) / s \rfloor + 1$.
 
-- **池化（pooling）**层对特征图下采样。最大池化取每个窗口中的最大值；平均池化取均值。池化在保留最重要信息的同时减少空间维度。
+- **池化** 层降采样特征图。最大池取窗口中的最大值；平均池取窗口的均值。池化会减小空间维度，同时保留最重要的信息。
 
-- **空洞卷积（dilated convolution）**在滤波器元素之间插入间隔，在不增加参数的情况下扩大感受野。膨胀率为 2 意味着 3x3 滤波器覆盖 5x5 的区域。
+- **膨胀卷积**在滤波器元素之间插入间隙，增加感受野而不增加参数。膨胀率2意味着3x3滤波器覆盖一个5x5区域。
 
-- **1x1 卷积**使用 1x1 滤波器，因此不会查看空间邻居；它会混合通道之间的信息。可以把它看成在每个空间位置应用一个 dense 层。它用于低成本地改变通道数。
+- **1x1卷积**使用一个1x1滤波器进行卷积。它们不考虑空间邻近；相反，它们在通道之间混合信息。将它们视为在每个空间位置应用密集层。它们用于以低成本改变通道数量。
 
-- **跳跃连接（skip connection）**或残差连接让输入绕过一个或多个层：$\text{output} = F(x) + x$。这使层只需学习残差 $F(x) = \text{output} - x$；当最优变换接近恒等变换时，这更容易学习。ResNet（Residual Networks）利用这一技巧堆叠了超过 100 层，解决了深度网络反而不如浅层网络的退化问题。
+- **跳连接**（残差连接）让输入绕过一个或多个层：$\text{output} = F(x) + x$。该层只需学习残差 $F(x) = \text{output} - x$，当最优变换接近身份时更容易。ResNets（残差网络）通过使用这种方法叠加100层来解决深度网络性能不如浅层网络的问题。
 
-- CNN 构建了**特征层次**。早期层检测边缘和纹理；中间层把它们组合成部件（眼睛、车轮）；后期层识别完整对象。每一层的感受野（它能够“看到”的输入区域）都会随深度增长。
+- 卷积神经网络（CNN）构建一个特征层次结构。早期层检测边缘和纹理。中间层将这些组合成部件（眼睛、轮子）。晚期层识别整个对象。每个层的可接受场（它能“看到”的输入区域）随着深度而增长。
 
-- **Embedding** 把离散 token（单词、字符、项目 ID）映射为稠密向量。embedding 层其实只是一个查找表：形状为（词表大小，embedding 维度）的矩阵 $E$。查找 token $i$ 就是选取 $E$ 的第 $i$ 行。这等价于与 one-hot 向量相乘，而 one-hot 向量只是矩阵，向量乘法的一个特例（第 02 章）。Embedding 在训练中学习，因此相似 token 最终会得到相似向量。
+- 嵌入将离散标记（单词、字符、项目ID）映射到稠密向量。嵌入层只是一个查找表：一个矩阵。 $E$ 词表大小和嵌入维度的形状（词汇量，嵌入维度）。查找标记 $i$ 选择行 $i$ 是的。 $E$这相当于乘以一个独热向量，这是矩阵-向量乘法的一个特殊案例（第02章）。在训练过程中学习到的嵌入，相似的词会最终得到相似的向量。
 
-- **分词（tokenisation）**是把原始文本转换为 token 序列的过程。词级分词按空格切分，但无法处理未见过的词。**子词分词（subword tokenisation）**（BPE、WordPiece、SentencePiece）把文本拆成高频子词单元，在词表大小和覆盖率之间取得平衡。单词 “unhappiness” 可能变成 ["un", "happiness"] 或 ["un", "happ", "iness"]。
+- **分词** 是将原始文本转换为一系列标记的过程。单词级分词按空格分割，但无法处理未见过的单词。**子词分词**（BPE、WordPiece、SentencePiece）将文本分解为频繁的子词单位，平衡词汇量和覆盖率。例如，“不幸福”可能变为["不", "幸福"]或["不", " Happ", "iness"]。
 
-- **循环神经网络（Recurrent Neural Networks，RNN）**一次处理序列中的一个元素，维护一个向前传递信息的隐藏状态：
+- 循环神经网络（RNNs）逐个处理序列，维护一个隐藏状态，用于将信息向前传递：
 
 $$h_t = \tanh(W_h h_{t-1} + W_x x_t + b)$$
+- The hidden 状态 $h_t$ is a compressed summary of everything the network has seen up to time $t$. The same weights $W_h$ and $W_x$ are shared across all time steps (weight sharing, like CNNs share spatial weights).
 
-- 隐藏状态 $h_t$ 是网络截至时间 $t$ 所见全部内容的压缩摘要。权重 $W_h$ 和 $W_x$ 在所有时间步共享（类似 CNN 共享空间权重）。
+- Vanilla RNNs struggle with long sequences because of vanishing gradients: the gradient signal from step $t$ to step $t - k$ passes through $k$ multiplications by $W_h$, and it shrinks (or explodes) exponentially.
 
-- 普通 RNN 难以处理长序列，因为会发生梯度消失：从步骤 $t$ 到步骤 $t-k$ 的梯度信号要经过 $k$ 次 $W_h$ 乘法，因而呈指数级缩小（或爆炸）。
+- **LSTM**（长短期记忆）通过引入一个单独的细胞状态$c_t$，该状态在时间上流动而几乎没有干扰。三个门控制进入、离开和保留的信息：
 
-- **LSTM（Long Short-Term Memory，长短期记忆）**引入独立的 cell state $c_t$，让它以尽量少的干扰跨时间流动，从而解决这个问题。三个门控制信息的进入、输出和保留：
+- **遗忘门**决定从细胞状态中要擦除的内容：$f_t = \sigma(W_f [h_{t-1}, x_t] + b_f)$
+- **输入门**决定要写入的新信息：$i_t = \sigma(W_i [h_{t-1}, x_t] + b_i)$，候选值为$\tilde{c}_t = \tanh(W_c [h_{t-1}, x_t] + b_c)$
+- 细胞状态更新：$c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t$
+- **输出门**决定要暴露的内容：$o_t = \sigma(W_o [h_{t-1}, x_t] + b_o)$和$h_t = o_t \odot \tanh(c_t)$
 
-- **遗忘门**决定从 cell state 中擦除什么：$f_t = \sigma(W_f [h_{t-1}, x_t] + b_f)$
-- **输入门**决定写入哪些新信息：$i_t = \sigma(W_i [h_{t-1}, x_t] + b_i)$，候选值为 $\tilde{c}_t = \tanh(W_c [h_{t-1}, x_t] + b_c)$
-- cell state 更新为：$c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t$
-- **输出门**决定暴露什么：$o_t = \sigma(W_o [h_{t-1}, x_t] + b_o)$，并且 $h_t = o_t \odot \tanh(c_t)$
+![LSTM单元显示遗忘门、输入门、输出门、细胞状态高通滤波器和数据流连接](../images/rnn_lstm_cell.svg)
 
-![LSTM 单元：遗忘门、输入门、输出门、cell state 高速通道和数据流连接](../images/rnn_lstm_cell.svg)
 
-- cell state 像传送带一样工作：信息可以在许多时间步中不变地流动（遗忘门保持接近 1），从而解决长距离依赖中的梯度消失问题。
+- 细胞状态像一个传送带：信息可以跨多个时间步不变地流动，从而解决了长距离依赖的梯度消失问题。
 
-- **GRU（Gated Recurrent Unit，门控循环单元）**通过把 cell state 和隐藏状态合并为一个状态，并使用两个门而不是三个门来简化 LSTM：更新门（合并遗忘门和输入门）以及重置门。GRU 参数更少，通常可以取得与 LSTM 相近的表现。
+- **GRU**（门控循环单元）简化了LSTM，将细胞状态和隐藏状态合并为一个，并使用两个门代替三个：更新门（结合遗忘和输入）和重置门。GRUs参数较少，通常与LSTMs性能相当。
 
-- RNN（包括 LSTM）的根本限制是顺序处理：必须先处理 token 1，再处理 token 2，最后处理 token 3。这阻碍了并行化，也造成信息瓶颈，因为所有上下文都必须挤进固定大小的隐藏状态。
+- RNNs（包括LSTM）的最基本限制是顺序处理：必须先处理令牌1，然后是令牌2，最后是令牌3。这阻止了并行化，并创建了一个信息瓶颈，因为所有上下文都必须挤过固定大小的隐藏状态。
 
-- **Attention**同时解决这两个问题。它不把整个输入压缩进一个固定向量，而是让模型回看所有输入位置，并决定哪些位置与当前输出相关。
+- **注意**解决了两个问题。它允许模型回顾所有输入位置，并决定哪些是当前输出相关的。
 
-- 现代形式使用**查询、键和值（Q、K、V）**。可以把它想成图书馆搜索：query 是你要找的东西，keys 是每本书上的标签，values 是书的实际内容。将 query 与所有 key 比较，就能决定取回哪些 value。
+- 现代的表达方式使用了 **查询、键和值（Q, K, V）**。想象一下，它就像一个图书馆搜索：你有一个查询（你要找的东西），键（每个书上的标签），和值（实际的书内容）。你将你的查询与所有键进行比较，以确定要检索哪些值。
 
-- **缩放点积 attention**：
+- **缩放点积注意力**：
 
 $$\text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^T}{\sqrt{d_k}}\right) V$$
+- $QK^T$ 计算每个查询与每个键之间的相似性。这是矩阵乘法（第 02 章），条目是点积，用于测量余弦相似度（第 01 章）。除以 $\sqrt{d_k}$ 防止点积变得太大（这会使 softmax 受饱和影响，并产生近似单热分布，导致梯度消失）。softmax 将相似性转换为概率分布。乘以 $V$ 生成加权组合的值。
 
-- $QK^T$ 计算每个 query 与每个 key 的相似度。这是矩阵乘法（第 02 章），其条目是点积，而点积可以度量余弦相似度（第 01 章）。除以 $\sqrt{d_k}$ 可以防止点积过大（否则 softmax 会饱和，产生接近 one-hot 的分布和消失梯度）。Softmax 把相似度转换为概率分布；与 $V$ 相乘则产生 value 的加权组合。
-
-- **多头 attention**运行 $h$ 个并行 attention 操作，每个操作使用 Q、K、V 的不同可学习投影。这使模型可以同时关注不同表示子空间中的信息。一个头可能关注句法关系，另一个头关注语义关系。各头输出拼接后再投影：
+- **多头注意力**并行运行 $h$ 个注意力操作，每个操作都有不同的 Q、K 和 V 的学习投影。这使得模型能够同时关注不同表示子空间的信息。一个头可能关注语法关系，另一个头可能关注语义关系。输出被连接并投影：
 
 $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) W^O$$
+- **Transformer**架构（Vaswani et al., 2017）完全由注意力和前馈层组成，没有递归。编码器块重复：多头自注意力、加法和层归一化、前馈网络、加法和层归一化。解码器块添加一个遮蔽的自注意力（防止模型看到未来标记）和一个跨注意力层，该层关注编码器输出。
 
-- **Transformer**架构（Vaswani 等，2017）完全由 attention 和前馈层构成，没有循环。encoder block 重复执行：多头 self-attention、add 与 layer-norm、前馈网络、add 与 layer-norm。decoder block 还增加 masked self-attention（防止模型看到未来 token）和 cross-attention（关注 encoder 输出）。
+![Transformer编码块：多头注意力、加法和层归一化、前馈网络、加法和层归一化，带有残差连接](../images/transformer_block.svg)
 
-![Transformer encoder block：多头 attention、add 与 layernorm、前馈网络、add 与 layernorm，以及残差连接](../images/transformer_block.svg)
 
-- **位置编码**是必要的，因为 attention 具有置换等变性，也就是说它把输入当作集合而不是序列。如果没有位置信息，“the cat sat on the mat”和“the mat sat on the cat”会完全相同。原始 Transformer 使用正弦位置编码：
+- **位置编码**是必要的，因为注意力是排列不变的，这意味着它将输入视为一个集合而不是序列。没有位置信息，“猫坐在垫子上”和“垫子坐在猫上”会完全相同。原始的Transformer使用了正弦位置编码：
 
 $$PE_{(pos, 2i)} = \sin\!\left(\frac{pos}{10000^{2i/d}}\right), \quad PE_{(pos, 2i+1)} = \cos\!\left(\frac{pos}{10000^{2i/d}}\right)$$
+- 每个位置都得到一个唯一的向量，模型可以使用该向量来区分位置。现代模型通常使用学习的相对位置嵌入（RoPE、ALiBi）或相对位置编码代替。
 
-- 每个位置都有一个独特向量，模型可以用它区分位置。现代模型通常改用学习式位置 embedding 或相对位置编码（RoPE、ALiBi）。
+- transformers在并行处理所有token时（self-attention矩阵$QK^T$通过一次矩阵乘法计算），比RNNs在现代硬件上训练速度快得多。代价是，自注意力在序列长度（每个token都关注其他所有token）方面是$O(n^2)$的，而RNNs是$O(n)$。这就是为什么长上下文模型需要特殊注意变体（稀疏注意力、线性注意力和闪存注意力）。
 
-- Transformer 并行处理所有 token（self-attention 矩阵 $QK^T$ 在一次矩阵乘法中计算），因此在现代硬件上训练速度远快于 RNN。代价是 self-attention 关于序列长度的复杂度为 $O(n^2)$（每个 token 都关注其他 token），而 RNN 为 $O(n)$。这就是长上下文模型需要特殊 attention 变体（稀疏 attention、线性 attention、Flash Attention）的原因。
+- **视觉变换器（ViT）**通过将图像分割成固定大小的patches（例如16x16），将每个patch展平为向量，并将patches视为一个token序列来应用transformer。在每个patch前添加一个可学习的[CLS]标记，其最终表示用于分类。尽管没有卷积诱导偏置，但ViTs在训练足够的数据时可以与CNNs匹配或超越。
 
-- **视觉 Transformer（Vision Transformer，ViT）**把图像切成固定大小的 patch（例如 16x16），将每个 patch 展平为向量，并把这些 patch 当作 token 序列输入 Transformer。输入前置一个可学习的 [CLS] token，其最终表示用于分类。虽然没有卷积的归纳偏置，ViT 在拥有足够训练数据时仍能达到或超过 CNN。
+- **MLP-Mixer** 是一个更简单的架构，它用全连接层（MLPs）取代了注意力和卷积。它交替应用“token-mixing” MLPs（在空间位置上应用）和“channel-mixing” MLPs（在特征上应用）。它与现代架构相比表现相当出色，这表明现代架构的关键洞察不是注意力本身，而是信息在tokens和features之间高效混合的能力。
 
-- **MLP-Mixer**是更简单的架构，它用 MLP 同时替代 attention 和卷积。它交替使用“token-mixing” MLP（沿空间位置应用）和“channel-mixing” MLP（沿特征应用）。它的表现有竞争力，说明现代架构的关键洞见或许不是 attention 本身，而是高效地混合 token 与特征之间的信息。
-
-- **Autoencoder（自动编码器）**通过训练网络重建自身输入来学习压缩表示。encoder 把输入映射到低维 bottleneck（潜在编码），decoder 再把它映射回来：
+- 自动编码器通过训练网络来重建其输入，学习压缩表示。编码器将输入映射到一个较低维度的瓶颈（隐含代码），而解码器将其映射回来：
 
 $$z = f_{\text{enc}}(x), \quad \hat{x} = f_{\text{dec}}(z), \quad \mathcal{L} = \|x - \hat{x}\|^2$$
+- 瓶颈效应迫使网络学习最重要的特征。自编码器用于降维、去噪（训练时使用噪声输入，重建干净输出）和异常检测（高重建误差信号不寻常的输入）。
 
-- bottleneck 迫使网络学习最重要的特征。Autoencoder 可用于降维、去噪（用带噪输入训练，重建干净输出）和异常检测（重建误差高表示输入异常）。
+- 变分自编码器（VAE）引入了概率的元素。它们不将数据编码为单个点，而是将其编码为一个分布。 $z$编码器输出分布的参数（均值） $\mu$ 方差 $\sigma^2$ 高斯分布。隐变量从该分布中采样。 $z = \mu + \sigma \odot \epsilon$在何处 $\epsilon \sim \mathcal{N}(0, I)$这个“重新参数化技巧”使得采样可微，从而梯度可以流动。
 
-- **变分自动编码器（Variational Autoencoder，VAE）**增加了概率视角。encoder 不再编码为单个点 $z$，而是输出一个分布的参数（高斯分布的均值 $\mu$ 和方差 $\sigma^2$）。潜在编码从该分布中采样：$z = \mu + \sigma \odot \epsilon$，其中 $\epsilon \sim \mathcal{N}(0, I)$。这种**重参数化技巧**让采样过程可微，因此梯度可以通过它传播。
-
-- VAE 损失包含两项：
+- 该VAE损失包含两个项：
 
 $$\mathcal{L} = \underbrace{\|x - \hat{x}\|^2}_{\text{reconstruction}} + \underbrace{D_{\text{KL}}(q(z|x) \| p(z))}_{\text{regularisation}}$$
+- KL散度项（第5章）将学习到的后验 $q(z|x)$ 推向先验 $p(z) = \mathcal{N}(0, I)$，确保潜空间平滑且结构良好。然后可以从先验中采样并解码生成新数据。这就是为什么VAEs是生成模型的原因。
 
-- KL 散度项（第 05 章）把学习到的后验 $q(z|x)$ 推向先验 $p(z) = \mathcal{N}(0, I)$，保证潜在空间平滑且结构良好。随后可以从先验中采样并解码，生成新数据；这正是 VAE 成为生成模型的原因。
+## 编程任务（使用 Colab 或笔记本）
 
-## 编程任务（使用 CoLab 或 notebook）
-
-1. 从零开始用 JAX 构建一个简单的 MLP。在二维分类问题（例如同心圆）上训练它，并可视化决策边界。
+1. 构建一个简单的MLP从头开始在JAX中。使用2D分类问题（例如同心圆）对其进行训练，并可视化决策边界。
 ```python
 import jax
 import jax.numpy as jnp
@@ -222,7 +217,7 @@ acc = jnp.mean((forward(params, X) > 0.5) == y)
 print(f"Accuracy: {acc:.2%}")
 ```
 
-2. 从零实现一维卷积。对信号应用简单的边缘检测滤波器，并将结果与内置的 jnp.convolve 比较。
+2. 实现一维卷积从头开始。应用一个简单的边缘检测滤波器到信号，并与内置的 `jnp.convolve` 进行比较。
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
@@ -261,7 +256,7 @@ plt.tight_layout(); plt.show()
 print(f"Outputs match: {jnp.allclose(our_output, jnp_output)}")
 ```
 
-3. 从零实现缩放点积 attention。对一个小例子计算 attention 权重，并将 attention 矩阵可视化为热力图。
+3. 实现从头开始的缩放点积注意力。计算一个小型示例的注意力权重，并可视化注意力矩阵为热图。
 ```python
 import jax
 import jax.numpy as jnp
@@ -307,7 +302,7 @@ for i in range(4):
 plt.colorbar(im); plt.tight_layout(); plt.show()
 ```
 
-4. 构建一个简单的自动编码器，把二维数据压缩通过一维 bottleneck，再进行重建。可视化潜在空间和重建结果。
+4. 构建一个简单的自编码器，通过一维瓶颈压缩2D数据，并重建它。可视化潜伏空间和重构结果。
 ```python
 import jax
 import jax.numpy as jnp

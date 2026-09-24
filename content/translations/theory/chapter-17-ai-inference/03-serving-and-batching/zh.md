@@ -8,153 +8,152 @@ source:
   sha256: 93d4761610df2814a51a8c12e25c43aa337feac3f476c5041e3b019f3c7c2bd7
 status: reviewed
 ---
+# Serving and Batching
 
-# 服务与批处理
+*Serving an LLM to thousands of concurrent users requires more than loading a model and running inference. This file covers the prefill-decode split, continuous batching, PagedAttention and vLLM, scheduling strategies, disaggregated serving, multi-model and LoRA serving, and the metrics that matter *
 
-*要让 LLM 服务数千名并发用户，不能只加载模型并运行推理。本篇涵盖 prefill，decode 拆分、连续批处理、PagedAttention 与 vLLM、调度策略、解耦服务、多模型与 LoRA 服务，以及真正重要的指标。*
+- A single LLM inference request is simple: feed in tokens, generate output tokens. But serving an LLM to 10,000 concurrent users at low latency and high throughput is a systems problem. The naive approach (process one request at a time) wastes 90%+ of GPU capacity. Smart batching and scheduling can increase throughput 10-50x without adding hardware.
 
-- 单个 LLM 推理请求很简单：输入 token，生成输出 token。但要以低延迟和高吞吐服务 10,000 名并发用户，就变成了系统问题。朴素方案（一次处理一个请求）会浪费 90% 以上的 GPU 容量。聪明的批处理和调度可以在不增加硬件的情况下把吞吐提高 10–50 倍。
+## Prefill vs Decode: Two Very Different Phases
 
-## Prefill 与 Decode：两个截然不同的阶段
+- LLM inference has two distinct phases with fundamentally different computational characteristics:
 
-- LLM 推理包含两个计算特征完全不同的阶段：
+- **Prefill** (prompt processing): process all input tokens simultaneously. This is a single large matrix multiplication: $O(\text{prompt\_length} \times d_{\text{model}}^2)$. The prompt can be processed in parallel (all tokens are known). Prefill is **compute-bound**: the GPU's ALUs are the bottleneck.
 
-- **Prefill（提示词处理）**：同时处理所有输入 token。这是一次大型矩阵乘法：$O(\text{prompt\_length} \times d_{\text{model}}^2)$。由于所有 token 都已知，提示词可以并行处理。Prefill 受**计算**限制：GPU 的 ALU 是瓶颈。
+- **Decode** (token generation): generate one token at a time, autoregressively. Each new token requires attending to all previous tokens via the KV-cache. Decode is **memory-bandwidth-bound**: the GPU spends most time loading model weights and KV-cache from memory, not computing. Each decode step produces just one token but must load the entire model (~140 GB for a 70B model in FP16).
 
-- **Decode（token 生成）**：以自回归方式一次生成一个 token。每个新 token 都要通过 KV-cache 关注所有之前的 token。Decode 受**内存带宽**限制：GPU 大部分时间是在从内存加载模型权重和 KV-cache，而不是做计算。每个 decode 步骤只产生一个 token，却必须加载整个模型（70B 模型使用 FP16 时约 140 GB）。
+- The implications:
 
-- 这会带来以下影响：
+| | Prefill | Decode |
+|--|---------|--------| Tokens processed | All at once (parallel) | One at a time (sequential) |
+| Bottleneck | Compute (FLOPS) | Memory bandwidth |
+| Arithmetic intensity | High | Very low |
+| GPU utilisation | High (50-80%) | Low (1-10%) without batching |
+| Latency metric | **Time to First Token (TTFT)** | **Time Per Output Token (TPOT)** |
 
-| |Prefill|Decode|
-|--|---------|--------|
-| 处理的 token | 一次全部处理（并行） | 一次一个（顺序） |
-| 瓶颈 | 计算（FLOPS） | 内存带宽 |
-| 算术强度 | 高 | 很低 |
-| GPU 利用率 | 高（50–80%） | 不批处理时低（1–10%） |
-| 延迟指标 | **首 token 时间（TTFT）** | **每个输出 token 时间（TPOT）** |
+- TTFT matters for user experience (how long until the response starts streaming). TPOT determines the perceived generation speed. Users tolerate higher TTFT (1-5 seconds) but expect fast TPOT (30-100 ms per token for conversational applications).
 
-- TTFT 影响用户体验（要等多久响应才开始流式输出）；TPOT 决定用户感知到的生成速度。用户可以容忍更高的 TTFT（1–5 秒），但希望对话应用的 TPOT 很快（每个 token 30–100 毫秒）。
+## Static Batching (Naive)
 
-## 静态批处理（朴素方案）
+- The simplest batching: collect $B$ requests, pad them to the same length, process them as a single batch.
 
-- 最简单的批处理方式是收集 $B$ 个请求，把它们填充到相同长度，再作为一个 batch 处理。
+- **Problem 1**: requests have different prompt lengths and generate different numbers of output tokens. Short requests finish early but must wait for the longest request in the batch before the next batch can start. The GPU sits idle while generating for the one remaining long request.
 
-- **问题 1**：请求的提示词长度不同，生成的输出 token 数也不同。短请求会提前完成，却必须等 batch 中最长的请求结束后才能开始下一批。GPU 会在只剩一个长请求生成时处于空闲状态。
+- **Problem 2**: padding wastes compute. If the longest prompt is 2000 tokens and the shortest is 50, the batch is padded to 2000. The GPU processes 1950 padding tokens for the short request — pure waste.
 
-- **问题 2**：填充会浪费计算。如果最长提示词有 2000 个 token、最短的只有 50 个，batch 会填充到 2000。GPU 要为短请求处理 1950 个填充 token，这些计算完全没有价值。
+![Static batching wastes GPU slots while waiting for the longest request; continuous batching fills freed slots immediately](../images/static_vs_continuous_batching.svg)
 
-![静态批处理在等待最长请求时浪费 GPU 槽位；连续批处理会立即填入释放的槽位](../images/static_vs_continuous_batching.svg)
 
-## 连续批处理
+## Continuous Batching
 
-- **连续批处理**（也叫迭代级批处理）以单个 decode 步骤为粒度，而不是以完整请求为粒度，从而同时解决这两个问题。
+- **Continuous batching** (also called iteration-level batching) solves both problems by operating at the granularity of individual decode steps, not entire requests.
 
-- 在每个 decode 步骤中：
-    1. 所有正在处理的请求并行生成一个 token（作为一个 batch）。
-    2. 已完成的请求（生成 EOS token）立即从 batch 中**移除**。
-    3. 队列中的新请求立即**插入**释放出的槽位。
+- At each decode step:
+    1. All in-flight requests generate one token in parallel (as a batch).
+    2. Requests that finish (generate EOS token) are **removed** from the batch immediately.
+    3. New requests from the queue are **inserted** into the freed slots immediately.
 
-- Batch size 会在每个步骤动态变化。GPU 不会为了等待拖后腿的请求而空闲，也没有无意义的填充（每个请求只使用自己需要的槽位）。
+- The batch size changes dynamically every step. The GPU is never idle waiting for stragglers, and there is no wasted padding (each request uses only the slots it needs).
 
-- **影响**：连续批处理通常可以在不改变模型质量、也不显著增加延迟的情况下，比静态批处理提高 2–10 倍吞吐。
+- **Impact**: continuous batching typically increases throughput 2-10x over static batching, with no change to model quality or significant latency increase.
 
-## PagedAttention 与 vLLM
+## PagedAttention and vLLM
 
-- KV-cache 会造成棘手的内存管理问题。每个请求的 KV-cache 都会随着生成 token 增长，不同请求处于不同阶段（cache 大小不同）。如果为每个请求分配连续内存，就会浪费空间（必须按最大可能长度分配，即使请求只生成几个 token）。
+- The KV-cache creates a memory management nightmare. Each request has a KV-cache that grows with each generated token. Different requests are at different stages (different cache sizes). Allocating contiguous memory for each request wastes space (you must allocate for the maximum possible length, even if the request generates only a few tokens).
 
-![PagedAttention 将虚拟 KV-cache 页面映射到不连续的物理 GPU 内存，消除碎片并支持按需分配](../images/paged_attention.svg)
+![PagedAttention maps virtual KV-cache pages to non-contiguous physical GPU memory, eliminating fragmentation and enabling on-demand allocation](../images/paged_attention.svg)
 
-- **PagedAttention**（Kwon 等，2023）把操作系统的虚拟内存概念（第 13 章）应用于 KV-cache。Cache 被划分为固定大小的**页面**（token 位置块），页面按需分配，在物理 GPU 内存中可以不连续。
 
-- 优点包括：
-    - **没有碎片**：页面大小统一，因此请求之间不会出现浪费内存的“空洞”。
-    - **惰性分配**：只有真正生成 token 时才分配内存，而不是一开始按最大长度预分配。
-    - **写时复制**：共享前缀（例如系统提示词）的请求可以共享同一组 KV-cache 页面；只有请求分叉后才复制页面。
+- **PagedAttention** (Kwon et al., 2023) applies the OS concept of virtual memory (chapter 13) to the KV-cache. The cache is divided into fixed-size **pages** (blocks of token positions). Pages are allocated on demand and can be non-contiguous in physical GPU memory.
 
-- **vLLM** 是围绕 PagedAttention 构建的推理引擎。与静态分配的服务方式（例如没有 paged attention 的 HuggingFace text-generation-inference）相比，它几乎消除了 KV-cache 的内存浪费，吞吐提高 2–4 倍。
+- The benefits:
+    - **No fragmentation**: pages are uniform size, so there are no "holes" of wasted memory between requests.
+    - **Lazy allocation**: memory is allocated only when tokens are actually generated, not pre-allocated for maximum length.
+    - **Copy-on-write**: requests that share a common prefix (e.g., system prompts) share the same KV-cache pages. Only when the requests diverge are the pages copied.
 
-## 调度策略
+- **vLLM** is the inference engine built around PagedAttention. It achieves 2-4x higher throughput than static-allocation serving (like HuggingFace's text-generation-inference without paged attention) by virtually eliminating KV-cache memory waste.
 
-- 当多个请求在等待，而 GPU 只能处理有限的 batch 时，**调度**决定服务哪些请求：
+## Scheduling Strategies
 
-- **先到先服务（FCFS）**：按到达顺序处理请求。它简单但不公平：提交 10K-token 生成请求的用户会阻塞其后的所有用户。
+- When multiple requests are waiting and the GPU can only process a limited batch, **scheduling** decides which requests to serve:
 
-- **最短作业优先（SJF）**：优先处理预计最早完成的请求。它能最小化平均延迟，却会惩罚长请求（它们可能一直得不到服务）。实践中输出长度事先未知，因此 SJF 会使用提示词长度、用户历史等启发式信息估计。
+- **First Come First Served (FCFS)**: process requests in arrival order. Simple but unfair: a user submitting a 10K-token generation blocks all users behind them.
 
-- **抢占**：高优先级请求到达时，暂停一个正在运行的低优先级请求（把它的 KV-cache 换出到 CPU 内存或 SSD），先服务高优先级请求，再恢复被暂停的请求。vLLM 支持这种方式。
+- **Shortest Job First (SJF)**: process the request that will finish soonest. Minimises average latency but penalises long-running requests (they may starve). In practice, estimated output length is unknown, so SJF uses heuristics (prompt length, user history).
 
-- **基于优先级**：为用户或请求类型分配优先级。实时交互查询优先于批处理作业；与抢占结合后，可以保证高优先级流量的延迟 SLO。
+- **Preemption**: if a high-priority request arrives, pause a lower-priority in-progress request (swap its KV-cache to CPU memory or SSD), serve the high-priority request, then resume the paused one. vLLM supports this.
 
-- **token 预算**：限制活动 batch 中 token 的总数。这样可以避免少数长请求垄断 GPU 内存、使新请求饥饿。
+- **Priority-based**: assign priorities to users or request types. Real-time interactive queries get higher priority than batch processing jobs. Combined with preemption, this ensures latency SLOs for high-priority traffic.
 
-## 解耦服务
+- **Token budget**: limit the total number of tokens in the active batch. This prevents a few long requests from monopolising GPU memory and starving new requests.
 
-- Prefill 与 decode 的计算特征相反。如果在同一块 GPU 上运行两者，GPU 会在计算受限（prefill）和内存带宽受限（decode）之间来回切换，哪种资源都无法被充分利用。
+## Disaggregated Serving
 
-- **解耦服务**将二者分开：
-    - **Prefill 节点**：使用针对计算优化的 GPU（高 FLOPS，可以较少显存），处理所有进入的提示词。
-    - **Decode 节点**：使用针对内存带宽优化的 GPU（KV-cache 容量大、内存带宽高），负责所有 token 生成。
+- Prefill and decode have opposite computational profiles. Running both on the same GPU means the GPU alternates between being compute-bound (prefill) and memory-bandwidth-bound (decode), never fully utilising either resource.
 
-- Prefill 节点计算初始 KV-cache，并通过 NVLink 或网络发送给 decode 节点；decode 节点使用收到的 cache 生成 token。
+- **Disaggregated serving** separates them:
+    - **Prefill nodes**: GPUs optimised for compute (high FLOPS, possibly with less memory). Process all incoming prompts.
+    - **Decode nodes**: GPUs optimised for memory bandwidth (large KV-cache capacity, high memory bandwidth). Handle all token generation.
 
-- **Mooncake**（Moonshot AI）采用了这种架构，许多 LLM 服务团队也在探索它。好处是每种 GPU 都与自己的工作负载特征匹配，从而提高整体利用率。
+- The prefill node computes the initial KV-cache and sends it to the decode node (over NVLink or network). The decode node generates tokens using the received cache.
 
-## 多模型与 LoRA 服务
+- This is the architecture of **Mooncake** (Moonshot AI) and is being explored by several LLM serving teams. The benefit: each GPU type is matched to its workload characteristics, improving overall utilisation.
 
-- 在生产环境中，通常要服务多个模型（不同层级使用不同大小的模型，不同任务使用不同微调版本）。
+## Multi-Model and LoRA Serving
 
-- **模型复用**：在同一块 GPU 上加载多个模型，再把请求路由到对应的模型。GPU 内存可以共享：一块 40 GB 的 GPU 可能同时容纳 13B 模型（26 GB）和 7B 模型（14 GB）。
+- In production, you often serve multiple models (different sizes for different tiers, different fine-tuned variants for different tasks).
 
-- **LoRA 服务**：不部署多个独立微调模型，而是部署一个基础模型和多个 **LoRA adapter**（第 6 章）。每个 adapter 增加不到 1% 的参数，请求在推理时路由到对应的 adapter。
+- **Model multiplexing**: load multiple models on the same GPU and route requests to the appropriate model. GPU memory is shared: a 40 GB GPU might hold a 13B model (26 GB) and a 7B model (14 GB) simultaneously.
 
-- **S-LoRA**（Sheng 等，2023）让单个基础模型服务数千个 LoRA adapter。Adapter 存放在 CPU 中，需要时分页加载到 GPU。基础模型的 KV-cache 和权重共享，只有小型 LoRA 矩阵因请求而异。
+- **LoRA serving**: instead of deploying separate fine-tuned models, deploy one base model with multiple **LoRA adapters** (chapter 6). Each adapter adds <1% parameters. Requests are routed to the appropriate adapter at inference time.
 
-- **Punica**（Chen 等，2023）使用定制 CUDA kernel，让同一个 batch 中的不同请求应用不同 LoRA 矩阵，从而批处理跨 adapter 的请求，避免每个请求切换 adapter 的开销。
+- **S-LoRA** (Sheng et al., 2023): serves thousands of LoRA adapters from a single base model. Adapters are stored on CPU and paged into GPU memory on demand. The base model's KV-cache and weights are shared; only the small LoRA matrices differ per request.
 
-## 受约束与引导式生成
+- **Punica** (Chen et al., 2023): batches requests across different LoRA adapters by using a custom CUDA kernel that applies different LoRA matrices to different requests within the same batch. This avoids the overhead of switching adapters per request.
 
-- 许多应用要求 LLM 以特定格式输出：有效 JSON、SQL 查询、某种语言的代码，或符合某个模式的响应。**受约束生成**保证输出符合语法或模式。
+## Constrained and Guided Generation
 
-- **语法约束解码**：每个解码步骤都屏蔽会违反语法的 token。如果当前输出是 `{"name": "Alice", "age":`，而语法要求下一个值是整数，就屏蔽除数字以外的所有 token。LLM 的概率分布会在有效 token 上重新归一化。
+- Many applications need the LLM to produce output in a specific format: valid JSON, SQL queries, code in a particular language, or responses that follow a schema. **Constrained generation** guarantees the output conforms to a grammar or schema.
 
-- **Outlines**（Willard 与 Louf，2023）把 JSON schema 或正则表达式编译成有限状态机（FSM）。每个解码步骤中，FSM 确定哪些 token 可以作为有效延续；无效 token 的概率设为 0。这样无需重试即可保证 100% 的模式合规。
+- **Grammar-constrained decoding**: at each decoding step, mask out tokens that would violate the grammar. If the output so far is `{"name": "Alice", "age":` and the grammar requires an integer next, mask all tokens except digits. The LLM's probability distribution is renormalised over the valid tokens.
 
-- **SGLang** 原生集成受约束生成：你在 Python 中指定输出结构，引擎负责高效处理 token 屏蔽和缓存。它还与 RadixAttention（前缀缓存）结合，使结构化输出能够复用缓存前缀。
+- **Outlines** (Willard & Louf, 2023): compiles a JSON schema or regular expression into a finite-状态 machine (FSM). At each decoding step, the FSM determines which tokens are valid continuations. Invalid tokens get probability 0. This guarantees 100% schema compliance with zero retries.
 
-- **为什么重要**：没有受约束生成时，系统先自由生成、再解析输出，失败后重试。复杂 JSON schema 的重试率常见为 10–30%，会浪费计算；受约束生成可以完全消除重试。
+- **SGLang** integrates constrained generation natively: you specify the output structure in Python, and the engine handles the token masking and caching efficiently. This is combined with RadixAttention (prefix caching) so that structured outputs reuse cached prefixes.
 
-## 请求路由
+- **Why it matters**: without constrained generation, you generate freely and parse the output, retrying on failure. Retry rates of 10-30% are common for complex JSON schemas, wasting compute. Constrained generation eliminates retries entirely.
 
-- 并不是每个查询都需要最大的模型。**请求路由**根据估计的难度把查询发送给不同的模型：
+## Request Routing
 
-- **级联**：先尝试小模型。如果小模型的置信度低于阈值（例如 top token 的 softmax 概率 < 0.8），再升级到大模型。简单查询（占流量 80% 以上）由便宜的小模型处理，只有困难查询才使用昂贵的大模型。
+- Not every query needs the biggest model. **Request routing** directs queries to different models based on estimated difficulty:
 
-- **学习式路由**：训练轻量分类器（或使用小模型的困惑度）来预测查询需要哪个模型层级。把“2+2 等于多少？”发给 3B 模型，把“解释量子纠缠的数学基础”发给 70B 模型。
+- **Cascading**: try a small model first. If the small model's confidence is below a threshold (e.g., the softmax probability of the top token is < 0.8), escalate to a larger model. Easy queries (80%+ of traffic) are served cheaply by the small model; only hard queries use the expensive model.
 
-- **影响**：如果 80% 的查询都能由成本低 10 倍的模型处理，平均每次查询的成本可下降约 70%。对于多模型部署，这是影响最大的成本优化手段之一。
+- **Learned routing**: train a lightweight classifier (or use the small model's perplexity) to predict which model tier a query needs. Route "What is 2+2?" to a 3B model and "Explain the mathematical foundations of quantum entanglement" to a 70B model.
 
-- **端侧 + 云端混合路由**：**Cactus** ([github.com/cactus-compute/cactus](https://github.com/cactus-compute/cactus)) 在设备层实现请求路由。它通过定制 ARM SIMD kernel 在设备（手机、笔记本、可穿戴设备）上运行小模型；当本地模型置信度低或查询超过设备能力时，自动路由到云模型。两条路径都使用 OpenAI 兼容 API，路由过程对应用透明。这是基础设施层的级联：第一层是免费的端侧模型，第二层是收费的云 API。对于大多数查询很简单的应用（助手问答、自动补全、转写），端侧处理可以以零边际成本覆盖 70–90% 的流量。
+- **Impact**: if 80% of queries can be handled by a model that costs 10x less, the average cost per query drops by ~70%. This is one of the highest-impact cost optimisations for multi-model deployments.
 
-## 推理指标
+- **On-device + cloud hybrid routing**: **Cactus** ([github.com/cactus-compute/cactus](https://github.com/cactus-compute/cactus)) implements request routing at the device level. It runs a small model on-device (phone, laptop, wearable) via custom ARM SIMD kernels, and automatically routes to a cloud model when the local model's confidence is low or the query exceeds the device's capability. The application uses an OpenAI-compatible API for both paths — the routing is transparent. This is cascading at the infrastructure level: the first tier is free (on-device), the second tier costs money (cloud API). For applications where most queries are simple (assistant Q&A, autocomplete, transcription), on-device handling covers 70-90% of traffic at zero marginal cost.
 
-- 合适的指标取决于使用场景：
+## Inference Metrics
 
-| 指标 | 衡量内容 | 目标（对话） | 目标（批处理） |
-|--------|-----------------|-----------------|-----------------|
-| **TTFT** | 首 token 时间 | <1 s | 不太重要 |
-| **TPOT** | 每个输出 token 时间 | <100 ms | 不太重要 |
-| **吞吐量** | token/秒（总量） | 不太重要 | 最大化 |
-| **p99 延迟** | 最慢的 1% 请求 | <5 s | <30 s |
-| **每 token 成本** | $/1M token | 最小化 | 最小化 |
-| **SLO 合规率** | 满足延迟目标的请求比例 | >99% | >95% |
+- The right metrics depend on the use case:
 
-- **TTFT 与 TPOT 的权衡**：激进地增加 batch 可以提高吞吐量（总 token/s 更多），却会提高 TPOT（GPU 要处理更多请求，每个 token 等待更久）。调度策略必须在吞吐量（收入）与延迟（用户体验）之间取得平衡。
+| Metric | What It Measures | Target (Conversational) | Target (Batch) |
+|--------|-----------------|------------------------|-----------------| **TTFT** | Time to first token | <1 s | less important |
+| **TPOT** | Time per output token | <100 ms | less important |
+| **Throughput** | Tokens/second (total) | less important | maximise |
+| **p99 Latency** | Worst 1% of requests | <5 s | <30 s |
+| **Cost per token** | $/1M tokens | minimise | minimise |
+| **SLO compliance** | % of requests meeting latency target | >99% | >95% |
 
-- **每 token 成本**是生产环境的终极指标。它综合了硬件成本（GPU 租用）、吞吐量（token/s）和利用率。GPU 利用率为 50% 的系统，其每 token 成本是利用率 100% 系统的两倍。这正是批处理、调度和 PagedAttention 如此重要的原因：它们提高了利用率。
+- **TTFT vs TPOT tradeoff**: aggressive batching increases throughput (more tokens/s total) but increases TPOT (each token takes longer because the GPU processes more requests). The scheduling strategy must balance throughput (revenue) against latency (user experience).
 
-## 编程任务（使用 CoLab 或 notebook）
+- **Cost per token** is the ultimate metric for production. It combines hardware cost (GPU rental), throughput (tokens/s), and utilisation. A system running at 50% GPU utilisation costs 2x more per token than one at 100%. This is why batching, scheduling, and PagedAttention matter so much — they increase utilisation.
 
-1. 模拟连续批处理与静态批处理，并测量吞吐量差异。
+## Coding Tasks (use CoLab or notebook)
+
+1. Simulate continuous vs static batching and measure the throughput difference.
 ```python
 import random
 import time
@@ -209,10 +208,10 @@ continuous_tps = simulate_continuous_batching(requests)
 
 print(f"Static batching:     {static_tps:.0f} tokens/s")
 print(f"Continuous batching: {continuous_tps:.0f} tokens/s")
-print(f"Speedup:     {continuous_tps / static_tps:.1f}x")
+print(f"Speedup: {continuous_tps / static_tps:.1f}x")
 ```
 
-2. 计算 PagedAttention 带来的 KV-cache 内存节省。比较预分配（最坏情况）与分页分配（实际使用量）。
+2. Calculate the KV-cache memory savings from PagedAttention. Compare pre-allocated (worst case) vs paged (actual usage).
 ```python
 def paged_vs_preallocated(n_requests, max_seq_len, avg_seq_len, page_size, kv_per_token_bytes):
     """Compare memory usage: preallocated vs paged KV-cache."""

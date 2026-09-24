@@ -6,12 +6,12 @@
   </defs>
 
   <!-- Title -->
-  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">TTS 管道: 文本到波形</text>
+  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">TTS Pipeline: Text to Waveform</text>
 
   <!-- Step 1: Text -->
   <rect x="10" y="55" width="68" height="40" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
   <text x="44" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">文本</text>
-  <text x="44" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">"你好世界" "Hello world"</text>
+  <text x="44" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">“Hello world”</text>
 
   <!-- Arrow 1→2 -->
   <line x1="78" y1="75" x2="93" y2="75" stroke="#666" stroke-width="1.2" marker-end="url(#arrow1)"/>
@@ -19,24 +19,24 @@
   <!-- Step 2: Text Normalisation -->
   <rect x="95" y="55" width="80" height="40" rx="8" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
   <text x="135" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#e74c3c">文本</text>
-  <text x="135" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#e74c3c">正常化</text>
+  <text x="135" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#e74c3c">归一化</text>
 
   <!-- Arrow 2→3 -->
   <line x1="175" y1="75" x2="190" y2="75" stroke="#666" stroke-width="1.2" marker-end="url(#arrow1)"/>
 
   <!-- Step 3: G2P -->
   <rect x="192" y="55" width="80" height="40" rx="8" fill="#27ae60" fill-opacity="0.12" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="232" y="69" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#27ae60">一般事务人员</text>
-  <text x="232" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">图形化为-</text>
-  <text x="232" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">电话</text>
+  <text x="232" y="69" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#27ae60">G2P</text>
+  <text x="232" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">音素到-</text>
+  <text x="232" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">元音</text>
 
   <!-- Arrow 3→4 -->
   <line x1="272" y1="75" x2="287" y2="75" stroke="#666" stroke-width="1.2" marker-end="url(#arrow1)"/>
 
   <!-- Step 4: Acoustic Model -->
   <rect x="289" y="55" width="80" height="40" rx="8" fill="#f39c12" fill-opacity="0.12" stroke="#f39c12" stroke-width="1.5"/>
-  <text x="329" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">音响</text>
-  <text x="329" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">型号</text>
+  <text x="329" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">声学</text>
+  <text x="329" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">模型</text>
 
   <!-- Arrow 4→5 -->
   <line x1="369" y1="75" x2="384" y2="75" stroke="#666" stroke-width="1.2" marker-end="url(#arrow1)"/>
@@ -44,14 +44,14 @@
   <!-- Step 5: Mel Spectrogram -->
   <rect x="386" y="55" width="80" height="40" rx="8" fill="#9b59b6" fill-opacity="0.12" stroke="#9b59b6" stroke-width="1.5"/>
   <text x="426" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#9b59b6">梅尔</text>
-  <text x="426" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#9b59b6">光谱</text>
+  <text x="426" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#9b59b6">频谱图</text>
 
   <!-- Arrow 5→6 -->
   <line x1="466" y1="75" x2="481" y2="75" stroke="#666" stroke-width="1.2" marker-end="url(#arrow1)"/>
 
   <!-- Step 6: Vocoder -->
   <rect x="483" y="55" width="74" height="40" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="520" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">蒸发机</text>
+  <text x="520" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">语音解码器</text>
 
   <!-- Arrow 6→7 -->
   <line x1="557" y1="75" x2="572" y2="75" stroke="#666" stroke-width="1.2" marker-end="url(#arrow1)"/>
@@ -67,36 +67,36 @@
   <line x1="557" y1="100" x2="557" y2="107" stroke="#e74c3c" stroke-opacity="0.5" stroke-width="1.5"/>
 
   <!-- Label for bracket -->
-  <text x="423" y="122" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c" font-style="italic">端到端模型(如: VITS)合并这些阶段.</text>
+  <text x="423" y="122" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c" font-style="italic">端到端模型（例如 VITS）合并这些阶段</text>
 
   <!-- Detail boxes row -->
   <!-- Text Norm details -->
   <rect x="20" y="145" width="130" height="50" rx="6" fill="#e74c3c" fill-opacity="0.06" stroke="#e74c3c" stroke-width="1" stroke-dasharray="3,2"/>
-  <text x="85" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">缩略语-</text>
-  <text x="85" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">数字-口头形式</text>
-  <text x="85" y="184" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">"5"，，"五块钱"</text>
+  <text x="85" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">缩写 → 单词</text>
+  <text x="85" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">数字 → 口语形式</text>
+  <text x="85" y="184" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">$5$ → "five dollars"</text>
 
   <!-- G2P details -->
   <rect x="165" y="145" width="130" height="50" rx="6" fill="#27ae60" fill-opacity="0.06" stroke="#27ae60" stroke-width="1" stroke-dasharray="3,2"/>
-  <text x="230" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">信件 电话</text>
-  <text x="230" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">"你好" ~ /h ə loʊ.</text>
-  <text x="230" y="184" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">处理异名</text>
+  <text x="230" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">字母 → 元音</text>
+  <text x="230" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">“hello” → /h ə l oʊ/</text>
+  <text x="230" y="184" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">处理异构元音</text>
 
   <!-- Acoustic Model details -->
   <rect x="310" y="145" width="130" height="50" rx="6" fill="#f39c12" fill-opacity="0.06" stroke="#f39c12" stroke-width="1" stroke-dasharray="3,2"/>
-  <text x="375" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">电话，mel 帧</text>
-  <text x="375" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">持续时间、投出时间、能量</text>
-  <text x="375" y="184" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">Tacotron 2 / FastSpeech 2 变奏器</text>
+  <text x="375" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">元音 → 梅尔帧</text>
+  <text x="375" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">时长、音调、能量</text>
+  <text x="375" y="184" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">Tacotron 2 / FastSpeech 2</text>
 
   <!-- Vocoder details -->
   <rect x="455" y="145" width="130" height="50" rx="6" fill="#3498db" fill-opacity="0.06" stroke="#3498db" stroke-width="1" stroke-dasharray="3,2"/>
-  <text x="520" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">Mel – 原始音频样本</text>
-  <text x="520" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">波浪网/波浪RNN / (中文(简体)).</text>
-  <text x="520" y="184" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">HiFi - GAN / 波浪闪光</text>
+  <text x="520" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">梅尔 → 原音频样本</text>
+  <text x="520" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">WaveNet / WaveRNN /</text>
+  <text x="520" y="184" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">HiFi-GAN / WaveGlow</text>
 
   <!-- Note box -->
   <rect x="40" y="215" width="620" height="45" rx="6" fill="#f5f5f5" stroke="#333" stroke-width="1"/>
-  <text x="55" y="233" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#333">说明:</text>
-  <text x="90" y="233" font-family="Arial, sans-serif" font-size="9" fill="#666">现代端到端模型(VITS)将相声模型+vocoder合并为一个网络,直接映射</text>
-  <text x="55" y="248" font-family="Arial, sans-serif" font-size="9" fill="#666">电话/文本为原始波形。这消除了 mel分光板瓶颈,并实现了联合优化.</text>
+  <text x="55" y="233" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#333">注意：</text>
+  <text x="90" y="233" font-family="Arial, sans-serif" font-size="9" fill="#666">现代端到端模型（VITS）合并声学模型 + 语音解码器为一个网络，直接映射</text>
+  <text x="55" y="248" font-family="Arial, sans-serif" font-size="9" fill="#666">元音/文本到原始波形。 这消除了梅尔频谱图瓶颈，并允许联合优化。</text>
 </svg>

@@ -1,5 +1,5 @@
 <svg width="700" height="300" xmlns="http://www.w3.org/2000/svg">
-  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">对象检测:带类标签的取出框</text>
+  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">物体检测：带有类别的边界框</text>
 
   <!-- Scene background -->
   <rect x="50" y="40" width="600" height="220" rx="6" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="1.5"/>
@@ -25,7 +25,7 @@
   <!-- Detection box -->
   <rect x="88" y="145" width="145" height="85" fill="none" stroke="#3498db" stroke-width="2.5" rx="2"/>
   <rect x="88" y="133" width="65" height="15" rx="3" fill="#3498db"/>
-  <text x="120" y="144" fill="white" font-size="9" text-anchor="middle" font-weight="bold">0.97号车</text>
+  <text x="120" y="144" fill="white" font-size="9" text-anchor="middle" font-weight="bold">汽车 0.97</text>
 
   <!-- Car 2 - detected -->
   <rect x="290" y="165" width="100" height="50" rx="6" fill="#c0392b" opacity="0.3"/>
@@ -34,7 +34,7 @@
   <!-- Detection box -->
   <rect x="278" y="158" width="125" height="65" fill="none" stroke="#e74c3c" stroke-width="2.5" rx="2"/>
   <rect x="278" y="146" width="65" height="15" rx="3" fill="#e74c3c"/>
-  <text x="310" y="157" fill="white" font-size="9" text-anchor="middle" font-weight="bold">0.94号车</text>
+  <text x="310" y="157" fill="white" font-size="9" text-anchor="middle" font-weight="bold">汽车 0.94</text>
 
   <!-- Person - detected -->
   <ellipse cx="440" cy="140" rx="12" ry="12" fill="#f5cba7" opacity="0.5"/>
@@ -42,7 +42,7 @@
   <!-- Detection box -->
   <rect x="418" y="125" width="44" height="85" fill="none" stroke="#27ae60" stroke-width="2.5" rx="2"/>
   <rect x="418" y="113" width="80" height="15" rx="3" fill="#27ae60"/>
-  <text x="458" y="124" fill="white" font-size="9" text-anchor="middle" font-weight="bold">个人 0.91</text>
+  <text x="458" y="124" fill="white" font-size="9" text-anchor="middle" font-weight="bold">行人 0.91</text>
 
   <!-- Tree -->
   <polygon points="70,120 55,160 85,160" fill="#27ae60" opacity="0.3"/>
@@ -50,5 +50,5 @@
 
   <!-- Legend -->
   <rect x="50" y="270" width="600" height="22" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
-  <text x="350" y="285" fill="#333" font-size="10" text-anchor="middle">每一次检测:边框 (x,y,w,h)+类标签+信任分数</text>
+  <text x="350" y="285" fill="#333" font-size="10" text-anchor="middle">每个检测：边界框 (x, y, w, h) + 类标签 + 置信分数</text>
 </svg>

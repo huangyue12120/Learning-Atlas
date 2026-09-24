@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 300" width="750" height="300" font-family="Arial, sans-serif">
   <!-- Title -->
-  <text x="375" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">视频调试3D VQ- VAE</text>
+  <text x="375" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">3D VQ-VAE 用于视频标记化</text>
 
   <defs>
     <marker id="vArr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
@@ -28,17 +28,17 @@
     <line x1="42" y1="-8" x2="78" y2="-22" stroke="#999" stroke-width="1" marker-end="url(#vArr)"/>
     <text x="74" y="-26" font-size="8" fill="#999">时间</text>
   </g>
-  <text x="58" y="175" text-anchor="middle" font-size="10" fill="#333">视频框架</text>
-  <text x="58" y="187" text-anchor="middle" font-size="8" fill="#666">(T x H x W x 3) (单位:千兆克;</text>
+  <text x="58" y="175" text-anchor="middle" font-size="10" fill="#333">视频帧</text>
+  <text x="58" y="187" text-anchor="middle" font-size="8" fill="#666">(T x H x W x 3)</text>
 
   <!-- Arrow -->
   <line x1="110" y1="108" x2="148" y2="108" stroke="#666" stroke-width="1.5" marker-end="url(#vArr)"/>
 
   <!-- 3D Conv Encoder -->
   <rect x="156" y="68" width="100" height="80" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="206" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#3498db">三维Conv</text>
+  <text x="206" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#3498db">3D 卷积</text>
   <text x="206" y="114" text-anchor="middle" font-size="11" font-weight="bold" fill="#3498db">编码器</text>
-  <text x="206" y="132" text-anchor="middle" font-size="8" fill="#666">时空</text>
+  <text x="206" y="132" text-anchor="middle" font-size="8" fill="#666">时空维度</text>
 
   <!-- Arrow -->
   <line x1="264" y1="108" x2="294" y2="108" stroke="#666" stroke-width="1.5" marker-end="url(#vArr)"/>
@@ -82,10 +82,10 @@
     <line x1="71" y1="76" x2="86" y2="56" stroke="#9b59b6" stroke-width="0.4"/>
 
     <!-- Dimension labels -->
-    <text x="28" y="110" text-anchor="middle" font-size="8" fill="#9b59b6">H'x W' (英语).</text>
+    <text x="28" y="110" text-anchor="middle" font-size="8" fill="#9b59b6">H' x W'</text>
     <text x="90" y="-5" font-size="8" fill="#9b59b6">T'</text>
   </g>
-  <text x="344" y="175" text-anchor="middle" font-size="10" fill="#9b59b6">3D 缓冲网格</text>
+  <text x="344" y="175" text-anchor="middle" font-size="10" fill="#9b59b6">3D 隐式张量网格</text>
 
   <!-- Arrow -->
   <line x1="400" y1="108" x2="430" y2="108" stroke="#666" stroke-width="1.5" marker-end="url(#vArr)"/>
@@ -93,7 +93,7 @@
   <!-- 3D Quantise -->
   <rect x="438" y="72" width="82" height="72" rx="8" fill="#f39c12" fill-opacity="0.12" stroke="#f39c12" stroke-width="1.5"/>
   <text x="479" y="102" text-anchor="middle" font-size="11" font-weight="bold" fill="#f39c12">3D</text>
-  <text x="479" y="118" text-anchor="middle" font-size="11" font-weight="bold" fill="#f39c12">数量</text>
+  <text x="479" y="118" text-anchor="middle" font-size="11" font-weight="bold" fill="#f39c12">量化</text>
   <!-- Mini codebook icon -->
   <rect x="458" y="126" width="42" height="12" rx="2" fill="white" stroke="#f39c12" stroke-width="0.6"/>
   <line x1="458" y1="130" x2="500" y2="130" stroke="#f39c12" stroke-width="0.3"/>
@@ -104,9 +104,9 @@
 
   <!-- 3D Conv Decoder -->
   <rect x="566" y="68" width="100" height="80" rx="8" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="616" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#e74c3c">三维Conv</text>
+  <text x="616" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#e74c3c">3D 卷积</text>
   <text x="616" y="114" text-anchor="middle" font-size="11" font-weight="bold" fill="#e74c3c">解码器</text>
-  <text x="616" y="132" text-anchor="middle" font-size="8" fill="#666">时空</text>
+  <text x="616" y="132" text-anchor="middle" font-size="8" fill="#666">时空维度</text>
 
   <!-- Arrow -->
   <line x1="674" y1="108" x2="696" y2="108" stroke="#666" stroke-width="1.5" marker-end="url(#vArr)"/>
@@ -119,21 +119,21 @@
     <rect x="5" y="24" width="26" height="22" rx="2" fill="#3498db" opacity="0.4" stroke="#3498db" stroke-width="0.8" stroke-dasharray="2,1"/>
     <rect x="0" y="32" width="26" height="22" rx="2" fill="#3498db" opacity="0.5" stroke="#3498db" stroke-width="1" stroke-dasharray="2,1"/>
   </g>
-  <text x="718" y="175" text-anchor="middle" font-size="9" fill="#333">调正.</text>
-  <text x="718" y="187" text-anchor="middle" font-size="9" fill="#333">框架</text>
+  <text x="718" y="175" text-anchor="middle" font-size="9" fill="#333">重建 (Recon.) </text>
+  <text x="718" y="187" text-anchor="middle" font-size="9" fill="#333">帧数</text>
 
   <!-- Bottom annotation: compression factors -->
-  <text x="375" y="218" text-anchor="middle" font-size="9" fill="#999">压缩:空间(每轴4-16x)和时间(4-8x)将视频减少为紧凑的符号序列</text>
+  <text x="375" y="218" text-anchor="middle" font-size="9" fill="#999">压缩：空间维度 (每轴 4-16 倍) 和时空维度 (每帧 4-8 倍) 将视频压缩为紧凑的标记序列 </text>
 
   <!-- Compression ratios -->
   <g transform="translate(180, 235)">
     <rect x="0" y="0" width="140" height="26" rx="5" fill="#3498db" fill-opacity="0.06" stroke="#3498db" stroke-width="0.8"/>
-    <text x="70" y="11" text-anchor="middle" font-size="8" fill="#3498db" font-weight="bold">空间: H/f x W/f</text>
-    <text x="70" y="22" text-anchor="middle" font-size="7" fill="#666">f = 8或16个一般情况</text>
+    <text x="70" y="11" text-anchor="middle" font-size="8" fill="#3498db" font-weight="bold">空间：H/f x W/f </text>
+    <text x="70" y="22" text-anchor="middle" font-size="7" fill="#666">f 通常等于 8 或 16 </text>
   </g>
   <g transform="translate(360, 235)">
     <rect x="0" y="0" width="140" height="26" rx="5" fill="#f39c12" fill-opacity="0.06" stroke="#f39c12" stroke-width="0.8"/>
-    <text x="70" y="11" text-anchor="middle" font-size="8" fill="#f39c12" font-weight="bold">时间: T/f_t</text>
-    <text x="70" y="22" text-anchor="middle" font-size="7" fill="#666">f_t=4或8 通常为</text>
+    <text x="70" y="11" text-anchor="middle" font-size="8" fill="#f39c12" font-weight="bold">时间：T/f_t </text>
+    <text x="70" y="22" text-anchor="middle" font-size="7" fill="#666">f_t 通常等于 4 或 8 </text>
   </g>
 </svg>

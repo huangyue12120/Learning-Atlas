@@ -4,7 +4,7 @@
       <path d="M0,0 L8,3 L0,6 Z" fill="#666"/>
     </marker>
   </defs>
-  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">特性存储器:用于培训和服务的相同特性</text>
+  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">特征存储：训练和推理使用相同特征</text>
 
   <!-- Feature computation -->
   <rect x="30" y="60" width="120" height="50" rx="8" fill="#555" fill-opacity="0.1" stroke="#555" stroke-width="1.5"/>
@@ -15,9 +15,9 @@
 
   <!-- Feature engineering -->
   <rect x="193" y="52" width="130" height="65" rx="10" fill="#f39c12" fill-opacity="0.1" stroke="#f39c12" stroke-width="1.5"/>
-  <text x="258" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">特性</text>
-  <text x="258" y="86" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">工程学</text>
-  <text x="258" y="102" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#f39c12">两种路径的代码相同</text>
+  <text x="258" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">特征值（Feature）</text>
+  <text x="258" y="86" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">特征工程（Feature Engineering）</text>
+  <text x="258" y="102" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#f39c12">训练和推理使用相同代码</text>
 
   <!-- Split to offline and online -->
   <line x1="323" y1="70" x2="398" y2="55" stroke="#3498db" stroke-width="1.5" marker-end="url(#fs-arr)"/>
@@ -25,29 +25,29 @@
 
   <!-- Offline store -->
   <rect x="406" y="35" width="130" height="50" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="471" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">离线存储</text>
-  <text x="471" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">数据仓(批次)</text>
+  <text x="471" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">离线存储（Offline Store）</text>
+  <text x="471" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">数据仓库（批处理）（Data Warehouse (Batch)）</text>
 
   <!-- Online store -->
   <rect x="406" y="115" width="130" height="50" rx="8" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="471" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">在线存储</text>
-  <text x="471" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">Redis/DynatomDB(小于5ms) 重置/DynatomDB(小于5ms)</text>
+  <text x="471" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">在线存储（Online Store）</text>
+  <text x="471" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">Redis/DynamoDB（&lt;5 毫秒）</text>
 
   <!-- Training reads from offline -->
   <line x1="536" y1="55" x2="575" y2="55" stroke="#3498db" stroke-width="1.5" marker-end="url(#fs-arr)"/>
   <rect x="583" y="35" width="90" height="45" rx="8" fill="#3498db" fill-opacity="0.08" stroke="#3498db" stroke-width="1.5"/>
-  <text x="628" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#3498db">培训</text>
-  <text x="628" y="69" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">批号已读</text>
+  <text x="628" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#3498db">训练（Training）</text>
+  <text x="628" y="69" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">批量读取（Batch Read）</text>
 
   <!-- Serving reads from online -->
   <line x1="536" y1="140" x2="575" y2="140" stroke="#e74c3c" stroke-width="1.5" marker-end="url(#fs-arr)"/>
   <rect x="583" y="120" width="90" height="45" rx="8" fill="#e74c3c" fill-opacity="0.08" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="628" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#e74c3c">服务</text>
-  <text x="628" y="154" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">实时搜索</text>
+  <text x="628" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#e74c3c">推理（Serving）</text>
+  <text x="628" y="154" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">实时查找（Real-time Lookup）</text>
 
   <!-- Key insight box -->
   <rect x="100" y="190" width="500" height="55" rx="8" fill="#27ae60" fill-opacity="0.06" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="350" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">密钥: 相同的特性计算，没有用于培训的 skew</text>
-  <text x="350" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">没有功能商店:培训用一个方法计算用户年龄,服务于不同的计算</text>
-  <text x="350" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">□模型在推论中看到不同的特征;□沉默地错误的预测</text>
+  <text x="350" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">关键：相同特征计算 → 无训练-推理偏斜（Key: Same feature computation → No training-serving skew）</text>
+  <text x="350" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">如果没有特征存储，模型训练和推理使用不同的方法计算 `user_age`。例如，训练时计算 `user_age` 是 30 岁，而推理时计算 `user_age` 是 28 岁，导致预测错误。没有特征存储，训练阶段计算用户年龄的方式与推理阶段计算的方式不同，从而导致模型在推断时看到不同的特征，并产生无框的预测结果。</text>
+  <text x="350" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">→ 模型在推理时看到不同的特征，导致预测错误（→ Model sees different features at inference → silently wrong predictions）</text>
 </svg>

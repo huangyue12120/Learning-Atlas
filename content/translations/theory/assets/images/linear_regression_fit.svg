@@ -1,5 +1,5 @@
 <svg width="700" height="300" xmlns="http://www.w3.org/2000/svg">
-  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">线性折返:最适合线和残存线</text>
+  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">线性回归：最佳拟合线和残差</text>
 
   <!-- Axes -->
   <line x1="60" y1="250" x2="640" y2="250" stroke="#333" stroke-width="1.5"/>
@@ -9,7 +9,7 @@
 
   <!-- Best-fit line -->
   <line x1="80" y1="220" x2="620" y2="65" stroke="#3498db" stroke-width="2.5"/>
-  <text x="600" y="55" fill="#3498db" font-size="11" font-weight="bold">y = wx + b (单位:千美元)</text>
+  <text x="600" y="55" fill="#3498db" font-size="11" font-weight="bold">y = wx + b</text>
 
   <!-- Data points and residual lines -->
   <circle cx="120" cy="195" r="4.5" fill="#e74c3c" opacity="0.8"/>
@@ -46,7 +46,7 @@
   <circle cx="180" cy="292" r="4" fill="#e74c3c"/>
   <text x="195" y="296" fill="#666" font-size="10">数据点</text>
   <line x1="270" y1="292" x2="290" y2="292" stroke="#3498db" stroke-width="2"/>
-  <text x="300" y="296" fill="#666" font-size="10">最合适的行</text>
+  <text x="300" y="296" fill="#666" font-size="10">最佳拟合线 (最佳拟合直线)</text>
   <line x1="390" y1="292" x2="410" y2="292" stroke="#9b59b6" stroke-width="1.2" stroke-dasharray="3,2"/>
-  <text x="420" y="296" fill="#666" font-size="10">残留物(误差)</text>
+  <text x="420" y="296" fill="#666" font-size="10">残差 (误差) </text>
 </svg>

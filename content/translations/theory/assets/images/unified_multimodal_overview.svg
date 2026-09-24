@@ -6,7 +6,7 @@
   </defs>
 
   <!-- Title -->
-  <text x="375" y="24" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">统一多式联运结构:任何投入-任何产出</text>
+  <text x="375" y="24" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">统一多模态架构：任何输入 → 任意输出</text>
 
   <!-- ===== LEFT: Input Modalities ===== -->
   <!-- Text -->
@@ -50,22 +50,22 @@
 
   <!-- ===== Central Backbone ===== -->
   <rect x="290" y="48" width="170" height="228" rx="10" fill="#9b59b6" fill-opacity="0.12" stroke="#9b59b6" stroke-width="2"/>
-  <text x="375" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#9b59b6">共享</text>
-  <text x="375" y="156" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#9b59b6">变形器</text>
-  <text x="375" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#9b59b6">后骨</text>
+  <text x="375" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#9b59b6">共享 (Shared) </text>
+  <text x="375" y="156" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#9b59b6">Transformer (转译器) </text>
+  <text x="375" y="172" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#9b59b6">骨干 (Backbone) </text>
 
   <!-- Internal transformer layers -->
   <rect x="310" y="70" width="130" height="18" rx="4" fill="#9b59b6" fill-opacity="0.08" stroke="#9b59b6" stroke-width="0.8"/>
-  <text x="375" y="83" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">自 己 专 有</text>
+  <text x="375" y="83" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">自注意力机制 (Self-Attention) </text>
   <rect x="310" y="94" width="130" height="18" rx="4" fill="#9b59b6" fill-opacity="0.08" stroke="#9b59b6" stroke-width="0.8"/>
-  <text x="375" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">Feed 前进</text>
+  <text x="375" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">前馈神经网络 (Feed-Forward Neural Network) </text>
   <text x="375" y="126" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#9b59b6">...</text>
 
   <rect x="310" y="192" width="130" height="18" rx="4" fill="#9b59b6" fill-opacity="0.08" stroke="#9b59b6" stroke-width="0.8"/>
-  <text x="375" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">自 己 专 有</text>
+  <text x="375" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">自注意力机制</text>
   <rect x="310" y="216" width="130" height="18" rx="4" fill="#9b59b6" fill-opacity="0.08" stroke="#9b59b6" stroke-width="0.8"/>
-  <text x="375" y="229" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">Feed 前进</text>
-  <text x="375" y="252" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">N层</text>
+  <text x="375" y="229" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">前馈神经网络层</text>
+  <text x="375" y="252" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">N 个层数</text>
 
   <!-- Arrows: encoders → backbone -->
   <line x1="250" y1="69" x2="288" y2="100" stroke="#666" stroke-width="1.2" marker-end="url(#arrow-umo)"/>
@@ -112,10 +112,10 @@
   <line x1="590" y1="249" x2="618" y2="250" stroke="#666" stroke-width="1.2" marker-end="url(#arrow-umo)"/>
 
   <!-- Labels -->
-  <text x="80" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">输入模式</text>
-  <text x="205" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">编码器</text>
-  <text x="545" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">解码器</text>
-  <text x="670" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">输出模式</text>
+  <text x="80" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">输入模态集合</text>
+  <text x="205" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">编码器集合</text>
+  <text x="545" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">解码器集合</text>
+  <text x="670" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">输出模态集合</text>
 
   <!-- Dashed grouping brackets -->
   <line x1="30" y1="310" x2="130" y2="310" stroke="#ccc" stroke-width="1" stroke-dasharray="3,3"/>

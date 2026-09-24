@@ -21,26 +21,26 @@
   </defs>
 
   <!-- Title -->
-  <text x="350" y="24" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">跨潮流生成路径</text>
+  <text x="350" y="24" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">跨模态生成路径</text>
 
   <!-- Center hub -->
   <rect x="275" y="145" width="150" height="50" rx="8" fill="#9b59b6" fill-opacity="0.12" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="350" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">生成模式</text>
+  <text x="350" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">生成模型</text>
 
   <!-- Text (top, red) -->
   <rect x="295" y="42" width="110" height="40" rx="8" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
   <text x="350" y="58" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e74c3c">文本</text>
-  <text x="350" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">"日出于海洋"</text>
+  <text x="350" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">“海面上的日落”</text>
 
   <!-- Image (right, blue) -->
   <rect x="520" y="150" width="110" height="40" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
   <text x="575" y="166" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">图像</text>
-  <text x="575" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">像素/ 潜入</text>
+  <text x="575" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">像素 / 潜空间</text>
 
   <!-- Audio (bottom, green) -->
   <rect x="295" y="260" width="110" height="40" rx="8" fill="#27ae60" fill-opacity="0.12" stroke="#27ae60" stroke-width="1.5"/>
   <text x="350" y="276" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">音频</text>
-  <text x="350" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">波形/ 光谱</text>
+  <text x="350" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">波形 / 特色谱</text>
 
   <!-- Video (left, orange) -->
   <rect x="70" y="150" width="110" height="40" rx="8" fill="#f39c12" fill-opacity="0.12" stroke="#f39c12" stroke-width="1.5"/>
@@ -65,11 +65,11 @@
 
   <!-- Diagonal arrows: Text -> Image -->
   <path d="M400,62 Q490,70 525,150" fill="none" stroke="#9b59b6" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-purple)"/>
-  <text x="478" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">文本对图像</text>
+  <text x="478" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#9b59b6">文本到图像</text>
 
   <!-- Diagonal arrows: Text -> Audio -->
   <path d="M300,72 Q220,160 300,265" fill="none" stroke="#1abc9c" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-teal)"/>
-  <text x="230" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#1abc9c">文本对音频</text>
+  <text x="230" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#1abc9c">文本到音频</text>
 
   <!-- Diagonal arrows: Text -> Video -->
   <path d="M300,58 Q200,50 140,150" fill="none" stroke="#f39c12" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-orange)"/>
@@ -77,7 +77,7 @@
 
   <!-- Diagonal arrows: Image -> Text -->
   <path d="M575,150 Q560,90 405,55" fill="none" stroke="#e74c3c" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-red)"/>
-  <text x="520" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">图像对文本</text>
+  <text x="520" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">图像到文本</text>
 
   <!-- Diagonal arrows: Image -> Video -->
   <path d="M520,180 Q400,250 180,185" fill="none" stroke="#f39c12" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-orange)"/>
@@ -85,8 +85,8 @@
 
   <!-- Diagonal arrows: Audio -> Text -->
   <path d="M400,270 Q490,240 560,190" fill="none" stroke="#e74c3c" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-red)"/>
-  <text x="510" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">音频对文本</text>
+  <text x="510" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">音频到文本</text>
 
   <!-- Legend -->
-  <text x="350" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">固行=主道 | Dashed lines=直接跨模式翻译</text>
+  <text x="350" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">实线代表主要路径 | 虚线代表直接跨模态翻译</text>
 </svg>

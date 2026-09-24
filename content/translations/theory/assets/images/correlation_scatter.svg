@@ -1,6 +1,6 @@
 <svg width="700" height="230" xmlns="http://www.w3.org/2000/svg">
   <!-- Positive Correlation -->
-  <text x="110" y="20" fill="#27ae60" font-size="13" font-weight="bold" text-anchor="middle">正(r +0.9)</text>
+  <text x="110" y="20" fill="#27ae60" font-size="13" font-weight="bold" text-anchor="middle">正向（r ≈ +0.9）</text>
   <rect x="20" y="30" width="180" height="180" fill="none" stroke="#ccc" stroke-width="1" rx="3"/>
   <!-- axes -->
   <line x1="30" y1="200" x2="190" y2="200" stroke="#999" stroke-width="1"/>
@@ -22,7 +22,7 @@
   <line x1="40" y1="190" x2="185" y2="45" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="4,2"/>
 
   <!-- No Correlation -->
-  <text x="350" y="20" fill="#9b59b6" font-size="13" font-weight="bold" text-anchor="middle">无关联(r QX 0)</text>
+  <text x="350" y="20" fill="#9b59b6" font-size="13" font-weight="bold" text-anchor="middle">无相关性（r ≈ 0）</text>
   <rect x="260" y="30" width="180" height="180" fill="none" stroke="#ccc" stroke-width="1" rx="3"/>
   <line x1="270" y1="200" x2="430" y2="200" stroke="#999" stroke-width="1"/>
   <line x1="270" y1="200" x2="270" y2="40" stroke="#999" stroke-width="1"/>
@@ -41,7 +41,7 @@
   <circle cx="425" cy="120" r="3.5" fill="#9b59b6" opacity="0.7"/>
 
   <!-- Negative Correlation -->
-  <text x="590" y="20" fill="#e74c3c" font-size="13" font-weight="bold" text-anchor="middle">负 (r. ≈-0.9)</text>
+  <text x="590" y="20" fill="#e74c3c" font-size="13" font-weight="bold" text-anchor="middle">负向（r ≈ -0.9）</text>
   <rect x="500" y="30" width="180" height="180" fill="none" stroke="#ccc" stroke-width="1" rx="3"/>
   <line x1="510" y1="200" x2="670" y2="200" stroke="#999" stroke-width="1"/>
   <line x1="510" y1="200" x2="510" y2="40" stroke="#999" stroke-width="1"/>

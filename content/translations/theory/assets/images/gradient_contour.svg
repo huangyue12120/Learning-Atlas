@@ -5,7 +5,7 @@
     </marker>
   </defs>
 
-  <text x="190" y="14" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">轮廓线上的渐变向量</text>
+  <text x="190" y="14" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">梯度向量在等高线（轮廓线）上</text>
 
   <!-- Contour ellipses (representing f(x,y) = x² + y²) -->
   <ellipse cx="160" cy="105" rx="25" ry="25" fill="none" stroke="#3498db" stroke-width="1.5"/>
@@ -29,18 +29,18 @@
 
   <!-- Center point -->
   <circle cx="160" cy="105" r="3" fill="#333"/>
-  <text x="164" y="112" fill="#333" font-size="9">分钟</text>
+  <text x="164" y="112" fill="#333" font-size="9">最小化（min）</text>
 
   <!-- Legend -->
   <line x1="280" y1="60" x2="310" y2="60" stroke="#3498db" stroke-width="1.5"/>
-  <text x="315" y="63" fill="#3498db" font-size="10">轮廓线条</text>
+  <text x="315" y="63" fill="#3498db" font-size="10">等高线（contour lines）</text>
   <line x1="280" y1="80" x2="305" y2="80" stroke="#e74c3c" stroke-width="2" marker-end="url(#gc-r)"/>
-  <text x="315" y="83" fill="#e74c3c" font-size="10">∇f(升级)</text>
+  <text x="315" y="83" fill="#e74c3c" font-size="10">∇f (梯度向量) </text>
 
-  <text x="310" y="120" fill="#666" font-size="10">梯度总是</text>
-  <text x="310" y="133" fill="#666" font-size="10">垂直于等高线</text>
-  <text x="310" y="150" fill="#27ae60" font-size="10">−∇f = 下坡方向</text>
-  <text x="310" y="163" fill="#27ae60" font-size="10">(渐次下降)</text>
+  <text x="310" y="120" fill="#666" font-size="10">梯度总是垂直于等高线</text>
+  <text x="310" y="133" fill="#666" font-size="10">⊥ 等高线</text>
+  <text x="310" y="150" fill="#27ae60" font-size="10">-∇f = 下降方向（downhill）</text>
+  <text x="310" y="163" fill="#27ae60" font-size="10">(梯度下降) </text>
 
-  <text x="190" y="195" text-anchor="middle" fill="#666" font-size="10">f(x,y) = x2 + Y2,轮廓为圆形,梯度点向外</text>
+  <text x="190" y="195" text-anchor="middle" fill="#666" font-size="10">例如，对于 f(x,y) = x² + y²，等高线是圆，梯度指向圆的半径方向（ radially out）</text>
 </svg>

@@ -1,80 +1,80 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 280" width="750" height="280">
-  <text x="375" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">静态接击与连续接击</text>
+  <text x="375" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">静态批处理与连续批处理</text>
 
   <line x1="375" y1="35" x2="375" y2="270" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
 
   <!-- Static batching (left) -->
-  <text x="188" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e74c3c">静态接击</text>
+  <text x="188" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e74c3c">静态批处理</text>
 
-  <text x="30" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">槽一:</text>
-  <text x="30" y="105" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">二档:</text>
-  <text x="30" y="130" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">3号档:</text>
-  <text x="30" y="155" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">第4档:</text>
+  <text x="30" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">槽 1：</text>
+  <text x="30" y="105" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">槽 2：</text>
+  <text x="30" y="130" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">槽 3：</text>
+  <text x="30" y="155" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">槽 4：</text>
 
   <!-- Batch 1 -->
   <rect x="75" y="70" width="250" height="18" rx="3" fill="#3498db" fill-opacity="0.4" stroke="#3498db" stroke-width="1"/>
-  <text x="200" y="83" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#3498db">请求A(长)</text>
+  <text x="200" y="83" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#3498db">请求 A (较长) </text>
 
   <rect x="75" y="95" width="120" height="18" rx="3" fill="#27ae60" fill-opacity="0.4" stroke="#27ae60" stroke-width="1"/>
-  <text x="135" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#27ae60">贝克 B</text>
+  <text x="135" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#27ae60">请求 B </text>
   <rect x="195" y="95" width="130" height="18" rx="3" fill="#ddd" stroke="none"/>
-  <text x="260" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#999">IDLE(等待A级)</text>
+  <text x="260" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#999">空闲 (等待 A 完成) </text>
 
   <rect x="75" y="120" width="80" height="18" rx="3" fill="#f39c12" fill-opacity="0.4" stroke="#f39c12" stroke-width="1"/>
   <text x="115" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#f39c12">C</text>
   <rect x="155" y="120" width="170" height="18" rx="3" fill="#ddd" stroke="none"/>
-  <text x="240" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#999">标识</text>
+  <text x="240" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#999">空闲 </text>
 
   <rect x="75" y="145" width="150" height="18" rx="3" fill="#9b59b6" fill-opacity="0.4" stroke="#9b59b6" stroke-width="1"/>
-  <text x="150" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#9b59b6">D区</text>
+  <text x="150" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#9b59b6">请求 D </text>
   <rect x="225" y="145" width="100" height="18" rx="3" fill="#ddd" stroke="none"/>
-  <text x="275" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#999">标识</text>
+  <text x="275" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#999">空闲 </text>
 
   <!-- Batch boundary -->
   <line x1="325" y1="65" x2="325" y2="168" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="4,2"/>
-  <text x="333" y="76" text-anchor="start" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">批量结束</text>
-  <text x="333" y="86" text-anchor="start" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">当 A 完成时</text>
+  <text x="333" y="76" text-anchor="start" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">批处理结束 </text>
+  <text x="333" y="86" text-anchor="start" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">当 A 完成时 </text>
 
-  <text x="188" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">GPU 空闲位置等待</text>
-  <text x="188" y="197" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">请求时间最长</text>
+  <text x="188" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">GPU 槽在等待最长请求时处于空闲状态 </text>
+  <text x="188" y="197" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">等待最长请求 </text>
 
   <!-- Continuous batching (right) -->
-  <text x="562" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#27ae60">连续断接</text>
+  <text x="562" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#27ae60">连续批处理 </text>
 
-  <text x="395" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">槽一:</text>
-  <text x="395" y="105" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">二档:</text>
-  <text x="395" y="130" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">3号档:</text>
-  <text x="395" y="155" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">第4档:</text>
+  <text x="395" y="80" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">槽 1：</text>
+  <text x="395" y="105" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">槽 2：</text>
+  <text x="395" y="130" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">槽 3：</text>
+  <text x="395" y="155" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">槽 4：</text>
 
   <rect x="440" y="70" width="250" height="18" rx="3" fill="#3498db" fill-opacity="0.4" stroke="#3498db" stroke-width="1"/>
-  <text x="565" y="83" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#3498db">请求A(长)</text>
+  <text x="565" y="83" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#3498db">请求 A (较长) </text>
 
   <rect x="440" y="95" width="120" height="18" rx="3" fill="#27ae60" fill-opacity="0.4" stroke="#27ae60" stroke-width="1"/>
-  <text x="500" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#27ae60">贝克 B</text>
+  <text x="500" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#27ae60">请求 B </text>
   <rect x="562" y="95" width="128" height="18" rx="3" fill="#e67e22" fill-opacity="0.4" stroke="#e67e22" stroke-width="1"/>
-  <text x="626" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#e67e22">Req E (新编!).</text>
+  <text x="626" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#e67e22">请求 E (新！) </text>
 
   <rect x="440" y="120" width="80" height="18" rx="3" fill="#f39c12" fill-opacity="0.4" stroke="#f39c12" stroke-width="1"/>
   <text x="480" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#f39c12">C</text>
   <rect x="522" y="120" width="100" height="18" rx="3" fill="#1abc9c" fill-opacity="0.4" stroke="#1abc9c" stroke-width="1"/>
-  <text x="572" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#1abc9c">(原始内容存档于2017-03-21). Req F (new!</text>
+  <text x="572" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#1abc9c">请求 F (新！) </text>
   <rect x="624" y="120" width="66" height="18" rx="3" fill="#c0392b" fill-opacity="0.4" stroke="#c0392b" stroke-width="1"/>
   <text x="657" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#c0392b">G</text>
 
   <rect x="440" y="145" width="150" height="18" rx="3" fill="#9b59b6" fill-opacity="0.4" stroke="#9b59b6" stroke-width="1"/>
-  <text x="515" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#9b59b6">D区</text>
+  <text x="515" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#9b59b6">请求 D </text>
   <rect x="592" y="145" width="98" height="18" rx="3" fill="#2980b9" fill-opacity="0.4" stroke="#2980b9" stroke-width="1"/>
-  <text x="641" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#2980b9">(原始内容存档于2017-03-21). Req H (new!</text>
+  <text x="641" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#2980b9">请求 H (新！) </text>
 
-  <text x="562" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">立即替换已完成的请求</text>
-  <text x="562" y="197" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">• GPU 总是被充分利用</text>
+  <text x="562" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">完成的请求立即被替换 </text>
+  <text x="562" y="197" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">→ GPU 始终充分利用 </text>
 
   <!-- Bottom comparison -->
   <rect x="50" y="215" width="300" height="40" rx="6" fill="#e74c3c" fill-opacity="0.06" stroke="#e74c3c" stroke-width="1"/>
-  <text x="200" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#e74c3c">~40% GPU 利用率</text>
-  <text x="200" y="249" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">(等待时被浪费的空档)</text>
+  <text x="200" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#e74c3c">~40% 的 GPU 利用率 </text>
+  <text x="200" y="249" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">(空闲时等待浪费) </text>
 
   <rect x="400" y="215" width="300" height="40" rx="6" fill="#27ae60" fill-opacity="0.06" stroke="#27ae60" stroke-width="1"/>
-  <text x="550" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27ae60">~95% GPU 利用率</text>
-  <text x="550" y="249" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">(即时填入的分数)</text>
+  <text x="550" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27ae60">~95% 的 GPU 利用率 </text>
+  <text x="550" y="249" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">(槽立即填充) </text>
 </svg>

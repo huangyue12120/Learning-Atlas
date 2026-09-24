@@ -6,13 +6,13 @@
   </defs>
 
   <!-- Title -->
-  <text x="375" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">双重编码器对 Fusion 编码器</text>
+  <text x="375" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">双编码器与融合编码器</text>
 
   <!-- Divider -->
   <line x1="375" y1="38" x2="375" y2="260" stroke="#ccc" stroke-width="1" stroke-dasharray="6,4"/>
 
   <!-- === Left Panel: Dual Encoder === -->
-  <text x="185" y="52" font-size="12" font-weight="bold" fill="#3498db" text-anchor="middle">双重编码器</text>
+  <text x="185" y="52" font-size="12" font-weight="bold" fill="#3498db" text-anchor="middle">双编码器</text>
 
   <!-- Image input -->
   <rect x="30" y="72" width="55" height="35" rx="4" fill="#eee" stroke="#ccc" stroke-width="1"/>
@@ -23,7 +23,7 @@
   <!-- Text input -->
   <rect x="30" y="155" width="55" height="35" rx="4" fill="#eee" stroke="#ccc" stroke-width="1"/>
   <text x="57" y="175" font-size="8" fill="#666" text-anchor="middle">文本</text>
-  <text x="57" y="200" font-size="8" fill="#999" text-anchor="middle">查询</text>
+  <text x="57" y="200" font-size="8" fill="#999" text-anchor="middle">查询词</text>
 
   <!-- Arrow to image encoder -->
   <line x1="85" y1="90" x2="110" y2="90" stroke="#3498db" stroke-width="1.2" marker-end="url(#dfe-arrow)"/>
@@ -31,7 +31,7 @@
   <!-- Image Encoder -->
   <rect x="115" y="68" width="100" height="44" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
   <text x="165" y="87" font-size="10" fill="#333" text-anchor="middle">图像编码器</text>
-  <text x="165" y="101" font-size="9" fill="#666" text-anchor="middle">(视频)</text>
+  <text x="165" y="101" font-size="9" fill="#666" text-anchor="middle">(ViT)向量表示器</text>
 
   <!-- Arrow to text encoder -->
   <line x1="85" y1="172" x2="110" y2="172" stroke="#e74c3c" stroke-width="1.2" marker-end="url(#dfe-arrow)"/>
@@ -39,7 +39,7 @@
   <!-- Text Encoder -->
   <rect x="115" y="150" width="100" height="44" rx="8" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
   <text x="165" y="169" font-size="10" fill="#333" text-anchor="middle">文本编码器</text>
-  <text x="165" y="183" font-size="9" fill="#666" text-anchor="middle">(翻译)</text>
+  <text x="165" y="183" font-size="9" fill="#666" text-anchor="middle">(Transformer)自注意力机制</text>
 
   <!-- Vectors -->
   <line x1="215" y1="90" x2="248" y2="90" stroke="#3498db" stroke-width="1.2" marker-end="url(#dfe-arrow)"/>
@@ -47,23 +47,23 @@
 
   <!-- Vector boxes -->
   <rect x="252" y="78" width="40" height="24" rx="4" fill="#3498db" fill-opacity="0.2" stroke="none"/>
-  <text x="272" y="94" font-size="9" fill="#3498db" text-anchor="middle">v.i 时</text>
+  <text x="272" y="94" font-size="9" fill="#3498db" text-anchor="middle">v_i</text>
 
   <rect x="252" y="160" width="40" height="24" rx="4" fill="#e74c3c" fill-opacity="0.2" stroke="none"/>
-  <text x="272" y="176" font-size="9" fill="#e74c3c" text-anchor="middle">vt (帮助)</text>
+  <text x="272" y="176" font-size="9" fill="#e74c3c" text-anchor="middle">v_t</text>
 
   <!-- Cosine similarity -->
   <line x1="272" y1="102" x2="272" y2="158" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="4,3"/>
   <rect x="245" y="120" width="55" height="22" rx="4" fill="#f39c12" fill-opacity="0.12" stroke="#f39c12" stroke-width="1"/>
-  <text x="272" y="135" font-size="9" fill="#f39c12" text-anchor="middle" font-weight="bold">cos(v_i, v_t) 数据</text>
+  <text x="272" y="135" font-size="9" fill="#f39c12" text-anchor="middle" font-weight="bold">cos(v_i, v_t)相似度计算</text>
 
   <!-- Label -->
   <text x="185" y="230" font-size="10" fill="#666" text-anchor="middle">独立编码器</text>
   <text x="185" y="245" font-size="10" fill="#27ae60" text-anchor="middle" font-weight="bold">快速检索</text>
-  <text x="185" y="260" font-size="9" fill="#999" text-anchor="middle">O(1) 相似性计算</text>
+  <text x="185" y="260" font-size="9" fill="#999" text-anchor="middle">O(1) 标量级相似度计算</text>
 
   <!-- === Right Panel: Fusion Encoder === -->
-  <text x="565" y="52" font-size="12" font-weight="bold" fill="#9b59b6" text-anchor="middle">组合编码器</text>
+  <text x="565" y="52" font-size="12" font-weight="bold" fill="#9b59b6" text-anchor="middle">融合编码器</text>
 
   <!-- Image input -->
   <rect x="400" y="72" width="55" height="35" rx="4" fill="#eee" stroke="#ccc" stroke-width="1"/>
@@ -74,7 +74,7 @@
   <!-- Text input -->
   <rect x="400" y="155" width="55" height="35" rx="4" fill="#eee" stroke="#ccc" stroke-width="1"/>
   <text x="427" y="175" font-size="8" fill="#666" text-anchor="middle">文本</text>
-  <text x="427" y="200" font-size="8" fill="#999" text-anchor="middle">查询</text>
+  <text x="427" y="200" font-size="8" fill="#999" text-anchor="middle">查询词</text>
 
   <!-- Image features -->
   <line x1="455" y1="90" x2="490" y2="90" stroke="#3498db" stroke-width="1.2"/>
@@ -98,16 +98,16 @@
 
   <!-- Cross-Attention Transformer -->
   <rect x="585" y="100" width="130" height="62" rx="8" fill="#9b59b6" fill-opacity="0.12" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="650" y="122" font-size="10" fill="#333" text-anchor="middle">交叉捐款</text>
-  <text x="650" y="136" font-size="10" fill="#333" text-anchor="middle">变形器</text>
-  <text x="650" y="152" font-size="9" fill="#9b59b6" text-anchor="middle">(深度融合)</text>
+  <text x="650" y="122" font-size="10" fill="#333" text-anchor="middle">交叉注意力机制</text>
+  <text x="650" y="136" font-size="10" fill="#333" text-anchor="middle">(Transformer)自注意力机制</text>
+  <text x="650" y="152" font-size="9" fill="#9b59b6" text-anchor="middle">(深度融合)向量表示器混合</text>
 
   <!-- Bidirectional attention arrows inside -->
   <line x1="605" y1="108" x2="695" y2="108" stroke="#9b59b6" stroke-width="0.8" stroke-dasharray="2,2"/>
   <line x1="695" y1="155" x2="605" y2="155" stroke="#9b59b6" stroke-width="0.8" stroke-dasharray="2,2"/>
 
   <!-- Label -->
-  <text x="565" y="230" font-size="10" fill="#666" text-anchor="middle">语汇层互动</text>
-  <text x="565" y="245" font-size="10" fill="#27ae60" text-anchor="middle" font-weight="bold">B. 更丰富的理解</text>
-  <text x="565" y="260" font-size="9" fill="#999" text-anchor="middle">O(n*m) 交叉支出费用</text>
+  <text x="565" y="230" font-size="10" fill="#666" text-anchor="middle">分词级交互</text>
+  <text x="565" y="245" font-size="10" fill="#27ae60" text-anchor="middle" font-weight="bold">更丰富的理解</text>
+  <text x="565" y="260" font-size="9" fill="#999" text-anchor="middle">O(n*m) 交叉注意力成本</text>
 </svg>

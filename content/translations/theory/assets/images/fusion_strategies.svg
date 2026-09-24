@@ -15,25 +15,25 @@
   </defs>
 
   <!-- Title -->
-  <text x="400" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">多式联运学习融合战略</text>
+  <text x="400" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">融合策略用于多模态学习</text>
 
   <!-- Divider lines -->
   <line x1="267" y1="32" x2="267" y2="275" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
   <line x1="533" y1="32" x2="533" y2="275" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
 
   <!-- ====== EARLY FUSION (left panel) ====== -->
-  <text x="134" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#3498db">早期融合</text>
+  <text x="134" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#3498db">早期的融合（Early Fusion）</text>
 
   <!-- Raw inputs -->
   <rect x="64" y="230" width="58" height="30" rx="6" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="93" y="249" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">图像</text>
+  <text x="93" y="249" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">图像 (Image) </text>
 
   <rect x="146" y="230" width="58" height="30" rx="6" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="175" y="249" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">文本</text>
+  <text x="175" y="249" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">文本 (Text) </text>
 
   <!-- Concat box -->
   <rect x="74" y="190" width="120" height="26" rx="6" fill="#f39c12" fill-opacity="0.12" stroke="#f39c12" stroke-width="1.5"/>
-  <text x="134" y="207" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#f39c12">连接</text>
+  <text x="134" y="207" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#f39c12">拼接 (Concatenate) </text>
 
   <!-- Arrows from inputs to concat -->
   <line x1="93" y1="230" x2="110" y2="216" stroke="#666" stroke-width="1.2" marker-end="url(#arr-gray)"/>
@@ -41,35 +41,35 @@
 
   <!-- Shared model -->
   <rect x="84" y="126" width="100" height="46" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="134" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">共享</text>
-  <text x="134" y="162" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">型号</text>
+  <text x="134" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">共享 (Shared) </text>
+  <text x="134" y="162" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">模型 (Model) </text>
 
   <!-- Arrow concat to model -->
   <line x1="134" y1="190" x2="134" y2="172" stroke="#3498db" stroke-width="1.5" marker-end="url(#arr-blue)"/>
 
   <!-- Output -->
   <rect x="99" y="72" width="70" height="30" rx="8" fill="#3498db" fill-opacity="0.25" stroke="#3498db" stroke-width="1.5"/>
-  <text x="134" y="91" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">产出</text>
+  <text x="134" y="91" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">输出 (Output) </text>
 
   <!-- Arrow model to output -->
   <line x1="134" y1="126" x2="134" y2="102" stroke="#3498db" stroke-width="1.5" marker-end="url(#arr-blue)"/>
 
   <!-- ====== MIDDLE FUSION (center panel) ====== -->
-  <text x="400" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e74c3c">中间融合</text>
+  <text x="400" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e74c3c">中间融合（Middle Fusion）</text>
 
   <!-- Two encoder boxes -->
   <rect x="305" y="210" width="80" height="46" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="345" y="231" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#3498db">图像</text>
-  <text x="345" y="244" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#3498db">编码器</text>
+  <text x="345" y="231" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#3498db">图像 (Image) </text>
+  <text x="345" y="244" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#3498db">编码器 (Encoder) </text>
 
   <rect x="415" y="210" width="80" height="46" rx="8" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="455" y="231" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#e74c3c">文本</text>
-  <text x="455" y="244" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#e74c3c">编码器</text>
+  <text x="455" y="231" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#e74c3c">文本 (Text) </text>
+  <text x="455" y="244" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#e74c3c">编码器 (Encoder) </text>
 
   <!-- Cross-Attention box -->
   <rect x="350" y="142" width="100" height="40" rx="8" fill="#f39c12" fill-opacity="0.15" stroke="#f39c12" stroke-width="1.5"/>
-  <text x="400" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">交叉</text>
-  <text x="400" y="173" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">请注意</text>
+  <text x="400" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">交叉-</text>
+  <text x="400" y="173" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">注意力机制 (Zhùyì Zhǔ Jīxìn)</text>
 
   <!-- Arrows from encoders to cross-attention -->
   <line x1="345" y1="210" x2="375" y2="182" stroke="#666" stroke-width="1.2" marker-end="url(#arr-gray)"/>
@@ -77,39 +77,39 @@
 
   <!-- Output -->
   <rect x="365" y="72" width="70" height="30" rx="8" fill="#e74c3c" fill-opacity="0.25" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="400" y="91" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">产出</text>
+  <text x="400" y="91" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">输出 (Shūchù)</text>
 
   <!-- Arrow cross-attention to output -->
   <line x1="400" y1="142" x2="400" y2="102" stroke="#e74c3c" stroke-width="1.5" marker-end="url(#arr-red)"/>
 
   <!-- ====== LATE FUSION (right panel) ====== -->
-  <text x="666" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#27ae60">迟到的融合</text>
+  <text x="666" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#27ae60">后期融合 (Hòu Zhí Rónghé)</text>
 
   <!-- Pipeline 1: Image -->
   <rect x="575" y="220" width="70" height="36" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="610" y="236" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#3498db">图像</text>
-  <text x="610" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#3498db">编码器</text>
+  <text x="610" y="236" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#3498db">图像 (Túxíng)</text>
+  <text x="610" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#3498db">编码器 (Miǎnyànqì)</text>
 
   <rect x="575" y="160" width="70" height="36" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="610" y="176" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#3498db">图像</text>
-  <text x="610" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#3498db">医生</text>
+  <text x="610" y="176" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#3498db">图像 (Túxíng)</text>
+  <text x="610" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#3498db">预测器 (Yùjìnqì)</text>
 
   <line x1="610" y1="220" x2="610" y2="196" stroke="#3498db" stroke-width="1.2" marker-end="url(#arr-blue)"/>
 
   <!-- Pipeline 2: Text -->
   <rect x="690" y="220" width="70" height="36" rx="8" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="725" y="236" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">文本</text>
-  <text x="725" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">编码器</text>
+  <text x="725" y="236" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">文本 (Wén Zhǔan)</text>
+  <text x="725" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">编码器 (Miǎnyànqì)</text>
 
   <rect x="690" y="160" width="70" height="36" rx="8" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="725" y="176" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">文本</text>
-  <text x="725" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">医生</text>
+  <text x="725" y="176" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">文本 (Wén Zhǔan)</text>
+  <text x="725" y="188" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#e74c3c">预测器 (Yùjìnqì)</text>
 
   <line x1="725" y1="220" x2="725" y2="196" stroke="#e74c3c" stroke-width="1.2" marker-end="url(#arr-red)"/>
 
   <!-- Combine box -->
   <rect x="626" y="106" width="80" height="32" rx="8" fill="#27ae60" fill-opacity="0.15" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="666" y="126" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#27ae60">组合</text>
+  <text x="666" y="126" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#27ae60">组合 (Zǔhé)</text>
 
   <!-- Arrows to combine -->
   <line x1="610" y1="160" x2="642" y2="138" stroke="#666" stroke-width="1.2" marker-end="url(#arr-gray)"/>
@@ -117,7 +117,7 @@
 
   <!-- Final output -->
   <rect x="631" y="60" width="70" height="30" rx="8" fill="#27ae60" fill-opacity="0.25" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="666" y="79" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">产出</text>
+  <text x="666" y="79" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">输出 (Shūchù)</text>
 
   <!-- Arrow combine to output -->
   <line x1="666" y1="106" x2="666" y2="90" stroke="#27ae60" stroke-width="1.5" marker-end="url(#arr-green)"/>

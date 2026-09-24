@@ -1,11 +1,11 @@
 <svg width="700" height="320" xmlns="http://www.w3.org/2000/svg">
-  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">K- 手段分组(K=3)</text>
+  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">K-Means聚类 (K=3)</text>
 
   <!-- Axes -->
   <line x1="60" y1="270" x2="640" y2="270" stroke="#333" stroke-width="1.5"/>
   <line x1="60" y1="270" x2="60" y2="40" stroke="#333" stroke-width="1.5"/>
-  <text x="350" y="295" fill="#666" font-size="11" text-anchor="middle">特征1</text>
-  <text x="35" y="155" fill="#666" font-size="11" text-anchor="middle" transform="rotate(-90,35,155)">特征2</text>
+  <text x="350" y="295" fill="#666" font-size="11" text-anchor="middle">特征 1</text>
+  <text x="35" y="155" fill="#666" font-size="11" text-anchor="middle" transform="rotate(-90,35,155)">特征 2</text>
 
   <!-- Cluster boundaries (soft ellipses) -->
   <ellipse cx="170" cy="100" rx="85" ry="60" fill="#3498db" opacity="0.08" stroke="#3498db" stroke-width="1" stroke-dasharray="4,3"/>
@@ -62,6 +62,6 @@
   <text x="175" y="307" fill="#666" font-size="10">= 数据点</text>
   <circle cx="280" cy="303" r="6" fill="white" stroke="#666" stroke-width="2"/>
   <text x="292" y="307" fill="#666" font-size="9" font-weight="bold">C</text>
-  <text x="310" y="307" fill="#666" font-size="10">= 中间体</text>
-  <text x="460" y="307" fill="#666" font-size="10">破折=组分边界</text>
+  <text x="310" y="307" fill="#666" font-size="10">= 类心 (centroid) </text>
+  <text x="460" y="307" fill="#666" font-size="10">虚线 = 分类边界 (dashed boundary) </text>
 </svg>

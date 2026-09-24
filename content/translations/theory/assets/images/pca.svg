@@ -8,7 +8,7 @@
     </marker>
   </defs>
 
-  <text x="190" y="14" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">PCA 发现最大的差异方向</text>
+  <text x="190" y="14" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">主成分分析 (PCA) 找到方差最大的方向</text>
 
   <!-- Scattered data points (elongated cloud) -->
   <circle cx="80" cy="120" r="3" fill="#999" fill-opacity="0.5"/>
@@ -36,13 +36,13 @@
 
   <!-- PC1: main direction (longest variance) -->
   <line x1="65" y1="130" x2="278" y2="35" stroke="#e74c3c" stroke-width="2.5" marker-end="url(#pca-r)"/>
-  <text x="285" y="35" fill="#e74c3c" font-size="11" font-weight="bold">个人计算机1</text>
-  <text x="290" y="50" fill="#e74c3c" font-size="9">最大差异数</text>
+  <text x="285" y="35" fill="#e74c3c" font-size="11" font-weight="bold">PC1</text>
+  <text x="290" y="50" fill="#e74c3c" font-size="9">最大值 (variance) </text>
 
   <!-- PC2: perpendicular direction -->
   <line x1="200" y1="30" x2="145" y2="125" stroke="#3498db" stroke-width="2" marker-end="url(#pca-b)"/>
-  <text x="138" y="138" fill="#3498db" font-size="11" font-weight="bold">个人计算机2</text>
-  <text x="128" y="152" fill="#3498db" font-size="9">剩余</text>
+  <text x="138" y="138" fill="#3498db" font-size="11" font-weight="bold">PC2</text>
+  <text x="128" y="152" fill="#3498db" font-size="9">剩余值 (remaining variance) </text>
 
-  <text x="190" y="175" text-anchor="middle" fill="#666" font-size="10">将工程从2D减少到1D</text>
+  <text x="190" y="175" text-anchor="middle" fill="#666" font-size="10">将数据投影到 PC1 上，从 2D 降到 1D </text>
 </svg>

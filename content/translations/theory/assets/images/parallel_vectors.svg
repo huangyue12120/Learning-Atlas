@@ -23,6 +23,6 @@
   <line x1="260" y1="80" x2="172" y2="80" stroke="#9b59b6" stroke-width="2.5" marker-end="url(#arr-nb)"/>
   <text x="205" y="70" fill="#9b59b6" font-size="14" font-weight="bold">-b</text>
   <!-- labels -->
-  <text x="20" y="110" fill="#666" font-size="11">同样的方向</text>
-  <text x="200" y="110" fill="#666" font-size="11">向相反方向</text>
+  <text x="20" y="110" fill="#666" font-size="11">同方向</text>
+  <text x="200" y="110" fill="#666" font-size="11">反方向</text>
 </svg>

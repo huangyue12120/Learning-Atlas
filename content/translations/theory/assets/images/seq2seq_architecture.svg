@@ -4,7 +4,7 @@
       <polygon points="0 0, 7 2.5, 0 5" fill="#555"/>
     </marker>
   </defs>
-  <text x="360" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">顺序到序 (编码器-解码器) 建筑</text>
+  <text x="360" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">序列到序列（编码器-解码器）架构</text>
 
   <!-- Encoder label -->
   <rect x="40" y="38" width="280" height="24" rx="4" fill="#3498db" opacity="0.1"/>
@@ -25,9 +25,9 @@
   <line x1="210" y1="100" x2="235" y2="100" stroke="#3498db" stroke-width="1.5" marker-end="url(#s2s-arrow)"/>
 
   <!-- Input words -->
-  <text x="90" y="150" fill="#333" font-size="12" text-anchor="middle">le 语</text>
-  <text x="180" y="150" fill="#333" font-size="12" text-anchor="middle">聊天</text>
-  <text x="270" y="150" fill="#333" font-size="12" text-anchor="middle">无效</text>
+  <text x="90" y="150" fill="#333" font-size="12" text-anchor="middle">le</text>
+  <text x="180" y="150" fill="#333" font-size="12" text-anchor="middle">chat</text>
+  <text x="270" y="150" fill="#333" font-size="12" text-anchor="middle">dort</text>
   <line x1="90" y1="138" x2="90" y2="120" stroke="#555" stroke-width="1" marker-end="url(#s2s-arrow)"/>
   <line x1="180" y1="138" x2="180" y2="120" stroke="#555" stroke-width="1" marker-end="url(#s2s-arrow)"/>
   <line x1="270" y1="138" x2="270" y2="120" stroke="#555" stroke-width="1" marker-end="url(#s2s-arrow)"/>
@@ -56,9 +56,9 @@
   <line x1="540" y1="100" x2="565" y2="100" stroke="#27ae60" stroke-width="1.5" marker-end="url(#s2s-arrow)"/>
 
   <!-- Decoder input words (teacher forcing) -->
-  <text x="420" y="150" fill="#999" font-size="11" text-anchor="middle">&lt; SOS&gt; 失败</text>
-  <text x="510" y="150" fill="#999" font-size="11" text-anchor="middle">联 合 国</text>
-  <text x="600" y="150" fill="#999" font-size="11" text-anchor="middle">猫</text>
+  <text x="420" y="150" fill="#999" font-size="11" text-anchor="middle">&lt;SOS&gt;</text>
+  <text x="510" y="150" fill="#999" font-size="11" text-anchor="middle">the</text>
+  <text x="600" y="150" fill="#999" font-size="11" text-anchor="middle">cat</text>
   <line x1="420" y1="138" x2="420" y2="120" stroke="#555" stroke-width="1" marker-end="url(#s2s-arrow)"/>
   <line x1="510" y1="138" x2="510" y2="120" stroke="#555" stroke-width="1" marker-end="url(#s2s-arrow)"/>
   <line x1="600" y1="138" x2="600" y2="120" stroke="#555" stroke-width="1" marker-end="url(#s2s-arrow)"/>
@@ -68,17 +68,17 @@
   <line x1="510" y1="80" x2="510" y2="45" stroke="#555" stroke-width="1" marker-end="url(#s2s-arrow)"/>
   <line x1="600" y1="80" x2="600" y2="45" stroke="#555" stroke-width="1" marker-end="url(#s2s-arrow)"/>
 
-  <text x="420" y="40" fill="#27ae60" font-size="12" text-anchor="middle" font-weight="bold">联 合 国</text>
-  <text x="510" y="40" fill="#27ae60" font-size="12" text-anchor="middle" font-weight="bold">猫</text>
-  <text x="600" y="40" fill="#27ae60" font-size="12" text-anchor="middle" font-weight="bold">睡觉</text>
+  <text x="420" y="40" fill="#27ae60" font-size="12" text-anchor="middle" font-weight="bold">the</text>
+  <text x="510" y="40" fill="#27ae60" font-size="12" text-anchor="middle" font-weight="bold">cat</text>
+  <text x="600" y="40" fill="#27ae60" font-size="12" text-anchor="middle" font-weight="bold">sleeps</text>
 
   <!-- Labels -->
-  <text x="180" y="175" fill="#3498db" font-size="10" text-anchor="middle">法国投入</text>
-  <text x="510" y="175" fill="#27ae60" font-size="10" text-anchor="middle">英语产出</text>
+  <text x="180" y="175" fill="#3498db" font-size="10" text-anchor="middle">法语输入</text>
+  <text x="510" y="175" fill="#27ae60" font-size="10" text-anchor="middle">英语输出</text>
 
   <!-- Bottom explanation -->
   <rect x="50" y="195" width="620" height="50" rx="8" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
-  <text x="360" y="213" fill="#555" font-size="10" text-anchor="middle">编码器将输入压缩成固定大小上下文向量(最终隐藏状态).</text>
-  <text x="360" y="228" fill="#555" font-size="10" text-anchor="middle">解码器一次生成一个输出符,以这个上下文为条件.</text>
-  <text x="360" y="243" fill="#e74c3c" font-size="10" text-anchor="middle">Bottleneck:所有信息必须从一个向量挤出__引起注意.</text>
+  <text x="360" y="213" fill="#555" font-size="10" text-anchor="middle">编码器将输入压缩成固定大小的上下文向量（最终隐藏状态）。</text>
+  <text x="360" y="228" fill="#555" font-size="10" text-anchor="middle">解码器以该上下文为条件，一次生成一个输出标记。</text>
+  <text x="360" y="243" fill="#e74c3c" font-size="10" text-anchor="middle">瓶颈：所有信息都必须挤过一个向量 → 这促成了注意力机制。</text>
 </svg>

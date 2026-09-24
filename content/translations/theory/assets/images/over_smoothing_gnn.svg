@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 200" width="750" height="200">
-  <text x="375" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">过沉:与深度相接的节点地物</text>
+  <text x="375" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">过度平滑：节点特征随着深度收敛</text>
 
   <line x1="250" y1="35" x2="250" y2="190" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
   <line x1="500" y1="35" x2="500" y2="190" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
 
   <!-- Layer 1: distinct colours -->
-  <text x="125" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#333">第1层(模糊)</text>
+  <text x="125" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#333">第一层（清晰）</text>
   <circle cx="80" cy="100" r="16" fill="#e74c3c" fill-opacity="0.7" stroke="#c0392b" stroke-width="1.5"/>
   <circle cx="130" cy="80" r="16" fill="#3498db" fill-opacity="0.7" stroke="#2980b9" stroke-width="1.5"/>
   <circle cx="170" cy="110" r="16" fill="#27ae60" fill-opacity="0.7" stroke="#1e8449" stroke-width="1.5"/>
@@ -18,7 +18,7 @@
   <line x1="160" y1="125" x2="155" y2="140" stroke="#666" stroke-width="1"/>
 
   <!-- Layer 4: blending -->
-  <text x="375" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#333">第4层(混合)</text>
+  <text x="375" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#333">第四层（混合）</text>
   <circle cx="330" cy="100" r="16" fill="#8e7c5a" fill-opacity="0.5" stroke="#8e7c5a" stroke-width="1.5"/>
   <circle cx="380" cy="80" r="16" fill="#7a8866" fill-opacity="0.5" stroke="#7a8866" stroke-width="1.5"/>
   <circle cx="420" cy="110" r="16" fill="#6d8a72" fill-opacity="0.5" stroke="#6d8a72" stroke-width="1.5"/>
@@ -31,7 +31,7 @@
   <line x1="410" y1="125" x2="405" y2="140" stroke="#666" stroke-width="1"/>
 
   <!-- Layer 16: uniform -->
-  <text x="625" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e74c3c">第16层(统一!)</text>
+  <text x="625" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e74c3c">第十六层（均匀！）</text>
   <circle cx="580" cy="100" r="16" fill="#888" fill-opacity="0.4" stroke="#888" stroke-width="1.5"/>
   <circle cx="630" cy="80" r="16" fill="#888" fill-opacity="0.4" stroke="#888" stroke-width="1.5"/>
   <circle cx="670" cy="110" r="16" fill="#888" fill-opacity="0.4" stroke="#888" stroke-width="1.5"/>
@@ -43,5 +43,5 @@
   <line x1="592" y1="112" x2="600" y2="130" stroke="#666" stroke-width="1"/>
   <line x1="660" y1="125" x2="655" y2="140" stroke="#666" stroke-width="1"/>
 
-  <text x="375" y="192" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">重复平均值使所有节点表示都趋同 + 不能区分节点</text>
+  <text x="375" y="192" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">重复平均化使得所有节点表示收敛 → 无法区分节点，即向量空间维度降低，特征变得不明显。</text>
 </svg>

@@ -8,161 +8,145 @@ source:
   sha256: 96c91eeee0c1d1c9b8deeb77ab5612c1286029a6a06a428d84f70d633ef39cc7
 status: reviewed
 ---
-
 # 强化学习
 
-*强化学习通过试错训练 agent 做出序列决策，并最大化累计奖励。本篇涵盖 MDP、价值函数、Bellman 方程、Q-learning、策略梯度、actor-critic 方法、PPO 和 RLHF；这些内容是玩游戏 agent 与语言模型对齐背后的框架。*
+*强化学习通过试错最大化累积奖励来训练代理进行序列决策。本文件涵盖了MDPs、值函数、贝尔曼方程、Q-learning、策略梯度方法、演员- critic方法、PPO以及RLHF，这是游戏-playing代理和语言模型对齐的框架。*
 
-- 监督学习需要带标签的数据；无监督学习从无标签数据中寻找模式。**强化学习（reinforcement learning，RL）**与二者不同：agent 通过与环境交互、采取行动并获得奖励来学习。这里没有正确标签，agent 必须通过试错发现良好行为。
+- 监督学习需要标记数据。无监督学习在未标记数据中发现模式。**强化学习（RL）**与两者不同：代理通过与环境互动、采取行动并接收奖励来学习。没有正确的标签；代理必须通过试错来发现好的行为。RL正式化了这个过程。
 
-- 可以把它想成教狗学一个新把戏。你不会给它展示一个正确行为的数据集，而是让它尝试不同动作，对好的动作给出奖励；随着时间推移，它会逐渐理解你的要求。RL 将这个过程形式化。
+- 想象一下教狗一项新技能。你不会向它展示一组正确的行为。相反，它会尝试一些事情，你会给好行为奖励，并随着时间的推移逐渐发现你要什么。RL将这一过程形式化了。
 
-- RL 设置包含五个核心组件。**Agent** 是学习者和决策者；**环境（environment）**是 agent 之外、与它交互的一切。在每个时间步，agent 观察**状态** $s_t$，选择**动作** $a_t$，接收**奖励** $r_t$，并转移到新状态 $s_{t+1}$。agent 的目标是最大化它随时间收集的总奖励。
+- 强化学习的设置有五个核心组件。**代理**是学习者和决策制定者。**环境**是代理与之交互的一切外部因素。在每个时间步，代理观察到一个**状态**$s_t$，选择一个**动作**$a_t$，收到一个**奖励**$r_t$，并进入一个新的状态$s_{t+1}$。代理的目标是通过最大化其收集的总奖励来实现时间上的最优解。
 
-![Agent，环境循环：agent 观察状态、采取动作并收到奖励，环境再转移到新状态](../images/mdp_agent_loop.svg)
+![代理-环境循环：代理观察状态，采取行动，接收奖励，环境过渡到新状态](../images/mdp_agent_loop.svg)
 
-- **策略（policy）** $\pi$ 是 agent 的行动方案，也就是从状态映射到动作的规则。确定性策略为每个状态给出一个动作：$a = \pi(s)$。随机策略给出动作上的概率分布：$\pi(a \mid s)$。RL 的目标是找到最优策略，即最大化期望累计奖励的策略。
 
-- RL 的数学框架是**马尔可夫决策过程（Markov Decision Process，MDP）**，由五元组 $(S, A, P, R, \gamma)$ 定义：状态集合 $S$、动作集合 $A$、转移概率 $P(s' \mid s, a)$、奖励函数 $R(s, a)$ 和折扣因子 $\gamma$。
+- **策略**$\pi$是代理的战略：从状态映射到动作的函数。确定性策略为每个状态提供一个行动：$a = \pi(s)$。随机策略为动作提供概率分布：$\pi(a \mid s)$。强化学习的目标是找到最优策略，即最大化预期累积奖励。
 
-- **马尔可夫性质**（第 05 章）指出，未来只依赖当前状态，而不依赖到达当前状态的历史：$P(s_{t+1} \mid s_t, a_t, s_{t-1}, \ldots) = P(s_{t+1} \mid s_t, a_t)$。这意味着状态包含做决策所需的全部信息。
+- 强化学习的数学框架是**马尔可夫决策过程（MDP）**，由一个四元组$(S, A, P, R, \gamma)$定义：状态集$S$、动作集$A$、转换概率$P(s' \mid s, a)$、奖励函数$R(s, a)$和折扣因子$\gamma$组成。
 
-- **折扣因子** $\gamma \in [0, 1)$ 决定 agent 在多大程度上重视未来奖励而不是即时奖励。时间 $t$ 的折扣回报为：
+- **马尔可夫性质**（第5章）表明未来只取决于当前状态，而不受过去经历的影响：$P(s_{t+1} \mid s_t, a_t, s_{t-1}, \ldots) = P(s_{t+1} \mid s_t, a_t)$。这意味着状态包含了做出决策所需的所有信息。
+
+- **折扣因子**$\gamma \in [0, 1)$决定了代理对未来奖励的重视程度与即时奖励之间的关系。从时间$t$的总回报为：
 
 $$G_t = r_t + \gamma r_{t+1} + \gamma^2 r_{t+2} + \cdots = \sum_{k=0}^{\infty} \gamma^k r_{t+k}$$
+- 通过$\gamma = 0$，代理完全短视，只关心下一个奖励。通过$\gamma$接近1时，代理远见卓识。折扣因子也确保了和收敛（如果奖励是受限制的），这对于数学上的定义至关重要。
 
-- 当 $\gamma = 0$ 时，agent 完全目光短浅，只关心下一个奖励；当 $\gamma$ 接近 1 时，agent 更有远见。折扣因子还保证总和会收敛（奖励有界时），这对数学上的良定义很重要。
+- **值函数**估计在某个状态（或在某个状态下采取某个动作）的好坏程度。**状态值函数** $V^\pi(s)$ 是从状态 $s$ 开始，遵循策略 $\pi$ 的预期回报：
 
-- **价值函数**估计处于某个状态（或在某个状态采取某个动作）有多好。**状态价值函数** $V^\pi(s)$ 是从状态 $s$ 开始并遵循策略 $\pi$ 时的期望回报：
+$$V^\pi(s) = \mathbb{E}_\pi \left[ G_t \mid s_t = s \right]$$
+- The **action-value function** $Q^\pi(s, a)$ is the expected return starting from 状态 $s$, taking action $a$, and then following $\pi$:
 
-$$V^\pi(s) = \mathbb{E}_\pi \left[G_t \mid s_t = s \right]$$
+$$Q^\pi(s, a) = \mathbb{E}_\pi \left[ G_t \mid s_t = s, a_t = a \right]$$
+- The relationship: $V^\pi(s) = \sum_a \pi(a \mid s) \, Q^\pi(s, a)$. The 状态 value is the average of action values, weighted by the policy.
 
-- **动作价值函数** $Q^\pi(s, a)$ 是从状态 $s$ 开始、采取动作 $a$，然后遵循 $\pi$ 时的期望回报：
+- **贝尔曼方程**表示一个递归关系：状态的价值等于立即奖励加上下一个状态的折扣价值。对于状态值函数：
 
-$$Q^\pi(s, a) = \mathbb{E}_\pi \left[G_t \mid s_t = s, a_t = a \right]$$
+$$V^\pi(s) = \sum_a \pi(a \mid s) \sum_{s'} P(s' \mid s, a) \left[ R(s, a) + \gamma \, V^\pi(s') \right]$$
+- 对于最优值函数 $V^{*}(s)$，代理总是选择最好的动作：
 
-- 二者关系为：$V^\pi(s) = \sum_a \pi(a \mid s) \, Q^\pi(s, a)$。状态价值是各动作价值按策略加权后的平均值。
+$$V^{*}(s) = \max_a \sum_{s'} P(s' \mid s, a) \left[ R(s, a) + \gamma \, V^{*}(s') \right]$$
+- 同样，$Q^{*}$的贝尔曼最优方程是：
 
-- **Bellman 方程**表达递归关系：一个状态的价值等于即时奖励加上下一状态的折扣价值。对于状态价值函数：
+$$Q^{*}(s, a) = \sum_{s'} P(s' \mid s, a) \left[ R(s, a) + \gamma \max_{a'} Q^{*}(s', a') \right]$$
+- 一旦你拥有 $Q^{*}$，最优策略非常简单：总是选择具有最高 Q 值的动作：$\pi^{*}(s) = \arg\max_a Q^{*}(s, a)$。
 
-$$V^\pi(s) = \sum_a \pi(a \mid s) \sum_{s'} P(s' \mid s, a) \left[R(s, a) + \gamma \, V^\pi(s') \right]$$
+- 动态规划方法用于解决已知转移概率和奖励（完整模型）的MDP。策略评估计算 $V^\pi$ 对于给定的策略，通过迭代应用贝尔曼方程直到收敛。**策略改进**使用价值函数构造一个更好的策略： $\pi'(s) = \arg\max_a \sum_{s'} P(s' \mid s, a)[R(s,a) + \gamma V^\pi(s')]$当然，请提供您需要翻译的英文文本。
 
-- 对于最优价值函数 $V^{*}(s)$，agent 总是选择最好的动作：
+- **策略迭代**交替进行评估和改进，直到策略不再变化。它保证能够收敛到最优策略。
 
-$$V^{*}(s) = \max_a \sum_{s'} P(s' \mid s, a) \left[R(s, a) + \gamma \, V^{*}(s') \right]$$
+- **值迭代**将两个步骤合并为一个：它反复应用贝尔曼最优方程，直到 $V^{*}$ 收敛，然后提取策略。
 
-- 同样，$Q^{*}$ 的 **Bellman 最优性方程**为：
+$$V(s) \leftarrow \max_a \sum_{s'} P(s' \mid s, a) \left[ R(s, a) + \gamma \, V(s') \right]$$
+- 动态规划需要知道 $P(s' \mid s, a)$，这在大多数实际问题中是不现实的。通常情况下，代理只能与环境进行交互，而无法了解其动态。这就是模型自由方法发挥作用的地方。
 
-$$Q^{*}(s, a) = \sum_{s'} P(s' \mid s, a) \left[R(s, a) + \gamma \max_{a'} Q^{*}(s', a') \right]$$
+- **时间差（TD）学习**通过经验学习，而不需要知道模型。关键思想是 **回溯**：而不是等到整个episode结束才计算实际回报 $G_t$，而是使用当前的价值函数进行估计：
 
-- 一旦得到 $Q^{*}$，最优策略就很简单：始终选择 Q 值最高的动作：$\pi^{*}(s) = \arg\max_a Q^{*}(s, a)$。
+$$V(s_t) \leftarrow V(s_t) + \alpha \left[ r_t + \gamma \, V(s_{t+1}) - V(s_t) \right]$$
+- 本括号内的术语是 **TD误差**：目标值（$r_t + \gamma V(s_{t+1})$）与当前估计 $V(s_t)$ 的差值。如果 TD误差为正，说明状态比预期更好，因此我们增加其值。如果负数，则减少其值。
 
-- 当知道转移概率和奖励（完整模型）时，**动态规划**方法可以求解 MDP。**策略评估**通过反复应用 Bellman 方程直至收敛，计算给定策略的 $V^\pi$。**策略改进**根据价值函数构造更好策略，方法是贪心地行动：$\pi'(s) = \arg\max_a \sum_{s'} P(s' \mid s, a)[R(s,a) + \gamma V^\pi(s')]$。
+![状态转换显示TD目标：当前值、奖励和通过更新公式计算的后续值](../images/td_update.svg)
 
-- **策略迭代**在策略评估与策略改进之间交替执行，直到策略不再变化；它保证收敛到最优策略。
 
-- **价值迭代**把两个步骤合并为一个：反复应用 Bellman 最优性方程，直到 $V^{*}$ 收敛，然后提取策略。
+- TD学习在每次单步后更新，而不是在完成整个 episode后，这使得它比蒙特卡洛方法更高效。此外，在非 episodic（持续）环境中也适用。
 
-$$V(s) \leftarrow \max_a \sum_{s'} P(s' \mid s, a) \left[R(s, a) + \gamma \, V(s') \right]$$
+- **SARSA**（状态-动作-奖励-状态-动作）是将TD学习应用于Q值的强化学习方法。代理在状态 $s$ 中采取了动作 $a$，观察到了奖励 $r$ 和下一个状态 $s'$，然后根据其策略选择下一个动作 $a'$。
 
-- 动态规划要求知道 $P(s' \mid s, a)$，这在很多情况下并不现实。在大多数真实问题中，agent 不知道环境的动力学，只能与环境交互。这就需要**无模型（model-free）**方法。
+$$Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma \, Q(s', a') - Q(s, a) \right]$$
+- SARSA 是 **策略学习**：它使用实际采取的动作进行更新，包括探索。这使得 SARSA 更保守；它学习一个考虑自己探索噪声的策略。
 
-- **时序差分（Temporal Difference，TD）学习**在不知道环境模型的情况下从经验中学习。核心思想是**自举（bootstrapping）**：不必等到 episode 结束才计算实际回报 $G_t$，而是使用当前价值函数估计它：
+- **Q-learning** 是最著名的强化学习算法。它类似于 SARSA，但不是使用代理实际采取的动作，而是使用最佳可能的动作：
 
-$$V(s_t) \leftarrow V(s_t) + \alpha \left[r_t + \gamma \, V(s_{t+1}) - V(s_t) \right]$$
+$$Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma \max_{a'} Q(s', a') - Q(s, a) \right]$$
+- Q-learning是**非策略学习**：它学习最优的Q值，而不管当前采取的是什么策略。即使在随机探索的情况下，它也能学习到最优的动作值。这使得Q-learning更加激进，并且通常收敛速度更快，但可能会高估价值。
 
-- 方括号中的项是 **TD 误差**：**TD 目标**（$r_t + \gamma V(s_{t+1})$）与当前估计 $V(s_t)$ 之间的差。如果 TD 误差为正，说明状态比预期更好，于是提高它的价值；如果为负，则降低价值。
+- **探索与利用**是基本的困境：代理应该利用它已经知道的东西（选择估计值最高的行动）还是探索未知的动作（可能会发现更好的）？
 
-![状态转移与 TD 目标：当前价值、奖励和自举得到的下一状态价值，以及更新公式](../images/td_update.svg)
+- 最简单的策略是 **epsilon-greedy**：以概率 $\epsilon$ 采取随机动作（探索）；以概率 $1 - \epsilon$ 采取贪婪动作（ exploitation）。一个常见的调度从高 $\epsilon$（大量探索）开始，并随着时间的推移而衰减。
 
-- TD 学习每一步之后都更新（而不是等完整 episode 结束），因此比 Monte Carlo 方法高效得多。它也适用于持续运行的（非 episode）环境。
+- 表格方法（在每个状态动作对中存储一个值）适用于小型离散状态空间。对于大型或连续状态空间，你需要函数近似。**深度Q网络（DQN）**使用神经网络来近似 $Q(s, a; \theta)$，其中 $\theta$ 是网络权重。
 
-- **SARSA**（State-Action-Reward-State-Action）是应用于 Q 值的 TD 学习。agent 在状态 $s$ 中采取动作 $a$，观察奖励 $r$ 和下一个状态 $s'$，然后根据自身策略选择下一个动作 $a'$：
+- DQN引入了两个关键的稳定化技术。**经验回放**：而不是从连续的转换中学习（这些转换高度相关），将转换存储在经验缓冲区中，并随机采样小批量进行训练。这打破了相关性，有效地重用数据。
 
-$$Q(s, a) \leftarrow Q(s, a) + \alpha \left[r + \gamma \, Q(s', a') - Q(s, a) \right]$$
+- **目标网络**：使用一个单独、缓慢更新的网络来计算TD目标。如果没有这个，目标每次更新网络时都会移动，导致“追尾自己”的不稳定。目标网络每 $N$ 步进行硬更新（即一次性更新），或持续更新（软更新：$\theta^{-} \leftarrow \tau\theta + (1-\tau)\theta^{-}$）。
 
-- SARSA 是**同策略（on-policy）**方法：它使用 agent 实际采取的动作更新，其中包括探索。这使 SARSA 更保守；它学习到的策略会把自身的探索噪声考虑在内。
+- DQN的损失函数仅仅是预测Q值与TD目标之间的均方误差（MSE）：
 
-- **Q-learning** 是最著名的 RL 算法。它类似 SARSA，但不使用 agent 实际采取的动作，而使用可能的最佳动作：
+$$\mathcal{L}(\theta) = \mathbb{E} \left[ \left( r + \gamma \max_{a'} Q(s', a'; \theta^{-}) - Q(s, a; \theta) \right)^2 \right]$$
+- 直到目前为止，所有方法都学习价值函数并从它们中推导出策略。 **策略梯度** 方法采取了不同的方法：他们直接参数化策略 $\pi(a \mid s; \theta)$ 并通过期望回报的梯度上升优化它。
 
-$$Q(s, a) \leftarrow Q(s, a) + \alpha \left[r + \gamma \max_{a'} Q(s', a') - Q(s, a) \right]$$
+- **策略梯度定理** 给出了策略参数相对于期望回报的梯度：
 
-- Q-learning 是**离策略（off-policy）**方法：无论遵循什么策略，它都能学习最优 Q 值。agent 可以随机探索，同时学习最优动作价值。这让 Q-learning 更激进，通常收敛更快，但可能高估价值。
+$$\nabla_\theta J(\theta) = \mathbb{E}_\pi \left[ \nabla_\theta \log \pi(a \mid s; \theta) \cdot G_t \right]$$
+- 这句话的意思是：增加导致高回报的动作概率，减少导致低回报的动作概率。对策略的对数概率梯度给出了改变的方向，$G_t$决定了改变的程度。
 
-- **探索与利用**是根本性两难：agent 应该利用已知信息（选择估计价值最高的动作），还是探索未知动作（它们可能更好）？
-
-- 最简单的策略是 **epsilon-greedy**：以 $\epsilon$ 的概率采取随机动作（探索），以 $1 - \epsilon$ 的概率采取贪心动作（利用）。常见做法是从较高的 $\epsilon$ 开始（大量探索），再随时间衰减。
-
-- 表格方法（为每个状态，动作对保存一个值）适用于小型离散状态空间。对于大型或连续状态空间，需要函数近似。**深度 Q 网络（Deep Q-Networks，DQN）**使用神经网络近似 $Q(s, a; \theta)$，其中 $\theta$ 是网络权重。
-
-- DQN 引入了两项关键稳定化技术。**经验回放**：不要从高度相关的连续转移中学习，而是把转移存进 replay buffer，再随机采样 mini-batch 训练。这会打破相关性，并高效复用数据。
-
-- **目标网络**：使用网络的独立、缓慢更新副本计算 TD 目标。如果没有它，目标会在每次更新网络时移动，产生“追自己的尾巴”式的不稳定。目标网络可以定期更新（每 $N$ 步硬更新），也可以持续软更新：$\theta^{-} \leftarrow \tau\theta + (1-\tau)\theta^{-}$。
-
-- DQN 损失就是预测 Q 值与 TD 目标之间的 MSE：
-
-$$\mathcal{L}(\theta) = \mathbb{E} \left[\left(r + \gamma \max_{a'} Q(s', a'; \theta^{-}) - Q(s, a; \theta) \right)^2 \right]$$
-
-- 到目前为止的方法都学习价值函数，再从价值函数推导策略。**策略梯度**方法采取了不同路径：它直接参数化策略 $\pi(a \mid s; \theta)$，通过对期望回报做梯度上升来优化它。
-
-- **策略梯度定理**给出了期望回报关于策略参数的梯度：
-
-$$\nabla_\theta J(\theta) = \mathbb{E}_\pi \left[\nabla_\theta \log \pi(a \mid s; \theta) \cdot G_t \right]$$
-
-- 这意味着：提高带来高回报的动作概率，降低带来低回报的动作概率。对数概率的梯度给出策略改变的方向，而 $G_t$ 决定改变幅度。
-
-- **REINFORCE** 是最简单的策略梯度算法。运行一个 episode，计算每一步的回报 $G_t$，然后更新：
+- **强化学习** 是最简单的策略梯度算法。运行一个回合，计算每个步骤的回报 $G_t$，然后更新：
 
 $$\theta \leftarrow \theta + \alpha \, \nabla_\theta \log \pi(a_t \mid s_t; \theta) \cdot G_t$$
-
-- REINFORCE 方差很高，因为 $G_t$ 是期望回报的带噪单样本估计。常见修复方法是减去一个**基线（baseline）**（通常是平均回报或学习得到的价值函数），在不引入偏差的情况下降低方差：
+- REINFORCE 的方差较高，因为 $G_t$ 是一个噪声、单样本估计的预期回报。一种常见的解决方法是减去一个 **基线**（通常是平均回报或学习到的价值函数），以减少方差而不引入偏差：
 
 $$\theta \leftarrow \theta + \alpha \, \nabla_\theta \log \pi(a_t \mid s_t; \theta) \cdot (G_t - b)$$
-
-- **Actor-Critic** 方法使用两个网络。**Actor** 是策略 $\pi(a \mid s; \theta)$；**Critic** 是充当基线的价值函数 $V(s; \phi)$。优势 $A_t = r_t + \gamma V(s_{t+1}) - V(s_t)$ 替代 $G_t - b$：
+- **Actor-Critic**方法使用两个网络。**actor**是策略 $\pi(a \mid s; \theta)$。**critic**是一个值函数 $V(s; \phi)$，作为基准。优势 $A_t = r_t + \gamma V(s_{t+1}) - V(s_t)$取代了 $G_t - b$:
 
 $$\theta \leftarrow \theta + \alpha \, \nabla_\theta \log \pi(a_t \mid s_t; \theta) \cdot A_t$$
+- 该批评者通过最小化TD误差，就像价值方法一样进行更新。演员使用策略梯度进行更新，并且利用批评者的优势估计来减少方差。这是最好的两者之和。
 
-- Critic 通过最小化 TD 误差来更新，就像基于价值的方法一样。Actor 使用策略梯度更新，critic 的优势估计可以降低方差。这兼具两类方法的优点。
+![双头架构：演员输出动作概率，批评家输出价值估计，优势信号引导演员更新](../images/actor_critic.svg)
 
-![双头架构：actor 输出动作概率，critic 输出价值估计，优势信号指导 actor 更新](../images/actor_critic.svg)
 
-- **PPO（Proximal Policy Optimization，近端策略优化）**是实践中最广泛使用的策略梯度算法。它解决了一个关键问题：如果策略更新太大，性能可能灾难性崩溃。
+- **PPO**（近似策略优化）是实践中最常用的策略梯度算法。它解决了一个问题：如果策略更新过大，性能会突然崩溃。
 
-- PPO 使用**裁剪替代目标**。令 $r_t(\theta) = \frac{\pi(a_t | s_t; \theta)}{\pi(a_t | s_t; \theta_{\text{old}})}$ 表示新旧策略之间的概率比，损失为：
+- PPO 使用了 **截断的替代目标函数**。设 $r_t(\theta) = \frac{\pi(a_t | s_t; \theta)}{\pi(a_t | s_t; \theta_{\text{old}})}$ 为新旧策略的概率比。损失是：
 
-$$\mathcal{L}^{\text{CLIP}}(\theta) = \mathbb{E} \left[\min\!\left(r_t(\theta) A_t, \; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t \right) \right]$$
+$$\mathcal{L}^{\text{CLIP}}(\theta) = \mathbb{E} \left[ \min\!\left( r_t(\theta) A_t, \; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t \right) \right]$$
+- 剪裁（通常为 $\epsilon = 0.2$）防止比值偏离1，从而保持更新较小且稳定。如果优势是正的（动作做得好），比值会被限制在 $1 + \epsilon$。如果是负的（动作不好），比值会被限制在 $1 - \epsilon$。这种方法更简单和稳定，优于早期的信任区域方法（TRPO）。
 
-- 裁剪（通常 $\epsilon = 0.2$）防止概率比偏离 1 太远，从而让更新小而稳定。如果优势为正（动作是好的），概率比上限为 $1 + \epsilon$；如果优势为负（动作是坏的），概率比下限为 $1 - \epsilon$。这比早期的信赖域方法（TRPO）更简单、更稳定。
+- PPO 是用于训练具有聊天GPT风格的模型的 **RLHF**（从人类反馈中学习强化）。在 RLHF 中，一个奖励模型通过人类偏好数据（选择两个输出中的哪一个？）进行训练，并且 PPO 优化语言模型的策略以最大化这个学习到的奖励。
 
-- 通过 **RLHF**（Reinforcement Learning from Human Feedback，基于人类反馈的强化学习）训练 ChatGPT 风格模型时使用的就是 PPO。在 RLHF 中，先用人类偏好数据（人类更喜欢两个输出中的哪一个？）训练奖励模型，再用 PPO 优化语言模型策略，最大化学习到的奖励。
+- **DPO**（直接偏好优化）简化了RLHF，通过完全消除奖励模型来实现。而不是先训练奖励模型再运行RL，DPO从偏好数据中推导出一个闭合形式的损失函数，直接优化策略：
 
-- **DPO**（Direct Preference Optimization，直接偏好优化）通过完全去掉奖励模型来简化 RLHF。它不训练奖励模型再运行 RL，而是从偏好数据推导闭式损失，直接优化策略：
+$$\mathcal{L}_{\text{DPO}}(\theta) = -\mathbb{E} \left[ \log \sigma\!\left( \beta \log \frac{\pi_\theta(y_w \mid x)}{\pi_{\text{ref}}(y_w \mid x)} - \beta \log \frac{\pi_\theta(y_l \mid x)}{\pi_{\text{ref}}(y_l \mid x)} \right) \right]$$
+- $y_w$是 preferred（获胜）响应，$y_l$是 dispreferred（失败）响应。DPO增加了 preferred输出的相对概率，并且比基于PPO的RLHF要简单得多。
 
-$$\mathcal{L}_{\text{DPO}}(\theta) = -\mathbb{E} \left[\log \sigma\!\left(\beta \log \frac{\pi_\theta(y_w \mid x)}{\pi_{\text{ref}}(y_w \mid x)} - \beta \log \frac{\pi_\theta(y_l \mid x)}{\pi_{\text{ref}}(y_l \mid x)} \right) \right]$$
+- 两个重要的区分在 RL 算法中。 **On-policy vs off-policy**：on-policy 方法（SARSA、PPO）从当前策略生成的数据中学习；off-policy 方法（Q-learning、DQN）可以利用任何策略生成的数据进行学习。off-policy 方法更高效地使用旧数据，但稳定性可能较差。
 
-- 这里 $y_w$ 是偏好的（获胜）回答，$y_l$ 是不偏好的（落败）回答。DPO 提高偏好输出的相对概率，比基于 PPO 的 RLHF 更易实现。
+- **Model-based vs model-free**：model-free 方法（迄今为止讨论的所有内容）直接从经验中学习值或策略。模型基于方法学习环境的模型（$P(s' \mid s, a)$ 和 $R(s, a)$），并使用它进行规划（想象未来的轨迹而不需要实际采取行动）。模型基于方法更高效，但增加了学习准确模型的复杂性。
 
-- RL 算法中有两组重要区分。**同策略与离策略**：同策略方法（SARSA、PPO）从当前策略生成的数据中学习；离策略方法（Q-learning、DQN）可以从任何策略生成的数据中学习。离策略方法更节省样本（可以复用旧数据），但稳定性可能较差。
+- 总结 RL 领域：
 
-- **基于模型与无模型**：无模型方法（前面讨论的全部方法）直接从经验中学习价值或策略；基于模型的方法学习环境模型（$P(s' \mid s, a)$ 和 $R(s, a)$），再用它规划（想象未来轨迹，而不用真正采取动作）。基于模型的方法更节省样本，但增加了学习准确环境模型的复杂性。
-
-- RL 方法全景可以概括为：
-
-| 方法 | 类型 | 核心思想 | 优势 |
-|---|---|---|---|
-| Value Iteration | DP、基于模型 | Bellman 最优性 | 精确解（小型 MDP） |
-| SARSA | TD、同策略 | 按同策略学习 Q | 保守、安全 |
-| Q-Learning | TD、离策略 | 学习 Q*，使用贪心目标 | 简单、有效 |
-| DQN | 深度、离策略 | 神经 Q + 回放 + 目标网络 | 可扩展到高维状态 |
-| REINFORCE | 策略梯度 | 对数概率 × 回报的梯度 | 策略优化简单 |
-| Actor-Critic | PG + value | Actor + Critic，降低方差 | 实用、灵活 |
-| PPO | PG、裁剪 | 类信赖域稳定性 | 工业标准 |
+| 方法 | 类型 | 关键思想 | 强度 |
+|---|---|---|---| 值迭代 | DP，模型基于方法 | Bellman 最优性 | 精确解（小 MDPs） |
+| SARSA | TD，on-policy | 学习 Q on-policy | 安全、保守 |
+| Q-Learning | TD，off-policy | 学习 Q*，贪婪目标 | 简单、有效 |
+| DQN | 深度，off-policy | 神经网络 Q + 回放 + 目标网络 | 在高维状态中可扩展 |
+| REINFORCE | 政策梯度 | 策略概率的梯度乘以回报 | 简单的策略优化 |
+| Actor-Critic | PG + 值函数 | 动物和批评家用于低方差 | 实用且灵活 |
+| PPO | PG，裁剪 | 信任区域稳定性 | 行业标准 |
 | DPO | 直接偏好 | 跳过奖励模型 | 更简单的 RLHF |
 
-## 编程任务（使用 CoLab 或 notebook）
+## 编程任务（使用 CoLab 或笔记本）
 
-1. 为简单的 gridworld 实现价值迭代。计算最优价值函数并提取最优策略；分别用热力图和箭头图可视化二者。
+1. 实现一个简单的网格世界中的值迭代。计算最优值函数并提取最优策略。可视化两者作为热图和箭头图。
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
@@ -227,7 +211,7 @@ for i in range(grid_size):
 plt.tight_layout(); plt.show()
 ```
 
-2. 在简单的 gridworld 上实现表格 Q-learning。训练 agent，绘制学习曲线，并展示学到的 Q 值。
+2. 实现一个简单的网格世界的表格 Q-learning。训练代理，绘制学习曲线，并显示学到的 Q 值。
 ```python
 import jax
 import jax.numpy as jnp
@@ -304,7 +288,7 @@ for i in range(grid_size):
     print(row)
 ```
 
-3. 在多臂老虎机问题上实现 REINFORCE。展示训练过程中策略如何逐渐偏向最佳臂。
+3. 实现一个多臂老虎机问题中的 REINFORCE。展示策略如何在训练过程中逐渐偏好最好的臂。
 ```python
 import jax
 import jax.numpy as jnp

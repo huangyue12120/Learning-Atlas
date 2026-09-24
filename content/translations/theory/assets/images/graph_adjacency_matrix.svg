@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 200" width="650" height="200">
-  <text x="325" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">图表及其附带性矩阵</text>
+  <text x="325" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">一个图及其邻接矩阵</text>
 
   <!-- Graph drawing -->
   <circle cx="100" cy="80" r="16" fill="#3498db" fill-opacity="0.2" stroke="#3498db" stroke-width="2"/>
@@ -50,8 +50,8 @@
   <text x="460" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#ccc">0</text>
 
   <!-- Notes -->
-  <text x="540" y="90" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">A_ij = 1 如果边缘</text>
+  <text x="540" y="90" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">A_ij = 1 如果有边</text>
   <text x="540" y="108" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">A_ij = 0 否则</text>
-  <text x="540" y="130" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">对称(未定向)</text>
-  <text x="540" y="148" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">对角=0(无自带)</text>
+  <text x="540" y="130" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">对称（无向）</text>
+  <text x="540" y="148" text-anchor="start" font-family="Arial, sans-serif" font-size="9" fill="#666">对角线为 0 (没有自来结) </text>
 </svg>

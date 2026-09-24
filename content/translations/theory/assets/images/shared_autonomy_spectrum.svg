@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 180" width="700" height="180">
-  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">共同自主:将人和机器人控制结合起来</text>
+  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">共享自主：融合人类和机器人控制</text>
 
   <!-- Spectrum bar -->
   <defs>
@@ -17,17 +17,17 @@
   <text x="350" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f39c12">α = 0.5</text>
   <text x="620" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">α = 0</text>
 
-  <text x="80" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">电信业务</text>
-  <text x="80" y="126" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">人类控制</text>
+  <text x="80" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">遥操作（Teleoperation）</text>
+  <text x="80" y="126" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">人类控制全部</text>
 
-  <text x="350" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#f39c12">共享控制</text>
-  <text x="350" y="126" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#f39c12">混合输入</text>
+  <text x="350" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#f39c12">共享控制（Shared Control）</text>
+  <text x="350" y="126" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#f39c12">混合输入（blended input）</text>
 
-  <text x="620" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">完全自治</text>
+  <text x="620" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#3498db">完全自主（Full Autonomy）</text>
   <text x="620" y="126" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">机器人控制全部</text>
 
   <!-- Formula -->
-  <text x="350" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">u=α u_人类+(1−α) u_机器人</text>
+  <text x="350" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">u = α · u_human + (1 − α) · u_robot</text>
 
-  <text x="350" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">适应系统根据机器人的信心和情况复杂程度调整α</text>
+  <text x="350" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">自适应系统根据机器人的置信度和情境复杂度调整α值</text>
 </svg>

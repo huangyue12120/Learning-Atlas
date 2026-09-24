@@ -5,10 +5,10 @@
     </marker>
   </defs>
 
-  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">抽样:适当诉. 别名</text>
+  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">取样：正确的与混叠的</text>
 
   <!-- ===== LEFT PANEL: Proper Sampling ===== -->
-  <text x="170" y="48" fill="#27ae60" font-size="12" font-weight="bold" text-anchor="middle">fs &gt; 2f：正确采样</text>
+  <text x="170" y="48" fill="#27ae60" font-size="12" font-weight="bold" text-anchor="middle">fs &gt; 2f : 正确的取样</text>
 
   <!-- Left axes -->
   <line x1="30" y1="150" x2="315" y2="150" stroke="#999" stroke-width="0.8" marker-end="url(#sa-arrow)"/>
@@ -55,13 +55,13 @@
   <line x1="172" y1="215" x2="172" y2="150" stroke="#27ae60" stroke-width="0.6" opacity="0.35"/>
   <line x1="267" y1="85" x2="267" y2="150" stroke="#27ae60" stroke-width="0.6" opacity="0.35"/>
 
-  <text x="170" y="243" fill="#27ae60" font-size="9" text-anchor="middle">重构信号匹配正版</text>
+  <text x="170" y="243" fill="#27ae60" font-size="9" text-anchor="middle">重建信号与原始信号匹配</text>
 
   <!-- ===== Divider ===== -->
   <line x1="345" y1="40" x2="345" y2="250" stroke="#ddd" stroke-width="1.5" stroke-dasharray="5,4"/>
 
   <!-- ===== RIGHT PANEL: Aliased ===== -->
-  <text x="525" y="48" fill="#e74c3c" font-size="12" font-weight="bold" text-anchor="middle">fs &lt; 2f : 异名</text>
+  <text x="525" y="48" fill="#e74c3c" font-size="12" font-weight="bold" text-anchor="middle">fs &lt; 2f : 混叠现象</text>
 
   <!-- Right axes -->
   <line x1="375" y1="150" x2="670" y2="150" stroke="#999" stroke-width="0.8" marker-end="url(#sa-arrow)"/>
@@ -99,15 +99,15 @@
     C 612,90 640,140 660,150" fill="none" stroke="#e74c3c" stroke-width="2" stroke-dasharray="8,4"/>
 
   <!-- Label for the aliased wave -->
-  <text x="525" y="240" fill="#e74c3c" font-size="9" text-anchor="middle">显式低频信号(别名)</text>
+  <text x="525" y="240" fill="#e74c3c" font-size="9" text-anchor="middle">显现出的低频信号（混叠）</text>
 
   <!-- Legend -->
   <line x1="395" y1="70" x2="420" y2="70" stroke="#3498db" stroke-width="1.5" opacity="0.4"/>
-  <text x="425" y="73" fill="#3498db" font-size="8">真实信号(隐藏)</text>
+  <text x="425" y="73" fill="#3498db" font-size="8">真实的信号（隐藏）</text>
   <line x1="500" y1="70" x2="525" y2="70" stroke="#e74c3c" stroke-width="2" stroke-dasharray="6,3"/>
-  <text x="530" y="73" fill="#e74c3c" font-size="8">别名重建</text>
+  <text x="530" y="73" fill="#e74c3c" font-size="8">混叠重建</text>
 
   <!-- Bottom note -->
   <rect x="90" y="268" width="520" height="22" rx="4" fill="#f5f5f5" stroke="#333" stroke-width="0.8"/>
-  <text x="350" y="283" fill="#333" font-size="10" text-anchor="middle">Nyquist定理:在QX 2x的最高频率取出样本,以避免别名</text>
+  <text x="350" y="283" fill="#333" font-size="10" text-anchor="middle">奈奎斯特定理：采样频率 >= 2 倍最高频率，以避免混叠现象 </text>
 </svg>

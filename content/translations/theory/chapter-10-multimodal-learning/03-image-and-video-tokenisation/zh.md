@@ -8,229 +8,226 @@ source:
   sha256: d36271e5fb3af4873c60838206b32911f6e02667ede19b85f0ae1c2887cf5ef5
 status: reviewed
 ---
+# Image and Video Tokenisation
 
-# 图像与视频 token 化
+*Image and video tokenisation converts continuous visual data into discrete token sequences that transformers can process like text. This file covers VQ-VAE, VQ-GAN, codebook learning, DALL-E's dVAE, video tokenisation, and lookup-free quantisation*
 
-*图像和视频 token 化把连续的视觉数据转换为离散 token 序列，让 Transformer 像处理文本一样处理视觉数据。本篇介绍 VQ-VAE、VQ-GAN、码本学习、DALL-E 的 dVAE、视频 token 化和无查找表量化。*
+## Why Tokenise Images
 
-## 为什么要对图像 token 化
+- Think of language as a finite alphabet: English has roughly 26 letters, and modern language models carve text into 30,000-100,000 subword tokens. Every sentence becomes a sequence of discrete symbols that a transformer can predict one by one. Images, on the other hand, live in a continuous, high-dimensional space: a single 256x256 RGB image is a point in $\mathbb{R}^{256 \times 256 \times 3} \approx \mathbb{R}^{196{,}608}$. If you want a language model to "speak" images with the same machinery it uses to speak English, you need to convert those continuous pixel arrays into a manageable sequence of discrete tokens drawn from a finite vocabulary. That conversion is **image tokenisation**.
 
-- 可以把语言想成有限字母表：英语大约有 26 个字母，现代语言模型把文本切成 30,000–100,000 个子词 token。每个句子都变成离散符号序列，Transformer 可以逐个预测。另一方面，图像处在连续的高维空间中：一张 256x256 的 RGB 图像是 $\mathbb{R}^{256 \times 256 \times 3} \approx \mathbb{R}^{196{,}608}$ 中的一个点。如果希望语言模型用“说英语”的同一套机制“说图像”，就要把连续的像素数组转换成从有限词表中取出的、长度可控的离散 token 序列。这种转换就是**图像 token 化**。
+- Imagine you are a mosaic artist. You do not have infinite shades of tile; you have a fixed palette of, say, 8192 distinct tile colours. To reproduce a photograph as a mosaic, you must (1) decide which region of the photo each tile represents, (2) pick the closest tile colour for each region, and (3) accept that some detail is lost but the overall picture is recognisable. Image tokenisation does exactly this: an encoder compresses spatial patches into latent vectors, a codebook maps each vector to its nearest entry, and the result is a grid of integer indices, one per patch, that a discrete model can process.
 
-- 想象自己是马赛克艺术家。你没有无限多种砖块颜色，只有固定的调色板，例如 8192 种颜色。要把照片复现成马赛克，必须：(1) 决定每块砖代表照片的哪个区域；(2) 为每个区域选择最接近的砖块颜色；(3) 接受部分细节会丢失，但整体图像仍可辨认。图像 token 化做的正是这件事：编码器把空间图块压缩成潜向量，码本把每个向量映射到最近的条目，最终得到一个整数索引网格，每个图块一个索引，离散模型就能处理它。
+- The benefits of tokenisation are threefold. First, it compresses the image dramatically: a 256x256 image might become a 16x16 grid of tokens, reducing the sequence length from 65,536 pixels to 256 tokens, which is tractable for attention-based models whose cost scales quadratically with sequence length. Second, it unifies the representation: text tokens and image tokens live in the same discrete vocabulary, enabling a single autoregressive transformer to generate interleaved text and images. Third, it imposes a useful bottleneck that forces the model to learn semantically meaningful codes rather than memorising pixel noise.
 
-- token 化有三方面好处。第一，它能大幅压缩图像：256x256 图像可以变成 16x16 的 token 网格，把序列长度从 65,536 个像素减到 256 个 token，适合注意力成本随序列长度二次增长的模型。第二，它统一了表示：文本 token 和图像 token 使用同一离散词表，单个自回归 Transformer 就能生成交错的文本和图像。第三，它施加了有用的瓶颈，迫使模型学习有语义的编码，而不是记忆像素噪声。
+![Overview of the image tokenisation pipeline: continuous image enters an encoder, latent vectors are quantised against a codebook, producing a grid of discrete token indices](../images/image_tokenisation_overview.svg)
 
-![图像 token 化流水线概览：连续图像进入编码器，潜向量相对于码本量化，产生离散 token 索引网格](../images/image_tokenisation_overview.svg)
 
-- 回顾第 08 章：卷积网络从图像提取层级特征图；再回顾第 07 章：文本分词器把字符串转成整数序列。图像 token 化正处在两者交汇处：用 CNN 或视觉 Transformer 编码器（第 08 章）产生空间特征，再借用离散词表的思想（第 07 章）把这些特征转换成 token 索引。
+- Recall from Chapter 8 how convolutional networks extract hierarchical feature maps from images, and from Chapter 7 how text tokenisers convert strings into integer sequences. Image tokenisation sits at the intersection: it uses a CNN or vision transformer encoder (Chapter 8) to produce spatial features, then borrows the idea of a discrete vocabulary (Chapter 7) to convert those features into token indices.
 
-## VQ-VAE：向量量化
+## VQ-VAE: Vector Quantisation
 
-- 如第 06 章所见，标准**变分自编码器（VAE）**把输入编码为连续潜分布，再从该分布采样并解码回重构结果。潜空间连续，不便输入离散序列模型。van den Oord 等人（2017）提出的**向量量化变分自编码器（VQ-VAE）**引入可学习的嵌入向量码本，把每个编码器输出吸附到最近的码本条目，将连续潜变量替换成离散变量。
+- As we saw in Chapter 6, a standard **variational autoencoder** (VAE) encodes an input into a continuous latent distribution and decodes samples from that distribution back into reconstructions. The latent space is continuous, which makes it awkward to feed into discrete sequence models. The **Vector Quantised Variational Autoencoder** (VQ-VAE), introduced by van den Oord et al. (2017), replaces the continuous latent with a discrete one by introducing a learnable codebook of embedding vectors and snapping each encoder output to its nearest codebook entry.
 
-- 想象一家只有 $K$ 个编号货架的图书馆。新书（编码器输出）到达时，管理员把它放到与已有书籍（码本向量）最相似的货架，并记录货架编号。以后取书时只需货架编号；该货架的码本条目足以作为原书的近似。这就是向量量化。
+- Picture a library with exactly $K$ labelled shelves. When a new book (encoder output) arrives, the librarian places it on the shelf whose existing books (codebook vectors) it most closely resembles, and records the shelf number. Later, to retrieve the book, you only need the shelf number: the codebook entry on that shelf is a good enough stand-in. This is vector quantisation.
 
-- VQ-VAE 由三个组件组成：
+- Formally, the VQ-VAE has three components:
 
-- **编码器** $E$ 把输入图像 $\mathbf{x} \in \mathbb{R}^{H \times W \times 3}$ 映射为空间网格的连续潜向量 $\mathbf{z}_e = E(\mathbf{x}) \in \mathbb{R}^{h \times w \times d}$，其中 $h \times w$ 是下采样后的空间分辨率，$d$ 是嵌入维度。
+- An **encoder** $E$ that maps an input image $\mathbf{x} \in \mathbb{R}^{H \times W \times 3}$ to a spatial grid of continuous latent vectors $\mathbf{z}_e = E(\mathbf{x}) \in \mathbb{R}^{h \times w \times d}$, where $h \times w$ is the downsampled spatial resolution and $d$ is the embedding dimension.
 
-- **码本** $\mathcal{C} = \{\mathbf{e}_1, \mathbf{e}_2, \ldots, \mathbf{e}_K\} \subset \mathbb{R}^d$ 含有 $K$ 个可学习嵌入向量。典型码本大小在 512 到 16,384 个条目之间。
+- A **codebook** $\mathcal{C} = \{\mathbf{e}_1, \mathbf{e}_2, \ldots, \mathbf{e}_K\} \subset \mathbb{R}^d$ containing $K$ learnable embedding vectors. Typical codebook sizes range from 512 to 16,384 entries.
 
-- **解码器** $D$ 从量化后的潜变量重构图像。
+- A **decoder** $D$ that reconstructs the image from the quantised latents.
 
-- **量化步骤**将空间位置 $(i, j)$ 的每个编码器输出 $\mathbf{z}_e(\mathbf{x})$ 替换为最近的码本条目：
+- The **quantisation step** replaces each encoder output $\mathbf{z}_e(\mathbf{x})$ at spatial position $(i, j)$ with its nearest codebook entry:
 
 $$\mathbf{z}_q(i,j) = \mathbf{e}_{k^\ast} \quad \text{where} \quad k^\ast = \arg\min_k \|\mathbf{z}_e(i,j) - \mathbf{e}_k\|_2$$
+- This is a nearest-neighbour lookup in embedding space, exactly the same operation as k-means assignment (Chapter 6). The index $k^\ast$ is the discrete token for spatial position $(i,j)$, and the full image is represented as an $h \times w$ grid of integers from $\{1, \ldots, K\}$.
 
-- 这是在嵌入空间中的最近邻查找，和 k-means 分配（第 06 章）完全相同。索引 $k^\ast$ 就是空间位置 $(i,j)$ 的离散 token，整张图像由取自 $\{1, \ldots, K\}$ 的 $h \times w$ 整数网格表示。
+![VQ-VAE architecture: encoder produces continuous latents, each latent vector is matched to the nearest codebook entry, decoder reconstructs from quantised codes](../images/vqvae_architecture.svg)
 
-![VQ-VAE 架构：编码器产生连续潜变量，每个潜向量匹配最近的码本条目，解码器从量化编码重构图像](../images/vqvae_architecture.svg)
 
-- 挑战在于 $\arg\min$ 不可微，无法通过离散选择反向传播。VQ-VAE 使用**直通估计器**：前向传播中解码器接收 $\mathbf{z}_q$（量化向量）；反向传播中，把重构损失相对于 $\mathbf{z}_q$ 的梯度直接复制给 $\mathbf{z}_e$，仿佛量化步骤是恒等函数。紧凑地写为：
+- The challenge is that $\arg\min$ is not differentiable: you cannot backpropagate through a discrete selection. VQ-VAE solves this with the **straight-through estimator**: during the forward pass, the decoder receives $\mathbf{z}_q$ (the quantised vector); during the backward pass, the gradient of the reconstruction loss with respect to $\mathbf{z}_q$ is copied directly to $\mathbf{z}_e$, as if the quantisation step were the identity function. This is written compactly as:
 
 $$\mathbf{z}_q = \mathbf{z}_e + \text{sg}(\mathbf{z}_q - \mathbf{z}_e)$$
+- where $\text{sg}(\cdot)$ is the stop-gradient operator. In the forward pass this evaluates to $\mathbf{z}_q$; in the backward pass, the gradient flows through only the $\mathbf{z}_e$ term.
 
-- 其中 $\text{sg}(\cdot)$ 是停止梯度操作。前向传播时该式计算为 $\mathbf{z}_q$；反向传播时梯度只通过 $\mathbf{z}_e$ 项流动。
-
-- 完整的 VQ-VAE 损失有三项：
+- The full VQ-VAE loss has three terms:
 
 $$\mathcal{L} = \underbrace{\|\mathbf{x} - D(\mathbf{z}_q)\|_2^2}_{\text{reconstruction}} + \underbrace{\|\text{sg}(\mathbf{z}_e) - \mathbf{e}\|_2^2}_{\text{codebook (VQ)}} + \underbrace{\beta \|\mathbf{z}_e - \text{sg}(\mathbf{e})\|_2^2}_{\text{commitment}}$$
+- The **reconstruction loss** trains the encoder and decoder to faithfully reproduce the input. The **codebook loss** (also called the VQ loss) pulls the codebook vectors toward the encoder outputs; note that $\text{sg}(\mathbf{z}_e)$ means the encoder does not receive gradients from this term, so it only updates the codebook. The **commitment loss** does the reverse: it encourages the encoder outputs to stay close to the codebook vectors, preventing the encoder from "running away" from the codebook. The hyperparameter $\beta$ (typically 0.25) controls the balance between the codebook and commitment terms.
 
-- **重构损失**训练编码器和解码器忠实地还原输入。**码本损失**（也叫 VQ 损失）把码本向量拉向编码器输出；注意 $\text{sg}(\mathbf{z}_e)$ 表示编码器不会从这一项获得梯度，所以它只更新码本。**承诺损失**正好相反，鼓励编码器输出靠近码本向量，防止编码器从码本“逃走”。超参数 $\beta$（通常为 0.25）控制码本项与承诺项的平衡。
-
-- 实际上，码本常用**指数移动平均（EMA）**更新，而不是梯度下降，这样更稳定。令 $\mathbf{n}_k$ 为分配到码本条目 $k$ 的编码器输出数，$\mathbf{s}_k$ 为它们的和。EMA 更新为：
+- In practice, the codebook is often updated with an **exponential moving average** (EMA) rather than gradient descent, which is more stable. Let $\mathbf{n}_k$ be the count of encoder outputs assigned to codebook entry $k$ and $\mathbf{s}_k$ be their sum. The EMA update is:
 
 $$\mathbf{n}_k \leftarrow \gamma \mathbf{n}_k + (1 - \gamma) |\{(i,j) : k^\ast_{ij} = k\}|$$
-
 $$\mathbf{s}_k \leftarrow \gamma \mathbf{s}_k + (1 - \gamma) \sum_{(i,j) : k^\ast_{ij} = k} \mathbf{z}_e(i,j)$$
-
 $$\mathbf{e}_k \leftarrow \frac{\mathbf{s}_k}{\mathbf{n}_k}$$
+- where $\gamma$ is the decay rate (typically 0.99). This is equivalent to running an online k-means algorithm on the encoder outputs.
 
-- 其中 $\gamma$ 是衰减率（通常为 0.99）。这等价于对编码器输出运行在线 k-means 算法。
+### Codebook Collapse
 
-### 码本坍缩
+- A notorious failure mode of VQ-VAE is **codebook collapse** (also called index collapse): the model learns to use only a small fraction of the $K$ codebook entries, leaving most entries "dead." Imagine a library where 90% of the shelves are empty because the librarian always routes books to the same few popular shelves. This wastes representational capacity.
 
-- VQ-VAE 的著名失败模式是**码本坍缩**（也叫索引坍缩）：模型只使用 $K$ 个码本条目中的很小一部分，其余条目“死亡”。想象一个图书馆 90% 货架空置，因为管理员总把书放到少数热门货架，表示容量就被浪费了。
+- Codebook collapse occurs because the encoder, codebook, and decoder co-adapt during training. If an entry is not selected for several batches, it drifts away from the encoder manifold, making it even less likely to be selected, creating a positive feedback loop.
 
-- 码本坍缩发生在编码器、码本和解码器共同适应训练的过程中。如果某条目连续多个 batch 未被选择，它就会漂离编码器流形，更不可能再被选中，形成正反馈循环。
+- Several techniques mitigate codebook collapse:
+    - **Codebook reset**: periodically reinitialise dead entries by copying randomly sampled encoder outputs. This gives dead entries a fresh start near the active region of the latent space.
+    - **EMA updates with Laplace smoothing**: add a small constant to $\mathbf{n}_k$ to prevent any entry from having zero count, ensuring all entries receive gradient signal.
+    - **Commitment loss tuning**: increasing $\beta$ forces encoder outputs to cluster more tightly around codebook entries, distributing assignments more evenly.
+    - **Factorised codes**: decompose the codebook lookup into a product of smaller lookups (e.g., two codebooks of size $\sqrt{K}$ each), which improves utilisation by reducing the effective codebook size for each lookup.
+    - **Entropy regularisation**: add a penalty that encourages a uniform distribution over codebook usage, maximising the entropy $H = -\sum_k p_k \log p_k$ where $p_k$ is the empirical assignment probability.
 
-- 有多种方法可以缓解码本坍缩：
-    - **重置码本**：定期用随机采样的编码器输出重新初始化死亡条目，使其在潜空间活跃区域附近重新开始。
-    - **带拉普拉斯平滑的 EMA 更新**：给 $\mathbf{n}_k$ 加小常数，避免条目计数为零，保证所有条目都获得梯度信号。
-    - **调节承诺损失**：提高 $\beta$ 会迫使编码器输出更紧密地聚集在码本条目周围，使分配更均匀。
-    - **因式分解编码**：把一次码本查找分解为多个更小的查找（例如两个大小为 $\sqrt{K}$ 的码本），降低每次查找的有效码本大小，从而提高利用率。
-    - **熵正则化**：加入鼓励码本使用分布均匀的惩罚，使熵 $H = -\sum_k p_k \log p_k$ 最大化，其中 $p_k$ 是经验分配概率。
+![Codebook utilisation: healthy codebook with evenly distributed assignments versus collapsed codebook where most entries are unused](../images/codebook_collapse.svg)
 
-![码本利用率：分配均匀的健康码本与大多数条目未使用的坍缩码本对比](../images/codebook_collapse.svg)
 
-## VQ-GAN：提高保真度的对抗训练
+## VQ-GAN: Adversarial Training for Higher Fidelity
 
-- VQ-VAE 能产生不错的重构，但像素级 $\ell_2$ 损失会惩罚每个像素偏差，倾向于在多个可能细节之间取平均，因而产生模糊输出。就像要求某人画一张与所有可能面孔平均差异最小的脸，他会画出模糊的平均脸，而不是清晰的某一张脸。
+- VQ-VAE produces decent reconstructions, but the pixel-level $\ell_2$ loss tends to generate blurry outputs because it penalises every pixel deviation equally, averaging over plausible details rather than choosing crisp ones. Imagine asking someone to draw a face that minimises the average difference from all possible faces — they would draw a blurry average face, not a sharp individual one.
 
-- **VQ-GAN**（Esser 等，2021）把 VQ-VAE 框架与生成对抗网络（第 06 章）的**判别器**结合起来。判别器是基于图块的卷积网络，判断局部图像图块是真实的（来自训练数据）还是伪造的（来自解码器）。这种对抗损失鼓励解码器生成感知上清晰、逼真的纹理，而不是像素平均。
+- **VQ-GAN** (Esser et al., 2021) addresses this by combining the VQ-VAE 框架 with a **discriminator** from generative adversarial networks (Chapter 6). The discriminator is a patch-based convolutional network that judges whether a local image patch is real (from the training data) or fake (from the decoder). This adversarial loss encourages the decoder to produce perceptually sharp, realistic textures instead of pixel-wise averages.
 
-- VQ-GAN 目标在 VQ-VAE 损失上增加两项：
+- The VQ-GAN objective adds two terms to the VQ-VAE loss:
 
 $$\mathcal{L}_\text{VQ-GAN} = \mathcal{L}_\text{VQ-VAE} + \lambda_\text{adv} \mathcal{L}_\text{adv} + \lambda_\text{perc} \mathcal{L}_\text{perc}$$
-
-- **对抗损失** $\mathcal{L}_\text{adv}$ 是应用于解码器输出的标准 GAN 目标。判别器 $\mathcal{D}$ 试图区分真实图块和解码图块，解码器（生成器）则试图欺骗判别器。非饱和形式为：
+- The **adversarial loss** $\mathcal{L}_\text{adv}$ is the standard GAN objective applied to the decoder output. The discriminator $\mathcal{D}$ tries to distinguish real patches from decoded patches, and the decoder (generator) tries to fool it. The non-saturating formulation is:
 
 $$\mathcal{L}_\text{adv} = -\mathbb{E}[\log \mathcal{D}(D(\mathbf{z}_q))]$$
-
-- **感知损失** $\mathcal{L}_\text{perc}$ 比较预训练网络（通常是 VGG 或 LPIPS）在原图和重构图上的特征激活：
+- The **perceptual loss** $\mathcal{L}_\text{perc}$ compares feature activations from a pretrained network (typically VGG or LPIPS) between the original and reconstructed images:
 
 $$\mathcal{L}_\text{perc} = \sum_l \|\phi_l(\mathbf{x}) - \phi_l(D(\mathbf{z}_q))\|_2^2$$
+- where $\phi_l$ denotes the feature map at layer $l$ of the pretrained network. This loss captures high-level structural similarity rather than pixel-level accuracy.
 
-- 其中 $\phi_l$ 表示预训练网络第 $l$ 层的特征图。这项损失捕获高层结构相似性，而非像素级准确度。
+- The weight $\lambda_\text{adv}$ is adaptively set so that the adversarial gradient and reconstruction gradient are balanced, preventing the adversarial loss from dominating early in training when the reconstructions are poor.
 
-- $\lambda_\text{adv}$ 会自适应设置，让对抗梯度与重构梯度平衡，防止训练早期重构很差时对抗损失占主导。
+![VQ-GAN training: encoder and decoder are connected through a quantisation step, with a patch discriminator providing adversarial feedback on decoded outputs](../images/vqgan_training.svg)
 
-![VQ-GAN 训练：编码器和解码器通过量化步骤连接，图块判别器为解码输出提供对抗反馈](../images/vqgan_training.svg)
 
-- 结果是在相同码本大小下，token 化器的重构清晰度远高于 VQ-VAE。VQ-GAN 是许多主要图像生成系统（包括原始 DALL-E、Parti 和大量文生图模型）背后的 token 化器。它把 256x256 图像变成 16x16 或 32x32 的离散 token 网格，码本大小为 1024–16384，每个空间维度压缩 16 倍到 64 倍。
+- The result is a tokeniser that produces dramatically sharper reconstructions than VQ-VAE at the same codebook size. VQ-GAN is the backbone tokeniser behind many major image generation systems, including the original DALL-E, Parti, and numerous text-to-image models. It turns a 256x256 image into a 16x16 or 32x32 grid of discrete tokens from a codebook of size 1024-16384, achieving compression ratios of 16x to 64x in each spatial dimension.
 
-## 残差量化与多尺度码本
+## Residual Quantisation and Multi-Scale Codebooks
 
-- 单个码本会给重构质量设下硬上限：每个空间位置只有一个码本向量来表示，任何超过码本表达能力的细节都会丢失。可以把它想成用固定调色板中的一个词描述颜色：“青绿色”接近但不精确；如果还能追加修饰，，“青绿色，但稍微偏蓝、再亮一点”，，就会更接近。
+- A single codebook imposes a hard ceiling on reconstruction quality: each spatial position is represented by exactly one codebook vector, and any detail finer than the codebook can express is lost. Think of describing a colour with a single word from a fixed palette: "teal" is close but not exact. If you could add a refinement — "teal, but slightly more blue and a touch brighter" — you would get much closer.
 
-- **残差量化（RQ）**迭代地应用这个想法。第一次量化得到 $\mathbf{z}_q^{(1)}$ 后，计算残差 $\mathbf{r}^{(1)} = \mathbf{z}_e - \mathbf{z}_q^{(1)}$，再用第二个码本量化残差得到 $\mathbf{z}_q^{(2)}$，如此进行 $T$ 层：
+- **Residual quantisation** (RQ) applies this idea iteratively. After the first quantisation step produces $\mathbf{z}_q^{(1)}$, compute the residual $\mathbf{r}^{(1)} = \mathbf{z}_e - \mathbf{z}_q^{(1)}$, then quantise the residual against a second codebook to get $\mathbf{z}_q^{(2)}$, and so on for $T$ levels:
 
 $$\mathbf{r}^{(0)} = \mathbf{z}_e$$
-
 $$\mathbf{z}_q^{(t)} = \text{Quantise}(\mathbf{r}^{(t-1)}, \mathcal{C}^{(t)})$$
-
 $$\mathbf{r}^{(t)} = \mathbf{r}^{(t-1)} - \mathbf{z}_q^{(t)}$$
+- The final quantised representation is $\hat{\mathbf{z}} = \sum_{t=1}^{T} \mathbf{z}_q^{(t)}$. With $T$ levels each using a codebook of size $K$, the effective vocabulary size is $K^T$, but you only need to store $T \times K$ vectors rather than $K^T$. For example, 8 levels with $K = 1024$ give an effective $1024^8 \approx 10^{24}$ entries while storing only 8192 vectors.
 
-- 最终量化表示是 $\hat{\mathbf{z}} = \sum_{t=1}^{T} \mathbf{z}_q^{(t)}$。若每层有大小为 $K$ 的码本，有效词表大小为 $K^T$，但只需保存 $T \times K$ 个向量，而不是 $K^T$ 个。例如 8 层、$K = 1024$ 时，有效条目数为 $1024^8 \approx 10^{24}$，却只保存 8192 个向量。
+- Each successive level captures finer details: the first codebook captures the coarse structure, the second captures medium-frequency corrections, and so on. This is analogous to successive approximation in JPEG or progressive rendering in web images, where a rough version appears first and detail fills in incrementally.
 
-- 后续每层捕获更细的细节：第一码本捕获粗结构，第二个捕获中频修正，以此类推。这类似 JPEG 的逐次逼近或网页图片的渐进式渲染：先出现粗略版本，再逐步填入细节。
+![Residual quantisation: the original vector is approximated in successive stages, each stage quantising the residual from the previous stage](../images/residual_quantisation.svg)
 
-![残差量化：原向量经过连续阶段逐步近似，每阶段量化前一阶段的残差](../images/residual_quantisation.svg)
 
-- **多尺度码本**在不同空间分辨率上运行，扩展了这个想法。不重复量化同一个空间网格，而是在多个尺度量化：粗网格捕获全局结构，细网格捕获局部细节。这与第 08 章目标检测中的特征金字塔类似，不同尺度的特征捕获不同层次的细节。
+- **Multi-scale codebooks** extend this idea by operating at different spatial resolutions. Instead of quantising the same spatial grid repeatedly, you quantise at multiple scales: a coarse grid captures global structure, finer grids capture local detail. This is related to the feature pyramid idea from Chapter 8's object detection section, where features at different scales capture different levels of detail.
 
-- **乘积量化**是相关技术：把 $d$ 维潜向量切成 $M$ 个 $d/M$ 维子向量，每个子向量用自己的码本独立量化。这样有效词表为 $K^M$，但只保存 $M \times K$ 个向量。乘积量化广泛用于近似最近邻搜索（第 13 章），也被应用于图像 token 化。
+- **Product quantisation** is a related technique where the $d$-dimensional latent vector is split into $M$ sub-vectors of dimension $d/M$, and each sub-vector is quantised independently with its own codebook. This gives an effective vocabulary of $K^M$ while storing only $M \times K$ vectors. Product quantisation is widely used in approximate nearest-neighbour search (Chapter 13) and has been adapted for image tokenisation.
 
-- Mentzer 等人（2023）提出的**有限标量量化（FSQ）**采取完全不同的方法：不学习码本，而是把潜向量的每个维度直接舍入到固定整数级别之一（例如 $\{-2, -1, 0, 1, 2\}$）。每维有 $L$ 个级别、共 $d$ 维时，隐式码本大小为 $L^d$。FSQ 完全避免码本坍缩，因为没有可学习码本向量，只有可学习的编码器输出，再确定性舍入。直通估计器处理舍入的不可微性。
+- **Finite scalar quantisation** (FSQ), introduced by Mentzer et al. (2023), takes a different approach entirely: instead of learning a codebook, it simply rounds each dimension of the latent vector to one of a fixed set of integer levels (e.g., $\{-2, -1, 0, 1, 2\}$). With $L$ levels per dimension and $d$ dimensions, the implicit codebook size is $L^d$. FSQ avoids codebook collapse entirely because there are no learned codebook vectors, only learned encoder outputs that are rounded deterministically. The straight-through estimator handles the non-differentiability of rounding.
 
-## 实际图像 token 化器
+## Image Tokenisers in Practice
 
-- 从 VQ-VAE 到 VQ-GAN，再到残差量化的发展，催生了一系列用于最先进生成模型的实用图像 token 化器。
+- The progression from VQ-VAE to VQ-GAN to residual quantisation has spawned a family of practical image tokenisers used in 状态-of-the-art generative models.
 
-### DALL-E token 化器（dVAE）
+### DALL-E Tokeniser (dVAE)
 
-- 原始 **DALL-E**（Ramesh 等，2021）使用离散 VAE（dVAE）把 256x256 图像 token 化为 32x32 网格，码本大小为 8192。dVAE 用 Gumbel-Softmax 松弛替代硬 $\arg\min$ 量化，使训练期间的前向传播可微。推理时使用 $\arg\max$ 得到硬 token 分配。dVAE 结合重构损失、相对于均匀先验的 KL 散度以及学习到的 Gumbel-Softmax 温度调度进行训练。随后 DALL-E 训练了一个 120 亿参数的自回归 Transformer，建模 256 个文本 token 与 1024 个图像 token（32x32）的联合分布。
+- The original **DALL-E** (Ramesh et al., 2021) used a discrete VAE (dVAE) to tokenise 256x256 images into 32x32 grids of tokens from a codebook of size 8192. The dVAE replaced the hard $\arg\min$ quantisation with a Gumbel-Softmax relaxation, making the forward pass differentiable during training. At inference time, the $\arg\max$ is used to produce hard token assignments. The dVAE was trained with a combination of reconstruction loss, KL divergence against a uniform prior, and a learned temperature schedule for the Gumbel-Softmax. DALL-E then trained a 12-billion parameter autoregressive transformer to model the joint distribution of 256 text tokens and 1024 image tokens (32x32).
 
-### 拉玛根
+### LlamaGen
 
-- **LlamaGen**（Sun 等，2024）展示了：只要有一个优秀的图像 token 化器，就可以把标准 Llama 风格语言模型架构（第 07 章）重新用于自回归图像生成。LlamaGen 使用改进的 VQ-GAN token 化器和大码本（16,384 个条目），训练普通自回归 Transformer（除 token 化器外没有特殊图像改动），按光栅扫描顺序从左到右预测图像 token。关键洞见是：一旦图像被 token 化为离散序列，语言有效的下一 token 预测范式同样适用于图像，证明 token 化真正跨越了模态鸿沟。
+- **LlamaGen** (Sun et al., 2024) showed that you can repurpose a standard Llama-style language model architecture (Chapter 7) for autoregressive image generation, provided you have a good image tokeniser. LlamaGen uses an improved VQ-GAN tokeniser with a large codebook (16,384 entries) and trains a vanilla autoregressive transformer (with no special image-specific modifications beyond the tokeniser) to predict image tokens left-to-right in raster scan order. The key insight is that once images are tokenised into discrete sequences, the same next-token-prediction paradigm that works for language works for images, validating the idea that tokenisation truly bridges the modality gap.
 
-### Cosmos token 化器
+### Cosmos Tokeniser
 
-- **Cosmos token 化器**（NVIDIA，2024）在统一框架中同时面向图像和视频。它使用因果 3D 架构，把图像视为单帧视频，让同一个 token 化器处理两种模态。Cosmos 支持连续和离散两种模式：连续模式输出实值潜向量（供扩散模型后端使用），离散模式使用有限标量量化产生整数 token（供自回归模型后端使用）。编码器使用因果 3D 卷积，因此每一帧的 token 只依赖当前帧和此前帧，支持流式视频 token 化。
+- The **Cosmos tokeniser** (NVIDIA, 2024) is designed for both images and videos in a unified 框架. It uses a causal 3D architecture that treats images as single-frame videos, allowing the same tokeniser to handle both modalities. Cosmos supports both continuous and discrete tokenisation modes: the continuous mode outputs real-valued latent vectors (for diffusion model backends), while the discrete mode applies finite scalar quantisation to produce integer tokens (for autoregressive model backends). The encoder uses causal 3D convolutions so that each frame's tokens depend only on the current and previous frames, enabling streaming video tokenisation.
 
-![图像 token 化器架构比较：使用 Gumbel-Softmax 的 dVAE、使用码本查找的 VQ-GAN、使用标量舍入的 FSQ](../images/image_tokeniser_comparison.svg)
+![Comparison of image tokeniser architectures: dVAE with Gumbel-Softmax, VQ-GAN with codebook lookup, and FSQ with scalar rounding](../images/image_tokeniser_comparison.svg)
 
-## 视频 token 化
 
-- 视频在图像的空间维度之外增加了第三个轴，，时间。视频由一系列帧组成，通常每秒 24–30 帧；相邻帧高度冗余，因为视觉世界不会在 33 毫秒内大幅变化。视频 token 化利用这种时间冗余，比独立 token 化每一帧实现更高压缩率。
+## Video Tokenisation
 
-- 可以把视频压缩想成翻页书。如果每页都从头画，需要数千幅细节丰富的画。但多数页面几乎和邻页相同，因此可以每 10 页画一张完整“关键帧”，中间页面只记录小变化。视频 token 化器会自动学会这个技巧。
+- Video adds a third axis — time — to the spatial dimensions of images. A video is a sequence of frames, typically at 24-30 frames per second, and adjacent frames are highly redundant because the visual world does not change drastically in 33 milliseconds. Video tokenisation exploits this temporal redundancy to achieve much higher compression than tokenising each frame independently.
 
-### 3D VQ-VAE 数据
+- Think of video compression like a flip-book. If you drew every page from scratch, you would need thousands of detailed drawings. But most pages are nearly identical to their neighbours, so you could draw a full "keyframe" every 10 pages and only note the small changes on the pages in between. Video tokenisers learn this trick automatically.
 
-- VQ-VAE 最直接的视频扩展是**3D VQ-VAE**：把编码器和解码器中的 2D 卷积换成同时作用于空间和时间维度的 3D 卷积。如果编码器在空间上以 $f_s$ 倍、时间上以 $f_t$ 倍下采样，$T \times H \times W$ 的视频片段会变成 $(T/f_t) \times (H/f_s) \times (W/f_s)$ 的 token 网格。
+### 3D VQ-VAE
 
-- 例如 $f_s = 16$、$f_t = 4$ 时，16 帧的 256x256 视频片段变成 $4 \times 16 \times 16 = 1024$ 个 token 的序列。这足够紧凑，可以让 Transformer 自回归建模；而原始像素有 $16 \times 256 \times 256 \times 3 \approx 3.1$ 百万个值。
+- The most straightforward extension of VQ-VAE to video is the **3D VQ-VAE**, which replaces 2D convolutions in the encoder and decoder with 3D convolutions that operate over the spatial and temporal dimensions simultaneously. If the encoder downsamples by a factor of $f_s$ spatially and $f_t$ temporally, a video clip of $T \times H \times W$ becomes a token grid of $(T/f_t) \times (H/f_s) \times (W/f_s)$.
 
-- 3D 卷积联合学习空间和时间特征。早期层捕获局部运动（边缘在帧间移动），深层捕获更高层动态（物体出现、消失或改变形状）。这是第 08 章卷积网络的层级特征提取原则沿时间轴的扩展。
+- For example, with $f_s = 16$ and $f_t = 4$, a 16-frame 256x256 video clip becomes a $4 \times 16 \times 16 = 1024$ token sequence. This is compact enough for a transformer to model autoregressively, whereas the raw pixel count would be $16 \times 256 \times 256 \times 3 \approx 3.1$ million values.
 
-![视频的 3D VQ-VAE：短视频片段由 3D 卷积编码为空间，时间潜向量网格，量化后再解码回帧](../images/video_3d_vqvae.svg)
+- The 3D convolutions jointly learn spatial and temporal features. Early layers capture local motion (edges moving between frames) while deeper layers capture higher-level dynamics (objects appearing, disappearing, or changing shape). This is the same hierarchical feature extraction principle from Chapter 8's convolutional networks, extended along the time axis.
 
-### 因果视频 token 化器
+![3D VQ-VAE for video: a short video clip is encoded by 3D convolutions into a spatiotemporal grid of latent vectors, quantised, and decoded back to frames](../images/video_3d_vqvae.svg)
 
-- 标准 3D 卷积会查看过去、当前和未来帧，因此必须获得整段视频后才能 token 化任何一帧。**因果视频 token 化器**约束时间卷积，使每个输出只依赖当前和过去帧，绝不依赖未来帧。这类似第 07 章自回归 Transformer 的因果掩码：信息沿时间向前流动，不会向后流动。
 
-- 因果 token 化对两个用例至关重要。第一是**流式处理**：帧到达时就能实时 token 化，不必缓冲未来帧。第二是**自回归生成**：Transformer 逐帧生成视频时，帧 $t$ 的 token 必须在不知道帧 $t+1$ 的情况下计算，因为帧 $t+1$ 还未生成。
+### Causal Video Tokenisers
 
-- 因果约束通过不对称填充时间卷积实现：时间核大小为 $k$ 时，在过去侧填充 $k-1$ 个零，在未来侧填充 0 个零，因此时刻 $t$ 的输出只依赖 $t-k+1, \ldots, t$ 的输入。
+- A standard 3D convolution looks at past, current, and future frames, which means you need the entire video clip before you can tokenise any of it. **Causal video tokenisers** constrain the temporal convolutions so that each output depends only on the current and previous frames, never future frames. This is analogous to the causal masking in autoregressive transformers (Chapter 7): information flows forward in time but never backward.
 
-- 因果视频 token 化器有一个优雅性质：可以无须特殊处理地 token 化单张图像（只有一帧的“视频”）。第一帧没有过去上下文，因此 token 只由该帧计算。**图像，视频统一**让一个 token 化器同时服务两种模态，简化架构，并支持用同一解码器生成图像和视频。
+- Causal tokenisation is essential for two use cases. First, **streaming**: you can tokenise video in real time as frames arrive, without buffering future frames. Second, **autoregressive generation**: when a transformer generates video frame-by-frame, the tokens for frame $t$ must be computable without knowing frame $t+1$, because frame $t+1$ has not been generated yet.
 
-### 时间压缩策略
+- The causal constraint is implemented by padding temporal convolutions asymmetrically: a kernel of temporal size $k$ is padded with $k-1$ zeros on the past side and zero zeros on the future side, ensuring the output at time $t$ depends only on inputs at times $t-k+1, \ldots, t$.
 
-- 不同应用需要不同的时间压缩比。动作识别需要保留细微运动，因此使用温和压缩（$f_t = 2$）；长视频生成无法承受存储数千帧，则需要激进压缩（$f_t = 8$ 或更高）。
+- One elegant property of causal video tokenisers is that they can tokenise a single image (a "video" of one frame) with no special handling. The first frame has no past context, so its tokens are computed from the frame alone. This **image-video unification** means a single tokeniser serves both modalities, simplifying the architecture and enabling models that generate images and videos with the same decoder.
 
-- 一些 token 化器使用**因式分解压缩**：空间和时间压缩分阶段进行。先用 2D 编码器独立压缩每帧，产生逐帧潜网格；再用 1D 时间编码器跨时间压缩。这比完整 3D 卷积计算便宜，还能为时空选择不同压缩比。代价是无法像联合 3D 编码那样高效捕获时空模式（如球沿对角线移动）。
+### Temporal Compression Strategies
 
-- **时间插值 token**是近期创新：token 化器只完整编码关键帧，中间帧用轻量插值码表示，描述如何从一个关键帧变形到下一个。这映射了经典视频压缩（H.264/HEVC 的 I 帧与 P 帧），但工作在学习到的潜空间中。
+- Different applications demand different temporal compression ratios. For action recognition (where subtle motions matter), gentle compression ($f_t = 2$) preserves temporal detail. For long-form video generation (where storing thousands of frames is prohibitive), aggressive compression ($f_t = 8$ or higher) is necessary.
 
-![时间压缩策略：逐帧空间编码后做时间编码，与联合时空 3D 编码对比](../images/temporal_compression_strategies.svg)
+- Some tokenisers use **factorised compression**: spatial and temporal compression are performed in separate stages. First, a 2D encoder compresses each frame independently, producing a per-frame latent grid. Then, a 1D temporal encoder compresses across the time dimension. This factorisation is computationally cheaper than full 3D convolution and allows different compression ratios for space and time. The trade-off is that it cannot capture spatiotemporal patterns (like a ball moving diagonally) as efficiently as joint 3D encoding.
 
-## 连续 token 与离散 token
+- **Temporal interpolation tokens** are a recent innovation where the tokeniser encodes only keyframes fully and represents intermediate frames as lightweight interpolation codes that describe how to morph between keyframes. This mirrors classical video compression (I-frames and P-frames in H.264/HEVC) but in a learned latent space.
 
-- 并非所有下游模型都需要离散 token。**扩散模型**（第 10 章第 04 篇）原生处理连续值：迭代去噪高斯样本，去噪分数匹配损失定义在连续空间。对扩散后端，token 化器编码器产生连续潜向量，不再量化。**潜空间扩散模型**（Stable Diffusion、DALL-E 3、Flux）使用类似 VQ-GAN 的编码器，解码器，但完全跳过码本，在连续潜空间中操作。
+![Temporal compression strategies: frame-independent spatial encoding followed by temporal encoding, versus joint spatiotemporal 3D encoding](../images/temporal_compression_strategies.svg)
 
-- 另一方面，**自回归模型**（GPT 风格）使用对 $K$ 个类别做 softmax 的有限词表来预测下一 token，从根本上需要离散 token。每个使用自回归 Transformer 的图像生成系统（DALL-E、Parti、LlamaGen、Chameleon）都依赖离散 token 化器。
 
-- 因此，连续或离散 token 的选择由生成后端决定：
+## Continuous vs Discrete Tokens
 
-- 使用**离散 token**的情况：模型是自回归的（用交叉熵做下一 token 预测）；希望与文本 token 共享词表、构建统一多模态模型；或者需要精确的 token 级控制（例如通过替换 token 做检索或编辑）。
+- Not every downstream model needs discrete tokens. **Diffusion models** (Chapter 10, file 04) work natively with continuous values — they iteratively denoise a Gaussian sample, and their loss functions (denoising score matching) are defined over continuous spaces. For diffusion backends, the tokeniser encoder produces continuous latent vectors that are never quantised. **Latent diffusion models** (Stable Diffusion, DALL-E 3, Flux) use a VQ-GAN-like encoder-decoder but skip the codebook entirely, operating in the continuous latent space.
 
-- 使用**连续 token**的情况：模型是扩散或流匹配模型；任务要求极高的重构保真度（连续潜变量完全避免量化误差）；或者希望使用作用于实值向量的回归损失。
+- **Autoregressive models** (GPT-style), on the other hand, predict the next token from a finite vocabulary using a softmax over $K$ classes. They fundamentally require discrete tokens. Every image generation system that uses an autoregressive transformer (DALL-E, Parti, LlamaGen, Chameleon) depends on a discrete tokeniser.
 
-- 一些新架构同时支持两种模式。例如 Cosmos token 化器可以从同一个编码器输出连续潜变量（扩散模式）或 FSQ 离散 token（自回归模式），只需打开或关闭轻量量化头。
+- The choice between continuous and discrete tokens is therefore driven by the generation backend:
 
-- **软量化**是中间方案：不做硬 $\arg\min$ 分配，而是取最近的 top-$k$ 个码本条目加权平均，权重由负距离的 softmax 给出。它比硬量化保留更多信息，同时仍近似离散。有些系统训练时使用软量化，推理时使用硬量化。
+- Use **discrete tokens** when: the model is autoregressive (next-token prediction with cross-entropy loss), you want to share a vocabulary with text tokens for unified multimodal models, or you need exact token-level control (e.g., for retrieval or editing by token replacement).
 
-![根据下游生成模型选择连续或离散 token 化的决策树](../images/continuous_vs_discrete_tokens.svg)
+- Use **continuous tokens** when: the model is a diffusion model or flow-matching model, the task requires very high fidelity reconstruction (continuous latents avoid quantisation error entirely), or you want to use regression losses that operate on real-valued vectors.
 
-## 应用
+- Some recent architectures support both modes. The Cosmos tokeniser, for instance, can output either continuous latents (for its diffusion mode) or FSQ-discretised tokens (for its autoregressive mode) from the same encoder, with a lightweight quantisation head that can be switched on or off.
 
-### 自回归图像生成
+- **Soft quantisation** is a middle ground: instead of hard $\arg\min$ assignment, compute a weighted average of the top-$k$ nearest codebook entries, with weights given by a softmax over negative distances. This preserves more information than hard quantisation while still being approximately discrete. Some systems use soft quantisation during training and hard quantisation at inference.
 
-- 图像成为离散 token 序列后，就可以训练标准自回归 Transformer 建模。把图像 token 展平成一维序列（通常按光栅扫描：从左到右、从上到下），Transformer 用标准交叉熵学习 $p(\text{token}_i | \text{token}_1, \ldots, \text{token}_{i-1})$。生成时逐个采样 token，再把完整网格送入 token 化器解码器产生像素。
+![Decision tree for choosing between continuous and discrete tokenisation based on the downstream generation model](../images/continuous_vs_discrete_tokens.svg)
 
-- 以文本为条件很直接：把文本 token 放在图像 token 序列前面，模型就学习 $p(\text{image tokens} | \text{text tokens})$。DALL-E、Parti 和 LlamaGen 都这样做文生图。文本和图像 token 共享 Transformer、注意力机制，通常也共享嵌入表（文本和图像 token 占据不同索引区间）。
 
-- 光栅扫描顺序引入了人为不对称：图像左上角先生成，却没有右下角的上下文。多项工作对此作出改进。**掩码图像建模**（MaskGIT）训练双向 Transformer，同时生成所有 token 但带有不同置信度，反复解除最有把握的 token 的掩码。**多尺度生成**先生成粗 token（捕获整体构图），再用残差 token 细化。这些方法牺牲纯从左到右生成的简单性，换取更好的全局一致性。
+## Applications
 
-### 统一视觉，语言 token
+### Autoregressive Image Generation
 
-- 图像 token 化最深层的动机是**统一**：把视觉和语言放到同一种表示格式中，让一个模型架构同时处理两者。正如第 07 章所述，语言模型是能力极强的序列到序列机器。把图像表示为 token 序列，就能免费继承语言建模的全部基础设施，，预训练方案、扩展定律、RLHF、上下文长度扩展等。
+- Once images are discrete token sequences, you can train a standard autoregressive transformer to model them. The image tokens are flattened into a 1D sequence (typically in raster scan order: left-to-right, top-to-bottom) and the transformer learns $p(\text{token}_i | \text{token}_1, \ldots, \text{token}_{i-1})$ with the standard cross-entropy loss. At generation time, tokens are sampled one by one and the completed grid is passed through the tokeniser's decoder to produce pixels.
 
-- **Chameleon**（Meta，2024）是典型例子：它使用含 8192 个条目的 VQ-GAN 码本，把图像转为 token，与文本 token 交错放入约 65,000 个条目的单一词表（文本 + 图像）。标准 Transformer 在混合图文序列上训练，可以在同一次前向中根据图像生成文本、根据文本生成图像，或生成交错的图文内容。
+- Conditioning on text is straightforward: prepend text tokens to the image token sequence, so the model learns $p(\text{image tokens} | \text{text tokens})$. This is exactly how DALL-E, Parti, and LlamaGen perform text-to-image generation. The text and image tokens share the same transformer, the same attention mechanism, and often the same embedding table (with text and image tokens occupying different index ranges).
 
-- **Gemini**（Google，2024）在更大规模上采取类似方法，在同一个 Transformer 内原生理解并生成图像、音频和文本，由模态专用 token 化器把数据输入共享序列。
+- The raster scan order introduces an artificial asymmetry: the top-left of the image is generated first, without any context about the bottom-right. Several works address this. **Masked image modelling** (MaskGIT) trains a bidirectional transformer that generates all tokens simultaneously but with varying confidence, iteratively unmasking the most confident tokens. **Multi-scale generation** generates coarse tokens first (capturing global composition) and then refines with residual tokens. These approaches trade off the simplicity of pure left-to-right generation for better global coherence.
 
-- 统一模型的关键工程挑战是**词表平衡**：如果 65,000 个词表条目中有 8192 个是图像 token，模型可能给视觉分配不足的容量。解决方案包括为每种模态使用独立嵌入层（只在注意力层共享）、模态专用损失权重，以及预训练期间谨慎设置数据混合比例。
+### Unified Vision-Language Tokens
 
-![统一视觉语言模型：来自独立 token 化器的文本和图像 token 交错成单一序列，由一个 Transformer 处理](../images/unified_vision_language_tokens.svg)
+- The deepest motivation for image tokenisation is **unification**: putting vision and language into the same representational format so that a single model architecture handles both. As we discussed in Chapter 7, language models are extraordinarily capable sequence-to-sequence machines. By representing images as token sequences, we inherit all the infrastructure of language modelling — pretraining recipes, scaling laws, RLHF, context length extensions — for free.
 
-## 编程任务（使用 Colab 或 notebook）
+- **Chameleon** (Meta, 2024) is a prominent example: it uses a VQ-GAN tokeniser with 8192 codebook entries to convert images into tokens that are interleaved with text tokens in a single vocabulary of ~65,000 entries (text + image). A standard transformer is trained on mixed text-image sequences, enabling it to generate text given images, images given text, or interleaved text-and-image content, all with the same forward pass.
 
-1. 用 JAX 实现最小 VQ 层：给定一批编码器输出向量，执行最近邻码本查找并计算 VQ-VAE 损失（重构 + 码本 + 承诺）。用直方图可视化码本利用率。
+- **Gemini** (Google, 2024) takes a similar approach at massive scale, natively understanding and generating images, audio, and text within a single transformer, with modality-specific tokenisers feeding into a shared sequence.
+
+- The key engineering challenge in unified models is **vocabulary balance**: if 8192 out of 65,000 vocabulary entries are image tokens, the model may under-allocate capacity to vision. Solutions include separate embedding layers for each modality (shared only at the attention level), modality-specific loss weighting, and careful data mixing ratios during pretraining.
+
+![Unified vision-language model: text and image tokens from separate tokenisers are interleaved into a single sequence processed by one transformer](../images/unified_vision_language_tokens.svg)
+
+
+## Coding Tasks (use CoLab or notebook)
+
+1. Implement a minimal VQ layer in JAX: given a batch of encoder output vectors, perform nearest-neighbour codebook lookup and compute the VQ-VAE loss (reconstruction + codebook + commitment). Visualise codebook utilisation as a histogram.
 ```python
 import jax
 import jax.numpy as jnp
@@ -274,7 +271,7 @@ plt.grid(True, alpha=0.3); plt.tight_layout(); plt.show()
 # Try: increase K to 512 and observe collapse. Then add codebook reset logic.
 ```
 
-2. 构建二维向量量化器，让它学会铺满二维分布。生成随机二维点，使用 EMA 更新学习码本，并可视化 Voronoi 区域。
+2. Build a toy 2D vector quantiser that learns to tile a 2D distribution. Generate random 2D points, learn a codebook via EMA updates, and visualise the Voronoi regions.
 ```python
 import jax
 import jax.numpy as jnp
@@ -329,7 +326,7 @@ plt.tight_layout(); plt.show()
 # Try: increase K to 64 and observe finer tiling. Reduce gamma and see instability.
 ```
 
-3. 演示残差量化：使用 $T$ 个连续量化阶段编码一批向量，测量每一层的重构误差如何下降。
+3. Demonstrate residual quantisation: encode a batch of vectors with $T$ successive quantisation stages and measure how the reconstruction error decreases with each level.
 ```python
 import jax
 import jax.numpy as jnp
@@ -377,7 +374,7 @@ plt.tight_layout(); plt.show()
 # Try: use a single codebook of size K*T and compare with RQ. Which wins?
 ```
 
-4. 模拟简单的一维“视频 token 化器”：生成一系列一维信号（模拟视频帧），应用因果时间压缩，并从重构质量角度与非因果压缩比较。
+4. Simulate a simple 1D "video tokeniser": generate a sequence of 1D signals (mimicking video frames), apply causal temporal compression, and compare with non-causal compression in terms of reconstruction quality.
 ```python
 import jax
 import jax.numpy as jnp

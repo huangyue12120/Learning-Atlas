@@ -6,7 +6,7 @@
   </defs>
 
   <!-- Title -->
-  <text x="400" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">视觉托肯管</text>
+  <text x="400" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">The Visual Token Pipeline</text>
 
   <!-- Step 1: Image -->
   <rect x="10" y="65" width="58" height="58" rx="4" fill="#eee" stroke="#ccc" stroke-width="1"/>
@@ -37,8 +37,8 @@
   <rect x="130" y="97" width="14" height="14" rx="1" fill="#3498db" fill-opacity="0.15" stroke="#bbb" stroke-width="0.5"/>
   <rect x="146" y="97" width="14" height="14" rx="1" fill="#9b59b6" fill-opacity="0.15" stroke="#bbb" stroke-width="0.5"/>
 
-  <text x="129" y="140" font-size="9" fill="#666" text-anchor="middle">补丁</text>
-  <text x="129" y="152" font-size="8" fill="#999" text-anchor="middle">N = 16个补丁</text>
+  <text x="129" y="140" font-size="9" fill="#666" text-anchor="middle">块化（Patchify）</text>
+  <text x="129" y="152" font-size="8" fill="#999" text-anchor="middle">N = 16 个块</text>
 
   <!-- Arrow 2 -->
   <line x1="165" y1="94" x2="185" y2="94" stroke="#666" stroke-width="1.5" marker-end="url(#vt-arrow)"/>
@@ -46,8 +46,8 @@
   <!-- Step 3: ViT Encoder -->
   <rect x="190" y="62" width="100" height="55" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
   <text x="240" y="86" font-size="10" fill="#333" text-anchor="middle">ViT 编码器</text>
-  <text x="240" y="101" font-size="9" fill="#666" text-anchor="middle">(翻译)</text>
-  <text x="240" y="140" font-size="8" fill="#3498db" text-anchor="middle">N 补丁嵌入</text>
+  <text x="240" y="101" font-size="9" fill="#666" text-anchor="middle">(Transformer) </text>
+  <text x="240" y="140" font-size="8" fill="#3498db" text-anchor="middle">N 个块嵌入向量（Patch Embeddings）</text>
 
   <!-- Arrow 3 -->
   <line x1="290" y1="90" x2="315" y2="90" stroke="#666" stroke-width="1.5" marker-end="url(#vt-arrow)"/>
@@ -66,11 +66,11 @@
 
   <!-- Step 4: Optional Compressor (dashed border) -->
   <rect x="320" y="55" width="135" height="68" rx="8" fill="#27ae60" fill-opacity="0.08" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="6,3"/>
-  <text x="387" y="78" font-size="9" fill="#333" text-anchor="middle">压缩机</text>
-  <text x="387" y="92" font-size="8" fill="#27ae60" text-anchor="middle">(Perceiver / Q- 前作) (中文(简体)).</text>
-  <text x="387" y="108" font-size="8" fill="#999" text-anchor="middle" font-style="italic">选项</text>
-  <text x="387" y="140" font-size="8" fill="#27ae60" text-anchor="middle">N 令牌 - > M 令牌</text>
-  <text x="387" y="152" font-size="8" fill="#27ae60" text-anchor="middle">(M &lt;&lt; N) (韩语).</text>
+  <text x="387" y="78" font-size="9" fill="#333" text-anchor="middle">压缩器（Compressor）</text>
+  <text x="387" y="92" font-size="8" fill="#27ae60" text-anchor="middle">(Perceiver / Q-Former) </text>
+  <text x="387" y="108" font-size="8" fill="#999" text-anchor="middle" font-style="italic">可选 (optional) </text>
+  <text x="387" y="140" font-size="8" fill="#27ae60" text-anchor="middle">N 个标记 -> M 个标记</text>
+  <text x="387" y="152" font-size="8" fill="#27ae60" text-anchor="middle">(M &lt;&lt; N)</text>
 
   <!-- Arrow 4 with shrinking indicator -->
   <line x1="455" y1="90" x2="480" y2="90" stroke="#666" stroke-width="1.5" marker-end="url(#vt-arrow)"/>
@@ -84,9 +84,9 @@
 
   <!-- Step 5: Linear Projection -->
   <rect x="485" y="68" width="80" height="44" rx="6" fill="#f39c12" fill-opacity="0.12" stroke="#f39c12" stroke-width="1.5"/>
-  <text x="525" y="88" font-size="9" fill="#333" text-anchor="middle">线性</text>
-  <text x="525" y="101" font-size="9" fill="#333" text-anchor="middle">预测</text>
-  <text x="525" y="140" font-size="8" fill="#f39c12" text-anchor="middle">与 LLM 暗线对齐</text>
+  <text x="525" y="88" font-size="9" fill="#333" text-anchor="middle">线性（Linear）</text>
+  <text x="525" y="101" font-size="9" fill="#333" text-anchor="middle">投影（Projection）</text>
+  <text x="525" y="140" font-size="8" fill="#f39c12" text-anchor="middle">与 LLM 维度对齐 (align to LLM dim) </text>
 
   <!-- Arrow 5 -->
   <line x1="565" y1="90" x2="585" y2="90" stroke="#666" stroke-width="1.5" marker-end="url(#vt-arrow)"/>
@@ -95,13 +95,13 @@
   <rect x="590" y="73" width="10" height="10" rx="2" fill="#f39c12" fill-opacity="0.6" stroke="none"/>
   <rect x="602" y="73" width="10" height="10" rx="2" fill="#f39c12" fill-opacity="0.6" stroke="none"/>
   <rect x="614" y="73" width="10" height="10" rx="2" fill="#f39c12" fill-opacity="0.6" stroke="none"/>
-  <text x="608" y="69" font-size="7" fill="#f39c12" text-anchor="middle">视觉</text>
+  <text x="608" y="69" font-size="7" fill="#f39c12" text-anchor="middle">视觉 (visual) </text>
 
   <text x="629" y="82" font-size="10" fill="#ccc">+</text>
 
   <rect x="638" y="73" width="10" height="10" rx="2" fill="#e74c3c" fill-opacity="0.5" stroke="none"/>
   <rect x="650" y="73" width="10" height="10" rx="2" fill="#e74c3c" fill-opacity="0.5" stroke="none"/>
-  <text x="649" y="69" font-size="7" fill="#e74c3c" text-anchor="middle">文本</text>
+  <text x="649" y="69" font-size="7" fill="#e74c3c" text-anchor="middle">文本 (text) </text>
 
   <!-- Arrow to LLM -->
   <line x1="630" y1="95" x2="630" y2="120" stroke="#666" stroke-width="1.2"/>
@@ -109,18 +109,18 @@
 
   <!-- Step 6: LLM -->
   <rect x="695" y="100" width="90" height="48" rx="8" fill="#9b59b6" fill-opacity="0.12" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="740" y="122" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">LLM 语言</text>
-  <text x="740" y="137" font-size="9" fill="#666" text-anchor="middle">(减震器)</text>
+  <text x="740" y="122" font-size="11" fill="#333" text-anchor="middle" font-weight="bold">LLM </text>
+  <text x="740" y="137" font-size="9" fill="#666" text-anchor="middle">(解码器（Decoder）)</text>
 
   <!-- Output -->
-  <text x="740" y="166" font-size="9" fill="#27ae60" text-anchor="middle" font-weight="bold">生成文本</text>
+  <text x="740" y="166" font-size="9" fill="#27ae60" text-anchor="middle" font-weight="bold">生成文本 (Generated text) </text>
 
   <!-- Bottom flow description -->
-  <text x="400" y="195" font-size="9" fill="#999" text-anchor="middle">图像 - > 补丁 - > 嵌入 - > (压缩) - > 预计 - > LLM 输入</text>
+  <text x="400" y="195" font-size="9" fill="#999" text-anchor="middle">图像 -> 块 -> 嵌入向量 -> (压缩) -> 投影 -> LLM 输入 </text>
 
   <!-- Token count shrinking annotation -->
   <path d="M 298 160 L 298 175 L 470 175 L 470 160" fill="none" stroke="#ccc" stroke-width="1"/>
-  <text x="384" y="188" font-size="8" fill="#27ae60" text-anchor="middle">减少计数(例如576 - > 64)</text>
+  <text x="384" y="188" font-size="8" fill="#27ae60" text-anchor="middle">标记数量减少（例如，576 -> 64）</text>
 
   <!-- Step numbers -->
   <circle cx="39" cy="55" r="8" fill="#333"/>

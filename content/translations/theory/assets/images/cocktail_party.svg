@@ -18,7 +18,7 @@
   <circle cx="55" cy="65" r="12" fill="rgba(52,152,219,0.15)" stroke="#3498db" stroke-width="1.5"/>
   <circle cx="55" cy="60" r="5" fill="none" stroke="#3498db" stroke-width="1.2"/>
   <path d="M47,72 Q55,80 63,72" fill="none" stroke="#3498db" stroke-width="1.2"/>
-  <text x="55" y="90" text-anchor="middle" font-size="8" fill="#3498db">发言人 1</text>
+  <text x="55" y="90" text-anchor="middle" font-size="8" fill="#3498db">说话人 1</text>
 
   <!-- Speaker 1 waveform -->
   <polyline points="78,58 85,50 90,66 95,48 100,68 105,52 110,62 115,55 120,65" fill="none" stroke="#3498db" stroke-width="1.2"/>
@@ -27,7 +27,7 @@
   <circle cx="55" cy="130" r="12" fill="rgba(231,76,60,0.15)" stroke="#e74c3c" stroke-width="1.5"/>
   <circle cx="55" cy="125" r="5" fill="none" stroke="#e74c3c" stroke-width="1.2"/>
   <path d="M47,137 Q55,145 63,137" fill="none" stroke="#e74c3c" stroke-width="1.2"/>
-  <text x="55" y="155" text-anchor="middle" font-size="8" fill="#e74c3c">发言人 2</text>
+  <text x="55" y="155" text-anchor="middle" font-size="8" fill="#e74c3c">说话人 2</text>
 
   <!-- Speaker 2 waveform -->
   <polyline points="78,125 83,132 90,118 97,135 102,120 108,130 113,122 118,128 123,124" fill="none" stroke="#e74c3c" stroke-width="1.2"/>
@@ -44,7 +44,7 @@
   <circle cx="185" cy="92" r="6" fill="none" stroke="#666" stroke-width="1.2"/>
   <line x1="185" y1="98" x2="185" y2="106" stroke="#666" stroke-width="1.5"/>
   <line x1="179" y1="106" x2="191" y2="106" stroke="#666" stroke-width="1.2"/>
-  <text x="185" y="125" text-anchor="middle" font-size="7" fill="#666">麦克</text>
+  <text x="185" y="125" text-anchor="middle" font-size="7" fill="#666">麦克风</text>
 
   <!-- Mixed signal -->
   <line x1="200" y1="97" x2="225" y2="97" stroke="#333" stroke-width="1.2" marker-end="url(#arrow-cp)"/>
@@ -59,9 +59,9 @@
 
   <!-- Separation Model -->
   <rect x="351" y="62" width="110" height="70" rx="6" fill="rgba(243,156,18,0.12)" stroke="#f39c12" stroke-width="1.8"/>
-  <text x="406" y="85" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">离职</text>
-  <text x="406" y="100" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">型号</text>
-  <text x="406" y="118" text-anchor="middle" font-size="7" fill="#666">(深网).</text>
+  <text x="406" y="85" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">分离</text>
+  <text x="406" y="100" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">模型</text>
+  <text x="406" y="118" text-anchor="middle" font-size="7" fill="#666">（深度网络）</text>
 
   <!-- Output arrows -->
   <line x1="461" y1="82" x2="495" y2="65" stroke="#3498db" stroke-width="1.2" marker-end="url(#arrow-blue-cp)"/>
@@ -70,17 +70,17 @@
   <!-- Separated signal 1 -->
   <rect x="498" y="42" width="170" height="40" rx="6" fill="rgba(52,152,219,0.08)" stroke="#3498db" stroke-width="1.2"/>
   <polyline points="510,62 517,52 522,68 527,50 532,70 537,54 542,64 547,57 552,67 557,55 562,62 567,58 572,65 577,53 582,66 587,58 592,62 597,55 602,65 607,58 612,62 617,55 622,60 627,64 632,58 637,62 642,56 647,60 652,62 657,58" fill="none" stroke="#3498db" stroke-width="1"/>
-  <text x="583" y="90" text-anchor="middle" font-size="8" fill="#3498db">来源1</text>
+  <text x="583" y="90" text-anchor="middle" font-size="8" fill="#3498db">恢复的声源 1</text>
 
   <!-- Separated signal 2 -->
   <rect x="498" y="110" width="170" height="40" rx="6" fill="rgba(231,76,60,0.08)" stroke="#e74c3c" stroke-width="1.2"/>
   <polyline points="510,130 515,138 522,122 529,140 534,125 540,135 545,127 550,133 555,128 560,136 565,124 570,138 575,126 580,132 585,128 590,134 595,122 600,136 605,128 610,130 615,126 620,132 625,122 630,130 635,128 640,134 645,126 650,130 655,128 660,132" fill="none" stroke="#e74c3c" stroke-width="1"/>
-  <text x="583" y="158" text-anchor="middle" font-size="8" fill="#e74c3c">源代码 2</text>
+  <text x="583" y="158" text-anchor="middle" font-size="8" fill="#e74c3c">恢复的声源 2</text>
 
   <!-- Note box -->
   <rect x="30" y="185" width="640" height="55" rx="6" fill="#f5f5f5" stroke="#333" stroke-width="1"/>
-  <text x="50" y="205" font-size="10" font-weight="bold" fill="#333">鸡尾酒派对的问题:</text>
-  <text x="260" y="205" font-size="10" fill="#666">从混合物中回收个别来源。</text>
-  <text x="50" y="225" font-size="9" fill="#666">人类通过听觉的注意来无心地做这件事 深层学习方法向不同的来源学习</text>
-  <text x="50" y="237" font-size="9" fill="#666">混合信号,即使训练过合成混合物。关键挑战:穿透问题.</text>
+  <text x="50" y="205" font-size="10" font-weight="bold" fill="#333">鸡尾酒会问题：</text>
+  <text x="260" y="205" font-size="10" fill="#666">从混合信号中恢复各个独立声源。</text>
+  <text x="50" y="225" font-size="9" fill="#666">人类通过听觉注意力轻松完成这一过程。深度学习方法学习从混合信号中分离声源，</text>
+  <text x="50" y="237" font-size="9" fill="#666">即使使用合成混合信号训练也可以做到。关键挑战：排列问题。</text>
 </svg>

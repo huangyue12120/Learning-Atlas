@@ -8,223 +8,225 @@ source:
   sha256: 76746c0492a2391388c3dc8f24b5e9b44d22c475ff7a58ed200bc3a2f2952a30
 status: reviewed
 ---
+# ML Systems Design
 
-# 机器学习系统设计
+*ML systems design applies the infrastructure patterns from files 01-03 to the specific challenges of machine learning. This file covers the ML lifecycle, data management, training infrastructure, model evaluation, serving strategies, feature engineering, ML pipelines, and monitoring.*
 
-*机器学习系统设计把第 01–03 篇中的基础设施模式应用到机器学习的具体挑战。本篇涵盖机器学习生命周期、数据管理、训练基础设施、模型评估、服务策略、特征工程、机器学习流水线和监控。*
+- A systems design interview question like "Design a recommendation system for YouTube" is not asking you to describe the recommendation algorithm. It is asking you to design the **entire system**: data pipelines, feature engineering, model training, evaluation, serving, monitoring, and iteration. This file provides the 框架.
 
-- “为 YouTube 设计一个推荐系统”这样的系统设计面试题，并不是让你描述推荐算法，而是要求你设计**完整系统**：数据流水线、特征工程、模型训练、评估、服务、监控和迭代。本篇提供了所需的框架。
+## The ML System Lifecycle
 
-## 机器学习系统生命周期
+![ML system lifecycle: problem framing through deployment and monitoring, with continuous iteration](../images/ml_lifecycle.svg)
 
-![机器学习系统生命周期：从问题定义到部署和监控，并持续迭代](../images/ml_lifecycle.svg)
 
-- 无论是垃圾邮件分类器还是基础模型，每个机器学习系统都遵循相同的生命周期：
-
-```
-问题定义 → 数据 → 特征 → 训练 → 评估 → 部署 → 监控 → 迭代
-   ↑                                                                  │
-   └──────────────────────────────────────────────────────────────────┘
-```
-
-### 问题定义
-
-- 在接触数据或模型之前，先定义：
-    - 要预测**什么**？（点击概率、下一个 token、目标边界框）
-    - 用户**是谁**？（终端用户、内部分析师、其他机器学习模型）
-    - **约束是什么**？（延迟 < 100 ms、离线批处理即可、必须在设备上运行）
-    - **业务指标是什么**？（收入、参与度、准确率），以及机器学习指标如何与它建立关系？
-    - **基线是什么**？（启发式方法、基于规则的系统、已有模型），，必须超过基线，才能证明建立机器学习系统是合理的。
-
-- **常见错误**：还没有理解问题，就跳到模型架构。“我们应该使用 Transformer”不是系统设计答案。“我们需要在 200 ms 内为 1,000 万个候选项预测点击概率，因此需要一个两阶段系统：先快速召回，再用小型排序模型排序”才是。
-
-## 数据管理
-
-### 数据收集与标注
-
-- **显式标签**：由人类标注数据（点击/未点击、目标边界框、对话质量评分）。成本高（取决于复杂度，每个标签约 0.02–10 美元）、速度慢，而且带有主观性。
-
-- **隐式标签**：从用户行为中推导标签，例如点击、停留时间、购买和跳过。它便宜且数量多，但噪声很大（点击不一定表示满意；跳过也不一定表示不喜欢）。
-
-- **程序化标注**（Snorkel）：编写标注函数（启发式规则、正则表达式、已有模型），让它们对每个样本投票，再用统计方法聚合投票，生成概率标签。它可以以中等准确率扩展到数百万样本。
-
-- **主动学习**：模型识别自己最不确定的样本，请求人类为这些样本标注。这能最大化标签效率：1,000 个主动选出的标签可能达到 10,000 个随机标签的效果。
-
-### 数据质量
-
-- **数据验证**：检查每一批输入数据是否存在模式违规（缺少字段、类型错误）、分布漂移（平均值发生显著变化）和数量异常（预期 100 万行，实际只有 50 万行）。
-
-- **Great Expectations** 和 **TFX Data Validation** 都能定义对数据的预期，并在预期不满足时发出警报。
-
-- **数据版本管理**：每次训练都应可复现。**DVC**（第 15 章）和代码一起跟踪数据文件。每个数据集版本都有一个哈希值，训练配置会引用这个哈希值。
-
-### 特征存储
-
-![特征存储：同一特征计算同时供给离线存储（训练）和在线存储（服务），避免训练，服务偏差](../images/feature_store.svg)
-
-- **特征存储**（第 15 章）为训练和服务提供一致的特征。关键概念包括：
-
-    - **离线特征**：由批处理流水线（Spark）计算并存储在数据仓库中，用于训练和批量推理。例如，用户过去 30 天的平均会话长度、商品的累计购买次数。
-
-    - **在线特征**：实时计算，或预先计算后存入低延迟存储（Redis、DynamoDB），用于实时推理。例如，用户最近 5 次操作、当前购物车内容。
-
-    - **训练，服务偏差**：如果训练和服务使用了不同的特征计算方式，模型在推理时看到的特征值就会不同于训练时的值。特征存储通过让两者使用同一套计算来消除这种偏差。
-
-## 训练基础设施
-
-- 对本书读者而言，分布式训练已在第 6 章深入介绍（数据并行、模型并行、混合精度、缩放定律）。这里聚焦**系统**层面的内容：
-
-- **实验跟踪**（W&B、MLflow，，第 15 章）：每次训练记录超参数、指标、Git 提交、数据版本和硬件信息。这相当于模型的版本控制。
-
-- **超参数调优**：自动搜索超参数。方法包括网格搜索（穷举，成本高）、随机搜索（效果出人意料地好）、贝叶斯优化（为目标建模，并在可能取得改进的位置采样）和 **ASHA**（Asynchronous Successive Halving，异步连续减半：启动许多试验，尽早终止表现不佳的试验）。
-
-- **训练流水线编排**（Airflow、Kubeflow，，第 15 章）：自动化执行数据准备 → 训练 → 评估 → 注册的顺序。安排每日重新训练，并在失败时告警。
-
-## 模型评估
-
-### 离线评估
-
-- **留出测试集**：在模型从未见过的数据上评估。它是标准做法，但如果测试集不能代表生产数据，结果可能会产生误导。
-
-- **切片评估**：按子群体评估（例如用户人口统计特征、内容类型、语言和时间段）。一个整体准确率 95% 的模型，可能在某个少数群体上的准确率只有 70%，这是不可接受的。
-
-- **回测**：对于时间序列或顺序预测，按时间顺序在历史数据上评估。在截至时间 $t$ 的数据上训练，在 $t$ 到 $t + \Delta t$ 的数据上评估，避免使用未来数据训练所造成的信息泄漏。
-
-### 在线评估
-
-![A/B 测试：把用户随机分到对照组（旧模型）和实验组（新模型），比较具有统计显著性的指标](../images/ab_testing.svg)
-
-- **A/B 测试**：将实时流量随机分为对照组（旧模型）和实验组（新模型），比较具有统计显著性的业务指标（收入、参与度、留存率）。这是评估机器学习改动的黄金标准。
-
-    - **样本量**：需要足够的数据来检测预期的效应量。点击率提高 0.1% 时，通常需要数百万次展示才能以显著性检出这一变化。
-
-    - **持续时间**：至少运行一个完整周期（多数产品为 1–2 周），以捕捉星期几造成的影响。
-
-    - **护栏指标**：除了目标指标，还要监控不应发生变化的指标（页面加载时间、错误率、崩溃率）。一个模型即使提高了收入，却同时增加崩溃，也会带来净负面影响。
-
-- **影子部署**：在生产环境中让新旧模型并行运行。两者接收相同请求，但只向用户提供旧模型的预测，随后比较输出。这样无需给用户带来风险，就能发现错误和质量问题。
-
-- **交错实验**：对于排序问题，把新旧模型的结果交错放在同一个列表中。用户与交错列表互动，然后衡量哪个模型的结果获得了更多参与。与 A/B 测试相比，它达到显著性所需的用户更少。
-
-## 模型服务
-
-### 批量与实时
-
-- **批量推理**：预先为所有可能的输入计算预测，存入数据库或缓存，再从缓存提供服务。适用于输入空间有限（每晚为所有用户生成推荐）、新鲜度不关键（每日预测即可）且能够容忍较高延迟的场景。
-
-- **实时推理**：为每个请求按需计算预测。适用于输入空间无限（任意用户查询）、新鲜度重要（立即为这个特定查询预测）且必须低延迟的场景。
-
-- 许多系统会**同时使用两者**：批处理先生成一批候选项（成本低，覆盖 80% 的流量），实时系统处理剩余请求（成本高，覆盖长尾查询和新用户）。
-
-### 模型版本管理与注册表
-
-- **模型注册表**（MLflow、W&B、SageMaker）会保存带元数据的训练模型：
-    - 版本号和训练日期。
-    - 训练配置和数据版本。
-    - 评估指标（准确率、延迟、内存占用）。
-    - 阶段：开发 → 预发布 → 生产 → 归档。
-
-- **回滚**：如果新模型让生产指标恶化，立即恢复到之前的版本。注册表可以把这变成单击操作。
-
-## 特征工程
-
-- **特征工程**把原始数据转换为模型所需的输入。它通常是机器学习中杠杆最大的一项工作：更好的特征能改进每个模型，而更好的模型会受限于它接收到的特征。
-
-### 在线特征与离线特征
-
-- **离线特征**预先计算，变化缓慢（用户人口统计信息、30 天聚合值），由批处理流水线（Spark）计算并存储在特征存储中。
-
-- **在线特征**反映当前状态，变化迅速（购物车中的商品、最近一次操作、当前位置），由事件流实时计算，或从快速存储中读取。
-
-- **特征新鲜度**：有些特征必须新鲜到秒级（欺诈检测：结合最近 5 笔交易判断本次交易是否异常），另一些允许滞后数小时（推荐：根据历史判断用户偏好的类型）。特征越新鲜，计算和服务成本通常越高。
-
-### 常见特征模式
-
-- **计数特征**：统计时间窗口内的事件数量（过去 7 天的购买次数、过去 24 小时的登录次数）。
-- **Embedding 特征**：为类别变量学习 embedding（用户 embedding、商品 embedding、查询 embedding）。它们是双塔模型及类似架构的输入。
-- **交叉特征**：组合两个或更多特征（`user_age × item_category`），捕捉单个特征无法表达的交互。
-- **时间特征**：距上次操作的时间、星期几、一天中的小时，捕捉时间模式。
-- **聚合特征**：按某个分组统计数值特征的均值、中位数、最小值、最大值和标准差（例如某卖家商品的平均评分）。
-
-## 机器学习流水线
-
-- 机器学习流水线编排从数据到已部署模型的完整工作流：
+- Every ML system follows the same lifecycle, whether it is a spam classifier or a foundation model:
 
 ```
-数据摄取 → 验证 → 特征工程 → 训练 → 评估 → 注册 → 部署 → 监控
+Problem Framing → Data → Features → Training → Evaluation → Deployment → Monitoring → Iteration
+       ↑                                                                                    │
+       └────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-- 编排器中的每一步都是一个任务（Airflow、Kubeflow、Metaflow，，第 15 章）。流水线：
-    - 按计划运行（每日重新训练），或由触发器运行（有新数据可用）。
-    - 具有幂等性（重复运行会产生相同结果）。
-    - 具有重试逻辑（特征计算失败时带退避重试 3 次）。
-    - 产出经过版本管理并存储的制品（训练好的模型、评估报告、特征统计信息）。
+### Problem Framing
 
-- **Metaflow**（Netflix/Outerbounds）特别适合机器学习：它把代码、数据和模型放在一起版本化，用同一份代码支持本地开发与云端执行，并与 K8s 和 AWS 集成。
+- Before touching data or models, define:
+    - **What** are you predicting? (click probability, next token, object bounding box)
+    - **Who** are the users? (end users, internal analysts, other ML models)
+    - **What are the constraints?** (latency < 100ms, offline batch is fine, must run on-device)
+    - **What is the business metric?** (revenue, engagement, accuracy) and how does the ML metric relate to it?
+    - **What is the baseline?** (heuristic, rule-based system, existing model) — you must beat this to justify the ML system.
 
-## 监控
+- **Common mistake**: jumping to model architecture before understanding the problem. "We should use a transformer" is not a system design answer. "We need to predict click probability for 10M candidates within 200ms, so we need a two-stage system: fast retrieval then a small ranking model" is.
 
-- 第 15 章介绍了监控基础（Prometheus、Grafana、告警）。这里聚焦**机器学习专属监控**：
+## Data Management
 
-### 数据漂移
+### Data Collection and Labelling
 
-- **数据漂移**指输入数据的分布相对于训练数据发生变化。用夏季数据训练的模型，到了冬季可能表现不佳（用户行为和商品可用性都不同）。
+- **Explicit labels**: humans annotate data (click/no-click, object bounding boxes, conversation quality ratings). Expensive (~$0.02-$10 per label depending on complexity), slow, and subjective.
 
-- **检测**：使用统计检验比较输入特征分布与训练分布：
-    - **KS 检验**（Kolmogorov–Smirnov）：比较两个经验分布，检验它们是否来自同一个底层分布。
-    - **PSI**（Population Stability Index，群体稳定性指数）：衡量分布偏移了多少。PSI < 0.1 表示稳定，0.1–0.25 表示中等漂移，> 0.25 表示显著漂移。
-    - **Embedding 漂移**：使用质心距离或 MMD（Maximum Mean Discrepancy，最大均值差异）比较输入查询的 embedding 分布与训练集的分布。
+- **Implicit labels**: derive labels from user behaviour. Clicks, dwell time, purchases, skips. Cheap and abundant but noisy (a click does not mean satisfaction; a skip does not mean dislike).
 
-### 概念漂移
+- **Programmatic labelling** (Snorkel): write labelling functions (heuristics, regex, existing models) that vote on each example. Aggregate votes statistically to produce probabilistic labels. Scales to millions of examples with moderate accuracy.
 
-- **概念漂移**指输入与输出之间的关系发生变化。特征看起来相同，但正确预测不同。例如，文化事件、疫情或产品变化之后，用户偏好发生改变。
+- **Active learning**: the model identifies the examples it is most uncertain about and requests human labels for those. This maximises label efficiency: 1000 actively-selected labels can match 10,000 random labels.
 
-- 概念漂移比数据漂移更难检测，因为它需要带标签的数据。可以监控代理指标：点击率、转化率和用户满意度评分。持续下降可能说明发生了概念漂移。
+### Data Quality
 
-### 模型退化
+- **Data validation**: check every batch of incoming data for schema violations (missing fields, wrong types), distribution shifts (average values changed significantly), and volume anomalies (expected 1M rows, got 500K).
 
-- 模型会因多种原因随时间退化：数据漂移、概念漂移、特征流水线错误（某个特征开始返回 null）以及上游数据变化（第三方 API 修改了响应格式）。
+- **Great Expectations** and **TFX Data Validation** are tools that define expectations about data and alert when they are violated.
 
-- **应对方式**：检测到退化后，根据严重程度采取行动：
-    - 轻微：在近期数据上重新训练（定期训练会处理这种情况）。
-    - 中等：调查根因（哪个特征变了？哪个用户分群受到影响？）。
-    - 严重：立即回滚到之前的模型版本，再进行调查。
+- **Data versioning**: every training run should be reproducible. **DVC** (chapter 15) tracks data files alongside code. Each dataset version gets a hash; the training config references the hash.
 
-### 反馈回路
+### Feature Stores
 
-- 机器学习系统会形成**反馈回路**：模型预测影响用户行为，而用户行为又成为下一个模型版本的训练数据。这些回路可能良性，也可能恶性。
+![Feature store: same feature computation feeds both the offline store (for training) and online store (for serving), preventing training-serving skew](../images/feature_store.svg)
 
-- **正反馈回路**（危险）：推荐模型主要展示热门商品 → 用户因为只能看到热门商品而点击它们 → 模型学到热门商品变得更热门 → 多样性崩溃。模型制造了会确认自身偏见的数据。
 
-- **负反馈回路**（同样危险）：欺诈检测模型捕获了所有 A 类欺诈 → 训练数据中不再出现 A 类欺诈 → 下一个模型学不会检测 A 类欺诈 → A 类欺诈再次出现。
+- **Feature stores** (chapter 15) provide consistent features for training and serving. Key concepts:
 
-- **缓解措施**：
-    - **探索**：展示一些模型不确定的商品（epsilon-greedy、Thompson sampling），从而生成多样化的训练数据。
-    - **反事实日志**：记录模型“本来会”预测什么，而不只是用户看到了什么。用反事实数据训练，以消除偏差。
-    - **留出集**：随机让一部分流量不经过模型过滤。未过滤的数据为评估模型质量提供真实依据。
-    - **延迟标签**：等待真实结果出现后再把数据用于训练。今天点击的推荐，明天可能会后悔；欺诈预测必须等待拒付窗口（30–90 天）结束。
+    - **Offline features**: computed from batch pipelines (Spark), stored in data warehouses. Used during training and for batch inference. Examples: user's average session length over 30 days, item's total purchase count.
 
-### Embedding 表管理
+    - **Online features**: computed in real-time or precomputed and served from a low-latency store (Redis, DynamoDB). Used during real-time inference. Examples: user's last 5 actions, current cart contents.
 
-- 大规模机器学习系统常有包含 1 亿条以上记录的 embedding 表（每个用户、商品、广告或实体一个 embedding）。如何在规模上管理它们，是系统层面的挑战：
+    - **Training-serving skew**: if the feature computation differs between training and serving, the model sees different feature values at inference than it was trained on. Feature stores eliminate this by using the same computation for both.
 
-- **存储**：1 亿个实体 × 256 维 × float16 = 50 GB，放不进 GPU 内存。解决方案包括：存放在 CPU 内存并在 GPU 侧缓存、分片到多台机器，或使用**哈希 embedding**（把实体哈希到固定大小的表中，接受冲突）。
+## Training Infrastructure
 
-- **更新**：模型重新训练时 embedding 会变化。把新 embedding 表部署到服务系统，需要在不中断实时流量的情况下将 50 GB 加载到内存、验证正确性，并在指标恶化时回滚。可以对 embedding 表使用蓝绿部署。
+- For this book's audience, distributed training was covered in depth in chapter 6 (data parallelism, model parallelism, mixed precision, scaling laws). Here we focus on the **systems** aspects:
 
-- **陈旧性**：新创建的用户没有 embedding（冷启动问题）。解决方案包括使用默认 embedding、通过特征到 embedding 模型从用户特征推导 embedding，或回退到非个性化模型。
+- **Experiment tracking** (W&B, MLflow — chapter 15): every training run logs hyperparameters, metrics, git commit, data version, and hardware. This is the ML equivalent of version control for models.
 
-### 公平性与偏差
+- **Hyperparameter tuning**: automated search over hyperparameters. Methods: grid search (exhaustive, expensive), random search (surprisingly effective), Bayesian optimisation (model the objective, sample where improvement is likely), and **ASHA** (Asynchronous Successive Halving: start many trials, kill underperforming ones early).
 
-- 机器学习系统可能系统性地以不同方式对待不同群体，通常是训练数据偏差的反映。**公平性监控**是一项责任，而不是可选功能。
+- **Training pipeline orchestration** (Airflow, Kubeflow — chapter 15): automate the sequence of data prep → training → evaluation → registration. Schedule daily retraining. Alert on failures.
 
-- **需要监控的指标**：
-    - **人口统计均等（Demographic parity）**：不同群体（性别、族裔、年龄）的正向预测率是否不同？
-    - **机会均等（Equal opportunity）**：不同群体的真正例率是否不同？（招聘模型识别各群体合格候选人的能力应当同样好。）
-    - **校准（Calibration）**：如果模型对群体 A 说合格概率为 0.7，那么群体 A 中是否确实有 70% 合格？群体 B 也应如此。
+## Model Evaluation
 
-- **实践步骤**：
-    - 按切片（子群体）评估模型表现，而不只看整体指标。
-    - 把公平性指标纳入模型评估流水线（如果模型提升了整体准确率，却损害了某个群体，未经审查不应部署）。
-    - 记录已知局限和失败模式。
-    - 为部署在敏感领域的模型建立审查流程（招聘、贷款、刑事司法、医疗保健）。
+### Offline Evaluation
+
+- **Held-out test set**: evaluate on data the model never saw during training. Standard but can be misleading if the test set does not represent production data.
+
+- **Slice-based evaluation**: evaluate on subgroups (by user demographics, content type, language, time period). A model with 95% overall accuracy might have 70% accuracy for a specific minority group — unacceptable.
+
+- **Backtesting**: for time-series or sequential prediction, evaluate on historical data in time order. Train on data up to time $t$, evaluate on data from $t$ to $t + \Delta t$. Avoids the leakage of using future data for training.
+
+### Online Evaluation
+
+![A/B testing: randomly split users into control (old model) and treatment (new model), compare metrics with statistical significance](../images/ab_testing.svg)
+
+
+- **A/B testing**: randomly split live traffic into control (old model) and treatment (new model). Compare business metrics (revenue, engagement, retention) with statistical significance. The gold standard for evaluating ML changes.
+
+    - **Sample size**: you need enough data to detect the expected effect size. A 0.1% improvement in click-through rate requires millions of impressions to detect with significance.
+
+    - **Duration**: run for at least one full cycle (1-2 weeks for most products) to capture day-of-week effects.
+
+    - **Guardrail metrics**: monitor metrics that should NOT change (page load time, error rate, crash rate) alongside the target metric. A model that increases revenue but also increases crashes is a net negative.
+
+- **Shadow deployment**: run the new model alongside the old one in production. Both receive the same requests, but only the old model's predictions are served to users. Compare the outputs. This catches bugs and quality issues without risk to users.
+
+- **Interleaving**: for ranking problems, interleave results from the old and new model in a single list. Users interact with the interleaved list, and you measure which model's results get more engagement. Requires fewer users than A/B testing to reach significance.
+
+## Model Serving
+
+### Batch vs Real-Time
+
+- **Batch inference**: precompute predictions for all possible inputs. Store in a database/cache. Serve from the cache. Works when: the input space is finite (recommend for all users nightly), freshness is not critical (daily predictions are fine), and latency tolerance is high.
+
+- **Real-time inference**: compute predictions on demand for each request. Works when: the input space is infinite (any user query), freshness matters (predict for this specific query right now), and latency must be low.
+
+- Many systems use **both**: batch precomputes a set of candidates (cheap, covers 80% of traffic), real-time handles the rest (expensive, covers tail queries and new users).
+
+### Model Versioning and Registry
+
+- A **model registry** (MLflow, W&B, SageMaker) stores trained models with metadata:
+    - Version number and training date.
+    - Training config and data version.
+    - Evaluation metrics (accuracy, latency, memory usage).
+    - Stage: development → staging → production → archived.
+
+- **Rollback**: if a new model degrades metrics in production, revert to the previous version immediately. The registry makes this a one-click operation.
+
+## Feature Engineering
+
+- **Feature engineering** transforms raw data into the inputs the model needs. It is often the highest-leverage activity in ML: better features improve every model, while better models are limited by the features they receive.
+
+### Online vs Offline Features
+
+- **Offline features** are precomputed and change slowly (user demographics, 30-day aggregates). Computed by batch pipelines (Spark), stored in the feature store.
+
+- **Online features** reflect the current 状态 and change rapidly (items in cart, last action, current location). Computed in real-time from event streams or looked up from a fast store.
+
+- **Feature freshness**: some features need to be seconds-fresh (fraud detection: is this transaction anomalous given the last 5 transactions?). Others can be hours-stale (recommendations: what genres does this user prefer based on their history?). Fresher features are more expensive to compute and serve.
+
+### Common Feature Patterns
+
+- **Counting features**: count of events in a time window (purchases in last 7 days, logins in last 24 hours).
+- **Embedding features**: learned embeddings for categorical variables (user embedding, item embedding, query embedding). These are the inputs to two-tower models and similar architectures.
+- **Cross features**: combinations of two or more features (user_age × item_category). Capture interactions that individual features miss.
+- **Temporal features**: time since last action, day of week, hour of day. Capture temporal patterns.
+- **Aggregation features**: mean, median, min, max, std of a numerical feature over a group (average rating of items by this seller).
+
+## ML Pipelines
+
+- An ML pipeline orchestrates the entire workflow from data to deployed model:
+
+```
+Data ingestion → Validation → Feature engineering → Training → Evaluation → Registration → Deployment → Monitoring
+```
+
+- Each step is a task in an orchestrator (Airflow, Kubeflow, Metaflow — chapter 15). The pipeline:
+    - Runs on a schedule (daily retraining) or on trigger (new data available).
+    - Is idempotent (rerunning produces the same result).
+    - Has retry logic (if feature computation fails, retry 3 times with backoff).
+    - Produces artifacts (trained model, evaluation report, feature statistics) that are versioned and stored.
+
+- **Metaflow** (Netflix/Outerbounds) is particularly well-suited for ML: it versions code, data, and models together, supports local development and cloud execution with the same code, and integrates with K8s and AWS.
+
+## Monitoring
+
+- We covered monitoring fundamentals in chapter 15 (Prometheus, Grafana, alerts). Here we focus on **ML-specific monitoring**:
+
+### Data Drift
+
+- **Data drift** occurs when the distribution of incoming data changes relative to the training data. A model trained on summer data may perform poorly on winter data (different user behaviour, different product availability).
+
+- **Detection**: compare the distribution of incoming features to the training distribution using statistical tests:
+    - **KS test** (Kolmogorov-Smirnov): compares two empirical distributions. Tests whether they come from the same underlying distribution.
+    - **PSI** (Population Stability Index): measures how much a distribution has shifted. PSI < 0.1 is stable, 0.1-0.25 is moderate shift, > 0.25 is significant.
+    - **Embedding drift**: compare the embedding distribution of incoming queries to the training set using centroid distance or MMD (Maximum Mean Discrepancy).
+
+### Concept Drift
+
+- **Concept drift** occurs when the relationship between inputs and outputs changes. The features look the same, but the correct prediction is different. Example: user preferences shift after a cultural event, pandemic, or product change.
+
+- Concept drift is harder to detect than data drift because it requires labelled data. Monitor proxy metrics: click-through rate, conversion rate, user satisfaction scores. A sustained decline suggests concept drift.
+
+### Model Degradation
+
+- Models degrade over time for multiple reasons: data drift, concept drift, feature pipeline bugs (a feature starts returning null), and upstream data changes (a third-party API changes its response format).
+
+- **Response**: when degradation is detected, the action depends on severity:
+    - Mild: retrain on recent data (scheduled retraining handles this).
+    - Moderate: investigate the root cause (which feature changed? which user segment is affected?).
+    - Severe: roll back to a previous model version immediately, then investigate.
+
+### Feedback Loops
+
+- ML systems create **feedback loops**: the model's predictions influence user behaviour, which becomes the training data for the next model version. These loops can be virtuous or vicious.
+
+- **Positive feedback loop** (dangerous): a recommendation model shows mostly popular items → users click on popular items (because that is all they see) → the model learns that popular items are even more popular → diversity collapses. The model creates the data that confirms its biases.
+
+- **Negative feedback loop** (also dangerous): a fraud detection model catches all fraud of type A → no type-A fraud reaches the training data → the next model does not learn to detect type A → type-A fraud resurfaces.
+
+- **Mitigations**:
+    - **Exploration**: show some items the model is uncertain about (epsilon-greedy, Thompson sampling). This generates diverse training data.
+    - **Counterfactual logging**: record what the model *would have* predicted, not just what the user saw. Train on counterfactual data to debias.
+    - **Holdout sets**: randomly serve a fraction of traffic without model filtering. The unfiltered data provides ground truth for evaluating model quality.
+    - **Delayed labels**: wait for the true outcome before using the data for training. A recommendation clicked today may be regretted tomorrow. A fraud prediction must wait for the chargeback window (30-90 days).
+
+### Embedding Table Management
+
+- Large-scale ML systems often have embedding tables with 100M+ entries (one embedding per user, item, ad, or entity). Managing these at scale is a systems challenge:
+
+- **Storage**: 100M entities × 256-dim × float16 = 50 GB. Does not fit in GPU memory. Solutions: store in CPU memory with GPU-side caching, shard across multiple machines, or use **hash embeddings** (hash entities to a fixed-size table, accepting collisions).
+
+- **Updates**: embeddings change as the model retrains. Deploying a new embedding table to serving requires: loading 50 GB into memory without disrupting live traffic, verifying correctness, and rolling back if metrics degrade. Use blue-green deployment for embedding tables.
+
+- **Staleness**: a newly created user has no embedding (the cold start problem). Solutions: use a default embedding, derive an embedding from the user's features via a feature-to-embedding model, or fall back to a non-personalised model.
+
+### Fairness and Bias
+
+- ML systems can systematically treat different groups differently, often reflecting biases in training data. **Fairness monitoring** is a responsibility, not an optional feature.
+
+- **Metrics to monitor**:
+    - **Demographic parity**: does the positive prediction rate differ across groups (gender, ethnicity, age)?
+    - **Equal opportunity**: does the true positive rate differ across groups? (A hiring model should be equally good at identifying qualified candidates from all groups.)
+    - **Calibration**: if the model says P(qualified) = 0.7 for group A, does 70% of group A actually qualify? And the same for group B?
+
+- **Practical steps**:
+    - Evaluate model performance on slices (subgroups) not just overall metrics.
+    - Include fairness metrics in the model evaluation pipeline (a model that improves overall accuracy but degrades a specific group should not be deployed without review).
+    - Document known limitations and failure modes.
+    - Establish a review process for models deployed in sensitive domains (hiring, lending, criminal justice, healthcare).

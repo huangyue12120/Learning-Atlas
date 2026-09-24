@@ -9,11 +9,11 @@
   </defs>
 
   <!-- Title -->
-  <text x="400" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">文本到音频生成(MusicGen 风格)</text>
+  <text x="400" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">文本到音频生成（类似于MusicGen）</text>
 
   <!-- Text Prompt -->
   <rect x="15" y="75" width="100" height="36" rx="8" fill="#e74c3c" fill-opacity="0.08" stroke="#e74c3c" stroke-width="1.2" stroke-dasharray="4,2"/>
-  <text x="65" y="93" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">"击败了爵士乐"</text>
+  <text x="65" y="93" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">“欢快的爵士乐</text>
   <text x="65" y="104" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">钢琴旋律"</text>
 
   <!-- Arrow -->
@@ -22,23 +22,23 @@
   <!-- Text Encoder (T5) -->
   <rect x="142" y="72" width="100" height="42" rx="8" fill="#e74c3c" fill-opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
   <text x="192" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">文本编码器</text>
-  <text x="192" y="104" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">(T5级)</text>
+  <text x="192" y="104" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">(T5-large) </text>
 
   <!-- Arrow from encoder down to cross-attention -->
   <line x1="192" y1="114" x2="192" y2="140" stroke="#e74c3c" stroke-width="1.2" stroke-dasharray="4,2" marker-end="url(#ta-arr-red)"/>
-  <text x="192" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">横跨吨位</text>
+  <text x="192" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#e74c3c">跨注意力 (cross-attn) </text>
 
   <!-- Transformer Decoder -->
   <rect x="142" y="145" width="155" height="50" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>
-  <text x="219" y="167" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">变形器解码器</text>
-  <text x="219" y="183" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">自动递归,因果</text>
+  <text x="219" y="167" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">Transformer 解码器</text>
+  <text x="219" y="183" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">自回归，因果 (autoregressive, causal) </text>
 
   <!-- Arrow from decoder to codebook grid -->
   <line x1="297" y1="170" x2="325" y2="170" stroke="#333" stroke-width="1.2" marker-end="url(#ta-arr)"/>
 
   <!-- Codebook grid (interleaved pattern) -->
   <!-- Grid label -->
-  <text x="435" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#333">分解音频键</text>
+  <text x="435" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#333">离散音频标记 (discrete audio tokens) </text>
 
   <!-- Column headers (time steps) -->
   <text x="348" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#999">t1</text>
@@ -51,10 +51,10 @@
   <text x="516" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#999">t8</text>
 
   <!-- Row labels (codebook levels) -->
-  <text x="326" y="96" text-anchor="end" font-family="Arial, sans-serif" font-size="7" fill="#9b59b6">CB 1 数据</text>
-  <text x="326" y="116" text-anchor="end" font-family="Arial, sans-serif" font-size="7" fill="#3498db">CB 2 数据</text>
-  <text x="326" y="136" text-anchor="end" font-family="Arial, sans-serif" font-size="7" fill="#27ae60">CB 3号卫星</text>
-  <text x="326" y="156" text-anchor="end" font-family="Arial, sans-serif" font-size="7" fill="#f39c12">CB 4 数据</text>
+  <text x="326" y="96" text-anchor="end" font-family="Arial, sans-serif" font-size="7" fill="#9b59b6">CB 1</text>
+  <text x="326" y="116" text-anchor="end" font-family="Arial, sans-serif" font-size="7" fill="#3498db">CB 2</text>
+  <text x="326" y="136" text-anchor="end" font-family="Arial, sans-serif" font-size="7" fill="#27ae60">CB 3</text>
+  <text x="326" y="156" text-anchor="end" font-family="Arial, sans-serif" font-size="7" fill="#f39c12">CB 4</text>
 
   <!-- Grid cells - interleaved delay pattern -->
   <!-- Row 1 (CB1) - purple, starts at t1 -->
@@ -124,34 +124,34 @@
   <text x="513" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#f39c12">55</text>
 
   <!-- Delay pattern label -->
-  <text x="435" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">互开延迟模式(并行代码簿预测)</text>
+  <text x="435" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">交替延迟模式（并行代码书预测）</text>
 
   <!-- Arrow label: time direction -->
   <line x1="335" y1="72" x2="525" y2="72" stroke="#ccc" stroke-width="0.8" marker-end="url(#ta-arr)"/>
-  <text x="530" y="75" text-anchor="start" font-family="Arial, sans-serif" font-size="7" fill="#999">时间</text>
+  <text x="530" y="75" text-anchor="start" font-family="Arial, sans-serif" font-size="7" fill="#999">时间 (time) </text>
 
   <!-- Arrow from codebook grid to decoder -->
   <line x1="530" y1="125" x2="570" y2="125" stroke="#333" stroke-width="1.2" marker-end="url(#ta-arr)"/>
 
   <!-- Audio Codec Decoder -->
   <rect x="578" y="100" width="110" height="50" rx="8" fill="#27ae60" fill-opacity="0.12" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="633" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">音频编码c</text>
-  <text x="633" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">解码器</text>
-  <text x="633" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#666">(编).</text>
+  <text x="633" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">音频编解码器 (audio codec) </text>
+  <text x="633" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">解码器 (decoder) </text>
+  <text x="633" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#666">(EnCodec) </text>
 
   <!-- Arrow to waveform -->
   <line x1="688" y1="125" x2="710" y2="125" stroke="#333" stroke-width="1.2" marker-end="url(#ta-arr)"/>
 
   <!-- Waveform output -->
   <path d="M718,125 Q722,110 726,125 Q730,140 734,125 Q738,108 742,125 Q746,142 750,125 Q754,110 758,125 Q762,138 766,125 Q770,112 774,125" fill="none" stroke="#27ae60" stroke-width="1.8"/>
-  <text x="746" y="152" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">波形</text>
-  <text x="746" y="164" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#999">24kHz 音频</text>
+  <text x="746" y="152" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">波形 (waveform) </text>
+  <text x="746" y="164" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#999">24kHz 音频 </text>
 
   <!-- Autoregressive arrow on transformer -->
   <path d="M185,195 C165,210 165,230 185,235 C200,238 230,235 245,225" fill="none" stroke="#3498db" stroke-width="1.2" stroke-dasharray="4,2"/>
-  <text x="140" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#3498db">自动</text>
-  <text x="140" y="237" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#3498db">递归</text>
+  <text x="140" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#3498db">自动- (auto-) </text>
+  <text x="140" y="237" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#3498db">退行式 (regressive) </text>
 
   <!-- Bottom annotation -->
-  <text x="400" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">灰色单元格 = 延迟堆叠；每个代码簿级别捕捉更细的音频细节</text>
+  <text x="400" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">灰细胞 = 延迟填充 | 每个代码书级别捕获更精细的音频细节</text>
 </svg>

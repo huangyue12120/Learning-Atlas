@@ -4,75 +4,75 @@
       <path d="M0,0 L8,3 L0,6 Z" fill="#666"/>
     </marker>
   </defs>
-  <text x="375" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">分型解码:草案 校验 接受</text>
+  <text x="375" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">假设解码：草稿 → 核实 → 接受</text>
 
   <!-- Step 1: Draft model generates candidates -->
   <rect x="30" y="45" width="200" height="100" rx="10" fill="#3498db" fill-opacity="0.06" stroke="#3498db" stroke-width="1.5"/>
-  <text x="130" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">1. 国家 示范草案(1B)</text>
-  <text x="130" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">快速, 大约</text>
+  <text x="130" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">1. 草稿模型（10B）</text>
+  <text x="130" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#3498db">快速，近似值</text>
 
   <rect x="50" y="92" width="32" height="22" rx="4" fill="#3498db" fill-opacity="0.25" stroke="#3498db" stroke-width="1"/>
-  <text x="66" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">该</text>
+  <text x="66" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">这只是一只猫</text>
   <rect x="86" y="92" width="32" height="22" rx="4" fill="#3498db" fill-opacity="0.25" stroke="#3498db" stroke-width="1"/>
-  <text x="102" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">猫</text>
+  <text x="102" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">猫(</text>
   <rect x="122" y="92" width="32" height="22" rx="4" fill="#3498db" fill-opacity="0.25" stroke="#3498db" stroke-width="1"/>
-  <text x="138" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">坐着</text>
+  <text x="138" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">它坐下了一只猫(</text>
   <rect x="158" y="92" width="32" height="22" rx="4" fill="#3498db" fill-opacity="0.25" stroke="#3498db" stroke-width="1"/>
-  <text x="174" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">打开</text>
+  <text x="174" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">on</text>
   <rect x="194" y="92" width="32" height="22" rx="4" fill="#3498db" fill-opacity="0.25" stroke="#3498db" stroke-width="1"/>
   <text x="210" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">a</text>
 
-  <text x="130" y="138" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">以~5ms(每平方公尺一米)计5个令牌.</text>
+  <text x="130" y="138" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">5个标记在 ~5ms 中（每个 1ms），即总共 5 个标记，耗时 5 毫秒</text>
 
   <line x1="230" y1="95" x2="275" y2="95" stroke="#666" stroke-width="1.5" marker-end="url(#sd-arr)"/>
 
   <!-- Step 2: Target model verifies ALL at once -->
   <rect x="283" y="45" width="200" height="100" rx="10" fill="#e74c3c" fill-opacity="0.06" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="383" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e74c3c">2. 国家 目标模式(70B)</text>
-  <text x="383" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">缓慢、准确，，1个前进通道</text>
+  <text x="383" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e74c3c">2. 目标模型（70B）</text>
+  <text x="383" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">慢，准确 — 1 次前向传递 </text>
 
   <rect x="303" y="92" width="32" height="22" rx="4" fill="#27ae60" fill-opacity="0.3" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="319" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">歌词</text>
+  <text x="319" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">猫✓(</text>
   <rect x="339" y="92" width="32" height="22" rx="4" fill="#27ae60" fill-opacity="0.3" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="355" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">猫</text>
+  <text x="355" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">猫✓(</text>
   <rect x="375" y="92" width="32" height="22" rx="4" fill="#27ae60" fill-opacity="0.3" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="391" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">坐着</text>
+  <text x="391" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">猫✓(</text>
   <rect x="411" y="92" width="32" height="22" rx="4" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="427" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">时间轴:</text>
+  <text x="427" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">on ✗</text>
   <rect x="447" y="92" width="32" height="22" rx="4" fill="#ccc" fill-opacity="0.3" stroke="#ccc" stroke-width="1"/>
   <text x="463" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#999">跳过</text>
 
-  <text x="383" y="138" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">1个前传: ~10ms (验证全部5个)</text>
+  <text x="383" y="138" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">1 次前向传递：~10ms（验证所有 5 个），即总共 5 个标记，耗时 10 毫秒 </text>
 
   <line x1="483" y1="95" x2="528" y2="95" stroke="#666" stroke-width="1.5" marker-end="url(#sd-arr)"/>
 
   <!-- Step 3: Result -->
   <rect x="536" y="45" width="190" height="100" rx="10" fill="#27ae60" fill-opacity="0.06" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="631" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">3个 结果</text>
+  <text x="631" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">3. 结果</text>
 
   <rect x="556" y="82" width="32" height="22" rx="4" fill="#27ae60" fill-opacity="0.3" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="572" y="97" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">该</text>
+  <text x="572" y="97" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">这只是一只猫(</text>
   <rect x="592" y="82" width="32" height="22" rx="4" fill="#27ae60" fill-opacity="0.3" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="608" y="97" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">猫</text>
+  <text x="608" y="97" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">猫(</text>
   <rect x="628" y="82" width="32" height="22" rx="4" fill="#27ae60" fill-opacity="0.3" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="644" y="97" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">坐着</text>
+  <text x="644" y="97" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">猫(</text>
   <rect x="664" y="82" width="46" height="22" rx="4" fill="#f39c12" fill-opacity="0.3" stroke="#f39c12" stroke-width="1.5"/>
-  <text x="687" y="97" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#f39c12">关闭</text>
+  <text x="687" y="97" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#f39c12">它坐下了一只猫，并且……</text>
 
-  <text x="631" y="118" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">3个接受+1个重印</text>
-  <text x="631" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">= 4个符号,单位为~15ms</text>
+  <text x="631" y="118" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">3 个接受 + 1 个重新采样 </text>
+  <text x="631" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#27ae60">= 4 个标记在 ~15ms 中</text>
 
   <!-- Comparison -->
   <rect x="50" y="170" width="650" height="110" rx="10" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
   <text x="375" y="192" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#333">比较</text>
 
   <text x="200" y="218" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#e74c3c">标准解码</text>
-  <text x="200" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">4个令牌×每个10米=40米</text>
-  <text x="200" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">4个目标模式呼叫</text>
+  <text x="200" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">4 个标记 × 10ms 每个 = 40ms </text>
+  <text x="200" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">4 次目标模型调用 </text>
 
-  <text x="550" y="218" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">分光解码</text>
-  <text x="550" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">5ms发稿+10ms验证=15ms</text>
-  <text x="550" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">1个目标型号呼叫 – 2.7x更快</text>
+  <text x="550" y="218" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#27ae60">假设解码</text>
+  <text x="550" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">5ms 草稿 + 10ms 核实 = 15ms </text>
+  <text x="550" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">1 次目标模型调用 → 比标准解码快 2.7 倍 </text>
 
-  <text x="375" y="272" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#27ae60">输出在统计学上与标准解码完全相同(无损失)</text>
+  <text x="375" y="272" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#27ae60">输出与标准解码统计上相同（无损）</text>
 </svg>

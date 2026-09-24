@@ -12,7 +12,7 @@
   </defs>
 
   <!-- Title -->
-  <text x="375" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">指令Pix2Pix:指令-随行图像编辑</text>
+  <text x="375" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">InstructPix2Pix: 指示驱动的图像编辑</text>
 
   <!-- Input Image -->
   <rect x="20" y="65" width="90" height="75" rx="8" fill="#3498db" fill-opacity="0.08" stroke="#3498db" stroke-width="1.5"/>
@@ -26,7 +26,7 @@
 
   <!-- Text Instruction -->
   <rect x="20" y="185" width="105" height="35" rx="8" fill="#e74c3c" fill-opacity="0.08" stroke="#e74c3c" stroke-width="1.2" stroke-dasharray="4,2"/>
-  <text x="72" y="202" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">"让它日出"</text>
+  <text x="72" y="202" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#e74c3c">“让它变成日落”</text>
   <text x="72" y="214" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">文本指令</text>
 
   <!-- Arrows from inputs to model -->
@@ -35,31 +35,31 @@
 
   <!-- Modified Diffusion Model (large purple box) -->
   <rect x="200" y="70" width="250" height="110" rx="8" fill="#9b59b6" fill-opacity="0.12" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="325" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#9b59b6">修改后的传播模式</text>
-  <text x="325" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">以两个图像+文本为条件</text>
+  <text x="325" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#9b59b6">条件扩散模型</text>
+  <text x="325" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">同时基于图像和文本进行条件化</text>
 
   <!-- Inside the model: dual conditioning -->
   <rect x="215" y="120" width="90" height="22" rx="4" fill="#3498db" fill-opacity="0.1" stroke="#3498db" stroke-width="0.8"/>
-  <text x="260" y="134" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">图像集合</text>
+  <text x="260" y="134" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#3498db">图像拼接</text>
 
   <rect x="320" y="120" width="115" height="22" rx="4" fill="#e74c3c" fill-opacity="0.1" stroke="#e74c3c" stroke-width="0.8"/>
-  <text x="377" y="134" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">文字交叉读取</text>
+  <text x="377" y="134" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">文本交叉注意力机制</text>
 
   <!-- CFG formula -->
-  <text x="325" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">CFG:e=e_u + s_i (e-i-e-u) + s_t(e-it-e-i) .</text>
+  <text x="325" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">CFG: e = e_u + s_i(e_i - e_u) + s_t(e_it - e_i)</text>
 
   <!-- Guidance scales (sliders) -->
-  <text x="260" y="197" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#333">指导规模</text>
+  <text x="260" y="197" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#333">Guidance Scales（指导标度）</text>
 
   <!-- Image guidance slider -->
-  <text x="218" y="218" text-anchor="start" font-family="Arial, sans-serif" font-size="8" fill="#3498db">图像 s_i</text>
+  <text x="218" y="218" text-anchor="start" font-family="Arial, sans-serif" font-size="8" fill="#3498db">Image s_i（图像 s_i）（图片 s_i）</text>
   <rect x="270" y="210" width="80" height="8" rx="4" fill="#ccc" fill-opacity="0.4" stroke="#ccc" stroke-width="0.5"/>
   <rect x="270" y="210" width="50" height="8" rx="4" fill="#3498db" fill-opacity="0.4"/>
   <circle cx="320" cy="214" r="5" fill="#3498db" stroke="white" stroke-width="1"/>
   <text x="355" y="218" text-anchor="start" font-family="Arial, sans-serif" font-size="7" fill="#999">1.5</text>
 
   <!-- Text guidance slider -->
-  <text x="218" y="240" text-anchor="start" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">文本 s_ t</text>
+  <text x="218" y="240" text-anchor="start" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">Text s_t（文本 s_t）（文本 s_t）</text>
   <rect x="270" y="232" width="80" height="8" rx="4" fill="#ccc" fill-opacity="0.4" stroke="#ccc" stroke-width="0.5"/>
   <rect x="270" y="232" width="60" height="8" rx="4" fill="#e74c3c" fill-opacity="0.4"/>
   <circle cx="330" cy="236" r="5" fill="#e74c3c" stroke="white" stroke-width="1"/>
@@ -77,18 +77,18 @@
   <rect x="525" y="70" width="80" height="40" rx="4" fill="#e74c3c" fill-opacity="0.05"/>
   <rect x="545" y="110" width="15" height="20" rx="2" fill="#f39c12" fill-opacity="0.12" stroke="#f39c12" stroke-width="0.5"/>
   <rect x="570" y="105" width="12" height="25" rx="2" fill="#f39c12" fill-opacity="0.12" stroke="#f39c12" stroke-width="0.5"/>
-  <text x="565" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">已编辑的图像</text>
-  <text x="565" y="167" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#999">(日落场景)</text>
+  <text x="565" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#f39c12">Edited Image（编辑后的图像）</text>
+  <text x="565" y="167" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#999">(sunset scene)</text>
 
   <!-- Preservation note -->
   <rect x="520" y="185" width="200" height="45" rx="6" fill="#27ae60" fill-opacity="0.06" stroke="#27ae60" stroke-width="1" stroke-dasharray="4,2"/>
-  <text x="620" y="202" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#27ae60">保留结构</text>
-  <text x="620" y="216" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">相同的布局、建筑物、组成</text>
-  <text x="620" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">每个指令仅更改照明/颜色</text>
+  <text x="620" y="202" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#27ae60">结构保持不变</text>
+  <text x="620" y="216" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">布局相同，建筑和构图一样</text>
+  <text x="620" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">仅根据指令改变照明/颜色，没有逐个例子进行微调要求 -- 推断时只需要单次前向传递即可</text>
 
   <!-- Connecting arrow from output to preservation note -->
   <line x1="565" y1="167" x2="580" y2="185" stroke="#27ae60" stroke-width="0.8" stroke-dasharray="3,2"/>
 
   <!-- Bottom annotation -->
-  <text x="375" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">无需每例微调 -- -- 推论为单一前行</text>
+  <text x="375" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">无需逐例精细调整 -- 仅需推理阶段的单次前向传递 </text>
 </svg>

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 280" width="750" height="280" font-family="Arial, sans-serif">
   <!-- Title -->
-  <text x="375" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">图像切入: 从像素到磁盘</text>
+  <text x="375" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">图像标记化：从像素到离散标记</text>
 
   <!-- Arrow marker -->
   <defs>
@@ -15,7 +15,7 @@
   <rect x="55" y="110" width="50" height="55" rx="2" fill="#27ae60" opacity="0.5"/>
   <rect x="25" y="140" width="60" height="35" rx="2" fill="#f39c12" opacity="0.5"/>
   <text x="70" y="210" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">输入图像</text>
-  <text x="70" y="224" text-anchor="middle" font-size="9" fill="#666">(相续像素.</text>
+  <text x="70" y="224" text-anchor="middle" font-size="9" fill="#666">(连续的像素)</text>
 
   <!-- Arrow 1 -->
   <line x1="130" y1="135" x2="170" y2="135" stroke="#666" stroke-width="1.5" marker-end="url(#arrow1)"/>
@@ -50,21 +50,21 @@
     <rect x="60" y="60" width="24" height="24" rx="3" fill="#9b59b6" fill-opacity="0.15" stroke="#9b59b6" stroke-width="0.5"/>
     <text x="72" y="76" text-anchor="middle" font-size="7" fill="#9b59b6">-0.91</text>
   </g>
-  <text x="369" y="210" text-anchor="middle" font-size="10" fill="#9b59b6">后向量</text>
-  <text x="369" y="224" text-anchor="middle" font-size="9" fill="#666">(接续)</text>
+  <text x="369" y="210" text-anchor="middle" font-size="10" fill="#9b59b6">隐式向量</text>
+  <text x="369" y="224" text-anchor="middle" font-size="9" fill="#666">(连续)</text>
 
   <!-- Arrow 3 -->
   <line x1="422" y1="135" x2="462" y2="135" stroke="#666" stroke-width="1.5" marker-end="url(#arrow1)"/>
 
   <!-- Quantise box -->
   <rect x="470" y="90" width="100" height="90" rx="8" fill="#f39c12" fill-opacity="0.12" stroke="#f39c12" stroke-width="1.5"/>
-  <text x="520" y="125" text-anchor="middle" font-size="12" font-weight="bold" fill="#f39c12">数量</text>
+  <text x="520" y="125" text-anchor="middle" font-size="12" font-weight="bold" fill="#f39c12">量化</text>
   <!-- Codebook icon -->
   <rect x="497" y="135" width="46" height="34" rx="3" fill="white" stroke="#f39c12" stroke-width="1"/>
   <line x1="497" y1="143" x2="543" y2="143" stroke="#f39c12" stroke-width="0.5"/>
   <line x1="497" y1="151" x2="543" y2="151" stroke="#f39c12" stroke-width="0.5"/>
   <line x1="497" y1="159" x2="543" y2="159" stroke="#f39c12" stroke-width="0.5"/>
-  <text x="520" y="148" text-anchor="middle" font-size="6" fill="#f39c12">代码本</text>
+  <text x="520" y="148" text-anchor="middle" font-size="6" fill="#f39c12">词典（codebook）</text>
 
   <!-- Arrow 4 -->
   <line x1="578" y1="135" x2="618" y2="135" stroke="#666" stroke-width="1.5" marker-end="url(#arrow1)"/>
@@ -92,9 +92,9 @@
     <rect x="66" y="62" width="26" height="24" rx="3" fill="#27ae60" fill-opacity="0.18" stroke="#27ae60" stroke-width="0.5"/>
     <text x="79" y="78" text-anchor="middle" font-size="9" font-weight="bold" fill="#27ae60">18</text>
   </g>
-  <text x="674" y="210" text-anchor="middle" font-size="10" fill="#27ae60" font-weight="bold">分层托肯斯</text>
-  <text x="674" y="224" text-anchor="middle" font-size="9" fill="#666">(整数指数)</text>
+  <text x="674" y="210" text-anchor="middle" font-size="10" fill="#27ae60" font-weight="bold">离散标记</text>
+  <text x="674" y="224" text-anchor="middle" font-size="9" fill="#666">(整数索引)</text>
 
   <!-- Bottom annotation -->
-  <text x="375" y="260" text-anchor="middle" font-size="9" fill="#999">每个符号索引地图到一个已学习的代码簿向量</text>
+  <text x="375" y="260" text-anchor="middle" font-size="9" fill="#999">每个标记索引对应于学习到的词典向量</text>
 </svg>

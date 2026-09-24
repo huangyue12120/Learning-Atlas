@@ -8,234 +8,220 @@ source:
   sha256: 43cace9aa08c04a4bc8361291850b51ac4d26dffcbabb779e2019adf67442f8b
 status: reviewed
 ---
+# Unified Multimodal Architectures
 
-# 统一多模态架构
+*Unified multimodal architectures replace separate specialist models with a single system that reads, reasons, and generates across text, images, audio, and video. This file covers any-to-any models (CoDi, NExT-GPT), natively multimodal LLMs (Gemini, GPT-4o), multimodal tokenisation strategies, and the architectural trade-offs of unification.*
 
-*本篇将统一多模态架构放回 AI 工程语境，保留源文中的定义、公式、代码、图示和实践边界，便于逐项核对。*
+## The Case for Unification
 
-* 统一的多模式架构用一个单一的系统取代单独的专家模型,该系统可读取文字、图像、音频和视频、理由和生成。该文件涵盖任何一种到任何一种模式(CoDi、NExT-GPT)、本土的多模式LLMs(Gemini、GPT-4o)、多模式标识战略,以及统一的建筑取舍。
+- Imagine a translator who speaks five languages and can switch between them mid-sentence without pausing. Early multimodal systems were more like five separate translators sitting in different rooms, each handling one language and passing notes through a slot in the wall. A **unified multimodal architecture** is the single polyglot: one model with shared weights that reads, writes, and reasons across text, images, audio, video, and even actions, all within a single forward pass.
 
-## 统一化的动机
+- The motivation is both practical and theoretical. On the practical side, maintaining separate specialist models for every modality pair (text-to-image, image-to-text, audio-to-text, etc.) leads to a combinatorial explosion: $k$ modalities require up to $k(k-1)$ directed pipelines. A unified model collapses all of these into a single system. On the theoretical side, human cognition does not process vision and language in isolated modules; cross-modal binding happens early and deeply, and unification attempts to mirror this.
 
+- Shared weights encourage **transfer across modalities**. A transformer that has learned temporal patterns in text (subject before verb, cause before effect) can repurpose those same attention circuits for temporal patterns in video (object appears before it moves) or audio (onset before sustain). This is the multimodal analogue of the transfer learning you saw in Chapter 7 with language model fine-tuning and in Chapter 8 with ImageNet pretraining.
 
-- 想象一下一个会说五种语言的翻译,可以在他们中间转换,而不乏苦闷. 早期的多式系统更像是坐在不同房间的5名独立的翻译,每个翻译处理一种语言,并在墙上通过一个槽来传递笔记. 单一的多式建筑**是单一的多式建筑:一个具有共同分量的模型,它读取、写出和解释整个文本、图像、音频、视频甚至动作,都在一个前行通道内。
-
-- 动机既具有实用性,也具有理论性. 在实际方面,为每对模式(文本到图像、图像到文本、音频到文本等)保持单独的专家模型。导致组合爆炸:$k$模式要求最多$k(k-1)$直接管道。统一的模型将所有这些都倒塌为一个单一的系统. 在理论方面,人类认知不会在孤立的模块中处理视觉和语言;跨模式绑定会早而深入地发生,统一试图反映这一点.
-
-- 共享权重鼓励**跨模式转让**。在文字中学习了时间规律(动词前的主题,作用前的原因)的变压器可以重新使用这些相同的注意力电路来进行视频中的时间规律(物体在移动前出现)或音频(在维持前被设定). 这是你从第7章中看到的有语言模型微调的转学和从第8章中看到有图像网络预训的转学的多模式模拟.
-
-- 正式地,让我们$\mathcal{M} = \{m_1, m_2, \ldots, m_k\}$成为一套模式。一个统一的模型定义了单一参数化函数$f_\theta$将任何输入模式子集映射到任何子集输出模式:
+- Formally, let $\mathcal{M} = \{m_1, m_2, \ldots, m_k\}$ be a set of modalities. A unified model defines a single parameterised function $f_\theta$ that maps any subset of input modalities to any subset of output modalities:
 
 $$f_\theta : \mathcal{P}(\mathcal{M}) \rightarrow \mathcal{P}(\mathcal{M})$$
+- where $\mathcal{P}(\mathcal{M})$ is the power set (all subsets) of modalities. The key constraint is that $\theta$ is largely shared; only thin, modality-specific adapter layers differ.
 
-- 地点$\mathcal{P}(\mathcal{M})$是模式的电源集(所有子集)。关键制约因素是$\theta$大部分是共享的;只有薄薄的、特定模式的适配层不同。
-
-![图示](../images/unified_multimodal_overview.svg)
-
-- 统一的前景伴随着一种根本的紧张:方式结构不同。文本是离散符号的一维序列. 图像是连续像素值的2D格. 音频是一维连续波形,时间尺度与文本差分很大. 视频在图像中添加了时间轴. 将这些相去甚远的结构调和成一个变压器能消化的单一序列,是这个领域在工程上的核心挑战.
-
-## 任意到任意模型
+![High-level diagram showing multiple modalities (text, image, audio, video) feeding into a single shared transformer backbone and producing outputs in any modality](../images/unified_multimodal_overview.svg)
 
 
-- 想想一个通用的遥控器 可以操作你的电视,空调,和音乐系统,都通过同一个接口。** 任何模型**都是AI的等同物:它们接受任何模式组合作为输入,产生任何组合作为输出.
+- The promise of unification comes with a fundamental tension: modalities are structurally different. Text is a 1D sequence of discrete tokens. Images are 2D grids of continuous pixel values. Audio is a 1D continuous waveform with a very different temporal scale from text. Video adds a time axis to images. Reconciling these disparate structures into a single sequence that a transformer can digest is the central engineering challenge of this field.
 
-- **CoDi**(可分化扩散)通过培训特定模式的传播模式实现任何一代人,然后通过共享调节机制调整其潜在空间。每种模式都有自己的扩散过程(本章中从文件04中召回的传播模型),但噪声预测网络以联合交叉注意层为条件,该层同时看到所有输入模式所嵌入. 这使得 CoDi 从一个单行道的文本提示生成一个图像和匹配的音频。
+## Any-to-Any Models
 
-- ** NExT-GPT**采用了不同的建筑设计方法。它通过轻量级**投影层**将LLM主干线("大脑")与输入侧的特有模式编码器和输出侧的特有模式解码器相接. 输入编码器(如CLIP的图像编码器,CLAP的音频编码器)将每个模式都翻译为LLM的嵌入空间. LLM在组合符号序列上的原因,并会向相应的解码器(例如图像的稳定分化,音频的AudioLDM)发出特殊的"模式信号令牌"来提供路由信息. 只有投影层经过了训练;LLM和专家编码器/解码器被保持被冻结.
+- Think of a universal remote control that can operate your television, air conditioning, and music system, all through the same interface. **Any-to-any models** are the AI equivalent: they accept any combination of modalities as input and produce any combination as output.
 
-- ** Gemini**(Google DeepMind)是当地从预训开始的多式。与NExT-GPT的插座和玩法不同,双子座变压器是从头到尾在文本,图像,音频,视频等符号的相接出序列上被训练而来. 这意味着跨模式的注意模式在预训期间有机地发展,而不是在后期被栓住. 该模型在文本中使用了"PriestPiece sorderiser",并学习了类似于本章第03卷所讨论VQ方法的可视化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活化活
+- **CoDi** (Composable Diffusion) achieves any-to-any generation by training modality-specific diffusion models and then aligning their latent spaces through a shared conditioning mechanism. Each modality has its own diffusion process (recall diffusion models from file 04 in this chapter), but the noise prediction networks are conditioned on a joint cross-attention layer that sees embeddings from all input modalities simultaneously. This lets CoDi generate, say, an image and matching audio from a text prompt in a single pass.
 
-- **GPT-4o** ("o"指"omni")代表了另一种模式:一种端到端的模型,所有模式都共享相同的变压器和相同的下接子预测目标. 音频输入被作为光谱符号处理,图像被作为补丁符号处理,而文本被作为子词符号处理,全部被输入到一个序列中. 该模型生成输出符由模式特定头来解码. 关键的创新是通过去除更早的系统如GPT-4V所依赖的分级ASR,LLM和TTS等模型的级联而实现的低延迟.
+- **NExT-GPT** takes a different architectural approach. It connects an LLM backbone (the "brain") to modality-specific encoders on the input side and modality-specific decoders on the output side via lightweight **projection layers**. The input encoders (e.g., an image encoder from CLIP, an audio encoder from CLAP) translate each modality into the LLM's embedding space. The LLM reasons over the combined token sequence and emits special "modality signal tokens" that route information to the appropriate decoder (e.g., Stable Diffusion for images, AudioLDM for audio). Only the projection layers are trained; the LLM and the specialist encoders/decoders are kept frozen.
 
-![图示](../images/any_to_any_architectures.svg)
+- **Gemini** (Google DeepMind) is natively multimodal from pretraining. Unlike NExT-GPT's plug-and-play approach, Gemini's transformer is trained from scratch on interleaved sequences of text, image, audio, and video tokens. This means cross-modal attention patterns develop organically during pretraining rather than being bolted on afterwards. The model uses the SentencePiece tokeniser for text and learns a visual tokeniser similar to the VQ approaches discussed in file 03 of this chapter.
 
-- 这些模型的集成深度范围如下:
+- **GPT-4o** ("o" for "omni") represents yet another pattern: an end-to-end model where all modalities share the same transformer and the same next-token prediction objective. Audio input is processed as spectral tokens, images as patch tokens, and text as subword tokens, all fed into a single sequence. The model generates output tokens that are decoded by modality-specific heads. The key innovation is the low latency enabled by removing the cascade of separate ASR, LLM, and TTS models that earlier systems like GPT-4V relied on.
 
-    - ** Shallow集成**(NExT-GPT):由训练有素的适配器连接的被冷冻的专家. 快速建设,有限的跨模式推理.
-    - ** 中子集成**(CoDI):跨模式特定发电机的共享调节. 更好的对齐,仍然是模块化的.
-    - ** 深度整合**(Gemini,GPT-4o):单一模式在所有模式上经过端到端培训。最丰富的跨模式推理,最昂贵的培训。
-
-## 共享骨干网络与模态专用编码器/解码器
+![Comparison of architectural patterns for CoDi (aligned diffusion), NExT-GPT (LLM hub with frozen specialists), and Gemini-style (natively interleaved pretraining)](../images/any_to_any_architectures.svg)
 
 
-- 设想一个工厂,单条装配线(共享骨干),但原材料的装载码头(编码器)不同,成品的航运部门(编码器)不同. 每个码头都专门处理货物,但一旦进入工厂,所有东西都会沿着同一运输带移动。
+- These models sit on a spectrum of integration depth:
 
-- 统一型号的主导建筑模式使用这三部分结构:
+    - **Shallow integration** (NExT-GPT): frozen specialists connected by trained adapters. Fast to build, limited cross-modal reasoning.
+    - **Medium integration** (CoDi): shared conditioning across modality-specific generators. Better alignment, still modular.
+    - **Deep integration** (Gemini, GPT-4o): single model trained end-to-end on all modalities. Richest cross-modal reasoning, most expensive to train.
 
-    - ** 模式编码器**$E_m$从模式转换原始输入$m$进入嵌入向量的序列$\mathbf{h}_1^m, \mathbf{h}_2^m, \ldots, \mathbf{h}_{n_m}^m$,每个维度$d$.
-    - ** 共用变压器主干线**$T_\theta$用自觉处理所有输入模式的相接或相接嵌入。
-    - ** 模式解码器**$D_m$将主干线的输出重新嵌入到模式的本土格式中$m$(文字符号,图像像素,音频波形).
+## Modality-Specific Encoders and Decoders with a Shared Backbone
 
-- 对于文本,编码器一般是一个嵌入式查询表$E_\text{text}(w) = \mathbf{W}_e[w]$地点$w$是一个符号指数, 和你在第七章中看到的一样。对于图像来说,编码器常常是一个**Vision Transformer**(ViT),将图像分解为补丁并逐一线性投影,如第8章所涵盖. 对于音频,编码器计算出一个mel分光克并用革命前端或音频分光克变换器(AST)处理,如第9章所讨论.
+- Picture a factory with a single assembly line (the shared backbone) but different loading docks for raw materials (encoders) and different shipping departments for finished goods (decoders). Each dock is specialised for its cargo, but once inside the factory, everything moves along the same conveyor belt.
 
-- 共享骨干是一个标准变压器,在所有模式符上都有自觉性. 由于输入序列调和$\mathbf{H} = [\mathbf{h}_1^{m_1}, \ldots, \mathbf{h}_{n_1}^{m_1}, \mathbf{h}_1^{m_2}, \ldots, \mathbf{h}_{n_2}^{m_2}]$,自意允许每个符号都关注其他每个符号,而不管其模式如何:
+- The dominant architectural pattern for unified models uses this three-part structure:
+
+    - **Modality encoders** $E_m$ that convert raw input from modality $m$ into a sequence of embedding vectors $\mathbf{h}_1^m, \mathbf{h}_2^m, \ldots, \mathbf{h}_{n_m}^m$, each of dimension $d$.
+    - A **shared transformer backbone** $T_\theta$ that processes the concatenated or interleaved embeddings from all input modalities using self-attention.
+    - **Modality decoders** $D_m$ that convert the backbone's output embeddings back into the native format of modality $m$ (text tokens, image pixels, audio waveforms).
+
+- For text, the encoder is typically an embedding lookup table $E_\text{text}(w) = \mathbf{W}_e[w]$ where $w$ is a token index, identical to what you saw in Chapter 7 with transformers. For images, the encoder is often a **Vision Transformer** (ViT) that splits the image into patches and projects each patch linearly, as covered in Chapter 8. For audio, the encoder computes a mel spectrogram and processes it with either a convolutional frontend or an Audio Spectrogram Transformer (AST), as discussed in Chapter 9.
+
+- The shared backbone is a standard transformer with self-attention across all modality tokens. Given a concatenated input sequence $\mathbf{H} = [\mathbf{h}_1^{m_1}, \ldots, \mathbf{h}_{n_1}^{m_1}, \mathbf{h}_1^{m_2}, \ldots, \mathbf{h}_{n_2}^{m_2}]$, the self-attention allows every token to attend to every other token regardless of modality:
 
 $$\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}}\right)\mathbf{V}$$
+- This is the same attention formula from Chapter 7, but now $\mathbf{Q}$, $\mathbf{K}$, and $\mathbf{V}$ contain tokens from multiple modalities. An image-patch token can attend to a text token, enabling cross-modal reasoning without any separate cross-attention module.
 
-- 7章的注意公式也是这样 但现在$\mathbf{Q}$, $\mathbf{K}$,以及$\mathbf{V}$包含多种模式的符号。一个图像-patch 符可以处理一个文本符,使得跨模式推理无需任何单独的交叉注意模块.
-
-- ** 在每个符号上添加模式嵌入**,这样主干线就知道一个符号来自哪种模式。这类似于位置嵌入,但编码模式身份而不是序列位置. 一个可学习的向量$\mathbf{e}_m \in \mathbb{R}^d$从模式添加到每个符号$m$:
+- **Modality embeddings** are added to each token so the backbone knows which modality a token comes from. This is analogous to positional embeddings but encodes modality identity instead of sequence position. A learnable vector $\mathbf{e}_m \in \mathbb{R}^d$ is added to every token from modality $m$:
 
 $$\tilde{\mathbf{h}}_i^m = \mathbf{h}_i^m + \mathbf{e}_m + \mathbf{p}_i$$
+- where $\mathbf{p}_i$ is the positional embedding for position $i$.
 
-- 地点$\mathbf{p}_i$是位置嵌入的位置$i$.
-
-![图示](../images/shared_backbone_multimodal.svg)
-
-## 多模态 token 化
+![Encoder-backbone-decoder architecture showing image patches, text tokens, and audio frames all entering a shared transformer, with modality-specific decoders on the output side](../images/shared_backbone_multimodal.svg)
 
 
-- 想象一下,你正在写一封信 包括英文和手绘草图。你可以写一句,画出一幅图, 写出另一句提到图, 然后粘入音乐分数。字母是单线性流,它相互间会分出不同的"模式". 多式联运的标志化就是这样做的:它把文本、图像、音频和视频转换成一个单一的平整的符号序列,由变压器从左到右处理。
+## Multimodal Tokenisation
 
-- 对于正文来说,标志性化是既定的:**字节-pair编码**(BPE)或句子Piece产生一个分词符号的词汇,如第七章所涵盖. 挑战在于将这一想法扩大到持续的方式。
+- Imagine you are writing a letter that includes both English text and hand-drawn sketches. You might write a sentence, sketch a diagram, write another sentence referring to the diagram, then paste in a musical score. The letter is a single linear stream that interleaves different "modalities." Multimodal tokenisation does precisely this: it converts text, images, audio, and video into a single flat sequence of tokens that a transformer processes left-to-right.
 
-- 对于图像,有两种广义的方法. **discrete**方法使用VQ-VAE或VQ-GAN(详见本章第03卷)来将每个图像映射到一个编码本索引的序列. 如果密码簿有$|\mathcal{C}|$条目和图像编码为$n$代码,图像变成$n$从大小词汇中提取的离散符号$|\mathcal{C}|$,直接兼容文本词汇。** 持续** 方法使用维T或CNN编码器制作$n$连续嵌入向量,它们被线性地投射入变压器的嵌入维度. 双子座和GPT-4o使用连续方法的变体;自相递回的图像生成器如Parti和LlamaGen更倾向于离散路线.
+- For text, tokenisation is well established: **byte-pair encoding** (BPE) or SentencePiece produce a vocabulary of subword tokens, as covered in Chapter 7. The challenge is extending this idea to continuous modalities.
 
-- 对于音频来说,信号一般被转换为mel分光克,然后或者被用神经音频编码器(如EnCodec,SoundStream,能产生分级离散的符号)来做盘片处理,或者通过学习到的编码器来连续投影. 例如,AudioLM代表音频作为从多代码簿级别分出的一个离散符号的序列,然后自动地模拟.
+- For images, there are two broad approaches. The **discrete** approach uses a VQ-VAE or VQ-GAN (detailed in file 03 of this chapter) to map each image to a sequence of codebook indices. If the codebook has $|\mathcal{C}|$ entries and an image is encoded as $n$ codes, the image becomes $n$ discrete tokens drawn from a vocabulary of size $|\mathcal{C}|$, directly compatible with a text vocabulary. The **continuous** approach uses a ViT or CNN encoder to produce $n$ continuous embedding vectors, which are linearly projected into the transformer's embedding dimension. Gemini and GPT-4o use variants of the continuous approach; autoregressive image generators like Parti and LlamaGen prefer the discrete route.
 
-- 对于视频来说,标语化建立在图像标语化的基础上,但也必须压缩时间维度. 一个共同的战略使用**3D VQ-VAE**(如从文件03起在VideoGPT或Cosmos Tokeniser中)将分解为分解符. 时间压缩因子至关重要:24 fps的原始视频每秒产生太多的指使而无需主动的时下取样.
+- For audio, the signal is typically converted to a mel spectrogram and then either discretised with a neural audio codec (e.g., EnCodec, SoundStream, which produce hierarchical discrete tokens) or projected continuously via a learned encoder. AudioLM, for example, represents audio as a sequence of discrete tokens from multiple codebook levels, then models them autoregressively.
 
-- 一旦所有模式都得到标识,它们就被** 中间放出** 成一个单一的序列,并带有特别的划定符标记模式边界。一个典型的格式看起来像:
+- For video, tokenisation builds on image tokenisation but must also compress the temporal dimension. A common strategy uses a **3D VQ-VAE** (as in VideoGPT or Cosmos Tokeniser from file 03) that quantises spatiotemporal patches into discrete tokens. The temporal compression factor is crucial: raw video at 24 fps produces far too many tokens per second without aggressive temporal downsampling.
+
+- Once all modalities are tokenised, they are **interleaved** into a single sequence with special delimiter tokens marking modality boundaries. A typical format looks like:
 
 ```
 [TEXT] The cat sits on a mat [/TEXT] [IMAGE] <img_tok_1> <img_tok_2> ... <img_tok_n> [/IMAGE] [AUDIO] <aud_tok_1> ... <aud_tok_m> [/AUDIO]
 ```
 
-- 变压器然后使用其标准因子(或双向)注意机制处理整个混合序列. 模式分界符是双重职责:它们向模式通报模式边界,并起到"集合点"的作用,其表达总结了每个模式段.
+- The transformer then processes this entire mixed sequence using its standard causal (or bidirectional) attention mechanism. The modality delimiter tokens serve double duty: they inform the model about modality boundaries and act as "pooling points" whose representations summarise each modality segment.
 
-![图示](../images/multimodal_tokenisation_sequence.svg)
-
-- 一个关键的设计选择是**预算**。以256个符号标出单一的图像和以50个符号标出文字标题,意味着图像会再消耗上下文窗口的5x. 模型必须平衡分辨率(多指代=更细节)与上下文长度(多指代=更高的内存和计算成本). 诸如**token合并**(逐步结合类似标志)和**taptive specification**(简单区域使用较少的标志,复杂区域使用较多的标志)等技术有助于管理这种取舍。
-
-## 训练配方：分阶段预训练与联合微调
+![Interleaved token sequence showing text tokens, discrete image tokens, and audio codec tokens flowing through a single transformer with modality boundary markers](../images/multimodal_tokenisation_sequence.svg)
 
 
-- 算术之前你不会教小孩微积分 同样,你不能从随机初始化同时对所有模式进行统一的多模式模式的训练,并期望其很好地汇合。主导做法是**分阶段培训**,在这种培训中,模型逐步学习了经过精心排序的阶段更为复杂的跨模式能力。
+- A critical design choice is the **token budget**. A single image tokenised at 256 tokens and a text caption of 50 tokens means the image consumes 5x more of the context window. Models must balance resolution (more tokens = more detail) against context length (more tokens = higher memory and compute cost). Techniques like **token merging** (progressively combining similar tokens) and **adaptive tokenisation** (using fewer tokens for simple regions and more for complex ones) help manage this trade-off.
 
-- ** 第1阶段:统一格式预训。** 每种模式编码器都独立地接受大型统一格式数据集的培训。文本主干线在数以万亿计的文本符号上预先进行了语言建模目标(next-token promision)的标准训练,与第七章完全相同. 视觉编码器如第8章一样,在图像分类或自我监督的目标(MAE,DINO)上预先训练. 音频编码器在语音识别或音频分类数据上受到预训,如第9章. 这一阶段产生出很强的单式特征提取器.
+## Training Recipes: Staged Pretraining and Joint Fine-Tuning
 
-- **Stage 2: Cross-moduction.** 预训编码器与共享主干相接,该模型在配对多模式数据(图像-封装对等,音频-transcript对等)上进行了有对比性或基因性目标的培训. 在这一阶段,编码器的重量可能被冻结(以保存单式知识)而只有投影层和主干部分更新. 这是CLIP风格对齐(从本章中的文件01)被折叠入统一模型的舞台.
+- You would not teach a child calculus before arithmetic. Similarly, you cannot train a unified multimodal model on all modalities simultaneously from random initialisation and expect it to converge well. The dominant approach is **staged training**, where the model learns progressively more complex cross-modal capabilities in carefully ordered phases.
 
-- ** 步骤3:联合多式联运预训。** 所有参数(或大多数参数)均解冻,该模型的培训内容是单式和多式数据的混合,在所有模式符号上都有一个单独的后台预测目标。损失函数为:
+- **Stage 1: Unimodal pretraining.** Each modality encoder is trained independently on large unimodal datasets. The text backbone is pretrained with a standard language modelling objective (next-token prediction) on trillions of text tokens, exactly as in Chapter 7. The vision encoder is pretrained on image classification or self-supervised objectives (MAE, DINO) as in Chapter 8. The audio encoder is pretrained on speech recognition or audio classification data as in Chapter 9. This stage produces strong unimodal feature extractors.
+
+- **Stage 2: Cross-modal alignment.** The pretrained encoders are connected to the shared backbone, and the model is trained on paired multimodal data (image-caption pairs, audio-transcript pairs) with a contrastive or generative objective. During this stage, the encoder weights may be frozen (to preserve unimodal knowledge) while only the projection layers and backbone are updated. This is the stage where CLIP-style alignment (from file 01 in this chapter) gets folded into the unified model.
+
+- **Stage 3: Joint multimodal pretraining.** All parameters (or most of them) are unfrozen, and the model is trained on a mixture of unimodal and multimodal data with a single next-token prediction objective across all modality tokens. The loss function is:
 
 $$\mathcal{L} = -\sum_{t=1}^{T} \log p_\theta(x_t \mid x_{<t})$$
+- where $x_t$ can be a text token, an image token, or an audio token. The model must learn to predict the next token regardless of modality, which forces it to develop genuine cross-modal understanding.
 
-- 地点$x_t$可以是文本符号,图像符号,也可以是音频符号. 该模式必须学会预测下一个征兆,而不管其方式如何,这迫使它形成真正的跨模式理解。
+- **Stage 4: Instruction tuning and alignment.** The pretrained model is fine-tuned on curated instruction-following datasets that include multimodal instructions (e.g., "Describe this image in detail", "What sound does this video make?", "Generate an image of X"). This stage often uses **reinforcement learning from human feedback** (RLHF) or direct preference optimisation (DPO) to align the model's outputs with human preferences.
 
-- **Stage 4:指令调和.** 预训模式在包含多式指令的被曲解的指令跟随数据集上进行了微调(如"详细描述这幅图像","这段视频发出什么声音?","Generate a image of X"等). 这一阶段经常使用**从人类反馈中学习的**强制(RLHF)或直接偏好优化(DPO)来使模型的输出与人类偏好相配合.
+- **Modality-specific warm-up** is a technique used within stages to prevent modality collapse. If one modality (typically text, which has the most training data) dominates the gradient signal, the model may "forget" weaker modalities. Warm-up strategies include:
 
-- ** 不同模式的取暖**是一种在各阶段内防止模式倒塌的技术。如果一种模式(通常为文本,它拥有最多的训练数据)主导了梯度信号,则该模式可能会"忘记"更弱的模式. 暖和战略包括:
+    - **Gradient balancing**: scaling gradients from each modality so they contribute equally to the parameter update.
+    - **Data ratio scheduling**: gradually increasing the proportion of multimodal data relative to unimodal data.
+    - **Loss weighting**: assigning modality-specific weights $\lambda_m$ so the total loss is $\mathcal{L} = \sum_m \lambda_m \mathcal{L}_m$, with $\lambda_m$ tuned to balance learning rates across modalities.
 
-    - ** 分层平衡**:从每种模式按比例调整梯度,以便平等地为参数更新做出贡献。
-    - ** 数据比率列表**:逐步提高多式联运数据相对于单式数据的比例。
-    - ** 减重**:指定特定方式的加权$\lambda_m$所以总损失是$\mathcal{L} = \sum_m \lambda_m \mathcal{L}_m$,与$\lambda_m$旨在平衡不同模式的学习率。
-
-![图示](../images/staged_multimodal_training.svg)
-
-- ** 为什么不跳过阶段? ** 从头到尾联合培训一切是诱人的,但实际上由于若干原因未能成功。首先,模型必须同时学习低等特征(尖端检测,电话识别)和高等跨模式推理,这些功能的学习动态非常不同. 第二,不同模式的数据分布严重失衡(成千上千的文本符号与成千上亿的图像符号相对数以亿计的音频剪辑)。第三,优化地貌高度非汇合,有阶段培训提供课程指导模式向更好的盆地发展,与第六章的课程学习理念相类似.
-
-## 多模态思维链推理
+![Four-stage training pipeline diagram showing unimodal pretraining, cross-modal alignment, joint multimodal pretraining, and instruction tuning, with arrows indicating which parameters are frozen or trainable at each stage](../images/staged_multimodal_training.svg)
 
 
-- 当你解决了几何学问题,你可能会绘制出一个图表,标记角度,写出一个等式,然后一步一步地解决. 您不会直接从问题声明跳到答案。** 多式联运思维链**(COT)推理使模型能够这样做:生成可能涉及文本、视觉说明甚至生成图表的中间推理步骤,然后才能得出最后答案。
+- **Why not skip stages?** Training everything jointly from scratch is tempting but fails in practice for several reasons. First, the model must simultaneously learn low-level features (edge detection, phoneme recognition) and high-level cross-modal reasoning, which have very different learning dynamics. Second, the data distributions across modalities are wildly imbalanced (trillions of text tokens versus billions of image tokens versus hundreds of millions of audio clips). Third, the optimisation landscape is highly non-convex, and staged training provides a curriculum that guides the model towards a better basin, similar to the curriculum learning idea from Chapter 6.
 
-- 在只用文本的COT(如第七章"关于催化策略的讨论"所探讨)中,该模型产生自然语言中一系列推理步骤. 多式联运公司允许中间步骤参考或生成可视内容,从而扩大这一范围。例如,给一个图表图像和“哪年的销售量最高?”的问题,一种多式CoT模型可以首先描述该图表("图表显示2018年至2023年的销售量......"),然后确定相关的视觉特征("最高的栏出现在2021."),最后输出答案("2021").
+## Multimodal Chain-of-Thought Reasoning
 
-- 正式地,让我们$\mathbf{x}$成为多式联运输入,$y$成为目标答案。标准预测模型$p(y \mid \mathbf{x})$直接来. 思维链引入中间推理$\mathbf{r} = (r_1, r_2, \ldots, r_L)$并将预测因素化为:
+- When you solve a geometry problem, you might sketch a diagram, label the angles, write out an equation, and then solve it step by step. You do not jump directly from the problem 状态ment to the answer. **Multimodal chain-of-thought** (CoT) reasoning enables models to do the same: generating intermediate reasoning steps that may involve text, visual annotations, or even generated diagrams before arriving at a final answer.
+
+- In text-only CoT (as explored in Chapter 7's discussion of prompting strategies), the model generates a sequence of reasoning steps in natural language. Multimodal CoT extends this by allowing the intermediate steps to reference or generate visual content. For example, given a chart image and the question "Which year had the highest sales?", a multimodal CoT model might first describe the chart ("The chart shows sales from 2018 to 2023..."), then identify the relevant visual features ("The tallest bar appears at 2021..."), and finally output the answer ("2021").
+
+- Formally, let $\mathbf{x}$ be a multimodal input and $y$ be the target answer. Standard prediction models $p(y \mid \mathbf{x})$ directly. Chain-of-thought introduces intermediate reasoning $\mathbf{r} = (r_1, r_2, \ldots, r_L)$ and factorises the prediction as:
 
 $$p(y \mid \mathbf{x}) = \sum_{\mathbf{r}} p(y \mid \mathbf{r}, \mathbf{x}) \cdot p(\mathbf{r} \mid \mathbf{x})$$
+- In practice, the sum is approximated by greedy or beam-search decoding over reasoning chains. The reasoning steps $r_i$ can be text tokens, references to image regions, or even generated visual tokens (e.g., a bounding box annotation overlaid on the input image).
 
-- 在实践中,总和的取向是贪婪或梁-搜比推理链解码相近. 推理步骤$r_i$可以是文本符号,引用图像区域,甚至生成可视符号(例如输入图像上覆盖的边框注释).
+- **Training multimodal CoT** typically involves curating datasets where human annotators provide step-by-step multimodal reasoning traces, then fine-tuning the model on these traces. Some approaches distill CoT capabilities from larger teacher models: the teacher generates reasoning traces for a large dataset, and the smaller student model is trained on both the inputs and the teacher's traces.
 
-- ** 培训多式联运公司** 通常涉及整理数据集,其中人类注释员提供分步骤的多式联运推理痕迹,然后在这些痕迹上细化模型。一些方法从更大的教师模型中提炼出COT能力:教师为一个大数据集生成推理痕迹,较小的学生模型既接受输入,也接受教师痕迹的培训.
+- Multimodal CoT is especially powerful for tasks that require **spatial reasoning** (e.g., "Is the red ball to the left of the blue cube?"), **mathematical reasoning over diagrams** (e.g., geometry problems), and **multi-step visual question answering** where the answer depends on combining information from multiple regions of an image.
 
-- 多式联运CoT对于需要**空间推理**(如"蓝色立方体左侧是红球吗"),**数学推理比图**(如几何问题),和**多步视觉问题回答**,答案取决于一个图像的多区域的信息相融合.
+## Multimodal Agents
 
-## 多模态智能体
+- Think of a robot chef in a kitchen. It looks at the ingredients on the counter (vision), reads the recipe on a tablet (text), listens for the timer beeping (audio), and then physically picks up a knife and chops an onion (action). A **multimodal agent** is the digital version of this: a model that perceives the world through multiple modalities, reasons about what to do, and takes actions grounded in its perception.
 
+- The agent loop follows the classic **observe-reason-act** cycle:
 
-- 想想厨房里的机器人厨师 它查看了柜台上的成分(视觉),在平板上读取食谱(文字),听取计时器哔声(音频),然后身体上取出一把刀并切出一根洋葱(动作). 一种**多模式代理**是这一方法的数字版本:这种模型通过多种模式来感知世界,说明做什么的理由,并根据其认知采取行动。
+    1. **Observe**: The agent receives multimodal input from its environment (a screenshot, a user's spoken instruction, a video feed).
+    2. **Reason**: The unified model processes the multimodal input, possibly using chain-of-thought to plan a sequence of steps.
+    3. **Act**: The model outputs an action (a text response, a tool call, a mouse click at coordinates $(x, y)$, a robotic motor command).
 
-- 代理循环遵循经典的**观察-理性-活性**周期:
+- **Tool use** is a key capability of multimodal agents. The model is trained to recognise when it cannot answer a question directly and must instead invoke an external tool: a calculator, a code interpreter, a web browser, or a search engine. The model generates a structured tool call (e.g., `search("current weather in London")`) as part of its output token sequence, the system executes the call, and the result is fed back as additional input tokens for the model to process.
 
-    1. **观察**:代理接收来自其环境的多模式输入(截图,用户口述指示,视频馈送).
-    2. **Reason**:统一模型处理多式输入,可能利用思维链来规划一系列步骤。
-    3. ** Act**:模型输出动作(文本响应、工具呼叫、鼠标点击坐标)$(x, y)$一个机器人发动机命令
+- **Visual grounding** connects language to specific regions in an image or video. When an agent says "click the blue button in the top-right corner," it must ground the phrase "blue button in the top-right corner" to pixel coordinates. Architecturally, this is achieved by training the model to output bounding box coordinates as special tokens or by having the model produce a heatmap over the image that indicates the referred region. This extends the grounding and referring work discussed in file 02 of this chapter (Vision Language Models) to the action domain.
 
-- ** 使用工具** 是多式联运代理人的关键能力。该模型在无法直接回答问题时被训练成识别,而必须使用外部工具:计算器、代码解释器、网页浏览器或搜索引擎。该模型生成一个结构化的工具调用(例如,`search("current weather in London")`)作为其输出符号序列的一部分,系统执行调用,结果被反馈作为模型处理的附加输入符号.
+- **Web agents** like WebVoyager and SeeAct demonstrate multimodal agents navigating websites. The agent receives a screenshot of a web page, identifies interactive elements (buttons, text fields, links), and outputs actions (click, type, scroll) to accomplish a user-specified goal. The key challenge is the enormous action space: a typical web page has hundreds of possible click targets.
 
-- ** 视频定位** 用图像或视频连接特定区域的语言。当一个代理商说"点击上-右角的蓝色按钮"时,它必须将"上-右角的蓝色按钮"的短语放入像素坐标. 从结构上讲,实现这一点的方法是培训模型将相框坐标输出为特殊符号,或者让模型在显示所提及区域的图像上产生热图. 这就将本章(Vision Language Models)文件02所讨论工作的定位和转介扩展至动作域.
-
-- ** WebVoyager 和 SeeAct 等网络代理商演示了多模式代理通航网站. 代理机接收网页截图,识别交互元素(按钮,文本字段,链接),输出动作(点击,打出,滚动)以完成用户指定的目标. 关键的挑战在于巨大的行动空间:一个典型的网页有上百个可能的点击目标.
-
-![图示](../images/multimodal_agent_loop.svg)
-
-- ** 健康剂**将这一范围扩大到物理环境。拥有相机和麦克风的机器人接收视觉和音频输入,通过统一的模型进行处理,并输出运动指令. PALM-E(Google)等项目将机器人传感器数据直接嵌入到语言模型的符号序列中,使机器人能够遵循"取出碗附近的绿色块"等指令,在视觉观察中将指令放入地上并生成一系列运动动作.
-
-- 特工人员培训配方在标准预训上增加了**强化学习**(RL)阶段. 代理机与一个环境(模拟桌面,网页浏览器,机器人模拟器)交互,任务完成后获得奖励,并使用PPO或REINFORCE等算法更新其政策. 奖励信号通常很少(任务成功1个,否则0个),使这种优化具有挑战性,严重依赖多式联运预训的强大前奏。
-
-## 基准与评估
+![Observe-reason-act loop of a multimodal agent, showing visual input from a screen, the reasoning process inside the unified model, and output actions like clicking, typing, or calling tools](../images/multimodal_agent_loop.svg)
 
 
-- 评估一个能够看见、听到、阅读和采取行动的模式需要一套不同的基准。没有任何单一的衡量标准能反映多式联运的能力,因此外地依靠收集的专门评价。
+- **Embodied agents** extend this to physical environments. A robot with a camera and microphone receives visual and audio input, processes it through a unified model, and outputs motor commands. Projects like PaLM-E (Google) embed robotic sensor data directly into the token sequence of a language model, allowing the robot to follow instructions like "pick up the green block near the bowl" by grounding the instruction in its visual observation and generating a sequence of motor actions.
 
-- ** MMLU**(大规模多任务语言理解)测试57个学科的知识。虽然最初只使用文字,但它作为一个基线:统一的多模式模型在获得视觉能力时不应失去仅使用文字的性能。多式联运训练后MMLU的下降标志着灾难性的遗忘。
+- The training recipe for agents adds a **reinforcement learning** (RL) stage on top of the standard staged pretraining. The agent interacts with an environment (a simulated desktop, a web browser, a robotic simulator), receives rewards for task completion, and updates its policy using algorithms like PPO or REINFORCE. The reward signal is typically sparse (1 for task success, 0 otherwise), making this optimisation challenging and heavily reliant on the strong priors from multimodal pretraining.
 
-- ** MM Bench** 评估20个精细能力维度的视觉语言理解,包括属性识别、空间关系理解和OCR。每个问题都呈现出一个形象和一个多选择的问题. 基准系统测试模型是否真正理解了图像,还是依赖于仅文本快捷键.
+## Benchmarks and Evaluation
 
-- ** SEED-Bench**提供19 000个多重选择问题,涉及12个评价层面,既用于图像理解,也用于视频理解。它具体测试时间理解(在特定框架之前/之后发生的事情)和组成推理(合并多个视觉属性).
+- Evaluating a model that can see, hear, read, and act requires a diverse suite of benchmarks. No single metric captures multimodal competence, so the field relies on a collection of specialised evaluations.
 
-- ** MM-Vet**通过要求模型同时使用多种技能来评价综合多模式能力:识别、OCR、空间意识、语言生成和知识检索,所有这一切都是一个问题。
+- **MMLU** (Massive Multitask Language Understanding) tests knowledge across 57 academic subjects. While originally text-only, it serves as a baseline: a unified multimodal model should not lose text-only performance when it gains visual capabilities. A drop in MMLU after multimodal training signals catastrophic forgetting.
 
-- **MathVista** 测试数学推理而不是视觉输入:几何图,统计图,函数图和科学数字. 这一基准具体针对多模式思维链能力。
+- **MMBench** evaluates vision-language understanding across 20 fine-grained ability dimensions, including attribute recognition, spatial relationship understanding, and OCR. Each question presents an image and a multiple-choice question. The benchmark systematically tests whether the model truly understands the image or is relying on text-only shortcuts.
 
-- ** 视听基准** 如AVQA(视听问题回答),测试模型是否能够说明所见所闻之间的关系。例如:"说话的人是左边还是右边?
+- **SEED-Bench** provides 19,000 multiple-choice questions spanning 12 evaluation dimensions for both image and video understanding. It specifically tests temporal understanding (what happened before/after a given frame) and compositional reasoning (combining multiple visual attributes).
 
-- ** 代理基准** 如WebArena、OSWorld和SWE-bench评价在互动环境中完成的任务。衡量标准一般是成功率:代理人正确完成的任务分出多少? 这些基准尤其具有挑战性,因为它们需要长期规划并收回错误。
+- **MM-Vet** evaluates integrated multimodal capabilities by requiring models to use multiple skills simultaneously: recognition, OCR, spatial awareness, language generation, and knowledge retrieval, all in a single question.
 
-- ** Holistic评价** 诸如LMSYS Chatbot Arena之类的框架采用人首偏好判断,以头对头的形式. 两种模式显示相同的多式输入,由人类裁判选择更好的反应. Elo的收视率是根据数千次这种比较计算的,提供与整体模型质量密切相关的单一分级。
+- **MathVista** tests mathematical reasoning over visual inputs: geometry diagrams, statistical charts, function plots, and scientific figures. This benchmark specifically targets multimodal chain-of-thought capabilities.
 
-- 多式联运评价中的一个长期挑战是**数据被污染**:因为这些模型都接受了互联网规模数据的培训,因此这套培训中可能会出现基准图像和问题。谨慎的分解和建立暂停试验装置是基本但不完善的保障措施。
+- **Audio-visual benchmarks** like AVQA (Audio-Visual Question Answering) test whether models can reason about the relationship between what they see and what they hear. For example: "Is the person speaking the one on the left or the right?"
 
-## 世界模型
+- **Agent benchmarks** like WebArena, OSWorld, and SWE-bench evaluate task completion in interactive environments. The metric is typically the success rate: what fraction of tasks does the agent complete correctly? These benchmarks are particularly challenging because they require long-horizon planning and error recovery.
 
+- **Holistic evaluation** 框架s like LMSYS Chatbot Arena use human preference judgements in a head-to-head format. Two models are shown the same multimodal input, and a human judge selects which response is better. Elo ratings are computed from thousands of such comparisons, providing a single scalar that correlates well with overall model quality.
 
-- 想象一下,闭上眼睛,想象一下,如果你把一副玻璃从桌子的边缘推开, 会发生什么事。你"看见"它倒下, "听到" 碎裂,和"感觉" 这是一个坏主意。你的大脑正在运行一个**世界模型**:一种内部模拟环境的物理和因果结构,可以预测未来状态跨越多种模式.
+- A persistent challenge in multimodal evaluation is **data contamination**: because these models are trained on internet-scale data, benchmark images and questions may appear in the training set. Careful deduplication and the creation of held-out test sets are essential but imperfect safeguards.
 
-- 在AI背景下,一个世界模型是一个学习到的函数,它根据当前状态和一种行动来预测世界的下一个状态:
+## World Models
+
+- Imagine closing your eyes and visualising what will happen if you push a glass off the edge of a table. You "see" it fall, "hear" the shatter, and "feel" that it would be a bad idea. Your brain is running a **world model**: an internal simulation of the physical and causal structure of the environment that can predict future 状态s across multiple modalities.
+
+- In the AI context, a world model is a learned function that predicts the next 状态 of the world given the current 状态 and an action:
 
 $$\hat{s}_{t+1} = g_\phi(s_t, a_t)$$
+- where $s_t$ is the current 状态 representation (which may include visual, auditory, and proprioceptive information), $a_t$ is an action, and $\hat{s}_{t+1}$ is the predicted next 状态. The 状态 $s_t$ lives in a learned latent space rather than raw pixel space, making the prediction problem tractable.
 
-- 地点$s_t$现状(可能包括视觉、听觉和自发信息),$a_t$是一种行动,并且$\hat{s}_{t+1}$是预测的下一个状态。国家$s_t$生活在一个有学问的潜在空间中,而不是原始像素空间,使得预测问题可以被引导.
+- **Video prediction models** like Sora (OpenAI) and Genie (Google DeepMind) represent a major step towards world models. They learn to generate temporally coherent video frames conditioned on text prompts and/or action sequences. While they are often discussed as video generators, the underlying capability is closer to world simulation: the model has internalised enough physics (gravity, collision, occlusion, fluid dynamics) to render plausible futures.
 
-- ** 视频预测模型**,如Sora(OpenAI)和Genie(Google DeepMind)是走向世界模型的重大步骤。他们学会生成时间上一致的视频帧,以文本提示和/或动作序列为条件. 虽然它们常被作为视频生成器来讨论,但基础能力更接近于世界模拟:该模型已经内化了足够多的物理(重力,相撞,隔离,流体动力学),以形成可信的未来.
+- The connection to multimodal architectures is deep. A world model that predicts only pixels is limited; a truly useful world model predicts across modalities. If you push the glass, the world model should predict the visual trajectory (glass falls), the auditory event (glass shatters), and the semantic consequence (you now have broken glass on the floor). Unified multimodal architectures are natural candidates for world models because they already represent all modalities in a shared space.
 
-- 与多式建筑的连接是深厚的. 一个只预测像素的世界模型是有限的;一个真正有用的世界模型可以预测各种模式. 如果推出玻璃,世界模型应该预测视觉轨迹(玻璃倒地),听觉事件(玻璃碎地)和语义后果(你现在已经把玻璃倒地了). 统一的多模式架构是世界模式的自然选择,因为它们已经代表了共享空间中的所有模式。
-
-- 在形式上,一种多式世界模式的选择:
+- Formally, a multimodal world model optimises:
 
 $$\mathcal{L}_\text{world} = \mathbb{E}\left[\sum_{m \in \mathcal{M}} \lambda_m \| s_{t+1}^m - g_\phi^m(s_t, a_t) \|^2 \right]$$
+- where $s_{t+1}^m$ is the ground-truth next-状态 representation in modality $m$ and $g_\phi^m$ is the modality-specific prediction head of the world model. The shared latent dynamics $g_\phi$ operate in the joint multimodal space, while modality-specific heads decode predictions into each modality's native format.
 
-- 地点$s_{t+1}^m$以模式显示的地真相状态$m$财务报告和已审计财务报表$g_\phi^m$是世界模型中特定模式的预测头目。共同的潜在动态$g_\phi$在联合多模式空间中运行,而特定模式头则将预测解码为每种模式的本地格式。
+![World model diagram showing a latent 状态 being updated by an action, with decoder heads predicting future visual frames, audio waveforms, and semantic descriptions](../images/multimodal_world_model.svg)
 
-![图示](../images/multimodal_world_model.svg)
 
-- ** JEPA**(联合嵌入预测架构)由Yann LeCun提出,为避免像素水平预测的陷阱的世界模型提供了一个框架. JEPA没有预测原始像素(这种像素将能力浪费在诸如精确纹理等不相关的细节上),而是预测嵌入空间. 该模型学习了将观测图映射到嵌入的编码器和预测未来嵌入的预测器:
+- **JEPA** (Joint Embedding Predictive Architecture), proposed by Yann LeCun, offers a 框架 for world models that avoids the pitfalls of pixel-level prediction. Instead of predicting raw pixels (which wastes capacity on irrelevant details like exact textures), JEPA predicts in embedding space. The model learns an encoder that maps observations to embeddings and a predictor that forecasts future embeddings:
 
 $$\hat{\mathbf{z}}_{t+1} = h_\psi(\mathbf{z}_t, a_t), \quad \mathbf{z}_t = \text{Enc}(s_t)$$
+- The loss compares embeddings rather than raw observations, which is more robust to perceptual aliasing (many different pixel configurations may represent the same semantic 状态). This approach is especially promising for multimodal world models because it naturally operates in the shared embedding space that unified architectures already provide.
 
-- 损失比较了嵌入式而非原始观测,后者更强健到能感知到别名(许多不同的像素配置可能代表同一个语义状态). 这种方法对于多模式世界模型来说特别有希望,因为它自然在统一建筑已经提供的共享嵌入空间中运作。
+- World models have practical applications beyond academic interest. In **model-based reinforcement learning**, the agent uses its world model to "imagine" the consequences of actions before taking them, dramatically reducing the number of real-world interactions needed (recall the discussion of model-based RL from Chapter 11). In **autonomous driving**, a world model predicts how the scene will evolve over the next few seconds given different steering decisions. In **robotics**, a world model allows a robot to mentally rehearse a manipulation sequence before executing it.
 
-- 世界模型的实用性超出了学术兴趣. 在**以模型为基础的强化学习**中,代理人利用其世界模式在采取行动前"想象"其后果,大幅地减少了现实世界所需的互动次数(回顾第11章关于以模型为基础的RL的讨论). 在**自主驱动**中,一个世界模型预测了未来几秒钟由于不同的指导决定而将如何演进场景. 在**robotics **中,一个世界模型允许机器人在被执行之前先进行精神排练来操作序列.
+- The frontier of world model research is moving towards **interactive world models** that run in real-time and respond to arbitrary user actions, essentially becoming general-purpose simulators learned entirely from data. Genie 2 (Google DeepMind) demonstrates this for 3D environments: given a single image, it generates an interactive, controllable 3D world that a user can explore. The convergence of world models and unified multimodal architectures suggests a future where a single model can perceive, predict, simulate, and act across all modalities.
 
-- 世界模型研究的前沿正在走向**互动世界模型**,这些模型是实时运行的,是对任意用户行为的回应,基本上成为完全从数据中学习的通用模拟器. Genie 2 (Google DeepMind) 为3D环境演示了这一点:给一个单一的图像,它会产生一个交互的,可控制的3D世界,用户可以探索. 世界模型和统一的多模式结构的趋同表明,未来一个单一模型能够感知、预测、模拟和跨越所有模式采取行动。
+## Coding Tasks (use CoLab or notebook)
 
-## 编程任务（使用 Colab 或 notebook）
+**Task 1: Build a minimal multimodal token interleaver**
 
-
-** 任务1:建立最低限度的多式代号互换器**
-
-- 写入一个功能,将文本字符串和一个假"图像"(一个小的2D阵列)并把它们的象征性表达符放入有模式嵌入的单一平面序列中.
+- Write a function that takes a text string and a dummy "image" (a small 2D array) and interleaves their tokenised representations into a single flat sequence with modality embeddings.
 
 ```python
 import jax
@@ -266,9 +252,9 @@ seq = interleave_modalities(text, image)
 # Experiment: change embed_dim, swap the interleaving order, add a third modality
 ```
 
-** 任务2:可视化跨模式的注意模式**
+**Task 2: Visualise cross-modal attention patterns**
 
-- 创建合成多模式序列并计算自意分数,以查看图像符号如何处理文本符号,反之亦然.
+- Create a synthetic multimodal sequence and compute self-attention scores to see how image tokens attend to text tokens and vice versa.
 
 ```python
 import jax
@@ -303,9 +289,9 @@ cross_modal_attention()
 # Experiment: increase d, add a causal mask, observe how attention patterns change
 ```
 
-** 任务3:以特定模式损失加权模拟分阶段培训**
+**Task 3: Simulate staged training with modality-specific loss weighting**
 
-- 说明特定模式的损失权重如何影响玩具多模式培训循环。观察平衡损失如何阻止一种模式占据主导地位.
+- Demonstrate how modality-specific loss weights affect a toy multimodal training loop. Observe how balancing losses prevents one modality from dominating.
 
 ```python
 import jax

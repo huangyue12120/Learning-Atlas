@@ -4,21 +4,21 @@
       <path d="M0,0 L8,3 L0,6 Z" fill="#666"/>
     </marker>
   </defs>
-  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">动作切换:连续切换套件-托肯斯</text>
+  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">动作标记化：连续 → 不断进位标签 → 标记</text>
 
   <!-- Continuous action -->
   <rect x="30" y="55" width="160" height="110" rx="10" fill="#3498db" fill-opacity="0.08" stroke="#3498db" stroke-width="1.5"/>
-  <text x="110" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">持续行动</text>
-  <text x="110" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#3498db">Δx=0.023米/秒</text>
-  <text x="110" y="116" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#3498db">Δ= -0.051米/秒</text>
-  <text x="110" y="132" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#3498db">抓取=0.8 键</text>
-  <text x="110" y="152" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">7个维度</text>
+  <text x="110" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#3498db">连续动作</text>
+  <text x="110" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#3498db">Δx = 0.023 m/s</text>
+  <text x="110" y="116" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#3498db">Δy = -0.051 m/s</text>
+  <text x="110" y="132" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#3498db">抓握力 = 0.8</text>
+  <text x="110" y="152" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#999">7 个维度</text>
 
   <line x1="190" y1="110" x2="228" y2="110" stroke="#666" stroke-width="1.5" marker-end="url(#at-arr)"/>
 
   <!-- Binning -->
   <rect x="236" y="55" width="180" height="110" rx="10" fill="#f39c12" fill-opacity="0.08" stroke="#f39c12" stroke-width="1.5"/>
-  <text x="326" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f39c12">分散(256个垃圾桶)</text>
+  <text x="326" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f39c12">离散化 (256 个标签箱)</text>
 
   <!-- Bin visualisation for one dimension -->
   <g transform="translate(256, 90)">
@@ -28,15 +28,15 @@
     <rect x="82" y="0" width="11.7" height="20" fill="#f39c12" fill-opacity="0.4" stroke="#f39c12" stroke-width="1"/>
     <!-- Marker -->
     <line x1="87" y1="-5" x2="87" y2="25" stroke="#e74c3c" stroke-width="1.5"/>
-    <text x="87" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">宾159</text>
+    <text x="87" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e74c3c">箱 159</text>
   </g>
-  <text x="326" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#f39c12">每个暗点 ~ 最近的本索引</text>
+  <text x="326" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#f39c12">每个维度 → 最近的标签箱索引</text>
 
   <line x1="416" y1="110" x2="454" y2="110" stroke="#666" stroke-width="1.5" marker-end="url(#at-arr)"/>
 
   <!-- Token sequence -->
   <rect x="462" y="55" width="210" height="110" rx="10" fill="#27ae60" fill-opacity="0.08" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="567" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">键序列</text>
+  <text x="567" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">标记序列</text>
 
   <!-- Tokens -->
   <g transform="translate(477, 90)">
@@ -58,8 +58,8 @@
     <rect x="150" y="0" width="26" height="24" rx="4" fill="#27ae60" fill-opacity="0.2" stroke="#27ae60" stroke-width="1"/>
     <text x="163" y="16" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#27ae60">91</text>
   </g>
-  <text x="567" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">像文字符号一样输入 LLM</text>
+  <text x="567" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#27ae60">输入到 LLM 中，就像文本标记一样</text>
 
   <!-- Bottom note -->
-  <text x="350" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">每个动作维度被独立地被分解成256个离散的符号 → LLM 自动生成它们</text>
+  <text x="350" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">每个动作维度独立地被离散化为 256 个标签箱 → LLM 自回归地生成它们</text>
 </svg>

@@ -65,5 +65,5 @@
   <text x="490" y="170" fill="#3498db" font-size="10" text-anchor="middle">⚂→3</text>
 
   <!-- Number line label -->
-  <text x="475" y="60" fill="#333" font-size="13" font-weight="bold" text-anchor="middle">实际数字</text>
+  <text x="475" y="60" fill="#333" font-size="13" font-weight="bold" text-anchor="middle">实数</text>
 </svg>

@@ -4,14 +4,14 @@
       <polygon points="0 0, 7 2.5, 0 5" fill="#555"/>
     </marker>
   </defs>
-  <text x="360" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">RLHF:加强从人类反馈中学习</text>
+  <text x="360" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">强化学习从人类反馈中获得（RLHF）</text>
 
   <!-- Stage 1: SFT -->
   <rect x="20" y="45" width="200" height="115" rx="10" fill="#3498db" opacity="0.06" stroke="#3498db" stroke-width="2"/>
-  <text x="120" y="68" fill="#3498db" font-size="12" font-weight="bold" text-anchor="middle">第一阶段:SFT</text>
+  <text x="120" y="68" fill="#3498db" font-size="12" font-weight="bold" text-anchor="middle">第一阶段：SFT (监督式微调) </text>
 
   <rect x="40" y="78" width="160" height="24" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
-  <text x="120" y="95" fill="#555" font-size="9" text-anchor="middle">人类的书面答复</text>
+  <text x="120" y="95" fill="#555" font-size="9" text-anchor="middle">人工编写的响应</text>
 
   <line x1="120" y1="102" x2="120" y2="118" stroke="#555" stroke-width="1" marker-end="url(#rlhf-arrow)"/>
 
@@ -23,44 +23,44 @@
 
   <!-- Stage 2: Reward Model -->
   <rect x="260" y="45" width="200" height="115" rx="10" fill="#e74c3c" opacity="0.06" stroke="#e74c3c" stroke-width="2"/>
-  <text x="360" y="68" fill="#e74c3c" font-size="12" font-weight="bold" text-anchor="middle">阶段2:奖励模式</text>
+  <text x="360" y="68" fill="#e74c3c" font-size="12" font-weight="bold" text-anchor="middle">第二阶段：奖励模型 </text>
 
   <rect x="278" y="78" width="70" height="24" rx="4" fill="#27ae60" opacity="0.15" stroke="#27ae60" stroke-width="1"/>
-  <text x="313" y="94" fill="#27ae60" font-size="9" text-anchor="middle">回应A</text>
+  <text x="313" y="94" fill="#27ae60" font-size="9" text-anchor="middle">响应 A </text>
   <rect x="355" y="78" width="70" height="24" rx="4" fill="#e74c3c" opacity="0.15" stroke="#e74c3c" stroke-width="1"/>
-  <text x="390" y="94" fill="#e74c3c" font-size="9" text-anchor="middle">回应B</text>
+  <text x="390" y="94" fill="#e74c3c" font-size="9" text-anchor="middle">响应 B </text>
 
-  <text x="432" y="94" fill="#333" font-size="9">人类</text>
-  <text x="432" y="106" fill="#333" font-size="9">军衔</text>
+  <text x="432" y="94" fill="#333" font-size="9">人类 </text>
+  <text x="432" y="106" fill="#333" font-size="9">排名 (ranks) </text>
 
   <line x1="360" y1="102" x2="360" y2="118" stroke="#555" stroke-width="1" marker-end="url(#rlhf-arrow)"/>
 
   <rect x="295" y="120" width="130" height="28" rx="5" fill="#e74c3c" opacity="0.15" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="360" y="139" fill="#e74c3c" font-size="10" text-anchor="middle" font-weight="bold">奖励r(x,y)</text>
+  <text x="360" y="139" fill="#e74c3c" font-size="10" text-anchor="middle" font-weight="bold">奖励 r(x, y) </text>
 
   <!-- Arrow 2→3 -->
   <line x1="460" y1="100" x2="495" y2="100" stroke="#555" stroke-width="2" marker-end="url(#rlhf-arrow)"/>
 
   <!-- Stage 3: RL Fine-tuning -->
   <rect x="500" y="45" width="205" height="115" rx="10" fill="#27ae60" opacity="0.06" stroke="#27ae60" stroke-width="2"/>
-  <text x="602" y="68" fill="#27ae60" font-size="12" font-weight="bold" text-anchor="middle">第3阶段:RL(PPO)</text>
+  <text x="602" y="68" fill="#27ae60" font-size="12" font-weight="bold" text-anchor="middle">第三阶段：RL (PPO) </text>
 
   <rect x="518" y="78" width="80" height="24" rx="4" fill="#3498db" opacity="0.15" stroke="#3498db" stroke-width="1"/>
-  <text x="558" y="95" fill="#3498db" font-size="9" text-anchor="middle">LM 生成</text>
+  <text x="558" y="95" fill="#3498db" font-size="9" text-anchor="middle">LM 生成 </text>
 
   <rect x="608" y="78" width="80" height="24" rx="4" fill="#e74c3c" opacity="0.15" stroke="#e74c3c" stroke-width="1"/>
-  <text x="648" y="95" fill="#e74c3c" font-size="9" text-anchor="middle">RM 分数</text>
+  <text x="648" y="95" fill="#e74c3c" font-size="9" text-anchor="middle">RM 评分 (scores) </text>
 
   <line x1="602" y1="102" x2="602" y2="118" stroke="#555" stroke-width="1" marker-end="url(#rlhf-arrow)"/>
 
   <rect x="537" y="120" width="130" height="28" rx="5" fill="#27ae60" opacity="0.15" stroke="#27ae60" stroke-width="1.5"/>
-  <text x="602" y="139" fill="#27ae60" font-size="10" text-anchor="middle" font-weight="bold">RLHF模型</text>
+  <text x="602" y="139" fill="#27ae60" font-size="10" text-anchor="middle" font-weight="bold">RLHF 模型 </text>
 
   <!-- Bottom: DPO comparison -->
   <rect x="120" y="185" width="480" height="80" rx="10" fill="#9b59b6" opacity="0.05" stroke="#9b59b6" stroke-width="1.5"/>
-  <text x="360" y="208" fill="#9b59b6" font-size="12" font-weight="bold" text-anchor="middle">DPO:直接优化优惠(简易替代)</text>
+  <text x="360" y="208" fill="#9b59b6" font-size="12" font-weight="bold" text-anchor="middle">DPO: 直接偏好优化 (更简单的替代方案) </text>
 
-  <text x="360" y="228" fill="#555" font-size="10" text-anchor="middle">完全跳过奖励模式。列车使用分级损失直接搭载首选对.</text>
-  <text x="360" y="245" fill="#555" font-size="10" text-anchor="middle">数学上相当于RLHF,但是没有PPO,没有奖励模型,只是监督训练.</text>
-  <text x="360" y="260" fill="#9b59b6" font-size="9" text-anchor="middle">阶段2+3倒塌为单步:比较首选的对等完成的日志-试想.</text>
+  <text x="360" y="228" fill="#555" font-size="10" text-anchor="middle">它跳过了奖励模型，直接使用偏好对进行训练，并使用分类损失。</text>
+  <text x="360" y="245" fill="#555" font-size="10" text-anchor="middle">从数学上讲，它与 RLHF 相同，但没有 PPO 或奖励模型，只是监督式训练。</text>
+  <text x="360" y="260" fill="#9b59b6" font-size="9" text-anchor="middle">第二和第三阶段合并为一个步骤：比较偏好完成的对数概率 (log-probs) 与非偏好完成的对数概率。</text>
 </svg>

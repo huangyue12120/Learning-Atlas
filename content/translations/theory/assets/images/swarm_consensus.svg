@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 220" width="700" height="220">
-  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">《全球协议》</text>
+  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">蜂群共识：局部平均 → 全局一致性</text>
 
   <!-- Divider lines -->
   <line x1="233" y1="35" x2="233" y2="200" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
   <line x1="466" y1="35" x2="466" y2="200" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
 
   <!-- Initial (scattered) -->
-  <text x="117" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e74c3c">t = 0 (散开)</text>
+  <text x="117" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#e74c3c">t = 0 (分散)</text>
   <circle cx="50" cy="90" r="6" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
   <circle cx="170" cy="80" r="6" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
   <circle cx="90" cy="170" r="6" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
@@ -21,7 +21,7 @@
   <line x1="60" y1="140" x2="130" y2="120" stroke="#ccc" stroke-width="0.8"/>
 
   <!-- Mid (converging) -->
-  <text x="350" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f39c12">t = 5(汇合)</text>
+  <text x="350" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#f39c12">t=5 (收敛中)</text>
   <circle cx="310" cy="110" r="6" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
   <circle cx="370" cy="105" r="6" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
   <circle cx="330" cy="140" r="6" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
@@ -35,7 +35,7 @@
   <line x1="320" y1="130" x2="350" y2="120" stroke="#ccc" stroke-width="0.8"/>
 
   <!-- Final (converged) -->
-  <text x="583" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">t = 20 (商定)</text>
+  <text x="583" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#27ae60">t=20 (达成一致)</text>
   <circle cx="578" cy="122" r="6" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
   <circle cx="590" cy="118" r="6" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
   <circle cx="575" cy="130" r="6" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
@@ -46,5 +46,5 @@
   <!-- Consensus point -->
   <circle cx="583" cy="124" r="16" fill="none" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="4,2"/>
 
-  <text x="350" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">每个机器人平均与相邻方的位置 都汇合到一个共同的地方</text>
+  <text x="350" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">每个机器人平均其位置与邻居 → 所有都收敛到同一个共享地点</text>
 </svg>

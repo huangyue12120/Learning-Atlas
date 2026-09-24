@@ -8,10 +8,10 @@
     </marker>
   </defs>
 
-  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">短时间 Fourier 变形(STFT)和光谱</text>
+  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">短时傅里叶变换 (STFT) 与频谱图 </text>
 
   <!-- ===== LEFT: Time-domain waveform ===== -->
-  <text x="120" y="48" fill="#333" font-size="11" font-weight="bold" text-anchor="middle">时间域</text>
+  <text x="120" y="48" fill="#333" font-size="11" font-weight="bold" text-anchor="middle">时域 (Time Domain) </text>
 
   <!-- Waveform axes -->
   <line x1="25" y1="140" x2="230" y2="140" stroke="#999" stroke-width="0.8"/>
@@ -31,21 +31,21 @@
   <text x="87" y="218" fill="#f39c12" font-size="8">w2</text>
   <text x="112" y="218" fill="#27ae60" font-size="8">w3</text>
   <text x="137" y="218" fill="#9b59b6" font-size="8">w4</text>
-  <text x="120" y="232" fill="#666" font-size="8" text-anchor="middle">重叠窗口</text>
+  <text x="120" y="232" fill="#666" font-size="8" text-anchor="middle">重叠窗口 (overlapping windows) </text>
 
   <!-- Arrow from waveform to spectrogram -->
   <line x1="245" y1="140" x2="300" y2="140" stroke="#3498db" stroke-width="2" marker-end="url(#stft-arrow-big)"/>
-  <text x="273" y="132" fill="#3498db" font-size="9" font-weight="bold" text-anchor="middle">FFT 电话</text>
-  <text x="273" y="152" fill="#3498db" font-size="8" text-anchor="middle">每个框架</text>
+  <text x="273" y="132" fill="#3498db" font-size="9" font-weight="bold" text-anchor="middle">FFT (快速傅里叶变换) </text>
+  <text x="273" y="152" fill="#3498db" font-size="8" text-anchor="middle">按帧 (per frame) </text>
 
   <!-- ===== RIGHT: Spectrogram ===== -->
-  <text x="470" y="48" fill="#333" font-size="11" font-weight="bold" text-anchor="middle">光谱</text>
+  <text x="470" y="48" fill="#333" font-size="11" font-weight="bold" text-anchor="middle">频谱图 (Spectrogram) </text>
 
   <!-- Spectrogram axes -->
   <line x1="320" y1="220" x2="630" y2="220" stroke="#999" stroke-width="0.8" marker-end="url(#stft-arrow)"/>
   <line x1="320" y1="220" x2="320" y2="58" stroke="#999" stroke-width="0.8" marker-end="url(#stft-arrow)"/>
-  <text x="475" y="238" fill="#666" font-size="9" text-anchor="middle">时间(框架)</text>
-  <text x="310" y="140" fill="#666" font-size="9" text-anchor="middle" transform="rotate(-90, 310, 140)">频率</text>
+  <text x="475" y="238" fill="#666" font-size="9" text-anchor="middle">时间 (frames) </text>
+  <text x="310" y="140" fill="#666" font-size="9" text-anchor="middle" transform="rotate(-90, 310, 140)">频率 (Frequency) </text>
 
   <!-- Spectrogram grid: coloured rectangles at different opacities -->
   <!-- Row heights: each ~16px, 10 rows from y=60 to y=220 -->
@@ -136,20 +136,20 @@
   <rect x="470" y="92" width="25" height="16" fill="#e74c3c" opacity="0.05"/>
 
   <!-- Intensity legend -->
-  <text x="640" y="75" fill="#666" font-size="8" text-anchor="middle">能源</text>
+  <text x="640" y="75" fill="#666" font-size="8" text-anchor="middle">能量 (Energy) </text>
   <rect x="633" y="80" width="14" height="12" fill="#3498db" opacity="0.9"/>
-  <text x="655" y="90" fill="#666" font-size="7">高级</text>
+  <text x="655" y="90" fill="#666" font-size="7">高 (high) </text>
   <rect x="633" y="95" width="14" height="12" fill="#3498db" opacity="0.5"/>
   <rect x="633" y="110" width="14" height="12" fill="#3498db" opacity="0.2"/>
-  <text x="655" y="120" fill="#666" font-size="7">低级</text>
+  <text x="655" y="120" fill="#666" font-size="7">低 (low) </text>
 
   <!-- Frequency labels on y-axis -->
-  <text x="316" y="68" fill="#666" font-size="8" text-anchor="end">8千赫兹</text>
-  <text x="316" y="140" fill="#666" font-size="8" text-anchor="end">4千赫兹</text>
-  <text x="316" y="218" fill="#666" font-size="8" text-anchor="end">0赫兹</text>
+  <text x="316" y="68" fill="#666" font-size="8" text-anchor="end">8 kHz </text>
+  <text x="316" y="140" fill="#666" font-size="8" text-anchor="end">4 kHz </text>
+  <text x="316" y="218" fill="#666" font-size="8" text-anchor="end">0 Hz</text>
 
   <!-- Bottom note -->
   <rect x="90" y="260" width="520" height="30" rx="4" fill="#f5f5f5" stroke="#333" stroke-width="0.8"/>
-  <text x="350" y="274" fill="#333" font-size="10" text-anchor="middle">STFT:沿着信号滑出一扇窗口,计算出每个帧的FFFT.</text>
-  <text x="350" y="286" fill="#666" font-size="9" text-anchor="middle">更暗的电池 = 该时间频率桶的能量更多</text>
+  <text x="350" y="274" fill="#333" font-size="10" text-anchor="middle">STFT: 将一个窗口滑过信号，计算每个帧的 FFT。</text>
+  <text x="350" y="286" fill="#666" font-size="9" text-anchor="middle">较暗的单元格 = 在该时频点能量更大 </text>
 </svg>

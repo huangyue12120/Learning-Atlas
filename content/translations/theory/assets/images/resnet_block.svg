@@ -4,7 +4,7 @@
       <polygon points="0 0, 8 3, 0 6" fill="#555"/>
     </marker>
   </defs>
-  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">ResNet 残余块</text>
+  <text x="350" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">ResNet 残差块</text>
 
   <!-- Input x -->
   <rect x="80" y="105" width="60" height="30" rx="6" fill="#3498db" opacity="0.15" stroke="#3498db" stroke-width="1.5"/>
@@ -15,16 +15,16 @@
 
   <!-- Conv1 + BN + ReLU -->
   <rect x="195" y="90" width="100" height="60" rx="6" fill="#e74c3c" opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="245" y="115" fill="#e74c3c" font-size="10" text-anchor="middle" font-weight="bold">3×3 公约</text>
-  <text x="245" y="130" fill="#e74c3c" font-size="9" text-anchor="middle">BN + ReLU</text>
+  <text x="245" y="115" fill="#e74c3c" font-size="10" text-anchor="middle" font-weight="bold">3x3 卷积核</text>
+  <text x="245" y="130" fill="#e74c3c" font-size="9" text-anchor="middle">归一化 + ReLU激活函数</text>
 
   <!-- Arrow to Conv2 -->
   <line x1="295" y1="120" x2="325" y2="120" stroke="#555" stroke-width="1.5" marker-end="url(#res-arrow)"/>
 
   <!-- Conv2 + BN -->
   <rect x="335" y="90" width="100" height="60" rx="6" fill="#e74c3c" opacity="0.12" stroke="#e74c3c" stroke-width="1.5"/>
-  <text x="385" y="115" fill="#e74c3c" font-size="10" text-anchor="middle" font-weight="bold">3×3 公约</text>
-  <text x="385" y="130" fill="#e74c3c" font-size="9" text-anchor="middle">比利时</text>
+  <text x="385" y="115" fill="#e74c3c" font-size="10" text-anchor="middle" font-weight="bold">3x3 卷积核</text>
+  <text x="385" y="130" fill="#e74c3c" font-size="9" text-anchor="middle">BN</text>
 
   <!-- Arrow from Conv2 to add -->
   <line x1="435" y1="120" x2="478" y2="120" stroke="#555" stroke-width="1.5" marker-end="url(#res-arrow)"/>
@@ -36,25 +36,25 @@
   <!-- Skip connection (curved path from x to add) -->
   <path d="M 110,105 L 110,50 L 498,50 L 498,102" fill="none" stroke="#3498db" stroke-width="2" stroke-dasharray="6,3"/>
   <polygon points="495,102 498,95 501,102" fill="#3498db"/>
-  <text x="300" y="44" fill="#3498db" font-size="11" text-anchor="middle" font-weight="bold">跳过连接(身份)</text>
+  <text x="300" y="44" fill="#3498db" font-size="11" text-anchor="middle" font-weight="bold">跳跃连接 (恒等映射) </text>
 
   <!-- Arrow from add to ReLU -->
   <line x1="516" y1="120" x2="548" y2="120" stroke="#555" stroke-width="1.5" marker-end="url(#res-arrow)"/>
 
   <!-- ReLU -->
   <rect x="558" y="105" width="50" height="30" rx="6" fill="#f39c12" opacity="0.15" stroke="#f39c12" stroke-width="1.5"/>
-  <text x="583" y="125" fill="#f39c12" font-size="10" text-anchor="middle" font-weight="bold">ReLU 激活</text>
+  <text x="583" y="125" fill="#f39c12" font-size="10" text-anchor="middle" font-weight="bold">ReLU激活函数</text>
 
   <!-- Output -->
   <line x1="608" y1="120" x2="640" y2="120" stroke="#555" stroke-width="1.5" marker-end="url(#res-arrow)"/>
-  <text x="665" y="125" fill="#333" font-size="11" text-anchor="middle" font-weight="bold">法语(x)+x</text>
+  <text x="665" y="125" fill="#333" font-size="11" text-anchor="middle" font-weight="bold">F(x)+x</text>
 
   <!-- Labels -->
-  <text x="290" y="170" fill="#e74c3c" font-size="10" text-anchor="middle">F(x) = 剩余绘图</text>
+  <text x="290" y="170" fill="#e74c3c" font-size="10" text-anchor="middle">F(x) = 残差映射</text>
 
   <!-- Bottom explanation -->
   <rect x="100" y="195" width="500" height="50" rx="6" fill="#f5f5f5" stroke="#333" stroke-width="1"/>
-  <text x="350" y="213" fill="#333" font-size="10" text-anchor="middle">地层学习F(x)=输出−×. 如果最佳输出接近x,</text>
-  <text x="350" y="228" fill="#333" font-size="10" text-anchor="middle">学习接近零的F(x)比学习完整的映射要容易得多.</text>
-  <text x="350" y="241" fill="#666" font-size="9" text-anchor="middle">梯度通过跳过连接直接流出,解决了已消失的梯度.</text>
+  <text x="350" y="213" fill="#333" font-size="10" text-anchor="middle">该层学习 F(x) = 输出 − x。如果最优输出接近 x，</text>
+  <text x="350" y="228" fill="#333" font-size="10" text-anchor="middle">学习一个接近零的 F(x) 比学习完整的映射要容易得多。</text>
+  <text x="350" y="241" fill="#666" font-size="9" text-anchor="middle">梯度直接通过跳跃连接流过，解决了梯度消失问题。</text>
 </svg>

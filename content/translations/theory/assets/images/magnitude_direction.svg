@@ -15,7 +15,7 @@
   </defs>
 
   <!-- Left group: same direction, different magnitudes -->
-  <text x="80" y="20" fill="#333" font-size="13" font-weight="bold" text-anchor="middle">相同方向, 不同大小</text>
+  <text x="80" y="20" fill="#333" font-size="13" font-weight="bold" text-anchor="middle">相同方向，不同标量值</text>
   <circle cx="30" cy="100" r="3" fill="#333"/>
   <!-- v (short) -->
   <line x1="30" y1="100" x2="108" y2="60" stroke="#e74c3c" stroke-width="2.5" marker-end="url(#arr-red)"/>
@@ -23,14 +23,14 @@
   <!-- 2v (long, same direction) -->
   <line x1="30" y1="100" x2="190" y2="18" stroke="#3498db" stroke-width="2.5" marker-end="url(#arr-blue)"/>
   <text x="120" y="40" fill="#3498db" font-size="14" font-weight="bold">2v</text>
-  <text x="80" y="145" fill="#666" font-size="11" text-anchor="middle">相同方向(相同角度)</text>
-  <text x="80" y="160" fill="#666" font-size="11" text-anchor="middle">============================================= (============================================================================================================================================ (========= (============================ (========== (===== (= (==== (== (= (</text>
+  <text x="80" y="145" fill="#666" font-size="11" text-anchor="middle">同向，不同角度（same direction (same angle)）</text>
+  <text x="80" y="160" fill="#666" font-size="11" text-anchor="middle">||2v|| = 2 ||v||</text>
 
   <!-- Divider -->
   <line x1="250" y1="10" x2="250" y2="200" stroke="#ccc" stroke-width="1" stroke-dasharray="4"/>
 
   <!-- Right group: same magnitude, different directions -->
-  <text x="375" y="20" fill="#333" font-size="13" font-weight="bold" text-anchor="middle">相同地,不同的方向</text>
+  <text x="375" y="20" fill="#333" font-size="13" font-weight="bold" text-anchor="middle">相同标量值，不同方向（Same magnitude, different direction）</text>
   <circle cx="300" cy="120" r="3" fill="#333"/>
   <!-- u (up-right) -->
   <line x1="300" y1="120" x2="388" y2="62" stroke="#27ae60" stroke-width="2.5" marker-end="url(#arr-green)"/>
@@ -38,6 +38,6 @@
   <!-- w (right-down) -->
   <line x1="300" y1="120" x2="400" y2="148" stroke="#9b59b6" stroke-width="2.5" marker-end="url(#arr-purple)"/>
   <text x="360" y="148" fill="#9b59b6" font-size="14" font-weight="bold">w</text>
-  <text x="375" y="185" fill="#666" font-size="11" text-anchor="middle">不同方向</text>
-  <text x="375" y="200" fill="#666" font-size="11" text-anchor="middle">==================================== (======================================================================================================================================================================================== (=================================</text>
+  <text x="375" y="185" fill="#666" font-size="11" text-anchor="middle">不同方向（different directions）</text>
+  <text x="375" y="200" fill="#666" font-size="11" text-anchor="middle">||u|| = ||w||</text>
 </svg>
