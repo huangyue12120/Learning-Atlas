@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/02-few-shot-cot/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 402278b0cc2b303ef9dfddb3e13d5101c02b2aed9a1b0f4fcb83f21a02795b5e
+  revision: 0285d9bd92bc95d56ba79bed2071be6fb3365369
+  sha256: 74b50bbd6ed857280d5691db90fd7a5436584ea065f5b8eb145a67a7f8ca7e52
 status: reviewed
 ---
 
@@ -449,22 +449,22 @@ def tree_of_thought_solve(question, client, model, breadth=3, depth=3):
 
 ```python
 def solve_with_escalation(question, examples, client, model):
-    system, user = build_cot_prompt(question, examples)
-    single_response = call_llm(client, model, system, user, temperature=0.0)
-    single_answer = extract_answer(single_response)
+    single_answer, _ = few_shot_cot_solve(
+        question, examples, client, model
+    )
 
     sc_answer, confidence, _, _ = self_consistency_solve(
         question, examples, client, model, n_samples=5
     )
 
-    if confidence >= 0.8:
+    if confidence >= 0.8 and single_answer == sc_answer:
         return sc_answer, "self_consistency", confidence
 
     tot_answer, _ = tree_of_thought_solve(question, client, model)
     return tot_answer, "tree_of_thought", None
 ```
 
-升级逻辑是：先尝试便宜的单次 CoT；如果自洽性置信度低于 0.8（5 个样本中少于 4 个一致），再升级到 ToT。这样可以平衡成本和准确率——大多数问题便宜地解决，困难问题得到更多计算量。
+升级逻辑是：先以低成本运行单条 CoT，再检查多数采样路径是否与这条确定性路径一致。单条路径没有投票占比，因此答案一致性就是质量检查；若两者不一致，或自洽性置信度低于 0.8（5 个样本中少于 4 个一致），就升级到 ToT。这样可以平衡成本和准确率——大多数问题便宜地解决，困难问题得到更多计算量。
 
 ## 使用方法
 

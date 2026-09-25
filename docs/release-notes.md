@@ -1,3 +1,29 @@
+# Learning Atlas v0.26.1 发布说明
+
+发布日期：2026-09-25。
+
+本版完成 Issue #14 的上游更新审核：将 `ai-engineering-from-scratch` 的可复现快照从 `d18b8fe5a913c46011a3b06cb6ebd6a924414fd3` 更新到 `0285d9bd92bc95d56ba79bed2071be6fb3365369`。对比确认正文源变更影响开发环境、Docker 和 Few-shot/CoT 三篇中文课程；另外同步了评测随机种子、智能体任务等待与审计顺序、沙箱符号链接路径检查的中文代码示例。两条理论关联均仍适用；刷新其实践来源指纹，并修正一条卡片摘要中与 `approved` 状态冲突的“候选”表述。
+
+## 本版交付
+
+- 在开发环境课中补充 `unzip` 安装依赖和 fnm 的依赖提示；在 Docker 课中加入 x86_64 平台配置及 Apple Silicon 的运行边界。
+- 更新 Few-shot/CoT 的升级条件：高自洽性结果还必须与确定性单路径答案一致，否则升级到 ToT。
+- 将 Phase 10 的演示随机种子改为稳定 SHA-256 派生值；更新 P16 任务执行与审计顺序；说明 Phase 19 现在也会检查无斜杠符号链接和悬空链接的路径逃逸。
+- 保留两条关联的理论目标与状态；修正 Few-shot/CoT 理论卡摘要，说明它提供理论背景但不覆盖全部经验规律。
+- 刷新受影响内容与理论关联的来源指纹，按补丁版本规则同步 README、内容清单、项目进度及应用 SemVer 至 v0.26.1。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`
+- `python3 scripts/check_theory_cards.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+---
+
 # Learning Atlas v0.26.0 发布说明
 
 发布日期：2026-09-25。

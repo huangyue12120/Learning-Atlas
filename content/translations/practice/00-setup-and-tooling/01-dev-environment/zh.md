@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/01-dev-environment/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 3efbd374a2a60e29a60a5f6ed382dd6ff6e38442a5cced9626c0b2c810a9877f
+  revision: 0285d9bd92bc95d56ba79bed2071be6fb3365369
+  sha256: 9be9bc9d7edf98913321bda6f10cc639e1f4341cd439001317e37c3bd6cc7163
 status: reviewed
 ---
 
@@ -60,7 +60,7 @@ xcode-select --install
 brew install git curl wget
 
 # Ubuntu/Debian
-sudo apt update && sudo apt install -y build-essential git curl wget
+sudo apt update && sudo apt install -y build-essential git curl wget unzip
 
 # Windows (use WSL2)
 wsl --install -d Ubuntu-24.04
@@ -106,6 +106,8 @@ npm install -g pnpm
 
 node -e "console.log('Node', process.version)"
 ```
+
+`fnm` 安装器会先检查 `unzip`；缺少时会以 `Not installing fnm due to missing dependencies.` 退出。Linux 上它会解压 zip 包，macOS 上则通过 Homebrew 安装。macOS 自带 `unzip`；Ubuntu、Debian 和 WSL2 可在第 1 步的 apt 命令中安装。若跳过了该步骤，可单独运行 `sudo apt install -y unzip`。
 
 **macOS / Apple Silicon（M1/M2/M3/M4）：** 若安装器报错 `Error: Cannot install under Rosetta 2 in ARM default prefix (/opt/homebrew)`，说明你的终端在 Rosetta 2 下运行（`arch` 输出 `i386`），而 Homebrew 是原生 arm64 构建。强制以 arm64 安装 fnm、写入 shell 配置，然后从 `fnm install 22` 起重新运行命令：
 

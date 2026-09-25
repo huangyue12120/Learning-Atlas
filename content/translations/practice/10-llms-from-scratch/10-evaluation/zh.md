@@ -270,6 +270,7 @@ class ELOTracker:
 使用词元概率计算困惑度。实践中，这些概率会来自模型的 logits；这里用一个概率分布进行模拟。
 
 ```python
+import hashlib
 import numpy as np
 
 def perplexity(log_probs):
@@ -279,7 +280,7 @@ def perplexity(log_probs):
     return float(np.exp(avg_neg_log_prob))
 
 def token_log_probs_simulated(text, model_quality=0.8):
-    np.random.seed(hash(text) % 2**31)
+    np.random.seed(int(hashlib.sha256(text.encode()).hexdigest()[:8], 16) % 2**31)
     tokens = text.split()
     log_probs = []
     for i, token in enumerate(tokens):
