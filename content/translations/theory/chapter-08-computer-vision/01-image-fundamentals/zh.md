@@ -8,155 +8,155 @@ source:
   sha256: 75cefbc6fa7af2546af419a0c4dac4e2c81b16220981a2fa0b07547e9efc1c56
 status: reviewed
 ---
-# Image Fundamentals
+# 图像基础
 
-*Image fundamentals explain how digital images are represented, formed, and pre-processed before any model sees them. This file covers pixels, colour spaces (RGB, HSV, YCbCr, LAB), the pinhole camera model, convolution, edge detection (Sobel, Canny), histograms, and feature descriptors (SIFT, ORB), the low-level vision toolkit.*
+*图像基础介绍数字图像的表示、成像过程，以及模型处理图像前常用的预处理方法。本文涵盖像素、颜色空间（RGB、HSV、YCbCr、LAB）、针孔相机模型、卷积、边缘检测（Sobel、Canny）、直方图和特征描述子（SIFT、ORB）等计算机视觉基础。*
 
-- A **digital image** is a 2D grid of numbers. Each cell in the grid is a **pixel** (picture element), and its value represents intensity or colour. A grayscale image is a single 2D matrix where each pixel holds a brightness value, typically from 0 (black) to 255 (white) for 8-bit images.
+- **数字图像**是由数字组成的二维网格。网格中的每个单元称为**像素**（picture element），其数值表示亮度或颜色。灰度图像由一个二维矩阵表示，每个像素存储一个亮度值；在 8 位图像中，数值通常从 0（黑）到 255（白）。
 
-- A colour image extends this to three channels. In the **RGB** colour space, each pixel stores three values: red, green, and blue intensity.
+- 彩色图像有三个通道。在 **RGB** 颜色空间中，每个像素分别存储红、绿、蓝三个颜色通道的强度值。
 
-- The couloured image is a 3D tensor (matrix) of shape (height, width, 3). Mixing these three channels at different intensities produces the full spectrum of visible colour.
+- 因此，彩色图像可表示为形状为（高度，宽度，3）的三维张量。以不同强度组合这三个通道，就能表示可见光谱中的各种颜色。
 
-![Colour image decomposed into its red, green, and blue channels, each shown as a grayscale intensity map](../images/rgb_channels.svg)
+![彩色图像拆分为红、绿、蓝三个通道，每个通道以灰度强度图显示](../images/rgb_channels.svg)
 
 
-- **Bit depth** determines how many distinct intensity levels each channel can represent.
+- **位深度**决定每个通道可以表示多少种不同的强度。
 
-- An 8-bit image has $2^8 = 256$ levels per channel, giving $256^3 \approx 16.7$ million possible colours. A 16-bit image has 65,536 levels per channel, used in medical imaging and HDR photography where fine intensity distinctions matter.
+- 8 位图像的每个通道有 $2^8=256$ 个强度等级，因此 RGB 图像最多可表示 $256^3 \approx 1670$ 万种颜色。16 位图像的每个通道有 65,536 个等级，适用于需要保留细微强度差异的医学成像和 HDR 摄影。
 
-- RGB is convenient for displays, but other colour spaces are better suited for different tasks.
+- RGB 适合显示图像；其他颜色空间则更适合特定任务。
 
-- **HSV** (Hue, Saturation, Value) separates colour information from brightness. Hue is the pure colour (0-360 degrees around a colour wheel), saturation is how vivid the colour is (0 = grey, 1 = pure colour), and value is brightness. HSV is useful for colour-based segmentation because you can threshold on hue alone, regardless of lighting conditions. Detecting "red objects" is much easier in HSV than in RGB.
+- **HSV**（色相、饱和度、明度）将颜色信息与亮度分开。色相表示颜色本身，以色环上的角度表示（0–360 度）；饱和度表示颜色的鲜艳程度（0 表示灰色，1 表示纯色）；明度表示亮度。HSV 常用于基于颜色的分割，因为可以单独按色相设定阈值，受光照变化的影响较小。因此，用 HSV 检测“红色物体”通常比用 RGB 更容易。
 
-- **YCbCr** separates luminance (Y, perceived brightness) from chrominance (Cb, Cr, colour difference signals). This is the colour space used in JPEG compression and video codecs. Human vision is more sensitive to brightness than colour, so chrominance can be stored at lower resolution (chroma subsampling) with little perceptual loss.
+- **YCbCr**将亮度（Y，人眼感知的明暗）与色度（Cb、Cr，颜色差信号）分开。JPEG 压缩和视频编解码器都使用这种颜色空间。人眼对亮度比对颜色更敏感，因此可以降低色度分辨率（色度抽样），而几乎不影响感知效果。
 
-- **LAB** (CIELAB) is designed so that numerical distance between two colours corresponds to perceptual difference. Equal steps in LAB space look like equal steps to a human observer. The L channel is lightness, A goes from green to red, and B goes from blue to yellow. LAB is used when you need perceptually uniform colour comparisons.
+- **LAB**（CIELAB）旨在让颜色之间的数值距离近似对应人眼感知到的差异。在 LAB 空间中，数值相等的变化量看起来也近似相等。L 通道表示明度，A 轴从绿到红，B 轴从蓝到黄。需要较均匀地比较颜色感知差异时，可以使用 LAB。
 
-- **Image formation** describes how a 3D scene becomes a 2D image. The simplest model is the **pinhole camera**: light from the scene passes through a tiny hole and projects onto a sensor plane behind it. A point $(X, Y, Z)$ in world coordinates projects to pixel coordinates $(u, v)$:
+- **成像过程**描述三维场景如何形成二维图像。最简单的模型是**针孔相机**：场景中的光线通过一个小孔，投射到后方的传感器平面上。世界坐标中的点 $(X,Y,Z)$ 会投影到像素坐标 $(u,v)$：
 
 ```math
 \begin{bmatrix} u \\ v \\ 1 \end{bmatrix} = \frac{1}{Z} \begin{bmatrix} f_x & 0 & c_x \\ 0 & f_y & c_y \\ 0 & 0 & 1 \end{bmatrix} \begin{bmatrix} X \\ Y \\ Z \end{bmatrix}
 ```
 
-- The 3x3 matrix is the **intrinsic matrix** $K$. It encodes the camera's internal properties: focal lengths $f_x, f_y$ (how strongly the lens converges light) and the principal point $(c_x, c_y)$ (where the optical axis meets the sensor, usually near the image centre). These are fixed for a given camera and lens combination.
+- 这个 $3\times3$ 矩阵称为**内参矩阵** $K$，描述相机的内部参数，包括焦距 $f_x,f_y$（表示镜头汇聚光线的能力）和主点 $(c_x,c_y)$。主点是光轴与传感器的交点，通常靠近图像中心。对于给定的相机和镜头组合，这些参数保持不变。
 
-![Pinhole camera model: 3D point projects through the optical centre onto the image plane, with focal length and principal point labelled](../images/pinhole_camera.svg)
+![针孔相机模型：三维点经过光心投影到图像平面，并标出焦距和主点](../images/pinhole_camera.svg)
 
 
-- The **extrinsic parameters** describe where the camera is in the world: a rotation matrix $R$ (3x3, from chapter 02) and a translation vector $t$ (3x1). Together, they transform world coordinates to camera coordinates. The full projection is:
+- **外参**描述相机在世界中的位置和朝向，包括旋转矩阵 $R$（$3\times3$，见第 02 章）和位移向量 $t$（$3\times1$）。两者共同把世界坐标变换到相机坐标。完整投影关系为：
 
 $$\mathbf{p} = K [R \mid t] \mathbf{P}$$
-- where $\mathbf{P} = [X, Y, Z, 1]^T$ is the 3D point in homogeneous coordinates and $\mathbf{p} = [u, v, 1]^T$ is the projected pixel. The $[R \mid t]$ matrix is 3x4, stacking the rotation and translation side by side. This is all linear algebra from chapter 02.
+- 其中，$\mathbf{P}=[X,Y,Z,1]^T$ 是三维点的齐次坐标，$\mathbf{p}=[u,v,1]^T$ 是投影后的像素坐标。矩阵 $[R\mid t]$ 的形状为 $3\times4$，由旋转矩阵和位移向量横向拼接而成。这些内容都用到了第 02 章介绍的线性代数。
 
-- Real lenses introduce **distortion**.
+- 真实镜头会引入**畸变**。
 
-    - **Radial distortion** bends straight lines into curves (barrel distortion makes the image bulge outward; pincushion distortion squeezes it inward).
-    **Tangential distortion** arises when the lens is not perfectly parallel to the sensor.
+    - **径向畸变**会把直线弯成曲线：桶形畸变使图像向外鼓起，枕形畸变则使图像向内收缩。
+    **切向畸变**通常由镜头与传感器未完全对准引起。**编者注：**原文将其简化为镜头与传感器不平行；更一般地说，切向畸变来自镜头光学中心与传感器中心未对齐。
 
-- Camera calibration estimates both intrinsic parameters and distortion coefficients from images of a known pattern (like a checkerboard), then corrects (undistorts) images.
+- 相机标定会利用已知图案（如棋盘格）的图像估计内参和畸变系数，再据此校正图像、消除畸变。
 
-- **Spatial filtering** is the foundation of classical image processing. A **filter** (or kernel) is a small matrix (typically 3x3 or 5x5) that slides over the image. At each position, the filter values are multiplied element-wise with the overlapping image patch and summed to produce one output pixel. This is a **2D convolution**, the same operation that powers CNNs (file 02), but here the filter weights are hand-designed rather than learned.
+- **空间滤波**是经典图像处理的基础。**滤波器**（或卷积核）是一个较小的矩阵，通常为 $3\times3$ 或 $5\times5$，它会在图像上滑动。每到一个位置，就把滤波器与对应图像区域逐元素相乘，再将结果相加，得到一个输出像素。这种操作称为**二维卷积**，也是 CNN（第 02 篇）使用的运算；区别在于，传统图像处理中的滤波器权重由人设计，而非通过训练学习。
 
 $$(\text{image} * K)[i,j] = \sum_{m} \sum_{n} \text{image}[i+m, j+n] \cdot K[m, n]$$
-- This is a 2D extension of the 1D convolution from chapter 06. The filter determines what the operation detects: different filters detect different features.
+- 这是第 06 章一维卷积在二维图像上的扩展。滤波器决定运算会突出哪些特征，不同滤波器能检测不同特征。**编者注：**原文公式没有翻转卷积核，严格来说表示互相关；许多深度学习框架仍将这种运算称为卷积。
 
-- **Blurring** smooths an image by averaging neighbouring pixels. A **box filter** gives equal weight to all neighbours.
+- **模糊**通过对相邻像素求平均来平滑图像。**均值滤波器**为所有邻近像素赋予相同权重。
 
-- A **Gaussian filter** weights neighbours by a 2D Gaussian (chapter 05), giving more weight to nearby pixels and less to distant ones. Gaussian blur is the most common smoothing operation and is parametrised by $\sigma$: larger $\sigma$ means more smoothing.
+- **高斯滤波器**按二维高斯函数（第 05 章）为邻近像素赋权，距离越近，权重越大。高斯模糊是最常用的平滑操作，其参数为 $\sigma$；$\sigma$ 越大，平滑效果越强。
 
-- **Median filtering** replaces each pixel with the median of its neighbourhood instead of a weighted average. It is particularly effective at removing salt-and-pepper noise (random black and white pixels) while preserving edges, because the median is robust to outliers (as discussed in chapter 04).
+- **中值滤波**用邻域内像素值的中位数替换当前像素，而不是求加权平均。它能有效去除椒盐噪声（随机出现的黑白像素），同时保留边缘，因为中位数不容易受离群值影响（见第 04 章）。
 
-- **Edge detection** identifies boundaries where pixel intensity changes sharply. Edges carry most of the structural information in an image; you can recognise objects from their edges alone.
+- **边缘检测**用于找出像素强度急剧变化的位置。这些边缘包含图像的大部分结构信息，有时只看物体边缘就能辨认物体。
 
-- The **Sobel operator** uses two 3x3 filters to estimate the gradient in the horizontal and vertical directions:
+- **Sobel 算子**用两个 $3\times3$ 滤波器估计水平方向和垂直方向的梯度：
 
 ```math
 G_x = \begin{bmatrix} -1 & 0 & 1 \\ -2 & 0 & 2 \\ -1 & 0 & 1 \end{bmatrix}, \quad G_y = \begin{bmatrix} -1 & -2 & -1 \\ 0 & 0 & 0 \\ 1 & 2 & 1 \end{bmatrix}
 ```
 
-- Convolving the image with $G_x$ gives the horizontal gradient (strong response at vertical edges), and $G_y$ gives the vertical gradient (strong response at horizontal edges).
+- 用 $G_x$ 对图像做卷积可得到水平梯度，在垂直边缘处响应较强；用 $G_y$ 则得到垂直梯度，在水平边缘处响应较强。
 
-- The gradient magnitude $\sqrt{G_x^2 + G_y^2}$ and direction $\arctan(G_y / G_x)$ together describe the edge strength and orientation at each pixel. This is the image-domain analogue of the gradient from chapter 03.
+- 梯度幅值 $\sqrt{G_x^2+G_y^2}$ 和方向 $\arctan(G_y/G_x)$ 一起描述每个像素处边缘的强度和方向。这相当于第 03 章梯度概念在图像领域中的应用。**编者注：**实现时通常用 $\operatorname{atan2}(G_y,G_x)$ 计算方向，以保留象限信息。
 
-![Original image, Sobel horizontal gradient, Sobel vertical gradient, and combined edge magnitude](../images/sobel_edges.svg)
+![原始图像、Sobel 水平梯度、Sobel 垂直梯度和合成后的边缘幅值](../images/sobel_edges.svg)
 
 
-- The **Canny edge detector** is the gold standard for edge detection. It applies four steps:
-    1. Smooth the image with a Gaussian filter to reduce noise
-    2. Compute gradient magnitude and direction (using Sobel)
-    3. **Non-maximum suppression**: thin edges by keeping only pixels that are local maxima along the gradient direction
-    4. **Hysteresis thresholding**: use two thresholds (high and low). Pixels above the high threshold are definite edges. Pixels between the thresholds are edges only if connected to a definite edge. Pixels below the low threshold are discarded.
+- **Canny 边缘检测器**是经典的边缘检测算法，分四步处理：
+    1. 用高斯滤波器平滑图像，降低噪声。
+    2. 用 Sobel 算子计算梯度幅值和方向。
+    3. **非极大值抑制**：只保留沿梯度方向的局部极大值，使边缘变细。
+    4. **滞后阈值处理**：设置高、低两个阈值。高于高阈值的像素确定为边缘；介于两个阈值之间的像素，只有连接到确定边缘时才保留；低于低阈值的像素则丢弃。
 
-- The two thresholds in Canny make it more robust than a single threshold: strong edges are always kept, and weak edges are kept only if they are part of a continuous edge structure.
+- 使用两个阈值比单一阈值更稳健：Canny 会保留强边缘，只在弱边缘属于连续边缘结构时才保留它们。
 
-- **Frequency domain** analysis reveals patterns that are hard to see in the spatial domain. The **2D Fourier transform** (extending the 1D version from chapter 03) decomposes an image into a sum of 2D sinusoidal patterns at different frequencies and orientations:
+- **频域分析**能揭示空间域中不易观察的图像模式。**二维傅里叶变换**是第 03 章一维傅里叶变换的扩展，它把图像分解为不同频率和方向的二维正弦模式之和：
 
 $$F(u, v) = \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f(x, y) \cdot e^{-j2\pi(ux/M + vy/N)}$$
-- Low frequencies correspond to smooth, slowly-varying regions (the sky, a wall). High frequencies correspond to sharp transitions (edges, textures, noise). The **magnitude spectrum** shows how much energy exists at each frequency, and the **phase spectrum** encodes the spatial arrangement.
+- 低频对应变化平缓的区域，如天空或墙面；高频对应变化急剧的部分，如边缘、纹理和噪声。**幅度谱**表示各频率成分的强度，**相位谱**则编码这些成分在空间中的排列方式。
 
-- **Low-pass filtering** removes high frequencies, which smooths the image (equivalent to Gaussian blur in the spatial domain). **High-pass filtering** removes low frequencies, emphasising edges and fine detail. **Band-pass filtering** keeps only a range of frequencies, useful for texture analysis.
+- **低通滤波**去掉高频成分，使图像变平滑；这相当于在空间域中进行高斯模糊。**高通滤波**去掉低频成分，突出边缘和细节。**带通滤波**只保留一定频率范围内的成分，可用于纹理分析。
 
-- In practice, filtering in the frequency domain can be faster than spatial convolution for large filters, because convolution in the spatial domain is equivalent to element-wise multiplication in the frequency domain (the **convolution theorem**). This connects directly to the Fourier transform properties from chapter 03.
+- 当滤波器较大时，在频域滤波可能比空间卷积更快，因为空间域中的卷积等价于频域中的逐元素乘法，这就是**卷积定理**。这也直接用到了第 03 章介绍的傅里叶变换性质。
 
-- **Histograms** summarise the distribution of pixel intensities. A histogram counts how many pixels have each intensity value (0-255 for 8-bit images). It is the same frequency distribution from chapter 04 applied to pixel values.
+- **直方图**概括像素强度的分布，统计每个强度值对应的像素数量。8 位图像的强度值通常为 0–255。这相当于将第 04 章的频数分布应用于像素值。
 
-![Image with its intensity histogram: dark image has histogram skewed left, bright image has histogram skewed right](../images/image_histogram.svg)
+![图像及其强度直方图：暗图像的像素集中在低强度值，亮图像的像素集中在高强度值](../images/image_histogram.svg)
 
 
-- A dark image has its histogram concentrated on the left (low values). A bright image has it concentrated on the right. A low-contrast image has a narrow histogram. A high-contrast image has a wide, spread-out histogram.
+- 暗图像的直方图集中在左侧的低强度值区域，亮图像的直方图集中在右侧的高强度值区域。低对比度图像的直方图较窄；高对比度图像的直方图则较宽、分布较开。
 
-- **Histogram equalisation** stretches the histogram to span the full intensity range, improving contrast. The idea is to find a mapping that makes the cumulative distribution function (CDF) of pixel intensities approximately linear. This is a direct application of the CDF concept from chapter 04.
+- **直方图均衡化**将直方图扩展到整个强度范围，以提高图像对比度。其核心是寻找一种映射，使像素强度的累积分布函数（CDF）近似线性。这直接应用了第 04 章的 CDF 概念。
 
-- **Otsu's method** automatically finds the best threshold to separate an image into foreground and background. It tries every possible threshold and picks the one that minimises the within-class variance (or equivalently, maximises the between-class variance). This is the same variance concept from chapter 04, applied to pixel intensity populations.
+- **Otsu 方法**会自动寻找最佳阈值，将图像分为前景和背景。它遍历可能的阈值，选择使类内方差最小（等价于使类间方差最大）的阈值。这是将第 04 章介绍的方差概念应用于像素强度分布。
 
-- **Feature extraction** identifies distinctive points or regions in an image that can be used for matching, recognition, and 3D reconstruction. Good features should be repeatable (found again in a different view), distinctive (distinguishable from other features), and efficient to compute.
+- **特征提取**用于找出图像中有辨识度的点或区域，以便进行匹配、识别和三维重建。好的特征应能在不同视角下重复检测到、与其他特征区分开，而且计算效率高。
 
-- **Corner detection** finds points where the image intensity changes significantly in multiple directions. A smooth region has little change in any direction. An edge has change in one direction. A corner has change in at least two directions, making it locally unique and therefore a reliable landmark.
+- **角点检测**寻找图像强度在多个方向上显著变化的位置。平滑区域在各个方向上变化都很小；边缘只在一个方向上明显变化；角点至少在两个方向上都有明显变化，因此在局部具有独特性，可作为可靠的地标。
 
-- The **Harris corner detector** analyses the **structure tensor** (also called the second-moment matrix) at each pixel:
+- **Harris 角点检测器**会分析每个像素处的**结构张量**（也称二阶矩矩阵）：
 
 ```math
 M = \sum_{(x,y) \in W} w(x,y) \begin{bmatrix} I_x^2 & I_x I_y \\ I_x I_y & I_y^2 \end{bmatrix}
 ```
 
-- where $I_x$ and $I_y$ are the image gradients (computed with Sobel), $W$ is a local window, and $w$ is a Gaussian weighting function. The eigenvalues of $M$ (from chapter 02) tell you the type of feature:
-    - Both eigenvalues small: flat region (no feature)
-    - One large, one small: edge
-    - Both large: corner
+- 其中，$I_x$ 和 $I_y$ 是用 Sobel 算子计算出的图像梯度，$W$ 是局部窗口，$w$ 是高斯权重函数。$M$ 的特征值（见第 02 章）可用于判断局部特征类型：
+    - 两个特征值都很小：平坦区域，没有明显特征。
+    - 一个较大、一个较小：边缘。
+    - 两个都较大：角点。
 
-- Instead of computing eigenvalues explicitly, Harris uses a corner response function: $R = \det(M) - k \cdot (\text{trace}(M))^2$, where $\det(M) = \lambda_1 \lambda_2$ and $\text{trace}(M) = \lambda_1 + \lambda_2$ (both from chapter 02). Large positive $R$ indicates a corner. The constant $k$ is typically 0.04-0.06.
+- Harris 无需显式计算特征值，而是使用角点响应函数：$R=\det(M)-k\cdot(\operatorname{trace}(M))^2$。其中，$\det(M)=\lambda_1\lambda_2$，$\operatorname{trace}(M)=\lambda_1+\lambda_2$（见第 02 章）。较大的正 $R$ 表示角点，常数 $k$ 通常取 0.04–0.06。
 
-- The **Shi-Tomasi** detector simplifies this to $R = \min(\lambda_1, \lambda_2)$, directly checking that the smaller eigenvalue is large enough. This is slightly more stable in practice.
+- **Shi-Tomasi 检测器**将响应简化为 $R=\min(\lambda_1,\lambda_2)$，直接检查较小的特征值是否足够大。它在实际使用中稍稳定一些。
 
-- **Blob detection** finds regions that differ from their surroundings. Unlike corners (which are point features), blobs have a characteristic size.
+- **斑点检测**寻找与周围区域不同的图像区域。与点状特征角点不同，斑点具有一定的尺度。
 
-- **SIFT** (Scale-Invariant Feature Transform, Lowe, 2004) detects blobs at multiple scales and constructs a descriptor that is invariant to rotation, scale, and partially invariant to illumination changes. It works by:
-    1. Building a **scale space** (see below) using Gaussian blur at increasing $\sigma$
-    2. Finding extrema in the Difference of Gaussians (DoG) across scales
-    3. Refining keypoint locations and removing low-contrast points and edge responses
-    4. Assigning a dominant orientation based on local gradient directions
-    5. Building a 128-dimensional descriptor from gradient histograms in a 16x16 patch around the keypoint
+- **SIFT**（尺度不变特征变换；Lowe，2004）会在多个尺度上检测斑点，并构造对旋转和尺度不变、对光照变化部分不变的描述子。主要步骤如下：
+    1. 使用逐渐增大的 $\sigma$ 执行高斯模糊，建立**尺度空间**（见下文）。
+    2. 在不同尺度的高斯差分（DoG）中寻找极值。
+    3. 精修关键点位置，并剔除低对比度点和边缘响应点。
+    4. 根据局部梯度方向，为关键点指定主方向。
+    5. 在关键点周围的 $16\times16$ 区域内统计梯度直方图，构造 128 维描述子。
 
-- **SURF** (Speeded-Up Robust Features) approximates SIFT using box filters and integral images for faster computation. **ORB** (Oriented FAST and Rotated BRIEF) is a fast, open-source alternative that combines the FAST corner detector with the BRIEF binary descriptor, adding rotation invariance.
+- **SURF**（加速稳健特征）使用方框滤波器和积分图近似 SIFT，以加快计算。**ORB**（定向 FAST 与旋转 BRIEF）是一种快速的开源替代方法，将 FAST 角点检测器与 BRIEF 二进制描述子结合，并加入旋转不变性。
 
-- **HOG** (Histogram of Oriented Gradients) descriptors divide the image into small cells, compute a histogram of gradient directions within each cell, and normalise across blocks of cells. HOG captures the distribution of edge orientations, which is highly informative for object shape. Before deep learning, HOG + SVM (chapter 06) was the dominant approach for pedestrian detection and object recognition.
+- **HOG**（方向梯度直方图）描述子将图像划分为小单元，统计各单元内的梯度方向，再按单元块进行归一化。HOG 捕捉边缘方向的分布，而边缘方向包含丰富的物体形状信息。在深度学习普及前，HOG 与 SVM（第 06 章）是行人检测和物体识别的主流方法。
 
-- **Image pyramids** represent an image at multiple resolutions.
-    - A **Gaussian pyramid** is built by repeatedly blurring and downsampling (halving the resolution). Each level is a coarser version of the original.
-    - A **Laplacian pyramid** stores the difference between consecutive Gaussian levels, capturing the detail lost at each downsampling step. The Laplacian pyramid is invertible: you can reconstruct the original image from it.
+- **图像金字塔**以多个分辨率表示同一图像。
+    - **高斯金字塔**通过反复模糊并下采样（每次将分辨率减半）构建，每一层都是原图更粗略的版本。
+    - **拉普拉斯金字塔**保存相邻高斯层之间的差值，记录每次下采样丢失的细节。拉普拉斯金字塔可以逆变换，从中重建原图。
 
-![Gaussian pyramid: original image at full resolution, then progressively smaller versions at half resolution each level](../images/image_pyramid.svg)
+![高斯金字塔：从全分辨率原图开始，后续每一层的分辨率都减半](../images/image_pyramid.svg)
 
 
-- **Scale space** formalises the idea that objects exist at different scales. A tree is a large blob; a leaf on that tree is a small blob. To detect both, you need to search across scales. The scale space of an image is the family of images produced by convolving with Gaussians at increasing $\sigma$:
+- **尺度空间**将“物体可能以不同尺度出现”这一概念形式化。例如，一棵树是大尺度斑点，树叶则是小尺度斑点；要检测两者，就必须搜索不同尺度。图像的尺度空间由一系列图像组成，每幅图像都是原图与不同 $\sigma$ 的高斯核卷积所得：
 
 $$L(x, y, \sigma) = G(x, y, \sigma) * I(x, y)$$
-- where $G$ is a 2D Gaussian with standard deviation $\sigma$. Features that persist across multiple scales are more likely to be meaningful structures rather than noise. Scale space is the theoretical foundation of SIFT and of the multi-scale processing used throughout modern computer vision, including the feature pyramid networks in object detection (file 03).
+- 其中，$G$ 是标准差为 $\sigma$ 的二维高斯函数。若某个特征在多个尺度上都存在，它更可能是有意义的结构，而非噪声。尺度空间是 SIFT 以及现代计算机视觉中多尺度处理的理论基础；目标检测中的特征金字塔网络（第 03 篇）也使用了多尺度处理。
 
 ## Coding Tasks (use CoLab or notebook)
 
-1. Load an image, convert it to different colour spaces (RGB, HSV, LAB), and visualise the individual channels. Observe how colour information is distributed differently across spaces.
+1. 读取一张图像，将其转换到不同的颜色空间（RGB、HSV、LAB），并分别显示各通道。观察颜色信息在不同空间中的分布差异。
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
@@ -211,7 +211,7 @@ plt.suptitle('RGB vs HSV Channels')
 plt.tight_layout(); plt.show()
 ```
 
-2. Implement Sobel edge detection and Gaussian blur from scratch using 2D convolution. Apply them to an image and compare the results.
+2. 用二维卷积从头实现 Sobel 边缘检测和高斯模糊。将它们应用于图像，并比较处理结果。
 ```python
 import jax
 import jax.numpy as jnp
@@ -261,7 +261,7 @@ for ax, data, title in zip(axes,
 plt.tight_layout(); plt.show()
 ```
 
-3. Implement histogram equalisation from scratch and apply it to a low-contrast grayscale image. Compare histograms before and after.
+3. 从头实现直方图均衡化，并将其应用于低对比度灰度图像。比较处理前后的直方图。
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
@@ -301,7 +301,7 @@ axes[1, 1].set_title('Histogram After'); axes[1, 1].set_xlim(0, 1)
 plt.tight_layout(); plt.show()
 ```
 
-4. Implement the Harris corner detector from scratch. Detect corners in a simple image and visualise them.
+4. 从头实现 Harris 角点检测器，在一张简单图像中检测角点并将其可视化。
 ```python
 import jax
 import jax.numpy as jnp

@@ -8,29 +8,27 @@ source:
   sha256: 75cfe1f8703e3112959a0c6f1c941c3b0a28020f42344d8b83d66e0079a5fa8c
 status: reviewed
 ---
-# Testing and Quality Assurance
+# 测试与质量保障
 
-*Testing is how you know your code works, not just now, but after every change. This file covers the test pyramid, unit tests with pytest, mocking, testing ML-specific code, CI/CD pipelines, linting, formatting, and code review, the practices that catch bugs before they reach production.*
+*测试能帮助我们检查代码在当前以及后续修改后是否仍符合预期。本篇介绍测试金字塔、pytest 单元测试、模拟、机器学习代码测试、CI/CD、代码检查、格式化和代码审查。*
 
-- ML code is notoriously undertested. "It trains, therefore it works" is the prevailing attitude. This leads to silent bugs: a data loader that shuffles incorrectly, a loss function with a sign error, a preprocessing step that drops 5% of the data. These bugs do not crash your program. They just make your model quietly worse, and you waste weeks debugging metrics that "should be higher."
+- 机器学习代码容易缺少测试。“能训练起来就算能用”可能掩盖不报错的缺陷，例如数据加载器打乱顺序不符合预期、损失函数符号写反，或预处理时丢失 5% 的数据。程序仍会运行，但模型效果可能变差，排查指标异常也会耗费时间。
 
-- Testing is not overhead. It is the fastest way to move fast without breaking things.
+- 测试需要投入时间，但能帮助团队更快地发现回归问题，减少改动后反复排查的成本。
 
-## The Test Pyramid
+## 测试金字塔
 
-- Tests are organised in layers, from fast and narrow to slow and broad:
+- 测试可以按范围和运行成本分层，从范围窄、速度快到范围广、速度慢：
 
-    - **Unit tests** (base): test individual functions and classes in isolation. Fast (milliseconds), numerous (hundreds to thousands). "Does `normalise_image` produce values in [0, 1]?"
+    - **单元测试**（底层）：单独测试函数或类。通常运行快，可写较多。例如，`normalise_image` 是否把值缩放到 $[0,1]$？
+    - **集成测试**（中间层）：检查多个组件能否协同工作。例如，数据加载器生成的批次格式是否符合模型输入要求？
+    - **端到端测试**（顶层）：从输入到输出检查完整流程。例如，`python train.py --config test.yaml` 能否无报错完成并产生有效检查点？
 
-    - **Integration tests** (middle): test that components work together. Slower (seconds). "Does the data loader produce batches in the format the model expects?"
+- 常见做法是单元测试较多、集成测试较少、端到端测试只覆盖关键流程。这是成本与覆盖面的经验取舍，不是所有项目都必须遵循的固定比例。端到端测试能发现集成问题，但运行较慢，也更容易受环境影响。
 
-    - **End-to-end tests** (top): test the full pipeline from input to output. Slow (minutes). "Does `python train.py --config test.yaml` complete without errors and produce a valid checkpoint?"
+## 使用 pytest 编写单元测试
 
-- The pyramid shape means: write many unit tests, fewer integration tests, and a handful of end-to-end tests. Unit tests catch most bugs and run in seconds. End-to-end tests catch integration issues but are slow and fragile.
-
-## Unit Tests with pytest
-
-- **pytest** is the standard Python testing 框架. A test is a function starting with `test_` in a file starting with `test_`:
+- **pytest** 是常用的 Python 测试框架。按默认发现规则，测试文件名通常以 `test_` 开头，测试函数名也通常以 `test_` 开头。
 
 ```python
 # tests/test_utils.py
@@ -59,9 +57,9 @@ pytest -k "normalise"             # run tests matching name pattern
 pytest --tb=short                 # shorter tracebacks
 ```
 
-### Fixtures
+### 测试夹具
 
-- **Fixtures** provide reusable setup for tests. Instead of repeating setup code in every test, define it once:
+- **测试夹具（fixture）**为多个测试提供可复用的准备工作，避免在每个测试中重复编写相同的设置代码：
 
 ```python
 import pytest
@@ -86,11 +84,11 @@ def test_model_output_shape(trained_model, sample_dataset):
     assert output.shape == (10, 10)  # batch_size x num_classes
 ```
 
-- Fixtures can have **scopes**: `scope="function"` (default, fresh per test), `scope="module"` (once per file), `scope="session"` (once per test run). Use `scope="session"` for expensive setup like loading a model.
+- Fixture 可以设置作用域：`scope="function"`（默认值，每个测试单独创建）、`scope="module"`（每个测试模块创建一次）或 `scope="session"`（每次 pytest 会话创建一次）。若加载模型等准备工作成本高，可以考虑会话级作用域；同时要留意测试之间共享状态的影响。
 
-### Parametrised Tests
+### 参数化测试
 
-- Test the same function with multiple inputs without duplicating code:
+- 若同一函数需要对多组输入验证，可以参数化测试，避免重复编写测试函数：
 
 ```python
 @pytest.mark.parametrize("input,expected", [
@@ -103,9 +101,9 @@ def test_sum(input, expected):
     assert sum(input) == expected
 ```
 
-## Mocking and Patching
+## 模拟与打补丁
 
-- **Mocking** replaces a real dependency with a fake one during testing. This lets you test a function in isolation, without needing a database, API, or GPU.
+- **模拟（mocking）**是在测试中用替代对象取代真实依赖。这样可以隔离被测函数，不必实际连接数据库、调用 API 或启动 GPU 运算。
 
 ```python
 from unittest.mock import patch, MagicMock
@@ -124,17 +122,17 @@ def test_training_logs_metrics():
         assert "loss" in call_args[1]
 ```
 
-- **When to mock**: external services (APIs, databases, cloud storage), expensive operations (GPU computation, large file I/O), and non-deterministic behaviour (random number generators, timestamps).
+- **适合模拟的对象**：外部服务（API、数据库、云存储）、成本较高的操作（GPU 计算、大文件 I/O）和非确定性依赖（随机数生成器、时间戳）。
 
-- **When NOT to mock**: your own code. If you mock everything, your tests verify that mocks behave as expected, not that your code works. Mock at the boundaries, test your logic directly.
+- **不宜过度模拟自己的代码**：若把每个内部组件都替换成 mock，测试可能只验证模拟对象的行为，而没有验证真实组件之间能否协作。通常在系统边界模拟外部依赖，直接测试自己的业务逻辑。打补丁时应针对被测代码实际查找依赖名称的位置。
 
-## Testing ML Code
+## 测试机器学习代码
 
-- ML code has unique testing challenges: outputs are probabilistic, training is slow, and "correct" is fuzzy.
+- 机器学习代码的测试有一些特殊挑战：输出可能具有随机性，训练耗时较长，“正确”结果也未必是单个固定值。
 
-### Deterministic Seeds
+### 固定随机种子
 
-- Set random seeds everywhere to make tests reproducible:
+- 设置相关随机种子有助于让测试可复现：
 
 ```python
 import random
@@ -151,9 +149,11 @@ def set_seed(seed=42):
     torch.backends.cudnn.benchmark = False
 ```
 
-### Numerical Tolerances
+- 固定种子不保证所有硬件、库版本和运算都完全确定；某些 CUDA 算子仍可能具有非确定性。对重要测试，应根据环境配置检查确定性要求。
 
-- Floating-point comparisons require tolerances (chapter 13, IEEE 754):
+### 数值容差
+
+- 浮点数计算存在舍入误差，因此比较结果时应使用容差（见第 13 章 IEEE 754）：
 
 ```python
 # BAD: exact comparison fails due to floating point
@@ -167,9 +167,9 @@ assert np.isclose(model_output, 0.5, atol=1e-5)
 assert torch.allclose(output, expected, atol=1e-4)
 ```
 
-### What to Test in ML
+### 机器学习代码可以测试什么
 
-- **Shape tests**: verify that outputs have the expected dimensions.
+- **形状测试**：检查输出维度是否符合预期。
 
 ```python
 def test_model_output_shape():
@@ -179,7 +179,7 @@ def test_model_output_shape():
     assert output.shape == (8, 10)
 ```
 
-- **Gradient flow**: verify that gradients are non-zero for trainable parameters.
+- **梯度流**：检查需要训练的参数是否获得梯度，并确认关键参数的梯度不是全零。模型分支、冻结参数或特殊层可能本来就没有梯度，因此应根据预期参与训练的参数选择断言。
 
 ```python
 def test_gradients_flow():
@@ -196,7 +196,7 @@ def test_gradients_flow():
         assert param.grad.abs().sum() > 0, f"Zero gradient for {name}"
 ```
 
-- **Overfit on one batch**: a model should be able to memorise a single batch. If it cannot, something is fundamentally wrong.
+- **单批次过拟合**：尝试让模型记住一个小批次。若模型无法拟合，可能存在数据、梯度或优化流程问题。这只是诊断性测试；能否达到指定损失，取决于模型容量、数据和训练设置。
 
 ```python
 def test_overfit_one_batch():
@@ -213,7 +213,7 @@ def test_overfit_one_batch():
     assert loss.item() < 0.01, f"Cannot overfit one batch: loss={loss.item()}"
 ```
 
-- **Data validation**: verify data loading produces valid outputs.
+- **数据校验**：检查数据集能否读取、样本形状是否正确，以及标签和数值是否处于有效范围。
 
 ```python
 def test_dataset_basics():
@@ -226,7 +226,7 @@ def test_dataset_basics():
     assert not torch.isinf(x).any()
 ```
 
-- **Determinism**: same input + same seed → same output.
+- **确定性**：在相同输入、随机种子和确定性环境下，重复计算应得到一致结果。使用 dropout 等随机层时，测试还需固定评估模式或明确预期行为。
 
 ```python
 def test_determinism():
@@ -237,11 +237,11 @@ def test_determinism():
     assert torch.allclose(output1, output2)
 ```
 
-## CI/CD Pipelines
+## CI/CD 流水线
 
-- **Continuous Integration (CI)**: automatically run tests on every commit or PR. If tests fail, the PR cannot be merged. This prevents broken code from reaching `main`.
+- **持续集成（CI）**会在每次提交或合并请求时自动运行检查。若要在检查失败时阻止合并，还需在代码托管平台配置相应的分支保护规则。
 
-- **GitHub Actions** example (`.github/workflows/ci.yml`):
+- 以下是 GitHub Actions 工作流示例（`.github/workflows/ci.yml`）：
 
 ```yaml
 name: CI
@@ -261,7 +261,7 @@ jobs:
       - run: pytest tests/ -v --tb=short
 ```
 
-- **Pre-commit hooks**: run checks before each commit (locally), catching issues before they reach CI:
+- **提交前钩子（pre-commit hooks）**可在本地提交前自动运行检查，让部分问题在进入 CI 前就被发现：
 
 ```yaml
 # .pre-commit-config.yaml
@@ -285,11 +285,11 @@ pip install pre-commit
 pre-commit install    # now hooks run on every git commit
 ```
 
-## Linting and Formatting
+## 代码检查与格式化
 
-- **Linting** catches bugs and style issues without running the code. **Formatting** enforces consistent style automatically.
+- **代码检查（linting）**用于发现潜在错误和风格问题；**格式化**工具则统一代码排版。
 
-- **Ruff**: a fast Python linter and formatter (replaces flake8, isort, and black in one tool):
+- **Ruff** 是快速的 Python 代码检查与格式化工具。配置合适时，它可以承担 flake8、isort 和 Black 的一部分工作：
 
 ```bash
 ruff check src/          # lint
@@ -297,14 +297,14 @@ ruff check --fix src/    # lint and auto-fix
 ruff format src/         # format
 ```
 
-- **mypy**: static type checker for Python. Catches type errors before runtime:
+- **mypy** 是 Python 静态类型检查器，可在运行前发现部分类型不匹配；它只能检查类型信息和依赖存根覆盖到的部分，不能保证程序运行正确。
 
 ```bash
 mypy src/
 # src/model.py:42: error: Argument 1 to "forward" has incompatible type "int"; expected "Tensor"
 ```
 
-- Type hints make code self-documenting and catch bugs:
+- 类型提示可帮助读者理解函数接口，也能让静态检查器发现部分错误：
 
 ```python
 def train(
@@ -317,16 +317,16 @@ def train(
     ...
 ```
 
-## Code Review Best Practices
+## 代码审查建议
 
-- **For the author**:
-    - Self-review your diff before requesting review. You will catch obvious issues.
-    - Keep PRs small and focused. One concern per PR.
-    - Write a clear description: what, why, how to test.
-    - Respond to every comment (even if just "done").
+- **作者应做的事**：
+    - 发起审查前先检查自己的差异，及时发现明显问题。
+    - 让合并请求保持小而聚焦，每个请求尽量围绕一个主题。
+    - 说明改动内容、原因和验证方法。
+    - 逐项回应审查意见。
 
-- **For the reviewer**:
-    - Be kind. Critique the code, not the person. "This could be clearer" not "this is confusing."
-    - Distinguish blocking issues (bugs, security) from suggestions (style, naming). Use labels: "nit:", "suggestion:", "blocking:".
-    - Ask questions instead of making demands. "What happens if this list is empty?" is more helpful than "handle the empty case."
-    - Approve promptly. A PR waiting days for review blocks the author and encourages large, batched PRs (which are harder to review).
+- **审查者应做的事**：
+    - 尊重作者，针对代码提出意见，而不是评价个人。例如说“这里可以写得更清楚”，而不是“你写得令人困惑”。
+    - 区分必须修复的问题（如缺陷、安全问题）和改进建议（如风格、命名），并明确标注。
+    - 用问题帮助作者检查假设，例如“如果列表为空会怎样？”。
+    - 及时完成审查。合并请求长期无人处理会阻塞作者，也可能促使团队积累更多、更难审查的大批改动。

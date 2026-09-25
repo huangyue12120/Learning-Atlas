@@ -8,17 +8,17 @@ source:
   sha256: caa1585e3d172d4152d460a616e2cedb28756a48acba914982bbdccb261fbd9e
 status: reviewed
 ---
-# Codebase Design and Patterns
+# 代码库设计与模式
 
-*Good codebase design is what separates a research prototype from production software. This file covers project structure, clean code principles, design patterns relevant to ML, configuration management, logging, API design, and packaging*
+*良好的代码库设计能让研究原型随着项目增长，逐步演进为可维护的软件。本篇介绍项目结构、整洁代码原则、机器学习中常见的设计模式、配置管理、日志、API 设计和打包发布。*
 
-- Most ML code starts as a Jupyter notebook. The notebook grows, gets copied, modified, shared, and eventually becomes an unmaintainable tangle of global variables, dead cells, and magic numbers. **Codebase design** is the discipline of organising code so that it remains understandable and modifiable as the project grows.
+- 许多机器学习项目从 Jupyter Notebook 起步。随着代码不断复制、修改和共享，Notebook 可能逐渐堆满全局变量、失效单元格和难以理解的常数。**代码库设计**关注的是如何组织代码，让项目增长后仍便于理解和修改。
 
-- This is not about following rules for their own sake. It is about reducing the time between "I want to change X" and "X is changed and working." In a well-designed codebase, that time is minutes. In a poorly designed one, it is days of archaelogy through undocumented spaghetti.
+- 设计的目的不是为了遵守规则本身，而是缩短“我想改 X”到“X 已改好并能正常工作”之间的时间。结构清晰的代码库能让修改更直接；结构混乱、缺少文档的项目则需要花很多时间摸索。
 
-## Project Structure
+## 项目结构
 
-- A consistent project layout lets anyone (including future you) navigate the codebase instantly.
+- 统一的项目布局能让团队成员（包括未来的自己）更快找到代码。下面是一种常见示例，具体结构应按项目规模和依赖关系调整。
 
 ```
 my_project/
@@ -57,15 +57,15 @@ my_project/
 └── Dockerfile
 ```
 
-- **`src/` layout**: putting source code under `src/my_project/` prevents accidental imports from the current directory (which masks import errors that would surface in production). Install with `pip install -e .` for development.
+- **`src/` 布局**：把代码放在 `src/my_project/` 下，可以避免开发时从当前目录意外导入项目代码，从而掩盖安装或导入配置问题。开发时可用 `pip install -e .` 安装为可编辑包。
 
-- **Monorepo vs multi-repo**: a **monorepo** keeps all related projects in one repository (easier cross-project changes, shared CI). A **multi-repo** gives each project its own repository (cleaner boundaries, independent versioning). Most ML teams start with a monorepo and split later if needed.
+- **单仓库与多仓库**：**单仓库（monorepo）**把相关项目放在一个仓库中，便于跨项目修改和共享 CI；**多仓库（multi-repo）**让每个项目独立管理，边界和版本更清楚。两种方式各有取舍，是否拆分取决于项目耦合度、发布方式和团队协作需求。
 
-- **Scripts vs library**: keep entry points (`train.py`, `evaluate.py`) in `scripts/`. Keep reusable logic in `src/`. A training script should be ~50 lines: parse config, build dataset, build model, build trainer, train. All the complexity lives in the library.
+- **脚本与库**：可把 `train.py`、`evaluate.py` 等入口放在 `scripts/`，把可复用逻辑放在 `src/`。训练入口可以保持简短，例如依次读取配置、构造数据集、创建模型和训练器，再启动训练；“约 50 行”只是经验参考，并非硬性标准。
 
-## Clean Code Principles
+## 整洁代码原则
 
-- **Naming**: the single most impactful thing you can do. A variable named `x` requires you to read the surrounding code to understand it. A variable named `learning_rate` is self-documenting.
+- **命名**：清晰的命名能减少阅读代码时的来回查找。相比只知道 `x` 含义的写法，`learning_rate` 能直接说明变量用途。
 
 ```python
 # BAD
@@ -81,9 +81,9 @@ def update_parameters(parameters, num_steps, learning_rate):
             param -= learning_rate * gradients[name]
 ```
 
-- **Single Responsibility Principle**: each function/class does one thing. A function called `load_data_and_train_model` is doing two things and should be split. This makes each piece independently testable, reusable, and understandable.
+- **单一职责原则**：函数或类应围绕一个主要职责设计。若 `load_data_and_train_model` 同时负责读取数据和训练模型，可考虑拆分为两个职责明确的部分，便于单独测试、复用和理解。
 
-- **DRY (Don't Repeat Yourself)** — but not prematurely. If you copy-paste code three times, extract it into a function. But do not create an abstraction for code you have used only once. Premature abstraction is worse than duplication: it adds complexity without proven benefit.
+- **不要重复自己（DRY）**，但也不要过早抽象。相同逻辑反复出现时，可以提取成函数；若代码只使用一次，未必需要为它创建抽象。过早抽象会带来额外复杂度，却没有明确收益。
 
 ```python
 # Premature abstraction (one use case, over-engineered)
@@ -95,7 +95,7 @@ def normalise_image(image, mean, std):
     return (image - mean) / std
 ```
 
-- **Magic numbers**: never use unexplained literal values.
+- **避免魔法数字**：不要在代码中使用含义不明的字面数值。把数值命名成常量，并在必要时说明单位或来源。
 
 ```python
 # BAD
@@ -108,13 +108,13 @@ if len(batch) > MAX_BATCH_SIZE:
     split_batch(batch, MAX_BATCH_SIZE)
 ```
 
-- **Functions should be short**: if a function does not fit on one screen (~30 lines), it is probably doing too much. Extract logical chunks into helper functions with descriptive names. The function body then reads like a high-level summary.
+- **控制函数长度**：如果函数长到难以在一次阅读中把握（例如超过约 30 行），可以检查它是否承担了过多职责，并考虑拆出命名清晰的辅助函数。行数只是提醒信号，不是绝对规则。
 
-## Design Patterns for ML
+## 适用于机器学习代码的设计模式
 
-- Design patterns are reusable solutions to common problems. These are the ones most relevant to ML codebases:
+- **设计模式**是针对常见问题的可复用结构。以下模式在机器学习代码库中较常见：
 
-- **Factory pattern**: create objects without specifying the exact class. Useful when your config says `model: "transformer"` and you need to instantiate the right class:
+- **工厂模式**：把对象创建逻辑集中起来，由配置决定实例化哪个具体类。例如配置中指定模型类型后，再创建相应的模型对象：
 
 ```python
 MODEL_REGISTRY = {
@@ -128,9 +128,9 @@ def build_model(config):
     return model_cls(**config["model_params"])
 ```
 
-- This decouples the training script from specific model implementations. Adding a new model means adding one line to the registry, not modifying the training loop.
+- 这种写法降低训练入口对具体模型实现的依赖。增加模型时，可扩展注册表，而不必把模型选择逻辑散落在训练流程中。
 
-- **Strategy pattern**: swap algorithms at runtime. Useful for losses, optimisers, schedulers:
+- **策略模式**：在运行时选择不同算法或行为，可用于损失函数、优化器和学习率调度器等：
 
 ```python
 LOSS_FUNCTIONS = {
@@ -142,7 +142,7 @@ LOSS_FUNCTIONS = {
 loss_fn = LOSS_FUNCTIONS[config["loss"]]()
 ```
 
-- **Observer pattern** (callbacks/hooks): let modules react to events without tight coupling. Training 框架s (PyTorch Lightning, Keras) use callbacks extensively:
+- **观察者模式**（回调/钩子）：模块通过事件接收通知，而不必彼此紧密耦合。PyTorch Lightning、Keras 等训练框架广泛使用回调：
 
 ```python
 class EarlyStopping:
@@ -161,7 +161,7 @@ class EarlyStopping:
                 return "stop"
 ```
 
-- **Dependency injection**: pass dependencies into a function/class rather than creating them inside. This makes testing easy (inject a mock) and configuration flexible:
+- **依赖注入**：由调用方把依赖传入函数或类，而不是在内部固定创建。这样更容易替换实现、配置组件或注入 mock 进行测试：
 
 ```python
 # BAD: hard-coded dependency
@@ -175,11 +175,11 @@ class Trainer:
         self.logger = logger  # can inject any logger, including a mock
 ```
 
-## Configuration Management
+## 配置管理
 
-- Hard-coding hyperparameters, file paths, and model settings makes experiments unreproducible and modifications painful. **Externalise configuration** into files.
+- 把超参数、文件路径和模型设置写死在代码里，会增加修改和复现实验的难度。可以把这些配置**外置**到独立文件中。
 
-- **YAML** is the most common format for ML configs:
+- YAML 是机器学习项目常用的配置格式：
 
 ```yaml
 # configs/experiment_1.yaml
@@ -201,9 +201,9 @@ data:
   max_seq_length: 512
 ```
 
-- **Hydra** (Facebook) is a configuration 框架 that supports composition (merge base config with experiment-specific overrides), command-line overrides (`python train.py training.lr=1e-3`), and multi-run (sweep over hyperparameters).
+- **Hydra** 是一个开源配置框架，支持配置组合（把基础配置与实验覆盖项合并）、命令行覆盖和多次运行（例如扫多个超参数组合）。示例中的命令应使用配置文件里实际定义的字段名，如 `python train.py training.learning_rate=1e-3`。
 
-- **argparse** is simpler for scripts with a few parameters:
+- 若脚本只有少量参数，Python 标准库中的 **argparse** 通常更简单：
 
 ```python
 import argparse
@@ -215,11 +215,11 @@ parser.add_argument("--config", type=str, default="configs/base.yaml")
 args = parser.parse_args()
 ```
 
-- **Best practice**: have a base config with all defaults, and per-experiment configs that override only what changes. Track every experiment's config alongside its results.
+- **建议做法**：准备包含默认值的基础配置，再让每个实验配置只覆盖变化项。把实验配置与对应结果一同保存。配置和版本记录有助于复现，但仍需记录代码、数据、环境等其他信息。
 
-## Logging and Observability
+## 日志与可观测性
 
-- `print` 状态ments are for debugging. **Logging** is for production:
+- `print` 适合临时调试；生产程序通常使用**日志**，以便按级别筛选、统一格式并把记录发送到文件或监控系统。
 
 ```python
 import logging
@@ -234,9 +234,11 @@ logger.error("Failed to load checkpoint: %s", path)       # recoverable error
 logger.critical("CUDA out of memory, aborting")            # fatal
 ```
 
-- **Why not print**: logging supports levels (filter out debug messages in production), formatting (timestamps, module names), and handlers (write to file, send to monitoring system) without changing the logging calls.
+- 日志级别可以控制哪些信息输出；格式化器可加入时间戳和模块名，处理器则可把日志写入文件或发送到监控服务，而不必在每条日志语句里重复实现这些逻辑。
 
-- **Structured logging** outputs machine-parseable formats (JSON) alongside human-readable messages. This enables searching and alerting on specific fields:
+- 上面示例中警告消息写成 `90%%`，但没有提供格式化参数；在这种情况下通常会原样显示两个百分号。若要输出 `90%`，应调整消息文本；只有使用百分号格式化并传入参数时，才需用 `%%` 表示字面百分号。
+
+- **结构化日志**会把字段作为机器可解析的数据输出，例如 JSON，便于按字段搜索和设置告警：
 
 ```python
 logger.info("training_step", extra={
@@ -244,11 +246,13 @@ logger.info("training_step", extra={
 })
 ```
 
-## API Design
+- 仅通过标准 Python 日志调用的 `extra` 参数添加字段，并不会自动把日志序列化为 JSON；还需配置相应的格式化器或处理器。
 
-- If your model will be used by other services (a web app, a mobile app, another ML pipeline), it needs an **API** (Application Programming Interface).
+## API 设计
 
-- **REST APIs** use HTTP methods: `GET` to read, `POST` to create/predict, `PUT` to update, `DELETE` to remove. Endpoints follow resource-based naming:
+- 若其他服务（例如网页应用、手机应用或另一条机器学习流水线）需要调用模型，就需要定义**API**（应用程序编程接口）。
+
+- **REST API** 使用 HTTP 方法操作资源：`GET` 常用于读取，`POST` 常用于创建或提交预测请求，`PUT` 常用于更新，`DELETE` 常用于删除。端点通常按资源组织，例如：
 
 ```
 POST /api/v1/predict          # send input, get prediction
@@ -257,7 +261,7 @@ GET  /api/v1/models/{id}      # get model details
 POST /api/v1/models/{id}/predict  # predict with a specific model
 ```
 
-- **FastAPI** is the go-to Python 框架 for ML serving:
+- **FastAPI** 是常用的 Python 服务框架：
 
 ```python
 from fastapi import FastAPI
@@ -278,13 +282,13 @@ async def predict(request: PredictRequest):
     return PredictResponse(label=result.label, confidence=result.score)
 ```
 
-- FastAPI auto-generates API documentation (Swagger UI at `/docs`), validates input/output with Pydantic models, and supports async for high throughput.
+- FastAPI 可以根据类型声明生成 API 文档（例如 `/docs` 上的 Swagger UI），并使用 Pydantic 模型校验输入和输出。异步接口有助于处理异步 I/O；若预测调用本身是同步的 CPU 或 GPU 密集任务，单纯把端点声明为 `async` 并不会自动提高吞吐量。
 
-- **gRPC** is faster than REST for internal service-to-service communication. It uses Protocol Buffers (binary serialisation, smaller and faster than JSON) and supports streaming. Used by TensorFlow Serving, Triton Inference Server, and many microservice architectures.
+- **gRPC** 使用 Protocol Buffers 进行二进制序列化，并支持流式通信，常用于服务之间的内部调用。它在某些负载下可能比 JSON REST 接口更高效；实际速度还取决于数据结构、网络、序列化和部署方式。TensorFlow Serving、Triton Inference Server 等系统及微服务架构中都可见 gRPC。
 
-## Packaging and Distribution
+## 打包与分发
 
-- Making your code installable as a package lets others (and your own scripts) import it cleanly:
+- 把代码打包成可安装的软件包后，其他项目和脚本就能更稳定地导入它：
 
 ```toml
 # pyproject.toml
@@ -306,88 +310,91 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.backends._legacy:_Backend"
 ```
 
+- **注意**：构建后端的名称必须与所用 setuptools 版本兼容。许多当前项目使用 `setuptools.build_meta`；若采用其他后端路径，应确认对应模块确实存在并能构建项目。
+
 ```bash
 pip install -e ".[dev]"    # install in editable mode with dev dependencies
 ```
 
-- **Editable install** (`-e`): changes to your source code are immediately reflected without reinstalling. Essential during development.
+- **可编辑安装**（`-e`）会让开发中的源代码修改立即反映到安装包中，通常不必每次修改都重新安装。
 
-- **Pinning dependencies**: `requirements.txt` with exact versions (`torch==2.2.1`, not `torch>=2.0`) ensures reproducibility. Use `pip freeze > requirements.txt` to capture your current environment. For more sophisticated dependency management, use `uv`, `poetry`, or `pip-tools`.
+- **锁定依赖版本**：把依赖限定到确定版本（例如 `torch==2.2.1`，而不是 `torch>=2.0`）有助于重建环境。`pip freeze > requirements.txt` 可以记录当前环境，但完整复现还可能需要锁定传递依赖、Python 版本、平台和软件源。依赖关系较复杂时，也可使用 `uv`、`poetry` 或 `pip-tools`。
 
-## Working with AI Coding Agents
+## 使用 AI 编码智能体
 
-- AI coding agents (Claude Code, GitHub Copilot, Cursor, etc.) are now part of the professional engineering workflow. Used well, they dramatically accelerate development. Used poorly, they introduce subtle bugs, erode your understanding of your own codebase, and create a false sense of productivity.
+- Claude Code、GitHub Copilot、Cursor 等 AI 编码工具已用于日常工程工作。它们可以加快实现，但输出也可能带来细微错误、削弱使用者对代码的理解，或让人误以为任务已经完成。
 
-- The right mental model: **an agent is a fast but inexperienced pair programmer**. It can write code quickly, knows syntax and standard patterns, and has read more documentation than you ever will. But it does not understand your specific system, your business constraints, your edge cases, or the *why* behind your design decisions. You are the senior engineer; the agent is the junior. You direct, review, and take responsibility.
+- 一种实用的工作方式是：把 AI 编码智能体看成**速度快、但对具体项目了解有限的协作工具**。它可以提供代码草稿、语法和常见模式，但不会自动掌握项目约束、边界条件和设计缘由；即使能访问文档，也仍需核对 API 和版本。使用者应确定目标、提供必要上下文、审查代码并对最终变更负责。
 
-### When Agents Excel
+### 智能体适合协助的任务
 
-- **Boilerplate and scaffolding**: generating Dockerfiles, CI configs, test fixtures, data class definitions, argparse setups. These follow well-known patterns and are tedious to write by hand. Let the agent generate them, then review for correctness.
+- **样板代码和脚手架**：例如生成 Dockerfile、CI 配置、测试夹具、数据类或 argparse 设置。模式明确、重复性高的任务可以交给智能体起草，再检查正确性。
 
-- **Writing tests**: describe the function's behaviour, and the agent generates test cases. It often catches edge cases you would miss (empty input, negative values, Unicode). Always read the generated tests — they verify your assumptions, not just your code.
+- **编写测试**：描述函数行为后，让智能体提出测试案例。它可能提醒你检查空输入、负数和 Unicode 等情况。应阅读并运行测试；测试验证的是其中表达的预期，不能代替对需求本身的确认。
 
-- **Refactoring**: "extract this block into a function," "convert this class to use dataclasses," "add type hints to this module." Mechanical transformations where the intent is clear and the risk of subtle errors is low.
+- **重构**：例如提取函数、改用 dataclass 或添加类型提示。意图明确时，机械改写通常比较适合交给智能体，但仍应检查语义是否变化。
 
-- **Exploration and prototyping**: "write a quick script to benchmark inference latency" or "show me how to use the HuggingFace tokeniser API." The agent gets you a working starting point faster than reading documentation.
+- **探索和原型**：例如快速写脚本测量推理延迟，或尝试 Hugging Face tokenizer API。输出可以作为起点；应对照项目使用的库版本检查参数和行为。
 
-- **Documentation and docstrings**: the agent can generate documentation from your code structure. Review for accuracy, but the grunt work is automated.
+- **文档和 docstring**：智能体可以根据代码结构起草文档，但仍需核对描述是否准确。
 
-- **Debugging assistance**: paste an error traceback and ask for diagnosis. The agent can often identify the root cause and suggest a fix, especially for common issues (shape mismatches, import errors, CUDA out of memory).
+- **调试辅助**：给出错误回溯并请智能体分析，可能有助于定位形状不匹配、导入错误或 CUDA 显存不足等问题。建议应作为待验证的假设，而不是已经证实的结论。
 
-### When to NOT Rely on Agents
+### 不宜直接依赖智能体的场景
 
-- **Novel architecture decisions**: if you are designing a new training pipeline, the agent will give you a generic answer. It does not know your data constraints, latency requirements, or team expertise. Use the agent to implement the design you have already thought through.
+- **新的架构决策**：智能体可能给出通用方案，却不了解数据限制、延迟要求和团队经验。可以让它协助实施，但关键设计应根据实际约束决定。
 
-- **Security-critical code**: authentication, encryption, input sanitisation. The agent may generate code that looks correct but has subtle vulnerabilities (SQL injection, insecure defaults, timing attacks). Security code should be written by someone who understands the threat model, and reviewed by someone else.
+- **安全关键代码**：身份验证、加密和输入清理容易受到细微漏洞影响。相关代码需要基于明确的威胁模型设计，并经过具备安全经验的人员审查。
 
-- **Performance-critical inner loops**: the agent will write correct but naive code. For GPU kernels, memory-critical data structures, or latency-sensitive serving paths, you need to understand the hardware constraints (chapter 13, chapter 16) and optimise deliberately.
+- **性能关键路径**：智能体可能给出能工作的朴素实现。GPU 内核、内存敏感的数据结构和低延迟服务需要结合硬件限制仔细优化。
 
-- **Code you don't understand**: if the agent generates 200 lines and you cannot explain what each line does, do not commit it. You are now maintaining code you do not understand, and when it breaks (it will), you cannot debug it. This is the most common and most dangerous failure mode.
+- **自己无法解释的代码**：若无法说明生成代码各部分的作用，不应直接提交。否则维护者将难以排查之后出现的问题。
 
-### The Review Discipline
+### 审查时要检查什么
 
-- **Always read every line** of generated code before committing. This is not optional. The agent's code is a draft, not a finished product. Treat it exactly like a pull request from a colleague: review it critically.
+- 提交前应逐行阅读生成的代码，把它当作同事提交的代码来审查。智能体输出是草稿，不是免审的成品。
 
-- **What to check**:
-    - **Correctness**: does it actually do what you asked? Agents often solve a subtly different problem than the one you intended.
-    - **Edge cases**: does it handle empty inputs, None values, negative numbers, very large inputs? Agents frequently omit edge case handling.
-    - **Hallucinated APIs**: the agent may call functions or use parameters that do not exist, especially for newer or less common libraries. Verify that every API call is real.
-    - **Over-engineering**: agents tend to produce more code than necessary. A 50-line solution to a 10-line problem adds complexity without benefit. Simplify ruthlessly.
-    - **Security**: hardcoded secrets, unsanitised user input, insecure defaults. The agent does not think adversarially.
-    - **Style consistency**: does the generated code match your project's conventions (naming, patterns, error handling)?
+- 检查要点包括：
+    - **正确性**：代码是否解决了实际要求，而不是看似相近的问题？
+    - **边界情况**：是否处理空输入、`None`、负数和大规模输入？
+    - **不存在的 API**：库函数和参数是否真实存在，并适用于当前版本？
+    - **过度设计**：实现是否比问题本身复杂？能否删掉不必要的代码？
+    - **安全性**：是否包含硬编码密钥、未清理的用户输入或不安全默认值？
+    - **风格一致性**：命名、错误处理和结构是否符合项目惯例？
 
-### How to Write Good Prompts
+### 如何编写清晰的提示词
 
-- The quality of the agent's output is directly proportional to the quality of your instruction. Vague prompts get vague code.
+- 给智能体的指令越明确，输出越容易贴合目标。模糊的提示往往会得到泛泛的代码。
 
-- **Bad**: "write a data loader"
-- **Good**: "write a PyTorch DataLoader for a CSV file with columns 'text' and 'label'. Tokenise the text using the HuggingFace tokeniser 'bert-base-uncased' with max_length=512. Return input_ids, attention_mask, and label as tensors. Handle the case where the CSV has missing values in the label column by skipping those rows."
+- **不够明确**：`write a data loader`
 
-- **Provide context**: tell the agent about your project structure, existing code, constraints, and conventions. The more context, the better the output.
+- **更明确**：要求为包含 `text` 和 `label` 列的 CSV 文件编写 PyTorch DataLoader，指定 tokenizer 名称和最大长度，说明返回的张量字段，并明确标签缺失时要跳过相应行。
 
-- **Specify constraints**: "use only the standard library," "must work with Python 3.10," "do not use global variables," "follow the existing pattern in `src/models/transformer.py`."
+- **提供上下文**：说明项目结构、现有实现、限制和约定。上下文越相关，越容易得到可用的初稿。
 
-- **Ask for explanations**: "implement X and explain the key design decisions." This forces the agent to articulate its reasoning, making it easier for you to spot flawed assumptions.
+- **说明约束**：例如“只使用标准库”“兼容 Python 3.10”“不使用全局变量”“遵循 `src/models/transformer.py` 中的现有模式”。
 
-### Using Quality Gates to Catch Agent Mistakes
+- **要求解释**：可以要求说明关键设计选择，以便审查者看清实现假设并发现问题。
 
-- Your existing quality infrastructure (file 04) catches agent errors just as well as human errors:
+### 用质量检查发现问题
 
-    - **Type checking (mypy)**: catches hallucinated API signatures and type mismatches.
-    - **Linting (ruff)**: catches unused imports, undefined variables, and style violations.
-    - **Tests (pytest)**: if the agent's code passes your test suite, it is more likely correct. If you do not have tests, write them *before* asking the agent to implement the feature (test-driven development works especially well with agents).
-    - **CI pipeline**: runs all of the above automatically on every commit.
+- 项目已有的质量检查也能发现 AI 生成代码和人工代码中的问题：
 
-- The combination of "agent writes code" + "quality gates verify it" is more productive than either alone. The agent is fast but sloppy; the gates are thorough but do not write code. Together, you get speed and correctness.
+    - **类型检查（mypy）**：在类型信息和存根完整时，可发现类型不匹配或部分签名错误；它不能保证 API 在运行时存在或行为正确。
+    - **代码检查（ruff）**：可发现未使用导入、未定义变量和风格问题。
+    - **测试（pytest）**：测试通过能增加对已覆盖行为的信心，但不能证明代码没有其他错误。若缺少测试，可以先补充测试再实现。
+    - **CI 流水线**：可在提交时自动运行类型检查、代码检查和测试。
 
-### The Productivity Trap
+- 代码生成与质量检查结合起来，往往比单独依赖其中一项更可靠；检查工具能发现部分问题，但不会替你理解需求或设计代码。
 
-- The biggest risk of coding agents is **the illusion of productivity**. You can generate 500 lines of code in 10 minutes. But if you spend 2 hours debugging those 500 lines because you did not understand them, you were slower than writing 200 lines yourself in 30 minutes.
+### 生产力陷阱
 
-- True productivity with agents comes from:
-    1. **Staying in control**: you decide the architecture, the agent fills in the implementation.
-    2. **Understanding what is generated**: if you cannot explain it, rewrite it or ask the agent to simplify.
-    3. **Investing in quality gates**: tests, types, and linting amortise their cost across every agent interaction.
-    4. **Using the agent for your weaknesses**: if you are great at algorithms but slow at writing tests, let the agent write tests. If you are fast at UI code but unfamiliar with database queries, let the agent draft the SQL. Play to your strengths, delegate your gaps.
+- 使用编码智能体最大的风险之一，是把代码生成量误当成实际进展。10 分钟生成 500 行代码并不一定更快；若之后花两小时调试不理解的代码，整体可能比自己用半小时写出 200 行还慢。
 
-- The engineers who get the most out of coding agents are the ones who already know how to code well. The agent amplifies your existing skill; it does not replace it. Understanding data structures, algorithms, system design, and software engineering (this entire chapter) is what lets you direct the agent effectively and evaluate its output critically.
+- 更有效的做法包括：
+    1. **掌握设计决策**：由你确定架构和约束，再让智能体协助实现。
+    2. **弄清生成内容**：无法解释时，要求简化或自行重写。
+    3. **完善质量检查**：测试、类型检查和代码检查的投入可以在后续多次开发中复用。
+    4. **按任务选择工具**：可把重复、边界明确的工作交给智能体起草，但对不熟悉的领域仍要自行验证结果。
+
+- 编程基础越扎实，越容易判断生成代码是否正确、是否符合项目约束。智能体能协助实现，却不能取代对数据结构、算法、系统设计和软件工程的理解。

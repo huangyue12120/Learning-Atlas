@@ -8,33 +8,35 @@ source:
   sha256: 82971ed222390f96d772daee7c5c6baadf2459b8b479af2ec2c99db9fe2c1111
 status: reviewed
 ---
-# 排序、搜索和算法设计
+# 排序、搜索与算法设计
 
-*排序和搜索是计算机科学中最基本的算法操作。本文件涵盖了排序算法、二分查找模式、分治法、贪心算法、动态规划和回溯等*
+*排序和搜索是最基础的算法操作。本篇介绍常见排序算法、二分查找、分治、贪心、动态规划和回溯等设计思路。*
 
-- 每种数据结构都支持算法，而每种算法都依赖于数据结构。本文件介绍了**设计范式**：解决问题的高层次策略。一旦识别出适用的设计范式，实现就自然地 follows起来。
+- 数据结构为算法提供操作基础，算法则依赖数据结构。本篇介绍若干**算法设计范式**，也就是解决问题时采用的高层策略。识别适用的范式后，再根据问题条件实现算法。
 
 ## 排序算法
 
-- 排序是计算机科学中最研究的问题之一。理解这些算法可以建立对递归、分治法和复杂性分析的直观认识。
+- 排序是计算机科学中研究充分的问题。理解常见排序算法，有助于掌握递归、分治和复杂度分析。
 
-| 算法 | 最优 | 平均 | 最坏 | 空间 | 稳定? |
-|-----------|------|---------|-------|-------|---------|
-| 冒泡排序 | $O(n)$ | $O(n^2)$ | $O(n^2)$ | $O(1)$ | 是 |
+| 算法 | 最好情况 | 平均情况 | 最坏情况 | 空间复杂度 | 稳定？ |
+| --- | --- | --- | --- | --- | --- |
+| 冒泡排序 | $O(n)$* | $O(n^2)$ | $O(n^2)$ | $O(1)$ | 是 |
 | 插入排序 | $O(n)$ | $O(n^2)$ | $O(n^2)$ | $O(1)$ | 是 |
 | 归并排序 | $O(n \log n)$ | $O(n \log n)$ | $O(n \log n)$ | $O(n)$ | 是 |
-| 快速排序 | $O(n \log n)$ | $O(n \log n)$ | $O(n^2)$ | $O(\log n)$ | 否 |
+| 快速排序 | $O(n \log n)$ | $O(n \log n)$ | $O(n^2)$ | $O(\log n)$ 平均；$O(n)$ 最坏 | 否 |
 | 堆排序 | $O(n \log n)$ | $O(n \log n)$ | $O(n \log n)$ | $O(1)$ | 否 |
-| 计数排序 | $O(n + k)$ | $O(n + k)$ | $O(n + k)$ | $O(k)$ | 是 |
-| 基数排序 | $O(d(n + k))$ | $O(d(n + k))$ | $O(d(n + k))$ | $O(n + k)$ | 是 |
+| 计数排序 | $O(n + k)$ | $O(n + k)$ | $O(n + k)$ | $O(n + k)$ | 可稳定实现 |
+| 基数排序 | $O(d(n + k))$ | $O(d(n + k))$ | $O(d(n + k))$ | $O(n + k)$ | 可稳定实现 |
 
-- **稳定**意味着相等元素的相对顺序保持不变。这在按多个键排序时很重要。
+- *冒泡排序的 $O(n)$ 最好情况依赖提前终止的优化实现。快速排序的表中空间复杂度包含递归栈：分区较均衡时通常为 $O(\log n)$，最坏可达 $O(n)$。计数排序、基数排序可通过稳定的实现处理带附加信息的记录；下方计数排序代码只处理整数值，无法体现记录的稳定性。*
 
-- 比较基于排序的下界是 $\Omega(n \log n)$。证明使用决策树（第13章）：任何比较排序必须区分所有 $n!$ 顺序，需要至少 $\log_2(n!)  = \Omega(n \log n)$ 次比较。计数排序和基数排序通过不比较元素而击败了这个下界。
+- **稳定排序**会保留相等元素原有的相对顺序。按多个键依次排序时，稳定性很有用。
+
+- 基于比较的排序有渐近下界 $\Omega(n \log n)$。决策树证明（见第 13 章）指出：若有 $n$ 个互异元素，比较排序必须区分全部 $n!$ 种排列，所需比较次数至少为 $\log_2(n!) = \Omega(n \log n)$。计数排序和基数排序在键值范围受限时不依赖元素间比较，因此不受这一比较排序下界约束。
 
 ### 归并排序
 
-- 将数组分成两半，递归地对每一半进行排序，然后合并排序后的结果。 $O(n \log n)$总是， $O(n)$额外的空间。
+- 把数组分成两半，分别递归排序，再合并两个有序部分。归并排序的时间复杂度在各种输入下都是 $O(n \log n)$，额外空间为 $O(n)$。
 
 ```python
 def merge_sort(arr):
@@ -62,11 +64,13 @@ def merge(left, right):
     return result
 ```
 
-- **陷阱**：使用 `<` 而不是 `<=` 在合并时会破坏稳定性（右侧半部分的相等元素会排在左侧）。
+- **常见错误**：合并时若用 `<` 代替 `<=`，相等元素可能让右半部分的元素排到左半部分元素之前，破坏稳定性。
 
-### 快速排序是一种高效的排序算法，基于分治策略。它选择一个“基准”元素（pivot），然后将数组分为两个子数组：小于基准的元素和大于基准的元素。接着递归地对这两个子数组进行排序。最终，整个数组被有序排列。
+### 快速排序
 
-- 选择一个**基准元素**，将数组分为“小于基准元素”和“大于基准元素”，递归地对每个分区进行排序。平均情况为 $O(n \log n)$，最坏情况（当基准元素总是最小或最大元素时）为 $O(n^2)$。
+- 下方代码会原地重排输入数组。
+
+- 选择一个**基准值**，把元素分区到基准值两侧，再递归排序各分区。平均时间复杂度为 $O(n \log n)$，最坏为 $O(n^2)$，例如每次选到的基准值都是最小值或最大值时。
 
 ```python
 def quicksort(arr, lo=0, hi=None):
@@ -90,13 +94,13 @@ def partition(arr, lo, hi):
     return i
 ```
 
-- **分治策略**：最后一个元素（简单但不适合已排序输入），随机选择（期望 $O(n \log n)$），三数中位法（实用的选择）。在面试中总是优先使用随机枢轴以避免最坏情况的讨论。
+- **基准值的选择**：选最后一个元素写法简单，但有序输入可能触发最坏情况；随机选择基准值的期望时间为 $O(n \log n)$；三数取中法通常有较好的实际表现。随机选择或三数取中只能降低遇到最坏情况的风险，并不能消除 $O(n^2)$ 的最坏情况。上方代码使用 Lomuto 分区，并固定选择末尾元素。
 
-- **陷阱**：快速排序的 $O(n^2)$ 最坏情况发生在已经排序的数组中，第一个或最后一个元素作为基准。在实践中，随机基准或三数取中法可以消除这种情况。
+- **常见错误**：已经有序的数组配合始终选首或末元素作基准值时，快速排序会退化到 $O(n^2)$。面试中若讨论随机基准值，应说明它改善的是期望性能，不代表最坏复杂度消失。
 
 ### 计数排序
 
-- 当值为已知范围内的整数 $[0, k)$ 时，计数 occurrences 并重建： $O(n + k)$ 时间。不是基于比较的，因此它可以击败 $O(n \log n)$.
+- 若输入是取值范围已知的非负整数 $[0, k)$，可统计每个值出现的次数，再按值重建数组，时间复杂度为 $O(n + k)$。它不比较元素，因此在 $k$ 不太大时可优于 $O(n \log n)$ 的比较排序。
 
 ```python
 def counting_sort(arr, k):
@@ -109,15 +113,15 @@ def counting_sort(arr, k):
     return result
 ```
 
-- **何时使用**：$k$与$n$相差不大。如果$k = O(n)$，这是$O(n)$。如果$k \gg n$（例如，在范围$[0, 10^9]$内排序10个数字），计数排序浪费内存。
+- **适用场景**：$k$ 与 $n$ 的规模相近时，计数排序可达到 $O(n)$。若 $k \gg n$，例如只排 10 个范围在 $[0, 10^9]$ 的数，计数数组会浪费大量空间。此代码创建大小为 $k$ 的计数数组和结果数组，额外空间为 $O(n+k)$。
 
 ---
 
-## 二分查找算法
+## 模式：二分查找
 
-- 二分查找在排序数组中找到目标。 $O(\log n)$ 通过反复将搜索空间减半。但二分查找远不止是“在一个有序数组中找到一个数字”。一般模式是：**在单调条件上进行搜索**。
+- 在有序数组中，二分查找每次把搜索范围缩小一半，时间复杂度为 $O(\log n)$。更一般地说，二分查找模式是对**具有单调性的条件**进行搜索。
 
-- **模板**（避免越界错误的）：
+- **基本模板**（可帮助避免边界错误）：
 
 ```python
 def binary_search(arr, target):
@@ -135,7 +139,7 @@ def binary_search(arr, target):
     return -1  # not found
 ```
 
-- **下界**（第一个元素 $\geq$ 目标）：
+- **下界**（第一个大于或等于目标值的位置）：
 
 ```python
 def lower_bound(arr, target):
@@ -149,17 +153,17 @@ def lower_bound(arr, target):
     return lo
 ```
 
-- **陷阱**：`lo <= hi`和`lo < hi`之间的差异，以及`hi = mid`和`hi = mid - 1`之间的差异，决定了你是否找到精确匹配还是边界。用一个包含两个元素的数组来画出来进行验证。
+- **常见错误**：`lo <= hi` 与 `lo < hi` 的选择，以及 `hi = mid` 与 `hi = mid - 1` 的选择，会决定搜索的是精确值还是边界。可以用只有两个元素的数组手动检查。下界在目标值大于所有元素时返回数组长度。
 
 ### 简单：二分查找
 
-- 标准问题。使用上述模板即可。
+- 使用上面的基本模板，在有序数组中查找目标值。
 
-### 中等: 在旋转排序数组中查找
+### 中等：搜索旋转排序数组
 
-- **问题**: 一个已排序的数组被旋转了某个位置。找到目标值。
+- **题目**：有序数组在某个位置经过旋转，给定目标值，返回它的索引；以下实现假设数组元素互异。
 
-- **模式**: 每一步，其中一半总是有序的。确定哪一半是有序的，并检查目标是否在该半中。
+- **模式思路**：每一步至少有一半保持有序。判断哪一半有序，再检查目标值是否落在该范围内。
 
 ```python
 def search_rotated(nums, target):
@@ -186,13 +190,13 @@ def search_rotated(nums, target):
     return -1
 ```
 
-- **陷阱**： `<=` 在 `nums[lo] <= nums[mid]` (不是) `<`这是至关重要的。当 `lo == mid` (还剩两个元素)，我们必须正确识别已排序的一半。
+- **常见错误**：`nums[lo] <= nums[mid]` 中的 `<=` 不能随意改成 `<`。当只剩两个元素且 `lo == mid` 时，这个条件才能正确识别左半部分有序。含重复值的变体需要额外处理。
 
-### 难：两个有序数组的中位数
+### 困难：两个有序数组的中位数
 
-- **问题**：在 $O(\log(m + n))$ 中找到两个有序数组的中位数。
+- **题目**：在 $O(\log(m+n))$ 时间内求两个有序数组的中位数。以下实现要求两个数组合并后至少有一个元素。
 
-- **模式**：在较小数组的分割点上进行二分查找。分割将两个数组分成两部分，使得左半部分的所有元素都小于右半部分的所有元素。
+- **模式思路**：在较短数组上二分，寻找两个数组的分割位置，使左侧所有元素都不大于右侧所有元素。
 
 ```python
 def find_median(nums1, nums2):
@@ -223,13 +227,13 @@ def find_median(nums1, nums2):
             lo = i + 1
 ```
 
-- 这是二分查找中最困难的问题之一。关键洞察在于，你不是在寻找一个值，而是要找到一个**满足条件的分割点**。
+- 这是一道较难的二分查找题。关键在于搜索的不是某个具体值，而是满足条件的**分割位置**。该实现实际只在较短数组上二分，时间为 $O(\log(\min(m,n)+1))$。
 
-### 元模式：答案的二分查找
+### 元模式：对答案进行二分查找
 
-- 许多看起来不像二分查找的问题，可以通过在答案上进行二分搜索来解决。如果答案是一个数字，并且你可以编写一个函数 `is_feasible(x)` 是单调的（对所有） $x \geq$ 最优，或对所有都为假 $x \geq$ 最优的情况下，使用二分查找 $x$。
+- 有些题目表面上不像二分查找，但可以直接对答案范围二分。若答案是数值，并且可以写出关于候选值 $x$ 的单调可行性判断 `is_feasible(x)`，就能二分搜索边界。寻找最小可行值时，通常是低于阈值不可行、高于阈值可行；寻找最大可行值时，方向相反。
 
-- **示例**: "一个船的最小容量是多少，才能在 $d$ 天内运送完所有包裹？" 使用二分查找来确定容量。对于每个候选容量，贪心地检查是否可以在 $d$ 天内运送完所有包裹。
+- **示例**：“船的最小载重是多少，才能在 $d$ 天内运完所有包裹？”对载重二分。对每个候选载重，用贪心方法检查能否在 $d$ 天内运完。以下实现假设包裹数组非空，且天数为正整数。
 
 ```python
 def ship_within_days(weights, days):
@@ -257,11 +261,11 @@ def ship_within_days(weights, days):
 
 ## 模式：贪心算法
 
-- 一个贪心算法在每次步骤中都做出局部最优的选择，希望这能导向全局最优解。贪心算法适用于具有贪心选择性质（局部最优能导向全局最优）和最优子结构（最优解包含子问题的最优解）的问题。
+- **贪心算法**每一步都作出当前看来最优的选择，并希望这些局部选择最终得到全局最优解。若问题具有**贪心选择性质**（局部选择可导向全局最优解）和**最优子结构**，才可能适用贪心算法；通常需要证明其正确性。
 
 ### 中等：跳跃游戏
 
-- 问题：给定一个数组，其中 `nums[i]` 最大跳跃长度在位置 $i$判断是否能到达最后一个索引。
+- **题目**：给定数组，`nums[i]` 表示从位置 $i$ 最多可以向前跳几步，判断能否到达最后一个位置。以下实现假设数组非空，且跳跃长度非负。
 
 ```python
 def can_jump(nums):
@@ -273,11 +277,11 @@ def can_jump(nums):
     return True
 ```
 
-- **为什么贪心算法有效**：我们只需要知道最远可达的位置。如果当前位置超出最远可达范围，我们就被困住了。否则，我们更新最远可达范围。
+- **贪心思路**：只需记录目前最远能到达的位置。若当前位置超过这个范围，就无法继续；否则用当前位置更新最远可达位置。
 
 ### 中等：合并区间
 
-- **问题**：合并重叠的区间。
+- **题目**：合并所有重叠区间。以下实现假设输入非空，区间为闭区间，并会原地排序输入列表。
 
 ```python
 def merge_intervals(intervals):
@@ -293,27 +297,27 @@ def merge_intervals(intervals):
     return merged
 ```
 
-- **模式**：按开始时间排序，然后贪婪地合并。如果当前区间与最后一个合并的区间重叠，则扩展它。否则，开始一个新的合并区间。
+- **模式思路**：按起点排序，再依次处理区间。当前区间若与已合并的最后一个区间重叠，就扩展其终点；否则开启一个新区间。
 
-- **陷阱**：使用 `merged[-1][1] = end` 而不是 `merged[-1][1] = max(merged[-1][1], end)`。一个区间可以完全包含在另一个区间内（例如 [1, 10] 和 [2, 5]）。
+- **常见错误**：不能直接把最后一个终点赋值为当前区间终点。当前区间可能完全包含在前一个区间中，例如 $[1,10]$ 和 $[2,5]$；应取两个终点的最大值。
 
 ---
 
 ## 模式：动态规划
 
-- **动态规划 (DP)** 解决问题的方法是将它们分解为重叠的子问题，解决每个子问题一次，并存储结果。它适用于具有 **最优子结构** 和 **重叠子问题** 的问题。
+- **动态规划（DP）**把问题拆成重叠子问题，每个子问题只求解一次并保存结果。它适用于具有**最优子结构**和**重叠子问题**的问题。
 
-- **两种方法**：
-    - **顶部向下 (记忆化)**：编写自然递归解决方案，然后在字典中缓存结果。
-    - **底部向上 (表格法)**：从最小的子问题开始构建表格。
+- 两种常见方法：
+    - **自顶向下（记忆化）**：先写递归解法，再缓存已计算的结果。
+    - **自底向上（递推填表）**：从最小子问题开始逐步填表。
 
-- **如何识别 DP**：问题要求一个最优（最小/最大）、计数或存在，当前决策依赖于之前的决策。如果绘制递归树并看到重复的子问题，则是动态规划。
+- **如何识别动态规划**：题目要求求最优值、计数或判断可行性，当前决策取决于之前的决策；画出递归树后能看到相同子问题反复出现时，可以考虑动态规划。
 
 ### 简单：爬楼梯
 
-- **问题**：有 $n$ 步，每次可以爬 1 或 2 步。有多少种不同的方式？
+- **题目**：有 $n$ 级台阶，每次可以爬 1 级或 2 级，问有多少种不同走法。
 
-- 这是斐波那契数列：$f(n) = f(n-1) + f(n-2)$。
+- 递推关系与斐波那契数列相同：$f(n) = f(n-1) + f(n-2)$。
 
 ```python
 def climb_stairs(n):
@@ -325,15 +329,15 @@ def climb_stairs(n):
     return b
 ```
 
-- $O(n)$时间复杂度，$O(1)$空间复杂度。由于每个状态只依赖于前两个状态，因此不需要完整的记忆表。
+- 时间复杂度为 $O(n)$，空间复杂度为 $O(1)$。每个状态只依赖前两个状态，因此不需要保存完整记忆化表。代码假设 $n \geq 0$。
 
-### 中等：硬币找零
+### 中等：零钱兑换
 
-- **问题**：给定硬币面额和目标金额，找到所需的最少硬币数量。
+- **题目**：给定硬币面额和目标金额，求凑出该金额所需的最少硬币数。以下解法假设面额为正整数、金额非负。
 
-- **状态**：`dp[amount]` = 用 `amount` 所需的最少硬币数。
-- **转移**：`dp[amount] = min(dp[amount - coin] + 1)` 对于每个硬币。
-- **基础情况**: `dp[0] = 0`.
+- **状态**：`dp[amount]` 表示凑出 `amount` 所需的最少硬币数。
+- **状态转移**：对每种硬币，比较 `dp[amount - coin] + 1`，取其中最小值。
+- **基础情形**：`dp[0] = 0`。
 
 ```python
 def coin_change(coins, amount):
@@ -348,14 +352,14 @@ def coin_change(coins, amount):
     return dp[amount] if dp[amount] != float('inf') else -1
 ```
 
-- **陷阱**: 初始化时使用 `float('inf')`（不是 0 或 -1）。仅在不可达状态为无穷大时，最小比较才有效。
+- **常见错误**：其他金额的初始值应为正无穷，而不是 0 或 -1。这样只有可达状态才能通过最小值比较更新。
 
-### 中等: 最长公共子序列
+### 中等：最长公共子序列
 
-- **问题**: 给定两个字符串，找到它们的最长公共子序列的长度。
+- **题目**：给定两个字符串，求它们的最长公共子序列长度。子序列不要求连续，但字符的相对顺序必须一致。
 
-- **状态**: `dp[i][j]` = LCS of `text1[:i]` 和 `text2[:j]`.
-- **转移**: 如果 `text1[i-1] == text2[j-1]`，则 `dp[i][j] = dp[i-1][j-1] + 1`。否则，`dp[i][j] = max(dp[i-1][j], dp[i][j-1])`.
+- **状态**：`dp[i][j]` 表示 `text1[:i]` 与 `text2[:j]` 的最长公共子序列长度。
+- **状态转移**：若 `text1[i-1] == text2[j-1]`，则 `dp[i][j] = dp[i-1][j-1] + 1`；否则取 `dp[i-1][j]` 与 `dp[i][j-1]` 中的较大值。
 
 ```python
 def longest_common_subsequence(text1, text2):
@@ -372,12 +376,14 @@ def longest_common_subsequence(text1, text2):
     return dp[m][n]
 ```
 
-### 困难: 0/1背包问题
+- 时间复杂度为 $O(mn)$，空间复杂度为 $O(mn)$。
 
-- **问题**: 给定具有重量和价值的物品，以及一个容量 $W$，最大化总值而不超过 $W$。
+### 困难：0/1 背包
 
-- **状态**: `dp[i][w]` = 使用前 $i$ 个元素，容量为 $w$ 的最大值。
-- **转移**: `dp[i][w] = max(dp[i-1][w], dp[i-1][w - weight[i]] + value[i])` (跳过或取第 $i$ 个元素)。
+- **题目**：给定物品的重量和价值，以及容量 $W$，在总重量不超过 $W$ 的前提下，使总价值最大。每件物品最多选择一次。
+
+- **状态**：`dp[i][w]` 表示只考虑前 $i$ 件物品、容量为 $w$ 时的最大价值。
+- **状态转移**：在不选第 $i$ 件物品的价值 `dp[i-1][w]` 与选它的价值 `dp[i-1][w - weight[i]] + value[i]` 之间取较大值。
 
 ```python
 def knapsack(weights, values, capacity):
@@ -394,7 +400,7 @@ def knapsack(weights, values, capacity):
     return dp[n][capacity]
 ```
 
-- **空间优化**: 由于每一行只依赖于前一行，使用一个 1D 数组，并从右到左遍历 $w$：
+- **空间优化**：当前行只依赖上一行，因此可以用一维数组，并让容量 $w$ 从大到小更新：
 
 ```python
 def knapsack_optimised(weights, values, capacity):
@@ -405,15 +411,15 @@ def knapsack_optimised(weights, values, capacity):
     return dp[capacity]
 ```
 
-- **陷阱**: 在 1D 版本中从左到右遍历允许使用 $i$ 多次（无界背包）。从右到左确保每个元素最多使用一次。
+- **常见错误**：一维版本若从左向右更新，就可能在同一轮重复使用当前物品，变成完全背包。逆序更新可以确保每件物品至多使用一次。
 
 ---
 
 ## 模式：回溯
 
-- **回溯** 是 exhaustive search 通过剪枝进行的。逐步构建解决方案，一旦部分解不可能导致有效的完整解，则放弃（回溯）。
+- **回溯**是带剪枝的穷举搜索。逐步构造解；一旦当前部分解不可能扩展成有效完整解，就撤销选择并返回。
 
-- **模板**:
+- **通用模板**：
 
 ```python
 def backtrack(candidates, path, result):
@@ -428,7 +434,7 @@ def backtrack(candidates, path, result):
             path.pop()                 # unchoose (backtrack)
 ```
 
-### 中等: 子集
+### 中等：子集
 
 ```python
 def subsets(nums):
@@ -443,9 +449,9 @@ def subsets(nums):
     return result
 ```
 
-### 中等: 组合求和
+### 中等：组合总和
 
-- **问题**: 找出所有满足目标和的唯一组合（元素可以重复）。
+- **题目**：找出所有和为目标值的不同组合；每个候选元素可以重复使用。以下实现假设候选数互不相同且均为正整数，目标值非负。
 
 ```python
 def combination_sum(candidates, target):
@@ -466,11 +472,13 @@ def combination_sum(candidates, target):
     return result
 ```
 
-- **陷阱**: `backtrack(i, ...)` 允许重复使用相同的元素。 `backtrack(i + 1, ...)` 会移动到下一个元素（不重复）。弄错这一点是最常见的回溯错误。
+- **常见错误**：递归调用使用 `backtrack(i, ...)`，因此可以重复使用当前元素；若改为 `backtrack(i + 1, ...)`，递归就会从下一个元素开始，不再重复使用。候选元素重复使用规则必须符合题意。
 
-### 困难: N-皇后问题
+- 函数会原地排序 `candidates`，以便在候选值超过剩余目标时直接停止循环。
 
-- **问题**: 在 $n \times n$ 棋盘上放置 $n$ 皇后，使得没有两个攻击彼此。
+### 困难：N 皇后
+
+- **题目**：在 $n \times n$ 棋盘上放置 $n$ 个皇后，使任意两个皇后都不能互相攻击。
 
 ```python
 def solve_n_queens(n):
@@ -506,58 +514,62 @@ def solve_n_queens(n):
     return result
 ```
 
-- **关键洞察**：对角编码。对于 `/` 对角线，`row + col` 是常数。对于 `\` 对角线，`row - col` 是常数。使用集合进行列和对角线跟踪可以简化验证过程 $O(1)$.
+- **关键思路**：用集合快速检查列和两类对角线是否已被占用。对 “/” 方向的对角线，`row + col` 相同；对 “\” 方向的对角线，`row - col` 相同。因此每次检查冲突的时间为 $O(1)$。
 
 ---
 
-## 共同的陷阱总结
+## 常见错误汇总
 
-| 陷阱 | 示例 | 解决方法 |
-|---------|---------|-----|
-| `lo <= hi` 和 `lo < hi` 在二分查找中的区别 | 范围错误 | 根据 `hi` 是否包含边界来选择 |
-| 左到右的一维背包问题 | 重复使用的物品 | 反向遍历进行 0/1 背包计算 |
-| 在回溯中未复制路径 | `result.append(path)` — 所有条目都指向同一个列表 | 使用 `result.append(path[:])` 或 `path.copy()` |
-| `backtrack(i)` 和 `backtrack(i+1)` 的区别 | 重复使用 vs 不重复使用元素 | 根据问题陈述进行匹配 |
-| 在排序回溯中遗漏 `break` | 探索超出剩余候选的候选人 | 对于有序回溯，先排序再在候选超过剩余时停止 |
-| 动态规划初始值 | `dp[0]` 错误 → 所有后续值错误 | 仔细定义基础情况 |
-| 贪心算法没有证明 | 贪心不一定总是有效 | 验证贪心选择的性质 |
-| 多键排序中的不稳定排序 | 相同元素的相对顺序丢失 | 使用稳定排序（如归并排序，Python 的 `sorted`） |
+| 错误 | 示例 | 修正方法 |
+| --- | --- | --- |
+| 混淆 `lo <= hi` 和 `lo < hi` | 二分边界差一 | 根据右边界是否包含在区间内选择 |
+| 0/1 背包的一维数组正序更新 | 同一物品被重复使用 | 从右向左更新 |
+| 回溯保存路径时没有复制 | `result.append(path)` 让所有结果指向同一列表 | 使用 `result.append(path[:])` 或 `path.copy()` |
+| 混淆 `backtrack(i)` 与 `backtrack(i+1)` | 是否允许重复使用候选元素 | 按题目要求选择 |
+| 已排序的回溯搜索缺少提前终止 | 继续检查已超过剩余目标的候选值 | 排序后在候选值过大时 `break` |
+| 动态规划初始化错误 | `dp[0]` 错误导致后续状态都错 | 明确并手算基础情形 |
+| 没有证明就使用贪心 | 局部最优不一定导向全局最优 | 验证贪心选择性质 |
+| 多键排序使用不稳定排序 | 相等元素的相对次序被打乱 | 使用稳定排序，如归并排序或 Python 的 `sorted` |
 
 ---
 
-## 做题清单 (NeetCode)
+## 课后练习（NeetCode）
 
 ### 二分查找
-- [二分查找](https://neetcode.io/problems/binary-search) — 标准模板
-- [在二维矩阵中搜索](https://neetcode.io/problems/search-2d-matrix) — 在扁平化后的矩阵上进行二分查找
-- [香蕉吃掉问题](https://neetcode.io/problems/eating-bananas) — 根据答案进行二分查找
-- [在旋转排序数组中搜索](https://neetcode.io/problems/find-target-in-rotated-sorted-array) — 确定有序的那一半
-- [在旋转排序数组中找到最小值](https://neetcode.io/problems/find-minimum-in-rotated-sorted-array) — 使用二分查找寻找拐点
-- [两个已排序数组的中位数](https://neetcode.io/problems/median-of-two-sorted-arrays) — 基于分区的二分查找
+
+- [Binary Search](https://neetcode.io/problems/binary-search) — 基本模板
+- [Search a 2D Matrix](https://neetcode.io/problems/search-2d-matrix) — 把矩阵视为有序序列进行二分查找
+- [Koko Eating Bananas](https://neetcode.io/problems/eating-bananas) — 对答案进行二分查找
+- [Search in Rotated Sorted Array](https://neetcode.io/problems/find-target-in-rotated-sorted-array) — 判断哪一半有序
+- [Find Minimum in Rotated Sorted Array](https://neetcode.io/problems/find-minimum-in-rotated-sorted-array) — 二分查找旋转位置
+- [Median of Two Sorted Arrays](https://neetcode.io/problems/median-of-two-sorted-arrays) — 基于分割点的二分查找
 
 ### 贪心算法
-- [跳跃游戏](https://neetcode.io/problems/jump-game) — 记录最大可达距离
-- [跳跃游戏 II](https://neetcode.io/problems/jump-game-ii) — BFS-style按层追踪
-- [合并区间](https://neetcode.io/problems/merge-intervals) — 排序 + 合并
-- [插入区间](https://neetcode.io/problems/insert-new-interval) — 找到重叠区域
-- [非重叠区间](https://neetcode.io/problems/non-overlapping-intervals) — 按结束时间排序
+
+- [Jump Game](https://neetcode.io/problems/jump-game) — 追踪最远可达位置
+- [Jump Game II](https://neetcode.io/problems/jump-game-ii) — 类似 BFS 的逐层扩展
+- [Merge Intervals](https://neetcode.io/problems/merge-intervals) — 排序后合并区间
+- [Insert Interval](https://neetcode.io/problems/insert-new-interval) — 找出重叠区间
+- [Non-overlapping Intervals](https://neetcode.io/problems/non-overlapping-intervals) — 按终点排序
 
 ### 动态规划
-- [爬楼梯](https://neetcode.io/problems/climbing-stairs) — 斐波那契动态规划
-- [打家劫舍](https://neetcode.io/problems/house-robber) — 取或不取动态规划
-- [打家劫舍 II](https://neetcode.io/problems/house-robber-ii) — 循环：两次运行
-- [硬币兑换](https://neetcode.io/problems/coin-change) — 无限背包问题
-- [最长公共子序列](https://neetcode.io/problems/longest-common-subsequence) — 在两个字符串上使用二维动态规划
-- [单词拆分](https://neetcode.io/problems/word-break) — 使用集合查找的动态规划
-- [最长递增子序列](https://neetcode.io/problems/longest-increasing-subsequence) — $O(n^2)$ 动态规划或 $O(n \log n)$ 与二分查找结合
-- [编辑距离](https://neetcode.io/problems/edit-distance) — 经典二维动态规划
-- [分割等和子集](https://neetcode.io/problems/partition-equal-subset-sum) — 0/1背包变体
+
+- [Climbing Stairs](https://neetcode.io/problems/climbing-stairs) — 斐波那契式动态规划
+- [House Robber](https://neetcode.io/problems/house-robber) — 选或不选
+- [House Robber II](https://neetcode.io/problems/house-robber-ii) — 环形数组分两次处理
+- [Coin Change](https://neetcode.io/problems/coin-change) — 完全背包
+- [Longest Common Subsequence](https://neetcode.io/problems/longest-common-subsequence) — 两个字符串上的二维动态规划
+- [Word Break](https://neetcode.io/problems/word-break) — 动态规划加集合查找
+- [Longest Increasing Subsequence](https://neetcode.io/problems/longest-increasing-subsequence) — $O(n^2)$ 动态规划，或结合二分查找达到 $O(n \log n)$
+- [Edit Distance](https://neetcode.io/problems/edit-distance) — 经典二维动态规划
+- [Partition Equal Subset Sum](https://neetcode.io/problems/partition-equal-subset-sum) — 0/1 背包变体
 
 ### 回溯
-- [子集](https://neetcode.io/problems/subsets) — 枚举所有子集
-- [组合总和](https://neetcode.io/problems/combination-target-sum) — 回溯时允许重复使用
-- [全排列](https://neetcode.io/problems/permutations) — 使用已使用的集合进行回溯
-- [子集 II](https://neetcode.io/problems/subsets-ii) — 跳过重复项
-- [单词搜索](https://neetcode.io/problems/search-for-word) — 检索网格回溯
-- [回文分割](https://neetcode.io/problems/palindrome-partitioning) — 回溯 + 回文检查
-- [N皇后问题](https://neetcode.io/problems/n-queens) — 约束传播
+
+- [Subsets](https://neetcode.io/problems/subsets) — 枚举所有子集
+- [Combination Sum](https://neetcode.io/problems/combination-target-sum) — 允许重复选取的回溯
+- [Permutations](https://neetcode.io/problems/permutations) — 用已选集合进行回溯
+- [Subsets II](https://neetcode.io/problems/subsets-ii) — 跳过重复子集
+- [Word Search](https://neetcode.io/problems/search-for-word) — 网格回溯
+- [Palindrome Partitioning](https://neetcode.io/problems/palindrome-partitioning) — 回溯加回文判断
+- [N-Queens](https://neetcode.io/problems/n-queens) — 用约束检查剪枝

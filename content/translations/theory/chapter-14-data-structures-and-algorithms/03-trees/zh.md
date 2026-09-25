@@ -10,20 +10,20 @@ status: reviewed
 ---
 # 树
 
-*树是文件系统、数据库、编译器和无数面试问题背后的基础数据结构。本文件涵盖了二叉树、BST、平衡树、字典树、线段树、Fenwick树和并查集，以及遍历模式、递归思维和逐步难度增加的问题。*
+*树是文件系统、数据库、编译器和许多算法题背后的层次结构。本篇介绍二叉树、二叉搜索树、平衡树、字典树、线段树、Fenwick 树和并查集，并讲解遍历、递归思路及相关解题模式。*
 
-- **树**是一个连通且无环的图（第13章）。最重要的变体是二叉树：每个节点最多有两个子节点（左和右）。树几乎无处不在：编译器中的解析树、浏览器中的DOM树、机器学习中的决策树以及数据库中的B树。
+- **树**是连通且无环的图（见第 13 章）。最常见的树结构之一是**二叉树**：每个节点最多有两个子节点，通常称为左子节点和右子节点。树结构广泛用于编译器解析树、浏览器 DOM 树、机器学习决策树和数据库 B 树。
 
-- 解决树问题的关键洞察力：**大多数树问题都是递归解决的**。结构是递归的（一棵树是一个根节点和两个子树），因此解决方案也应该如此。掌握“解决左子树，解决右子树，合并”的模式，可以解决大多数树问题。
+- 解决树问题时，通常可以利用递归结构：一棵树由根节点和子树组成。先解决左子树、再解决右子树、最后合并结果的模式，适用于许多树问题。
 
 ## 二叉树遍历
 
-- 有四种标准方式来访问每个节点：
+- 遍历二叉树时，常见的访问顺序有四种：
 
-    - **中序**（左，根，右）：对于BSTs，这会按排序顺序访问节点。
-    - **前序**（根，左，右）：在序列化和复制树时非常有用。
-    - 后序（左、右、根）：用于删除和计算大小。
-    - **层次遍历**（广度优先搜索）：按层逐级访问节点，使用队列。
+    - **中序遍历**（左、根、右）：在二叉搜索树中按从小到大的顺序访问节点。
+    - **前序遍历**（根、左、右）：常用于序列化和复制树。
+    - **后序遍历**（左、右、根）：常用于删除节点和计算子树大小。
+    - **层序遍历**（BFS）：用队列逐层访问节点。
 
 ```python
 class TreeNode:
@@ -66,7 +66,7 @@ def level_order(root):
     return result
 ```
 
-- **陷阱**：上述递归遍历在每次步骤中都会创建新的列表（由于 `+` 连接），这会导致 $O(n^2)$。为了提高效率，传递一个结果列表并在原地进行追加：
+- **注意**：上述递归遍历通过列表拼接创建新列表。最坏情况下会产生 $O(n^2)$ 的复制开销；即使树较平衡，也会有额外的重复复制。可共享一个结果列表并原地追加，将遍历本身的时间降为 $O(n)$：
 
 ```python
 def inorder_efficient(root, result=None):
@@ -88,9 +88,9 @@ def max_depth(root):
     return 1 + max(max_depth(root.left), max_depth(root.right))
 ```
 
-- **递归模式**：基本情况（空节点 → 0），递归处理子节点，合并结果（1 + 最大值）。这种模式适用于数十个树问题。
+- **递归模式**：基础情形为空节点，深度为 0；递归处理左右子树，再把较大深度加 1。许多树问题都可以用这套“处理子树，再合并”的思路。
 
-### 简单：反转二叉树
+### 简单：翻转二叉树
 
 ```python
 def invert_tree(root):
@@ -100,11 +100,11 @@ def invert_tree(root):
     return root
 ```
 
-### 中等：最低公共祖先
+### 中等：最近公共祖先
 
-- **问题**：找到两个 $p$ 和 $q$ 的最低共同祖先。
+- **题目**：找出同时是节点 $p$ 和 $q$ 祖先的最低节点。
 
-- **模式**：如果 $p$ 和 $q$ 都在左子树中，LCA 在左子树中。如果都位于右子树中，则 LCA 在右子树中。如果它们分裂（一个在左，另一个在右），当前节点是 LCA。
+- **模式思路**：若 $p$、$q$ 都在左子树中，最近公共祖先也在左子树；若都在右子树中，则在右子树；若分别位于左右子树，当前节点就是最近公共祖先。
 
 ```python
 def lowest_common_ancestor(root, p, q):
@@ -119,11 +119,11 @@ def lowest_common_ancestor(root, p, q):
     return left if left else right
 ```
 
-- **陷阱**：这个假设 $p$ 和 $q$ 都存在于树中。如果它们可能不存在，需要额外的检查。
+- **注意**：此实现假设 $p$ 和 $q$ 都存在于树中。若不能保证这一点，还要额外确认两个节点都已找到。
 
-### 困难：二叉树最大路径和
+### 困难：二叉树中的最大路径和
 
-- **问题**：找到任意两个节点之间的最大路径和（路径不需要经过根）。
+- **题目**：求任意两个节点之间路径的最大和；路径不一定经过根节点。以下实现假设树非空。
 
 ```python
 def max_path_sum(root):
@@ -145,11 +145,15 @@ def max_path_sum(root):
     return best[0]
 ```
 
-- **关键洞察**：在每个节点，有两个问题：（1）通过该节点的最佳路径是什么？（2）该节点可以为它的父节点贡献的最佳路径是什么？将这两个问题混淆是最常见的错误。
+- **关键思路**：每个节点要分别考虑两个问题：
+    1. 经过当前节点的最大路径和是多少？路径可以从左子树经过当前节点延伸到右子树。
+    2. 当前节点能向父节点贡献的最大路径和是多少？路径只能选择左、右子树中的一侧，不能在两个节点处同时分叉。
 
-## 二叉搜索树 (BSTs)
+- 混淆“经过当前节点的路径”和“向父节点返回的路径”是这道题最常见的错误。
 
-- 二叉搜索树（BST）满足：对于每个节点，左子树中的所有值都小于它，右子树中的所有值都大于它。这使得 BST 具有 $O(\log n)$ 的查找、插入和删除功能（当平衡时）。
+## 二叉搜索树（BST）
+
+- **二叉搜索树**满足以下次序条件：每个节点左子树中的所有值都小于该节点的值，右子树中的所有值都大于该节点的值。树保持平衡时，查找、插入和删除通常为 $O(\log n)$。
 
 ```python
 def search_bst(root, target):
@@ -172,9 +176,11 @@ def insert_bst(root, val):
     return root
 ```
 
-- **陷阱**：BST操作是 $O(\log n)$ 只有当树是平衡的。从有序插入构建的BST会退化为链表： $O(n)$ 每次操作。这就是为什么平衡二叉搜索树（AVL、红黑）存在。
+- 以上插入实现把重复值放入右子树，而验证函数采用严格不等式；整篇示例按值互异的情况编写。若允许重复值，插入和验证必须采用相同的重复值规则。
 
-### 中等：二叉搜索树中的第 K 小元素
+- **常见错误**：只有树保持平衡时，BST 操作才是 $O(\log n)$。若按排序顺序插入节点，树会退化成链表，每次操作最坏需要 $O(n)$。AVL 树和红黑树等平衡二叉搜索树就是为避免这种退化而设计的。
+
+### 中等：验证二叉搜索树
 
 ```python
 def is_valid_bst(root, lo=float('-inf'), hi=float('inf')):
@@ -186,11 +192,11 @@ def is_valid_bst(root, lo=float('-inf'), hi=float('inf')):
             is_valid_bst(root.right, root.val, hi))
 ```
 
-- **陷阱**：只检查 `left.val < root.val < right.val` 错误。约束是所有左子树的节点都必须小于，而不是直接子节点。`lo`/`hi` 的边界向下传播这个约束。
+- **常见错误**：只检查 `left.val < root.val < right.val` 不够，因为左、右子树深处的节点也必须满足次序条件。代码把 `lo` 和 `hi` 范围逐层传下去，以验证整棵子树。
 
 ### 中等：二叉搜索树中的第 K 小元素
 
-- **模式**：BST 的中序遍历按升序顺序访问节点。第 $k$ 个被访问的节点是答案。
+- **模式思路**：二叉搜索树的中序遍历会按从小到大访问节点。第 $k$ 个访问的节点就是第 $k$ 小元素。这里的 $k$ 从 1 开始；若树中不足 $k$ 个节点，函数会返回 `None`。
 
 ```python
 def kth_smallest(root, k):
@@ -211,9 +217,9 @@ def kth_smallest(root, k):
     return result[0]
 ```
 
-## 前缀树（字典树）
+## 字典树（前缀树）
 
-- 一个 **trie** 存储字符串字符-by字符地在树中。每个边代表一个字符，从根节点到标记节点的路径表示存储的字符串。Trie 允许 $O(L)$ 查找，无论存储了多少个字符串，字符串长度为 $L$。
+- **字典树**按字符逐层保存字符串。每条边代表一个字符；从根节点到带结束标记的节点的一条路径表示一个已存储字符串。字符串长度为 $L$ 时，查找需要 $O(L)$ 时间，与树中存储的字符串数量无直接关系。
 
 ```python
 class TrieNode:
@@ -250,19 +256,19 @@ class Trie:
         return True
 ```
 
-- **何时使用**：自动完成功能、拼写检查、词类游戏、IP 路由表等。当你需要前缀操作时都可以使用它。
+- **适用场景**：自动补全、拼写检查、文字游戏和 IP 路由表等需要按前缀查找的任务。`search` 检查完整单词，`starts_with` 则只检查前缀是否存在。
 
-### 难度：单词搜索 II
+### 困难：单词搜索 II
 
-- **问题**：给定一个字符板和一组单词，找到可以通过遍历相邻单元格形成的所有单词。
+- **题目**：给定字符网格和一组单词，找出所有能通过相邻格子路径组成的单词。
 
-- **模式**：从单词列表构建一个 trie，然后从每个单元格使用 trie 进行 DFS 以提前剪枝分支（如果当前前缀没有单词开始，就停止）。
+- **模式思路**：先把单词表建成字典树，再从每个格子开始做深度优先搜索，并沿字典树检查前缀。如果当前路径不再是任何单词的前缀，就停止搜索该分支。
 
-- **陷阱**：如果没有使用 trie，你将为每个单词单独进行 DFS：$O(w \cdot m \cdot n \cdot 4^L)$。trie 共享前缀计算 across words，大大减少了工作量。
+- **常见错误**：若不使用字典树，就要为每个单词分别从网格搜索，粗略最坏复杂度可写作 $O(w \cdot m \cdot n \cdot 4^L)$，其中 $w$ 是单词数、网格大小为 $m \times n$、$L$ 是单词长度。字典树能让不同单词共享相同前缀的搜索过程，但实际耗时仍取决于网格内容和剪枝效果。
 
-## 并查集（Disjoint Set Union）
+## 并查集（Union-Find / DSU）
 
-- **并查集**跟踪一组不相交的集合。两个操作：`find(x)` 返回 $x$ 的代表，`union(x, y)` 合并包含 $x$ 和 $y$ 的集合。
+- **并查集**用于维护一组互不相交的集合。它支持两种基本操作：`find(x)` 返回 $x$ 所属集合的代表元素；`union(x, y)` 合并分别包含 $x$ 和 $y$ 的两个集合。
 
 ```python
 class UnionFind:
@@ -290,11 +296,11 @@ class UnionFind:
         return True
 ```
 
-- 使用路径压缩和按秩合并，两者操作的平均时间复杂度为 $O(\alpha(n)) \approx O(1)$（逆阿克曼函数，实际上接近常数）。
+- 路径压缩和按秩合并结合使用时，`find` 和 `union` 的均摊时间复杂度为 $O(\alpha(n))$，其中 $\alpha$ 是反阿克曼函数；对实际规模的输入，它增长极慢，通常可视为常数。
 
-- **何时使用**：连通分量、无向图的环检测、Kruskal最小生成树、等价项分组。
+- **适用场景**：维护连通分量、检测无向图中的环、实现 Kruskal 最小生成树，以及把等价元素分组。
 
-### 中等: 连通分量的数量
+### 中等：统计连通分量
 
 ```python
 def count_components(n, edges):
@@ -304,11 +310,11 @@ def count_components(n, edges):
     return uf.count
 ```
 
-### 中等: 重复连接边
+### 中等：冗余连接
 
-- **问题**: 找到当删除该边时，使图成为树的边（即创建环的边）。
+- **题目**：找出删除后能使图成为树的那条边，也就是造成环的边。
 
-- **模式**：逐个处理边。第一个端点和另一个端点都已存在于同一组件中的边创建了环。
+- **模式思路**：逐条处理边。若一条边的两个端点已经属于同一集合，加入这条边就会形成环。以下代码假设节点编号是从 1 开始且不超过边数；若编号规则不同，应相应调整并查集大小。
 
 ```python
 def find_redundant(edges):
@@ -318,11 +324,11 @@ def find_redundant(edges):
             return [u, v]  # already connected → this edge creates a cycle
 ```
 
-## 段树与二叉索引树
+## 线段树与 Fenwick 树
 
-- **段树**回答范围查询（子数组的和、最小值、最大值）以及点更新，都在 $O(\log n)$ 中实现。
+- **线段树**支持对子数组进行区间查询（例如求和、最小值或最大值），也支持单点更新，两种操作都可在 $O(\log n)$ 时间完成。
 
-- **二叉索引树**（二进制索引树）是前缀和查询和点更新的更简单、更快的替代方案。它们使用一个巧妙的位运算技巧：每个位置存储了一个覆盖由最低设置位确定的范围的局部和。
+- **Fenwick 树（树状数组）**是用于前缀和查询和单点更新的简洁结构。它通过位运算，根据最低位的 1 决定每个位置所存的部分和范围。
 
 ```python
 class FenwickTree:
@@ -348,54 +354,50 @@ class FenwickTree:
         return self.prefix_sum(r) - (self.prefix_sum(l - 1) if l > 0 else 0)
 ```
 
-- **何时使用**：需要频繁进行范围查询并支持点更新的问题。二叉索引树适用于只需要前缀和的情况；段树则适用于需要任意范围操作（最小值、最大值、GCD）。
+- **适用场景**：需要重复进行区间查询和更新时，可以考虑这两类结构。若只需前缀和查询及单点加法更新，Fenwick 树通常更简单；若需要区间最小值、最大值或最大公约数等操作，则线段树更合适。
+
+- 上面的 Fenwick 树接口对外使用从 0 开始的索引。`prefix_sum(i)` 返回从索引 0 到 $i$（含 $i$）的和；`range_sum(l, r)` 返回闭区间 $[l, r]$ 的和。
 
 ---
 
-## 共同的陷阱总结
+## 常见错误汇总
 
-| 陷阱 | 示例 | 解决方法 |
-|---------|---------|-----|
-| 检查二叉搜索树（BST）时只检查直接子节点 | `left.val < root.val` 缺少更深的违规情况 | 通过 `lo`/`hi` 范围进行检查 |
-| 在递归中使用 $O(n^2)$ 列表连接 | `inorder(left) + [val] + inorder(right)` | 将列表附加到共享列表中 |
-| 忘记基本情况 | 无限递归在空树上 | `if not root: return` |
-| 混淆路径通过 vs 路径到父节点 | 最大路径和：在两层时分叉 | 返回单分支给父节点，单独跟踪两个分支 |
-| 1-indexed vs 0-indexed Fenwick树 | 在树数组中出现偏移量 | 总是 `i += 1` 在入口处 |
-| 并查集（Union-Find）没有路径压缩 | 最坏情况下的 $O(n)$ 每次查找 | `self.parent[x] = self.find(self.parent[x])` |
+| 错误 | 示例 | 修正方法 |
+| --- | --- | --- |
+| 只检查 BST 的直接子节点 | `left.val < root.val` 无法发现深层节点违反次序 | 传递 `lo`、`hi` 范围 |
+| 递归中反复拼接 $O(n^2)$ 列表 | `inorder(left) + [val] + inorder(right)` | 共享列表并逐个追加 |
+| 缺少基础情形 | 空树上递归无法终止 | 检查 `if not root: return` |
+| 混淆经过节点的路径和返回父节点的路径 | 最大路径和在多层分叉 | 返回单侧路径，另行记录经过当前节点的路径 |
+| Fenwick 树索引从 0 转成 1 时出错 | 树状数组下标差一 | 入口处统一执行 `i += 1` |
+| 并查集没有路径压缩 | `find` 最坏需要 $O(n)$ | 使用 `self.parent[x] = self.find(self.parent[x])` |
 
 ---
 
-## 课后题（NeetCode）
-
-
+## 课后练习（NeetCode）
 
 ### 二叉树模式
 
+- [Invert Binary Tree](https://neetcode.io/problems/invert-a-binary-tree) — 基础递归
+- [Maximum Depth of Binary Tree](https://neetcode.io/problems/depth-of-binary-tree) — 递归计算深度
+- [Same Tree](https://neetcode.io/problems/same-binary-tree) — 同步遍历两棵树
+- [Subtree of Another Tree](https://neetcode.io/problems/subtree-of-a-binary-tree) — 嵌套递归
+- [Binary Tree Level Order Traversal](https://neetcode.io/problems/level-order-traversal-of-binary-tree) — 使用队列进行 BFS
+- [Binary Tree Maximum Path Sum](https://neetcode.io/problems/binary-tree-maximum-path-sum) — DFS 加全局最优值
+- [Serialize and Deserialize Binary Tree](https://neetcode.io/problems/serialize-and-deserialize-binary-tree) — 前序遍历加空标记
 
-- [倒转二进制树](https://neetcode.io/problems/invert-a-binary-tree)，，基本重复
-- [二进制树的最大深度](https://neetcode.io/problems/depth-of-binary-tree)，，递归深度
-- [同一树](https://neetcode.io/problems/same-binary-tree)，，同时穿行.
-- [又一树的子树](https://neetcode.io/problems/subtree-of-a-binary-tree)，，巢接复发.
-- [二进制树级顺序](https://neetcode.io/problems/level-order-traversal-of-binary-tree)- 有级别跟踪的BFS
-- [二进制树最大路径和](https://neetcode.io/problems/binary-tree-maximum-path-sum)，，外勤部全球最佳
-- [二进制树的序列化和去序列化](https://neetcode.io/problems/serialize-and-deserialize-binary-tree)，，序号+无标记
+### 二叉搜索树模式
 
-### BST 模式
+- [Validate Binary Search Tree](https://neetcode.io/problems/valid-binary-search-tree) — 传递上下界
+- [Kth Smallest Element in a BST](https://neetcode.io/problems/kth-smallest-integer-in-bst) — 中序遍历
+- [Lowest Common Ancestor of a BST](https://neetcode.io/problems/lowest-common-ancestor-in-binary-search-tree) — 利用 BST 的次序
 
+### 字典树
 
-- [验证二进制搜索树](https://neetcode.io/problems/valid-binary-search-tree)- 捆绑传播
-- [BST 中最小元素](https://neetcode.io/problems/kth-smallest-integer-in-bst)，，无序转弯.
-- [BST 最低常见祖先](https://neetcode.io/problems/lowest-common-ancestor-in-binary-search-tree)- 利用BST订单
-
-### 尝试
-
-
-- [执行 Trie](https://neetcode.io/problems/implement-prefix-tree)，，基本三轮操作.
-- [设计和搜索单词](https://neetcode.io/problems/design-word-search-data-structure)3个+外勤部带通配卡
-- [词搜索 二](https://neetcode.io/problems/search-for-word-ii)，，三相制导回溯跟踪
+- [Implement Trie](https://neetcode.io/problems/implement-prefix-tree) — 实现基本字典树操作
+- [Design Add and Search Words](https://neetcode.io/problems/design-word-search-data-structure) — 字典树加带通配符的 DFS
+- [Word Search II](https://neetcode.io/problems/search-for-word-ii) — 用字典树引导回溯搜索
 
 ### 并查集
 
-
-- [连接组件数量](https://neetcode.io/problems/count-connected-components)- 基本工会
-- [冗余连接](https://neetcode.io/problems/redundant-connection)，，通过加盟检测循环.
+- [Number of Connected Components](https://neetcode.io/problems/count-connected-components) — 并查集入门
+- [Redundant Connection](https://neetcode.io/problems/redundant-connection) — 用并查集检测环

@@ -8,138 +8,139 @@ source:
   sha256: 0cfccb0b2895b622597e0866cfdda64da28aa1646b8738bc1dc509921311607e
 status: reviewed
 ---
-# Object Detection and Segmentation
+# 目标检测与分割
 
-*Object detection localises and classifies every object in an image; segmentation assigns a label to every pixel. This file covers IoU, mAP, anchor boxes, R-CNN family, YOLO, SSD, Feature Pyramid Networks, semantic/instance/panoptic segmentation (U-Net, Mask R-CNN, SAM), and the metrics that benchmark them.*
+*目标检测会定位图像中的每个对象并判断其类别；分割则为每个像素分配标签。本文介绍 IoU、mAP、锚框、R-CNN 系列、YOLO、SSD、特征金字塔网络，以及语义分割、实例分割和全景分割（U-Net、Mask R-CNN、SAM）及其评测指标。*
 
-- Image classification (file 02) answers "what is in this image?" Object detection asks a harder question: "what objects are in this image, and where are they?"
+- 图像分类（文件 02）回答“图像里有什么？”。目标检测要回答更具体的问题：“图像里有哪些对象？它们分别在哪里？”
 
-- Segmentation goes further still: "which pixels belong to which object or category?" These tasks form a hierarchy of increasingly precise spatial understanding.
+- 分割还要进一步确定“哪些像素属于哪个对象或类别？”。这些任务逐步要求模型具备更精确的空间理解能力。
 
-- An **object detection** model outputs a set of **bounding boxes**, each defined by four coordinates (top-left corner $x, y$, width, height) and a class label with a confidence score. A single image may contain zero, one, or hundreds of objects from multiple classes.
+- **目标检测**模型会输出一组**边界框**。每个边界框由四个值定义：左上角坐标 $x, y$、宽度和高度；同时还会给出类别标签及其置信度。一张图像里可能没有对象，也可能有一个或数百个、属于多个类别的对象。
 
-![Input image with multiple objects, each enclosed by a coloured bounding box with a class label and confidence score](../images/detection_boxes.svg)
+![一张含有多个对象的输入图像；每个对象都由带有类别标签和置信度的彩色边界框标出](../images/detection_boxes.svg)
 
-
-- **Intersection over Union (IoU)** measures how well a predicted bounding box matches the ground truth. It is the area of overlap divided by the area of union:
+- **交并比（IoU）**用于衡量预测边界框与真实标注框的重合程度，计算方式是交集面积除以并集面积：
 
 $$\text{IoU} = \frac{\text{Area of Intersection}}{\text{Area of Union}}$$
-- An IoU of 1 means perfect overlap; an IoU of 0 means no overlap at all. The standard threshold for a "correct" detection is IoU $\geq 0.5$, though stricter thresholds (0.75, 0.9) are also used.
 
-- A detection is a **true positive (TP)** if its IoU with a ground truth box exceeds the threshold and the class is correct.
+- IoU 为 1 表示两个框完全重合，为 0 表示完全不重合。判定检测正确的常用阈值是 IoU $\geq 0.5$，也会使用更严格的阈值（如 0.75、0.9）。
 
-- A **false positive (FP)** is a predicted box that does not match any ground truth.
+- 如果预测框与某个真实框的 IoU 超过阈值，且预测类别正确，这次检测就是真阳性（TP）。
 
-- A **false negative (FN)** is a ground truth object that no prediction matched. These are the same precision/recall concepts from chapter 06.
+- **假阳性（FP）**是指无法与任何真实框匹配的预测框。
 
-- **Average Precision (AP)** summarises detection quality for one class. For each class, rank all detections by confidence score, compute precision and recall at each rank, and calculate the area under the precision-recall curve:
+- **假阴性（FN）**是指没有任何预测框匹配到的真实对象。它们与第 06 章中的精确率、召回率概念相同。
+
+- **平均精度（AP）**概括模型在某个类别上的检测质量。对每个类别，先按置信度从高到低排列所有检测结果，再逐个计算精确率和召回率，并求精确率—召回率曲线下的面积：
 
 $$\text{AP} = \int_0^1 p(r) \, dr$$
-- In practice, the curve is interpolated: at each recall level, precision is set to the maximum precision at any recall $\geq r$. This smooths the curve and makes it monotonically decreasing.
 
-- **Mean Average Precision (mAP)** averages AP across all classes. "mAP@0.5" uses IoU threshold 0.5. "mAP@[.5:.95]" (the COCO standard) averages mAP over ten IoU thresholds from 0.5 to 0.95 in steps of 0.05, rewarding both detection and precise localisation.
+- 实际计算时会对曲线进行插值：对每个召回率 $r$，将精确率设为所有召回率不小于 $r$ 时的最大值。这样得到的曲线更平滑，且精确率随召回率增加而单调不增。
 
-- **Non-Maximum Suppression (NMS)** removes duplicate detections. When a model predicts multiple overlapping boxes for the same object, NMS keeps the highest-confidence box and removes all others that overlap with it above an IoU threshold. This is applied per class after the model produces its raw predictions.
+- **平均精度均值（mAP）**是所有类别 AP 的平均值。“mAP@0.5”使用 IoU 阈值 0.5；COCO 标准中的“mAP@[.5:.95]”则对 0.5 到 0.95、步长为 0.05 的 10 个 IoU 阈值分别计算 mAP，再取平均，因此既衡量检测效果，也衡量定位精度。
 
-- **Two-stage detectors** first propose candidate regions, then classify and refine each proposal.
+- **非极大值抑制（NMS）**用于去除重复检测。如果模型为同一对象预测了多个重叠框，NMS 会保留置信度最高的框，并删除与它的 IoU 超过阈值的其他框。模型生成原始预测后，通常会按类别分别执行 NMS。
 
-- **R-CNN** (Girshick et al., 2014) was the first successful deep learning detector. It uses selective search (a classical algorithm) to propose ~2,000 candidate regions, warps each region to a fixed size, runs each through a CNN independently, and classifies with an SVM (chapter 06). R-CNN was accurate but extremely slow: it ran the CNN 2,000 times per image.
+- **两阶段检测器**先提出候选区域，再对每个候选区域分类并调整边界框。
 
-- **Fast R-CNN** (Girshick, 2015) solved the redundancy by running the CNN once on the entire image to produce a shared feature map, then extracting features for each proposal from that shared map using **RoI pooling** (Region of Interest pooling).
+- **R-CNN**（Girshick 等，2014）是首个成功的深度学习目标检测器。它使用传统算法选择性搜索提出约 2,000 个候选区域，将每个区域缩放到固定尺寸，再分别输入 CNN，并用支持向量机（第 06 章）进行分类。R-CNN 精度较高，但速度极慢：每张图像都要运行 2,000 次 CNN。
 
-- RoI pooling takes a variable-sized region of the feature map and produces a fixed-size output by dividing the region into a grid and max-pooling within each cell. This is much faster because the expensive CNN computation happens only once.
+- **Fast R-CNN**（Girshick，2015）通过共享特征减少了重复计算：它只对整张图像运行一次 CNN，生成共享特征图；随后利用**感兴趣区域池化（RoI pooling）**从该特征图中提取各个候选区域的特征。
 
-- **Faster R-CNN** (Ren et al., 2015) eliminated the external region proposal algorithm by introducing the **Region Proposal Network (RPN)**, a small CNN that runs on top of the shared feature map and predicts proposals directly. The RPN slides a small window over the feature map and, at each position, predicts $k$ proposals (one for each **anchor box**).
+- RoI pooling 将尺寸不一的特征图区域划分成网格，并在每个网格单元内执行最大池化，从而得到固定尺寸的输出。昂贵的 CNN 计算只需进行一次，因此速度更快。
 
-![Faster R-CNN pipeline: input image → backbone CNN → shared feature map → RPN generates proposals → RoI pooling → classification and box regression heads](../images/faster_rcnn.svg)
+- **Faster R-CNN**（Ren 等，2015）引入**区域提议网络（RPN）**，取代外部的候选区域提议算法。RPN 是一个运行在共享特征图上的小型 CNN，可以直接预测候选框。它在特征图上滑动一个小窗口，并在每个位置预测 $k$ 个候选框，每个候选框对应一个**锚框**。
 
+![Faster R-CNN 流程：输入图像 → 主干 CNN → 共享特征图 → RPN 生成候选框 → RoI pooling → 分类头和边界框回归头](../images/faster_rcnn.svg)
 
-- **Anchor boxes** are predefined bounding boxes at each spatial position of the feature map, covering different scales and aspect ratios (e.g., three scales $\times$ three ratios = 9 anchors per position). The RPN predicts two things for each anchor: an objectness score (object vs background) and coordinate offsets that refine the anchor into a tighter proposal. This parametrisation makes the regression problem easier: instead of predicting absolute coordinates, the network predicts small adjustments to a reasonable starting box.
+- **锚框**是在特征图每个空间位置预先设定的边界框，覆盖不同尺度和宽高比（例如 3 种尺度 × 3 种宽高比，即每个位置有 9 个锚框）。RPN 会为每个锚框预测两项内容：表示“对象还是背景”的目标性分数，以及用于调整锚框、得到更贴合目标的候选框的坐标偏移量。这种参数化方式让回归更容易：网络无需预测绝对坐标，只需预测相对于合理初始框的小幅调整。
 
-- The anchor offsets are parametrised as:
+- 锚框偏移量的参数化方式如下：
 
 $$t_x = \frac{x - x_a}{w_a}, \quad t_y = \frac{y - y_a}{h_a}, \quad t_w = \log\frac{w}{w_a}, \quad t_h = \log\frac{h}{h_a}$$
-- where $(x, y, w, h)$ are the predicted box centre and size, and $(x_a, y_a, w_a, h_a)$ are the anchor. The log transform for width and height ensures the predicted box is always positive and makes the regression scale-invariant.
 
-- Faster R-CNN trains with a multi-task loss: classification loss (cross-entropy from chapter 05) for the class label, plus a **smooth L1 loss** for box regression. Smooth L1 is less sensitive to outliers than L2:
+- 其中，$(x, y, w, h)$ 是预测框的中心坐标和宽高，$(x_a, y_a, w_a, h_a)$ 是锚框的中心坐标和宽高。对宽度和高度取对数，可确保预测框的宽高为正，并使回归对尺度变化不敏感。
+
+- Faster R-CNN 使用多任务损失进行训练：类别标签的分类损失（交叉熵，见第 05 章），以及边界框回归的 **Smooth L1 损失**。与 L2 损失相比，Smooth L1 对离群值不那么敏感：
 
 ```math
 \text{smooth}_{L1}(x) = \begin{cases} 0.5x^2 & \text{if } |x| < 1 \\ |x| - 0.5 & \text{otherwise} \end{cases}
 ```
 
-- **Feature Pyramid Networks (FPN)** (Lin et al., 2017) address the multi-scale problem by building a top-down pathway with lateral connections that merges high-level semantics with low-level spatial detail. The backbone produces feature maps at multiple scales (each pooling layer halves the resolution). FPN adds a top-down path where each level receives upsampled features from the level above and merges them with the corresponding bottom-up level via lateral 1x1 convolutions. The result is a pyramid of feature maps, each with both strong semantics and good spatial resolution.
+- **特征金字塔网络（FPN）**（Lin 等，2017）通过自顶向下的路径和横向连接，将高层语义信息与低层空间细节结合起来，以处理多尺度目标。主干网络会生成多个尺度的特征图（每经过一个池化层，分辨率减半）。FPN 增加自顶向下路径：每一层接收来自上一层的上采样特征，再通过横向 1×1 卷积与对应的自底向上特征融合。最终得到一组金字塔特征图，兼具较强语义信息和较高空间分辨率。
 
-- Small objects are detected from the higher-resolution levels of the pyramid; large objects from the lower-resolution levels. FPN is now a standard component in most modern detection architectures.
+- 金字塔中分辨率较高的层用于检测小目标，分辨率较低的层用于检测大目标。如今，FPN 已成为多数现代检测架构的标准组件。
 
-- **One-stage detectors** skip the proposal step entirely, predicting class labels and bounding boxes in a single pass. This is faster but was historically less accurate than two-stage detectors, until focal loss closed the gap.
+- **单阶段检测器**完全跳过候选区域提议步骤，在一次前向传播中直接预测类别和边界框。它们速度更快，但过去精度通常不如两阶段检测器；焦点损失缩小了两者的差距。
 
-- **YOLO** (You Only Look Once, Redmon et al., 2016) divides the image into an $S \times S$ grid. Each grid cell predicts $B$ bounding boxes and $C$ class probabilities. If the centre of an object falls in a grid cell, that cell is responsible for detecting it. YOLO is extremely fast because the entire detection is a single forward pass with no proposal stage.
+- **YOLO**（You Only Look Once，Redmon 等，2016）将图像划分为 $S \times S$ 网格。每个网格单元预测 $B$ 个边界框和 $C$ 个类别的概率。如果某个对象的中心落在一个网格单元内，该单元就负责检测它。整个检测过程只需一次前向传播，也没有候选区域提议阶段，因此 YOLO 速度很快。
 
-- **YOLOv2** added anchor boxes, batch normalisation, and multi-scale training. **YOLOv3** used a Feature Pyramid Network and predicted at three scales. **YOLOv4-v8** continued improving with better backbones, path aggregation networks, and mosaic data augmentation (stitching four images together during training to increase context diversity).
+- **YOLOv2** 加入锚框、批归一化和多尺度训练。**YOLOv3** 使用特征金字塔网络，并在三个尺度上进行预测。**YOLOv4-v8** 则通过更好的主干网络、路径聚合网络和马赛克数据增强（训练时将四张图像拼接，以增加上下文多样性）继续改进。
 
-- **SSD** (Single Shot MultiBox Detector, Liu et al., 2016) predicts at multiple feature map scales within the backbone, using anchor boxes at each scale. Early (high-resolution) feature maps detect small objects; later (low-resolution) maps detect large objects. SSD is faster than Faster R-CNN with competitive accuracy.
+- **SSD**（Single Shot MultiBox Detector，Liu 等，2016）在主干网络的多个特征图尺度上进行预测，并在每个尺度使用锚框。较早、分辨率较高的特征图检测小目标；较晚、分辨率较低的特征图检测大目标。SSD 的速度快于 Faster R-CNN，精度也有竞争力。
 
-- **RetinaNet** (Lin et al., 2017) identified the core problem with one-stage detectors: class imbalance. The vast majority of anchor boxes correspond to background, which generates easy negatives that dominate the loss and overwhelm the gradients from the rare positive examples.
+- **RetinaNet**（Lin 等，2017）指出了单阶段检测器的核心难题：类别不平衡。绝大多数锚框对应背景，会产生大量容易识别的负例；这些负例主导损失，使稀少正例产生的梯度难以发挥作用。
 
-- **Focal loss** solves this by down-weighting easy examples:
+- **焦点损失**通过降低容易样本的权重来解决这一问题：
 
 $$\text{FL}(p_t) = -\alpha_t (1 - p_t)^\gamma \log(p_t)$$
-- where $p_t$ is the predicted probability for the correct class. When the model is confident and correct ($p_t$ is high), $(1 - p_t)^\gamma$ is small, reducing the loss contribution from easy negatives. The hyperparameter $\gamma$ (typically 2) controls the strength of the down-weighting. With $\gamma = 0$, focal loss reduces to standard cross-entropy. With focal loss, RetinaNet achieved accuracy comparable to two-stage detectors at one-stage speed.
 
-- **Anchor-free detection** eliminates anchor boxes entirely, reducing hyperparameter tuning and simplifying the pipeline.
+- 其中，$p_t$ 是模型对正确类别预测的概率。当模型有把握且预测正确时（$p_t$ 较高），$(1 - p_t)^\gamma$ 就较小，从而降低容易负例对损失的贡献。超参数 $\gamma$（通常取 2）控制降权幅度。当 $\gamma = 0$ 时，焦点损失退化为标准交叉熵。借助焦点损失，RetinaNet 以单阶段检测器的速度达到了可与两阶段检测器相比的精度。
 
-- **FCOS** (Fully Convolutional One-Stage, Tian et al., 2019) predicts, at every spatial position of the feature map, the distances from that position to the four sides of the nearest bounding box (left, top, right, bottom) plus a class label. A **centerness** score down-weights predictions far from the object centre, improving quality. FCOS uses FPN to handle multiple scales.
+- **无锚框检测**完全不使用锚框，减少了超参数调试工作，也简化了处理流程。
 
-- **CenterNet** (Zhou et al., 2019) detects objects as points: it predicts a heatmap where peaks correspond to object centres, then regresses the width and height at each peak. Detection becomes keypoint estimation. This is elegant and anchor-free, but requires careful heatmap post-processing.
+- **FCOS**（Fully Convolutional One-Stage，Tian 等，2019）在特征图的每个空间位置预测该位置到最近边界框四条边（左、上、右、下）的距离，以及类别标签。**中心度（centerness）**分数会降低远离目标中心的预测权重，从而提升预测质量。FCOS 使用 FPN 处理多个尺度。
 
-- **CornerNet** detects objects as pairs of corners (top-left and bottom-right). It predicts two heatmaps (one for each corner type) and uses an **associative embedding** to match corresponding corners into bounding boxes. This avoids the need for anchors and handles objects of arbitrary shape.
+- **CenterNet**（Zhou 等，2019）将对象检测视为关键点估计：它预测一张热图，峰值对应对象中心，再在每个峰值位置回归对象的宽度和高度。这种无锚框方法简洁优雅，但热图后处理需要仔细设计。
 
-- **Semantic segmentation** assigns a class label to every pixel in the image. Unlike detection (which outputs boxes), segmentation produces a dense pixel-level map. A street scene might label every pixel as road, sidewalk, car, pedestrian, building, sky, etc.
+- **CornerNet**将对象表示为一对角点（左上角和右下角）。它分别预测两种角点的热图，并通过**关联嵌入**将对应角点配对成边界框。该方法不需要锚框，也能处理形状各异的对象。
 
-![Semantic segmentation: input street scene and its pixel-level label map where each colour represents a class](../images/semantic_segmentation.svg)
+- **语义分割**为图像中的每个像素分配一个类别标签。与输出边界框的目标检测不同，语义分割会生成稠密的像素级标签图。例如，街景中的每个像素都可以被标记为道路、人行道、汽车、行人、建筑物或天空等类别。
 
+![语义分割示例：街景输入图像及其像素级标签图，不同颜色代表不同类别](../images/semantic_segmentation.svg)
 
-- **Fully Convolutional Networks (FCN)** (Long et al., 2015) adapted classification CNNs for segmentation by replacing fully connected layers with convolutional layers, allowing the network to output a spatial map rather than a single class. Upsampling (via transposed convolutions or bilinear interpolation) restores the output to the input resolution. Skip connections from earlier layers add back spatial detail lost during downsampling.
+- **全卷积网络（FCN）**（Long 等，2015）通过用卷积层替换分类 CNN 中的全连接层，将分类网络改造成分割网络，使其输出空间标签图而不是单个类别。再通过转置卷积或双线性插值上采样，将输出恢复到输入图像的分辨率。来自较早层的跳跃连接则补回下采样过程中丢失的空间细节。
 
-- **Transposed convolution** (sometimes called "deconvolution") is the upsampling counterpart of convolution. Where strided convolution reduces spatial dimensions, transposed convolution increases them. It inserts zeros between input elements and then applies a standard convolution, effectively learning how to upsample.
+- **转置卷积**（有时称为“反卷积”）是卷积的上采样对应操作。带步长的卷积会降低空间维度，转置卷积则会增加空间维度。它在输入元素之间插入零，再执行标准卷积，从而学习如何上采样。
 
-- **U-Net** (Ronneberger et al., 2015) introduced a symmetric encoder-decoder architecture with skip connections at every level. The encoder (contracting path) reduces spatial resolution while increasing channels, exactly like a classification CNN. The decoder (expanding path) upsamples back to full resolution. Skip connections concatenate encoder feature maps with decoder feature maps at each level, providing fine spatial detail to the decoder. This combination of high-level semantics and low-level detail produces sharp, accurate segmentation boundaries.
+- **U-Net**（Ronneberger 等，2015）提出了对称的编码器—解码器架构，并在每个层级都设置跳跃连接。编码器（收缩路径）会降低空间分辨率、增加通道数，与分类 CNN 的做法相同；解码器（扩张路径）则逐步上采样，恢复到完整分辨率。在每个层级，跳跃连接都会拼接编码器和解码器的特征图，为解码器补充精细空间信息。高层语义与低层细节结合后，分割边界会更清晰、准确。
 
-![U-Net architecture: encoder path on the left with downsampling, decoder path on the right with upsampling, and skip connections bridging corresponding levels](../images/unet_architecture.svg)
+![U-Net 架构：左侧为逐步下采样的编码器路径，右侧为逐步上采样的解码器路径，两侧对应层级之间由跳跃连接相连](../images/unet_architecture.svg)
 
+- U-Net 最初用于训练数据较少的生物医学图像分割。此后，许多模型都以它的架构为基础，包括潜在扩散模型（文件 04）中的 U-Net。
 
-- U-Net was originally designed for biomedical image segmentation (where training data is scarce) and its architecture has become the foundation for many subsequent models, including the U-Net in latent diffusion models (file 04).
+- **DeepLab**（Chen 等，2014–2018）为图像分割引入了两项关键技术：
 
-- **DeepLab** (Chen et al., 2014-2018) introduced two key innovations for segmentation:
+    - **空洞卷积（膨胀卷积）**：在滤波器元素之间留出间隔的标准卷积，间隔由膨胀率 $r$ 控制。一个膨胀率为 $r$ 的 3×3 滤波器，感受野为 $(2r + 1) \times (2r + 1)$，但仍只需 9 个参数。它无需下采样，就能在保留空间分辨率的同时捕捉多个尺度的上下文信息。
 
-    - **Atrous (dilated) convolution**: standard convolution with gaps inserted between filter elements, controlled by a dilation rate $r$. A 3x3 filter with dilation $r$ has a receptive field of $(2r + 1) \times (2r + 1)$ while using only 9 parameters. This captures context at multiple scales without downsampling, preserving spatial resolution.
+    - **空洞空间金字塔池化（ASPP）**：并行使用多个膨胀率不同的空洞卷积（例如 1、6、12、18），拼接其结果，再用 1×1 卷积融合。ASPP 可以同时捕捉多个尺度的上下文；其思路与 Inception 模块（文件 02）类似，但它通过不同膨胀率而非不同卷积核尺寸实现这一点。
 
-    - **Atrous Spatial Pyramid Pooling (ASPP)**: applies multiple atrous convolutions with different dilation rates in parallel (e.g., rates 1, 6, 12, 18), concatenates the results, and fuses with a 1x1 convolution. ASPP captures context at multiple scales simultaneously, similar in spirit to the Inception module (file 02) but using dilation instead of different kernel sizes.
+- DeepLab 还使用**条件随机场（CRF）**（第 05 章）进行后处理：鼓励空间位置相近且颜色相似的像素共享同一标签，以细化分割边界。
 
-- DeepLab also used a **Conditional Random Field (CRF)** (chapter 05) as a post-processing step to refine segmentation boundaries by encouraging spatially nearby pixels with similar colours to share the same label.
+- **实例分割**结合了目标检测和分割：它会识别每个独立对象实例，并为每个实例生成像素级掩码。街景中的两辆汽车会各自得到一个掩码，而不是合用一个“汽车”掩码。
 
-- **Instance segmentation** combines detection and segmentation: it identifies each individual object instance and produces a pixel-level mask for each. Two cars in a scene get two separate masks, not just "car" for both.
+- **Mask R-CNN**（He 等，2017）在 Faster R-CNN 上增加一个小型分割头，为每个检测到的对象预测二值掩码。其架构是在 Faster R-CNN 上增加掩码分支：掩码分支接收 RoI pooling 得到的特征，并为每个类别输出一个 $m \times m$ 二值掩码。Mask R-CNN 使用 **RoIAlign** 替代 RoI pooling：它在精确采样点进行双线性插值，而不是将坐标量化到网格单元，因此可避免量化造成的空间错位。这一小改动显著提升了掩码质量。
 
-- **Mask R-CNN** (He et al., 2017) extends Faster R-CNN by adding a small segmentation head that predicts a binary mask for each detected object. The architecture is Faster R-CNN + a mask branch: the mask branch takes the RoI-pooled features and outputs a $m \times m$ binary mask per class. It uses **RoIAlign** instead of RoI pooling: bilinear interpolation at precisely sampled points rather than quantised grid cells, which avoids the spatial misalignment that quantisation causes. This small change significantly improves mask quality.
+- Mask R-CNN 使用多任务损失进行训练：分类损失 + 边界框回归损失 + 掩码损失（逐像素二元交叉熵）。掩码分支分别预测每个类别的掩码，最后只使用预测类别对应的掩码。这让掩码预测与分类相互解耦，两者的效果也因此提升。
 
-- Mask R-CNN is trained with a multi-task loss: classification loss + box regression loss + mask loss (per-pixel binary cross-entropy). The mask branch predicts a mask for every class independently; only the mask corresponding to the predicted class is used, which decouples mask prediction from classification and improves both.
+- **全景分割**将语义分割和实例分割统一到同一任务中。每个像素既有类别标签（语义），也有实例 ID（实例；适用于汽车、行人等可逐个计数的“thing”类）。天空、道路、草地等“stuff”类只标注语义类别，因为它们是无法按个体计数的连续区域。
 
-- **Panoptic segmentation** unifies semantic and instance segmentation into a single task. Every pixel gets both a class label (semantic) and an instance ID (instance, for "thing" classes like cars and people). "Stuff" classes (sky, road, grass) get only semantic labels because they are amorphous regions without countable instances.
-
-- The panoptic quality (PQ) metric evaluates this by decomposing into a segmentation quality (average IoU of matched segments) and a recognition quality (F1 score of matched segments):
+- 全景质量（PQ）指标将分割质量（匹配片段的平均 IoU）和识别质量（匹配片段的 F1 分数）相乘，以此评估全景分割：
 
 $$\text{PQ} = \underbrace{\frac{\sum_{(p,g) \in \text{TP}} \text{IoU}(p,g)}{|\text{TP}|}}_{\text{SQ}} \times \underbrace{\frac{|\text{TP}|}{|\text{TP}| + \frac{1}{2}|\text{FP}| + \frac{1}{2}|\text{FN}|}}_{\text{RQ}}$$
-- **Real-time segmentation** is critical for applications like autonomous driving and augmented reality, where latency budgets are tight (often under 30 milliseconds per frame).
 
-- **BiSeNet** (Bilateral Segmentation Network, Yu et al., 2018) uses two parallel paths: a **spatial path** with wide, shallow layers that preserves spatial detail, and a **context path** with deep, narrow layers that captures semantics. The outputs are fused, giving both speed and accuracy.
+- 对自动驾驶、增强现实等应用来说，**实时分割**至关重要，因为每帧的延迟预算通常很紧（往往低于 30 毫秒）。
 
-- **DDRNet** (Deep Dual-Resolution Network, Hong et al., 2021) maintains two branches at different resolutions throughout the network, with repeated information exchange between them. The high-resolution branch preserves spatial detail while the low-resolution branch captures global context. Multiple bilateral fusion modules merge information in both directions.
+- **BiSeNet**（Bilateral Segmentation Network，Yu 等，2018）采用两条并行路径：较宽、较浅的**空间路径**保留空间细节；较深、较窄的**上下文路径**提取语义信息。融合两条路径的输出后，模型兼顾速度和精度。
 
-- The general trend in real-time segmentation is to avoid the heavy encoder-decoder pattern and instead maintain sufficient spatial resolution throughout the network, trading some accuracy for dramatically lower latency.
+- **DDRNet**（Deep Dual-Resolution Network，Hong 等，2021）在整个网络中保留两条分辨率不同的分支，并反复交换信息。高分辨率分支保留空间细节，低分辨率分支提取全局上下文；多个双向融合模块会在两个方向上融合信息。
 
-## Coding Tasks (use CoLab or notebook)
+- 实时分割的发展趋势是避免使用计算量大的编码器—解码器结构，转而在网络中尽量维持足够的空间分辨率，以牺牲部分精度换取大幅降低的延迟。
 
-1. Implement IoU computation and Non-Maximum Suppression from scratch. Apply NMS to a set of overlapping bounding boxes and visualise the result.
+## 编程任务（使用 Colab 或笔记本）
+
+1. 从头实现 IoU 计算和非极大值抑制（NMS），将 NMS 应用于一组互相重叠的边界框，并将结果可视化。
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
@@ -213,7 +214,7 @@ plt.tight_layout(); plt.show()
 print(f"Kept {len(keep)} of {len(boxes)} boxes after NMS")
 ```
 
-2. Implement a simplified Region Proposal Network (RPN). Given a feature map, generate anchor boxes at multiple scales and aspect ratios, and predict objectness scores and box offsets.
+2. 实现一个简化的区域提议网络（RPN）：给定一张特征图，生成多个尺度和宽高比的锚框，并预测目标性分数与边界框偏移量。
 ```python
 import jax
 import jax.numpy as jnp
@@ -294,7 +295,7 @@ ax.grid(True, alpha=0.3)
 plt.tight_layout(); plt.show()
 ```
 
-3. Implement a simplified U-Net encoder-decoder with skip connections for 1D segmentation (binary labelling of a 1D signal).
+3. 为一维分割（二元标注一维信号）实现一个带跳跃连接的简化 U-Net 编码器—解码器。
 ```python
 import jax
 import jax.numpy as jnp

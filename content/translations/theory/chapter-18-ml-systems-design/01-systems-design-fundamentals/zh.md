@@ -8,35 +8,27 @@ source:
   sha256: 57b3e7928b7703f36f63ffb24177f8d20637b02c12c929b7f54d3fa575b1fd3c
 status: reviewed
 ---
-# Systems Design Fundamentals
+# 系统设计基础
 
-*Systems design is how you build software that works reliably at scale. This file covers client-server architecture, networking protocols, DNS, proxies, load balancing, caching, databases, message queues, consistency models, and resilience patterns*
+*系统设计关注如何构建能在规模增长时仍可靠运行的软件。本文介绍客户端—服务器架构、网络协议、DNS、代理、负载均衡、缓存、数据库、消息队列、一致性模型和韧性模式。*
 
-- Every ML system in production is a distributed system. A recommendation engine is not just a model — it is an API server, a feature store, a model registry, a caching layer, a message queue, and a monitoring stack, all communicating over a network. Understanding systems design is what separates "I trained a model" from "I built a product."
+- 投产后的机器学习系统通常是分布式系统。推荐引擎不只有模型，还包括 API 服务器、特征库、模型注册表、缓存、消息队列和监控组件；它们需要通过网络协作。理解系统设计，才能把训练好的模型变成可运行的产品。
+- 大型科技公司的系统设计面试通常会考察这些架构基础。本章后续还会介绍云基础设施（第 2 篇）、扩展模式（第 3 篇）、机器学习专用设计（第 4 篇）和完整设计案例（第 5 篇）。
 
-- Systems design interviews at top tech companies (Google, Meta, Amazon, OpenAI) test whether you can design these systems. This chapter gives you the building blocks (this file), the cloud infrastructure (file 02), scaling patterns (file 03), ML-specific design (file 04), and worked examples (file 05).
+## 客户端—服务器架构
 
-## Client-Server Architecture
+- 基本模式是：**客户端**发送请求，**服务器**处理后返回响应。例如，浏览器向 `google.com` 发送 HTTP 请求，服务器返回 HTML。
+- **请求—响应模型**通常是同步的，客户端等待服务器返回结果。实现简单，但等待期间客户端无法继续该请求的后续操作，服务器也需投入资源处理请求。
+- **无状态服务器**不在服务器进程中保存跨请求的会话状态；每个请求都携带处理它所需的信息，或从外部存储读取状态。这样任一服务器都可以处理请求，较容易通过负载均衡增加实例。
+- **有状态服务器**会在多次请求之间保存状态，例如用户会话。若状态留在单台服务器上，同一用户的请求可能需要粘性会话（session affinity），增加扩展难度。常见做法是把会话状态存入数据库或缓存（如 Redis），减少对特定服务器的依赖。
 
-- The fundamental pattern: a **client** sends a request, a **server** processes it and returns a response. Your browser (client) sends an HTTP request to google.com (server), which returns HTML.
+## 网络协议
 
-- **Request-response model**: synchronous. The client waits for the response. Simple but creates a bottleneck: the client is idle while waiting, and the server must handle the request before moving on.
-
-- **状态less servers**: the server does not remember previous requests. Each request contains all the information needed to process it. This makes scaling easy: any server can handle any request, so you can add more servers behind a load balancer.
-
-- **状态ful servers**: the server maintains 状态 between requests (e.g., a user session). Harder to scale because requests from the same user must go to the same server (session affinity). Modern systems avoid server-side 状态 by storing it in a database or cache (Redis).
-
-## Networking Protocols
-
-- We covered networking in chapter 13 (TCP/IP layers, sockets). Here we focus on the application-level protocols used in systems design:
-
-- **HTTP/HTTPS**: the protocol of the web and most APIs. Request methods: GET (read), POST (create/predict), PUT (update), DELETE (remove). HTTPS adds TLS encryption (chapter 13 security). REST APIs (chapter 15 file 03) are built on HTTP.
-
-- **WebSockets**: persistent bidirectional connection between client and server. Unlike HTTP (request → response → connection closes), WebSocket keeps the connection open for real-time streaming. Used for: LLM token streaming (send tokens as they are generated), live dashboards, chat applications.
-
-- **gRPC**: Google's RPC 框架. Uses Protocol Buffers (binary serialisation, ~10x smaller and faster than JSON) over HTTP/2. Supports streaming (server-side, client-side, bidirectional). Used for internal service-to-service communication where performance matters. Triton Inference Server (chapter 15) and TensorFlow Serving use gRPC.
-
-- **Protocol Buffers**: define message schemas in `.proto` files:
+- 第 13 章介绍了 TCP/IP 分层与套接字。本节聚焦系统设计中的应用层协议：
+- **HTTP/HTTPS**：网页和许多 API 使用的协议。常见方法包括 GET（读取）、POST（创建资源或提交预测请求）、PUT（更新）和 DELETE（删除）。HTTPS 在 HTTP 上加入 TLS 加密（第 13 章安全部分）；REST API（第 15 章第 3 篇）通常基于 HTTP。
+- **WebSocket**：客户端与服务器间保持开放的双向连接，可用于实时流式传输。与一次 HTTP 请求—响应后结束的交互不同，WebSocket 连接可继续发送数据，常用于 LLM 词元流式输出、实时仪表盘和聊天应用。
+- **gRPC**：Google 开发的 RPC 框架，通常使用 Protocol Buffers（二进制序列化）并通过 HTTP/2 传输，支持服务端、客户端和双向流式通信，常用于性能要求较高的内部服务通信。Protocol Buffers 相比 JSON 的体积和速度优势取决于消息结构与实现；某些消息的序列化体积可小一个数量级，但这不是固定比例。Triton Inference Server（第 15 章）和 TensorFlow Serving 支持 gRPC。
+- **Protocol Buffers**：在 `.proto` 文件中定义消息结构：
 
 ```protobuf
 message PredictRequest {
@@ -54,141 +46,110 @@ service ModelService {
 }
 ```
 
-- The schema is compiled into client and server code in any language (Python, C++, Go, Java). Type safety, backward compatibility, and performance come for free.
+- schema 可编译为不同语言的客户端和服务器代码，例如 Python、C++、Go、Java。生成代码能提供类型检查和字段兼容机制；向后兼容仍需遵循 schema 演进规则。
 
 ## DNS
 
-- **DNS** (Domain Name System) translates human-readable names to IP addresses (chapter 13). For systems design, DNS also provides:
+- **DNS**（域名系统）将人类可读的域名解析为 IP 地址（第 13 章）。在系统设计中还可用于：
+- **通过 DNS 分配流量**：对同一个域名返回不同 IP 地址，让客户端连接到不同服务器。DNS 结果会按 TTL 缓存，缓存时间可从几分钟到几小时；记录更新后，流量不会立刻全部切换。
+- **地理路由**：根据客户端的大致位置返回某个区域数据中心的地址。例如，东京用户可能被解析到日本区域，伦敦用户可能被解析到欧洲区域。实际路径也受解析器位置、网络和路由策略影响。
+- **故障切换**：配合 DNS 服务商的健康检查，检测到故障时停止返回某些服务器的 IP。但客户端或递归解析器仍可能缓存旧记录，在 TTL 到期前继续访问故障地址。
 
-- **Load balancing via DNS**: return different IP addresses for the same domain name, distributing traffic across multiple servers. Simple but coarse-grained (DNS results are cached for minutes to hours, so traffic does not rebalance quickly).
+## 代理
 
-- **Geographic routing**: return the IP of the nearest data centre based on the client's location. A user in Tokyo gets the Japanese data centre; a user in London gets the European one.
+- **代理**是客户端与服务器之间的中间层：
+- **反向代理**位于服务器前端，由客户端连接并把请求转发到后端。客户端通常不需要知道哪个后端处理了请求。Nginx 和 HAProxy 是常见选择，可用于负载均衡、TLS 终止、缓存、限流和压缩。若代理到后端使用明文 HTTP，应确保该网络链路符合安全要求。
+- **API 网关**是面向 API 的专用反向代理，可处理认证、限流、请求路由（将不同路径转到不同服务）和 API 版本管理。Kong、AWS API Gateway 和 Envoy 都可用于相关场景。
+- 在机器学习服务中，API 网关可验证 API 密钥、限制免费用户的请求速率、把 `/v1/predict` 和 `/v2/predict` 路由到不同模型服务器，并采集用量指标。
 
-- **Failover**: if a server goes down, DNS stops returning its IP. New clients go to healthy servers. But cached DNS entries mean some clients continue hitting the dead server for minutes (the TTL problem).
+## 负载均衡
 
-## Proxies
+- 多台服务器共同提供服务时，**负载均衡器**会把进入的请求分配给后端服务器。
 
-- A **proxy** is an intermediary between client and server:
+![负载均衡器将进入的请求分配到多个后端服务器](../images/load_balancer.svg)
 
-- **Reverse proxy** (in front of servers): clients connect to the proxy, which forwards requests to backend servers. The client does not know which server handled the request. **Nginx** and **HAProxy** are the standard reverse proxies. They provide: load balancing (distribute requests), SSL termination (decrypt HTTPS at the proxy, send plain HTTP to backends), caching, rate limiting, and compression.
+- **常见算法**：
+    - **轮询**：按顺序把请求发给服务器，例如 1、2、3，再回到 1。实现简单，但不考虑各服务器当前负载。
+    - **最少连接**：把请求发给活动连接数最少的服务器。对处理时间差异较大的请求可能更合适，例如有的 LLM 请求生成 10 个词元，有的生成 1000 个。
+    - **加权轮询**：按服务器配置的权重分配请求。相同负载下，80 GB GPU 可能比 40 GB GPU 容纳更多模型或并发序列，但显存容量并不直接决定请求吞吐量，也不能简单推成两倍请求数。
+    - **一致性哈希**：根据请求键计算目标服务器，让相同键倾向于落到相同节点。适用于缓存局部性、会话亲和性和前缀缓存，例如把共享系统提示词的请求路由到已有对应 KV cache 的服务器。
+- **L4 与 L7 负载均衡**：
+    - **L4（传输层）**：根据 IP 地址和端口转发请求，开销较低，但无法读取应用层请求内容。
+    - **L7（应用层）**：根据 HTTP 路径、请求头或正文路由，例如将 `/api/chat` 发给聊天服务器、将 `/api/embed` 发给嵌入服务；规则更灵活，也需要解析应用层数据。
 
-- **API gateway**: a specialised reverse proxy for APIs. Handles authentication, rate limiting, request routing (different paths → different services), and API versioning. **Kong**, **AWS API Gateway**, and **Envoy** are common choices.
+## 缓存
 
-- For ML serving: an API gateway sits in front of your model servers. It authenticates API keys, rate-limits free-tier users, routes `/v1/predict` to model server A and `/v2/predict` to model server B, and collects usage metrics.
+- **缓存**把频繁访问的数据放在较快的存储层（通常是 RAM），避免重复计算或从较慢的数据源读取。
 
-## Load Balancing
+![旁路缓存模式：先查缓存；未命中时从数据库读取并写入缓存，供后续请求使用](../images/cache_aside_pattern.svg)
 
-- When you have multiple servers, a **load balancer** distributes incoming requests across them.
+- **缓存模式**：
+    - **旁路缓存（cache-aside）**：应用先查缓存；未命中时读取数据库、写入缓存，再返回结果。使用广泛，但需要处理并发回填和过期问题。
+    - **写穿（write-through）**：每次写入同时更新缓存和数据库，使缓存较及时，但同步写入会增加延迟。
+    - **写回（write-back）**：先写缓存，再异步写入数据库，写入延迟较低；若缓存未持久化且发生故障，可能丢失尚未刷新的数据。
+- **缓存淘汰策略**（缓存已满时）：
+    - **LRU（最近最少使用）**：淘汰最长时间未访问的条目。
+    - **LFU（最少使用频率）**：淘汰访问次数较少的条目；若流量分布稳定，可能保留长期热门数据。
+    - **TTL（生存时间）**：条目在固定时间后过期，例如 5 分钟后过期的模型预测缓存或 1 小时后过期的特征值。
+- **CDN（内容分发网络）**：在多个地理位置（大型服务商可能覆盖上百个节点）缓存静态资源（图片、JavaScript、CSS），并从较近节点提供内容。模型权重也可部署在 CDN 上供设备下载；是否命中取决于缓存策略和资源版本。
+- **Redis**：常用的内存数据库与缓存，支持字符串、列表、集合、有序集合、哈希和流。适当配置下，同机或近距离网络的缓存访问可达到亚毫秒级；端到端延迟还受网络、负载和持久化设置影响。可用于缓存预测、保存会话、限流和在线特征读取。
+- 在机器学习服务中，可缓存重复输入的预测结果。但聊天机器人命中率 20–40% 只是某些负载的示例，实际效果取决于用户输入重复度、缓存键设计、个性化上下文和有效期。
 
-![Load balancer distributes incoming requests across multiple backend servers](../images/load_balancer.svg)
+## 数据库
 
+### SQL（关系型数据库）
 
-- **Algorithms**:
-    - **Round robin**: send requests to servers in order (1, 2, 3, 1, 2, 3...). Simple, fair, but does not account for server load.
-    - **Least connections**: send to the server with the fewest active connections. Better for requests with variable processing time (some LLM requests generate 10 tokens, others generate 1000).
-    - **Weighted round robin**: servers with more capacity get more requests. A server with 80 GB GPU memory handles 2x the requests of one with 40 GB.
-    - **Consistent hashing**: hash the request key to a specific server. Same key always goes to the same server. Useful for: caching (requests for the same user hit the same cache), session affinity, and prefix caching (chapter 17: requests with the same system prompt go to the server that has the KV-cache for that prompt).
-
-- **L4 vs L7 load balancing**:
-    - **L4** (transport layer): routes based on IP and port. Fast but cannot inspect request content.
-    - **L7** (application layer): routes based on HTTP path, headers, or body content. Can route `/api/chat` to chat servers and `/api/embed` to embedding servers. Slower but more flexible.
-
-## Caching
-
-- **Caching** stores frequently accessed data in a fast storage layer (RAM) to avoid recomputing or re-fetching it.
-
-![Cache-aside pattern: check cache first, on miss fetch from database and store in cache for next time](../images/cache_aside_pattern.svg)
-
-
-- **Cache patterns**:
-    - **Cache-aside** (lazy loading): the application checks the cache first. On miss, it fetches from the database, stores in cache, and returns. Most common pattern.
-    - **Write-through**: every write goes to both the cache and database simultaneously. Ensures cache is always up to date but slows writes.
-    - **Write-back**: writes go to the cache only; the cache asynchronously flushes to the database. Fastest writes but risks data loss if the cache crashes before flushing.
-
-- **Eviction policies** (when the cache is full):
-    - **LRU** (Least Recently Used): evict the entry that has not been accessed for the longest time. The most common policy.
-    - **LFU** (Least Frequently Used): evict the least-accessed entry. Better when some items are consistently popular.
-    - **TTL** (Time To Live): entries expire after a fixed duration. Used for data that becomes stale (model predictions cached for 5 minutes, feature values cached for 1 hour).
-
-- **CDN** (Content Delivery Network): a globally distributed cache for static content (images, JavaScript, CSS). Servers in 100+ locations worldwide serve cached content from the nearest location to the user. For ML: model weights can be cached on CDNs for fast download.
-
-- **Redis**: the standard in-memory cache/database. Supports strings, lists, sets, sorted sets, hashes, and streams. Sub-millisecond latency. Used for: caching model predictions, storing session data, rate limiting (count requests per user per minute), and real-time feature serving.
-
-- For ML serving: cache predictions for repeated inputs. If many users ask "What is the capital of France?", compute the answer once and serve the cached result. Cache hit rates of 20-40% are common for chatbot workloads, reducing GPU cost proportionally.
-
-## Databases
-
-### SQL (Relational)
-
-- **SQL databases** (PostgreSQL, MySQL) store data in tables with rows and columns. Relations between tables are expressed via foreign keys. Queries use SQL. **ACID** guarantees:
-
-    - **Atomicity**: a transaction either fully completes or fully rolls back. No partial updates.
-    - **Consistency**: the database moves from one valid 状态 to another. Constraints (unique keys, foreign keys) are always satisfied.
-    - **Isolation**: concurrent transactions do not interfere with each other.
-    - **Durability**: committed data survives crashes (written to disk before acknowledging).
-
-- SQL databases excel at: structured data with relationships, complex queries (joins, aggregations), strict consistency requirements, and data integrity.
+- **SQL 数据库**（如 PostgreSQL、MySQL）将数据存入由行和列组成的表，通过外键表达表之间的关系，并用 SQL 查询。ACID 事务性质包括：
+    - **原子性**：事务要么全部提交，要么全部回滚，不留下部分更新。
+    - **一致性**：事务使数据库从一个满足约束的有效状态转到另一个有效状态，例如唯一键和外键约束。
+    - **隔离性**：并发事务按所选隔离级别执行，避免不允许的相互影响。
+    - **持久性**：提交的数据在系统故障后仍可恢复；实现方式和保证取决于数据库配置。
+- SQL 数据库适合具有明确关系、需要复杂查询、事务一致性或数据完整性约束的场景。
 
 ### NoSQL
 
-- **NoSQL databases** trade some ACID guarantees for scalability and flexibility:
+- **NoSQL 数据库**涵盖多种数据模型。它们常用于灵活 schema 或横向扩展场景；ACID 支持和一致性保证因产品与配置而异：
+    - **键值存储**（Redis、DynamoDB）：通过键快速查找，可用于缓存、会话存储和特征库。
+    - **文档存储**（MongoDB、Firestore）：保存类似 JSON 的文档，字段结构可灵活变化，适用于用户资料、商品目录和配置。
+    - **列族存储**（Cassandra、HBase）：可针对写入密集或时间序列工作负载设计，用于事件日志、指标和分析等场景。
+    - **图数据库**（Neo4j）：以节点和边存储关系，适合图遍历、社交网络、知识图谱和推荐场景。
+    - **向量数据库与向量检索库**：Pinecone、Milvus、Weaviate 提供向量存储和近似最近邻（ANN）检索；FAISS 是向量检索库。它们可用于语义搜索、RAG（检索增强生成）和推荐系统。
 
-    - **Key-value stores** (Redis, DynamoDB): simplest model. Fast lookups by key. Used for caching, session storage, and feature stores.
-    - **Document stores** (MongoDB, Firestore): store JSON-like documents. Flexible schema (each document can have different fields). Used for user profiles, product catalogues, and configuration.
-    - **Column-family stores** (Cassandra, HBase): optimised for write-heavy workloads and time-series data. Used for event logging, metrics, and analytics.
-    - **Graph databases** (Neo4j): store nodes and edges. Optimised for traversal queries. Used for social networks, knowledge graphs, and recommendation systems.
-    - **Vector databases** (Pinecone, Milvus, Weaviate, FAISS): store high-dimensional embeddings and support approximate nearest neighbour (ANN) search. Essential for semantic search, RAG (retrieval-augmented generation), and recommendation systems.
+### CAP 定理
 
-### CAP Theorem
+- CAP 讨论分布式系统发生网络分区时的一致性与可用性取舍，并不表示任何时候都能从三个属性中任意挑两个：
+    - **一致性**：读操作看到最新的已提交写入（此处指强一致性语境）。
+    - **可用性**：每个请求都能在有限时间内得到非错误响应。
+    - **分区容错性**：节点之间发生网络分区、无法通信时，系统仍能继续运行。
 
-- In a distributed database, you can have at most two of three properties:
+![CAP 定理示意：发生网络分区时，系统需要在一致性（CP）与可用性（AP）之间取舍](../images/cap_theorem.svg)
 
-    - **Consistency**: every read returns the most recent write.
-    - **Availability**: every request receives a response (even if some nodes are down).
-    - **Partition tolerance**: the system continues operating despite network partitions (nodes cannot communicate).
+- 分布式系统需要考虑网络分区。发生分区时，偏向 **CP** 的配置可能拒绝或延迟部分请求，以维持一致性；偏向 **AP** 的配置可继续响应，但可能返回旧数据。具体产品不能简单按 CP/AP 二分：Cassandra 和 DynamoDB 等提供可配置的一致性选项，PostgreSQL 单节点本身也不是有代表性的分布式 CP 示例。
+- 在机器学习系统中，在线特征服务有时会优先保证可用性，接受短暂陈旧的特征；模型注册表则需要严格校验模型版本，避免误加载。两种场景都要明确各自对可用性、一致性和延迟的要求。
 
-![CAP theorem: choose CP (consistent) or AP (available) since network partitions are inevitable](../images/cap_theorem.svg)
+### 分片
 
+- **分片（sharding）**把数据库数据拆分到多台机器，每个分片保存一部分数据。
+- **哈希分片**：根据键的哈希值决定分片，例如 `shard = hash(user_id) % num_shards`。在分布均匀时可平均分散数据，但按键值范围查询可能需要访问多个分片。
+- **范围分片**：每个分片保存一个键值范围，例如 A–G 在分片 1、H–N 在分片 2。支持范围查询，但偏斜分布可能造成热点。
+- **重新分片**：增减分片会改变数据映射。一致性哈希可减少迁移量；在节点负载均衡等假设下，新增第 $n$ 个节点时，约 $1/n$ 的键需要移动，实际比例取决于虚拟节点和数据分布。
 
-- Since network partitions are inevitable in distributed systems, the real choice is **CP** (consistent but may be unavailable during partitions — e.g., PostgreSQL) vs **AP** (available but may return stale data during partitions — e.g., Cassandra, DynamoDB).
+### 数据库索引
 
-- For ML: feature stores typically choose AP (a slightly stale feature value is better than no prediction). Model registries choose CP (serving the wrong model version is catastrophic).
+- **索引**是以额外存储和写入开销换取查询速度的数据结构。没有索引时，查询可能扫描全部 $n$ 行，复杂度为 $O(n)$；B 树索引通常可在 $O(\log n)$ 次树查找中定位范围。
+- **B 树索引**（常见默认索引）：平衡树的每个节点含多个键和指针，宽节点可减少磁盘访问，并支持范围查询，例如 `WHERE age BETWEEN 20 AND 30`。许多 SQL 数据库默认使用 B 树或其变体。
+- **哈希索引**：通过哈希函数把键映射到行位置；平均情况下精确查找接近 $O(1)$，但通常不支持范围查询，例如 `WHERE id = 12345`。
+- **复合索引**：在多个列上建立索引，例如 `CREATE INDEX ON users(country, city)`。它可用于按 country 或按 country 与 city 查询；通常不能仅靠该索引高效查询 city，因为索引按最左列排序。
+- **取舍**：索引可加速读取，但每次插入、更新和删除都需要维护索引，并占用存储。每个索引占表大小约 10–30% 只是粗略示例，实际由字段类型、键宽度和索引结构决定；应优先索引常用查询条件。
+- **机器学习系统中的索引**：在线特征库可在 `user_id`、`item_id` 等实体键上建索引；实验跟踪数据库可为 `experiment_id` 和 `metric_name` 建索引，以加速仪表盘查询。
 
-### Sharding
+### API 设计
 
-- **Sharding** splits a database across multiple machines. Each shard holds a subset of the data.
-
-- **Hash sharding**: hash the key to determine the shard. `shard = hash(user_id) % num_shards`. Even distribution but makes range queries impossible.
-
-- **Range sharding**: each shard holds a key range (users A-G on shard 1, H-N on shard 2). Enables range queries but can create hot spots (if many users have names starting with "S").
-
-- **The resharding problem**: adding a shard invalidates the hash mapping. **Consistent hashing** minimises the data movement: only ~1/n of keys need to move when adding the nth shard.
-
-### Database Indexing
-
-- An **index** is a data structure that speeds up queries at the cost of extra storage and slower writes. Without an index, a query scans every row (**O(n)**). With an index, it finds the target in **O(log n)**.
-
-- **B-tree index** (the default): a balanced tree (chapter 13, chapter 14) where each node contains multiple keys and pointers. B-trees are cache-friendly (wide nodes fit in cache lines) and support range queries (`WHERE age BETWEEN 20 AND 30`). Most SQL databases use B-trees.
-
-- **Hash index**: maps keys to row locations using a hash function. $O(1)$ lookup but does not support range queries. Used for exact-match lookups (`WHERE id = 12345`).
-
-- **Composite index**: an index on multiple columns. `CREATE INDEX ON users(country, city)` speeds up queries filtered by country, or by country + city, but NOT by city alone (the leftmost column must be in the query).
-
-- **The tradeoff**: every index speeds up reads but slows down writes (the index must be updated on every insert/update/delete) and uses storage (~10-30% of the table size per index). Do not index everything — index the columns you query frequently.
-
-- **For ML systems**: the feature store's online database needs indexes on entity keys (user_id, item_id) for fast feature lookup. The experiment tracking database needs indexes on (experiment_id, metric_name) for dashboard queries.
-
-### API Design
-
-- Systems communicate via APIs. Good API design makes the system usable, evolvable, and debuggable:
-
-- **REST conventions**: use nouns for resources (`/users`, `/models`), HTTP methods for actions (GET = read, POST = create, PUT = update, DELETE = remove), and status codes for results (200 = OK, 201 = created, 400 = bad request, 404 = not found, 429 = rate limited, 500 = server error).
-
-- **Pagination**: for endpoints that return lists, never return all results at once. Use cursor-based pagination (`GET /items?cursor=abc&limit=50`) or offset-based (`GET /items?offset=100&limit=50`). Cursor-based is more efficient for large datasets (offset-based requires skipping rows).
-
-- **Versioning**: prefix API paths with a version (`/v1/predict`, `/v2/predict`). This lets you evolve the API without breaking existing clients. Clients migrate to v2 at their own pace; v1 is deprecated but not removed until traffic drops.
-
-- **Error responses**: return structured errors with enough information to debug:
+- 服务通过 API 通信。良好的 API 设计让系统更易使用、演进和排错：
+- **REST 约定**：资源使用名词路径（`/users`、`/models`），HTTP 方法表示操作（GET 读取、POST 创建、PUT 更新、DELETE 删除），状态码表示结果，例如 200 成功、201 已创建、400 请求错误、404 未找到、429 请求过多、500 服务器错误。
+- **分页**：列表接口不应一次返回所有结果。可使用游标分页（`GET /items?cursor=abc&limit=50`）或偏移分页（`GET /items?offset=100&limit=50`）。大型数据集上，游标分页通常避免了偏移分页跳过大量记录的开销。
+- **版本管理**：在 API 路径加入版本号，如 `/v1/predict` 与 `/v2/predict`，让客户端逐步迁移；旧版本何时移除应依据兼容策略和实际流量决定。
+- **错误响应**：返回结构化错误信息，便于定位问题：
 
 ```json
 {
@@ -200,38 +161,26 @@ service ModelService {
 }
 ```
 
-## Message Queues
+## 消息队列
 
-- **Message queues** decouple producers (services that generate work) from consumers (services that process it). The producer sends a message to the queue; the consumer pulls it when ready.
+- **消息队列**让生产者（生成任务的服务）与消费者（处理任务的服务）解耦。生产者发送消息，消费者在准备好时从队列读取。
+- 队列可在消费者变慢或暂时不可用时缓冲任务，减少同步等待；它并不自动保证消息永不丢失，持久化、确认、重试和保留时间都要正确配置。
+- **Apache Kafka**：分布式、高吞吐的持久化日志系统。消息存储在 **topic（主题）**中，每个主题可分成多个分区并分布在 broker 上。消费者从分区读取并记录位置（**offset，偏移量**）。Kafka 保证单个分区内的顺序；日志能否重放取决于保留策略。
+- **发布—订阅（pub/sub）**：发布者把消息发送到主题，订阅该主题的消费者接收消息，可用于事件驱动系统。例如模型部署事件可以触发监控、A/B 测试和日志服务。
+- 在机器学习服务中，HTTP 预测请求可先进入 Kafka，再由 GPU worker 处理，并通过回调或 WebSocket 返回结果。持久队列能缓冲流量峰值；若消费者处理后、确认前崩溃，消息可能重放，因此还需幂等处理或去重机制。
 
-- **Why queues matter**: without a queue, if the consumer is slow or down, the producer is blocked. With a queue, the producer fires and forgets; the queue buffers messages until the consumer is ready.
+## 一致性模型
 
-- **Apache Kafka**: a distributed, persistent, high-throughput message queue. Messages are stored in **topics**, each partitioned across multiple brokers. Consumers read from partitions, tracking their position (**offset**). Kafka guarantees ordering within a partition and can replay messages (the log is persistent).
+- 分布式系统的不同节点可能在某段时间看到不同数据。**一致性模型**描述系统提供的读写保证：
+- **强一致性**：写入完成后，后续读操作都能看到该值；通常需要协调副本，因而可能增加延迟或降低部分故障时的可用性。
+- **最终一致性**：写入后短时间内可能读取到旧值，但在没有新更新且系统继续运行时，副本最终会收敛。
+- **因果一致性**：若操作 A 因果先于操作 B（例如先写入 X，再读取 X），系统保证 B 能看到 A 的结果；无因果关系的操作可以以不同顺序被观察到。
+- **读己之写**：用户能立即读到自己刚写入的内容，即使其他用户仍可能暂时看到旧值。这是许多应用采用的最低限度保证之一。
 
-- **Pub/sub**: publishers send messages to a topic; all subscribers to that topic receive a copy. Used for event-driven architecture: "a new model was deployed" triggers the monitoring service, the A/B testing service, and the logging service simultaneously.
+## 韧性模式
 
-- For ML: a prediction request arrives via HTTP, is placed in a Kafka queue, processed by a GPU worker, and the result is returned via a callback or WebSocket. The queue buffers bursts of traffic and ensures no requests are lost if a GPU worker crashes.
-
-## Consistency Models
-
-- In a distributed system, different nodes may have different views of the data. **Consistency models** define what guarantees the system provides:
-
-- **Strong consistency**: after a write, all subsequent reads (from any node) see the new value. Simple to reason about but slow (requires coordination between nodes).
-
-- **Eventual consistency**: after a write, reads may see stale data for some period, but will eventually see the new value. Fast (no coordination) but requires the application to handle stale reads.
-
-- **Causal consistency**: if operation A causally precedes B (e.g., "write X then read X"), the system guarantees B sees A's result. But unrelated operations may be seen in any order.
-
-- **Read-your-writes**: a user always sees their own writes immediately, even if other users see stale data. The minimum consistency most applications need.
-
-## Resilience Patterns
-
-- **Rate limiting**: cap the number of requests per user per time window. Protects against abuse and ensures fair access. Implemented with a token bucket or sliding window counter in Redis.
-
-- **Circuit breaker**: if a downstream service starts failing (error rate exceeds threshold), the circuit breaker "opens" and stops sending requests to it (returning a fallback response immediately). After a timeout, it "half-opens" and sends a test request. If the test succeeds, it closes (normal operation). This prevents cascading failures: if the feature store is down, the model server returns predictions without features rather than timing out on every request.
-
-- **Backpressure**: when a system is overwhelmed, it signals upstream to slow down. Rather than accepting requests and failing, it rejects excess requests early (with a 429 or 503 status code). The client retries with exponential backoff.
-
-- **Retry with exponential backoff**: if a request fails, wait 1 second and retry. If it fails again, wait 2 seconds. Then 4, 8, etc. Add jitter (random delay) to prevent all clients retrying simultaneously (the thundering herd problem).
-
-- **Idempotency**: an operation is idempotent if doing it twice has the same effect as doing it once. `PUT /user/123 {"name": "Alice"}` is idempotent (setting the name twice to "Alice" is fine). `POST /payments` is not (paying twice is bad). Making operations idempotent ensures retries are safe.
+- **限流**：限制每个用户在一个时间窗口内的请求数，防止滥用并公平分配资源。可用 Redis 中的令牌桶或滑动窗口计数器实现。
+- **熔断器**：若下游服务持续失败并超过错误率阈值，熔断器会“打开”，暂时停止向其发送请求并快速返回备用响应；等待一段时间后进入“半开”状态发送试探请求，成功后关闭并恢复调用。它能减少级联故障；若特征库不可用，可按产品设计返回降级结果，而不是一直等待超时。
+- **背压**：系统过载时通知上游降低发送速度，或尽早拒绝多余请求（返回 429 或 503），而不是先接收再失败。客户端可使用指数退避重试。
+- **指数退避重试**：请求失败后等待时间逐步增加，例如 1、2、4、8 秒，并加入随机抖动，避免大量客户端同时重试形成“惊群”。具体等待时间应按请求超时和服务负载调整。
+- **幂等性**：同一操作执行多次与执行一次具有相同效果。例如，把 `/user/123` 的名字设置为 Alice 的 PUT 请求可设计为幂等；创建付款的 POST 若重复执行则可能重复扣款。配合幂等键可让重试更安全。

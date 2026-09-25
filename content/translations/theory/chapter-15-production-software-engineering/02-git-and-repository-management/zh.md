@@ -8,33 +8,33 @@ source:
   sha256: 5126485a2947315627d503de7600aeff04b08d744ae3185227f716c43d39289d
 status: reviewed
 ---
-# Git and Version Control
+# Git 与版本控制
 
-*Git is how software teams collaborate without overwriting each other's work. This file covers the Git mental model, branching strategies, merging and rebasing, conflict resolution, pull requests, and managing ML-specific challenges like large files and experiment tracking.*
+*Git 让软件团队能够协作，而不必担心彼此覆盖工作。本篇介绍 Git 的基本模型、分支策略、合并与变基、冲突处理、合并请求，以及机器学习项目中的大文件和实验跟踪。*
 
-- Every serious software project uses version control. **Git** is the dominant system, used by virtually all open-source projects and companies. Without git, collaboration is emailing zip files and praying nobody overwrites your changes. With git, every change is tracked, reversible, and attributable.
+- Git 是目前广泛使用的版本控制系统，开源项目和公司都常用它。没有版本控制时，团队只能互相发送压缩包，还要担心谁覆盖了谁的修改；使用 Git 后，项目变更可以被追踪、回退并关联到提交者。
 
-- For ML engineers: git tracks your code, configs, and experiment scripts. Combined with experiment tracking tools, it gives you reproducibility: "what exact code and config produced this model?"
+- 对机器学习工程师来说，Git 可以记录代码、配置文件和实验脚本。再结合实验跟踪工具，就能追溯“生成这个模型的代码和配置具体是什么”。
 
-## The Mental Model
+## 基本模型
 
-- Git tracks **snapshots** of your project. Every commit is a full snapshot of all tracked files at that moment, not a diff (internally, git stores diffs for efficiency, but conceptually each commit is a complete 状态).
+- Git 以**快照**的方式记录项目。每次提交在概念上都对应当时所有已跟踪文件的完整快照，而不是单纯的差异补丁；Git 内部会用更节省空间的方式存储数据。
 
-- Four "locations" for your files:
+- 文件和提交通常涉及四个位置：
 
-    1. **Working directory**: the actual files on disk. You edit these.
-    2. **Staging area** (index): files you have marked for the next commit. `git add` moves changes here.
-    3. **Local repository**: your commit history, stored in `.git/`. `git commit` saves the staging area as a new snapshot.
-    4. **Remote repository** (e.g., GitHub): a shared copy. `git push` uploads your commits, `git pull` downloads others'.
+    1. **工作目录**：磁盘上的实际文件，编辑操作发生在这里。
+    2. **暂存区**（索引）：已选定、准备放入下一次提交的变更；`git add` 会把变更放入暂存区。
+    3. **本地仓库**：保存在 `.git/` 中的提交历史；`git commit` 会把暂存内容保存为一个提交。
+    4. **远程仓库**（例如 GitHub）：供团队共享的仓库副本；`git push` 上传本地提交，`git pull` 获取远端提交并整合到当前分支。默认通常是合并，具体行为也可由配置决定。
 
 ```
 Working Dir  →  git add  →  Staging  →  git commit  →  Local Repo  →  git push  →  Remote
                                                         ←  git pull  ←
 ```
 
-- The staging area is what makes git powerful. You can edit 10 files but only commit 3 of them, keeping the other changes for a separate commit. This enables clean, focused commits.
+- 暂存区让你可以把不同变更拆成不同提交。例如，编辑了 10 个文件后，只把其中 3 个加入暂存区并提交，其余改动可以留到后续提交。这样能让每个提交聚焦于一个主题。
 
-### Essential Commands
+### 常用命令
 
 ```bash
 git init                          # create a new repository
@@ -50,9 +50,9 @@ git diff                          # show unstaged changes
 git diff --staged                 # show staged changes
 ```
 
-## Branching
+## 分支
 
-- A **branch** is a pointer to a commit. The default branch is `main` (or `master`). Creating a branch gives you an independent line of development: you can make changes without affecting `main`.
+- **分支**是指向某个提交的引用。默认分支通常叫 `main`，有些项目仍使用 `master`。新建分支后，提交会沿该分支继续前进，因此可以在不直接改变 `main` 的情况下开展工作。
 
 ```bash
 git branch feature-x              # create a branch
@@ -62,46 +62,44 @@ git branch -d feature-x           # delete branch (after merging)
 git branch -a                     # list all branches (local + remote)
 ```
 
-- **When to branch**: always. Never commit directly to `main`. Every feature, bug fix, or experiment gets its own branch. This keeps `main` stable and deployable.
+- 对许多团队来说，功能、修复或实验各自使用短期分支是一种稳妥做法。是否必须避免直接提交到 `main`，取决于团队工作流；主干开发团队也可能频繁直接向主分支提交。
 
-### Branching Strategies
+### 分支策略
 
-- **Feature branches** (most common): each feature/fix gets a branch off `main`. When done, open a pull request (PR) to merge back. Simple, works for most teams.
+- **功能分支**：最常见的方式之一。每项功能或修复从 `main` 开出分支，完成后通过合并请求集成。规则简单，适合多数团队。
 
-- **Trunk-based development**: developers commit to `main` frequently (multiple times per day), using feature flags to hide incomplete work. Preferred by teams that deploy continuously (Google, Facebook). Requires excellent CI/CD.
+- **主干开发**：开发者频繁向主分支提交，使用功能开关隐藏尚未完成的功能。适合持续部署团队，但需要可靠的自动化测试和 CI/CD 流程。
 
-- **Gitflow**: separate branches for features, releases, and hotfixes. More complex, better for software with versioned releases (mobile apps, packaged software). Overkill for most ML projects.
+- **Gitflow**：为功能、发布和紧急修复分别使用不同分支。它更适合有正式版本发布的软件；对多数机器学习项目而言可能过于复杂。
 
-- For ML teams: **feature branches** with short-lived branches (merge within 1-3 days) is the sweet spot. Long-lived branches diverge from `main` and create painful merge conflicts.
+- 机器学习团队常采用功能分支，并尽量缩短分支存续时间，例如在 1–3 天内合并。长期分支容易与 `main` 逐渐分歧，增加处理冲突的成本；具体时长可依团队情况调整。
 
-## Merging and Rebasing
+## 合并与变基
 
-- **Merge** creates a new "merge commit" that combines two branches:
+- **合并（merge）**会把两个分支的工作整合到一起。如果分支历史已经分叉，通常会创建一个有两个父提交的合并提交；若可以快进，Git 可能只移动分支指针，不额外创建合并提交。
 
 ```bash
 git checkout main
 git merge feature-x
 ```
 
-- This preserves the full history: you can see that work happened on a branch and when it was merged. The merge commit has two parents.
+- 保留合并提交时，可以从历史中看到分支何时合入。快进合并则不会留下单独的合并提交。
 
-- **Rebase** replays your branch's commits on top of the target branch:
+- **变基（rebase）**会把当前分支上的提交重新应用到目标分支之上，并生成新的提交哈希；效果如同从目标分支最新提交处开始开发。这样通常会形成更线性的历史，但会改写当前分支历史。
 
 ```bash
 git checkout feature-x
 git rebase main
 ```
 
-- This rewrites history: your branch's commits get new hashes, as if you had started your work from the current tip of `main`. The result is a linear history (no merge commits), which is cleaner to read.
+- **如何选择**：
+    - 用**变基**把尚未共享的功能分支更新到最新 `main` 之上，可保持线性历史。
+    - 用**合并**把功能分支集成到 `main`，是否保留合并提交由快进条件和团队策略决定。
+    - 不要变基已经推送并与他人共享、且他人可能基于其继续工作的提交。改写这类历史会让其他人的分支难以衔接。
 
-- **When to use which**:
-    - **Rebase** for updating your feature branch with the latest `main` changes (keeps your branch clean and up-to-date).
-    - **Merge** for integrating your feature branch into `main` (preserves the branch history).
-    - **Never rebase commits that have been pushed and shared** with others. Rebasing rewrites history; if someone else has based work on the original commits, rebasing causes chaos.
+## 处理冲突
 
-## Resolving Conflicts
-
-- A **conflict** occurs when two branches modify the same line of the same file. Git cannot automatically decide which change to keep and asks you to resolve it manually.
+- **冲突**表示 Git 无法自动合并两个分支的变更，需要人工判断如何处理。常见情况是双方修改了同一处内容；二进制文件、重命名和其他不兼容改动也可能造成冲突。
 
 ```
 <<<<<<< HEAD
@@ -111,17 +109,17 @@ learning_rate = 0.0005
 >>>>>>> feature-x
 ```
 
-- Between `<<<<<<< HEAD` and `=======` is the current branch's version. Between `=======` and `>>>>>>> feature-x` is the incoming branch's version. You decide which to keep (or combine them), remove the markers, save, and `git add` the resolved file.
+- 在这个合并示例中，`<<<<<<< HEAD` 到 `=======` 之间是当前分支的版本，`=======` 到 `>>>>>>> feature-x` 之间是传入分支的版本。选择保留其中一方或组合两边修改后，删除冲突标记并保存，再用 `git add` 标记文件已解决，最后完成合并。
 
-- **Pitfall**: do not leave conflict markers in committed files. They are literal text that will break your code. Always search for `<<<<<<<` after resolving.
+- **常见错误**：提交时残留冲突标记。这些标记会成为文件中的普通文本，可能破坏代码。解决冲突后，搜索 `<<<<<<<` 等标记，确认它们已移除。
 
-- **Reducing conflicts**: keep branches short-lived, merge `main` into your branch frequently, and avoid multiple people editing the same file simultaneously.
+- **减少冲突**：缩短分支生命周期，经常整合 `main` 的更新，并避免多人同时修改同一文件。
 
-## Writing Good Commit Messages
+## 编写清晰的提交消息
 
-- A commit message is for your future self and your teammates. "fix bug" tells you nothing. "Fix off-by-one in batch size calculation that caused OOM on 8-GPU training" tells you everything.
+- 提交消息是留给未来的自己和团队成员看的。“修复错误”信息太少；“修正批量大小计算的差一错误，避免 8 卡训练时显存溢出”则说明了具体问题。
 
-- **Format**:
+- **格式示例**：
 
 ```
 Short summary (50 chars or less, imperative mood)
@@ -132,26 +130,26 @@ Longer description if needed. Explain WHY, not WHAT
 Fixes #123
 ```
 
-- **Imperative mood**: "Add feature" not "Added feature" or "Adds feature." Read it as completing the sentence: "If applied, this commit will **add feature**."
+- **祈使语气**：写 `Add feature`，而不是 `Added feature` 或 `Adds feature`。可以把它读成“应用这个提交后，它将会……”。
 
-- **Atomic commits**: each commit should do one thing. "Add data loader" is one commit. "Add data loader and fix unrelated bug and update README" should be three commits. This makes `git bisect` (finding which commit introduced a bug) possible.
+- **原子提交**：每次提交尽量只做一件事。添加数据加载器是一件事；同时添加数据加载器、修复无关错误并修改 README，最好拆成三次提交。这样更容易用 `git bisect` 二分定位引入问题的提交。
 
-## Pull Requests and Code Review
+## 合并请求与代码审查
 
-- A **pull request (PR)** proposes merging a branch into `main`. It is the gateway for code review: teammates read your changes, suggest improvements, and approve before merging.
+- **合并请求（PR）**用于提议把一个分支合并到 `main`，也是团队审查变更、提出建议并决定是否批准的环节。
 
-- **Good PR practices**:
-    - Keep PRs small (under 400 lines of changes). Large PRs get rubber-stamped because nobody wants to review 2000 lines.
-    - Write a clear description: what changed, why, and how to test it.
-    - Link to the issue or ticket that motivated the change.
-    - Respond to review comments promptly.
-    - Squash trivial commits before merging (so `main` has a clean history).
+- **较好的 PR 做法**：
+    - 让 PR 保持较小。少于 400 行可作为粗略参考，不是适用于所有项目的硬性上限；过大的改动往往难以认真审查。
+    - 清楚说明改了什么、为什么改，以及如何验证。
+    - 关联促成这次改动的问题或任务。
+    - 及时回应审查意见。
+    - 若团队工作流适用，可在合并前压缩琐碎提交，让主分支历史更清晰。
 
-- **Code review is not about finding bugs** (tests do that). It is about: knowledge sharing (the reviewer learns the codebase), design feedback (is this the right approach?), and maintaining standards (naming, style, architecture).
+- **代码审查不只是在找错误**：审查也可能发现缺陷，但测试同样不能取代人工审查。审查还用于共享代码库知识、讨论设计方案，以及维护命名、风格和架构标准。
 
 ## .gitignore
 
-- The `.gitignore` file tells git which files to exclude from tracking. For ML projects:
+- `.gitignore` 文件告诉 Git 哪些文件不应纳入跟踪。机器学习项目中常会排除以下文件：
 
 ```gitignore
 # Python
@@ -195,28 +193,32 @@ outputs/
 logs/
 ```
 
-- **Pitfall**: adding a file to `.gitignore` after it has been committed does not remove it from the repository. You must also `git rm --cached file` to untrack it. The file stays in the history forever unless you rewrite history (which is messy).
+- **常见错误**：某个文件已经提交后，后来再把它加入 `.gitignore` 并不会让 Git 停止跟踪它。可使用 `git rm --cached file` 取消后续跟踪，同时保留工作目录中的文件；该文件仍存在于既有提交历史中。
 
-## Git for ML
+- 若误提交了密钥，应立即撤销或轮换密钥。即使重写 Git 历史，也无法保证其他克隆或缓存副本中的内容都已清除。
 
-- ML introduces challenges that traditional software does not face:
+## 机器学习项目中的 Git
 
-- **Large files**: datasets and model weights are gigabytes or more. Git is designed for text files (source code), not binary blobs. Solutions:
-    - **Git LFS** (Large File Storage): tracks pointers in git, stores actual files on a separate server. Simple but has storage/bandwidth limits on GitHub.
-    - **DVC** (Data Version Control): manages data and model files separately from git, using remote storage (S3, GCS). Works like git for data: `dvc add data.csv`, `dvc push`, `dvc pull`.
+- 机器学习项目还有一些传统软件项目较少遇到的问题：
 
-- **Experiment tracking**: which commit + which hyperparameters + which data produced which metrics? Git tracks code, but not the full experiment context.
-    - **Weights & Biases (W&B)**: logs metrics, hyperparameters, system info, and links to the git commit. Provides dashboards for comparing runs.
-    - **MLflow**: open-source experiment tracking with model registry. Logs parameters, metrics, and artifacts.
-    - **Simple approach**: log the git hash in your training script: `git_hash = subprocess.check_output(['git', 'rev-parse', 'HEAD']).strip()`. Store it alongside your results.
+- **大文件**：数据集和模型权重可能达到数 GB。Git 更适合管理源代码等文本文件，不适合直接保存大型二进制文件。常用做法包括：
+    - **Git LFS（大文件存储）**：在 Git 中保存指针，把实际文件放到单独的服务器。设置较简单，但 GitHub 等服务可能有存储量或带宽限制。
+    - **DVC（数据版本控制）**：把数据和模型文件放在 Git 之外的远程存储（如 S3、GCS），并用类似 Git 的命令管理版本，例如 `dvc add data.csv`、`dvc push` 和 `dvc pull`。
 
-- **Reproducibility checklist** (what to track for each experiment):
-    - Git commit hash (exact code version)
-    - Config file / hyperparameters
-    - Random seeds
-    - Python and library versions (`pip freeze`)
-    - Data version (DVC hash or dataset version tag)
-    - Hardware (GPU type, number of GPUs)
+- **实验跟踪**：一次实验使用了哪个提交、哪些超参数和哪一版数据，最终产生了哪些指标？Git 会记录代码版本，但不会自动记录完整的实验上下文。
+    - **Weights & Biases（W&B）**：记录指标、超参数、系统信息，并关联 Git 提交；还提供仪表板比较多次运行。
+    - **MLflow**：开源的实验跟踪和模型注册工具，可记录参数、指标与产物。
+    - **简单做法**：在训练脚本中记录 Git 提交哈希，并与结果一起保存，例如使用 `git rev-parse HEAD` 获取当前提交。
+
+- **实验可复现性检查清单**（为每次实验记录）：
+    - Git 提交哈希（精确代码版本）
+    - 配置文件和超参数
+    - 随机种子
+    - Python 和库版本（例如 `pip freeze`）
+    - 数据版本（DVC 哈希或数据集版本标签）
+    - 硬件信息（GPU 型号和数量）
+
+- 这些信息有助于复现实验，但未必能保证逐位一致的结果；底层硬件、驱动、库版本和非确定性算子也可能影响运行结果。
 
 ```bash
 # Quick reproducibility snapshot

@@ -1,6 +1,6 @@
-# Learning Atlas v0.25.2 内容清单
+# Learning Atlas v0.26.0 内容清单
 
-冻结日期：2026-09-24。
+冻结日期：2026-09-25。
 
 ## 当前发布快照与上游跟踪
 
@@ -9,7 +9,7 @@
 | `ai-engineering-from-scratch` | `d18b8fe5a913c46011a3b06cb6ebd6a924414fd3` | MIT |
 | `maths-cs-ai-compendium` | `9850ee574a370bc1cde59de98b394e953775b67d` | Apache-2.0 |
 
-此表记录 v0.25.2 的可复现发布快照。两个 submodule 同时配置为跟踪其上游 `main` 分支：每日检查只报告待审核更新，不会自动修改发布内容。P18 在同一实践快照上接入 30 节伦理、安全与对齐课程，新增 30 份中文测验、30 套 Python 工作区和 5 张 rich theory cards；T5 和 T6 在同一理论快照上各新增 16 篇按章节顺序复核的独立理论全文，本版补齐 T1–T6 全部 89 篇理论正文及其中文 SVG 图示。中文改编、测验和理论关联的各自 front matter 均记录对应原文路径、revision 与 SHA-256；中文理论正文还声明跟踪 `main`。应用发现实践课程、测验或中文理论正文的当前 SHA-256 不匹配时，会拒绝发布旧内容；理论原文链接则始终指向官方 `main`。
+此表记录 v0.26.0 的可复现发布快照；两个上游 revision 与 v0.25.2 相同，并继续跟踪各自的 `main` 分支。每日检查只报告待审核更新，不会自动修改发布内容。P18 在实践快照上接入 30 节伦理、安全与对齐课程；T5 和 T6 在理论快照上各新增 16 篇按章节顺序复核的独立理论全文，v0.25.2 补齐 T1–T6 全部 89 篇理论正文及其中文 SVG 图示。本版在相同理论快照上完成 89 篇中英一致性、术语和中文表达复核，逐篇 SHA-256 与复核要点见[理论复核清单](theory-translation-review.md)。中文改编、测验和理论关联的各自 front matter 均记录对应原文路径、revision 与 SHA-256；中文理论正文还声明跟踪 `main`。应用发现实践课程、测验或中文理论正文的当前 SHA-256 不匹配时，会拒绝发布旧内容；理论原文链接则始终指向官方 `main`。
 
 ## 根项目许可证边界
 
@@ -51,7 +51,7 @@
 
 当前已有 89 篇中文理论正文满足 `status: reviewed`、来源路径和 SHA-256 三重发布条件，包括既有《抽样》、T1 的 11 篇高关联笔记、T2 的 13 篇、T3 的 13 篇、T4 的 19 篇关联长尾笔记、T5 的 16 篇和 T6 的 16 篇独立笔记。它们是针对本地同步到 `main` 的快照审核的版本化中文内容；审核 revision 仅用于追溯，目录和阅读器中的原文入口均指向官方 `HenryNdubuaku/maths-cs-ai-compendium` 最新英文 `main`。其余 15 篇理论笔记从目录打开同一官方 `main`，属于可能变化的外部实时参考，不计入本地发布快照。
 
-术语基线与本轮译文语言复核记录在 [`docs/translation-glossary.md`](translation-glossary.md)。
+术语基线见 [`docs/translation-glossary.md`](translation-glossary.md)；89 篇理论译文的中英复核、续查位置和双语散列见 [`docs/theory-translation-review.md`](theory-translation-review.md)。
 
 ## 内容验证
 

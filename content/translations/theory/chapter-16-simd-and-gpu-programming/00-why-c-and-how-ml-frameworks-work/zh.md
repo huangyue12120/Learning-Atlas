@@ -8,32 +8,33 @@ source:
   sha256: 5e21de55db77321c911bc322e9eb3f3fa88e692f8de803402ee44dfa6134156e
 status: reviewed
 ---
-# Why C++ and How ML 框架s Work
+# C++ 的作用与机器学习框架的实现
 
-*Every `jnp.matmul`, every `torch.nn.Linear`, every `np.dot` call in this book has been executing C++ and CUDA code underneath. This file pulls back the curtain: why ML 框架s are built this way, quick C++ fundamentals for Python engineers, when to write custom C++ kernels, and how to bind them into Python, the bridge between the code you write and the hardware it runs on.*
+*本书中的 `jnp.matmul`、`torch.nn.Linear` 和 `np.dot` 最终都会调用底层实现。许多计算由 C、C++、Fortran 或 CUDA 代码执行。本文介绍机器学习框架为何采用这种分层方式、Python 开发者需要掌握哪些 C++ 基础、什么情况下值得编写自定义内核，以及怎样把 C++ 函数接入 Python。*
 
-- You have spent 15 chapters writing Python. You imported JAX, called `jax.grad`, ran training loops, and built models. It all felt like Python. But here is the truth: **almost none of the actual computation happened in Python.**
+- 前 15 章里，你用 Python 导入 JAX、调用 `jax.grad`、编写训练循环并构建模型。代码看起来都在 Python 中运行；矩阵运算等密集计算通常由底层原生代码执行。
 
-- When you write `output = model(input)` in PyTorch or `output = jnp.matmul(W, x)` in JAX, Python does almost nothing. It constructs a description of the computation (a graph of operations), then hands it off to a C++/CUDA backend that does the real work. Python is the steering wheel; C++ is the engine.
+- 在 PyTorch 中写 `output = model(input)`，或在 JAX 中写 `output = jnp.matmul(W, x)` 时，Python 层负责调用框架接口和组织运算。具体工作随框架和执行模式而异：PyTorch 的即时执行会逐个分派运算；JAX 的 `jax.jit` 会先追踪函数，再交给 XLA 编译。C++、CUDA 等原生后端负责执行许多底层操作。
 
-## Why Python Frontend, C++ Backend
+## Python 前端与 C++ 后端为何分工
 
-- This two-language architecture exists because Python and C++ are good at opposite things:
+- 许多机器学习库用 Python 提供易用的接口，用 C++ 等原生语言执行计算。这些语言在开发效率、运行方式和硬件控制上各有长处：
 
-| | Python | C++ |
-|--|--------|-----| Development speed | Fast (dynamic typing, REPL, no compilation) | Slow (static typing, headers, compile times) |
-| Execution speed | ~100x slower than C (interpreted, GIL) | Near-hardware speed (compiled, no overhead) |
-| Memory control | Automatic (GC), no control over layout | Manual, precise control over every byte |
-| Hardware access | None (no SIMD, no GPU, no custom memory) | Full (intrinsics, CUDA, inline assembly) |
-| Ecosystem | Rich for ML (notebooks, visualisation, data) | Rich for systems (OS, drivers, engines) |
+| 对比项 | Python | C++ |
+| --- | --- | --- |
+| 开发效率 | 高：动态类型、交互式环境，无需先编译 | 较低：静态类型、头文件和编译步骤增加了开发成本 |
+| 执行速度 | CPython 中逐元素 Python 循环通常较慢；GIL 会限制 Python 字节码线程的并行执行。NumPy 等库会把运算交给原生实现；原文所说“比 C 慢约 100 倍”不是通用倍率 | 编译后的代码可直接执行，性能取决于算法、编译器和硬件 |
+| 内存布局控制 | Python 对象通常由引用计数和垃圾回收管理；数组的底层布局由数组库控制 | 可直接控制数据结构与内存访问方式 |
+| 硬件访问 | 通过库调用 SIMD、GPU 和专用内存功能 | 可使用硬件内在函数、CUDA 和内联汇编等接口 |
+| 常见生态 | 机器学习实验、笔记本和数据分析工具丰富 | 系统软件、驱动和计算库丰富 |
 
-- The insight: **use each language for what it is good at**. Python handles the parts where human productivity matters (experiment design, hyperparameter tuning, data exploration). C++ handles the parts where machine performance matters (matrix multiplication, convolution, attention kernels).
+- Python 常用于实验设计、超参数调整和数据分析；C++ 等原生代码常用于矩阵乘法、卷积和注意力计算。实际系统会在多层接口和库之间分工。
 
-- A single matrix multiplication `jnp.matmul(A, B)` where $A$ is $4096 \times 4096$ performs ~137 billion floating-point operations. In pure Python (nested loops), this takes ~30 minutes. In optimised C++ with AVX-512 SIMD and multithreading, it takes ~10 milliseconds. That is a **180,000x** difference. No amount of Python cleverness closes this gap.
+- 对两个 $4096 \times 4096$ 矩阵做乘法约需 1370 亿次浮点运算。原文把纯 Python 嵌套循环约 30 分钟与使用 AVX-512 和多线程的优化 C++ 约 10 毫秒作比较，并据此给出约 180,000 倍的差距。原文没有说明处理器、精度、编译器和线程设置；这些数字只能作为示例，不能视为通用基准。NumPy、PyTorch 等调用的原生库也会影响结果。
 
-## How ML 框架s Are Structured
+## 机器学习框架的组成
 
-- Every major ML 框架 follows the same architecture:
+- 常见框架会组合 Python 接口、分派或编译机制、原生运算库和硬件后端。具体结构会因框架、运算和设备而变化：
 
 ```
 User code (Python)
@@ -49,39 +50,36 @@ Hardware-specific backends (CUDA, cuDNN, MKL, oneDNN, Metal)
 Hardware (CPU SIMD units, GPU cores, TPU MXUs)
 ```
 
+
 ### NumPy
 
-- NumPy's core is written in C. When you call `np.dot(A, B)`, Python calls a C function that calls BLAS (Basic Linear Algebra Subprograms), typically Intel MKL or OpenBLAS. BLAS is hand-optimised C and Fortran code that uses SIMD instructions, cache-aware memory access patterns, and multithreading. Decades of optimisation went into making matrix multiplication fast.
+- NumPy 的核心包含 C 代码。对适用的输入调用 `np.dot(A, B)` 时，NumPy 可能把矩阵乘法交给 BLAS（Basic Linear Algebra Subprograms，基础线性代数子程序），例如 Intel MKL 或 OpenBLAS。BLAS 的 C 和 Fortran 实现会针对 SIMD 指令、缓存访问和多线程做优化。实际调用哪个实现取决于 NumPy 的构建方式、输入形状和数据类型。
 
-- NumPy is CPU-only. It does not use GPUs. But on CPU, it is extremely fast because it delegates to the best available BLAS implementation.
+- NumPy 本身在 CPU 上执行，不提供 GPU 后端；它可以调用当前安装中可用的 BLAS 实现。
 
 ### PyTorch
 
-- PyTorch's computation engine is **ATen** (A Tensor Library), written in C++. ATen implements ~2000 tensor operations (add, matmul, conv2d, softmax, ...), each with CPU and CUDA backends.
+- PyTorch 的张量运算库 **ATen**（A Tensor Library）主要以 C++ 实现，为大量运算提供 CPU、CUDA 等后端。原文称 ATen 实现约 2,000 种张量运算；具体数量随版本变化，可用后端也取决于运算、设备和构建配置。
 
-- When you call `torch.matmul(A, B)`:
-    1. Python dispatches to the ATen C++ function.
-    2. ATen checks the device (CPU or CUDA) and dtype.
-    3. On CPU: calls MKL/OpenBLAS. On GPU: calls cuBLAS (NVIDIA's GPU-optimised BLAS).
-    4. The result is wrapped in a Python tensor object and returned.
+- 调用 `torch.matmul(A, B)` 时，PyTorch 会根据张量所在设备和数据类型选择相应实现。CPU 上可能调用 MKL、oneDNN 或 PyTorch 自带内核；NVIDIA GPU 上可能调用 cuBLAS。框架也会负责把运算结果包装成 Python 张量对象。
 
-- **torch.compile** (PyTorch 2.0+) takes this further: it traces your Python code, builds a computation graph, and compiles it using **Triton** (for GPU) or **C++/OpenMP** (for CPU). The compiled code fuses operations, eliminates Python overhead, and can be 2-5x faster than eager mode.
+- **`torch.compile`**（PyTorch 2.0 起提供）可以追踪受支持的 Python 代码并编译计算图。常见的 GPU 路径会使用 TorchInductor 和 Triton；CPU 路径通常生成 C++ 代码。编译器可能融合运算、减少 Python 调用开销。原文给出的 2 到 5 倍提速只是示例，实际收益取决于模型、输入和硬件；某些工作负载也可能没有提速。
 
 ### JAX
 
-- JAX compiles Python functions to **XLA** (Accelerated Linear Algebra), Google's compiler for ML workloads. When you `jax.jit` a function:
-    1. JAX traces the function, capturing the operations as an XLA computation graph (HLO — High Level Operations).
-    2. XLA optimises the graph: fuses operations, eliminates redundant computation, optimises memory layout.
-    3. XLA compiles to the target backend: CPU (via LLVM), GPU (via CUDA/PTX), or TPU (via TPU-specific instructions).
-    4. The compiled code runs directly on hardware with zero Python involvement.
+- JAX 可以通过 **XLA**（Accelerated Linear Algebra，Google 的机器学习编译器）编译函数。调用 `jax.jit` 时，JAX 通常会执行以下步骤：
+    1. 追踪函数，把支持的运算记录为 XLA 计算图（HLO，即 High Level Operations）。输入形状或静态参数变化时，JAX 可能需要重新编译。
+    2. XLA 优化计算图，例如融合部分运算、消除冗余计算并调整内存布局。
+    3. XLA 将计算编译到目标后端，例如通过 LLVM 为 CPU 生成代码，通过 CUDA/PTX 为 GPU 生成代码，或生成 TPU 指令。
+    4. 编译结果在目标硬件上执行。执行期间仍可能有 Python 调度、设备同步或数据传输，具体取决于调用方式。
 
-- This is why `jax.jit` is so important: without it, every operation is a separate Python→C++ round trip. With it, the entire function is a single compiled kernel.
+- `jax.jit` 会把一组受支持的运算交给 XLA 一起优化，减少逐运算分派的开销。XLA 不保证把整个函数编译成单个内核；生成的内核数量取决于运算和目标设备。普通 JAX 调用也不等同于每个操作都单独完成一次 Python 到 C++ 的往返。
 
-## Quick C++ Fundamentals for Python Engineers
+## Python 开发者需要掌握的 C++ 基础
 
-- You do not need to become a C++ expert. You need to understand enough to read kernel code, write simple extensions, and understand performance discussions. Here are the essentials.
+- 阅读内核代码、编写简单扩展和理解性能讨论，不要求你成为 C++ 专家。先熟悉类型、指针、函数、内存和模板即可。
 
-### Types and Variables
+### 类型与变量
 
 ```cpp
 // C++ requires explicit types (unlike Python)
@@ -99,9 +97,10 @@ float val = ptr[42];     // access element 42 via pointer arithmetic
 // ptr[42] is equivalent to *(ptr + 42)
 ```
 
-- **Pointers** are the biggest conceptual difference from Python. In Python, everything is a reference and you never think about memory addresses. In C++, pointers give you direct access to memory — powerful but dangerous (dangling pointers, buffer overflows).
 
-### Functions
+- **指针**保存对象或内存位置的地址。Python 变量也会引用对象，但 Python 通常不让你直接进行地址运算；C++ 指针允许直接访问内存，也带来悬空指针和缓冲区越界等风险。示例中的整数、浮点类型大小适用于常见平台，具体宽度仍取决于实现；需要固定宽度时可使用 `<cstdint>` 中的类型。
+
+### 函数
 
 ```cpp
 // Function declaration: return_type name(param_type param_name)
@@ -126,7 +125,10 @@ float sum(const std::vector<float>& vec) {
 }
 ```
 
-### Memory: Stack vs Heap
+
+- 引用可避免复制大型对象；`const` 引用允许读取而不修改对象。示例中的函数使用 `std::vector`，实际编译时需包含相应头文件。
+
+### 内存：栈与堆
 
 ```cpp
 // Stack allocation: fast, automatic lifetime (freed when function returns)
@@ -142,9 +144,10 @@ delete[] data;                 // YOU must free it (no garbage collector)
 auto data = std::make_unique<float[]>(n);  // freed automatically when out of scope
 ```
 
-- **The key rule**: stack is fast but limited (typically 1-8 MB). Large arrays (tensors, feature maps) must go on the heap. In Python, everything is on the heap and the GC handles cleanup. In C++, you manage it yourself (or use smart pointers).
 
-### Templates (Generics)
+- 栈上对象通常随作用域结束而销毁，但栈空间有限。原文给出的典型值约为 1–8 MB，实际大小取决于操作系统、线程配置和运行环境，并非固定上限。大型数组通常放在动态分配的内存中；Python 对象通常存放在堆上，由引用计数和垃圾回收管理生命周期。现代 C++ 常用标准容器和智能指针管理对象。
+
+### 模板（泛型）
 
 ```cpp
 // A function that works with any numeric type
@@ -157,9 +160,10 @@ add<float>(1.5f, 2.5f);   // returns 4.0f
 add<int>(3, 4);             // returns 7
 ```
 
-- Templates are how C++ libraries (like ATen) write code that works with float16, float32, float64, etc. without duplicating the implementation.
 
-### The Standard Library Essentials
+- 模板让 ATen 等库能为 `float16`、`float32`、`float64` 等类型生成代码，避免手工重复实现。示例中的 `T` 需要支持加法；模板本身不会让任何类型自动具备数值运算能力。
+
+### 常用标准库组件
 
 ```cpp
 #include <vector>      // dynamic array (like Python list)
@@ -178,27 +182,28 @@ counts["hello"] = 5;            // insert
 if (counts.count("hello")) { }  // check existence
 ```
 
-## When to Write Custom C++ Kernels
 
-- Most ML engineers never need to write C++. The 框架's built-in operations cover 99% of use cases. You should consider custom C++ only when:
+## 什么时候编写自定义 C++ 内核
 
-1. **Your operation does not exist in the 框架**: a novel activation function, a custom attention pattern, a specialised loss function that cannot be expressed as a composition of existing ops.
+- 框架内置运算通常足以完成常见任务。遇到以下情况时，可以评估是否编写自定义内核：
 
-2. **Fusing operations for performance**: your model does `relu(layernorm(matmul(x, W) + b))`. Each operation launches a separate kernel, reads and writes memory, and synchronises. A fused kernel does it all in one pass, avoiding memory round-trips. This can be 2-5x faster.
+1. **框架没有所需运算**：例如新型激活函数、自定义注意力模式，或无法由现有运算组合表达的损失函数。
 
-3. **Reducing memory usage**: a custom kernel can compute gradients without storing all intermediate activations (gradient checkpointing at the kernel level).
+2. **融合运算以减少开销**：`relu(layernorm(matmul(x, W) + b))` 可能由多个内核分别执行，每个内核都要读写中间结果。融合内核可以减少中间数据传输和启动次数，但提速幅度取决于工作负载；2 到 5 倍不是保证值。
 
-4. **Targeting novel hardware**: a new accelerator (e.g., Cerebras, Groq) may not have 框架 support. You write kernels directly.
+3. **减少中间数据占用**：自定义内核可在实现允许时重算部分值，避免保存全部中间激活。反向传播还需提供正确的梯度计算；这与框架层面的梯度检查点有关，但并非同一种实现。
 
-- For cases 1-2, **Triton** (chapter 16, file 05) is often sufficient and much easier than writing CUDA C directly. Only drop to CUDA C when Triton cannot express what you need.
+4. **适配尚未得到框架支持的硬件**：例如 Cerebras、Groq 等新型加速器可能需要专用内核，或需要先为框架添加后端支持。
 
-## How to Bind C++ to Python
+- 对前两类需求，**Triton**（第 16 章文件 05）通常比直接编写 CUDA C 容易。只有当 Triton 无法表达所需运算或无法满足约束时，再考虑 CUDA C。
 
-- Writing C++ is half the job. You also need to call it from Python.
+## 把 C++ 接入 Python
 
-### pybind11 (General Purpose)
+- 编写 C++ 后，还要为 Python 提供调用接口。
 
-- pybind11 creates Python bindings for C++ functions with minimal boilerplate:
+### pybind11（通用绑定工具）
+
+- pybind11 可以用较少的样板代码为 C++ 函数创建 Python 绑定：
 
 ```cpp
 // my_ops.cpp
@@ -226,11 +231,13 @@ PYBIND11_MODULE(my_ops, m) {
 }
 ```
 
+
 ```bash
 # Compile
 pip install pybind11
 c++ -O3 -shared -std=c++17 -fPIC $(python3 -m pybind11 --includes) my_ops.cpp -o my_ops$(python3-config --extension-suffix)
 ```
+
 
 ```python
 # Use from Python
@@ -242,9 +249,12 @@ y = my_ops.custom_relu(x)
 print(y)  # [0. 2. 0. 4.]
 ```
 
-### PyTorch C++ Extensions
 
-- PyTorch provides a streamlined way to add custom ops:
+- 这段 pybind11 示例假设输入是一维、连续的 `float32` 数组。对非连续数组，`buf.ptr` 后按元素递增并不等于按 NumPy 的步长访问；多维数组也会被输出为一维数组。面向更广泛的输入时，应检查维度、布局和数据类型，或按步长读写。
+
+### PyTorch C++ 扩展
+
+- PyTorch 提供了添加自定义运算的 C++ 扩展接口：
 
 ```cpp
 // custom_op.cpp
@@ -258,6 +268,7 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
     m.def("custom_gelu", &custom_gelu, "Custom GELU activation");
 }
 ```
+
 
 ```python
 # Load and compile on-the-fly
@@ -273,27 +284,29 @@ x = torch.randn(1000)
 y = custom_ops.custom_gelu(x)
 ```
 
-- `torch.utils.cpp_extension.load` compiles the C++ code, creates a shared library, and loads it as a Python module, all in one call. This is the easiest way to experiment with custom C++ ops in PyTorch.
 
-### JAX Custom Calls
+- `torch.utils.cpp_extension.load` 可以编译 C++ 源码、生成共享库并加载为 Python 模块，适合快速试验。部署时还需处理编译器、PyTorch 版本、ABI 和目标设备等兼容性问题。
 
-- JAX uses XLA custom calls. The process is more involved (you register a C function with XLA), but the concept is the same: write C/C++, bind it, call it from Python.
+### JAX 自定义调用
 
-- For most JAX users, **Pallas** (covered in file 05) is the better choice: it lets you write GPU kernels in a Python-like syntax that XLA compiles, without leaving the JAX ecosystem.
+- JAX 可以通过 XLA custom call 接入 C/C++ 函数；你需要向 XLA 注册函数并处理数据约定，过程比 pybind11 更复杂。
 
-## The Big Picture
+- 多数 JAX 用户可以先考虑 **Pallas**（第 16 章文件 05）。它提供类似 Python 的内核编写方式，并由 JAX/XLA 编译，适合在 JAX 生态内编写 GPU 内核。
 
-- This file explained the layer between Python and hardware. The remaining files in this chapter go deeper:
-    - **File 01**: the hardware itself (CPU architecture, GPU architecture, memory systems)
-    - **Files 02-03**: SIMD programming on CPU (ARM NEON, x86 AVX) — where you write C++ that uses the CPU's vector units
-    - **File 04**: GPU programming with CUDA — where you write C++ that runs on thousands of GPU cores
-    - **File 05**: Triton, Pallas, and higher-level GPU programming — where you write Python that compiles to GPU kernels
+## 本章脉络
 
-- The progression mirrors the abstraction ladder: C++ intrinsics (lowest, most control) → CUDA (GPU-specific) → Triton/Pallas (Pythonic, compiled) → JAX/PyTorch (highest, automatic). Each level trades control for convenience. Understanding the lower levels makes you a better user of the higher ones.
+- 本文介绍了 Python 接口与底层硬件之间的执行层。后续文件依次讨论：
+    - **文件 01**：CPU、GPU 架构和内存系统
+    - **文件 02–03**：CPU SIMD 编程，包括 ARM NEON 和 x86 AVX
+    - **文件 04**：用 CUDA 编写运行在 GPU 上的程序
+    - **文件 05**：Triton、Pallas 等更高层的 GPU 内核编程工具
 
-## Coding Tasks (compile with g++ or clang++)
+- 抽象层次大致从 C++ 内在函数、CUDA、Triton/Pallas 到 JAX/PyTorch 逐步升高。低层接口提供更多控制，也要求你处理更多实现细节；高层接口会替你管理更多步骤。
 
-1. Write your first C++ program. Allocate an array, fill it, compute the sum, and measure the time. This introduces compilation, arrays, pointers, and timing.
+## 编程练习（使用 g++ 或 clang++ 编译）
+
+1. 编写第一个 C++ 程序：分配数组、填入数据、求和并计时。练习编译、数组、指针和计时。
+
 ```cpp
 // task1_basics.cpp
 // Compile: g++ -O3 -o task1 task1_basics.cpp
@@ -330,7 +343,9 @@ int main() {
 }
 ```
 
-2. Write a C++ function that computes ReLU on an array, then build a Python binding using pybind11. Call it from Python and compare speed against NumPy.
+
+2. 编写一个 C++ 函数，对数组计算 ReLU；再用 pybind11 创建 Python 绑定，从 Python 调用并与 NumPy 版本比较运行时间。这个比较只适用于示例中的一维连续 `float32` 输入，也不能据此断定 C++ 包装函数普遍快于 NumPy。实际速度受编译选项、SIMD 向量化、线程数、内存分配和计时方法影响。
+
 ```cpp
 // task2_relu.cpp
 // Compile: c++ -O3 -shared -std=c++17 -fPIC $(python3 -m pybind11 --includes) \
@@ -358,6 +373,7 @@ PYBIND11_MODULE(my_relu, m) {
     m.def("relu", &cpp_relu, "C++ ReLU");
 }
 ```
+
 ```python
 # test_relu.py — run after compiling the C++ module above
 import numpy as np
@@ -383,7 +399,9 @@ print(f"NumPy ReLU: {np_time*1000:.2f} ms")
 print(f"Match: {np.allclose(y_cpp, y_np)}")
 ```
 
-3. Write a C++ program that demonstrates why memory layout matters. Compare row-major vs column-major access patterns and measure the performance difference.
+
+3. 在行优先存储的矩阵上，分别按行和按列遍历并比较速度。按行访问通常连续读取内存；按列访问会跨越较大的步长。这个示例比较的是访问顺序，不是行优先存储与列优先存储两种矩阵布局；实测差异还会受到缓存、编译器和处理器影响。
+
 ```cpp
 // task3_layout.cpp
 // Compile: g++ -O3 -o task3 task3_layout.cpp

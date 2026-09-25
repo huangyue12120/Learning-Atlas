@@ -8,25 +8,25 @@ source:
   sha256: 0d0cc7ff4b022afab6811c775c25b3c3c85039ab93b979bd16bc14e35335b535
 status: reviewed
 ---
-# ARM and NEON
+# ARM 与 NEON
 
-*ARM processors power every smartphone, most tablets, Apple's laptops, and an increasing share of data centre servers. This file covers the ARM architecture, NEON SIMD programming with C++ intrinsics, SVE/SVE2 for scalable vector processing, Apple Silicon specifics, and practical vectorised kernel examples*
+*ARM 处理器广泛用于手机、平板电脑、Apple 笔记本和数据中心服务器。本文介绍 ARM 架构、用 C++ 内在函数编写 NEON SIMD、用 SVE/SVE2 处理可伸缩向量，以及 Apple 芯片的特点，并通过内核示例展示这些技术。*
 
-- If you own an iPhone, a MacBook, or use AWS Graviton instances, you are running ARM. ARM's power efficiency makes it dominant in mobile and embedded, and increasingly competitive in servers and ML inference. Understanding ARM SIMD lets you write code that runs fast on the hardware most people actually use.
+- 如果你使用 iPhone、MacBook 或 AWS Graviton 云实例，就会接触 ARM 处理器。ARM 常用于移动和嵌入式设备，也逐渐进入服务器与机器学习推理场景。掌握 ARM SIMD，有助于你为这些设备编写高效代码。
 
-- For a real-world example of ARM SIMD kernels in production, see **Cactus** — a low-latency AI engine for mobile devices and wearables: [github.com/cactus-compute/cactus](https://github.com/cactus-compute/cactus). Cactus implements custom ARM NEON and NPU-accelerated kernels for attention, KV-cache quantisation, and chunked prefill, achieving the fastest inference on ARM CPUs with 10x lower RAM than other engines. Its three-layer architecture (Engine → Graph → Kernels) is a concrete example of how the SIMD concepts in this file are used to build production ML infrastructure.
+- **Cactus** 是移动设备和可穿戴设备上的低延迟 AI 引擎。它的仓库展示了生产环境中的 ARM SIMD 内核：[Cactus 项目仓库](https://github.com/cactus-compute/cactus)。Cactus 称其使用 ARM NEON 和神经处理器（NPU）加速的自定义内核处理注意力、KV 缓存量化和分块预填充，并以 Engine → Graph → Kernels 三层组织代码。仓库还声称其 ARM CPU 推理速度领先、内存占用比其他引擎低 10 倍；这些比较受设备、模型、配置和测试方法影响，应视为项目方的性能主张。
 
-## ARM Architecture Basics
+## ARM 架构基础
 
-- ARM is a **RISC** (Reduced Instruction Set Computer) architecture (chapter 13). Key characteristics:
+- ARM 属于**精简指令集计算机（RISC）**架构（第 13 章），具有以下特点：
 
-    - **Load-store architecture**: arithmetic instructions operate only on registers, never directly on memory. To add two numbers from memory, you must: (1) load them into registers, (2) add the registers, (3) store the result back to memory. This is simpler than x86 (which can add a register and a memory location in one instruction) but enables cleaner pipelining.
+    - **加载/存储架构**：算术指令通常在寄存器间运算，数据通过加载和存储指令访问内存。要把内存中的两个数相加，需要先加载到寄存器，再执行加法，最后写回结果。部分 x86 指令可以把内存操作数与寄存器一起使用；ARM 的加载/存储形式较简单，也便于实现规整流水线。两种架构在指令编码和执行方式上还有其他差异。
 
-    - **Fixed-width instructions**: every ARMv8 (AArch64) instruction is exactly 32 bits. This makes decoding fast and predictable (unlike x86's variable-length instructions that can be 1-15 bytes).
+    - **定长指令**：AArch64 的常规指令固定为 32 位，译码边界清晰。x86-64 指令采用可变长度编码，通常为 1 至 15 字节。ARM 其他执行状态（例如 Thumb）使用不同的编码长度。
 
-    - **32 general-purpose registers** (x0-x30, each 64-bit) plus the stack pointer (sp) and zero register (xzr). Compare to x86's 16 general-purpose registers. More registers = fewer memory accesses = faster code.
+    - **通用寄存器**：AArch64 有 31 个 64 位通用寄存器 `x0`–`x30`。编码 `x31` 会依指令语境表示栈指针 `sp` 或零寄存器 `xzr`，不能把两者都算作额外的通用寄存器。x86-64 有 16 个架构通用寄存器。寄存器较多能让编译器减少部分内存访问，但实际速度仍取决于代码和寄存器分配。
 
-    - **32 SIMD/floating-point registers** (v0-v31, each 128-bit) for NEON and floating-point operations.
+    - **SIMD/浮点寄存器**：AArch64 提供 32 个 128 位向量寄存器 `v0`–`v31`，供 NEON 和浮点运算使用。
 
 ```cpp
 // ARM assembly (just to see the flavour -- you will use intrinsics, not assembly)
@@ -40,24 +40,28 @@ ldr x0, [x1]      // x0 = *x1 (load 64 bits from address in x1)
 fadd v0.4s, v1.4s, v2.4s  // v0 = v1 + v2 (four 32-bit floats)
 ```
 
-- You will not write assembly. You will use **intrinsics**: C/C++ functions that map 1:1 to specific instructions. The compiler handles register allocation, scheduling, and other low-level details.
 
-## NEON: 128-bit SIMD
+- 通常不必手写汇编。你可以使用**内在函数（intrinsics）**：带有硬件运算语义的 C/C++ 接口。编译器会安排寄存器和指令；一个内在函数不一定固定对应一条机器指令，编译器也可能改写或合并运算。
 
-- **NEON** is ARM's SIMD extension. Each NEON register is 128 bits wide and can hold:
+## NEON：128 位 SIMD
 
-| Data type | Elements per register | Notation |
-|-----------|-----------------------|----------| float32 | 4 | `float32x4_t` |
+- **NEON** 是 ARM 的 SIMD 扩展。每个 NEON 向量寄存器宽 128 位，可以容纳：
+
+| 数据类型 | 每个寄存器中的元素数 | C/C++ 类型 |
+| --- | ---: | --- |
+| float32 | 4 | `float32x4_t` |
 | float16 | 8 | `float16x8_t` |
 | int32 | 4 | `int32x4_t` |
 | int16 | 8 | `int16x8_t` |
 | int8 | 16 | `int8x16_t` |
 
-- 128 bits is narrower than x86's AVX (256-bit) or AVX-512 (512-bit). But ARM compensates with excellent power efficiency and wide availability.
+- float16 向量类型的可用性取决于处理器和编译目标提供的半精度运算扩展；类型声明本身不代表所有 ARM CPU 都支持相同运算。
 
-### NEON Intrinsics: The Basics
+- 128 位比 x86 AVX 的 256 位和 AVX-512 的 512 位窄；不同处理器的能效、频率和指令吞吐量也不同，不能只按寄存器宽度判断性能。
 
-- NEON intrinsics follow a naming convention: `v[operation][qualifier]_[type]`
+### NEON 内在函数入门
+
+- NEON 内在函数常按 `v[操作][限定符]_[类型]` 命名。例如 `vaddq_f32` 表示对 128 位向量中的 float32 元素执行加法：`q` 表示 128 位向量，`f32` 表示元素类型。以下代码展示加载、存储、算术、比较、选择和归约操作：
 
 ```cpp
 #include <arm_neon.h>
@@ -83,11 +87,12 @@ float32x4_t result = vbslq_f32(mask, a, b);  // result[i] = mask[i] ? a[i] : b[i
 float total = vaddvq_f32(a);             // total = a[0] + a[1] + a[2] + a[3]
 ```
 
-- **`vfmaq_f32`** (fused multiply-add) is the most important SIMD instruction for ML. It computes $c = c + a \times b$ in one instruction with a single rounding step (more accurate than separate multiply then add). Dot products, matrix multiplications, and convolutions are built from FMA.
 
-### Practical Example: Vectorised Dot Product
+- **`vfmaq_f32`** 表示融合乘加（FMA），计算 $c = c + a \times b$。它把乘法和加法合并，并只舍入一次；分开执行乘法与加法通常会产生不同的舍入误差。点积、矩阵乘法和卷积都可以使用 FMA。
 
-- The dot product is the inner loop of matrix multiplication. Let's write it in scalar C++ and then vectorise it with NEON.
+### 实例：用向量指令计算点积
+
+- 点积是矩阵乘法中的内层运算。下面先给出标量 C++ 写法，再给出 NEON 写法：
 
 ```cpp
 #include <arm_neon.h>
@@ -124,14 +129,17 @@ float dot_neon(const float* a, const float* b, int n) {
 }
 ```
 
-- **Key C++ concepts**:
-    - `const float*`: a pointer to read-only float data. `const` promises we won't modify the data through this pointer.
-    - `a + i`: pointer arithmetic. `a + i` points to the $i$-th element of the array (same as `&a[i]`).
-    - The "cleanup loop" at the end handles the case where $n$ is not a multiple of 4. This is a universal pattern in SIMD code: process the bulk in vectorised chunks, then handle the remainder in scalar code.
 
-- **Why 4 accumulators in `sum_vec`**: instead of a single scalar accumulator, we use 4 independent accumulators (one per SIMD lane). This avoids a data dependency: each iteration's FMA depends on `sum_vec`, but with 4 independent lanes, the CPU can pipeline the FMAs. At the end, we reduce the 4 partial sums to one.
+- **相关 C++ 概念**：
+    - `const float*` 指向只读的浮点数据；`const` 禁止通过这个指针修改数据。
+    - `a + i` 是指针运算，指向数组的第 $i$ 个元素，也就是 `&a[i]`。
+    - 末尾的标量清理循环处理 $n$ 不是 4 的倍数时剩下的元素。这是 SIMD 代码的常见写法：先用向量指令处理主体，再逐个处理尾数。
 
-### Practical Example: Vectorised ReLU
+- `sum_vec` 是一个含 4 个 float32 通道的向量累加器，每个通道会累加对应位置的一组乘积。每轮循环仍需等待上一轮更新的 `sum_vec`，因此向量通道本身不等于 4 个互不依赖的向量累加器。若要进一步隐藏 FMA 延迟，可使用多个向量累加器，最后再归约。
+
+- FMA 和不同的求和顺序可能产生与标量代码略有差异的浮点结果。比较两种实现时应使用容差，不能要求逐位相等。
+
+### 实例：用 NEON 计算 ReLU
 
 ```cpp
 #include <arm_neon.h>
@@ -153,13 +161,14 @@ void relu_neon(const float* input, float* output, int n) {
 }
 ```
 
-- `vmaxq_f32` computes the element-wise maximum of two vectors. Since one vector is all zeros, this is exactly ReLU. No branching, no comparisons — just a single instruction.
 
-## I8MM: Integer Matrix Multiply
+- `vmaxq_f32` 对两个向量逐元素取最大值，其中一个向量全为零时，有限实数输入会得到 ReLU 结果。向量化实现使用最大值指令，无需逐元素分支；遇到 NaN 时，向量指令与标量 `>` 比较的行为可能不同。
 
-- **I8MM** (Int8 Matrix Multiply) is an ARMv8.6 extension that adds dedicated instructions for INT8 matrix multiplication with INT32 accumulation — exactly what quantised ML inference needs.
+## I8MM：整数矩阵乘法
 
-- The key instruction is **`SMMLA`** (Signed Matrix Multiply-Accumulate): it takes two 8×2 blocks of INT8 values and accumulates the result into a 2×2 block of INT32:
+- **I8MM** 是 ARMv8.6-A 引入的整数矩阵乘法扩展，提供 INT8 输入、INT32 累加的专用指令，适用于部分量化推理工作负载。处理器是否支持该扩展仍要按具体型号检查。
+
+- 关键指令 **`SMMLA`**（有符号矩阵乘加）把 $2 \times 8$ 的 INT8 矩阵与 $8 \times 2$ 的 INT8 矩阵相乘，并累加到 $2 \times 2$ 的 INT32 结果块中：
 
 ```cpp
 #include <arm_neon.h>
@@ -182,21 +191,24 @@ void matmul_i8mm_tile(const int8_t* A, const int8_t* B, int32_t* C) {
 }
 ```
 
-- **Why I8MM matters**: without I8MM, INT8 matmul on NEON requires widening multiplies (`vmull`) followed by pairwise adds — multiple instructions per output element. With I8MM, the hardware does an 8-element dot product (2×8 × 8×2 = 2×2) in a single instruction. For INT8 inference workloads, this is 4-8x faster than plain NEON.
 
-- **Availability**: Apple M1+ (all Apple Silicon), ARM Cortex-A510/A710/X2+ (ARMv9), AWS Graviton3+. Check with `#ifdef __ARM_FEATURE_MATMUL_INT8`.
+- 上例假设输入按指令要求打包，并已在 `C` 中放好累加器。代码各自加载 16 字节；注释中的“8 个元素”指矩阵每行的长度。I8MM 不只是计算一个长度为 8 的点积，而是计算四个长度为 8 的点积，生成一个 $2 \times 2$ 输出块。
 
-- For ML inference: INT8 quantised models (chapter 18) running on ARM servers (Graviton) or Apple Silicon benefit enormously from I8MM. 框架s like ONNX Runtime and llama.cpp detect I8MM at runtime and use optimised kernels automatically.
+- 如果没有 I8MM，NEON 通常要先扩宽 INT8 乘法结果，再做成对累加；I8MM 可以用专用矩阵指令处理一组输出。原文给出的 4 到 8 倍提速受处理器、矩阵布局、量化和内存访问影响，不是通用保证。
 
-## SME and SME2: Scalable Matrix Extension
+- 原文列出 Apple M1 及更新型号、部分 ARM Cortex 核心和 AWS Graviton3 作为支持例子。具体支持情况取决于处理器实现和软件目标；`__ARM_FEATURE_MATMUL_INT8` 是编译时目标特性宏，不能单独证明通用二进制运行时所在 CPU 一定支持 I8MM。
 
-- **SME** (Scalable Matrix Extension) is ARM's answer to Intel AMX and NVIDIA Tensor Cores: dedicated hardware for matrix operations. SME2 (ARMv9.2) extends it further.
+- 第 17 章介绍的 INT8 量化模型可在 Graviton 或 Apple Silicon 上使用 I8MM，前提是硬件与软件都支持。ONNX Runtime、llama.cpp 等项目会按构建选项和设备特性选择优化内核，并非所有版本和安装都能自动使用它。
 
-- SME introduces **ZA tile registers**: 2D matrices stored in hardware, up to SVL×SVL bytes (where SVL is the streaming vector length, typically 128-512 bits per dimension). Unlike NEON (1D vectors) or even SVE (1D scalable vectors), SME operates on **2D tiles** natively.
+## SME 与 SME2：可伸缩矩阵扩展
 
-- The programming model has two modes:
-    - **Normal mode**: standard ARM execution (NEON, SVE work as usual).
-    - **Streaming SVE mode**: entered via `smstart`, enables SME instructions. SVE instructions also work in this mode but may use different register widths.
+- **SME**（Scalable Matrix Extension，可伸缩矩阵扩展）让 ARM 处理器执行二维矩阵运算。它与 Intel AMX、NVIDIA Tensor Cores 都面向矩阵计算，但指令集、编程模型和硬件结构并不相同。**SME2** 增加了更多运算能力。
+
+- SME 提供 **ZA 矩阵寄存器**，可在硬件中累积二维矩阵。矩阵维度由流式向量长度（SVL）和元素类型决定。与一维向量式的 NEON、SVE 不同，SME 的运算可直接更新二维数据块。
+
+- SME 使用两种执行模式：
+    - **普通模式**：执行常规 ARM 指令；NEON 和 SVE 可按各自规则运行。
+    - **流式 SVE 模式**：通过 `smstart` 等机制进入，可执行 SME 指令。该模式下的向量长度可能不同于普通 SVE 模式。
 
 ```cpp
 #include <arm_sme.h>
@@ -228,20 +240,23 @@ void sme2_matmul_outer(const float* A_col, const float* B_row, int K) {
 }
 ```
 
-- **Key concepts**:
-    - **`svmopa`** (outer product accumulate): the core SME instruction. It computes a full outer product of two vectors and accumulates into the ZA tile. For SVL=512 bits (16 floats), this is a 16×16 outer product — 256 FMA operations in one instruction.
-    - **ZA tile**: persistent across instructions within streaming mode. You accumulate multiple outer products (one per K iteration) into the same tile, building up a full matrix multiply tile.
-    - **Streaming mode**: SME instructions only work in streaming mode. The overhead of entering/exiting streaming mode means SME is best for sustained matrix computation, not short bursts.
 
-- **SME2 additions**: multi-vector operations (process 2 or 4 SVE vectors simultaneously), additional tile operations, and improved integration with normal mode.
+- 这段代码仅作示意：`smstart`、`smstop` 和 ZA 存储都留作注释，`SVL` 也只是占位符；代码不能直接编译运行。实际内核还需按目标工具链管理流式模式、向量长度和 ZA tile。
 
-- **Availability**: ARM Neoverse V2 (AWS Graviton4), some upcoming mobile chips. Not yet on Apple Silicon (as of 2026). SME is still early-stage — most ML 框架s do not yet have SME-optimised kernels.
+- **关键概念**：
+    - **`svmopa`**（向量外积累加）把两个向量的外积累加到 ZA 矩阵寄存器。若 SVL 为 512 位，单精度向量含 16 个元素，外积会更新一个 $16 \times 16$ 数据块，即 256 个乘加结果。它仍是一条架构指令，执行延迟和吞吐量取决于硬件。
+    - **ZA 矩阵寄存器**可在流式模式的多条指令间保留累加结果。内核可在多轮 $K$ 迭代中累加外积，组成矩阵乘法的数据块。
+    - **流式模式**会带来进入和退出开销，持续的大型矩阵计算更容易摊薄这项开销。
 
-- **The progression**: NEON (128-bit vectors, element-wise) → I8MM (INT8 matrix tiles) → SVE (scalable vectors) → SME (scalable 2D matrix tiles). Each generation moves closer to native matrix operations in hardware.
+- SME2 增加多向量运算，可同时处理 2 个或 4 个 SVE 向量，还扩展了矩阵块操作，并加强与普通模式的配合。
 
-## SVE and SVE2: Scalable Vector Extensions
+- SME 只在部分处理器上提供。原文列出 ARM Neoverse V2（AWS Graviton4）和部分后续移动芯片，并称截至 2026 年 Apple Silicon 尚不支持。应按目标处理器的特性表和编译器支持确认，不能只依据产品系列推断。多数机器学习框架当时尚未提供 SME 优化内核。
 
-- NEON has a fixed 128-bit width. **SVE** (Scalable Vector Extension) introduces **vector-length agnostic (VLA)** programming: you write code once, and it runs on hardware with any vector width (128 to 2048 bits). The hardware determines the width at runtime.
+- 可以把 NEON、I8MM、SVE 和 SME 看作从固定宽度向量、整数矩阵块、可伸缩向量到二维矩阵块的不同编程工具；这不是所有 ARM 芯片都按顺序支持的硬件代际。
+
+## SVE 与 SVE2：可伸缩向量扩展
+
+- NEON 的向量宽度固定为 128 位。**SVE**（Scalable Vector Extension，可伸缩向量扩展）支持**向量长度无关（VLA）**编程：代码可以在不同向量宽度的处理器上运行，由硬件提供当前向量长度。架构支持的长度为 128 到 2048 位，具体芯片会实现其中一种长度。
 
 ```cpp
 #include <arm_sve.h>
@@ -261,31 +276,32 @@ void add_sve(const float* a, const float* b, float* c, int n) {
 }
 ```
 
-- **Predicate registers** (`svbool_t`) replace the scalar cleanup loop. Each lane has a predicate bit: active lanes participate, inactive lanes are masked off. The `svwhilelt_b32(i, n)` instruction creates a predicate where lanes corresponding to `i, i+1, ..., n-1` are active. This handles the tail automatically.
 
-- **`svcntw()`** returns the number of 32-bit elements per vector register at runtime. On a CPU with 256-bit SVE, this returns 8. On 512-bit SVE, it returns 16. Your code adapts automatically.
+- **谓词寄存器**（`svbool_t`）可屏蔽不参与运算的通道，处理数组尾部，无需另写标量清理循环。`svwhilelt_b32(i, n)` 会激活当前向量组中索引小于 $n$ 的通道；通道数最多为当前向量宽度。
 
-- SVE is available on ARM Neoverse V1/V2 (AWS Graviton3/4, some server chips). It is not yet available on Apple Silicon.
+- **`svcntw()`**返回当前向量寄存器可容纳的 32 位元素数。例如，256 位 SVE 返回 8，512 位 SVE 返回 16。循环据此调整步长。
 
-## Apple Silicon Specifics
+- SVE 可见于 ARM Neoverse V1/V2、AWS Graviton3/4 和部分服务器芯片；Apple Silicon 不提供 SVE。选用前仍要检查目标 CPU、操作系统和工具链支持。
 
-- Apple's M-series chips (M1, M2, M3, M4) are ARM-based with custom microarchitecture:
+## Apple 芯片的特点
 
-- **Performance and efficiency cores**: P-cores (Firestorm/Avalanche/etc.) for heavy compute, E-cores (Icestorm/Blizzard/etc.) for background tasks. The scheduler assigns threads to the appropriate core type.
+- Apple M 系列（M1、M2、M3、M4）基于 ARM，并采用 Apple 自行设计的微架构：
 
-- **AMX** (Apple Matrix eXtensions): dedicated matrix multiply units, separate from NEON. AMX is undocumented (Apple does not publish the ISA), but the Accelerate 框架 uses it internally for BLAS operations. When you call `np.dot` on a Mac, it goes through Accelerate, which uses AMX. You cannot program AMX directly (without reverse engineering).
+- **性能核与能效核**：不同代际使用不同核心代号，例如 Firestorm/Avalanche 等性能核，以及 Icestorm/Blizzard 等能效核。操作系统调度器会按负载和系统策略分配线程，并不保证每个任务都固定落在某一种核心上。
 
-- **Unified memory**: CPU and GPU share the same physical RAM. On other systems, data must be copied from CPU memory to GPU memory (over PCIe, ~32 GB/s). On Apple Silicon, there is no copy — the GPU reads the same memory the CPU wrote. This eliminates a major bottleneck for ML workloads.
+- **AMX**（Apple Matrix eXtensions）是独立于 NEON 的矩阵计算单元。Apple 没有公开其指令集；部分 Accelerate BLAS 运算会使用 AMX。`np.dot` 是否经 Accelerate 执行，取决于 NumPy 的安装和构建方式。公开接口没有直接调用 AMX 的标准方法。
 
-- **Neural Engine**: a 16-core dedicated ML accelerator. Performs ~30 TOPS (trillion operations per second) for INT8 inference. Used by Core ML for on-device inference.
+- **统一内存**让 CPU 和 GPU 共享物理内存，能减少许多显式的数据复制。采用独立显存的系统通常要经 PCIe 等互连传数据，链路带宽随代际和配置而变；Apple 芯片也仍受共享带宽、同步和数据布局影响，不能说完全没有数据传输瓶颈。
 
-- **For ML on Apple Silicon**: use MLX (Apple's ML 框架), which is designed for the unified memory architecture. PyTorch also has MPS (Metal Performance Shaders) backend support, though it is less mature than CUDA.
+- **Neural Engine** 是专用机器学习加速器。核心数量和 INT8 峰值每秒万亿次运算（TOPS）随芯片代际而变；原文所列的 16 核、约 30 TOPS 不能套用到所有 M 系列。Core ML 可把受支持的模型运算交给 Neural Engine 执行。
 
-## Auto-Vectorisation
+- 在 Apple 芯片上，**MLX** 针对统一内存设计。PyTorch 也提供基于 Metal Performance Shaders（MPS）的后端；运算覆盖范围、性能和行为会随 PyTorch 版本而变，不能把“比 CUDA 不成熟”视作固定结论。
 
-- Writing SIMD intrinsics is tedious. Can the **compiler** vectorise your code automatically?
+## 自动向量化
 
-- Yes, with caveats. Modern compilers (GCC, Clang) can auto-vectorise simple loops:
+- 手写 SIMD 内在函数较繁琐。编译器能否替你向量化循环？
+
+- GCC 和 Clang 都能自动向量化不少简单循环，但结果受代码结构、编译器和目标 CPU 影响：
 
 ```cpp
 // The compiler CAN auto-vectorise this (with -O3 -march=native)
@@ -296,11 +312,12 @@ void add_auto(const float* a, const float* b, float* c, int n) {
 }
 ```
 
-- **Patterns that help auto-vectorisation**:
-    - Simple loops with known trip count.
-    - No data dependencies between iterations (`c[i]` does not depend on `c[i-1]`).
-    - Contiguous memory access (no scatter/gather).
-    - `const` and `restrict` pointers (tells the compiler arrays do not overlap).
+
+- **有助于自动向量化的写法**：
+    - 循环结构简单，迭代次数可分析。
+    - 迭代之间没有数据依赖，例如 `c[i]` 不依赖 `c[i-1]`。
+    - 连续访问内存，避免不必要的散布/收集访问。
+    - 使用 `const` 表明通过指针只读；使用 `__restrict__` 告知编译器指针指向互不重叠的区域。`const` 本身不表示无别名。`__restrict__` 是编译器扩展，不属于标准 C++，并且调用方必须保证内存确实不重叠。
 
 ```cpp
 // restrict tells the compiler: a, b, c point to non-overlapping memory
@@ -313,15 +330,16 @@ void add_restrict(const float* __restrict__ a,
 }
 ```
 
-- Without `restrict`, the compiler must assume `c` might overlap with `a` or `b` (writing to `c[i]` might change `a[i+1]`), preventing vectorisation.
 
-- **Patterns that prevent auto-vectorisation**:
-    - Data dependencies: `a[i] = a[i-1] + b[i]` (each iteration depends on the previous).
-    - Complex control flow: `if` 状态ments inside the loop (unless the compiler can convert to predication).
-    - Function calls inside the loop (unless the function is inlined).
-    - Pointer aliasing (arrays might overlap, without `restrict`).
+- 没有 `restrict` 时，编译器可能保守地认为 `a`、`b` 和 `c` 会指向重叠内存；写入 `c[i]` 可能改变稍后读取的 `a[i+1]`。编译器有时可以通过静态分析或运行时检查证明访问安全，因此缺少 `restrict` 不一定会阻止向量化。
 
-- **Checking auto-vectorisation**: use compiler flags to see what was vectorised:
+- **可能阻碍自动向量化的代码结构**：
+    - 迭代间存在依赖，例如 `a[i] = a[i-1] + b[i]`。
+    - 循环内有复杂分支，且编译器无法把分支转换为谓词运算。
+    - 循环中有未内联的函数调用。
+    - 编译器无法证明指针之间没有别名。
+
+- **查看自动向量化结果**：用编译器选项生成优化报告：
 
 ```bash
 # GCC: show vectorisation decisions
@@ -331,11 +349,13 @@ g++ -O3 -march=native -fopt-info-vec-optimized code.cpp
 clang++ -O3 -march=native -Rpass=loop-vectorize code.cpp
 ```
 
-- **When to use intrinsics vs auto-vectorisation**: start with clean C++ and compiler optimisations. If the compiler vectorises your loop, great. If performance is still insufficient, inspect the compiler's vectorisation report to understand why, and only then write intrinsics for the critical inner loop. Premature intrinsics make code unreadable without guaranteed benefit.
 
-## Coding Tasks (compile with g++ or clang++ on ARM — Mac M-series or Linux aarch64)
+- 先写清晰的 C++ 并开启优化，再查看报告和实际性能。确认编译器没有向量化关键循环、而且性能分析表明确有需要时，再为热点内层循环编写内在函数。手写 SIMD 会增加可读性和维护成本，也不保证提速。
 
-1. Write a scalar dot product and a NEON-vectorised dot product. Benchmark both and measure the speedup.
+## 编程练习（在 ARM 设备上使用 g++ 或 clang++ 编译）
+
+1. 分别编写标量点积和 NEON 向量化点积，测量速度差异。
+
 ```cpp
 // task1_neon_dot.cpp
 // Compile (Mac/ARM Linux): clang++ -O3 -o task1 task1_neon_dot.cpp
@@ -398,7 +418,11 @@ int main() {
 }
 ```
 
-2. Implement NEON ReLU and softmax-max-finding. Practice the load→compute→store pattern with different operations.
+
+- 标量版也可能被 `-O3` 自动向量化，因此这段代码比较的是编译后的标量写法与手写 NEON，不一定是“纯标量对 SIMD”。要区分两者，应查看编译器报告或单独控制自动向量化。FMA 和归约顺序也会让结果出现小幅浮点误差；两种计时都还受缓存、动态调频和高精度时钟实现影响。
+
+2. 用 NEON 实现 ReLU 和 Softmax 前的最大值查找，练习加载、计算、存储这三个步骤。
+
 ```cpp
 // task2_neon_ops.cpp
 // Compile: clang++ -O3 -o task2 task2_neon_ops.cpp
@@ -444,7 +468,11 @@ int main() {
 }
 ```
 
-3. Compare auto-vectorised code against hand-written NEON intrinsics. Compile with `-fopt-info-vec` (GCC) or `-Rpass=loop-vectorize` (Clang) to see what the compiler does.
+
+- 示例中的最大值函数假定数组非空。若处理 NaN、空数组或要求与标量代码严格一致，还需明确这些输入的语义，因为 NEON 最大值指令和标量比较的 NaN 行为可能不同。
+
+3. 比较编译器自动向量化代码与手写 NEON 内在函数。使用 `-fopt-info-vec`（GCC）或 `-Rpass=loop-vectorize`（Clang）查看编译器做了什么。
+
 ```cpp
 // task3_auto_vs_manual.cpp
 // Compile: clang++ -O3 -Rpass=loop-vectorize -o task3 task3_auto_vs_manual.cpp
@@ -491,3 +519,6 @@ int main() {
     return 0;
 }
 ```
+
+
+- 这个基准反复写入 `c`，却没有在计时后读取结果。若编译器能内联函数并证明结果未被使用，就可能删掉部分工作；应在计时区间外校验或消费输出，确认被测运算仍然存在。`std::chrono::high_resolution_clock` 也不保证所有平台都提供单调时钟，严谨比较应使用合适的单调计时器并重复多轮。

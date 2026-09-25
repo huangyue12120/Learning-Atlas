@@ -8,120 +8,124 @@ source:
   sha256: cf467c1180cc5100ff9736bfe3244917358a2915bd3075d89870dfc55c2dc437
 status: reviewed
 ---
-# Embeddings and Sequence Models
+# 嵌入与序列模型
 
-*Word embeddings compress sparse, symbolic text into dense vector spaces where semantic similarity becomes geometric proximity. This file covers Word2Vec (CBOW, Skip-gram), GloVe, FastText, RNNs, LSTMs, GRUs, seq2seq with attention, and the encoder-decoder paradigm, the progression from bag-of-words to contextual representations.*
+*词嵌入把稀疏的符号化文本压缩为稠密向量，使语义相似性可以表现为向量空间中的邻近关系。本文介绍 Word2Vec（CBOW、Skip-gram）、GloVe、FastText、RNN、LSTM、GRU、带注意力机制的 seq2seq，以及编码器—解码器范式，梳理从词袋模型到上下文表示的发展过程。*
 
-- In file 01, we introduced the distributional hypothesis: words that appear in similar contexts tend to have similar meanings. In file 02, we represented text using sparse, hand-crafted features like TF-IDF vectors. These vectors live in very high-dimensional spaces (one dimension per vocabulary word) and are mostly zeros. **Word embeddings** compress this information into dense, low-dimensional vectors that capture semantic relationships, and they are learned directly from data.
+- 第 01 篇介绍了分布假说：出现在相似语境中的词往往意义相近。第 02 篇用 TF-IDF 等稀疏的人工特征表示文本。这些向量维度很高（每个词表词对应一个维度），而且大多为零。**词嵌入**从数据中学习稠密、低维的向量，在压缩表示的同时捕捉语义关系。
 
-- **Word2Vec** (Mikolov et al., 2013) learns word embeddings by training a shallow neural network on a simple prediction task. There are two architectures.
+- **Word2Vec**（Mikolov 等，2013）通过一个简单的预测任务训练浅层神经网络，从而学习词嵌入。它有两种架构。
 
-- The **Continuous Bag of Words (CBOW)** model predicts a target word from its surrounding context words. Given a window of context words (e.g., "the cat ___ on the"), the model averages their embedding vectors and passes the result through a linear layer to predict the missing word ("sat"). The training objective maximises:
+- **连续词袋模型（CBOW）**根据上下文词预测目标词。给定一个上下文窗口（例如 “the cat ___ on the”），模型对上下文词的嵌入向量取平均，再通过线性层预测缺失的词（“sat”）。训练目标是最大化：
 
 $$P(w_t \mid w_{t-k}, \ldots, w_{t-1}, w_{t+1}, \ldots, w_{t+k})$$
-- The **Skip-gram** model does the reverse: given a target word, predict the surrounding context words. For the target word "sat", the model tries to predict "the", "cat", "on", "the" in separate predictions. The objective maximises:
+- **Skip-gram** 的做法相反：给定目标词，预测周围的上下文词。以 “sat” 为目标词时，模型会分别尝试预测 “the”“cat”“on”“the”。训练目标是最大化：
 
 $$P(w_{t+j} \mid w_t) \quad \text{for each } j \in [-k, k], \; j \neq 0$$
-![Skip-gram and CBOW architectures side by side: CBOW averages context embeddings to predict the centre word, skip-gram uses the centre word embedding to predict each context word](../images/word2vec_architectures.svg)
+![Skip-gram 与 CBOW 架构对比：CBOW 对上下文嵌入取平均以预测中心词，Skip-gram 用中心词嵌入分别预测各上下文词](../images/word2vec_architectures.svg)
 
 
-- Skip-gram tends to work better for rare words because each word generates multiple training examples (one per context position). CBOW is faster and slightly better for frequent words because it averages over multiple context signals.
+- Skip-gram 往往更适合学习罕见词，因为每个词会按不同上下文位置产生多个训练样本。CBOW 训练速度较快；由于综合了多个上下文信号，它对高频词的表示通常略好。
 
-- Training on the full vocabulary is expensive because the softmax denominator sums over all $V$ words. **Negative sampling** approximates this by turning the problem into binary classification: distinguish the true context word (positive sample) from randomly sampled noise words (negative samples). Instead of computing the full softmax, the model only updates embeddings for the target, the true context word, and a handful of negatives:
+- 在完整词表上计算训练目标代价很高，因为 softmax 的分母需要遍历全部 $V$ 个词。**负采样**把问题近似为二分类：区分真实上下文词（正样本）和随机抽取的噪声词（负样本）。这样无需计算完整 softmax，只需更新目标词、真实上下文词和少量负样本的嵌入：
 
 $$\mathcal{L} = \log \sigma(v_{w_O}^T v_{w_I}) + \sum_{i=1}^{k} \mathbb{E}_{w_i \sim P_n} [\log \sigma(-v_{w_i}^T v_{w_I})]$$
-- Here $v_{w_I}$ is the input word embedding, $v_{w_O}$ is the output (context) word embedding, and $P_n$ is the noise distribution, typically the unigram frequency raised to the 3/4 power (which downweights very frequent words like "the").
 
-- Why does this simple objective produce meaningful embeddings? Levy and Goldberg (2014) showed that skip-gram with negative sampling is implicitly factorising a **shifted pointwise mutual information (PMI)** matrix. At convergence, the dot product of two word vectors approximates:
+**编者注：**公式给出的是要最大化的对数目标；若把它作为要最小化的损失，通常需要在前面加负号。
+- 其中，$v_{w_I}$ 是输入词的嵌入，$v_{w_O}$ 是输出（上下文）词的嵌入，$P_n$ 是噪声分布，通常取 unigram 频率的 $3/4$ 次方，以降低 “the” 等高频词被抽中的概率。
+
+- 为什么这样简单的目标函数能学到有意义的嵌入？Levy 和 Goldberg（2014）指出，Skip-gram 加负采样在隐式地分解一个**平移点互信息（PMI）**矩阵。训练收敛时，两个词向量的点积近似为：
 
 $$v_w^T v_c \approx \text{PMI}(w, c) - \log k$$
-- where $\text{PMI}(w, c) = \log \frac{P(w, c)}{P(w) P(c)}$ measures how much more likely words $w$ and $c$ co-occur than expected by chance (chapter 05 information theory), and $k$ is the number of negative samples. Words that co-occur much more than chance have high PMI and therefore high dot product (similar embeddings). Words that co-occur less than expected have negative PMI and dissimilar embeddings. This reveals that Word2Vec is doing the same thing as classical distributional semantics methods like latent semantic analysis (SVD on co-occurrence matrices), but in a more scalable, online fashion.
+- 其中，$\text{PMI}(w, c) = \log \frac{P(w, c)}{P(w) P(c)}$ 衡量词 $w$ 和 $c$ 的共现频率比偶然情况下预期的高多少（见第 05 篇的信息论）；$k$ 是负样本数。共现远高于偶然水平的词对具有较高 PMI，点积也较大；共现低于预期的词对 PMI 为负，点积较低。这说明 Word2Vec 与潜在语义分析（对共现矩阵做 SVD）等经典分布语义方法有相通之处，但训练更易扩展，也可在线更新。
 
-- The most surprising property of Word2Vec embeddings is that they capture **analogies** through vector arithmetic. The vector $v_{\text{king}} - v_{\text{man}} + v_{\text{woman}}$ is closest to $v_{\text{queen}}$. This works because the embedding space encodes semantic relationships as approximately linear directions: the "royalty" direction is roughly $v_{\text{king}} - v_{\text{man}}$, and adding it to $v_{\text{woman}}$ lands near $v_{\text{queen}}$. This connects to the linear algebra of chapter 01: semantic relationships are vector translations.
+- Word2Vec 嵌入一个引人注目的性质是能够通过向量运算近似捕捉**类比关系**。例如，$v_{\text{king}} - v_{\text{man}} + v_{\text{woman}}$ 最接近 $v_{\text{queen}}$。这是因为嵌入空间会把部分语义关系编码为近似线性的方向：“王室身份”方向约为 $v_{\text{king}} - v_{\text{man}}$，将它加到 $v_{\text{woman}}$ 上，结果会接近 $v_{\text{queen}}$。这与第 01 章的线性代数相呼应：语义关系可以表现为向量位移。
 
-- **GloVe** (Global Vectors for Word Representation, Pennington et al., 2014) takes a different approach. Instead of learning from local context windows one at a time, it builds a global word co-occurrence matrix $X$ where $X_{ij}$ counts how often word $j$ appears in the context of word $i$ across the entire corpus. The model then learns embeddings whose dot product approximates the log co-occurrence:
+- **GloVe**（Global Vectors for Word Representation，Pennington 等，2014）采用了另一种方法。它不逐个学习局部上下文窗口，而是先构建全局词语共现矩阵 $X$；$X_{ij}$ 统计整个语料中词 $j$ 出现在词 $i$ 上下文中的次数。模型再学习词向量，使其点积近似共现次数的对数：
 
 $$w_i^T \tilde{w}_j + b_i + \tilde{b}_j = \log X_{ij}$$
-- The loss function weights each pair by a capping function $f(X_{ij})$ that prevents very frequent co-occurrences from dominating:
+- 损失函数用权重函数 $f(X_{ij})$ 对每一对词加权，避免高频共现主导训练：
 
 $$\mathcal{L} = \sum_{i,j=1}^{V} f(X_{ij}) \left(w_i^T \tilde{w}_j + b_i + \tilde{b}_j - \log X_{ij}\right)^2$$
-- GloVe combines the benefits of global matrix factorisation (like latent semantic analysis) with the local context learning of Word2Vec. In practice, GloVe and Word2Vec produce embeddings of similar quality.
+- GloVe 结合了全局矩阵分解（如潜在语义分析）和 Word2Vec 的局部上下文学习。实践中，两者得到的词嵌入质量相近。
 
-- **FastText** (Bojanowski et al., 2017) extends skip-gram by representing each word as a bag of character n-grams. The word "where" with $n = 3$ becomes: "<wh", "whe", "her", "ere", "re>", plus the whole-word token "<where>". The word's embedding is the sum of all its n-gram embeddings.
+- **FastText**（Bojanowski 等，2017）扩展了 Skip-gram：它把每个词表示为字符 n-gram 的集合。例如，取 $n=3$ 时，“where”可拆为 “<wh”“whe”“her”“ere”“re>”，再加上完整词元 “<where>”。该词的嵌入是这些 n-gram 嵌入的和。
 
-- This has a crucial advantage: FastText can produce embeddings for words it has never seen during training. The word "whereabouts" shares n-grams with "where", so its embedding will be reasonable even if "whereabouts" never appeared in the training data. This is especially useful for morphologically rich languages (file 01) where words have many inflected forms.
+- FastText 的一个重要优势是能为训练时未见过的词生成嵌入。“whereabouts”与 “where” 共享一些 n-gram，因此即使前者没有出现在训练数据中，模型仍能为它生成合理的表示。这对形态变化丰富的语言尤其有用，因为同一个词可能有许多屈折形式（见第 01 篇）。
 
-- **Embedding evaluation** typically uses two types of benchmarks. **Analogy tasks** test whether $v_a - v_b + v_c \approx v_d$ (e.g., "Paris" $-$ "France" $+$ "Italy" $\approx$ "Rome"). **Similarity benchmarks** compare the cosine similarity (chapter 01) between word pairs to human judgements. Common datasets include WordSim-353, SimLex-999, and the Google analogy test set. A practical caveat: embeddings that excel at analogies may not be best for downstream tasks like sentiment classification. The best evaluation is often the task itself.
+- **嵌入评估**通常使用两类基准。**类比任务**检验 $v_a - v_b + v_c \approx v_d$ 是否成立（例如，“Paris” $-$ “France” $+$ “Italy” $\approx$ “Rome”）。**相似度基准**则把词对的余弦相似度（见第 01 篇）与人工判断进行比较。常用数据集包括 WordSim-353、SimLex-999 和 Google 类比测试集。需要注意，类比任务表现好的嵌入未必最适合情感分类等下游任务；直接在目标任务上评估通常更有参考价值。
 
-- In chapter 06, we introduced RNNs, LSTMs, and GRUs as architectures for sequential data. Here we focus on how they are applied to language tasks specifically.
+- 第 06 章介绍了用于序列数据的 RNN、LSTM 和 GRU。本节聚焦它们在语言任务中的应用。
 
-- A **language model RNN** reads tokens one at a time and predicts the next token at each step. The hidden 状态 $h_t$ compresses the entire history $w_1, \ldots, w_t$ into a fixed-size vector, and a linear layer plus softmax maps $h_t$ to a distribution over the vocabulary. Training uses cross-entropy loss against the true next token, which is identical to minimising perplexity (file 02). The key limitation: the fixed-size hidden 状态 must encode everything about the history, and information from early tokens gets progressively overwritten.
+- **循环语言模型**逐个读取词元，并在每一步预测下一个词元。隐藏状态 $h_t$ 把整个历史 $w_1, \ldots, w_t$ 压缩为定长向量，再由线性层和 softmax 将 $h_t$ 映射为词表上的概率分布。训练时用真实的下一个词元计算交叉熵损失；这等价于最小化困惑度（见第 02 篇）。它的主要局限是：定长隐藏状态必须编码全部历史信息，较早词元的信息会逐渐被覆盖。
 
-- **Bidirectional RNNs** process the sequence in both directions: one RNN reads left-to-right, another reads right-to-left. At each position $t$, the forward hidden 状态 $\overrightarrow{h}_t$ and backward hidden 状态 $\overleftarrow{h}_t$ are concatenated to form a context-aware representation $h_t = [\overrightarrow{h}_t ; \overleftarrow{h}_t]$. This gives the model access to both past and future context, which is powerful for tasks like POS tagging and NER (file 02) where a word's label depends on words both before and after it. Bidirectional RNNs cannot be used for language modelling because you cannot peek at future tokens when predicting them.
+- **双向 RNN**从两个方向处理序列：一个 RNN 从左向右读取，另一个从右向左读取。在位置 $t$，模型将前向隐藏状态 $\overrightarrow{h}_t$ 和后向隐藏状态 $\overleftarrow{h}_t$ 拼接为上下文表示 $h_t = [\overrightarrow{h}_t ; \overleftarrow{h}_t]$。这样模型可以同时利用过去和未来的上下文，因此适用于词性标注和命名实体识别等任务（见第 02 篇）。但双向 RNN 不能用于自回归语言建模，因为预测时不能查看未来词元。
 
-![Bidirectional RNN: forward RNN reads left-to-right producing hidden 状态s, backward RNN reads right-to-left, outputs are concatenated at each position](../images/bidirectional_rnn.svg)
-
-
-- **Deep stacked RNNs** place multiple RNN layers on top of each other. The hidden 状态s of layer $l$ at all time steps become the input sequence for layer $l + 1$. Stacking 2-4 layers typically improves performance by building hierarchical representations, similar to how deeper CNNs build feature hierarchies (chapter 06). Beyond 4 layers, vanishing gradients and overfitting become problems unless residual connections are added between layers.
-
-- The **sequence-to-sequence (seq2seq)** architecture (Sutskever et al., 2014) maps a variable-length input sequence to a variable-length output sequence. It consists of an **encoder** RNN that reads the input and compresses it into a context vector (the final hidden 状态), and a **decoder** RNN that generates the output one token at a time, conditioned on this context vector.
-
-![Seq2seq encoder-decoder: encoder RNN reads input tokens left-to-right, final hidden 状态 passed as initial 状态 to decoder RNN, which generates output tokens autoregressively](../images/seq2seq_architecture.svg)
+![双向 RNN：前向 RNN 从左向右读取序列并生成隐藏状态，后向 RNN 从右向左读取；两个方向的输出在每个位置拼接](../images/bidirectional_rnn.svg)
 
 
-- Seq2seq was the breakthrough architecture for machine translation. The encoder reads a French sentence, the decoder produces the English translation. The decoder starts with a special start-of-sequence token and generates tokens autoregressively until it produces an end-of-sequence token. A practical trick: reversing the input sequence (feeding "chat le" instead of "le chat") improved results because it placed the first input word closer to the first output word in the computation graph, shortening the gradient path.
+- **深层堆叠 RNN**将多个 RNN 层叠放。第 $l$ 层在各时间步产生的隐藏状态序列，作为第 $l+1$ 层的输入。堆叠 2–4 层通常能构建层次化表示并提升性能，类似第 06 章中更深的 CNN 会形成更丰富的特征层次。超过 4 层后，若不添加残差连接，梯度消失和过拟合可能成为问题。
 
-- The bottleneck problem: the entire input must be compressed into a single fixed-size vector. For long sentences, this vector cannot capture all the information, and performance degrades. This motivated **attention mechanisms**.
+- **序列到序列（seq2seq）**架构（Sutskever 等，2014）把变长输入序列映射为变长输出序列。它由一个**编码器** RNN 和一个**解码器** RNN 组成：编码器读取输入，并将其压缩为上下文向量（最终隐藏状态）；解码器以该向量为条件，逐个生成输出词元。
 
-- Chapter 06 introduced the modern Q, K, V formulation of attention. The original attention mechanisms for NLP were formulated differently, as alignment models between encoder and decoder 状态s.
+![Seq2seq 编码器—解码器结构：编码器 RNN 从左向右读取输入词元，将最终隐藏状态传给解码器作为初始状态；解码器以自回归方式生成输出词元](../images/seq2seq_architecture.svg)
 
-- **Bahdanau attention** (additive attention, Bahdanau et al., 2015) computes an alignment score between the decoder hidden 状态 $s_t$ and each encoder hidden 状态 $h_i$ using a learned feed-forward network:
+
+- Seq2seq 曾是机器翻译的重要突破。编码器读取法语句子，解码器生成英语译文。解码器从特殊的序列起始词元开始，逐个自回归地生成词元，直到输出序列结束词元。一个实用技巧是反转输入序列（输入 “chat le” 而不是 “le chat”），这会让第一个输入词在计算图中更靠近第一个输出词，从而缩短梯度传播路径并改善结果。
+
+- **瓶颈问题**在于整个输入必须压缩进一个定长向量。句子较长时，这个向量难以保留全部信息，模型性能会下降，因此研究者引入了**注意力机制**。
+
+- 第 06 章介绍了现代注意力机制的 Q、K、V 表述。早期用于 NLP 的注意力机制采用了不同形式，把编码器和解码器的隐藏状态对齐。
+
+- **Bahdanau 注意力**（加性注意力；Bahdanau 等，2015）使用一个可学习的前馈网络，计算前一时间步的解码器隐藏状态 $s_{t-1}$ 与每个编码器隐藏状态 $h_i$ 之间的对齐分数：
 
 $$e_{ti} = v^T \tanh(W_s s_{t-1} + W_h h_i)$$
-- The scores are normalised to attention weights via softmax, and the context vector is a weighted sum of encoder 状态s:
+
+**编者注：**原文文字写 $s_t$，公式使用 $s_{t-1}$；这里按公式和常见 Bahdanau 写法表述。
+- 随后通过 softmax 将分数归一化为注意力权重，并用编码器隐藏状态的加权和计算上下文向量：
 
 $$\alpha_{ti} = \frac{\exp(e_{ti})}{\sum_j \exp(e_{tj})}, \quad c_t = \sum_i \alpha_{ti} h_i$$
-- The decoder then uses both $s_{t-1}$ and $c_t$ to produce the next output. The key insight: instead of one fixed context vector for the entire sentence, each decoder step gets a different weighted combination of encoder 状态s, allowing the model to "look back" at the relevant parts of the input.
+- 解码器再结合 $s_{t-1}$ 和 $c_t$ 生成下一个输出。关键改进是：不再让整句共用一个固定上下文向量，而是让解码器在每一步都从编码器状态中取不同的加权组合，从而关注输入中当前相关的部分。
 
-- **Luong attention** (multiplicative attention, Luong et al., 2015) simplifies the score computation. The **dot** variant uses $e_{ti} = s_t^T h_i$. The **general** variant uses $e_{ti} = s_t^T W h_i$. These are faster than Bahdanau's additive score because they use matrix multiplication instead of a feed-forward network. Luong attention also computes the context vector from the current decoder 状态 $s_t$ (rather than $s_{t-1}$), which gives it access to more information but makes the computation slightly different.
+- **Luong 注意力**（乘性注意力；Luong 等，2015）简化了对齐分数的计算。**点积**变体使用 $e_{ti} = s_t^T h_i$；**一般形式**使用 $e_{ti} = s_t^T W h_i$。这两种形式用矩阵乘法代替前馈网络，计算速度快于 Bahdanau 的加性打分。Luong 注意力还用当前解码器状态 $s_t$（而不是 $s_{t-1}$）计算上下文向量，因此使用的信息有所不同。
 
-![Attention alignment heatmap between a source sentence and its translation, showing which source words each target word attends to, with brighter cells indicating higher attention weights](../images/attention_alignment.svg)
+![源句与译文之间的注意力对齐热图：每个目标词对应其关注的源词，颜色越亮表示注意力权重越高](../images/attention_alignment.svg)
 
 
-- Attention weights are often visualised as heatmaps showing which input tokens the decoder focuses on when producing each output token. In translation, these heatmaps roughly trace the word alignment between source and target languages, with the diagonal pattern broken by reordering (e.g., adjective-noun order differs between French and English).
+- 注意力权重常用热图展示，显示解码器生成每个输出词元时关注了哪些输入词元。在机器翻译中，热图大致反映源词与目标词的对齐关系；语序调整会打破对角线模式，例如法语和英语的形容词、名词顺序不同。
 
-- At inference time, the decoder must choose a token at each step. **Greedy decoding** picks the highest-probability token at each position, but this can lead to suboptimal sequences: a locally good choice may force the model into a globally bad sentence. **Beam search** maintains the top $k$ (the beam width) partial sequences at each step, expanding each by all possible next tokens and keeping the best $k$ overall.
+- 推理时，解码器必须在每一步选择一个词元。**贪心解码**每次都选概率最高的词元，但局部最优选择可能导致整句效果不佳。**束搜索**会在每一步保留概率最高的 $k$ 条部分序列（$k$ 称为束宽），扩展每条序列的所有可能后续词元，再留下整体得分最高的 $k$ 条序列。
 
-- With beam width $k = 1$, beam search reduces to greedy decoding. Typical values are $k = 4$ to $k = 10$. Larger beams find better sequences but are proportionally slower. Beam search also needs **length normalisation** to avoid favouring shorter sequences, which naturally have higher total probability because they multiply fewer terms. The normalised score is:
+- 当束宽 $k=1$ 时，束搜索等同于贪心解码。常见束宽为 4–10；束宽越大，搜索到较优序列的机会越高，但计算也越慢。束搜索还需要做**长度归一化**，避免偏向较短序列，因为短序列连乘的概率项较少，通常总概率更高。归一化分数为：
 
 $$\text{score}(y) = \frac{1}{|y|^\alpha} \sum_{t=1}^{|y|} \log P(y_t \mid y_{<t})$$
-- where $|y|$ is the sequence length and $\alpha$ (typically 0.6-0.7) controls the strength of the length penalty. With $\alpha = 0$, there is no length normalisation. With $\alpha = 1$, the score is the per-token log-probability (geometric mean). The intermediate value balances between favouring concise outputs and not truncating too early.
+- 其中，$|y|$ 是序列长度，$\alpha$（通常为 0.6–0.7）控制长度惩罚的强度。$\alpha=0$ 时不做长度归一化；$\alpha=1$ 时，分数是每个词元的平均对数概率（即几何平均）。介于两者之间的取值用于平衡输出简洁度和过早截断的风险。
 
-- While RNNs process text sequentially, **1D CNNs** process it in parallel by sliding filters across the token sequence. Each filter detects a local pattern (an n-gram feature).
+- RNN 按顺序处理文本，而 **1D CNN** 可以通过在词元序列上滑动滤波器并行处理。每个滤波器都会检测一种局部模式（n-gram 特征）。
 
-- **TextCNN** (Kim, 2014) applies multiple 1D convolutional filters of different widths (e.g., 3, 4, 5 tokens) to the input embedding matrix. Each filter produces a feature map, and **max-over-time pooling** takes the single maximum value from each feature map, capturing whether the pattern was detected anywhere in the text regardless of position. The pooled features from all filters are concatenated and passed to a classifier.
+- **TextCNN**（Kim，2014）在输入嵌入矩阵上应用多个宽度不同的一维卷积滤波器（例如宽度为 3、4、5 个词元）。每个滤波器生成一个特征图，随后用**最大时序池化**从每张特征图中取最大值，判断文本任意位置是否出现了对应模式。最后拼接所有滤波器的池化特征并输入分类器。
 
-![TextCNN architecture: input embeddings pass through parallel convolutional filters of widths 3, 4, and 5, each followed by max-over-time pooling, then concatenated and fed to a fully connected classifier](../images/textcnn_architecture.svg)
+![TextCNN 结构：输入嵌入并行经过宽度为 3、4、5 的卷积滤波器，每个滤波器接最大时序池化；池化结果拼接后送入全连接分类器](../images/textcnn_architecture.svg)
 
 
-- TextCNN is fast and surprisingly effective for text classification tasks like sentiment analysis. It captures local n-gram patterns but cannot model long-range dependencies: a filter of width 5 only sees 5 consecutive tokens. **Dilated causal convolutions** address this by inserting gaps (dilations) between filter elements. Stacking layers with exponentially increasing dilation rates (1, 2, 4, 8, ...) grows the receptive field exponentially without increasing parameters, allowing the model to capture dependencies across hundreds of tokens.
+- TextCNN 速度快，在情感分析等文本分类任务上效果也不错。它擅长捕捉局部 n-gram 模式，但不能建模长距离依赖：宽度为 5 的滤波器只能看到连续 5 个词元。**空洞因果卷积**在滤波器元素之间加入间隔（空洞）来扩大感受野。将空洞率按 1、2、4、8……递增的卷积层堆叠起来，可以在不增加参数的情况下指数级扩大感受野，使模型捕捉数百个词元跨度内的依赖关系。
 
-- All the embeddings discussed so far (Word2Vec, GloVe, FastText) produce a single vector per word type regardless of context. "Bank" gets the same embedding whether it means a financial institution or a river bank. This is a fundamental limitation that **contextual embeddings** address.
+- 前面介绍的 Word2Vec、GloVe 和 FastText 都为每个词类型生成一个固定向量，不考虑语境。同一个 “bank” 无论表示金融机构还是河岸，嵌入都相同。**上下文嵌入**正是为了解决这一局限。
 
-- **ELMo** (Embeddings from Language Models, Peters et al., 2018) produces contextual word representations by running a deep bidirectional LSTM language model on the input text. The forward LSTM predicts the next word at each position; a separate backward LSTM predicts the previous word. Both are trained as language models on large corpora.
+- **ELMo**（Embeddings from Language Models；Peters 等，2018）通过在输入文本上运行深层双向 LSTM 语言模型，生成上下文相关的词表示。前向 LSTM 预测每个位置的下一个词，后向 LSTM 则预测前一个词；两个模型都在大型语料上以语言建模目标训练。
 
-- At each position $k$, ELMo combines the hidden 状态s from all $L$ layers using task-specific learned weights:
+- 在每个位置 $k$，ELMo 使用针对具体任务学习的权重，组合全部 $L$ 层的隐藏状态：
 
 $$\text{ELMo}_k = \gamma \sum_{j=0}^{L} s_j \, h_{k,j}$$
-- Here $h_{k,j}$ is the hidden 状态 at position $k$ and layer $j$ (layer 0 is the raw token embedding), $s_j$ are softmax-normalised scalar weights, and $\gamma$ is a task-specific scaling factor. Different layers capture different information: lower layers capture syntax (POS tags, word morphology), upper layers capture semantics (word sense, semantic role). By mixing all layers with learned weights, ELMo embeddings adapt to diverse downstream tasks.
+- 其中，$h_{k,j}$ 是第 $j$ 层在位置 $k$ 的隐藏状态（第 0 层是原始词元嵌入）；$s_j$ 是经过 softmax 归一化的标量权重，$\gamma$ 是针对任务学习的缩放因子。不同层捕捉的信息有所不同：较低层偏向句法信息（如词性和词形），较高层偏向语义信息（如词义和语义角色）。通过学习权重混合各层表示，ELMo 可以适应不同下游任务。
 
-- ELMo marked the beginning of the **pre-train then fine-tune** paradigm: train a large language model on massive unlabelled text, then use its representations for downstream tasks. ELMo specifically uses the pre-trained representations as fixed or lightly tuned features that are concatenated with task-specific inputs. BERT and GPT (file 04) push this further by fine-tuning the entire model end-to-end, which proves dramatically more effective.
+- ELMo 标志着**先预训练、再微调**范式的兴起：先用大量无标注文本训练语言模型，再把学到的表示用于下游任务。ELMo 通常把预训练表示作为固定或轻微微调的特征，与任务特定输入拼接。BERT 和 GPT（见第 04 篇）进一步对整个模型进行端到端微调，在许多下游任务上效果更好。
 
-- The progression from Word2Vec to ELMo illustrates a recurring theme in NLP: moving from static to dynamic representations, from local to global context, and from shallow to deep models. Each step trades computational cost for richer representations. Transformers (file 04) complete this progression by replacing recurrence entirely with attention, enabling both deep contextualisation and parallel computation.
+- 从 Word2Vec 到 ELMo 的发展体现了 NLP 中的一条主线：表示从静态走向动态，上下文从局部扩展到全局，模型从浅层发展到深层。每一步都以更多计算换取更丰富的表示。第 04 篇介绍的 Transformer 用注意力完全替代循环结构，同时实现深层上下文建模和并行计算。
 
-## Coding Tasks (use CoLab or notebook)
+## 编程任务（使用 Colab 或 Jupyter 笔记本）
 
-1. Implement Word2Vec skip-gram with negative sampling from scratch. Train on a small corpus and visualise the learned embeddings using PCA.
+1. 从零实现带负采样的 Word2Vec Skip-gram。在小型语料上训练，并用 PCA 将学到的嵌入可视化。
 ```python
 import jax
 import jax.numpy as jnp
@@ -202,7 +206,7 @@ plt.title("Word2Vec Skip-gram Embeddings (PCA projection)")
 plt.grid(alpha=0.3); plt.show()
 ```
 
-2. Build a character-level RNN language model that learns to generate text from a small training string.
+2. 构建一个字符级 RNN 语言模型，让它从一小段训练文本中学习并生成文本。
 ```python
 import jax
 import jax.numpy as jnp
@@ -273,7 +277,7 @@ def generate(params, seed_char, length=60):
 print(f"\nGenerated: {generate(params, 't')}")
 ```
 
-3. Implement a toy seq2seq model with Bahdanau attention for sequence reversal. Visualise the attention alignment matrix.
+3. 实现一个带 Bahdanau 注意力的玩具 seq2seq 模型，让它完成序列反转，并将注意力对齐矩阵可视化。
 ```python
 import jax
 import jax.numpy as jnp

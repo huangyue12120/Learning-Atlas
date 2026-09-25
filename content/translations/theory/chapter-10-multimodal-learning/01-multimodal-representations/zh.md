@@ -8,218 +8,218 @@ source:
   sha256: e8c9e500dcf5e90e7b18f769ae7eb7df75b8d1bcfe44a19fd8dc89459767ae86
 status: reviewed
 ---
-# Multimodal Representations
+# 多模态表示
 
-*Multimodal representations bridge vision, language, and audio into shared embedding spaces. This file covers fusion strategies, CLIP, ALIGN, SigLIP, contrastive loss functions (InfoNCE, NT-Xent), zero-shot classification, and retrieval evaluation.*
+*多模态表示将视觉、语言和音频映射到共享嵌入空间。本文介绍融合策略、CLIP、ALIGN、SigLIP、对比损失函数（InfoNCE、NT-Xent）、零样本分类和检索评估。*
 
-- Imagine you are sitting in a cafe. You see a steaming cup on the table, hear the clinking of ceramic, smell roasted coffee beans, and feel warmth radiating from the mug. No single sense tells you everything: your brain fuses these signals into a unified percept of "hot coffee." **Multimodal learning** does the same thing for machines: it combines information from multiple modalities (vision, language, audio, and others) to build richer, more robust representations than any single modality provides alone.
+- 设想你坐在咖啡馆里：桌上有一杯冒着热气的咖啡，你听见杯碟碰撞声，闻到烘焙咖啡豆的香气，也感受到杯子传来的温度。单一感官无法提供全部信息；大脑会把这些线索合在一起，形成“热咖啡”的整体感知。**多模态学习**让机器也能整合视觉、语言、音频等不同模态的信息，建立比单一模态更丰富、稳健的表示。
 
-- A **modality** is a distinct channel of information. In machine learning, the most common modalities are images (pixel grids), text (token sequences), audio (waveforms or spectrograms, as in Chapter 9), video (sequences of frames), and structured data (tables, graphs). Each modality has its own statistical structure: images are spatially coherent, text is sequential and discrete, audio is temporal and continuous. The challenge of multimodal learning is bridging these fundamentally different data types.
+- **模态**是信息的一种类型或通道。机器学习中常见的模态包括图像（像素网格）、文本（词元序列）、音频（波形或频谱图，见第 09 章）、视频（连续帧）和结构化数据（表格、图结构）。每种模态都有自己的统计结构：图像具有空间相关性，文本按顺序排列且由离散元素组成，音频则连续地随时间变化。多模态学习要把这些性质迥异的数据联系起来。
 
-- Why bother combining modalities? Because they provide complementary information. A photograph of a dog tells you about its breed and colour but not its name. A caption like "my golden retriever Max" tells you the name and breed but not the exact pose. Together, the image and text give a fuller picture than either alone. This complementarity is the core motivation: multimodal models can answer questions, generate content, and make decisions that no unimodal model can.
+- 为什么要组合不同模态？因为它们提供互补信息。狗的照片能展示品种和毛色，却不会告诉你它的名字；“我的金毛 Max”这句说明能给出名字和品种，却没有描述狗的具体姿势。图像和文本结合后，比单独使用任何一种都更完整。多模态模型因此能够回答问题、生成内容，并完成单一模态模型难以处理的决策任务。
 
-![Overview of multimodal learning: separate encoders process image, text, and audio inputs, their representations meet in a shared embedding space](../images/multimodal_overview.svg)
+![多模态学习概览：图像、文本和音频分别由编码器处理，各自的表示映射到共享嵌入空间](../images/multimodal_overview.svg)
 
 
-## Fusion Strategies
+## 融合策略
 
-- Think of a group project. You can combine ideas in two ways: everyone works together in the same room from the start (sharing raw notes and drafts), or each person writes their section independently and you merge the final documents. These correspond to **early fusion** and **late fusion** in multimodal learning.
+- 小组合作时，可以让所有人从一开始就共享笔记和草稿，也可以先各自完成部分内容，最后再合并。多模态学习中的**早期融合**和**晚期融合**与这两种做法相对应。
 
-- **Early fusion** (also called feature-level fusion) concatenates or mixes raw or low-level features from different modalities before any serious processing happens. For example, you might concatenate an image's pixel features with a text's token embeddings and feed the combined sequence into a single transformer. The model can learn fine-grained cross-modal interactions from the start, but the input space is large and the model must learn to handle very different data types simultaneously.
+- **早期融合**（也称特征级融合）在深入处理前，就拼接或混合不同模态的原始特征或低层特征。例如，可以把图像像素特征与文本词元嵌入拼接成一个序列，再输入同一个 Transformer。模型从一开始就能学习细粒度的跨模态交互，但输入空间较大，还必须同时处理性质迥异的数据。
 
-- Formally, given feature vectors $x_{\text{img}} \in \mathbb{R}^{d_1}$ and $x_{\text{txt}} \in \mathbb{R}^{d_2}$ from two modalities, early fusion simply concatenates them:
+- 形式上，给定两个模态的特征向量 $x_{\text{img}} \in \mathbb{R}^{d_1}$ 和 $x_{\text{txt}} \in \mathbb{R}^{d_2}$，早期融合会把它们直接拼接：
 
 $$x_{\text{fused}} = [x_{\text{img}}; x_{\text{txt}}] \in \mathbb{R}^{d_1 + d_2}$$
-- This concatenated vector is then processed by a shared network. The advantage is that the model can discover cross-modal correlations at every layer. The disadvantage is computational cost and the difficulty of aligning very different feature types (dense pixel values vs. sparse token indices).
+- 随后，共享网络处理这个拼接向量。模型可以在每一层发现跨模态关联；代价是计算量增加，而且难以对齐性质不同的特征，例如稠密的像素值和稀疏的词元索引。
 
-- **Late fusion** (also called decision-level fusion) processes each modality independently through its own encoder, producing a high-level representation or even a final prediction for each. These outputs are then combined, typically by averaging scores, voting, or a learned combination layer. Late fusion is simpler and lets you reuse pre-trained unimodal models off the shelf, but it cannot capture low-level cross-modal interactions because the modalities never "see" each other's raw features.
+- **晚期融合**（也称决策级融合）先用各自的编码器独立处理每种模态，得到高层表示，甚至直接生成预测结果，再通过平均分数、投票或学习得到的组合层整合输出。晚期融合结构较简单，也能直接复用预训练的单模态模型；但各模态从未接触彼此的原始特征，因此无法捕捉低层跨模态交互。
 
-- Given modality-specific predictions $\hat{y}_1$ and $\hat{y}_2$, a simple late fusion rule is:
+- 给定各模态的预测 $\hat{y}_1$ 和 $\hat{y}_2$，一种简单的晚期融合规则为：
 
 $$\hat{y} = \alpha \hat{y}_1 + (1 - \alpha) \hat{y}_2$$
-- where $\alpha \in [0, 1]$ is a learned or hand-tuned mixing weight.
+- 其中，$\alpha \in [0, 1]$ 是学习得到或人工设定的混合权重。
 
-- **Middle fusion** (also called intermediate fusion) is the pragmatic middle ground used by most modern systems. Each modality is first processed by its own encoder (extracting modality-specific features), and then the encoded representations are combined partway through the network, often via cross-attention layers. This lets each encoder specialise in its modality while still enabling rich cross-modal interactions. Flamingo, LLaVA, and most vision-language models (file 02) use middle fusion.
+- **中间融合**（也称中层融合）是多数现代系统采用的折中方案。每种模态先由自己的编码器提取特征，再在网络中间层合并表示，常见做法是使用交叉注意力层。这样既能让各编码器专门处理对应模态，也能建立丰富的跨模态交互。Flamingo、LLaVA 以及大多数视觉语言模型（见文件 02）都采用中间融合。
 
-![Early, middle, and late fusion strategies: early fusion concatenates raw inputs, middle fusion merges intermediate representations via cross-attention, late fusion combines final predictions](../images/fusion_strategies.svg)
+![早期、中间和晚期融合：早期融合拼接原始输入，中间融合通过交叉注意力合并中间表示，晚期融合组合最终预测](../images/fusion_strategies.svg)
 
 
-- The choice between fusion strategies depends on data availability, computational budget, and the task. Early fusion is powerful but data-hungry. Late fusion is cheap but limited. Middle fusion with cross-attention has become the dominant approach in large-scale multimodal models because it balances expressiveness with modularity.
+- 选择哪种融合策略，取决于数据量、计算预算和任务需求。早期融合表达能力强，但需要大量数据；晚期融合成本低，能力也有限。中间融合通过交叉注意力兼顾表达能力和模块化设计，已成为大规模多模态模型的主流方案。
 
-## Joint Embedding Spaces
+## 联合嵌入空间
 
-- Imagine a universal translator that can take any sentence in any language and map it to the same point in a shared "meaning space." The sentence "a dog on a beach" in English, French, or Japanese would all land at the same coordinate. **Joint embedding spaces** do exactly this, but across modalities: an image of a dog on a beach and the text "a dog on a beach" should map to nearby points in the same vector space.
+- 设想有一种通用翻译器，能把不同语言的同一句话映射到共享“语义空间”中的同一点。英文、法文和日文的“海滩上的狗”会落在相同坐标附近。**联合嵌入空间**把这类对齐扩展到不同模态：海滩上有狗的图像与“海滩上的狗”这段文本，应映射到同一向量空间中彼此接近的位置。
 
-- Formally, we learn two encoder functions: $f_\theta : \mathcal{X}_1 \to \mathbb{R}^d$ for modality 1 (e.g., images) and $g_\phi : \mathcal{X}_2 \to \mathbb{R}^d$ for modality 2 (e.g., text). Both map their inputs into the same $d$-dimensional space. The training objective ensures that semantically matched pairs $(x_1, x_2)$ have embeddings $f_\theta(x_1)$ and $g_\phi(x_2)$ that are close (high cosine similarity), while unmatched pairs are far apart.
+- 形式上，我们学习两个编码函数：$f_\theta : \mathcal{X}_1 \to \mathbb{R}^d$ 处理模态 1（如图像），$g_\phi : \mathcal{X}_2 \to \mathbb{R}^d$ 处理模态 2（如文本）。两个函数都把输入映射到同一个 $d$ 维空间。训练目标会让语义匹配的样本对 $(x_1, x_2)$ 对应的嵌入 $f_\theta(x_1)$ 和 $g_\phi(x_2)$ 彼此接近（余弦相似度高），并让不匹配的样本对彼此远离。
 
-- This is a direct generalisation of the word embedding spaces from Chapter 7. Recall that Word2Vec and GloVe placed semantically similar words near each other in a vector space. Joint embedding spaces extend this idea across modalities: instead of word-to-word similarity, we measure image-to-text similarity, audio-to-text similarity, or even image-to-audio similarity.
+- 这直接延伸了第 07 章介绍的词嵌入空间。Word2Vec 和 GloVe 会把语义相近的词放在向量空间中彼此接近的位置。联合嵌入空间把这一思想扩展到不同模态：模型可以衡量图像与文本、音频与文本，甚至图像与音频之间的相似度。
 
-- The similarity metric is almost always **cosine similarity** (Chapter 1):
+- 相似度通常用**余弦相似度**衡量（见第 01 章）：
 
 $$\text{sim}(u, v) = \frac{u \cdot v}{\|u\| \|v\|}$$
-- By $L_2$-normalising all embeddings onto the unit hypersphere, cosine similarity reduces to a simple dot product $u \cdot v$, which is extremely efficient to compute and can be accelerated with approximate nearest-neighbour libraries.
+- 把所有嵌入按 $L_2$ 范数归一化到单位超球面后，余弦相似度就等于点积 $u \cdot v$。点积计算简单，还能用近似最近邻库加速。
 
-![Joint embedding space: an image encoder and a text encoder map their respective inputs into a shared vector space where matched pairs cluster together](../images/joint_embedding_space.svg)
+![联合嵌入空间：图像编码器和文本编码器把各自的输入映射到共享向量空间，匹配的样本对聚集在一起](../images/joint_embedding_space.svg)
 
 
-- The power of a joint embedding space is that it enables **zero-shot transfer**. Once you have aligned image and text embeddings, you can classify images into categories you have never trained on: just embed the category names as text and find which text embedding is closest to the image embedding. No task-specific fine-tuning is needed. This is the key insight behind CLIP and its successors.
+- 联合嵌入空间支持**零样本迁移**。图像和文本嵌入对齐后，即使训练时没见过某些类别，也能对图像进行分类：把类别名称编码为文本嵌入，再找出与图像嵌入最接近的类别。整个过程不需要针对具体任务微调模型。这正是 CLIP 及后续模型的核心思路。
 
-## Contrastive Learning for Multimodal Alignment
+## 用对比学习对齐多模态表示
 
-- Think of a classroom exercise where students are given shuffled pairs of photos and captions, and asked to match each photo with its correct caption. To do this well, you need to understand both the visual content and the language, and know how they relate. **Contrastive learning** trains models in exactly this way: given a batch of (image, text) pairs, the model must figure out which image goes with which text.
+- 想象学生拿到打乱的照片和说明，要为每张照片找出正确的说明。要做好这项任务，就得理解图像和文本各自的内容及其联系。**对比学习**用类似方法训练模型：输入一批（图像，文本）样本对，让模型判断每张图像与哪段文本相匹配。
 
-- As we saw in Chapter 8 (file 04), contrastive learning in the unimodal setting (SimCLR, MoCo) pulls together augmented views of the same image and pushes apart views of different images. Multimodal contrastive learning replaces "augmented views" with "matched modalities": an image and its caption are the positive pair; the image paired with any other caption in the batch is a negative pair.
+- 第 08 章文件 04 介绍过单模态对比学习（SimCLR、MoCo）：它拉近同一图像不同增强视图的表示，并推远不同图像的表示。多模态对比学习把“增强视图”换成“匹配的模态”：图像与对应说明构成正样本对，同一批次中其他说明则构成负样本对。
 
 ### CLIP
 
-- **CLIP** (Contrastive Language-Image Pre-training, Radford et al., 2021) is the foundational model for multimodal contrastive learning. It trains an image encoder (a ViT or ResNet, Chapter 8) and a text encoder (a transformer, Chapter 7) jointly on 400 million (image, text) pairs scraped from the internet.
+- **CLIP**（Contrastive Language-Image Pre-training，Radford 等，2021）是多模态对比学习的代表性模型。它用从互联网收集的 4 亿组（图像，文本）数据，联合训练图像编码器（ViT 或 ResNet，见第 08 章）和文本编码器（Transformer，见第 07 章）。
 
-- Given a batch of $N$ image-text pairs, CLIP computes the $N \times N$ matrix of cosine similarities between all image embeddings and all text embeddings. The diagonal entries are the matched pairs (positives); all off-diagonal entries are unmatched (negatives). The training loss pushes diagonal entries high and off-diagonal entries low.
+- 给定一批 $N$ 组图像和文本，CLIP 会计算所有图像嵌入与文本嵌入之间的余弦相似度，组成 $N \times N$ 矩阵。对角线元素对应匹配的正样本对，非对角线元素对应不匹配的负样本对。训练时，损失函数会提高对角线上的相似度，并压低其他位置的相似度。
 
-- The loss is a symmetric cross-entropy. For image $i$ paired with text $j = i$, the image-to-text loss is:
+- CLIP 使用对称交叉熵损失。对图像 $i$ 及其配对文本 $j = i$，图像到文本方向的损失为：
 
 $$\mathcal{L}_{i \to t} = -\frac{1}{N} \sum_{i=1}^{N} \log \frac{\exp(\text{sim}(z_i^{\text{img}}, z_i^{\text{txt}}) / \tau)}{\sum_{k=1}^{N} \exp(\text{sim}(z_i^{\text{img}}, z_k^{\text{txt}}) / \tau)}$$
-- and the text-to-image loss is the same with the roles swapped:
+- 交换图像与文本的角色，可得到文本到图像方向的损失：
 
 $$\mathcal{L}_{t \to i} = -\frac{1}{N} \sum_{i=1}^{N} \log \frac{\exp(\text{sim}(z_i^{\text{txt}}, z_i^{\text{img}}) / \tau)}{\sum_{k=1}^{N} \exp(\text{sim}(z_i^{\text{txt}}, z_k^{\text{img}}) / \tau)}$$
-- The total CLIP loss is the average:
+- CLIP 的总损失是两者的平均值：
 
 $$\mathcal{L}_{\text{CLIP}} = \frac{1}{2}(\mathcal{L}_{i \to t} + \mathcal{L}_{t \to i})$$
-- Here $\tau$ is a learned **temperature** parameter (initialised at $\tau = 0.07$). Temperature controls the sharpness of the softmax distribution: low $\tau$ makes the model focus harder on the closest match, high $\tau$ spreads probability more evenly. CLIP learns $\tau$ jointly with the model weights rather than treating it as a fixed hyperparameter.
+- $\tau$ 是学习得到的**温度参数**，初始值为 $\tau = 0.07$。温度控制 softmax 分布的尖锐程度：$\tau$ 较低时，模型更集中于最相似的样本；$\tau$ 较高时，概率分布更平均。CLIP 会和模型权重一起学习 $\tau$，而不是把它设为固定超参数。
 
-![CLIP training: a batch of N image-text pairs produces an NxN similarity matrix, training maximises diagonal entries and minimises off-diagonal entries](../images/clip_contrastive_matrix.svg)
+![CLIP 训练过程：一批 N 组图像文本对生成 N×N 相似度矩阵，训练会提高对角线元素并压低非对角线元素](../images/clip_contrastive_matrix.svg)
 
 
-- CLIP's image encoder is typically a ViT-L/14 (a large Vision Transformer with 14x14 patches, Chapter 8 file 04). The text encoder is a 12-layer transformer with causal masking (like GPT, Chapter 7 file 04). Both encoders project their outputs to a shared 512- or 768-dimensional space via a learned linear projection, followed by $L_2$ normalisation.
+- CLIP 的图像编码器通常使用 ViT-L/14（一种大型视觉 Transformer，图像块为 14×14，见第 08 章文件 04）。文本编码器是采用因果掩码的 12 层 Transformer，结构类似 GPT（见第 07 章文件 04）。两个编码器都通过学习得到的线性投影，把输出映射到 512 维或 768 维的共享空间，再按 $L_2$ 范数归一化。
 
-- CLIP's most remarkable property is **zero-shot image classification**. To classify an image into one of $K$ categories, you create $K$ text prompts like "a photo of a {class name}", embed each prompt with the text encoder, embed the image with the image encoder, and pick the class whose text embedding has the highest cosine similarity with the image embedding. On ImageNet, CLIP achieves competitive accuracy without ever seeing a single ImageNet training example.
+- CLIP 的重要能力之一是**零样本图像分类**。要把图像分到 $K$ 个类别之一，可以为每个类别构造一条文本提示，例如“a photo of a {class name}”，再分别用文本和图像编码器生成嵌入，选择与图像嵌入余弦相似度最高的类别。CLIP 在 ImageNet 上取得了有竞争力的准确率，训练时没有使用 ImageNet 样本。
 
 ### ALIGN
 
-- **ALIGN** (Jia et al., 2021) scales CLIP's approach to a noisier, larger dataset: 1.8 billion image-text pairs with minimal filtering. Where CLIP carefully curated its data, ALIGN shows that scale can compensate for noise. ALIGN uses an EfficientNet image encoder and a BERT text encoder, and trains with the same contrastive loss. The key finding is that with enough data, you do not need expensive data cleaning: the contrastive objective naturally downweights noisy pairs because they produce inconsistent gradients.
+- **ALIGN**（Jia 等，2021）把 CLIP 的方法扩展到规模更大、噪声更多的数据集，其中包含 18 亿组只经过少量筛选的图像文本对。CLIP 仔细筛选训练数据；ALIGN 的结果显示，扩大数据规模可以弥补一部分噪声。ALIGN 使用 EfficientNet 图像编码器和 BERT 文本编码器，并采用相同的对比损失。其研究结论是：数据量足够大时，不必投入高昂成本清洗数据；噪声样本产生的梯度不一致，对比目标会自然降低它们的权重。
 
 ### SigLIP
 
-- **SigLIP** (Sigmoid Loss for Language-Image Pre-training, Zhai et al., 2023) replaces CLIP's softmax-based contrastive loss with a simpler sigmoid loss. Instead of treating the $N \times N$ similarity matrix as a classification problem (each row is a softmax over columns), SigLIP treats each entry independently as a binary classification: is this (image, text) pair matched or not?
+- **SigLIP**（Sigmoid Loss for Language-Image Pre-training，Zhai 等，2023）用更简单的 sigmoid 损失替代 CLIP 的 softmax 对比损失。CLIP 把 $N \times N$ 相似度矩阵视为分类问题，每一行都对各列做 softmax；SigLIP 则把矩阵中的每个元素单独视为二分类问题：这组（图像，文本）是否匹配？
 
-- The SigLIP loss for a single pair $(i, j)$ is:
+- 单个样本对 $(i, j)$ 的 SigLIP 损失为：
 
 $$\mathcal{L}_{ij} = -y_{ij} \log \sigma(z_i^{\text{img}} \cdot z_j^{\text{txt}} / \tau) - (1 - y_{ij}) \log(1 - \sigma(z_i^{\text{img}} \cdot z_j^{\text{txt}} / \tau))$$
-- where $y_{ij} = 1$ if $i = j$ (matched) and $y_{ij} = 0$ otherwise, and $\sigma$ is the sigmoid function.
+- 当 $i = j$、样本对匹配时，$y_{ij} = 1$；否则 $y_{ij} = 0$。$\sigma$ 表示 sigmoid 函数。
 
-- The crucial advantage of SigLIP is that it eliminates the need for a global softmax normalisation across the entire batch. In CLIP, the softmax denominator requires gathering all embeddings across all devices, which is a communication bottleneck in distributed training. SigLIP's per-pair sigmoid loss can be computed locally, enabling more efficient scaling to very large batches. SigLIP matches CLIP's quality with lower training cost.
+- SigLIP 不需要在整个批次上计算全局 softmax。CLIP 的 softmax 分母要求汇总各设备上的所有嵌入，这会成为分布式训练的通信瓶颈。SigLIP 可以在本地计算每个样本对的 sigmoid 损失，因此更容易扩展到超大批次。它以较低的训练成本达到与 CLIP 相当的效果。
 
-## Contrastive Loss Functions in Detail
+## 常见对比损失
 
-- The loss functions used in contrastive learning share a common structure: they all try to make the similarity score of positive pairs higher than that of negative pairs, with some notion of "margin" or "temperature" controlling how hard the model pushes. Let us formalise the key variants.
+- 对比学习的损失函数有共同目标：提高正样本对的相似度，降低负样本对的相似度；“间隔”或“温度”等参数控制模型施加的力度。下面介绍几种常见形式。
 
 ### InfoNCE
 
-- **InfoNCE** (Noise-Contrastive Estimation, van den Oord et al., 2018) is the theoretical foundation behind CLIP's loss. Given a query $q$, one positive key $k^+$, and $K$ negative keys $\{k_1^-, \ldots, k_K^-\}$, the loss is:
+- **InfoNCE**（Noise-Contrastive Estimation，van den Oord 等，2018）是 CLIP 损失的理论基础。给定查询 $q$、一个正键 $k^+$ 和 $K$ 个负键 $\{k_1^-, \ldots, k_K^-\}$，损失为：
 
 $$\mathcal{L}_{\text{InfoNCE}} = -\log \frac{\exp(q \cdot k^+ / \tau)}{\exp(q \cdot k^+ / \tau) + \sum_{j=1}^{K} \exp(q \cdot k_j^- / \tau)}$$
-- This is a $(K+1)$-way classification problem: identify the positive among $K+1$ candidates. InfoNCE is a lower bound on the mutual information between the query and the positive key, which is why maximising it aligns representations of semantically matched inputs. The bound tightens as the number of negatives $K$ increases, which explains why contrastive methods benefit from large batch sizes.
+- 这相当于一个 $(K+1)$ 类分类问题：从 $K+1$ 个候选中找出正样本。InfoNCE 是查询与正键之间互信息的下界；最大化它可以对齐语义匹配的输入表示。负样本数量 $K$ 越多，下界越紧，这也解释了为什么对比学习通常受益于较大的批次。
 
 ### NT-Xent
 
-- **NT-Xent** (Normalised Temperature-scaled Cross-Entropy, Chen et al., 2020) is the loss used in SimCLR (Chapter 8 file 04) and is essentially InfoNCE applied symmetrically within a batch. For a batch of $N$ pairs, the $2N$ augmented views produce $2N - 2$ negatives for each anchor (all views except itself and its positive). The loss for a positive pair $(i, j)$ is:
+- **NT-Xent**（Normalised Temperature-scaled Cross-Entropy，Chen 等，2020）是 SimCLR 使用的损失（见第 08 章文件 04），本质上是在批次内对称应用 InfoNCE。批次含 $N$ 组样本时，$2N$ 个增强视图会为每个锚点提供 $2N - 2$ 个负样本，即除自身和正样本外的所有视图。正样本对 $(i, j)$ 的损失为：
 
 $$\ell_{i,j} = -\log \frac{\exp(\text{sim}(z_i, z_j) / \tau)}{\sum_{k=1}^{2N} \mathbf{1}_{[k \neq i]} \exp(\text{sim}(z_i, z_k) / \tau)}$$
-- NT-Xent and InfoNCE are the same mathematical formula; the names differ because they were introduced in different contexts (self-supervised vision vs. representation learning theory).
+- NT-Xent 和 InfoNCE 的数学形式相同，名称不同是因为它们分别出现在自监督视觉和表示学习理论的研究中。
 
-### The Role of Temperature
+### 温度的作用
 
-- The **temperature** $\tau$ is one of the most important hyperparameters in contrastive learning. To build intuition, think of temperature in the physical sense: at high temperature, molecules move randomly (the softmax is flat, all negatives look equally bad); at low temperature, molecules settle into rigid structures (the softmax is peaked, only the hardest negatives matter).
+- **温度** $\tau$ 是对比学习中的重要超参数。可以借用物理温度来理解它：温度高时，softmax 分布较平，模型难以区分不同负样本；温度低时，分布更尖锐，最难的负样本影响最大。
 
-- Formally, as $\tau \to 0$, the softmax approaches a hard argmax that selects only the single hardest negative. As $\tau \to \infty$, all negatives contribute equally. In practice, $\tau \in [0.01, 0.1]$ works well for normalised embeddings. Too-low temperature causes training instability (gradients become very large for hard negatives); too-high temperature makes the loss insensitive to violations.
+- 形式上，$\tau \to 0$ 时，softmax 趋近硬 argmax，只选出最难的负样本；$\tau \to \infty$ 时，所有负样本的权重趋于相同。对归一化嵌入，$\tau \in [0.01, 0.1]$ 往往效果较好。温度过低会导致训练不稳定，因为困难负样本对应的梯度很大；温度过高则会让损失对违例不敏感。
 
-- CLIP initialises $\tau = 0.07$ and learns it as a log-parametrised scalar $\tau = \exp(t)$, where $t$ is updated by gradient descent alongside the model weights. This allows the model to automatically adjust the difficulty of the contrastive task during training.
+- CLIP 将温度初始化为 $\tau = 0.07$，并通过对数参数化来学习这个标量：$\tau = \exp(t)$。参数 $t$ 与模型权重一起通过梯度下降更新，使模型能在训练中自动调整对比任务的难度。
 
-![Effect of temperature on contrastive softmax: low temperature produces a peaked distribution focused on hard negatives, high temperature produces a flat distribution](../images/contrastive_temperature.svg)
+![温度对比 softmax 的影响：低温产生尖锐分布，突出困难负样本；高温产生平坦分布](../images/contrastive_temperature.svg)
 
 
-### Triplet Loss and Margin-Based Alternatives
+### 三元组损失与基于间隔的方法
 
-- Before InfoNCE dominated, **triplet loss** was the standard for metric learning. Given an anchor $a$, a positive $p$, and a negative $n$:
+- 在 InfoNCE 成为主流之前，**三元组损失**是度量学习的常用方法。给定锚点 $a$、正样本 $p$ 和负样本 $n$：
 
 $$\mathcal{L}_{\text{triplet}} = \max(0, \|a - p\|^2 - \|a - n\|^2 + m)$$
-- where $m$ is a margin that ensures the positive is at least $m$ closer than the negative. Triplet loss operates on individual triplets rather than batches, making it less sample-efficient than InfoNCE. It is also sensitive to the mining strategy: random negatives are often too easy (the loss is zero), so **hard negative mining** (selecting the closest incorrect match) or **semi-hard mining** (selecting negatives within the margin) is critical.
+- $m$ 是间隔，要求正样本至少比负样本近 $m$。三元组损失逐组三元组计算，而不是利用整个批次，因此比 InfoNCE 的样本利用率低。它也依赖负样本挖掘策略：随机负样本往往太容易，损失会变为零，所以**困难负样本挖掘**（选择最接近的错误匹配）或**半困难负样本挖掘**（选择落在间隔内的负样本）很重要。
 
-- InfoNCE implicitly performs hard negative mining across the entire batch, which is one reason it outperforms triplet loss at scale. The softmax normalisation in InfoNCE automatically upweights hard negatives (those with high similarity to the anchor), providing a natural curriculum without explicit mining.
+- InfoNCE 会在整个批次中隐式挖掘困难负样本，这也是它在大规模场景中优于三元组损失的原因之一。它的 softmax 归一化会自动提高困难负样本（与锚点相似度较高者）的权重，无需显式挖掘就能形成自然的训练顺序。
 
-## Image-Text Retrieval and Zero-Shot Classification
+## 图文检索与零样本分类
 
-- Once you have a trained joint embedding space, you can perform **image-text retrieval**: given an image query, find the most relevant texts from a database (image-to-text retrieval), or given a text query, find the most relevant images (text-to-image retrieval). This is simply a nearest-neighbour search in the shared embedding space.
+- 训练好联合嵌入空间后，就能执行**图文检索**：给定图像查询，从数据库中找出最相关的文本（图像到文本检索）；或给定文本查询，找出最相关的图像（文本到图像检索）。这相当于在共享嵌入空间中搜索最近邻。
 
-- Imagine a librarian who can instantly compare any photograph with any caption in a million-item catalogue. They do not need to understand every possible category in advance; they just measure how "close" each photo is to each caption. This is how CLIP-style models perform retrieval and zero-shot classification.
+- 可以把 CLIP 式模型想成一位图书管理员，能迅速比较百万条目中的任意照片和说明。它不必预先掌握所有类别，只要计算每张照片与各条说明的接近程度，就能完成检索和零样本分类。
 
-- **Zero-shot classification** is a special case of text-to-image retrieval. Given $K$ class names, you construct text prompts $\{t_1, \ldots, t_K\}$ (e.g., "a photo of a cat", "a photo of a dog") and embed them. For a new image $x$, the predicted class is:
+- **零样本分类**是文本到图像检索的一种特殊情况。给定 $K$ 个类别名称，先为它们各构造一条文本提示，共 $K$ 条，记为 $\{t_1, \ldots, t_K\}$（例如“a photo of a cat”和“a photo of a dog”），再计算这些提示的嵌入。对新图像 $x$，预测类别为：
 
 $$\hat{y} = \arg\max_{k} \; \text{sim}(f_\theta(x), g_\phi(t_k))$$
-- The key insight is that the text encoder acts as a flexible classifier head. Instead of training a new linear layer for each downstream task, you simply describe the task in natural language. This is why CLIP generalises so well: the text encoder has seen millions of diverse descriptions during pre-training.
+- 文本编码器在这里充当灵活的分类头。下游任务无需另训线性层，只要用自然语言描述类别即可。CLIP 的文本编码器在预训练中接触过大量不同描述，因此能够迁移到多种任务。
 
-- **Prompt engineering** matters. CLIP's zero-shot accuracy on ImageNet improves from 63.2% to 68.4% just by changing the prompt template from "{class name}" to "a photo of a {class name}." Even better, **prompt ensembling** averages the text embeddings of multiple templates (e.g., "a photo of a {class name}", "a good photo of a {class name}", "a drawing of a {class name}") to produce a more robust text representation.
+- **提示词设计**会影响效果。仅把 ImageNet 上的提示模板从“{class name}”改为“a photo of a {class name}”，CLIP 的零样本准确率就从 63.2% 提高到 68.4%。**提示词集成**还会对多个模板（如“a photo of a {class name}”“a good photo of a {class name}”“a drawing of a {class name}”）得到的文本嵌入取平均，形成更稳健的文本表示。
 
-![Zero-shot classification: text prompts for each class are embedded alongside the image, the class with highest cosine similarity is selected](../images/zero_shot_classification.svg)
+![零样本分类：分别计算图像和各类别文本提示的嵌入，再选择余弦相似度最高的类别](../images/zero_shot_classification.svg)
 
 
-## Audio-Visual Correspondence
+## 音视频对应关系
 
-- Close your eyes and listen to someone bouncing a basketball. You can tell when it hits the floor from the rhythmic thuds. Now open your eyes: the visual bounce aligns perfectly with each thud. This tight correspondence between audio and visual events is a free supervisory signal that machines can learn from. **Audio-visual correspondence learning** trains models to associate sounds with their visual sources without any human labels.
+- 闭上眼睛听别人拍篮球，你能从有节奏的撞击声判断篮球何时落地。睁开眼后，会看到画面中的弹跳和每次撞击声同步。音频事件与视觉事件之间的对应关系为机器提供了无需人工标注的监督信号。**音视频对应学习**据此训练模型，让声音与其视觉来源建立联系。
 
-- The idea is strikingly similar to CLIP, but replaces text with audio. Given paired video frames and audio segments, the model learns an embedding space where temporally aligned audio-visual pairs are close and misaligned pairs are far apart.
+- 这一思路与 CLIP 类似，只是把文本换成音频。给定配对的视频帧和音频片段，模型会学习一个嵌入空间，让时间上对齐的音视频样本彼此接近，让错位的样本彼此远离。
 
-- **Audio-Visual Embedding (AVE)** methods (Arandjelovic and Zisserman, 2017) train a visual encoder $f$ and an audio encoder $g$ with a contrastive loss on video data. The positive pair is (video frame, audio clip from the same time), and negatives are audio clips from different videos or different times. The model learns that a barking sound goes with the image of a dog, and a guitar sound goes with the image of a guitar, all without labels.
+- **音视频嵌入**（Audio-Visual Embedding，AVE）方法（Arandjelovic 和 Zisserman，2017）在视频数据上用对比损失训练视觉编码器 $f$ 和音频编码器 $g$。正样本对由同一时刻的视频帧和音频片段组成；负样本则来自其他视频或不同时间。这样，模型无需标签也能学到吠叫声对应狗的画面、吉他声对应吉他的画面。
 
-- The audio encoder typically processes **log-mel spectrograms** (Chapter 9 file 01) using a CNN or audio transformer, producing a fixed-size embedding. The visual encoder processes video frames using a standard image backbone (ResNet, ViT). Both project to a shared $d$-dimensional space, and training uses the same InfoNCE loss as CLIP:
+- 音频编码器通常用 CNN 或音频 Transformer 处理**对数梅尔频谱图**（见第 09 章文件 01），生成定长嵌入。视觉编码器则用标准图像主干网络（如 ResNet、ViT）处理视频帧。两个编码器都把输出映射到共享的 $d$ 维空间，训练时使用与 CLIP 相同的 InfoNCE 损失：
 
 $$\mathcal{L}_{\text{AV}} = -\log \frac{\exp(\text{sim}(z^{\text{vis}}, z^{\text{aud}}) / \tau)}{\sum_{k=1}^{N} \exp(\text{sim}(z^{\text{vis}}, z_k^{\text{aud}}) / \tau)}$$
-![Audio-visual correspondence: a visual encoder processes video frames and an audio encoder processes spectrograms, contrastive learning aligns temporally matched pairs](../images/audio_visual_correspondence.svg)
+![音视频对应学习：视觉编码器处理视频帧，音频编码器处理频谱图，对比学习会对齐时间匹配的样本对](../images/audio_visual_correspondence.svg)
 
 
-- **Applications** of audio-visual learning include: sound source localisation (where in the image is the sound coming from?), audio-visual speech recognition (combining lip movements with audio, as in Chapter 9 file 02), audio-visual source separation (isolating one speaker's voice by watching their face, the "cocktail party" problem from Chapter 9 file 05), and video generation conditioned on audio.
+- 音视频学习可用于**声源定位**（声音来自画面的哪个位置？）、音视频语音识别（结合唇部动作和音频，见第 09 章文件 02）、音视频声源分离（观察说话人的面部来分离其语音，即第 09 章文件 05 所述的“鸡尾酒会问题”），以及由音频条件控制的视频生成。
 
-- **ImageBind** (Girdhar et al., 2023) extends this to six modalities: images, text, audio, depth, thermal, and IMU data. The key insight is that you do not need paired data for every combination. By aligning each modality to images (using image-text pairs for text, image-audio pairs for audio, etc.), all modalities become implicitly aligned through the shared image embedding space. This "binding" through a common anchor modality produces an emergent alignment: audio and text become similar even though they were never directly trained together.
+- **ImageBind**（Girdhar 等，2023）把对齐范围扩展到六种模态：图像、文本、音频、深度、热成像和 IMU 数据。它的关键思路是不必为每种模态组合都准备配对数据。只要分别把各模态对齐到图像（如用图文对训练文本、用图音对训练音频），所有模态就能通过共享的图像嵌入空间间接对齐。这种以图像为共同锚点的“绑定”会产生涌现式对齐：即使音频和文本从未直接配对训练，它们的表示也会彼此接近。
 
-## Evaluation
+## 评估
 
-- Evaluating multimodal models requires metrics that capture cross-modal understanding. The two dominant evaluation paradigms are **zero-shot benchmarks** and **retrieval metrics**.
+- 评估多模态模型时，需要衡量模型对跨模态关系的理解能力。常用方法分为**零样本基准测试**和**检索指标**两类。
 
-### Zero-Shot Benchmarks
+### 零样本基准测试
 
-- Zero-shot evaluation measures whether a model can perform tasks it was never explicitly trained for. The most common benchmark is **ImageNet zero-shot accuracy**: embed all 1,000 ImageNet class names as text, embed each test image, and measure top-1 and top-5 classification accuracy based on cosine similarity. CLIP ViT-L/14 achieves 75.5% top-1 accuracy zero-shot, comparable to a supervised ResNet-50 trained on ImageNet.
+- 零样本评估检验模型能否完成训练时未明确针对的任务。最常见的基准是 **ImageNet 零样本准确率**：把 ImageNet 的 1,000 个类别名称编码为文本嵌入，再编码每张测试图像，根据余弦相似度计算 top-1 和 top-5 分类准确率。CLIP ViT-L/14 的零样本 top-1 准确率为 75.5%，与用 ImageNet 监督训练的 ResNet-50 相当。
 
-- Other zero-shot benchmarks include: CIFAR-10/100, STL-10, Food-101, Oxford Pets, and Flowers-102. Evaluating across many datasets tests whether the model has genuinely general visual understanding or has merely memorised patterns from its pre-training data.
+- 其他零样本基准包括 CIFAR-10/100、STL-10、Food-101、Oxford Pets 和 Flowers-102。跨多个数据集评估，可以检验模型是否具备较广泛的视觉理解能力，还是只记住了预训练数据中的模式。
 
-- **Linear probe** evaluation is a complementary test. You freeze the pre-trained image encoder, extract features for a labelled dataset, and train a simple linear classifier on top. This measures the quality of the learned representations independently of the zero-shot retrieval mechanism. CLIP's features are excellent linear probe features, often matching or exceeding supervised pre-training.
+- **线性探测**是另一种评估方式：固定预训练图像编码器，为带标签的数据集提取特征，再在特征之上训练一个简单的线性分类器。它能单独衡量表示质量，不受零样本检索机制影响。CLIP 的特征很适合线性探测，效果常能达到甚至超过监督式预训练的特征。
 
-### Retrieval Metrics
+### 检索指标
 
-- For retrieval tasks (image-to-text and text-to-image), the standard metric is **Recall@K** (R@K): the fraction of queries for which the correct match appears in the top $K$ retrieved results. Common values are R@1, R@5, and R@10.
+- 图像到文本和文本到图像检索通常使用**召回率@K**（Recall@K，R@K）：正确匹配出现在前 $K$ 个检索结果中的查询所占比例。常见指标有 R@1、R@5 和 R@10。
 
-- Formally, for a set of $Q$ queries:
+- 对于包含 $Q$ 个查询的数据集：
 
 $$\text{R@}K = \frac{1}{Q} \sum_{q=1}^{Q} \mathbf{1}[\text{rank}(q) \leq K]$$
-- where $\text{rank}(q)$ is the position of the correct match in the ranked retrieval list for query $q$.
+- 其中，$\text{rank}(q)$ 表示查询 $q$ 的正确匹配在排序结果中的位置。
 
-- Standard retrieval benchmarks include **Flickr30K** (31,000 images, each with 5 captions) and **MS-COCO** (123,000 images, each with 5 captions). Evaluation is done on the test split: given an image, retrieve the correct caption(s) from the full test set, and vice versa.
+- 常见检索基准包括 **Flickr30K**（31,000 张图像，每张配有 5 条说明）和 **MS-COCO**（123,000 张图像，每张配有 5 条说明）。评估时使用测试集：给定图像，从整个测试集中检索正确说明；反向任务则根据说明检索图像。
 
-- **Median rank** (MedR) is a complementary metric: the median position of the correct match across all queries. A perfect model has MedR = 1. Lower is better.
+- **中位排名**（MedR）是补充指标，表示所有查询的正确匹配位置的中位数。完美模型的 MedR 为 1，数值越低越好。
 
-- Beyond retrieval, multimodal models are also evaluated on compositional understanding benchmarks like **Winoground** (which tests whether the model can distinguish "a mug in a dog" from "a dog in a mug") and **ARO** (Attribute, Relation, Order), which test whether the model genuinely understands the structure of language or merely matches bags of words. CLIP-style models often struggle on these, revealing a fundamental limitation: contrastive pre-training aligns global semantics but may not capture fine-grained compositional structure.
+- 多模态模型还会接受组合式理解基准测试，例如 **Winoground** 会检查模型能否区分“狗在杯子里”和“杯子在狗里面”；**ARO**（Attribute、Relation、Order，即属性、关系、顺序）则检验模型是否理解语言结构，而不是只匹配词袋。CLIP 式模型在这些任务上往往表现不佳，说明对比预训练虽然能对齐整体语义，却未必能捕捉细粒度的组合结构。
 
-![Retrieval evaluation: given a query image, the model ranks all text candidates by similarity, Recall@K measures whether the correct caption appears in the top K results](../images/retrieval_recall_at_k.svg)
+![检索评估：模型按相似度为查询图像排列文本候选项，Recall@K 衡量正确说明是否出现在前 K 个结果中](../images/retrieval_recall_at_k.svg)
 
 
-## Putting It All Together
+## 小结
 
-- The multimodal representations covered in this file form the foundation for everything that follows in this chapter. The joint embedding spaces trained by CLIP and its successors are the "glue" that connects vision and language. File 02 builds on this foundation with vision-language models that go beyond retrieval to generate text about images. File 03 explores how images and video are tokenised for use in sequence models. File 04 covers cross-modal generation (text-to-image, text-to-video). And file 05 examines unified architectures that handle multiple modalities within a single model.
+- 本文介绍的多模态表示是本章后续内容的基础。CLIP 及其后续模型训练出的联合嵌入空间，把视觉和语言联系起来。文件 02 会在此基础上介绍视觉语言模型，说明模型如何从检索扩展到图像描述生成；文件 03 讨论如何把图像和视频转换为序列模型可用的词元；文件 04 介绍跨模态生成（文本生成图像、文本生成视频）；文件 05 则介绍在单个模型中处理多种模态的统一架构。
 
-- The core takeaway: contrastive learning on paired data produces embedding spaces where different modalities are interchangeable. An image embedding and a text embedding become "the same kind of thing," enabling zero-shot classification, retrieval, and seamless integration into larger systems. The simplicity of this idea, just push matched pairs together and unmatched pairs apart, belies its extraordinary effectiveness.
+- 配对数据上的对比学习会把不同模态映射到可直接比较的嵌入空间。图像嵌入和文本嵌入因此成为同一空间中的表示，可用于零样本分类、检索，并接入更大的系统。方法的核心是拉近匹配样本对、推远不匹配样本对；这一简单原则在多种任务中都很有效。
 
-## Coding Tasks (use CoLab or notebook)
+## 编程任务（使用 Colab 或笔记本）
 
-1. Implement the CLIP contrastive loss from scratch. Create random image and text embeddings, compute the similarity matrix, and calculate the symmetric cross-entropy loss.
+1. **从头实现 CLIP 对比损失。**生成随机图像和文本嵌入，计算相似度矩阵，并求出对称交叉熵损失。
 ```python
 import jax
 import jax.numpy as jnp
@@ -263,7 +263,7 @@ plt.colorbar(im); plt.tight_layout(); plt.show()
 # Try making matched pairs similar: set text_embeds = image_embeds + small noise
 ```
 
-2. Build a toy joint embedding model that learns to align 2D "images" (random vectors) with "captions" (different random vectors) using InfoNCE loss and gradient descent.
+2. **构建玩具联合嵌入模型。**使用 InfoNCE 损失和梯度下降，把作为随机向量的“图像”表示与另一组随机向量“说明”对齐。
 ```python
 import jax
 import jax.numpy as jnp
@@ -316,7 +316,7 @@ plt.legend(); plt.grid(alpha=0.3); plt.tight_layout(); plt.show()
 # Modify d_embed (try 2, 4, 16) to see how embedding dimension affects alignment
 ```
 
-3. Implement zero-shot classification with pre-computed embeddings. Simulate class "prototypes" as text embeddings and classify new images by nearest-neighbour lookup.
+3. **用预先计算的嵌入实现零样本分类。**把文本嵌入作为各类别的“原型”，再用最近邻搜索为新图像分类。
 ```python
 import jax
 import jax.numpy as jnp

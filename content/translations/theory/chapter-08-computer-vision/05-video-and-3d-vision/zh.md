@@ -8,134 +8,145 @@ source:
   sha256: 2f5aab15f8b0b5afebb8fbecd66e4682e9c4a2557db5f164c577d7b08a52ea3f
 status: reviewed
 ---
-# Video and 3D Vision
+# 视频与三维视觉
 
-*Video and 3D vision extend image understanding into the temporal and spatial domains. This file covers optical flow, video classification (3D CNNs, TimeSformer), object tracking (SORT, DeepSORT), action recognition, depth estimation (monocular and stereo), point clouds, NeRFs, and 3D Gaussian splatting.*
+*视频与三维视觉将图像理解扩展到时间和空间维度。本文介绍光流、视频分类（3D CNN、TimeSformer）、目标跟踪（SORT、DeepSORT）、动作识别、深度估计（单目和双目）、点云、NeRF 和三维高斯泼溅（3D Gaussian Splatting）。*
 
-- Files 01-04 treated images as isolated snapshots. But the visual world is continuous: objects move, scenes change, and depth exists. This file extends computer vision into the temporal domain (video) and the spatial domain (3D), covering how models understand motion, track objects, estimate depth, and reconstruct scenes.
+- 前面第 01 至 04 篇都把图像当作彼此独立的静态画面。但现实视觉世界是连续的：物体会移动，场景会变化，空间中还有深度。本篇将计算机视觉扩展到时间维度（视频）和空间维度（三维），介绍模型如何理解运动、跟踪物体、估计深度和重建场景。
 
-- A **video** is a sequence of images (frames) captured over time. At 30 frames per second, a 10-second clip contains 300 frames. The key challenge is modelling the **temporal dimension**: how do objects move, how do scenes evolve, and how can we relate information across frames?
+- **视频**是按时间顺序采集的一系列图像（帧）。如果帧率为每秒 30 帧，一段 10 秒的视频就包含 300 帧。核心挑战在于建模**时间维度**：物体如何移动、场景如何变化，以及如何关联不同帧中的信息？
 
-- **Optical flow** estimates the apparent motion of pixels between two consecutive frames. For each pixel in frame $t$, optical flow produces a 2D displacement vector $(u, v)$ pointing to where that pixel moved in frame $t+1$. The result is a dense motion field the same size as the image.
+- **光流**估计连续两帧之间像素表观运动的方向和幅度。对第 $t$ 帧中的每个像素，光流会给出一个二维位移向量 $(u, v)$，指出该像素在第 $t+1$ 帧中移动到哪里。最终得到与图像大小相同的稠密运动场。
 
-![Two consecutive video frames and the optical flow field between them, visualised as coloured arrows showing pixel motion direction and magnitude](../images/optical_flow.svg)
+![连续两帧视频及其光流场，用彩色箭头表示像素运动的方向和幅度](../images/optical_flow.svg)
 
-
-- Optical flow is computed under the **brightness constancy assumption**: a pixel's intensity does not change as it moves. If a pixel at position $(x, y)$ in frame $t$ has intensity $I(x, y, t)$ and moves by $(u, v)$ in a small time interval $\delta t$:
+- 光流的计算基于**亮度恒定假设**：像素移动时，其强度值保持不变。若第 $t$ 帧中位置 $(x, y)$ 的像素强度为 $I(x, y, t)$，并在短时间间隔 $\delta t$ 内移动 $(u, v)$：
 
 $$I(x + u\delta t, \, y + v\delta t, \, t + \delta t) = I(x, y, t)$$
-- Taking a first-order Taylor expansion (chapter 03) and dividing by $\delta t$:
+
+- 对等式进行一阶泰勒展开（见第 03 章），再除以 $\delta t$：
 
 $$I_x u + I_y v + I_t = 0$$
-- where $I_x, I_y$ are the spatial gradients (Sobel, file 01) and $I_t$ is the temporal gradient (difference between consecutive frames). This is the **optical flow constraint equation**. One equation, two unknowns ($u, v$): we need an additional constraint.
 
-- **Lucas-Kanade** assumes the flow is constant within a small window (e.g., 5x5 pixels). This gives an overdetermined system (25 equations, 2 unknowns) solved by least squares (the normal equation from chapter 06):
+- 其中，$I_x, I_y$ 是空间梯度（用 Sobel 算子计算，见文件 01），$I_t$ 是时间梯度（相邻帧之差）。这就是**光流约束方程**。一个方程包含两个未知数 $u, v$，因此还需要额外约束。
+
+- **Lucas–Kanade** 方法假设一个小窗口内的光流恒定（例如 5×5 像素）。这样会得到一个超定方程组（25 个方程、2 个未知数），可用最小二乘法求解（见第 06 章的正规方程）：
 
 ```math
 \begin{bmatrix} u \\ v \end{bmatrix} = \begin{bmatrix} \sum I_x^2 & \sum I_x I_y \\ \sum I_x I_y & \sum I_y^2 \end{bmatrix}^{-1} \begin{bmatrix} -\sum I_x I_t \\ -\sum I_y I_t \end{bmatrix}
 ```
 
-- The 2x2 matrix is the structure tensor from file 01 (the same matrix used in Harris corner detection). Lucas-Kanade works well for small motions but fails when objects move more than a few pixels between frames.
+- 其中的 2×2 矩阵就是文件 01 介绍的结构张量，也是 Harris 角点检测使用的矩阵。Lucas–Kanade 适用于小幅运动；如果物体在两帧之间移动了几个像素以上，效果就会变差。
 
-- **Farneback's method** fits a polynomial expansion to the neighbourhood of each pixel and estimates the displacement field that best explains the change between frames. It produces dense flow (a vector for every pixel) and handles larger motions than Lucas-Kanade.
+- **Farnebäck 方法**对每个像素周围的邻域拟合多项式展开，再估计最能解释两帧变化的位移场。它能为每个像素生成一个向量，得到稠密光流；与 Lucas–Kanade 相比，也能处理幅度更大的运动。
 
-- Modern **deep learning optical flow** methods (FlowNet, RAFT) learn to predict optical flow end-to-end from pairs of frames. **RAFT** (Recurrent All-Pairs Field Transforms, Teed and Deng, 2020) computes a 4D correlation volume between all pairs of pixels in the two frames and iteratively refines the flow estimate using a GRU-based update operator. RAFT achieves 状态-of-the-art accuracy and has become the standard flow backbone.
+- 现代**深度学习光流**方法（FlowNet、RAFT）使用成对的视频帧端到端地学习光流。**RAFT**（Recurrent All-Pairs Field Transforms，Teed 和 Deng，2020）会计算两帧中所有像素对之间的四维相关性体，并使用基于 GRU 的更新算子迭代细化光流估计。RAFT 的精度达到当时的先进水平，现已成为常用的光流主干网络。
 
-- **Two-stream networks** (Simonyan and Zisserman, 2014) were an early approach to video understanding. One stream processes a single RGB frame (appearance), the other processes a stack of optical flow frames (motion). The two streams are fused at the end (by averaging or concatenation). This architecture explicitly separates "what things look like" from "how they move."
+- **双流网络**（Simonyan 和 Zisserman，2014）是早期的视频理解方法之一。一条分支处理单个 RGB 帧以提取外观信息；另一条分支处理一组光流帧以提取运动信息。两条分支的输出在末端融合（取平均或拼接）。这种架构明确区分“物体看起来怎样”和“物体如何运动”。
 
-- **3D Convolutional Networks** extend 2D convolutions to the temporal dimension. A 3D convolution applies a filter of size $k \times k \times k_t$ that spans both spatial and temporal dimensions, directly learning spatiotemporal features.
+- **3D 卷积网络**将二维卷积扩展到时间维度。3D 卷积使用尺寸为 $k \times k \times k_t$ 的滤波器，同时覆盖空间和时间维度，直接学习时空特征。
 
-- **C3D** (Tran et al., 2015) stacked 3D convolutions with 3x3x3 filters, showing that temporal convolutions can learn motion features without explicit optical flow. The cost is high: 3D convolutions have $k_t$ times more parameters and computation than their 2D counterparts.
+- **C3D**（Tran 等，2015）堆叠了使用 3×3×3 滤波器的 3D 卷积，证明无需显式计算光流，时间卷积也能学到运动特征。代价是计算量较大：与对应的二维卷积相比，3D 卷积的参数量和计算量都会增加到 $k_t$ 倍。
 
-- **I3D** (Inflated 3D, Carreira and Zisserman, 2017) took a more practical approach: start with a pre-trained 2D CNN (like Inception or ResNet) and "inflate" all 2D filters to 3D by repeating the weights along the temporal dimension and dividing by $k_t$. This transfers ImageNet pre-training to video while adding temporal modelling. A 2D $k \times k$ filter becomes a $k \times k \times k_t$ filter initialised as $W_{\text{3D}}[:,:,j] = W_{\text{2D}} / k_t$ for all temporal positions $j$.
+- **I3D**（Inflated 3D，Carreira 和 Zisserman，2017）采用了更实用的做法：从预训练的二维 CNN（如 Inception 或 ResNet）出发，将每个二维滤波器沿时间维度复制，再除以 $k_t$，从而扩展为 3D 滤波器。这种方法在增加时间建模能力的同时，将 ImageNet 预训练迁移到视频任务。二维的 $k \times k$ 滤波器会变为 $k \times k \times k_t$ 滤波器，并按以下方式初始化：对所有时间位置 $j$，$W_{\text{3D}}[:,:,j] = W_{\text{2D}} / k_t$。
 
-- **SlowFast Networks** (Feichtenhofer et al., 2019) use two parallel pathways operating at different temporal resolutions:
-    - The **Slow pathway** processes frames at a low frame rate (e.g., every 16th frame) with high spatial resolution and many channels, capturing fine spatial detail.
-    - The **Fast pathway** processes frames at a high frame rate (every 2nd frame) with reduced spatial resolution and fewer channels (typically $1/8$ of the Slow pathway), capturing rapid temporal changes.
-    - Lateral connections fuse information from Fast to Slow via strided convolutions.
+- **SlowFast 网络**使用两条并行路径，分别处理不同时间分辨率的视频：
+    - **Slow 路径**以较低帧率处理视频（例如每 16 帧取一帧），并使用较高空间分辨率和较多通道，以捕捉精细空间信息。
+    - **Fast 路径**以较高帧率处理视频（例如每 2 帧取一帧），但空间分辨率较低、通道数较少（通常为 Slow 路径的 $1/8$），以捕捉快速的时间变化。
+    - 横向连接通过带步长的卷积将 Fast 路径的信息融合到 Slow 路径。
 
-- The insight is that spatial and temporal information have different bandwidth requirements: object appearance changes slowly, but motion can be rapid. SlowFast matches this asymmetry by design.
+- 其核心观察是，空间信息和时间信息所需的带宽不同：物体外观变化较慢，运动却可能很快。SlowFast 的结构专门利用了这种差异。
 
-- **TimeSformer** (Bertasius et al., 2021) applies the Vision Transformer to video. It decomposes full spatiotemporal attention (which would be prohibitively expensive: $O((T \times N)^2)$ for $T$ frames and $N$ patches per frame) into **divided attention**: each block alternates between temporal attention (each patch attends across time at the same spatial position) and spatial attention (each patch attends across space within the same frame). This reduces the cost from $O(T^2 N^2)$ to $O(T^2 + N^2)$.
+- **TimeSformer**（Bertasius 等，2021）将视觉 Transformer 用于视频。直接计算完整时空注意力的成本极高：对 $T$ 帧、每帧 $N$ 个图像块，复杂度为 $O((T \times N)^2)$。TimeSformer 将其分解为**分解注意力**：每个模块交替计算时间注意力（每个图像块关注不同帧中相同空间位置的信息）和空间注意力（每个图像块关注同一帧中不同空间位置的信息）。复杂度因此降为 $O(T^2N + TN^2)$。
 
-- **VideoMAE** (Tong et al., 2022) extends the masked autoencoder idea (file 04) to video. An extremely high masking ratio (90-95%) is used because video has high temporal redundancy: neighbouring frames look nearly identical, so masking most patches still leaves enough information for reconstruction. VideoMAE pre-trains a ViT backbone on unlabelled video and transfers to downstream tasks.
+> 注：原文将分解注意力的复杂度写为 $O(T^2 + N^2)$，但按每帧 $N$ 个图像块、共 $T$ 帧计算，还需乘上相应的图像块数和帧数因子；译文按此更正。
 
-- **Action recognition** classifies a video clip into one of many action categories (e.g., "running," "cooking," "playing guitar"). It is the video analogue of image classification. Standard benchmarks include Kinetics-400 (400 action classes, ~300K clips), Something-Something (174 fine-grained actions requiring temporal reasoning), and ActivityNet (200 classes with long, untrimmed videos).
+- **VideoMAE**（Tong 等，2022）将掩码自编码器（见文件 04）扩展到视频。视频存在很强的时间冗余：相邻帧往往几乎相同。因此可以使用很高的掩码比例（90%–95%），即使遮住大部分图像块，仍有足够信息用于重建。VideoMAE 在未标注视频上预训练 ViT 主干网络，再将其迁移到下游任务。
 
-- **Temporal action detection** goes beyond classification: given a long untrimmed video, find the start time, end time, and class of each action. This is the temporal analogue of object detection. Methods like ActionFormer use a Transformer to process temporal features and predict action boundaries.
+- **动作识别**将视频片段分类为多个动作类别之一（例如“跑步”“做饭”“弹吉他”），相当于视频领域的图像分类。常用基准包括 Kinetics-400（400 个动作类别、约 30 万段视频）、Something-Something（174 个需要时间推理的细粒度动作）以及 ActivityNet（200 个类别，视频较长且未裁剪）。
 
-- **Video object tracking** follows a specific object across frames after it is identified in the first frame.
+- **时间动作检测**比分类更进一步：给定一段长而未裁剪的视频，找出每个动作的开始时间、结束时间和类别。这是目标检测在时间维度上的对应任务。ActionFormer 等方法使用 Transformer 处理时间特征并预测动作边界。
 
-- **SORT** (Simple Online and Realtime Tracking, Bewley et al., 2016) combines a detection model (which detects objects in each frame independently) with the **Kalman filter** for motion prediction and the **Hungarian algorithm** for assignment.
+- **视频目标跟踪**会在第一帧识别某个目标后，持续跟踪它在后续帧中的位置。
 
-- The **Kalman filter** maintains a 状态 estimate (position, velocity, size) for each tracked object and predicts where it will be in the next frame using a linear motion model. When a new detection arrives, the Kalman filter updates its estimate by combining the prediction with the observation, weighted by their respective uncertainties. This is Bayesian updating (chapter 05) applied to tracking.
+- **SORT**（Simple Online and Realtime Tracking，Bewley 等，2016）将检测模型（逐帧独立检测对象）与用于运动预测的**卡尔曼滤波器**、用于数据关联的**匈牙利算法**结合起来。
 
-- The **Hungarian algorithm** solves the bilinear assignment problem: given $M$ tracked objects and $N$ new detections, find the optimal one-to-one matching that minimises total cost (using IoU distance from file 03). Unmatched detections start new tracks; unmatched tracks are terminated after a grace period.
+- **卡尔曼滤波器**为每个跟踪目标维护状态估计（位置、速度、大小），并使用线性运动模型预测它在下一帧的位置。收到新的检测结果后，滤波器根据预测和观测各自的不确定性，为两者加权并更新状态估计。这是贝叶斯更新（见第 05 章）在目标跟踪中的应用。
 
-- **DeepSORT** extends SORT by adding a **deep appearance feature**: each detected object is passed through a small CNN that produces an appearance embedding (a descriptor vector). The matching cost combines IoU distance with cosine distance (chapter 01) in embedding space. This handles occlusion and re-identification: even if an object disappears behind another for several frames, its appearance embedding allows re-matching when it reappears.
+- **匈牙利算法**用于求解二分图指派问题：给定 $M$ 个跟踪目标和 $N$ 个新检测结果，找出总成本最低的一对一匹配（使用文件 03 中的 IoU 距离）。未匹配的检测结果会启动新轨迹；未匹配的轨迹则会在宽限期后终止。
 
-- **ByteTrack** (Zhang et al., 2022) improves tracking by using every detection, including low-confidence ones. Most trackers discard detections below a confidence threshold. ByteTrack first matches high-confidence detections to existing tracks, then matches the remaining low-confidence detections to unmatched tracks. This recovers objects that are temporarily occluded or blurry (and thus have low detection confidence).
+> 注：原文写作 bilinear assignment problem；匈牙利算法求解的是二分图指派问题。
 
-- **3D vision** recovers the third spatial dimension that is lost in the 2D image projection (file 01).
+- **DeepSORT**在 SORT 的基础上加入**深度外观特征**：每个检测到的对象都经过一个小型 CNN，生成外观嵌入（描述向量）。匹配成本结合 IoU 距离和嵌入空间中的余弦距离（见第 01 章）。即使对象被遮挡数帧后再次出现，外观嵌入也能帮助重新识别和匹配。
 
-- **Depth estimation** predicts the distance from the camera to each point in the scene.
+- **ByteTrack**（Zhang 等，2022）利用所有检测结果改进跟踪，包括置信度较低的结果。多数跟踪器会丢弃低于置信度阈值的检测框。ByteTrack 先将高置信度检测结果与现有轨迹匹配，再将剩余的低置信度结果与尚未匹配的轨迹关联。这能找回暂时被遮挡或画面模糊、因而检测置信度较低的对象。
 
-- **Stereo depth** uses two cameras separated by a known baseline $b$. The same point appears at different horizontal positions in the left and right images (this offset is called **disparity** $d$). Depth is inversely proportional to disparity:
+- **三维视觉**用于恢复二维图像投影中丢失的第三个空间维度（见文件 01）。
+
+- **深度估计**用于预测场景中每个点到相机的距离。
+
+- **双目深度估计**使用两台间隔已知基线距离 $b$ 的相机。同一场景点在左右图像中的水平位置不同，这个偏移称为**视差** $d$。深度与视差成反比：
 
 $$Z = \frac{f \cdot b}{d}$$
-- where $f$ is the focal length and $b$ is the baseline distance. Computing disparity requires finding corresponding points between the two images (stereo matching), which is a 1D search along the horizontal scan line (because the cameras are horizontally aligned, a point at the same height in 3D projects to the same row in both images).
 
-- **Monocular depth estimation** predicts depth from a single image, which is fundamentally ill-posed (infinitely many 3D scenes can produce the same 2D image). Yet humans do it effortlessly using cues like relative size, texture gradients, occlusion, and atmospheric haze. Deep networks learn these cues from training data.
+- 其中，$f$ 是焦距，$b$ 是基线距离。计算视差需要在两幅图像中找到对应点（即双目匹配）。由于两台相机水平排列，三维空间中高度相同的点会投影到两幅图像的同一行，因此只需沿水平方向搜索。
 
-- Models like **MiDaS** and **Depth Anything** predict relative depth maps (ranking which objects are closer) from single images. They are trained on diverse datasets with a scale-invariant loss and produce remarkably accurate results despite the theoretical ambiguity.
+- **单目深度估计**根据单张图像预测深度。从根本上说，这是一个病态问题：无数个三维场景都可能生成相同的二维图像。但人类可以轻松利用相对大小、纹理梯度、遮挡和大气雾霾等线索估计深度，深度网络也会从训练数据中学习这些线索。
 
-- **Point clouds** are sets of 3D points $(x, y, z)$, optionally with colour or other attributes, captured by LiDAR sensors or stereo reconstruction. Unlike images, point clouds are unordered and irregularly spaced.
+- **MiDaS** 和 **Depth Anything** 等模型可从单张图像预测相对深度图，用于判断哪些对象更近。它们在多样化数据集上训练，使用尺度不变损失；尽管该问题存在理论上的歧义，仍能得到相当准确的结果。
 
-- **PointNet** (Qi et al., 2017) processes point clouds directly by applying shared MLPs to each point independently, then aggregating with max pooling (which is permutation-invariant, solving the ordering problem). **PointNet++** adds hierarchical grouping to capture local structure at multiple scales.
+- **点云**是由三维点 $(x, y, z)$ 构成的集合，还可以包含颜色等属性。点云可由 LiDAR 传感器或双目重建获得。与图像不同，点云没有固定顺序，点的分布也不规则。
 
-- **Neural Radiance Fields (NeRFs)** (Mildenhall et al., 2020) represent a 3D scene as a continuous function that maps a 3D position $(x, y, z)$ and viewing direction $(\theta, \phi)$ to a colour $(r, g, b)$ and density $\sigma$. This function is parameterised by an MLP:
+- **PointNet**（Qi 等，2017）直接处理点云：对每个点独立应用共享的多层感知机，再通过最大池化聚合结果。最大池化具有置换不变性，因此解决了点的顺序问题。**PointNet++**通过分层分组捕捉多个尺度的局部结构。
+
+- **神经辐射场（NeRF）**（Mildenhall 等，2020）用一个连续函数表示三维场景：输入三维位置 $(x, y, z)$ 和观察方向 $(\theta, \phi)$，输出颜色 $(r, g, b)$ 与密度 $\sigma$。这个函数由多层感知机参数化：
 
 $$F_\theta: (x, y, z, \theta, \phi) \to (r, g, b, \sigma)$$
-- To render a pixel, a ray is cast from the camera through that pixel into the scene. Points are sampled along the ray, and the MLP predicts colour and density at each point. The pixel colour is computed by **volume rendering**: integrating colour weighted by density along the ray:
+
+- 为了渲染一个像素，从相机穿过该像素向场景中发射一条射线。在射线上采样若干点，再由多层感知机预测每个点的颜色和密度。像素颜色通过**体渲染**计算：沿射线对颜色按密度加权积分：
 
 $$C(\mathbf{r}) = \int_{t_n}^{t_f} T(t) \cdot \sigma(\mathbf{r}(t)) \cdot \mathbf{c}(\mathbf{r}(t), \mathbf{d}) \, dt$$
-- where $T(t) = \exp(-\int_{t_n}^{t} \sigma(\mathbf{r}(s)) \, ds)$ is the accumulated transmittance (how much light has been absorbed so far). In practice, this integral is approximated by sampling $N$ points along the ray and summing:
+
+- 其中，$T(t) = \exp(-\int_{t_n}^{t} \sigma(\mathbf{r}(s)) \, ds)$ 是累计透射率，表示仍能穿过此前介质的光线比例。实际计算时，会沿射线采样 $N$ 个点，将积分近似为求和：
+
+> 注：原文将 $T(t)$ 解释为“到目前为止被吸收的光量”，但该式定义的是累计透射率，即仍能穿过介质的光线比例。
 
 $$\hat{C} = \sum_{i=1}^{N} T_i \cdot (1 - \exp(-\sigma_i \delta_i)) \cdot c_i$$
-- NeRF is trained by minimising the MSE between rendered pixels and ground truth pixels from a set of posed photographs. After training, the NeRF can render photorealistic novel views from any camera position. The limitation is speed: rendering requires evaluating the MLP millions of times (one per sample point per pixel), making real-time rendering difficult.
 
-- **3D Gaussian Splatting** (Kerbl et al., 2023) addresses NeRF's speed limitation by representing the scene as a collection of 3D Gaussian primitives rather than a continuous volumetric function. Each Gaussian has a 3D position (mean), a 3D covariance matrix (controlling shape and orientation), opacity, and colour (represented as spherical harmonics for view-dependent effects).
+- NeRF 使用一组带相机位姿标注的照片训练，最小化渲染像素与真实像素之间的均方误差（MSE）。训练完成后，它可以从任意相机位置渲染逼真的新视角。其缺点是速度慢：每个采样点、每个像素都要计算一次多层感知机，渲染一张图像需要执行数百万次计算，因此难以实时渲染。
 
-- Rendering projects each 3D Gaussian onto the image plane (producing a 2D Gaussian "splat"), sorts by depth, and composites front-to-back using alpha blending. This is a rasterisation process that runs on the GPU in real time (100+ FPS), orders of magnitude faster than NeRF's ray marching. Gaussian splatting matches or exceeds NeRF quality while enabling real-time rendering.
+- **三维高斯泼溅**（3D Gaussian Splatting，Kerbl 等，2023）用一组三维高斯基元表示场景，而不是连续的体积函数，从而解决 NeRF 的速度问题。每个高斯基元包含三维位置（均值）、控制形状和朝向的三维协方差矩阵、不透明度，以及颜色；颜色用球谐函数表示，以支持视角相关效果。
 
-- **SLAM** (Simultaneous Localisation and Mapping) is the problem of building a map of an unknown environment while simultaneously tracking the camera's position within it. It is fundamental to robotics, autonomous driving, and AR.
+- 渲染时，将每个三维高斯基元投影到图像平面，得到二维高斯“泼溅”，再按深度排序，并使用 Alpha 混合从前向后合成。这个光栅化过程可由 GPU 实时执行（每秒 100 帧以上），比 NeRF 的光线步进快几个数量级。三维高斯泼溅的画质可匹敌甚至超过 NeRF，同时支持实时渲染。
 
-- **Visual odometry** estimates camera motion from frame to frame by tracking features across images. Feature points (SIFT, ORB from file 01) are matched between consecutive frames, and the camera's rotation and translation are estimated from the correspondences using the **essential matrix** (which encodes the geometric relationship between two views, derived from the intrinsic and extrinsic parameters of file 01).
+- **同步定位与建图（SLAM）**指在未知环境中一边构建地图、一边跟踪相机位置。这项技术是机器人、自动驾驶和增强现实的基础。
 
-- **Feature-based SLAM** extends visual odometry by maintaining a persistent map. **ORB-SLAM** (Mur-Artal et al., 2015) is the most widely used feature-based SLAM system. It has three parallel threads:
-    1. **Tracking**: match ORB features in each new frame to the map, estimate camera pose using PnP (Perspective-n-Point) and RANSAC
-    2. **Local mapping**: triangulate new map points from matched features, optimise their positions using bundle adjustment (minimising reprojection error across all views that see each point)
-    3. **Loop closure**: detect when the camera revisits a previously mapped area (using bag-of-visual-words), then correct the accumulated drift by globally optimising the map
+- **视觉里程计**通过跟踪图像中的特征，估计相机从一帧到下一帧的运动。它会匹配连续帧中的特征点（如 SIFT、ORB，见文件 01），再根据这些对应点，通过**本质矩阵**估计相机的旋转和平移。本质矩阵编码两个视图之间的几何关系，可由文件 01 中介绍的内参和外参推导得到。
 
-- **LiDAR SLAM** uses 3D point clouds from LiDAR sensors instead of (or in addition to) camera images. LiDAR provides direct depth measurements, making the geometry estimation more robust but at higher hardware cost. Methods like LOAM (LiDAR Odometry and Mapping) register point clouds between consecutive scans using iterative closest point (ICP) alignment.
+- **基于特征的 SLAM**在视觉里程计基础上维护一张持续更新的地图。**ORB-SLAM**（Mur-Artal 等，2015）是使用最广泛的基于特征的 SLAM 系统之一，包含三个并行线程：
+    1. **跟踪**：将每个新帧中的 ORB 特征与地图匹配，并通过 PnP（透视 n 点）和 RANSAC 估计相机位姿。
+    2. **局部建图**：根据匹配特征三角化新的地图点，并通过束调整优化这些点的位置，使所有观测到该点的视图中的重投影误差最小。
+    3. **回环检测**：利用视觉词袋检测相机是否回到已建图区域，再通过全局优化地图来校正累计漂移。
 
-- **Visual-Inertial SLAM** fuses camera data with measurements from an IMU (accelerometer + gyroscope). The IMU provides high-frequency rotation and acceleration estimates that bridge the gaps between camera frames and handle fast motion or temporary visual feature loss.
+- **LiDAR SLAM**使用 LiDAR 传感器采集的三维点云，而不是（或同时使用）相机图像。LiDAR 能直接测量深度，因此几何估计更稳健，但硬件成本更高。LOAM（LiDAR Odometry and Mapping）等方法使用迭代最近点（ICP）配准连续扫描得到的点云。
 
-- **VR/AR** applications are among the most demanding consumers of computer vision.
+- **视觉惯性 SLAM**将相机数据与惯性测量单元（IMU）的测量值（加速度计 + 陀螺仪）融合。IMU 能高频估计旋转和加速度，填补相机帧之间的信息空隙，也能应对快速运动或视觉特征暂时丢失的情况。
 
-- **Pose estimation** determines the position and orientation of the human body (or face, or hands) from images. **Body pose** is typically represented as a set of 2D or 3D keypoint locations (joints: shoulders, elbows, wrists, hips, knees, ankles). Models like **OpenPose** and **MediaPipe** predict these keypoints using heatmap regression: for each joint, the model outputs a heatmap where the peak indicates the joint's location.
+- **VR/AR**是对计算机视觉要求最高的应用场景之一。
 
-- **Top-down** methods first detect people with a bounding box detector (file 03), then estimate the pose within each box. **Bottom-up** methods detect all keypoints in the image first, then group them into individuals using part affinity fields (vector fields that encode the association between connected joints).
+- **姿态估计**从图像中确定人体（或面部、手部）的位置和朝向。**人体姿态**通常表示为一组二维或三维关键点（关节）位置，例如肩、肘、腕、髋、膝和踝。**OpenPose** 和 **MediaPipe** 等模型使用热图回归预测这些关键点：每个关节对应一张热图，峰值表示关节位置。
 
-- **Scene reconstruction** builds a 3D model of the environment from sensor data. In AR, this enables placing virtual objects on real surfaces, occluding virtual objects behind real ones, and casting virtual shadows. Real-time scene reconstruction methods (like depth sensor-based systems in ARKit and ARCore) build a sparse mesh of the environment that updates as the user moves.
+- **自顶向下**方法先用边界框检测器（见文件 03）检测人物，再在每个框内估计姿态。**自底向上**方法先检测图像中的所有关键点，再用部件亲和场将它们分组成不同个体。部件亲和场是表示相连关节关联关系的向量场。
 
-- **Real-time rendering** constraints in VR are extreme: both eyes need separate renders at 90+ FPS (to avoid motion sickness), with latency under 20 milliseconds from head movement to display update. Techniques like **foveated rendering** (rendering at high resolution only where the user is looking, using eye tracking) and **reprojection** (warping the previous frame based on new head pose to fill the gap while the next frame renders) are essential for meeting these constraints.
+- **场景重建**根据传感器数据构建环境的三维模型。在 AR 中，这使虚拟物体能够放置在真实表面上、被真实物体遮挡，并投下虚拟阴影。基于深度传感器的 ARKit、ARCore 等实时场景重建系统会构建稀疏网格，并随着用户移动持续更新。
 
-- The convergence of real-time neural rendering (3D Gaussian splatting), robust tracking (visual-inertial SLAM), and efficient pose estimation is making photorealistic, interactive AR/VR experiences increasingly feasible.
+- VR 对**实时渲染**的要求极高：为避免晕动症，左右眼需要分别以每秒 90 帧以上的速度渲染；从头部移动到显示更新的延迟必须低于 20 毫秒。**注视点渲染**（通过眼动追踪，只在用户注视处以高分辨率渲染）和**重投影**（根据新的头部姿态扭曲上一帧，在下一帧完成前填补画面）等技术是满足这些要求的关键。
 
-## Coding Tasks (use CoLab or notebook)
+- 实时神经渲染（三维高斯泼溅）、稳健跟踪（视觉惯性 SLAM）和高效姿态估计逐渐融合，使逼真、可交互的 AR/VR 体验越来越可行。
 
-1. Implement the Lucas-Kanade optical flow algorithm from scratch. Compute flow between two synthetic frames where a square moves to the right.
+## 编程任务（使用 Colab 或笔记本）
+
+1. 从头实现 Lucas–Kanade 光流算法，计算一个正方形向右移动的两帧合成图像之间的光流。
 ```python
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
@@ -204,7 +215,7 @@ region_u = u[20:40, 15:35]
 print(f"Average horizontal flow in object region: {region_u[region_u != 0].mean():.2f} pixels")
 ```
 
-2. Implement a simple Kalman filter for 2D object tracking. Simulate a noisy trajectory and show how the Kalman filter smooths the estimates.
+2. 实现用于二维目标跟踪的简易卡尔曼滤波器。模拟带噪轨迹，并展示卡尔曼滤波如何平滑估计结果。
 ```python
 import jax
 import jax.numpy as jnp
@@ -280,7 +291,7 @@ print(f"Kalman filter RMSE: {kalman_error:.2f}")
 print(f"Error reduction: {(1 - kalman_error/obs_error) * 100:.1f}%")
 ```
 
-3. Implement a simplified NeRF-style volume rendering pipeline. Cast rays through a simple 3D scene (spheres of known colour and density) and render an image by integrating along each ray.
+3. 实现一个简化版 NeRF 体渲染流程：让射线穿过由已知颜色和密度的球体构成的简单三维场景，并沿每条射线积分以渲染图像。
 ```python
 import jax
 import jax.numpy as jnp
