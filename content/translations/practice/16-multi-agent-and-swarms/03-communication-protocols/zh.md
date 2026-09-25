@@ -835,7 +835,7 @@ class TaskManager {
     task.history.push(message);
     task.status = { state: "submitted", timestamp: Date.now() };
 
-    this.processTask(task, handler, message).catch((err) => {
+    await this.processTask(task, handler, message).catch((err) => {
       task.status = {
         state: "failed",
         timestamp: Date.now(),
@@ -1174,6 +1174,8 @@ graph LR
     style A2A_T fill:#dbeafe,stroke:#2563eb
 ```
 
+该图保留上游的协议职责示意。实现代码的执行顺序是先等待 `taskManager.sendMessage(...)` 完成，再调用 `auditRunner.run(...)`；因此审计步骤发生在任务处理之后。
+
 ```typescript
 class ProtocolGateway {
   private registry: AgentRegistry;
@@ -1209,12 +1211,12 @@ class ProtocolGateway {
       return { error: `Agent ${targetAgent} not found in registry` };
     }
 
+    const task = await this.taskManager.sendMessage(targetAgent, message);
     const audit = await this.auditRunner.run(
       targetAgent,
       [message],
       sessionId
     );
-    const task = await this.taskManager.sendMessage(targetAgent, message);
 
     return { task, audit };
   }

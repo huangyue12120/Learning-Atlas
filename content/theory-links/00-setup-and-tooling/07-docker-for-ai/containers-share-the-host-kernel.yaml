@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/07-docker-for-ai/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: e5a04b16fced01699bf458efad8b33993787192f5373e64ec7856fdb0b90c6f2
+  revision: 0285d9bd92bc95d56ba79bed2071be6fb3365369
+  sha256: 7010d2e2c5d90012f328cee7e51ba8d18660582048dc8311ead1885c6455d952
   anchor:
     heading: Why AI projects need Docker more than most
     slug: why-ai-projects-need-docker-more-than-most

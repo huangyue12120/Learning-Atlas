@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/07-docker-for-ai/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: e5a04b16fced01699bf458efad8b33993787192f5373e64ec7856fdb0b90c6f2
+  revision: 0285d9bd92bc95d56ba79bed2071be6fb3365369
+  sha256: 7010d2e2c5d90012f328cee7e51ba8d18660582048dc8311ead1885c6455d952
 status: reviewed
 ---
 
@@ -164,7 +164,7 @@ python:3.12-slim
 下面是 `code/Dockerfile`；逐行阅读它：
 
 ```dockerfile
-FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
+FROM --platform=linux/amd64 nvidia/cuda:12.4.1-devel-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
@@ -224,6 +224,8 @@ docker build -t ai-dev -f phases/00-setup-and-tooling/07-docker-for-ai/code/Dock
 ```
 
 首次构建需下载 CUDA 基础镜像和 PyTorch，耗时较长；后续构建会使用缓存层。
+
+**macOS / Apple Silicon（M1/M2/M3/M4）：** `FROM` 行中的 `--platform=linux/amd64` 可让这份镜像在 Mac 上构建成功。CUDA 基础镜像也提供 arm64 版本，Docker Desktop 在 Apple Silicon 上会自动选择它；但 PyTorch 的 `cu124` wheel 只支持 x86_64，所以 `pip install torch==2.6.0+cu124` 会报 `No matching distribution found for torch==2.6.0+cu124`。固定为 x86_64 后，Docker 会通过模拟运行镜像，因此构建更慢，而且容器没有 GPU（Mac 本身也没有 CUDA）。在 Mac 上运行下面的 `docker run` 命令时要去掉 `--gpus all`。若要在 Apple Silicon 上使用 GPU，请按第 01 课原生运行带 MPS 的构建；这份容器镜像适用于配有 NVIDIA GPU 的 x86_64 Linux 主机。
 
 运行：
 
