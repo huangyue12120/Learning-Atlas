@@ -1,3 +1,29 @@
+# Learning Atlas v0.26.2 发布说明
+
+发布日期：2026-09-27。
+
+本版完成 Issue #16 的上游更新审核：将 `ai-engineering-from-scratch` 的可复现快照从 `0285d9bd92bc95d56ba79bed2071be6fb3365369` 更新到 `319c898d87dbb709febdfe4837de72917b9d361a`。审核发现两篇已发布课程的英文原文发生变化：函数调用课更新了代码运行过滤器，检查点课增加了安全加载和分片路径边界；现有工具调用理论关联仍适用。
+
+## 本版交付
+
+- 更新函数调用中文课程，说明 AST 静态检查的行为和教学用途，并明确它不构成真正的代码隔离。
+- 更新检查点中文课程，记录基础类型 RNG 状态、`weights_only=True`、PyTorch 2.6+ 要求和分片路径限制。
+- 刷新两篇译文和一条已批准理论关联的来源指纹，按补丁版本规则同步内容清单、项目进度及应用 SemVer 至 v0.26.2。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`
+- `python3 scripts/check_theory_cards.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`
+- 上游函数调用演示与 9 项测试通过。
+- 检查点代码和测试的 Python 语法检查通过；运行测试因当前环境缺少 NumPy 和 PyTorch 未完成。
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+---
+
 # Learning Atlas v0.26.1 发布说明
 
 发布日期：2026-09-25。

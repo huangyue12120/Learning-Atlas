@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/47-checkpoint-save-resume/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 88791a4e17239bd1ceaaa89fff6b35c0614e143888dc97b34a323f10309e5922
+  revision: 319c898d87dbb709febdfe4837de72917b9d361a
+  sha256: 23232976ff57148fa4b4598793181fcf9040076e077357a8e486c425bb7bea09
 status: reviewed
 ---
 
@@ -101,7 +101,7 @@ cc-atomic-checkpoint
 
 ### 第 1 步：捕获并恢复 RNG 状态
 
-capture_rng_state 同时保存 Python random.getstate、NumPy np.random.get_state，以及 PyTorch CPU 和 CUDA 的 RNG 字节；restore_rng_state 负责逆向恢复。CPU 状态是 PyTorch RNG 可以消费的 uint8 字节缓冲区。
+capture_rng_state 同时保存 Python random.getstate、NumPy np.random.get_state，以及 PyTorch CPU 和 CUDA 的 RNG 字节。每一部分都转换为普通 Python 数值、元组和列表（NumPy 的键数组通过 tolist() 转成列表），因此第 3 步的加载器无需反序列化任意对象也能还原。restore_rng_state 负责逆向恢复。CPU 状态是 PyTorch RNG 可以消费的 uint8 字节缓冲区。
 
 保存 Python、NumPy 和 PyTorch 的随机状态，并在恢复时按同一顺序还原。
 
@@ -119,11 +119,13 @@ python3 code/main.py
 
 save_checkpoint 把模型、优化器、调度器、训练状态和 RNG 打包进一个字典；load_checkpoint 反向恢复并返回 TrainState。schema 字段是未来升级的钩子：格式变化时增加版本字符串，加载器再按版本分派。
 
+load_checkpoint 使用 `torch.load(..., weights_only=True)`。`.pt` 文件本质上是 pickle；若用 `weights_only=False` 反序列化不可信文件，文件中指定的代码可能会在加载时运行。weights-only 加载器只接受张量和基础容器，因此第 1 步要把 RNG 状态保存为普通列表。完整性检查使用 ValueError 而不是 assert，因为 `python -O` 会移除断言。请使用 PyTorch 2.6 或更新版本：2.6 之前的 `weights_only=True` 存在已知绕过漏洞（CVE-2025-32434），本课依赖的安全保证仅从 2.6 起成立。
+
 运行一段训练，保存后重新加载，比较参数、优化器状态、学习率和随机数产生的后续结果。
 
 ### 第 4 步：分片变体
 
-save_sharded_checkpoint 以轮询方式把参数键分配给 N 个分片，分别原子保存；随后写入包含优化器、调度器、训练状态的 meta 文件，并写出带各分片 sha256 的 JSON 索引。load_sharded_checkpoint 会在合并前验证每个分片。
+save_sharded_checkpoint 以轮询方式把参数键分配给 N 个分片，分别原子保存；随后写入包含优化器、调度器、训练状态的 meta 文件，并写出带各分片 sha256 的 JSON 索引。load_sharded_checkpoint 会在合并前验证每个分片，并拒绝解析后落在检查点目录之外的分片路径。
 
 按 rank 写入分片并验证缺失、重复和世界大小不匹配时能明确失败。
 
@@ -137,7 +139,7 @@ run_resume_demo 先训练小模型到 total_steps，在 interrupt_at 保存检�
 
 生产训练器通常把检查点作为内建能力，形状仍是模型、优化器、调度器、计数器和 RNG，原子写入并按 step 命名，方便找到最新版本。分片布局支持并行读取大型模型；index.json 是把这些文件组织起来的关键。
 
-还应强制三点：将 schema 字符串写入载荷，迁移时按它分支；为每个分片计算 sha256，避免静默截断下载；每 N 步和每个墙钟时间间隔保存，取较短者，避免一次耗时很长的步骤在崩溃时浪费完整窗口。
+还应强制四点：使用 `weights_only=True` 加载来自共享磁盘或下载的检查点，避免恶意文件在恢复机器上执行代码；将 schema 字符串写入载荷，迁移时按它分支；为每个分片计算 sha256，避免静默截断下载；每 N 步和每个墙钟时间间隔保存，取较短者，避免一次耗时很长的步骤在崩溃时浪费完整窗口。
 
 按固定步数或时间间隔保存，并保留最近若干份。检查点元数据应包含代码版本、配置、设备布局和数据集身份。
 
@@ -165,7 +167,7 @@ run_resume_demo 先训练小模型到 total_steps，在 interrupt_at 保存检�
 
 ## 延伸阅读
 
-- PyTorch `torch.save` 与 `torch.load` 文档，包括跨设备恢复的 `map_location`。
+- PyTorch `torch.save` 与 `torch.load` 文档，包括跨设备恢复的 `map_location`，以及加载不可信文件时使用的 `weights_only`。
 - Phase 19 第 46 课的累积梯度状态。
 - Phase 19 第 48 课的分布式状态字典。
 - Linux kernel `fsync` 文档中的耐久性保证。

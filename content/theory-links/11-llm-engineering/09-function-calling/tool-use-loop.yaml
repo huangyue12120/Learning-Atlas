@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/09-function-calling/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 788bdc7aa7240c0469e546dd853a36dfe17bca39685f7e517b6adc291985019c
+  revision: 319c898d87dbb709febdfe4837de72917b9d361a
+  sha256: 30695ec65c0ada92bac742cb5a287603a340c26ed7b1674767d886f54f591b29
   anchor:
     heading: The Function Calling Loop
     slug: the-function-calling-loop
