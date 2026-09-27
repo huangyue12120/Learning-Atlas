@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/09-function-calling/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 788bdc7aa7240c0469e546dd853a36dfe17bca39685f7e517b6adc291985019c
+  revision: 319c898d87dbb709febdfe4837de72917b9d361a
+  sha256: 30695ec65c0ada92bac742cb5a287603a340c26ed7b1674767d886f54f591b29
 status: reviewed
 ---
 
@@ -193,6 +193,7 @@ mx-tool-call-loop
 构建一个注册表，保存工具定义及其实现。每个工具都有一个 JSON Schema 定义（模型看到的内容）和一个 Python 函数（你的代码执行的内容）。
 
 ```python
+import ast
 import json
 import math
 import time
@@ -301,18 +302,40 @@ def read_file(path):
 def run_code(code, language="python"):
     if language != "python":
         return {"error": True, "message": f"Language '{language}' not supported. Only 'python' is available."}
-    forbidden = ["import os", "import sys", "import subprocess", "exec(", "eval(", "__import__", "open("]
-    for pattern in forbidden:
-        if pattern in code:
-            return {"error": True, "message": f"Forbidden operation: {pattern}", "code": "SECURITY_VIOLATION"}
+    try:
+        tree = ast.parse(code)
+    except SyntaxError as e:
+        return {"error": True, "message": f"SyntaxError: {e}", "code": "SYNTAX_ERROR"}
+    unsafe_names = {"exec", "eval", "compile", "__import__", "open", "globals", "locals", "vars", "getattr", "setattr", "delattr"}
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Import, ast.ImportFrom)):
+            return {"error": True, "message": "Forbidden operation: import is not allowed", "code": "SECURITY_VIOLATION"}
+        if isinstance(node, ast.Attribute) and node.attr.startswith("__") and node.attr.endswith("__"):
+            return {"error": True, "message": "Forbidden operation: dunder attribute access is not allowed", "code": "SECURITY_VIOLATION"}
+        if isinstance(node, ast.Name) and node.id in unsafe_names:
+            return {"error": True, "message": f"Forbidden operation: {node.id} is not allowed", "code": "SECURITY_VIOLATION"}
     try:
         local_vars = {}
-        exec(code, {"__builtins__": {"print": print, "range": range, "len": len, "str": str, "int": int, "float": float, "list": list, "dict": dict, "sum": sum, "min": min, "max": max, "abs": abs, "round": round, "sorted": sorted, "enumerate": enumerate, "zip": zip, "map": map, "filter": filter, "math": math}}, local_vars)
+        exec(
+            code,
+            {
+                "__builtins__": {
+                    "print": print, "range": range, "len": len, "str": str,
+                    "int": int, "float": float, "list": list, "dict": dict,
+                    "sum": sum, "min": min, "max": max, "abs": abs, "round": round,
+                    "sorted": sorted, "enumerate": enumerate, "zip": zip,
+                    "map": map, "filter": filter, "math": math,
+                }
+            },
+            local_vars,
+        )
         result = local_vars.get("result", None)
         return {"success": True, "result": result, "variables": {k: str(v) for k, v in local_vars.items() if not k.startswith("_")}}
     except Exception as e:
         return {"error": True, "message": f"{type(e).__name__}: {e}"}
 ```
+
+逐字搜索禁用字符串的黑名单只检查代码文本，换一种拼写就可能漏过。将代码解析成抽象语法树（AST）并遍历节点，可以按语法结构拒绝 `import` 语句、双下划线属性访问（例如 `__class__`、`__globals__` 链）和不安全的内置名称。不过，这仍只是教学过滤器，不是真正的隔离：被执行代码与应用共享同一个解释器，仍可能找到其他可达对象。生产环境运行不可信代码，应使用权限受限的独立进程或容器，也可采用 gVisor、Firecracker 或托管代码运行器。
 
 ### 第 3 步：注册所有工具
 
@@ -339,7 +362,7 @@ def register_all_tools():
         read_file,
     )
     register_tool(
-        "run_code", "Execute Python code in a sandboxed environment. Set a 'result' variable to return output.",
+        "run_code", "Run a small Python snippet behind a static-analysis guard and a restricted interpreter. This is a teaching filter, not real isolation. Set a 'result' variable to return output.",
         {"type": "object", "properties": {"code": {"type": "string", "description": "Python code to execute"}, "language": {"type": "string", "enum": ["python"], "description": "Programming language"}}, "required": ["code"]},
         run_code,
     )
