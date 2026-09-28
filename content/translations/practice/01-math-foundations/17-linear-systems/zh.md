@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/17-linear-systems/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: df10ed21b4b80b7ad5d1bc2d000ee57a5708fcae3aeb21c44279ec45c8af5354
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: de9a2c0f1e09351e6061834a651110bdab18ae3df534315ea2a62a33a156af49
 status: reviewed
 ---
 # 线性方程组
@@ -592,5 +592,5 @@ print(f"Ridge weights (sklearn): {ridge_sk.coef_}")
 
 - [MIT 18.06：线性代数](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/)（Gilbert Strang）——讲解线性方程组和矩阵分解的权威课程
 - [数值线性代数](https://people.maths.ox.ac.uk/trefethen/text.html)（Trefethen 与 Bau）——理解数值稳定性、条件数及算法为何失败的标准参考
-- [矩阵计算](https://www.cs.cornell.edu/cv/GolubVanLoan4/golubandvanloan.htm)（Golub 与 Van Loan）——覆盖各种矩阵算法的百科式参考书
+- [矩阵计算](https://www.press.jhu.edu/books/title/10678/matrix-computations)（Golub 与 Van Loan）——覆盖各种矩阵算法的百科式参考书
 - [3Blue1Brown：逆矩阵](https://www.3blue1brown.com/lessons/inverse-matrices)——直观理解从几何上求解 Ax = b 的含义

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/11-ensemble-methods/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 764d6a19ed0c253debea7014287f36e771a7d92815c10174bf8005a3acd63014
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 64b7a605139b29e5400bd8d0d44a77a977dd4787e3140133d9f4c05f162e2532
   anchor:
     heading: Bagging (Bootstrap Aggregating)
     slug: bagging-bootstrap-aggregating

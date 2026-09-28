@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/19-anthropic-rsp/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 239697bb9af9a03e89c8272cab896bbe338000655fb809de8628a40ddeba0d12
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: d92a3856722278776e1a495406d4b3354941b0cc1e079b0d139c4c680df6071b
 status: reviewed
 ---
 
@@ -112,6 +112,6 @@ a5-rsp-ladder
 
 - [Anthropic——Responsible Scaling Policy v3.0](https://anthropic.com/responsible-scaling-policy/rsp-v3-0)——完整 32 页政策。
 - [Anthropic——RSP v3.0 公告](https://www.anthropic.com/news/responsible-scaling-policy-v3)——从 v2 起的变更摘要。
-- [Anthropic——Frontier Safety Roadmap](https://www.anthropic.com/research/frontier-safety)——RSP v3.0 链接的常设文档。
-- [Anthropic——Risk Report：Claude Opus 4.6](https://www.anthropic.com/research/risk-report-claude-opus-4-6)——当前前沿模型的回顾。
+- [Anthropic——Frontier Safety Roadmap](https://www.anthropic.com/responsible-scaling-policy/roadmap)——RSP v3.0 链接的常设文档。
+- [Anthropic——Risk Report：2026 年 2 月](https://www.anthropic.com/feb-2026-risk-report)——Claude Opus 4.6 发布时的前沿模型回顾。
 - [Anthropic——在实践中衡量智能体自主性](https://www.anthropic.com/research/measuring-agent-autonomy)——将 AI R&D-4 与已测自治联系。

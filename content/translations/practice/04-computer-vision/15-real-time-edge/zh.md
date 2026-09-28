@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/15-real-time-edge/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: d6bbcacd97a751f0923f32ee3625d27d660640bedaa78521b06dd41cc5c9f9ee
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 67456ce0e428e1ffa31eacece531fc95a2eec306f375a994f21571109e76642e
 status: reviewed
 ---
 
@@ -281,5 +281,5 @@ def compare_regimes():
 
 - [EfficientNet（Tan & Le，2019）](https://arxiv.org/abs/1905.11946)——高效架构的复合缩放。
 - [MobileNetV3（Howard 等，2019）](https://arxiv.org/abs/1905.02244)——具有 h-swish 和 squeeze-excite 的移动优先架构。
-- [TensorRT 优化实用指南（NVIDIA）](https://developer.nvidia.com/blog/accelerating-model-inference-with-tensorrt-tips-and-best-practices-for-pytorch-users/)——如何真正获得论文中的吞吐指标。
+- [使用 Torch-TensorRT 将 PyTorch 推理加速至 6 倍（NVIDIA）](https://developer.nvidia.com/blog/accelerating-inference-up-to-6x-faster-in-pytorch-with-torch-tensorrt/)——如何真正获得论文中的吞吐指标。
 - [ONNX Runtime 文档](https://onnxruntime.ai/docs/)——量化、图优化和 provider 选择。

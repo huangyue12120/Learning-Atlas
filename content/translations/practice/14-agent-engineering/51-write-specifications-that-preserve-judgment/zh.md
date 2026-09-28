@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/51-write-specifications-that-preserve-judgment/docs/en.md
-  revision: a56b4b8ad43a3767c771953d217036813f697bc7
-  sha256: 3d5976c2d6cc99bbd6f4660d73e52a78a4b6ee171bd2a3b295c7d2b1ff35582f
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: e63576917c5e0a1ea4824bead4391f25f9733977419e785b272ff5076d1f11c3
 status: reviewed
 ---
 
@@ -101,7 +101,7 @@ python3 -m unittest discover code/tests -v
 ## 延伸阅读
 
 - [Nuseibeh and Easterbrook, Requirements Engineering: A Roadmap](https://www.cs.toronto.edu/~sme/papers/2000/ICSE2000.pdf)，用于理解目标、精确规格、验证、共识和演进之间的关系。
-- [Zave and Jackson, Four Dark Corners of Requirements Engineering](https://doi.org/10.1145/267895.267896)，用于区分环境假设、需求和规格说明。
+- [Zave and Jackson, Four Dark Corners of Requirements Engineering](https://doi.org/10.1145/237432.237434)，用于区分环境假设、需求和规格说明。
 - [Gotel and Finkelstein, An Analysis of the Requirements Traceability Problem](https://doi.org/10.1109/ICRE.1994.292398)，用于保留需求为何存在以及来自哪里的关系。
 
 ## 你要保留的成果

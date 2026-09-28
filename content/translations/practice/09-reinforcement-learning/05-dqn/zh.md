@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/05-dqn/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 002242aabbe794433e55c2e708831e30ac786362b9de326ccea60b0c0c1de1c9
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 71b7cb797263d1bd4881a0a2127a6dd7e55e09f3590a6c92a5d101f4d8e8fca9
 status: reviewed
 ---
 
@@ -214,6 +214,5 @@ tags: [rl, dqn, deep-rl]
 - [Hasselt、Guez 与 Silver（2016），《Deep Reinforcement Learning with Double Q-learning》](https://arxiv.org/abs/1509.06461)——DDQN。
 - [Wang 等（2016），《Dueling Network Architectures》](https://arxiv.org/abs/1511.06581)——Dueling DQN。
 - [Hessel 等（2018），《Rainbow: Combining Improvements in Deep RL》](https://arxiv.org/abs/1710.02298)——叠加多项技巧的论文。
-- [OpenAI Spinning Up——DQN](https://spinningup.openai.com/en/latest/algorithms/dqn.html)——清晰的现代讲解。
 - [Sutton 与 Barto（2018），第 9 章——使用函数近似的同策略预测](http://incompleteideas.net/book/RLbook2020.pdf)——教材对“致命三角”（函数近似 + 自举 + 离策略）的讲解；DQN 的目标网络和回放缓冲区正是为了约束这个问题。
 - [CleanRL DQN 实现](https://docs.cleanrl.dev/rl-algorithms/dqn/)——消融研究使用的单文件 DQN 参考实现，适合与本课的从零实现对照阅读。

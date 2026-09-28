@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/11-audio-generation/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: c9ead5e0d8b697a96395667f19e8968268865c09c809cbc1f32eed2b81fe010d
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 8eb8b1cc04a9cd18df5b8465e85762b5c975bcaf3167e2f092e2e45c71901ecf
 status: reviewed
 ---
 
@@ -156,4 +156,4 @@ def make_tokens(style, length, vocab_size, rng):
 - [Wang 等（2023），《Neural Codec Language Models are Zero-Shot Text to Speech Synthesizers (VALL-E)》](https://arxiv.org/abs/2301.02111)——VALL-E。
 - [Copet 等（2023），《Simple and Controllable Music Generation (MusicGen)》](https://arxiv.org/abs/2306.05284)——MusicGen。
 - [Liu 等（2023），《AudioLDM 2: Learning Holistic Audio Generation with Self-supervised Pretraining》](https://arxiv.org/abs/2308.05734)——AudioLDM 2。
-- [Stability AI（2024），《Stable Audio 2.5》](https://stability.ai/news/introducing-stable-audio-2-5)——2025 年采用流匹配的文生音乐系统。
+- [Stability AI（2025），《Stable Audio 2.5》](https://stability.ai/news-updates/stability-ai-introduces-stable-audio-25-the-first-audio-model-built-for-enterprise-sound-production-at-scale)——2025 年采用流匹配的文生音乐系统。

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/11-stable-diffusion/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 1122092bff5852878671ba64ee20fecc680e1e3d7aae15ff367a68f651a56d5e
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: f2940ee23e490fe19538347b5848aa5ebdee87848e8e2edcca1377f557c6ff09
 status: reviewed
 ---
 
@@ -204,13 +204,16 @@ out = inpaint(
 ### 步骤 5：加载 LoRA
 
 ```python
-pipe.load_lora_weights("sayakpaul/sd-lora-ghibli")
+pipe.load_lora_weights(
+    "artificialguybr/studioghibli-redmond-1-5v-studio-ghibli-lora-for-liberteredmond-sd-1-5",
+    weight_name="StudioGhibliRedmond-15V-LiberteRedmond-StdGBRedmAF-StudioGhibli.safetensors",
+)
 pipe.fuse_lora(lora_scale=0.8)
 
-image = pipe(prompt="a village square in ghibli style").images[0]
+image = pipe(prompt="a village square, StdGBRedmAF, Studio Ghibli").images[0]
 ```
 
-`lora_scale` 控制强度：0.0 无效，1.0 全效。`fuse_lora` 为加速将适配器原位融合进权重，却阻止替换；加载其他适配器前调用 `pipe.unfuse_lora()`。
+模型卡中的触发短语（`StdGBRedmAF, Studio Ghibli`）会启用该风格。`lora_scale` 控制强度：0.0 无效，1.0 全效。`fuse_lora` 为加速将适配器原位融合进权重，却阻止替换；加载其他适配器前调用 `pipe.unfuse_lora()`。
 
 ### 步骤 6：LoRA 训练（草图）
 

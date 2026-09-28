@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/01-image-fundamentals/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 0d8d07b6d715aa8708870dd43216a0c9a4757b2ce570b6e34643f9ec4987af28
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: a1c3b51b94cc6bdf13f5b1b23e29275d6004fe0c7e226a7b0fbc1a6db95aacb8
 status: reviewed
 ---
 
@@ -450,7 +450,7 @@ print(f"per-channel std:  {batch.std(dim=(0, 2, 3)).tolist()}")
 
 ## 延伸阅读
 
-- [Charles Poynton — A Guided Tour of Color Space](https://poynton.ca/PDFs/Guided_tour.pdf) —— 最清晰的技术讲解：为什么有这么多色彩空间，以及每种何时重要。
+- [Charles Poynton — A Guided Tour of Color Space](https://web.archive.org/web/20251220000525/https://poynton.ca/PDFs/Guided_tour.pdf) —— 最清晰的技术讲解：为什么有这么多色彩空间，以及每种何时重要。
 - [PyTorch Vision Transforms Docs](https://pytorch.org/vision/stable/transforms.html) —— 生产中实际会组合使用的完整变换流水线。
 - [How JPEG Works (Colt McAnlis)](https://www.youtube.com/watch?v=F1kYBnY6mwg) —— 对色度子采样、DCT 以及 JPEG 为什么编码 YCbCr 而非 RGB 的精炼可视化讲解。
 - [ImageNet Preprocessing Conventions (torchvision models)](https://pytorch.org/vision/stable/models.html) —— `mean=[0.485, 0.456, 0.406]` 的权威来源，以及模型库中每个模型为何都期待这一约定。

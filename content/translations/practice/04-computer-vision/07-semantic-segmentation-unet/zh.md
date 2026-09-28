@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/07-semantic-segmentation-unet/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 7470d67edf0cf2a46debab0ca1e52fa255926e5c121ef17e665112790102f29f
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 7c1b00723a204bfc263ea5c3c3219b04b1549a7d2fc7e3297a4a6611609e54f1
 status: reviewed
 ---
 
@@ -413,4 +413,4 @@ model = smp.Unet(
 - [U-Net: Convolutional Networks for Biomedical Image Segmentation (Ronneberger et al., 2015)](https://arxiv.org/abs/1505.04597) —— 原始论文，人人复用的图在第 2 页。
 - [Fully Convolutional Networks (Long et al., 2015)](https://arxiv.org/abs/1411.4038) —— 首次将分割变为端到端卷积问题的论文。
 - [segmentation_models_pytorch](https://github.com/qubvel/segmentation_models.pytorch) —— 生产分割参考：全部标准架构和损失。
-- [Lessons learned from training SOTA segmentation (kaggle.com competitions)](https://www.kaggle.com/code/iafoss/carvana-unet-pytorch) —— 讲解 TTA、伪标签和类别权重为何在真实数据上重要。
+- [iafoss：使用 TTA 的 Unet34 提交（Kaggle notebook）](https://www.kaggle.com/code/iafoss/unet34-submission-tta-0-699-new-public-lb) —— 在真实分割竞赛中为 U-Net 使用测试时增强。

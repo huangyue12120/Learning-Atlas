@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/10-evaluation/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 3d0a83d22c49c449b3bfd989b02662b6eabfe64f294f5ec3d8268f126db2f317
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 6d034f8ea8714a1effae7a38bb3078d65d54389eacb1ea3336b273dac57980f1
   anchor:
     heading: The Eval Taxonomy
     slug: the-eval-taxonomy

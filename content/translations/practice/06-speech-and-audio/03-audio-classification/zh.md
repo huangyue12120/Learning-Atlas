@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/03-audio-classification/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 3764a4ecf6c369d918f1122bd3d8496afc4d01c62caf6ace237f06c94a9a8241
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 7d7e56fcd223b527e87ba1b7d12bd6bf4ff2d9e27bfd89c9c0a0a944293adeca
 status: reviewed
 ---
 
@@ -130,7 +130,7 @@ class AudioCNN(nn.Module):
 
 300 万个参数。在单张 RTX 4090 上训练 ESC-50 约需 10 分钟，准确率可达 80% 以上。
 
-### 步骤 5：2026 年默认方案——微调 BEATs
+### 步骤 5：微调预训练音频 Transformer（以 AST 为例）
 
 ```python
 from transformers import ASTFeatureExtractor, ASTForAudioClassification
@@ -146,7 +146,7 @@ inputs = ext(audio, sampling_rate=16000, return_tensors="pt")
 logits = model(**inputs).logits
 ```
 
-对于 BEATs，通过 `beats` 库使用 `microsoft/BEATs-base`；其 transformers API 具有相同的形状。
+本例微调 Hugging Face Hub 中的 AST。作为 2026 年默认方案的 BEATs 并未发布在 Hugging Face Hub：需要从 [microsoft/unilm 的 BEATs 发布目录](https://github.com/microsoft/unilm/tree/master/beats)下载检查点，并使用该仓库的 `BEATs` 与 `BEATsConfig` 类加载；微调循环的形状保持不变。
 
 ## 用于实践
 

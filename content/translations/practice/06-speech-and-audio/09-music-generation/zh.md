@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/09-music-generation/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 4e0e66aee4ae937574ff9dfe0fc0369ed311a93683af1f3b0f7c66c3b6d49eaa
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: eca9c3e4de1e7d92a60cd7ad0ebcf3e15cfc67c1999e3a5e7ec154fee581331a
 status: reviewed
 ---
 
@@ -180,4 +180,4 @@ music = musicgen.generate([description], duration=30)
 - [ACE-Step](https://github.com/ace-step/ACE-Step)——2026 年 4 月发布的开源 40 亿参数完整歌曲生成器。
 - [Suno v5 平台文档](https://suno.com)——商业质量领先者。
 - [AudioLDM2](https://arxiv.org/abs/2308.05734)——面向音乐与音效的潜在扩散。
-- [WMG—Suno 和解报道](https://www.musicbusinessworldwide.com/suno-warner-music-settlement/)——2025 年 11 月的先例。
+- [WMG—Suno 和解报道](https://www.musicbusinessworldwide.com/warner-music-group-settles-with-suno-strikes-first-of-its-kind-deal-with-ai-song-generator/)——2025 年 11 月的先例。

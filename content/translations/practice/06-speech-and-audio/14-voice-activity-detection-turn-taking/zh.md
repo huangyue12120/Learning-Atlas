@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/14-voice-activity-detection-turn-taking/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 2e733e0d8a70489cf07220f0a6a420169c956164df7761872980207436592223
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: ba520338d01743a41fd7f4343a64af318241ce7e72e752afe8a98773e5f876fb
 status: reviewed
 ---
 
@@ -181,7 +181,7 @@ def flush_on_end(stt_client, audio_buffer):
 ## 延伸阅读
 
 - [Silero VAD](https://github.com/snakers4/silero-vad)——开放 VAD 参考方案。
-- [Picovoice Cobra VAD](https://picovoice.ai/products/cobra/)——商业准确度领先者。
+- [Picovoice Cobra VAD](https://picovoice.ai/products/voice/voice-activity-detection/)——商业准确度领先者。
 - [Kyutai——Unmute + Flush 技巧](https://kyutai.org/stt)——低于 200 ms 的工程技巧。
 - [LiveKit——轮次检测](https://docs.livekit.io/agents/logic/turns/)——生产环境的语义端点检测。
 - [WebRTC VAD](https://webrtc.googlesource.com/src/)——传统基线。

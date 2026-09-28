@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/12-3d-generation/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: ff570bbe7e4e91898a1277b64011cd2f5bdd1e6bd4dbb5687d8e25f14fd1eeff
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: e349a73dbf2f3d8d579824472bb587e724df7f3b99ae97886e56a0642f58eb41
   anchor:
     heading: The Concept
     slug: the-concept

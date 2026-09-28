@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/09-data-management/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 8751cb2ba46001a796bf98de9a8887652aa6c52f6543183f135c9c4bf4ae8e27
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 21f3293155f3b48ef79eaef08e7bf86be58a791974ed7266cbe9f18681c9b237
   anchor:
     heading: "Step 5: Data splits"
     slug: step-5-data-splits

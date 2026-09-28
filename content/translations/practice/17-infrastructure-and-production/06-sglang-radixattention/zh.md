@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/06-sglang-radixattention/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 2b46974c38ac8c4159c565d3270f96002fb97bed14e9175ba1a43efdee0c3cd1
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: af59a1a2a5e715f773cfb4eae88654c80efa1a8d5b569b8d2c4f885e3114daca
 status: reviewed
 ---
 
@@ -138,4 +138,4 @@ roofline
 - [SGLang documentation](https://sgl-project.github.io/) —— RadixAttention 与调度细节
 - [SGLang paper — Efficiently Programming Large Language Models (arXiv:2312.07104)](https://arxiv.org/abs/2312.07104) —— 设计参考
 - [LMSYS blog — SGLang with RadixAttention](https://www.lmsys.org/blog/2024-01-17-sglang/) —— 基准数字与调度器动机
-- [vLLM — Prefix Caching](https://docs.vllm.ai/en/latest/features/prefix_caching.html) —— vLLM 自身的类基数实现，用于比较
+- [vLLM — Prefix Caching](https://docs.vllm.ai/en/latest/features/automatic_prefix_caching/) —— vLLM 自身的类基数实现，用于比较

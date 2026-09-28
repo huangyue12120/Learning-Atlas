@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/03-parallel-and-streaming-tool-calls/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 6339e746eb414f03ab0421f9ed1d654809753f39bdac5283fe0f3a3712a1c5b2
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: b848b9e12e391ea6442042d0108f5c9cc9a5527a5f31a8acabed0083e8da9306
 status: reviewed
 ---
 
@@ -169,7 +169,7 @@ tp-parallel-fanout
 ## 延伸阅读
 
 - [OpenAI — Parallel function calling](https://platform.openai.com/docs/guides/function-calling#parallel-function-calling) — 默认行为与退出选择标志
-- [Anthropic — Tool use: implementing tool use](https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/implementing-tool-use) — `disable_parallel_tool_use` 与结果批处理
+- [Anthropic — Parallel tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/parallel-tool-use) — `disable_parallel_tool_use` 与结果批处理
 - [Google — Gemini function calling parallel section](https://ai.google.dev/gemini-api/docs/function-calling) — Gemini 3 中带 ID 关联的并行调用
 - [OpenAI — Streaming responses with tools](https://platform.openai.com/docs/api-reference/responses-streaming) — OpenAI 的分块参数重组
 - [Anthropic — Streaming messages](https://docs.anthropic.com/en/api/messages-streaming) — 带 `input_json_delta` 的 `content_block_delta`

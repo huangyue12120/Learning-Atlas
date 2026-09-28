@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/02-dynamic-programming/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 131aab723d6114b139761208cdc5fb9ae0363262c57d31e66903650a2fbd81a5
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: d41f481163c0a0902e4261263c3e9db76ba7cd150e3e07cfbc87c2a919238ec4
 status: reviewed
 ---
 
@@ -213,7 +213,7 @@ tags: [rl, dynamic-programming, bellman]
 ## 延伸阅读
 
 - [Sutton 与 Barto（2018），第 4 章——动态规划](http://incompleteideas.net/book/RLbook2020.pdf)——权威讲解策略迭代与价值迭代。
-- [Bertsekas（2019），《Reinforcement Learning and Optimal Control》](http://www.athenasc.com/rlbook.html)——严谨讨论压缩映射论证。
+- [Bertsekas（2019），《Reinforcement Learning and Optimal Control》](http://www.athenasc.com/rlbook_athena.html)——严谨讨论压缩映射论证。
 - [Puterman（2005），《Markov Decision Processes》](https://onlinelibrary.wiley.com/doi/book/10.1002/9780470316887)——修改策略迭代及其收敛分析。
 - [Howard（1960），《Dynamic Programming and Markov Processes》](https://mitpress.mit.edu/9780262582300/dynamic-programming-and-markov-processes/)——最早提出策略迭代的论文。
 - [Bertsekas 与 Tsitsiklis（1996），《Neuro-Dynamic Programming》](http://www.athenasc.com/ndpbook.html)——从 DP 走向近似 DP / 深度强化学习的桥梁，后续每课都会使用。

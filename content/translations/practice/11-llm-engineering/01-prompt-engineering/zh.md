@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/01-prompt-engineering/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: cd2886a19bdcb3f8faed3810a1297f820f3ab0b9d9fdfc22479619303bba9425
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 56ad5f65393f96b4b8ffe53381303292d485eef71494ab69d45fef47e77ef136
 status: reviewed
 ---
 
@@ -948,24 +948,24 @@ OpenAI 会先处理系统消息，并给予它较高的注意力权重。tempera
 ### Google：带安全设置的 Gemini
 
 ```python
-# import google.generativeai as genai
+# from google import genai
+# from google.genai import types
 #
-# genai.configure(api_key="your-key")
+# client = genai.Client()
 #
-# model = genai.GenerativeModel(
-#     "gemini-1.5-pro",
-#     system_instruction="You are a technical analyst. Be precise and cite sources.",
-#     generation_config=genai.GenerationConfig(
+# response = client.models.generate_content(
+#     model="gemini-3.8-flash",
+#     contents="Compare PostgreSQL and MySQL for write-heavy workloads.",
+#     config=types.GenerateContentConfig(
+#         system_instruction="You are a technical analyst. Be precise and cite sources.",
 #         temperature=0.3,
 #         max_output_tokens=2048,
 #     ),
 # )
-#
-# response = model.generate_content("Compare PostgreSQL and MySQL for write-heavy workloads.")
 # print(response.text)
 ```
 
-Gemini 把系统指令作为模型配置的一部分处理，而不是消息。2M 词元的上下文窗口意味着你可以加入大量 few-shot 示例，这些示例可能放不进 GPT-4o 或 Claude 的窗口。
+Gemini 把系统指令作为模型配置的一部分处理，而不是消息。1M 词元的上下文窗口意味着你可以加入大量 few-shot 示例，这些示例可能放不进 GPT-4o 的 128K 窗口。
 
 ### 与提供方无关的提示模板
 
@@ -1034,6 +1034,6 @@ Python 代码（`code/prompt_engineering.py`）是独立的测试工具。把 `s
 - [Wei et al., 2022 —— “Chain-of-Thought Prompting Elicits Reasoning in Large Language Models”](https://arxiv.org/abs/2201.11903) —— 展示“逐步思考”能让推理任务准确率提高 10–40% 的基础论文
 - [Zamfirescu-Pereira et al., 2023 —— “Why Johnny Can't Prompt”](https://arxiv.org/abs/2304.13529) —— 研究非专家为什么难以进行提示词工程，以及有效提示词的特征
 - [Shin et al., 2023 —— “Prompt Engineering a Prompt Engineer”](https://arxiv.org/abs/2311.05661) —— 用 LLM 自动优化提示词，是元提示的基础工作
-- [LMSYS Chatbot Arena](https://chat.lmsys.org/) —— 可以跨模型测试同一提示词并投票比较回答质量的实时盲测平台
+- [Arena（原 LMSYS Chatbot Arena）](https://arena.ai/) —— 可以跨模型测试同一提示词并投票比较回答质量的实时盲测平台
 - [DAIR.AI Prompt Engineering Guide](https://www.promptingguide.ai/) —— 包含 zero-shot、few-shot、CoT、ReAct、自洽性等技术的完整目录，是实践者参考提示词工程全貌的资料。
 - [Anthropic prompt library](https://docs.anthropic.com/en/prompt-library) —— 按使用场景整理的可靠提示词，展示生产环境中会采用的结构模式。

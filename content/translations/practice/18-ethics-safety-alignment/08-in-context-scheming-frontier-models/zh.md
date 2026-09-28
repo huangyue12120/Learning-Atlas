@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/08-in-context-scheming-frontier-models/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 523a920b66274e891eaf8db40dc7ee7bb65f8e69d968f0da640cc57e8cf12092
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: b207aea82e7b3c5a0ef491fa9b6792cd0630cedce077712dee7178d907df7d18
 status: reviewed
 ---
 
@@ -120,5 +120,5 @@ al-scheming-probe
 
 - [Meinke, Schoen, Scheurer, Balesni, Shah, Hobbhahn — Frontier Models are Capable of In-context Scheming (arXiv:2412.04984)](https://arxiv.org/abs/2412.04984) — Apollo 的经典论文
 - [Apollo Research — Towards Safety Cases For AI Scheming](https://www.apolloresearch.ai/research/towards-safety-cases-for-ai-scheming) — 安全论证框架
-- [Schoen et al. — Stress Testing Deliberative Alignment for Anti-Scheming Training](https://www.apolloresearch.ai/blog/stress-testing-deliberative-alignment-for-anti-scheming-training) — 2025 年 OpenAI 与 Apollo 合作
+- [Schoen et al. — Stress Testing Deliberative Alignment for Anti-Scheming Training](https://www.apolloresearch.ai/science/stress-testing-deliberative-alignment-for-anti-scheming-training) — 2025 年 OpenAI 与 Apollo 合作
 - [METR — Common Elements of Frontier AI Safety Policies](https://metr.org/blog/2025-03-26-common-elements-of-frontier-ai-safety-policies/) — 语境中的三支柱框架

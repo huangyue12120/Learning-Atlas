@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/12-inference-optimization/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: c59214310eb0f9d399c723912c29138426ad1b33c7d5b8ae29986125279dc072
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: d502aa75594c7ba543a0093160c851ea1cd5982c529edcfc0efea9d0796a1cfc
 status: reviewed
 ---
 
@@ -706,7 +706,7 @@ def memory_budget(config, gpu_memory_gb, model_dtype_bytes=2, kv_dtype_bytes=2):
 from vllm import LLM, SamplingParams
 
 llm = LLM(
-    model="meta-llama/Llama-3-70B-Instruct",
+    model="meta-llama/Meta-Llama-3-70B-Instruct",
     tensor_parallel_size=4,
     enable_prefix_caching=True,
     max_model_len=8192,
@@ -728,7 +728,7 @@ def classify(s, text):
     s += sgl.user(f"Classify this text: {text}")
     s += sgl.assistant(sgl.gen("result", regex=r'\{"label": "(positive|negative|neutral)"\}'))
 
-runtime = sgl.Runtime(model_path="meta-llama/Llama-3-70B-Instruct", tp_size=4)
+runtime = sgl.Runtime(model_path="meta-llama/Meta-Llama-3-70B-Instruct", tp_size=4)
 sgl.set_default_backend(runtime)
 
 results = classify.run_batch([

@@ -1,3 +1,27 @@
+# Learning Atlas v0.26.3 发布说明
+
+发布日期：2026-09-28。
+
+本版完成 Issue #18 的上游更新审核：将 `ai-engineering-from-scratch` 的可复现快照从 `319c898d87dbb709febdfe4837de72917b9d361a` 更新到 `bf7791e140768d8223d24e616bb60cbf07fea014`。逐项审核 55 篇发生变化的课程文档与测验原文，更新受影响的中文实践内容、测验和已批准理论关联，并刷新 96 条来源记录。
+
+## 本版交付
+
+- 更新受影响的中文实践课程、测验与理论关联；修订量化工具链、推测解码配置、Gemini 示例、vLLM 特性兼容性和对齐伪装缓解说明。
+- 保持既有课程范围与理论快照不变，记录并追溯本次实践上游快照。
+- 同步 README、内容清单、项目进度及应用 SemVer 至 v0.26.3。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1522 条来源指纹）
+- `python3 scripts/check_theory_cards.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+---
+
 # Learning Atlas v0.26.2 发布说明
 
 发布日期：2026-09-27。

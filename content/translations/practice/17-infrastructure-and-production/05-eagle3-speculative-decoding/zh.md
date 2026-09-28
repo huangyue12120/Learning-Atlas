@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/05-eagle3-speculative-decoding/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: d943ab93bb3eec4cfa71885f27605a94003af7e640462b0cadaad78a93f24ffd
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 07f749b5a5c8b7c26f0e401cac986f18d57ed2a67225717987123969bc42aa7c
 status: reviewed
 ---
 
@@ -68,7 +68,7 @@ Alpha 随工作负载变化。在 ShareGPT 风格通用聊天上，使用 ShareG
 
 ### EAGLE-3 已部署在哪里
 
-Google 于 2025 年在 AI Overviews 中部署推测解码（相同质量、更快响应）。vLLM V1 将 `speculative_config` 作为有文档的接口；V1 中 N-gram GPU 推测解码是与分块 prefill 兼容的变体。SGLang 支持 EAGLE-3，推荐将其作为前缀密集工作负载的草稿路径。
+Google 于 2025 年在 AI Overviews 中部署推测解码（相同质量、更快响应）。vLLM V1 将 `speculative_config` 作为有文档的接口；其特性矩阵将推测解码标为与分块 prefill 兼容。SGLang 支持 EAGLE-3，推荐将其作为前缀密集工作负载的草稿路径。
 
 ### 一行盈亏平衡数学
 
@@ -79,7 +79,7 @@ Google 于 2025 年在 AI Overviews 中部署推测解码（相同质量、更�
 - 延迟不重要的 batch-1 离线生成，使用普通目标模型。
 - 极短输出（少于 50 token），草稿与验证成本占主导。
 - 没有领域训练草稿头的专门领域，alpha 过低。
-- vLLM v0.18.0 加草稿模型推测解码加 `--enable-chunked-prefill`，该组合无法编译。文档例外是 V1 中的 N-gram GPU 推测解码。
+- 假设所有特性组合都兼容。应按当前 vLLM 版本检查兼容性矩阵；v0.18.0 将推测解码标为与分块 prefill 兼容。
 
 ```figure
 mx-speculative-tree
@@ -97,7 +97,7 @@ mx-speculative-tree
 
 1. 运行 `code/main.py`。K=5 时，达到 2 倍加速需要什么 alpha？3 倍呢？它对 `verify_overhead` 有多敏感？
 2. 假设生产流量中 70% 是通用聊天、30% 是代码。用 ShareGPT 训练的 EAGLE-3 使通用聊天 alpha 为 0.7，代码为 0.4。混合 alpha 是多少，推测解码是否净正收益？
-3. 阅读 vLLM `speculative_config` 文档。说出三种模式（草稿模型、EAGLE、N-gram）以及哪一种与分块 prefill 兼容。
+3. 阅读 vLLM `speculative_config` 文档。说出三种模式（草稿模型、EAGLE、N-gram），并按你使用的 vLLM 版本检查它们分别能与哪些特性组合。
 4. 启用 EAGLE-3 后，你看到平均 ITL 下降 25%，但 P99 ITL 上升 15%。诊断并提出缓解措施。
 5. 计算 Llama 3.3 70B 的 EAGLE-3 草稿头内存成本。它与将 Llama 3.2 1B 作为经典草稿模型相比如何？
 
@@ -111,7 +111,7 @@ mx-speculative-tree
 | 验证开销 epsilon | “推测开销” | 相对普通目标前向的验证和重新采样额外成本；随批次增大。 |
 | EAGLE-3 | “最新 EAGLE” | 2025–2026 变体；在多个目标层训练草稿头；通用聊天 alpha 0.6–0.8。 |
 | `speculative_config` | “vLLM 推测配置” | vLLM V1 中显式选择加入；未配置就没有加速。 |
-| N-gram 推测解码 | “N-gram 草稿” | 通过提示词中的 N-gram 查询在 GPU 侧草拟；与分块 prefill 兼容。 |
+| N-gram 推测解码 | “N-gram 草稿” | 通过提示词中的 N-gram 查询在 GPU 侧草拟；与其他特性的兼容性取决于 vLLM 版本。 |
 | 盈亏平衡 alpha | “无收益 alpha” | 推测解码速度提升为零时的 alpha；需在生产并发下观察。 |
 | 拒绝草稿的两次传递 | “重新采样成本” | 草稿被拒时需要两次目标模型前向，驱动 P99 尾部。 |
 

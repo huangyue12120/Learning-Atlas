@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/10-evaluation/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 3d0a83d22c49c449b3bfd989b02662b6eabfe64f294f5ec3d8268f126db2f317
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 6d034f8ea8714a1effae7a38bb3078d65d54389eacb1ea3336b273dac57980f1
 status: reviewed
 ---
 
@@ -867,7 +867,7 @@ DeepEval 与 Pytest 集成。运行 `deepeval test run test_evals.py`，即可�
 - [DeepEval 文档](https://docs.confident-ai.com) —— 原生 Python 评估框架，提供 14+ 个指标、Pytest 集成和幻觉检测
 - [Braintrust 评估指南](https://www.braintrust.dev/docs) —— 生产级评估平台，提供实验追踪、评分函数和数据集管理
 - [Ribeiro 等，2020——“Beyond Accuracy: Behavioral Testing of NLP Models with CheckList”](https://arxiv.org/abs/2005.04118) —— 系统化行为测试方法（最小功能、不变性、方向性预期），适用于 LLM 评估
-- [LMSYS Chatbot Arena](https://chat.lmsys.org) —— 用户投票比较模型输出的实时人工评估平台，也是最大的 LLM 两两比较数据集
+- [Arena（原 LMSYS Chatbot Arena）](https://arena.ai/) —— 用户投票比较模型输出的实时人工评估平台，也是最大的 LLM 两两比较数据集
 - [Es 等，“RAGAS: Automated Evaluation of Retrieval Augmented Generation”（EACL 2024 demo）](https://arxiv.org/abs/2309.15217) —— 无需参考答案的 RAG 指标（忠实性、答案相关性、上下文精确率/召回率）；无需标注员也能扩展到生产环境的评估模式。
 - [Liu 等，“G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment”（EMNLP 2023）](https://arxiv.org/abs/2303.16634) —— 以思维链 + 表单填充作为评估协议；所有构建评估器的人都需要了解其校准和偏差结果。
 - [Hugging Face LLM 评估指南](https://huggingface.co/spaces/OpenEvals/evaluation-guidebook) —— 由维护 Open LLM Leaderboard 的团队提供关于数据污染、指标选择和可复现性的实践建议。

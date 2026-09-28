@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/01-mdps-states-actions-rewards/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: f76f951e47c846acfca9192d910a9e72a28944d109a90b76e403131ffd07af9b
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: f6054bf219d82d9195bbfc01f132528a7727733157a0188d948725f9f3fd5f97
 status: reviewed
 ---
 
@@ -200,4 +200,4 @@ tags: [rl, mdp, modeling]
 - [Bellman（1957），《Dynamic Programming》](https://press.princeton.edu/books/paperback/9780691146683/dynamic-programming)——Bellman 方程的起源。
 - [OpenAI Spinning Up——第 1 部分：关键概念](https://spinningup.openai.com/en/latest/spinningup/rl_intro.html)——从深度强化学习角度编写的简明 MDP 入门。
 - [Puterman（2005），《Markov Decision Processes》](https://onlinelibrary.wiley.com/doi/book/10.1002/9780470316887)——关于 MDP 与精确求解方法的运筹学参考资料。
-- [Littman（1996），《Algorithms for Sequential Decision Making》博士论文](https://www.cs.rutgers.edu/~mlittman/papers/thesis-main.pdf)——把 MDP 作为动态规划特例进行推导的清晰文献。
+- [Littman（1996），《Algorithms for Sequential Decision Making》博士论文](https://cs.brown.edu/media/filer_public/d1/a6/d1a6f66a-289a-4b81-9596-417114843489/littman.pdf)——把 MDP 作为动态规划特例进行推导的清晰文献。

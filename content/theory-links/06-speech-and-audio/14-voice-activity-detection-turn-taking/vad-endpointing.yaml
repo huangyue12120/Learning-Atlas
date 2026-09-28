@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/14-voice-activity-detection-turn-taking/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 2e733e0d8a70489cf07220f0a6a420169c956164df7761872980207436592223
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: ba520338d01743a41fd7f4343a64af318241ce7e72e752afe8a98773e5f876fb
   anchor:
     heading: The three-tier VAD cascade
     slug: the-three-tier-vad-cascade

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/09-data-management/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 8751cb2ba46001a796bf98de9a8887652aa6c52f6543183f135c9c4bf4ae8e27
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 21f3293155f3b48ef79eaef08e7bf86be58a791974ed7266cbe9f18681c9b237
 status: reviewed
 ---
 
@@ -72,7 +72,7 @@ print(dataset["train"][0])
 有些数据集大到无法放入磁盘；流式模式逐行加载，无需下载完整数据。
 
 ```python
-dataset = load_dataset("wikimedia/wikipedia", "20220301.en", split="train", streaming=True)
+dataset = load_dataset("wikimedia/wikipedia", "20231101.en", split="train", streaming=True)
 
 for i, example in enumerate(dataset):
     print(example["title"])

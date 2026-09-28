@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/04-vllm-serving-internals/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 6bc9689906560542495ab85dc696e523f13a09f30c6fb24b744336d4a3509efe
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: ac55f16811358007b01b6a338df61bb4572f6e8d89a7e2af65387c6504508856
 status: reviewed
 ---
 
@@ -67,9 +67,9 @@ Prefill 是计算密集型的。一条 32k token Llama 3.3 70B 提示词在一�
 
 不必了解每个标志。需要知道调度器优化什么：在 KV 块预算下优化 goodput，同时受到分块 prefill 切片约束。
 
-### 2026 年 v0.18.0 陷阱
+### 检查兼容性矩阵
 
-在 vLLM v0.18.0 中，不能将 `--enable-chunked-prefill` 与草稿模型推测解码（`--speculative-model`）组合。文档中的例外是 V1 调度器中的 N-gram GPU 推测解码。未读发布说明就打开所有标志的团队，会在启动时遇到运行时错误，而非柔性性能回退。若推测收益重要到值得启用分块 prefill，请重新评估：2026 年正确答案往往是“不使用分块 prefill 的 EAGLE-3”，而不是无法编译的“草稿模型 + 分块 prefill”。
+启用多项特性前，应按正在使用的 vLLM 版本检查兼容性矩阵，因为各项特性的组合关系会随版本变化。v0.18.0 的特性矩阵将推测解码标为与分块 prefill 和前缀缓存兼容；推测解码页面列出的已知不兼容项是截至 v0.15.0 的流水线并行，以及截至 v0.10.0 的草稿模型推测。对于草稿方法，2026 年常用默认选择是 EAGLE-3（`"method": "eagle3"`），见第 17 阶段 · 第 05 课。
 
 ### 应记住的数字
 
@@ -142,7 +142,7 @@ tensor-parallel
 | TTFT | “首 token 时间” | prefill + 排队 + 网络；长提示时由 prefill 主导。 |
 | ITL | “token 间延迟” | 连续 decode token 间的时间；由批次大小主导。 |
 | Goodput | “满足 SLO 的吞吐” | 每个请求仍达到 TTFT 与 ITL 目标时的 tokens/sec。 |
-| V1 调度器 | “新调度器” | vLLM 的 2026 调度器；N-gram 推测解码与分块 prefill 兼容。 |
+| V1 调度器 | “新调度器” | vLLM 的 2026 调度器；支持连续批处理与分块 prefill。 |
 | `--gpu-memory-utilization` | “内存旋钮” | 加载权重和激活值后为 KV 块保留的 HBM 比例。 |
 
 ## 延伸阅读

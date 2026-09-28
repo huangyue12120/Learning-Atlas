@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/25-entity-linking/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 45ca4b148495f0bb3c2dcdacabc79dc96e1e5509538cfbf000a77f7dc4405307
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: c3deeb045d0569a7afe14a30fcb58da1dd4f47317af7709c61ce090452b911c5
   anchor:
     heading: "Step 2: context-based disambiguation"
     slug: step-2-context-based-disambiguation

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/05-autonomous-research-agent/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 5c1f54080074a5d0ccc5dc2e7297777cc782cc27a029d336101f6ac19f5e0740
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 575c394ff90b9e577cbdee288f1e1c5fa6359d0387fda459e50bfbd95cedc715
 status: reviewed
 ---
 
@@ -167,4 +167,4 @@ $ ai-scientist run --seed "attention sparsity in sub-1B transformers" --budget 3
 - [LangGraph 文档](https://langchain-ai.github.io/langgraph/)——参考编排层
 - [Semantic Scholar Graph API](https://api.semanticscholar.org/)——文献搜索
 - [E2B sandboxes](https://e2b.dev)——实验隔离参考
-- [NeurIPS 审稿人指南](https://neurips.cc/Conferences/2026/Reviewer-Guidelines)——审稿人集成编码的 rubric
+- [NeurIPS 审稿人指南](https://neurips.cc/Conferences/2026/ReviewerGuidelines)——审稿人集成编码的 rubric

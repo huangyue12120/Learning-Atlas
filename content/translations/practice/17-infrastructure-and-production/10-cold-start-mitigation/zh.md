@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/10-cold-start-mitigation/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: c5c70dbea2fb9ac8ca732b9fcf756d48f2b2b9e850c16602fb66bf859c275c82
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: d293a25aa3551eb703e1826e04cff4feb370996bcc769da2448f9e65eb27c2eb
 status: reviewed
 ---
 
@@ -136,6 +136,6 @@ cold-start-pipeline
 - [Modal — Cold start performance](https://modal.com/docs/guide/cold-start) — Modal 公开的基准和 checkpoint 架构。
 - [AWS Bottlerocket](https://github.com/bottlerocket-os/bottlerocket) — 预置数据卷快照模式。
 - [NVIDIA Run:ai Model Streamer](https://github.com/run-ai/runai-model-streamer) — 将权重加载与计算设置重叠。
-- [Baseten — Cold-start mitigation](https://www.baseten.co/blog/cold-start-mitigation/) — 预热实战手册。
+- [Baseten — Cold starts](https://docs.baseten.co/deployment/autoscaling/cold-starts) — 预热实战手册。
 - [ServerlessLLM paper (USENIX OSDI'24)](https://www.usenix.org/conference/osdi24/presentation/fu) — 分层加载设计。
 - [NVIDIA — Disaggregated LLM Inference on Kubernetes](https://developer.nvidia.com/blog/deploying-disaggregated-llm-inference-workloads-on-kubernetes/) — 面向解耦部署的实时迁移。

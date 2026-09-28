@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/16-speculative-decoding/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: c69bf699512dd6d2b501316e7c32395ffac44b58d522a694f335964be3903eda
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: ea4292610712bf0f7082cc33ac72e38f2c29f996279fd2f6672b71d20457d74f
   anchor:
     heading: The Concept
     slug: the-concept

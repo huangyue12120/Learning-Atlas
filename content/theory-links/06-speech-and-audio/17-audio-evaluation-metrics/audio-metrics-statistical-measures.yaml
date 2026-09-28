@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/17-audio-evaluation-metrics/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: ac206830044a3d8baf1d99de9a7d56080d08662b3607a329f1164ea7a768a6b7
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 1384d50a713138f0b4459e40bf3c413b11a4e25171a2085daee16fd02be1ed5b
   anchor:
     heading: The Concept
     slug: the-concept

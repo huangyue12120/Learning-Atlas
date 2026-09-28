@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/13-building-complete-llm-pipeline/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 920dc5da6f447e4b4c41e45f6c967a4a05622cd0e60b8f827e6aeaee5e114463
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 4e36ed61b55f577852709ebd4b3ea3988e47ebe5daf7355ec55a06391de26b96
 status: reviewed
 ---
 
@@ -275,4 +275,4 @@ python code/main.py gate    # read manifest.out.yaml, apply eval gates, ship-or-
 - [Kaplan et al., 2020 -- "Scaling Laws for Neural Language Models"](https://arxiv.org/abs/2001.08361) -- 最初的计算量–数据量–参数量缩放关系
 - [Hoffmann et al., 2022 -- "Training Compute-Optimal Large Language Models (Chinchilla)"](https://arxiv.org/abs/2203.15556) -- 修正 Kaplan、重新校准现代数据预算的方法
 - [PyTorch FSDP2 documentation](https://pytorch.org/docs/stable/fsdp.html) -- PyTorch 2.4+ 中取代 FSDP1 的分布式训练原语
-- [Weights & Biases LLM Reports](https://wandb.ai/site/llms) -- 开源 LLM 运行的真实清单和实验追踪器输出，可作为可复用模板
+- [Weights & Biases LLM Reports](https://wandb.ai/site/solutions/llms/) -- 开源 LLM 运行的真实清单和实验追踪器输出，可作为可复用模板
