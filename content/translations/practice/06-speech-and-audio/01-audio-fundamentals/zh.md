@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/01-audio-fundamentals/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: b50c405e879b2f560036ced3d62fdaccd8c1d5fa47604f823a8d99b2391095a6
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 9ef0e33271e866ee2ec72280d40ffed14a488cce7941780b2495ccbadf77f7ee
 status: reviewed
 ---
 
@@ -148,6 +148,6 @@ def dft(x):
 
 - [Shannon (1949). Communication in the Presence of Noise](https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf)——采样定理背后的论文。
 - [Smith — The Scientist and Engineer's Guide to Digital Signal Processing](https://www.dspguide.com/ch8.htm)——免费、权威的 DSP 教材。
-- [librosa 文档——音频入门](https://librosa.org/doc/latest/tutorial.html)——带代码的实作导览。
-- [Heinrich Kuttruff — Room Acoustics（第 6 版）](https://www.routledge.com/Room-Acoustics/Kuttruff/p/book/9781482260434)——解释真实音频为什么不是干净正弦波的参考资料。
+- [librosa 文档——音频入门](https://librosa.org/doc/latest/auto_tutorials/index.html)——带代码的实作导览。
+- [Heinrich Kuttruff — Room Acoustics（第 6 版）](https://www.taylorfrancis.com/books/mono/10.1201/9781315372150/room-acoustics-heinrich-kuttruff)——解释真实音频为什么不是干净正弦波的参考资料。
 - [Steve Eddins — FFT Interpretation notebook](https://blogs.mathworks.com/steve/2020/03/30/fft-spectrum-and-spectral-densities/)——用 10 分钟厘清频率分箱直觉。

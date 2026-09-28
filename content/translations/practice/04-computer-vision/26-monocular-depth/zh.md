@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/26-monocular-depth/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: fe028ab042b796794be164531fd758573b48769f4afe359fd3c397d1a405cd32
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 47580e0cea05da1ab7b06b7aa0e1cdda34c405fe64b1e8717e2f2cf1696d0aaf
 status: reviewed
 ---
 
@@ -203,21 +203,21 @@ print(f"before align  absRel = {abs_rel_error(pred, gt):.3f}")
 print(f"after align   absRel = {abs_rel_error(aligned, gt):.3f}")
 ```
 
-### 步骤 5：Depth Anything V3 用法（参考）
+### 步骤 5：Depth Anything V2 用法（参考）
 
 ```python
-import torch
+import numpy as np
 from transformers import pipeline
 from PIL import Image
 
-pipe = pipeline(task="depth-estimation", model="LiheYoung/depth-anything-v2-large")
+pipe = pipeline(task="depth-estimation", model="depth-anything/Depth-Anything-V2-Large-hf")
 
 image = Image.open("street.jpg").convert("RGB")
 out = pipe(image)
 depth_np = np.array(out["depth"])
 ```
 
-三行。`out["depth"]` 是 PIL 灰度图，转换为 numpy 后即可计算。Depth Anything V3 发布后替换模型 ID；API 不变。
+三行。`out["depth"]` 是 PIL 灰度图，转换为 numpy 后即可计算。Depth Anything 3（2025 年 11 月）不能通过这条 pipeline 加载，它使用自己的 `depth_anything_3` 包：`DepthAnything3.from_pretrained("depth-anything/DA3MONO-LARGE")` 加载相对单目深度模型，`model.inference(images).depth` 返回 `[N, H, W]` 深度数组。
 
 ## 使用现成工具
 

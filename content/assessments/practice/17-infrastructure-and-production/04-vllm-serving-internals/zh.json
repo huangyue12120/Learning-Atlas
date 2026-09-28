@@ -3,8 +3,8 @@
   "source": {
     "repository": "ai-engineering-from-scratch",
     "path": "phases/17-infrastructure-and-production/04-vllm-serving-internals/quiz.json",
-    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
-    "sha256": "9b59420a43b80bc1426b282e29b966adbe60f49e993b95be015e2520e793702e"
+    "revision": "bf7791e140768d8223d24e616bb60cbf07fea014",
+    "sha256": "ff2f5d9dab30bb583fa75d1936186dc807a5f563127096490eb0117c802085ba"
   },
   "status": "reviewed",
   "questions": [
@@ -63,14 +63,14 @@
     {
       "id": "q5",
       "stage": "post",
-      "question": "在 vLLM v0.18.0 中，哪种推测解码变体仍兼容 --enable-chunked-prefill？",
+      "question": "vLLM v0.18.0 的特性兼容性矩阵如何说明推测解码与 --enable-chunked-prefill 的关系？",
       "options": [
-        "没有任何推测解码兼容",
-        "V1 调度器中的 N-gram GPU 推测解码",
-        "基于草稿模型的推测解码",
-        "仅 EAGLE-1"
+        "矩阵将两者标记为兼容",
+        "任何配置下都不能组合",
+        "只有 EAGLE-1 草稿头能与分块 prefill 一起使用",
+        "只有草稿模型推测解码能与分块 prefill 一起使用"
       ],
-      "correct": 1,
+      "correct": 0,
       "explanation": "正确答案是“V1 调度器中的 N-gram GPU 推测解码”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
     },
     {

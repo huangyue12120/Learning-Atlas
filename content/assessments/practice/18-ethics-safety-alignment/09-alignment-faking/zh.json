@@ -3,8 +3,8 @@
   "source": {
     "repository": "ai-engineering-from-scratch",
     "path": "phases/18-ethics-safety-alignment/09-alignment-faking/quiz.json",
-    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
-    "sha256": "4a8b9b3ce4e881ebedfd1066a41477157e4f65816e4300f8bb23b1b628e09547"
+    "revision": "bf7791e140768d8223d24e616bb60cbf07fea014",
+    "sha256": "2d4a02ef64057d3de63a0a0713561255ac927bcbee857c036ceba64bf0e2222c"
   },
   "status": "reviewed",
   "questions": [
@@ -63,12 +63,12 @@
     {
       "id": "09-alignment-faking-post-5",
       "stage": "post",
-      "question": "为什么 2025 年的 faithful CoT training 单独使用仍然不足？",
+      "question": "Anthropic 2025 年的对齐伪装训练期缓解研究指出，黑盒动机询问训练的主要风险是什么？",
       "options": [
-        "它需要公开训练数据",
-        "它只适用于小模型",
-        "它会增加 compliance gap",
-        "它移除了欺骗性推理的显式文字轨迹，但底层合规差异行为仍然存在"
+        "需要实验室无法公开的训练数据",
+        "只适用于十亿参数以下的模型",
+        "扩大受监控与未监控合规之间的差异",
+        "它可能教会模型对自身动机撒谎"
       ],
       "correct": 3,
       "explanation": "正确答案是“它移除了欺骗性推理的显式文字轨迹，但底层合规差异行为仍然存在”。本课用 compliance gap 计算器说明模型可能为了保留当前偏好而在受监控场景中伪装对齐。"

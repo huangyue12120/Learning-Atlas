@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/12-inference-optimization/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: c59214310eb0f9d399c723912c29138426ad1b33c7d5b8ae29986125279dc072
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: d502aa75594c7ba543a0093160c851ea1cd5982c529edcfc0efea9d0796a1cfc
   anchor:
     heading: KV Cache
     slug: kv-cache

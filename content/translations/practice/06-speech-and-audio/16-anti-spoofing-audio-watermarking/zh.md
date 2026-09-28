@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/16-anti-spoofing-audio-watermarking/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: e10d33a6c2f542fa1a2a08bd484f7b78b04b6511bd4a5a9dc4720eca850ce504
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 312eab13609b920ae76f6c7e413cfc8abfdbf761b87328fcd7af4edd9a7b944a
 status: reviewed
 ---
 
@@ -204,4 +204,4 @@ def safe_tts(text, voice, clone_reference=None):
 - [Chen 等（2025）. WaveVerify](https://arxiv.org/abs/2507.21150)——面向时间攻击的 MoE 检测器。
 - [Jung 等（2022）. AASIST](https://arxiv.org/abs/2110.01200)——SOTA 检测主干。
 - [AudioMarkBench（2024）](https://proceedings.neurips.cc/paper_files/paper/2024/file/5d9b7775296a641a1913ab6b4425d5e8-Paper-Datasets_and_Benchmarks_Track.pdf)——鲁棒性评估。
-- [C2PA 规范](https://c2pa.org/specifications/specifications/)——来源清单格式。
+- [C2PA 规范](https://spec.c2pa.org/specifications/specifications/2.4/index.html)——来源清单格式。

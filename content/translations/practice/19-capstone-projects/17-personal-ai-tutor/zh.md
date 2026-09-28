@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/17-personal-ai-tutor/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: ad7e1ebf8e1a6549852bde68b9e5a3eb752ef41c4fafd14d13c8b56c2655cb90
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: be07b1c0376a0905b412b501b0a15a7c1aa984e9b61f0a8d43de27dcf0113341
 status: reviewed
 ---
 
@@ -162,7 +162,7 @@ cf-tutor-loop
 
 - [Khanmigo（Khan Academy）](https://www.khanmigo.ai)——消费级 K–12 导师参考
 - [Duolingo Max](https://blog.duolingo.com/duolingo-max/)——语言学习导师参考
-- [Google LearnLM / Gemini for Education](https://blog.google/technology/google-deepmind/learnlm)——托管模型参考
+- [Google LearnLM / Gemini for Education](https://blog.google/products-and-platforms/products/education/google-learnlm-gemini-generative-ai/)——托管模型参考
 - [Quizlet Q-Chat](https://quizlet.com)——另一种参考产品
 - [Synthesis Tutor](https://www.synthesis.com)——创业公司参考
 - [FSRS algorithm](https://github.com/open-spaced-repetition/fsrs4anki)——间隔重复调度器

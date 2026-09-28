@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/21-nli-textual-entailment/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 1e03d17a955ebb8a52c0f4a19079ae7dadac146e35edc98cd1488ffdaebc7450
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: ff81c43d767535518d1d724e57b8c0958a0bd8aabd8d16f64880347772ff0ed8
 status: reviewed
 ---
 
@@ -82,7 +82,7 @@ print(result)
 #  {'label': 'contradiction', 'score': 0.01}]
 ```
 
-用于生产 NLI 时，`facebook/bart-large-mnli` 与 `microsoft/deberta-v3-large-mnli` 是开放模型的默认选择。DeBERTa-v3 位居排行榜前列。
+用于生产 NLI 时，`facebook/bart-large-mnli` 与 `MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli` 是开放模型的默认选择。DeBERTa-v3 位居排行榜前列。
 
 ### 步骤 2：零样本分类
 
@@ -129,7 +129,7 @@ def is_faithful(answer, context, threshold=0.5):
 
 | 用例 | 模型 |
 |------|------|
-| 通用 NLI | `microsoft/deberta-v3-large-mnli` |
+| 通用 NLI | `MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli` |
 | 高速或边缘部署 | `cross-encoder/nli-deberta-v3-base` |
 | 零样本分类（轻量） | `facebook/bart-large-mnli` |
 | 文档级 NLI | `MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli` |

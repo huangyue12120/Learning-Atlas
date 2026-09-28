@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/11-quantization/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: dd41adfca95d7337c3d50d446ba0e5ff83f53654dc776a8a48fd171b425a5bbf
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 7b089b523500e3a6948d1265e174f1c59cbc890f31faeba9549e5a9de95180bf
   anchor:
     heading: How Quantization Works
     slug: how-quantization-works

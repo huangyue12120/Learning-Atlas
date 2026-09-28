@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/15-prompt-caching/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: c72d9e6ced54e99c366d6f573ba03a8a4f0a4e365eddc8911a92712dd1cfd201
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: abe8cd085fc41015985f4f324a89e8193593b341855dc82bdf697e68430cc350
 status: reviewed
 ---
 
@@ -152,7 +152,7 @@ from google.genai import types
 client = genai.Client()
 
 cache = client.caches.create(
-    model="gemini-3-pro",
+    model="gemini-3.8-flash",
     config=types.CreateCachedContentConfig(
         display_name="rubric-v3",
         system_instruction=RUBRIC,
@@ -162,7 +162,7 @@ cache = client.caches.create(
 )
 
 resp = client.models.generate_content(
-    model="gemini-3-pro",
+    model="gemini-3.8-flash",
     contents=["Review this code:\n" + code],
     config=types.GenerateContentConfig(cached_content=cache.name),
 )

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/68-rag-eval-precision-recall/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 0a2aa4839401b51b6b2d068e7d9bd38698b03555ece0df0ec2017ec9379cf91e
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 5f13a413ed47d65037cae1f68900c2fd1bbf840f668718b7b38829beb0d93ccb
 status: reviewed
 ---
 # RAG 评估：Precision、Recall、MRR、nDCG、忠实性与答案相关性
@@ -193,7 +193,7 @@ python3 code/main.py
 - Buckley、Voorhees，《Evaluating Evaluation Measure Stability》，SIGIR 2000——排序指标稳定性的经典论文
 - Jarvelin、Kekalainen，《Cumulated Gain-based Evaluation of IR Techniques》——nDCG 论文
 - [Ragas: Automated Evaluation of RAG Pipelines](https://docs.ragas.io)
-- [Anthropic, Evaluating RAG](https://www.anthropic.com/news/evaluating-rag)
+- [Anthropic, Introducing Contextual Retrieval](https://www.anthropic.com/engineering/contextual-retrieval)——用 `1 - Recall@20` 评估检索。
 - Phase 11 第 10 课：评估框架基础
 - Phase 19 第 64–67 课：本课评估的组件
 - Phase 19 第 69 课：本课要评价的端到端流水线

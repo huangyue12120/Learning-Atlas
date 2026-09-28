@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/17-audio-evaluation-metrics/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: ac206830044a3d8baf1d99de9a7d56080d08662b3607a329f1164ea7a768a6b7
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 1384d50a713138f0b4459e40bf3c413b11a4e25171a2085daee16fd02be1ed5b
 status: reviewed
 ---
 
@@ -117,7 +117,7 @@ status: reviewed
 | Open ASR Leaderboard（HF） | 英语 + 多语言 + 长音频 | `huggingface.co/spaces/hf-audio/open_asr_leaderboard` |
 | TTS Arena（HF） | 英语 TTS | `huggingface.co/spaces/TTS-AGI/TTS-Arena` |
 | Artificial Analysis Speech | TTS + STT，来自成对投票的 ELO | `artificialanalysis.ai/speech` |
-| MMAU-Pro | LALM 推理 | `mmaubenchmark.github.io` |
+| MMAU-Pro | LALM 推理 | `sonalkum.github.io/mmau-pro` |
 | SpeakerBench / VoxSRC | 说话人识别 | `voxsrc.github.io` |
 | MMAU 音乐子集 | 音乐 LALM | （MMAU 内） |
 | HEAR benchmark | 自监督音频 | `hearbenchmark.com` |
@@ -235,5 +235,5 @@ def eer(same_scores, diff_scores):
 - [弗雷歇音频距离（Kilgour 等，2019）](https://arxiv.org/abs/1812.08466)——音乐生成标准。
 - [开放 ASR 排行榜](https://huggingface.co/spaces/hf-audio/open_asr_leaderboard)——2026 年实时排名。
 - [TTS Arena](https://huggingface.co/spaces/TTS-AGI/TTS-Arena)——人类投票的 TTS 排行榜。
-- [MMAU-Pro 基准](https://mmaubenchmark.github.io/)——LALM 推理排行榜。
+- [MMAU-Pro 基准](https://sonalkum.github.io/mmau-pro/)——LALM 推理排行榜。
 - [HEAR 基准](https://hearbenchmark.com/)——音频 SSL 基准。

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/25-entity-linking/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 45ca4b148495f0bb3c2dcdacabc79dc96e1e5509538cfbf000a77f7dc4405307
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: c3deeb045d0569a7afe14a30fcb58da1dd4f47317af7709c61ce090452b911c5
 status: reviewed
 ---
 
@@ -196,7 +196,7 @@ Refuse any EL pipeline without a mention-recall baseline (you cannot evaluate a 
 
 ## 延伸阅读
 
-- [Milne、Witten（2008），Learning to Link with Wikipedia](https://www.cs.waikato.ac.nz/~ihw/papers/08-DM-IHW-LearningToLinkWithWikipedia.pdf)：奠定先验 + 上下文方法的论文。
+- [Milne、Witten（2008），Learning to Link with Wikipedia](https://researchcommons.waikato.ac.nz/entities/publication/b9a0b520-abc5-47c5-a86a-da6c579893ab)：奠定先验 + 上下文方法的论文。
 - [Wu 等（2020），Zero-shot Entity Linking with Dense Entity Retrieval (BLINK)](https://arxiv.org/abs/1911.03814)：基于嵌入的主力方案。
 - [De Cao 等（2021），Autoregressive Entity Retrieval (GENRE)](https://arxiv.org/abs/2010.00904)：使用约束解码的生成式实体链接。
 - [Hoffart 等（2011），Robust Disambiguation of Named Entities in Text (AIDA)](https://www.aclweb.org/anthology/D11-1072.pdf)：基准论文。

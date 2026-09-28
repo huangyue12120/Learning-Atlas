@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/42-agent-workbench-capstone/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 50733fd8456af91cd7f7cd39bc02e984be10cc85f0c3d886ba60abfa46e24d21
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 8e282c077084bd9c8d596d2e23d11742af2da20390507f4e0e27e59c03330323
 status: reviewed
 ---
 
@@ -161,7 +161,6 @@ python3 code/main.py
 - [Nx Blog，教你的 AI 智能体如何在 monorepo 中工作](https://nx.dev/blog/nx-ai-agent-skills)——跨六种工具的单一来源生成器
 - [agents.md——开放规范](https://agents.md/)——你的包路由器必须实现的内容
 - [HKUDS/OpenHarness](https://github.com/HKUDS/OpenHarness)——等价于工作台包的参考实现
-- [andrewgarst/agentic_harness](https://github.com/andrewgarst/agentic_harness)——带 Redis 后端和评估套件的参考实现
 - [Augment Code，一份好的 AGENTS.md 就是一次模型升级](https://www.augmentcode.com/blog/how-to-write-good-agents-dot-md-files)——包文档的质量标准
 - [Anthropic，面向长时运行智能体的有效工作台](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
 - [Anthropic，长时运行应用开发的工作台设计](https://www.anthropic.com/engineering/harness-design-long-running-apps)

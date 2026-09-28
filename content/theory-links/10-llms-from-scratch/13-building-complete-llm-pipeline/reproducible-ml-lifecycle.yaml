@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/13-building-complete-llm-pipeline/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 920dc5da6f447e4b4c41e45f6c967a4a05622cd0e60b8f827e6aeaee5e114463
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 4e36ed61b55f577852709ebd4b3ea3988e47ebe5daf7355ec55a06391de26b96
   anchor:
     heading: The Concept
     slug: the-concept

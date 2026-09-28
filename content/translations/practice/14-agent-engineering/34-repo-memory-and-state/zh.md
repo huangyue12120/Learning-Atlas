@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/34-repo-memory-and-state/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: cd1aa7ff00250e5d5e0b0a822623522d3fd26db986c56053a5570592097c8d5a
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: c43ee57ba42296d7536eaa6b46281a3fa64c59ed392b19a7891cfdc0fb50e4bc
 status: reviewed
 ---
 
@@ -144,7 +144,7 @@ python3 code/main.py
 
 - [JSON Schema specification](https://json-schema.org/specification.html)
 - [LangGraph checkpointers](https://langchain-ai.github.io/langgraph/concepts/persistence/)
-- [Letta memory blocks](https://docs.letta.com/concepts/memory)
+- [Letta memory blocks](https://docs.letta.com/v1-sdk/memory/memory-blocks)
 - [Fast.io，AI Agent State Checkpointing: A Practical Guide](https://fast.io/resources/ai-agent-state-checkpointing/)——带幂等性的以模式为先检查点
 - [Fast.io，AI Agent Workflow State Persistence: Best Practices 2026](https://fast.io/resources/ai-agent-workflow-state-persistence/)——并发控制、TTL、事件溯源
 - [Hive Issue #6263 — non-atomic state.json writes silently ignored](https://github.com/aden-hive/hive/issues/6263)——真实项目中的失败模式

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/10-audio-language-models/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: ed7987f01dba1440b53561d85648b63bae2396f6b4b0494151e272dfa071e046
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: a32837dad7c1099f98828124d16ed2bc97576711bfbaea7f503127db3f6d4c84
 status: reviewed
 ---
 
@@ -140,17 +140,20 @@ class AudioProjector(nn.Module):
 
 ```python
 from datasets import load_dataset
-mmau = load_dataset("MMAU/MMAU-Pro")
+mmau = load_dataset("gamma-lab-umd/MMAU-Pro", split="test")
+mcq = mmau.filter(lambda item: len(item["choices"] or []) > 1)
 
 correct = 0
-for item in mmau["test"]:
-    answer = call_model(item["audio"], item["question"], item["choices"])
-    if answer == item["correct_choice"]:
+for item in mcq:
+    answer = call_model(item["audio_path"], item["question"], item["choices"])
+    if answer == item["answer"]:
         correct += 1
-print(f"Accuracy: {correct / len(mmau['test']):.3f}")
+print(f"Accuracy: {correct / len(mcq):.3f}")
 ```
 
-分别报告各类别（语音 / 声音 / 音乐 / 多音频）结果。聚合数字会掩盖模型失败的位置。
+`audio_path` 指向数据集仓库中的 `data.zip`（约 47 GB），因此评分前需要下载并解压。这个精确匹配循环只用于基本检查，不是基准官方评分器，其结果不能与已发布的 MMAU-Pro 结果直接比较。官方评估器通过嵌入相似度（NV-Embed-v2）匹配选择题答案，用 LLM judge 评分开放式答案，并以正则表达式检查指令遵循答案：将预测写入 `model_output` 列，再运行 [MMAU-Pro 仓库](https://github.com/sonalkum/MMAUPro)中的 `evaluate_mmau_pro_comprehensive.py`。
+
+分别报告各 `category`（语音、声音、音乐、多音频以及其余类别）结果。聚合数字会掩盖模型失败的位置。
 
 ## 用于实践
 
@@ -198,4 +201,4 @@ print(f"Accuracy: {correct / len(mmau['test']):.3f}")
 - [NVIDIA（2025）. Audio Flamingo 3](https://arxiv.org/abs/2507.08128)——开源长音频领先者。
 - [NVIDIA（2026）. Audio Flamingo Next](https://arxiv.org/abs/2604.10905)——LongAudioBench SOTA。
 - [Tang 等（2023）. SALMONN](https://arxiv.org/abs/2310.13289)——双编码器先驱。
-- [MMAU-Pro 排行榜](https://mmaubenchmark.github.io/)——2026 年实时排名。
+- [MMAU-Pro 排行榜](https://sonalkum.github.io/mmau-pro/)——2026 年实时排名。

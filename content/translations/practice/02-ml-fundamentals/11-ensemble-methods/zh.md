@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/11-ensemble-methods/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 764d6a19ed0c253debea7014287f36e771a7d92815c10174bf8005a3acd63014
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 64b7a605139b29e5400bd8d0d44a77a977dd4787e3140133d9f4c05f162e2532
 status: reviewed
 ---
 
@@ -360,7 +360,7 @@ class GradientBoostingScratch:
 ## 延伸阅读
 
 - [Schapire 与 Freund：Boosting: Foundations and Algorithms](https://mitpress.mit.edu/9780262526036/)——AdaBoost 创造者的著作。
-- [Friedman：Greedy Function Approximation: A Gradient Boosting Machine（2001）](https://statweb.stanford.edu/~jhf/ftp/trebst.pdf)——原始梯度提升论文。
+- [Friedman：Greedy Function Approximation: A Gradient Boosting Machine（2001）](https://doi.org/10.1214/aos/1013203451)——原始梯度提升论文。
 - [Chen 与 Guestrin：XGBoost（2016）](https://arxiv.org/abs/1603.02754)——XGBoost 论文。
 - [Wolpert：Stacked Generalization（1992）](https://www.sciencedirect.com/science/article/abs/pii/S0893608005800231)——原始 stacking 论文。
 - [scikit-learn Ensemble Methods](https://scikit-learn.org/stable/modules/ensemble.html)——实用参考。

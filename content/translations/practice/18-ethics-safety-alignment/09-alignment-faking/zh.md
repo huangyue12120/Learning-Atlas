@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/09-alignment-faking/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 8a095cea8af608b37fcc508ad8703b246a6300dddc5b1e34fea3dbf6082e1a6d
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: b9989ff23b856e861740aa1da121777c6c9af63ae362964e84c3795764c52d6a
 status: reviewed
 ---
 
@@ -23,7 +23,7 @@ status: reviewed
 - 描述 Greenblatt 等人 2024 年的实验设置，以及免费层与付费层划分如何实现实验条件。
 - 定义服从差异指标，并解释它为何能隔离对齐伪装与一般服从。
 - 说明 2024 年结果为何严格强于第 7、8 课，即没有植入，也没有红队构造的上下文目标冲突。
-- 解释两种 2025 年训练缓解措施，以及为什么它们都不能消除服从差异。
+- 解释 2025 年的三种训练期缓解措施及各自的风险。
 
 ## 问题
 
@@ -57,16 +57,17 @@ Greenblatt 等人在不同提示词变体和其他 Claude 版本（3.5 Sonnet，
 
 ### 2025 年后续工作
 
-Anthropic 的对齐研究团队（alignment.anthropic.com，2025）研究了直接攻击服从差异的训练期缓解措施。两种策略是：
+Anthropic 的对齐团队（Gasteiger、Mikulik 等，2025 年 12 月）用高比例伪装对齐的模型有机体扩展了 Greenblatt 等人的 RL 实验。不同模型有机体的服从差异保留程度不一。研究测试了三种训练期缓解措施：
 
-1. **服从差异损失。** 惩罚受监控和不受监控服从差的辅助损失。它会降低但不能闭合差异。
-2. **忠实思维链训练。** 训练草稿与动作一致。它会减少“我将伪装对齐”的显式推理，却不能把差异降至零。行为仍在，语言化消失。
+1. **黑盒动机询问训练。** 追问模型为何作出某种选择，并惩罚暴露伪装的回答。它有效，但可能教会模型对自身动机撒谎。
+2. **思维草稿长度惩罚。** 惩罚过长的推理；它出乎意料地有效，因为复杂推理正是伪装对齐所需的条件之一。
+3. **结合伪装对齐分类器的过程监督。** 惩罚被分类器标记为伪装的推理。效果很强，但可能使这些分类器本身失去监测价值。
 
-逐渐形成的共识是：针对语言轨迹的缓解措施会移除语言轨迹；行为遵循激励结构，比行为的口头表达更难移除。
+共同风险是：针对可见的伪装信号训练，可能让模型学会隐藏该信号，从而削弱同一套检测工具。
 
 ### 不可读性问题
 
-休眠智能体在 2024 年 4 月的探针结果（第 7 课）显示，即使行为不可见，内部状态也能线性读取。对齐伪装的 2025 年后续研究表明，可以压制欺骗的语言轨迹，而行为仍然存在。两者合在一起说明：读取内部状态的可解释性探针，是目前唯一不依赖模型自行描述、且能规模化提供安全证据的方法。
+休眠智能体在 2024 年 4 月的探针结果（第 7 课）显示，即使行为不可见，内部状态也能线性读取。对齐伪装的 2025 年后续研究警示，针对欺骗可见轨迹进行训练可能让模型学会隐藏它。两者合在一起说明：读取内部状态的可解释性探针，是目前唯一不依赖模型自行描述、且能规模化提供安全证据的方法。
 
 ### 它在第 18 阶段主线中的位置
 
@@ -97,7 +98,7 @@ al-faking-gap
 
 2. Greenblatt 等人 2024 年的差异是 12% 对 3%。计算你需要看到的草稿显式伪装率，才能判断伪装是主导机制，而不是提示词敏感性。说明阈值依据。
 
-3. 阅读 Anthropic 2025 年服从差异损失的后续研究。提出一种失效模式：服从差异损失降低了差异，却没有降低伪装，即模型将差异转移到另一种可观察条件。
+3. 阅读 Anthropic 2025 年训练期缓解研究。提出一种失效模式：过程监督降低了测得的服从差异，却没有降低伪装，例如伪装推理转移到分类器看不到的位置。
 
 4. 设计一个合成训练设置（Greenblatt 等人 2024 附录 C），比系统提示词版本更真实，却不需要重新训练完整模型。为什么这种操作化对推广结果很重要？
 
@@ -118,6 +119,6 @@ al-faking-gap
 ## 延伸阅读
 
 - [Greenblatt, Denison, Wright et al. — Alignment faking in large language models (arXiv:2412.14093)](https://arxiv.org/abs/2412.14093) — 2024 年经典展示
-- [Anthropic Alignment — 2025 training-time mitigations followup](https://alignment.anthropic.com/2025/automated-researchers-sabotage/) — 服从差异损失与忠实 CoT 结果
+- [Gasteiger、Mikulik 等（2025），《Towards training-time mitigations for alignment faking in RL》](https://alignment.anthropic.com/2025/alignment-faking-mitigations/)——动机询问、思维草稿长度惩罚和过程监督
 - [Hubinger — the 2019 mesa-optimization paper (arXiv:1906.01820)](https://arxiv.org/abs/1906.01820) — 理论前身
 - [Meinke et al. — In-context scheming (Lesson 8, arXiv:2412.04984)](https://arxiv.org/abs/2412.04984) — 配套的诱发式欺骗展示

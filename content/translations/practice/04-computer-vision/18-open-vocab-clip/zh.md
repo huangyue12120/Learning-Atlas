@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/18-open-vocab-clip/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 46eaa09a8e7e440033fdf9d3890e4fb679b54b1f0f1428b5117607275270ee10
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 7c62736dc19a39acdbec6499254e943c83a8c14023a1ed0979462fc8a3fbebe1
 status: reviewed
 ---
 
@@ -235,4 +235,4 @@ SigLIP 更新、在小规模训练上更好，适合新项目：`google/siglip-b
 - [CLIP：Learning Transferable Visual Models from Natural Language Supervision（Radford 等，2021）](https://arxiv.org/abs/2103.00020)
 - [SigLIP：Sigmoid Loss for Language-Image Pre-Training（Zhai 等，2023）](https://arxiv.org/abs/2303.15343)
 - [OpenCLIP](https://github.com/mlfoundations/open_clip)——社区代码库。
-- [DINOv2、CLIP 与 MAE：特征比较](https://huggingface.co/blog/dinov2)——HF 的并列用例指南。
+- [Oquab 等（2023），DINOv2：Learning Robust Visual Features without Supervision](https://arxiv.org/abs/2304.07193)——论文包含与 CLIP 类和 MAE 类模型的特征基准比较。

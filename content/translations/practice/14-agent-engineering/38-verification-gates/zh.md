@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/38-verification-gates/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 9ff4dfd1f6774e4f865bea2ee425fd587280b703a7ad511258919fc5c413d571
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 4959114e249714257295b82f895d03c8b8a144bd1c689883bc9cf7f25c9785a0
 status: reviewed
 ---
 
@@ -151,7 +151,6 @@ python3 code/main.py
 - [类型检查合规：确定性防护栏（arXiv 2604.01483）](https://arxiv.org/pdf/2604.01483)——Lean 4 作为确定性验证的上限
 - [logi-cmd/agent-guardrails——合并门规范](https://github.com/logi-cmd/agent-guardrails)——范围 + 变异测试验证门
 - [Guardrails AI x MLflow](https://guardrailsai.com/blog/guardrails-mlflow)——作为 CI 评分器的确定性验证器
-- [Akira，智能体系统的实时防护栏](https://www.akira.ai/blog/real-time-guardrails-agentic-systems)——工具调用前后验证门
 - 第 14 阶段 · 第 27 节——提示词注入防御（验证门的对抗性搭档）
 - 第 14 阶段 · 第 36 节——验证门执行的范围契约
 - 第 14 阶段 · 第 37 节——验证门评分的反馈日志

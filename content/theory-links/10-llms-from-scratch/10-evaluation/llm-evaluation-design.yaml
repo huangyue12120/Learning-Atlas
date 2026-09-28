@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/10-evaluation/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 1fe848a214fc3517fb8de9a979096f340d3dafcca3f1520f98ac9a89dfe4609a
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 46ea04b305ea7d7d7072fc2b28c1eb662230ee8bb9739d2245fa50a80472163f
   anchor:
     heading: The Concept
     slug: the-concept

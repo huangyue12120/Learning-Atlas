@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/10-mcp-resources-and-prompts/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 34d186c38dea5a28accfab115201bb022dd41ca9a24c0385488821e5982a3108
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: fc4d77f598eca44d493dd1cb765d2355a739577a65387a4a1a7e0e1d55946579
 status: reviewed
 ---
 
@@ -350,4 +350,4 @@ python3 -m unittest discover tests -v
 - [MCP 2026-07-28 Resources](https://modelcontextprotocol.io/specification/2026-07-28/server/resources)
 - [MCP 2026-07-28 Prompts](https://modelcontextprotocol.io/specification/2026-07-28/server/prompts)
 - [MCP 2026-07-28 Subscriptions](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/subscriptions)
-- [MCP 2026-07-28 Caching](https://modelcontextprotocol.io/specification/2026-07-28/basic/utilities/caching)
+- [MCP 2026-07-28 Caching](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/caching)

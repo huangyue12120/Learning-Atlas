@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/07-bayes-theorem/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 0d923219992ac86ab6fccdfaf8377863b6d3b3698c7403075d237c13409441eb
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: e44e7db0a2b9c89dc09eecbe3ac41bb1c631b8aa239609b82b832c532d75ce6d
 status: reviewed
 ---
 
@@ -480,6 +480,6 @@ A/B 测试其实就是披着伪装的贝叶斯推断。
 ## 延伸阅读
 
 - [3Blue1Brown：贝叶斯定理](https://www.youtube.com/watch?v=HZGCoVF3YvM) - 使用医疗检测示例进行可视化讲解
-- [Stanford CS229：生成式学习算法](https://cs229.stanford.edu/notes2022fall/cs229-notes2.pdf) - Naive Bayes 及其与判别模型的联系
+- [Stanford CS229：生成式学习算法](https://cs229.stanford.edu/main_notes.pdf) - Naive Bayes 及其与判别模型的联系
 - [Think Bayes](https://greenteapress.com/wp/think-bayes/) - 免费书籍，使用 Python 代码讲解贝叶斯统计
 - [scikit-learn Naive Bayes](https://scikit-learn.org/stable/modules/naive_bayes.html) - 生产级实现，以及各变体的适用时机

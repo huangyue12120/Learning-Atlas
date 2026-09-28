@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/31-agent-workbench-why-models-fail/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 0ea9ffdfa16e69122d14c890cff27a1114bf9c967b584ebfa1919bbad4efc1de
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 2575fa8bca26da9a545cfc45d79237eac2911e977d5b9e3a77b1a21675111850
 status: reviewed
 ---
 
@@ -225,7 +225,6 @@ python3 code/main.py
 - [preprints.org，Harness Engineering for Language Agents（2026 年 3 月）](https://www.preprints.org/manuscript/202603.1756)——以控制 / 能动性 / 运行时为框架的学术讨论
 - [walkinglabs/awesome-harness-engineering](https://github.com/walkinglabs/awesome-harness-engineering)——覆盖上下文、评估、可观测性和编排的精选阅读清单
 - [ai-boost/awesome-harness-engineering](https://github.com/ai-boost/awesome-harness-engineering)——另一份精选清单（工具、评估、记忆、MCP、权限）
-- [andrewgarst/agentic_harness](https://github.com/andrewgarst/agentic_harness)——带 Redis 记忆和评估套件的生产级参考实现
 - [HKUDS/OpenHarness](https://github.com/HKUDS/OpenHarness)——内置个人智能体的开放 harness
 
 值得读其分歧而非共识的 Hacker News 讨论：

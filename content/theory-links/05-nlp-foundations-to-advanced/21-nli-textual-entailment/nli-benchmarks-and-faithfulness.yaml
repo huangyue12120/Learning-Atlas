@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/21-nli-textual-entailment/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 1e03d17a955ebb8a52c0f4a19079ae7dadac146e35edc98cd1488ffdaebc7450
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: ff81c43d767535518d1d724e57b8c0958a0bd8aabd8d16f64880347772ff0ed8
   anchor:
     heading: "Step 3: faithfulness check for RAG"
     slug: step-3-faithfulness-check-for-rag

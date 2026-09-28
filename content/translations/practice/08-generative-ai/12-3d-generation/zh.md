@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/12-3d-generation/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: ff570bbe7e4e91898a1277b64011cd2f5bdd1e6bd4dbb5687d8e25f14fd1eeff
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: e349a73dbf2f3d8d579824472bb587e724df7f3b99ae97886e56a0642f58eb41
 status: reviewed
 ---
 
@@ -175,4 +175,4 @@ for step in range(steps):
 - [Shi 等（2023），《MVDream》](https://arxiv.org/abs/2308.16512)——多视图扩散。
 - [Hong 等（2023），《LRM: Large Reconstruction Model for Single Image to 3D》](https://arxiv.org/abs/2311.04400)——LRM。
 - [Gao 等（2024），《CAT3D: Create Anything in 3D with Multi-View Diffusion Models》](https://arxiv.org/abs/2405.10314)——CAT3D。
-- [Stability AI（2024），《Stable Video 3D (SV3D)》](https://stability.ai/research/sv3d)——SV3D。
+- [Stability AI（2024），《Stable Video 3D (SV3D)》](https://stability.ai/research/sv3d-novel-multi-view-synthesis-and-3d-generation-from-a-single-image-using-latent-video-diffusion)——SV3D。

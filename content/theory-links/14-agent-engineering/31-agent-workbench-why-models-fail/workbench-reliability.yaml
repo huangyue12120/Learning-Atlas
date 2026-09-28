@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/31-agent-workbench-why-models-fail/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 0ea9ffdfa16e69122d14c890cff27a1114bf9c967b584ebfa1919bbad4efc1de
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 2575fa8bca26da9a545cfc45d79237eac2911e977d5b9e3a77b1a21675111850
   anchor:
     heading: The Concept
     slug: the-concept

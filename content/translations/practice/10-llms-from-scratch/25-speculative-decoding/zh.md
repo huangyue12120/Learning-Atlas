@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/25-speculative-decoding/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: a5ba5282949594418b8cbd2a5755aaf9c31ba95b1af75f077303e54fadd208f4
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: dba09da1fd8d377afcef9e7197e9c80cfcf8bcef10ab9de547905a900301edd0
 status: reviewed
 ---
 
@@ -176,9 +176,9 @@ def speculative_step(p_target, q_draft, K, temperature=1.0):
 
 ## 使用它
 
-- **vLLM** 和 **SGLang** 原生支持推测解码，参数为 `--speculative_model`、`--num_speculative_tokens`；EAGLE-2/3 可通过 `--spec_decoding_algorithm eagle` 启用。
+- **vLLM** 和 **SGLang** 原生支持推测解码。在 vLLM 中，向 `--speculative-config` 传入包含 `method`、`model` 和 `num_speculative_tokens` 的 JSON 对象；EAGLE-3 使用 `"method": "eagle3"`。
 - **NVIDIA TensorRT-LLM** 原生支持 Medusa 和 EAGLE 树。
-- **参考草稿模型：** `Qwen/Qwen3-0.6B-spec`（为 Qwen3-32B 起草）、`meta-llama/Llama-3.2-1B-Instruct-spec`（为 70B 起草）。
+- **参考草稿模型：** `Qwen/Qwen3-0.6B`（为 Qwen3-32B 起草）、`meta-llama/Llama-3.2-1B-Instruct`（为 Llama 3.x 70B 起草）。
 - **Medusa 头**（Cai 等，2024，《Medusa: Simple LLM Inference Acceleration Framework with Multiple Decoding Heads》）：不使用草稿模型，而是在目标模型本身增加 K 个并行预测头。部署更简单，但接受率略低于 EAGLE。
 
 ## 交付

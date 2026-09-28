@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/10-evaluation/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 1fe848a214fc3517fb8de9a979096f340d3dafcca3f1520f98ac9a89dfe4609a
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 46ea04b305ea7d7d7072fc2b28c1eb662230ee8bb9739d2245fa50a80472163f
 status: reviewed
 ---
 
@@ -528,4 +528,4 @@ RAGAS 衡量通用评测容易遗漏的内容：模型答案是否扎根于检�
 - [Hendrycks 等，2021——《衡量大规模多任务语言理解》](https://arxiv.org/abs/2009.03300)——MMLU 论文；尽管已经饱和，仍是引用最多的大语言模型基准
 - [Chen 等，2021——《评估基于代码训练的大语言模型》](https://arxiv.org/abs/2107.03374)——OpenAI 的 HumanEval 论文，奠定代码生成评估方法
 - [Zheng 等，2023——《评审 LLM 评审》](https://arxiv.org/abs/2306.05685)——系统分析用 LLM 评估 LLM，包括位置偏差和冗长偏差
-- [LMSYS Chatbot Arena](https://chat.lmsys.org/)——拥有超过 200 万次投票的众包模型比较平台，也是最值得信赖的现实 LLM 排名
+- [Arena（原 LMSYS Chatbot Arena）](https://arena.ai/leaderboard)——拥有超过 200 万次投票的众包模型比较平台，也是最值得信赖的现实 LLM 排名

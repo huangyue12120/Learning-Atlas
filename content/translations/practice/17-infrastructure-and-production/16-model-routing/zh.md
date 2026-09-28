@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/16-model-routing/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 51eabb13456ebd339eb52ad4d8293dd105ff5d255df29bb3adc488090d5cb231
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: 3e656797e2c7218de4bcb1b9e5e57f93005619ec1ad560578ab43b29885f49b7
 status: reviewed
 ---
 
@@ -120,7 +120,7 @@ model-cascade-router
 
 ## 延伸阅读
 
-- [AbhyashSuchi — Model Routing LLM 2026 Best Practices](https://abhyashsuchi.in/model-routing-llm-2026-best-practices/)
+- [AbhyashSuchi — Model Routing LLM 2026 Best Practices](https://web.archive.org/web/20260413143335/https://abhyashsuchi.in/model-routing-llm-2026-best-practices/)
 - [Lukas Brunner — Rise of Inference Optimization 2026](https://dev.to/lukas_brunner/the-rise-of-inference-optimization-the-real-llm-infra-trend-shaping-2026-4e4o)
 - [RouteLLM paper / code](https://github.com/lm-sys/RouteLLM)
 - [Not Diamond — model routing](https://www.notdiamond.ai/)

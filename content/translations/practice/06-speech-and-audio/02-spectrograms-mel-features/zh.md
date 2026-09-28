@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/02-spectrograms-mel-features/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: f59fdf24432cbb8cb256aac7d9dd723115935021614a42581160d74845c86568
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: c3ccb984a9bcf8aefcfb077ccafee53704c504b5cc8c7bf3e394f2ccf48af525
 status: reviewed
 ---
 
@@ -181,5 +181,5 @@ def dct_ii(x, n_coeffs):
 - [Davis、Mermelstein（1980）. Comparison of parametric representations for monosyllabic word recognition](https://ieeexplore.ieee.org/document/1163420)——MFCC 论文。
 - [Stevens、Volkmann、Newman（1937）. A Scale for the Measurement of the Psychological Magnitude Pitch](https://pubs.aip.org/asa/jasa/article-abstract/8/3/185/735757/)——最初的梅尔尺度。
 - [OpenAI——Whisper 源码中的 log_mel_spectrogram](https://github.com/openai/whisper/blob/main/whisper/audio.py)——阅读参考实现。
-- [librosa 特征提取文档](https://librosa.org/doc/main/feature.html)——`mfcc`、`melspectrogram` 和帧移/窗的参考资料。
+- [librosa 特征提取文档](https://librosa.org/doc/latest/api/feature.html)——`mfcc`、`melspectrogram` 和帧移/窗的参考资料。
 - [NVIDIA NeMo——音频预处理](https://docs.nvidia.com/deeplearning/nemo/user-guide/docs/en/main/asr/asr_all.html#featurizers)——面向 Parakeet 与 Canary 的生产级流水线。

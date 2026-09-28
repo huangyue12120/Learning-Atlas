@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/02-spectrograms-mel-features/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: f59fdf24432cbb8cb256aac7d9dd723115935021614a42581160d74845c86568
+  revision: bf7791e140768d8223d24e616bb60cbf07fea014
+  sha256: c3ccb984a9bcf8aefcfb077ccafee53704c504b5cc8c7bf3e394f2ccf48af525
   anchor:
     heading: The Concept
     slug: the-concept
