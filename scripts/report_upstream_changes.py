@@ -29,7 +29,10 @@ FIELD = re.compile(r"^\s{2}(?P<key>repository|path|revision|sha256):\s*(?P<value
 MAX_REPORT_BYTES = 60_000
 MAX_DIFF_PER_FILE_CHARS = 12_000
 MAX_COMMIT_LINES = 30
-TRUNCATION_NOTICE = "\n\n> Issue 正文中的 diff 已达到大小上限或单文件上限；请使用各上游 compare 链接查看未展示部分。"
+TRUNCATION_NOTICE = (
+    "\n\n> Issue 正文已达到大小上限或单文件 diff 上限；完整文件清单、来源映射和 diff "
+    "见本次 Actions 运行的 `upstream-source-report` 附件，或使用各上游 compare 链接查看。"
+)
 OUTPUT_TRAILING_NEWLINE = "\n"
 RELEVANCE_MARKER = "upstream-freshness-relevant"
 
@@ -327,7 +330,9 @@ def render_snapshot(snapshot: Snapshot, index: dict[tuple[str, str], list[Artifa
     return "\n".join(lines), module.name, len(linked)
 
 
-def render_report(snapshots: list[Snapshot], artifacts: list[Artifact]) -> str:
+def render_report(
+    snapshots: list[Snapshot], artifacts: list[Artifact], *, max_bytes: int | None = MAX_REPORT_BYTES
+) -> str:
     if not snapshots:
         return (
             "# 上游原文更新待审核\n\n"
@@ -343,7 +348,7 @@ def render_report(snapshots: list[Snapshot], artifacts: list[Artifact]) -> str:
         section, _, _ = render_snapshot(item, index)
         sections.append(section)
 
-    lines = [
+    header = [
         "# 上游原文更新待审核",
         "",
         f"<!-- upstream-freshness-key: {key} -->",
@@ -357,7 +362,8 @@ def render_report(snapshots: list[Snapshot], artifacts: list[Artifact]) -> str:
         "如果下表出现“确认 SHA-256 漂移”，说明目标 revision 的英文原文已不同于本地内容元数据中记录的指纹；"
         "请逐项更新译文、测验或理论关联，并完成人工复核后再同步 submodule 指针。",
         "",
-        *sections,
+    ]
+    review_steps = [
         "",
         "## 建议处理顺序",
         "",
@@ -368,25 +374,40 @@ def render_report(snapshots: list[Snapshot], artifacts: list[Artifact]) -> str:
         "4. 通过验证后关闭本 Issue；上游 freshness workflow 的失败本身不代表网络或权限故障。",
     ]
 
-    report = "\n".join(lines)
+    report = "\n".join([*header, *sections, *review_steps])
     detail_prefix = "\n\n## 具体位置与内容差异\n\n"
-    detail_budget = MAX_REPORT_BYTES - len(
+    report_limit = sys.maxsize if max_bytes is None else max_bytes
+    reserved_bytes = len((detail_prefix + TRUNCATION_NOTICE + OUTPUT_TRAILING_NEWLINE).encode("utf-8"))
+    summary_truncated = len(report.encode("utf-8")) + reserved_bytes > report_limit
+    if summary_truncated:
+        summaries: list[str] = []
+        for item in snapshots:
+            module = item.module
+            compare_url = f"{UPSTREAM_URLS.get(module.name, '')}/compare/{item.base}...{item.target}"
+            summaries.append(
+                f"## `{module.name}`\n\n"
+                f"- 锁定 revision：`{item.base}`\n"
+                f"- 上游 `{module.branch}`：`{item.target}`\n"
+                f"- 对比：{compare_url}\n"
+                f"- 原文改动文件：{len(item.changes)}；关联的本地内容：{len(changed_artifacts(item, index))}"
+            )
+        report = "\n".join([*header, *summaries, *review_steps])
+    detail_budget = report_limit - len(
         (report + detail_prefix + TRUNCATION_NOTICE + OUTPUT_TRAILING_NEWLINE).encode("utf-8")
     )
     details: list[str] = []
-    details_truncated = False
+    details_truncated = summary_truncated
     for item in snapshots:
-        index_for_item = artifact_index(artifacts)
         ordered_changes = sorted(
             item.changes,
-            key=lambda change: not any(index_for_item.get((item.module.name, path)) for path in change.paths),
+            key=lambda change: not any(index.get((item.module.name, path)) for path in change.paths),
         )
         for change in ordered_changes:
             paths = change.paths
             should_include = any(
                 path.startswith("phases/") or path.startswith("chapter ")
                 for path in paths
-            ) or any(index_for_item.get((item.module.name, path)) for path in paths)
+            ) or any(index.get((item.module.name, path)) for path in paths)
             if not should_include or detail_budget <= 0:
                 if should_include:
                     details_truncated = True
@@ -394,7 +415,7 @@ def render_report(snapshots: list[Snapshot], artifacts: list[Artifact]) -> str:
             content = diff(item.module.path, item.base, item.target, change)
             if not content:
                 continue
-            if len(content) > MAX_DIFF_PER_FILE_CHARS:
+            if max_bytes is not None and len(content) > MAX_DIFF_PER_FILE_CHARS:
                 content = content[:MAX_DIFF_PER_FILE_CHARS]
                 details_truncated = True
             candidate = (
@@ -421,11 +442,18 @@ def render_report(snapshots: list[Snapshot], artifacts: list[Artifact]) -> str:
         report += detail_prefix + "\n\n".join(details)
     if details_truncated:
         report += TRUNCATION_NOTICE
+    if len((report + OUTPUT_TRAILING_NEWLINE).encode("utf-8")) > report_limit:
+        raise ValueError("Upstream report exceeds its byte limit")
     return report
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--full-output",
+        type=Path,
+        help="write the complete report to an additional file for an Actions artifact",
+    )
     parser.add_argument(
         "--output",
         type=Path,
@@ -436,9 +464,16 @@ def main() -> int:
     try:
         modules = tracked_submodules()
         snapshots = [item for module in modules if (item := snapshot(module))]
-        report = render_report(snapshots, load_artifacts())
+        artifacts = load_artifacts()
+        if args.full_output:
+            full_output = args.full_output if args.full_output.is_absolute() else ROOT / args.full_output
+            full_output.write_text(
+                render_report(snapshots, artifacts, max_bytes=None) + OUTPUT_TRAILING_NEWLINE,
+                encoding="utf-8",
+            )
+        report = render_report(snapshots, artifacts)
         output = args.output if args.output.is_absolute() else ROOT / args.output
-        output.write_text(report + "\n", encoding="utf-8")
+        output.write_text(report + OUTPUT_TRAILING_NEWLINE, encoding="utf-8")
         if snapshots:
             print(f"Wrote upstream change report: {output}")
         else:

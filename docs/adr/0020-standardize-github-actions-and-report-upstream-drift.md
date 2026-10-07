@@ -14,4 +14,4 @@ The workflow creates or updates one open `[Upstream] Source updates require revi
 
 ## Consequences
 
-Maintainers receive an actionable, deduplicated review record without automatic content overwrites or theory-link approvals. The freshness workflow still fails until the pinned upstream snapshot and all affected content have been deliberately reviewed. Large diffs are bounded in the Issue body and remain available through the upstream comparison link.
+Maintainers receive an actionable, deduplicated review record without automatic content overwrites or theory-link approvals. The freshness workflow still fails until the pinned upstream snapshot and all affected content have been deliberately reviewed. The complete Issue body, including its trailing newline, is bounded to 60,000 UTF-8 bytes. When file lists and source mappings exceed that budget, the Issue keeps each upstream's revisions, comparison link, affected-content counts, and prioritized diffs. The workflow uploads the complete report as the `upstream-source-report` artifact before publishing the Issue, so omitted rows and diffs remain available along with the upstream comparison links.

@@ -44,7 +44,7 @@ jobs:
         if: steps.freshness.outputs.exit_code == '2'
         shell: bash
         run: |
-          python3 scripts/report_upstream_changes.py --output upstream-report.md
+          python3 scripts/report_upstream_changes.py --output upstream-report.md --full-output upstream-report-full.md
           relevant="$(sed -n 's/^<!-- upstream-freshness-relevant: \(true\|false\) -->$/\1/p' upstream-report.md)"
           if [ "$relevant" != "true" ] && [ "$relevant" != "false" ]; then
             echo "Upstream report is missing its relevance marker." >&2
@@ -56,6 +56,13 @@ jobs:
           else
             echo "Upstream changes do not touch tracked Chinese content. No review issue is needed."
           fi
+      - name: Preserve complete upstream report
+        if: steps.freshness.outputs.exit_code == '2'
+        uses: actions/upload-artifact@v4
+        with:
+          name: upstream-source-report
+          path: upstream-report-full.md
+          if-no-files-found: error
       - name: Add upstream report to job summary
         if: steps.freshness.outputs.exit_code == '2'
         run: cat upstream-report.md >> "$GITHUB_STEP_SUMMARY"
