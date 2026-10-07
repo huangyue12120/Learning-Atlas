@@ -29,7 +29,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Check content automation scripts
-        run: python3 -m py_compile scripts/*.py
+        run: |
+          python3 -m py_compile scripts/*.py
+          python3 -m unittest discover -s scripts -p 'test_*.py'
       - name: Check translation structure and source fingerprints
         run: |
           python3 scripts/check_translation_correspondence.py
