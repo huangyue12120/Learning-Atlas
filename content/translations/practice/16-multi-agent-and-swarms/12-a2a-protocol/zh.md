@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/12-a2a-protocol/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 88e30cad22423a230c73859d2151de5eaddc78936b5a11c840ddf753d2fa284c
+  revision: 7a181b46332db6d2e1274c798e851bf978a008a9
+  sha256: 64266b28fc18ceb78fc5bc7d7b0902de21e051cdf4631ebb1574412c24d4cdd2
 status: reviewed
 ---
 
@@ -28,24 +28,52 @@ A2A 是此类调用的通用线路协议：标准发现、标准任务模型、�
 
 ### 四个元素
 
-**Agent Card。** 位于 `/.well-known/agent.json` 的 JSON 文档，描述智能体：名称、技能、端点、支持的模态、认证要求。读取卡片便完成发现。
+**Agent Card。** 位于 `/.well-known/agent-card.json` 的 JSON 文档，描述智能体的名称、技能、`supportedInterfaces`（端点 URL、协议绑定、协议版本）、默认输入和输出媒体类型，以及认证要求（`securitySchemes` 和 `securityRequirements`）。读取卡片便完成发现。
 
+```http
+GET /.well-known/agent-card.json HTTP/1.1
+Host: agent.example.com
 ```
-GET https://agent.example.com/.well-known/agent.json
-→ {
-    "name": "code-review-agent",
-    "skills": ["review-python", "review-typescript"],
-    "endpoints": {
-      "tasks": "https://agent.example.com/tasks"
+
+```json
+{
+  "name": "code-review-agent",
+  "description": "Reviews Python and TypeScript code.",
+  "version": "1.0.0",
+  "supportedInterfaces": [
+    {
+      "url": "https://agent.example.com",
+      "protocolBinding": "HTTP+JSON",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "capabilities": {"streaming": false, "pushNotifications": false},
+  "securitySchemes": {
+    "bearer": {"httpAuthSecurityScheme": {"scheme": "Bearer"}}
+  },
+  "securityRequirements": [{"schemes": {"bearer": {"list": []}}}],
+  "defaultInputModes": ["text/plain", "application/json"],
+  "defaultOutputModes": ["application/json"],
+  "skills": [
+    {
+      "id": "review-python",
+      "name": "Review Python",
+      "description": "Reviews Python code.",
+      "tags": ["code-review", "python"]
     },
-    "auth": {"type": "bearer"},
-    "modalities": ["text", "structured"]
-  }
+    {
+      "id": "review-typescript",
+      "name": "Review TypeScript",
+      "description": "Reviews TypeScript code.",
+      "tags": ["code-review", "typescript"]
+    }
+  ]
+}
 ```
 
-**任务。** 工作单元。一个拥有生命周期的异步、有状态对象：`submitted → working → completed / failed / canceled`。客户端发送任务，然后轮询或订阅更新。
+**任务。** 工作单元。一个拥有生命周期的异步、有状态对象：`TASK_STATE_SUBMITTED` → `TASK_STATE_WORKING` → `TASK_STATE_COMPLETED` / `TASK_STATE_FAILED` / `TASK_STATE_CANCELED`。客户端发送消息，服务器创建任务，客户端再轮询或订阅更新。
 
-**制品。** 任务产出的结果类型。文本、结构化 JSON、图像、视频、音频。制品具有类型，因此不同模态是一等公民。
+**制品。** 任务产出的结果类型，包括文本、结构化 JSON、图像、视频、音频。每个 Part 包含 `text`、`raw`、`url` 或 `data` 之一，并可通过 `mediaType` 声明媒体类型，以支持不同模态。
 
 **不透明生命周期。** A2A 不规定远程智能体*如何*解决任务。客户端看见状态转换和制品；实现可自由使用任意框架。
 
@@ -58,29 +86,35 @@ GET https://agent.example.com/.well-known/agent.json
 
 ### 发现流程
 
-```
-Client                     Agent server
-  ├──GET /.well-known/agent.json──>
-  <──Agent Card JSON─────────────
-  ├──POST /tasks {skill, input}──>
-  <──201 task_id, state=submitted
-  ├──GET /tasks/{id}──────────────>
-  <──state=working, 42% done──────
-  ├──GET /tasks/{id}──────────────>
-  <──state=completed, artifacts──
+```mermaid
+sequenceDiagram
+    participant C as 客户端
+    participant S as 智能体服务器
+    C->>S: GET /.well-known/agent-card.json
+    S-->>C: Agent Card JSON
+    C->>S: POST /message:send (returnImmediately)
+    S-->>C: task, TASK_STATE_SUBMITTED
+    C->>S: GET /tasks/{id}
+    S-->>C: TASK_STATE_WORKING
+    C->>S: GET /tasks/{id}
+    S-->>C: TASK_STATE_COMPLETED, artifacts
 ```
 
-也可使用流式方式：对 `/tasks/{id}/events` 发起 SSE 订阅，以接收推送更新。
+这些是 HTTP+JSON 绑定的路径，每次请求都携带 `A2A-Version: 1.0`。默认情况下，`SendMessage` 会阻塞到任务进入终态或中断状态；因此轮询客户端设置 `configuration.returnImmediately`，以便立即取得任务。
+
+也可使用流式方式：`POST /message:stream` 返回 SSE（先发送 `task`，再发送 `statusUpdate` 和 `artifactUpdate` 事件），`GET /tasks/{id}:subscribe` 则重新订阅正在运行的任务。任务进入终态后流关闭，不使用 `final` 标志。
+
+**编者注：** A2A v1.0.1 的[规范性 `a2a.proto`](https://github.com/a2aproject/A2A/blob/v1.0.1/specification/a2a.proto)为 `SubscribeToTask` 声明 GET，但同版本的说明文本仍写 POST，二者存在已知冲突。实现时优先遵循 proto 的 GET 绑定，兼容服务可同时接受 POST；请核对所用 SDK 与服务器的版本。
 
 ### 认证
 
 A2A 支持三种常见模式：
 
-- **Bearer token**——OAuth2 或不透明 token。
-- **mTLS**——双向 TLS；组织向彼此证明身份。
-- **签名请求**——对载荷计算 HMAC。
+- **Bearer token**：OAuth2 或不透明 token（`httpAuthSecurityScheme` 或 `oauth2SecurityScheme`）。
+- **mTLS**：双向 TLS，组织向彼此证明身份（`mtlsSecurityScheme`）。
+- **API key**：通过标头、查询参数或 cookie 传递密钥（`apiKeySecurityScheme`）。
 
-认证在 Agent Card 中声明；客户端负责发现并遵守。
+认证在 Agent Card 中声明：`securitySchemes` 定义各项方案，`securityRequirements` 声明客户端需要满足的方案。客户端负责发现并遵守。
 
 ### 到 2026 年 4 月有 150 多家组织
 
@@ -115,17 +149,17 @@ sw-agent-card-discovery
 
 ## 动手构建
 
-`code/main.py` 使用 `http.server` 和 JSON 实现一个最小 A2A 服务器与客户端。服务器：
+`code/main.py` 使用 `http.server` 和 JSON，按 1.0 的 HTTP+JSON 绑定实现一个最小 A2A 服务器与客户端。服务器：
 
-- 暴露 `/.well-known/agent.json`，
-- 接受 `POST /tasks`，
+- 暴露 `/.well-known/agent-card.json`，
+- 接受 `POST /message:send`，
 - 管理任务状态，
 - 通过 `GET /tasks/{id}` 返回制品。
 
 客户端：
 
 - 获取 Agent Card，
-- 提交任务，
+- 发送设置了 `returnImmediately` 的消息，
 - 轮询至完成，
 - 读取制品。
 
@@ -145,8 +179,8 @@ python3 code/main.py
 
 检查表：
 
-- **固定规范版本。** A2A 仍在演变；Agent Card 应声明协议版本。
-- **幂等任务创建。** 重复提交（网络重试）应只产生一个任务。
+- **固定规范版本。** A2A 仍在演变；每个 `supportedInterfaces` 条目声明自己的 `protocolVersion`，客户端发送 `A2A-Version: 1.0`。
+- **幂等任务创建。** 重复提交（网络重试）应只产生一个任务，以客户端的 `messageId` 去重。
 - **制品模式。** 声明智能体返回的形状；消费者应验证。
 - **限流 + 认证。** A2A 面向公开网络；应用标准 Web 安全。
 - **失败任务的死信队列。** 随时间检查模式，发现重复出现的失败类型。
@@ -154,8 +188,8 @@ python3 code/main.py
 ## 练习
 
 1. 运行 `code/main.py`。确认客户端发现服务器并收到正确制品。
-2. 为服务器增加第二项技能（如 “summarize”）。更新 Agent Card。编写一个根据任务类型选择技能的客户端。
-3. 实现 SSE 流端点：`/tasks/{id}/events`，发出状态改变。客户端需要做哪些不同的事？
+2. 为服务器增加第二项技能（如 “summarize”）。更新 Agent Card。编写一个根据任务类型选择技能的客户端。1.0 请求中没有 skill 字段，服务器根据消息 Parts 路由。
+3. 实现 `POST /message:stream`：以 SSE 响应，先发送 `task`，再发送 `statusUpdate` 事件，在任务进入终态后关闭流。客户端需要做哪些不同的事？
 4. 阅读 A2A 规范（https://a2a-protocol.org/latest/specification/）。找出规范强制要求、而此演示未实现的三项内容。
 5. 比较 A2A（Agent Card 发现）与 MCP（通过 `listTools` 列出服务器能力）。自描述智能体与能力探测之间有什么取舍？
 
@@ -164,17 +198,18 @@ python3 code/main.py
 | 术语 | 常见说法 | 实际含义 |
 |---|---|---|
 | A2A | “智能体到智能体” | 让智能体跨系统调用其他智能体的对等协议；Google 2025。 |
-| Agent Card | “智能体名片” | `/.well-known/agent.json` 中描述技能、端点、认证的 JSON。 |
+| Agent Card | “智能体名片” | `/.well-known/agent-card.json` 中描述技能、`supportedInterfaces` 和认证的 JSON。 |
 | 任务 | “工作单元” | 具有生命周期的异步有状态对象；完成时产生制品。 |
 | 制品 | “结果” | 类型化输出：文本、结构化 JSON、图像、视频、音频；一等媒体。 |
 | 不透明生命周期 | “如何解决是智能体的事” | 客户端只见状态转换；服务器可自由选择框架/工具。 |
-| 发现 | “找到智能体” | `GET /.well-known/agent.json` 返回卡片。 |
+| 发现 | “找到智能体” | `GET /.well-known/agent-card.json` 返回卡片。 |
 | MCP 与 A2A | “工具与对等体” | MCP：垂直 智能体 ↔ 工具；A2A：水平 智能体 ↔ 智能体。 |
 | ACP / ANP / NLIP | “兄弟协议” | 相邻规范；A2A 是采用最广的 2026 协议。 |
 
 ## 延伸阅读
 
 - [A2A specification](https://a2a-protocol.org/latest/specification/) — 权威规范
+- [A2A v1.0.1 release](https://github.com/a2aproject/A2A/tree/v1.0.1)——本课依据的带版本标签的 `docs/specification.md` 与规范性定义 `specification/a2a.proto`
 - [Google Developers Blog — A2A announcement](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/) — 2025 年 4 月发布文章
 - [A2A GitHub repo](https://github.com/a2aproject/A2A) — 参考实现与 SDK
 - [Liu et al. — A Survey of Agent Interoperability Protocols](https://arxiv.org/html/2505.02279v1) — MCP、ACP、A2A、ANP 比较

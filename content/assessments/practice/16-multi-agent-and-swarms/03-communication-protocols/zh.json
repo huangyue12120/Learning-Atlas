@@ -3,8 +3,8 @@
   "source": {
     "repository": "ai-engineering-from-scratch",
     "path": "phases/16-multi-agent-and-swarms/03-communication-protocols/quiz.json",
-    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
-    "sha256": "2b22aa7d31b30d2f7f00c5910a60c4a56ae38a7e0d1c90485f6c5ed49c3c128e"
+    "revision": "7a181b46332db6d2e1274c798e851bf978a008a9",
+    "sha256": "1d00e4cc140e0ba5dad3e6202a0b05a4a5e55c8274905fdc4211710401905a16"
   },
   "status": "reviewed",
   "questions": [
@@ -45,7 +45,7 @@
         "位于约定 URL 的 JSON 文档，描述智能体能力、技能和端点，让其他智能体可以发现并委派任务"
       ],
       "correct": 3,
-      "explanation": "智能体卡片通常位于 `/.well-known/agent.json`，列出技能、输入输出格式和任务端点，其他智能体据此判断是否以及如何委派。"
+      "explanation": "智能体卡片通常位于 `/.well-known/agent-card.json`，列出技能、输入输出格式和任务端点，其他智能体据此判断是否以及如何委派。"
     },
     {
       "id": "q4",

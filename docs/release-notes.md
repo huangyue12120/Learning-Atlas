@@ -1,3 +1,34 @@
+# Learning Atlas v0.26.4 发布说明
+
+发布日期：2026-10-07。
+
+本版处理第 65 次上游定时监控失败：文件清单让审核报告达到 178,214 字符，超过 GitHub Issue 正文上限，导致审核 Issue 未能创建。现将完整 Issue 正文限制为 60,000 UTF-8 字节，并先将完整文件清单、来源映射和课程 diff 保存为 Actions 附件。
+
+同时将实践上游快照从 `bf7791e140768d8223d24e616bb60cbf07fea014` 同步至 `7a181b46332db6d2e1274c798e851bf978a008a9`。本次 2028 个上游改动文件中，4 个已记录来源文件关联 5 份本地内容；依官方 [A2A v1.0.1 规范](https://github.com/a2aproject/A2A/tree/v1.0.1)完成复核。
+
+## 本版交付
+
+- 更新 P13 的 A2A 协议课及 P16 的通信协议、A2A 协议课：采用 `/.well-known/agent-card.json`、`supportedInterfaces`、`securityRequirements`、`TASK_STATE_*` 和 `ROLE_*`，说明消息 Parts、流式事件与 `returnImmediately` 的行为。
+- 将 P13 的理论卡和实践锚点更新为三种协议绑定：JSON-RPC、gRPC、HTTP+JSON/REST；修正 P16 测验中的发现路径，刷新 5 条来源指纹，并将工作区幂等练习改为按客户端 `messageId` 去重。
+- 以编者注记录 v1.0.1 规范性 proto 与说明文本在订阅 HTTP 方法上的冲突，并说明 TypeScript 内部教学类型与完整线上事件格式的转换边界。
+- 补充报告长度、中文 diff 边界、多上游摘要和完整附件的 7 个回归测试，并纳入 CI。
+- 将 README、内容清单、项目进度和应用版本统一至 v0.26.4。
+
+## 验证
+
+- `python3 -m unittest discover -s scripts -p 'test_*.py'`（7 项）
+- #65 的实际快照报告：Issue 正文 59,096 字节，完整报告 353,154 字节。
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1522 条来源指纹）
+- `python3 scripts/check_theory_cards.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`
+- P13 A2A Python harness、P16 A2A HTTP+JSON Python 演示和 P16 通信协议 TypeScript 演示均运行通过。
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+---
+
 # Learning Atlas v0.26.3 发布说明
 
 发布日期：2026-09-28。
