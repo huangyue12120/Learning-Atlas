@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/42-agent-workbench-capstone/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 8e282c077084bd9c8d596d2e23d11742af2da20390507f4e0e27e59c03330323
+  revision: cdfd9df74ed8c38049c3150dc1a99e2ef25d87b0
+  sha256: a8307ba30442dd1b2eb29b6c642586d92bdf2ba04c6f9f4d6c357c7e1c98627f
   anchor:
     heading: The Concept
     slug: the-concept
