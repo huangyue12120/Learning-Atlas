@@ -1,3 +1,30 @@
+# Learning Atlas v0.26.5 发布说明
+
+发布日期：2026-10-10。
+
+本版对齐 Issue #22 的上游实践更新，将 `ai-engineering-from-scratch` 的可复现快照从 `7a181b46332db6d2e1274c798e851bf978a008a9` 更新到 `cdfd9df74ed8c38049c3150dc1a99e2ef25d87b0`。75 个上游改动文件中，两篇课程原文影响两篇中文译文和一条既有理论关联，共 3 条来源记录。
+
+## 本版交付
+
+- 补齐 P14 第 42 节的职业实践：记录任务与自主程度、准备上下文、验证改动前后行为、用刻意错误挑战验收检查、演练运行与恢复，并完成改进和交接。
+- 补齐 P14 第 54 节的实践实验：根据挫折证据界定权限、比较方案、走查用户交互、比较结果与每个成功任务的成本，并为后续改进指定负责人和复查日期。
+- 保留两份上游证据模板的链接和人工验收量规，说明本地演练、模拟样本和真实用户证据各自支持的结论。
+- 刷新两篇译文及第 42 节既有理论关联的来源 revision 与 SHA-256；原有实践和理论锚点未变化，理论卡内容和批准状态沿用既有版本。
+- 同步 README、内容目录说明、内容清单、项目进度及应用 SemVer 至 v0.26.5。
+
+## 验证
+
+- 更新前复现两篇译文的结构失败和 3 条来源指纹失败。
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1522 条来源指纹）
+- `python3 scripts/check_theory_cards.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+---
+
 # Learning Atlas v0.26.4 发布说明
 
 发布日期：2026-10-07。
