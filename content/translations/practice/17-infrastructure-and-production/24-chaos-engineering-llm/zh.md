@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/24-chaos-engineering-llm/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: cd452d8d62dd107244028e88aadbcffcc768cd58a78afe52f3d85a4906f4e79f
+  revision: 56c886c8821fc488b6f9608895c983d18f0d1ea3
+  sha256: 0f89430b3686b3016bf1d685e245ddee7bce7a9dee477764297f1b1c8ae5585d
 status: reviewed
 ---
 
@@ -139,7 +139,7 @@ i4-chaos-guard
 ## 延伸阅读
 
 - [DevSecOps School — Chaos Engineering 2026 Guide](https://devsecopsschool.com/blog/chaos-engineering/)
-- [Ankush Sharma — Observability for LLMs (book)](https://www.amazon.com/Observability-Large-Language-Models-Engineering-ebook/dp/B0DJSR65TR)
+- [Ankush Sharma — Observability for Large Language Models (Apress, 2026)](https://link.springer.com/book/10.1007/979-8-8688-2827-0)
 - [LitmusChaos (CNCF)](https://litmuschaos.io/)
 - [Chaos Mesh (CNCF)](https://chaos-mesh.org/)
 - [Harness Chaos Engineering](https://www.harness.io/products/chaos-engineering)

@@ -1,3 +1,28 @@
+# Learning Atlas v0.26.6 发布说明
+
+发布日期：2026-10-12。
+
+本版处理 Issue #24：将 `ai-engineering-from-scratch` 的可复现快照从 `cdfd9df74ed8c38049c3150dc1a99e2ef25d87b0` 更新到 `56c886c8821fc488b6f9608895c983d18f0d1ea3`。1424 个上游变更文件中，5 篇课程原文命中本地中文译文，4 条课程原文命中既有理论关联，共 9 条来源记录需要复核。
+
+## 本版交付
+
+- 更新视频生成、提示词工程、共识与拜占庭容错、心智理论与协调、LLM 混沌工程 5 篇中文译文的来源 revision 与 SHA-256，并同步上游 Further Reading 中变更的官方链接和标题。
+- 更新视频生成的 2 条、提示词工程的 1 条和 LLM 混沌工程的 1 条理论关联来源记录；理论卡内容、锚点和批准状态沿用既有版本。
+- 审核上游新增的 `13-python-for-ai-engineering`、`19-ml-system-design`、`20-model-monitoring-and-drift`、`21-feature-stores-and-training-serving-skew` 和 `29-model-demo-interfaces` 课程及其 Python 代码文件；它们没有本地内容映射，因此不复制课程、测验或工作区模板。
+- 同步 README、内容目录说明、内容清单、项目进度及应用 SemVer 至 v0.26.6。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1522 条来源指纹）
+- `python3 scripts/check_theory_cards.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py`（报告 5 节新上游课程尚无本地译文；带 `--fail-on-missing` 的监控门禁按预期返回缺口）
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+---
+
 # Learning Atlas v0.26.5 发布说明
 
 发布日期：2026-10-10。
