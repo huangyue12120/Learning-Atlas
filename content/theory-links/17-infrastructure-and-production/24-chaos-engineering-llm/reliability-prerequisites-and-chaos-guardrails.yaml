@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/24-chaos-engineering-llm/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: cd452d8d62dd107244028e88aadbcffcc768cd58a78afe52f3d85a4906f4e79f
+  revision: 56c886c8821fc488b6f9608895c983d18f0d1ea3
+  sha256: 0f89430b3686b3016bf1d685e245ddee7bce7a9dee477764297f1b1c8ae5585d
   anchor:
     heading: Prerequisites
     slug: prerequisites

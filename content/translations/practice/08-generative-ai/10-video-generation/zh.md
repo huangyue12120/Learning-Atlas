@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/10-video-generation/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 5e91c7daf3c94dce2a239e36f6cf07314359b21629aac1e2f47910d9212c53d1
+  revision: 56c886c8821fc488b6f9608895c983d18f0d1ea3
+  sha256: 7f347d1e809f686c1513b70ef278e39d2f5eaced4c4ae8a0d34b4cafc6b0d1ce
 status: reviewed
 ---
 
@@ -163,7 +163,7 @@ def pos_embed(t, dim):
 - [Brooks 等（2024），《Video generation models as world simulators》](https://openai.com/index/video-generation-models-as-world-simulators/)——Sora 技术报告。
 - [Yang 等（2024），《CogVideoX: Text-to-Video Diffusion Models with An Expert Transformer》](https://arxiv.org/abs/2408.06072)——CogVideoX。
 - [Kong 等（2024），《HunyuanVideo: A Systematic Framework for Large Video Generative Models》](https://arxiv.org/abs/2412.03603)——HunyuanVideo。
-- [Genmo（2024），《Mochi-1 Technical Report》](https://www.genmo.ai/blog/mochi)——Mochi-1。
+- [Genmo（2024），《Mochi 1 预览模型卡》](https://huggingface.co/genmo/mochi-1-preview)——Mochi-1。
 - [Alibaba（2025），《WAN 2.2》](https://wanvideo.io/)——2025 年中的开放 SOTA。
 - [Ho、Salimans、Gritsenko 等（2022），《Video Diffusion Models》](https://arxiv.org/abs/2204.03458)——奠基性视频扩散论文。
 - [Blattmann 等（2023），《Align your Latents (Video LDM)》](https://arxiv.org/abs/2304.08818)——Stable Video Diffusion 的前身。

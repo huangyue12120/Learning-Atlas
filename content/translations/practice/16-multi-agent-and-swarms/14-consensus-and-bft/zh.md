@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/14-consensus-and-bft/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 6dc4dab48994111b84688ebf3d53c594380464634f725fe46f09aa4ce2b745bd
+  revision: 56c886c8821fc488b6f9608895c983d18f0d1ea3
+  sha256: a63f465ad75cc3ca95dd372fd3b9092cb6e3b69be146510efb220985ee08915b
 status: reviewed
 ---
 
@@ -159,7 +159,7 @@ python3 code/main.py
 
 ## 延伸阅读
 
-- [Castro & Liskov — Practical Byzantine Fault Tolerance (OSDI 1999)](https://pmg.csail.mit.edu/papers/osdi99.pdf) — 基础
+- [Castro & Liskov — Practical Byzantine Fault Tolerance (OSDI 1999)](https://www.usenix.org/conference/osdi-99/practical-byzantine-fault-tolerance) — 基础
 - [CP-WBFT — Confidence-Probe Weighted BFT](https://arxiv.org/abs/2511.10400) — 按置信度加权投票
 - [DecentLLMs — leaderless multi-agent consensus](https://arxiv.org/abs/2507.14928) — 几何中位数聚合
 - [WBFT — Weighted BFT with Hierarchical Structure Clustering](https://arxiv.org/abs/2505.05103) — 为有界延迟做 Core/Edge 拆分

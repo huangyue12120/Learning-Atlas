@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/01-prompt-engineering/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 56ad5f65393f96b4b8ffe53381303292d485eef71494ab69d45fef47e77ef136
+  revision: 56c886c8821fc488b6f9608895c983d18f0d1ea3
+  sha256: 342126cd4dfb12e02a910da193fd3609388f6f0e6f79314e18bba6eda292c179
   anchor:
     heading: Anatomy of a Prompt
     slug: anatomy-of-a-prompt

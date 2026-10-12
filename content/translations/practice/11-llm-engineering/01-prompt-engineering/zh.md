@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/01-prompt-engineering/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 56ad5f65393f96b4b8ffe53381303292d485eef71494ab69d45fef47e77ef136
+  revision: 56c886c8821fc488b6f9608895c983d18f0d1ea3
+  sha256: 342126cd4dfb12e02a910da193fd3609388f6f0e6f79314e18bba6eda292c179
 status: reviewed
 ---
 
@@ -1036,4 +1036,4 @@ Python 代码（`code/prompt_engineering.py`）是独立的测试工具。把 `s
 - [Shin et al., 2023 —— “Prompt Engineering a Prompt Engineer”](https://arxiv.org/abs/2311.05661) —— 用 LLM 自动优化提示词，是元提示的基础工作
 - [Arena（原 LMSYS Chatbot Arena）](https://arena.ai/) —— 可以跨模型测试同一提示词并投票比较回答质量的实时盲测平台
 - [DAIR.AI Prompt Engineering Guide](https://www.promptingguide.ai/) —— 包含 zero-shot、few-shot、CoT、ReAct、自洽性等技术的完整目录，是实践者参考提示词工程全貌的资料。
-- [Anthropic prompt library](https://docs.anthropic.com/en/prompt-library) —— 按使用场景整理的可靠提示词，展示生产环境中会采用的结构模式。
+- [Claude 提示最佳实践](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) —— Anthropic 关于提示结构的指南，包含配套示例；它取代了旧提示词库。
