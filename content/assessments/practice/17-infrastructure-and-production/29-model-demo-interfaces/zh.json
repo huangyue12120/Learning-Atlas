@@ -1,0 +1,60 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/17-infrastructure-and-production/29-model-demo-interfaces/quiz.json",
+    "revision": "56c886c8821fc488b6f9608895c983d18f0d1ea3",
+    "sha256": "6e949f88efe6aa0d7cfde3aa7ca53ac72fdcdb290b9047e1f615062b7a246b54"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "demo-pre-1",
+      "stage": "pre",
+      "question": "页面已经用 maxlength 限制文本框，服务器为什么还要再次检查长度？",
+      "options": ["浏览器关闭 JavaScript 才会忽略 maxlength", "任何客户端都可以绕过页面直接发送请求", "模型调用结束后浏览器才应用 maxlength", "maxlength 按字节计数，所以允许太多字符"],
+      "correct": 1,
+      "explanation": "浏览器校验只帮助诚实用户；脚本或 curl 可以直接发送任意请求，服务器必须重复每项检查。"
+    },
+    {
+      "id": "demo-check-1",
+      "stage": "check",
+      "question": "本课演示契约的三个部分是什么？",
+      "options": ["提示词、模型权重、GPU 服务器", "输入、模型调用、输出", "前端、后端、数据库层", "登录页、支付页、结果页"],
+      "correct": 1,
+      "explanation": "契约包括输入、模型调用和输出，错误也属于输出的一部分。"
+    },
+    {
+      "id": "demo-check-2",
+      "stage": "check",
+      "question": "为什么页面用 POST 和 fetch() 读取流，而不使用 EventSource？",
+      "options": ["EventSource 不能解析 text/event-stream", "fetch() 跳过响应头所以首 token 更快", "http.server 只能对 POST 返回流", "EventSource 只能发 GET，请求输入会进入 URL"],
+      "correct": 3,
+      "explanation": "EventSource 只发送 GET；把输入放在 URL 会进入服务器和代理的访问日志，因此本课使用带 JSON body 的 POST。"
+    },
+    {
+      "id": "demo-check-3",
+      "stage": "check",
+      "question": "演示会在请求日志中写什么？",
+      "options": ["带查询串的完整请求行和原始客户端 IP", "路由、状态、延迟、输入长度和客户端的密钥哈希", "每个失败请求的堆栈跟踪", "输入文本和模型回复以便重放"],
+      "correct": 1,
+      "explanation": "日志不保存输入文本和客户端地址；密钥哈希允许按客户端计数而不记录地址。"
+    },
+    {
+      "id": "demo-post-1",
+      "stage": "post",
+      "question": "服务器已发送 200 和三个 token 事件后模型失败，演示会怎么做？",
+      "options": ["把状态行改成 500 并再次发送响应头", "后台重跑模型并无提示地发送新 token", "在流中发送 error 事件，由页面显示", "直接关闭连接让浏览器稍后超时"],
+      "correct": 2,
+      "explanation": "状态行已经发出，无法修改；流中发送包含代码、消息和提示的 error 事件。"
+    },
+    {
+      "id": "demo-post-2",
+      "stage": "post",
+      "question": "一百个客户端都没有超过各自的限流，哪个控制能阻止它们用光模型总预算？",
+      "options": ["缩小页面 textarea 的 maxlength", "给每个客户端更大的令牌桶和更快补充", "只允许一个内联脚本的 CSP", "统计所有客户端调用的每日总量上限"],
+      "correct": 3,
+      "explanation": "限流只约束单个客户端；每日用量上限统计所有模型调用，达到固定数量后拒绝请求。"
+    }
+  ]
+}

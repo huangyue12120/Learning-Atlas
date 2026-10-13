@@ -1,0 +1,60 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/02-ml-fundamentals/19-ml-system-design/quiz.json",
+    "revision": "56c886c8821fc488b6f9608895c983d18f0d1ea3",
+    "sha256": "7a49c54eec0dfe354712348aedd73e96421d7a0738728c0714409c6ea8f82594"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "ml-design-pre-1",
+      "stage": "pre",
+      "question": "团队报告流失模型离线 AUC 为 0.91。在称模型有用之前还缺什么？",
+      "options": ["使用分数的决策，以及用来比较的基线", "更大的梯度提升模型", "AUC 必须超过 0.95", "GPU 服务器"],
+      "correct": 0,
+      "explanation": "单独的离线指标不能说明价值。设计必须写清每个分数触发的动作，以及模型必须击败的最强基线。"
+    },
+    {
+      "id": "ml-design-check-1",
+      "stage": "check",
+      "question": "什么是护栏指标？",
+      "options": ["只有安全团队能读取的指标", "验证集上数值最大的指标", "训练任务每批最小化的离线指标", "新模型上线时不得变差的指标"],
+      "correct": 3,
+      "explanation": "护栏保护模型没有直接优化的部分，例如成本、延迟和投诉率。"
+    },
+    {
+      "id": "ml-design-check-2",
+      "stage": "check",
+      "question": "分数最多允许陈旧 30 分钟，但一次完整批处理要一小时。结论是什么？",
+      "options": ["每天运行两次即可", "在线推理不可能工作", "给键值存储加副本即可", "批处理达不到限制，需要在线打分"],
+      "correct": 3,
+      "explanation": "批处理分数至少会陈旧一个作业时长；当限制短于作业时长时，任何调度都无法满足。"
+    },
+    {
+      "id": "ml-design-check-3",
+      "stage": "check",
+      "question": "流失模型 F1 为 0.56，多数类基线为 0.00，一特征规则为 0.46。提升量是多少？",
+      "options": ["0.51，两个基线的平均差", "0.10，相对最强规则基线", "0.56，相对零分基线", "0.00，提升量只能相对线上系统"],
+      "correct": 1,
+      "explanation": "提升量应相对最强基线计算：0.56 - 0.46 = 0.10。"
+    },
+    {
+      "id": "ml-design-post-1",
+      "stage": "post",
+      "question": "欺诈模型拦截高风险支付，团队每月用已标注支付重训。这会产生什么问题？",
+      "options": ["被拦截支付不会得到欺诈标签，训练数据丢失样本", "每月重训一定过拟合", "拦截会使 p99 延迟超预算", "标签和特征在同一表中造成泄漏"],
+      "correct": 0,
+      "explanation": "这是反馈回路：模型决策移除了未来训练结果。应保留一小部分模型不拦截的随机样本。"
+    },
+    {
+      "id": "ml-design-post-2",
+      "stage": "post",
+      "question": "哪种发布阶段让新模型评分真实流量，但用户不会使用它的输出？",
+      "options": ["Canary 发布", "带留出组的 A/B 测试", "Shadow 部署", "全量发布并回滚"],
+      "correct": 2,
+      "explanation": "Shadow 模式记录并比较新模型预测，用户仍只看到当前模型的决策。"
+    }
+  ]
+}

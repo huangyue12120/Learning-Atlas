@@ -1,0 +1,75 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/00-setup-and-tooling/13-python-for-ai-engineering/quiz.json",
+    "revision": "56c886c8821fc488b6f9608895c983d18f0d1ea3",
+    "sha256": "ab34ad33782a9a40afcfb3581fbfd216fb68a3880bef97d813b9dc5aac7c8fa3"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "python-ai-pre-1",
+      "stage": "pre",
+      "question": "同一个训练脚本运行两次得到不同测试分数。怎样让每次训练集和测试集划分都相同？",
+      "options": [
+        "增大测试集比例",
+        "使用 random.Random(42) 打乱索引",
+        "把 random.shuffle 调用两次",
+        "先把数据集列表转换成元组"
+      ],
+      "correct": 1,
+      "explanation": "固定种子的生成器每次都会产生相同序列，因此打乱顺序和划分都相同；其他改动不会固定随机顺序。"
+    },
+    {
+      "id": "python-ai-check-1",
+      "stage": "check",
+      "question": "调用生成器函数会返回什么？",
+      "options": [
+        "一个生成器对象，每次 next() 才运行函数体",
+        "一个保存函数所有 yield 值的列表",
+        "函数产生的第一个值，然后停止",
+        "None，因为函数没有 return 语句"
+      ],
+      "correct": 0,
+      "explanation": "调用本身不会执行函数体，而是返回生成器对象；每次 next() 才运行到下一个 yield 并暂停。"
+    },
+    {
+      "id": "python-ai-check-2",
+      "stage": "check",
+      "question": "batches(range(10), 4) 使用默认 drop_last=False 时会产生哪些批量大小？",
+      "options": ["2、4、4", "4、4、2", "4、4、4", "4、4"],
+      "correct": 1,
+      "explanation": "islice 每次最多取四个元素，十个元素会产生两个完整批量和一个含两个元素的批量。"
+    },
+    {
+      "id": "python-ai-check-3",
+      "stage": "check",
+      "question": "为什么纯 Python 对一百万个浮点数做点积比 NumPy 慢很多？",
+      "options": [
+        "Python 浮点数精度低于 NumPy 的 float64",
+        "for 循环每次都会复制整个列表",
+        "解释器会逐元素做类型检查并创建对象",
+        "zip() 会先排序两个输入列表"
+      ],
+      "correct": 2,
+      "explanation": "Python 循环为每个元素执行字节码、类型检查并创建浮点对象；NumPy 在原始数值上运行一个编译循环。"
+    },
+    {
+      "id": "python-ai-post-1",
+      "stage": "post",
+      "question": "函数 def add(item, bucket=[]) 会追加并返回 bucket。先调用 add(1)，再调用 add(2)，第二次返回什么？",
+      "options": ["[1]", "[2, 1]", "[2]", "[1, 2]"],
+      "correct": 3,
+      "explanation": "默认列表在执行 def 时只创建一次，两次调用共享它并依次追加 1、2。应使用 None 作为默认值，再在函数内创建列表。"
+    },
+    {
+      "id": "python-ai-post-2",
+      "stage": "post",
+      "question": "训练模型前标准化特征时，均值和标准差应来自哪里？",
+      "options": ["仅训练集", "仅测试集", "每个小批量各自计算", "训练集和测试集合在一起"],
+      "correct": 0,
+      "explanation": "测试集统计量会把测试信息泄漏到训练过程，使分数虚高。应只在训练集计算，再把相同统计量应用到测试集。"
+    }
+  ]
+}

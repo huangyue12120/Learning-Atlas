@@ -243,10 +243,10 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.ok(multiAgentSwarms);
   assert.ok(infrastructureAndProduction);
   assert.ok(ethicsSafetyAlignment);
-  assert.equal(setup.lessons.length, 12);
+  assert.equal(setup.lessons.length, 13);
   assert.equal(setup.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(foundations.lessons.length, 22);
-  assert.equal(mlFundamentals.lessons.length, 18);
+  assert.equal(mlFundamentals.lessons.length, 21);
   assert.equal(mlFundamentals.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(deepLearningCore.lessons.length, 13);
   assert.equal(deepLearningCore.lessons.every((item: { available: boolean }) => item.available), true);
@@ -276,7 +276,7 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(autonomousSystems.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(multiAgentSwarms.lessons.length, 25);
   assert.equal(multiAgentSwarms.lessons.every((item: { available: boolean }) => item.available), true);
-  assert.equal(infrastructureAndProduction.lessons.length, 28);
+  assert.equal(infrastructureAndProduction.lessons.length, 29);
   assert.equal(infrastructureAndProduction.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(ethicsSafetyAlignment.lessons.length, 30);
   assert.equal(ethicsSafetyAlignment.lessons.every((item: { available: boolean }) => item.available), true);
@@ -386,9 +386,9 @@ test("loads published lesson content and resources by lessonId", async () => {
     itemContent.translationStatus === "reviewed" &&
     itemQuiz.status === "reviewed" &&
     [6, 7].includes(itemQuiz.questions.length)), true);
-  assert.equal(p17Lessons[0].itemLesson.position, "01 / 28");
+  assert.equal(p17Lessons[0].itemLesson.position, "01 / 29");
   assert.equal(p17Lessons[0].itemLesson.title, "托管 LLM 平台：Bedrock、Vertex AI、Azure OpenAI");
-  assert.equal(p17Lessons[27].itemLesson.position, "28 / 28");
+  assert.equal(p17Lessons[28].itemLesson.position, "29 / 29");
   assert.equal(p17Lessons[0].itemQuiz.questions.length, 7);
   assert.equal(p17Lessons.slice(1).every(({ itemQuiz }) => itemQuiz.questions.length === 6), true);
   assert.equal(p17Lessons.reduce((total, { itemContent }) => total + itemContent.theoryCards.length, 0), 27);
@@ -397,6 +397,26 @@ test("loads published lesson content and resources by lessonId", async () => {
     typeof card.context === "string" && typeof card.intuition === "string" && Array.isArray(card.keyPoints) &&
     typeof card.application === "string" && typeof card.checkQuestion === "string"), true);
   assert.equal(p17Lessons.every(({ itemLesson }) => itemLesson.resources.exploration === false), true);
+
+  const issue26Lessons = [
+    "practice/00-setup-and-tooling/13-python-for-ai-engineering",
+    "practice/02-ml-fundamentals/19-ml-system-design",
+    "practice/02-ml-fundamentals/20-model-monitoring-and-drift",
+    "practice/02-ml-fundamentals/21-feature-stores-and-training-serving-skew",
+    "practice/17-infrastructure-and-production/29-model-demo-interfaces"
+  ];
+  const issue26Resources = await Promise.all(issue26Lessons.map(async (lessonId) => {
+    const encoded = encodeURIComponent(lessonId);
+    const [itemLesson, itemContent, itemQuiz] = await Promise.all([
+      fetch(`${baseUrl}/api/lesson?lessonId=${encoded}`).then((response) => response.json()),
+      fetch(`${baseUrl}/api/lesson/content?lessonId=${encoded}`).then((response) => response.json()),
+      fetch(`${baseUrl}/api/quiz?lessonId=${encoded}`).then((response) => response.json())
+    ]);
+    return { itemLesson, itemContent, itemQuiz };
+  }));
+  assert.equal(issue26Resources.every(({ itemLesson, itemContent, itemQuiz }) =>
+    itemLesson.resources.workspace === true && itemContent.translationStatus === "reviewed" &&
+    itemQuiz.status === "reviewed" && itemQuiz.questions.length === 6), true);
 
   const p18Lessons = await Promise.all(ethicsSafetyAlignment.lessons.map(async (item: { id: string }) => {
     const encoded = encodeURIComponent(item.id);
@@ -527,10 +547,10 @@ test("loads published lesson content and resources by lessonId", async () => {
   }));
   assert.equal(allSetupCourses.every(({ itemContent, itemQuiz }) => itemContent.translationStatus === "reviewed" && itemQuiz.status === "reviewed"), true);
   assert.deepEqual(allSetupCourses.map(({ itemLesson }) => itemLesson.resources.workspace), [
-    true, false, true, true, true, false, false, false, true, false, false, true
+    true, false, true, true, true, false, false, false, true, false, false, true, true
   ]);
   assert.deepEqual(allSetupCourses.map(({ itemContent }) => itemContent.theoryCards.length), [
-    0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1
+    0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0
   ]);
   assert.equal(allSetupCourses[1].itemContent.theoryCards[0].title, "Git：让一次实验可以被准确追溯");
 });
@@ -641,8 +661,8 @@ test("serves the complete curriculum with safe staged phases and a dynamic targe
   assert.equal(publishedMultiAgentPhase.firstLessonId, "practice/16-multi-agent-and-swarms/01-why-multi-agent");
   const publishedInfrastructurePhase = curriculum.practice[17];
   assert.equal(publishedInfrastructurePhase.status, "available");
-  assert.equal(publishedInfrastructurePhase.lessonCount, 28);
-  assert.equal(publishedInfrastructurePhase.availableLessonCount, 28);
+  assert.equal(publishedInfrastructurePhase.lessonCount, 29);
+  assert.equal(publishedInfrastructurePhase.availableLessonCount, 29);
   assert.equal(publishedInfrastructurePhase.firstLessonId, "practice/17-infrastructure-and-production/01-managed-llm-platforms");
   const publishedEthicsPhase = curriculum.practice[18];
   assert.equal(publishedEthicsPhase.status, "available");

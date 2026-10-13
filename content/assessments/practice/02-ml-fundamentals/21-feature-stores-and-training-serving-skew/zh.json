@@ -1,0 +1,60 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/02-ml-fundamentals/21-feature-stores-and-training-serving-skew/quiz.json",
+    "revision": "56c886c8821fc488b6f9608895c983d18f0d1ea3",
+    "sha256": "8c2b4adec284f1f2c0b878e83fca61204a444c765d2fd6e2442cba3fae66e91d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "feature-skew-pre-1",
+      "stage": "pre",
+      "question": "团队只按 user_id 把流失标签连接到用户特征表，而表里保存每个用户的最新值。会发生什么？",
+      "options": ["有多个标签的用户都会被丢弃", "训练行会读到标签时间之后的特征值", "不会有问题，最新值最准确", "列太多导致训练变慢"],
+      "correct": 1,
+      "explanation": "最新值通常发生在标签时间之后；对流失标签而言，它已经展示了标签要衡量的沉默期，相当于把答案放入输入。"
+    },
+    {
+      "id": "feature-skew-check-1",
+      "stage": "check",
+      "question": "标签在第 20 天，特征行在第 6、17、24 天，TTL 为 7 天。时间点连接使用哪一行？",
+      "options": ["不使用行，采用默认值", "第 6 天", "第 17 天", "第 24 天"],
+      "correct": 2,
+      "explanation": "连接只保留不晚于第 20 天的行，再取最新值并检查年龄。第 17 天只旧 3 天，满足 7 天 TTL。"
+    },
+    {
+      "id": "feature-skew-check-2",
+      "stage": "check",
+      "question": "训练把缺失购买历史填成 365 天，服务填成 -1。这是哪种偏差？",
+      "options": ["两条路径使用了不同默认值", "物化失败造成的过期特征", "输入与标签关系的概念漂移", "按用户键的朴素连接造成时间穿越"],
+      "correct": 0,
+      "explanation": "两条路径只在值缺失时不同，新用户会得到模型训练时从未见过的输入。"
+    },
+    {
+      "id": "feature-skew-check-3",
+      "stage": "check",
+      "question": "特征定义改变时，为什么注册表创建新版本而不是直接编辑旧版本？",
+      "options": ["编辑会删除离线存储的回填历史", "旧定义训练的模型仍然需要旧值", "在线存储每个实体只能保存一个特征", "版本让大表连接更快"],
+      "correct": 1,
+      "explanation": "已部署模型期望训练时的特征。静默修改会改变输入，却没有重新训练。"
+    },
+    {
+      "id": "feature-skew-post-1",
+      "stage": "post",
+      "question": "记录的服务值与训练连接完全一致，但请求时即时计算的值有 83% 不同。这说明什么？",
+      "options": ["在线存储损坏，因为即时值总是正确", "时间点连接泄漏未来", "模型学的是快照值，即时计算路径会引入偏差", "注册表有两个版本且服务读错版本"],
+      "correct": 2,
+      "explanation": "新鲜度本身就是特征的一部分；比训练数据更新鲜的路径会给模型另一种分布的输入。"
+    },
+    {
+      "id": "feature-skew-post-2",
+      "stage": "post",
+      "question": "今天运行的回填写入去年的日期，但使用了上月才修正的数据。严格的时间点连接如何避免泄漏？",
+      "options": ["只按实体键连接并取最新行", "还要求 created 时间不晚于标签时间", "缩短 TTL 让去年的行在训练前过期", "重新用在线存储作为数据源运行回填"],
+      "correct": 1,
+      "explanation": "事件时间表示值何时成立，创建时间表示系统何时知道；严格连接同时检查两者。"
+    }
+  ]
+}
