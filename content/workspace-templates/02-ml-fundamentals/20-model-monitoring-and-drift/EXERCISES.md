@@ -1,0 +1,31 @@
+# 生产模型监控：练习指南
+
+- 课程路径：`phases/02-ml-fundamentals/20-model-monitoring-and-drift`
+- 可运行 Python 文件：`main.py`
+
+## 练习目标
+
+从零实现漂移统计量，理解窗口大小、效应量、p 值和标签延迟如何共同影响告警。
+
+## 建议步骤
+
+1. **窗口权衡：** 分别使用 200 和 2000 条事件的窗口，记录干净阶段的误警告数量和告警延迟。
+2. **误报压力：** 将 `n_tests=1`、`patience=1`、`min_cramers_v=0`，统计恢复阶段的告警并解释原因。
+3. **渐变漂移：** 增加均值每 100 条事件增长 0.01 的特征，比较 PSI 和 KS 谁先响应。
+4. **替代距离：** 在同一分位箱上实现 Jensen–Shannon 距离，与每个窗口的 PSI 对照。
+5. **结果监控：** 添加正类预测率监控，说明概念漂移时输入稳定而准确率下降的原因。
+
+## 运行与验证
+
+```bash
+python3 main.py
+```
+
+工作区只复制根目录的 `main.py` 和本指南；请另开一个以 Learning Atlas 仓库根目录为当前目录的终端，在上游课程目录运行完整测试：
+
+```bash
+cd ai-engineering-from-scratch/phases/02-ml-fundamentals/20-model-monitoring-and-drift
+python3 -m unittest discover -s code/tests -p 'test_*.py'
+```
+
+保留一份告警表，标出协变量漂移、恢复和概念漂移分别由哪一层信号发现。

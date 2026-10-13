@@ -1,0 +1,60 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/02-ml-fundamentals/20-model-monitoring-and-drift/quiz.json",
+    "revision": "56c886c8821fc488b6f9608895c983d18f0d1ea3",
+    "sha256": "6b1eb1f57fd0a4a0377955a934ad7a28fc18ee3410d176a80a60bcd065a4a7c6"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "drift-pre-1",
+      "stage": "pre",
+      "question": "模型服务每个请求都返回 HTTP 200 且延迟正常，还可能隐藏什么？",
+      "options": ["什么都没有", "内存泄漏，因为 200 不会分配内存", "错误预测，因为数据已偏离训练数据", "慢查询，因为 200 表示超过一秒"],
+      "correct": 2,
+      "explanation": "系统健康检查只能说明服务响应，不能说明今天的数据上预测是否仍然正确。"
+    },
+    {
+      "id": "drift-check-1",
+      "stage": "check",
+      "question": "欺诈者改变策略，同样的支付特征现在对应不同欺诈风险。这是哪种漂移？",
+      "options": ["协变量漂移，因为 P(x) 改变", "先验漂移，因为只有 P(y) 改变", "没有漂移，因为输入相同", "概念漂移，因为 P(y | x) 改变"],
+      "correct": 3,
+      "explanation": "输入分布可以不变，但同一输入的正确答案改变，这就是概念漂移，只有标签结果能揭示它。"
+    },
+    {
+      "id": "drift-check-2",
+      "stage": "check",
+      "question": "10 个参考分位箱中，一个箱占参考数据 10%，当前窗口 30%。它对 PSI 的贡献约是多少？",
+      "options": ["约 1.10，即 ln(0.30/0.10)", "约 0.66，即占比差的三倍", "约 0.22，即 0.20 × ln(3)", "约 0.20，即两个占比之差"],
+      "correct": 2,
+      "explanation": "每个箱贡献 (当前占比 - 参考占比) × 两者占比之比的对数，即 0.20 × 1.099，约为 0.22。"
+    },
+    {
+      "id": "drift-check-3",
+      "stage": "check",
+      "question": "监控器每小时检查 50 个特征，alpha=0.05，数据没有变化。每天大约会有多少误报？",
+      "options": ["约 2.5", "约 60", "约 1200", "没有，因为 alpha 保护每次检验"],
+      "correct": 1,
+      "explanation": "每天有 50×24=1200 次检验，每次 5% 的误报率会产生约 60 次误报。"
+    },
+    {
+      "id": "drift-post-1",
+      "stage": "post",
+      "question": "每个窗口有一百万事件，KS 的 p=2e-7，但 D=0.004。告警策略应如何处理？",
+      "options": ["最多记录警告，因为效应量 D 很小", "通知值班人员，因为 p 远低于 alpha", "立即重训，因为显著就代表概念漂移", "忽略 KS，改用 PSI"],
+      "correct": 0,
+      "explanation": "大样本会让很小的差异显著。策略还需要 D 的效应量阈值，才能把小变化留在警告级别。"
+    },
+    {
+      "id": "drift-post-2",
+      "stage": "post",
+      "question": "输入监控安静，但新标签样本的准确率从 0.95 降到 0.78。下一步是什么？",
+      "options": ["忽略，因为输入没有漂移", "降低 PSI 阈值直到输入告警", "用原训练数据增加 epoch 重训", "视为概念漂移，收集近期标签后重训"],
+      "correct": 3,
+      "explanation": "输入稳定而准确率下降说明 P(y|x) 改变。旧标签只会重新学习旧概念，应先收集近期标签。"
+    }
+  ]
+}

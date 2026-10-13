@@ -1,3 +1,30 @@
+# Learning Atlas v0.26.7 发布说明
+
+发布日期：2026-10-13。
+
+本版处理 Issue #26，补齐覆盖报告列出的 5 节上游实践课程。实践上游快照保持 `56c886c8821fc488b6f9608895c983d18f0d1ea3` 不变。
+
+## 本版交付
+
+- 新增 `13-python-for-ai-engineering`、`19-ml-system-design`、`20-model-monitoring-and-drift`、`21-feature-stores-and-training-serving-skew` 和 `29-model-demo-interfaces` 5 篇中文实践译文；保留标题层级、代码块、图示占位符、链接顺序及来源 SHA-256。
+- 新增 5 份对应中文测验，保留上游题目阶段、选项顺序和正确答案，并翻译解释。
+- 新增 5 套 Python 工作区练习指南，覆盖运行命令、测试命令和与课程目标对应的扩展练习。
+- 内容总量更新为 528 篇审核中文实践译文、293 份中文测验和 435 套 Python 工作区；Phase 0–18 阅读器可用课程增至 443 节。
+- 同步 README、内容目录说明、内容清单、项目进度及应用 SemVer 至 v0.26.7；翻译覆盖检查恢复为零缺口。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1532 条来源指纹）
+- `python3 scripts/check_theory_cards.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`（19 个已发布 Phase，0 个缺失译文）
+- 5 个新增课程的 `python3 code/main.py` 与 `python3 -m unittest discover -s code/tests -p 'test_*.py'`
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+---
+
 # Learning Atlas v0.26.6 发布说明
 
 发布日期：2026-10-12。
