@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/14-open-models-architecture-walkthroughs/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 3786ce2336c30cb590bc56bb9d3b04b6ba937121d3de4a4fe20cefad9c6d286c
+  revision: f0c979b98d35f0547fe7a5f9aadf2f25d6c2e375
+  sha256: a99394857db92dbc5a151de35122a26e489a1b2bd31d78134e71071e1933f4d0
   anchor:
     heading: The Six Knobs That Actually Move
     slug: the-six-knobs-that-actually-move
