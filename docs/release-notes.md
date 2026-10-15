@@ -1,3 +1,28 @@
+# Learning Atlas v0.26.8 发布说明
+
+发布日期：2026-10-15。
+
+本版处理 Issue #28：将 `ai-engineering-from-scratch` 的可复现快照从 `56c886c8821fc488b6f9608895c983d18f0d1ea3` 更新到 `f0c979b98d35f0547fe7a5f9aadf2f25d6c2e375`。上游大量新增的站点、技能和资产文件没有本地内容映射；唯一命中已登记内容的是 Phase 10 第 14 课及其一条理论关联。
+
+## 本版交付
+
+- 更新《开放模型：架构漫游》的中文译文，补入 Spark-X2.5 4B、显式 `head_dim`、`tie_word_embeddings`、混合滑动窗口层级、逐层 KV 缓存公式、参数量校验和运行练习。
+- 更新该课程理论关联的实践来源 revision 与 SHA-256；锚点、理论卡内容和批准状态保持不变。
+- 同步上游 submodule 指针、README、内容目录说明、内容清单、项目进度及应用 SemVer 至 v0.26.8；实践译文、测验、工作区和理论关联计数保持不变。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1532 条来源指纹）
+- `python3 scripts/check_theory_cards.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`
+- `cd apps/local-learning && npm run check && npm test`
+- Phase 10 第 14 课 `python3 code/main.py` 与 `python3 -m unittest discover -s code -p 'test_*.py'`
+- `git diff --check`
+
+---
+
 # Learning Atlas v0.26.7 发布说明
 
 发布日期：2026-10-13。

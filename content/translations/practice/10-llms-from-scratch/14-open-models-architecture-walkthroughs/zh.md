@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/14-open-models-architecture-walkthroughs/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 3786ce2336c30cb590bc56bb9d3b04b6ba937121d3de4a4fe20cefad9c6d286c
+  revision: f0c979b98d35f0547fe7a5f9aadf2f25d6c2e375
+  sha256: a99394857db92dbc5a151de35122a26e489a1b2bd31d78134e71071e1933f4d0
 status: reviewed
 ---
 
@@ -165,6 +165,7 @@ graph LR
 | Qwen 2.5 72B | 2024 | 72B | 72B | RMSNorm | SwiGLU | RoPE（YaRN） | GQA（64/8） | 否 | 128k |
 | DeepSeek V2 236B | 2024 | 236B | 21B | RMSNorm | SwiGLU | RoPE | MLA | 是（160 个专家，top-6） | 128k |
 | DeepSeek V3 | 2024 | 671B | 37B | RMSNorm | SwiGLU | RoPE | MLA | 是（256 个专家，top-8） | 128k |
+| Spark-X2.5 4B | 2026 | 4.1B | 4.1B | RMSNorm | GeGLU | RoPE + 滑动（3:1） | GQA（16/4）、门控输出 | 否 | 1M |
 
 扫一遍各列：RMSNorm 无处不在；SwiGLU 或它的 GeGLU 近亲无处不在；RoPE 无处不在；除了被 MLA 替代的情况，7B 以上模型普遍使用 GQA；MoE 是顶级模型的分水岭。
 
@@ -187,6 +188,12 @@ Llama 3 8B 配置：
 ```
 
 每个字段都对应你已经实现过的某个东西。
+
+较新的配置会增加几个会改变算术结果的字段；计算器在字段出现时会读取它们：
+
+- `head_dim`：当它不同于 `hidden_size / num_attention_heads` 时显式指定头维度。Gemma 2 9B 的 hidden 为 3584、16 个头，但 `head_dim` 为 256，因此其 Q 投影形状是 3584 x 4096，而不是方阵。
+- `tie_word_embeddings`：LM 头是否复用嵌入矩阵。Llama 3 8B 不共享；如果只计算一次嵌入，会漏掉 525M 个参数。
+- `layer_types` 和 `sliding_window`：哪些层关注完整上下文，哪些层只关注最近 W 个词元。
 
 - `hidden_size`：嵌入维度。
 - `intermediate_size`：MLP 隐藏大小（是 hidden 的 3.5 倍，这是 SwiGLU 的数学结果）。
@@ -223,6 +230,15 @@ Llama 3 8B 在 128k 上下文、BF16、`head_dim = hidden / num_heads = 128` 时
 
 Llama 3 8B 的 BF16 权重为 16 GB。单个 128k 序列的 KV 缓存比权重还大。这正是推动 GQA、MLA 和 KV 缓存量化研究的内存压力。
 
+该公式假设每一层都缓存整个序列。滑动窗口层只需保留最近 W 个词元，因此混合模型应逐层求和：
+
+```
+kv_cache = 2 * num_kv_heads * head_dim * bytes_per_element
+           * (full_layers * max_seq_len + sliding_layers * min(W, max_seq_len))
+```
+
+Spark-X2.5 4B 对每个完整注意力层配有三个滑动窗口层（W = 512）：36 层中有 9 个完整层和 27 个滑动层。在 1M 词元上下文、BF16 下，每个序列约需 38.7 GB（36 GiB）。如果 36 层都缓存完整上下文，则需要 154.6 GB（144 GiB）。完整层承担了几乎全部成本，因此长上下文模型首先要看完整层与滑动层的比例。
+
 ### 每种模型何时胜出
 
 - **单张 80GB GPU、不使用 MoE：** Llama 3 8B、Mistral 7B、Gemma 2 9B。易于服务，工具链广泛。
@@ -230,6 +246,7 @@ Llama 3 8B 的 BF16 权重为 16 GB。单个 128k 序列的 KV 缓存比权重�
 - **最大开放模型能力、接受 MoE 的复杂性：** DeepSeek V3、Mixtral 8x22B。每个激活 FLOP 的能力最佳。
 - **长上下文需求：** Llama 3（通过 RoPE 缩放支持 128k）、DeepSeek（MLA 有优势）。
 - **低延迟服务：** Gemma 2 9B（滑动窗口降低长上下文计算量）。
+- **内存预算有限但需要长上下文：** Spark-X2.5 4B 等混合滑动窗口模型，只有四分之一的层承担完整上下文。
 
 ```figure
 rmsnorm-vs-layernorm
@@ -248,13 +265,17 @@ config = {
 }
 ```
 
-脚本会逐字段遍历架构，计算嵌入、注意力（含 GQA 缩减）、MLP（含 SwiGLU 扩展）、layernorm 和输出头的参数量。随后它会根据配置的上下文长度计算 KV 缓存，并打印摘要。
+脚本会逐字段遍历架构，计算嵌入、注意力（含 GQA 缩减以及配置显式给出的 `head_dim`）、MLP（含 SwiGLU 或 GeGLU 扩展）、归一化层，以及未与嵌入绑定时 LM 头的参数量。随后按层计算配置上下文长度下的 KV 缓存，把滑动窗口层封顶在各自窗口，并打印摘要。
+
+对于稠密模型，计算出的总参数量与已发布的参数量完全一致：Llama 3 8B 为 8,030,261,248，Gemma 2 9B 为 9,241,705,984，Spark-X2.5 4B 为 4,112,079,360。Qwen 2.5 72B 相差 819,200，这正是练习 1 要求分析的差异。
 
 实现见 `code/main.py`。
 
 ## 使用它
 
 在脚本内置的 Llama 3 8B、Mistral 7B、Mixtral 8x7B 和 DeepSeek V3 配置上运行计算器。比较参数分解。注意，MoE 模型的总参数量远超稠密模型，但激活参数量往往更小。还要注意，尽管 DeepSeek V3 的总参数更多，其 KV 缓存却小于 Llama 3 405B，这体现了 MLA 的作用。
+
+然后比较 Gemma 2 9B 和 Spark-X2.5 4B。对于两者，脚本都会打印实际需要的 KV 缓存，以及假设每层都是完整注意力时所需的 KV 缓存。Gemma 2 在 8k 上下文中以 1:1 交替两种层，节省有限；Spark-X2.5 在 1M 上下文中以 3:1 配置、使用 512 词元窗口，因此节省约 4 倍。
 
 然后填入你本地任意模型的配置，阅读摘要，并判断它是否能装进你的 GPU。
 
