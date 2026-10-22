@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/05-transfer-learning/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 670f74b6d6cc2d6d61d56c868c50c482b9cd77fd3580dc427902dee9666c60a5
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: a4f6aae738351e23e59a2e1e7e623dcdd80619cb761e940fe70753c0f6621691
 status: reviewed
 ---
 
@@ -111,8 +111,8 @@ backbone.heads.head = nn.Linear(..., num_classes)                       # torchv
 
 现代微调（BEiT、DINOv2、ViT-B）使用的、更平滑的判别式 LR 版本。不再把层分为 stage，而是让每层 LR 比其上一层略小：
 
-```
-lr_layer_k = base_lr * decay^(L - k)
+```math
+\text{lr\_layer}_k = \text{base\_lr} \cdot \text{decay}^{L - k}
 ```
 
 当 `decay = 0.75`、`L = 12` 个 transformer 模块时，第一模块以头部 LR 的 `0.75^11 ≈ 0.04x` 训练。它对 transformer 微调比对 CNN 更重要，后者通常按 stage 分组 LR 已足够。

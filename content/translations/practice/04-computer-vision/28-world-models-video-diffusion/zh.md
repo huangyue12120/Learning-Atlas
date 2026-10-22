@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/28-world-models-video-diffusion/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 2b64fd3dbecb74fbc2cf8c017468033e16d103409dce31b25b62100838991acd
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 1e094e6c62bd4a993f1255bc8d3f70677441b72be94fdc494fd84a93ec9e9bcb
 status: reviewed
 ---
 

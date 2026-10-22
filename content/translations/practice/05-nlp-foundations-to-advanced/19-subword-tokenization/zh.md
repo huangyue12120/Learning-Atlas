@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/19-subword-tokenization/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 6d67e864430ef41e47f3c0e115faead61da03cad377dca5a69f77513afc8f3eb
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 1d15c01b0538876271544ca18bae413392561692edfec93a361da8d01b54424e
 status: reviewed
 ---
 

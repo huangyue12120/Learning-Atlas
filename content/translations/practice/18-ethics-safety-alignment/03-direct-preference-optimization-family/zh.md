@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/03-direct-preference-optimization-family/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: b081d3ff98e2096b63994d4e43ae025601085616183954e99751f4c3cb2bb6c7
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 411314945b026014deb620ccda7b19d5e5bc6a8d456e586acd6e574fdbf69b43
 status: reviewed
 ---
 
@@ -29,20 +29,20 @@ status: reviewed
 
 RLHF 目标（第 1 课）：
 
-```
-max_pi E_{x,y~pi} [ r(x, y) ] - beta * KL(pi || pi_ref)
+```math
+\max_{\pi} \; \mathbb{E}_{x, y \sim \pi} \big[ r(x, y) \big] - \beta \, \mathrm{KL}(\pi \,\|\, \pi_{\text{ref}})
 ```
 
 具有已知最优解：
 
-```
-pi*(y|x) = (1/Z(x)) * pi_ref(y|x) * exp(r(x, y) / beta)
+```math
+\pi^*(y \mid x) = \frac{1}{Z(x)} \, \pi_{\text{ref}}(y \mid x) \exp\!\left(\frac{r(x, y)}{\beta}\right)
 ```
 
 因此，奖励由最优策略与参考策略的比值隐式定义：
 
-```
-r(x, y) = beta * log(pi*(y|x) / pi_ref(y|x)) + beta * log Z(x)
+```math
+r(x, y) = \beta \log \frac{\pi^*(y \mid x)}{\pi_{\text{ref}}(y \mid x)} + \beta \log Z(x)
 ```
 
 将它代入 Bradley-Terry 偏好似然。配分函数 `Z(x)` 只依赖 `x`，因此会抵消。剩下的损失只含策略参数，不需要奖励模型；这套目标称为 DPO。
@@ -53,11 +53,11 @@ r(x, y) = beta * log(pi*(y|x) / pi_ref(y|x)) + beta * log Z(x)
 
 ### DPO（Rafailov 等，2023） <!-- learning-atlas: dpo-rafailov-et-al-2023 -->
 
-```
-L_DPO = -log sigmoid(
-  beta * log(pi(y_w | x) / pi_ref(y_w | x))
-  - beta * log(pi(y_l | x) / pi_ref(y_l | x))
-)
+```math
+L_{\text{DPO}} = -\log \sigma\!\left(
+  \beta \log \frac{\pi(y_w \mid x)}{\pi_{\text{ref}}(y_w \mid x)}
+  - \beta \log \frac{\pi(y_l \mid x)}{\pi_{\text{ref}}(y_l \mid x)}
+\right)
 ```
 
 可能出现的问题：
@@ -70,8 +70,8 @@ L_DPO = -log sigmoid(
 
 恒等偏好优化（Identity Preference Optimization）将对偏好概率的 log-sigmoid 替换为恒等映射。损失变成有界目标上的平方误差：
 
-```
-L_IPO = (log(pi(y_w | x) / pi_ref(y_w | x)) - log(pi(y_l | x) / pi_ref(y_l | x)) - 1/(2 beta))^2
+```math
+L_{\text{IPO}} = \left( \log \frac{\pi(y_w \mid x)}{\pi_{\text{ref}}(y_w \mid x)} - \log \frac{\pi(y_l \mid x)}{\pi_{\text{ref}}(y_l \mid x)} - \frac{1}{2\beta} \right)^2
 ```
 
 间隔由 `1/(2 beta)` 限定。偏好强度和隐式奖励间隔成正比，不会爆炸。
@@ -80,8 +80,8 @@ L_IPO = (log(pi(y_w | x) / pi_ref(y_w | x)) - log(pi(y_l | x) / pi_ref(y_l | x))
 
 Kahneman-Tversky Optimization 完全放弃成对结构。给定一条带标签的输出和二元“理想”或“不理想”信号，它将其映射为前景理论效用：
 
-```
-v(x, y) = sigma(beta * log(pi(y|x) / pi_ref(y|x)) - z_ref)
+```math
+v(x, y) = \sigma\!\left(\beta \log \frac{\pi(y \mid x)}{\pi_{\text{ref}}(y \mid x)} - z_{\text{ref}}\right)
 ```
 
 它对收益和损失采用不同权重，也就是损失厌恶。优势是可以使用不成对数据，而这种数据多得多。
@@ -90,12 +90,12 @@ v(x, y) = sigma(beta * log(pi(y|x) / pi_ref(y|x)) - z_ref)
 
 简单偏好优化（Simple Preference Optimization）让训练信号与生成保持一致。它移除参考策略，并以长度归一化对数似然：
 
-```
-L_SimPO = -log sigmoid(
-  (beta / |y_w|) * log pi(y_w | x)
-  - (beta / |y_l|) * log pi(y_l | x)
-  - gamma
-)
+```math
+L_{\text{SimPO}} = -\log \sigma\!\left(
+  \frac{\beta}{|y_w|} \log \pi(y_w \mid x)
+  - \frac{\beta}{|y_l|} \log \pi(y_l \mid x)
+  - \gamma
+\right)
 ```
 
 其中的间隔 `gamma` 用于稳定训练。长度归一化消除了利用 DPO 长度偏差的动机：按构造，更长的 `y_w` 会给出更大的对数概率间隔。
@@ -104,9 +104,11 @@ L_SimPO = -log sigmoid(
 
 赔率比偏好优化（Odds-Ratio Preference Optimization）在标准 SFT 负对数似然中加入偏好项：
 
-```
-L_ORPO = L_NLL(y_w) + lambda * L_OR
-L_OR = -log sigmoid(log(odds(y_w) / odds(y_l)))
+```math
+\begin{aligned}
+L_{\text{ORPO}} &= L_{\text{NLL}}(y_w) + \lambda L_{\text{OR}} \\
+L_{\text{OR}} &= -\log \sigma\!\left(\log \frac{\text{odds}(y_w)}{\text{odds}(y_l)}\right)
+\end{aligned}
 ```
 
 它不需要参考策略，SFT 项就是正则项。可在单阶段内从基础模型训练到对齐模型，不需要单独的 SFT checkpoint。

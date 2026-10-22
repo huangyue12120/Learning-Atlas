@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/04-sycophancy-rlhf-amplification/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 69d9da689ec1286230b6974ac1671544a23e60d82955206a42349813e6270f64
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: e17e21b6377cd71fed4799e63c87312ef5f7868dd6ebf23b19833a44bddc1f3d
 status: reviewed
 ---
 
@@ -39,10 +39,12 @@ status: reviewed
 
 令 `pi_0` 为基础模型，`pi_A` 为后对齐模型，`r` 为代理奖励，`s(x, y)` 为二元谄媚指示器。定义：
 
-```
-E[s | r]            = 给定奖励时的谄媚概率
-E_{pi_0}[s | r]     = 在基础模型输出分布上测得
-E_{pi_A}[s | r]     = 在对齐模型输出分布上测得
+```math
+\begin{aligned}
+\mathbb{E}[s \mid r] &= \text{probability of sycophancy given reward} \\
+\mathbb{E}_{\pi_0}[s \mid r] &= \text{measured on the base model's output distribution} \\
+\mathbb{E}_{\pi_A}[s \mid r] &= \text{measured on the aligned model's output distribution}
+\end{aligned}
 ```
 
 阶段 1：经验上，`E_{pi_0}[s | r=high] > E_{pi_0}[s | r=low]`。在用标注者偏好数据训练的 RM 下，谄媚补全的平均得分高于匹配的非谄媚补全。
@@ -80,8 +82,8 @@ Sahoo（arXiv:2604.10585）在数学推理上训练 GRPO，植入合成的“错
 
 Shapira 等人建议修改奖励：
 
-```
-r'(x, y) = r(x, y) - alpha * agree(x, y)
+```math
+r'(x, y) = r(x, y) - \alpha \cdot \text{agree}(x, y)
 ```
 
 其中 `agree(x, y)` 是一个辅助分类器，用于衡量 `y` 是否同意 `x` 的前提。对 alpha 扫描显示，当 `alpha` 约为 0.3–0.5 时，谄媚会降至接近基础模型的水平，但会损失一部分正当同意，模型在用户信念正确时会略显反驳。

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/19-complex-numbers/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 4452702ccd0d4c75a574644f277d6f6a6d87579f80395eccebdd211bdefbfd58
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: a08ab16aeae18285cfde9f8156502ef7c6eda2f72a4ee38b0e514806bee80e45
 status: reviewed
 ---
 # 面向 AI 的复数
@@ -55,40 +55,42 @@ z = a + bi
 
 **加法。** 实部与实部相加，虚部与虚部相加。
 
-```
-(a + bi) + (c + di) = (a + c) + (b + d)i
-
-示例：(3 + 2i) + (1 + 4i) = 4 + 6i
+```math
+\begin{aligned}
+(a + bi) + (c + di) &= (a + c) + (b + d)i \\[4pt]
+\text{Example: } (3 + 2i) + (1 + 4i) &= 4 + 6i
+\end{aligned}
 ```
 
 **乘法。** 使用分配律，并记住 i^2 = -1。
 
-```
-(a + bi)(c + di) = ac + adi + bci + bdi^2
-                 = ac + adi + bci - bd
-                 = (ac - bd) + (ad + bc)i
-
-示例：(3 + 2i)(1 + 4i) = 3 + 12i + 2i + 8i^2
-                            = 3 + 14i - 8
-                            = -5 + 14i
+```math
+\begin{aligned}
+(a + bi)(c + di) &= ac + adi + bci + bdi^2 \\
+&= ac + adi + bci - bd \\
+&= (ac - bd) + (ad + bc)i \\[8pt]
+\text{Example: } (3 + 2i)(1 + 4i) &= 3 + 12i + 2i + 8i^2 \\
+&= 3 + 14i - 8 \\
+&= -5 + 14i
+\end{aligned}
 ```
 
 **共轭。** 将虚部的符号取反。
 
-```
-(a + bi) 的共轭复数 = a - bi
+```math
+\text{conjugate of } (a + bi) = a - bi
 ```
 
 一个复数与其共轭复数的乘积始终是实数：
 
-```
+```math
 (a + bi)(a - bi) = a^2 + b^2
 ```
 
 **除法。** 分子和分母同时乘以分母的共轭复数。
 
-```
-(a + bi) / (c + di) = (a + bi)(c - di) / (c^2 + d^2)
+```math
+\frac{a + bi}{c + di} = \frac{(a + bi)(c - di)}{c^2 + d^2}
 ```
 
 这样会消去分母中的虚部，得到一个形式简洁的复数。
@@ -109,23 +111,24 @@ z = 0 + 4i 对应虚轴上的点 (0, 4)
 
 平面中的任意一点，都可以用它到原点的距离以及它相对于实轴正方向的夹角来描述。
 
-```
-z = r * (cos(theta) + i*sin(theta))
-
-其中：
-  r = |z| = sqrt(a^2 + b^2)     （大小或模）
-  theta = atan2(b, a)           （相位或辐角）
+```math
+\begin{aligned}
+z &= r (\cos\theta + i \sin\theta) \\[4pt]
+\text{where: } r &= |z| = \sqrt{a^2 + b^2} \quad \text{(magnitude, or modulus)} \\
+\theta &= \mathop{\mathrm{atan2}}(b, a) \quad \text{(phase, or argument)}
+\end{aligned}
 ```
 
 直角坐标形式（a + bi）适合做加法，极坐标形式（r, theta）适合做乘法。
 
 **极坐标形式下的乘法。** 模相乘，角度相加。
 
-```
-z1 = r1 * e^(i*theta1)
-z2 = r2 * e^(i*theta2)
-
-z1 * z2 = (r1 * r2) * e^(i*(theta1 + theta2))
+```math
+\begin{aligned}
+z_1 &= r_1 e^{i\theta_1} \\
+z_2 &= r_2 e^{i\theta_2} \\[4pt]
+z_1 z_2 &= (r_1 r_2) \, e^{i(\theta_1 + \theta_2)}
+\end{aligned}
 ```
 
 复数非常适合表示旋转，因为乘以一个模为 1 的复数就是一次纯旋转。
@@ -134,16 +137,17 @@ z1 * z2 = (r1 * r2) * e^(i*(theta1 + theta2))
 
 连接复指数函数与三角函数的桥梁是：
 
-```
-e^(i*theta) = cos(theta) + i*sin(theta)
+```math
+e^{i\theta} = \cos\theta + i \sin\theta
 ```
 
 这是本课最重要的公式。当 theta = pi 时：
 
-```
-e^(i*pi) = cos(pi) + i*sin(pi) = -1 + 0i = -1
-
-因此：e^(i*pi) + 1 = 0
+```math
+\begin{aligned}
+e^{i\pi} &= \cos\pi + i \sin\pi = -1 + 0i = -1 \\[4pt]
+\text{Therefore: } e^{i\pi} + 1 &= 0
+\end{aligned}
 ```
 
 五个基本常数（e、i、pi、1、0）由一个方程联系在了一起。
@@ -158,14 +162,13 @@ e^(i*pi) = cos(pi) + i*sin(pi) = -1 + 0i = -1
 
 将复数 (x + yi) 乘以 e^(i*theta)，会把点 (x, y) 绕原点旋转 theta 角。
 
-```
-通过复数乘法旋转：
-  (x + yi) * (cos(theta) + i*sin(theta))
-  = (x*cos(theta) - y*sin(theta)) + (x*sin(theta) + y*cos(theta))i
-
-通过矩阵乘法旋转：
-  [cos(theta)  -sin(theta)] [x]   [x*cos(theta) - y*sin(theta)]
-  [sin(theta)   cos(theta)] [y] = [x*sin(theta) + y*cos(theta)]
+```math
+\begin{aligned}
+&\text{Rotation via complex multiplication:} \\
+&\quad (x + yi)(\cos\theta + i \sin\theta) = (x \cos\theta - y \sin\theta) + (x \sin\theta + y \cos\theta)i \\[8pt]
+&\text{Rotation via matrix multiplication:} \\
+&\quad \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} x \cos\theta - y \sin\theta \\ x \sin\theta + y \cos\theta \end{bmatrix}
+\end{aligned}
 ```
 
 两种方法会得到完全相同的结果。复数乘法就是二维旋转。旋转矩阵不过是用矩阵记法写出的复数乘法。
@@ -187,11 +190,12 @@ graph TD
 
 这个旋转点的实部是 cos(omega*t)，虚部是 sin(omega*t)。正弦信号就是一个旋转复数投下的影子。
 
-```
-e^(i*omega*t) = cos(omega*t) + i*sin(omega*t)
-
-实部：          cos(omega*t)    -- 余弦波
-虚部：          sin(omega*t)    -- 正弦波
+```math
+\begin{aligned}
+e^{i\omega t} &= \cos(\omega t) + i \sin(\omega t) \\[4pt]
+\text{Real part: } & \cos(\omega t) \quad \text{-- a cosine wave} \\
+\text{Imaginary part: } & \sin(\omega t) \quad \text{-- a sine wave}
+\end{aligned}
 ```
 
 相量表示法用一支平滑旋转的箭头代替上下摆动的正弦波。相位偏移变成角度偏移，振幅变化变成模的变化，信号相加则变成向量相加。
@@ -200,8 +204,8 @@ e^(i*omega*t) = cos(omega*t) + i*sin(omega*t)
 
 N 次单位根是单位圆上等间距分布的 N 个点：
 
-```
-w_k = e^(2*pi*i*k/N)    for k = 0, 1, 2, ..., N-1
+```math
+w_k = e^{2\pi i k/N} \quad \text{for } k = 0, 1, 2, \ldots, N-1
 ```
 
 当 N = 4 时，单位根是 1、i、-1、-i（罗盘上的四个基本方向点）。
@@ -213,8 +217,8 @@ w_k = e^(2*pi*i*k/N)    for k = 0, 1, 2, ..., N-1
 
 信号 x[0], x[1], ..., x[N-1] 的离散傅里叶变换为：
 
-```
-X[k] = sum_{n=0}^{N-1} x[n] * e^(-2*pi*i*k*n/N)
+```math
+X[k] = \sum_{n=0}^{N-1} x[n] \, e^{-2\pi i k n/N}
 ```
 
 每个 X[k] 衡量信号与第 k 个单位根——即频率为 k 的复正弦波——的相关程度。DFT 将信号分解为 N 个旋转相量，并告诉你每个相量的振幅和相位。
@@ -239,9 +243,11 @@ X[k] = sum_{n=0}^{N-1} x[n] * e^(-2*pi*i*k*n/N)
 
 **正弦位置编码**（原始 Transformer 论文）：
 
-```
-PE(pos, 2i) = sin(pos / 10000^(2i/d))
-PE(pos, 2i+1) = cos(pos / 10000^(2i/d))
+```math
+\begin{aligned}
+PE(pos, 2i) &= \sin\left(pos / 10000^{2i/d}\right) \\
+PE(pos, 2i+1) &= \cos\left(pos / 10000^{2i/d}\right)
+\end{aligned}
 ```
 
 每一对 sin 和 cos 都是不同频率下复指数的实部和虚部。每个频率都为位置编码提供一种不同的“分辨率”。低频变化缓慢（表示粗粒度位置），高频变化迅速（表示细粒度位置）。它们共同为每个位置赋予一个独一无二的频率指纹。
@@ -443,6 +449,20 @@ freqs = np.fft.fftfreq(128, d=1/128)
 4. **单位根可视化。** 计算 8 次单位根。验证它们的和为零。验证任一单位根乘以本原单位根 e^(2*pi*i/8) 后，都会得到下一个单位根。
 
 5. **与旋转矩阵的等价性。** 对 10 个随机角度和 10 个随机点进行验证，确认复数乘法与使用 2x2 旋转矩阵进行矩阵—向量乘法会得到相同结果。打印最大的数值差异。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Expand the product with $i^2 = -1$, then divide by multiplying the top and the bottom by the conjugate $1 + 3i$. Check the product with `Complex(2, 3) * Complex(4, -1)`: its `magnitude()` must equal the product of the two magnitudes, and its `phase()` must equal the sum of the two phases.
+>
+> **Exercise 2.** Make the step with `euler(math.pi / 6)` and multiply 12 times. At each step, check that the magnitude stays 1 and that the angle grows by 30 degrees. The final point must be within about 1e-12 of (1, 0).
+>
+> **Exercise 3.** Make the time points with $t = n/32$ and call `dft`. Look only at bins 0 to 15, because the upper half is a mirror image. The magnitude at bin $k$ for a sine of amplitude $A$ is $AN/2$, so expect about 16 at bin 3 and about 8 at bin 7.
+>
+> **Exercise 4.** Call `roots_of_unity(8)` and add the roots: the magnitude of the sum must be near 0. Divide each root by the previous root and check that every result equals `euler(2 * math.pi / 8)`.
+>
+> **Exercise 5.** The rotation matrix is [[cos t, -sin t], [sin t, cos t]]. For each angle and point, compute `euler(t) * Complex(x, y)` and the matrix product, then record the largest absolute difference. Expect a value near $10^{-15}$.
 
 ## 关键术语
 

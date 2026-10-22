@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/15-time-series/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 48ffca9e2410801a507c35ebc6769ba0ecf075a51bb943684c219198a75b9d81
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 9e7be648954eb64887647754f4f2347b575f598c2720f82f3fe107cd47fa2ad3
 status: reviewed
 ---
 
@@ -100,8 +100,8 @@ flowchart TD
 
 **如何修复：** 差分。不要建模原值，建模相邻值变化：
 
-```
-diff[t] = value[t] - value[t-1]
+```math
+\text{diff}[t] = \text{value}[t] - \text{value}[t-1]
 ```
 
 一次差分仍不平稳就再次差分（二阶差分）；多数真实序列至多需要两次。

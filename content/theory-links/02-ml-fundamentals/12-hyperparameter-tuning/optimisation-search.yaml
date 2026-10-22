@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/12-hyperparameter-tuning/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: ec61d03f29614e7a330e9fbee1c08deb4da99e42efc6984dc83d55142615ee85
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 9f72e12d7734382f385eb5b5bdefb65f6286284f8483c448a9c548300ed949bb
   anchor:
     heading: Learning Rate Schedulers
     slug: learning-rate-schedulers

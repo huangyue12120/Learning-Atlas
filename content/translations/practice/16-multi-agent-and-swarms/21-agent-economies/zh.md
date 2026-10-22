@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/21-agent-economies/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 0f033e2c2a20d36b6eb6bddb6b3c0a1984bcb813f9714cc4deb503eca7add32b
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: ee3b3d5580a19bb70f612e72a92188b6be640ad652c7aa001bc401bdfda0ade0
 status: reviewed
 ---
 
@@ -72,8 +72,8 @@ Google Research 的“Mechanism design for large language models”提出用二�
 
 绑定 DID 的声誉分数会从已确认贡献中累积。一个简单更新规则是：
 
-```text
-rep(i, t+1) = alpha * rep(i, t) + (1 - alpha) * contribution_quality(i, t)
+```math
+\text{rep}(i, t+1) = \alpha \cdot \text{rep}(i, t) + (1 - \alpha) \cdot \text{contribution\_quality}(i, t)
 ```
 
 其中衰减因子 `alpha` 接近 1。声誉：

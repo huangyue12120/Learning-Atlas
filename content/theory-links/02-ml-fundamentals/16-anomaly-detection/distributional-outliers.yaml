@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/16-anomaly-detection/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: fd2418cd6ece3eb747a71ab926fe1b05f2c1c0e4fb07fafd8506081354a99106
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: efe48f9f7a4642702b5cfc06e9203460097f78b2b115ad72949d8d11518e886e
   anchor:
     heading: Z-Score Method
     slug: z-score-method

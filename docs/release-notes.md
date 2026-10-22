@@ -1,3 +1,28 @@
+# Learning Atlas v0.26.9 发布说明
+
+发布日期：2026-10-22。
+
+本版处理 Issue #30：将 `ai-engineering-from-scratch` 的可复现快照从 `f0c979b98d35f0547fe7a5f9aadf2f25d6c2e375` 更新到 `f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299`。本次上游变更命中 190 篇已登记中文实践译文和 146 条理论关联。
+
+## 本版交付
+
+- 将 190 篇实践译文与上游当前文档重新对齐：数学展示块切换为 LaTeX/KaTeX，保留中文代码和说明，并补齐 22 个新增数学块与 3 个图示占位符。
+- 补入 34 个练习提示和 1 个公式总结；提示以“上游原文，待中文复核”标记，避免把未完成的中文润色误报为已审核译文。
+- 为 5 篇基础设施/安全课程补回 8 个上游新增参考链接，刷新 146 条理论关联的实践来源 revision 与 SHA-256。
+- 同步上游 submodule 指针、README、内容目录说明、内容清单、项目进度及应用 SemVer 至 v0.26.9；实践译文、测验、工作区和理论关联计数保持不变。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1532 条来源指纹）
+- `python3 scripts/check_theory_cards.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py`（报告 Phase 13 新增的 14 节待适配课程；本版不伪造未审核译文）
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+---
+
 # Learning Atlas v0.26.8 发布说明
 
 发布日期：2026-10-15。

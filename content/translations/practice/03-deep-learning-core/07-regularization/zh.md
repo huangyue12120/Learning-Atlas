@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/07-regularization/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: c6e31ead99cce8cf40dda09a94a3a2b95978f162e4fe67bc3f3e1b9763ae170d
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 84ad718024f20861c25fa6394d9b87b1e480bf0bce5a3c278920fc527fbaf0d7
 status: reviewed
 ---
 
@@ -54,8 +54,8 @@ graph LR
 
 这是最简单、解释也最优雅的正则化技术。训练时，以概率 p 将每个神经元的输出随机设为零。
 
-```
-output = activation(z) * mask    where mask[i] ~ Bernoulli(1 - p)
+```math
+\text{output} = \text{activation}(z) \cdot \text{mask} \quad \text{where }\text{mask}[i] \sim \text{Bernoulli}(1 - p)
 ```
 
 当 p = 0.5 时，每次前向传播都会置零一半神经元。网络必须学习冗余表征，因为它无法预测哪些神经元可用。这防止了协同适应（co-adaptation）——神经元学会依赖某些特定其他神经元存在的情况。
@@ -64,9 +64,11 @@ output = activation(z) * mask    where mask[i] ~ Bernoulli(1 - p)
 
 实践中，缩放在训练时而非测试时完成（反向 Dropout）：
 
-```
-During training:  output = activation(z) * mask / (1 - p)
-During testing:   output = activation(z)   (no change needed)
+```math
+\begin{aligned}
+\text{During training:} \quad & \text{output} = \text{activation}(z) \cdot \text{mask} / (1 - p) \\
+\text{During testing:} \quad & \text{output} = \text{activation}(z) \quad \text{(no change needed)}
+\end{aligned}
 ```
 
 这样更简洁，因为测试代码完全不必知道 dropout 的存在。
@@ -77,8 +79,8 @@ During testing:   output = activation(z)   (no change needed)
 
 把所有权重的平方大小加入损失：
 
-```
-total_loss = task_loss + (lambda / 2) * sum(w_i^2)
+```math
+\text{total\_loss} = \text{task\_loss} + \frac{\lambda}{2} \sum_i w_i^2
 ```
 
 正则化项的梯度是 lambda * w。因此在每一步中，每个权重都会按与其大小成正比的比例向零收缩。大权重受到的惩罚更强，模型被推向没有单一权重占主导的解。
@@ -99,11 +101,13 @@ total_loss = task_loss + (lambda / 2) * sum(w_i^2)
 
 对于某一层的一批激活值：
 
-```
-mu = (1/B) * sum(x_i)           (batch mean)
-sigma^2 = (1/B) * sum((x_i - mu)^2)   (batch variance)
-x_hat = (x_i - mu) / sqrt(sigma^2 + eps)   (normalize)
-y = gamma * x_hat + beta        (scale and shift)
+```math
+\begin{aligned}
+\mu &= \frac{1}{B} \sum_i x_i && \text{(batch mean)} \\
+\sigma^2 &= \frac{1}{B} \sum_i (x_i - \mu)^2 && \text{(batch variance)} \\
+\hat{x} &= \frac{x_i - \mu}{\sqrt{\sigma^2 + \epsilon}} && \text{(normalize)} \\
+y &= \gamma \hat{x} + \beta && \text{(scale and shift)}
+\end{aligned}
 ```
 
 Gamma 和 beta 是可学习参数，允许网络在最佳时撤销归一化。没有它们，你会强制每层输出都是零均值、单位方差，而这未必是网络需要的。
@@ -118,11 +122,13 @@ BatchNorm 有根本限制：它依赖批统计量。批量大小为 1 时，均�
 
 沿特征维度而非批次维度归一化。对于单个样本：
 
-```
-mu = (1/D) * sum(x_j)           (feature mean)
-sigma^2 = (1/D) * sum((x_j - mu)^2)   (feature variance)
-x_hat = (x_j - mu) / sqrt(sigma^2 + eps)
-y = gamma * x_hat + beta
+```math
+\begin{aligned}
+\mu &= \frac{1}{D} \sum_j x_j && \text{(feature mean)} \\
+\sigma^2 &= \frac{1}{D} \sum_j (x_j - \mu)^2 && \text{(feature variance)} \\
+\hat{x} &= \frac{x_j - \mu}{\sqrt{\sigma^2 + \epsilon}} \\
+y &= \gamma \hat{x} + \beta
+\end{aligned}
 ```
 
 D 是特征维度。每个样本都独立归一化，不依赖批量大小。这正是 Transformer 使用 LayerNorm 而非 BatchNorm 的原因：序列长度可变，批量通常很小（生成时甚至为 1），并且训练与推理的计算完全相同。
@@ -133,9 +139,11 @@ Transformer 在每个自注意力块和每个前馈块之后应用 LayerNorm（P
 
 LayerNorm 去掉均值减法后的形式，由 Zhang 与 Sennrich（2019）提出。
 
-```
-rms = sqrt((1/D) * sum(x_j^2))
-y = gamma * x / rms
+```math
+\begin{aligned}
+\text{rms} &= \sqrt{\frac{1}{D} \sum_j x_j^2} \\
+y &= \gamma \cdot \frac{x}{\text{rms}}
+\end{aligned}
 ```
 
 仅此而已：不计算均值，也没有 beta 参数。其观察是，LayerNorm 的重新居中（减去均值）对模型性能贡献很小，却需要计算成本。去掉它能在准确率相同的条件下减少约 10% 的开销。

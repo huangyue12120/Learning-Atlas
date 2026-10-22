@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/07-actor-critic-a2c-a3c/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: d57df3347b10a07e55f83e04d3a9b405d9d4a74cb45410a1b7aa89f18a1aa7a3
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 58b0e312782909875a3f6b80d3e9a3a89b59b1ecc7dfd5f8ea6df0bdaecc2fb3
 status: reviewed
 ---
 
@@ -64,6 +64,18 @@ status: reviewed
 
 它包含三项：策略梯度损失、价值回归和熵奖励。常用起始值为 `c_v 约 0.5`、`c_e 约 0.01`。
 
+```math
+A(s, a) = G - \hat{V}(s)
+```
+```math
+A_t^{(n)} = r_{t+1} + \gamma r_{t+2} + \ldots + \gamma^{n-1} r_{t+n} + \gamma^n V_\phi(s_{t+n}) - V_\phi(s_t)
+```
+```math
+A_t^{\text{GAE}} = \sum_{l=0}^{\infty} (\gamma \lambda)^l \delta_{t+l}
+```
+```math
+L(\theta, \phi) = -\mathbb{E}[ A_t \cdot \log \pi_\theta(a_t \mid s_t) ] + c_v \cdot \mathbb{E}[(V_\phi(s_t) - G_t)^2] - c_e \cdot \mathbb{E}[H(\pi_\theta(\cdot \mid s_t))]
+```
 ```figure
 actor-critic
 ```

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/09-learning-rate-schedules/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 192874a3732b8f75bf87c252b2cabefb58a8df22db14a5ca0118bf8e812e2551
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 3c620f39d741127312a99239911de117781001a138d2264fac99bc3debbb1268
   anchor:
     heading: "Warmup: Why You Start Small"
     slug: warmup-why-you-start-small

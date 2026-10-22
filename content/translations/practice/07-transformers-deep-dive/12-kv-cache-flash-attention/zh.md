@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/12-kv-cache-flash-attention/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: b93352bcfa28b0ae8b1a60fe52a6078d37066e2df8b291c428fa3422a4ab79dc
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 3a6e3e4bba6a0dccd6e1eed4a8e38d784f47d2b3e45b407e3d745b073a3edcce
 status: reviewed
 ---
 
@@ -143,6 +143,9 @@ flash-attention-memory
 
 ### 第 1 步：KV 缓存
 
+```figure
+iso-machine {"machine":"kv-cache"}
+```
 ```python
 class KVCache:
     def __init__(self, n_layers, n_heads, d_head):

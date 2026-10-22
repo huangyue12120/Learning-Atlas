@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/18-multi-token-prediction/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 5147945b9cea6351169e38c9bea631ed9769807fa4858f257b4e0f789139472d
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 390909f35b47294d57064a5663d646b6625ee4519723edc6d9e40861cd0b6983
 status: reviewed
 ---
 
@@ -50,27 +50,29 @@ DeepSeek-V3 在主模型之上增加 `D` 个 MTP 模块。每个模块 `k`（`k 
 
 训练时，对于截至位置 `i` 的前缀，每个深度的隐藏状态为：
 
-```
-h_i^(0) = main model backbone at position i
-h_i^(k) = T_k( M_k * concat(RMSNorm(h_i^(k-1)), RMSNorm(E(t_{i+k}))) )   for k >= 1
+```math
+\begin{aligned}
+h_i^{(0)} &= \text{main model backbone at position } i \\
+h_i^{(k)} &= T_k\Big( M_k \cdot \mathop{\mathrm{concat}}\big(\mathop{\mathrm{RMSNorm}}(h_i^{(k-1)}), \mathop{\mathrm{RMSNorm}}(E(t_{i+k}))\big) \Big) \quad \text{for } k \ge 1
+\end{aligned}
 ```
 
 每个深度的预测为：
 
-```
-logits_{i+k} = Out(h_i^(k-1))   for k = 1..D
+```math
+\text{logits}_{i+k} = \mathop{\mathrm{Out}}(h_i^{(k-1)}) \quad \text{for } k = 1, \ldots, D
 ```
 
 每个深度都针对真实词元 `t_{i+k}` 计算交叉熵：
 
-```
-L_k = CE(logits_{i+k}, t_{i+k})
+```math
+L_k = \mathop{\mathrm{CE}}(\text{logits}_{i+k}, t_{i+k})
 ```
 
 跨深度的联合损失为：
 
-```
-L_MTP = (lambda / D) * sum_{k=1..D} L_k
+```math
+L_{\text{MTP}} = \frac{\lambda}{D} \sum_{k=1}^{D} L_k
 ```
 
 `lambda` 是较小的权重因子——DeepSeek-V3 在训练开始的 10% 使用 0.3，之后使用 0.1。总训练损失为 `L_main + L_MTP`。

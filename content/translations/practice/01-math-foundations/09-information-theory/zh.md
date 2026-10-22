@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/09-information-theory/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 56e2b277862358e636e71058ac13e9cd31366d39105702aa91570844e1e38953
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 8b84ff00a2032ab036003c7f938423ec22fe180180406efa1ca02e5ddf7c723f
 status: reviewed
 ---
 
@@ -41,8 +41,8 @@ status: reviewed
 
 概率为 p 的事件，其信息量为：
 
-```
-I(x) = -log(p(x))
+```math
+I(x) = -\log(p(x))
 ```
 
 以 2 为底的对数给出 bits。自然对数给出 nats。思想相同，单位不同。
@@ -61,15 +61,17 @@ Certain event      1.0            0.0
 
 熵是一个分布所有可能结果的期望惊奇。
 
-```
-H(P) = -sum( p(x) * log(p(x)) )  for all x
+```math
+H(P) = -\sum_{x} p(x) \log(p(x))
 ```
 
 对于二元变量，公平硬币具有最大熵：1 bit。偏置硬币（99% 为正面）的熵很低：0.08 bits。你已经知道大概会发生什么，所以每次抛掷几乎不会告诉你任何信息。
 
-```
-Fair coin:    H = -(0.5 * log2(0.5) + 0.5 * log2(0.5)) = 1.0 bit
-Biased coin:  H = -(0.99 * log2(0.99) + 0.01 * log2(0.01)) = 0.08 bits
+```math
+\begin{aligned}
+\text{Fair coin:} \quad & H = -(0.5 \log_2(0.5) + 0.5 \log_2(0.5)) = 1.0 \text{ bit} \\
+\text{Biased coin:} \quad & H = -(0.99 \log_2(0.99) + 0.01 \log_2(0.01)) = 0.08 \text{ bits}
+\end{aligned}
 ```
 
 熵衡量分布中不可约的不确定性。你无法将数据压缩到低于这个下限。
@@ -78,16 +80,16 @@ Biased coin:  H = -(0.99 * log2(0.99) + 0.01 * log2(0.01)) = 0.08 bits
 
 交叉熵衡量这样的平均惊奇：事件来自分布 P，你却使用分布 Q 来编码它们。
 
-```
-H(P, Q) = -sum( p(x) * log(q(x)) )  for all x
+```math
+H(P, Q) = -\sum_{x} p(x) \log(q(x))
 ```
 
 P 是真实分布（标签）。Q 是模型的预测。如果 Q 与 P 完全匹配，交叉熵就等于熵。任何失配都会使它变大。
 
 在分类中，P 是 one-hot 向量（真实类别的概率为 1，其他类别都为 0）。交叉熵因此简化为：
 
-```
-H(P, Q) = -log(q(true_class))
+```math
+H(P, Q) = -\log(q(\text{true\_class}))
 ```
 
 这给出了分类任务的完整交叉熵损失公式：最大化正确类别的预测概率。
@@ -96,9 +98,11 @@ H(P, Q) = -log(q(true_class))
 
 KL 散度衡量使用 Q 代替 P 会带来多少额外惊奇。
 
-```
-D_KL(P || Q) = sum( p(x) * log(p(x) / q(x)) )  for all x
-             = H(P, Q) - H(P)
+```math
+\begin{aligned}
+D_{KL}(P \,\|\, Q) &= \sum_{x} p(x) \log(p(x) / q(x)) \\
+&= H(P, Q) - H(P)
+\end{aligned}
 ```
 
 交叉熵等于熵加 KL 散度。由于训练期间真实分布的熵是常量，最小化交叉熵就等同于最小化 KL 散度。你正在把模型分布推向真实分布。
@@ -109,9 +113,11 @@ KL 散度不对称：D_KL(P || Q) != D_KL(Q || P)。它并不是真正的距离�
 
 互信息衡量知道一个变量能告诉你多少关于另一个变量的信息。
 
-```
-I(X; Y) = H(X) - H(X|Y)
-        = H(X) + H(Y) - H(X, Y)
+```math
+\begin{aligned}
+I(X; Y) &= H(X) - H(X \mid Y) \\
+&= H(X) + H(Y) - H(X, Y)
+\end{aligned}
 ```
 
 如果 X 和 Y 独立，互信息为零。知道其中一个不会告诉你任何关于另一个的信息。如果它们完全相关，互信息就等于任一变量的熵。
@@ -122,8 +128,8 @@ I(X; Y) = H(X) - H(X|Y)
 
 H(Y|X) 衡量观察 X 之后，关于 Y 还剩下多少不确定性。
 
-```
-H(Y|X) = H(X,Y) - H(X)
+```math
+H(Y \mid X) = H(X,Y) - H(X)
 ```
 
 两种极端情况：
@@ -133,8 +139,8 @@ H(Y|X) = H(X,Y) - H(X)
 
 条件熵总是非负，并且不超过 H(Y)：
 
-```
-0 <= H(Y|X) <= H(Y)
+```math
+0 \le H(Y \mid X) \le H(Y)
 ```
 
 在机器学习中，条件熵会出现在决策树里。每次分裂时，算法都会选择使 H(Y|X) 最小的特征 X，也就是能消除最多标签 Y 不确定性的特征。
@@ -143,14 +149,14 @@ H(Y|X) = H(X,Y) - H(X)
 
 H(X,Y) 是 X 和 Y 的联合分布整体的熵。
 
-```
-H(X,Y) = -sum sum p(x,y) * log(p(x,y))   for all x, y
+```math
+H(X,Y) = -\sum_{x} \sum_{y} p(x,y) \log(p(x,y))
 ```
 
 关键性质：
 
-```
-H(X,Y) <= H(X) + H(Y)
+```math
+H(X,Y) \le H(X) + H(Y)
 ```
 
 当 X 和 Y 独立时等号成立。如果它们共享信息，联合熵就小于各自熵之和。“缺少”的那部分熵恰好就是互信息。
@@ -188,11 +194,13 @@ graph TD
 
 互信息 I(X;Y) 量化知道一个变量会让另一个变量的不确定性减少多少。
 
-```
-I(X;Y) = H(X) - H(X|Y)
-       = H(Y) - H(Y|X)
-       = H(X) + H(Y) - H(X,Y)
-       = sum sum p(x,y) * log(p(x,y) / (p(x) * p(y)))
+```math
+\begin{aligned}
+I(X;Y) &= H(X) - H(X \mid Y) \\
+&= H(Y) - H(Y \mid X) \\
+&= H(X) + H(Y) - H(X,Y) \\
+&= \sum_{x} \sum_{y} p(x,y) \log\left(\frac{p(x,y)}{p(x) \, p(y)}\right)
+\end{aligned}
 ```
 
 性质：
@@ -220,8 +228,8 @@ I(X;Y) = H(X) - H(X|Y)
 
 标准分类使用硬目标：[0, 0, 1, 0]。真实类别的概率为 1，其他所有类别的概率为 0。标签平滑将它们替换成软目标：
 
-```
-soft_target = (1 - epsilon) * hard_target + epsilon / num_classes
+```math
+\text{soft\_target} = (1 - \epsilon) \cdot \text{hard\_target} + \epsilon / \text{num\_classes}
 ```
 
 当 epsilon = 0.1 且有 4 个类别时：
@@ -240,8 +248,8 @@ soft_target = (1 - epsilon) * hard_target + epsilon / num_classes
 
 使用标签平滑时，交叉熵损失变为：
 
-```
-L = (1 - epsilon) * CE(hard_target, prediction) + epsilon * H_uniform(prediction)
+```math
+L = (1 - \epsilon) \cdot \text{CE}(\text{hard\_target}, \text{prediction}) + \epsilon \cdot H_{\text{uniform}}(\text{prediction})
 ```
 
 第二项会惩罚远离均匀分布的预测，也就是直接正则化置信度。
@@ -254,10 +262,12 @@ L = (1 - epsilon) * CE(hard_target, prediction) + epsilon * H_uniform(prediction
 
 **最大似然视角。** 对于 N 个真实类别为 y_i 的训练样本：
 
-```
-Likelihood     = product( q(y_i) )
-Log-likelihood = sum( log(q(y_i)) )
-Negative log-likelihood = -sum( log(q(y_i)) )
+```math
+\begin{aligned}
+\text{Likelihood} &= \prod_i q(y_i) \\
+\text{Log-likelihood} &= \sum_i \log(q(y_i)) \\
+\text{Negative log-likelihood} &= -\sum_i \log(q(y_i))
+\end{aligned}
 ```
 
 最后一行就是交叉熵损失。最小化交叉熵 = 最大化模型下训练数据的似然。
@@ -280,9 +290,11 @@ log base 10  -> hartleys  (rarely used)
 
 困惑度是交叉熵的指数。它表示模型无法确定的、等概率选择的有效数量。
 
-```
-Perplexity = 2^H(P,Q)   (if using bits)
-Perplexity = e^H(P,Q)   (if using nats)
+```math
+\begin{aligned}
+\text{Perplexity} &= 2^{H(P,Q)} \quad \text{(if using bits)} \\
+\text{Perplexity} &= e^{H(P,Q)} \quad \text{(if using nats)}
+\end{aligned}
 ```
 
 困惑度为 50 的语言模型，平均而言就像它必须从 50 个可能的下一个词元中均匀选择一样困惑。困惑度越低越好。
@@ -464,6 +476,18 @@ print(f"KL div:     {np_kl_divergence(true, pred):.4f} nats")
 3. 证明 KL 散度不对称。选择两个分布 P 和 Q，计算 D_KL(P || Q) 与 D_KL(Q || P)，并解释它们为什么不同。
 
 4. 构建一个函数，计算一系列词元预测的困惑度。给定一个由 (true_token_index, predicted_logits) 对组成的列表，返回该序列的困惑度。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Call `entropy` with 26 equal probabilities; the result must be $\log_2 26 \approx 4.70$ bits. Real letter frequencies are not uniform, so the entropy with them must be lower.
+>
+> **Exercise 2.** Compute `softmax` of the logits, then $-\ln$ of the probability at index 1, and compare with `cross_entropy_loss(1, logits)`; both must be close to 3.06. The loss approaches 0 only when the logit for class 1 is much larger than the other two.
+>
+> **Exercise 3.** Use two small distributions with different shapes, for example $P = [0.9, 0.1]$ and $Q = [0.5, 0.5]$, and call `kl_divergence` in both orders. The two values must differ, because each direction weights the log ratio by a different distribution.
+>
+> **Exercise 4.** For each pair, compute `cross_entropy_loss(true_token_index, predicted_logits)`, take the mean, and pass it to `perplexity`. Check with uniform logits over $V$ tokens: the perplexity must be $V$.
 
 ## 关键术语
 

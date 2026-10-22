@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/07-unsupervised-learning/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 5e26db25c8145c483fe715d119cb472956305f42597061fc5841a1838999af38
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 9f589f12b059d6d1b6044772c6479c01fbd0b7b330443145f31009f56828874d
 status: reviewed
 ---
 

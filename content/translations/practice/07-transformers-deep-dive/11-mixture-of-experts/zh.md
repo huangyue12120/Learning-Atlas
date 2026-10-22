@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/11-mixture-of-experts/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 9cad0d164da113440d4ed64d0ac4c32d79af89a2a6ffd5126fe28a24f538700c
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 7801fdf5b6d89d5c46e12b92b63627af823b9fd38117a001e8f6fb79bb6b2ca4
 status: reviewed
 ---
 

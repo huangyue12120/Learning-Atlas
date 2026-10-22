@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/09-qwen-vl-family-dynamic-fps/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 9591f7b9c113bd233f066804f4ba79127cac3a1aaef1bf99db613b7c75e5dd54
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: cc35b7c50ac6789d3b47b99aec1aca6d6596df2d682f1524dc02c0ff4e86d854
 status: reviewed
 ---
 
@@ -82,10 +82,12 @@ Qwen3-VL 是一次巩固而非重造：更大的 LLM 骨干（Qwen3-72B）、扩
 
 经典 RoPE 使用成对坐标，根据位置 `m` 旋转维度为 `d` 的 query `q`：
 
-```
-q_rot[2i]   = q[2i]   * cos(m * theta_i) - q[2i+1] * sin(m * theta_i)
-q_rot[2i+1] = q[2i]   * sin(m * theta_i) + q[2i+1] * cos(m * theta_i)
-theta_i     = 10000^(-2i/d)
+```math
+\begin{aligned}
+q_{\text{rot}}[2i] &= q[2i] \cos(m \theta_i) - q[2i+1] \sin(m \theta_i) \\
+q_{\text{rot}}[2i+1] &= q[2i] \sin(m \theta_i) + q[2i+1] \cos(m \theta_i) \\
+\theta_i &= 10000^{-2i/d}
+\end{aligned}
 ```
 
 M-RoPE 将隐藏维度分成三个带。设 `d = 96`，给时间、高度、宽度各分配 32 个维度。每个带按自己的轴位置旋转。位于（t=5、h=10、w=20）的图像块，会在三个带上分别应用旋转 `R_t(5)`、`R_h(10)`、`R_w(20)`。

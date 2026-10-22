@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/13-building-complete-llm-pipeline/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 4e36ed61b55f577852709ebd4b3ea3988e47ebe5daf7355ec55a06391de26b96
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 8b040d977ac562106f2a65dc13d5a9e092e7768c8e89a0cc0ea5c4e5b6d7cac3
 status: reviewed
 ---
 

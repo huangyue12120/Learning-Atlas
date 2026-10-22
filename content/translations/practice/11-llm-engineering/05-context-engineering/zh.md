@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/05-context-engineering/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 778ebedaa18baad1af5409b500b174f1809d215fcc20a48960e8ad6324eb50a6
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: bb343a1aef4b46455524b753f7575d7e35c9e3d7185b7023746898f46fafcde2
 status: reviewed
 ---
 

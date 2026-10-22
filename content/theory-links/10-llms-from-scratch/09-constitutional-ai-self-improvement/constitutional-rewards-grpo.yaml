@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/09-constitutional-ai-self-improvement/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: df41ca148d4abf46b736a89e1bd5391248dcccd7267acb8e0fafc3b3213b18d4
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: af0f34ce409d3d83826fc41709188800bf84cf85318afb30884fa064752543ab
   anchor:
     heading: The Concept
     slug: the-concept

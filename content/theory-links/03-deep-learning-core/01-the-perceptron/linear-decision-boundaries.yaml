@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/01-the-perceptron/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: ab8e9fbfe5bcb8328d915987f8ca588e1b3bccd946a789e4b8bb983e6c78284a
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 29d3bb53bedc92067c1a2f571f619bf1d9b58e797ce547798b1154f9e739a8e7
   anchor:
     heading: The Decision Boundary
     slug: the-decision-boundary

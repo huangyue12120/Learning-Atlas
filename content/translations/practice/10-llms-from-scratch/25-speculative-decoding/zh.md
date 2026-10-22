@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/25-speculative-decoding/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: dba09da1fd8d377afcef9e7197e9c80cfcf8bcef10ab9de547905a900301edd0
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: d51b4648a1ae71114397ce34c64a33f39a2db8bd7fd06e4333073ac3d20703cb
 status: reviewed
 ---
 
@@ -64,8 +64,8 @@ For each drafted token x_t:
 
 如果草稿模型的词元级接受率为 `α`，每次目标前向预计生成的词元数为：
 
-```
-E[tokens] = (1 - α^{K+1}) / (1 - α)        # K = draft length, α in [0, 1]
+```math
+\mathbb{E}[\text{tokens}] = \frac{1 - \alpha^{K+1}}{1 - \alpha} \qquad K = \text{draft length}, \ \alpha \in [0, 1]
 ```
 
 当 `α = 0.8, K = 4` 时：`(1 - 0.8^5)/(1 - 0.8) = 3.36` 个词元/次前向。一次目标前向的成本约为 `cost_q * K + cost_p`（K 次草稿步骤加一次目标验证）。如果 `cost_p >> cost_q * K`，吞吐量加速比就是 `3.36× / 1 = 3.36×`。

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/13-python-for-ai-engineering/docs/en.md
-  revision: 56c886c8821fc488b6f9608895c983d18f0d1ea3
-  sha256: 6e9509d7b4e11d680f659257d60b76070dba72a8f1b4762c5042b810e6eceb02
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: f8995bff8d2189e09fc41ec32c9eb6594653e1f19a9053d1c77c7abd8d41b938
 status: reviewed
 ---
 
@@ -1070,6 +1070,20 @@ NumPy 从最后一个维度向第一个维度比较两个形状。当两个维�
 3. 编写 `stream_records(path)`，让生成器从 CSV 文件逐条产生 `Record`。创建包含 200,000 行的文件，用 `tracemalloc` 比较 `stream_records` 与 `load_records` 的峰值内存。
 4. 分别用纯 Python 和 NumPy 编写 `matvec(matrix, vector)`，对规模 4、64、1024 用 `best_time` 测量，找出 NumPy 在你机器上开始更快的规模。
 5. 重现“概念”中的构造扫描：对 `phases/*/*/code/*.py` 的每个文件使用 `ast.parse` 和 `ast.walk`，统计包含 `ast.ListComp`、`ast.Yield` 和 `ast.With` 的文件，并与表格比较。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Import `run_demo` from `code/main.py` and call it with `seed=7` and with `seed=8`, then print both results with `format_report`. The values that come from random data change; the split sizes depend only on `n` and `test_fraction`, so they stay the same.
+>
+> **Exercise 2.** Sort a copy of the list first, then take the middle item for odd lengths and the mean of the two middle items for even lengths. Compare your result with `statistics.median` on lists such as `[3, 1, 2]` and `[4, 1, 3, 2]`; both must give the same numbers.
+>
+> **Exercise 3.** Read `load_records` in `code/main.py` and keep its parsing step, but `yield` each `Record` instead of appending it to a list. Use `save_records` with `make_dataset(200_000)` to make the file, then compare `peak_bytes(lambda: load_records(path))` with `peak_bytes(lambda: sum(1 for _ in your_generator(path)))`. The generator must be consumed inside the callable, or `peak_bytes` measures only its creation. It must report a much smaller peak.
+>
+> **Exercise 4.** Use `dot` as the model for the pure Python version and call it once for each row, then use `np.array(matrix) @ np.array(vector)` for NumPy. Time both with `best_time` and print one table row for each size; the two results must be equal before you compare the times.
+>
+> **Exercise 5.** Read each file with `Path.read_text`, parse it with `ast.parse`, and use `any(isinstance(node, ast.ListComp) for node in ast.walk(tree))` to test one construct. Count each file one time, because the table in The Concept counts files.
 
 ## 关键术语
 

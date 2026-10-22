@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/17-linear-systems/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: de9a2c0f1e09351e6061834a651110bdab18ae3df534315ea2a62a33a156af49
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: cea0c20a413a89c9ab39e31480f1a83334d611d32cc682652d423ba268b573e7
 status: reviewed
 ---
 # 线性方程组
@@ -159,12 +159,14 @@ A = L @ U
 
 为何分解而不只做消元？因为一旦得到 L 和 U，对任意新的 b 求解 Ax = b 只需 O(n^2)：
 
-```
-Ax = b
-LUx = b
-令 y = Ux：
-  Ly = b    （前代，O(n^2)）
-  Ux = y    （回代，O(n^2)）
+```math
+\begin{aligned}
+Ax &= b \\
+LUx &= b \\
+&\text{Let } y = Ux\text{:} \\
+Ly &= b \quad \text{(forward substitution, } O(n^2)\text{)} \\
+Ux &= y \quad \text{(back substitution, } O(n^2)\text{)}
+\end{aligned}
 ```
 
 O(n^3) 的成本只在分解时支付一次，之后每次求解都是 O(n^2)。若要对相同的 A、不同的 b 向量求解 1000 个方程组，LU 可将总工作量节省约 1000/3 倍。
@@ -243,7 +245,7 @@ minimize ||Ax - b||^2
 
 最小值点满足正规方程：
 
-```
+```math
 A^T A x = A^T b
 ```
 
@@ -269,18 +271,22 @@ A^T A = | 4  10 |    A^T b = | 22 |
 
 两者的联系完全等价。在线性回归中，数据矩阵 X 的每行对应一个样本，每列对应一个特征；目标向量 y 每个样本有一个元素。权重向量 w 满足：
 
-```
-X^T X w = X^T y
-w = (X^T X)^(-1) X^T y
+```math
+\begin{aligned}
+X^T X w &= X^T y \\
+w &= (X^T X)^{-1} X^T y
+\end{aligned}
 ```
 
 这给出线性回归的闭式解。每次调用 `sklearn.linear_model.LinearRegression.fit()` 都是在计算它，或借助 QR、SVD 的等价形式计算它。
 
 在矩阵中加入正则项 lambda * I，就得到岭回归：
 
-```
-(X^T X + lambda * I) w = X^T y
-w = (X^T X + lambda * I)^(-1) X^T y
+```math
+\begin{aligned}
+(X^T X + \lambda I) w &= X^T y \\
+w &= (X^T X + \lambda I)^{-1} X^T y
+\end{aligned}
 ```
 
 正则化使矩阵的条件更好（更容易精确求逆），并通过把权重向零收缩来防止过拟合。当 lambda > 0 时，矩阵 X^T X + lambda * I 始终对称正定，因此可用 Cholesky 求解。
@@ -289,10 +295,11 @@ w = (X^T X + lambda * I)^(-1) X^T y
 
 伪逆 A+ 将矩阵求逆推广到非方阵和奇异矩阵。对任意矩阵 A：
 
-```
-x = A+ b
-
-其中 A+ = V Sigma+ U^T    （通过 SVD 计算）
+```math
+\begin{aligned}
+x &= A^+ b \\[4pt]
+\text{where } A^+ &= V \Sigma^+ U^T \quad \text{(computed via SVD)}
+\end{aligned}
 ```
 
 Sigma+ 的构造方式是：对每个非零奇异值取倒数，再将结果转置。若 A = U Sigma V^T，则 A+ = V Sigma+ U^T。
@@ -319,8 +326,8 @@ NumPy 的 `np.linalg.lstsq` 和 `np.linalg.pinv` 都在内部使用 SVD。
 
 条件数度量解对于输入微小变化的敏感程度。矩阵 A 的条件数为：
 
-```
-kappa(A) = ||A|| * ||A^(-1)|| = sigma_max / sigma_min
+```math
+\kappa(A) = \lVert A \rVert \cdot \lVert A^{-1} \rVert = \frac{\sigma_{\max}}{\sigma_{\min}}
 ```
 
 其中 sigma_max 和 sigma_min 分别为最大和最小奇异值。
@@ -567,6 +574,20 @@ print(f"Ridge weights (sklearn): {ridge_sk.coef_}")
 4. 为一个 100×100 的随机对称正定矩阵实现共轭梯度算法。统计它收敛到容差 `1e-8` 所需的迭代次数，并与理论上最多 n 次迭代进行比较。
 
 5. 在大小为 10、50、200、500 的对称正定矩阵上，测量你的 Cholesky 求解器、LU 求解器与 `np.linalg.solve` 的时间，绘制结果。验证 Cholesky 约比 LU 快两倍。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Call `gaussian_elimination(A, b)`, then `lu_decompose(A)` followed by `lu_solve(P, L, U, b)`, then `np.linalg.solve(A, b)`. Check each answer with `np.allclose(A @ x, b)` and compare the three answers with `np.allclose`.
+>
+> **Exercise 2.** Use `least_squares_normal` for the normal equations and the three NumPy functions for the other methods. All four answers should be close to `w_true`. Compare `condition_number(X.T @ X)` with `condition_number(X)`: the first is the square of the second, so the normal equations lose the most precision.
+>
+> **Exercise 3.** Expect a condition number above $10^{9}$. Solve with `np.linalg.solve` and with `ridge_regression(A, b, 0.01)`, then compare `np.linalg.norm(x)` and the residual norm for each. Both residuals can be small, but the solution without regularization usually has very large entries.
+>
+> **Exercise 4.** Make a symmetric positive definite matrix with `B @ B.T + n * np.eye(n)`, so that every eigenvalue is positive. Add a counter to the loop in your copy of `conjugate_gradient`, then check that the final residual norm is below 1e-8 and that the count is at most 100.
+>
+> **Exercise 5.** Use the same `B @ B.T + n * np.eye(n)` matrices for all three solvers and time each solve with `time.perf_counter`, taking the best of several runs. Cholesky needs about half the arithmetic of LU, so the ratio is clearest at the larger sizes.
 
 ## 关键术语
 

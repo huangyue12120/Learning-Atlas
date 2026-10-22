@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/76-collective-ops-from-scratch/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 5c74cbb072342537be758bdb9588ff65914c1e183f35468e4eba076ccaf10308
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: bad323e0c9609c87e0a6c95801fc236faf43c2e630f21b27468535b6cedfa080
 status: reviewed
 ---
 

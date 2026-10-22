@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/19-visual-autoregressive-var/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: e7444b2327b8996ed0a0a266833e7ae86822f1add71474db7e045a6194011eb2
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 2027fd1e8921fb2b90bc93eaf9468320416ba4c3b633e6da4a3fca2d505269e3
 status: reviewed
 ---
 
@@ -44,8 +44,8 @@ f -> 在 (H/p)x(W/p) 上分词：形状为 (H/p, W/p) 的词元网格 z_K
 
 每个 z_k 使用同一个码本，典型大小为 4096～16384。各尺度的分词并不独立，训练目标是让各尺度残差之和重建 f：
 
-```
-f ≈ upsample(embed(z_1), target_size) + ... + upsample(embed(z_K), target_size)
+```math
+f \approx \mathop{\mathrm{upsample}}(\mathop{\mathrm{embed}}(z_1), \text{target\_size}) + \cdots + \mathop{\mathrm{upsample}}(\mathop{\mathrm{embed}}(z_K), \text{target\_size})
 ```
 
 这是一种**残差 VQ** 变体。尺度 k 捕获尺度 1..k-1 遗漏的内容。解码器接收所有尺度嵌入之和并生成图像。

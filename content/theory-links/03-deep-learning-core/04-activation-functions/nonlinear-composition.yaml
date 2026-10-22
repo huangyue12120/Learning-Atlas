@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/04-activation-functions/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: da086a041c9bd97f2465a02c2f3a877eb997969ef5e39f9b8d9585f38370aca3
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: ed99907cec27dbee8438480e4d905ae77e1afc46c3773fb81ee1f80ef110f7f9
   anchor:
     heading: Why Nonlinearity Is Necessary
     slug: why-nonlinearity-is-necessary

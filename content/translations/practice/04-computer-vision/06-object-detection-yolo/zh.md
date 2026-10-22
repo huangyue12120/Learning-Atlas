@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/06-object-detection-yolo/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 2274e5867a4df25fb17a700b8ad129fa6a45b6eb1aebf0673af7a2bc95bb2a79
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: aa1f2f8876fad7cf42796fc787dd143143f2d6e2da40b823fbf41c9108f14b85
 status: reviewed
 ---
 
@@ -85,11 +85,13 @@ flowchart LR
 
 原始 `tx, ty, tw, th` 不是框坐标；绘制前需变换：
 
-```
-中心 x  = (sigmoid(tx) + cell_x) * stride
-中心 y  = (sigmoid(ty) + cell_y) * stride
-宽度    = anchor_w * exp(tw)
-高度    = anchor_h * exp(th)
+```math
+\begin{aligned}
+\text{centre } x &= (\sigma(t_x) + \text{cell}_x) \cdot \text{stride} \\
+\text{centre } y &= (\sigma(t_y) + \text{cell}_y) \cdot \text{stride} \\
+\text{width} &= \text{anchor}_w \cdot \exp(t_w) \\
+\text{height} &= \text{anchor}_h \cdot \exp(t_h)
+\end{aligned}
 ```
 
 `sigmoid` 将中心偏移限制在单元内，`exp` 允许宽高相对锚框自由缩放且不反号，`stride` 将网格坐标缩回像素。自 YOLO v2 以来，每个 YOLO 版本都有相同解码步骤。
@@ -98,8 +100,8 @@ flowchart LR
 
 两个框之间的通用相似度指标：
 
-```
-IoU(A, B) = area(A intersect B) / area(A union B)
+```math
+\mathrm{IoU}(A, B) = \frac{\mathop{\mathrm{area}}(A \cap B)}{\mathop{\mathrm{area}}(A \cup B)}
 ```
 
 IoU = 1 表示完全相同，IoU = 0 表示无重叠。预测框与真值框的 IoU 决定预测是否为真阳性（通常 IoU >= 0.5）；两个预测间的 IoU 用于 NMS 去重。
@@ -124,11 +126,13 @@ NMS(boxes, scores, iou_threshold)：
 
 YOLO 损失是三类损失按权重求和：
 
-```
-L = lambda_coord * L_box(pred, target, where obj=1)
-  + lambda_obj   * L_obj(pred, 1,     where obj=1)
-  + lambda_noobj * L_obj(pred, 0,     where obj=0)
-  + lambda_cls   * L_cls(pred, target, where obj=1)
+```math
+\begin{aligned}
+L = {} & \lambda_{\text{coord}} \cdot L_{\text{box}}(\text{pred}, \text{target}, \text{where obj}=1) \\
++ {} & \lambda_{\text{obj}} \cdot L_{\text{obj}}(\text{pred}, 1, \text{where obj}=1) \\
++ {} & \lambda_{\text{noobj}} \cdot L_{\text{obj}}(\text{pred}, 0, \text{where obj}=0) \\
++ {} & \lambda_{\text{cls}} \cdot L_{\text{cls}}(\text{pred}, \text{target}, \text{where obj}=1)
+\end{aligned}
 ```
 
 只有含物体的单元参与框回归和分类损失；无物体单元只参与目标性损失（教模型保持沉默）。`lambda_noobj` 通常较小（约 0.5），否则绝大多数空单元会支配总损失。

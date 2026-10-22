@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/07-docker-for-ai/docs/en.md
-  revision: 0285d9bd92bc95d56ba79bed2071be6fb3365369
-  sha256: 7010d2e2c5d90012f328cee7e51ba8d18660582048dc8311ead1885c6455d952
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 1ed8ca02231e4ed40b749b07f2728659676a5fe4c7de6ad01b1638b5e1c6b198
 status: reviewed
 ---
 
@@ -381,6 +381,18 @@ docker logs -f <container_id>
 2. 启动 docker-compose 栈，确认 AI 容器可在 `http://qdrant:6333/collections` 访问 Qdrant。
 3. 将 `flask` 加到 Dockerfile，重建，在端口 5000 运行简单 API 服务器，并用 `-p 5000:5000` 映射端口。
 4. 用 `docker images` 测量镜像大小；将基础镜像从 `devel` 换为 `runtime` 并比较大小。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Build with the `docker build -t ai-dev -f phases/00-setup-and-tooling/07-docker-for-ai/code/Dockerfile .` command from the lesson, then run the import inside `docker run --rm ai-dev`. On a Mac, leave out `--gpus all`, as the lesson explains. The container must print a version that starts with `2.6.0`.
+>
+> **Exercise 2.** Run `docker compose up -d` in the `code/` folder, then open a shell in the `ai-dev` service with `docker compose exec ai-dev bash`. Inside it, run `curl http://qdrant:6333/collections`; a JSON reply means the service name resolves on the compose network.
+>
+> **Exercise 3.** Add a `RUN pip install flask` line to the Dockerfile, rebuild, and start the server with `host="0.0.0.0"`, because a server bound to localhost inside the container is not reachable from outside. Open `http://localhost:5000` on your machine to confirm that the port mapping works.
+>
+> **Exercise 4.** Run `docker images ai-dev` and write down the SIZE column. Change `devel` to `runtime` in the `FROM` line, build with a new tag, and compare the two sizes; the runtime image leaves out the compilers and headers.
 
 ## 核心术语
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/04-pre-training-mini-gpt/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 5c3f2214d795c44638f037e6b2493e3190516a5bf89202060467298dc2f39dbb
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: ea1017c955dd0366f76cf53f766e5c1c10e41d52e7cca81a7a22f17c03318171
 status: reviewed
 ---
 
@@ -237,6 +237,9 @@ graph LR
 
 词元嵌入将 50,257 个可能的词元分别映射为 768 维向量；位置嵌入补充每个词元在序列中的位置信息。两者相加得到层的输入。
 
+```figure
+iso-machine {"machine":"mini-gpt"}
+```
 ```python
 import numpy as np
 

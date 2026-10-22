@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/13-debugging-neural-networks/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 93a9c9e91cc1312801ca02385de5891b2858f45a28a70a3dd099ce5848f21753
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: f6eaa46e83913a121c488b047268074348f059bd269638f1960911b15a0c1ab2
 status: reviewed
 ---
 
@@ -101,14 +101,14 @@ flowchart TD
 
 参数 `w` 的数值梯度：
 
-```
-grad_numerical = (loss(w + eps) - loss(w - eps)) / (2 * eps)
+```math
+\text{grad\_numerical} = \frac{\text{loss}(w + \text{eps}) - \text{loss}(w - \text{eps})}{2 \cdot \text{eps}}
 ```
 
 一致性指标（相对差）：
 
-```
-rel_diff = |grad_analytical - grad_numerical| / max(|grad_analytical|, |grad_numerical|, 1e-8)
+```math
+\text{rel\_diff} = \frac{\lvert \text{grad\_analytical} - \text{grad\_numerical} \rvert}{\max(\lvert \text{grad\_analytical} \rvert, \lvert \text{grad\_numerical} \rvert, 10^{-8})}
 ```
 
 若 `rel_diff < 1e-5`，正确；若 `rel_diff > 1e-3`，几乎肯定有 bug。

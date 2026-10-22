@@ -4,8 +4,8 @@ language: zh-CN
 source:
   path: phases/01-math-foundations/01-linear-algebra-intuition/docs/en.md
   repository: ai-engineering-from-scratch
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 9bac2df58d85c30df3f36bde3626b02a3fa6aa001536bc343320b9048ee284e1
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: bb9c623a3a405f9aad08685cac764ab984fe5fac8df2a191449c1b93bc5f59df
 status: reviewed
 ---
 
@@ -84,12 +84,13 @@ graph LR
 
 两个向量的点积能反映它们的方向有多接近。
 
-```text
-a · b = a₁×b₁ + a₂×b₂ + ... + aₙ×bₙ
-
-同向：        a · b > 0  （相似）
-垂直：        a · b = 0  （无关）
-反向：        a · b < 0  （不相似）
+```math
+\begin{aligned}
+a \cdot b &= a_1 \times b_1 + a_2 \times b_2 + \cdots + a_n \times b_n \\[4pt]
+\text{Same direction:} \quad a \cdot b &> 0 \quad \text{(similar)} \\
+\text{Perpendicular:} \quad a \cdot b &= 0 \quad \text{(unrelated)} \\
+\text{Opposite direction:} \quad a \cdot b &< 0 \quad \text{(dissimilar)}
+\end{aligned}
 ```
 
 搜索引擎、推荐系统和 RAG 都会寻找点积较高的向量。
@@ -135,8 +136,8 @@ v3 = [2, 1, 0]   # v3 = 2*v1 + v2
 
 把向量 **a** 投影到向量 **b** 上，得到的是 **a** 在 **b** 方向上的分量：
 
-```text
-proj_b(a) = (a dot b / b dot b) * b
+```math
+\mathop{\mathrm{proj}}_b(a) = \frac{a \cdot b}{b \cdot b} \, b
 ```
 
 残差 `(a - proj_b(a))` 与 `b` 垂直。这种正交分解是最小二乘拟合的基础。
@@ -454,6 +455,22 @@ LoRA 值得单独说明。它把权重更新分解为低秩矩阵，从而微调
 5. 创建一个秩为 2 的 `3x3` 矩阵。用 `rank()` 方法验证，再解释这些列张成什么几何对象。
 6. 将向量 `[1, 2, 3]` 投影到 `[1, 1, 1]` 上。结果在几何上表示什么？
 
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Start from `cosine_similarity`, keep the value between -1 and 1, then take the arc cosine and convert radians to degrees. Check that `Vector([1, 0])` and `Vector([0, 1])` give 90 and that a vector with itself gives 0.
+>
+> **Exercise 2.** Put the two scale factors on the diagonal of a 2x2 matrix and put 0 in the other two cells. The result for [1, 1] must be [2, 3].
+>
+> **Exercise 3.** Compute the cosine similarity for every pair of the 5 vectors (10 pairs) and keep the largest value. Check your loop first with a vector against itself, which must give 1.
+>
+> **Exercise 4.** Use `gram_schmidt` on three independent vectors, then compute `dot` for each pair and `magnitude` for each vector. Compare with a tolerance such as `1e-9`, because floating point does not give exact zeros.
+>
+> **Exercise 5.** Make the third row or column the sum of the first two, so one direction repeats. `rank()` must return 2, and the columns then span a plane through the origin.
+>
+> **Exercise 6.** Compute the scale $\frac{a \cdot b}{b \cdot b}$ and multiply $b$ by it, or call `project_onto`. Check that the remainder $a$ minus the projection has a dot product of 0 with [1, 1, 1].
+
 ## 术语表
 
 | 术语 | 常见说法 | 准确含义 |
@@ -467,3 +484,19 @@ LoRA 值得单独说明。它把权重更新分解为低秩矩阵，从而微调
 | 投影 | “影子” | 一个向量在另一个向量方向上的分量。 |
 | 基 | “坐标轴” | 能张成空间的最小线性无关向量集。 |
 | 标准正交 | “垂直的单位向量” | 彼此垂直且每个长度为 1 的向量。 |
+
+## 总结
+
+> 上游新增总结（公式与含义保留原文，待中文复核）。
+
+| Formula | Meaning |
+|---------|---------|
+| $a \cdot b = \sum_i a_i b_i$ | Dot product. It measures alignment and is the core of attention scores and cosine similarity |
+| $\cos\theta = \frac{a \cdot b}{\lvert a\rvert \lvert b\rvert}$ | Angle between vectors. 1 is the same direction, 0 is orthogonal |
+| $\lvert a\rvert = \sqrt{a \cdot a}$ | Vector magnitude (length) |
+| $y = Ax, y_i = \sum_j A_{ij} x_j$ | Matrix-vector product. A neural-network layer applies it to every input |
+| $\text{proj}_b a = \frac{a \cdot b}{b \cdot b} b$ | Projection of $a$ onto $b$, the part of $a$ along $b$ |
+| $b^\perp = a - \text{proj}_b a$ | Component of $a$ perpendicular to $b$, used in Gram-Schmidt |
+| $\text{rank}(A) \leq \min(m,n)$ | Rank, the number of independent columns. It decides if $Ax = b$ has a solution |
+| $\Delta W = BA$, $B$ is 4096×16, $A$ is 16×4096 | Low-rank update. LoRA replaces a 4096×4096 update (16M parameters) with two rank-16 factors (131K parameters) |
+| Orthonormal basis: $\lvert v_i\rvert = 1, v_i \cdot v_j = 0$ | Stable, reversible transformations such as whitening and QR decomposition |

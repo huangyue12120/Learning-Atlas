@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/03-backpropagation/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: e481014372b43289e15b4d7b70a4045eb786168afb10fe15d1fff84b4bccb7ee
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 921c0e2dc63e349da7cb0863a4ef8586207bd13198899704fce19ae804ee9de9
   anchor:
     heading: The Chain Rule, Applied to Networks
     slug: the-chain-rule-applied-to-networks

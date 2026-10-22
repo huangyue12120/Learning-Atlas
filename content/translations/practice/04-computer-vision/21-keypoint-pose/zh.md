@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/21-keypoint-pose/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 88644bb7be201d54db0db32f6923a932673219bc5bef4664afa604be5c8a663d
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 59a0be7092bc5de0ce61e27ff154859221edd9a323c65c7eadcb136bfc14cc85
 status: reviewed
 ---
 
@@ -61,8 +61,8 @@ flowchart LR
 
 不直接回归 `(x, y)`，而是为每个关键点预测一张 `H x W` 热图，真值位置中心为高斯斑点。
 
-```text
-target[k, y, x] = exp(-((x - cx_k)^2 + (y - cy_k)^2) / (2 sigma^2))
+```math
+\text{target}[k, y, x] = \exp\left(-\frac{(x - \mathit{cx}_k)^2 + (y - \mathit{cy}_k)^2}{2 \sigma^2}\right)
 ```
 
 推理时，每张热图的 argmax 就是预测关键点位置。

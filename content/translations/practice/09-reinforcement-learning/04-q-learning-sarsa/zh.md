@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/04-q-learning-sarsa/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 05b289d714aec7c06d0f1c9d5e048fb35dd020a71607f3c27c4983f3675563da
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 5bd5e50c91e850634907c085867e0b8623111b81c688ac0a0378a0d754f7e4e0
 status: reviewed
 ---
 
@@ -60,6 +60,18 @@ status: reviewed
 
 **n 步 TD 与 TD(λ)。** 等待 `n` 步后再自举，便可在 TD(0) 与 MC 之间插值。`n=1` 是 TD，`n=∞` 是 MC。TD(λ) 以几何权重 `(1-λ)λ^{n-1}` 对所有 `n` 求平均。大多数深度强化学习方法使用 3 到 20 之间的 `n`。
 
+```math
+V(s) \leftarrow V(s) + \alpha [r + \gamma V(s') - V(s)]
+```
+```math
+Q(s, a) \leftarrow Q(s, a) + \alpha [r + \gamma \max_{a'} Q(s', a') - Q(s, a)]
+```
+```math
+Q(s, a) \leftarrow Q(s, a) + \alpha [r + \gamma Q(s', a') - Q(s, a)]
+```
+```math
+Q(s, a) \leftarrow Q(s, a) + \alpha [r + \gamma \sum_{a'} \pi(a' \mid s') Q(s', a') - Q(s, a)]
+```
 ```figure
 qlearning-gridworld
 ```

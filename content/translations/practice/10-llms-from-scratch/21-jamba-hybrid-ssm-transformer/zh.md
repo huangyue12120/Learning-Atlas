@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/21-jamba-hybrid-ssm-transformer/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: cc5b0d19b7cb44011c94c603517e7a8eb659df2e2b58043e5d89cd1299191ab8
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 5bcf30d8629682e1a779be3a6ca438788e8ab7a0c91f59d1191b79f7d1dfdb9f
 status: reviewed
 ---
 
@@ -41,9 +41,11 @@ status: reviewed
 
 状态空间模型通过固定大小的状态 `h` 处理序列 `x_1, ..., x_N`：
 
-```
-h_t = A h_{t-1} + B x_t
-y_t = C h_t
+```math
+\begin{aligned}
+h_t &= A h_{t-1} + B x_t \\
+y_t &= C h_t
+\end{aligned}
 ```
 
 每一步都通过线性动力学 `A` 更新状态，接收输入 `B x_t`，并输出 `C h_t`。`A, B, C` 都可以学习。关键性质是：计算 `y_t` 只需要 `h_{t-1}` 和 `x_t`，不需要任何更早的 `x`。内存是常数，推理每个词元的复杂度为 O(1)。

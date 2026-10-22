@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/08-dpo/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: a295d8092c3cba3c2595bbddb731802cc062d9e9cb686b6a5e7196e2eba4d4ed
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 8ed68c9a1735cf8873001c591ef2ad0af65a18c376b9e1e082f54de00e48862d
   anchor:
     heading: The DPO Loss
     slug: the-dpo-loss

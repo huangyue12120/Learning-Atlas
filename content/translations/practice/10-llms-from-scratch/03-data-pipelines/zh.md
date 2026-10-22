@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/03-data-pipelines/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 75ed5890977f72a36387b7cbea1db9b67a90ca4ba784223ec2f69e4b8cd37a44
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 38bf88d7c4a73bd3b6ca0e581adc12e8b0433319c11713b99bbd066174ab749f
 status: reviewed
 ---
 
@@ -174,9 +174,11 @@ graph TD
 
 对于固定的计算预算 C（以 FLOPs 衡量），最优模型规模 N 和数据集规模 D 满足：
 
-```
-N_opt ~ C^0.5
-D_opt ~ C^0.5
+```math
+\begin{aligned}
+N_{\text{opt}} &\sim C^{0.5} \\
+D_{\text{opt}} &\sim C^{0.5}
+\end{aligned}
 ```
 
 在实践中，这意味着模型规模和数据集规模应大致等比例扩展。参数量多 10 倍的模型，大约需要 10 倍的训练词元才能达到相同的损失。

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/09-constitutional-ai-self-improvement/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: df41ca148d4abf46b736a89e1bd5391248dcccd7267acb8e0fafc3b3213b18d4
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: af0f34ce409d3d83826fc41709188800bf84cf85318afb30884fa064752543ab
 status: reviewed
 ---
 
@@ -85,22 +85,22 @@ DeepSeek 在《DeepSeekMath》（2024）论文中提出了 GRPO，并在 DeepSee
 
 回顾 PPO 的目标（来自第 07 课）：
 
-```
-L_PPO = E[min(r(theta) * A, clip(r(theta), 1-eps, 1+eps) * A)]
+```math
+L_{\text{PPO}} = \mathbb{E}\left[\min\left(r(\theta) \cdot A, \mathop{\mathrm{clip}}(r(\theta), 1-\epsilon, 1+\epsilon) \cdot A\right)\right]
 ```
 
 其中 `A` 是优势，通常使用学习得到的价值网络 `V(s)` 通过 GAE 估计。价值网络是一个与策略模型同等大小的第二个模型，会使内存翻倍，并引入自己的训练循环。
 
 GRPO 抛弃了价值函数。对于每个提示词，它会采样一组 G 个回答（通常 G=16 或 64）。先计算每个回答的奖励，再在组内归一化：
 
-```
-A_i = (r_i - mean(r_1, ..., r_G)) / std(r_1, ..., r_G)
+```math
+A_i = \frac{r_i - \mathop{\mathrm{mean}}(r_1, \ldots, r_G)}{\mathop{\mathrm{std}}(r_1, \ldots, r_G)}
 ```
 
 优势就是回答奖励相对于同组其他回答的 z 分数。不需要价值函数；这一组本身就是基线。
 
-```
-L_GRPO = E[min(r(theta) * A_group, clip(r(theta), 1-eps, 1+eps) * A_group)] - beta * KL(pi || pi_ref)
+```math
+L_{\text{GRPO}} = \mathbb{E}\left[\min\left(r(\theta) \cdot A_{\text{group}}, \mathop{\mathrm{clip}}(r(\theta), 1-\epsilon, 1+\epsilon) \cdot A_{\text{group}}\right)\right] - \beta \cdot \mathrm{KL}(\pi \,\|\, \pi_{\text{ref}})
 ```
 
 相对于参考模型的 KL 惩罚仍然存在，与 PPO 相同；裁剪比也仍然存在。消失的只有独立批评器。

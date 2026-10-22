@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/11-ensemble-methods/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 64b7a605139b29e5400bd8d0d44a77a977dd4787e3140133d9f4c05f162e2532
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 497158df5ec8f89881419cc43414a1a3dceb6ed23376dba300bdf93f04cde67b
 status: reviewed
 ---
 
@@ -37,8 +37,8 @@ status: reviewed
 
 假设有 N 个相互独立的分类器，每个准确率为 p > 0.5，则多数投票准确率为：
 
-```text
-P(majority correct) = sum over k > N/2 of C(N,k) * p^k * (1-p)^(N-k)
+```math
+P(\text{majority correct}) = \sum_{k > N/2} \binom{N}{k} p^k (1-p)^{N-k}
 ```
 
 对于 21 个准确率均为 60% 的分类器，多数投票准确率约为 74%；有 101 个时升至 84%。不同模型犯不同错误时，错误会彼此抵消。

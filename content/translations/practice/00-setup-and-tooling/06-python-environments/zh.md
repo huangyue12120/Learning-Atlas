@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/06-python-environments/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: eafe05c7f0cc6d66440c773d6e4e38b39c5fb099be6e031512c144a59e0c2ed9
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: d83b1b070403cd41624ec9d40c890f74b237a94c922bcd8d2f3758a757bcc719
 status: reviewed
 ---
 
@@ -267,6 +267,18 @@ bash phases/00-setup-and-tooling/06-python-environments/code/env_setup.sh
 2. 创建第二个虚拟环境，安装不同版本的 numpy，确认二者隔离
 3. 为同时需要 PyTorch 和 Anthropic SDK 的项目编写 `pyproject.toml`
 4. 有意不激活 venv 而全局安装一个包，观察安装位置后将其卸载
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Run `bash phases/00-setup-and-tooling/06-python-environments/code/env_setup.sh` from the repository root. Read each line of output; when a check fails, fix that one item and run the script again until no check fails.
+>
+> **Exercise 2.** Make the second environment in a new folder with `uv venv`, activate it, and install an older numpy with a version pin such as `numpy==1.26.4`. Run `python -c "import numpy; print(numpy.__version__)"` in each environment; the two versions must be different.
+>
+> **Exercise 3.** Start from the example in pyproject.toml Basics and list `torch` and `anthropic` under `dependencies`. Run `uv pip install -e .` or `uv sync` in a new environment; the file is correct when both packages import without an error.
+>
+> **Exercise 4.** Deactivate every environment, run `pip install --user <small package>`, then run `pip show <package>` and read the `Location` line. Uninstall it with `pip uninstall <package>` and run `pip show` again to confirm that it is gone.
 
 ## 核心术语
 

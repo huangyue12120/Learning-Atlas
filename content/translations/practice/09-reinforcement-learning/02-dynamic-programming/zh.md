@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/02-dynamic-programming/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: d41f481163c0a0902e4261263c3e9db76ba7cd150e3e07cfbc87c2a919238ec4
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 500f1974a28e13298fff2b0160e17c198a18842d04f5bc915ddc0521152938ab
 status: reviewed
 ---
 
@@ -49,6 +49,9 @@ status: reviewed
 
 **`γ < 1` 为何重要。** Bellman 算子是上确界范数下的 `γ` 压缩映射：`||T V - T V'||_∞ ≤ γ ||V - V'||_∞`。压缩性质意味着不动点唯一且几何收敛。放弃 `γ < 1`，就会失去这项保证，此时必须使用有限视野或吸收终止状态。
 
+```math
+V(s) \leftarrow \max_a \sum_{s',r} P(s',r \mid s,a) [r + \gamma V(s')]
+```
 ```figure
 value-iteration-gamma
 ```

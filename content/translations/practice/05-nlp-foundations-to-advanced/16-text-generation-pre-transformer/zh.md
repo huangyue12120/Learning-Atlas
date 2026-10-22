@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/16-text-generation-pre-transformer/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 92d3b5e90a0730efd6819090e514a562e02185a3a1b65f78b60331692adbb9ee
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 2ef4c00ada265732adc8091a775b9a9298ee923560415b0ee689555b82c6da50
 status: reviewed
 ---
 
@@ -52,8 +52,8 @@ prediction-game
 
 **N-gram 概率：** `P(w_i | w_{i-n+1}, ..., w_{i-1})`。固定 `n`，通常三元模型取 3，四元模型取 4，再根据计数计算：
 
-```text
-P(w | context) = count(context, w) / count(context)
+```math
+P(w \mid \text{context}) = \frac{\mathop{\mathrm{count}}(\text{context}, w)}{\mathop{\mathrm{count}}(\text{context})}
 ```
 
 **零计数问题。** 训练中未见的 n-gram 概率为零。2007 年一项 Brown 语料研究发现，即使使用四元模型，留出集仍有 30% 的四元组在训练中未出现。不做平滑就无法在真实文本上评估。
@@ -71,8 +71,8 @@ Kneser-Ney 的洞见很深。“San Francisco”是常见二元组，单词“Fr
 
 **评估：困惑度。** 在留出测试集上，对每词平均负对数似然取指数，越低越好。困惑度 100 表示模型的迷惑程度相当于在 100 个词之间均匀选择。
 
-```text
-perplexity = exp(- (1/N) * Σ log P(w_i | context_i))
+```math
+\text{perplexity} = \exp\left(-\frac{1}{N} \sum_i \log P(w_i \mid \text{context}_i)\right)
 ```
 
 ```figure

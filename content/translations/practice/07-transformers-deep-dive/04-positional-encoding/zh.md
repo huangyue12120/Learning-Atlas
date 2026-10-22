@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/04-positional-encoding/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: c7e45e8178d68f5a75b790a84c81a6749b2f2f54c88e30c3f36fabc705a0a511
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 07d2e8f497721bec0650eb2ef2d995c71648a1f20c56667bdca9a31d764d1302
 status: reviewed
 ---
 
@@ -40,9 +40,11 @@ status: reviewed
 
 预先计算一个形状为 `(max_len, d_model)` 的固定矩阵 `PE`：
 
-```text
-PE[pos, 2i]   = sin(pos / 10000^(2i / d_model))
-PE[pos, 2i+1] = cos(pos / 10000^(2i / d_model))
+```math
+\begin{aligned}
+PE_{(pos, 2i)} &= \sin\left(pos / 10000^{2i / d_{\text{model}}}\right) \\
+PE_{(pos, 2i+1)} &= \cos\left(pos / 10000^{2i / d_{\text{model}}}\right)
+\end{aligned}
 ```
 
 然后在注意力前计算 `X' = X + PE[:N]`。每个维度都是不同频率的正弦波，模型学习从相位模式中读取位置。它在 `max_len` 之外会失效：如果模型只见过位置 0–2047，就没有任何东西告诉它位置 2048 会发生什么。
@@ -51,11 +53,9 @@ PE[pos, 2i+1] = cos(pos / 10000^(2i / d_model))
 
 旋转 Q 和 K 向量（而非嵌入）。对每一对维度 `(2i, 2i+1)`：
 
-```text
-[q'_2i    ]   [ cos(pos·θ_i)  -sin(pos·θ_i) ] [q_2i   ]
-[q'_2i+1  ] = [ sin(pos·θ_i)   cos(pos·θ_i) ] [q_2i+1 ]
-
-θ_i = base^(-2i / d_head)，base 默认为 10000
+```math
+\begin{bmatrix} q'_{2i} \\ q'_{2i+1} \end{bmatrix} = \begin{bmatrix} \cos(pos \cdot \theta_i) & -\sin(pos \cdot \theta_i) \\ \sin(pos \cdot \theta_i) & \cos(pos \cdot \theta_i) \end{bmatrix} \begin{bmatrix} q_{2i} \\ q_{2i+1} \end{bmatrix}
+\qquad \theta_i = \text{base}^{-2i / d_{\text{head}}}, \quad \text{base} = 10000 \text{ by default}
 ```
 
 对位置 `pos_k` 的键应用相同旋转。点积 `q'_m · k'_n` 会变成只与 `(m - n)` 有关的函数。换句话说：**注意力分数只依赖相对距离**，尽管旋转由绝对位置决定。这是个漂亮的技巧。
@@ -66,8 +66,8 @@ PE[pos, 2i+1] = cos(pos / 10000^(2i / d_model))
 
 跳过嵌入技巧，直接对注意力分数加偏置：
 
-```text
-attn_score[i, j] = (q_i · k_j) / √d  -  m_h · |i - j|
+```math
+\text{attn\_score}[i, j] = \frac{q_i \cdot k_j}{\sqrt{d}} - m_h \cdot |i - j|
 ```
 
 其中 `m_h` 是各头专属的斜率（例如 `1 / 2^(8·h/H)`）。较近的词元被增强，较远的词元受到惩罚。没有训练时成本。论文表明，其长度外推优于正弦方案，并在原始训练长度上与 RoPE 相当。

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/09-reward-modeling-rlhf/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 52938057ecc955bf7b5bb45f449a469de2edde2f8390cf64e207f5625d4fc126
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: f1ccc27870fa504fc71d7f8cf53854a1cb52141829fe3f0e44d165430526a0a9
   anchor:
     heading: The Concept
     slug: the-concept

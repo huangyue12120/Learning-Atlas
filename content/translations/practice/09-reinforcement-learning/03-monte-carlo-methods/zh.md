@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/03-monte-carlo-methods/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 59ed85c22bceb45e65a953b3cc10cc54fec517a3ef5a35a901f69d433b947991
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 14e1a108c933380c1b5e73b21a13090357d44d6eabec56e4ba671ce9cf41becd
 status: reviewed
 ---
 
@@ -55,6 +55,9 @@ status: reviewed
 
 在温和条件下，每个状态—动作对被访问无限多次，且 `α` 满足 Robbins-Monro 条件时，该过程以概率 1 收敛到 `Q*` 和 `π*`。
 
+```math
+V_n(s) = V_{n-1}(s) + (1/n) [G_n - V_{n-1}(s)]
+```
 ```figure
 epsilon-greedy
 ```

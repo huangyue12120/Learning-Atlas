@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/16-differential-attention-v2/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 89705e3112b66cdf2bb5444d632cafb5c4b168fe4693e534c92fb0d1051ae5df
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: fa962c2cd11ebfd1d9ac00516dd75945a750d4e84eee4aa7dbdf955c76506cf4
 status: reviewed
 ---
 
@@ -39,8 +39,8 @@ DIFF V1 有三个问题，使它无法进入前沿预训练流水线。它的值
 
 对于查询 `q` 和键 `K = [k_1, ..., k_N]`，注意力权重为：
 
-```
-w_i = exp(q . k_i / sqrt(d)) / sum_j exp(q . k_j / sqrt(d))
+```math
+w_i = \frac{\exp(q \cdot k_i / \sqrt{d})}{\sum_j \exp(q \cdot k_j / \sqrt{d})}
 ```
 
 没有任何 `w_i` 会是零。如果 `k_i` 与 `q` 完全无关，分数 `q . k_i` 也不是 0——它会围绕零波动，方差为 `||q||^2 / d`。经过 softmax 归一化后，每个无关词元仍会对加权和贡献 `O(1/N)`。无关词元的总贡献为 `O((N-1)/N) = O(1)`，并不是一个很小的量。
@@ -51,15 +51,17 @@ w_i = exp(q . k_i / sqrt(d)) / sum_j exp(q . k_j / sqrt(d))
 
 将每个头的 Q 和 K 投影拆成两部分：Q = (Q_1, Q_2)，K = (K_1, K_2)。计算两张注意力图：
 
-```
-A_1 = softmax(Q_1 K_1^T / sqrt(d))
-A_2 = softmax(Q_2 K_2^T / sqrt(d))
+```math
+\begin{aligned}
+A_1 &= \mathop{\mathrm{softmax}}(Q_1 K_1^T / \sqrt{d}) \\
+A_2 &= \mathop{\mathrm{softmax}}(Q_2 K_2^T / \sqrt{d})
+\end{aligned}
 ```
 
 输出：
 
-```
-DiffAttn = (A_1 - lambda * A_2) V
+```math
+\mathop{\mathrm{DiffAttn}} = (A_1 - \lambda \cdot A_2) V
 ```
 
 相减会抵消两张图共享的噪声分布。如果两张图在 127k 个无关词元上都有大致均匀的权重（随机初始化时确实如此），这些权重就会相互抵消。信号——少数真正相关词元上的尖峰权重——只有在两张图以相同幅度同时出现时才会被抵消；模型训练之后不会发生这种情况。

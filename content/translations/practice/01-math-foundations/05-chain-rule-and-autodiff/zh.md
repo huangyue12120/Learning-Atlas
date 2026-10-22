@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/05-chain-rule-and-autodiff/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 4687cfcd67796cd61c6a73bfca1125c030030cf7a75f6aef98f7e640c5447190
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 0ec6ec8f8e98d36719b21d5fe1a78c787261864eb5689b776a8d76391b04fc3f
 status: reviewed
 ---
 
@@ -77,17 +77,23 @@ PyTorch 中 `x=torch.tensor(2.0, requires_grad=True)` 与 `y=x**2+3*x+1` 会为�
 
 完整流程还包括手算 `relu(x1*x2+1)` 的 `dy/dx1=3`、`dy/dx2=2`，再用引擎验证；对 `x^3`、`relu(a*b+c)`、单个 ReLU 神经元、`exp`、`log` 与复杂表达式分别做检查。XOR 采用 `MLP([2,4,1])`、目标 `[-1,1,1,-1]`、平方误差和学习率 0.05；100 步后输出符号应与目标一致。若安装 PyTorch，最后将同一 ReLU 图的梯度逐项与 `torch` 对照。
 
-```text
-若 y = f(g(x))，则 dy/dx = dy/dg × dg/dx
+```math
+\frac{dy}{dx} = \frac{dy}{dg} \cdot \frac{dg}{dx} = f'(g(x)) \cdot g'(x)
 ```
 
-```text
-y = sin(x²)
-dy/dx = cos(x²) × 2x
+```math
+\begin{aligned}
+g(x) &= x^2 \qquad & g'(x) &= 2x \\
+f(g) &= \sin(g) \qquad & f'(g) &= \cos(g) \\[4pt]
+\frac{dy}{dx} &= \cos(x^2) \cdot 2x
+\end{aligned}
 ```
 
-```text
-对 y = f(g(h(x)))，总导数是每一段局部导数的乘积。
+```math
+\begin{aligned}
+y &= f(g(h(x))) \\[4pt]
+\frac{dy}{dx} &= f'(g(h(x))) \cdot g'(h(x)) \cdot h'(x)
+\end{aligned}
 ```
 
 ```mermaid
@@ -698,6 +704,18 @@ print(f"df/dc = {c.grad}")  #  1.0
 1. 增加 sigmoid：实现 `sigmoid()` 与 `sigmoid'(x)=sigmoid(x)(1-sigmoid(x))` 的反向规则，并做梯度检查。
 2. 实现交叉熵损失 `-sum(y*log(p))`，用它替换 XOR 的平方误差，并检查概率必须为正。
 3. 实现一个在 2D 点上训练的两层 MLP，记录训练前后损失并检查所有参数收到梯度。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** `Value` already defines `__pow__`. Read its `_backward` and confirm it applies $n x^{n-1}$ to the incoming gradient. Run `x = Value(2.0)`, `y = x ** 3`, `y.backward()`; `x.grad` must be 12.0.
+>
+> **Exercise 2.** Use $\tanh'(x) = 1 - \tanh(x)^2$ in `_backward`. Check against your own finite difference: $\frac{\tanh(x + h) - \tanh(x - h)}{2h}$ must agree at $x = 0$ and $x = 2$.
+>
+> **Exercise 3.** Build `w1*x1 + w2*x2 + b` from `Value` objects, apply `relu`, and call `backward`. Before you compare with PyTorch, check by hand: if the input to `relu` is positive, the gradient for `w1` equals `x1`; if it is negative, all five gradients are 0.
+>
+> **Exercise 4.** Store a value and a derivative in each `Dual`, and use the product rule $(a, a')(b, b') = (ab, a'b + ab')$ for multiplication. Seed the input with derivative 1 and compare the result with `x.grad` from the reverse-mode engine for the same function.
 
 ## 术语
 

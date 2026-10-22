@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/05-stylegan/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 4b67d997dd5a842de48754015af22b8a53395131d228b28145656a4fab111e75
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: e6d93ab2b19ad3f9648424e207aa83465e7b209df10fcd403eeef538ba2d1db5
 status: reviewed
 ---
 
@@ -36,8 +36,8 @@ Karras 等（2019，NVIDIA）提出：停止把 `z` 直接送入卷积层。以�
 
 **AdaIN。**
 
-```
-AdaIN(x, y) = y_scale · (x - mean(x)) / std(x) + y_bias
+```math
+\mathop{\mathrm{AdaIN}}(x, y) = y_{\text{scale}} \cdot \frac{x - \mathop{\mathrm{mean}}(x)}{\mathop{\mathrm{std}}(x)} + y_{\text{bias}}
 ```
 
 其中 `y_scale` 和 `y_bias` 来自 `w` 的仿射投影。先逐特征图归一化，再重新施加风格。这里的“风格”就是特征图的一阶和二阶统计量。

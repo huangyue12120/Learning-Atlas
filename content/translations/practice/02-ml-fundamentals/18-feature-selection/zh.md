@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/18-feature-selection/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: b4f79a2e5880be45c0b77713c11805a39b853b2852e15eda314ee1997a107161
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: ae14a559c169dc64e4ebddbebfc84b3c2321a5ba5f2ef1fee8fab532e8e0db49
 status: reviewed
 ---
 
@@ -69,8 +69,8 @@ flowchart TD
 
 最简单的筛选器：一个特征在样本间几乎不变，就几乎不含信息。1000 个样本中有 999 个为 0.0 的特征方差近零，任何模型无法用其区分类别，应移除。
 
-```
-variance(x) = mean((x - mean(x))^2)
+```math
+\text{variance}(x) = \text{mean}\bigl((x - \text{mean}(x))^2\bigr)
 ```
 
 设阈值（如 0.01），丢弃低于阈值的特征；无需查看目标，可作为其他方法之前的近零成本预处理。局限是高方差特征仍可能纯噪声，方差阈值必要但不充分。
@@ -79,8 +79,8 @@ variance(x) = mean((x - mean(x))^2)
 
 互信息衡量知道 X 的值使目标 Y 不确定性减少多少：
 
-```
-I(X; Y) = sum_x sum_y p(x, y) * log(p(x, y) / (p(x) * p(y)))
+```math
+I(X; Y) = \sum_x \sum_y p(x, y) \cdot \log \frac{p(x, y)}{p(x) \cdot p(y)}
 ```
 
 若 X、Y 独立，p(x,y)=p(x)*p(y)，对数项为零、I(X;Y)=0；X 对 Y 信息越多，互信息越高。
@@ -121,8 +121,8 @@ flowchart TD
 
 L1 在损失中加入权重绝对值：
 
-```
-loss = prediction_error + alpha * sum(|w_i|)
+```math
+\text{loss} = \text{prediction\_error} + \alpha \cdot \sum \lvert w_i \rvert
 ```
 
 alpha 控制剪枝强度，越高越多权重变成精确零。L1 在权重空间形成菱形约束，最优解常落在角上（一些权重为零）；L2/Ridge 是圆形约束，权重收缩却很少为零。
@@ -133,10 +133,8 @@ alpha 控制剪枝强度，越高越多权重变成精确零。L1 在权重空�
 
 决策树及其集成自然排序特征：每次切分都降低 impurity（分类的 Gini/entropy、回归的方差），降得多的更重要。随机森林 T 棵树时：
 
-```
-importance(feature_j) = (1/T) * sum over all trees of
-    sum over all nodes splitting on feature_j of
-        (n_samples * impurity_decrease)
+```math
+\text{importance}(\text{feature}_j) = \frac{1}{T} \sum_{\text{all trees}} \; \sum_{\text{all nodes splitting on } \text{feature}_j} (\text{n\_samples} \cdot \text{impurity\_decrease})
 ```
 
 它给出每个特征归一化重要分数，能自动处理非线性与交互。注意它偏向高基数特征：随机 ID 列可因完美切分每样本而显得重要，应用 permutation importance 做 sanity check。

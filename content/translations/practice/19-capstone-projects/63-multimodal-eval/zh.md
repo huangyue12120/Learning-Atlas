@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/63-multimodal-eval/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 06f65f04096dcb862b3918002a94b9fb502fb544cddea871b20b055a6bb7fe63
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 44d6e176df79bfb1bb3a073a28eecc717047f3d437dd25bee2dd7958b8f87c6d
 status: reviewed
 ---
 
@@ -56,15 +56,14 @@ flowchart TB
 
 BLEU-4 为：
 
-```text
-BLEU-4 = BP * exp(mean(log p1, log p2, log p3, log p4))
+```math
+\text{BLEU-4} = \text{BP} \cdot \exp\big(\text{mean}(\log p_1, \log p_2, \log p_3, \log p_4)\big)
 ```
 
 其中 `p_n` 是修正后的 n-gram precision：生成 n-gram 中出现在任一参考答案里的部分，按参考答案中的最大计数进行 clipped count，再除以生成 n-gram 总数；`BP` 是 brevity penalty：
 
-```text
-BP = 1                if generated length > reference length
-   = exp(1 - r/g)     otherwise, where r is reference length and g is generated
+```math
+\text{BP} = \begin{cases} 1 & \text{if generated length} > \text{reference length} \\ \exp(1 - r/g) & \text{otherwise, where } r \text{ is reference length and } g \text{ is generated} \end{cases}
 ```
 
 小样本中零 precision 需要平滑；实现采用 Chen and Cherry method 1，在零计数时给分子和分母都加 1。

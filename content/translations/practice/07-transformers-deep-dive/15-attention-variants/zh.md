@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/15-attention-variants/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: cd5ba2d28dd24fc6eb57f4477148156d5d5be31a8e157efcdcf00b914a9dfb48
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 6e8bba5b133d832d03a51da7f5aaf4c1ea33a76ab797d411bc479746719b7acb
 status: reviewed
 ---
 
@@ -72,10 +72,12 @@ status: reviewed
 
 差分注意力通过计算**两个**注意力图并相减来解决这个问题：
 
-```
-A1 = softmax(Q1 K1^T / √d)
-A2 = softmax(Q2 K2^T / √d)
-DiffAttn = (A1 - λ · A2) V
+```math
+\begin{aligned}
+A_1 &= \mathop{\mathrm{softmax}}(Q_1 K_1^T / \sqrt{d}) \\
+A_2 &= \mathop{\mathrm{softmax}}(Q_2 K_2^T / \sqrt{d}) \\
+\text{DiffAttn} &= (A_1 - \lambda \cdot A_2) V
+\end{aligned}
 ```
 
 其中 `λ` 是可学习标量，通常为 0.5～0.8。A1 捕获真实内容权重，A2 捕获汇点。相减会抵消汇点，把权重重新分配给相关词元。

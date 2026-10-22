@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/20-model-monitoring-and-drift/docs/en.md
-  revision: 56c886c8821fc488b6f9608895c983d18f0d1ea3
-  sha256: 5f0168d75b0100e1f69bceb27f1275570451e3ad328e02b5c3091e8649559446
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 67ed1a1ed2ff0330085ca582c4068f307318a126ad1b6c591ce56a7022bfa082
 status: reviewed
 ---
 
@@ -59,8 +59,8 @@ status: reviewed
 
 输入 `x` 与标签 `y` 的联合分布可以用两种方式写出：
 
-```text
-P(x, y) = P(x) * P(y | x) = P(y) * P(x | y)
+```math
+P(x, y) = P(x) \cdot P(y \mid x) = P(y) \cdot P(x \mid y)
 ```
 
 每种漂移改变的因素不同：
@@ -106,8 +106,8 @@ Gama 等人把 `P(y | x)` 的变化称为真实概念漂移，把不改变 `P(y 
 
 PSI 源自信用评分。把参考值分箱，通常按参考分位数分成十箱，使每箱包含 10% 的参考数据；统计当前值落入各箱的比例，然后对每个箱累加一项：
 
-```text
-PSI = sum over bins of (current_share - reference_share) * ln(current_share / reference_share)
+```math
+\text{PSI} = \sum_{\text{bins}} (\text{current\_share} - \text{reference\_share}) \cdot \ln\left(\frac{\text{current\_share}}{\text{reference\_share}}\right)
 ```
 
 某个箱的比例为零会让对数变为无穷，因此要把每个比例裁剪到很小的值，例如 0.0001。PSI 是对称的，等于当前到参考的 KL 散度加上参考到当前的 KL 散度。
@@ -119,8 +119,8 @@ PSI = sum over bins of (current_share - reference_share) * ln(current_share / re
 
 双样本 KS 统计量 `D` 是两个经验累积分布函数之间最大的垂直间距：
 
-```text
-D = max over x of | F_reference(x) - F_current(x) |
+```math
+D = \max_x \left\lvert F_{\text{reference}}(x) - F_{\text{current}}(x) \right\rvert
 ```
 
 样本相同时时 `D` 为 0，完全不重叠时为 1；它不需要分箱。p 值来自 Kolmogorov 分布，有效样本量为 `n * m / (n + m)`。
@@ -132,9 +132,11 @@ D = max over x of | F_reference(x) - F_current(x) |
 
 对于支付渠道这样的类别特征，构造两行（参考、当前）且每个类别一列的表格。每个单元格的期望计数由行总计和列总计得到：
 
-```text
-expected[r][c] = row_total[r] * column_total[c] / grand_total
-chi2 = sum over cells of (observed - expected)^2 / expected
+```math
+\begin{aligned}
+\text{expected}[r][c] &= \text{row\_total}[r] \cdot \text{column\_total}[c] / \text{grand\_total} \\
+\text{chi2} &= \sum_{\text{cells}} (\text{observed} - \text{expected})^2 / \text{expected}
+\end{aligned}
 ```
 
 有 `k` 个类别时，检验有 `k - 1` 个自由度。只在当前窗口出现的类别会贡献很大的一项，因此检验能响应新值。Cramér's V 是效应量；对于两行表格，它等于 `chi2 / grand_total` 的平方根。

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/18-open-vocab-clip/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 7c62736dc19a39acdbec6499254e943c83a8c14023a1ed0979462fc8a3fbebe1
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 76585709ab74d6fa2f4f908a6e5d40b9a714e70c60169eba6f777912a91d29b4
 status: reviewed
 ---
 
@@ -69,9 +69,11 @@ loss = (loss_i2t + loss_t2i) / 2
 
 SigLIP（Zhai 等，2023）用逐对 sigmoid 取代 softmax：
 
-```text
-loss = mean over pairs of log(1 + exp(-y_ij * sim_ij))
-y_ij = +1 if matching, -1 otherwise
+```math
+\begin{aligned}
+\text{loss} &= \mathop{\mathrm{mean}}\limits_{\text{pairs}} \log\left(1 + \exp(-y_{ij} \cdot \text{sim}_{ij})\right) \\
+y_{ij} &= \begin{cases} +1 & \text{if matching} \\ -1 & \text{otherwise} \end{cases}
+\end{aligned}
 ```
 
 逐对损失移除了 CLIP 所需的 batch 级归一化。SigLIP 在小 batch 上训练更好，在同等数据量下可匹敌或超越 CLIP。

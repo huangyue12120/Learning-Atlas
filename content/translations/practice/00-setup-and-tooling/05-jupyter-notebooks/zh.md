@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/05-jupyter-notebooks/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 6f0e391d6e853320124a3a8954e8b8ce8e28163d6cb0749b5e831fb05449acff
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 543c38dcbca1352c41924f3a5ad4c6fadd715c38aae7e233e3b2be795865889b
 status: reviewed
 ---
 
@@ -249,6 +249,16 @@ AI 中的常见工作流：
 1. 打开 JupyterLab，创建 notebook，用 `%timeit` 比较列表推导式与 numpy 创建 100,000 个随机数数组的速度
 2. 创建包含 markdown 和代码单元格的 notebook：加载 CSV、显示 dataframe、绘制图表；然后用 Kernel > Restart & Run All 验证可从上到下运行
 3. 将 `code/notebook_tips.py` 的代码粘入 Colab notebook，并使用免费 GPU 运行
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Start JupyterLab with `jupyter lab`, then put each version in its own cell that begins with `%timeit`. Use the same 100,000 size in both cells so that the two times measure the same work.
+>
+> **Exercise 2.** Use `pd.read_csv` for the data, show the dataframe as the last line of a cell, and plot with `df.plot()` or matplotlib. After Kernel > Restart & Run All, every cell must show a number in its execution counter and no cell may show an error.
+>
+> **Exercise 3.** In Colab, select Runtime > Change runtime type > GPU before you paste the code. The run is correct when each function in `code/notebook_tips.py` prints its section, and `torch.cuda.is_available()` returns `True` in a cell.
 
 ## 核心术语
 

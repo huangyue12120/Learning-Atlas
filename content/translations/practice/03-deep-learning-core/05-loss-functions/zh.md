@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/05-loss-functions/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6b2816ee051
-  sha256: aa64f3d64a9dab9b7e68b117158d8876bf350adc30d2cd3cddf4d11702d3085c
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 96c8ecb9a53e7e139c347cd0c8ffbf4193550eaae2ba3a0426157eba0bf84e95
 status: reviewed
 ---
 
@@ -41,16 +41,16 @@ status: reviewed
 
 回归默认损失，计算预测与目标差的平方并对样本平均：
 
-```
-MSE = (1/n) * sum((y_pred - y_true)^2)
+```math
+\text{MSE} = \frac{1}{n} \sum (y_{\text{pred}} - y_{\text{true}})^2
 ```
 
 平方使大误差二次受罚：误差 2 成本是误差 1 的 4 倍，误差 10 是 100 倍，故 MSE 对离群值敏感。房价中大多数偏 $10,000、一个豪宅偏 $200,000 时，它会猛烈修正豪宅，可能损害其他 99 套表现。
 
 对预测的梯度：
 
-```
-dMSE/dy_pred = (2/n) * (y_pred - y_true)
+```math
+\frac{\partial \text{MSE}}{\partial y_{\text{pred}}} = \frac{2}{n} (y_{\text{pred}} - y_{\text{true}})
 ```
 
 它与误差线性相关，大错梯度大；回归中这是特性，分类中是 bug——分类需要指数式惩罚自信错误，而非线性惩罚。
@@ -61,24 +61,24 @@ dMSE/dy_pred = (2/n) * (y_pred - y_true)
 
 **二元交叉熵（BCE）：**
 
-```
-BCE = -(y * log(p) + (1 - y) * log(1 - p))
+```math
+\text{BCE} = -\left(y \log(p) + (1 - y) \log(1 - p)\right)
 ```
 
 y 是 0/1 真实标签，p 是预测概率。标签 1 而 p=0.99 时损失 `-log(0.99)=0.01`，p=0.01 时为 `-log(0.01)=4.6`，相差 460 倍，因而能严惩自信错误。
 
 梯度也如此：
 
-```
-dBCE/dp = -(y/p) + (1-y)/(1-p)
+```math
+\frac{\partial \text{BCE}}{\partial p} = -\frac{y}{p} + \frac{1-y}{1-p}
 ```
 
 y=1、p 近零时梯度 -1/p 趋负无穷，模型收到巨大的修正信号；p 近一时梯度很小，已正确无需修正。
 
 **类别交叉熵（CCE）：** 用于 one-hot 目标的多分类：
 
-```
-CCE = -sum(y_i * log(p_i))
+```math
+\text{CCE} = -\sum_i y_i \log(p_i)
 ```
 
 仅真实类贡献损失。10 类中真实类概率 0.1（随机猜）时损失 2.3，概率 0.9 时 0.105；模型学习将概率质量集中到答案上。
@@ -107,8 +107,8 @@ MSE 在预测接近 0/1 时因 sigmoid 饱和而梯度变平；交叉熵补偿�
 
 标准 one-hot 说“100% 为第 3 类，其他 0%”，很强。标签平滑变为：
 
-```
-smooth_label = (1 - alpha) * one_hot + alpha / num_classes
+```math
+\text{smooth\_label} = (1 - \alpha) \cdot \text{one\_hot} + \frac{\alpha}{\text{num\_classes}}
 ```
 
 alpha=0.1、10 类时 `[0,0,1,0,...]` 变 `[0.01,0.01,0.91,0.01,...]`，目标为 0.91 而非 1.0。
@@ -119,16 +119,16 @@ softmax 要输出精确 1.0 需把 logits 推到无穷，会过度自信、伤�
 
 无标签、无类别，只有输入对是否相似。SimCLR 式 NT-Xent/InfoNCE：对一个图像造两个增强视图（裁剪、旋转、颜色抖动）作为应相近的正对，batch 中其他图像为应不同的负对：
 
-```
-L = -log(exp(sim(z_i, z_j) / tau) / sum(exp(sim(z_i, z_k) / tau)))
+```math
+L = -\log \frac{\exp(\text{sim}(z_i, z_j) / \tau)}{\sum_k \exp(\text{sim}(z_i, z_k) / \tau)}
 ```
 
 sim 是余弦相似度，z_i、z_j 是正对，对全部负对求和；温度 tau 控制尖锐性，温度低=负例更难=分离更激进。batch 256 表示每正对有 255 个负例；tau=0.07 是 SimCLR 默认，损失类似相似度上的 softmax，期望正对是 256 个中最高。
 
 **Triplet Loss：** 输入 anchor、同类 positive、异类 negative：
 
-```
-L = max(0, d(anchor, positive) - d(anchor, negative) + margin)
+```math
+L = \max\left(0, d(\text{anchor}, \text{positive}) - d(\text{anchor}, \text{negative}) + \text{margin}\right)
 ```
 
 margin 通常 0.2–1.0，强制正/负距离差；负例已足够远则损失零、无梯度，训练高效但须精心挖掘靠近 anchor 的 hard negative。
@@ -137,8 +137,8 @@ margin 通常 0.2–1.0，强制正/负距离差；负例已足够远则损失�
 
 用于不平衡数据。普通交叉熵同等对待正确样本；Focal loss 降权简单样本：
 
-```
-FL = -alpha * (1 - p_t)^gamma * log(p_t)
+```math
+\text{FL} = -\alpha (1 - p_t)^\gamma \log(p_t)
 ```
 
 p_t 是真实类预测概率，gamma 控制聚焦。gamma=0 即普通交叉熵。例子：

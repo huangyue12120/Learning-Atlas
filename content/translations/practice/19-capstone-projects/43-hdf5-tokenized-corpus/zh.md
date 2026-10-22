@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/43-hdf5-tokenized-corpus/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 2d82f3ca93cc51a48a798d5beda2734099720dfc53cb76b0122619f979b8b397
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 614ae96826cbe0dbf8a184579e2d929bc08354f3b1f516cf2313c955deda2ae0
 status: reviewed
 ---
 

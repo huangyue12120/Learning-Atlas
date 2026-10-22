@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/04-apis-and-keys/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 41284f112ad4da828709d3c5f1b3094876c5b10aa1a64a082d316dcf372a6b8f
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 1d4748fc1dc1b4ff3313ab9af092b9831221e7f7d96c1107b3938a895ee93346
 status: reviewed
 ---
 
@@ -156,6 +156,16 @@ SDK 会在底层执行这套流程。理解原始 HTTP 调用有助于调试。
 1. 获取 Anthropic API key 并完成第一次 API 调用
 2. 尝试原始 HTTP 版本，并与 SDK 版本比较响应格式
 3. 有意使用错误的 API key，阅读错误信息
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Create a key in the Anthropic Console, put it in `ANTHROPIC_API_KEY` as shown in the lesson, and run `code/first_api_call.py`. The call works when the script prints the model reply and no error.
+>
+> **Exercise 2.** Both functions in `code/first_api_call.py` print only the text and the token counts. Add `print(response)` in `call_with_sdk()` and `print(result)` in `call_raw_http()`, then run the script to see both full responses. Compare the field names: the raw JSON has the same `content`, `usage`, and `stop_reason` fields that the SDK turns into object attributes.
+>
+> **Exercise 3.** Set `ANTHROPIC_API_KEY` to a fake value in one terminal only, then run the script again. Find the HTTP status code and the error type in the output; an authentication failure returns a 401 status.
 
 ## 核心术语
 

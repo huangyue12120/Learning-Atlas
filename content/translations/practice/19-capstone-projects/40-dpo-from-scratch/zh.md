@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/40-dpo-from-scratch/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 3d4f2404d6034f9390dc4bf6b810440f7e0394e0797febfd497148e621385f22
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: a2cb19836e454ba319193fa11b1e578e4e1eba49ae172fad98af72e48ad7b469
 status: reviewed
 ---
 
@@ -38,42 +38,46 @@ DPO 用一个监督学习损失替代这两个阶段。奖励模型不再显式�
 
 从 Bradley–Terry 模型开始。给定 prompt `x`，以及两个补全 `y_w`（chosen）和 `y_l`（rejected），人类偏好 `y_w` 的概率为：
 
-```text
-P(y_w > y_l | x) = sigmoid( r(x, y_w) - r(x, y_l) )
+```math
+P(y_w > y_l \mid x) = \sigma\big( r(x, y_w) - r(x, y_l) \big)
 ```
 
 其中 `r` 是某个潜在奖励函数。RLHF 首先从偏好中拟合 `r`，然后通过 KL 锚点最大化策略 `pi` 的奖励：
 
-```text
-max_pi   E_{x, y~pi} [ r(x, y) ] - beta * KL(pi || pi_ref)
+```math
+\max_{\pi} \; \mathbb{E}_{x, y \sim \pi} \big[ r(x, y) \big] - \beta \, \mathrm{KL}(\pi \,\|\, \pi_{\text{ref}})
 ```
 
 DPO 推导注意到，在这个目标下，最优策略 `pi*` 可以用 `r` 写成闭式形式：
 
-```text
-pi*(y | x) = (1/Z(x)) * pi_ref(y | x) * exp( r(x, y) / beta )
+```math
+\pi^*(y \mid x) = \frac{1}{Z(x)} \, \pi_{\text{ref}}(y \mid x) \exp\!\left( \frac{r(x, y)}{\beta} \right)
 ```
 
 将它重新整理为 `r`：
 
-```text
-r(x, y) = beta * ( log pi*(y | x) - log pi_ref(y | x) ) + beta * log Z(x)
+```math
+r(x, y) = \beta \big( \log \pi^*(y \mid x) - \log \pi_{\text{ref}}(y \mid x) \big) + \beta \log Z(x)
 ```
 
 `log Z(x)` 对 `y_w` 和 `y_l` 相同（它依赖 `x` 而不依赖 `y`），所以计算偏好差异时会抵消：
 
-```text
-r(x, y_w) - r(x, y_l) = beta * ( log pi_theta(y_w|x) - log pi_ref(y_w|x)
-                                - log pi_theta(y_l|x) + log pi_ref(y_l|x) )
+```math
+\begin{aligned}
+r(x, y_w) - r(x, y_l) = \beta \big( &\log \pi_\theta(y_w \mid x) - \log \pi_{\text{ref}}(y_w \mid x) \\
+&- \log \pi_\theta(y_l \mid x) + \log \pi_{\text{ref}}(y_l \mid x) \big)
+\end{aligned}
 ```
 
 把这个结果代入 Bradley–Terry 的 sigmoid，并对偏好对取负对数似然：
 
-```text
-L_DPO(theta) = - E_{(x, y_w, y_l)} [
-  log sigmoid( beta * ( log pi_theta(y_w|x) - log pi_ref(y_w|x)
-                       - log pi_theta(y_l|x) + log pi_ref(y_l|x) ) )
-]
+```math
+\begin{aligned}
+L_{\text{DPO}}(\theta) = -\mathbb{E}_{(x, y_w, y_l)} \Big[
+  \log \sigma\big( \beta \big( &\log \pi_\theta(y_w \mid x) - \log \pi_{\text{ref}}(y_w \mid x) \\
+  &- \log \pi_\theta(y_l \mid x) + \log \pi_{\text{ref}}(y_l \mid x) \big) \big)
+\Big]
+\end{aligned}
 ```
 
 这就是损失：每个样本由四个对数概率计算一个标量，再对它应用 sigmoid。不需要单独的奖励模型，也不需要 PPO。损失中没有单独的 KL 项；KL 约束已经编码在闭式推导里。
@@ -98,8 +102,8 @@ flowchart LR
 
 在真正训练前，可以做一个有用的 sanity check。对 `log pi_theta(y_w | x)` 求梯度：
 
-```text
-d L_DPO / d log pi_theta(y_w | x) = - beta * (1 - sigmoid(z))
+```math
+\frac{\partial L_{\text{DPO}}}{\partial \log \pi_\theta(y_w \mid x)} = -\beta \big(1 - \sigma(z)\big)
 ```
 
 其中 `z` 是 sigmoid 的输入。它对所有 `z` 都为负，意味着提高策略对 chosen 补全的对数概率会降低损失。对 `log pi_theta(y_l | x)` 的梯度则对称地为正：提高 rejected 补全的对数概率会增加损失。训练会把 chosen 往上推、把 rejected 往下推。参考模型被冻结，不会移动。

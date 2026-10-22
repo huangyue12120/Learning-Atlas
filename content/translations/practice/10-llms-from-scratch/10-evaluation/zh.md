@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/10-evaluation/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 46ea04b305ea7d7d7072fc2b28c1eb662230ee8bb9739d2245fa50a80472163f
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 89c01fff0229f0f8c3d7bfc6aa3ce18b66785b5961b1dbff1ca775d72c841eae
 status: reviewed
 ---
 
@@ -78,8 +78,8 @@ graph TD
 
 困惑度衡量模型对一串词元感到多么意外。形式上，它是平均负对数似然的指数：
 
-```
-PPL = exp(-1/N * sum(log P(token_i | context)))
+```math
+\text{PPL} = \exp\left(-\frac{1}{N} \sum_i \log P(\text{token}_i \mid \text{context})\right)
 ```
 
 困惑度为 10，意味着模型在平均意义上相当于在每个词元位置从 10 个选项中均匀选择。越低越好。GPT-2 在 WikiText-103 上的困惑度约为 30，GPT-3 约为 20，Llama 3 8B 约为 7。

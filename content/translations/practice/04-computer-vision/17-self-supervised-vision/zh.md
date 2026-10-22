@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/17-self-supervised-vision/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 66a6b4b1a00ffd0c876bd52e43da023d00d1a9fa138f169d34442481ad8d82b9
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 2e8e4464a866b5028cd70d7f88fcd0ab65bf8a79a5c31b106d2906160686822a
 status: reviewed
 ---
 

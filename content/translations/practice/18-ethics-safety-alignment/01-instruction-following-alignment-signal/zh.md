@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/01-instruction-following-alignment-signal/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: b44320de740d56cf3ef7e2a639064e74d75f3f3e9186098b04f11edc5ee39173
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 06f2649b821b7f27298ba47ff8a10963e3776f656e66bbc0e95bf6f82a785a5a
 status: reviewed
 ---
 
@@ -43,8 +43,8 @@ SFT 带来的改变是模型开始回答问题，而非继续补全问题。它�
 
 对每个提示词，从 SFT 模型采样 K 个补全，由标注者排序。训练一个奖励模型，为任意提示词-回答对评分；对于标注者偏好 `y_w` 而非 `y_l` 的一对样本：
 
-```
-L_RM = -log sigmoid(r(x, y_w) - r(x, y_l))
+```math
+L_{\text{RM}} = -\log \sigma\big(r(x, y_w) - r(x, y_l)\big)
 ```
 
 这里使用 Bradley-Terry 成对偏好损失。RM 通常以 SFT 模型初始化，再将 LM head 替换为标量 head。
@@ -55,8 +55,8 @@ L_RM = -log sigmoid(r(x, y_w) - r(x, y_l))
 
 定义目标：
 
-```
-J(pi) = E_{x~D, y~pi(.|x)} [ r(x, y) ] - beta * KL(pi(.|x) || pi_SFT(.|x))
+```math
+J(\pi) = \mathbb{E}_{x \sim D,\, y \sim \pi(\cdot \mid x)} \big[ r(x, y) \big] - \beta \, \mathrm{KL}\big(\pi(\cdot \mid x) \,\|\, \pi_{\text{SFT}}(\cdot \mid x)\big)
 ```
 
 用 PPO 最大化该目标。KL 项让 `pi` 不会偏离 SFT 策略太远。没有它，优化器会找到对抗性样本：这些字符串在 RM 下得高分，是因为 RM 从未见过它们，并非因为人类真的更喜欢它们。
@@ -67,8 +67,8 @@ KL 系数 `beta` 是 RLHF 最重要的超参数。太低会导致奖励黑客；
 
 经过 RLHF 后，模型更受人类偏好，却会在标准基准（SQuAD、HellaSwag、DROP）上退步。Ouyang 等人将此称为对齐税，并使用 PPO-ptx 修复：将预训练梯度混入 RL 目标，使模型不会遗忘那些从未得到奖励的下游任务。
 
-```
-J_ptx(pi) = J(pi) + gamma * E_{x~D_pretrain} [ log pi(x) ]
+```math
+J_{\text{ptx}}(\pi) = J(\pi) + \gamma \, \mathbb{E}_{x \sim D_{\text{pretrain}}} \big[ \log \pi(x) \big]
 ```
 
 PPO-ptx 已成为标准做法。Anthropic、DeepMind 和 Meta 都使用其某种变体。

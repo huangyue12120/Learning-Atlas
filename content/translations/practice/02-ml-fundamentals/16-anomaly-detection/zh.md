@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/16-anomaly-detection/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: fd2418cd6ece3eb747a71ab926fe1b05f2c1c0e4fb07fafd8506081354a99106
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: efe48f9f7a4642702b5cfc06e9203460097f78b2b115ad72949d8d11518e886e
 status: reviewed
 ---
 
@@ -156,8 +156,8 @@ flowchart TD
 
 异常分数基于跨树平均路径长度，并以随机二叉搜索树的期望路径长度归一化：
 
-```
-score(x) = 2^(-average_path_length(x) / c(n))
+```math
+\text{score}(x) = 2^{-\text{average\_path\_length}(x) / c(n)}
 ```
 
 `c(n)` 是 n 个样本的期望路径长度。接近 1 为异常，0.5 附近正常，接近 0 极正常（密集簇深处）。

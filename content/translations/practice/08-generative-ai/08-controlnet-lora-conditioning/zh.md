@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/08-controlnet-lora-conditioning/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: cc1f1598103a54fe7dda2459c8e0c172c22109098a64f730ac2dbb9d251e83b2
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 949c130b46ce16748e7aa7cf308eb5b62556ca631aa94814d8a2cd69d6f1a137
 status: reviewed
 ---
 
@@ -52,8 +52,8 @@ features += weight_a * control_a(depth) + weight_b * control_b(pose)
 
 对于模型中的任意线性层 `W ∈ R^{d×d}`，冻结 `W` 并添加低秩增量：
 
-```
-W' = W + ΔW,  ΔW = B @ A,  A ∈ R^{r×d},  B ∈ R^{d×r}
+```math
+W' = W + \Delta W, \quad \Delta W = B A, \quad A \in \mathbb{R}^{r \times d}, \quad B \in \mathbb{R}^{d \times r}
 ```
 
 其中 `r << d`。注意力通常使用 4～16 阶，重度微调使用 64～128 阶。新参数量从 `d²` 降为 `2 · d · r`。对于 `d=640`、`r=16` 的 SDXL 注意力，每个适配器只需 2 万个参数，而非 41 万个，减少 20 倍。纵观整个模型，一个 LoRA 通常为 20～200MB，基础模型则为 5GB。

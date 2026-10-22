@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/02-reward-hacking-goodhart/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 3e90c0c2d439be3c3ec415fcc573adf961c6665ef952fb44caa4e463e6bfb77f
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 75e7cb929ef0844f3411b82eda8fb8de9e373c88544a77d7c418ec4bfbcffc41
 status: reviewed
 ---
 
@@ -39,9 +39,11 @@ Gao、Schulman、Hilton（2023）直接测量了这一点。他们用 100k 个�
 
 Gao 等人给出函数形式。令 `d = sqrt(KL(pi || pi_init))`。令 `R_proxy(d)` 是平均代理奖励，`R_gold(d)` 是平均金标准奖励。经验上：
 
-```
-R_proxy(d) = alpha * d - beta_proxy * d^2
-R_gold(d)  = alpha * d - beta_gold  * d^2
+```math
+\begin{aligned}
+R_{\text{proxy}}(d) &= \alpha d - \beta_{\text{proxy}} d^2 \\
+R_{\text{gold}}(d) &= \alpha d - \beta_{\text{gold}} d^2
+\end{aligned}
 ```
 
 其中 `beta_gold > beta_proxy`。两者都从零 KL 开始上升，都达到峰值，但金标准的峰值更靠近原点。`d` 很大时，即使代理继续上升，金标准也会跌到基线以下。代理-金标准差距在 best-of-N 采样、PPO、SFT-to-best 中都有同样的特征。

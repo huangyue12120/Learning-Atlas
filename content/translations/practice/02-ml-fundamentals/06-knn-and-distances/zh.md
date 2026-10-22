@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/06-knn-and-distances/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: f18a8624854931bd3757829e4d4626d4dc3b6f10f0ad2cf3c2011e983172f1d4
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: bff69e9324c6c54ef76f589965a4f3df5ba5ccbbcbfad26550bc817ec1a90c74
 status: reviewed
 ---
 
@@ -90,32 +90,33 @@ graph LR
 
 **L2（欧氏距离）**是默认选择，即直线距离：
 
-```text
-d(a, b) = sqrt(sum((a_i - b_i)^2))
+```math
+d(a, b) = \sqrt{\sum_i (a_i - b_i)^2}
 ```
 
 它对特征尺度敏感；KNN 使用 L2 前总要标准化特征。
 
 **L1（曼哈顿距离）**累加绝对差，不平方，因此比 L2 对离群值更稳健：
 
-```text
-d(a, b) = sum(|a_i - b_i|)
+```math
+d(a, b) = \sum_i \lvert a_i - b_i \rvert
 ```
 
 **余弦距离**度量向量夹角、忽略模长，是文本和嵌入数据的关键度量：
 
-```text
-d(a, b) = 1 - (a . b) / (||a|| * ||b||)
+```math
+d(a, b) = 1 - \frac{a \cdot b}{\lVert a \rVert \, \lVert b \rVert}
 ```
 
 **Minkowski 距离**以参数 p 泛化 L1 与 L2：
 
-```text
-d(a, b) = (sum(|a_i - b_i|^p))^(1/p)
-
-p=1: Manhattan
-p=2: Euclidean
-p->inf: Chebyshev (max absolute difference)
+```math
+\begin{aligned}
+& d(a, b) = \left( \sum_i \lvert a_i - b_i \rvert^p \right)^{1/p} \\[6pt]
+& p=1\text{: Manhattan} \\
+& p=2\text{: Euclidean} \\
+& p \to \infty\text{: Chebyshev (max absolute difference)}
+\end{aligned}
 ```
 
 | 数据类型 | 最佳度量 | 原因 |
@@ -130,11 +131,12 @@ p->inf: Chebyshev (max absolute difference)
 
 标准 KNN 对全部 K 个邻居等权；距离 0.1 的邻居应比距离 5.0 的更重要。**距离加权 KNN**按距离倒数赋权：
 
-```text
-weight_i = 1 / (distance_i + epsilon)
-
-For classification: weighted vote
-For regression:     weighted average = sum(w_i * y_i) / sum(w_i)
+```math
+\begin{aligned}
+& \text{weight}_i = \frac{1}{\text{distance}_i + \epsilon} \\[6pt]
+& \text{For classification: weighted vote} \\
+& \text{For regression: weighted average} = \frac{\sum_i w_i y_i}{\sum_i w_i}
+\end{aligned}
 ```
 
 `epsilon` 防止查询点与训练点完全相同时除零。由于远处邻居贡献极小，加权 KNN 对 K 的选择较不敏感。
@@ -209,12 +211,12 @@ KNN 是惰性学习器：训练时不做工作，预测时做全部工作。线�
 
 KNN 回归不多数投票，而是平均 K 个邻居的目标值：
 
-```text
-prediction = (1/K) * sum(y_i for i in K nearest neighbors)
-
-Or with distance weighting:
-prediction = sum(w_i * y_i) / sum(w_i)
-where w_i = 1 / distance_i
+```math
+\begin{aligned}
+& \text{prediction} = \frac{1}{K} \sum_{i \in K \text{ nearest neighbors}} y_i \\[6pt]
+& \text{Or with distance weighting:} \\
+& \text{prediction} = \frac{\sum_i w_i y_i}{\sum_i w_i} \quad \text{where } w_i = \frac{1}{\text{distance}_i + \epsilon}
+\end{aligned}
 ```
 
 它产生分段常量预测（加权后可分段平滑），不能外推训练数据范围；训练目标均在 0 到 100 时，KNN 永不会预测 200。

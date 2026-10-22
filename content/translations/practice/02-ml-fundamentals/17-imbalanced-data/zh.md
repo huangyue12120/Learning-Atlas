@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/17-imbalanced-data/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 1c1f6a2ec1c61310c203298b1eed4eae0923c41764e4f5ced9d86d752b223f40
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 68208483176b73e9d39b4158fb66115e649258cfe554e04b624998538cc74c4f
 status: reviewed
 ---
 
@@ -62,6 +62,9 @@ status: reviewed
 
 ### 不平衡数据管道
 
+```math
+\text{Accuracy} = (0 + 990) / 1000 = 99.0\%
+```
 ```mermaid
 flowchart TD
     A[不平衡数据集] --> B{不平衡比例？}
@@ -147,8 +150,8 @@ flowchart LR
 
 逻辑回归中这修改损失：
 
-```
-weighted_loss = -sum(w_i * [y_i * log(p_i) + (1-y_i) * log(1-p_i)])
+```math
+\text{weighted\_loss} = -\sum \bigl( w_i \cdot [y_i \log(p_i) + (1-y_i) \log(1-p_i)] \bigr)
 ```
 
 其中 w_i 依样本 i 类别而定。类别权重在期望意义上与过采样数学等价，却不产生新点，因此更快并避免重复样本过拟合。

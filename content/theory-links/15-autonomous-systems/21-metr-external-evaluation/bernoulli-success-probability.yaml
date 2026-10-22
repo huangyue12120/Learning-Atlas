@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/21-metr-external-evaluation/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 21805b2aa6c8fedab76f6f0e4ab35455a73e1020c60544d83357a1f960068468
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: ad833b6ee064c08728762ed80e41a0dbe3d2cffd97fee3f88fecdfa62a6ba9bc
   anchor:
     heading: The Time Horizon fit
     slug: the-time-horizon-fit

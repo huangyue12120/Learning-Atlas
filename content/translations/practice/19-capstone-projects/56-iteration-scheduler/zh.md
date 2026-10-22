@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/56-iteration-scheduler/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: a5397d72c31c163366db46935f5c20beb12efd8130dd59e6d8272461c31a45b4
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 15134a332623e008bff812ba102dd0811a855d8b0ebad7571b6277639af37813
 status: reviewed
 ---
 # 迭代调度器
@@ -71,8 +71,8 @@ flowchart TB
 
 本课使用经典的 UCB1 公式。
 
-```text
-ucb(branch) = mean_reward(branch) + c * sqrt( ln(total_runs) / runs(branch) )
+```math
+\text{ucb}(\text{branch}) = \text{mean\_reward}(\text{branch}) + c \sqrt{ \frac{\ln(\text{total\_runs})}{\text{runs}(\text{branch})} }
 ```
 
 `total_runs` 是所有分支完成的实验总数，`c` 是探索权重，课程默认值为 `sqrt(2)`。运行次数为零的分支得到 `+inf`，因此未尝试分支总会优先调度。平均收益高的分支会保持高分，直到其他分支追上；多次运行却收益不高的分支会被尝试较少的候选超越。

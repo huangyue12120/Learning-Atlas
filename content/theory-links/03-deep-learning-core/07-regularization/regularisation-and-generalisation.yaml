@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/07-regularization/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: c6e31ead99cce8cf40dda09a94a3a2b95978f162e4fe67bc3f3e1b9763ae170d
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 84ad718024f20861c25fa6394d9b87b1e480bf0bce5a3c278920fc527fbaf0d7
   anchor:
     heading: Weight Decay (L2 Regularization)
     slug: weight-decay-l2-regularization

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/02-clip-contrastive-pretraining/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 802bc398424324f3a203a4f8f468f1e21d327372a1a273db23dbe2d675d6d07d
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 26a13c6ef7e688f621db264252ed4b2f08b80508090b0e56edc74e6cadbde02e
 status: reviewed
 ---
 
@@ -48,8 +48,8 @@ CLIP 有两个塔：
 
 对于包含 N 个（图像、标题）对的批量，构造形状为 `(N, N)` 的相似度矩阵 `S`：
 
-```
-S[i, j] = cos(f(x_i), g(y_j)) / tau
+```math
+S[i, j] = \cos(f(x_i), g(y_j)) / \tau
 ```
 
 其中 `tau` 是学习得到的温度（CLIP 将其初始化为 0.07，并在 log 空间中学习）。
@@ -76,8 +76,8 @@ Softmax 需要整个相似度矩阵保持同步。在分布式训练中，必须
 
 SigLIP 用逐元素 sigmoid 替代 softmax：对于每个对 `(i, j)`，损失是一个二分类问题：“这是否是匹配的一对？”正类标签是对角线上的元素，其余所有元素都是负类。损失为：
 
-```
-L = -1/N sum over (i, j) [ y_ij log sigmoid(S[i,j]) + (1-y_ij) log sigmoid(-S[i,j]) ]
+```math
+L = -\frac{1}{N} \sum_{(i, j)} \Big[ y_{ij} \log \mathop{\mathrm{sigmoid}}(S[i,j]) + (1-y_{ij}) \log \mathop{\mathrm{sigmoid}}(-S[i,j]) \Big]
 ```
 
 `y_ij = 1` 当且仅当 `i == j`，否则为 0。每一对的损失彼此独立，不需要 all-gather。每个 GPU 计算自己的局部块并求和。在 CLIP 需要按比例增加通信的地方，SigLIP 2 能以较低成本扩展到 32k–512k 的批量。

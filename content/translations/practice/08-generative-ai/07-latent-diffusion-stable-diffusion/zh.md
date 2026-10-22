@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/07-latent-diffusion-stable-diffusion/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 31a712aa953cffde8d835b2d6776923c98ca0946f06adb2c53f2694863ba6941
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: d866f087da7b455a3c13840e6e3624964b0be4b12cc481fdc707770622bca77b
 status: reviewed
 ---
 

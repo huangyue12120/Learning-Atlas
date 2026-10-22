@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/27-multi-object-tracking/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: c94305127796ce8683c9625ebc1897373e86de8c1da82580815f656988c09e7c
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 4c0264f1f25c5bcae865f6a1b85d369af0e79a09fc9e153d5c502efce8291c88
 status: reviewed
 ---
 

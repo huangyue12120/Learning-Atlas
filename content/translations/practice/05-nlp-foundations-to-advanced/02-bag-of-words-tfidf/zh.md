@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/02-bag-of-words-tfidf/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 12f1e26f69e32a9e97f45a82965c3647563f7e135a6010534a843ea7da2273e9
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 9aeaeef9bbc86fb4e768d8f01b9123c2cd989df0287c8a814456a6dd13acd484
 status: reviewed
 ---
 
@@ -34,9 +34,11 @@ status: reviewed
 
 **TF-IDF**重新加权词袋。出现在每篇文档里的词没有区分力，所以降低其权重；在整个语料中稀有、却在某篇文档中频繁出现的词携带信号，所以提高其权重。
 
-```text
-TF-IDF(w, d) = TF(w, d) * IDF(w)
-             = count(w in d) / |d| * log(N / df(w))
+```math
+\begin{aligned}
+\text{TF-IDF}(w, d) &= \text{TF}(w, d) \cdot \text{IDF}(w) \\
+&= \frac{\mathop{\mathrm{count}}(w \text{ in } d)}{|d|} \cdot \log\frac{N}{\mathop{\mathrm{df}}(w)}
+\end{aligned}
 ```
 
 其中，`TF` 是词在文档中的词频，`df` 是文档频率，也就是包含该词的文档数，`N` 是文档总数。`log` 会限制常见词的权重范围。

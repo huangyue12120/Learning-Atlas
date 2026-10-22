@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/03-gans-generator-discriminator/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: db7fe86ffad9d10f6c5a3af0a1192fde88538af04589e34a21472b8769a1cdf8
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 63258263bc9ce4e9312fb31bea20b813055cfea14aac20dcdf6a3c1c740ea9e9
 status: reviewed
 ---
 
@@ -26,8 +26,8 @@ Goodfellow 的思路是：训练分类器 `D(x)` 区分真实图像与假图像�
 
 这种训练称为对抗训练，其数学形式是一个极小极大博弈：
 
-```
-min_G max_D  E_real[log D(x)] + E_fake[log(1 - D(G(z)))]
+```math
+\min_G \max_D \; \mathbb{E}_{\text{real}}[\log D(x)] + \mathbb{E}_{\text{fake}}[\log(1 - D(G(z)))]
 ```
 
 到 2026 年，GAN 已经不是最先进的生成器，扩散与流匹配夺走了这一位置。不过，StyleGAN 2/3 仍是投入使用过的最清晰人脸模型；扩散训练把 GAN 判别器用作*感知损失*；SDXL-Turbo、SD3-Turbo 和 LCM 等快速单步蒸馏也借助对抗训练，让实时扩散得以部署。

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/03-multi-head-attention/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 143eb42fb1de2307cda1f2231b8d5cbb2144deced1dfd717a2c789edbf667f81
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: b65d35b7fc8bc60f91debbbd79ff41cbc8bcfe8363f5f8dc486a24a4e1543408
 status: reviewed
 ---
 

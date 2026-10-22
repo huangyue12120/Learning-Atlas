@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/04-decision-trees/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 012e6e8f09a1eda4f03ca395221e5aa30287a782b885a197d563ff79b5ca750c
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 4b0f504a762eee1962ec224f7ace1863c22051223116185151a1fe4a01d80546
 status: reviewed
 ---
 
@@ -55,10 +55,8 @@ graph TD
 
 **Gini 不纯度**度量：若按该节点的类别分布给随机样本标注，它被误分的概率。
 
-```text
-Gini(S) = 1 - sum(p_k^2)
-
-where p_k is the proportion of class k in set S.
+```math
+\text{Gini}(S) = 1 - \sum_k p_k^2 \quad \text{where } p_k \text{ is the proportion of class } k \text{ in set } S.
 ```
 
 纯节点（全为同类）Gini 为 0；二元类别各占 50% 时为 0.5，越低越好。
@@ -71,8 +69,8 @@ Gini = 1 - (0.6^2 + 0.4^2) = 1 - (0.36 + 0.16) = 0.48
 
 **熵（entropy）**度量节点的信息量（无序程度），在 Phase 1 第 09 课已介绍：
 
-```text
-Entropy(S) = -sum(p_k * log2(p_k))
+```math
+\text{Entropy}(S) = -\sum_k p_k \log_2(p_k)
 ```
 
 纯节点熵为 0，50/50 二元划分为 1.0，越低越好。
@@ -88,10 +86,11 @@ Entropy = -(0.6 * log2(0.6) + 0.4 * log2(0.4))
 
 **信息增益**是在划分后不纯度（熵或 Gini）的降低量：
 
-```text
-IG(S, feature, threshold) = Impurity(S) - weighted_avg(Impurity(S_left), Impurity(S_right))
-
-where the weights are the proportions of samples in each child.
+```math
+\begin{aligned}
+& IG(S, \text{feature}, \text{threshold}) = \text{Impurity}(S) - \text{weighted\_avg}(\text{Impurity}(S_{\text{left}}), \text{Impurity}(S_{\text{right}})) \\[4pt]
+& \text{where the weights are the proportions of samples in each child.}
+\end{aligned}
 ```
 
 每个节点的贪心算法会尝试每个特征和每个可能阈值，选取使信息增益最大的 `(feature, threshold)` 对。
@@ -132,8 +131,8 @@ where the weights are the proportions of samples in each child.
 
 回归时，叶节点预测该叶目标值的均值，准则也改为**方差降低**：
 
-```text
-VR(S, feature, threshold) = Var(S) - weighted_avg(Var(S_left), Var(S_right))
+```math
+VR(S, \text{feature}, \text{threshold}) = \text{Var}(S) - \text{weighted\_avg}(\text{Var}(S_{\text{left}}), \text{Var}(S_{\text{right}}))
 ```
 
 选择方差降低最多的划分。树把输入空间分为区域，并在每一区域预测常量（均值）。
@@ -171,9 +170,8 @@ graph TD
 
 **不纯度平均降低（MDI）：** 对每个特征，汇总它在所有树、所有使用该特征的节点产生的不纯度总降低；早期划分且降低更多不纯度的特征更重要。
 
-```text
-importance(feature_j) = sum over all nodes where feature_j is used:
-    (n_samples_at_node / n_total_samples) * impurity_decrease
+```math
+\text{importance}(\text{feature}_j) = \sum_{\text{nodes where feature}_j \text{ is used}} \frac{n_{\text{samples at node}}}{n_{\text{total samples}}} \cdot \text{impurity\_decrease}
 ```
 
 它训练时即可计算，速度快，但偏爱基数高、可选划分点多的特征。

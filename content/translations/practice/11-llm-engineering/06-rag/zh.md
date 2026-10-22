@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/06-rag/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 03116a37ce0e9ea3f59d086a0c2cf40c621f16fd1b23351e74042d6329096419
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: a0d5b356c1ce021f6a9ca0ccfd2693a7cae56802c6b17927fb72f116bd7b2752
 status: reviewed
 ---
 
@@ -105,20 +105,20 @@ graph LR
 
 **余弦相似度**：两个向量夹角的余弦值，范围从 -1（相反）到 1（相同）。它忽略大小，只关心方向，是 RAG 的默认指标。
 
-```text
-cosine_sim(a, b) = dot(a, b) / (||a|| * ||b||)
+```math
+\mathop{\mathrm{cosine\_sim}}(a, b) = \frac{\mathop{\mathrm{dot}}(a, b)}{\lVert a \rVert \cdot \lVert b \rVert}
 ```
 
 **点积**：原始内积。更大的向量会得到更高分。当大小承载信息时很有用（更长的文档可能更相关）。
 
-```text
-dot(a, b) = sum(a_i * b_i)
+```math
+\mathop{\mathrm{dot}}(a, b) = \sum_i a_i b_i
 ```
 
 **L2（欧氏）距离**：向量空间中的直线距离。距离越小越相似，对大小差异敏感。
 
-```text
-L2(a, b) = sqrt(sum((a_i - b_i)^2))
+```math
+\mathop{\mathrm{L2}}(a, b) = \sqrt{\sum_i (a_i - b_i)^2}
 ```
 
 余弦相似度是标准选择。它通过按大小归一化，能自然处理长度不同的文档。当有人说“向量搜索”时，几乎总是指余弦相似度。

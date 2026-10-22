@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/08-editor-setup/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: b5c36f56fa153fb13620cceac0df13914373d466d229efe3e28915399b96fc84
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: e1f15c23a08a69e1f176c11403da0e2580379c1929311754dca686c5cd86dbe6
 status: reviewed
 ---
 
@@ -203,6 +203,18 @@ Host gpu-box
 2. 将本课 `settings.json` 复制到 VS Code 配置
 3. 打开 Python 文件，确认 Pylance 显示类型提示，Black 在保存时格式化
 4. 若可访问远程机器，配置 Remote SSH 并打开其文件夹
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Install the extensions from the table in Step 2, or install each ID in `code/vscode/extensions.json` with `code --install-extension <id>`. Run `code --list-extensions` and check each ID against the file.
+>
+> **Exercise 2.** Open Settings > Open Settings (JSON) and copy the content of `code/vscode/settings.json` into it. If the file already has settings, merge the keys and keep valid JSON; VS Code marks a broken file with a red line.
+>
+> **Exercise 3.** Write a function with a type annotation, then hover on a call to it; Pylance shows the inferred type. Add extra spaces in a line and save the file; Black must reformat the line on save.
+>
+> **Exercise 4.** Add the server to `~/.ssh/config` first and confirm that `ssh <host>` works in a terminal. Then use the Remote SSH command to connect; the status bar shows the host name when VS Code runs on the remote machine.
 
 ## 核心术语
 

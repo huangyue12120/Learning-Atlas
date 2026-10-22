@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/22-stochastic-processes/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: c0c39f418206fc6ff14a9755bd9663147c3ab4b2f35beb03edd909c746ee3fc8
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: b2dd2a4a177a706a931de2c4d15daad61a9ea933b6c6c8dbc32d517ae556d211
 status: reviewed
 ---
 # 随机过程
@@ -77,14 +77,14 @@ MCMC 采样是贝叶斯推断的支柱，它会构造一条马尔可夫链，而
 
 马尔可夫链是一个按照固定概率在不同状态间转移的系统。它的关键性质是：下一个状态只取决于当前状态，而不取决于历史。
 
-```
-P(X_{t+1} = j | X_t = i, X_{t-1} = ...) = P(X_{t+1} = j | X_t = i)
+```math
+P(X_{t+1} = j \mid X_t = i, X_{t-1} = \ldots) = P(X_{t+1} = j \mid X_t = i)
 ```
 
 这种条件独立性称为马尔可夫性质，因此可以用转移矩阵 P 描述整个系统的动力学：
 
-```
-P[i][j] = 从状态 i 转移到状态 j 的概率
+```math
+P[i][j] = \text{probability of going from state } i \text{ to state } j
 ```
 
 P 的每一行之和都等于 1（你必须转移到某个状态）。
@@ -137,8 +137,8 @@ graph LR
 
 语言模型中的词元生成近似为一个马尔可夫过程。给定当前上下文，模型会输出下一个词元的概率分布。温度控制着分布的尖锐程度：
 
-```
-P(token_i) = exp(logit_i / temperature) / sum(exp(logit_j / temperature))
+```math
+P(\text{token}_i) = \frac{\exp(\text{logit}_i / \text{temperature})}{\sum_j \exp(\text{logit}_j / \text{temperature})}
 ```
 
 - 温度 = 1.0：标准分布
@@ -159,8 +159,8 @@ Top-k 采样把分布截断到概率最高的 k 个词元。Top-p（核采样）
 
 在离散模拟中，可以这样近似布朗运动：
 
-```
-B(t + dt) = B(t) + sqrt(dt) * z,    其中 z ~ N(0, 1)
+```math
+B(t + dt) = B(t) + \sqrt{dt} \, z, \quad \text{where } z \sim \mathcal{N}(0, 1)
 ```
 
 sqrt(dt) 缩放非常重要。它源自应用于随机游走的中心极限定理。
@@ -169,8 +169,8 @@ sqrt(dt) 缩放非常重要。它源自应用于随机游走的中心极限定�
 
 梯度下降寻找函数的最小值。朗之万动力学则寻找与 exp(-U(x)/T) 成比例的概率分布，其中 U 是能量函数，T 是温度。
 
-```
-x_{t+1} = x_t - dt * gradient(U(x_t)) + sqrt(2 * T * dt) * z_t
+```math
+x_{t+1} = x_t - dt \, \nabla U(x_t) + \sqrt{2 T \, dt} \, z_t
 ```
 
 有两种力作用在粒子上：
@@ -181,8 +181,8 @@ x_{t+1} = x_t - dt * gradient(U(x_t)) + sqrt(2 * T * dt) * z_t
 
 **与扩散模型的联系。** 扩散模型的前向过程是：
 
-```
-x_t = sqrt(alpha_t) * x_{t-1} + sqrt(1 - alpha_t) * noise
+```math
+x_t = \sqrt{\alpha_t} \, x_{t-1} + \sqrt{1 - \alpha_t} \cdot \text{noise}
 ```
 
 这是一条逐渐把数据与噪声混合的马尔可夫链。经过足够多步后，x_T 就变成了纯高斯噪声。
@@ -419,14 +419,14 @@ print(f"Approximate mixing time: {1/spectral_gap:.1f} steps")
 
 扩散模型值得特别关注。DDPM（Ho 等，2020）定义了这样一条前向马尔可夫链：
 
-```
-q(x_t | x_{t-1}) = N(x_t; sqrt(1-beta_t) * x_{t-1}, beta_t * I)
+```math
+q(x_t \mid x_{t-1}) = \mathcal{N}\left(x_t; \sqrt{1-\beta_t} \, x_{t-1}, \beta_t I\right)
 ```
 
 其中 beta_t 是一个噪声调度。经过 T 步后，x_T 近似为 N(0, I)。逆向过程由一个预测噪声的神经网络参数化：
 
-```
-p_theta(x_{t-1} | x_t) = N(x_{t-1}; mu_theta(x_t, t), sigma_t^2 * I)
+```math
+p_\theta(x_{t-1} \mid x_t) = \mathcal{N}\left(x_{t-1}; \mu_\theta(x_t, t), \sigma_t^2 I\right)
 ```
 
 生成过程的每一步，都是学习得到的马尔可夫链中的一步。理解马尔可夫链，也就是理解扩散模型生成数据的方式和原因。
@@ -446,6 +446,20 @@ SGLD（随机梯度朗之万动力学）将小批量梯度下降与朗之万噪�
 4. **比较不同温度下的朗之万动力学。** 从双阱势 U(x) = (x^2 - 1)^2 中采样。在低温下，样本聚集在一个势阱中。在高温下，它们会散布到两个势阱中。找出链能够在两个势阱间混合的临界温度。
 
 5. **实现前向扩散过程。** 从一维信号（例如正弦波）开始，使用线性噪声调度，在 100 步中逐渐加入噪声。展示信号如何退化为纯噪声。然后实现一个简单的去噪器来反转这个过程（即便只是一个减去估计噪声的朴素实现也可以）。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Call `random_walk_1d(10000, seed=i)` for 1000 seeds and keep each final position. Check that the mean is near 0, the standard deviation is near 100, and about 68% of the final positions are between -100 and 100.
+>
+> **Exercise 2.** Count each word pair, then divide each row by its total so that every row adds up to 1. Pass the matrix to `MarkovChain(transition_matrix, state_names)` and call `simulate`. Check that every pair of words in your output also occurs in the corpus.
+>
+> **Exercise 3.** Accept a worse point with probability $\exp(-\Delta / T)$ and multiply $T$ by a factor such as 0.99 after each step. Test on a function whose minimum you know, and check your answer against a fine grid search.
+>
+> **Exercise 4.** The gradient is $4x(x^2 - 1)$, so pass that to `langevin_dynamics(grad_U, x0, dt, temperature, n_steps)`. The barrier at $x = 0$ has height 1, so count how often the sign of $x$ changes for temperatures from 0.05 to 1 and look for the temperature where the count starts to rise quickly.
+>
+> **Exercise 5.** Call `diffusion_forward(signal, 100)` and compute $\bar{\alpha}$ at the last step as the product of $(1 - \beta_t)$. If $\bar{\alpha}$ is far from 0, the signal is not yet pure noise, so raise `beta_end`. Test your denoiser first with the true noise: then $(x_t - \sqrt{1 - \bar{\alpha}_t} \epsilon)/\sqrt{\bar{\alpha}_t}$ must give back the original signal exactly.
 
 ## 关键术语
 

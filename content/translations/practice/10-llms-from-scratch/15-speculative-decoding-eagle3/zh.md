@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/15-speculative-decoding-eagle3/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: e7ccc1f2140d91351e1990b1556e97a2f6375b05ad1d7b36d5c852e1cec66ef5
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 60e2c6ad68167b79a2dea85fcfdd05d45df33ee71cb80ca0db5ed131fab6270b
 status: reviewed
 ---
 
@@ -47,8 +47,8 @@ Leviathan、Kalman、Matias（ICML 2023）的定理表明，输出分布与直�
 
 设 `α` 是每个草稿词元的期望接受率，设 `c = cost(draft) / cost(verifier)` 是成本比。每次验证器前向传播接受的词元数期望为：
 
-```
-E[accepted] = (1 - α^(N+1)) / (1 - α)
+```math
+\mathbb{E}[\text{accepted}] = \frac{1 - \alpha^{N+1}}{1 - \alpha}
 ```
 
 每个接受词元的期望总耗时为 `(N * c + 1) / E[accepted]`。对 `N` 最小化这个量，就能得到甜蜜点。当 `α = 0.8, c = 0.05` 时，最佳 `N` 约为 5–7，加速比为 3.2×。当 `α = 0.95, c = 0.02` 时，最佳 `N` 约为 8–10，加速比接近 5×。

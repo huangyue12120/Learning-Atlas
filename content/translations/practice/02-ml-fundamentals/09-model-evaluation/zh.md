@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/09-model-evaluation/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 4c0ac1f4722a3525dd3dbc7290238a75ac414b195c7715129db05ec36a99619e
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: ffa5dbf1775f0cd8008099cebb460f484e61ac51b3c0e9b665b0563cf486fa2a
 status: reviewed
 ---
 

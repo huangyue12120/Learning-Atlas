@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/11-linux-for-ai/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 63127b9a8a6a3c35c4893b7d423e0e220326cbf3fed579c4a59aaabd3fa66f64
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: e4546b58d30ef83badb36b07dbfea227add11bf045a28780acee41f370885514
 status: reviewed
 ---
 
@@ -310,6 +310,20 @@ s0-process-fork
 ```
 
 ## 练习
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Use `cd ~`, `mkdir`, and `cd` into the new folder, then run `touch` with three file names. In the `ls -la` output, check that the three files show a size of 0 and your user name as owner.
+>
+> **Exercise 2.** Install with `sudo apt install -y htop`, start it, and press `F6` (or click the column name) to sort by `MEM%`. The process at the top of the list uses the most memory.
+>
+> **Exercise 3.** Use `tmux new -s train` from the lesson, run `sleep 300`, and detach with `Ctrl+B` then `d`. Run `tmux ls` to see the session, then `tmux attach -t train`; the `sleep` must still run.
+>
+> **Exercise 4.** Run `df -h` and read the `Avail` column for the file system that holds your home folder. Then run `du -sh ~/.cache/* | sort -h` so that the largest folder is on the last line.
+>
+> **Exercise 5.** Copy a file with `scp file.txt user@host:~/`, then run `rsync -avP file.txt user@host:~/` for the same file. Run the `rsync` command a second time: it sends almost nothing, because the file on the remote side did not change.
+
 
 1. SSH 到任意 Linux 机器（或打开 WSL2），进入家目录，创建项目文件夹，在其中用 `touch` 创建三个空文件，然后用 `ls -la` 列出它们。
 2. 用 apt 安装 `htop`，运行它并找出最占内存的进程。

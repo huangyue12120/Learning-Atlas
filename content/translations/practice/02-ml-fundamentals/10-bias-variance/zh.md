@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/10-bias-variance/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 0a85c46801a4aebab2816e45dafaa49a60d12a89da2d1fc5f5f8fb63e15830c9
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 90827a05e5efc693817fa7586d178bd0a2a889f39fe73570c6a669b01485a9b1
 status: reviewed
 ---
 
@@ -67,13 +67,14 @@ status: reviewed
 
 对于任意点 x，平方损失下的期望预测误差可精确分解为：
 
-```text
-Expected Error = Bias^2 + Variance + Irreducible Noise
-
-where:
-  Bias^2   = (E[f_hat(x)] - f(x))^2
-  Variance = E[(f_hat(x) - E[f_hat(x)])^2]
-  Noise    = E[(y - f(x))^2]             (sigma^2)
+```math
+\begin{aligned}
+& \text{Expected Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Noise} \\[6pt]
+& \text{where:} \\
+& \quad \text{Bias}^2 = (\mathbb{E}[\hat{f}(x)] - f(x))^2 \\
+& \quad \text{Variance} = \mathbb{E}[(\hat{f}(x) - \mathbb{E}[\hat{f}(x)])^2] \\
+& \quad \text{Noise} = \mathbb{E}[(y - f(x))^2] \quad (\sigma^2)
+\end{aligned}
 ```
 
 - `f(x)` 是真实函数。

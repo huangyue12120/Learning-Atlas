@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/07-semantic-segmentation-unet/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 7c1b00723a204bfc263ea5c3c3219b04b1549a7d2fc7e3297a4a6611609e54f1
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 90b6b1405dfb64fb5a0cdbd7fb6949bd5f6118c2a46a3d0262f595cf6afe2aaf
 status: reviewed
 ---
 
@@ -100,8 +100,8 @@ flowchart LR
 
 C 类语义分割的模型输出为 `(N, C, H, W)`，目标为带整数类别 ID 的 `(N, H, W)`。交叉熵与分类完全相同，只是应用到每个空间位置：
 
-```
-Loss = mean over (n, h, w) of -log( softmax(logits[n, :, h, w])[target[n, h, w]] )
+```math
+\text{Loss} = \mathop{\mathrm{mean}}\limits_{(n, h, w)} \left[ -\log\left( \mathop{\mathrm{softmax}}(\text{logits}[n, :, h, w])[\text{target}[n, h, w]] \right) \right]
 ```
 
 PyTorch 的 `F.cross_entropy` 原生处理这种形状，不需 reshape。
@@ -112,17 +112,19 @@ PyTorch 的 `F.cross_entropy` 原生处理这种形状，不需 reshape。
 
 Dice 损失直接优化预测掩码与真值掩码的重叠：
 
-```
-Dice(p, y) = 2 * sum(p * y) / (sum(p) + sum(y) + epsilon)
-Dice_loss = 1 - Dice
+```math
+\begin{aligned}
+\mathop{\mathrm{Dice}}(p, y) &= \frac{2 \sum (p \cdot y)}{\sum p + \sum y + \epsilon} \\
+\text{Dice}_{\text{loss}} &= 1 - \text{Dice}
+\end{aligned}
 ```
 
 其中 `p` 是某一类别的 sigmoid/softmax 概率图，`y` 是二值真值掩码。仅完全重叠时损失为零；因其基于比值，类别不平衡无关紧要。
 
 实践中使用**组合损失**：
 
-```
-L = L_cross_entropy + lambda * L_dice       (lambda ~ 1)
+```math
+L = L_{\text{cross\_entropy}} + \lambda \cdot L_{\text{dice}} \qquad (\lambda \approx 1)
 ```
 
 交叉熵在训练初期提供稳定梯度，Dice 让训练后期聚焦真正匹配掩码形状。它是医学影像默认组合，对任何类别不平衡数据集都难以击败。

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/06-probability-and-distributions/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 6af905cb9c5318be55d10a25d9ba18b2dc253d8b8fe6b5b4cc32fe243d2e47f8
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 9595bccbedd22dbf64a1412aebc327ba8817616da5cd2e3aa65ab4a748c1344c
   anchor:
     heading: Probability Mass Functions vs Probability Density Functions
     slug: pmf-vs-pdf

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/08-weight-initialization/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 9c270a87d2872791247c02d3d471bc82bd76ea116df35c80143bc1b53a08c87b
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 8e248147d6007865cfc1f04452d4f850d3d3e4c99a0217c0220e9f92373bcb1e
   anchor:
     heading: Variance Propagation Through Layers
     slug: variance-propagation-through-layers

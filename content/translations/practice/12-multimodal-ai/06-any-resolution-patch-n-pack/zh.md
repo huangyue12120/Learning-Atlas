@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/06-any-resolution-patch-n-pack/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 3bcfd1048342a65895d7fc37058bd969df102f9a0cdec1c07320c3f4ca185f52
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 350ebe112b4ae4c8fb7147905b46b9a47de37e8393e26cebb2e2f871a0ff737b
 status: reviewed
 ---
 

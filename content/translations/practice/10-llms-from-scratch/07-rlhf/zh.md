@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/07-rlhf/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 0e599cb378e8f0291f17d037d75f07cde24451c27ac335a1dbfa49f026524090
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 30a1fc49e095627252b51e3760eaa1b3ddccd18f22d591978df6acab13f2eaf6
 status: reviewed
 ---
 
@@ -91,8 +91,8 @@ graph TD
 
 损失函数使用 Bradley-Terry 成对偏好模型：
 
-```
-loss = -log(sigmoid(reward(preferred) - reward(rejected)))
+```math
+\text{loss} = -\log\big(\mathop{\mathrm{sigmoid}}(\text{reward}(\text{preferred}) - \text{reward}(\text{rejected}))\big)
 ```
 
 这是关键公式。`sigmoid(reward(A) - reward(B))` 给出回答 A 比回答 B 更受偏好的概率。损失会推动奖励模型为偏好回答分配更高的分数。
@@ -107,8 +107,8 @@ PPO 是一种强化学习算法。在 RLHF 中，“环境”是奖励模型，�
 
 目标函数：
 
-```
-maximize: E[R(prompt, response)] - beta * KL(policy || reference)
+```math
+\text{maximize:} \quad \mathbb{E}[R(\text{prompt}, \text{response})] - \beta \cdot \mathrm{KL}(\text{policy} \,\|\, \text{reference})
 ```
 
 第一项推动模型生成高奖励回答。第二项（KL 散度惩罚）防止模型偏离 SFT 检查点太远。
@@ -146,10 +146,12 @@ graph LR
 
 PPO 使用“裁剪代理目标”来防止更新幅度过大。新旧策略概率之比会被裁剪到 [1 - epsilon, 1 + epsilon] 范围内，其中 epsilon 通常为 0.2。
 
-```
-ratio = pi_new(action | state) / pi_old(action | state)
-clipped_ratio = clip(ratio, 1 - epsilon, 1 + epsilon)
-loss = -min(ratio * advantage, clipped_ratio * advantage)
+```math
+\begin{aligned}
+\text{ratio} &= \pi_{\text{new}}(\text{action} \mid \text{state}) / \pi_{\text{old}}(\text{action} \mid \text{state}) \\
+\text{clipped\_ratio} &= \mathop{\mathrm{clip}}(\text{ratio}, 1 - \epsilon, 1 + \epsilon) \\
+\text{loss} &= -\min(\text{ratio} \cdot \text{advantage}, \text{clipped\_ratio} \cdot \text{advantage})
+\end{aligned}
 ```
 
 优势函数估计当前回答相对于预期质量好多少。在 RLHF 中：

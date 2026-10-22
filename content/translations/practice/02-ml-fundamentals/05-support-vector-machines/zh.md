@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/05-support-vector-machines/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 4032f704f9675d31f9c0a1dfbf768283b9c50b5699ccebc90fa5813819136ddd
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: a863b633b409bb5be6360fb07ac35bf132d955b3d65a595f28de5d9f85097da8
 status: reviewed
 ---
 
@@ -37,8 +37,8 @@ status: reviewed
 
 给定线性可分数据，标签 `y_i in {-1, +1}`、特征向量为 `x_i`，希望找到分开类别的超平面 `w^T x + b = 0`。点 `x_i` 到超平面的距离为：
 
-```text
-distance = |w^T x_i + b| / ||w||
+```math
+\text{distance} = \frac{\lvert w^T x_i + b \rvert}{\lVert w \rVert}
 ```
 
 正确分类点满足 `y_i * (w^T x_i + b) > 0`。间隔是超平面到两侧最近点距离的两倍。
@@ -56,16 +56,20 @@ graph LR
 
 优化问题为：
 
-```text
-maximize    2 / ||w||     (the margin width)
-subject to  y_i * (w^T x_i + b) >= 1  for all i
+```math
+\begin{aligned}
+\text{maximize} \quad & \frac{2}{\lVert w \rVert} \quad \text{(the margin width)} \\
+\text{subject to} \quad & y_i (w^T x_i + b) \ge 1 \quad \text{for all } i
+\end{aligned}
 ```
 
 等价地（最小化 `||w||^2` 更易优化）：
 
-```text
-minimize    (1/2) ||w||^2
-subject to  y_i * (w^T x_i + b) >= 1  for all i
+```math
+\begin{aligned}
+\text{minimize} \quad & \frac{1}{2} \lVert w \rVert^2 \\
+\text{subject to} \quad & y_i (w^T x_i + b) \ge 1 \quad \text{for all } i
+\end{aligned}
 ```
 
 这是凸二次规划，拥有唯一全局解。恰好落在间隔边界的点（`y_i * (w^T x_i + b) = 1`）是支持向量；只有它们决定决策边界。移动或删除任意非支持向量，边界都不会改变。
@@ -88,10 +92,12 @@ graph TD
 
 真实数据很少完全可分；有些点会落在边界错误一侧或间隔内部。软间隔通过松弛变量允许违例：
 
-```text
-minimize    (1/2) ||w||^2 + C * sum(xi_i)
-subject to  y_i * (w^T x_i + b) >= 1 - xi_i
-            xi_i >= 0  for all i
+```math
+\begin{aligned}
+\text{minimize} \quad & \frac{1}{2} \lVert w \rVert^2 + C \sum_i \xi_i \\
+\text{subject to} \quad & y_i (w^T x_i + b) \ge 1 - \xi_i \\
+& \xi_i \ge 0 \quad \text{for all } i
+\end{aligned}
 ```
 
 松弛变量 `xi_i` 度量点 `i` 违反间隔的程度。`C` 控制权衡：
@@ -107,8 +113,8 @@ subject to  y_i * (w^T x_i + b) >= 1 - xi_i
 
 软间隔 SVM 可改写成无约束优化：
 
-```text
-minimize    (1/2) ||w||^2 + C * sum(max(0, 1 - y_i * (w^T x_i + b)))
+```math
+\text{minimize} \quad \frac{1}{2} \lVert w \rVert^2 + C \sum_i \max(0, 1 - y_i (w^T x_i + b))
 ```
 
 `max(0, 1 - y_i * f(x_i))` 是 hinge loss。点正确分类且在间隔外时它为零；点在间隔内或误分类时它是线性的。
@@ -133,9 +139,11 @@ Linear penalty when y*f(x) < 1.
 
 与逻辑损失比较：
 
-```text
-Hinge:     max(0, 1 - y*f(x))          Hard cutoff at margin
-Logistic:  log(1 + exp(-y*f(x)))        Smooth, never exactly zero
+```math
+\begin{aligned}
+\text{Hinge:} \quad & \max(0, 1 - y f(x)) && \text{Hard cutoff at margin} \\
+\text{Logistic:} \quad & \log(1 + \exp(-y f(x))) && \text{Smooth, never exactly zero}
+\end{aligned}
 ```
 
 hinge loss 产生稀疏解（只有支持向量贡献非零），逻辑损失使用全部数据点；这使 SVM 预测时内存更高效。
@@ -144,16 +152,16 @@ hinge loss 产生稀疏解（只有支持向量贡献非零），逻辑损失使
 
 可在 hinge loss 加 L2 正则化上做梯度下降，无须求解受约束 QP：
 
-```text
-L(w, b) = (lambda/2) * ||w||^2 + (1/n) * sum(max(0, 1 - y_i * (w^T x_i + b)))
-
-Gradient with respect to w:
-  If y_i * (w^T x_i + b) >= 1:  dL/dw = lambda * w
-  If y_i * (w^T x_i + b) < 1:   dL/dw = lambda * w - y_i * x_i
-
-Gradient with respect to b:
-  If y_i * (w^T x_i + b) >= 1:  dL/db = 0
-  If y_i * (w^T x_i + b) < 1:   dL/db = -y_i
+```math
+\begin{aligned}
+& L(w, b) = \frac{\lambda}{2} \lVert w \rVert^2 + \frac{1}{n} \sum_i \max(0, 1 - y_i (w^T x_i + b)) \\[6pt]
+& \text{Gradient with respect to } w\text{:} \\
+& \quad \text{If } y_i (w^T x_i + b) \ge 1\text{:} \quad \frac{\partial L}{\partial w} = \lambda w \\
+& \quad \text{If } y_i (w^T x_i + b) < 1\text{:} \quad \frac{\partial L}{\partial w} = \lambda w - y_i x_i \\[6pt]
+& \text{Gradient with respect to } b\text{:} \\
+& \quad \text{If } y_i (w^T x_i + b) \ge 1\text{:} \quad \frac{\partial L}{\partial b} = 0 \\
+& \quad \text{If } y_i (w^T x_i + b) < 1\text{:} \quad \frac{\partial L}{\partial b} = -y_i
+\end{aligned}
 ```
 
 这称为原始形式（primal formulation）。每个 epoch 时间为 `O(n * d)`，其中 `n` 是样本数、`d` 是特征数；对大型稀疏高维数据（文本分类）很快。
@@ -162,18 +170,22 @@ Gradient with respect to b:
 
 SVM 问题的拉格朗日对偶（来自 Phase 1 第 18 课 KKT 条件）为：
 
-```text
-maximize    sum(alpha_i) - (1/2) * sum_ij(alpha_i * alpha_j * y_i * y_j * (x_i . x_j))
-subject to  0 <= alpha_i <= C
-            sum(alpha_i * y_i) = 0
+```math
+\begin{aligned}
+\text{maximize} \quad & \sum_i \alpha_i - \frac{1}{2} \sum_{i,j} \alpha_i \alpha_j y_i y_j (x_i \cdot x_j) \\
+\text{subject to} \quad & 0 \le \alpha_i \le C \\
+& \sum_i \alpha_i y_i = 0
+\end{aligned}
 ```
 
 对偶只涉及数据点间的点积 `x_i . x_j`。将每个点积替换为核函数 `K(x_i, x_j)`，SVM 就可学习非线性边界，而无须显式计算变换：
 
-```text
-Linear kernel:      K(x, z) = x . z
-Polynomial kernel:  K(x, z) = (x . z + c)^d
-RBF (Gaussian):     K(x, z) = exp(-gamma * ||x - z||^2)
+```math
+\begin{aligned}
+\text{Linear kernel:} \quad & K(x, z) = x \cdot z \\
+\text{Polynomial kernel:} \quad & K(x, z) = (x \cdot z + c)^d \\
+\text{RBF (Gaussian):} \quad & K(x, z) = \exp(-\gamma \lVert x - z \rVert^2)
+\end{aligned}
 ```
 
 RBF 核将数据映射到无限维空间：输入空间相近的点核值接近 1，远离的点核值接近 0；它能学习任意平滑决策边界。
@@ -195,11 +207,13 @@ graph LR
 
 支持向量回归在数据周围拟合宽度为 `epsilon` 的管带。管带内点损失为零，管带外点线性受罚：
 
-```text
-minimize    (1/2) ||w||^2 + C * sum(xi_i + xi_i*)
-subject to  y_i - (w^T x_i + b) <= epsilon + xi_i
-            (w^T x_i + b) - y_i <= epsilon + xi_i*
-            xi_i, xi_i* >= 0
+```math
+\begin{aligned}
+\text{minimize} \quad & \frac{1}{2} \lVert w \rVert^2 + C \sum_i (\xi_i + \xi_i^*) \\
+\text{subject to} \quad & y_i - (w^T x_i + b) \le \epsilon + \xi_i \\
+& (w^T x_i + b) - y_i \le \epsilon + \xi_i^* \\
+& \xi_i, \xi_i^* \ge 0
+\end{aligned}
 ```
 
 `epsilon` 控制管带宽度：更宽意味着更少支持向量、更平滑拟合；更窄意味着更多支持向量、更贴合拟合。

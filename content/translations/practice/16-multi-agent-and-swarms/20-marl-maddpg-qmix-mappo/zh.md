@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/20-marl-maddpg-qmix-mappo/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 77aa03c7a2d275a2459e0bf2153ec6059b438f6fa97e68d208716531ea0e9caf
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 73e2c34e4c463c3cd868a99fcfa9f0f9e214e393cbebd60f771de525c22becda
 status: reviewed
 ---
 
@@ -55,8 +55,8 @@ critic update:   TD on Q_i(x, a_1..n) given next-state joint estimate
 
 只适用于合作场景。全局奖励是逐智能体 Q 值的某个单调函数：
 
-```text
-Q_tot(tau, a) = f(Q_1(tau_1, a_1), ..., Q_n(tau_n, a_n)),   df/dQ_i >= 0
+```math
+Q_{\text{tot}}(\tau, a) = f\big(Q_1(\tau_1, a_1), \ldots, Q_n(\tau_n, a_n)\big), \quad \frac{\partial f}{\partial Q_i} \ge 0
 ```
 
 单调性保证可以让每个智能体独立选择 `argmax_{a_i} Q_i` 来计算 `argmax_a Q_tot`。这正是你所需的**分散执行性质**。训练时，混合网络会从逐智能体 Q 值产生 `Q_tot`。

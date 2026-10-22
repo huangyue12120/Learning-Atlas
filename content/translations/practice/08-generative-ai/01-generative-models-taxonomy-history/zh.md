@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/01-generative-models-taxonomy-history/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: ffd3a1abd851ac44929ef552e8c573e22ab8e45997119815e267dc68f179ea52
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 3441b569a900f42086a922735075295fdace77d8306cf4ff46fc81413966d858
 status: reviewed
 ---
 

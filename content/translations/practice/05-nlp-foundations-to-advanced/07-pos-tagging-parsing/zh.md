@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/07-pos-tagging-parsing/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 05fb67fdbec5afafc9e35f4d96de29663c1a37022ad70bbe3f97e804366c8a6e
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 831c78481beac9ca924b47569f9b690e68b1ac6db6ea66aef36dd331572270af
 status: reviewed
 ---
 
@@ -91,8 +91,8 @@ def predict_mft(tokens, word_best, default_tag):
 
 对序列的联合概率建模：
 
-```text
-P(tags, words) = prod P(tag_i | tag_{i-1}) * P(word_i | tag_i)
+```math
+P(\text{tags}, \text{words}) = \prod_i P(\text{tag}_i \mid \text{tag}_{i-1}) \cdot P(\text{word}_i \mid \text{tag}_i)
 ```
 
 模型使用两张表：转移概率表记录给定前一标签时当前标签的概率；发射概率表记录给定标签时某个词出现的概率。用计数和拉普拉斯平滑估计二者，再用 Viterbi 在标签格上做动态规划解码。

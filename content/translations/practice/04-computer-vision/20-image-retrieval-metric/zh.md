@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/20-image-retrieval-metric/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 242ab4be9b9dc567f743984958434792bb3642856d2d776d079d27b6bc1060e5
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: eb38f4d74d4dbc25bdec5c8984697a5cef35880f7b23c95e11a4d35907849dfa
 status: reviewed
 ---
 
@@ -65,8 +65,8 @@ flowchart LR
 
 ### 三元组损失的形式
 
-```text
-L = max(0, ||f(a) - f(p)||^2 - ||f(a) - f(n)||^2 + margin)
+```math
+L = \max\left(0, \lVert f(a) - f(p) \rVert^2 - \lVert f(a) - f(n) \rVert^2 + \text{margin}\right)
 ```
 
 将锚点 `a` 拉近正样本 `p`，推远负样本 `n`；`margin` 确保两者间隔。三张图的结构可推广到任意相似度排序。

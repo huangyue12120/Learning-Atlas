@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/11-quantization/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 7b089b523500e3a6948d1265e174f1c59cbc890f31faeba9549e5a9de95180bf
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 859b9d5f9cdb89478daeb224e8e4f6eb20d506bcc36213abf5723190f10217ed
 status: reviewed
 ---
 

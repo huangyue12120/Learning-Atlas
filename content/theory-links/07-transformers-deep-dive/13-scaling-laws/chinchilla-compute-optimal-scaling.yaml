@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/13-scaling-laws/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: aac8b47ac5c315771ce177f36d9cf99a6cbc6a23f9208bf77b23dfe4a3b0dc39
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 69f57bfb6a990b363a67d2dce4b9607660d2f2c321d8caf0dcc65d052bd0f696
   anchor:
     heading: The Concept
     slug: the-concept

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/11-stable-diffusion/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: f2940ee23e490fe19538347b5848aa5ebdee87848e8e2edcca1377f557c6ff09
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 35526f8b1e2673b88763d4553eb03f46a83efe83a53621ed0570261c784c9932
 status: reviewed
 ---
 
@@ -66,8 +66,8 @@ flowchart LR
 
 普通文本条件学习每个提示 `c` 的 `epsilon_theta(x_t, t, c)`。CFG 在训练时 10% 概率丢弃 `c`（替为空嵌入），让单一模型同时预测条件与无条件噪声；推理时：
 
-```
-eps = eps_uncond + w * (eps_cond - eps_uncond)
+```math
+\epsilon = \epsilon_{\text{uncond}} + w \cdot (\epsilon_{\text{cond}} - \epsilon_{\text{uncond}})
 ```
 
 `w` 是引导尺度：`w=0` 无条件，`w=1` 普通条件，`w>1` 将输出推向“更受提示词约束”，代价是多样性。SD 默认 `w=7.5`。

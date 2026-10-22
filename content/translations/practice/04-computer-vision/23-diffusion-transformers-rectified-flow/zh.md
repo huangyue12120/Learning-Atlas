@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/23-diffusion-transformers-rectified-flow/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 422060f3286899edcccdb97e17eda8c8f426a18c38116cbe0ef210ebda4aa606
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 2ff0554bdd0df3d473c318f44aa41bf564853f832c92063e3c47ab6ce92b3ab0
 status: reviewed
 ---
 
@@ -70,8 +70,8 @@ DDPM 将前向过程定义为逐渐损坏 `x_t` 的噪声 SDE；学习到的反�
 
 Rectified flow 定义干净数据与纯噪声间的**直线**插值：
 
-```text
-x_t = (1 - t) * x_0 + t * epsilon,     t in [0, 1]
+```math
+x_t = (1 - t) \, x_0 + t \, \epsilon, \qquad t \in [0, 1]
 ```
 
 训练网络预测速度 `v_theta(x_t, t) = epsilon - x_0`——即从干净数据沿直线路径指向噪声的前向方向（`dx_t/dt`）。采样时反向积分该速度，从噪声走向数据。得到的 ODE 更接近直线，因此采样所需积分步更少。

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/13-neural-audio-codecs/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 4fc76820d2dc2bafeda60c77018b05b52b4ee1febbdbe2a32b2ac76bcd4f3feb
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: ee2c7416cb509f04adf908fe395ffd6ecb76200926d48b622a7be7e25d6fce93
 status: reviewed
 ---
 
@@ -140,8 +140,8 @@ acoustic = codes[:, 1:]
 
 对于一段 10 秒语音，Mimi 的帧率为 12.5 Hz，共 8 个码本：
 
-```text
-N_tokens = 10 * 12.5 * 8 = 1000 tokens
+```math
+N_{\text{tokens}} = 10 \times 12.5 \times 8 = 1000 \text{ tokens}
 ```
 
 1000 个词元对 Transformer 来说只是很小的上下文。现代 GPU 上，一个 2.56 亿参数的 Transformer 可在数毫秒内生成 10 秒语音。

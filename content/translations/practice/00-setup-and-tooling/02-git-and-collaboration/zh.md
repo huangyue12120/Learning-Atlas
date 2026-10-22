@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/02-git-and-collaboration/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 1b219057e92a910cb897b792b14d05bbe2dc7c3fcac5b57cb390071caefb8c96
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 5bcc9ca73bdf9f2a3a647d167ed00ff223a81a9a36f996ce148aa1312d545f08
 status: reviewed
 ---
 
@@ -116,6 +116,16 @@ git push origin my-progress
 1. Fork 本仓库，克隆你的 fork，创建名为 `my-progress` 的分支，创建一个文件、提交并推送
 2. 创建一个 `.gitignore`，排除模型检查点文件（`.pt`、`.pth`、`.safetensors`）
 3. 用 `git log --oneline` 查看本仓库的提交历史，了解课程是如何加入的
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Click Fork on GitHub, then `git clone` the URL of your own fork. After `git push -u origin my-progress`, open your fork on GitHub and confirm that the branch list shows `my-progress` with your file.
+>
+> **Exercise 2.** Add one pattern per extension, such as `*.pt`, to a `.gitignore` file in the repository root. Create an empty file with each extension and run `git status`; none of them may appear in the list of untracked files.
+>
+> **Exercise 3.** Run `git log --oneline` and then `git log --oneline -- phases/00-setup-and-tooling` to show only the commits that changed this phase. Pick one commit and run `git show --stat <hash>` to see which lesson files it added.
 
 ## 核心术语
 

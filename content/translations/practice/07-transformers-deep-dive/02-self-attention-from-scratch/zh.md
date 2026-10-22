@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/02-self-attention-from-scratch/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 54a8d6da2e4f1ea0b0b43a1bf09be1b3c41e2d5b974cef459b0ab8ea0af18177
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: cbac89a4606c12e6dbcfdc1c68844732107a7e279377b0f3f5c6a37e213fd4db
 status: reviewed
 ---
 
@@ -123,8 +123,8 @@ attention-matrix
 
 点积会随维度 dk 增长。若 dk = 64，点积可能达到几十，把 softmax 推到梯度消失的区域。修复方法是除以 sqrt(dk)。
 
-```text
-缩放分数 = (Q @ K^T) / sqrt(dk)
+```math
+\text{Scaled scores} = \frac{Q K^T}{\sqrt{d_k}}
 ```
 
 这样可以把数值保持在 softmax 能产生有效梯度的范围内。
@@ -171,8 +171,8 @@ flowchart LR
 
 用一行公式表示：
 
-```text
-Attention(Q, K, V) = softmax( Q @ K^T / sqrt(dk) ) @ V
+```math
+\text{Attention}(Q, K, V) = \mathop{\mathrm{softmax}}\left( \frac{Q K^T}{\sqrt{d_k}} \right) V
 ```
 
 ```figure
@@ -185,6 +185,9 @@ softmax-attention-scaling
 
 Softmax 把原始 logits 转换为概率。为保证数值稳定性，先减去最大值。
 
+```figure
+iso-machine {"machine":"self-attention"}
+```
 ```python
 import numpy as np
 

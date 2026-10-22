@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/03-logistic-regression/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 28c89a0c75029f41edaaa3aae7428a8a5b30479765ec4c1afdf4853917c25954
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 9853f595623003ac5870c01e8bd9e4ae27c65e26fc4c8c89c5d823a360a97660
   anchor:
     heading: Binary Cross-Entropy Loss
     slug: binary-cross-entropy-loss

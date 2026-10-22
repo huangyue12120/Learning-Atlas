@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/04-conditional-gans-pix2pix/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: d6bbfa6ac4d6dc5ee373169e15023f9789b88a85ed0a7152ff0d588615c3ded7
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: d367559893c31d907b08e7edc3204d27fad7df0271300f6e92a50d06b1ed51a4
 status: reviewed
 ---
 
@@ -38,9 +38,11 @@ status: reviewed
 
 **损失。**
 
-```
-loss_G = -log D(x, G(x)) + λ · ||y - G(x)||_1
-loss_D = -log D(x, y) - log (1 - D(x, G(x)))
+```math
+\begin{aligned}
+\text{loss}_G &= -\log D(x, G(x)) + \lambda \cdot \lVert y - G(x) \rVert_1 \\
+\text{loss}_D &= -\log D(x, y) - \log(1 - D(x, G(x)))
+\end{aligned}
 ```
 
 L1 项稳定训练，并把 G 推向已知目标。L1 比 L2 产生更清晰的边缘，因为它对应中位数而非均值。Pix2Pix 默认使用 `λ = 100`。

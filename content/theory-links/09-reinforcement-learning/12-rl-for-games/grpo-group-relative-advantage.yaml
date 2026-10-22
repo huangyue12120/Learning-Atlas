@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/12-rl-for-games/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: fbd5ca23db373b9902bdde62d877b231a4096787a4485183971891812fcf1f35
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 1c60c872a9f5d77e1fff0166c3f2454a9ec2380e8b10ed9e2fb783c2139f4184
   anchor:
     heading: The Concept
     slug: the-concept

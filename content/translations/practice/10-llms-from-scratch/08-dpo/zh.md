@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/08-dpo/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: a295d8092c3cba3c2595bbddb731802cc062d9e9cb686b6a5e7196e2eba4d4ed
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 8ed68c9a1735cf8873001c591ef2ad0af65a18c376b9e1e082f54de00e48862d
 status: reviewed
 ---
 
@@ -43,39 +43,41 @@ DPO 将 RLHF 简化为一个监督学习步骤：一个模型、一个损失函�
 
 RLHF 优化以下目标：
 
-```
-maximize: E[R(x, y)] - beta * KL(pi || pi_ref)
+```math
+\text{maximize:} \quad \mathbb{E}[R(x, y)] - \beta \cdot \mathrm{KL}(\pi \,\|\, \pi_{\text{ref}})
 ```
 
 其中 R 是奖励模型，pi 是策略，pi_ref 是参考模型，beta 是 KL 系数。
 
 DPO 论文表明，这个目标存在闭式最优解。对于任意奖励函数 R，最优策略为：
 
-```
-pi*(y | x) = pi_ref(y | x) * exp(R(x, y) / beta) / Z(x)
+```math
+\pi^*(y \mid x) = \pi_{\text{ref}}(y \mid x) \cdot \exp(R(x, y) / \beta) / Z(x)
 ```
 
 其中 Z(x) 是归一化常数。移项可得：
 
-```
-R(x, y) = beta * log(pi*(y | x) / pi_ref(y | x)) + beta * log Z(x)
+```math
+R(x, y) = \beta \log \frac{\pi^*(y \mid x)}{\pi_{\text{ref}}(y \mid x)} + \beta \log Z(x)
 ```
 
 DPO 的突破在于，奖励完全可以用策略模型的概率和参考模型的概率表示。你不需要训练独立的奖励模型；奖励已经*隐式地*存在于概率比中。
 
 将它代入 Bradley-Terry 偏好模型：
 
-```
-P(y_w > y_l | x) = sigmoid(R(x, y_w) - R(x, y_l))
-                  = sigmoid(beta * (log pi(y_w|x)/pi_ref(y_w|x) - log pi(y_l|x)/pi_ref(y_l|x)))
+```math
+\begin{aligned}
+P(y_w > y_l \mid x) &= \mathop{\mathrm{sigmoid}}(R(x, y_w) - R(x, y_l)) \\
+&= \mathop{\mathrm{sigmoid}}\left(\beta \left(\log \frac{\pi(y_w \mid x)}{\pi_{\text{ref}}(y_w \mid x)} - \log \frac{\pi(y_l \mid x)}{\pi_{\text{ref}}(y_l \mid x)}\right)\right)
+\end{aligned}
 ```
 
 由于两个回答都以同一个提示词 x 为条件，Z(x) 项会相互抵消。剩下的只是一个关于策略模型和参考模型在偏好回答、拒绝回答上的对数概率的函数。
 
 ### DPO 损失 <!-- learning-atlas: the-dpo-loss -->
 
-```
-L_DPO = -log(sigmoid(beta * (log pi(y_w|x)/pi_ref(y_w|x) - log pi(y_l|x)/pi_ref(y_l|x))))
+```math
+L_{\text{DPO}} = -\log \mathop{\mathrm{sigmoid}}\left(\beta \left(\log \frac{\pi(y_w \mid x)}{\pi_{\text{ref}}(y_w \mid x)} - \log \frac{\pi(y_l \mid x)}{\pi_{\text{ref}}(y_l \mid x)}\right)\right)
 ```
 
 逐项拆解如下：

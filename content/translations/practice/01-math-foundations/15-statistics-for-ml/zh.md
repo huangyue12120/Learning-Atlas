@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/15-statistics-for-ml/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 9770d8e715f37b25538f2c9b0e78de30b38d7c1ddccc81765b124880071e0561
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 4ef9d7580b4fcde317da08d2076e397cb48e48a890a1b048393ad31d647ebf75
 status: reviewed
 ---
 
@@ -153,9 +153,13 @@ Bootstrap 对 n 个数据有放回抽样 n 个，计算统计量并重复 B 次�
 ```text
 范围 = max−min；IQR = Q3−Q1，覆盖中间 50%。
 ```
-```text
-P50=中位数；P95=95 分位；P99=尾部延迟。
+```math
+\begin{aligned}
+\text{Population variance:} \quad \sigma^2 &= \frac{1}{N} \sum (x_i - \mu)^2 \\
+\text{Sample variance:} \quad s^2 &= \frac{1}{n-1} \sum (x_i - \bar{x})^2
+\end{aligned}
 ```
+
 ```text
 总体方差分母为 N；样本方差分母为 n−1（Bessel 校正）。
 ```
@@ -180,9 +184,13 @@ H0 是默认无效应假设；H1 是待证明的效果。
 ```text
 p-value=P(观测到如此极端数据 | H0 为真)，不是 P(H0 为真)。
 ```
-```text
-p<α 时拒绝 H0；否则未能拒绝，不代表 H0 为真。
+```math
+\begin{aligned}
+t &= \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \\[4pt]
+\text{degrees of freedom} &= n - 1
+\end{aligned}
 ```
+
 ```text
 95% CI：x̄ ± z*(s/sqrt(n))；95% 时 z=1.96（大样本近似）。
 ```
@@ -201,9 +209,15 @@ Welch t=(x̄1−x̄2)/sqrt(s1²/n1+s2²/n2)，不要求方差相等。
 ```text
 卡方 χ²=Σ((观测−期望)²/期望)；示例表中 χ²=8，p<0.005。
 ```
-```text
-A/B 必须使用相同测试集，同时报告 accuracy、precision、recall、F1、延迟和公平性。
+```math
+\begin{aligned}
+\text{Cohen's } d &= \frac{\text{mean}_1 - \text{mean}_2}{\text{pooled\_std}} \\[4pt]
+d &= 0.2: \quad \text{small effect} \\
+d &= 0.5: \quad \text{medium effect} \\
+d &= 0.8: \quad \text{large effect}
+\end{aligned}
 ```
+
 ```text
 流程：预设指标和 α；同一 k-fold；收集配对分数；检验差值；计算 CI 和 Cohen's d。
 ```

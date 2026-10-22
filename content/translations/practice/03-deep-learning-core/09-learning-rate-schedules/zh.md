@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/09-learning-rate-schedules/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 192874a3732b8f75bf87c252b2cabefb58a8df22db14a5ca0118bf8e812e2551
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 3c620f39d741127312a99239911de117781001a138d2264fac99bc3debbb1268
 status: reviewed
 ---
 
@@ -41,8 +41,8 @@ status: reviewed
 
 最简单的做法是选一个数，每一步都使用它：
 
-```
-lr(t) = lr_0
+```math
+\text{lr}(t) = \text{lr}_0
 ```
 
 它很少最优：要么对训练结尾太高（在极小值附近振荡），要么对开始太低（用小步浪费计算）。小模型和调试可以使用；训练超过一小时的任何任务都不适合。
@@ -51,8 +51,8 @@ lr(t) = lr_0
 
 ResNet 时代的传统做法：在固定 epoch 将学习率按一个因子（通常 10 倍）降低。
 
-```
-lr(t) = lr_0 * gamma^(floor(epoch / step_size))
+```math
+\text{lr}(t) = \text{lr}_0 \cdot \gamma^{\lfloor \text{epoch} / \text{step\_size} \rfloor}
 ```
 
 当 gamma = 0.1、step_size = 30 时，lr 每 30 个 epoch 降低 10 倍。ResNet-50 使用该方案：lr=0.1，在 epoch 30、60、90 分别降低 10 倍。
@@ -63,8 +63,8 @@ lr(t) = lr_0 * gamma^(floor(epoch / step_size))
 
 沿余弦曲线，从最大学习率平滑衰减至最小值：
 
-```
-lr(t) = lr_min + 0.5 * (lr_max - lr_min) * (1 + cos(pi * t / T))
+```math
+\text{lr}(t) = \text{lr}_{\min} + 0.5 \cdot (\text{lr}_{\max} - \text{lr}_{\min}) \cdot \left(1 + \cos\left(\frac{\pi t}{T}\right)\right)
 ```
 
 t 是当前步数，T 是总步数。t=0 时余弦项为 1，lr=lr_max；t=T 时余弦项为 -1，lr=lr_min。衰减开始缓慢，中段加速，结尾又变缓。
@@ -77,8 +77,8 @@ Adam 等自适应优化器维护梯度均值与方差的滑动估计。第 0 步
 
 预热可修复此问题：从极小学习率（通常为 lr_max / warmup_steps，甚至零）开始，在前 N 步线性上升至 lr_max。达到完整学习率时，Adam 的统计量已稳定。
 
-```
-lr(t) = lr_max * (t / warmup_steps)     for t < warmup_steps
+```math
+\text{lr}(t) = \text{lr}_{\max} \cdot \frac{t}{\text{warmup\_steps}} \quad \text{for } t < \text{warmup\_steps}
 ```
 
 典型预热占总训练步数 1–5%。Llama 3 在约 1.8 万亿词元上训练、预热 2000 步；GPT-3 在 3.75 亿词元上预热。

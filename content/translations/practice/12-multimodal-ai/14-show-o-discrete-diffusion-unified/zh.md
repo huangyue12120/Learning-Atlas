@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/14-show-o-discrete-diffusion-unified/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: c87e6d0054f7b3244a92d39902938128f154c59f5e5aecbc3d1c27055b7e2091
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 15a1547e6db363fe53067ab51a3e22198af5c56cb247a1e3b71a2a60913c3e53
 status: reviewed
 ---
 
@@ -80,8 +80,8 @@ Show-o 在推理时支持四种任务，由提示词格式选择：
 
 每一步解除多少词元的掩码，会塑造质量。Show-o 推荐余弦计划：
 
-```
-mask_ratio(t) = cos(pi * t / (2 * T))   # t = 0..T
+```math
+\text{mask\_ratio}(t) = \cos\left(\frac{\pi t}{2T}\right) \qquad t = 0, \ldots, T
 ```
 
 第 0 步所有词元都被掩码（比例 1.0），第 T 步没有词元被掩码。余弦计划把更多质量集中在中间比例，因为此时预测最有信息。线性计划也有效，但更快进入平台期。

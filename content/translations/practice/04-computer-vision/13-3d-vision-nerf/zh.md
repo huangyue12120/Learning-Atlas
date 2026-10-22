@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/13-3d-vision-nerf/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: c91398ef171ce0b74699c08f47544c013b8fb0db493fa8719034051d08c3b169
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 08a2191572ee887175890e6f2835b8090306f7614222ac4508efad2413476f3e
 status: reviewed
 ---
 
@@ -55,8 +55,8 @@ cloud = [
 
 PointNet（Qi 等，2017）用一个想法同时解决了这两个问题：对每个点应用共享 MLP，再用对称函数（最大池化）聚合。结果是一个不依赖输入顺序的固定大小向量。
 
-```text
-f(P) = max_{p in P} MLP(p)
+```math
+f(P) = \max_{p \in P} \mathop{\mathrm{MLP}}(p)
 ```
 
 共享 MLP 与对称聚合构成 PointNet 的核心。更深的变体（PointNet++、Point Transformer）增加了层级采样和局部聚合，但这个对称函数技巧保持不变。
@@ -100,19 +100,20 @@ NeRF MLP:  (x, y, z, theta, phi) -> (sigma, r, g, b)
 
 直接将 `(x, y, z)` 送入普通 MLP，无法表示高频细节，因为 MLP 在频谱上偏向低频。NeRF 在送入 MLP 前，把每个坐标编码为 Fourier 特征向量来解决它：
 
-```text
-gamma(p) = (sin(2^0 pi p), cos(2^0 pi p), sin(2^1 pi p), cos(2^1 pi p), ...)
+```math
+\gamma(p) = \left(\sin(2^0 \pi p), \cos(2^0 \pi p), \sin(2^1 \pi p), \cos(2^1 \pi p), \ldots\right)
 ```
 
 通常使用到 `L=10` 个频率层级。这与 transformer 的位置编码是同一种技巧，也会在第 10 课的扩散时间条件中再次出现。没有它，NeRF 会显得模糊。
 
 ### 体渲染
 
-```text
-C(r) = sum_i T_i * (1 - exp(-sigma_i * delta_i)) * c_i
-
-T_i  = exp(- sum_{j<i} sigma_j * delta_j)
-delta_i = t_{i+1} - t_i
+```math
+\begin{aligned}
+C(r) &= \sum_i T_i \left(1 - \exp(-\sigma_i \delta_i)\right) c_i \\[4pt]
+T_i &= \exp\left(-\sum_{j<i} \sigma_j \delta_j\right) \\
+\delta_i &= t_{i+1} - t_i
+\end{aligned}
 ```
 
 `T_i` 是透射率（transmittance），即有多少光能存留到第 i 个点。`(1 - exp(-sigma_i * delta_i))` 是第 i 个点的不透明度；`c_i` 是颜色。最终像素是沿射线的加权求和。

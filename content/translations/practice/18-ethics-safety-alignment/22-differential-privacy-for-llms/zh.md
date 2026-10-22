@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/22-differential-privacy-for-llms/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 0f05d09ab51d09c553677ace2ec81064232132803ec1dac721d72e8ad1118db4
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: f75d716e77e9adb21406e6a3944ffb44acb8fd2e25f859cbec6f095259fb8703
 status: reviewed
 ---
 
@@ -83,6 +83,9 @@ Abadi 等人，2016 年。标准步骤如下：
 
 第 20–21 课讨论偏差与公平性。第 22 课讨论隐私。第 23 课讨论通过水印实现溯源。第 27 课讨论监管中的数据溯源层。
 
+```math
+P(M(D) \in S) \le e^{\varepsilon} \cdot P(M(D') \in S) + \delta.
+```
 ```figure
 an-dp-clip-noise
 ```

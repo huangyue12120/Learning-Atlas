@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/51-literature-retrieval/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 9485a01ede9c0802ce59ffdff4e728e8a766eda68d1635a3480e4c4fe313e90e
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: e7d682e99a74f5afc9f75836d73cf17f91820991802a43ff9cd35a886c4bf992
 status: reviewed
 ---
 
@@ -79,10 +79,12 @@ flowchart TD
 
 实现采用标准 Okapi BM25，默认参数为 `k1=1.5`、`b=0.75`。索引由两个字典组成：`term -> doc_frequency` 和 `term -> list of (doc_id, term_count)`。文档长度是摘要 token 数，平均长度在建索引时计算一次。查询分数是各查询词 `idf * tf_norm` 的总和。
 
-```text
-idf(t)      = log((N - df + 0.5) / (df + 0.5) + 1.0)
-tf_norm(t)  = (f * (k1 + 1)) / (f + k1 * (1 - b + b * dl / avgdl))
-score(d, q) = sum over t in q of idf(t) * tf_norm(t)
+```math
+\begin{aligned}
+\text{idf}(t) &= \log\!\left(\frac{N - \text{df} + 0.5}{\text{df} + 0.5} + 1.0\right) \\
+\text{tf\_norm}(t) &= \frac{f \cdot (k_1 + 1)}{f + k_1 \cdot \left(1 - b + b \cdot \text{dl} / \text{avgdl}\right)} \\
+\text{score}(d, q) &= \sum_{t \in q} \text{idf}(t) \cdot \text{tf\_norm}(t)
+\end{aligned}
 ```
 
 分词器先 `lower`，再按非字母数字字符切分，不做词干提取。生产系统可替换为小型词干器，接口不变。

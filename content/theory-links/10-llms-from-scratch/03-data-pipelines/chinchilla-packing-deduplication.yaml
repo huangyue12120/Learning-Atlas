@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/03-data-pipelines/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 75ed5890977f72a36387b7cbea1db9b67a90ca4ba784223ec2f69e4b8cd37a44
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 38bf88d7c4a73bd3b6ca0e581adc12e8b0433319c11713b99bbd066174ab749f
   anchor:
     heading: The Chinchilla Scaling Law
     slug: the-chinchilla-scaling-law

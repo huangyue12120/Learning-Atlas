@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/06-optimizers/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 9af59689813d171106b558fca9875f7992c8e834b8d7a69310bbaf7428ff9ad9
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 9c62d91e8e24f446ebee788daecfbcefafbaec8b40d44a83ccbf6077b27a52af
 status: reviewed
 ---
 
@@ -39,8 +39,8 @@ Adam 同时维护每参数的平均梯度（动量，处理振荡）与平均平
 
 最简单优化器：以 mini-batch 梯度向反方向走：
 
-```
-w = w - lr * gradient
+```math
+w = w - \text{lr} \cdot \text{gradient}
 ```
 
 “随机”指用数据随机子集而非全量估计梯度。噪声有益，可逃离尖锐局部极小，却也导致振荡。学习率唯一旋钮：过高损失发散，过低训练极慢；依架构、数据、batch、训练阶段变化。现代网络 vanilla SGD 常在 0.01–0.1，且单次运行的理想值也会改变。
@@ -49,9 +49,11 @@ w = w - lr * gradient
 
 不只用当前梯度，而维护累积历史梯度的速度：
 
-```
-m_t = beta * m_{t-1} + gradient
-w = w - lr * m_t
+```math
+\begin{aligned}
+m_t &= \beta \, m_{t-1} + \text{gradient} \\
+w &= w - \text{lr} \cdot m_t
+\end{aligned}
 ```
 
 beta（常 0.9）控制历史量，beta=0.9 大致平均最近 10 个梯度。方向一致的梯度积累、翻转的抵消；狭谷横向分量每步反号被抑制，纵向一致分量被放大，得到顺滑加速。坏条件景观中 SGD 的 10,000 步，0.9 动量通常仅需 3,000–5,000，提升并非边际。
@@ -60,9 +62,11 @@ beta（常 0.9）控制历史量，beta=0.9 大致平均最近 10 个梯度。�
 
 第一个成功的逐参数自适应学习率法，由 Hinton 在 Coursera 讲座提出：
 
-```
-s_t = beta * s_{t-1} + (1 - beta) * gradient^2
-w = w - lr * gradient / (sqrt(s_t) + epsilon)
+```math
+\begin{aligned}
+s_t &= \beta \, s_{t-1} + (1 - \beta) \cdot \text{gradient}^2 \\
+w &= w - \text{lr} \cdot \frac{\text{gradient}}{\sqrt{s_t} + \epsilon}
+\end{aligned}
 ```
 
 s_t 跟踪平方梯度均值，长期大梯度参数被大数除、有效 lr 变小；小梯度参数被小数除、有效 lr 变大，解决“一种 lr 不适合全部参数”。epsilon（常 1e-8）防未更新参数除零。
@@ -71,22 +75,26 @@ s_t 跟踪平方梯度均值，长期大梯度参数被大数除、有效 lr 变
 
 Adam 合并两者，每参数维护两条指数移动平均：
 
-```
-m_t = beta1 * m_{t-1} + (1 - beta1) * gradient        (first moment: mean)
-v_t = beta2 * v_{t-1} + (1 - beta2) * gradient^2       (second moment: variance)
+```math
+\begin{aligned}
+m_t &= \beta_1 m_{t-1} + (1 - \beta_1) \cdot \text{gradient} && \text{(first moment: mean)} \\
+v_t &= \beta_2 v_{t-1} + (1 - \beta_2) \cdot \text{gradient}^2 && \text{(second moment: variance)}
+\end{aligned}
 ```
 
 **偏差校正**是关键。第 1 步 m_1=(1-beta1)*gradient，beta1=0.9 时仅真实梯度 0.1 倍，均值尚未 warm up。校正：
 
-```
-m_hat = m_t / (1 - beta1^t)
-v_hat = v_t / (1 - beta2^t)
+```math
+\begin{aligned}
+\hat{m} &= \frac{m_t}{1 - \beta_1^t} \\
+\hat{v} &= \frac{v_t}{1 - \beta_2^t}
+\end{aligned}
 ```
 
 第 1 步 m_hat=m_1/(1-0.9)=真实梯度；第 100 步校正近 1，消失。校正在前约 10 步重要、50 步后无关。更新为：
 
-```
-w = w - lr * m_hat / (sqrt(v_hat) + epsilon)
+```math
+w = w - \text{lr} \cdot \frac{\hat{m}}{\sqrt{\hat{v}} + \epsilon}
 ```
 
 Adam 默认 lr=0.001、beta1=0.9、beta2=0.999、epsilon=1e-8，覆盖 80% 问题；不适用先改 lr、再 beta2，几乎不改 beta1 或 epsilon。
@@ -97,8 +105,8 @@ L2 向损失加 lambda*w^2；在 SGD 中等价于每步衰减权重，Adam 中�
 
 Loshchilov、Hutter 的 AdamW 在 Adam 更新后直接衰减权重：
 
-```
-w = w - lr * m_hat / (sqrt(v_hat) + epsilon) - lr * lambda * w
+```math
+w = w - \text{lr} \cdot \frac{\hat{m}}{\sqrt{\hat{v}} + \epsilon} - \text{lr} \cdot \lambda w
 ```
 
 `lr*lambda*w` 不受自适应因子缩放，每个参数同样比例收缩。它非小细节：AdamW 几乎在每任务上优于 Adam+L2，是 Transformer、diffusion、现代架构默认；BERT、GPT、LLaMA、Stable Diffusion 都用 AdamW。

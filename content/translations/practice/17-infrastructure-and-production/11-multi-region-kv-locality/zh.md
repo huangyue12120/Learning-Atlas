@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/11-multi-region-kv-locality/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 72bb6b7348dcafd19302c7df926e962813e62f28bd02eda99f2c267e6995c26d
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 99573f1d95a1c6c3b0eb7dcb2762ae796b588cbafc4edac95d8cc0c6de439c4c
 status: reviewed
 ---
 

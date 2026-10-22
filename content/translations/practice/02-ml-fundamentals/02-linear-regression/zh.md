@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/02-linear-regression/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 893df66ce1cf29d175e9a63cdd73b1af0c67e934f4a134b7a84d53f2170954af
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 59d2f3f919657d7770e71eb25aaef772f5d2de89bd46bc3749eb7f03d5daaa3f
 status: reviewed
 ---
 
@@ -37,7 +37,7 @@ status: reviewed
 
 线性回归假设输入 `x` 与输出 `y` 存在线性关系：
 
-```text
+```math
 y = wx + b
 ```
 
@@ -46,8 +46,8 @@ y = wx + b
 
 对多个输入（特征），模型扩展为：
 
-```text
-y = w1*x1 + w2*x2 + ... + wn*xn + b
+```math
+y = w_1 x_1 + w_2 x_2 + \cdots + w_n x_n + b
 ```
 
 向量形式为 `y = w^T * x + b`。目标是在全部训练样例上找到 `w`、`b`，使预测 `y` 尽量接近真实 `y`。
@@ -56,8 +56,8 @@ y = w1*x1 + w2*x2 + ... + wn*xn + b
 
 “尽量接近”需要一个概括预测错误的单一数值。最常用的是均方误差（MSE）：
 
-```text
-MSE = (1/n) * sum((y_predicted - y_actual)^2)
+```math
+\text{MSE} = \frac{1}{n} \sum (y_{\text{predicted}} - y_{\text{actual}})^2
 ```
 
 平方有两个原因：它对大误差惩罚更重（误差 10 比误差 1 严重 100 倍，而非 10 倍），且平方函数处处光滑可导，便于优化。对单一 `w` 和 `b`，MSE 曲面像凸的碗状抛物面，最低点使 MSE 最小；训练就是找到该点。
@@ -79,16 +79,20 @@ flowchart TD
 
 梯度同时告诉你每个参数该往哪个方向走，以及走多远。对 `y_hat = wx + b` 的 MSE：
 
-```text
-dMSE/dw = (2/n) * sum((y_hat - y) * x)
-dMSE/db = (2/n) * sum(y_hat - y)
+```math
+\begin{aligned}
+\frac{\partial \text{MSE}}{\partial w} &= \frac{2}{n} \sum (\hat{y} - y) \, x \\
+\frac{\partial \text{MSE}}{\partial b} &= \frac{2}{n} \sum (\hat{y} - y)
+\end{aligned}
 ```
 
 更新规则为：
 
-```text
-w = w - learning_rate * dMSE/dw
-b = b - learning_rate * dMSE/db
+```math
+\begin{aligned}
+w &= w - \text{learning\_rate} \cdot \frac{\partial \text{MSE}}{\partial w} \\
+b &= b - \text{learning\_rate} \cdot \frac{\partial \text{MSE}}{\partial b}
+\end{aligned}
 ```
 
 学习率控制步长：过大会越过最小值并发散，过小则训练极慢。常见起始值为 `0.01`、`0.001`、`0.0001`。
@@ -97,8 +101,8 @@ b = b - learning_rate * dMSE/db
 
 对线性回归，可以不迭代而用直接公式求最优权重：
 
-```text
-w = (X^T * X)^(-1) * X^T * y
+```math
+w = (X^T X)^{-1} X^T y
 ```
 
 它通过矩阵求逆一步解出 `w`，适合小数据集。对数百万行或数千特征的大数据集，矩阵求逆相对特征数为 `O(n^3)`，应优先采用梯度下降。
@@ -107,8 +111,8 @@ w = (X^T * X)^(-1) * X^T * y
 
 多个特征时模型为：
 
-```text
-y = w1*x1 + w2*x2 + ... + wn*xn + b
+```math
+y = w_1 x_1 + w_2 x_2 + \cdots + w_n x_n + b
 ```
 
 其余完全相同：MSE 仍是代价，梯度下降同时更新所有权重；区别只是拟合超平面而非直线。此时特征缩放很重要：若一个特征范围为 0 到 1，另一个为 0 到 1,000,000，代价曲面会被拉长，梯度下降很难收敛。训练前应标准化特征（减均值、除标准差）。
@@ -117,8 +121,8 @@ y = w1*x1 + w2*x2 + ... + wn*xn + b
 
 关系不线性时，仍可创建多项式特征并使用线性回归：
 
-```text
-y = w1*x + w2*x^2 + w3*x^3 + b
+```math
+y = w_1 x + w_2 x^2 + w_3 x^3 + b
 ```
 
 它仍是“线性”回归，因为相对于权重 `w1`、`w2`、`w3` 仍然线性，只是使用了 `x` 的非线性特征。更高次数能拟合复杂曲线，却可能过拟合；10 个点上的 10 次多项式能穿过所有点，但对新数据预测很差。
@@ -127,9 +131,11 @@ y = w1*x + w2*x^2 + w3*x^3 + b
 
 MSE 反映错误，却受 `y` 尺度影响。R 平方（`R^2`）给出与尺度无关的度量：
 
-```text
-R^2 = 1 - (sum of squared residuals) / (sum of squared deviations from mean)
-    = 1 - SS_res / SS_tot
+```math
+\begin{aligned}
+R^2 &= 1 - \frac{\text{sum of squared residuals}}{\text{sum of squared deviations from mean}} \\
+&= 1 - \frac{SS_{\text{res}}}{SS_{\text{tot}}}
+\end{aligned}
 ```
 
 - `R^2 = 1.0`：预测完美。
@@ -140,8 +146,8 @@ R^2 = 1 - (sum of squared residuals) / (sum of squared deviations from mean)
 
 特征很多时，模型会通过分配很大的权重过拟合。Ridge 回归（L2 正则化）加入惩罚：
 
-```text
-Cost = MSE + lambda * sum(w_i^2)
+```math
+\text{Cost} = \text{MSE} + \lambda \sum w_i^2
 ```
 
 该项抑制大权重。超参数 `lambda` 控制权衡：越大，权重越小、正则化越强。后续课程将深入介绍；现在先记住它存在以及为何有效。

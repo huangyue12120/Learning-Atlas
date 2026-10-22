@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/21-graph-theory/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: f604b6e3676d179188e0bbab407160cff0141ed22b21747339ca3b9fd28cb77f
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: a0457926d2720ab0189388e8a3487ff2ac75c613c6b35eabb290f9eb0a1c8353
 status: reviewed
 ---
 # 面向机器学习的图论
@@ -61,9 +61,8 @@ status: reviewed
 
 邻接矩阵 A 是核心表示方式。对于一张有 n 个节点的图：
 
-```
-A[i][j] = 1    如果存在从节点 i 到节点 j 的边
-A[i][j] = 0    否则
+```math
+A[i][j] = \begin{cases} 1 & \text{if there is an edge from node } i \text{ to node } j \\ 0 & \text{otherwise} \end{cases}
 ```
 
 对于无向图，A 是对称矩阵：A[i][j] = A[j][i]。对于加权图，A[i][j] = 边 (i, j) 的权重。
@@ -87,9 +86,11 @@ A = [[0, 1, 1],
 
 度矩阵 D 是一个对角矩阵：
 
-```
-D[i][i] = 节点 i 的度
-D[i][j] = 0    当 i != j 时
+```math
+\begin{aligned}
+D[i][i] &= \text{degree of node } i \\
+D[i][j] &= 0 \quad \text{for } i \ne j
+\end{aligned}
 ```
 
 对于三角形示例：D = diag(2, 2, 2)，因为每个节点都连接到另外两个节点。
@@ -146,10 +147,8 @@ L = D - A。它是谱图论中最重要的矩阵。
 
 对于这个三角形：
 
-```
-D = [[2, 0, 0],    A = [[0, 1, 1],    L = [[2, -1, -1],
-     [0, 2, 0],         [1, 0, 1],         [-1, 2, -1],
-     [0, 0, 2]]         [1, 1, 0]]         [-1, -1,  2]]
+```math
+D = \begin{bmatrix} 2 & 0 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 2 \end{bmatrix} \qquad A = \begin{bmatrix} 0 & 1 & 1 \\ 1 & 0 & 1 \\ 1 & 1 & 0 \end{bmatrix} \qquad L = \begin{bmatrix} 2 & -1 & -1 \\ -1 & 2 & -1 \\ -1 & -1 & 2 \end{bmatrix}
 ```
 
 拉普拉斯矩阵具有一些非凡的性质：
@@ -197,20 +196,20 @@ graph TD
 
 这是图神经网络的核心运算。每个节点收集来自邻居的消息，对其进行聚合，然后更新自身状态。
 
-```
-h_v^(k+1) = UPDATE(h_v^(k), AGGREGATE({h_u^(k) : u in neighbors(v)}))
+```math
+h_v^{(k+1)} = \text{UPDATE}\left(h_v^{(k)}, \text{AGGREGATE}\left(\{h_u^{(k)} : u \in \text{neighbors}(v)\}\right)\right)
 ```
 
 最简单的形式中，AGGREGATE = 均值，而 UPDATE = 线性变换 + 激活：
 
-```
-h_v^(k+1) = sigma(W * mean({h_u^(k) : u in neighbors(v)}))
+```math
+h_v^{(k+1)} = \sigma\left(W \cdot \text{mean}\left(\{h_u^{(k)} : u \in \text{neighbors}(v)\}\right)\right)
 ```
 
 这其实是伪装成其他形式的矩阵乘法。如果 H 是所有节点特征组成的矩阵，而 A 是邻接矩阵：
 
-```
-H^(k+1) = sigma(A_norm * H^(k) * W)
+```math
+H^{(k+1)} = \sigma\left(A_{\text{norm}} H^{(k)} W\right)
 ```
 
 其中 A_norm 是归一化邻接矩阵（每一行之和为 1）。
@@ -474,8 +473,8 @@ Fiedler 向量承担了主要工作。正数项归入一个簇，负数项归入
 
 GNN 值得特别说明。GCN（Kipf 与 Welling，2017）中的图卷积运算使用加入了自环的邻接矩阵 A_hat = A + I：
 
-```text
-H^(l+1) = sigma(D_hat^(-1/2) * A_hat * D_hat^(-1/2) * H^(l) * W^(l))
+```math
+H^{(l+1)} = \sigma\left(\hat{D}^{-1/2} \hat{A} \hat{D}^{-1/2} H^{(l)} W^{(l)}\right)
 ```
 
 其中 A_hat = A + I（邻接矩阵加自环），D_hat 是 A_hat 的度矩阵。自环确保每个节点在聚合过程中包含自身特征。这恰好就是采用对称归一化的消息传递。D_hat^(-1/2) * A_hat * D_hat^(-1/2) 是归一化邻接矩阵。拉普拉斯矩阵之所以会出现，是因为这种归一化与 L_sym = I - D^(-1/2) * A * D^(-1/2) 有关。理解拉普拉斯矩阵，也就意味着理解 GCN 为何有效。
@@ -491,6 +490,20 @@ H^(l+1) = sigma(D_hat^(-1/2) * A_hat * D_hat^(-1/2) * H^(l) * W^(l))
 4. **构建一个两层消息传递网络。** 使用不同的权重矩阵应用两次消息传递。证明两轮之后，每个节点都拥有来自其 2 跳邻域的信息。
 
 5. **分析一张现实世界中的图。** 使用 Karate Club 图（34 个节点、78 条边）。计算度分布、拉普拉斯特征值和谱聚类。将谱聚类结果与已知的真实划分进行比较。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Use the formula from the exercise. A node without outgoing edges must share its score equally with all nodes, or the total falls below 1. Check that the scores add up to 1 after each step and compare your result with `pagerank(graph)`.
+>
+> **Exercise 2.** Build two cliques with `add_edge`, connect them with one edge, and call `spectral_clustering(graph, k=2)`. Check that each clique gets one label. As you add cross edges, print the second smallest eigenvalue of `laplacian()`, which grows as the two groups join.
+>
+> **Exercise 3.** Keep a priority queue with `heapq` and always expand the node with the smallest known distance. Make every weight 1 and check that each Dijkstra distance equals the BFS layer of that node from `bfs(graph, start)`.
+>
+> **Exercise 4.** Use the identity matrix as `features`, so that each column marks one node, and apply `message_passing` twice. Then the nonzero entries in the row for node $v$ show which nodes reached $v$. Compare that set with the nodes within distance 2 from a breadth first search.
+>
+> **Exercise 5.** `networkx.karate_club_graph()` gives the edge list and the ground truth in the node attribute `club`. Copy the edges into a `Graph` and check that it has 34 nodes and 78 edges. Compare the labels from `spectral_clustering` with the `club` values, and allow the two label names to be swapped.
 
 ## 关键术语
 

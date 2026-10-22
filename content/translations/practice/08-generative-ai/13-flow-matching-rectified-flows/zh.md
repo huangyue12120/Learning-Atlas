@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/13-flow-matching-rectified-flows/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 3b092712de5baa4726f5b090215c3d6e259e1858c7dcc512cc0bc81fea3a8a60
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 25511ba804640ce3df2e2fe51b251e44d140656fe11ce183ebf9c9007cca7e7b
 status: reviewed
 ---
 
@@ -34,20 +34,20 @@ DDPM 的反向过程是一场从 `N(0, I)` 回到数据分布的 1000 步随机�
 
 定义：
 
-```
-x_t = t · x_1 + (1 - t) · x_0,   t ∈ [0, 1]
+```math
+x_t = t \cdot x_1 + (1 - t) \cdot x_0, \quad t \in [0, 1]
 ```
 
 其中 `x_0 ~ data`，`x_1 ~ N(0, I)`。沿这条直线的时间导数为常数：
 
-```
-dx_t / dt = x_1 - x_0
+```math
+\frac{dx_t}{dt} = x_1 - x_0
 ```
 
 定义神经向量场 `v_θ(x_t, t)`，训练它匹配该导数：
 
-```
-L = E_{x_0, x_1, t} || v_θ(x_t, t) - (x_1 - x_0) ||²
+```math
+L = \mathbb{E}_{x_0, x_1, t} \left\lVert v_\theta(x_t, t) - (x_1 - x_0) \right\rVert^2
 ```
 
 这项损失称为 **条件流匹配** 损失（Lipman，2023）。训练无需仿真：永远不用展开 ODE，只需采样 `(x_0, x_1, t)` 并回归。
@@ -56,8 +56,8 @@ L = E_{x_0, x_1, t} || v_θ(x_t, t) - (x_1 - x_0) ||²
 
 推理时，沿时间*反向*积分学习到的向量场：
 
-```
-x_{t-Δt} = x_t - Δt · v_θ(x_t, t)
+```math
+x_{t-\Delta t} = x_t - \Delta t \cdot v_\theta(x_t, t)
 ```
 
 从 `x_1 ~ N(0, I)` 开始，使用 Euler 步递减到 `t=0`。

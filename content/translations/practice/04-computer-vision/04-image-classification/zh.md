@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/04-image-classification/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 1e1ade21c3e7dfe6025da6200e8d510bc64459c00714762c853d87923579eed0
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: cc202c8c92aeb6a006651ee5afe8554209aa5eeb55b677c78e47112ea39575d4
 status: reviewed
 ---
 
@@ -63,15 +63,17 @@ flowchart LR
 
 分类器每张图像输出 `C` 个称为 logits 的数。softmax 将它们变为概率分布：
 
-```
-softmax(z)_i = exp(z_i) / sum_j exp(z_j)
+```math
+\mathop{\mathrm{softmax}}(z)_i = \frac{\exp(z_i)}{\sum_j \exp(z_j)}
 ```
 
 交叉熵度量正确类别的负对数概率：
 
-```
-CE(z, y) = -log( softmax(z)_y )
-        = -z_y + log( sum_j exp(z_j) )
+```math
+\begin{aligned}
+\mathrm{CE}(z, y) &= -\log\left( \mathop{\mathrm{softmax}}(z)_y \right) \\
+&= -z_y + \log\left( \sum_j \exp(z_j) \right)
+\end{aligned}
 ```
 
 右式是数值稳定的形式（log-sum-exp）。PyTorch 的 `nn.CrossEntropyLoss` 将 softmax + NLL 融合为一个操作，直接接收原始 logits。先自行应用 softmax 几乎总是 bug——你会计算 `log(softmax(softmax(z)))`，这是没有意义的量。

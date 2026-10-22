@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/07-bayes-theorem/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: e44e7db0a2b9c89dc09eecbe3ac41bb1c631b8aa239609b82b832c532d75ce6d
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 541198f69f334fd2a40906f849b72ff0005f461e01b72b35cf11857ca347989a
 status: reviewed
 ---
 
@@ -41,24 +41,24 @@ status: reviewed
 
 你已经在第 06 课学过，条件概率为：
 
-```
-P(A|B) = P(A and B) / P(B)
+```math
+P(A \mid B) = \frac{P(A \text{ and } B)}{P(B)}
 ```
 
 对称地：
 
-```
-P(B|A) = P(A and B) / P(A)
+```math
+P(B \mid A) = \frac{P(A \text{ and } B)}{P(A)}
 ```
 
 两个表达式的分子相同，都是 P(A and B)。令二者相等并重新整理：
 
-```
-P(A and B) = P(A|B) * P(B) = P(B|A) * P(A)
-
-Therefore:
-
-P(A|B) = P(B|A) * P(A) / P(B)
+```math
+\begin{aligned}
+P(A \text{ and } B) &= P(A \mid B) \cdot P(B) = P(B \mid A) \cdot P(A) \\[4pt]
+&\text{Therefore:} \\[4pt]
+P(A \mid B) &= \frac{P(B \mid A) \cdot P(A)}{P(B)}
+\end{aligned}
 ```
 
 这四个量构成贝叶斯定理的一个等式。
@@ -74,28 +74,28 @@ P(A|B) = P(B|A) * P(A) / P(B)
 
 证据项 P(B) 起归一化作用。可以用全概率公式将它展开：
 
-```
-P(B) = P(B|A) * P(A) + P(B|not A) * P(not A)
+```math
+P(B) = P(B \mid A) \cdot P(A) + P(B \mid \text{not } A) \cdot P(\text{not } A)
 ```
 
 ### 医疗检测示例
 
 某种疾病每 10,000 人中有 1 人患病。检测的准确率为 99%（能检出 99% 的患者，假阳性率为 1%）。
 
-```
-P(sick)          = 0.0001     (prior: disease is rare)
-P(positive|sick) = 0.99       (likelihood: test catches it)
-P(positive|healthy) = 0.01    (false positive rate)
-
-P(positive) = P(positive|sick) * P(sick) + P(positive|healthy) * P(healthy)
-            = 0.99 * 0.0001 + 0.01 * 0.9999
-            = 0.000099 + 0.009999
-            = 0.010098
-
-P(sick|positive) = P(positive|sick) * P(sick) / P(positive)
-                 = 0.99 * 0.0001 / 0.010098
-                 = 0.0098
-                 = 0.98%
+```math
+\begin{aligned}
+P(\text{sick}) &= 0.0001 \quad \text{(prior: disease is rare)} \\
+P(\text{positive} \mid \text{sick}) &= 0.99 \quad \text{(likelihood: test catches it)} \\
+P(\text{positive} \mid \text{healthy}) &= 0.01 \quad \text{(false positive rate)} \\[6pt]
+P(\text{positive}) &= P(\text{positive} \mid \text{sick}) \cdot P(\text{sick}) + P(\text{positive} \mid \text{healthy}) \cdot P(\text{healthy}) \\
+&= 0.99 \cdot 0.0001 + 0.01 \cdot 0.9999 \\
+&= 0.000099 + 0.009999 \\
+&= 0.010098 \\[6pt]
+P(\text{sick} \mid \text{positive}) &= P(\text{positive} \mid \text{sick}) \cdot P(\text{sick}) / P(\text{positive}) \\
+&= 0.99 \cdot 0.0001 / 0.010098 \\
+&= 0.0098 \\
+&= 0.98\%
+\end{aligned}
 ```
 
 不足 1%。先验占据主导。当一种疾病很罕见时，即使检测相当准确，大部分阳性结果仍是假阳性。因此医生会安排确认检测。
@@ -104,18 +104,18 @@ P(sick|positive) = P(positive|sick) * P(sick) / P(positive)
 
 你收到了一封包含单词 “lottery” 的电子邮件。它是垃圾邮件吗？
 
-```
-P(spam)                = 0.3      (30% of email is spam)
-P("lottery"|spam)      = 0.05     (5% of spam emails contain "lottery")
-P("lottery"|not spam)  = 0.001    (0.1% of legitimate emails contain "lottery")
-
-P("lottery") = 0.05 * 0.3 + 0.001 * 0.7
-             = 0.015 + 0.0007
-             = 0.0157
-
-P(spam|"lottery") = 0.05 * 0.3 / 0.0157
-                  = 0.955
-                  = 95.5%
+```math
+\begin{aligned}
+P(\text{spam}) &= 0.3 \quad \text{(30\% of email is spam)} \\
+P(\text{"lottery"} \mid \text{spam}) &= 0.05 \quad \text{(5\% of spam emails contain "lottery")} \\
+P(\text{"lottery"} \mid \text{not spam}) &= 0.001 \quad \text{(0.1\% of legitimate emails contain "lottery")} \\[6pt]
+P(\text{"lottery"}) &= 0.05 \cdot 0.3 + 0.001 \cdot 0.7 \\
+&= 0.015 + 0.0007 \\
+&= 0.0157 \\[6pt]
+P(\text{spam} \mid \text{"lottery"}) &= 0.05 \cdot 0.3 / 0.0157 \\
+&= 0.955 \\
+&= 95.5\%
+\end{aligned}
 ```
 
 一个单词就把概率从 30% 推高到 95.5%。生产垃圾邮件过滤器会同时对数百个单词应用贝叶斯定理。
@@ -124,18 +124,16 @@ P(spam|"lottery") = 0.05 * 0.3 / 0.0157
 
 Naive Bayes 将这一方法扩展到多个特征，假设给定类别后，所有特征都条件独立：
 
-```
-P(class | feature_1, feature_2, ..., feature_n)
-  = P(class) * P(feature_1|class) * P(feature_2|class) * ... * P(feature_n|class)
-    / P(feature_1, feature_2, ..., feature_n)
+```math
+P(\text{class} \mid \text{feature}_1, \text{feature}_2, \ldots, \text{feature}_n) = \frac{P(\text{class}) \cdot P(\text{feature}_1 \mid \text{class}) \cdot P(\text{feature}_2 \mid \text{class}) \cdots P(\text{feature}_n \mid \text{class})}{P(\text{feature}_1, \text{feature}_2, \ldots, \text{feature}_n)}
 ```
 
 所谓“朴素”，指的就是这个独立性假设。在文本中，单词是否出现并不独立（“New” 和 “York” 是相关的）。但在实践中，这个假设的效果出奇地好，因为分类器只需要对各个类别排序，而不需要生成经过校准的概率。
 
 因为对所有类别来说分母都相同，所以可以跳过分母，只比较分子：
 
-```
-score(class) = P(class) * product of P(feature_i | class)
+```math
+\text{score}(\text{class}) = P(\text{class}) \cdot \prod_i P(\text{feature}_i \mid \text{class})
 ```
 
 选择得分最高的类别。
@@ -144,16 +142,16 @@ score(class) = P(class) * product of P(feature_i | class)
 
 如何从训练数据中得到 P(feature|class)？计数即可。
 
-```
-P("free"|spam) = (number of spam emails containing "free") / (total spam emails)
+```math
+P(\text{"free"} \mid \text{spam}) = \frac{\text{number of spam emails containing "free"}}{\text{total spam emails}}
 ```
 
 MLE 选择使观测数据最有可能出现的参数值。你最大化的是似然函数；对于离散计数，它可以简化为相对频率。
 
 问题在于：如果某个单词在训练期间从未出现在垃圾邮件中，MLE 会给它分配零概率。一个未见过的单词就会让整个乘积变为零。可以用 Laplace 平滑修复这个问题：
 
-```
-P(word|class) = (count(word, class) + 1) / (total_words_in_class + vocabulary_size)
+```math
+P(\text{word} \mid \text{class}) = \frac{\text{count}(\text{word}, \text{class}) + 1}{\text{total\_words\_in\_class} + \text{vocabulary\_size}}
 ```
 
 给每个计数加 1，可以确保概率永远不为零。
@@ -166,8 +164,8 @@ MAP 问的是：哪些参数能使 P(parameters|data) 最大？
 
 根据贝叶斯定理：
 
-```
-P(parameters|data) proportional to P(data|parameters) * P(parameters)
+```math
+P(\text{parameters} \mid \text{data}) \propto P(\text{data} \mid \text{parameters}) \cdot P(\text{parameters})
 ```
 
 MAP 还为参数本身加入先验。如果你认为参数应该较小，就可以把这种信念编码成一个惩罚大参数值的先验。这与 ML 中的 L2 正则化完全相同；岭回归中的“ridge”惩罚对应权重上的高斯先验。
@@ -372,10 +370,12 @@ Beta 先验的特殊情况：
 
 更新规则极其简单：
 
-```
-Prior:     Beta(a, b)
-Data:      s successes, f failures
-Posterior: Beta(a + s, b + f)
+```math
+\begin{aligned}
+\text{Prior:} \quad & \text{Beta}(a, b) \\
+\text{Data:} \quad & s \text{ successes}, f \text{ failures} \\
+\text{Posterior:} \quad & \text{Beta}(a + s, b + f)
+\end{aligned}
 ```
 
 无需积分，无需采样，只要做加法。
@@ -461,6 +461,18 @@ A/B 测试其实就是披着伪装的贝叶斯推断。
 3. **添加特征。** 扩展 NaiveBayes 类，除了单词计数之外，还把消息长度（短/长）用作特征。从训练数据中估计 P(short|spam) 和 P(short|ham)，并将其纳入预测得分。
 
 4. **手算 MAP。** 给定观测数据（10 次抛硬币中有 7 次正面），使用 Beta(2,2) 先验计算正面概率的 MAP 估计，并与 MLE 估计（7/10）比较。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Call `bayes` once to get the posterior after test 1, then call it again with that posterior as the prior. `sequential_bayes(prior, likelihood, false_positive_rate, 2)` must give the same value, close to 0.5.
+>
+> **Exercise 2.** Create one `NaiveBayes(smoothing=s)` for each value, train it on the same data, and print `top_words` for each. With smoothing 0, a word that never appears in spam gets probability 0, so its log is not defined.
+>
+> **Exercise 3.** Count how many spam and ham messages are short, divide by the number of messages in each class, and add the log of that ratio to the score in `predict`. Check that the two probabilities for each class add up to 1.
+>
+> **Exercise 4.** With a $\text{Beta}(\alpha, \beta)$ prior, the MAP estimate is $\frac{h + \alpha - 1}{n + \alpha + \beta - 2}$. Put in $h = 7$, $n = 10$; the result must be between the MLE (0.7) and the prior mode (0.5).
 
 ## 关键术语
 

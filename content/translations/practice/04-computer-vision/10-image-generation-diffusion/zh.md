@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/10-image-generation-diffusion/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 596c04cae482ef2dd4aae5b11e7452c9fa9bfe74a44047286ed296a5ea5634cd
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 92c0ea4477aab1ee21e969a03d991e754afa372b9506eb42c995674ea771d6b5
 status: reviewed
 ---
 
@@ -39,8 +39,8 @@ GAN 一次生成：噪声输入、图像输出、一次前向；快且难训练�
 
 取图像 `x_0`，加入少量高斯噪声得 `x_1`，再加少量得 `x_2`，持续 T 步，直到 `x_T` 几乎无法与纯高斯噪声区分。
 
-```
-q(x_t | x_{t-1}) = N(x_t; sqrt(1 - beta_t) * x_{t-1},  beta_t * I)
+```math
+q(x_t \mid x_{t-1}) = \mathcal{N}\left(x_t; \sqrt{1 - \beta_t} \, x_{t-1}, \; \beta_t I\right)
 ```
 
 `beta_t` 是小方差调度，典型为 T=1000 步上从 0.0001 线性到 0.02。每步略缩小信号并注入新噪声。
@@ -49,16 +49,13 @@ q(x_t | x_{t-1}) = N(x_t; sqrt(1 - beta_t) * x_{t-1},  beta_t * I)
 
 逐步加噪是马尔可夫链，但数学可折叠：可从 `x_0` 一步直接采样 `x_t`。
 
-```
-定义 alpha_t = 1 - beta_t
-定义 alpha_bar_t = prod_{s=1..t} alpha_s
-
-则：
-  q(x_t | x_0) = N(x_t; sqrt(alpha_bar_t) * x_0,  (1 - alpha_bar_t) * I)
-
-等价地：
-  x_t = sqrt(alpha_bar_t) * x_0 + sqrt(1 - alpha_bar_t) * epsilon
-  其中 epsilon ~ N(0, I)
+```math
+\begin{aligned}
+&\text{Define } \alpha_t = 1 - \beta_t \\
+&\text{Define } \bar{\alpha}_t = \prod_{s=1}^{t} \alpha_s \\[6pt]
+&\text{Then: } q(x_t \mid x_0) = \mathcal{N}\left(x_t; \sqrt{\bar{\alpha}_t} \, x_0, \; (1 - \bar{\alpha}_t) I\right) \\[6pt]
+&\text{Equivalently: } x_t = \sqrt{\bar{\alpha}_t} \, x_0 + \sqrt{1 - \bar{\alpha}_t} \, \epsilon \quad \text{where } \epsilon \sim \mathcal{N}(0, I)
+\end{aligned}
 ```
 
 这个方程使扩散实用：训练中随机选 `t`，从 `x_0` 直接采样 `x_t`，一步训练，无需模拟完整马尔可夫链。

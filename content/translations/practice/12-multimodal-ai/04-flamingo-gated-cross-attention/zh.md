@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/04-flamingo-gated-cross-attention/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: ee025c471f27b129edbaa5930c75688306a349f57658b4d4bcf4059cd9919b8f
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 5917fe42a98c809241907ec4926f26805d6a70aaa85566c0b6965745674d8461
 status: reviewed
 ---
 

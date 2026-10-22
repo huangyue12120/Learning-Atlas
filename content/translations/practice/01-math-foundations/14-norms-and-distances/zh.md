@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/14-norms-and-distances/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: f0949b87124ae76e14ed331231e357edf7e60552dc4fadd42dee0ffed10ebeca
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 3458a8054e725603437b21aad1522f4a7bd503397cd25530661e68fda3c378c8
 status: reviewed
 ---
 
@@ -43,8 +43,8 @@ L-infinity=max|x_i|，例中为 4，关注单轴最大偏差；适合 worst-case
 
 L1 将各分量绝对值相加；对稀疏高维数据和异常值更稳健，并通过 Lasso 产生稀疏权重。MAE 正是平均 L1 误差。
 
-```
-||x||_1 = |x_1| + |x_2| + ... + |x_n|
+```math
+\lVert x \rVert_1 = |x_1| + |x_2| + \cdots + |x_n|
 ```
 
 ```
@@ -60,8 +60,8 @@ On a grid, you walk 3 blocks east and 4 blocks north.
 
 L2 是平方和开方的直线距离，适合尺度可比的连续数据、空间/传感器和像素。Ridge 使用平方 L2，MSE 对大误差更敏感。
 
-```
-||x||_2 = sqrt(x_1^2 + x_2^2 + ... + x_n^2)
+```math
+\lVert x \rVert_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2}
 ```
 
 ```
@@ -73,17 +73,19 @@ L2 distance = sqrt((4-1)^2 + (5-1)^2) = sqrt(9 + 16) = sqrt(25) = 5.0
 The straight line, cutting diagonally through the grid.
 ```
 
-```
-MAE (L1 loss):  |y - y_hat|         Linear penalty. Robust to outliers.
-MSE (L2 loss):  (y - y_hat)^2       Quadratic penalty. Sensitive to outliers.
+```math
+\begin{aligned}
+\text{MAE (L1 loss):} \quad & |y - \hat{y}| && \text{Linear penalty. Robust to outliers.} \\
+\text{MSE (L2 loss):} \quad & (y - \hat{y})^2 && \text{Quadratic penalty. Sensitive to outliers.}
+\end{aligned}
 ```
 
 ### Lp 范数：一般族
 
 `||x||_p=(sum |x_i|^p)^(1/p)`；p=1 为菱形，p=2 为圆/球，p=3 为圆角方形，p→∞ 为方形/超立方体。
 
-```
-||x||_p = (|x_1|^p + |x_2|^p + ... + |x_n|^p)^(1/p)
+```math
+\lVert x \rVert_p = (|x_1|^p + |x_2|^p + \cdots + |x_n|^p)^{1/p}
 ```
 
 ```
@@ -97,44 +99,47 @@ p=inf:  Square/hypercube   (flat sides along axes)
 
 `||x||_inf=max(|x_1|,...,|x_n|)`，只由最大偏差的维度决定。
 
-```
-||x||_inf = max(|x_1|, |x_2|, ..., |x_n|)
+```math
+\lVert x \rVert_\infty = \max(|x_1|, |x_2|, \ldots, |x_n|)
 ```
 
-```
-Point A = (1, 1)
-Point B = (4, 5)
-
-L-inf distance = max(|4-1|, |5-1|) = max(3, 4) = 4
+```math
+\begin{aligned}
+\text{Point } A &= (1, 1) \\
+\text{Point } B &= (4, 5) \\[6pt]
+L_\infty \text{ distance} &= \max(|4-1|, |5-1|) = \max(3, 4) = 4
+\end{aligned}
 ```
 
 ### Cosine 相似度与 Cosine 距离
 
 cos_sim(a,b)=a·b/(||a||₂||b||₂)，范围 -1..1，cosine distance=1-cos，范围 0..2；它忽略长度，故长度不同但词分布相同的文档仍为 1，非常适合 TF-IDF、词/句嵌入、preference 和 vector search。dot=a·b=||a||||b||cos(angle)，若均 L2 normalized 则等于 cosine；否则 magnitude 是流行度/质量等额外信号。cosine 要纯方向，dot 要保 magnitude。
 
-```
-cos_sim(a, b) = (a . b) / (||a||_2 * ||b||_2)
+```math
+\text{cos\_sim}(a, b) = \frac{a \cdot b}{\lVert a \rVert_2 \, \lVert b \rVert_2}
 ```
 
-```
-a = (1, 0)    b = (1, 1)
-
-cos_sim = (1*1 + 0*1) / (1 * sqrt(2)) = 1/sqrt(2) = 0.707
-cos_dist = 1 - 0.707 = 0.293
+```math
+\begin{aligned}
+& a = (1, 0) \qquad b = (1, 1) \\[6pt]
+& \text{cos\_sim} = \frac{1 \cdot 1 + 0 \cdot 1}{1 \cdot \sqrt{2}} = \frac{1}{\sqrt{2}} = 0.707 \\
+& \text{cos\_dist} = 1 - 0.707 = 0.293
+\end{aligned}
 ```
 
 ### 点积相似度与 Cosine 相似度
 
 单位归一化向量的点积等于 cosine；未归一化时点积还包含长度，可作为流行度或置信度信号。向量数据库通常允许在两者间选择。
 
-```
-a . b = a_1*b_1 + a_2*b_2 + ... + a_n*b_n
-      = ||a|| * ||b|| * cos(angle)
+```math
+\begin{aligned}
+a \cdot b &= a_1 b_1 + a_2 b_2 + \cdots + a_n b_n \\
+&= \lVert a \rVert \, \lVert b \rVert \cos(\text{angle})
+\end{aligned}
 ```
 
-```
-If ||a|| = 1 and ||b|| = 1:
-    a . b = cos(angle between a and b)
+```math
+\text{If } \lVert a \rVert = 1 \text{ and } \lVert b \rVert = 1: \quad a \cdot b = \cos(\text{angle between } a \text{ and } b)
 ```
 
 ```
@@ -152,8 +157,8 @@ Mahalanobis d_M=sqrt((x-y)^T S^-1 (x-y))，先 whiten/decorr 后 L2；S=I 时退
 
 Mahalanobis 使用协方差矩阵白化数据；协方差为单位阵时退化为 Euclidean。适合异常检测、不同尺度/相关特征分类和制造质量控制。
 
-```
-d_M(x, y) = sqrt((x - y)^T * S^(-1) * (x - y))
+```math
+d_M(x, y) = \sqrt{(x - y)^T S^{-1} (x - y)}
 ```
 
 ```
@@ -170,8 +175,8 @@ because it accounts for the height-weight correlation.
 
 Jaccard J(A,B)=|A∩B|/|A∪B|，distance=1-J，例 {cat,dog,fish} 与 {cat,bird,fish,snake} 为 .4/.6；用于 tags/categories、word presence、MinHash near duplicate、binary feature 和 segmentation IoU。
 
-```
-J(A, B) = |A intersect B| / |A union B|
+```math
+J(A, B) = \frac{|A \cap B|}{|A \cup B|}
 ```
 
 ```
@@ -214,24 +219,24 @@ Edit distance = 3
 
 KL(P||Q)=sum p log(p/q) 不对称且不满足 triangle，故是 divergence 非 metric；forward KL mode-covering、reverse KL mode-seeking，用于 VAE、distillation、RLHF/policy constraint。
 
-```
-D_KL(P || Q) = sum(p(x) * log(p(x) / q(x)))
+```math
+D_{KL}(P \,\|\, Q) = \sum_x p(x) \log\frac{p(x)}{q(x)}
 ```
 
-```
-D_KL(P || Q) != D_KL(Q || P)
+```math
+D_{KL}(P \,\|\, Q) \ne D_{KL}(Q \,\|\, P)
 ```
 
 ### Wasserstein 距离（Earth Mover 距离）
 
 Wasserstein/earth mover 是移动质量的最小 work，1D W1=积分 |CDF_P-CDF_Q| dx；它对称、满足 triangle，即使无重叠仍有限梯度，如 P=[1,0,0,0,0]、Q=[0,0,0,0,1] 时 KL=inf、W=4；用于 WGAN、optimal transport、histogram retrieval。
 
-```
-W(P, Q) = inf over all transport plans gamma of E[d(x, y)]
+```math
+W(P, Q) = \inf_{\gamma} \mathbb{E}[d(x, y)] \quad \text{(over all transport plans } \gamma\text{)}
 ```
 
-```
-W_1(P, Q) = integral |CDF_P(x) - CDF_Q(x)| dx
+```math
+W_1(P, Q) = \int |\text{CDF}_P(x) - \text{CDF}_Q(x)| \, dx
 ```
 
 ```
@@ -359,6 +364,20 @@ print(f"Similarities: {similarities[top_k]}")
 3. 实现函数，分别按 L1、L2、cosine、Mahalanobis 返回数据集最近邻，找出四者结果全不同的数据集。
 4. 用 CDF 手算 `[0.5,0.5,0,0]` 与 `[0,0,0.5,0.5]`、以及均匀分布与后者的 Wasserstein 距离，比较大小并说明原因。
 5. 实现 MinHash 近似 Jaccard；生成 100 个随机集合，使用 50、100、200 个哈希函数比较误差并绘图。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** The difference vector is (-3, 2, -3), so compute the three norms of that vector with `l1_norm`, `l2_norm`, and `linf_norm`. For the proof, compare the largest $\lvert d_i \rvert$ with the sum of squares, and compare the sum of squares with the square of the sum of absolute values.
+>
+> **Exercise 2.** Cosine similarity ignores length, so start with two vectors that point in almost the same direction and make one of them much longer. For the second case, use two short vectors near the origin that point in different directions, then check both conditions with `cosine_similarity` and `l2_distance`.
+>
+> **Exercise 3.** Call `find_nearest_neighbor(query, dataset, distance_fn)` once for each of `l1_distance`, `l2_distance`, `cosine_distance`, and `mahalanobis_distance`. `demo_different_neighbors` shows a dataset where the metrics disagree, so read it first and then change the points until all four answers differ.
+>
+> **Exercise 4.** Write the cumulative sum of each distribution, then add the absolute differences of the two cumulative sums. Check both hand results with `wasserstein_1d(p, q)`, then explain the larger value by how far the probability mass must move.
+>
+> **Exercise 5.** For each hash function, the MinHash signature of a set is the minimum hash value over its elements, and the fraction of hash functions where two sets get the same minimum estimates their Jaccard similarity. Compare each estimate with `jaccard_similarity`; the error should fall roughly as $1/\sqrt{k}$ for $k$ hash functions.
 
 ## Key Terms
 

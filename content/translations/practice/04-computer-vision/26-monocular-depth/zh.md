@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/26-monocular-depth/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 47580e0cea05da1ab7b06b7aa0e1cdda34c405fe64b1e8717e2f2cf1696d0aaf
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 2f25e1a1088bafca2ec045251010d6cdbe0bcab40960f170c124ae0f938f41f3
 status: reviewed
 ---
 
@@ -94,11 +94,13 @@ Marigold（Ke 等，CVPR 2024）将深度估计重构为条件图像到图像扩
 
 要将深度为 `d` 的像素 `(u, v)` 提升为相机坐标系 3D 点 `(X, Y, Z)`：
 
-```text
-fx, fy, cx, cy = 相机内参
-X = (u - cx) * d / fx
-Y = (v - cy) * d / fy
-Z = d
+```math
+\begin{aligned}
+f_x, f_y, c_x, c_y &= \text{camera intrinsics} \\
+X &= (u - c_x) \cdot d / f_x \\
+Y &= (v - c_y) \cdot d / f_y \\
+Z &= d
+\end{aligned}
 ```
 
 内参来自 EXIF 元数据、标定图案，或单目内参估计器（Perspective Fields、UniDepth）。没有内参时，仍可假设 60–70° FOV 和中等分辨率主点来渲染点云——适合可视化，不适合测量。

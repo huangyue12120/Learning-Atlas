@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/08-feature-engineering/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 964a9b0cd007a7d7e78196fb390fbc8bd84d227bdfcadf3c7db9e7749e70ca9c
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 4b69623669fe49051971e28ec6e60f5fa84871f356cf311305400907ad5afd3b
   anchor:
     heading: The Feature Pipeline
     slug: the-feature-pipeline

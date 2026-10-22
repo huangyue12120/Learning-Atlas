@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/08-weight-initialization/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 9c270a87d2872791247c02d3d471bc82bd76ea116df35c80143bc1b53a08c87b
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 8e248147d6007865cfc1f04452d4f850d3d3e4c99a0217c0220e9f92373bcb1e
 status: reviewed
 ---
 
@@ -49,14 +49,14 @@ status: reviewed
 
 考虑一个有 fan_in 个输入的单层：
 
-```
-z = w1*x1 + w2*x2 + ... + w_n*x_n
+```math
+z = w_1 x_1 + w_2 x_2 + \cdots + w_n x_n
 ```
 
 若每个权重 wi 来自方差 Var(w) 的分布、每个输入 xi 的方差为 Var(x)，输出方差为：
 
-```
-Var(z) = fan_in * Var(w) * Var(x)
+```math
+\mathrm{Var}(z) = \text{fan}_{\text{in}} \cdot \mathrm{Var}(w) \cdot \mathrm{Var}(x)
 ```
 
 若 Var(w) = 1、fan_in = 512，输出方差会是输入方差的 512 倍。经过 10 层：512^10 = 1.2e27，信号爆炸。
@@ -69,20 +69,20 @@ Var(z) = fan_in * Var(w) * Var(x)
 
 Glorot 与 Bengio（2010）为 sigmoid 和 tanh 激活函数推导出了解法。为在前向和反向传播中都保持方差恒定：
 
-```
-Var(w) = 2 / (fan_in + fan_out)
+```math
+\mathrm{Var}(w) = \frac{2}{\text{fan}_{\text{in}} + \text{fan}_{\text{out}}}
 ```
 
 实践中，权重取自：
 
-```
-w ~ Uniform(-limit, limit)  where limit = sqrt(6 / (fan_in + fan_out))
+```math
+w \sim \text{Uniform}(-\text{limit}, \text{limit}) \quad \text{where } \text{limit} = \sqrt{\frac{6}{\text{fan}_{\text{in}} + \text{fan}_{\text{out}}}}
 ```
 
 或：
 
-```
-w ~ Normal(0, sqrt(2 / (fan_in + fan_out)))
+```math
+w \sim \text{Normal}\left(0, \sqrt{\frac{2}{\text{fan}_{\text{in}} + \text{fan}_{\text{out}}}}\right)
 ```
 
 它之所以有效，是因为 sigmoid 和 tanh 在零点附近（正确初始化的激活通常所在的位置）近似线性。方差可在几十层中保持稳定。
@@ -93,14 +93,14 @@ ReLU 会丢弃一半输出（所有负值变为零），所以有效 fan_in 减�
 
 He 等人（2015）调整公式为：
 
-```
-Var(w) = 2 / fan_in
+```math
+\mathrm{Var}(w) = \frac{2}{\text{fan}_{\text{in}}}
 ```
 
 权重取自：
 
-```
-w ~ Normal(0, sqrt(2 / fan_in))
+```math
+w \sim \text{Normal}\left(0, \sqrt{\frac{2}{\text{fan}_{\text{in}}}}\right)
 ```
 
 因子 2 补偿 ReLU 将一半激活置零的作用。没有它，信号每层约缩小 0.5 倍；50 层后为 0.5^50 = 8.8e-16。Kaiming 初始化正是为防止这一点。
@@ -109,8 +109,8 @@ w ~ Normal(0, sqrt(2 / fan_in))
 
 GPT-2 引入了不同模式。残差连接会将每个子层输出加到输入上：
 
-```
-x = x + sublayer(x)
+```math
+x = x + \text{sublayer}(x)
 ```
 
 每次相加都会增大方差。N 个残差层时，方差大致随 N 增长。GPT-2 将残差层权重缩放为 1/sqrt(2N)，N 为层数，从而保持累积信号大小稳定。

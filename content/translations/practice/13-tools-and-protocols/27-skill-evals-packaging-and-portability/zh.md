@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/27-skill-evals-packaging-and-portability/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 789e3988293fc077fc9ddb8511779f1f7b345a89406ec03589c2b4b8745c3ce3
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 2a3dc19f7c6348bb63d9cf326bcc93e26e833a89fec35d1b49e5a55a427dfb74
 status: reviewed
 ---
 
@@ -148,10 +148,12 @@ lint 报告应使用稳定的问题代码。CI 可以阻断 `E_*` 错误，同�
 
 二分类触发可以使用：
 
-```text
-precision = true_positives / (true_positives + false_positives)
-recall = true_positives / (true_positives + false_negatives)
-f1 = 2 * precision * recall / (precision + recall)
+```math
+\begin{aligned}
+\text{precision} &= \frac{\text{true\_positives}}{\text{true\_positives} + \text{false\_positives}} \\[4pt]
+\text{recall} &= \frac{\text{true\_positives}}{\text{true\_positives} + \text{false\_negatives}} \\[4pt]
+\text{f1} &= \frac{2 \cdot \text{precision} \cdot \text{recall}}{\text{precision} + \text{recall}}
+\end{aligned}
 ```
 
 同时报告原始计数和比例。10/10 与 100/100 都是 100%，但证据强度不同。

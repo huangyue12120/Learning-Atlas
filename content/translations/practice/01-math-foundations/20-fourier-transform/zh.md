@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/20-fourier-transform/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 88d32836b77ed732bc2e2610451d4ea5509c1b20b9bb96dddc2dd3cd0bc47cff
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 6ef0d86a9deaba145cd232abd75377c5cd7eaf3bc3d7198eb7695beb1e5bb56f
 status: reviewed
 ---
 # 傅里叶变换
@@ -40,10 +40,8 @@ status: reviewed
 
 给定 N 个样本 x[0]、x[1]、...、x[N-1]，离散傅里叶变换会生成 N 个频率系数 X[0]、X[1]、...、X[N-1]：
 
-```
-X[k] = sum_{n=0}^{N-1} x[n] * e^(-2*pi*i*k*n/N)
-
-其中 k = 0, 1, ..., N-1
+```math
+X[k] = \sum_{n=0}^{N-1} x[n] \, e^{-2\pi i k n/N} \qquad \text{for } k = 0, 1, \ldots, N-1
 ```
 
 每个 X[k] 都是复数。它的模 |X[k]| 表示频率 k 的振幅。它的相位角 angle(X[k]) 表示该频率的相位偏移。
@@ -54,8 +52,8 @@ X[k] = sum_{n=0}^{N-1} x[n] * e^(-2*pi*i*k*n/N)
 
 **X[0]：直流分量。** 它是所有样本的总和——与均值成正比。它表示信号的常量（零频率）偏移。
 
-```
-X[0] = sum_{n=0}^{N-1} x[n] * e^0 = 所有样本之和
+```math
+X[0] = \sum_{n=0}^{N-1} x[n] \, e^0 = \text{sum of all samples}
 ```
 
 **当 1 <= k <= N/2 时的 X[k]：正频率。** X[k] 表示每 N 个样本中循环 k 次的频率。k 越大，频率越高（振荡越快）。
@@ -68,10 +66,8 @@ X[0] = sum_{n=0}^{N-1} x[n] * e^0 = 所有样本之和
 
 逆 DFT 根据频率系数重建原始信号：
 
-```
-x[n] = (1/N) * sum_{k=0}^{N-1} X[k] * e^(2*pi*i*k*n/N)
-
-其中 n = 0, 1, ..., N-1
+```math
+x[n] = \frac{1}{N} \sum_{k=0}^{N-1} X[k] \, e^{2\pi i k n/N} \qquad \text{for } n = 0, 1, \ldots, N-1
 ```
 
 它与正向 DFT 只有两点不同：指数中的符号为正（而非负），并且多了一个 1/N 归一化因子。
@@ -90,12 +86,13 @@ Cooley-Tukey 算法（最常用的 FFT 算法）采用分治法：
 2. 递归计算各自一半样本的 DFT。
 3. 使用“旋转因子” e^(-2*pi*i*k/N) 合并两个半尺寸的 DFT。
 
-```
-X[k] = E[k] + e^(-2*pi*i*k/N) * O[k]          其中 k = 0, ..., N/2 - 1
-X[k + N/2] = E[k] - e^(-2*pi*i*k/N) * O[k]    其中 k = 0, ..., N/2 - 1
-
-其中 E = 偶数索引样本的 DFT
-     O = 奇数索引样本的 DFT
+```math
+\begin{aligned}
+X[k] &= E[k] + e^{-2\pi i k/N} \, O[k] && \text{for } k = 0, \ldots, N/2 - 1 \\
+X[k + N/2] &= E[k] - e^{-2\pi i k/N} \, O[k] && \text{for } k = 0, \ldots, N/2 - 1 \\[6pt]
+\text{where } E &= \text{DFT of even-indexed samples} \\
+O &= \text{DFT of odd-indexed samples}
+\end{aligned}
 ```
 
 这种对称性意味着每一层递归只需完成 O(N) 的工作，而递归共有 log2(N) 层。因此总时间复杂度为 O(N log N)。
@@ -124,19 +121,23 @@ FFT 要求信号长度为 2 的幂。在实践中，通常会在信号末尾补�
 
 **相位谱**是 angle(X[k])——每个频率的相位偏移。在大多数分析任务中，你关注的是功率谱，而会忽略相位。
 
-```
-频率 k 处的功率：P[k] = |X[k]|^2 = X[k].real^2 + X[k].imag^2
-频率 k 处的相位：phi[k] = atan2(X[k].imag, X[k].real)
+```math
+\begin{aligned}
+\text{Power at frequency } k: \quad P[k] &= |X[k]|^2 = \mathop{\mathrm{Re}}(X[k])^2 + \mathop{\mathrm{Im}}(X[k])^2 \\
+\text{Phase at frequency } k: \quad \phi[k] &= \mathop{\mathrm{atan2}}(\mathop{\mathrm{Im}}(X[k]), \mathop{\mathrm{Re}}(X[k]))
+\end{aligned}
 ```
 
 ### 频率分辨率
 
 DFT 的频率分辨率取决于样本数 N 和采样率 fs。
 
-```
-频率箱 k 对应的频率：f_k = k * fs / N
-频率分辨率：          delta_f = fs / N
-最大频率：            f_max = fs / 2  (奈奎斯特频率)
+```math
+\begin{aligned}
+\text{Frequency of bin } k: \quad & f_k = k \cdot f_s / N \\
+\text{Frequency resolution:} \quad & \Delta f = f_s / N \\
+\text{Maximum frequency:} \quad & f_{\max} = f_s / 2 \quad \text{(Nyquist)}
+\end{aligned}
 ```
 
 若要分辨两个彼此接近的频率，就需要更多样本。若要捕获高频，就需要更高的采样率。
@@ -147,10 +148,11 @@ DFT 的频率分辨率取决于样本数 N 和采样率 fs。
 
 **时域中的卷积等于频域中的逐点乘法。**
 
-```
-x * h = IFFT(FFT(x) . FFT(h))
-
-其中 * 表示卷积，. 表示逐元素乘法
+```math
+\begin{aligned}
+& x * h = \text{IFFT}(\text{FFT}(x) \cdot \text{FFT}(h)) \\[4pt]
+& \text{where } * \text{ is convolution and } \cdot \text{ is element-wise multiplication}
+\end{aligned}
 ```
 
 它的重要性体现在：
@@ -193,9 +195,11 @@ DFT 假定信号是周期性的——它把这 N 个样本视为一个无限重�
 | Hamming 窗 | 修正余弦 | 中等 | 更低（-42 dB） | 音频处理、语音分析 |
 | Blackman 窗 | 三项余弦 | 宽 | 非常低（-58 dB） | 旁瓣抑制至关重要时 |
 
-```
-Hann 窗：   w[n] = 0.5 * (1 - cos(2*pi*n / (N-1)))
-Hamming 窗：w[n] = 0.54 - 0.46 * cos(2*pi*n / (N-1))
+```math
+\begin{aligned}
+\text{Hann window:} \quad & w[n] = 0.5 \left(1 - \cos\frac{2\pi n}{N-1}\right) \\
+\text{Hamming window:} \quad & w[n] = 0.54 - 0.46 \cos\frac{2\pi n}{N-1}
+\end{aligned}
 ```
 
 在进行 DFT 之前，将窗函数与信号逐元素相乘即可应用窗函数：`X = DFT(x * w)`。
@@ -218,9 +222,11 @@ Parseval 定理表明，两个域中的总能量相同。变换过程中能量�
 
 最初的 Transformer 使用正弦位置编码：
 
-```
-PE(pos, 2i)   = sin(pos / 10000^(2i/d_model))
-PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
+```math
+\begin{aligned}
+PE(pos, 2i) &= \sin\left(pos / 10000^{2i/d_{\text{model}}}\right) \\
+PE(pos, 2i+1) &= \cos\left(pos / 10000^{2i/d_{\text{model}}}\right)
+\end{aligned}
 ```
 
 每一对维度（2i, 2i+1）都以不同频率振荡。这些频率按几何级数排列，从高频（第 0、1 维）逐渐过渡到低频（最后几个维度）。这使每个位置在所有频带上都具有独一无二的模式——类似于傅里叶系数能唯一标识一个信号。
@@ -443,6 +449,20 @@ spectrogram = np.abs(Zxx) ** 2
 4. **加窗的影响。** 创建一个由 10 Hz 和 12 Hz 两个正弦波（频率非常接近）相加而成的信号，以 128 Hz 采样 1 秒。分别计算不加窗、使用 Hann 窗以及使用 Hamming 窗时的功率谱。哪一种窗最容易区分这两个峰？为什么？
 
 5. **位置编码分析。** 为 d_model = 128、max_pos = 512 生成正弦位置编码。对每一对位置 (p1, p2)，计算其编码的点积。证明点积只取决于 |p1 - p2|，而不取决于绝对位置。随着距离增加，点积会怎样变化？
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** With 128 samples over 1 second, bin $k$ is $k$ Hz, so for an integer frequency the index of the largest value in bins 1 to 63 is the frequency. Pick an integer number of hertz. A frequency between two bins spreads into its neighbors, and the peak gives only the nearest bin. Use `generate_signal` and `magnitude_spectrum`. After you add noise, check that the peak is still at the same bin while the other bins rise.
+>
+> **Exercise 2.** Use a power of two length, because `fft` splits the signal in halves. Check `max(abs(a - b))` over all coefficients. The time ratio should grow roughly as $N / \log_2 N$.
+>
+> **Exercise 3.** For circular convolution, compute $y[n] = \sum_k h[k] x[(n-k) \bmod 8]$ by hand for $n$ = 0, 1, and 2, and compare the first three values of `convolve_direct` and `convolve_fft`. Linear convolution has length 4 + 3 - 1 = 6, so first check if the length 8 is already long enough.
+>
+> **Exercise 4.** Use `hann_window`, `hamming_window`, `apply_window`, and `power_spectrum`, and count the separate peaks between 9 and 13 Hz. Both 10 Hz and 12 Hz complete whole cycles in 1 second, so no window may look best. Repeat with 10.5 Hz and 12.5 Hz to see the leakage that windows reduce.
+>
+> **Exercise 5.** Compute each encoding with `positional_encoding(pos, 128)`. Compare the dot product for positions (0, 10) with the dot product for (100, 110): the two values must match to about 1e-10. Then plot the dot product against $\lvert p_1 - p_2 \rvert$ for one fixed $p_1$.
 
 ## 关键术语
 

@@ -4,10 +4,19 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/30-dual-use-risk-cyber-bio-chem-nuclear/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 14da17d632f41db5eab259848ceb6a931c9efdad2620c00437838bab25abd88a
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 7a27fd0e8a64654fc19d8c308a93104ae72ab42d0a3a89e8fb5aaf5afbd4ce7e
 status: reviewed
 ---
+
+> 上游新增参考链接（原文，待中文复核）：
+>
+> - [上游参考](../../../13-tools-and-protocols/32-program-anatomy-elf-from-scratch/docs/en.md)
+> - [上游参考](../../../13-tools-and-protocols/33-disassembly-and-control-flow/docs/en.md)
+> - [上游参考](../../../13-tools-and-protocols/34-lifting-to-pseudocode/docs/en.md)
+> - [上游参考](../../../13-tools-and-protocols/35-evidence-confidence-and-unknowns/docs/en.md)
+> - [上游参考](https://aiengineeringfromscratch.com/inside-a-decompiler)
+
 
 # 双重用途风险：网络、生物、化学与核能力提升
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/14-open-models-architecture-walkthroughs/docs/en.md
-  revision: f0c979b98d35f0547fe7a5f9aadf2f25d6c2e375
-  sha256: a99394857db92dbc5a151de35122a26e489a1b2bd31d78134e71071e1933f4d0
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: a8ed03076dc6b94ead65d2f1b2ca1103c9caef23e22620254f4e47863ea9ac5c
 status: reviewed
 ---
 
@@ -63,8 +63,8 @@ status: reviewed
 
 LayerNorm 会减去均值、除以标准差，再进行缩放和偏移。RMSNorm 只保留缩放：
 
-```
-RMSNorm(x) = x / sqrt(mean(x^2) + eps) * gamma
+```math
+\mathop{\mathrm{RMSNorm}}(x) = \frac{x}{\sqrt{\mathop{\mathrm{mean}}(x^2) + \epsilon}} \cdot \gamma
 ```
 
 不再减均值，也没有 bias。每个词元少做一次矩阵乘法。Zhang 和 Sennrich（2019）认为，在机器翻译上它与 LayerNorm 的效果相当，同时快 10%。如今每个现代开放模型都使用它。
@@ -89,8 +89,8 @@ Llama、Mistral、Qwen、DeepSeek 和 Gemma 都使用 RoPE。Gemma 2 使用混�
 
 GPT-2 的 MLP 是 `x -> gelu(xW1 + b1) -> (...)W2 + b2`。SwiGLU（Shazeer，2020）用门控乘积替换激活函数：
 
-```
-SwiGLU(x) = (xW1) * sigmoid(xW1) * xV
+```math
+\mathop{\mathrm{SwiGLU}}(x) = (xW_1) \cdot \mathop{\mathrm{sigmoid}}(xW_1) \cdot xV
 ```
 
 两个投影并行运行，再由 Swish 激活进行门控。经验上，在每个参数的困惑度上表现更强。Llama 2 采用它之后，所有人都跟进了。MLP 的隐藏大小通常会设置为让总参数量与原始稠密 MLP 相当：如果 GPT-2 使用 `ff_dim = 4 * hidden`，SwiGLU 使用 `ff_dim = (2/3) * 4 * hidden = 8/3 * hidden`。

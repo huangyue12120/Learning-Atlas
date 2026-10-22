@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/06-diffusion-ddpm-from-scratch/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: f62dd0eaa055920ebe0ae369fd734c5b0e6ab90ce3f31f485487d7d4cd7a86f8
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: c584ddcc8a6856dfc2171125e691a9ef9ad4d3313b8113c6f61e361cd1b81b67
 status: reviewed
 ---
 
@@ -30,24 +30,24 @@ Sohl-Dickstein 等（2015）给出了理论答案：定义一条逐渐加入高�
 
 **前向过程 `q`。** 用 `T` 个小步骤加入高斯噪声。累积步骤仍是高斯分布，这个闭式表达式让整套数学可以求解：
 
-```
-q(x_t | x_0) = N( sqrt(α̅_t) · x_0,  (1 - α̅_t) · I )
+```math
+q(x_t \mid x_0) = \mathcal{N}\left( \sqrt{\bar{\alpha}_t} \cdot x_0, (1 - \bar{\alpha}_t) \cdot I \right)
 ```
 
 其中，对于 `β_t` 调度，`α̅_t = ∏_{s=1..t} (1 - β_s)`。在 T=1000 步中，让 `β_t` 从 1e-4 线性增加到 0.02，最终的 `x_T` 就近似服从 `N(0, I)`。
 
 **反向过程 `p_θ`。** 学习一个预测所加噪声的神经网络 `ε_θ(x_t, t)`。给定 `x_t`，通过下式去噪：
 
-```
-x_{t-1} = (1 / sqrt(α_t)) · ( x_t - (β_t / sqrt(1 - α̅_t)) · ε_θ(x_t, t) )  +  σ_t · z
+```math
+x_{t-1} = \frac{1}{\sqrt{\alpha_t}} \cdot \left( x_t - \frac{\beta_t}{\sqrt{1 - \bar{\alpha}_t}} \cdot \epsilon_\theta(x_t, t) \right) + \sigma_t \cdot z
 ```
 
 其中 `σ_t` 可以是 `sqrt(β_t)`，也可以是学习得到的方差。表达式很难看，但只涉及代数运算：先根据后验 `q(x_{t-1} | x_t, x_0)` 解出 `x_{t-1}`，再用通过噪声预测得到的估计替换 `x_0`。
 
 **训练损失。**
 
-```
-L_simple = E_{x_0, t, ε} [ || ε - ε_θ( sqrt(α̅_t) · x_0 + sqrt(1 - α̅_t) · ε,  t ) ||² ]
+```math
+L_{\text{simple}} = \mathbb{E}_{x_0, t, \epsilon} \left[ \left\lVert \epsilon - \epsilon_\theta\left( \sqrt{\bar{\alpha}_t} \cdot x_0 + \sqrt{1 - \bar{\alpha}_t} \cdot \epsilon, t \right) \right\rVert^2 \right]
 ```
 
 从数据中采样 `x_0`，随机选择 `t`，采样 `ε ~ N(0, I)`，使用闭式表达式一步算出带噪的 `x_t`，再回归噪声。一个损失，没有极小极大博弈，没有 KL，也不需要重参数化技巧。

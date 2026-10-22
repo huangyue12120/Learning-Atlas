@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/04-calculus-for-ml/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 0ed4721bd7a01a876bdfd1cafd3a732d645842bf942f708bf32198fd5a8e6794
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 026ef098b0d57e79d611ba10046c2c2db884e71e3349e4bf6c2f199050325b4d
 status: reviewed
 ---
 
@@ -52,10 +52,8 @@ status: reviewed
 
 形式化定义如下：
 
-```text
-f'(x) = lim   f(x + h) - f(x)
-        h->0  -----------------
-                     h
+```math
+f'(x) = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}
 ```
 
 在代码中，可以跳过求极限的过程，直接使用一个非常小的 h，得到数值导数。
@@ -64,11 +62,12 @@ f'(x) = lim   f(x + h) - f(x)
 
 实际函数往往有多个输入。神经网络的损失取决于数千个权重。求偏导数时，除一个变量外的所有变量都保持不变，然后对这一个变量求导。
 
-```text
-f(x, y) = x^2 + 3xy + y^2
-
-df/dx = 2x + 3y     （将 y 视为常量）
-df/dy = 3x + 2y     （将 x 视为常量）
+```math
+\begin{aligned}
+f(x, y) &= x^2 + 3xy + y^2 \\[4pt]
+\frac{\partial f}{\partial x} &= 2x + 3y \quad \text{(treat } y \text{ as a constant)} \\
+\frac{\partial f}{\partial y} &= 3x + 2y \quad \text{(treat } x \text{ as a constant)}
+\end{aligned}
 ```
 
 每个偏导数回答的问题都是：如果只略微改变这一个权重，损失会如何变化？
@@ -77,8 +76,8 @@ df/dy = 3x + 2y     （将 x 视为常量）
 
 梯度把每个偏导数收集到一个向量中。对于函数 f(x, y, z)，梯度为：
 
-```text
-grad f = [ df/dx, df/dy, df/dz ]
+```math
+\nabla f = \left[ \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}, \frac{\partial f}{\partial z} \right]
 ```
 
 梯度指向最陡上升方向。要最小化一个函数，就向相反方向移动。
@@ -202,15 +201,14 @@ f(w) = 3w + 1    f'(w) = 3
 
 Hessian 是由二阶偏导数组成的矩阵。对于函数 f(x1, x2, ..., xn)，Hessian 的第 (i, j) 个元素为：
 
-```text
-H[i][j] = d^2f / (dx_i * dx_j)
+```math
+H_{ij} = \frac{\partial^2 f}{\partial x_i \, \partial x_j}
 ```
 
 对于二元函数 f(x, y)：
 
-```text
-H = | d^2f/dx^2    d^2f/dxdy |
-    | d^2f/dydx    d^2f/dy^2 |
+```math
+H = \begin{bmatrix} \dfrac{\partial^2 f}{\partial x^2} & \dfrac{\partial^2 f}{\partial x \, \partial y} \\[8pt] \dfrac{\partial^2 f}{\partial y \, \partial x} & \dfrac{\partial^2 f}{\partial y^2} \end{bmatrix}
 ```
 
 **Hessian 在临界点（梯度 = 0）处告诉你的信息：**
@@ -248,9 +246,11 @@ H = | 2  0 |
 
 Newton 法使用 Hessian，能采取比梯度下降更好的优化步伐。它不仅沿斜率移动，还会考虑曲率：
 
-```text
-Newton 更新：    w_new = w_old - H^(-1) * gradient
-梯度下降：       w_new = w_old - lr * gradient
+```math
+\begin{aligned}
+\text{Newton's update:} \quad & w_{\text{new}} = w_{\text{old}} - H^{-1} \cdot \text{gradient} \\
+\text{Gradient descent:} \quad & w_{\text{new}} = w_{\text{old}} - \text{lr} \cdot \text{gradient}
+\end{aligned}
 ```
 
 Newton 法收敛更快，因为 Hessian 会对梯度进行“重缩放”——在陡峭方向上缩小步长，在平坦方向上增大步长。
@@ -271,8 +271,8 @@ Newton 法收敛更快，因为 Hessian 会对梯度进行“重缩放”——�
 
 任何光滑函数都可以在局部用多项式近似：
 
-```text
-f(x + h) = f(x) + f'(x)*h + (1/2)*f''(x)*h^2 + (1/6)*f'''(x)*h^3 + ...
+```math
+f(x + h) = f(x) + f'(x)\,h + \frac{1}{2} f''(x)\,h^2 + \frac{1}{6} f'''(x)\,h^3 + \cdots
 ```
 
 包含的项越多，近似就越好——但只在点 x 附近如此。
@@ -304,32 +304,32 @@ f(x + h) = f(x) + f'(x)*h + (1/2)*f''(x)*h^2 + (1/6)*f'''(x)*h^3 + ...
 
 **概率。** 对于概率密度为 p(x) 的连续随机变量：
 
-```text
-P(a < X < b) = 从 a 到 b 对 p(x) dx 积分
+```math
+P(a < X < b) = \int_a^b p(x) \, dx
 ```
 
 概率密度曲线在 a 和 b 之间的面积，就是随机变量落入该区间的概率。
 
 **期望值。** 按概率加权后的平均结果：
 
-```text
-E[f(X)] = 对 f(x) * p(x) dx 积分
+```math
+\mathbb{E}[f(X)] = \int f(x) \, p(x) \, dx
 ```
 
 数据分布上的期望损失是一个积分。训练过程最小化的是它的经验近似。
 
 **KL 散度。** 衡量两个分布之间的差异：
 
-```text
-KL(p || q) = 对 p(x) * log(p(x) / q(x)) dx 积分
+```math
+\mathrm{KL}(p \,\|\, q) = \int p(x) \log \frac{p(x)}{q(x)} \, dx
 ```
 
 它用于 VAE、知识蒸馏和贝叶斯推断。
 
 **归一化常数。** 在贝叶斯推断中：
 
-```text
-p(w | data) = p(data | w) * p(w) / 对 p(data | w) * p(w) dw 积分
+```math
+p(w \mid \text{data}) = \frac{p(\text{data} \mid w) \, p(w)}{\int p(\text{data} \mid w) \, p(w) \, dw}
 ```
 
 分母是对所有可能参数值的积分。它往往难以直接计算，因此我们会采用 MCMC 和变分推断等近似方法。
@@ -623,6 +623,16 @@ print(f"Learned: y = {w:.2f}x + {b:.2f}")
 1. 调用两次 `numerical_derivative` 来实现 `numerical_second_derivative(f, x)`。验证 x^3 在 x=2 处的二阶导数为 12。
 2. 使用梯度下降求 f(x, y) = (x - 3)^2 + (y + 1)^2 的最小值。从 (0, 0) 开始，结果应收敛到 (3, -1)。
 3. 为梯度下降循环加入动量：维护一个累积过去梯度的速度向量。对 f(x) = x^4 - 3x^2，比较使用动量和不使用动量时的收敛速度。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Define a helper that returns `numerical_derivative(f, x)` and pass that helper to `numerical_derivative` again. If the result is noisy, use a larger step such as `h=1e-4` for both calls; the value at $x=2$ must be close to 12.
+>
+> **Exercise 2.** Write the gradient $(2(x - 3), 2(y + 1))$ or use `numerical_gradient`, and call `gradient_descent_nd` from $(0, 0)$. Print the point every 10 steps; it must move toward $(3, -1)$ and the loss must fall to near 0.
+>
+> **Exercise 3.** Keep a velocity `v`, update it as `v = momentum * v - lr * grad`, then add `v` to `x`. Count the steps each method needs to reach a gradient near 0; the minimum is at $x = \pm\sqrt{1.5} \approx \pm 1.225$.
 
 ## 关键术语
 

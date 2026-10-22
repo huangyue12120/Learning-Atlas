@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/04-positional-encoding/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: c7e45e8178d68f5a75b790a84c81a6749b2f2f54c88e30c3f36fabc705a0a511
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 07d2e8f497721bec0650eb2ef2d995c71648a1f20c56667bdca9a31d764d1302
   anchor:
     heading: The Concept
     slug: the-concept

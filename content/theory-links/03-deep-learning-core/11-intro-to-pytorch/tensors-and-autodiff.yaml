@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/11-intro-to-pytorch/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 9c1d3d3a389c673ccc0b0491dba0401ef37bac7d7e885ce22d4309f0adb2ea0e
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 097a4d314a056d0a9ddafedf0f6c2bfcc3812fe916591e48c3ae5daec7048331
   anchor:
     heading: Tensors
     slug: tensors

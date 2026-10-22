@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/06-probability-and-distributions/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 6af905cb9c5318be55d10a25d9ba18b2dc253d8b8fe6b5b4cc32fe243d2e47f8
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 9595bccbedd22dbf64a1412aebc327ba8817616da5cd2e3aa65ab4a748c1344c
 status: reviewed
 ---
 
@@ -69,9 +69,11 @@ P(A|B) = P(A and B) / P(B)
 
 如果知道一个事件是否发生并不能提供另一个事件的任何信息，那么这两个事件相互独立：
 
-```text
-独立：      P(A|B) = P(A)
-等价于：    P(A and B) = P(A) * P(B)
+```math
+\begin{aligned}
+\text{Independent:} \quad & P(A \mid B) = P(A) \\
+\text{Equivalent to:} \quad & P(A \text{ and } B) = P(A) \cdot P(B)
+\end{aligned}
 ```
 
 多次抛硬币相互独立。无放回抽牌则不独立。
@@ -109,24 +111,30 @@ integral from -inf to +inf of f(x) dx = 1
 
 **Bernoulli：** 一次试验，两种结果。用于建模二分类。
 
-```text
-P(X = 1) = p
-P(X = 0) = 1 - p
-均值 = p，方差 = p(1-p)
+```math
+\begin{aligned}
+P(X = 1) &= p \\
+P(X = 0) &= 1 - p \\
+\text{Mean} = p, &\quad \text{Variance} = p(1-p)
+\end{aligned}
 ```
 
 **Categorical：** 一次试验，k 种结果。用于建模多分类（softmax 输出）。
 
-```text
-P(X = i) = p_i，其中 p_i 之和 = 1
-示例：P(cat) = 0.7,  P(dog) = 0.2,  P(bird) = 0.1
+```math
+\begin{aligned}
+& P(X = i) = p_i, \quad \text{where } \textstyle\sum_i p_i = 1 \\
+& \text{Example: } P(\text{cat}) = 0.7, \quad P(\text{dog}) = 0.2, \quad P(\text{bird}) = 0.1
+\end{aligned}
 ```
 
 **均匀分布：** 所有结果等可能。用于随机初始化。
 
-```text
-离散：P(X = k) = 1/n，其中 k 属于 {1, ..., n}
-连续：f(x) = 1/(b-a)，其中 x 属于 [a, b]
+```math
+\begin{aligned}
+\text{Discrete:} \quad & P(X = k) = 1/n \text{ for } k \in \lbrace 1, \ldots, n \rbrace \\
+\text{Continuous:} \quad & f(x) = 1/(b-a) \text{ for } x \in [a, b]
+\end{aligned}
 ```
 
 **正态（高斯）分布：** 钟形曲线。由均值（mu）和方差（sigma^2）参数化。
@@ -142,25 +150,31 @@ f(x) = (1 / sqrt(2*pi*sigma^2)) * exp(-(x - mu)^2 / (2*sigma^2))
 
 **Poisson：** 固定区间内稀有事件的计数。用于建模事件发生率。
 
-```text
-P(X = k) = (lambda^k * e^(-lambda)) / k!
-均值 = lambda，方差 = lambda
+```math
+\begin{aligned}
+P(X = k) &= \frac{\lambda^k e^{-\lambda}}{k!} \\
+\text{Mean} = \lambda, &\quad \text{Variance} = \lambda
+\end{aligned}
 ```
 
 ### 期望与方差
 
 期望是结果的加权平均值。
 
-```text
-离散：E[X] = sum of x_i * P(X = x_i)
-连续：E[X] = integral of x * f(x) dx
+```math
+\begin{aligned}
+\text{Discrete:} \quad & \mathbb{E}[X] = \sum_i x_i \, P(X = x_i) \\
+\text{Continuous:} \quad & \mathbb{E}[X] = \int x \, f(x) \, dx
+\end{aligned}
 ```
 
 方差衡量数据围绕均值的离散程度。
 
-```text
-Var(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2
-标准差 = sqrt(Var(X))
+```math
+\begin{aligned}
+\mathrm{Var}(X) &= \mathbb{E}[(X - \mathbb{E}[X])^2] = \mathbb{E}[X^2] - (\mathbb{E}[X])^2 \\
+\text{Standard deviation} &= \sqrt{\mathrm{Var}(X)}
+\end{aligned}
 ```
 
 在机器学习中，期望表现为损失函数（数据分布上的平均损失）。方差反映模型的稳定性。梯度方差高意味着训练噪声大。
@@ -179,8 +193,8 @@ Var(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2
 
 边缘分布通过对另一个变量求和得到：
 
-```text
-P(X = x) = 对所有 y 的 P(X = x, Y = y) 求和
+```math
+P(X = x) = \sum_{y} P(X = x, Y = y)
 ```
 
 上表的行合计与列合计就是边缘分布。
@@ -207,18 +221,22 @@ P(X = x) = 对所有 y 的 P(X = x, Y = y) 求和
 
 原始概率会造成数值问题。许多小概率相乘会很快下溢为零。
 
-```text
-P(sentence) = P(word1) * P(word2) * ... * P(word_n)
-            = 0.01 * 0.003 * 0.02 * ...
-            -> 0.0（约 30 项后下溢）
+```math
+\begin{aligned}
+P(\text{sentence}) &= P(\text{word}_1) \cdot P(\text{word}_2) \cdot \ldots \cdot P(\text{word}_n) \\
+&= 0.01 \cdot 0.003 \cdot 0.02 \cdot \ldots \\
+&\to 0.0 \quad \text{(underflow after } \sim 30 \text{ terms)}
+\end{aligned}
 ```
 
 对数概率解决了这个问题。乘法变为加法。
 
-```text
-log P(sentence) = log P(word1) + log P(word2) + ... + log P(word_n)
-                = -4.6 + -5.8 + -3.9 + ...
-                -> 有限数值（不会下溢）
+```math
+\begin{aligned}
+\log P(\text{sentence}) &= \log P(\text{word}_1) + \log P(\text{word}_2) + \ldots + \log P(\text{word}_n) \\
+&= -4.6 + -5.8 + -3.9 + \ldots \\
+&\to \text{finite number (no underflow)}
+\end{aligned}
 ```
 
 规则：
@@ -440,6 +458,18 @@ print(f"Log-softmax: {log_probs}")
 3. 一个五分类分类器输出 logits `[2.0, 0.5, -1.0, 3.0, 0.1]`，正确类别的索引为 3。计算其交叉熵损失，然后使用 PyTorch 的 `nn.CrossEntropyLoss` 验证答案。
 
 4. 编写一个函数：接收一组对数概率，返回最可能的序列、总对数概率以及等价的原始概率。用一个包含 50 个词、每个词概率均为 0.01 的句子测试它。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Draw `u` from a uniform distribution and return $-\ln(1 - u) / \lambda$. Check that the sample mean is close to $1/\lambda$ and that the histogram bins follow $\lambda e^{-\lambda x}$.
+>
+> **Exercise 2.** Fill a 6x6 table where every cell is a probability and the sum of all cells is 1, then call `joint_to_marginals`. Use `check_independence`: the dice are independent only if every cell equals the product of its two marginals.
+>
+> **Exercise 3.** Apply `softmax` to the logits and take $-\ln$ of the probability at index 3. The result must be close to 0.421, which is the value `nn.CrossEntropyLoss` gives for the same logits and target.
+>
+> **Exercise 4.** Add the log probabilities; do not multiply raw probabilities. For 50 words with probability 0.01, the total must be $50 \ln(0.01) \approx -230.26$, and the raw probability is $10^{-100}$.
 
 ## 关键术语
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/09-image-generation-gans/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: dcdc65b519fc2a23620cde11212f4d3269b63bd52d568d72ef08c04867c33409
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 3bbea9e3b697b2355934d70df8ead6646ec39aa67cdeda580b2e0be659d5a951
 status: reviewed
 ---
 
@@ -56,8 +56,8 @@ flowchart LR
 
 G 想让 D 出错，D 想判断正确。形式化为：
 
-```
-min_G max_D  E_x[log D(x)] + E_z[log(1 - D(G(z)))]
+```math
+\min_G \max_D \; \mathbb{E}_x[\log D(x)] + \mathbb{E}_z[\log(1 - D(G(z)))]
 ```
 
 从右向左理解：D 最大化真实（`log D(real)`）和伪造（`log (1 - D(fake))`）图像的准确率；G 最小化 D 对伪造图的准确率——它想让 `D(G(z))` 变高。
@@ -68,9 +68,11 @@ Goodfellow 证明该极小极大问题有全局均衡：`p_G = p_data`，D 在�
 
 上式数值不稳定。训练早期，对每张伪图 `D(G(z))` 近零，因此相对 G 的 `log(1 - D(G(z)))` 梯度消失。修复方式是翻转 G 的损失：
 
-```
-L_D = -E_x[log D(x)] - E_z[log(1 - D(G(z)))]
-L_G = -E_z[log D(G(z))]                          # 非饱和
+```math
+\begin{aligned}
+L_D &= -\mathbb{E}_x[\log D(x)] - \mathbb{E}_z[\log(1 - D(G(z)))] \\
+L_G &= -\mathbb{E}_z[\log D(G(z))] \qquad \text{(non-saturating)}
+\end{aligned}
 ```
 
 现在 `D(G(z))` 近零时，G 损失很大且梯度有信息；所有现代 GAN 都训练此变体。

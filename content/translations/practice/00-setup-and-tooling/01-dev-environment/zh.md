@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/01-dev-environment/docs/en.md
-  revision: 0285d9bd92bc95d56ba79bed2071be6fb3365369
-  sha256: 9be9bc9d7edf98913321bda6f10cc639e1f4341cd439001317e37c3bd6cc7163
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 85bc7f1f0682cf607f287710b25f2dd3cde1475feaca985a89bf2cefb1e2cf52
 status: reviewed
 ---
 
@@ -217,6 +217,16 @@ Next: python3 phases/01-math-foundations/01-linear-algebra-intuition/code/vector
 参见 `outputs/prompt-env-check.md`，其中的提示词可帮助 AI 助手诊断环境问题。
 
 ## 练习
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Run `python3 phases/00-setup-and-tooling/01-dev-environment/code/verify.py --route beginner` from the repository root and fix the first failed line before you look at the next one. The check is done when you run the script again and every required probe passes.
+>
+> **Exercise 2.** Make the environment with `uv venv` in the repository root, activate it, then install PyTorch with the command from Step 6 that matches your hardware. Run `python -c "import torch; print(torch.__version__)"` inside the environment; a version number means the install worked.
+>
+> **Exercise 3.** Use the four runtimes from the stack in The Concept: Python, TypeScript on Node.js, Rust, and Julia. Write one small file for each and run it with `python3`, `npx tsx` (Node.js cannot run a `.ts` file directly), `cargo run` or `rustc`, and `julia`. Each run must print your message and exit with code 0.
+
 
 1. 运行验证脚本，并修复所有失败项
 2. 为本课程创建一个 Python 虚拟环境并安装 PyTorch

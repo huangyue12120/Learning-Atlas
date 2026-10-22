@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/79-pipeline-parallel/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: f65b5e9e60a36c8f3cd4b98fc740b8ae9c781b583fec4d455bc5328fa9460167
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 48bc5fd50e016d359a40838d743687b418bc17e37ded1678aad7047c19e9d36b
 status: reviewed
 ---
 

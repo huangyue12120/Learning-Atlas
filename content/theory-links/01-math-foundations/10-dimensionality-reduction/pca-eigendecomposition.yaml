@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/10-dimensionality-reduction/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 13f508adaa0599b3db8d18ad77c9b20b501cf6864dd242ad884a48412e41bcfc
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: ae01a8dd4e5df9df97a7dff0e02d10dfe9b1689eb6b923a5f7169d7a3fbd28e4
   anchor:
     heading: "PCA: find the directions that matter"
     slug: pca-find-the-directions-that-matter

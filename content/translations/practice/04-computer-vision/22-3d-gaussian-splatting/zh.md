@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/22-3d-gaussian-splatting/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 0ede4133b98620602cbe40bc4ff92f43246dbe70e7575466b38207c470c0d55a
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: cb90cbe59c9db1c08ff31782f912a0d040b7da1fc97369c0060025f777b38147
 status: reviewed
 ---
 
@@ -72,12 +72,13 @@ flowchart LR
 
 世界位置为 `mu`、3D 协方差为 `Sigma` 的 3D 高斯，会投影为屏幕位置 `mu'`、2D 协方差 `Sigma'` 的二维高斯：
 
-```text
-mu' = project(mu)
-Sigma' = J W Sigma W^T J^T          (2 x 2)
-
-W = 视图变换（相机的旋转 + 平移）
-J = mu' 处透视投影的 Jacobian
+```math
+\begin{aligned}
+\mu' &= \mathop{\mathrm{project}}(\mu) \\
+\Sigma' &= J W \Sigma W^T J^T \qquad (2 \times 2) \\[6pt]
+W &= \text{viewing transform (rotation + translation of camera)} \\
+J &= \text{Jacobian of the perspective projection at } \mu'
+\end{aligned}
 ```
 
 二维高斯的 footprint 是椭圆，其轴为 `Sigma'` 的特征向量。椭圆内每个像素都会收到该高斯的贡献，权重为 `exp(-0.5 * (p - mu')^T Sigma'^-1 (p - mu'))`。
@@ -86,12 +87,13 @@ J = mu' 处透视投影的 Jacobian
 
 对于一个像素，覆盖它的高斯按从后到前排序（或等价地以前到后使用反向公式）。颜色采用自 1980 年代以来每个半透明光栅器相同的合成方程：
 
-```text
-C_pixel = sum_i alpha_i * T_i * c_i
-
-T_i = prod_{j < i} (1 - alpha_j)       到第 i 个点的透射率
-alpha_i = opacity_i * exp(-0.5 * d^T Sigma'^-1 d)   局部贡献
-c_i = eval_SH(SH_i, view_direction)    依视角颜色
+```math
+\begin{aligned}
+C_{\text{pixel}} &= \sum_i \alpha_i T_i c_i \\[6pt]
+T_i &= \prod_{j < i} (1 - \alpha_j) && \text{transmittance up to } i \\
+\alpha_i &= \text{opacity}_i \cdot \exp\left(-0.5 \, d^T \Sigma'^{-1} d\right) && \text{local contribution} \\
+c_i &= \mathop{\mathrm{eval\_SH}}(\text{SH}_i, \text{view\_direction}) && \text{view-dependent colour}
+\end{aligned}
 ```
 
 这与 NeRF 的体渲染**是同一个方程**，只是作用对象从射线上的稠密样本变为显式稀疏高斯集合。这一恒等关系解释了为何渲染质量匹敌 NeRF——两者都在积分同一辐射场方程。

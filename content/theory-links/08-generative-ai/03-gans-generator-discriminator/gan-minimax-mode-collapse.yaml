@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/03-gans-generator-discriminator/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: db7fe86ffad9d10f6c5a3af0a1192fde88538af04589e34a21472b8769a1cdf8
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 63258263bc9ce4e9312fb31bea20b813055cfea14aac20dcdf6a3c1c740ea9e9
   anchor:
     heading: The Concept
     slug: the-concept

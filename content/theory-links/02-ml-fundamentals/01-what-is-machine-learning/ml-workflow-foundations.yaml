@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/01-what-is-machine-learning/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 4498f3c98310b7223b99444df4289f355c201b07f7adddfc06857d84d4e99da5
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: a81964a035da5a6ed3e69d48a66caea2d02d7cbe28d0e3bd573069fab831eef0
   anchor:
     heading: The ML Workflow
     slug: the-ml-workflow

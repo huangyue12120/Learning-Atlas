@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/12-tensor-operations/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 98beea9409bda9831f924611911ce5218d012444740a5a8a800f9c7823aaf632
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 8f37a3ac0484d015c9ba0ee87bbc9d9c60fe22c05f1abe7a2e6b4f83bf71dce1
 status: reviewed
 ---
 
@@ -290,6 +290,18 @@ PyTorch 增加 autograd、GPU 支持和优化的 BLAS kernel，但 shape 语义�
 2. **Medium——实现广播。** 为 `Tensor` 增加 `broadcast_to(shape)`，将 size 为 1 的轴扩展到目标 shape；修改 `_elementwise_op` 以便运算前自动广播。用 `(3, 1)` 与 `(1, 4)` 测试，结果应为 `(3, 4)`。
 3. **Hard——从零构建 einsum。** 实现基础 `einsum(subscripts, *tensors)`，至少支持点积（`i,i->`）、矩阵乘（`ij,jk->ik`）、外积（`i,j->ij`）和转置（`ij->ji`）。解析下标字符串，识别 contraction 轴，遍历所有索引组合；与 `np.einsum` 对比结果。
 4. **Hard——Attention shape tracker。** 编写函数接收 `batch_size`、`seq_len`、`embed_dim`、`num_heads`，打印 multi-head attention 每一步的精确 shape：输入、Q/K/V 投影、head split、attention scores、softmax weights、加权和、head merge、输出投影；与 `demo_attention_einsum()` 输出核对。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Build the tensor from `list(range(24))` so that each element shows its own position. After each `reshape` call, print `flatten().to_list()` and check that it is still 0 to 23 in order.
+>
+> **Exercise 2.** A dimension can broadcast only when the two sizes are equal or one of them is 1, so check that rule first and raise an error when it fails. For shapes `(3, 1)` and `(1, 4)`, check that entry `[i][j]` of the result equals `a[i][0] + b[0][j]`, and compare the full result with NumPy.
+>
+> **Exercise 3.** Split the subscripts on `->`. A letter that is in the inputs but not in the output is a summed index, so loop over all values of every letter and add into the output position. Test each of the four cases on small random arrays with `np.allclose(mine, np.einsum(...))`.
+>
+> **Exercise 4.** Start with the head size `embed_dim // num_heads` and assert that `embed_dim % num_heads == 0`. The attention scores have shape `(batch_size, num_heads, seq_len, seq_len)`, so check your printout against that shape and against the shapes that `demo_attention_einsum()` prints.
 
 ## 术语
 

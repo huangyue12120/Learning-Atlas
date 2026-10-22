@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/13-transfusion-autoregressive-diffusion/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: fe6e5c16f8fed7f6f61f68dd6f0bda20200527ee585f3faee80fcc779116bfe0
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: a70a419b525b222b0bc17dab1d3e23742b84adf6f887b212b06d837121915cb1
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/01-image-fundamentals/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: a1c3b51b94cc6bdf13f5b1b23e29275d6004fe0c7e226a7b0fbc1a6db95aacb8
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 76ec2a379ed083c4f4dfabae94de9aaffd89f29c76ed812d9dc1ee6df9b24cb1
 status: reviewed
 ---
 
@@ -183,8 +183,8 @@ RGB 是捕获格式，但并非总是模型最有用的表示。
 
 RGB 转灰度是加权和而不是平均值，因为人眼对绿色比对红色或蓝色更敏感：
 
-```
-Y = 0.299 R + 0.587 G + 0.114 B       （ITU-R BT.601，经典权重）
+```math
+Y = 0.299 R + 0.587 G + 0.114 B \qquad \text{(ITU-R BT.601, the classic weights)}
 ```
 
 ### 宽高比、缩放与插值

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/13-scaling-laws/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: aac8b47ac5c315771ce177f36d9cf99a6cbc6a23f9208bf77b23dfe4a3b0dc39
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 69f57bfb6a990b363a67d2dce4b9607660d2f2c321d8caf0dcc65d052bd0f696
 status: reviewed
 ---
 
@@ -41,8 +41,8 @@ Hoffmann 等（2022）训练了一组名为 Chinchilla 的小模型，却得到�
 
 根据 Chinchilla 论文，损失满足：
 
-```
-L(N, D) = A / N^α + B / D^β + E
+```math
+L(N, D) = \frac{A}{N^\alpha} + \frac{B}{D^\beta} + E
 ```
 
 - `N` = 参数量（不含嵌入参数）。
@@ -53,10 +53,12 @@ L(N, D) = A / N^α + B / D^β + E
 
 随着规模扩大，这两项需要相互权衡。在算力固定（C = 6ND）时对 `N` 求导并求解：
 
-```
-N_opt ≈ 0.6 × (C/6)^0.5
-D_opt ≈ 0.6 × (C/6)^0.5
-D_opt / N_opt ≈ 20
+```math
+\begin{aligned}
+N_{\text{opt}} &\approx 0.6 \times (C/6)^{0.5} \\
+D_{\text{opt}} &\approx 0.6 \times (C/6)^{0.5} \\
+D_{\text{opt}} / N_{\text{opt}} &\approx 20
+\end{aligned}
 ```
 
 计算最优解为：每个参数 20 个词元。

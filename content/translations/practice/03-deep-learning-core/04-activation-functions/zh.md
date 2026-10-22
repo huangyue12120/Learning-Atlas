@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/04-activation-functions/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: da086a041c9bd97f2465a02c2f3a877eb997969ef5e39f9b8d9585f38370aca3
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: ed99907cec27dbee8438480e4d905ae77e1afc46c3773fb81ee1f80ef110f7f9
 status: reviewed
 ---
 
@@ -37,24 +37,30 @@ status: reviewed
 
 矩阵乘法可组合：先乘 A 再乘 B 等价于乘 AB，十层线性层等价于一层。证明中，线性层 f(x)=Wx+b，叠两层：
 
-```
-Layer 1: h = W1 * x + b1
-Layer 2: y = W2 * h + b2
+```math
+\begin{aligned}
+\text{Layer 1:} \quad h &= W_1 x + b_1 \\
+\text{Layer 2:} \quad y &= W_2 h + b_2
+\end{aligned}
 ```
 
 代入：
 
-```
-y = W2 * (W1 * x + b1) + b2
-y = (W2 * W1) * x + (W2 * b1 + b2)
-y = A * x + c
+```math
+\begin{aligned}
+y &= W_2 (W_1 x + b_1) + b_2 \\
+y &= (W_2 W_1) x + (W_2 b_1 + b_2) \\
+y &= A x + c
+\end{aligned}
 ```
 
 仍是一层。若中间插入非线性 g()：
 
-```
-h = g(W1 * x + b1)
-y = W2 * h + b2
+```math
+\begin{aligned}
+h &= g(W_1 x + b_1) \\
+y &= W_2 h + b_2
+\end{aligned}
 ```
 
 `W2*g(W1*x+b1)+b2` 无法约为单线性变换；网络可表示非线性函数，每增加一个含激活层就增加表征能力。
@@ -63,20 +69,20 @@ y = W2 * h + b2
 
 原始神经网络激活：
 
-```
-sigmoid(x) = 1 / (1 + e^(-x))
+```math
+\text{sigmoid}(x) = \frac{1}{1 + e^{-x}}
 ```
 
 输出范围 (0,1)，平滑可导，将任意实数映射为类似概率的值。其导数：
 
-```
-sigmoid'(x) = sigmoid(x) * (1 - sigmoid(x))
+```math
+\text{sigmoid}'(x) = \text{sigmoid}(x) \cdot (1 - \text{sigmoid}(x))
 ```
 
 导数最大 0.25（x=0）。反向梯度跨层相乘，十层 sigmoid 至多为：
 
-```
-0.25^10 = 0.000000953674
+```math
+0.25^{10} = 0.000000953674
 ```
 
 小于原信号百万分之一，早期权重几乎不更新，深 sigmoid 网络无法训练。另一个问题是输出恒正，权重梯度常同号，梯度下降呈锯齿。
@@ -85,14 +91,14 @@ sigmoid'(x) = sigmoid(x) * (1 - sigmoid(x))
 
 以零为中心的 sigmoid：
 
-```
-tanh(x) = (e^x - e^(-x)) / (e^x + e^(-x))
+```math
+\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}
 ```
 
 输出范围 (-1,1)，消除锯齿问题。导数：
 
-```
-tanh'(x) = 1 - tanh(x)^2
+```math
+\tanh'(x) = 1 - \tanh(x)^2
 ```
 
 最大导数 1.0（x=0），是 sigmoid 四倍；但大正/负输入时导数仍趋零，梯度消失仍存在，只是较轻。
@@ -101,15 +107,14 @@ tanh'(x) = 1 - tanh(x)^2
 
 Rectified Linear Unit，由 Nair、Hinton 2010 年推广（函数可追溯到 Fukushima 1969）：
 
-```
-relu(x) = max(0, x)
+```math
+\text{relu}(x) = \max(0, x)
 ```
 
 输出 [0,∞)，导数简单：
 
-```
-relu'(x) = 1  if x > 0
-            0  if x <= 0
+```math
+\text{relu}'(x) = \begin{cases} 1 & \text{if } x > 0 \\ 0 & \text{if } x \le 0 \end{cases}
 ```
 
 正输入不消失，梯度精确为 1，直接穿过；这使深网络可训练。
@@ -120,9 +125,8 @@ relu'(x) = 1  if x > 0
 
 对死神经元最简单的修复：
 
-```
-leaky_relu(x) = x        if x > 0
-                alpha * x if x <= 0
+```math
+\text{leaky\_relu}(x) = \begin{cases} x & \text{if } x > 0 \\ \alpha x & \text{if } x \le 0 \end{cases}
 ```
 
 alpha 通常 0.01，负侧留有小斜率，神经元仍获梯度并可恢复。
@@ -131,14 +135,14 @@ alpha 通常 0.01，负侧留有小斜率，神经元仍获梯度并可恢复。
 
 Gaussian Error Linear Unit，Hendrycks、Gimpel 2016 提出，是 BERT、GPT 和多数现代 Transformer 默认激活：
 
-```
-gelu(x) = x * Phi(x)
+```math
+\text{gelu}(x) = x \cdot \Phi(x)
 ```
 
 Phi(x) 是标准正态 CDF，实践近似为：
 
-```
-gelu(x) ~= 0.5 * x * (1 + tanh(sqrt(2/pi) * (x + 0.044715 * x^3)))
+```math
+\text{gelu}(x) \approx 0.5 \cdot x \cdot \left(1 + \tanh\left(\sqrt{2/\pi} \cdot (x + 0.044715 \cdot x^3)\right)\right)
 ```
 
 GELU 处处平滑，允许小负值（ReLU 会硬截为零），概率解释为按输入为正的高斯概率加权。其平滑 gating 在 Transformer 中优于 ReLU，梯度流更好，彻底避免死神经元。
@@ -147,8 +151,8 @@ GELU 处处平滑，允许小负值（ReLU 会硬截为零），概率解释为�
 
 Ramachandran 等 2017 经自动搜索发现的自门控激活：
 
-```
-swish(x) = x * sigmoid(x)
+```math
+\text{swish}(x) = x \cdot \text{sigmoid}(x)
 ```
 
 即 x*sigmoid(x)。它同 GELU 一样平滑、非单调、允许小负值；差别是 Swish 用 sigmoid gating、GELU 用 Gaussian CDF。实践表现近似，Swish 用于 EfficientNet 和部分视觉模型，GELU 主导语言模型。
@@ -157,8 +161,8 @@ swish(x) = x * sigmoid(x)
 
 不用于隐藏层，softmax 将 logits 向量转为概率分布：
 
-```
-softmax(x_i) = e^(x_i) / sum(e^(x_j) for all j)
+```math
+\text{softmax}(x_i) = \frac{e^{x_i}}{\sum_j e^{x_j}}
 ```
 
 每个输出在 0–1，全部和为 1，故是多分类标准最终激活。最大 logit 概率最高；与 argmax 不同，softmax 可导并保留相对置信度。

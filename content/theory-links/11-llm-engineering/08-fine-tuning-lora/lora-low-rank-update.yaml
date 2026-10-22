@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/08-fine-tuning-lora/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 6e6752387e06906ae70b2300d8bf5f2457b2a4f25c85895b10c724db9bee083a
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: cc811f59307d63654a917759f262a65d3d45d4ef416693362c59e096cdb94a8f
   anchor:
     heading: "LoRA: Low-Rank Adaptation"
     slug: lora-low-rank-adaptation

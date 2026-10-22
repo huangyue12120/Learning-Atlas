@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/02-vectors-matrices-operations/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 398ce87f481e54f360898e1af0d0c05877f631d5d1b1c1edebf83f3cf5a09981
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: a5849d742948a87e8ef7c6eb919df6acea0a3808ef61fe27414e9618b4dfb8ea
 status: reviewed
 ---
 
@@ -54,9 +54,8 @@ w = [1, 0, -2]    # 三维向量
 
 矩阵是二维数字网格，由行和列构成。一个 `m × n` 矩阵有 `m` 行、`n` 列：
 
-```text
-A = | 1  2  3 |     # 2 × 3 矩阵（2 行、3 列）
-    | 4  5  6 |
+```math
+A = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{bmatrix} \quad \text{2x3 matrix (2 rows, 3 columns)}
 ```
 
 神经网络的权重矩阵把输入向量变成输出向量；例如，784 个输入、128 个输出的层需要一个 `128 × 784` 的矩阵。
@@ -90,16 +89,14 @@ A = | 1  2  3 |     # 2 × 3 矩阵（2 行、3 列）
 
 这两个概念很容易混淆。逐元素乘法要求形状相同，只相乘对应位置：
 
-```text
-| 1  2 | * | 5  6 | = | 5  12 |
-| 3  4 |   | 7  8 |   | 21 32 |
+```math
+\begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} * \begin{bmatrix} 5 & 6 \\ 7 & 8 \end{bmatrix} = \begin{bmatrix} 5 & 12 \\ 21 & 32 \end{bmatrix}
 ```
 
 矩阵乘法计算左侧每一行与右侧每一列的点积，内侧维度需要匹配：
 
-```text
-| 1  2 |   | 5  6 |   | 1*5+2*7  1*6+2*8 |   | 19  22 |
-| 3  4 | @ | 7  8 | = | 3*5+4*7  3*6+4*8 | = | 43  50 |
+```math
+\begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} @ \begin{bmatrix} 5 & 6 \\ 7 & 8 \end{bmatrix} = \begin{bmatrix} 1 \cdot 5 + 2 \cdot 7 & 1 \cdot 6 + 2 \cdot 8 \\ 3 \cdot 5 + 4 \cdot 7 & 3 \cdot 6 + 4 \cdot 8 \end{bmatrix} = \begin{bmatrix} 19 & 22 \\ 43 & 50 \end{bmatrix}
 ```
 
 它们的规则、结果和用途都不同。
@@ -327,6 +324,16 @@ NumPy 会把一维偏置自动广播到两行。这正是每个神经网络中�
 1. **验证逆矩阵。** 计算 `A @ A.inverse_2x2()` 并确认得到单位矩阵。用三组不同的 2×2 矩阵重复；行列式为零时会怎样？
 2. **实现 3×3 逆矩阵。** 用伴随矩阵法扩展 `Matrix`，再与 `numpy.linalg.inv` 对照。
 3. **搭建两层网络。** 只用 `Matrix` 类（不使用 NumPy）构造两层神经网络：输入 (3) → 隐层 (4) → 输出 (2)。随机初始化权重，运行一次前向传播，并验证所有形状。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Multiply `A @ A.inverse_2x2()` for three matrices and compare each cell with the identity within `1e-9`. For a matrix with a determinant of 0, such as [[1, 2], [2, 4]], `inverse_2x2` raises a `ValueError`, and this is the expected result.
+>
+> **Exercise 2.** Compute the 3x3 cofactor matrix, transpose it to get the adjugate, then divide each cell by `determinant()`. Check that `A @ A_inv` gives the identity and that each cell matches `np.linalg.inv(A)` within `1e-9`.
+>
+> **Exercise 3.** Write the shape of each matrix before you multiply: `W1` is 4x3 and `W2` is 2x4, as in `demo_neural_network_layer`. A 3x1 input must give a 4x1 hidden vector and a 2x1 output.
 
 ## 术语
 

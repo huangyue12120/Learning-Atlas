@@ -4,10 +4,15 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/06-sglang-radixattention/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: af59a1a2a5e715f773cfb4eae88654c80efa1a8d5b569b8d2c4f885e3114daca
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 7d7750d15fc2bb3c2f11dcded721f00cbd712d865bf2ada13f82c2b96c31fc71
 status: reviewed
 ---
+
+> 上游新增参考链接（原文，待中文复核）：
+>
+> - [上游参考](https://aiengineeringfromscratch.com/inside-an-llm-serving-gpu?workload=shared&shared=4096)
+
 
 # 前缀缓存服务：RadixAttention 与 KV 复用
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/08-instance-segmentation-mask-rcnn/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: b7ced123dcc47406affd5cc13916ffb6954f8417a29d8b99526c61ec97a4168b
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: fac560050ae169736c40cc8d4bff83fc1ad65bf026e9e85fa9ddc6a209e927b1
 status: reviewed
 ---
 
@@ -97,8 +97,8 @@ RoIAlign 可免费将 COCO mask AP 提高 3–4 点。现在所有在意定位�
 
 Mask R-CNN 将四种损失相加：
 
-```
-L = L_rpn_cls + L_rpn_box + L_box_cls + L_box_reg + L_mask
+```math
+L = L_{\text{rpn\_cls}} + L_{\text{rpn\_box}} + L_{\text{box\_cls}} + L_{\text{box\_reg}} + L_{\text{mask}}
 ```
 
 - `L_rpn_cls`、`L_rpn_box`——RPN 候选的目标性与框回归。

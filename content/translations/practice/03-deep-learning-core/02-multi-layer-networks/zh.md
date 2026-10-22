@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/02-multi-layer-networks/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 192b46fd134bdd7aada17ecd58fafd35c973d11b9bf47ac3a785cc91595db428
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: f523e8b9524a7035ec1f8725ac7181bc0b4bc88d6f00643542101123f46c8afb
 status: reviewed
 ---
 
@@ -80,8 +80,8 @@ graph LR
 
 暂使用 sigmoid：
 
-```
-sigmoid(z) = 1 / (1 + e^(-z))
+```math
+\text{sigmoid}(z) = \frac{1}{1 + e^{-z}}
 ```
 
 sigmoid 将任意数压到 (0,1)：大正数趋近 1，大负数趋近 0，零映射到 0.5。它的平滑曲线使学习可行——与感知机硬阶跃不同，sigmoid 处处有梯度。
@@ -104,9 +104,11 @@ graph TD
 
 每层按序执行：
 
-```
-z = W * input + b       (linear transformation)
-a = sigmoid(z)           (activation)
+```math
+\begin{aligned}
+z &= W \cdot \text{input} + b \quad \text{(linear transformation)} \\
+a &= \text{sigmoid}(z) \quad \text{(activation)}
+\end{aligned}
 ```
 
 一层输出成为下一层输入，构成完整前向传播。

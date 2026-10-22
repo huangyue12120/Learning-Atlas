@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/17-native-sparse-attention/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: ad7929f9d22e8abedc598a0c9779ac28461ac789d853787ac047a172a04d0755
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 3b9e728207f324d13a63af2a9fb1fa519eddf18b129225fef32a38086c8a0b4c
 status: reviewed
 ---
 
@@ -47,8 +47,8 @@ status: reviewed
 
 三个分支的输出通过一个按位置学习的门控组合：
 
-```
-out = g_cmp * out_cmp + g_sel * out_sel + g_win * out_win
+```math
+\text{out} = g_{\text{cmp}} \cdot \text{out}_{\text{cmp}} + g_{\text{sel}} \cdot \text{out}_{\text{sel}} + g_{\text{win}} \cdot \text{out}_{\text{win}}
 ```
 
 `g_cmp, g_sel, g_win` 是以查询为输入的小型 MLP 生成的门控权重。它们不必加和为 1——可以独立地给各分支加权。

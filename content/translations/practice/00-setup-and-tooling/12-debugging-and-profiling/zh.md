@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/12-debugging-and-profiling/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 5257eaa5d4a138f143ba3169ba7e469b43f1aba819a769ea64da4eb9505fc550
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 2c8060d42a1115002a602a1db7241eb5338a7169661c238163c16c5653136513
 status: reviewed
 ---
 
@@ -400,6 +400,20 @@ python phases/00-setup-and-tooling/12-debugging-and-profiling/code/debug_tools.p
 参阅 `outputs/prompt-debug-ai-code.md`，其中有一个帮助诊断 AI 特有 bug 的提示词。
 
 ## 练习
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Run `python3 phases/00-setup-and-tooling/12-debugging-and-profiling/code/debug_tools.py` and read the output of each demo function. Then change the model in `demo_nan_detection` so that its output divides by zero, and run again; `detect_nan` must print a NaN warning with the step number.
+>
+> **Exercise 2.** Run the loop under `python -m cProfile -s cumtime your_script.py`, or wrap it in `cProfile.Profile()`. Read the top rows of the `cumtime` column; the function with the largest time that is your own code is the slowest one.
+>
+> **Exercise 3.** Call `tracemalloc.start()` before the data loading code and `tracemalloc.take_snapshot()` after it, as in `demo_memory_tracking`. Print `snapshot.statistics("lineno")[:5]`; the first line shows the file and line number with the largest allocation.
+>
+> **Exercise 4.** Log the training loss and the validation loss to a `SummaryWriter` at each epoch, then run `tensorboard --logdir=runs`. If the training loss continues to go down while the validation loss goes up, the model overfits.
+>
+> **Exercise 5.** Put `breakpoint()` inside the loop after `loss.backward()` and run the script. At the `(Pdb)` prompt, print `x.shape`, `x.device`, and `next(model.parameters()).grad`, then type `c` to continue to the next step.
+
 
 1. 运行 `debug_tools.py` 并阅读每个部分的输出。修改虚拟模型以引入 NaN（提示：在前向传播中除以零），观察检测器捕获它。
 2. 使用 `cProfile` 分析一个训练循环，并找出最慢的函数。

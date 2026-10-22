@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/02-convolutions-from-scratch/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: ee7e94efac71346b107d1e0d49de3f61bec95937e30f82bc2aa836bc7757c0ea
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 13e47587d5ade65d7b34ef1461c26ce3ab85a7267a6b872f446871f9688944f7
 status: reviewed
 ---
 
@@ -85,8 +85,8 @@ flowchart LR
 
 给定输入空间尺寸 `H`、卷积核尺寸 `K`、填充 `P`、步幅 `S`：
 
-```
-H_out = floor( (H - K + 2P) / S ) + 1
+```math
+H_{\text{out}} = \left\lfloor \frac{H - K + 2P}{S} \right\rfloor + 1
 ```
 
 记住它；每个架构中你都会计算数十次。

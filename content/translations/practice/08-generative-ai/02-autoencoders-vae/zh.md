@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/02-autoencoders-vae/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 09d80cdcdfbcc7fcd85dcdba56b67cf8923e05ec5883f1f4c5f4525ae82d14b6
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: eba81d8e5209ac53fa26a2da2852d193c9ce0cbb348c5825cfd76d4495f6f4d6
 status: reviewed
 ---
 
@@ -40,9 +40,11 @@ Kingma 在 2013 年提出的 VAE 让编码器输出一个*分布* `q(z|x) = N(μ
 
 **损失。** 证据下界（Evidence Lower BOund，ELBO）包含两项：
 
-```
-loss = reconstruction + β · KL[q(z|x) || N(0, I)]
-     = ||x - x̂||²  + β · Σ_i ( σ_i² + μ_i² - log σ_i² - 1 ) / 2
+```math
+\begin{aligned}
+\text{loss} &= \text{reconstruction} + \beta \cdot \mathrm{KL}[q(z \mid x) \,\Vert\, \mathcal{N}(0, I)] \\
+&= \lVert x - \hat{x} \rVert^2 + \beta \cdot \sum_i \frac{\sigma_i^2 + \mu_i^2 - \log \sigma_i^2 - 1}{2}
+\end{aligned}
 ```
 
 重建项把 `x̂` 推向 `x`。KL 项把 `q(z|x)` 推向先验。两者相互权衡。较小的 β（<1）会产生更清晰的样本，但编码空间不太像高斯分布；较大的 β（>1）会形成更干净的编码空间，但样本更模糊。β-VAE（Higgins，2017）让这个调节项广为人知，并推动了解耦表示研究。

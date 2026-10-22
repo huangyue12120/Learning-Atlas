@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/13-numerical-stability/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 1f803ae9c3db1ab75678a37007833c86479ef7810778c396201e3c5d91e731c6
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 12856656d74e92c2e8b1a1766f7434cff54ef1b5be8875ef1f9a9e6fdde1ca1d
 status: reviewed
 ---
 
@@ -152,20 +152,22 @@ log(1e-46) = -inf        (input underflowed to 0, then log(0) = -inf)
 
 这个技巧是：在取指数之前减去最大值。
 
-```
-log(sum(exp(x_i))) = max(x) + log(sum(exp(x_i - max(x))))
+```math
+\log\left(\sum_i \exp(x_i)\right) = \max(x) + \log\left(\sum_i \exp(x_i - \max(x))\right)
 ```
 
 其原理是：减去 `max(x)` 后，最大的指数项是 `exp(0) = 1`，因此不可能发生溢出。求和中至少有一项为 1，所以总和至少为 1，而 `log(1) = 0`，也就不可能整体下溢到 `-inf`。
 
 证明：
 
-```
-log(sum(exp(x_i)))
-= log(sum(exp(x_i - c + c)))                    (add and subtract c)
-= log(sum(exp(x_i - c) * exp(c)))               (exp(a+b) = exp(a)*exp(b))
-= log(exp(c) * sum(exp(x_i - c)))               (factor out exp(c))
-= c + log(sum(exp(x_i - c)))                    (log(a*b) = log(a) + log(b))
+```math
+\begin{aligned}
+& \log\left(\sum_i \exp(x_i)\right) \\
+&= \log\left(\sum_i \exp(x_i - c + c)\right) && \text{(add and subtract } c\text{)} \\
+&= \log\left(\sum_i \exp(x_i - c) \cdot \exp(c)\right) && (\exp(a+b) = \exp(a) \cdot \exp(b)) \\
+&= \log\left(\exp(c) \cdot \sum_i \exp(x_i - c)\right) && \text{(factor out } \exp(c)\text{)} \\
+&= c + \log\left(\sum_i \exp(x_i - c)\right) && (\log(a \cdot b) = \log(a) + \log(b))
+\end{aligned}
 ```
 
 令 `c = max(x)`，溢出就被消除了。
@@ -182,8 +184,8 @@ log(sum(exp(x_i)))
 
 Softmax 将 logits 转换为概率：
 
-```
-softmax(x_i) = exp(x_i) / sum(exp(x_j))
+```math
+\mathop{\mathrm{softmax}}(x_i) = \frac{\exp(x_i)}{\sum_j \exp(x_j)}
 ```
 
 如果不使用这个技巧，logits [100, 101, 102] 会导致溢出：
@@ -256,8 +258,8 @@ math.isfinite(x)    # True if x is neither nan nor inf
 
 中心差分公式：
 
-```
-df/dx ~= (f(x + h) - f(x - h)) / (2h)
+```math
+\frac{df}{dx} \approx \frac{f(x + h) - f(x - h)}{2h}
 ```
 
 它具有 O(h^2) 的精度，远优于只有 O(h) 精度的前向差分 `(f(x+h) - f(x)) / h`。
@@ -266,8 +268,8 @@ df/dx ~= (f(x + h) - f(x - h)) / (2h)
 
 检查方法是计算解析梯度与数值梯度之间的相对误差。
 
-```
-relative_error = |grad_analytical - grad_numerical| / max(|grad_analytical|, |grad_numerical|, 1e-8)
+```math
+\text{relative\_error} = \frac{\lvert \text{grad}_{\text{analytical}} - \text{grad}_{\text{numerical}} \rvert}{\max(\lvert \text{grad}_{\text{analytical}} \rvert, \lvert \text{grad}_{\text{numerical}} \rvert, 10^{-8})}
 ```
 
 经验规则：
@@ -365,8 +367,8 @@ Layer 50: values in [0, inf]
 
 归一化会在每一层重新居中并缩放激活值：
 
-```
-LayerNorm(x) = (x - mean(x)) / (std(x) + epsilon) * gamma + beta
+```math
+\mathop{\mathrm{LayerNorm}}(x) = \frac{x - \mathop{\mathrm{mean}}(x)}{\mathop{\mathrm{std}}(x) + \epsilon} \cdot \gamma + \beta
 ```
 
 `epsilon` 通常取 1e-5，可在所有激活值都相同时防止除以零。可学习参数 `gamma` 和 `beta` 则允许网络恢复它所需要的任意尺度。
@@ -593,6 +595,20 @@ check_tensor("ugly", [1.0, float('inf'), 3.0])
 4. **对神经网络层进行梯度检查。** 实现一个线性层 `y = Wx + b` 及其解析反向传播。使用 `numerical_gradient` 验证 3×2 权重矩阵的实现是否正确。
 
 5. **损失缩放实验。** 模拟 float16 训练：创建范围为 [1e-9, 1e-3] 的随机梯度，将其转换为 float16，并测量变成零的比例。然后进行损失缩放，即先乘以 1024，再转换为 float16，最后缩放回原值，并再次测量零值比例。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Convert the three values with `np.float32` before you square them, then call `variance_naive` and `welford_variance`. A value near $10^{12}$ in float32 has a spacing much larger than 1, so expect the naive result to be far from 0.6667 and the Welford result to be close.
+>
+> **Exercise 2.** Start with `x = np.float32(1.0)` and halve it while `np.float32(1.0) + x != np.float32(1.0)`. Keep every value in float32, then compare the last value that still changed the sum with `numpy.finfo(numpy.float32).eps`, which is $2^{-23}$.
+>
+> **Exercise 3.** Predict each answer first. For $n$ equal values $c$, the result is $c + \ln n$. For one large value, the result is close to that value. For values near -1000, the result is near $-1000 + \ln n$, while `logsumexp_naive` returns `-inf` because each exponential underflows to 0.
+>
+> **Exercise 4.** For $y = Wx + b$ with a loss $L$, the gradient for $W$ is the outer product of the upstream gradient and $x$. Wrap the loss as a function of the flattened $W$, call `numerical_gradient`, and pass both results to `check_gradient`.
+>
+> **Exercise 5.** Sample the magnitudes on a log scale with `10 ** np.random.uniform(-9, -3, n)` and convert with `np.float16`. Float16 cannot keep values below about $6 \times 10^{-8}$, so expect roughly a quarter of the values to become zero before scaling and almost none after you multiply by 1024.
 
 ## 关键术语
 

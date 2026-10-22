@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/11-caching-cost/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: bec924754c74950f7a7f6e975846b477cb63cc8aec4e8942cffdb4bbbd076bd3
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 51ee25c40da8bbfec145bf7b3f30290b9dee3225efc13f0df7ddcffcd1261be7
   anchor:
     heading: The Cost Anatomy of an LLM Call
     slug: the-cost-anatomy-of-an-llm-call

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/10-terminal-and-shell/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: fac7d401a57bbbedba9b980e33524364562d8ef8dcd4ee716be50d7d8aa1e2ea
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 17dc65d11d74510bada6bd4cdd1ae4bdb85849632ca0e4a999d0da53b2d5292e
 status: reviewed
 ---
 
@@ -346,6 +346,18 @@ env | grep -i torch
 2. 将 `code/shell_aliases.sh` 中别名加入 shell 配置，并用 `source ~/.zshrc`（或 `~/.bashrc`）重载。
 3. 用 `for i in $(seq 1 100); do echo "epoch $i loss: $(echo "scale=4; 1/$i" | bc)"; sleep 0.1; done > fake_train.log` 创建模拟训练日志，再用 `grep`、`tail` 和 `awk` 提取 loss 值。
 4. 为可访问的服务器配置 SSH 条目（或使用 `localhost` 练习语法）。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Start with `tmux new -s practice`, then split with the prefix `Ctrl+B` followed by `"` and `%`, and move between panes with `Ctrl+B` and an arrow key. Detach with `Ctrl+B` then `d`, run `tmux ls`, and attach again with `tmux attach -t practice`; all three programs must still run.
+>
+> **Exercise 2.** Copy the lines from `code/shell_aliases.sh` to the end of `~/.zshrc` or `~/.bashrc`, then run `source` on that file. Run `alias` or `type <name>` for one of the new aliases to confirm that the shell knows it.
+>
+> **Exercise 3.** First run `tail -5 fake_train.log` to see the line format. Then filter with `grep loss` and print only the last field with `awk '{print $NF}'`; the output must be 100 numbers that get smaller.
+>
+> **Exercise 4.** Copy the `Host gpu` block from the lesson into `~/.ssh/config` and change `HostName` and `User` to your server, or to `localhost` and your user name. Run `ssh -G gpu` to print the settings that SSH will use. If you have a reachable SSH server that accepts your key, run `ssh gpu` to connect.
 
 ## 核心术语
 

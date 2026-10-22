@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/04-embeddings/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 9c3115093f152ce871351f278f9e08a2322849bfaa9af54bb5339b5874f2b401
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 21b2da56b70c914026936fce930ef6bf7a3a6319b13c5362a6ffcb7d60affaff
 status: reviewed
 ---
 
@@ -111,20 +111,20 @@ MTEB（Massive Text Embedding Benchmark）v2 覆盖检索、分类、聚类、�
 
 **余弦相似度**：两个向量夹角的余弦值，范围从 -1（相反）到 1（方向相同）。它忽略大小，只关心方向；一条 10 词的句子和一篇 500 词的文档，如果方向相同，得分也可以是 1.0。这是 90% 使用场景的默认指标。
 
-```text
-cosine_sim(a, b) = dot(a, b) / (||a|| * ||b||)
+```math
+\mathop{\mathrm{cosine\_sim}}(a, b) = \frac{\mathop{\mathrm{dot}}(a, b)}{\lVert a \rVert \cdot \lVert b \rVert}
 ```
 
 **点积**：两个向量的原始内积。当向量已归一化（单位长度）时，它与余弦相似度相同，计算更快。OpenAI 的嵌入已经归一化，所以点积和余弦会给出相同排名。
 
-```text
-dot(a, b) = sum(a_i * b_i)
+```math
+\mathop{\mathrm{dot}}(a, b) = \sum_i a_i b_i
 ```
 
 **欧氏（L2）距离**：向量空间中的直线距离。距离越小越相似，对大小差异敏感。当空间中的绝对位置重要，而不只是方向时使用它。
 
-```text
-L2(a, b) = sqrt(sum((a_i - b_i)^2))
+```math
+\mathop{\mathrm{L2}}(a, b) = \sqrt{\sum_i (a_i - b_i)^2}
 ```
 
 何时使用哪种：

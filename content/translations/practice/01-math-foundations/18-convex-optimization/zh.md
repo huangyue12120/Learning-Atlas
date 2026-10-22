@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/18-convex-optimization/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 061158e46d86c18ffeb43b730c98c52994ae863629445f6431942a368cfdb952
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 153f18d777cd392da2554ab9b190677f157d211ba207d86b48f89bbef709d76d
 status: reviewed
 ---
 # 凸优化
@@ -61,8 +61,8 @@ status: reviewed
 
 如果函数 f 的定义域是凸集，并且对其定义域中的任意两点 x、y 以及 [0, 1] 中任意 t，都有：
 
-```
-f(tx + (1-t)y) <= t*f(x) + (1-t)*f(y)
+```math
+f(tx + (1-t)y) \le t f(x) + (1-t) f(y)
 ```
 
 那么 f 就是凸函数。几何上，这意味着函数图像上任意两点之间的线段都位于图像上方或与图像重合。
@@ -141,18 +141,20 @@ graph LR
 
 函数 f: R^n -> R 的 Hessian H 是一个 n x n 的二阶偏导数矩阵。
 
-```
-H[i][j] = d^2 f / (dx_i dx_j)
+```math
+H_{ij} = \frac{\partial^2 f}{\partial x_i \, \partial x_j}
 ```
 
 对于 f(x, y) = x^2 + 3xy + y^2：
 
-```
-df/dx = 2x + 3y       d^2f/dx^2 = 2      d^2f/dxdy = 3
-df/dy = 3x + 2y       d^2f/dydx = 3      d^2f/dy^2 = 2
-
-H = [ 2  3 ]
-    [ 3  2 ]
+```math
+\begin{gathered}
+\begin{aligned}
+\frac{\partial f}{\partial x} &= 2x + 3y & \frac{\partial^2 f}{\partial x^2} &= 2 & \frac{\partial^2 f}{\partial x \, \partial y} &= 3 \\
+\frac{\partial f}{\partial y} &= 3x + 2y & \frac{\partial^2 f}{\partial y \, \partial x} &= 3 & \frac{\partial^2 f}{\partial y^2} &= 2
+\end{aligned} \\[8pt]
+H = \begin{bmatrix} 2 & 3 \\ 3 & 2 \end{bmatrix}
+\end{gathered}
 ```
 
 Hessian 能揭示曲率：
@@ -167,12 +169,11 @@ Hessian 能揭示曲率：
 
 梯度下降使用一阶信息（梯度），牛顿法则使用二阶信息（Hessian）。它在当前点拟合一个二次近似，然后直接跳到该二次函数的最小值。
 
-```
-Update rule:
-  x_new = x - H^(-1) * gradient
-
-Compare to gradient descent:
-  x_new = x - lr * gradient
+```math
+\begin{aligned}
+\text{Update rule:} \quad & x_{\text{new}} = x - H^{-1} \cdot \text{gradient} \\
+\text{Compare to gradient descent:} \quad & x_{\text{new}} = x - \text{lr} \cdot \text{gradient}
+\end{aligned}
 ```
 
 牛顿法用 Hessian 的逆替代标量学习率，从而依据局部曲率自动调整步长和方向。
@@ -230,15 +231,17 @@ graph LR
 
 解法：引入一个新变量（拉格朗日乘子 lambda），然后求解下面的无约束问题：
 
-```
-L(x, lambda) = f(x) + lambda * g(x)
+```math
+L(x, \lambda) = f(x) + \lambda g(x)
 ```
 
 在解处，L 的梯度为零：
 
-```
-dL/dx = df/dx + lambda * dg/dx = 0
-dL/dlambda = g(x) = 0
+```math
+\begin{aligned}
+\frac{\partial L}{\partial x} &= \frac{\partial f}{\partial x} + \lambda \frac{\partial g}{\partial x} = 0 \\
+\frac{\partial L}{\partial \lambda} &= g(x) = 0
+\end{aligned}
 ```
 
 几何直觉是：在约束条件下的最小值处，f 的梯度必须与约束 g 的梯度平行。否则，你就可以沿约束曲面移动，使 f 进一步减小。
@@ -252,15 +255,15 @@ graph LR
 
 示例：在约束 x + y = 1 下最小化 f(x,y) = x^2 + y^2。
 
-```
-L = x^2 + y^2 + lambda(x + y - 1)
-
-dL/dx = 2x + lambda = 0  =>  x = -lambda/2
-dL/dy = 2y + lambda = 0  =>  y = -lambda/2
-dL/dlambda = x + y - 1 = 0
-
-From first two: x = y
-Substituting: 2x = 1, so x = y = 0.5, lambda = -1
+```math
+\begin{aligned}
+L &= x^2 + y^2 + \lambda(x + y - 1) \\[4pt]
+\frac{\partial L}{\partial x} &= 2x + \lambda = 0 \implies x = -\lambda/2 \\
+\frac{\partial L}{\partial y} &= 2y + \lambda = 0 \implies y = -\lambda/2 \\
+\frac{\partial L}{\partial \lambda} &= x + y - 1 = 0 \\[4pt]
+&\text{From first two: } x = y \\
+&\text{Substituting: } 2x = 1, \text{ so } x = y = 0.5, \ \lambda = -1
+\end{aligned}
 ```
 
 直线 x + y = 1 上距离原点最近的点是 (0.5, 0.5)。
@@ -273,11 +276,13 @@ Karush-Kuhn-Tucker（KKT）条件将拉格朗日乘子法扩展到不等式约�
 
 KKT 条件（最优性的必要条件）如下：
 
-```
-1. Stationarity:    df/dx + sum(lambda_i * dg_i/dx) = 0
-2. Primal feasibility:  g_i(x) <= 0  for all i
-3. Dual feasibility:    lambda_i >= 0  for all i
-4. Complementary slackness:  lambda_i * g_i(x) = 0  for all i
+```math
+\begin{aligned}
+&\text{1. Stationarity:} && \frac{\partial f}{\partial x} + \sum_i \lambda_i \frac{\partial g_i}{\partial x} = 0 \\
+&\text{2. Primal feasibility:} && g_i(x) \le 0 \quad \text{for all } i \\
+&\text{3. Dual feasibility:} && \lambda_i \ge 0 \quad \text{for all } i \\
+&\text{4. Complementary slackness:} && \lambda_i \, g_i(x) = 0 \quad \text{for all } i
+\end{aligned}
 ```
 
 互补松弛给出了一个直接判据：约束活跃时（g_i = 0，解位于边界上），对应乘子可以为正；约束不影响解时，其 lambda = 0。
@@ -290,22 +295,24 @@ L1 和 L2 正则化并非任意拼凑的技巧，它们其实是伪装成另一�
 
 **L2 正则化（岭回归）：**
 
-```
-minimize  Loss(w)  subject to  ||w||^2 <= t
-
-Equivalent unconstrained form:
-minimize  Loss(w) + lambda * ||w||^2
+```math
+\begin{aligned}
+&\text{minimize } \text{Loss}(w) \text{ subject to } \lVert w \rVert^2 \le t \\[4pt]
+&\text{Equivalent unconstrained form:} \\
+&\text{minimize } \text{Loss}(w) + \lambda \lVert w \rVert^2
+\end{aligned}
 ```
 
 约束 ||w||^2 <= t 定义了一个球（二维中为圆，三维中为球）。解位于损失等高线首次接触这个球的位置。
 
 **L1 正则化（LASSO）：**
 
-```
-minimize  Loss(w)  subject to  ||w||_1 <= t
-
-Equivalent unconstrained form:
-minimize  Loss(w) + lambda * ||w||_1
+```math
+\begin{aligned}
+&\text{minimize } \text{Loss}(w) \text{ subject to } \lVert w \rVert_1 \le t \\[4pt]
+&\text{Equivalent unconstrained form:} \\
+&\text{minimize } \text{Loss}(w) + \lambda \lVert w \rVert_1
+\end{aligned}
 ```
 
 约束 ||w||_1 <= t 定义了一个菱形（二维中旋转后的正方形）。
@@ -325,11 +332,13 @@ minimize  Loss(w) + lambda * ||w||_1
 
 拉格朗日对偶函数：
 
-```
-Primal: minimize f(x) subject to g(x) <= 0
-Lagrangian: L(x, lambda) = f(x) + lambda * g(x)
-Dual function: d(lambda) = min_x L(x, lambda)
-Dual problem: maximize d(lambda) subject to lambda >= 0
+```math
+\begin{aligned}
+&\text{Primal:} && \text{minimize } f(x) \text{ subject to } g(x) \le 0 \\
+&\text{Lagrangian:} && L(x, \lambda) = f(x) + \lambda g(x) \\
+&\text{Dual function:} && d(\lambda) = \min_x L(x, \lambda) \\
+&\text{Dual problem:} && \text{maximize } d(\lambda) \text{ subject to } \lambda \ge 0
+\end{aligned}
 ```
 
 对偶性的重要之处：
@@ -535,6 +544,20 @@ print(f"Support vectors: {svm.n_support_}")
 4. **正则化约束。** 实现 L1 约束优化：在 |x| + |y| <= 1 的条件下，最小化 (x-3)^2 + (y-2)^2。证明解的一个坐标等于零（菱形约束产生的稀疏性）。
 
 5. **Hessian 特征值分析。** 分别计算 Rosenbrock 函数在 (1,1) 和 (-1,1) 处的 Hessian，并计算这两个位置的特征值。这些特征值说明了最小值附近和远离最小值处怎样的曲率？
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Predict each result before you run `check_convexity`: in one dimension, look at the sign of $f''(x)$; in two dimensions, look at the eigenvalues of the Hessian. For $f(x,y) = xy$, the Hessian has eigenvalues 1 and -1, so the checker must report that it is not convex.
+>
+> **Exercise 2.** Call `optimize_gd` and `newtons_method` with the gradient and the Hessian of $f$. Newton's method solves a quadratic in one step. For gradient descent, the learning rate must be less than $2/100$ because of the $50x^2$ term, so the $y$ direction moves slowly. Repeat with $100x^2$ and count the steps again.
+>
+> **Exercise 3.** Use `lagrange_solve` with $g(x,y) = x + 2y - 4$. At the answer, check that $x + 2y = 4$ and that $\nabla f = (2(x-3), 2(y-3))$ is a multiple of $\nabla g = (1, 2)$.
+>
+> **Exercise 4.** The unconstrained minimum (3, 2) is outside the diamond, so the answer is on its boundary. Use projected gradient descent: take a gradient step, then project back onto $\lvert x \rvert + \lvert y \rvert \le 1$. Check that the result satisfies the constraint with equality and compare it with `demo_regularization_geometry`.
+>
+> **Exercise 5.** Call `rosenbrock_hessian` at each point and pass the result to `hessian_eigenvalues_2d`. At (1, 1), both eigenvalues are positive and their ratio is very large, so the valley is narrow in one direction and flat in the other. Compare that ratio with the ratio at (-1, 1).
 
 ## 关键术语
 

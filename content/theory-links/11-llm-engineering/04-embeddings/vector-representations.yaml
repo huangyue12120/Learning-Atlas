@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/04-embeddings/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 9c3115093f152ce871351f278f9e08a2322849bfaa9af54bb5339b5874f2b401
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 21b2da56b70c914026936fce930ef6bf7a3a6319b13c5362a6ffcb7d60affaff
   anchor:
     heading: What Is an Embedding?
     slug: what-is-an-embedding

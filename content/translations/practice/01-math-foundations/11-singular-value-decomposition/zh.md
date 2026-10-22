@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/11-singular-value-decomposition/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 8cd08bd71af0e84ef70159d67acf7b0781860dd567dd060b037c3923ae27c214
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: e6d5cdb8721a8d7d4b2062f6a4da5946123d03b3f6e72e7d2225827e2c37fd23
 status: reviewed
 ---
 
@@ -37,11 +37,8 @@ SVD 适用于任何矩阵，不受形状、秩或其他条件限制。它将矩�
 
 无论形状如何，每个矩阵都依次执行三种操作：旋转、缩放、再旋转。SVD 将这一分解明确地表示出来。
 
-```
-A = U * Sigma * V^T
-
-      m x n     m x m    m x n    n x n
-     (any)    (rotate)  (scale)  (rotate)
+```math
+\underset{\substack{m \times n \\ \text{(any)}}}{A} = \underset{\substack{m \times m \\ \text{(rotate)}}}{U} \cdot \underset{\substack{m \times n \\ \text{(scale)}}}{\Sigma} \cdot \underset{\substack{n \times n \\ \text{(rotate)}}}{V^T}
 ```
 
 给定任意矩阵 A，SVD 将其分解为：
@@ -62,16 +59,16 @@ graph LR
 
 对于形状为 m×n 的矩阵 A：
 
-```
-A = U * Sigma * V^T
-
-where:
-  U     is m x m, orthogonal (U^T U = I)
-  Sigma is m x n, diagonal (singular values on the diagonal)
-  V     is n x n, orthogonal (V^T V = I)
-
-The singular values sigma_1 >= sigma_2 >= ... >= sigma_r > 0
-where r = rank(A)
+```math
+\begin{aligned}
+& A = U \cdot \Sigma \cdot V^T \\[6pt]
+& \text{where:} \\
+& \quad U \text{ is } m \times m, \text{ orthogonal } (U^T U = I) \\
+& \quad \Sigma \text{ is } m \times n, \text{ diagonal (singular values on the diagonal)} \\
+& \quad V \text{ is } n \times n, \text{ orthogonal } (V^T V = I) \\[6pt]
+& \text{The singular values } \sigma_1 \ge \sigma_2 \ge \cdots \ge \sigma_r > 0 \\
+& \text{where } r = \mathop{\mathrm{rank}}(A)
+\end{aligned}
 ```
 
 U 的列称为左奇异向量，V 的列称为右奇异向量，Sigma 的对角元素称为奇异值。奇异值始终非负，并且按照惯例从大到小排列。
@@ -110,15 +107,15 @@ The full matrix is the sum of r such matrices, where r is the rank.
 
 这种形式是低秩近似的基础。每一项都为矩阵增加一层结构：第一项捕获最重要的单一模式，第二项捕获次重要的模式，依此类推。截断这个和，就能在任意给定秩下得到最佳近似。
 
-```
-Rank-1 approx:    A_1 = sigma_1 * u_1 * v_1^T
-                  (captures the dominant pattern)
-
-Rank-2 approx:    A_2 = sigma_1 * u_1 * v_1^T + sigma_2 * u_2 * v_2^T
-                  (captures the two most important patterns)
-
-Rank-k approx:    A_k = sum of top k terms
-                  (optimal by the Eckart-Young theorem)
+```math
+\begin{aligned}
+\text{Rank-1 approx:} \quad & A_1 = \sigma_1 u_1 v_1^T \\
+& \text{(captures the dominant pattern)} \\[6pt]
+\text{Rank-2 approx:} \quad & A_2 = \sigma_1 u_1 v_1^T + \sigma_2 u_2 v_2^T \\
+& \text{(captures the two most important patterns)} \\[6pt]
+\text{Rank-}k\text{ approx:} \quad & A_k = \text{sum of top } k \text{ terms} \\
+& \text{(optimal by the Eckart-Young theorem)}
+\end{aligned}
 ```
 
 ### 与特征分解的关系
@@ -155,16 +152,16 @@ So:
 
 Eckart–Young–Mirsky 定理指出，在 Frobenius 范数和谱范数下，A 的最佳秩 k 近似都可以通过只保留前 k 个奇异值及其对应向量得到：
 
-```
-A_k = U_k * Sigma_k * V_k^T
-
-where:
-  U_k     is m x k  (first k columns of U)
-  Sigma_k is k x k  (top-left k x k block of Sigma)
-  V_k     is n x k  (first k columns of V)
-
-Approximation error = sigma_{k+1}  (in spectral norm)
-                    = sqrt(sigma_{k+1}^2 + ... + sigma_r^2)  (in Frobenius norm)
+```math
+\begin{aligned}
+& A_k = U_k \cdot \Sigma_k \cdot V_k^T \\[6pt]
+& \text{where:} \\
+& \quad U_k \text{ is } m \times k \quad \text{(first } k \text{ columns of } U\text{)} \\
+& \quad \Sigma_k \text{ is } k \times k \quad \text{(top-left } k \times k \text{ block of } \Sigma\text{)} \\
+& \quad V_k \text{ is } n \times k \quad \text{(first } k \text{ columns of } V\text{)} \\[6pt]
+& \text{Approximation error} = \sigma_{k+1} \quad \text{(in spectral norm)} \\
+& \text{Approximation error} = \sqrt{\sigma_{k+1}^2 + \cdots + \sigma_r^2} \quad \text{(in Frobenius norm)}
+\end{aligned}
 ```
 
 这是可以证明的最佳秩 k 近似：不存在其他秩 k 矩阵比它更接近 A。
@@ -537,6 +534,20 @@ julia svd.jl
 4. 创建一个包含 3 个合成主题的 100×50 文档–词项矩阵，每个主题包含 5 个相关词项，并加入噪声。应用 SVD，验证前三个奇异值远大于其余奇异值。将文档投影到三维潜在空间，检查同一主题的文档是否聚集在一起。
 
 5. 生成一个秩为 3、大小为 50×40 的干净低秩矩阵，并分别加入不同强度的高斯噪声（sigma = 0.1、0.5、1.0、2.0）。对每个噪声强度，将 k 从 1 遍历到 40，并根据相对于干净矩阵的重建误差找出最佳截断秩。绘制最佳 k 随噪声强度变化的关系图。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Compute $A^T A$, get its eigenvalues and eigenvectors with `np.linalg.eigh`, and sort them in descending order. The singular values are the square roots of the eigenvalues; check that $U \Sigma V^T$ rebuilds $A$ and compare the error with `svd_from_scratch` and `np.linalg.svd`.
+>
+> **Exercise 2.** Call `truncated_svd` for each rank, rebuild the image with `reconstruct`, and use `compression_ratio(m, n, k)` for the size. The relative error must fall as the rank grows, and the first rank where you see no clear blocks is the answer.
+>
+> **Exercise 3.** Mark the missing cells, fill them with the row mean, then rebuild a rank 3 approximation with `truncated_svd` and `reconstruct`. Then measure the result: count the predictions outside the rating range, and print the largest change in a known cell. A rank 3 approximation does not guarantee either property, so clip predictions to the range if you need valid ratings.
+>
+> **Exercise 4.** Give each topic a block of 5 terms with high counts for its documents, then add small noise. Print the singular values: the first 3 must be much larger than the 4th. Then color the 3D coordinates by topic and check that each topic forms one group.
+>
+> **Exercise 5.** Make the clean matrix as the product of a 50x3 and a 3x40 random matrix, then add noise for each $\sigma$. For each $k$, compare the rank $k$ reconstruction with the clean matrix; expect the best $k$ near 3 for low noise and smaller for high noise.
 
 ## 术语
 

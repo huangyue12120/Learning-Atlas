@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/03-cnns-lenet-to-resnet/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: d0481e111f38c7b8dc4af048a84d75fe8d9043a5431b90c9b06675e66925d27a
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: a243c17e83909e9bea1c083e1587790768da6cbfddcdfc39ff19cc5ad91684bb
 status: reviewed
 ---
 
@@ -131,9 +131,11 @@ VGG 能在 19 层工作，是因为同时发表的批归一化（batch norm）�
 
 He、Zhang、Ren、Sun 提出的一项改变解决了全部问题：
 
-```
-标准模块：    y = F(x)
-残差模块：    y = F(x) + x
+```math
+\begin{aligned}
+\text{standard block:} \quad & y = F(x) \\
+\text{residual block:} \quad & y = F(x) + x
+\end{aligned}
 ```
 
 `+ x` 表示只要让 `F(x)` 变为零，该层总能选择什么也不做。千层 ResNet 因此至多与单层网络一样糟：每个额外模块都有一个简单的逃生出口。有了这一保证，优化器会让每个模块都变得*稍微*有用；100 个稍微有用的模块堆叠起来，就是最先进成果。

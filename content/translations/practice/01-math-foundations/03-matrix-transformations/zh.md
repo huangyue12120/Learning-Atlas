@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/03-matrix-transformations/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: bd248b5462edccab7838ef32e303839811157e453873fb6b19421e4f3d5f2365
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: b0b73f786f3e972fb9ca333b26028641423ebfc262a8abcba8c6d0b2ac1fe8f6
 status: reviewed
 ---
 
@@ -77,18 +77,12 @@ graph LR
 
 三维旋转围绕一个轴进行。绕 z 轴时 x-y 平面转动而 z 不变；绕 x、y 轴同理：
 
-```text
-Rz(theta) = | cos  -sin  0 |     绕 z 轴旋转
-            | sin   cos  0 |
-            |  0     0   1 |
-
-Rx(theta) = | 1   0     0    |   绕 x 轴旋转
-            | 0  cos  -sin   |
-            | 0  sin   cos   |
-
-Ry(theta) = |  cos  0  sin |     绕 y 轴旋转
-            |   0   1   0  |
-            | -sin  0  cos |
+```math
+\begin{aligned}
+R_z(\theta) &= \begin{bmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{bmatrix} \quad \text{Rotate around z-axis (x-y plane spins, z stays)} \\[6pt]
+R_x(\theta) &= \begin{bmatrix} 1 & 0 & 0 \\ 0 & \cos\theta & -\sin\theta \\ 0 & \sin\theta & \cos\theta \end{bmatrix} \quad \text{Rotate around x-axis (y-z plane spins, x stays)} \\[6pt]
+R_y(\theta) &= \begin{bmatrix} \cos\theta & 0 & \sin\theta \\ 0 & 1 & 0 \\ -\sin\theta & 0 & \cos\theta \end{bmatrix} \quad \text{Rotate around y-axis (x-z plane spins, y stays)}
+\end{aligned}
 ```
 
 ### 缩放
@@ -471,6 +465,16 @@ print(f"Rotate 90 around x: {np.round(rotated_x, 4)}")
 1. 将旋转、缩放和剪切应用到单位正方形（角点 `[0,0]`、`[1,0]`、`[1,1]`、`[0,1]`），打印变换后的角点，并验证旋转保留角点间距离。
 2. 用特征方程手算 `[[4, 2], [1, 3]]` 的特征值，再用从零函数和 NumPy 验证。
 3. 复合旋转 30°、缩放 `[1.5, 0.8]`、剪切 `kx=0.3`，应用到圆周上的 8 个点；验证复合矩阵行列式等于各行列式乘积。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Apply `rotation_2d`, `scaling_2d`, and `shearing_2d` to each corner with `mat_vec_mul`. For the rotation, compute the 4 side lengths and the 2 diagonals before and after; each must stay the same.
+>
+> **Exercise 2.** Write the characteristic equation $\lambda^2 - (\text{trace})\lambda + \det = 0$ and solve it. Check that your two values add up to the trace (7) and multiply to the determinant (10), then compare with `eigenvalues_2x2` and `np.linalg.eigvals`.
+>
+> **Exercise 3.** Build the three matrices, with `shearing_2d(0.3, 0)` for the shear, multiply them with `mat_mul` in the order of application, and apply the result to 8 points $(\cos\theta, \sin\theta)$. The rotation has a determinant of 1 and the shear has a determinant of 1, so `det_2x2` of the composition must equal $1.5 \times 0.8 = 1.2$.
 
 ## 术语
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/03-logistic-regression/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 28c89a0c75029f41edaaa3aae7428a8a5b30479765ec4c1afdf4853917c25954
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 9853f595623003ac5870c01e8bd9e4ae27c65e26fc4c8c89c5d823a360a97660
 status: reviewed
 ---
 
@@ -54,8 +54,8 @@ actual: 0   0   0   0   1   1   1   1   1   1
 
 sigmoid 正好满足这些条件：
 
-```text
-sigmoid(z) = 1 / (1 + e^(-z))
+```math
+\sigma(z) = \frac{1}{1 + e^{-z}}
 ```
 
 性质：
@@ -87,8 +87,8 @@ flowchart LR
 
 逻辑回归不能使用 MSE：sigmoid 加 MSE 会产生含许多局部最小值的非凸代价曲面。应使用二元交叉熵（log loss）：
 
-```text
-Loss = -(1/n) * sum(y * log(p) + (1-y) * log(1-p))
+```math
+\text{Loss} = -\frac{1}{n} \sum \left( y \log(p) + (1-y) \log(1-p) \right)
 ```
 
 其原因：
@@ -104,9 +104,11 @@ Loss = -(1/n) * sum(y * log(p) + (1-y) * log(1-p))
 
 二元交叉熵结合 sigmoid 的梯度形式很简洁：
 
-```text
-dL/dw = (1/n) * sum((p - y) * x)
-dL/db = (1/n) * sum(p - y)
+```math
+\begin{aligned}
+\frac{\partial L}{\partial w} &= \frac{1}{n} \sum (p - y) \, x \\
+\frac{\partial L}{\partial b} &= \frac{1}{n} \sum (p - y)
+\end{aligned}
 ```
 
 它看起来与线性回归梯度相同，区别只是 `p = sigmoid(wx + b)` 而不是 `p = wx + b`。sigmoid 引入非线性，更新规则保持不变。
@@ -126,8 +128,8 @@ flowchart TD
 
 二维输入（两个特征）的决策边界是下式为零的直线：
 
-```text
-w1*x1 + w2*x2 + b = 0
+```math
+w_1 x_1 + w_2 x_2 + b = 0
 ```
 
 一侧的点归为 1，另一侧归为 0。因此逻辑回归总产生线性边界；若需要曲线边界，可添加多项式特征或使用非线性模型。
@@ -136,14 +138,14 @@ w1*x1 + w2*x2 + b = 0
 
 二元逻辑回归处理两类，`k` 类则使用 softmax：
 
-```text
-softmax(z_i) = e^(z_i) / sum(e^(z_j) for all j)
+```math
+\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}}
 ```
 
 每类有独立权重向量。模型为每类算分数 `z_i`，softmax 把它们变为和为 1 的概率，最大概率所在类即预测类。损失变为类别交叉熵：
 
-```text
-Loss = -(1/n) * sum(sum(y_k * log(p_k)))
+```math
+\text{Loss} = -\frac{1}{n} \sum \sum_k y_k \log(p_k)
 ```
 
 其中真实类别的 `y_k` 为 1、其余为 0（one-hot 编码）。
@@ -161,20 +163,20 @@ Loss = -(1/n) * sum(sum(y_k * log(p_k)))
 
 **精确率（precision）：** 已预测为正的样本中，多少确为正？
 
-```text
-Precision = TP / (TP + FP)
+```math
+\text{Precision} = \frac{TP}{TP + FP}
 ```
 
 **召回率（recall/sensitivity）：** 实际为正的样本中，捕获了多少？
 
-```text
-Recall = TP / (TP + FN)
+```math
+\text{Recall} = \frac{TP}{TP + FN}
 ```
 
 **F1 分数：** 精确率与召回率的调和平均，用于平衡二者。
 
-```text
-F1 = 2 * (Precision * Recall) / (Precision + Recall)
+```math
+F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
 ```
 
 优先考虑的指标：

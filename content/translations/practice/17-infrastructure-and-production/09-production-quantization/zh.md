@@ -4,10 +4,15 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/09-production-quantization/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 426f95fbda1dff2cd772a878c671a4ac245e175f3af5fa4b5086d6eb0656ed63
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: afaed718a656048222ccd1f8778523cc6b7ffab400e44d9ee70131c935528a4c
 status: reviewed
 ---
+
+> 上游新增参考链接（原文，待中文复核）：
+>
+> - [上游参考](https://aiengineeringfromscratch.com/inside-an-llm-serving-gpu?dtype=fp8&users=64)
+
 
 # 生产量化：AWQ、GPTQ、GGUF K-quant、FP8、MXFP4/NVFP4
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/08-ppo/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 73a716e026da377584800f445b20d711310c81d4513df6f8f161b4afc62083e1
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 2ee2d1992dce0d1228937b1ddb0d6304094e0f98489a1752d84beaa07825c94e
 status: reviewed
 ---
 
@@ -72,6 +72,15 @@ PPO（Schulman 等，2017）用简单的裁剪目标替代硬性的信赖域约�
 
 **KL 惩罚变体。** 原论文还提出一种使用自适应 KL 惩罚的替代方案：`L = L^{PG} - β · KL(π_θ || π_old)`，根据观察到的 KL 调整 `β`。裁剪版本成为主流；KL 版本仍用于 RLHF，因为 RLHF 无论如何都需要把相对于参考策略的 KL 作为单独约束。
 
+```math
+r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_{\text{old}}}(a_t \mid s_t)}
+```
+```math
+L^{\text{CLIP}}(\theta) = \mathbb{E}_t \left[ \min\left( r_t(\theta) A_t, \mathop{\mathrm{clip}}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t \right) \right]
+```
+```math
+L(\theta, \phi) = L^{\text{CLIP}}(\theta) - c_v \cdot (V_\phi(s_t) - V_t^{\text{target}})^2 + c_e \cdot H(\pi_\theta(\cdot \mid s_t))
+```
 ```figure
 ppo-clip
 ```

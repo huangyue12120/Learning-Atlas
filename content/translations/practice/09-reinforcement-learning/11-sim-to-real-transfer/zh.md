@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/11-sim-to-real-transfer/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 6588758487ca47b17df37c89845e4e6e23d9770205a992c0285ebe9ebfd5a165
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 6ee8bd7caa2f724eb4f1f64df5e2fc2d168326ef7ba8dddbaa96e2a0e9aa293d
 status: reviewed
 ---
 

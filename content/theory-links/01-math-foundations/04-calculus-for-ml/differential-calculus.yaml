@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/04-calculus-for-ml/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 0ed4721bd7a01a876bdfd1cafd3a732d645842bf942f708bf32198fd5a8e6794
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 026ef098b0d57e79d611ba10046c2c2db884e71e3349e4bf6c2f199050325b4d
   anchor:
     heading: What is a derivative?
     slug: what-is-a-derivative

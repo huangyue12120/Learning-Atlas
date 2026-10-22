@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/01-mdps-states-actions-rewards/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: f6054bf219d82d9195bbfc01f132528a7727733157a0188d948725f9f3fd5f97
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 060c1a900e196a73b44d791ed29b05687bbf3490f53e0e11eadc143ea90f3667
 status: reviewed
 ---
 
@@ -49,6 +49,12 @@ status: reviewed
 
 它们把期望回报拆成“本步奖励”与“落点的折扣价值”，具有递归形式。Phase 9 中的每种算法都会选择一种处理方式：迭代该方程直到收敛（动态规划）、从中采样（蒙特卡洛），或者只自举一步（时序差分）。
 
+```math
+\begin{aligned}
+V^\pi(s) &= \sum_a \pi(a \mid s) \sum_{s', r} P(s', r \mid s, a) [r + \gamma V^\pi(s')] \\
+Q^\pi(s, a) &= \sum_{s', r} P(s', r \mid s, a) [r + \gamma \sum_{a'} \pi(a' \mid s') Q^\pi(s', a')]
+\end{aligned}
+```
 ```figure
 discount-horizon
 ```

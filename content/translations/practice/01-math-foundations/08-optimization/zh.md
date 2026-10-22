@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/08-optimization/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 390797c59e5e709c5670edc7aa79d087fa9ada55a37a6818f35f946a53be92d6
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 3ff003a1ae4377981812e9aa7694924fd18d70e769291ffa60d573a9aa2cd5b1
 status: reviewed
 ---
 
@@ -100,8 +100,8 @@ minimize L(w) where:
   w = model weights (could be millions of parameters)
 ```
 
-```
-w = w - lr * gradient
+```math
+w = w - \text{lr} \cdot \text{gradient}
 ```
 
 ```mermaid
@@ -128,9 +128,11 @@ graph LR
     end
 ```
 
-```
-v = beta * v + gradient
-w = w - lr * v
+```math
+\begin{aligned}
+v &= \beta \cdot v + \text{gradient} \\
+w &= w - \text{lr} \cdot v
+\end{aligned}
 ```
 
 ```mermaid
@@ -148,14 +150,14 @@ graph TD
     end
 ```
 
-```
-m = beta1 * m + (1 - beta1) * gradient
-v = beta2 * v + (1 - beta2) * gradient^2
-
-m_hat = m / (1 - beta1^t)    bias correction
-v_hat = v / (1 - beta2^t)    bias correction
-
-w = w - lr * m_hat / (sqrt(v_hat) + epsilon)
+```math
+\begin{aligned}
+m &= \beta_1 \cdot m + (1 - \beta_1) \cdot \text{gradient} \\
+v &= \beta_2 \cdot v + (1 - \beta_2) \cdot \text{gradient}^2 \\[4pt]
+\hat{m} &= m / (1 - \beta_1^t) \quad \text{bias correction} \\
+\hat{v} &= v / (1 - \beta_2^t) \quad \text{bias correction} \\[4pt]
+w &= w - \text{lr} \cdot \hat{m} / (\sqrt{\hat{v}} + \epsilon)
+\end{aligned}
 ```
 
 ```mermaid
@@ -189,8 +191,8 @@ graph TD
 gradient-descent
 ```
 
-```
-f(x, y) = (1 - x)^2 + 100 * (y - x^2)^2
+```math
+f(x, y) = (1 - x)^2 + 100 \cdot (y - x^2)^2
 ```
 
 ### 步骤 1：定义测试函数
@@ -325,6 +327,18 @@ scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(adam, T_max=100)
 2. 比较 momentum=[0,0.5,0.9,0.99]，记录每步损失，判断最快者和过冲者。
 3. 从 (0.01,0.01) 优化 f(x,y)=x^2-y^2，比较 GD、动量和 Adam 谁逃离原点鞍点。
 4. 给 GradientDescent 加指数衰减 lr=lr_0*0.999^step，和固定 lr 比较。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Loop over the learning rates, create a `GradientDescent(lr=...)` for each, and pass it to `optimize` with `rosenbrock` and `rosenbrock_gradient`. A run that diverges shows a loss that grows or becomes `nan`; the minimum is at $(1, 1)$ with loss 0.
+>
+> **Exercise 2.** Create `SGDMomentum(momentum=m)` for each value and record the loss after each step. Use `find_convergence_step` to compare speed, and look for losses that go up and down to find overshoot.
+>
+> **Exercise 3.** Write the gradient $(2x, -2y)$ and run the three optimizers from (0.01, 0.01). Print $y$ every 100 steps: the optimizer that escapes is the one where $\lvert y \rvert$ grows large.
+>
+> **Exercise 4.** Store `lr_0` and a step counter in `GradientDescent`, and compute `lr = lr_0 * 0.999 ** step` inside `step`. Print the learning rate at step 0 and step 1000; it must fall from `lr_0` to about $0.37 \times \text{lr}_0$.
 
 ## 术语
 

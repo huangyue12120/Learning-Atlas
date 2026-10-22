@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/07-gpt-causal-language-modeling/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 631bdec6da1f43937a98f0e137a8d0e41cecab977e152b921fc140ebec3afd57
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 601d82a9f6a2a7c09e2c40be182a1923b39d317f12da3aae8b686b8a58c1c42d
 status: reviewed
 ---
 
@@ -36,9 +36,8 @@ GPT-1（2018）、GPT-2（2019）、GPT-3（2020）、GPT-4（2023）、GPT-5（
 
 给定长度为 `N` 的序列，构建 `N × N` 矩阵：
 
-```text
-M[i, j] = 0       当 j <= i
-M[i, j] = -inf    当 j > i
+```math
+M_{ij} = \begin{cases} 0 & \text{if } j \le i \\ -\infty & \text{if } j > i \end{cases}
 ```
 
 在 softmax 前把 `M` 加到原始注意力分数上。`exp(-inf) = 0`，所以被遮蔽的位置贡献零权重。注意力矩阵的每一行都只是在先前位置上的概率分布。

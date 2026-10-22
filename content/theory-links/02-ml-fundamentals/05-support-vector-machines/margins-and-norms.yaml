@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/05-support-vector-machines/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 4032f704f9675d31f9c0a1dfbf768283b9c50b5699ccebc90fa5813819136ddd
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: a863b633b409bb5be6360fb07ac35bf132d955b3d65a595f28de5d9f85097da8
   anchor:
     heading: The maximum margin classifier
     slug: the-maximum-margin-classifier

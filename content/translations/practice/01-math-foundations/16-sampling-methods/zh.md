@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/16-sampling-methods/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 387bb3952f9a86f59c898179ec88597a8e9719e662ecab1b6b93bd6a977c2616
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: d6f7bb9b2e4b703ecfc8202fdcb36f463adcd8db3aecad472bc0ce0d343aeb2b
 status: reviewed
 ---
 
@@ -158,8 +158,8 @@ CDF: F(x) = 1 - exp(-lambda * x)
 
 重要性抽样估计量的方差取决于 q 与 p 的相似程度。如果 q 与 p 差异很大，少数样本会获得极大的权重并主导估计结果。自归一化重要性抽样通过除以权重之和来缓解这一问题：
 
-```
-E_p[f(x)] ~ sum(w_i * f(x_i)) / sum(w_i)
+```math
+\mathbb{E}_p[f(x)] \approx \frac{\sum_i w_i \, f(x_i)}{\sum_i w_i}
 ```
 
 ### Monte Carlo 估计
@@ -662,6 +662,20 @@ print(f"Sampled token index: {token}")
 4. 实现 Metropolis–Hastings，从与 exp(-(x^2 * y^2 + x^2 + y^2 - 8*x - 8*y) / 2) 成正比的二维分布 p(x, y) 中抽样。绘制样本和链轨迹，并试验不同的提议标准差。
 
 5. 构建完整的文本生成演示：给定含 10 个词且带 logit 的词表，用 (a) 贪心、(b) temperature=0.7、(c) top-k=3、(d) top-p=0.9 生成 20 个词元的序列。比较 5 次运行的输出多样性。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Solve $u = F(x)$ for $x$, which gives $x = \tan(\pi(u - 0.5))$. Check that the sample median is close to 0 and that about 6% of the samples have $\lvert x \rvert > 10$, which is $1 - (2/\pi)\arctan(10)$.
+>
+> **Exercise 2.** The Beta(2, 5) density is $30x(1-x)^4$. Find its largest value at the mode $x = 1/5$ and use that value as $M$ in `rejection_sample`. The theoretical acceptance rate is $1/M$, so compare it with the fraction of proposals that you accept.
+>
+> **Exercise 3.** The exact value is 2. Call `monte_carlo_integral(math.sin, 0, math.pi, n)` for each $n$ and repeat each run with several seeds. When $n$ grows by a factor of 10, the average error should fall by about $\sqrt{10} \approx 3.2$.
+>
+> **Exercise 4.** Write the log of the target, which is $-(x^2 y^2 + x^2 + y^2 - 8x - 8y)/2$, and pass it to `metropolis_hastings_2d`. Record the acceptance rate for each proposal standard deviation: a very small value accepts almost every step but moves slowly, and a very large value rejects almost every step.
+>
+> **Exercise 5.** Greedy decoding takes the index of the largest logit at each step. Use `temperature_sample`, `top_k_sample`, and `top_p_sample` for the other three methods. Greedy must give the same sequence in all 5 runs, so count the distinct sequences for each method to measure diversity.
 
 ## 关键术语
 

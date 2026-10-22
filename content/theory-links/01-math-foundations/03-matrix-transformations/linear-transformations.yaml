@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/03-matrix-transformations/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: bd248b5462edccab7838ef32e303839811157e453873fb6b19421e4f3d5f2365
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: b0b73f786f3e972fb9ca333b26028641423ebfc262a8abcba8c6d0b2ac1fe8f6
   anchor:
     heading: Transformations as matrices
     slug: transformations-as-matrices

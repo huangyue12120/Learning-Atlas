@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/09-data-management/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 21f3293155f3b48ef79eaef08e7bf86be58a791974ed7266cbe9f18681c9b237
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 772d99967d3ccde7c765aae10f77622aa3a9db2975a6124d217c307e257dc84a
 status: reviewed
 ---
 
@@ -255,6 +255,18 @@ python code/data_utils.py
 2. 流式读取 `c4` 数据集，统计 10 秒内可处理的样本数
 3. 将数据集转为 Parquet，比较其与 CSV 的文件大小
 4. 用固定种子创建 70/15/15 的 train/val/test 划分并验证大小
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Call `load_and_inspect("glue", "mrpc")` from `code/data_utils.py`, or `load_dataset("glue", "mrpc")` directly, and print `ds["train"][:5]`. Each example must have `sentence1`, `sentence2`, and `label` fields.
+>
+> **Exercise 2.** Load the dataset with `streaming=True`, as `stream_dataset` does, and read examples in a loop that stops when `time.time()` passes the start time plus 10 seconds. Print the count; run it twice, because the first run includes the connection start-up.
+>
+> **Exercise 3.** Save the same dataset with `to_csv` and `to_parquet`, as `convert_format` does, then compare the sizes with `ls -lh` or `os.path.getsize`. Load the Parquet file back with `load_from_parquet` and check that the row count did not change.
+>
+> **Exercise 4.** Use `train_test_split` twice with a fixed `seed`: first split off 30 percent, then split that 30 percent in half. The three lengths must add up to the original length, and a second run with the same seed must give the same first row in each split.
 
 ## 核心术语
 

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/21-graph-theory/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: f604b6e3676d179188e0bbab407160cff0141ed22b21747339ca3b9fd28cb77f
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: a0457926d2720ab0189388e8a3487ff2ac75c613c6b35eabb290f9eb0a1c8353
   anchor:
     heading: The Graph Laplacian
     slug: the-graph-laplacian

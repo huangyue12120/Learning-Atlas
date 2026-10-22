@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/08-feature-engineering/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 964a9b0cd007a7d7e78196fb390fbc8bd84d227bdfcadf3c7db9e7749e70ca9c
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 4b69623669fe49051971e28ec6e60f5fa84871f356cf311305400907ad5afd3b
 status: reviewed
 ---
 
@@ -73,10 +73,12 @@ flowchart LR
 **计数向量器**统计文档每个词出现次数：`the cat sat on the mat` 变为 `{the: 2, cat: 1, sat: 1, on: 1, mat: 1}`。  
 **TF-IDF（词频—逆文档频率）**按词在文档间的独特程度加权：`the` 等常见词权重低，罕见而有区分度的词权重高。
 
-```text
-TF(word, doc) = count(word in doc) / total words in doc
-IDF(word) = log(total docs / docs containing word)
-TF-IDF = TF * IDF
+```math
+\begin{aligned}
+\text{TF}(\text{word}, \text{doc}) &= \frac{\text{count(word in doc)}}{\text{total words in doc}} \\
+\text{IDF}(\text{word}) &= \log \frac{\text{total docs}}{\text{docs containing word}} \\
+\text{TF-IDF} &= \text{TF} \cdot \text{IDF}
+\end{aligned}
 ```
 
 ### 缺失值

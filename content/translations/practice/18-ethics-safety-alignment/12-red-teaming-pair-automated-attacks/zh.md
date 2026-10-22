@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/12-red-teaming-pair-automated-attacks/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 24dbc68c56b3c9903ecfd86f7237b014e57811bdf00ee62305650b87930ec7ba
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: d0eeaf8d147eaa1bdd10c1a66e4a6cd5bcfe3163c85a2cdbb9cea4dacb5eff5f
 status: reviewed
 ---
 

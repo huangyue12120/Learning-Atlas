@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/03-gpu-setup-and-cloud/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: d7420f66a80b101850985748bc768744956b0ba042fe92a406fe6b8becb33ba2
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 1e6fdb7c16aeab51fb498a3b0d5fe984dd1a67e082d618bf30d1081639502809
 status: reviewed
 ---
 
@@ -140,6 +140,16 @@ if torch.cuda.is_available():
 1. 运行上面的基准测试，比较 CPU 与 GPU 时间
 2. 若没有 GPU，在 Google Colab 上运行并比较
 3. 检查 GPU 显存，并估算可容纳的最大模型（经验法则：fp16 下每个参数 2 字节）
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Run the code from the Build It section as it is, then write down the CPU time, the GPU time, and the speedup line. Run it a second time; the first GPU run includes start-up cost, so the second numbers are the ones to compare.
+>
+> **Exercise 2.** In Colab, select Runtime > Change runtime type > GPU, then paste the benchmark into a cell. Run `!nvidia-smi` in another cell first; it must show a GPU name before the benchmark result means anything.
+>
+> **Exercise 3.** Read the total memory with `torch.cuda.get_device_properties(0).total_memory / 1e9`, as in `code/gpu_check.py`. Divide the memory in bytes by 2 to get the parameter count for fp16, then keep a margin, because activations and the CUDA context also use memory.
 
 ## 核心术语
 

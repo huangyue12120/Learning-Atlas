@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/07-rlhf/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 0e599cb378e8f0291f17d037d75f07cde24451c27ac335a1dbfa49f026524090
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 30a1fc49e095627252b51e3760eaa1b3ddccd18f22d591978df6acab13f2eaf6
   anchor:
     heading: The Reward Model
     slug: the-reward-model

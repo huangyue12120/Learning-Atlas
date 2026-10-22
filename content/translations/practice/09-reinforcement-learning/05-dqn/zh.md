@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/05-dqn/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 71b7cb797263d1bd4881a0a2127a6dd7e55e09f3590a6c92a5d101f4d8e8fca9
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: e59787787c2637b4fb7e3b1d967aba579a03728801c64959a219dbfdb197e3f1
 status: reviewed
 ---
 
@@ -56,6 +56,12 @@ Atari 上的 DQN 首次用同一套架构和超参数解决了数十个基于原
 
 **其他改进（Rainbow，2017）：** 优先经验回放（提高 TD 误差较大转移的采样频率）、Dueling 架构（分离 `V(s)` 与优势值头）、噪声网络（学习探索方式）、n 步回报、分布式 Q（C51/QR-DQN）、多步自举。每项改进都能增加几个百分点，叠加后的收益大致可以累加。
 
+```math
+L(\theta) = \mathbb{E}_{(s,a,r,s') \sim D}[ (r + \gamma \max_{a'} Q(s', a'; \theta^-) - Q(s, a; \theta))^2 ]
+```
+```math
+\text{target} = r + \gamma Q(s', \arg\max_{a'} Q(s', a'; \theta); \theta^-)
+```
 ```figure
 f3-dqn-stability
 ```

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/01-the-perceptron/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: ab8e9fbfe5bcb8328d915987f8ca588e1b3bccd946a789e4b8bb983e6c78284a
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: 29d3bb53bedc92067c1a2f571f619bf1d9b58e797ce547798b1154f9e739a8e7
 status: reviewed
 ---
 
@@ -51,9 +51,8 @@ graph LR
 
 阶跃函数很直接：加权和加偏置 >= 0 时输出 1，否则输出 0。
 
-```
-step(z) = 1  if z >= 0
-           0  if z < 0
+```math
+\text{step}(z) = \begin{cases} 1 & \text{if } z \ge 0 \\ 0 & \text{if } z < 0 \end{cases}
 ```
 
 这是线性分类器。权重和偏置定义一条直线（高维中为超平面），将输入空间分为两个区域。

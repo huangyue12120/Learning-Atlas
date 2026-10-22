@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/10-dimensionality-reduction/docs/en.md
-  revision: 7157ca74a135fad2165f680ec4b4e592f075ec21
-  sha256: 13f508adaa0599b3db8d18ad77c9b20b501cf6864dd242ad884a48412e41bcfc
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: ae01a8dd4e5df9df97a7dff0e02d10dfe9b1689eb6b923a5f7169d7a3fbd28e4
 status: reviewed
 ---
 
@@ -108,14 +108,16 @@ PC4          0.89          0.089              0.925
 ...
 ```
 
-```
-Reconstruction error = sum of eigenvalues NOT included
-Total variance = sum of ALL eigenvalues
-Fraction lost = (sum of dropped eigenvalues) / (sum of all eigenvalues)
+```math
+\begin{aligned}
+\text{Reconstruction error} &= \text{sum of eigenvalues NOT included} \\
+\text{Total variance} &= \text{sum of ALL eigenvalues} \\
+\text{Fraction lost} &= \frac{\text{sum of dropped eigenvalues}}{\text{sum of all eigenvalues}}
+\end{aligned}
 ```
 
-```
-explained_ratio_k = eigenvalue_k / sum(all eigenvalues)
+```math
+\text{explained\_ratio}_k = \frac{\text{eigenvalue}_k}{\sum \text{all eigenvalues}}
 ```
 
 ```figure
@@ -273,6 +275,16 @@ for k in [10, 30, 50, 100, 200]:
 1. 给 PCA 写 `inverse_transform`，比较 10、50、200 components 的 MNIST MSE。
 2. 将 t-SNE `perplexity` 设为 5、30、100，比较簇紧密度。
 3. 对 50 特征但仅 5 informative 的 `make_classification` 数据，检查解释方差曲线。
+
+### 提示
+
+> 上游新增练习提示（原文，待中文复核）：
+>
+> **Exercise 1.** Read `inverse_transform` in the `PCA` class and fit one model for each number of components. Compute `reconstruction_error` for 10, 50, and 200 components; the error must fall as the number of components grows.
+>
+> **Exercise 2.** Fit `sklearn.manifold.TSNE` three times on the same subset, changing only `perplexity`, and use the same `random_state`. Low perplexity looks at few neighbors, so expect small tight groups; high perplexity looks at more neighbors, so expect larger, smoother groups.
+>
+> **Exercise 3.** Call `make_classification(n_features=50, n_informative=5, n_redundant=45)`, fit `PCA`, and print the cumulative explained variance. Redundant features are linear combinations of the informative ones, so the curve reaches almost 1.0 at 5 components. Then try `n_redundant=0`: the other 45 features are independent noise, and the curve does not flatten.
 
 ## 术语
 

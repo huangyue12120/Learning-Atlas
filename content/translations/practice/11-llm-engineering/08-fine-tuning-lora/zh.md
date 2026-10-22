@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/08-fine-tuning-lora/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 6e6752387e06906ae70b2300d8bf5f2457b2a4f25c85895b10c724db9bee083a
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: cc811f59307d63654a917759f262a65d3d45d4ef416693362c59e096cdb94a8f
 status: reviewed
 ---
 
@@ -48,7 +48,7 @@ status: reviewed
 
 数学表达如下。标准线性层计算：
 
-```text
+```math
 y = Wx
 ```
 
@@ -56,7 +56,7 @@ y = Wx
 
 LoRA 冻结 W，并加入一个低秩分解：
 
-```text
+```math
 y = Wx + BAx
 ```
 
@@ -89,8 +89,8 @@ A 使用随机高斯值初始化，B 初始化为零。这意味着 LoRA 的贡�
 
 LoRA 引入一个缩放因子 alpha，用来控制低秩更新对输出的影响：
 
-```text
-y = Wx + (alpha / r) * BAx
+```math
+y = Wx + \frac{\alpha}{r} \cdot BAx
 ```
 
 当 alpha = r 时，缩放为 1 倍；当 alpha = 2r（常见默认值）时，缩放为 2 倍。这个超参数可以独立于基座学习率，控制 LoRA 路径的学习率。

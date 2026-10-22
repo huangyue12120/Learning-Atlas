@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/71-classical-metrics/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: c7255f8e0370d103b9441ada75a11a28c74c0b4cf7cc2723fb019042411ae1d3
+  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
+  sha256: ada005fd8918c10e26a530da37151626eb885a3f921bbc49ae903ef561443181
 status: reviewed
 ---
 
