@@ -467,6 +467,36 @@
 | Tensor Core / Transformer Engine / TF32 / HBM / NVLink | Tensor Core / Transformer Engine / TF32 / HBM / NVLink | Tensor Core 的形状、精度和峰值随 GPU 代际变化；稀疏峰值不能与稠密吞吐量直接比较。 |
 | memory pool / caching allocator / allocated memory / reserved memory | 内存池 / 缓存分配器 / 已分配显存 / 已预留显存 | `memory_allocated` 表示张量当前占用量；`memory_reserved` 表示分配器预留量，两者含义不同。 |
 
+## 逆向工程与二进制分析术语
+
+适用于 Phase 13 第 32–45 课（逆向工程轨道）。工具名（rea、Ghidra、IDA Pro、Binary Ninja、radare2/radiff2、angr、z3、gdb、lldb、objdump、strace、Diaphora）、文件格式名（ELF、Mach-O、PE、COFF、DWARF、pyc、Wasm）、节名（`.text`、`.rodata`、`.symtab`）、常量名（`R_X86_64_PC32`、`PT_LOAD`、`LC_FUNCTION_STARTS`）和字段名（`st_value`、`sh_offset`）保持原样。
+
+| English | 统一译法 | 使用说明 |
+| --- | --- | --- |
+| reverse engineering / binary analysis / static analysis / dynamic analysis | 逆向工程 / 二进制分析 / 静态分析 / 动态分析 | 本轨道只分析学习者自己编写和编译的程序；正文保持这一限定。 |
+| object file / relocatable object / executable / shared object / image | 目标文件 / 可重定位目标文件 / 可执行文件 / 共享对象 / 映像 | PE/Mach-O 语境中加载后的 image 译为“映像”。 |
+| section / segment / section header table / program header / string table | 节 / 段 / 节头表 / 程序头 / 字符串表 | ELF 的 section 与 segment 必须区分：链接视图用“节”，加载视图用“段”。首次出现可括注英文。 |
+| symbol / symbol table / binding / relocation / relocation record / addend | 符号 / 符号表 / 绑定 / 重定位 / 重定位记录 / 加数 | `st_bind` 的 binding 译为“绑定”；relocation 不译为“迁移”。 |
+| link editor / linker / loader / dynamic linker / fixup / chained fixups | 链接编辑器 / 链接器 / 加载器 / 动态链接器 / 修正项 / 链式修正（chained fixups） | link editor 是 `ld` 的正式称呼，可写作“链接编辑器（链接器）”。 |
+| import / export / base relocation / stub / indirect symbol table / two-level namespace | 导入 / 导出 / 基址重定位 / 桩 / 间接符号表 / 两级命名空间 | PLT、GOT、IAT 等缩写保持原样。 |
+| stripped binary / strip / debug information / function identification / signature | 去除符号的二进制文件 / 去除符号（strip） / 调试信息 / 函数识别 / 签名 | 动词 strip 首次写作“去除符号（strip）”；FLIRT 签名保留 FLIRT。 |
+| virtual address / file offset / entry point / address base / little-endian | 虚拟地址 / 文件偏移 / 入口点 / 地址基准 / 小端序 | 四种地址基准（文件偏移、节内偏移、虚拟地址、加载后地址）必须写清基准。 |
+| disassembly / disassembler / linear sweep / recursive descent | 反汇编 / 反汇编器 / 线性扫描 / 递归下降 | 两种反汇编策略固定使用这组译法。 |
+| decompilation / decompiler / lifting / intermediate representation (IR) / pseudocode | 反编译 / 反编译器 / 提升 / 中间表示（IR） / 伪代码 | lifting 首次写作“提升（lifting）”，指把机器指令翻译为 IR。 |
+| opcode / operand / mnemonic / prefix / displacement / immediate | 操作码 / 操作数 / 助记符 / 前缀 / 位移 / 立即数 | ModRM、SIB、REX 保持原样。 |
+| basic block / control-flow graph (CFG) / dominator / successor / predecessor / jump table | 基本块 / 控制流图（CFG） / 支配节点 / 后继 / 前驱 / 跳转表 | dominator tree 译为“支配树”。 |
+| SSA / dead code elimination / constant propagation / structuring / emission | 静态单赋值（SSA） / 死代码消除 / 常量传播 / 结构化 / 代码输出 | SSA 首次写作“静态单赋值（SSA）”，后续用 SSA。 |
+| calling convention / stack frame / prologue / epilogue / red zone / shadow store / unwinder | 调用约定 / 栈帧 / 序言 / 尾声 / 红区 / 影子存储区 / 栈回溯器 | callee-saved / caller-saved register 译为“被调用者保存寄存器 / 调用者保存寄存器”。 |
+| compiler idiom / magic number / strength reduction / inlining / tail call / vectorisation / loop unrolling | 编译器惯用法 / 魔数 / 强度削减 / 内联 / 尾调用 / 向量化 / 循环展开 | “除以常数”的乘法替换称为“除法惯用法”；`-O0`、`-O2` 等保留原样。 |
+| hardening / stack protector / stack canary / control-flow integrity (CFI) | 加固 / 栈保护 / 栈金丝雀 / 控制流完整性（CFI） | 与安全认证语境的 canary token（金丝雀令牌）区分。 |
+| struct layout / padding / alignment / stride / vtable / RTTI / name mangling | 结构体布局 / 填充 / 对齐 / 步长 / 虚函数表（vtable） / RTTI / 名称修饰 | mangled name 译为“修饰名”。 |
+| debugger / breakpoint / watchpoint / single-step / core dump / record and replay / trace | 调试器 / 断点 / 观察点 / 单步执行 / 核心转储 / 录制与重放 / 追踪 | 系统调用追踪（strace）与 JIT 追踪同用“追踪”。 |
+| bytecode / code object / constant pool / managed code / metadata token | 字节码 / 代码对象 / 常量池 / 托管代码 / 元数据标记 | 元数据 token 在 .NET 语境中译为“标记”，不译为“词元”或“令牌”。 |
+| binary diffing / correlator / symbolic execution / path condition / path explosion / constraint solver | 二进制差异比对 / 关联器 / 符号执行 / 路径条件 / 路径爆炸 / 约束求解器 | SMT 求解器保留 SMT。 |
+| evidence / provenance / confidence / authority / observed / derived / inferred / unknown | 证据 / 来源记录 / 置信度 / 权威等级 / 观测 / 推导 / 推断 / 未知项 | 第 35 课的证据等级固定使用“观测、推导、推断”；不要与统计推断混用。 |
+| ground truth / oracle / differential test / candidate / promotion | 真值 / 判定基准（oracle） / 差分测试 / 候选实现 / 晋升 | oracle 首次写作“判定基准（oracle）”；promotion 指证据等级晋升，不译为“提升”，以免与 lifting 混淆。 |
+| fixture / interoperability / fair use / circumvention / access control / rightholder / licensee | 测试夹具（fixture） / 互操作性 / 合理使用 / 规避 / 访问控制 / 权利人 / 被许可人 | 法条与判例名保留原文，引用的法律原文先给中文译文，再在括号中保留英文原句。 |
+
 ## 复核规则
 
 - 术语统一不能改变公式、代码、API 名称、文件路径、Mermaid 拓扑或原文技术含义。

@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/36-rebuild-and-prove-equal/quiz.json",
+    "revision": "f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299",
+    "sha256": "8b314250f23b1528fd43aa458085643bac9bc69b597d003e1558836714806477"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"prove-equal-q1","stage":"pre","question":"一个重建后的 percent_change 通过了四个手写测试。这证明了什么？","options":["重建实现在那四个输入上与原始函数一致，仅此而已","重建实现编译成相同的字节","反编译器的输出是正确的","重建实现对每个输入都等于原始函数"],"correct":0,"explanation":"一组测试只证明在它所包含的输入上达成一致。零值、负值、舍入和溢出单元格才是重建实现发生分歧的地方。"},
+    {"id":"prove-equal-q2","stage":"check","question":"原始函数以 32 位 int 计算 (after - before) * 100 / before。重建实现使用 64 位中间值。它们在哪里不同？","options":["永远不会，因为转回 int 消除了差异","在 32 位乘积回绕且 before 不是 1 或 -1 的输入上","在每个 before 为负的输入上","只有当 before 为零时"],"correct":1,"explanation":"原始函数除的是回绕后的 32 位乘积。重建实现除的是精确的 64 位乘积，之后再截断。当 before 等于 1 或 -1 时，两者在截断后一致。"},
+    {"id":"prove-equal-q3","stage":"check","question":"两个 x86-64 ELF 目标文件为 grade 持有相同的 46 个代码字节，包括重定位字段中的零字节。为什么字节比较仍然不够？","options":["加数存在 .rela.text 记录里，而那些记录指向的表可能不同","零字节从不出现在机器码中","函数大小存在 .rodata 中","RELA 目标文件无法比较"],"correct":0,"explanation":"在 RELA 目标文件中，字段字节为零，加数在重定位记录里。先屏蔽字段，比较记录形状，然后读取并比较目标处的常量。"},
+    {"id":"prove-equal-q4","stage":"check","question":"网格包含 before = -1 和 after = 536870911。编译后的 x86-64 原始函数以 INT_MIN / -1 执行 idiv。会发生什么？","options":["它返回 INT_MIN","它引发除法错误，进程收到 SIGFPE","它返回 0，因为防护处理了它","它返回 INT_MAX"],"correct":1,"explanation":"当商装不下时，x86-64 idiv 引发 #DE。对相同操作数，AArch64 sdiv 返回 INT_MIN，所以判定基准依赖体系结构。"},
+    {"id":"prove-equal-q5","stage":"post","question":"2026 年关于 LLM 反编译器精化的研究，在编译成功率从 75% 升到 90% 时测量到了什么？","options":["行为匹配上升了同样的幅度","该研究没有测量行为","可读性下降，行为不变","行为匹配从 74% 降到 62%"],"correct":3,"explanation":"Liu、Raff 和 Micinski（arXiv 2609.05370）发现，被编造的类型、被调用函数和防护让更多候选能编译通过，而更少的候选在模糊输入上与原始函数匹配。"},
+    {"id":"prove-equal-q6","stage":"post","question":"因为主机没有 C 编译器，第一段无法运行。第二段对两个函数都通过了。证明状态是什么？","options":["unknown，因为一条未经验证的声明永远不会聚合为 pass","pass，因为每条运行了的声明都通过了","pass，因为字节相等蕴含行为相等","fail，因为有一段没有运行"],"correct":0,"explanation":"fail 优先，然后是 unknown。一条没被检查的声明保持 unknown，而 unknown 永远不会变成 pass。"}
+  ]
+}

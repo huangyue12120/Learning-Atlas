@@ -1,3 +1,47 @@
+# Learning Atlas v0.27.0 发布说明
+
+发布日期：2026-10-23。
+
+本版补齐 Phase 13 第 32–45 课（逆向工程轨道）的中文改编，并修复让这 14 节课程没有被及时发现的监控缺口。上游快照保持 `f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299`。
+
+## 本版交付
+
+- 新增 14 篇中文实践译文：ELF 读取器、反汇编与控制流、提升为伪代码、证据与未知项、重建并证明等价、逆向工程全景、调用约定与栈帧、编译器惯用法、链接与去除符号、数据与类型恢复、动态分析、字节码格式、二进制差异比对与符号执行、AI 辅助逆向工程。每篇均与上游原文逐段对应，并经独立复核。
+- 新增 14 份中文测验（共 95 题），题序、阶段和正确答案与上游一致；新增 14 套 Python 工作区练习指南，步骤对应各课的交互实验与评分实验。
+- 术语表新增“逆向工程与二进制分析术语”一节。
+- “在 VS Code 中继续”现在会复制课程的整个 `code/` 目录（fixtures、tests、`lab.py` 等），不覆盖学习者已修改的文件；存在 `main.py` 时优先作为参考实现。此前只复制一个 `.py` 文件，第 32–36 课会误选 `lab.py`，依赖 fixtures 的程序也无法在工作区中运行。
+- 监控修复：
+  - 每日上游检查会把已开放 Phase 中新增、尚无中文改编的课程原文和测验视为需要审核，并在 Issue 中单独列出（报告超出大小上限时也保留这张表）。
+  - 覆盖率检查同时检查中文测验；除每周运行外，`main` 更新实践 submodule 指针、中文内容或发布范围时也会立即运行。
+  - 两个监控 Issue 在不再需要审核时自动关闭。
+  - CI 在已开放 Phase 存在覆盖缺口时给出警告，并把覆盖报告写入 job summary。
+  - 发布 Phase 范围集中到 `scripts/published_scope.py`，并由测试与阅读器的 Phase 列表保持一致。
+  - 覆盖率脚本默认把报告输出到终端，生成的报告文件已加入 `.gitignore`。
+  - 覆盖率检查和每日上游检查也要求有 Python 实作的课程提供练习指南；上游新增的理论笔记会在报告中列出供参考。
+  - 两条监控 workflow 只在执行、网络或权限出错时失败；需要审核时通过 Issue、summary 和 notice 提醒，运行保持成功。
+  - 同步 PR 的正文改为中文，并附带同步后的翻译覆盖率；checkout 不再保留凭据，推送时才临时使用令牌。
+  - 所有 action 按 commit SHA 固定，新增 `.github/dependabot.yml` 每周更新；CI 的 Python 从 3.12 改为读取 `.python-version`（3.14）；删除 CI 中重复的 `node --check public/app.js`。
+- 应用 SemVer 升至 v0.27.0；实践阅读器开放 457 节课程，中文测验 307 份，工作区练习指南 449 套。
+
+## 已知限制
+
+- 在学习者工作区中运行逆向工程课程的测试时，检查站点图示模块的测试会显示 skipped；第 45 课还有一项读取第 36 课 fixture 的测试会失败。练习指南给出了在上游课程目录运行完整测试套件的命令。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1560 条来源指纹）
+- `python3 scripts/check_theory_cards.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`（19 个已发布 Phase 无缺失）
+- `actionlint`（启用 shellcheck）
+- `python3 -m unittest discover -s scripts -p 'test_*.py'`（16 项）
+- 第 32–45 课 `python3 main.py` 与 `python3 -m unittest discover -s tests`，分别在上游课程目录和学习者工作区运行
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+---
+
 # Learning Atlas v0.26.9 发布说明
 
 发布日期：2026-10-22。

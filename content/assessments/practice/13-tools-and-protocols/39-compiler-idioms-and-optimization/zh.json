@@ -1,0 +1,19 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/39-compiler-idioms-and-optimization/quiz.json",
+    "revision": "f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299",
+    "sha256": "172383c11fce4ba2e63193cc4bf111fe0d1c4e92ef404681fd69c5fe51cac573"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id": "idioms-q1", "stage": "pre", "question": "一个在 -O2 下编译的函数包含 imulq $0x24924925, %rax, %rax; shrq $0x20, %rax; subl %eax, %edi; shrl %edi; addl %edi, %eax; shrl $0x2, %eax。它计算什么？", "options": ["x % 7", "x * 613566757 后跟一个校验和", "x / 613566757", "对无符号 x 来说是 x / 7：乘数是 ceil(2^35 / 7) 的低 32 位，而后者宽 33 位，所以编译器加上了修正序列"], "correct": 3, "explanation": "ceil(2^35 / 7) = 0x124924925 放不进 32 位。编译器乘以低 32 位，然后通过减、移位、加、移位的序列把被除数加回来，这就是 Granlund-Montgomery 方法的加法形式。"},
+    {"id": "idioms-q2", "stage": "check", "question": "识别器在一次有符号除法中读到魔数 0x66666667 和总移位量 34。它如何证明除数是 10 而不是 5？", "options": ["它计算 2^34 / 0x66666667，尝试 10 和 11，并接受 10，因为 magic_numbers(10, signed) 恰好返回带移位量 34 的 0x66666667；同一个乘数配移位量 33 则意味着 5", "它无法证明：0x66666667 是有歧义的", "它在一个样本输入上运行该函数", "它在一张已知魔数的表中查找这个常量"], "correct": 0, "explanation": "除数是乘数和总移位量共同的函数。divisor_from_magic 为每个候选重新计算最小的有效移位量，并接受其常量匹配的那一个。"},
+    {"id": "idioms-q3", "stage": "check", "question": "table_switch 在 -O2 下是 cmpl $6, %edi; ja; leaq (%rip), %rcx 带 R_X86_64_PC32 .rodata+0x24；movl (%rcx,%rax,4), %eax; retq。case 值在哪里，有多少个？", "options": ["在 .rodata+0x28 处的七个 32 位字：加数加上 RIP 相对字段的 4，直接从目标文件读出", "在比较链的立即操作数中", "在 .rela.rodata 的重定位条目中", "在跳转之后的五个代码块中"], "correct": 0, "explanation": "这是 LLVM 的查找表降低方式。该表持有值。它的字节在目标文件中是最终的，所以该表不需要重定位。边界检查给出 6 + 1 个条目。"},
+    {"id": "idioms-q4", "stage": "check", "question": "在 -O0 下测试夹具 div10u 编译为 divl %ecx，而同一目标文件中的 digest 用 imulq $0x66666667 除以 10。哪条观察解释了这个差异？", "options": ["divl 在 -O0 下更快", "有了 -mllvm -fast-isel=false，每一次 -O0 除法都变成魔数乘法，所以硬件除法是 FastISel 的选择、而乘法是 SelectionDAG 的选择；digest 的块持有一个 switch，FastISel 把它交给了 SelectionDAG", "这两个函数由不同的编译器编译", "digest 使用无符号算术"], "correct": 1, "explanation": "测试夹具 idioms-x86_64-nofastisel-O0 显示，一旦禁用快速选择器，每次除法都是乘法。这个惯用法来自指令选择器。它不需要任何优化处理过程。"},
+    {"id": "idioms-q5", "stage": "post", "question": "digest 的 switch 在 x86-64 上 -O1 时是查找表、-O2 时是跳转表。对于 -O1 的表，识别器报告了源代码中没有字面出现的什么内容？", "options": ["五个代码地址", "条目 1、2、4、8、8，与写的一模一样", "默认值 -1", "条目 16、32、64、128、128：后续的乘以 16 被折叠进了表中，而识别器记录了这个因子"], "correct": 3, "explanation": "编译器把 band * 16 移进了表值。识别器把表与源代码 case 值作比较（相差一个常数因子以内），并报告 foldedFactor 16。"},
+    {"id": "idioms-q6", "stage": "post", "question": "sum_n 在 -O2 下包含 andl $0x7ffffff8、带 ja 的 cmpl $7、两个 paddd 累加器、addq $0x20，以及一个带 addl (%rdi,%rdx,4) 的第二循环。正确的读法是什么？", "options": ["源代码中两个不相关的循环", "一个 memset", "一个源代码循环：一个向量化的体，用两个 4 通道累加器每次迭代处理 8 个 int，一个向下取整到 8 的倍数的 trip 计数，以及一个处理其余部分的标量余数循环", "一个展开 32 份的循环"], "correct": 2, "explanation": "掩码把 trip 计数向下取整到 8 的倍数，守护在元素少于 8 时跳过向量体，两个累加器是交错因子，而余数循环收尾最后的 0 到 7 个元素。"},
+    {"id": "idioms-q7", "stage": "post", "question": "angr 10.0.3 把 div10u 打印为 a0 / 10，把 div10s 打印为 v1 = a0 * 1717986919; return ((long long)(v1) >> 0x22) + (v1 >> 63);。Ghidra 12.1.4 把 grade 打印为 param_1 / 10 - 6。这告诉你关于反编译器输出的什么？", "options": ["angr 对 div10s 判断错了", "惯用法折叠是每个反编译器中按规则做的选择，所以同一个源代码结构可能在一个工具中显示为折叠、在另一个中显示为原始算术，而识别器的推导才是定夺的依据", "有符号除法无法被折叠", "Ghidra 是猜的"], "correct": 1, "explanation": "Ghidra 的 RuleDivOpt 把乘法和移位形式转换为 INT_SDIV。angr 折叠了无符号形式、把有符号形式留作算术。两个输出都正确；只有一个可读，而魔数推导证明了它们指的是哪个源代码表达式。"}
+  ]
+}
