@@ -15,7 +15,7 @@ card:
   intuition: "命中已有前缀的副本可以跳过 prefill，但跨区 RTT 可能超过省下的计算时间。"
   key_points:
     - "路由器使用副本发出的 KV 事件和请求前缀 hash 做匹配。"
-    - "2K token 前缀命中可显著降低 TTFT，但远端 RTT 可能抵消收益。"
+    - "2K 词元前缀命中可显著降低 TTFT，但远端 RTT 可能抵消收益。"
     - "灾备恢复还需验证权重、tokenizer 和量化配置完整。"
   application: "运行三种路由策略，比较命中率、TTFT P50/P99 和跨区费用，并改变 RTT 找出切换点。"
   check_question: "为什么全局缓存命中并不必然比区域内冷 prefill 更快？"

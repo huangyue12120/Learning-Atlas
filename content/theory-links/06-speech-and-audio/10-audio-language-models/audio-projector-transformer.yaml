@@ -18,7 +18,7 @@ card:
     - "投影器把音频隐藏维映射到语言模型嵌入维，但不会自动完成长程序列建模。"
     - "先冻结两端训练投影器可建立接口，再按数据和目标选择性解冻，降低初期破坏预训练表示的风险。"
   application: "断言编码器输出、两层 projector 和语言模型输入的 batch、time、hidden 维度，并比较分阶段解冻的验证曲线。"
-  check_question: "如果投影器输出维度与语言模型 token embedding 维度不一致，接口会在哪个运算处失败？"
+  check_question: "如果投影器输出维度与语言模型词元 embedding 维度不一致，接口会在哪个运算处失败？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/04. transformers and language models.md

@@ -17,7 +17,7 @@ status: reviewed
 **语言：** Python（流水线）、YAML（配置）、Bash（脚本）
 **前置课程：** 第 2 阶段（ML）、第 3 阶段（DL）、第 7 阶段（Transformer）、第 10 阶段（从零实现 LLM）、第 11 阶段（LLM 工程）、第 17 阶段（基础设施）、第 18 阶段（安全）
 **涉及阶段：** P2 · P3 · P7 · P10 · P11 · P17 · P18
-**用时：** 35 小时
+**预计时间：** 35 小时
 
 ## 问题
 
@@ -29,7 +29,7 @@ status: reviewed
 
 流水线有五个阶段。**数据**：去重（MinHash / Datatrove）、质量过滤（Nemotron-CC 风格分类器）、PII 清理，以及针对公开 benchmark 污染的数据集划分卫生检查。**SFT**：Axolotl YAML、8xH100 上的 ZeRO-3、余弦调度、序列打包、2–3 个 epoch。**DPO 或 GRPO**：TRL 配置、1 个 epoch，偏好对可以由人类标注或模型评判，并调节 beta。**量化**：GPTQ + AWQ + GGUF，以适应部署弹性。**服务**：带 EAGLE-3 推测头的 vLLM 0.7（或带 SpecForge 的 SGLang）、K8s 部署，以及按队列等待时间设置 HPA。
 
-交付物是消融实验：只做 SFT、SFT+DPO 与 SFT+GRPO 在三个任务专用 benchmark 上的比较。服务指标包括批大小 1 / 8 / 32 时的 tokens/s、EAGLE-3 接受率和每 100 万词元美元成本。安全评测使用 Llama Guard 4 通过率。模型卡要包含偏差评估、可复现性种子和数据许可。
+交付物是消融实验：只做 SFT、SFT+DPO 与 SFT+GRPO 在三个任务专用 benchmark 上的比较。服务指标包括批大小 1 / 8 / 32 时的 词元/秒、EAGLE-3 接受率和每 100 万词元美元成本。安全评测使用 Llama Guard 4 通过率。模型卡要包含偏差评估、可复现性种子和数据许可。
 
 ## 架构
 
@@ -101,7 +101,7 @@ ce-finetune-stages
 
 9. **模型卡。** 使用 MOF 2026 模板，包含数据、训练、评测、安全、许可和可复现性章节，其中放入 YAML 与 commit SHA。
 
-## 实际使用
+## 使用
 
 ```text
 $ ./pipeline.sh config/llama3.3-8b-domainX.yaml
@@ -123,7 +123,7 @@ $ ./pipeline.sh config/llama3.3-8b-domainX.yaml
 | 25 | 相对基础模型的评测差值 | 在目标任务（MMLU-Pro、MT-Bench-v2、任务专用集）上测量收益 |
 | 20 | 流水线可复现性 | 使用相同种子通过一条命令端到端重跑 |
 | 20 | 数据卫生 | 去重率、PII 清理覆盖率、污染检查通过 |
-| 20 | 服务效率 | bs=1/8/32 时的 tokens/s、EAGLE-3 接受率、每 100 万词元美元成本 |
+| 20 | 服务效率 | bs=1/8/32 时的 词元/秒、EAGLE-3 接受率、每 100 万词元美元成本 |
 | 15 | 模型卡与安全评测 | 2026 MOF 完整度 + Llama Guard 4 通过率 |
 | **100** | | |
 

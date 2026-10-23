@@ -27,7 +27,7 @@ status: reviewed
 - 使用 PKCE、资源指示器、受众校验和增量作用域。
 - 发送没有协议会话的 MCP 2026-07-28 授权请求。
 
-## 问题所在
+## 问题
 
 远程 MCP 服务器可能读取私有记录、写入外部系统或触发昂贵工作。认证告诉服务器是谁提交了凭据，但授权还必须回答：
 
@@ -41,7 +41,7 @@ status: reviewed
 
 这些规则与无状态核心互补，不会恢复核心握手或 `Mcp-Session-Id`。
 
-## 核心概念
+## 概念
 
 ### 认识三个角色
 
@@ -55,7 +55,7 @@ status: reviewed
 
 MCP 授权规范针对基于 HTTP 的传输。本地 stdio 服务器运行在进程和操作系统信任边界内，不要为了保持形式一致而给 stdio 添加假的浏览器 OAuth 流程。
 
-对于远程 Streamable HTTP，在每个请求的 `Authorization` header 中发送 bearer token，绝不要把它放入 URL。
+对于远程 Streamable HTTP，在每个请求的 `Authorization` header 中发送 bearer 令牌，绝不要把它放入 URL。
 
 ### 从受保护资源元数据开始
 
@@ -149,7 +149,7 @@ issuer_credentials[issuer] = pre_registered_or_dcr_client
 tokens[(issuer, resource)] = access_token
 ```
 
-如果受保护资源发现从 `https://auth-one.example` 变成 `https://auth-two.example`，就重新评估信任。绝不要把第一发行方的 client secret、DCR client id、注册访问令牌、refresh token 或 access token 发给第二发行方。预注册和 DCR 客户端都必须使用新发行方签发的凭据。
+如果受保护资源发现从 `https://auth-one.example` 变成 `https://auth-two.example`，就重新评估信任。绝不要把第一发行方的 client secret、DCR client id、注册访问令牌、刷新令牌或访问令牌 发给第二发行方。预注册和 DCR 客户端都必须使用新发行方签发的凭据。
 
 CIMD client id 不同：它是自托管 HTTPS URL，而不是授权服务器签发的凭据。同一个 CIMD URL 可以迁移到新的受信发行方，由其获取并校验文档，不必进行 DCR 重新注册；授权响应和令牌仍要按新发行方校验并存储。
 
@@ -244,9 +244,9 @@ Mcp-Name: notes.delete
 
 MCP 服务器不得把客户端的 MCP 访问令牌转发给下游 API。应为正确受众获取单独的下游令牌，或使用显式的令牌交换设计。只有当服务拒绝为其他服务签发的令牌时，受众校验才有效。
 
-### Refresh token
+### 刷新令牌（refresh token）
 
-Refresh token 是可选的。签发时要机密存储，并按发行方和资源建立键。不要假设它一定存在；授权服务器支持轮换时就轮换，并检测已失效值的重用。
+刷新令牌是可选的。签发时要机密存储，并按发行方和资源建立键。不要假设它一定存在；授权服务器支持轮换时就轮换，并检测已失效值的重用。
 
 ```figure
 t3-scope-stepup
@@ -284,7 +284,7 @@ python3 -m unittest discover code/tests -v
 
 ## 练习
 
-1. 增加 refresh token 轮换，并拒绝重用之前的 refresh token。
+1. 增加 刷新令牌轮换，并拒绝重用之前的 刷新令牌。
 2. 增加发行方 allowlist。发行方改变时，只复用可迁移的 CIMD URL；拒绝所有旧发行方签发的凭据和令牌。
 3. 给授权 code 增加过期时间，确认过晚兑换失败。
 4. 构建远程 HTTPS 重定向的 web 客户端变体，将它的 DCR 元数据与 native 客户端比较。

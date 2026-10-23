@@ -83,7 +83,7 @@ Meta 的 **MusicGen**（2023，MIT）及许多衍生模型：以文本/旋律嵌
 sp-codec-tokens
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：使用 MusicGen 生成
 
@@ -133,7 +133,7 @@ description = llm.complete(prompt)
 music = musicgen.generate([description], duration=30)
 ```
 
-## 用于实践
+## 使用
 
 | 目标 | 技术栈 |
 |------|--------|
@@ -152,7 +152,7 @@ music = musicgen.generate([description], duration=30)
 - **人声可懂度。** Suno 表现出色；开源模型的歌词常含混不清。如果歌词很重要，请使用商业 API 或微调。
 - **单声道输出。** 开源模型生成单声道或伪立体声。应使用适当的立体声重建方法升级（ezst、Cartesia 的立体声扩散）。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-music-designer.md`。为音乐生成部署选择模型、许可策略、长度 / 结构计划与披露元数据。
 

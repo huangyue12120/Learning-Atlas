@@ -126,7 +126,7 @@ def chinchilla_loss(N, D, A=406.4, B=410.7, alpha=0.34, beta=0.28, E=1.69):
 
 代入 GPT-3、Chinchilla、Llama 3 8B 和 DeepSeek-V3（活跃参数）的已知 `(N, D)`，比较预测损失与报告损失。
 
-## 使用方法
+## 使用
 
 你不太可能亲自训练前沿模型，但缩放定律可以告诉你：
 
@@ -140,7 +140,7 @@ def chinchilla_loss(N, D, A=406.4, B=410.7, alpha=0.34, beta=0.28, E=1.69):
 - **算力倍增技巧。** Muon 优化器、MoE、更好的数据筛选——每一种都改变绝对常数，而不是渐近线。
 - **RL 的缩放定律。** 仍是开放问题。早期证据表明，RL 样本也遵循幂律，但指数与预训练差异很大。
 
-## 交付成果
+## 交付
 
 参见 `outputs/skill-training-budget-estimator.md`。这个技能会根据算力预算、部署约束和目标损失，为新的训练任务选择 `(N, D, hours, GPU)`。
 

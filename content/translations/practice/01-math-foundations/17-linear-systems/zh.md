@@ -411,7 +411,7 @@ CG 的使用场景包括：
 linear-system-conditioning
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：带部分主元选取的高斯消元
 
@@ -556,7 +556,7 @@ ridge_sk.fit(X, y)
 print(f"Ridge weights (sklearn): {ridge_sk.coef_}")
 ```
 
-## 交付成果
+## 交付
 
 完成后得到：
 
@@ -577,17 +577,15 @@ print(f"Ridge weights (sklearn): {ridge_sk.coef_}")
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Call `gaussian_elimination(A, b)`, then `lu_decompose(A)` followed by `lu_solve(P, L, U, b)`, then `np.linalg.solve(A, b)`. Check each answer with `np.allclose(A @ x, b)` and compare the three answers with `np.allclose`.
->
-> **Exercise 2.** Use `least_squares_normal` for the normal equations and the three NumPy functions for the other methods. All four answers should be close to `w_true`. Compare `condition_number(X.T @ X)` with `condition_number(X)`: the first is the square of the second, so the normal equations lose the most precision.
->
-> **Exercise 3.** Expect a condition number above $10^{9}$. Solve with `np.linalg.solve` and with `ridge_regression(A, b, 0.01)`, then compare `np.linalg.norm(x)` and the residual norm for each. Both residuals can be small, but the solution without regularization usually has very large entries.
->
-> **Exercise 4.** Make a symmetric positive definite matrix with `B @ B.T + n * np.eye(n)`, so that every eigenvalue is positive. Add a counter to the loop in your copy of `conjugate_gradient`, then check that the final residual norm is below 1e-8 and that the count is at most 100.
->
-> **Exercise 5.** Use the same `B @ B.T + n * np.eye(n)` matrices for all three solvers and time each solve with `time.perf_counter`, taking the best of several runs. Cholesky needs about half the arithmetic of LU, so the ratio is clearest at the larger sizes.
+**练习 1.** 依次调用 `gaussian_elimination(A, b)`，然后 `lu_decompose(A)` 再接 `lu_solve(P, L, U, b)`，最后 `np.linalg.solve(A, b)`。用 `np.allclose(A @ x, b)` 检查每个答案，并用 `np.allclose` 对比这三个答案。
+
+**练习 2.** 正规方程用 `least_squares_normal`，其余方法用三个 NumPy 函数。四个答案都应接近 `w_true`。对比 `condition_number(X.T @ X)` 与 `condition_number(X)`：前者是后者的平方，所以正规方程损失的精度最多。
+
+**练习 3.** 预期条件数会超过 $10^{9}$。分别用 `np.linalg.solve` 和 `ridge_regression(A, b, 0.01)` 求解，然后对比两者的 `np.linalg.norm(x)` 和残差范数。两个残差都可能很小，但不加正则化的解通常含有非常大的元素。
+
+**练习 4.** 用 `B @ B.T + n * np.eye(n)` 构造一个对称正定矩阵，使每个特征值都为正。在你自己那份 `conjugate_gradient` 的循环里加一个计数器，然后检查最终残差范数低于 1e-8 且迭代次数不超过 100。
+
+**练习 5.** 三个求解器都使用同样的 `B @ B.T + n * np.eye(n)` 矩阵，并用 `time.perf_counter` 为每次求解计时，取多次运行中的最优值。Cholesky 所需的算术量约为 LU 的一半，所以在较大规模下比值最清晰。
 
 ## 关键术语
 

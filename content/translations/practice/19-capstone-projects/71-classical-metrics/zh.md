@@ -16,11 +16,11 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置知识：** Phase 19 Track B 基础，第 70 课
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
-- 按明确的分词规则实现 token 级 exact-match、F1 和 accuracy。
+- 按明确的分词规则实现词元级 exact-match、F1 和 accuracy。
 - 从零实现 BLEU-4：修正 n-gram 精确率、n=1 到 4 的几何平均和简短惩罚。
 - 用最长公共子序列实现 ROUGE-L，并以 F-beta 合并精确率与召回率。
 - 根据第 70 课的 `metric_name` 分派，让运行器与指标无关。
@@ -34,7 +34,7 @@ cd-bleu-overlap
 
 你会看到一篇论文报告 BLEU 28.3，另一篇报告 BLEU 0.283；两个库的 ROUGE-L 也可能相差十分，因为一个先转小写，另一个不转。最直接的办法是自己写出指标，明确指出分词器和 smoothing 的位置。之后，跨论文比较数字就变成阅读指标配置，而不是争论库的名称。
 
-标准库加 numpy 就足够：BLEU 是计数与截断，ROUGE-L 是动态规划，F1 是 token 集合的交集。最难的部分是选择分词器并承诺始终使用它。
+标准库加 numpy 就足够：BLEU 是计数与截断，ROUGE-L 是动态规划，F1 是词元集合的交集。最难的部分是选择分词器并承诺始终使用它。
 
 ## 分词
 
@@ -57,9 +57,9 @@ def exact_match(pred, targets):
 
 它对每个任务返回 1.0 或 0.0，数据集聚合时取均值。它适用于算术、选择题和短分类任务。
 
-## Token 级 F1
+## 词元级 F1
 
-为预测与目标建立 token 多重集合。精确率是多重集合交集除以预测集合，召回率是同一交集除以目标集合，F1 是调和平均。实现需要处理空预测与空目标。
+为预测与目标建立词元多重集合。精确率是多重集合交集除以预测集合，召回率是同一交集除以目标集合，F1 是调和平均。实现需要处理空预测与空目标。
 
 ```mermaid
 flowchart LR
@@ -101,7 +101,7 @@ flowchart TD
 
 ## ROUGE-L
 
-ROUGE-L 比较候选与参考 token 序列的最长公共子序列。LCS 保留词序但不要求连续，因此适合摘要。用动态规划求 LCS 长度，再计算召回率 `lcs / reference length`、精确率 `lcs / candidate length`，最后用 beta=1 的 F-beta 合并。
+ROUGE-L 比较候选与参考词元序列的最长公共子序列。LCS 保留词序但不要求连续，因此适合摘要。用动态规划求 LCS 长度，再计算召回率 `lcs / reference length`、精确率 `lcs / candidate length`，最后用 beta=1 的 F-beta 合并。
 
 ```python
 def lcs_length(a, b):
@@ -147,9 +147,9 @@ def score(metric_name, pred, targets):
 
 ## 如何阅读代码
 
-`main.py` 以自由函数定义各指标，再定义分派器；参考向量位于底部的 `_reference_examples` 区块，demo 会通过分派器运行八个示例并打印每个指标的分数。请从头读到尾，再阅读 `code/tests/test_metrics.py`，其中固定参考值，并覆盖空预测、空参考、无重叠 token、精确匹配和重复短语截断等边界行为。
+`main.py` 以自由函数定义各指标，再定义分派器；参考向量位于底部的 `_reference_examples` 区块，demo 会通过分派器运行八个示例并打印每个指标的分数。请从头读到尾，再阅读 `code/tests/test_metrics.py`，其中固定参考值，并覆盖空预测、空参考、无重叠词元、精确匹配和重复短语截断等边界行为。
 
-## 进一步学习
+## 进一步探索
 
 经典指标必要但不充分：它们奖励表面重叠，可能漏掉语义。等经典基础可信后，再叠加 BLEURT、BERTScore、GEval 等模型指标。现在先让五个指标通过测试，形成可审计的指标栈。
 

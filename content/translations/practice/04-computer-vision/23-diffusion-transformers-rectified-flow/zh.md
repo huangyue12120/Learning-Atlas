@@ -133,7 +133,7 @@ DDPM + U-Net 有效；DiT + rectified flow **更好、更快，扩展性更干�
 cv3-rectified-flow
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：带 AdaLN 的 DiT 块
 
@@ -295,7 +295,7 @@ def synthetic_blobs(num=200, size=16, seed=0):
 
 用 rectified flow 在这组数据上训练 `TinyDiT`。500 步后，采样输出应是淡淡的彩色斑团。
 
-## 使用现成工具
+## 使用
 
 实际使用 FLUX / SD3 / Z-Image 生成图像时，`diffusers` 以统一 API 提供全部模型：
 
@@ -329,7 +329,7 @@ pipe = StableDiffusion3Pipeline.from_pretrained(
 out = pipe(prompt, guidance_scale=3.5, num_inference_steps=28).images[0]
 ```
 
-## 交付产物
+## 交付
 
 本课产出：
 

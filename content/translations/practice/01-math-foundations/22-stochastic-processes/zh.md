@@ -15,7 +15,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python
 **前置课程：** 第 1 阶段，第 06—07 课（概率、贝叶斯）
-**时间：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -105,9 +105,9 @@ P = [[0.7, 0.1, 0.2],    （如果晴朗：70% 晴朗、10% 下雨、20% 多云�
 
 ```mermaid
 graph LR
-    S["Sunny"] -->|0.7| S
-    S -->|0.1| R["Rainy"]
-    S -->|0.2| C["Cloudy"]
+    S["晴"] -->|0.7| S
+    S -->|0.1| R["雨"]
+    S -->|0.2| C["多云"]
     R -->|0.3| S
     R -->|0.4| R
     R -->|0.3| C
@@ -191,15 +191,15 @@ x_t = \sqrt{\alpha_t} \, x_{t-1} + \sqrt{1 - \alpha_t} \cdot \text{noise}
 
 ```mermaid
 graph LR
-    subgraph "Forward Process (add noise)"
-        X0["x_0 (data)"] -->|"+ noise"| X1["x_1"]
-        X1 -->|"+ noise"| X2["x_2"]
-        X2 -->|"..."| XT["x_T (pure noise)"]
+    subgraph "前向过程（加噪）"
+        X0["x_0（数据）"] -->|"+ 噪声"| X1["x_1"]
+        X1 -->|"+ 噪声"| X2["x_2"]
+        X2 -->|"……"| XT["x_T（纯噪声）"]
     end
-    subgraph "Reverse Process (denoise)"
-        XT2["x_T (noise)"] -->|"neural net"| XR2["x_{T-1}"]
-        XR2 -->|"neural net"| XR1["x_{T-2}"]
-        XR1 -->|"..."| XR0["x_0 (generated data)"]
+    subgraph "反向过程（去噪）"
+        XT2["x_T（噪声）"] -->|"神经网络"| XR2["x_{T-1}"]
+        XR2 -->|"神经网络"| XR1["x_{T-2}"]
+        XR1 -->|"……"| XR0["x_0（生成的数据）"]
     end
 ```
 
@@ -242,7 +242,7 @@ graph LR
 random-walk-diffusion
 ```
 
-## 动手实现
+## 动手构建
 
 ### 第 1 步：随机游走模拟器
 
@@ -343,7 +343,7 @@ def metropolis_hastings(target_log_prob, proposal_std, x0, n_samples, seed=None)
 
 该算法提出一个新点，检查它是否具有更高的概率（或者以与概率之比成比例的概率接受它），然后重复此过程。为了获得良好的混合效果，接受率应在 23%—50% 左右。
 
-## 实际使用
+## 使用
 
 在实践中，你会使用成熟的库来运行这些算法。但理解其内部机制对于调试和调参很重要。
 
@@ -397,7 +397,7 @@ print(f"Approximate mixing time: {1/spectral_gap:.1f} steps")
 
 谱隙表示链遗忘其初始状态的速度。谱隙为 0.2 意味着大约经过 5 步便能混合。谱隙为 0.01 则意味着大约需要 100 步。运行长时间模拟之前一定要检查这一点——混合缓慢的链会浪费算力。
 
-## 交付成果
+## 交付
 
 完成后得到：
 - `outputs/prompt-stochastic-process-advisor.md`——一个帮助判断给定问题适合使用哪种随机过程框架的提示词
@@ -449,17 +449,15 @@ SGLD（随机梯度朗之万动力学）将小批量梯度下降与朗之万噪�
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Call `random_walk_1d(10000, seed=i)` for 1000 seeds and keep each final position. Check that the mean is near 0, the standard deviation is near 100, and about 68% of the final positions are between -100 and 100.
->
-> **Exercise 2.** Count each word pair, then divide each row by its total so that every row adds up to 1. Pass the matrix to `MarkovChain(transition_matrix, state_names)` and call `simulate`. Check that every pair of words in your output also occurs in the corpus.
->
-> **Exercise 3.** Accept a worse point with probability $\exp(-\Delta / T)$ and multiply $T$ by a factor such as 0.99 after each step. Test on a function whose minimum you know, and check your answer against a fine grid search.
->
-> **Exercise 4.** The gradient is $4x(x^2 - 1)$, so pass that to `langevin_dynamics(grad_U, x0, dt, temperature, n_steps)`. The barrier at $x = 0$ has height 1, so count how often the sign of $x$ changes for temperatures from 0.05 to 1 and look for the temperature where the count starts to rise quickly.
->
-> **Exercise 5.** Call `diffusion_forward(signal, 100)` and compute $\bar{\alpha}$ at the last step as the product of $(1 - \beta_t)$. If $\bar{\alpha}$ is far from 0, the signal is not yet pure noise, so raise `beta_end`. Test your denoiser first with the true noise: then $(x_t - \sqrt{1 - \bar{\alpha}_t} \epsilon)/\sqrt{\bar{\alpha}_t}$ must give back the original signal exactly.
+**练习 1.** 对 1000 个种子分别调用 `random_walk_1d(10000, seed=i)`，并保留每次的最终位置。检查均值接近 0、标准差接近 100，且约 68% 的最终位置落在 -100 与 100 之间。
+
+**练习 2.** 统计每个词对，然后把每一行除以其总和，使每行加起来为 1。把该矩阵传给 `MarkovChain(transition_matrix, state_names)` 并调用 `simulate`。检查你输出中的每个词对也都出现在语料里。
+
+**练习 3.** 以概率 $\exp(-\Delta / T)$ 接受一个更差的点，并在每步之后把 $T$ 乘以一个因子（如 0.99）。在一个你已知最小值的函数上测试，并把你的答案与精细网格搜索对比。
+
+**练习 4.** 梯度为 $4x(x^2 - 1)$，把它传给 `langevin_dynamics(grad_U, x0, dt, temperature, n_steps)`。$x = 0$ 处的势垒高度为 1，所以对 0.05 到 1 的各个温度统计 $x$ 符号变化的次数，并找出计数开始迅速上升的那个温度。
+
+**练习 5.** 调用 `diffusion_forward(signal, 100)`，并把最后一步的 $\bar{\alpha}$ 计算为各 $(1 - \beta_t)$ 的乘积。如果 $\bar{\alpha}$ 离 0 还很远，说明信号尚未成为纯噪声，应提高 `beta_end`。先用真实噪声测试你的去噪器：此时 $(x_t - \sqrt{1 - \bar{\alpha}_t} \epsilon)/\sqrt{\bar{\alpha}_t}$ 必须精确还原出原始信号。
 
 ## 关键术语
 

@@ -50,7 +50,7 @@ status: reviewed
 bpe-merge
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从零实现 BPE <!-- learning-atlas: step-1-bpe-from-scratch -->
 
@@ -131,7 +131,7 @@ print(len(enc.encode("Hello, world!")))   # 4
 - **多语言训练不足。** 以英语为主的语料会把非拉丁文字拆成多 5 至 10 倍的词元。在 GPT-3.5 上，同一提示的日语或阿拉伯语成本会高 5 至 10 倍。o200k_base 已部分修复这一问题。
 - **Emoji 拆分。** 一个 Emoji 可能占用 5 个词元。规划上下文预算时要专门检查 Emoji 的处理方式。
 
-## 使用现成工具
+## 使用
 
 2026 年的技术栈：
 
@@ -145,7 +145,7 @@ print(len(enc.encode("Hello, world!")))   # 4
 
 词表大小是一项扩展决策，不是固定常数。粗略经验是：参数少于 10 亿时使用 32k，10 亿至 100 亿时使用 50k 至 100k，多语言或前沿模型使用 200k 以上。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-bpe-vs-wordpiece.md`：
 

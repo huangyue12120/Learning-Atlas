@@ -210,7 +210,7 @@ flowchart TD
 l2-regularization
 ```
 
-## 构建实现
+## 动手构建
 
 ### 步骤 1：Dropout（训练与评估模式）
 
@@ -456,7 +456,7 @@ class RegularizedNetwork:
         return history
 ```
 
-## 应用
+## 使用
 
 PyTorch 已将全部归一化和正则化功能做成模块：
 
@@ -511,7 +511,7 @@ class TransformerBlock(nn.Module):
 
 使用 LayerNorm，而非 BatchNorm；Dropout p=0.1，而非 p=0.5。这些是 Transformer 的默认值。
 
-## 交付物
+## 交付
 
 本课产出：
 

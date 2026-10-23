@@ -90,7 +90,13 @@ def modern_request(request_id, method, params, version, capabilities):
 2. **已识别的现代错误：** 服务器仍是现代服务器；例如 `-32022` 时从 `data.supported` 选择并用新 ID 重试，不要发送 `initialize`。
 3. **歧义信号：** 未识别的 JSON-RPC 错误、超时、连接关闭或空响应都不能标识时代。除非该 peer 明确配置为旧版，否则应 fail closed。
 
-已识别的现代协议错误包括：`-32020` HeaderMismatch、`-32021` MissingRequiredClientCapability 和 `-32022` UnsupportedProtocolVersion。只要 peer 已证明理解现代错误词汇，即使它在旧版 allowlist 中，也不能再发送 `initialize`。`-32601` 不是正向旧版证据；它只让显式 allowlist peer 有资格进行一次旧版探测。同样规则适用于超时、连接关闭和空响应。
+已识别的现代协议错误包括：
+
+- `-32020` HeaderMismatch
+- `-32021` MissingRequiredClientCapability
+- `-32022` UnsupportedProtocolVersion
+
+只要 peer 已证明理解现代错误词汇，即使它在旧版 allowlist 中，也不能再发送 `initialize`。`-32601` 不是正向旧版证据；它只让显式 allowlist peer 有资格进行一次旧版探测。同样规则适用于超时、连接关闭和空响应。
 
 ### Allowlist 是操作员意图，不是证据
 
@@ -102,13 +108,27 @@ client.add_server("archive", archive_transport, allow_legacy=True)
 
 该选择必须绑定到已配置的 command 或 endpoint；不要使用允许任意服务器自行降级的通配符。没有 `allow_legacy=True` 的 peer 在歧义发现后失败，永远不接收 `initialize`。
 
-allowlist 只授予探测许可，不直接选择时代。客户端发送一次受传输 deadline 限制的 `initialize`，随后必须同时验证：匹配的请求 ID、只有 `result` 没有 `error`、受支持的旧版 `protocolVersion`、对象类型的 `capabilities`，以及带非空字符串 `name`/`version` 的 `serverInfo`。超时、连接关闭、错误响应、格式错误结果、ID 不匹配或不支持的 revision 都 fail closed。只有结构有效的正向结果才选择旧版。真实 transport adapter 必须真正执行 `legacy_probe_timeout_ms`，而不能只记录它。
+allowlist 只授予探测许可，不直接选择时代。客户端发送一次受传输 deadline 限制的 `initialize`，随后必须同时满足以下所有条件：
+
+- JSON-RPC `2.0` 响应，且请求 ID 匹配；
+- 恰好只有一个 `result`，没有 `error`；
+- `protocolVersion` 在客户端配置的旧版 revision 集合内；
+- 对象类型的 `capabilities` 字段；
+- `serverInfo` 对象，且 `name` 与 `version` 均为非空字符串。
+
+超时、连接关闭、错误响应、格式错误结果、ID 不匹配或不支持的 revision 都 fail closed。只有结构有效的正向结果才选择旧版。代码会把 `legacy_probe_timeout_ms` 传给 transport adapter；真实的 stdio 或 HTTP adapter 必须真正执行这个 deadline，而不能只记录它。
 
 为该传输 peer 缓存选中的时代；不要在每次调用前重新探测。
 
 ### 旧版是兼容分支
 
-一次有界探测返回有效正向旧版证据后，客户端严格按该 revision 使用旧版：验证 envelope 和关联 ID，验证协商 revision 在配置集合内，记录已验证的能力和服务器身份，全部检查通过后才发送 `notifications/initialized`，并在这段传输生命周期中使用旧版请求形状。
+一次有界探测返回有效正向旧版证据后，客户端严格按该 revision 使用旧版：
+
+1. 验证响应 envelope 和关联 ID。
+2. 验证协商出的 revision 在配置的旧版集合内。
+3. 记录已验证的能力和服务器身份。
+4. 全部检查通过后才发送 `notifications/initialized`。
+5. 在这段传输生命周期中使用旧版请求形状。
 
 这条分支只服务于已知 peer 的互操作性，不是新服务器或新请求的默认设计。传输重启或端点改变时，丢弃 peer-era 缓存并重新协商。
 
@@ -168,7 +188,15 @@ python3 main.py
 python3 -m unittest discover tests -v
 ```
 
-测试覆盖 demo 容易漏掉的边界：现代请求重复元数据；`-32022` 只重试现代发现；已识别现代错误绝不降级；无 allowlist 时超时、连接关闭、空响应和未识别错误不触发 `initialize`；只有有效且受支持的 `initialize` 结果才选择旧版；格式错误或不支持的旧版结果保持 peer 不可用；成功选择的时代会在传输生命周期内缓存。
+测试覆盖普通 demo 容易漏掉的边界：
+
+- 现代请求重复元数据；
+- `-32022` 只重试现代发现，不做初始化；
+- 已识别的现代错误绝不降级，即使对已列入 allowlist 的 peer 也是如此；
+- 无 allowlist 时，超时、连接关闭、空响应和未识别错误都不触发 `initialize`；
+- 已列入 allowlist 的 peer 只有在收到有效且受支持的 `initialize` 结果后才变为旧版；
+- 格式错误或不支持的旧版结果保持 peer 不可用；
+- 成功选择的时代会在传输生命周期内缓存。
 
 ## 交付
 

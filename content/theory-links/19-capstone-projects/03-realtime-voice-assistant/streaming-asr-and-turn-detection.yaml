@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 流式语音流水线中的帧、静音与轮次
-  summary: 在连接 20 ms 音频帧、VAD 静音事件、部分转写和轮次完成分数时，用自动语音识别理论核对帧级特征、序列解码和端点判定的接口，避免把一次误截断误诊为 LLM 问题。
+  summary: 在连接 20 ms 音频帧、VAD 静音事件、部分转写和轮次完成分数时，用自动语音识别理论核对帧级特征、序列解码和端点判定的接口，避免把一次误截断误诊为 LLM 问题。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/02. automatic speech recognition.md

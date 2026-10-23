@@ -13,13 +13,13 @@
       "stage": "pre",
       "question": "基于 Locust 的 LLM 压力测试有什么 GIL 陷阱？",
       "options": [
-        "客户端 tokenizer 在 Python GIL 下运行，会排在请求生成之后，夸大报告的 token 间延迟",
+        "客户端 tokenizer 在 Python GIL 下运行，会排在请求生成之后，夸大报告的词元间延迟",
         "Locust 需要 CUDA",
         "Locust 只能运行在 Windows 上",
         "Locust 不支持 HTTP"
       ],
       "correct": 0,
-      "explanation": "正确答案是“客户端 tokenizer 在 Python GIL 下运行，会排在请求生成之后，夸大报告的 token 间延迟”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "Locust 的 tokenization 在 Python GIL 下于客户端运行，高并发时排在请求生成之后，堆积会抬高报告的词元间延迟，使瓶颈看似在服务器实则在客户端。Locust 不需要 CUDA、不限 Windows、也支持 HTTP。"
     },
     {
       "id": "q2",
@@ -32,7 +32,7 @@
         "均一提示词必须使用流式请求"
       ],
       "correct": 2,
-      "explanation": "正确答案是“循环使用同一提示词会让前缀缓存看起来像完整并发解码，从而夸大报告吞吐量”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "循环发送同一条提示词会让前缀缓存命中趋近 100%，看似在并发解码大量请求，从而夸大报告吞吐量；真实流量有可变长度和多样前缀。它不是说均一提示词总会拖慢服务器、从真实分布采样会低估长提示词，也不要求流式。"
     },
     {
       "id": "q3",
@@ -45,7 +45,7 @@
         "连续 1 RPS 运行 10 天"
       ],
       "correct": 2,
-      "explanation": "正确答案是“稳态、爬坡、尖峰、浸泡”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "本课推荐稳态、爬坡、尖峰、浸泡四种模式，分别捕捉基线回归、容量断点、自动扩缩容/队列饱和、长时间泄漏。只做突发、手动点击、连续 1 RPS 跑 10 天都不是这组模式。"
     },
     {
       "id": "q4",
@@ -58,7 +58,7 @@
         "从真实分布按均值和标准差采样（例如使用 LLMPerf 的 --mean-input-tokens / --stddev-input-tokens），或回放真实流量"
       ],
       "correct": 3,
-      "explanation": "正确答案是“从真实分布按均值和标准差采样，或回放真实流量”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "本课建议按真实分布的均值和标准差采样提示词（如 LLMPerf 的 --mean-input-tokens / --stddev-input-tokens），或直接回放真实流量，以覆盖可变长度和多样前缀。随机字符、固定同一提示词、手写 5 条打乱都无法代表真实分布。"
     },
     {
       "id": "q5",
@@ -71,7 +71,7 @@
         "原版 Locust 2.43.3"
       ],
       "correct": 2,
-      "explanation": "正确答案是“k6 v2026.1.0 搭配已 GA 的 k6 Operator 1.0”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "k6 本身是编译型、无 GIL、流式感知，配合已 GA 的 k6 Operator 1.0（TestRun/PrivateLoadZone CRD）可做 Kubernetes 原生分布式运行，最适合 CI/CD SLA 闸门。只用 guidellm、只用 Vegeta、或原版 Locust 2.43.3 都不满足这两项需求。"
     },
     {
       "id": "q6",
@@ -84,7 +84,7 @@
         "缓存驱逐风暴"
       ],
       "correct": 2,
-      "explanation": "正确答案是“数小时运行后的内存泄漏、连接池漂移和可观测性溢出”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "浸泡模式让服务在稳态下连续跑 4–8 小时，专门暴露数小时后才显现的内存泄漏、连接池漂移和可观测性溢出。冷启动尾延迟、tokenizer GIL 竞争、缓存驱逐风暴是其他实验/陷阱捕捉的问题。"
     }
   ]
 }

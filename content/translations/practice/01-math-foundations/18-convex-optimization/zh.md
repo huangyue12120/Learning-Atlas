@@ -15,7 +15,7 @@ status: reviewed
 **类型：** 动手构建
 **语言：** Python
 **前置要求：** 阶段 1，第 04 课（面向机器学习的微积分）、第 08 课（优化）
-**时间：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -105,14 +105,14 @@ f(tx + (1-t)y) \le t f(x) + (1-t) f(y)
 
 ```mermaid
 graph LR
-    subgraph "Convex: ONE answer"
+    subgraph "凸：唯一答案"
         direction TB
-        C1["Loss surface has a single valley"] --> C2["Gradient descent ALWAYS finds the global minimum"]
+        C1["损失曲面只有一个山谷"] --> C2["梯度下降总能找到全局最小值"]
     end
-    subgraph "Non-convex: MANY traps"
+    subgraph "非凸：多个陷阱"
         direction TB
-        N1["Loss surface has multiple valleys and peaks"] --> N2["Gradient descent may get stuck in a local minimum"]
-        N2 --> N3["Global minimum might be missed"]
+        N1["损失曲面有多个山谷和山峰"] --> N2["梯度下降可能困在局部最小值"]
+        N2 --> N3["可能错过全局最小值"]
     end
 ```
 
@@ -180,18 +180,18 @@ Hessian 能揭示曲率：
 
 ```mermaid
 graph TD
-    subgraph "Gradient Descent"
-        GD1["Start"] --> GD2["Step 1"]
-        GD2 --> GD3["Step 2"]
-        GD3 --> GD4["..."]
-        GD4 --> GD5["Step ~500: Converged"]
-        GD_note["Follows gradient blindly — many small steps"]
+    subgraph "梯度下降"
+        GD1["起点"] --> GD2["第 1 步"]
+        GD2 --> GD3["第 2 步"]
+        GD3 --> GD4["……"]
+        GD4 --> GD5["约第 500 步：收敛"]
+        GD_note["盲目沿梯度前进——许多小步"]
     end
-    subgraph "Newton's Method"
-        NM1["Start"] --> NM2["Step 1"]
-        NM2 --> NM3["..."]
-        NM3 --> NM4["Step ~5: Converged"]
-        NM_note["Uses curvature for optimal steps"]
+    subgraph "牛顿法"
+        NM1["起点"] --> NM2["第 1 步"]
+        NM2 --> NM3["……"]
+        NM3 --> NM4["约第 5 步：收敛"]
+        NM_note["利用曲率确定最优步长"]
     end
 ```
 
@@ -214,12 +214,12 @@ graph TD
 
 ```mermaid
 graph LR
-    subgraph "Unconstrained"
-        U1["Loss function"] --> U2["Free minimum: lowest point of the loss surface"]
+    subgraph "无约束"
+        U1["损失函数"] --> U2["自由最小值：损失曲面的最低点"]
     end
-    subgraph "Constrained"
-        C1["Loss function"] --> C2["Constrained minimum: lowest point within the feasible region"]
-        C3["Constraint boundary limits the search space"]
+    subgraph "有约束"
+        C1["损失函数"] --> C2["受约束最小值：可行域内的最低点"]
+        C3["约束边界限制了搜索空间"]
     end
 ```
 
@@ -248,9 +248,9 @@ L(x, \lambda) = f(x) + \lambda g(x)
 
 ```mermaid
 graph LR
-    A["Contours of f(x,y): concentric ellipses"] --- S["Solution point"]
-    B["Constraint curve g(x,y) = 0"] --- S
-    S --- C["At the solution, gradient of f is parallel to gradient of g"]
+    A["f(x,y) 的等高线：同心椭圆"] --- S["解点"]
+    B["约束曲线 g(x,y) = 0"] --- S
+    S --- C["在解点处，f 的梯度与 g 的梯度平行"]
 ```
 
 示例：在约束 x + y = 1 下最小化 f(x,y) = x^2 + y^2。
@@ -404,7 +404,7 @@ Replace x_i^T x_j with K(x_i, x_j) to get the kernel trick.
 convex-vs-nonconvex
 ```
 
-## 动手实现
+## 动手构建
 
 ### 第 1 步：凸性检查器
 
@@ -497,7 +497,7 @@ def quadratic_hessian(x):
 
 牛顿法将在 1 步内收敛（对二次函数而言它是精确的）。梯度下降则需要数百步，因为 Hessian 的特征值相差 5 倍，形成了一个狭长的谷地。
 
-## 应用
+## 使用
 
 在选择机器学习模型和求解器时，可以直接应用凸性分析。
 
@@ -547,17 +547,15 @@ print(f"Support vectors: {svm.n_support_}")
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Predict each result before you run `check_convexity`: in one dimension, look at the sign of $f''(x)$; in two dimensions, look at the eigenvalues of the Hessian. For $f(x,y) = xy$, the Hessian has eigenvalues 1 and -1, so the checker must report that it is not convex.
->
-> **Exercise 2.** Call `optimize_gd` and `newtons_method` with the gradient and the Hessian of $f$. Newton's method solves a quadratic in one step. For gradient descent, the learning rate must be less than $2/100$ because of the $50x^2$ term, so the $y$ direction moves slowly. Repeat with $100x^2$ and count the steps again.
->
-> **Exercise 3.** Use `lagrange_solve` with $g(x,y) = x + 2y - 4$. At the answer, check that $x + 2y = 4$ and that $\nabla f = (2(x-3), 2(y-3))$ is a multiple of $\nabla g = (1, 2)$.
->
-> **Exercise 4.** The unconstrained minimum (3, 2) is outside the diamond, so the answer is on its boundary. Use projected gradient descent: take a gradient step, then project back onto $\lvert x \rvert + \lvert y \rvert \le 1$. Check that the result satisfies the constraint with equality and compare it with `demo_regularization_geometry`.
->
-> **Exercise 5.** Call `rosenbrock_hessian` at each point and pass the result to `hessian_eigenvalues_2d`. At (1, 1), both eigenvalues are positive and their ratio is very large, so the valley is narrow in one direction and flat in the other. Compare that ratio with the ratio at (-1, 1).
+**练习 1.** 运行 `check_convexity` 之前先预测每个结果：一维时看 $f''(x)$ 的符号；二维时看 Hessian 的特征值。对 $f(x,y) = xy$，Hessian 的特征值为 1 和 -1，因此检查器必须报告它不是凸的。
+
+**练习 2.** 用 $f$ 的梯度和 Hessian 调用 `optimize_gd` 和 `newtons_method`。牛顿法一步就能求解二次函数。对于梯度下降，由于 $50x^2$ 项，学习率必须小于 $2/100$，所以 $y$ 方向移动缓慢。换成 $100x^2$ 再数一次步数。
+
+**练习 3.** 用 $g(x,y) = x + 2y - 4$ 调用 `lagrange_solve`。在答案处，检查 $x + 2y = 4$，并检查 $\nabla f = (2(x-3), 2(y-3))$ 是 $\nabla g = (1, 2)$ 的倍数。
+
+**练习 4.** 无约束最小值 (3, 2) 落在菱形之外，所以答案在其边界上。使用投影梯度下降：先走一步梯度，再投影回 $\lvert x \rvert + \lvert y \rvert \le 1$。检查结果以等号满足约束，并与 `demo_regularization_geometry` 对比。
+
+**练习 5.** 在每个点调用 `rosenbrock_hessian`，并把结果传给 `hessian_eigenvalues_2d`。在 (1, 1) 处，两个特征值都为正且比值非常大，所以山谷在一个方向上很窄、在另一个方向上很平。把该比值与 (-1, 1) 处的比值对比。
 
 ## 关键术语
 

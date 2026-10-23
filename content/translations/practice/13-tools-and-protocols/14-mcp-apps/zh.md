@@ -26,7 +26,7 @@ status: reviewed
 - 区分 Apps 的 `ui/initialize` 桥接消息和已经移除的 MCP 核心握手。
 - 应用 Origin 校验、沙箱、CSP 和最小权限。
 
-## 问题所在
+## 问题
 
 文本结果可以描述时间线，却无法给用户一条可过滤、可检查、可操作的时间线。
 
@@ -43,7 +43,7 @@ MCP Apps 用一个可选扩展解决展示问题。工具定义指向 `ui://` �
 
 Apps 桥接器仍有一个名为 `ui/initialize` 的方法，但它属于 iframe 的 postMessage 方言，不会重新创建核心 MCP 会话。
 
-## 核心概念
+## 概念
 
 ### 两套协议，一个功能
 
@@ -229,7 +229,7 @@ JSON-RPC 通知没有 `id`，所以服务器不为它发送 JSON-RPC 响应。�
 
 不要从教程复制一个固定的 `sandbox` 属性到每个宿主。宿主必须根据 App 的 origin 模型和自身隔离设计选择标志。
 
-允许的域名仍然可能成为外泄路径。`connectDomains: ["https://api.example.com"]` 意味着 App 中运行的任何脚本都可以向那里发送获准的数据。精确 origin 匹配能防止目的地混淆，却不能判断 payload 是否合适。默认保持 connect 访问为空，避免把 bearer token 放进 iframe；可行时让宿主代理窄操作，限制请求和响应大小，并审计哪个用户动作触发了每个外发请求。要把 `resourceDomains` 与 `connectDomains` 分开考虑：加载字体或脚本的权限不应自动授予任意数据上传权限。
+允许的域名仍然可能成为外泄路径。`connectDomains: ["https://api.example.com"]` 意味着 App 中运行的任何脚本都可以向那里发送获准的数据。精确 origin 匹配能防止目的地混淆，却不能判断 payload 是否合适。默认保持 connect 访问为空，避免把 bearer 令牌 放进 iframe；可行时让宿主代理窄操作，限制请求和响应大小，并审计哪个用户动作触发了每个外发请求。要把 `resourceDomains` 与 `connectDomains` 分开考虑：加载字体或脚本的权限不应自动授予任意数据上传权限。
 
 ### Apps 桥有自己的生命周期
 
@@ -245,7 +245,7 @@ View 发送带 `appInfo` 和 `appCapabilities` 对象的 `ui/initialize`。宿�
 
 把主题、尺寸和可访问性当作会变化的宿主上下文，而不是一次性渲染输入：
 
-- 应用宿主提供的颜色和字体 token，并在主题或对比度偏好变化时响应；
+- 应用宿主提供的颜色和排版令牌，并在主题或对比度偏好变化时响应；
 - 允许 View 报告期望尺寸，但由宿主限制并应用 iframe 尺寸，防止内容逃出布局或制造欺骗性覆盖层；
 - 在 iframe 内保留键盘顺序、可见焦点、可访问名称、屏幕阅读器状态、足够对比度、缩放和减少动效行为；
 - resize 和重新渲染后重新测试宿主控件与 View 控件之间的焦点转移。

@@ -64,7 +64,7 @@ ESC-50 有 50 个类别，每类 40 段音频——均衡且简单。UrbanSound8
 mfcc-pipeline
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：提取特征
 
@@ -148,7 +148,7 @@ logits = model(**inputs).logits
 
 本例微调 Hugging Face Hub 中的 AST。作为 2026 年默认方案的 BEATs 并未发布在 Hugging Face Hub：需要从 [microsoft/unilm 的 BEATs 发布目录](https://github.com/microsoft/unilm/tree/master/beats)下载检查点，并使用该仓库的 `BEATs` 与 `BEATsConfig` 类加载；微调循环的形状保持不变。
 
-## 用于实践
+## 使用
 
 2026 年的技术栈：
 
@@ -163,7 +163,7 @@ logits = model(**inputs).logits
 
 决策规则：**从冻结的主干开始训练**。微调一个 BEATs 分类头，几小时内就能达到 SOTA 的 95%，耗时远少于从零训练新模型。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-classifier-designer.md`。针对给定音频分类任务，选择架构、增强方式、类别平衡策略和评估指标。
 

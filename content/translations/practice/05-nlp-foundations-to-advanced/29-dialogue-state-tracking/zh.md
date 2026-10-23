@@ -65,7 +65,7 @@ status: reviewed
 n5-slot-tracker
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：基于规则的槽位抽取器
 
@@ -164,7 +164,7 @@ def is_correction(utterance):
 - **隐式继承。** 用户先前指定“for 4 people”后，新请求只更改时间时不应清空人数。务必传入完整历史。
 - **自由形式与封闭集合。** 姓名、时间和地址需要自由形式槽位；菜系和区域属于封闭集合。schema 应同时容纳两类。
 
-## 使用现成工具
+## 使用
 
 2026 年的技术栈：
 
@@ -177,7 +177,7 @@ def is_correction(utterance):
 | 多领域预订流程 | schema 引导的 LLM + 各领域 Pydantic 模型 |
 | 合规敏感 | 以规则为主，LLM 回退并加入确认流程 |
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-dst-designer.md`：
 

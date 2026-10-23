@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习 + 构建
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 13 节（LangGraph）、第 14 阶段 · 第 24 节（可观测性平台）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -25,11 +25,11 @@ status: reviewed
 - 列出顶层 GenAI 属性：提供方名称、请求模型、数据源 ID。
 - 解释内容捕获契约：选择加入、OTEL_SEMCONV_STABILITY_OPT_IN、外部引用建议。
 
-## 问题所在
+## 问题
 
 每个厂商都在发明自己的 span 名称。运维团队最后只能为每个框架构建独立 dashboard。OpenTelemetry 的 GenAI SIG 通过定义整个生态共同遵循的一套标准来解决这个问题。
 
-## 核心概念 <!-- learning-atlas: the-concept -->
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### Span 类别
 
@@ -103,7 +103,7 @@ python3 code/main.py
 
 输出是一棵包含全部必需 GenAI 属性的 span 树，以及展示选择加入内容引用的“外部存储”。
 
-## 实际使用
+## 使用
 
 - **Datadog LLM Observability**（v1.37+）原生映射属性。
 - **Langfuse / Phoenix / Opik**（第 24 节）——自动插桩整个生态。

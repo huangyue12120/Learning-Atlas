@@ -19,7 +19,7 @@
         "长上下文 shot stuffing 越狱"
       ],
       "correct": 0,
-      "explanation": "正确答案是“Microsoft 365 Copilot 的零点击 AI 命令注入漏洞（CVSS 9.3），导致未经授权的信息披露并经可信 Microsoft 域外泄”。本课重建 EchoLeak 的 RAG 投递、范围越界与输出外泄链，说明 AI 漏洞为何需要 CVE 式披露。"
+      "explanation": "正确答案是“Microsoft 365 Copilot 的零点击 AI 命令注入漏洞（CVSS 9.3），导致未经授权的信息披露并经可信 Microsoft 域外泄”。EchoLeak 是 Microsoft 365 Copilot 的零点击 AI 命令注入漏洞（CVSS 9.3），经可信 Microsoft 域外泄数据。它不是 NPU 硬件漏洞、PyPI 供应链攻击或长上下文越狱。"
     },
     {
       "id": "25-echoleak-cves-for-ai-check-2",
@@ -32,7 +32,7 @@
         "用户必须点击 Teams 聊天链接"
       ],
       "correct": 2,
-      "explanation": "正确答案是“受害者无需打开邮件；Copilot 在日常查询中把邮件检索为 RAG 上下文，隐藏指令随之执行”。本课重建 EchoLeak 的 RAG 投递、范围越界与输出外泄链，说明 AI 漏洞为何需要 CVE 式披露。"
+      "explanation": "正确答案是“受害者无需打开邮件；Copilot 在日常查询中把邮件检索为 RAG 上下文，隐藏指令随之执行”。称为零点击，是因为受害者无需打开邮件——Copilot 在例行查询中把该邮件作为 RAG 上下文检索，隐藏指令随之执行。它不在内核运行、不需三次点击，也不需点击 Teams 链接。"
     },
     {
       "id": "25-echoleak-cves-for-ai-check-3",
@@ -45,7 +45,7 @@
         "输入、模型、GPU"
       ],
       "correct": 0,
-      "explanation": "正确答案是“检索、范围、输出”。本课重建 EchoLeak 的 RAG 投递、范围越界与输出外泄链，说明 AI 漏洞为何需要 CVE 式披露。"
+      "explanation": "正确答案是“检索、范围、输出”。Aim Labs 把 EchoLeak 定位为 LLM 范围违规，需分别控制检索（不可信输入进入）、范围（模型动作访问特权数据）、输出（跨越信任边界外泄）三个边界。网络/磁盘/内存、提示/响应/日志、输入/模型/GPU 都不是这三个边界。"
     },
     {
       "id": "25-echoleak-cves-for-ai-check-4",
@@ -58,7 +58,7 @@
         "在 Copilot Chat 中完全禁用图像渲染，因为替代攻击面无法界定"
       ],
       "correct": 3,
-      "explanation": "正确答案是“在 Copilot Chat 中完全禁用图像渲染，因为替代攻击面无法界定”。本课重建 EchoLeak 的 RAG 投递、范围越界与输出外泄链，说明 AI 漏洞为何需要 CVE 式披露。"
+      "explanation": "正确答案是“在 Copilot Chat 中完全禁用图像渲染，因为替代攻击面无法界定”。CamoLeak 利用 Camo 图像代理外泄，Microsoft/GitHub 的修复是在 Copilot Chat 中完全禁用图像渲染，因为替代攻击面无法界定。增大上下文、加 XPIA 过滤器、切到 Llama Guard 都不是其修复。"
     },
     {
       "id": "25-echoleak-cves-for-ai-post-5",
@@ -71,7 +71,7 @@
         "严重性由 OWASP 单独决定"
       ],
       "correct": 2,
-      "explanation": "正确答案是“供应商最初把它评为较低的信息披露；Aim Labs 用 MFA 外泄 PoC 把评分推到 9.3，AI 漏洞需要完整 PoC”。本课重建 EchoLeak 的 RAG 投递、范围越界与输出外泄链，说明 AI 漏洞为何需要 CVE 式披露。"
+      "explanation": "正确答案是“供应商最初把它评为较低的信息披露；Aim Labs 用 MFA 外泄 PoC 把评分推到 9.3，AI 漏洞需要完整 PoC”。EchoLeak 最初被评为较低的信息披露，Aim Labs 用 MFA 外泄 PoC 推高到 9.3，说明 AI 漏洞需要完整 PoC 才能准确定级。供应商高估、全都是 10.0、由 OWASP 单独决定都不符。"
     },
     {
       "id": "25-echoleak-cves-for-ai-post-6",
@@ -84,7 +84,7 @@
         "NIST 将其视为生成式 AI 的重大信息安全风险，OWASP 2025 列为 LLM01"
       ],
       "correct": 3,
-      "explanation": "正确答案是“NIST 将其视为生成式 AI 的重大信息安全风险，OWASP 2025 列为 LLM01”。本课重建 EchoLeak 的 RAG 投递、范围越界与输出外泄链，说明 AI 漏洞为何需要 CVE 式披露。"
+      "explanation": "正确答案是“NIST 将其视为生成式 AI 的重大信息安全风险，OWASP 2025 列为 LLM01”。截至 2024/2025，NIST 把提示注入视为生成式 AI 最大的安全缺陷，OWASP 2025 列为 LLM01。认为 NIST 不涉及/认为轻微、OWASP 未列出/排末尾、或都只称 Tier-2 都不符。"
     }
   ]
 }

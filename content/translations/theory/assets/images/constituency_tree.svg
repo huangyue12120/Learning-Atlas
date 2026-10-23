@@ -1,5 +1,5 @@
 <svg width="680" height="320" xmlns="http://www.w3.org/2000/svg">
-  <text x="340" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">Constituency (Parse) Tree: "the cat sat on the mat"</text>
+  <text x="340" y="22" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">成分（句法）分析树："the cat sat on the mat"</text>
 
   <!-- S -->
   <circle cx="340" cy="55" r="18" fill="#e74c3c" opacity="0.15" stroke="#e74c3c" stroke-width="2"/>

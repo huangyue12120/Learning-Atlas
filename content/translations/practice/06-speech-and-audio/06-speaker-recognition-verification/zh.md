@@ -64,7 +64,7 @@ status: reviewed
 sp-eer-crossover
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从 MFCC 统计量构造玩具嵌入
 
@@ -135,7 +135,7 @@ for turn, _, speaker in diarization.itertracks(yield_label=True):
     print(f"{turn.start:.1f}–{turn.end:.1f}  {speaker}")
 ```
 
-## 用于实践
+## 使用
 
 2026 年的技术栈：
 
@@ -155,7 +155,7 @@ for turn, _, speaker in diarization.itertracks(yield_label=True):
 - **不同条件共用固定阈值。** 务必在目标领域的留出开发集上调整阈值。
 - **对未归一化嵌入计算余弦。** 先做 L2 归一化，否则模长会占主导。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-speaker-verifier.md`。选择模型、注册协议、阈值调整计划与防欺诈措施。
 

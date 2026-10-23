@@ -223,7 +223,7 @@ graph TD
 learning-curves
 ```
 
-## 构建实现
+## 动手构建
 
 一个诊断工具包，监控激活、梯度与损失曲线。你会故意破坏网络，再用工具包诊断每个问题。
 
@@ -605,7 +605,7 @@ def demo_broken_networks():
     gradient_check(model_grad, x[:4], y[:4], criterion)
 ```
 
-## 应用
+## 使用
 
 ### PyTorch 内置工具
 
@@ -676,7 +676,7 @@ for epoch in range(100):
 6. 检查梯度流：没有消失，也没有爆炸。
 7. 验证数据管线：打印 5 个随机样本及标签。
 
-## 交付物
+## 交付
 
 本课产出：
 

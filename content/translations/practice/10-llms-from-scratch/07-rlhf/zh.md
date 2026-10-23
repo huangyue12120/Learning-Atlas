@@ -508,7 +508,7 @@ def compare_models(sft_model, rlhf_model, reward_model, prompts, max_seq_len=128
     return sft_total / n, rlhf_total / n
 ```
 
-## 使用它
+## 使用
 
 ### 完整 RLHF 流水线演示
 
@@ -607,7 +607,7 @@ if __name__ == "__main__":
         print(f"  KL > {kl_threshold}: {'Yes (model drifted significantly)' if max(kls) > kl_threshold else 'No (model stayed close to reference)'}")
 ```
 
-## 交付它
+## 交付
 
 本课会产出 `outputs/prompt-reward-model-designer.md`——一个用于设计奖励模型训练流水线的提示词。给定目标行为（有用性、编程能力、安全性）后，它会生成数据收集协议、标注者指南和奖励模型评估标准。
 

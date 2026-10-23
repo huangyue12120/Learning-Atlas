@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 红队成功率与过度拒答的评估闭环
-  summary: 在用攻击阻断率、良性通过率和留出前后测量评估安全流水线时，用机器学习系统评估理论核对切片、基线、线上实验与回归监控之间的证据边界。
+  summary: 在用攻击阻断率、良性通过率和留出前后测量评估安全流水线时，用机器学习系统评估理论核对切片、基线、线上实验与回归监控之间的证据边界。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/04. ML systems design.md

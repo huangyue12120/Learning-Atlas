@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置要求：** 第 10 阶段，第 01–05 课（从零构建 LLM）
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 **相关课程：** 第 05 阶段 · 第 20 课（结构化输出与约束解码）讲解解码器层理论（FSM/CFG logit 处理器、Outlines、XGrammar）。本课聚焦生产 SDK 接口（OpenAI `response_format`、Anthropic 工具调用、Instructor）；如果想理解 API 背后发生了什么，先阅读第 05 阶段 · 第 20 课。
 
 ## 学习目标
@@ -26,7 +26,7 @@ status: reviewed
 - 解释约束解码如何在词元层面强制生成有效 JSON，而无需后处理
 - 设计稳健的抽取提示词，把非结构化文本可靠转换为类型化数据结构
 
-## 问题所在
+## 问题
 
 你问 LLM：“从这段文本中提取产品名称、价格和库存状态。”它回答：
 
@@ -40,7 +40,7 @@ The product is the Sony WH-1000XM5 headphones, which cost $348.00 and are curren
 
 这不只是提示词工程问题，而是解码问题。模型从左向右生成词元。在每个位置，它都会从 10 万多个词元的词表中选择最可能的下一个词元。但在任意位置，其中绝大多数选项都会导致无效 JSON。模型刚输出 `{"price":` 时，下一个词元必须是数字、字符串用的引号、`null`、`true`、`false` 或负号；其他任何词元都会生成无效 JSON。没有约束时，模型可能选择一个在语义上很合理、但在语法上灾难性错误的英语单词。
 
-## 核心概念
+## 概念
 
 ### 结构化输出光谱 <!-- learning-atlas: the-structured-output-spectrum -->
 
@@ -434,7 +434,7 @@ def run_demo():
             print(f"  Output: FAILED after retries")
 ```
 
-## 使用方法
+## 使用
 
 ### OpenAI 结构化输出
 
@@ -517,7 +517,7 @@ Anthropic 通过工具调用实现结构化输出。模型发出一个带结构�
 
 Instructor 包装任意 LLM 客户端，并增加带验证的自动重试。如果第一次尝试验证失败，它会把错误作为上下文发回模型，并要求模型修正输出。它适用于任何提供方，而不只是 OpenAI。
 
-## 交付成果
+## 交付
 
 本课产出 `outputs/prompt-structured-extractor.md` —— 一个可复用的提示模板：给定模式定义，从任意文本中抽取结构化数据。输入 JSON Schema 和非结构化文本，得到经过验证的 JSON。
 

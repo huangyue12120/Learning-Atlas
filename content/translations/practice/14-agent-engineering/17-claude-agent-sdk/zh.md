@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习 + 构建
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 01 节（智能体循环）、第 14 阶段 · 第 10 节（Skill 库）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -25,11 +25,11 @@ status: reviewed
 - 说出 Python SDK 的 session store 界面（append、load、list_sessions、delete、list_subkeys）和 --session-mirror 的作用。
 - 用标准库实现一个 harness：包含内置工具、隔离上下文的子智能体生成、生命周期钩子和 session store。
 
-## 问题所在
+## 问题
 
 原始 LLM API 只提供一次往返。生产智能体需要工具执行、MCP 服务器、生命周期钩子、子智能体生成、session 持久化和追踪传播。Claude Agent SDK 将这种形状作为库提供——它就是 Claude Code 使用的同一个 harness，并向自定义智能体开放。
 
-## 核心概念
+## 概念
 
 ### Client SDK 与 Agent SDK
 
@@ -110,7 +110,7 @@ python3 code/main.py
 
 轨迹展示子智能体上下文隔离（编排器上下文大小保持有界）、钩子执行和 session 持久化。
 
-## 实际使用
+## 使用
 
 - **Claude Agent SDK** 适合希望采用 Claude Code harness 形态的 Claude 优先产品。
 - **Claude Managed Agents** 适合托管的长期异步工作。

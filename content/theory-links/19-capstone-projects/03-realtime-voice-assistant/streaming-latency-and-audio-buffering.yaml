@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 语音智能体的流式缓冲与端到端延迟
-  summary: 在处理 WebRTC 抖动缓冲、TTS 首块、抢话取消和旁路工具延迟时，用数字信号处理与流式音频理论核对缓冲、回声路径和实时性之间的权衡；该关联先保留候选状态，待独立审核。
+  summary: 在处理 WebRTC 抖动缓冲、TTS 首块、抢话取消和旁路工具延迟时，用数字信号处理与流式音频理论核对缓冲、回声路径和实时性之间的权衡；该关联先保留候选状态，待独立审核。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/01. digital signal processing.md

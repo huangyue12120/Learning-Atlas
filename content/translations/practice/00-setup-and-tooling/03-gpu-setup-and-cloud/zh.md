@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 0，第 01 课
-**预计学习：** 约 45 分钟
+**预计时间：** 约 45 分钟
 
 ## 学习目标
 
@@ -143,15 +143,13 @@ if torch.cuda.is_available():
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Run the code from the Build It section as it is, then write down the CPU time, the GPU time, and the speedup line. Run it a second time; the first GPU run includes start-up cost, so the second numbers are the ones to compare.
->
-> **Exercise 2.** In Colab, select Runtime > Change runtime type > GPU, then paste the benchmark into a cell. Run `!nvidia-smi` in another cell first; it must show a GPU name before the benchmark result means anything.
->
-> **Exercise 3.** Read the total memory with `torch.cuda.get_device_properties(0).total_memory / 1e9`, as in `code/gpu_check.py`. Divide the memory in bytes by 2 to get the parameter count for fp16, then keep a margin, because activations and the CUDA context also use memory.
+**练习 1.** 原样运行“动手构建”一节的代码，然后记下 CPU 时间、GPU 时间和加速比那一行。再运行第二次；首次 GPU 运行包含启动开销，因此应以第二次的数据做比较。
 
-## 核心术语
+**练习 2.** 在 Colab 中选择 Runtime > Change runtime type > GPU，然后把基准测试粘进一个单元格。先在另一个单元格运行 `!nvidia-smi`；只有它显示出 GPU 名称，基准测试结果才有意义。
+
+**练习 3.** 像 `code/gpu_check.py` 那样，用 `torch.cuda.get_device_properties(0).total_memory / 1e9` 读取总显存。把字节数除以 2 得到 fp16 下的参数量，然后留一些余量，因为激活值和 CUDA 上下文也会占用显存。
+
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

@@ -17,7 +17,7 @@ status: reviewed
 **语言：** Python（智能体）、TypeScript（GitHub App）、YAML（Actions）
 **前置课程：** 第 11 阶段（LLM 工程）、第 13 阶段（工具）、第 14 阶段（智能体）、第 15 阶段（自治）、第 17 阶段（基础设施）
 **涉及阶段：** P11 · P13 · P14 · P15 · P17
-**用时：** 30 小时
+**预计时间：** 30 小时
 
 ## 问题
 
@@ -31,7 +31,7 @@ status: reviewed
 
 验证是门控步骤。PR 打开前，沙盒中的完整 CI 必须通过。系统计算覆盖率差值；如果下降超过阈值，仍然打开 PR，但加上 `needs-review` 标签。智能体把理由作为 PR 描述发布，并在 PR 中加入一个 `@agent` 线程，审查者可以在其中请求后续处理。
 
-安全性通过两个不同的 GitHub 面来限定：App 提供带有 `workflows: read` 以及窄范围仓库内容/PR 权限的短期 installation token；分支保护（而不是 App 权限）强制执行“不能直接写入 `main`”和“不能强制推送”——绝不把该 App 加入绕过列表。GitHub App 没有按路径限定 `.github/workflows` 的真实原语，因此 worker 必须通过自身的文件编辑 allow-list 执行这一规则。dispatcher 按仓库按日执行预算上限（例如每天每仓库最多 5 个 PR、每个 PR 20 美元）。
+安全性通过两个不同的 GitHub 面来限定：App 提供带有 `workflows: read` 以及窄范围仓库内容/PR 权限的短期 installation 令牌；分支保护（而不是 App 权限）强制执行“不能直接写入 `main`”和“不能强制推送”——绝不把该 App 加入绕过列表。GitHub App 没有按路径限定 `.github/workflows` 的真实原语，因此 worker 必须通过自身的文件编辑 allow-list 执行这一规则。dispatcher 按仓库按日执行预算上限（例如每天每仓库最多 5 个 PR、每个 PR 20 美元）。
 
 ## 架构
 
@@ -67,7 +67,7 @@ GitHub Issue 加上 `@agent fix` 标签，或发表 PR 评论
 
 ## 技术栈
 
-- 触发器：带细粒度 token 的 GitHub App；通过 Lambda 或 Fly.io 接收 webhook
+- 触发器：带细粒度令牌的 GitHub App；通过 Lambda 或 Fly.io 接收 webhook
 - Worker：ECS Fargate 任务（或 GitHub Actions 自托管 runner）
 - 沙盒：每项任务一个 Daytona devcontainer 或 E2B sandbox
 - 智能体循环：以 Claude Opus 4.7 / GPT-5.4-Codex 为后端的 mini-swe-agent 基线或 SWE-agent v2
@@ -82,7 +82,7 @@ cf-issue-to-pr
 
 ## 动手构建
 
-1. **GitHub App。** 细粒度 installation token：issues read+write、pull_requests write、contents read+write、workflows read。分支保护（唯一能执行此规则的面）强制“不能直接推送到 `main`”和“不能强制推送”；App 不在绕过列表中。由于 GitHub App 权限不是按路径限定的，worker 通过对提议 diff 做 allow-list 检查，强制“不能写入 `.github/workflows`”。
+1. **GitHub App。** 细粒度 installation 令牌：issues read+write、pull_requests write、contents read+write、workflows read。分支保护（唯一能执行此规则的面）强制“不能直接推送到 `main`”和“不能强制推送”；App 不在绕过列表中。由于 GitHub App 权限不是按路径限定的，worker 通过对提议 diff 做 allow-list 检查，强制“不能写入 `.github/workflows`”。
 
 2. **Webhook 接收器。** Lambda 函数接收 Issue 标签 / PR 评论 webhook。筛选标签 `@agent fix this`，并加入 SQS。
 
@@ -96,11 +96,11 @@ cf-issue-to-pr
 
 7. **发布 PR。** 推送智能体分支。通过 GitHub API 打开 PR，包含：标题、理由、diff 摘要、trace URL、成本、回合数。
 
-8. **凭证卫生。** Worker 使用短期 GitHub App installation token 运行。归档前对日志进行秘密清洗。
+8. **凭证卫生。** Worker 使用短期 GitHub App installation 令牌运行。归档前对日志进行秘密清洗。
 
 9. **评测。** 准备 30 个不同难度的内部种子 Issue。测量通过率、PR 质量（diff 大小、风格、覆盖率）、成本和延迟，并用同一批 Issue 与 Cursor Background Agents 和 AWS Remote SWE Agents 比较。
 
-## 实际使用
+## 使用
 
 ```text
 # on github.com
@@ -123,7 +123,7 @@ cf-issue-to-pr
 | 25 | 30 个 Issue 上的通过率 | 端到端成功（CI 为绿且覆盖率达标） |
 | 20 | PR 质量 | Diff 大小、覆盖率差值、风格一致性 |
 | 20 | 每个解决 Issue 的成本与延迟 | 每个 PR 的美元成本和墙钟时间 |
-| 20 | 安全性 | 范围明确的 token、每仓库预算、禁止强制推送、凭证卫生 |
+| 20 | 安全性 | 范围明确的令牌、每仓库预算、禁止强制推送、凭证卫生 |
 | 15 | 操作者 UX | 理由评论、重试入口、@ 提及后续处理 |
 | **100** | | |
 
@@ -143,7 +143,7 @@ cf-issue-to-pr
 
 | 术语 | 人们常说 | 实际含义 |
 |------|----------|----------|
-| GitHub App | “范围明确的机器人身份” | 具有细粒度权限和短期 installation token 的 App |
+| GitHub App | “范围明确的机器人身份” | 具有细粒度权限和短期 installation 令牌的 App |
 | Async cloud agent | “后台智能体” | 在云端沙盒中运行而非终端中运行的非交互式 worker |
 | Environment inference | “Dockerfile 合成” | 检测语言与包管理器；不存在时生成 Dockerfile |
 | Verification | “沙盒内 CI” | 打开 PR 前在 worker 内运行完整测试套件 |

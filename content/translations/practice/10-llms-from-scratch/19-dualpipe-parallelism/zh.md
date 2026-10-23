@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习  
 **语言：** Python（标准库，调度模拟器）  
 **前置课程：** 第 10 阶段 · 05（分布式训练、FSDP、DeepSpeed）、第 10 阶段 · 14（开放模型架构与 MoE）  
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -123,7 +123,7 @@ DeepSeek-V3 在 2,048 张 H800 GPU 上训练了 14.8T 个词元，约消耗 280 
 expert-capacity
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 是一个流水线调度模拟器。它接收 `(P, n_micro_batches, schedule)`，并打印 1F1B、Zero Bubble、DualPipe 和 DualPipeV 的稳定阶段利用率。它是教学工具；数字与论文中的定性结论一致，并不宣称是生产环境实测加速。
 

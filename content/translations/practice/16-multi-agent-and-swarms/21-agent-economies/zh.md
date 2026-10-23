@@ -9,20 +9,20 @@ source:
 status: reviewed
 ---
 
-# 智能体经济、Token 激励与声誉
+# 智能体经济、代币激励与声誉
 
-> 长时程自主智能体（METR 的 1 小时至 8 小时工作曲线）需要经济主体性。正在形成的**五层栈**是：**DePIN**（物理算力）→ **身份**（W3C DID + 声誉资本）→ **认知**（RAG + MCP）→ **结算**（账户抽象）→ **治理**（智能体 DAO）。生产级智能体激励网络包括 **Bittensor**（TAO 子网奖励任务专用模型）、**Fetch.ai / ASI Alliance**（ASI-1 Mini LLM + FET token）和 **Gonka**（基于 Transformer 的工作量证明，将算力重新分配给有生产价值的 AI 任务）。学术方面，AAMAS 2025 的去中心化 LaMAS 使用**夏普利值信用归因**公平奖励有贡献的智能体；Google Research 的“Mechanism design for large language models”提出在单调聚合下使用二价支付的 **token 拍卖**。本课构建一个最小智能体市场，将夏普利值归因应用于多智能体流水线，并运行一次二价 token 拍卖，让博弈论机制具体落地。
+> 长时程自主智能体（METR 的 1 小时至 8 小时工作曲线）需要经济主体性。正在形成的**五层栈**是：**DePIN**（物理算力）→ **身份**（W3C DID + 声誉资本）→ **认知**（RAG + MCP）→ **结算**（账户抽象）→ **治理**（智能体 DAO）。生产级智能体激励网络包括 **Bittensor**（TAO 子网奖励任务专用模型）、**Fetch.ai / ASI Alliance**（ASI-1 Mini LLM + FET 代币）和 **Gonka**（基于 Transformer 的工作量证明，将算力重新分配给有生产价值的 AI 任务）。学术方面，AAMAS 2025 的去中心化 LaMAS 使用**夏普利值信用归因**公平奖励有贡献的智能体；Google Research 的“Mechanism design for large language models”提出在单调聚合下使用二价支付的 **代币拍卖**。本课构建一个最小智能体市场，将夏普利值归因应用于多智能体流水线，并运行一次二价代币拍卖，让博弈论机制具体落地。
 
 **类型：** 学习
 **语言：** Python（标准库）
 **前置要求：** 第 16 阶段 · 16（协商与讨价还价），第 16 阶段 · 09（并行群体网络）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 问题
 
 当多个智能体共同产生价值、却需要分别获得奖励时，多智能体系统会变得复杂。经典机制——平均分配、最后贡献者通吃——要么不公平，要么容易被操纵。基于联盟、借助夏普利值的奖励天生公平，但计算代价昂贵。2025–2026 年的文献提出了有用近似：夏普利采样、单调聚合拍卖，以及从已确认贡献中累积的链上声誉。
 
-除信用归因外，这个领域已转向真实的经济智能体：Bittensor TAO 奖励用于微调子网专用模型的挖矿算力，Fetch.ai/ASI 用 FET token 奖励 ASI-1 Mini LLM 的使用，Gonka 将 Transformer 工作量证明重新分配给有生产价值的 AI 任务。今天已经存在自主交易的智能体；问题在于如何对齐激励。
+除信用归因外，这个领域已转向真实的经济智能体：Bittensor TAO 奖励用于微调子网专用模型的挖矿算力，Fetch.ai/ASI 用 FET 代币奖励 ASI-1 Mini LLM 的使用，Gonka 将 Transformer 工作量证明重新分配给有生产价值的 AI 任务。今天已经存在自主交易的智能体；问题在于如何对齐激励。
 
 本课把智能体经济视为一个明确的问题族——信用归因、机制设计和声誉——并用最小数学实现每一项，使概念更牢固。
 
@@ -42,7 +42,7 @@ status: reviewed
 
 **Bittensor（TAO）。** 子网承载专门任务（语言建模、图像生成、预测）。矿工提交模型输出，验证者对其排序，按质押加权的评分分配 TAO 奖励。每个子网都有自己的评估。其经济学启示是：应为任务专属输出质量付费，而不是为消耗的算力付费。
 
-**Fetch.ai / ASI Alliance。** ASI-1 Mini LLM 在 Fetch.ai 网络上运行，用户以 FET token 支付推理费用。这里“智能体作为对等体”的叙事更强：Fetch 上的一个智能体可为某项任务调用另一个智能体，并以 FET 付款。
+**Fetch.ai / ASI Alliance。** ASI-1 Mini LLM 在 Fetch.ai 网络上运行，用户以 FET 代币支付推理费用。这里“智能体作为对等体”的叙事更强：Fetch 上的一个智能体可为某项任务调用另一个智能体，并以 FET 付款。
 
 **Gonka。** Transformer 工作量证明：“工作”是 Transformer 的前向传播。矿工通过运行具有已知正确输出（来自训练数据）的推理任务来获得收益。这种 PoW 让计算资源承担生产任务，而不是执行基于哈希的计算。
 
@@ -64,7 +64,7 @@ shapley(i) = (1/N!) * sum over all orderings O of (v(S_i_O ∪ {i}) - v(S_i_O))
 
 ### 用于聚合的二价拍卖
 
-Google Research 的“Mechanism design for large language models”提出用二价 token 拍卖聚合 LLM 输出。设置如下：N 个智能体各自提出一个续写，每个都对被选择有私有价值。拍卖人选择价值最高的提案，并支付*第二高*的价值。在单调聚合下（价值取决于选中了哪个提案，而不是投了多少），该机制是真实报价的——智能体按其真实价值出价。
+Google Research 的“Mechanism design for large language models”提出用二价代币拍卖聚合 LLM 输出。设置如下：N 个智能体各自提出一个续写，每个都对被选择有私有价值。拍卖人选择价值最高的提案，并支付*第二高*的价值。在单调聚合下（价值取决于选中了哪个提案，而不是投了多少），该机制是真实报价的——智能体按其真实价值出价。
 
 这对 LLM 系统很重要：你可以将续写任务外包给多个不同定价的智能体；拍卖选择最佳结果并公平付款，智能体没有谎报的激励。
 
@@ -98,7 +98,7 @@ LaMAS 提案（AAMAS 2025）结合 DID 身份、夏普利值信用归因和简�
 - **具有异质运营者的开放网络。** 没有单个团队控制全部智能体。
 - **可验证的输出。** 没有验证，信用归因只是猜测。
 - **长时程工作流。** 一次性任务不能从声誉累积中获益。
-- 你的司法辖区允许**token 化支付**。
+- 你的司法辖区允许**代币化支付**。
 
 在封闭企业系统中，经济机制会让位于更简单的分配方式（经理分配工作，指标内部管理）。经济学文献主要适用于开放网络。
 
@@ -106,7 +106,7 @@ LaMAS 提案（AAMAS 2025）结合 DID 身份、夏普利值信用归因和简�
 swarm-auction
 ```
 
-## 构建
+## 动手构建
 
 `code/main.py` 实现：
 
@@ -133,7 +133,7 @@ python3 code/main.py
 
 在 2026 年运行智能体经济时：
 
-- **先从声誉开始，而非 token。** 声誉容易实现且单独就有价值；token 会增加法律和经济复杂性。
+- **先从声誉开始，而非代币。** 声誉容易实现且单独就有价值；代币会增加法律和经济复杂性。
 - **奖励之前先验证。** 未经独立验证绝不分配信用；自报质量会滋生女巫博弈。
 - **采样夏普利值，而不是精确夏普利值。** 采样 100–1000 个排列；精确枚举无法扩展。
 - **限制衰减因子并给声誉设置下限。** 无界衰减会抹去正当贡献者；过慢衰减会奖励陈旧的高声誉智能体。
@@ -151,20 +151,20 @@ python3 code/main.py
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------|----------|
-| DePIN | “去中心化物理基础设施” | 以 token 激励的算力、存储和带宽，例如 Bittensor、Akash、Render。 |
+| DePIN | “去中心化物理基础设施” | 以代币激励的算力、存储和带宽，例如 Bittensor、Akash、Render。 |
 | DID | “去中心化标识符” | W3C 的可移植 ID 规范。智能体声誉绑定到 DID，而非某个平台。 |
 | ERC-4337 | “账户抽象” | 可代付 gas 的合约账户，使智能体能够付款。 |
 | 夏普利值 | “公平信用归因” | 满足效率、对称、线性和空玩家的唯一分配。 |
 | 二价拍卖 | “Vickrey 拍卖” | 真实机制：胜者支付第二高出价，兼容单调聚合。 |
 | 声誉资本 | “累积质量分数” | 来自已确认贡献、绑定 DID 且随时间衰减的分数。 |
 | 智能体 DAO | “智能体与人类共同治理” | 将智能体投票者视为一等公民、投票权与声誉挂钩的 DAO。 |
-| TAO / FET / GPU credits | “token 面额” | Bittensor TAO、Fetch.ai FET 及各种 DePIN token。 |
+| TAO / FET / GPU credits | “代币面额” | Bittensor TAO、Fetch.ai FET 及各种 DePIN 代币。 |
 
 ## 延伸阅读
 
 - [The Agent Economy](https://arxiv.org/abs/2602.14219) —— 2026 年五层智能体经济栈综述
-- [Google Research — Mechanism design for large language models](https://research.google/blog/mechanism-design-for-large-language-models/) —— 使用单调聚合的 token 拍卖
+- [Google Research — Mechanism design for large language models](https://research.google/blog/mechanism-design-for-large-language-models/) —— 使用单调聚合的代币拍卖
 - [AAMAS 2025 — decentralized LaMAS](https://www.ifaamas.org/Proceedings/aamas2025/pdfs/p2896.pdf) —— 夏普利值信用归因
 - [Bittensor TAO documentation](https://docs.bittensor.com/) —— 子网结构与奖励分配
-- [Fetch.ai / ASI Alliance](https://fetch.ai/) —— ASI-1 Mini LLM 与 FET token
+- [Fetch.ai / ASI Alliance](https://fetch.ai/) —— ASI-1 Mini LLM 与 FET 代币
 - [W3C Decentralized Identifiers (DIDs) spec](https://www.w3.org/TR/did-core/) —— 身份基础

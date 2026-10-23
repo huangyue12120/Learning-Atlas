@@ -120,7 +120,7 @@ CLIP 类模型的 ImageNet 零样本准确率大约封顶在 76%（CLIP-G、Open
 multimodal-fusion
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 实现：
 
@@ -131,7 +131,7 @@ multimodal-fusion
 
 运行它并观察损失曲线。绝对数值是玩具级的，但形状与真正 CLIP 训练器输出的形状一致。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-clip-zero-shot.md`。给定一组图像（通过路径）和目标类别列表，它会使用 CLIP 模板构造文本提示词，使用指定的检查点（例如 `openai/clip-vit-large-patch14`）嵌入两侧，并返回带相似度分数的 top-1 / top-5 预测。这个技能拒绝对提示词列表中没有的类别做出判断。
 

@@ -164,7 +164,7 @@ def spec_step(prefix, q_model, p_model, N, rng):
 
 进行经验验证：推测循环生成的词元直方图应与直接从验证器采样得到的直方图一致。这与 Leviathan 定理一致。卡方检验会确认二者的差异处于采样误差范围内。
 
-## 使用方法
+## 使用
 
 生产部署：
 
@@ -195,7 +195,7 @@ vllm serve meta-llama/Llama-3.1-70B-Instruct \
 - 高度自由的创作或高温度采样（α 会下降）。
 - 内存受限的部署（草稿模型会增加显存占用）。
 
-## 交付成果
+## 交付
 
 参见 `outputs/skill-spec-decode-picker.md`。这个技能会为新的推理工作负载选择推测解码策略（基础 / Medusa / EAGLE / lookahead）及调优参数（N、草稿温度）。
 

@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 编码智能体的沙箱隔离与成本边界
-  summary: 在把 worktree、沙箱、每回合词元上限、会话预算和硬回合上限组合成运行边界时，用大规模基础设施中的隔离、可靠性与成本控制直觉核对失败范围和资源预算。
+  summary: 在把 worktree、沙箱、每回合词元上限、会话预算和硬回合上限组合成运行边界时，用大规模基础设施中的隔离、可靠性与成本控制直觉核对失败范围和资源预算。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

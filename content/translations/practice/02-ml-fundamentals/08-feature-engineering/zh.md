@@ -116,7 +116,7 @@ flowchart LR
 feature-scaling
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从零实现数值变换
 
@@ -531,7 +531,7 @@ if __name__ == "__main__":
         print(f"    {feature_names[j]}: r={corr:.4f}")
 ```
 
-## 在工具中使用
+## 使用
 
 scikit-learn 将这些变换组合为可复用流水线：
 
@@ -560,7 +560,7 @@ preprocessor = ColumnTransformer([
 
 从零版本准确展示每个变换内部发生的事；库版本增加边界情况处理、稀疏矩阵支持和流水线组合，但数学相同。
 
-## 产出
+## 交付
 
 本课最终产出：
 

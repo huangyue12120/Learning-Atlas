@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习 + 构建
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 12 节（工作流模式）、第 14 阶段 · 第 14 节（Actor 模型）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -28,7 +28,7 @@ status: reviewed
 - 用标准库实现三智能体 crew（researcher、writer、editor），生成一份 brief。
 - 识别 CrewAI 的三种失败模式：提示词膨胀、manager-LLM 税、脆弱的交接。
 
-## 问题所在
+## 问题
 
 采用多智能体框架的团队会撞上同一堵墙。“自治协作”在 demo 中听起来很棒，但客户提交 bug 后，你需要确定性重放；财务询问每次 LLM 路由的 crew 需要多少钱；值班人员需要知道凌晨 3 点哪个智能体卡住了。
 
@@ -36,7 +36,7 @@ status: reviewed
 
 CrewAI 的拆分诚实地呈现了这种权衡：Crews 用于协作、基于角色、探索性的工作；Flows 用于事件驱动、代码拥有、可审计的生产工作。同一个框架有两种形状，按界面选择。
 
-## 核心概念
+## 概念
 
 ### 四个原语
 
@@ -57,7 +57,7 @@ Agents 不会直接看到彼此。Tasks 引用 agents，Crew 编排 tasks，Proc
 - **Hierarchical。** manager Agent（单独的 LLM 调用）在专家之间路由。CrewAI 根据 manager_llm 配置或默认值生成 manager。manager 每轮选择下一个 task，也可以拒绝或重新路由。当有四个或更多专家且顺序真正取决于上一步输出时使用。
 - **Consensus。** 已计划但目前尚未在公共 API 中实现。文档为未来基于投票的流程保留了这个名称。今天不要依赖它。
 
-Hierarchical 在每次专家调用之外增加一次 manager LLM 调用。五步运行的 token 成本可能增加到三倍。只有真正需要路由时才支付它。
+Hierarchical 在每次专家调用之外增加一次 manager LLM 调用。五步运行的词元成本可能增加到三倍。只有真正需要路由时才支付它。
 
 ### Crews 与 Flows
 
@@ -140,7 +140,7 @@ CrewAI 开箱提供四种记忆类型。它们可以组合：一个 Crew 可以�
 ### 这个模式会在哪里出错
 
 - **Backstory 造成提示词膨胀。** 每个智能体 2000 字的 backstory 和一个五智能体 crew，会在第一次工具调用前就耗尽上下文预算。保持 backstory 少于 200 字。在智能体之间复用短语，不要重复五遍团队风格。
-- **Manager-LLM token 税。** Hierarchical 流程在每次专家调用前都增加一次 manager LLM 调用。五任务 crew 会从五次变成六次 LLM 调用，而且 manager 调用携带完整任务列表和之前输出。除非路由取决于输出，否则切换到 Sequential。
+- **Manager-LLM 词元税。** Hierarchical 流程在每次专家调用前都增加一次 manager LLM 调用。五任务 crew 会从五次变成六次 LLM 调用，而且 manager 调用携带完整任务列表和之前输出。除非路由取决于输出，否则切换到 Sequential。
 - **脆弱交接。** Task N 的 expected_output 是“大纲”。Task N+1 以 context 读取它，并试图解析三个区段；LLM 生成了四个。下游 Agent 临时发挥。用 Task N 的 output_pydantic 修复，让 Task N+1 读取类型化对象而不是自由文本。
 - **Crew 直接上生产。** 没有 Flow 包装就将自由形式 Crew 发布到生产。输出变化大，无法重放，值班人员无法把坏运行与好运行做 diff。用 Flow 包装。
 
@@ -174,7 +174,7 @@ python3 code/main.py
 
 Crew 轨迹是流动的，manager 原则上可以重新排序。Flow 轨迹是固定的。这一选择就是本节的课程。
 
-## 实际使用
+## 使用
 
 - **CrewAI Flow** 用于生产。即使 Flow 只有一步、只调用 Crew.kickoff() 也一样；Flow 提供审计边界。
 - **CrewAI Crew（Sequential）** 用于顺序清晰的协作工作，特别是初稿和审查循环。

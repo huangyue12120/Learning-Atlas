@@ -126,7 +126,7 @@ MIO 最接近纯词元的任意到任意方案，AnyGPT 是它的概念祖先。
 any-to-any-stream
 ```
 
-## 使用它
+## 使用
 
 `code/main.py`：
 
@@ -135,7 +135,7 @@ any-to-any-stream
 - 模拟文本到语音响应的流式解码并计算延迟。
 - 根据编码器、预填充和解码器延迟，计算首个音频字节时间。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-any-to-any-pipeline-auditor.md`。给定对话产品规格（输入模态、输出模态、延迟目标），它会审计 MIO 家族的设计选择并计算延迟预算。
 

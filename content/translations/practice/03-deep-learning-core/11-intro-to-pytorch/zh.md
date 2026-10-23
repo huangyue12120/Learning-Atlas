@@ -297,7 +297,7 @@ for inputs, targets in loader:
 dropout-mask
 ```
 
-## 构建实现
+## 动手构建
 
 只用 PyTorch 原语在 MNIST 上训练三层 MLP：不使用高层包装器，也不用 `torchvision.datasets`；自行下载并解析原始数据。
 
@@ -464,7 +464,7 @@ def main():
 
 10 个 epoch 后的预期输出：测试准确率约 97.8%。CPU 训练约 30 秒，GPU 约 5 秒；使用同一架构的迷你框架约需 45 分钟。
 
-## 应用
+## 使用
 
 ### 快速比较：迷你框架与 PyTorch
 
@@ -505,7 +505,7 @@ for epoch in range(10):
 
 PyTorch 提供 15+ 种调度器：StepLR、ExponentialLR、CosineAnnealingLR、OneCycleLR、ReduceLROnPlateau，全部插入同一个优化器接口。
 
-## 交付物
+## 交付
 
 本课产出两个工件：
 

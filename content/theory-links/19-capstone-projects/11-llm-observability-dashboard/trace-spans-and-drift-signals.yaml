@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: LLM trace 的层级、指标与漂移
-  summary: 在把模型、工具、评测和告警连接为带语义约定的 span 树，并对提示嵌入计算 PSI/KL 漂移时，用 tracing 理论核对请求生命周期、层级关联和指标信号如何支持故障定位。
+  summary: 在把模型、工具、评测和告警连接为带语义约定的 span 树，并对提示词嵌入计算 PSI/KL 漂移时，用 tracing 理论核对请求生命周期、层级关联和指标信号如何支持故障定位。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

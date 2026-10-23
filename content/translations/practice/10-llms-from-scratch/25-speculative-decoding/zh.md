@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建  
 **语言：** Python（使用 numpy）  
 **前置课程：** 第 10 阶段第 12 课（推理优化）、第 10 阶段第 04 课（预训练迷你 GPT）  
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 问题
 
@@ -132,7 +132,7 @@ EAGLE-3（Li 等，2025，《EAGLE-3: Scaling up Inference Acceleration of Large
 speculative-decoding
 ```
 
-## 动手实现
+## 动手构建
 
 `code/main.py` 包含：
 
@@ -174,7 +174,7 @@ def speculative_step(p_target, q_draft, K, temperature=1.0):
     return accepted
 ```
 
-## 使用它
+## 使用
 
 - **vLLM** 和 **SGLang** 原生支持推测解码。在 vLLM 中，向 `--speculative-config` 传入包含 `method`、`model` 和 `num_speculative_tokens` 的 JSON 对象；EAGLE-3 使用 `"method": "eagle3"`。
 - **NVIDIA TensorRT-LLM** 原生支持 Medusa 和 EAGLE 树。

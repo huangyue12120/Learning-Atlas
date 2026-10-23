@@ -27,7 +27,7 @@ status: reviewed
 - 正确路由请求级 SSE、`subscriptions/listen`、MRTR 重试和 Tasks 扩展调用。
 - 将旧版握手与会话支持隔离在现代路径之外。
 
-## 问题所在
+## 问题
 
 一个客户端直接连接一个服务器很简单。更大的部署需要对以下难题给出一致答案：
 
@@ -42,7 +42,7 @@ status: reviewed
 
 旧网关常把一个客户端会话复用到多个后端会话，并重写 `Mcp-Session-Id`。那是旧版兼容设计；2026-07-28 核心协议没有协议会话。
 
-## 核心概念
+## 概念
 
 ### 现代网关路径 <!-- learning-atlas: the-modern-gateway-path -->
 
@@ -245,7 +245,7 @@ backend issuer + resource -> backend registration and token
 - 延迟和结果类别；
 - 适用时的 MRTR 轮次或任务标识符。
 
-遮蔽 bearer token、授权 code、refresh token、原始秘密和不必要的敏感参数。
+遮蔽 bearer 令牌、授权 code、刷新令牌、原始秘密和不必要的敏感参数。
 
 ### 请求级 SSE
 

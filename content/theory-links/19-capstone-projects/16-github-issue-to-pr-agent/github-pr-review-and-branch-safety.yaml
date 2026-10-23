@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 分支保护与可审查 PR 的协作边界
-  summary: 在用细粒度凭证、分支保护、禁止强制推送和 PR 审查约束自治改动时，用 Git 版本控制理论核对分支、合并、可逆性与审查证据。
+  summary: 在用细粒度凭证、分支保护、禁止强制推送和 PR 审查约束自治改动时，用 Git 版本控制理论核对分支、合并、可逆性与审查证据。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 15 - production software engineering/02. git and repository management.md

@@ -17,7 +17,7 @@ status: reviewed
 **语言：** TypeScript（UI）、Python / TypeScript（摄取 + 评测）、SQL（ClickHouse）
 **前置课程：** 第 11 阶段（LLM 工程）、第 13 阶段（工具）、第 17 阶段（基础设施）、第 18 阶段（安全）
 **涉及阶段：** P11 · P13 · P17 · P18
-**用时：** 25 小时
+**预计时间：** 25 小时
 
 ## 问题
 
@@ -98,7 +98,7 @@ ce-otel-drift
 
 9. **回归探针。** 注入一个 bug：被评测的聊天机器人有 1% 的概率泄漏伪造 SSN。测量 MTTR，即从 bug 部署到 Slack 告警的时间。
 
-## 实际使用
+## 使用
 
 ```text
 $ curl -X POST https://my-otel-collector/v1/traces -d @trace.json

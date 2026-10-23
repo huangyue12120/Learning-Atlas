@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 多智能体交接的消息形状与协调边界
-  summary: 在用类型化 A2A 消息传递计划、diff、审阅反馈和测试结果时，用系统设计中的协议与服务间通信理论核对序列化消息如何跨角色保持契约，以及共享状态和并行 worktree 如何引入协调风险。
+  summary: 在用类型化 A2A 消息传递计划、diff、审阅反馈和测试结果时，用系统设计中的协议与服务间通信理论核对序列化消息如何跨角色保持契约，以及共享状态和并行 worktree 如何引入协调风险。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/01. systems design fundamentals.md

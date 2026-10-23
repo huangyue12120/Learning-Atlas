@@ -27,7 +27,7 @@ status: reviewed
 - 把乘以 `0x66666667` 解释为除以 10，并证明这个恒等式。
 - 逐行阅读同样这些函数的 Ghidra 伪代码，为每一处差异指出背后的指令或猜测。
 
-## 问题所在
+## 问题
 
 你向 rea 请求 `ledger-x86_64-O1.o` 中 `percent_change` 的伪代码。Ghidra 12.1.4 在大约十秒内给出了答案：
 
@@ -433,7 +433,7 @@ Liu、Raff 和 Micinski（arXiv 2609.05370，2026 年 9 月）解释了这个差
 
 这正是提升器打印 `(unsigned long)(unsigned int)ecx_1` 而不是一个更漂亮名字的原因。对于未解析的跳转，它打印一条说明而不是 `switch`；它打印 `lookup_14` 而不是一个模型会去虚构的标签。每一行都有一条你可以在 `code/main.py` 里读到的推导链。Ghidra 的 `undefined1 [16]` 丑陋而诚实。一个精修模型干净的 `int percent_change(int, int)` 是出于错误的理由而正确。同一个模型在下一个函数上会产出一个干净却错误的签名。
 
-## 构建它
+## 动手构建
 
 运行演示程序：
 
@@ -466,7 +466,7 @@ python3 code/main.py
 8. `structure()` 配合 `post_dominators()` 和 `natural_loops()` 发出 C 函数体。
 9. `lift_function()` 把各阶段串起来，`lift_all()` 借助被调用者签名提升整个目标文件。
 
-## 使用它
+## 使用
 
 要从你自己的目标文件里提升一个函数，用 `clang -target x86_64-unknown-linux-gnu -c` 构建它，然后调用 `lift_all(read_object(path))`。当解码器抛出 `DecodeError` 时，从消息里读出操作码字节，在 SDM 操作码映射表里找到它。然后在文件顶部的表里加一个条目。当提升器在某个助记符上抛出异常时，给 `lift_insn()` 加一条规则。当结构化器发出 `goto` 时，用 `IrPrinter` 打印图，并判断缺了哪条形态规则。每一次新增都很小，而且每一次都被现有测试对照 `llvm-objdump` 或 clang 检查过。
 

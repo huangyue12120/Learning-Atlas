@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置要求：** 第 10 阶段，第 06 课（指令微调 / SFT）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 **相关课程：** 第 10 阶段从零实现 SFT/DPO 循环。本课把这些循环接入 2026 年的 PEFT 工具链（PEFT、TRL、Unsloth、Axolotl、LLaMA-Factory）。
 
 ## 学习目标
@@ -26,7 +26,7 @@ status: reviewed
 - 使用 QLoRA（4 bit 量化基座模型 + LoRA 适配器）微调模型，使其适配消费级 GPU 的显存
 - 将 LoRA 权重合并回基座模型用于部署，并比较有无适配器时的推理速度
 
-## 问题所在
+## 问题
 
 你有一个基座模型：Llama 3 8B。你希望它用公司的语气回答客服工单。答案是 SFT，但 SFT 有成本问题。
 
@@ -40,7 +40,7 @@ status: reviewed
 
 你需要一种训练更少参数、占用更少内存，同时不会摧毁模型已有知识的方法。
 
-## 核心概念
+## 概念
 
 ### LoRA：低秩适配 <!-- learning-atlas: lora-low-rank-adaptation -->
 
@@ -438,7 +438,7 @@ def demo():
 
 这个演示创建一个小模型，把 LoRA 注入其中两层，训练它，再把权重合并回去。LoRA 训练期间，可训练参数量从全部参数降到约 1%；合并后，参数量回到原始架构的规模。
 
-## 实际使用
+## 使用
 
 在 Hugging Face 生态中，对真实模型使用 LoRA 大约只需要 20 行代码：
 
@@ -517,7 +517,7 @@ model.save_pretrained("./lora-adapter")
 
 保存下来的适配器只有 10–100MB。基座模型保持不变。你可以在 Hugging Face Hub 上分享适配器，而不必重新分发完整模型。
 
-## 交付上线
+## 交付
 
 本课产出：
 - `outputs/prompt-lora-advisor.md` —— 帮助你根据具体任务选择 LoRA 秩、目标模块和超参数的提示词

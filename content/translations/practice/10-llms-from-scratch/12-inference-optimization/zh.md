@@ -258,7 +258,7 @@ Memory roof:  peak bandwidth * ops:byte ratio
 context-window-slide
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从零实现 KV 缓存
 
@@ -698,7 +698,7 @@ def memory_budget(config, gpu_memory_gb, model_dtype_bytes=2, kv_dtype_bytes=2):
     }
 ```
 
-## 使用它
+## 使用
 
 使用 vLLM：
 
@@ -753,7 +753,7 @@ outputs = runner.generate(
 )
 ```
 
-## 交付产物
+## 交付
 
 本课会产出：
 - `outputs/skill-inference-optimization.md`——用于诊断和优化 LLM 推理服务的技能

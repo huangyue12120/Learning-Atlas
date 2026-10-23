@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 23 节（OTel GenAI）
-**用时：** 约 45 分钟
+**预计时间：** 约 45 分钟
 
 ## 学习目标
 
@@ -25,11 +25,11 @@ status: reviewed
 - 解释为什么到 2026 年有 89% 的组织报告已建立智能体可观测性。
 - 用标准库实现带 LLM-judge 评估的 trace 到 dashboard 管线。
 
-## 问题所在
+## 问题
 
 OTel GenAI（第 23 节）给你 schema，但你仍需要一个平台来接收 span、运行评估、保存提示词版本并暴露回归。三个竞争者分别强调生命周期的不同部分。
 
-## 核心概念
+## 概念
 
 ### Langfuse（MIT）
 
@@ -95,7 +95,7 @@ python3 code/main.py
 
 输出每个 session 的评估分数和失败分类，对应 Langfuse/Phoenix/Opik 会展示的内容。
 
-## 实际使用
+## 使用
 
 - **Langfuse** 自托管或云端；通过 OTel 或其 SDK 接入。
 - **Arize Phoenix** 自托管；用 OpenInference 自动插桩。

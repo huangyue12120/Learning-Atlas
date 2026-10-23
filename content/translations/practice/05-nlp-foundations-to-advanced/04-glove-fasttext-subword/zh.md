@@ -42,7 +42,7 @@ Transformer 出现后，问题再次转移。词级词表的容量通常止步�
 n5-subword-merge
 ```
 
-## 动手实现
+## 动手构建
 
 ### GloVe：分解共现矩阵 <!-- learning-atlas: glove-factorize-the-co-occurrence-matrix -->
 
@@ -187,7 +187,7 @@ def apply_bpe(word, merges):
 
 真正的 GPT、BERT、T5 分词器会学习 3 万至 10 万次合并。于是，任何文本都能转成长度有界的已知 ID 序列，不再出现 OOV。
 
-## 使用现成工具
+## 使用
 
 实际项目很少自行训练这些模型，通常直接加载预训练检查点。
 
@@ -224,7 +224,7 @@ print(tok.tokenize("unbelievably tokenized"))
 | 从零训练自己的语言模型 | 先在语料上训练 BPE 或 SentencePiece 分词器。 |
 | 生产环境中的线性文本分类 | 仍然选择 TF-IDF，见第 02 课。 |
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-embeddings-picker.md`：
 

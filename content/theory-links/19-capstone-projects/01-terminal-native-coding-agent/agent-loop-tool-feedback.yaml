@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 编码智能体的规划—行动—观察—恢复循环
-  summary: 在把模型输出、工具执行、观察摘要和恢复策略接回每一回合时，用自回归生成与反馈轨迹理论理解为什么工具循环而非单次模型调用决定智能体行为。
+  summary: 在把模型输出、工具执行、观察摘要和恢复策略接回每一回合时，用自回归生成与反馈轨迹理论理解为什么工具循环而非单次模型调用决定智能体行为。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

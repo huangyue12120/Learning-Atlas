@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 实作
 **学习实现：** Python（Julia 上游版本仅作链接追溯）
 **前置课程：** Phase 1 · 第 01–03 课
-**预计学习：** 约 120 分钟
+**预计时间：** 约 120 分钟
 
 ## 学习目标
 
@@ -49,8 +49,8 @@ SVD 适用于任何矩阵，不受形状、秩或其他条件限制。它将矩�
 
 ```mermaid
 graph LR
-    A["Input space (n-dim)\nData cloud\n(arbitrary orientation)"] -->|"V^T\n(rotate)"| B["Scaled space\nAligned with axes\nthen scaled by Sigma"]
-    B -->|"U\n(rotate)"| C["Output space (m-dim)\nRotated to output\norientation"]
+    A["输入空间（n 维）\n数据云\n（任意朝向）"] -->|"V^T\n（旋转）"| B["缩放后的空间\n与坐标轴对齐\n再按 Sigma 缩放"]
+    B -->|"U\n（旋转）"| C["输出空间（m 维）\n旋转到输出\n朝向"]
 ```
 
 可以这样理解：你把一个矩阵交给 SVD，它会告诉你：“这个矩阵先用 V^T 旋转一个输入球体，再用 Sigma 将其拉伸成椭球，最后用 U 旋转这个椭球。”奇异值就是椭球各条轴的长度。
@@ -284,10 +284,10 @@ LSA 是最早成功从原始文本中捕获语义相似性的方法之一。它�
 
 ```mermaid
 graph TD
-    A["All singular values"] --> B{"Clear gap?"}
-    B -->|"Above gap"| C["Signal: keep these (top k)"]
-    B -->|"Below gap"| D["Noise: discard these"]
-    C --> E["Reconstruct with A_k to get denoised version"]
+    A["所有奇异值"] --> B{"存在明显间隙？"}
+    B -->|"间隙之上"| C["信号：保留这些（前 k 个）"]
+    B -->|"间隙之下"| D["噪声：丢弃这些"]
+    C --> E["用 A_k 重建，得到降噪版本"]
 ```
 
 这种方法用于信号处理、科学测量和数据清洗。只要一个矩阵受到加性噪声污染，截断 SVD 就是一种有理论依据的信号–噪声分离方法。
@@ -375,7 +375,7 @@ It is faster and more numerically stable.
 svd-rank-reconstruction
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：用幂迭代从零实现 SVD
 
@@ -537,19 +537,17 @@ julia svd.jl
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Compute $A^T A$, get its eigenvalues and eigenvectors with `np.linalg.eigh`, and sort them in descending order. The singular values are the square roots of the eigenvalues; check that $U \Sigma V^T$ rebuilds $A$ and compare the error with `svd_from_scratch` and `np.linalg.svd`.
->
-> **Exercise 2.** Call `truncated_svd` for each rank, rebuild the image with `reconstruct`, and use `compression_ratio(m, n, k)` for the size. The relative error must fall as the rank grows, and the first rank where you see no clear blocks is the answer.
->
-> **Exercise 3.** Mark the missing cells, fill them with the row mean, then rebuild a rank 3 approximation with `truncated_svd` and `reconstruct`. Then measure the result: count the predictions outside the rating range, and print the largest change in a known cell. A rank 3 approximation does not guarantee either property, so clip predictions to the range if you need valid ratings.
->
-> **Exercise 4.** Give each topic a block of 5 terms with high counts for its documents, then add small noise. Print the singular values: the first 3 must be much larger than the 4th. Then color the 3D coordinates by topic and check that each topic forms one group.
->
-> **Exercise 5.** Make the clean matrix as the product of a 50x3 and a 3x40 random matrix, then add noise for each $\sigma$. For each $k$, compare the rank $k$ reconstruction with the clean matrix; expect the best $k$ near 3 for low noise and smaller for high noise.
+**练习 1.** 计算 $A^T A$，用 `np.linalg.eigh` 求它的特征值和特征向量，并按降序排列。奇异值是特征值的平方根；检查 $U \Sigma V^T$ 能重建出 $A$，并把误差与 `svd_from_scratch`、`np.linalg.svd` 对照。
 
-## 术语
+**练习 2.** 对每个秩调用 `truncated_svd`，用 `reconstruct` 重建图像，并用 `compression_ratio(m, n, k)` 计算大小。相对误差必须随秩增大而减小，第一个看不出明显色块的秩就是答案。
+
+**练习 3.** 标出缺失的格子，用行均值填充它们，再用 `truncated_svd` 和 `reconstruct` 重建一个秩 3 近似。然后衡量结果：统计落在评分范围之外的预测数量，并打印已知格子的最大变化。秩 3 近似不保证满足这两条性质，因此若需要有效评分，请把预测裁剪到范围内。
+
+**练习 4.** 给每个主题分配一块 5 个词项，让它们在对应文档上计数很高，再加入小噪声。打印奇异值：前 3 个必须远大于第 4 个。再按主题给三维坐标着色，检查每个主题是否各自聚成一组。
+
+**练习 5.** 把干净矩阵构造为一个 50x3 矩阵与一个 3x40 随机矩阵之积，再为每个 $\sigma$ 加入噪声。对每个 $k$，把秩 $k$ 的重建与干净矩阵比较；噪声低时最佳 $k$ 接近 3，噪声高时更小。
+
+## 关键术语
 
 | 术语 | 人们常说 | 实际含义 |
 |------|---------|---------|

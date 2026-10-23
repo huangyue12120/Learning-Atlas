@@ -19,7 +19,7 @@
         "ITIL 事故严重性"
       ],
       "correct": 1,
-      "explanation": "正确答案是“生物安全等级（BSL）”。本课并列 Anthropic ASL、OpenAI Preparedness Framework 和 DeepMind FSF 的安全案例结构。"
+      "explanation": "正确答案是“生物安全等级（BSL）”。Anthropic 的 ASL 分级以实验室生物安全等级（BSL）为蓝本，按风险逐级提高防护。它不是以欧盟 AI Act 类别、互联网 RFC 层级或 ITIL 事故严重性为模型。"
     },
     {
       "id": "18-frontier-safety-frameworks-rsp-pf-fsf-check-2",
@@ -32,7 +32,7 @@
         "即时或不可逆（Instantaneous-or-irremediable）"
       ],
       "correct": 3,
-      "explanation": "正确答案是“即时或不可逆（Instantaneous-or-irremediable）”。本课并列 Anthropic ASL、OpenAI Preparedness Framework 和 DeepMind FSF 的安全案例结构。"
+      "explanation": "正确答案是“即时或不可逆（Instantaneous-or-irremediable）”。PF v2 中“即时或不可补救”标准表示伤害发生很快或无法撤销。全新风险指不是已有风险的放大、可信/可测量分别指威胁模型合理与可实证评估，都不表示“快或不可逆”。"
     },
     {
       "id": "18-frontier-safety-frameworks-rsp-pf-fsf-check-3",
@@ -45,7 +45,7 @@
         "ML 研发加速"
       ],
       "correct": 0,
-      "explanation": "正确答案是“有害操纵”。本课并列 Anthropic ASL、OpenAI Preparedness Framework 和 DeepMind FSF 的安全案例结构。"
+      "explanation": "正确答案是“有害操纵”。DeepMind FSF v3.0（2025 年 9 月）新增“有害操纵”CCL，指模型可能在高风险情境实质改变信念或行为。网络提升、生物武器提升、ML 研发加速是此前已有的 CCL。"
     },
     {
       "id": "18-frontier-safety-frameworks-rsp-pf-fsf-check-4",
@@ -58,7 +58,7 @@
         "API 访问定价规则"
       ],
       "correct": 0,
-      "explanation": "正确答案是“如果同行发布而没有相当防护，实验室可以降低自己的安全要求”。本课并列 Anthropic ASL、OpenAI Preparedness Framework 和 DeepMind FSF 的安全案例结构。"
+      "explanation": "正确答案是“如果同行发布而没有相当防护，实验室可以降低自己的安全要求”。调整条款指若另一家实验室在没有可比安全措施下发布，本实验室可相应降低要求。出口管制豁免、模型卡披露、API 定价都不是该条款。"
     },
     {
       "id": "18-frontier-safety-frameworks-rsp-pf-fsf-post-5",
@@ -71,7 +71,7 @@
         "外部、内部、mesa"
       ],
       "correct": 1,
-      "explanation": "正确答案是“监控、不可读性、无能力”。本课并列 Anthropic ASL、OpenAI Preparedness Framework 和 DeepMind FSF 的安全案例结构。"
+      "explanation": "正确答案是“监控、不可读性、无能力”。本课描述的安全案例三支柱是监控、不可读性（无法在预算内执行连贯欺骗）和无能力。HHH、速度/准确率/成本、外部/内部/mesa 都不是这三支柱。"
     },
     {
       "id": "18-frontier-safety-frameworks-rsp-pf-fsf-post-6",
@@ -84,7 +84,7 @@
         "三者使用完全相同的评估"
       ],
       "correct": 1,
-      "explanation": "正确答案是“都是分层的前沿能力阈值并公布评估标准，虽然术语不同”。本课并列 Anthropic ASL、OpenAI Preparedness Framework 和 DeepMind FSF 的安全案例结构。"
+      "explanation": "正确答案是“都是分层的前沿能力阈值并公布评估标准，虽然术语不同”。三家框架在结构上对齐：都是分层的前沿能力阈值并公布评估标准，只是术语不同。它们并非没有公开文档、术语与数值截点完全相同，也不使用完全相同的评估。"
     }
   ]
 }

@@ -29,7 +29,7 @@ status: reviewed
 - 对照 gdb 与 lldb 的命令集，并把 `strace`、`ltrace`、`bpftrace`、`dtrace` 和 `rr` 放到正确的操作系统上，连同它们的版本和许可证。
 - 陈述使 lldb 能调试你自己构建的二进制文件的那些 macOS 代码签名事实，以及它拒绝调试的两个条件。
 
-## 问题所在
+## 问题
 
 第 41 课从 DWARF 读出 `struct account`，说 `balance` 位于偏移 4。第 33 课构建了 `classify` 的控制流图，说当余额为负时第一个分支走向 `return -1` 块。第 32 课说前两个参数到达 `x0` 和 `x1`。这些句子里的每一句都是从字节推导出来的，没有一句是观测到的。
 
@@ -361,7 +361,7 @@ TeamIdentifier=not set
 
 本课中的一切都适用于你自己编译的程序。只有当某个进程的所有者主动选择允许时，同样的命令才会 attach 到那个进程，而这里没有任何内容教你如何去改变那一点。
 
-## 构建它
+## 动手构建
 
 运行演示：
 
@@ -410,7 +410,7 @@ python3 code/main.py
 
 还存在另外四条命令。`python3 code/main.py plan O0` 打印某个构建的命令文件。`python3 code/main.py commands` 打印 gdb 和 lldb 对照表。`python3 code/main.py tools` 报告哪些外部工具在 `PATH` 上。`python3 code/main.py live O0` 把 `account.c` 编译到一个临时目录，根据它全新的反汇编清单规划，运行 lldb，并对照那次运行为结论评分。在沙箱内，它报告 lldb 无法启动进程，连同错误，并以 1 退出。
 
-## 使用它
+## 使用
 
 按这个顺序在你自己的程序上使用这套 harness。
 

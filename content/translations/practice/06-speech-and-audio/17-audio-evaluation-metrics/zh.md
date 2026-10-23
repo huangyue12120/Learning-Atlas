@@ -126,7 +126,7 @@ status: reviewed
 sp-wer-align
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：带归一化的 WER
 
@@ -188,7 +188,7 @@ def eer(same_scores, diff_scores):
     return best[1]
 ```
 
-## 用于实践
+## 使用
 
 每次部署都应配备固定的评估工具，并在每次模型更新时运行。三条基本规则：
 
@@ -204,7 +204,7 @@ def eer(same_scores, diff_scores):
 - **聚合 WER。** 总体 5% WER 可能掩盖口音语音上的 30% WER。应按人口统计切片报告。
 - **公开基准饱和。** 大多数前沿模型在标准基准上已接近上限。请构建反映实际流量的内部留出集。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-audio-evaluator.md`。为任意音频模型发布选择指标、基准与报告格式。
 

@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: K8s 证据图与故障根因排序
-  summary: 在沿 K8s 所有权、调度和观测边收集遥测证据并给根因假设排序时，用基础设施可靠性与图结构直觉核对依赖传播、证据路径和只读修复边界。
+  summary: 在沿 K8s 所有权、调度和观测边收集遥测证据并给根因假设排序时，用基础设施可靠性与图结构直觉核对依赖传播、证据路径和只读修复边界。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

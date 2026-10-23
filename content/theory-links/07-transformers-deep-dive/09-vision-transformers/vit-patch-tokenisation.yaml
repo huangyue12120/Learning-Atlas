@@ -16,8 +16,8 @@ card:
   key_points:
     - "H×W 图像用 P×P 的不重叠图块会产生 N=HW/P² 个 patch，每个展平向量长度为 P²C。"
     - "线性 patch 投影等价于核大小与步幅均为 P 的卷积。"
-    - "加入 [CLS] 后序列长度为 N+1；patch 越小，空间分辨率越高，但全局注意力成本随 token 数平方增长。"
-  application: "对给定 H、W、P、C 显式计算预期形状，验证 patchify 后可逆重排，并比较不同 P 下 token 数和注意力矩阵规模。"
+    - "加入 [CLS] 后序列长度为 N+1；patch 越小，空间分辨率越高，但全局注意力成本随词元数平方增长。"
+  application: "对给定 H、W、P、C 显式计算预期形状，验证 patchify 后可逆重排，并比较不同 P 下词元数和注意力矩阵规模。"
   check_question: "把 patch 边长减半时，patch 数量和稠密注意力分数数量分别会变为原来的多少倍？"
 theory:
   repository: maths-cs-ai-compendium

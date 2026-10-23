@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 受监管 RAG 的检索、条件上下文与引用
-  summary: 在按角色与司法辖区过滤、混合检索、重排并通过 RAGAS 和引用锚点评估答案时，用检索增强生成的数据流核对外部证据如何进入生成条件，以及提示缓存为何要求稳定前缀；该关联先保留候选状态，待独立审核。
+  summary: 在按角色与司法辖区过滤、混合检索、重排并通过 RAGAS 和引用锚点评估答案时，用检索增强生成的数据流核对外部证据如何进入生成条件，以及提示词缓存为何要求稳定前缀；该关联先保留候选状态，待独立审核。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

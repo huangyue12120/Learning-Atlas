@@ -1,3 +1,35 @@
+# Learning Atlas v0.27.1 发布说明
+
+发布日期：2026-10-23。
+
+本版修复 `review/TRANSLATION-REVIEW.md` 中既有中文内容审查发现的问题。上游快照、课程范围和内容计数与 v0.27.0 相同。
+
+## 本版修复
+
+- **测验**：P18 第 21 课测验按上游 6 道题逐题重译（原版题目与上游不对应，4 题的正确答案下标不同）。P17、P18 共 58 份测验的 347 道题原先使用重复的套话解析，现改为逐题说明正确选项和主要干扰项；解析中的数字都能在对应课程中找到。P1 第 21、22 课测验中保留的英文术语改为术语表译法。
+- **阅读器时长**：阅读器现在也能识别 `**用时：**` 和 `**预计用时：**`，此前 187 节已开放课程显示“预计学习：未提供”。实践译文的时长标签统一为 `**预计时间：**`，并新增测试，断言 457 节课都能显示时长。
+- **结构**：恢复 21 篇实践译文和 2 篇理论译文中被压成段落的列表；`01-math-foundations/14-norms-and-distances` 和 `12-tensor-operations` 按原文逐段重译，删除 01/14 中多出来的练习汇总。P19 第 60–63 课的“测试”一节恢复为与上游一致的清单。
+- **未译内容**：34 篇实践译文中标为“上游新增练习提示（原文，待中文复核）”的英文提示全部译为中文，并移回“练习”一节之下。P0、P1、P13 等课程中学习者可见的 Mermaid 英文标签已翻译（节点 ID、公式、文件名和产品名保留）。11 张理论 SVG 图示的英文标题和说明已翻译，并逐张渲染检查。
+- **术语**：按术语表统一 reward hacking（奖励投机）、system prompt（系统提示词）、prompt caching（提示词缓存）、名词 prompt（提示词）、模型语境的 token（词元）、agent（智能体）、chunk（分块）和 reranking（重排）。认证语境的 token 译为“令牌”，编译器词法 token 译为“记号”。
+- **标题**：统一了 1135 处标准二级标题的译法（如 Build It → 动手构建、Use It → 使用、Ship It → 交付）。理论卡锚点绑定在 `<!-- learning-atlas: ... -->` 注释上，不受影响。
+- **练习指南**：重写 Phase 13 第 10、28–31 课的 5 份通用模板指南，步骤对应各课的实践实验，并在工作区中运行测试。
+- **理论卡**：按术语表修正约 110 处卡片文字；P19 的 22 张只有摘要的卡片注明“扩展内容待迁移，尚未经审核”。
+- **校验**：
+  - 结构检查新增列表项数量规则：译文比原文少 2 项以上时报错。
+  - 新增 `scripts/check_assessment_correspondence.py` 并接入 CI。它逐题核对题数、阶段、正确答案、选项数和未译英文，同一句解析用于 2 道以上题目时报错。题干与原文的专名、数字完全不重合时只给出警告。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`（542 篇实践译文、89 篇理论译文）
+- `python3 scripts/check_source_fingerprints.py`（1560 条）
+- `python3 scripts/check_assessment_correspondence.py`（307 份，6 条警告均经人工确认为正常意译）
+- `python3 scripts/check_theory_cards.py`（289 张）
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`
+- `cd apps/local-learning && npm run check && npm test`（26 项）
+
+---
+
 # Learning Atlas v0.27.0 发布说明
 
 发布日期：2026-10-23。

@@ -154,7 +154,7 @@ L = {} & \lambda_{\text{coord}} \cdot L_{\text{box}}(\text{pred}, \text{target},
 object-detection-nms
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：IoU
 
@@ -370,7 +370,7 @@ def postprocess(pred_tensor, anchors, stride, img_size, conf_threshold=0.25, iou
 
 完整评估路径为：head -> decode -> threshold -> NMS。
 
-## 使用现成工具
+## 使用
 
 `torchvision.models.detection` 提供具有相同概念结构的生产检测器。加载预训练模型只需三行。
 
@@ -390,7 +390,7 @@ print(f"labels: {predictions[0]['labels'].shape}")
 
 实时推理管线的标准是 `ultralytics`（YOLOv8/v9）：`from ultralytics import YOLO; model = YOLO('yolov8n.pt'); model(img)`。模型在内部处理解码和 NMS，返回与你上面构建相同的 `boxes / scores / labels` 三元组。
 
-## 交付产物
+## 交付
 
 本课产出：
 

@@ -105,7 +105,7 @@ Show-o2（2025 年后续版本，arXiv 2506.15564）扩展了 Show-o：更大的
 masked-diffusion-unmask
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 模拟 Show-o 采样：
 
@@ -116,7 +116,7 @@ masked-diffusion-unmask
 
 运行它，观察掩码如何一步一步消失。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-unified-gen-model-picker.md`。给定一个既需要理解（VQA、标题生成）又需要生成（T2I、图像修复）的产品，并且要求开放权重，它会在 Show-o 家族、Transfusion/MMDiT 家族和 Emu3 / Chameleon 家族之间做出选择，并给出具体取舍。
 

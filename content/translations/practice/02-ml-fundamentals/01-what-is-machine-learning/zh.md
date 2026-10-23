@@ -292,7 +292,7 @@ flowchart TD
 f3-learning-boundary
 ```
 
-## 动手实现
+## 动手构建
 
 `code/ml_intro.py` 从零实现最近质心（nearest centroid）分类器，这是最简单的 ML 算法：从数据学习，再对新数据预测。
 
@@ -361,7 +361,7 @@ baseline_acc = np.mean(baseline_preds == y_test)
 
 这些局限推动了后续算法：K 近邻处理多个簇，决策树处理非线性边界，特征缩放解决尺度问题。每课都建立在前一课的局限之上。
 
-## 在工具中使用
+## 使用
 
 scikit-learn 提供 `NearestCentroid` 和合成数据生成器：
 
@@ -381,7 +381,7 @@ clf.fit(X_train, y_train)
 print(f"Accuracy: {clf.score(X_test, y_test):.3f}")
 ```
 
-## 产出
+## 交付
 
 本课产出 `outputs/prompt-ml-problem-framer.md`：一个把模糊业务问题转成具体 ML 任务的提示词。输入“我们想降低流失率”或“预测下一季度需求”等描述，它会识别学习类型、定义预测目标、列出候选特征、选择成功指标、建立基线，并标出数据泄漏和类别不平衡等风险。在任何 ML 项目开头使用它，避免构建错误的问题。
 

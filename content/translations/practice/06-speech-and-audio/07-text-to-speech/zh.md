@@ -81,7 +81,7 @@ LibriTTS test-clean 上的 2026 年数据：
 sp-tts-stack
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：把输入转换为音素
 
@@ -144,7 +144,7 @@ wav = vocoder(mel)                                # [T * 256]
 soundfile.write("out.wav", wav, 24000)
 ```
 
-## 用于实践
+## 使用
 
 2026 年的技术栈：
 
@@ -166,7 +166,7 @@ soundfile.write("out.wav", wav, 24000)
 - **削波。** 声码器输出很少削波，但推理时的梅尔缩放不匹配可能超出 ±1.0。务必执行 `np.clip(wav, -1, 1)`。
 - **采样率不匹配。** Kokoro 输出 24 kHz，而下游流水线期望 16 kHz → 应重采样，否则会发生混叠。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-tts-designer.md`。针对给定声音、延迟与语言目标设计 TTS 流水线。
 

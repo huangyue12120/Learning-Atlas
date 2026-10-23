@@ -162,7 +162,7 @@ classDiagram
 gradient-clipping
 ```
 
-## 构建实现
+## 动手构建
 
 ### 步骤 1：Module 基类
 
@@ -642,7 +642,7 @@ def train():
     return model, test_accuracy
 ```
 
-## 应用
+## 使用
 
 下面是刚才构建内容的 PyTorch 等价实现：
 
@@ -683,7 +683,7 @@ for epoch in range(100):
 
 完成这些实现后，你可以逐行理解 PyTorch 代码所执行的操作。
 
-## 交付物
+## 交付
 
 本课产出：
 

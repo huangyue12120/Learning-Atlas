@@ -126,7 +126,7 @@ Cutmix：
 receptive-field
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：确定性的合成数据集
 
@@ -380,7 +380,7 @@ print_confusion(cm)
 
 行是真实类别，列是预测。类别 3 与 5 间一簇非对角计数意味着模型混淆两类，也为定向数据收集或类别特异增强提供起点。
 
-## 使用现成工具
+## 使用
 
 `torchvision` 将上述内容封装为惯用组件。对真实 CIFAR-10，完整管线是四行加训练循环。
 
@@ -404,7 +404,7 @@ val_ds   = CIFAR10(root="./data", train=False, download=True, transform=eval_tf)
 
 注意两点：均值/标准差是**数据集特异**的——由 CIFAR-10 训练集而非 ImageNet 计算——reflect 填充则是社区默认裁剪策略。把 ImageNet 统计量复制到这里会泄漏约 1% 准确率，直到有人分析模型前通常无人发现。
 
-## 交付产物
+## 交付
 
 本课产出：
 

@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 19 第 42–45 课
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -97,7 +97,7 @@ gloo 是 CPU collective 后端。它比 GPU 上的 nccl 慢几个数量级，但
 cg-allreduce-ring
 ```
 
-## 构建
+## 动手构建
 
 ### 第 1 步：建立 process group
 

@@ -19,7 +19,7 @@
         "只负责日志的 sidecar"
       ],
       "correct": 2,
-      "explanation": "正确答案是“位于应用和模型供应商之间的进程，在一个 API 后统一路由、回退、重试、限流、密钥引用、观测和护栏”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "AI 网关是位于应用与模型供应商之间的进程，在一个（通常 OpenAI 兼容的）API 后统一路由、回退、重试、限流、密钥引用、可观测性和护栏。它不是向量数据库、微调服务，也不只是记录日志的 sidecar。"
     },
     {
       "id": "q2",
@@ -32,7 +32,7 @@
         "上限为 50 RPS"
       ],
       "correct": 2,
-      "explanation": "正确答案是“8 GB 内存约 2000 RPS 开始崩溃，持续负载下出现级联故障”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "Kong 基准报告 LiteLLM 在 8 GB 内存、约 2000 RPS 处开始失效，持续负载下出现级联故障。它并非无法测试、也没有超过 10K RPS 线性扩展或仅 50 RPS 上限的说法。"
     },
     {
       "id": "q3",
@@ -45,7 +45,7 @@
         "比两者都慢"
       ],
       "correct": 2,
-      "explanation": "正确答案是“比 Portkey 快 228%，比 LiteLLM 快 859%”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "Kong 在等价 12 CPU 上的基准显示 Kong AI Gateway 比 Portkey 快 228%、比 LiteLLM 快 859%。速度相同、快 10%/20%、或比两者都慢都与该基准数字不符。"
     },
     {
       "id": "q4",
@@ -58,7 +58,7 @@
         "LiteLLM"
       ],
       "correct": 1,
-      "explanation": "正确答案是“Portkey”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "Portkey 定位为控制平面，侧重护栏、PII 脱敏、越狱检测与审计，代价是每请求增加约 20–40 ms 延迟。Cloudflare（1–3 ms）、Kong（3–8 ms）、LiteLLM（5–15 ms）开销都更低，不是这组特征。"
     },
     {
       "id": "q5",
@@ -71,7 +71,7 @@
         "网关是否开源"
       ],
       "correct": 2,
-      "explanation": "正确答案是“数据驻留要求”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "本课把数据驻留列为自托管与托管决策的强制因素：医疗、金融因驻留要求默认自托管。支持的供应商数量、每请求成本、是否开源都是次要考量，不是那条强制性约束。"
     },
     {
       "id": "q6",
@@ -84,7 +84,7 @@
         "Kong（约 3–8 ms）或 Cloudflare/Vercel 边缘网关（约 1–3 ms）；Portkey 的 20–40 ms 太重"
       ],
       "correct": 3,
-      "explanation": "正确答案是“Kong（约 3–8 ms）或 Cloudflare/Vercel 边缘网关（约 1–3 ms）；Portkey 的 20–40 ms 太重”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "网关开销直接加到 TTFT，SLA 要求 TTFT P99 < 100 ms 时只有 Kong（约 3–8 ms）或 Cloudflare/Vercel 边缘网关（约 1–3 ms）还在预算内。Portkey 的 20–40 ms 太重；“任何网关”“只有 Portkey/LiteLLM”都不对。"
     }
   ]
 }

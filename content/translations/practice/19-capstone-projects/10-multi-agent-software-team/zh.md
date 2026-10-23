@@ -17,7 +17,7 @@ status: reviewed
 **语言：** Python / TypeScript（智能体）、Shell（worktree 脚本）
 **前置课程：** 第 11 阶段（LLM 工程）、第 13 阶段（工具）、第 14 阶段（智能体）、第 15 阶段（自治系统）、第 16 阶段（多智能体）、第 17 阶段（基础设施）
 **涉及阶段：** P11 · P13 · P14 · P15 · P16 · P17
-**用时：** 40 小时
+**预计时间：** 40 小时
 
 ## 问题
 
@@ -99,7 +99,7 @@ ce-team-handoff
 
 9. **事后复盘。** 对每个失败 issue 找出出问题的交接（计划太含糊、合并冲突、审阅者误批准、测试 flaky）。生成交接失败直方图。
 
-## 实际使用
+## 使用
 
 ```text
 $ team run --issue https://github.com/acme/widget/issues/842

@@ -196,7 +196,7 @@ flowchart TD
 f3-ensemble-average
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：决策树桩（基学习器）
 
@@ -303,7 +303,7 @@ class GradientBoostingScratch:
 
 代码验证从零实现与 sklearn 的 `AdaBoostClassifier`、`GradientBoostingClassifier` 产生近似准确率，并将所有方法并列比较。
 
-## 使用现成工具
+## 使用
 
 ### 何时使用每种方法
 
@@ -327,7 +327,7 @@ class GradientBoostingScratch:
 
 尽管持续有研究尝试，表格数据上的神经网络几乎总比梯度提升更差。TabNet、NODE 等架构偶尔能持平，却很少胜过调优良好的 XGBoost。
 
-## 交付成果
+## 交付
 
 本课产出 `outputs/prompt-ensemble-selector.md`：帮助针对给定数据集选择正确集成方法的提示词。描述数据（规模、特征类型、噪声水平、类别平衡）和待解决问题；提示词会经过决策清单、推荐方法、给出起始超参数，并警示该方法的常见错误。还会产出包含完整选择指南的 `outputs/skill-ensemble-builder.md`。
 
@@ -343,7 +343,7 @@ class GradientBoostingScratch:
 
 5. 在同一数据集上使用默认参数运行 XGBoost。与从零实现的梯度提升比较准确率，并为两者计时；速度差有多大？
 
-## 核心术语
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

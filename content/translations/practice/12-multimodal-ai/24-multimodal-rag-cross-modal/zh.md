@@ -126,7 +126,7 @@ MuRAG（Chen 等，2022）是第一个多模态 RAG。它从多模态知识库�
 contrastive-matrix
 ```
 
-## 使用它
+## 使用
 
 `code/main.py`：
 
@@ -135,7 +135,7 @@ contrastive-matrix
 - 输出带引用最终答案的生成器桩。
 - 当置信度低时重新表述查询的简单智能体循环。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-multimodal-rag-designer.md`。给定带多模态查询流程的产品规格，它会设计检索器、融合、生成器和评估方案。
 

@@ -54,7 +54,7 @@ LDA 的关键输出：
 topic-drift
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：使用 scikit-learn 运行 LDA
 
@@ -135,7 +135,7 @@ for topic_id in valid_topics[:5]:
 
 最重要的现实因素是文档长度。BERT 嵌入会截断，LDA 计数可以处理任意长度。文档超过嵌入模型上下文时，应先分块再聚合，或使用 LDA。
 
-## 使用现成工具
+## 使用
 
 2026 年技术栈：
 
@@ -147,7 +147,7 @@ for topic_id in valid_topics[:5]:
 - **FASTopic。** 更新的方法，在超大语料上比 BERTopic 快。
 - **基于 LLM 的标注。** 运行任意聚类，再提示模型为每个簇命名。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-topic-picker.md`：
 

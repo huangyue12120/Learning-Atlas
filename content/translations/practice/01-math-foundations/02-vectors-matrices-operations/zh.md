@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 实作  
 **学习实现：** Python（上游另有 Julia 版本，可由原文追溯）  
 **前置课程：** Phase 1 · 第 01 课「线性代数直觉」  
-**预计学习：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -121,7 +121,7 @@ A = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{bmatrix} \quad \text{2x3 matrix 
 vector-projection
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：向量类
 
@@ -276,7 +276,7 @@ print(f"Output: {output.data}")
 
 这给出一个稠密层：`output = relu(W @ x + b)`。每个稠密神经网络层都执行同样的操作。
 
-## 使用库
+## 使用
 
 NumPy 用更少的代码完成上述操作，且速度可高出几个数量级。
 
@@ -315,7 +315,7 @@ print(matrix + bias)
 
 NumPy 会把一维偏置自动广播到两行。这正是每个神经网络中偏置加法的工作方式。
 
-## 交付物
+## 交付
 
 本课产出一个用几何直觉讲解矩阵运算的提示词，见上游 `outputs/prompt-matrix-operations.md`。这里构建的 `Matrix` 类是 Phase 3 第 10 课小型神经网络框架的基础。
 
@@ -327,15 +327,13 @@ NumPy 会把一维偏置自动广播到两行。这正是每个神经网络中�
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Multiply `A @ A.inverse_2x2()` for three matrices and compare each cell with the identity within `1e-9`. For a matrix with a determinant of 0, such as [[1, 2], [2, 4]], `inverse_2x2` raises a `ValueError`, and this is the expected result.
->
-> **Exercise 2.** Compute the 3x3 cofactor matrix, transpose it to get the adjugate, then divide each cell by `determinant()`. Check that `A @ A_inv` gives the identity and that each cell matches `np.linalg.inv(A)` within `1e-9`.
->
-> **Exercise 3.** Write the shape of each matrix before you multiply: `W1` is 4x3 and `W2` is 2x4, as in `demo_neural_network_layer`. A 3x1 input must give a 4x1 hidden vector and a 2x1 output.
+**练习 1.** 对三个矩阵分别计算 `A @ A.inverse_2x2()`，并在 `1e-9` 的容差内逐元素与单位矩阵比较。对于行列式为 0 的矩阵（如 [[1, 2], [2, 4]]），`inverse_2x2` 会抛出 `ValueError`，这是预期结果。
 
-## 术语
+**练习 2.** 先计算 3×3 的余子式矩阵，转置得到伴随矩阵，再把每个元素除以 `determinant()`。检查 `A @ A_inv` 是否得到单位矩阵，并确认每个元素在 `1e-9` 容差内与 `np.linalg.inv(A)` 一致。
+
+**练习 3.** 做乘法前先写出每个矩阵的形状：如 `demo_neural_network_layer` 中，`W1` 为 4×3，`W2` 为 2×4。一个 3×1 的输入必然得到 4×1 的隐层向量和 2×1 的输出。
+
+## 关键术语
 
 | 术语 | 实际含义 |
 |---|---|
@@ -349,7 +347,7 @@ NumPy 会把一维偏置自动广播到两行。这正是每个神经网络中�
 | 广播 | 沿缺失维度重复较小数组以匹配较大数组。 |
 | 逐元素运算 | 对对应位置操作；形状必须相同或可广播。 |
 
-## 原文与补充阅读
+## 延伸阅读
 
 - 锁定版本的上游课程：`phases/01-math-foundations/02-vectors-matrices-operations/docs/en.md`
 - [3Blue1Brown：线性代数的本质](https://www.3blue1brown.com/topics/linear-algebra)

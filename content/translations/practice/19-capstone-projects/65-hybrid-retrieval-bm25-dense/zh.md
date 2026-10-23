@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 11 第 04、06 课；Phase 19 Track B 基础（第 20–29 课）；Phase 19 第 64 课
-**时间：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 - 从 Robertson–Sparck Jones 公式实现 BM25，加入字段权重、文档长度归一化以及可调的 k1、b。
@@ -77,7 +77,7 @@ Vespa 与 Weaviate 文档中关于 RankFusion 与 RRF 的论证也是如此：�
 rrf-fusion
 ```
 
-## 构建
+## 动手构建
 
 `code/main.py` 实现：
 - `tokenize(text)`：快速正则分词器。
@@ -122,7 +122,7 @@ python3 code/main.py
 - 并行执行两种查询；融合只是对并集进行常数时间合并。
 - 持久化每条命中结果的模态，让下游重排器知道是哪种模态投票。
 
-## 发布
+## 交付
 
 第 66 课接收本课的融合前 k，并用交叉编码器重排。第 68 课用 precision、recall、MRR 和 nDCG 评估完整流程。本课的混合检索器是第 69 课端到端系统的第一阶段。
 

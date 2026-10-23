@@ -11,12 +11,12 @@ status: reviewed
 
 # 面向专用硬件的推理编译：Blackwell 上的 FP8 与 NVFP4
 
-> 面向专用硬件的推理编译以可移植性换取吞吐量，而仅支持 NVIDIA、且为 Blackwell 调优的 TensorRT-LLM，是这种交换值得付出的最清晰例子。SemiAnalysis InferenceX 在 2026 年第一、二季度测得：对于 GB200 NVL72 加 Dynamo 编排上的 120B 模型，每百万 token 成本为 $0.012；相比之下，H100 + vLLM 为 $0.09/M——经济性相差 7 倍。该栈将三种浮点精度叠加：FP8 因拥有 KV 缓存和注意力内核所需的动态范围，仍是关键精度；NVFP4（4 位微缩放）用于权重和激活值；多 token 预测（MTP）与解耦的 prefill/decode 再带来 2–3 倍提升。首日模型支持可以直接加载 FP4 权重，无需训练后转换。对 2026 年工程团队而言，代价是：TRT-LLM 虽然开源，却专属于 NVIDIA——针对 CUDA 和 Blackwell 优化；采用它就是用可移植性交换吞吐量。作出承诺前，请先根据你的模型与硬件组合算清这笔账。
+> 面向专用硬件的推理编译以可移植性换取吞吐量，而仅支持 NVIDIA、且为 Blackwell 调优的 TensorRT-LLM，是这种交换值得付出的最清晰例子。SemiAnalysis InferenceX 在 2026 年第一、二季度测得：对于 GB200 NVL72 加 Dynamo 编排上的 120B 模型，每百万词元成本为 $0.012；相比之下，H100 + vLLM 为 $0.09/M——经济性相差 7 倍。该栈将三种浮点精度叠加：FP8 因拥有 KV 缓存和注意力内核所需的动态范围，仍是关键精度；NVFP4（4 位微缩放）用于权重和激活值；多词元预测（MTP）与解耦的 prefill/decode 再带来 2–3 倍提升。首日模型支持可以直接加载 FP4 权重，无需训练后转换。对 2026 年工程团队而言，代价是：TRT-LLM 虽然开源，却专属于 NVIDIA——针对 CUDA 和 Blackwell 优化；采用它就是用可移植性交换吞吐量。作出承诺前，请先根据你的模型与硬件组合算清这笔账。
 
 **类型：** 学习
 **语言：** Python（标准库，用于 FP8/NVFP4 内存与成本计算的玩具程序）
 **前置要求：** 第 17 阶段 · 04（服务引擎内部机制），第 10 阶段 · 13（量化）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -27,9 +27,9 @@ status: reviewed
 
 ## 问题
 
-2026 年推理经济性的前沿问题是“每美元能生成多少 token”。答案取决于四项叠加选择：硬件代际（Hopper H100/H200 或 Blackwell B200/GB200）、精度（BF16 → FP8 → NVFP4）、服务引擎（vLLM、SGLang 或 TRT-LLM），以及编排方式（普通、解耦或 Dynamo）。
+2026 年推理经济性的前沿问题是“每美元能生成多少词元”。答案取决于四项叠加选择：硬件代际（Hopper H100/H200 或 Blackwell B200/GB200）、精度（BF16 → FP8 → NVFP4）、服务引擎（vLLM、SGLang 或 TRT-LLM），以及编排方式（普通、解耦或 Dynamo）。
 
-在 Hopper + vLLM 上，120B MoE 的每百万 token 成本约为 $0.09。在 Blackwell + TRT-LLM + Dynamo 上，同一模型的成本约为 $0.012——便宜 7 倍。差距的一部分来自硬件（Blackwell 单 GPU LLM 吞吐量比 Hopper 高 11–15 倍），另一部分来自栈：FP4 权重、MTP 草稿、解耦的 prefill/decode，以及用于 MoE 专家通信的 NVLink 5 all-to-all。
+在 Hopper + vLLM 上，120B MoE 的每百万词元成本约为 $0.09。在 Blackwell + TRT-LLM + Dynamo 上，同一模型的成本约为 $0.012——便宜 7 倍。差距的一部分来自硬件（Blackwell 单 GPU LLM 吞吐量比 Hopper 高 11–15 倍），另一部分来自栈：FP4 权重、MTP 草稿、解耦的 prefill/decode，以及用于 MoE 专家通信的 NVLink 5 all-to-all。
 
 你无法在 NVIDIA 栈以外复刻它。这正是取舍——以可移植性换经济性。理解不同栈选择各自贡献了多大比例的差距，正是本课的目的。
 
@@ -51,16 +51,16 @@ NVFP4（2025–2026）用于权重和激活值。微缩放意味着：每个权�
 ### TRT-LLM 使用的 Blackwell 专属原语
 
 - **首日 FP4 权重：** 模型提供方直接交付 FP4 权重；TRT-LLM 无需训练后转换即可加载。FP4 不需要 AWQ / GPTQ 步骤。
-- **多 token 预测（MTP）：** 与 EAGLE（第 17 阶段 · 05）理念相同，但集成在 TRT-LLM 构建过程中。
+- **多词元预测（MTP）：** 与 EAGLE（第 17 阶段 · 05）理念相同，但集成在 TRT-LLM 构建过程中。
 - **解耦服务：** prefill 和 decode 分别运行在独立 GPU 池上，KV 缓存经 NVLink 或 InfiniBand 传输。与 Dynamo（第 17 阶段 · 20）理念相同。
 - **All-to-all 通信原语：** 与 Hopper 相比，NVLink 5 将 MoE 专家通信延迟降低 3 倍。TRT-LLM 的 MoE 内核为此调优。
 - **NVFP4 + MXFP8 微缩放：** Blackwell Tensor Core 上经硬件加速的缩放因子处理。
 
 ### 应当记住的数字
 
-- 在 TRT-LLM 上，HGX B200 运行 GPT-OSS-120B 的成本为 $0.02/M token。
-- 通过 Dynamo（编排 TRT-LLM），GB200 NVL72 的成本为 $0.012/M token。
-- 在可比工作负载上，H100 + vLLM ≈ $0.09/M token。
+- 在 TRT-LLM 上，HGX B200 运行 GPT-OSS-120B 的成本为 $0.02/M 词元。
+- 通过 Dynamo（编排 TRT-LLM），GB200 NVL72 的成本为 $0.012/M 词元。
+- 在可比工作负载上，H100 + vLLM ≈ $0.09/M 词元。
 - 2026 年三个月内的 TRT-LLM 更新带来 2.8 倍吞吐量增益。
 - Blackwell 相比 Hopper 的单 GPU LLM 吞吐量为 11–15 倍。
 - MLPerf Inference v6.0（2026 年 4 月）：Blackwell 在每项提交的任务中均占主导。
@@ -93,7 +93,7 @@ pipeline-parallel
 
 ## 交付
 
-本课产出 `outputs/skill-trtllm-blackwell-advisor.md`。给定一个工作负载、模型规模和年度 token 量，它会判断 Blackwell + TRT-LLM 栈是否值得接受 NVIDIA 绑定。
+本课产出 `outputs/skill-trtllm-blackwell-advisor.md`。给定一个工作负载、模型规模和年度词元量，它会判断 Blackwell + TRT-LLM 栈是否值得接受 NVIDIA 绑定。
 
 ## 练习
 
@@ -111,10 +111,10 @@ pipeline-parallel
 | NVFP4 | “4 位微缩放” | NVIDIA 的 4 位微缩放 FP 格式；用于 Blackwell 上的权重和激活值 |
 | MXFP8 | “MX 八位” | 微缩放 FP8 变体；在 Blackwell Tensor Core 上由硬件加速 |
 | 首日 FP4 | “交付 FP4 权重” | 模型提供方直接以 FP4 发布权重；无需训练后转换步骤 |
-| MTP | “多 token 预测” | TRT-LLM 集成的推测解码草稿机制（第 17 阶段 · 05） |
+| MTP | “多词元预测” | TRT-LLM 集成的推测解码草稿机制（第 17 阶段 · 05） |
 | 解耦服务 | “拆分 prefill/decode” | prefill 和 decode 位于独立 GPU 池；KV 经 NVLink/IB 传输 |
-| All-to-all | “MoE 专家通信” | 将 token 路由到专家 GPU 的通信模式；NVLink 5 可降低 3 倍 |
-| InferenceX | “SemiAnalysis 推理基准” | 2026 年行业接受的每 token 成本基准 |
+| All-to-all | “MoE 专家通信” | 将词元路由到专家 GPU 的通信模式；NVLink 5 可降低 3 倍 |
+| InferenceX | “SemiAnalysis 推理基准” | 2026 年行业接受的每词元成本基准 |
 
 ## 延伸阅读
 

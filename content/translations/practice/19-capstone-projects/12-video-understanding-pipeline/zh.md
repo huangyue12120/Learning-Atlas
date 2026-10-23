@@ -17,7 +17,7 @@ status: reviewed
 **语言：** Python（流水线）、TypeScript（UI）
 **前置课程：** 第 4 阶段（计算机视觉）、第 6 阶段（语音）、第 7 阶段（Transformer）、第 11 阶段（LLM 工程）、第 12 阶段（多模态）、第 17 阶段（基础设施）
 **涉及阶段：** P4 · P6 · P7 · P11 · P12 · P17
-**用时：** 30 小时
+**预计时间：** 30 小时
 
 ## 问题
 
@@ -97,7 +97,7 @@ cf-scene-index
 
 9. **评测。** 运行 ActivityNet-QA 和 NeXT-GQA，建立 100 个查询的自定义集，报告总体准确率和按类别拆分的结果（计数、动作、描述）。
 
-## 实际使用
+## 使用
 
 ```text
 $ video-qa ask --url=https://youtube.com/watch?v=X "how many cars pass the intersection in the first minute?"

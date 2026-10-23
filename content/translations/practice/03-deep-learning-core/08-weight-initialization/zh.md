@@ -176,7 +176,7 @@ flowchart TD
 weight-init-variance
 ```
 
-## 构建实现
+## 动手构建
 
 ### 步骤 1：初始化策略
 
@@ -331,7 +331,7 @@ def magnitude_report(name, magnitudes):
             print(f"  Layer {i+1:3d}: {bar} ({mag:.6f})")
 ```
 
-## 应用
+## 使用
 
 PyTorch 将这些功能作为内置函数提供：
 
@@ -354,7 +354,7 @@ nn.init.zeros_(layer.bias)
 
 对于 Transformer，HuggingFace 模型通常在 `_init_weights` 方法中处理初始化。GPT-2 实现会按 1/sqrt(N) 缩放残差投影；若从零构建 Transformer，就必须自己加入此处理。
 
-## 交付物
+## 交付
 
 本课产出：
 

@@ -127,7 +127,7 @@ L = L_{\text{rpn\_cls}} + L_{\text{rpn\_box}} + L_{\text{box\_cls}} + L_{\text{b
 cv3-roialign-sampling
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从零实现 RoIAlign
 
@@ -257,7 +257,7 @@ print(f"trainable after freeze: {trainable:,}")
 
 对 500 张图像的数据集，这决定收敛还是过拟合。
 
-## 使用现成工具
+## 使用
 
 torchvision 中 Mask R-CNN 的完整训练循环仅 40 行，任务之间没有实质变化：替换数据集即可。
 
@@ -276,7 +276,7 @@ def train_step(model, images, targets, optimizer):
 
 `pycocotools` 评估器对框和掩码都产生 mAP@IoU=0.5:0.95；要知道框头还是掩码头是瓶颈，必须同时看两个数。
 
-## 交付产物
+## 交付
 
 本课产出：
 

@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 实作  
 **学习实现：** Python  
 **前置课程：** Phase 1 · 第 04–05 课「导数、梯度」  
-**预计学习：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -59,7 +59,13 @@ status: reviewed
 
 ### Adam：自适应学习率
 
-Adam 为每个权重维护一阶矩 m（梯度方向的滑动平均）和二阶矩 v（梯度平方的滑动平均）：
+不同权重需要不同的学习率。很少收到大梯度的权重，在真正收到时应该迈更大的步；总是收到巨大梯度的权重则应迈更小的步。
+
+Adam（Adaptive Moment Estimation，自适应矩估计）为每个权重跟踪两样东西：
+
+1. 一阶矩（$m$）：梯度的滑动平均（类似动量）
+2. 二阶矩（$v$）：梯度平方的滑动平均（梯度模长）
+
 m=beta1*m+(1-beta1)*g，v=beta2*v+(1-beta2)*g^2；
 m_hat=m/(1-beta1^t)，v_hat=v/(1-beta2^t)；
 w=w-lr*m_hat/(sqrt(v_hat)+epsilon)。
@@ -90,7 +96,7 @@ Rosenbrock 函数 f(x,y)=(1-x)^2+100(y-x^2)^2 的最低点是 (1,1)，但狭窄�
 
 生产中由 PyTorch/JAX 处理参数组、weight decay、gradient clipping 与 GPU。经验规则：先试 Adam(lr=0.001)；若有调参余量且追求最终精度，试 SGD(momentum=0.9,lr=0.01)；Transformer 用带解耦权重衰减的 AdamW；训练超过数个 epoch 用调度器；不稳定时减小 lr，太慢时增大 lr。
 
-## 动手实现
+## 动手构建
 
 以下上游 Build/Use 代码块逐字保留；参考实现 optimizer.py 同样逐字保留完整上游标准库程序。
 
@@ -106,25 +112,25 @@ w = w - \text{lr} \cdot \text{gradient}
 
 ```mermaid
 graph TD
-    A["* Starting point (high loss)"] --> B["Moving downhill along gradient"]
-    B --> C["Approaching minimum"]
-    C --> D["o Minimum (low loss)"]
+    A["* 起点（高损失）"] --> B["沿梯度下山"]
+    B --> C["接近最小值"]
+    C --> D["o 最小值（低损失）"]
 ```
 
 ```mermaid
 graph LR
-    subgraph TooLarge["Too Large (lr = 1.0)"]
-        A1["Step 1"] -->|overshoot| A2["Step 2"]
-        A2 -->|overshoot| A3["Step 3"]
-        A3 -->|diverging| A4["..."]
+    subgraph TooLarge["过大（lr = 1.0）"]
+        A1["步骤 1"] -->|过冲| A2["步骤 2"]
+        A2 -->|过冲| A3["步骤 3"]
+        A3 -->|发散| A4["..."]
     end
-    subgraph TooSmall["Too Small (lr = 0.0001)"]
-        B1["Step 1"] -->|tiny step| B2["Step 2"]
-        B2 -->|tiny step| B3["Step 3"]
-        B3 -->|10,000 steps later| B4["Minimum"]
+    subgraph TooSmall["过小（lr = 0.0001）"]
+        B1["步骤 1"] -->|微小步进| B2["步骤 2"]
+        B2 -->|微小步进| B3["步骤 3"]
+        B3 -->|一万步之后| B4["最小值"]
     end
-    subgraph JustRight["Just Right (lr = 0.01)"]
-        C1["Start"] --> C2["..."] --> C3["Converged in ~100 steps"]
+    subgraph JustRight["恰好（lr = 0.01）"]
+        C1["起点"] --> C2["..."] --> C3["约 100 步收敛"]
     end
 ```
 
@@ -137,16 +143,16 @@ w &= w - \text{lr} \cdot v
 
 ```mermaid
 graph TD
-    subgraph Without["Without Momentum (zigzag, slow)"]
-        W1["Start"] -->|left| W2[" "]
-        W2 -->|right| W3[" "]
-        W3 -->|left| W4[" "]
-        W4 -->|right| W5[" "]
-        W5 -->|left| W6[" "]
-        W6 --> W7["Minimum"]
+    subgraph Without["无动量（锯齿、缓慢）"]
+        W1["起点"] -->|左| W2[" "]
+        W2 -->|右| W3[" "]
+        W3 -->|左| W4[" "]
+        W4 -->|右| W5[" "]
+        W5 -->|左| W6[" "]
+        W6 --> W7["最小值"]
     end
-    subgraph With["With Momentum (smooth, fast)"]
-        M1["Start"] --> M2[" "] --> M3[" "] --> M4["Minimum"]
+    subgraph With["有动量（平滑、快速）"]
+        M1["起点"] --> M2[" "] --> M3[" "] --> M4["最小值"]
     end
 ```
 
@@ -162,25 +168,25 @@ w &= w - \text{lr} \cdot \hat{m} / (\sqrt{\hat{v}} + \epsilon)
 
 ```mermaid
 graph LR
-    subgraph Convex["Convex: One valley, one answer"]
+    subgraph Convex["凸：一座谷、一个答案"]
         direction TB
-        CV1["High loss"] --> CV2["Global minimum"]
+        CV1["高损失"] --> CV2["全局最小值"]
     end
-    subgraph NonConvex["Non-convex: Multiple valleys, saddle points"]
+    subgraph NonConvex["非凸：多座谷、鞍点"]
         direction TB
-        NC1["Start"] --> NC2["Local minimum"]
-        NC1 --> NC3["Saddle point"]
-        NC1 --> NC4["Global minimum"]
+        NC1["起点"] --> NC2["局部最小值"]
+        NC1 --> NC3["鞍点"]
+        NC1 --> NC4["全局最小值"]
     end
 ```
 
 ```mermaid
 graph TD
-    HL["High loss region"] --> SP["Saddle point"]
-    HL --> LM["Local minimum"]
+    HL["高损失区域"] --> SP["鞍点"]
+    HL --> LM["局部最小值"]
     SP --> LM
-    SP --> GM["Global minimum"]
-    LM -.->|"shallow barrier"| GM
+    SP --> GM["全局最小值"]
+    LM -.->|"浅势垒"| GM
     style HL fill:#ff6666,color:#000
     style SP fill:#ffcc66,color:#000
     style LM fill:#66ccff,color:#000
@@ -317,7 +323,15 @@ adamw = torch.optim.AdamW(model.parameters(), lr=0.001, weight_decay=0.01)
 scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(adam, T_max=100)
 ```
 
-## 交付物
+经验规则：
+
+- 先用 Adam（lr=0.001）。它在多数问题上无需调参就能工作。
+- 当你追求最佳最终精度且能承担更多调参时，改用带动量的 SGD（lr=0.01、momentum=0.9）。
+- Transformer 使用 AdamW（带解耦权重衰减的 Adam）。
+- 训练超过数个 epoch 时始终使用学习率调度。
+- 训练不稳定就减小学习率；训练太慢就增大学习率。
+
+## 交付
 
 本课产出“如何选择优化器”的提示指南，位于上游 outputs/prompt-optimizer-guide.md；这些优化器会在 Phase 3 从零训练神经网络时再次使用。
 
@@ -330,17 +344,15 @@ scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(adam, T_max=100)
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Loop over the learning rates, create a `GradientDescent(lr=...)` for each, and pass it to `optimize` with `rosenbrock` and `rosenbrock_gradient`. A run that diverges shows a loss that grows or becomes `nan`; the minimum is at $(1, 1)$ with loss 0.
->
-> **Exercise 2.** Create `SGDMomentum(momentum=m)` for each value and record the loss after each step. Use `find_convergence_step` to compare speed, and look for losses that go up and down to find overshoot.
->
-> **Exercise 3.** Write the gradient $(2x, -2y)$ and run the three optimizers from (0.01, 0.01). Print $y$ every 100 steps: the optimizer that escapes is the one where $\lvert y \rvert$ grows large.
->
-> **Exercise 4.** Store `lr_0` and a step counter in `GradientDescent`, and compute `lr = lr_0 * 0.999 ** step` inside `step`. Print the learning rate at step 0 and step 1000; it must fall from `lr_0` to about $0.37 \times \text{lr}_0$.
+**练习 1.** 遍历这些学习率，为每个创建一个 `GradientDescent(lr=...)`，再连同 `rosenbrock` 和 `rosenbrock_gradient` 传给 `optimize`。发散的运行会表现为损失不断增大或变成 `nan`；最小值在 $(1, 1)$ 处，损失为 0。
 
-## 术语
+**练习 2.** 为每个取值创建 `SGDMomentum(momentum=m)`，并记录每步之后的损失。用 `find_convergence_step` 比较速度，并留意先升后降的损失以发现过冲。
+
+**练习 3.** 写出梯度 $(2x, -2y)$，从 (0.01, 0.01) 运行三个优化器。每 100 步打印一次 $y$：能逃离的那个优化器，其 $\lvert y \rvert$ 会越变越大。
+
+**练习 4.** 在 `GradientDescent` 中存储 `lr_0` 和一个步数计数器，在 `step` 内计算 `lr = lr_0 * 0.999 ** step`。打印第 0 步和第 1000 步的学习率；它必须从 `lr_0` 降到约 $0.37 \times \text{lr}_0$。
+
+## 关键术语
 
 | 术语 | 准确定义 |
 |---|---|

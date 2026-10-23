@@ -273,7 +273,7 @@ flowchart TD
 bias-variance
 ```
 
-## 动手实现
+## 动手构建
 
 `code/bias_variance.py` 运行完整的偏差—方差分解实验。下面逐步说明方法。
 
@@ -375,7 +375,7 @@ alpha 很低时，15 次多项式几乎不受约束，模型会在每个 bootstr
 
 这与改变多项式次数得到的是同一条 U 曲线，只是以连续旋钮而不是离散选择控制。实践中，正则化是控制权衡的首选方式，因为无需改变特征集合也能细粒度调节。
 
-## 使用现成工具
+## 使用
 
 sklearn 提供 `learning_curve` 和 `validation_curve`，无需编写 bootstrap 循环即可自动进行这些诊断。
 
@@ -446,7 +446,7 @@ for alpha in alphas:
 
 对大多数表格数据集，这需要 10–15 分钟计算，却能节省数小时的猜测。
 
-## 交付成果
+## 交付
 
 本课产出：`outputs/prompt-model-diagnostics.md`
 
@@ -462,7 +462,7 @@ for alpha in alphas:
 
 5. 实现一个简单的 bootstrap aggregating（bagging）包装器：在 bootstrap 样本上训练 10 个模型并平均预测。证明这会降低方差而不会大幅增加偏差。
 
-## 核心术语
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

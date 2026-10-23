@@ -117,7 +117,7 @@ FLOPs（每次推理的浮点运算数）是廉价、与设备无关的延迟代
 cnn-param-count
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：正确测量延迟
 
@@ -241,7 +241,7 @@ def compare_regimes():
 
 对 `resnet50`、`efficientnet_v2_s` 和 `convnext_tiny` 运行同一函数，就能得到部署决策所需的比较表。
 
-## 使用现成工具
+## 使用
 
 生产技术栈通常归为三条路径之一：
 
@@ -251,7 +251,7 @@ def compare_regimes():
 
 测量时，`torch-tb-profiler`、`nvprof` / `nsys` 和 macOS 上的 Instruments 提供逐层分析。`benchmark_app`（OpenVINO）和 `trtexec`（TensorRT）提供独立 CLI 指标。
 
-## 交付产物
+## 交付
 
 本课产出：
 

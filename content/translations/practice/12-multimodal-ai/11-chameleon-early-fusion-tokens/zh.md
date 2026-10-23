@@ -113,7 +113,7 @@ AnyGPT（Zhan 等，2024）把 Chameleon 扩展到四种模态：文本、图像
 vq-codebook
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 构建一个端到端的早期融合玩具模型：
 
@@ -124,7 +124,7 @@ vq-codebook
 
 代码刻意将 Transformer 保持得很小（使用 bigram），让你能够端到端追踪信号流。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-tokenizer-vs-adapter-picker.md`。给定产品规格（只理解还是理解 + 生成、所需图像质量、成本预算），它会在 Chameleon 家族（早期融合）与 LLaVA 家族（后期融合）之间做出选择，并用定量经验规则说明理由。
 

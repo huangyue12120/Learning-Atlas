@@ -63,7 +63,7 @@ Moshi（Kyutai，2024）实现了 200 ms 全双工；GPT-4o-realtime（2024）�
 nyquist-aliasing
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：环形缓冲区
 
@@ -132,7 +132,7 @@ class Dialog:
 
 关键在于异步 I/O 和可取消的 TTS 流式处理。在音轨上调用 WebRTC `peerconnection.stop()` 是标准方式。
 
-## 用于实践
+## 使用
 
 2026 年的技术栈：
 
@@ -154,7 +154,7 @@ class Dialog:
 - **没有抖动缓冲区。** 真实网络存在抖动；没有平滑就会产生爆裂声。
 - **一次性错误处理。** 音频流水线必须不会崩溃；一个异常就会终止会话。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-realtime-designer.md`。设计一个为各阶段给出具体延迟预算的实时音频流水线。
 

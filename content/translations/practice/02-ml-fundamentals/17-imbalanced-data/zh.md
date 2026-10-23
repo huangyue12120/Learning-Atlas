@@ -218,7 +218,7 @@ flowchart TD
 class-imbalance
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：生成不平衡数据集
 
@@ -464,7 +464,7 @@ preds_thresh = (probs_cw >= best_thresh).astype(int)
 
 代码文件会在单个脚本中运行这些内容并打印结果。
 
-## 使用现成工具
+## 使用
 
 使用 scikit-learn 与 imbalanced-learn，这些技术是一行调用：
 
@@ -498,7 +498,7 @@ print(classification_report(y_test, pipeline.predict(X_test)))
 
 从零实现展示每项技术具体做什么：SMOTE 是少数类上的 k-NN 插值，类别权重乘损失，阈值调优是遍历切点的循环，并无魔法。
 
-## 交付成果
+## 交付
 
 本课产出：
 
@@ -512,7 +512,7 @@ print(classification_report(y_test, pipeline.predict(X_test)))
 4. **带平衡 bagging 的集成：** 训练多个模型，每个用平衡 bootstrap 样本（所有少数类 + 多数类随机子集），平均预测；与单个 SMOTE 模型比较性能和跨运行方差。
 5. **不平衡比例实验：** 将平衡数据集逐步变为 50/50、70/30、90/10、95/5、99/1；每种比例有无 SMOTE 都训练，绘制二者 F1 对比例曲线；SMOTE 从哪个比例开始显著有用？
 
-## 核心术语
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

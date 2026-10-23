@@ -68,7 +68,7 @@ Silero 是正确的默认选择，Cobra 是合规 / 准确度升级。到 2026 �
 sp-vad-cascade
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：能量门
 
@@ -135,7 +135,7 @@ def flush_on_end(stt_client, audio_buffer):
 
 要让它工作，STT（Kyutai、Deepgram、AssemblyAI）必须支持 flush。Whisper streaming 不支持——它以块为基础，总是等待块结束。
 
-## 用于实践
+## 使用
 
 | 情况 | VAD 选择 |
 |------|----------|
@@ -156,7 +156,7 @@ def flush_on_end(stt_client, audio_buffer):
 - **没有前置缓冲区。** 用户音频开头 200–300 ms 会丢失。务必保留滚动前置缓冲。
 - **忽略语义端点检测。** “Hmm, let me think...” 中包含长停顿。用户讨厌在思考中途被打断。请使用 LiveKit 轮次检测器或类似模型。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-vad-tuner.md`。针对一项负载选择 VAD 模型、阈值、拖尾、前置缓冲和轮次检测策略。
 

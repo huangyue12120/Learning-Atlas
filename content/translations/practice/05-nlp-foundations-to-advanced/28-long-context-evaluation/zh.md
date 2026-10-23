@@ -61,7 +61,7 @@ status: reviewed
 gx-niah-decay
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：为你的领域构建自定义 NIAH <!-- learning-atlas: step-1-a-custom-niah-for-your-domain -->
 
@@ -147,7 +147,7 @@ def eval_model_on_longbench(model, subset="single-doc-qa"):
 - **忽略延迟。** 100 万词元提示的预填充需要 30 至 120 秒。测量准确率时也要测量首词元时间。
 - **供应商自行报告的数值。** OpenAI、Google、Anthropic 都会发布自家分数。应在你的用例上独立复跑。
 
-## 使用现成工具
+## 使用
 
 2026 年的技术栈：
 
@@ -162,7 +162,7 @@ def eval_model_on_longbench(model, subset="single-doc-qa"):
 
 生产经验法则：在预期长度通过 NIAH 和至少一项推理任务前，不能相信上下文窗口的标称容量。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-long-context-eval.md`：
 

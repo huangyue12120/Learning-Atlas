@@ -27,7 +27,7 @@ status: reviewed
 - 在 x86-64 和 AArch64 上、从 `-O0` 到 `-O3`，把每个惯用法连同它的证据指令和解码出的源代码形式一起报告。
 - 把结果与 Ghidra、angr、radare2、rizin 和 lldb 对同样字节所显示的内容作比较。
 
-## 问题所在
+## 问题
 
 你把 `idioms.c` 编译为 `-O2`，并问一个智能体 `div7u` 做什么。智能体读到 `imulq $0x24924925, %rax, %rax`，回答说这个函数乘以 613566757、移位再相加。每个字都对。这个函数计算的是 `x / 7`。
 
@@ -257,7 +257,7 @@ radare2 6.2.4 和 rizin 0.9.1，从源代码构建进研究缓存，在同一个
 
 Compiler Explorer 是正向方向的工具。粘贴 `idioms.c`，挑一个编译器条目（例如 "x86-64 clang 18.1.0" 或 "ARM64 GCC 14.2.0"），并设置标志。该服务列出约 1,050 个 C 编译器条目，并有一个 API：`GET /api/compilers/c` 返回标识符，`POST /api/compiler/<id>/compile` 以 JSON 返回汇编。Matt Godbolt 2019 年的 ACM Queue 文章用这个工具走过了除法、人口计数、链式条件和求和等惯用法。用它来获取 GCC 输出（这台机器无法产生），并把 GCC 12 的 GCC 跳转表阈值和 `-O2` 向量化默认值与测试夹具中的 clang 输出作比较。
 
-## 构建它
+## 动手构建
 
 运行演示：
 
@@ -302,7 +302,7 @@ python3 code/main.py
 
 还有三条命令。`python3 code/main.py scan FILE.objdump.txt [FUNCTION]` 在一份列表上运行识别器，目标文件和匹配的 C 文件在它旁边找到。`python3 code/main.py magic DIVISOR [signed]` 打印乘数、移位量、误差，以及恒等式是否在边界值上成立。`python3 code/main.py figure-data` 打印图所嵌入的数据。
 
-## 使用它
+## 使用
 
 在你构建的新目标文件上，按此顺序使用识别器。
 

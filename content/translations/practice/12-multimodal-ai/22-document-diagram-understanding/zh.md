@@ -142,7 +142,7 @@ OCR 流水线仍然在以下方面胜出：
 mm-doc-layout
 ```
 
-## 使用它
+## 使用
 
 `code/main.py`：
 
@@ -150,7 +150,7 @@ mm-doc-layout
 - 一个 Donut 风格的任务 schema 生成器：用于表单的 JSON 模板。
 - 比较 OCR 流水线、Donut、Nougat 和 VLM 原生方案每页的词元预算。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-document-ai-stack-picker.md`。给定一个文档 AI 项目（领域、规模、质量、监管要求），它会在 OCR 流水线、无 OCR 专用模型和 VLM 原生方案之间选择。
 

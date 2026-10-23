@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 实作
 **语言：** Python
 **前置课程：** 第 1 阶段，第 06 课（概率基础）
-**时间：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -322,7 +322,7 @@ print("\nTop ham words:")
 show_top_words(classifier, "ham")
 ```
 
-## 实际使用
+## 使用
 
 Scikit-learn 提供了可用于生产环境的 Naive Bayes 实现：
 
@@ -344,7 +344,7 @@ for msg, pred in zip(test_messages, predictions):
 
 算法是相同的。CountVectorizer 负责分词和构建词表，MultinomialNB 在内部处理平滑和 log 概率。你从零实现的版本用 40 行代码完成了同样的事情。
 
-## 交付成果
+## 交付
 
 本课构建的 NaiveBayes 类展示了完整流程：分词、使用 Laplace 平滑估计概率，以及在 log 空间中进行预测。`code/bayes.py` 中的代码无需 Python 标准库以外的依赖，即可端到端运行。
 
@@ -404,9 +404,9 @@ Beta 先验的特殊情况：
 
 ```mermaid
 graph LR
-    A["Prior<br/>Beta(1,1)<br/>mean = 0.50"] -->|"7H, 3T"| B["Posterior 1<br/>Beta(8,4)<br/>mean = 0.67"]
-    B -->|"becomes prior"| C["Prior 2<br/>Beta(8,4)"]
-    C -->|"5H, 5T"| D["Posterior 2<br/>Beta(13,9)<br/>mean = 0.59"]
+    A["先验<br/>Beta(1,1)<br/>均值 = 0.50"] -->|"7 正, 3 反"| B["后验 1<br/>Beta(8,4)<br/>均值 = 0.67"]
+    B -->|"成为先验"| C["先验 2<br/>Beta(8,4)"]
+    C -->|"5 正, 5 反"| D["后验 2<br/>Beta(13,9)<br/>均值 = 0.59"]
 ```
 
 观测顺序并不重要。用全部 12 次正面和 8 次反面一次性更新 Beta(1,1)，也会得到 Beta(13, 9)——结果完全相同。顺序更新和批量更新在数学上等价，但顺序更新让你无需保存原始数据，就能在每一步作出决策。
@@ -464,15 +464,13 @@ A/B 测试其实就是披着伪装的贝叶斯推断。
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Call `bayes` once to get the posterior after test 1, then call it again with that posterior as the prior. `sequential_bayes(prior, likelihood, false_positive_rate, 2)` must give the same value, close to 0.5.
->
-> **Exercise 2.** Create one `NaiveBayes(smoothing=s)` for each value, train it on the same data, and print `top_words` for each. With smoothing 0, a word that never appears in spam gets probability 0, so its log is not defined.
->
-> **Exercise 3.** Count how many spam and ham messages are short, divide by the number of messages in each class, and add the log of that ratio to the score in `predict`. Check that the two probabilities for each class add up to 1.
->
-> **Exercise 4.** With a $\text{Beta}(\alpha, \beta)$ prior, the MAP estimate is $\frac{h + \alpha - 1}{n + \alpha + \beta - 2}$. Put in $h = 7$, $n = 10$; the result must be between the MLE (0.7) and the prior mode (0.5).
+**练习 1.** 调用一次 `bayes` 得到第一次检测后的后验，再以该后验作为先验调用一次。`sequential_bayes(prior, likelihood, false_positive_rate, 2)` 必须给出同样的值，接近 0.5。
+
+**练习 2.** 为每个取值创建一个 `NaiveBayes(smoothing=s)`，在相同数据上训练，并分别打印 `top_words`。当 smoothing 为 0 时，从未在垃圾邮件中出现的词概率为 0，其 log 无定义。
+
+**练习 3.** 统计有多少垃圾邮件和正常邮件是短消息，分别除以各类别的消息数，并把这个比值的 log 加到 `predict` 的得分里。检查每个类别的两个概率之和为 1。
+
+**练习 4.** 对 $\text{Beta}(\alpha, \beta)$ 先验，MAP 估计为 $\frac{h + \alpha - 1}{n + \alpha + \beta - 2}$。代入 $h = 7$、$n = 10$；结果必须介于 MLE（0.7）与先验众数（0.5）之间。
 
 ## 关键术语
 

@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 实作  
 **学习实现：** Python  
 **前置课程：** Phase 1 · 第 01、02、03、06 课  
-**预计学习：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -45,15 +45,33 @@ component 的 explained ratio=eigenvalue_k/sum(all eigenvalues)。例中 PC1=4.7
 
 ### 选择成分数
 
-可取累计 90–95% 阈值；画逐 component 方差找陡降 elbow；或作为预处理扫描 k，以模型准确率平台为准。
+三种策略：
+
+1. **阈值法。** 保留足以解释 90–95% 方差的成分数。
+2. **elbow 方法。** 画出每个成分的方差，寻找陡降拐点。
+3. **下游性能。** 把 PCA 当作预处理，扫描 $k$ 并衡量模型准确率，准确率进入平台处就是最佳 $k$。
 
 ### t-SNE：保持邻域
 
-t-SNE 为可视化而设计：先把高维点对距离转为概率，近点概率高，再寻求相同邻域概率的 2D/3D 布局。它非线性、随机、perplexity 通常 5–50、输出簇间距离无意义且默认 O(n^2)，适合小于 10k 样本的图，不应用作分类前预处理。
+t-SNE 为可视化而设计：先把高维点对距离转为概率，近点概率高，再寻求相同邻域概率的 2D/3D 布局。t-SNE 的关键性质：
+
+- 非线性。它能展开 PCA 无法处理的复杂流形。
+- 随机。不同运行产生不同布局。
+- perplexity 参数控制考虑多少邻居（典型范围 5–50）。
+- 输出中簇与簇之间的距离没有意义，只有簇本身有意义。
+- 在大数据集上慢，默认 O(n^2)。
 
 ### UMAP：更快且保留更好的全局结构
 
-UMAP 同样保持邻域，但用近似最近邻图，速度更快，簇的相对全局位置通常也更有意义。n_neighbors 决定局部/全局范围（高值保留更多全局结构），min_dist 决定输出簇紧密程度（低值更密）。
+UMAP 与 t-SNE 工作方式类似，但有两个优势：
+
+- 更快。它用近似最近邻图，而不是计算所有点对距离。
+- 更好的全局结构。输出中簇的相对位置通常比 t-SNE 更有意义。
+
+UMAP 在高维空间构建一个加权图（“模糊拓扑表示”），再寻找尽量保持该图的低维布局。关键参数：
+
+- `n_neighbors`：多少邻居定义局部结构（类似 perplexity）。值越高保留越多全局结构。
+- `min_dist`：输出中点聚集得多紧。值越低簇越密。
 
 ### 何时使用哪一种
 
@@ -66,15 +84,32 @@ UMAP 同样保持邻域，但用近似最近邻图，速度更快，簇的相对
 
 ### Kernel PCA
 
-普通 PCA 只找线性子空间；同心圆投向任一直线都会重叠。Kernel PCA 用 kernel 隐式映射到高维特征空间，不显式计算坐标：先取 K_ij=k(x_i,x_j)，在特征空间中心化 K，特征分解，前向量按 1/sqrt(eigenvalue) 缩放。RBF=exp(-gamma*||x-y||^2) 适合平滑非线性流形；Polynomial=(x·y+c)^d 适合多项式关系；Sigmoid=tanh(alpha*x·y+c) 类似神经网络映射。
+普通 PCA 只找线性子空间；同心圆投向任一直线都会重叠。Kernel PCA 用 kernel 隐式映射到高维特征空间，不显式计算坐标——这就是 kernel 技巧，与 SVM 背后的思想相同。算法为：
+
+1. 计算 kernel 矩阵 $K$，其中 $K_{ij} = k(x_i, x_j)$
+2. 在特征空间中心化 kernel 矩阵
+3. 对中心化后的 kernel 矩阵做特征分解
+4. 前若干特征向量（按 $1/\sqrt{\text{eigenvalue}}$ 缩放）即为投影
+
+RBF=exp(-gamma*||x-y||^2) 适合平滑非线性流形；Polynomial=(x·y+c)^d 适合多项式关系；Sigmoid=tanh(alpha*x·y+c) 类似神经网络映射。
 
 标准 PCA 在速度、可解释性、可扩展性和直接 inverse transform 上占优；kernel PCA 适用于非线性流形，却需 n*n kernel、O(n^2d+n^3)，成分不直接解释且逆变换要 pre-image 近似。RBF kernel PCA 可把内外圆映射到可线性分隔区域。
 
 ### 重建误差
 
-重建先算 `X_reduced=X@W_k`，再算 `X_hat=X_reduced@W_k^T`，MSE=`mean((X-X_hat)^2)`。PCA 中重建误差是所有丢弃特征值之和；高重建误差样本不适合已学子空间，因而可用于生产异常检测。
+衡量重建误差：
 
-## 动手实现
+1. 把数据投影到 $k$ 维：$X_{\text{reduced}} = X W_k$
+2. 重建：$\hat{X} = X_{\text{reduced}} W_k^T$
+3. 计算 MSE：$\text{mean}((X - \hat{X})^2)$
+
+PCA 中重建误差是所有丢弃特征值之和；高重建误差样本不适合已学子空间，因而可用于生产异常检测。把累计解释方差对成分数作图得到 elbow 曲线，合适的成分数出现在：
+
+- 曲线变平（收益递减）处
+- 累计方差越过阈值（通常 0.90 或 0.95）处
+- 下游任务性能进入平台处
+
+## 动手构建
 
 下列 Build/Use 上游代码块逐字保留；reference_dim_reduction.py 逐字保留完整实现。MNIST、scikit-learn 与 UMAP 示例依赖可选网络/第三方包；离线环境可运行 synthetic、kernel PCA 和 reconstruction 示例。
 
@@ -96,8 +131,12 @@ Dimension    Avg distance ratio (max/min between random points)
 
 ```mermaid
 graph LR
-    A["Original data (2D)\nData spread in both\nx and y directions"] -->|"PCA rotation"| B["After PCA\nPC1 captures the elongated spread\nPC2 captures the narrow spread\nDrop PC2 and you lose little info"]
+    A["原始数据（2D）\n数据在 x 和 y\n两个方向上展开"] -->|"PCA 旋转"| B["PCA 之后\nPC1 捕获拉长的展开\nPC2 捕获狭窄的展开\n丢弃 PC2 几乎不损失信息"]
 ```
+
+- **PCA 之前：** 数据云沿 x、y 两轴对角展开
+- **PCA 之后：** 坐标系旋转，使 PC1 对齐最大方差方向（拉长的展开），PC2 对齐最小方差方向（狭窄的展开）
+- **降维：** 丢弃 PC2，把数据投影到 PC1，几乎不损失信息
 
 ```
 Component    Eigenvalue    Explained ratio    Cumulative
@@ -278,15 +317,13 @@ for k in [10, 30, 50, 100, 200]:
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Read `inverse_transform` in the `PCA` class and fit one model for each number of components. Compute `reconstruction_error` for 10, 50, and 200 components; the error must fall as the number of components grows.
->
-> **Exercise 2.** Fit `sklearn.manifold.TSNE` three times on the same subset, changing only `perplexity`, and use the same `random_state`. Low perplexity looks at few neighbors, so expect small tight groups; high perplexity looks at more neighbors, so expect larger, smoother groups.
->
-> **Exercise 3.** Call `make_classification(n_features=50, n_informative=5, n_redundant=45)`, fit `PCA`, and print the cumulative explained variance. Redundant features are linear combinations of the informative ones, so the curve reaches almost 1.0 at 5 components. Then try `n_redundant=0`: the other 45 features are independent noise, and the curve does not flatten.
+**练习 1.** 阅读 `PCA` 类中的 `inverse_transform`，为每个成分数各拟合一个模型。对 10、50、200 个成分计算 `reconstruction_error`；成分数越多，误差必然越小。
 
-## 术语
+**练习 2.** 在同一子集上拟合 `sklearn.manifold.TSNE` 三次，只改变 `perplexity`，并使用相同的 `random_state`。低 perplexity 只看少数邻居，会得到小而紧的簇；高 perplexity 看更多邻居，会得到更大、更平滑的簇。
+
+**练习 3.** 调用 `make_classification(n_features=50, n_informative=5, n_redundant=45)`，拟合 `PCA`，并打印累计解释方差。冗余特征是信息特征的线性组合，因此曲线在 5 个成分处就接近 1.0。再试 `n_redundant=0`：其余 45 个特征是独立噪声，曲线不会变平。
+
+## 关键术语
 
 | 术语 | 常用说法 | 准确定义 |
 |---|---|---|

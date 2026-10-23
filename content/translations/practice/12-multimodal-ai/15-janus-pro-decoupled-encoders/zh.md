@@ -104,7 +104,7 @@ InternVL-U 将 Janus-Pro 的架构选择纳入更大的框架。对于规模化�
 l5-janus-decouple
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 模拟 Janus-Pro 路由：
 
@@ -115,7 +115,7 @@ l5-janus-decouple
 
 打印 3 个示例的路由路径：图像问答、T2I、图像编辑。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-decoupled-encoder-picker.md`。给定一个希望以接近前沿质量实现统一生成 + 理解的产品，它会在 Janus-Pro、JanusFlow 和 InternVL-U 之间选择，并给出具体的数据规模建议。
 

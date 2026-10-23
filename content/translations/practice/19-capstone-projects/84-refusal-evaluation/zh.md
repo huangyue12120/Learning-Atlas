@@ -16,13 +16,13 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 18 安全课程、Phase 19 Track A 课程 25–29
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 问题
 
 对助手做安全验收时，常会在两个相反方向出错：模型拒绝回答本应回答的内容（过度拒答），或者回答本应拒绝的内容（拒答不足）。两者都是 bug。只测量有害提示词上的拒答率，会交付一个连化学作业都拒绝帮助的模型；只测量帮助性，则会交付一个解释如何造成伤害的模型。正确的指标集把助手视为一个提示词安全性的二元分类器，由待测策略决定每个提示词落在决策边界的哪一侧。
 
-挑战在于，真实 LLM 在开发过程中是一个会变化的目标。系统提示、温度或工具的改变，都会同时改变这两个指标。你需要一个基于 fixture 的评估器，并在底层使用确定性的 mock LLM，这样代码改动导致的指标变化就有已知原因。本课的 mock LLM 是一个小型 dispatch table：模式、策略、输出。第 87 课的 harness 稍后只需将 mock 替换为 HTTP 调用，就能接入真实模型；指标框架无需改变。
+挑战在于，真实 LLM 在开发过程中是一个会变化的目标。系统提示词、温度或工具的改变，都会同时改变这两个指标。你需要一个基于 fixture 的评估器，并在底层使用确定性的 mock LLM，这样代码改动导致的指标变化就有已知原因。本课的 mock LLM 是一个小型 dispatch table：模式、策略、输出。第 87 课的 harness 稍后只需将 mock 替换为 HTTP 调用，就能接入真实模型；指标框架无需改变。
 
 本课构建评估框架。它生成四个数字：拒答不足率、过度拒答率、calibration（模型声明的置信度是否符合其准确率），以及使用第 82 课 taxonomy 的逐类别拆分。
 
@@ -59,7 +59,7 @@ ci-refusal-quadrant
 
 `code/main.py` 运行评估器。拒答分类器是拒答短语的正则表达式。aggregator 返回一个字典，包含 `under_refusal`、`over_refusal`、`accuracy`、`ece` 和 `per_category_under_refusal`。runner 扫描三个 mock 策略并写出比较报告。
 
-## 使用它
+## 使用
 
 运行 `python3 main.py`。演示打印三个策略的比较表，写出 `outputs/refusal_eval_report.json`，并确认 `MockPolicyOverCautious` 的过度拒答最高、`MockPolicyLeaky` 的拒答不足最高。strict 策略处于两者之间，作为回归基线。
 

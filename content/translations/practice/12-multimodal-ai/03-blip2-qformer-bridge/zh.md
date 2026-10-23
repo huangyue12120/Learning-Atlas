@@ -102,7 +102,7 @@ Flamingo（第 12.04 课）早于 BLIP-2，使用了同一个交叉注意力想�
 modality-projection
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 构建一个标准库 Q-Former 风格的交叉注意力：
 
@@ -114,7 +114,7 @@ modality-projection
 
 所有数学都用纯 Python 实现（对向量使用嵌套循环）。这是玩具实现，但形状正确。程序会打印注意力权重矩阵，让你看到每个查询从哪些图像块中提取了信息。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-modality-bridge-picker.md`。给定目标 VLM 配置（视觉编码器词元数量、LLM 上下文预算、部署约束、质量目标），它会推荐 Q-Former、MLP 或 Perceiver 重采样器，并为每种桥提供简短理由和参数量估计。
 

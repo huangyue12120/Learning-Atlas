@@ -132,7 +132,7 @@ feature_map += MLP(t_embedding)
 cv-diffusion-image
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：噪声调度
 
@@ -289,7 +289,7 @@ def sample_ddim(model, schedule, shape, steps=50, T=1000, device="cpu", eta=0.0)
 
 `eta=0` 完全确定（相同噪声输入总有相同输出），`eta=1` 恢复 DDPM。
 
-## 使用现成工具
+## 使用
 
 生产工作使用 `diffusers`：
 
@@ -304,7 +304,7 @@ scheduler = DDPMScheduler(num_train_timesteps=1000)
 
 研究中，`k-diffusion`（Katherine Crowson）有最忠实的参考实现与最佳采样变体。
 
-## 交付产物
+## 交付
 
 本课产出：
 

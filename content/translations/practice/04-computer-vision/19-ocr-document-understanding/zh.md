@@ -97,7 +97,7 @@ CTC 是 CRNN 在 2015 年成功的原因，也是 2026 年多数生产 OCR 模�
 cv3-ctc-collapse
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：CTC 损失 + 贪心解码器
 
@@ -224,7 +224,7 @@ for step in range(200):
 
 这种简单合成数据上，损失在 200 步内应从约 3 降至约 0.2。
 
-## 使用现成工具
+## 使用
 
 三条生产路径：
 
@@ -243,7 +243,7 @@ model = VisionEncoderDecoderModel.from_pretrained("naver-clova-ix/donut-base-fin
 
 对于结构可重复的收据、发票和表单，可微调 Donut；对于任意文档或需要 OCR 推理的任务，Qwen-VL-OCR 一类 VLM 是当前默认选择。
 
-## 交付产物
+## 交付
 
 本课产出：
 

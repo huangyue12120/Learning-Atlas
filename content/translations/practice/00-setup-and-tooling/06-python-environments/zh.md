@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Shell
 **前置课程：** Phase 0，第 01 课
-**预计学习：** 约 30 分钟
+**预计时间：** 约 30 分钟
 
 ## 学习目标
 
@@ -42,16 +42,16 @@ status: reviewed
 
 ```mermaid
 graph TD
-    subgraph without["Without virtual environments"]
-        SP[System Python] --> T24["torch 2.4.0 (CUDA 12.4)\nProject A needs this"]
-        SP --> T21["torch 2.1.0 (CUDA 11.8)\nProject B needs this"]
-        SP --> CONFLICT["CONFLICT: only one\ntorch version can exist"]
+    subgraph without["没有虚拟环境时"]
+        SP[系统 Python] --> T24["torch 2.4.0 (CUDA 12.4)\n项目 A 需要它"]
+        SP --> T21["torch 2.1.0 (CUDA 11.8)\n项目 B 需要它"]
+        SP --> CONFLICT["冲突：只能存在\n一个 torch 版本"]
     end
 
-    subgraph with["With virtual environments"]
-        PA["Project A (.venv/)"] --> PA1["torch 2.4.0 (CUDA 12.4)"]
+    subgraph with["使用虚拟环境时"]
+        PA["项目 A (.venv/)"] --> PA1["torch 2.4.0 (CUDA 12.4)"]
         PA --> PA2["transformers 4.44"]
-        PB["Project B (.venv/)"] --> PB1["torch 2.1.0 (CUDA 11.8)"]
+        PB["项目 B (.venv/)"] --> PB1["torch 2.1.0 (CUDA 11.8)"]
         PB --> PB2["diffusers 0.28"]
     end
 ```
@@ -251,7 +251,7 @@ python -c "import torch; print(torch.version.cuda)"  # shows PyTorch CUDA versio
 # PyTorch CUDA version must be <= driver CUDA version.
 ```
 
-## 实际使用
+## 使用
 
 运行配置脚本创建课程环境：
 
@@ -270,17 +270,15 @@ bash phases/00-setup-and-tooling/06-python-environments/code/env_setup.sh
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Run `bash phases/00-setup-and-tooling/06-python-environments/code/env_setup.sh` from the repository root. Read each line of output; when a check fails, fix that one item and run the script again until no check fails.
->
-> **Exercise 2.** Make the second environment in a new folder with `uv venv`, activate it, and install an older numpy with a version pin such as `numpy==1.26.4`. Run `python -c "import numpy; print(numpy.__version__)"` in each environment; the two versions must be different.
->
-> **Exercise 3.** Start from the example in pyproject.toml Basics and list `torch` and `anthropic` under `dependencies`. Run `uv pip install -e .` or `uv sync` in a new environment; the file is correct when both packages import without an error.
->
-> **Exercise 4.** Deactivate every environment, run `pip install --user <small package>`, then run `pip show <package>` and read the `Location` line. Uninstall it with `pip uninstall <package>` and run `pip show` again to confirm that it is gone.
+**练习 1.** 在仓库根目录运行 `bash phases/00-setup-and-tooling/06-python-environments/code/env_setup.sh`。逐行阅读输出；当某项检查失败时，先修复那一项，再重新运行脚本，直到所有检查都通过。
 
-## 核心术语
+**练习 2.** 在一个新文件夹中用 `uv venv` 创建第二个环境，激活它，并用版本固定（如 `numpy==1.26.4`）安装一个较旧的 numpy。在每个环境里运行 `python -c "import numpy; print(numpy.__version__)"`；两个版本号必须不同。
+
+**练习 3.** 从“pyproject.toml 基础”一节的示例出发，在 `dependencies` 下列出 `torch` 和 `anthropic`。在一个新环境中运行 `uv pip install -e .` 或 `uv sync`；当两个包都能无错导入时，文件就是正确的。
+
+**练习 4.** 停用所有环境，运行 `pip install --user <小型包>`，然后运行 `pip show <package>` 并阅读 `Location` 那一行。用 `pip uninstall <package>` 卸载它，再次运行 `pip show` 确认它已被移除。
+
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

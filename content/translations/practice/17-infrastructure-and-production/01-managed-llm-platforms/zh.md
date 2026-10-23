@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库，玩具成本与延迟比较器）
 **前置要求：** 第 11 阶段（LLM 工程），第 13 阶段（工具与协议）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -41,11 +41,11 @@ status: reviewed
 
 **Azure OpenAI**——独家合作。你可以在 Azure 数据中心获得 GPT-4 / 4o / 5 / o 系列、DALL·E、Whisper 及 OpenAI 模型微调。“Azure OpenAI Service”目录没有非 OpenAI 模型——它们属于 Azure AI Foundry（另一个产品）。Azure 的赌注是 OpenAI 仍居前沿，客户希望在这段特定关系上获得企业控制。
 
-**Vertex AI**——Gemini 优先，其他其次。Gemini 1.5 / 2.0 / 2.5 Flash 和 Pro，以及 Model Garden（第三方）。Vertex 的赌注是多模态长上下文——100 万 token 的 Gemini 上下文是其差异点。
+**Vertex AI**——Gemini 优先，其他其次。Gemini 1.5 / 2.0 / 2.5 Flash 和 Pro，以及 Model Garden（第三方）。Vertex 的赌注是多模态长上下文——100 万词元的 Gemini 上下文是其差异点。
 
 ### 规模下的延迟差距
 
-Artificial Analysis 运行持续基准。在等价的 Llama 3.1 405B 部署（共享按需）上，Azure OpenAI 的中位首 token 延迟约 50 ms，Bedrock 约 75 ms。差距来自容量模型：Azure 出售 PTU（Provisioned Throughput Units），为你的租户预留 GPU 容量。Bedrock 的对应服务（Provisioned Throughput）也存在，但每单位约从 $21/小时起，因此多数客户仍使用共享按需服务。
+Artificial Analysis 运行持续基准。在等价的 Llama 3.1 405B 部署（共享按需）上，Azure OpenAI 的中位首词元延迟约 50 ms，Bedrock 约 75 ms。差距来自容量模型：Azure 出售 PTU（Provisioned Throughput Units），为你的租户预留 GPU 容量。Bedrock 的对应服务（Provisioned Throughput）也存在，但每单位约从 $21/小时起，因此多数客户仍使用共享按需服务。
 
 按需共享容量会与其他客户流量竞争，专用容量不会。若产品 SLA 要求 P99 TTFT < 100 ms，就需购买 Azure 的 PTU、Bedrock Provisioned Throughput，或接受默认方差。
 
@@ -107,7 +107,7 @@ i4-platform-lanes
 2. 你的产品需要 Claude 3.7 Sonnet 和 GPT-4o。设计一个双提供商部署：哪个模型去哪个超大规模云厂商、前面放什么网关、故障转移策略是什么？
 3. 一位受监管医疗客户要求 BAA、美国东部数据驻留和小于 100ms 的 P99 TTFT。选择一个平台，并用三个具体特性证明。
 4. 你发现本月 Bedrock 账单在流量未变的情况下增加了 4 倍。没有 Application Inference Profiles 时，如何找出原因？有 profiles 时需要多久？
-5. 阅读 Azure OpenAI 与 Bedrock 定价页。对于每月 1 亿 token 的 Claude 工作负载，哪种更便宜：直接 Anthropic API、Bedrock 按需，还是 Bedrock Provisioned Throughput？
+5. 阅读 Azure OpenAI 与 Bedrock 定价页。对于每月 1 亿词元的 Claude 工作负载，哪种更便宜：直接 Anthropic API、Bedrock 按需，还是 Bedrock Provisioned Throughput？
 
 ## 关键术语
 

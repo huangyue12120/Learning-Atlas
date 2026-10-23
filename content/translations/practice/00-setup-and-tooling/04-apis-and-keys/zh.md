@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python、TypeScript
 **前置课程：** Phase 0，第 01 课
-**预计学习：** 约 30 分钟
+**预计时间：** 约 30 分钟
 
 ## 学习目标
 
@@ -134,7 +134,7 @@ with urllib.request.urlopen(req) as resp:
 
 SDK 会在底层执行这套流程。理解原始 HTTP 调用有助于调试。
 
-## 实际使用
+## 使用
 
 本课程中：
 
@@ -146,7 +146,7 @@ SDK 会在底层执行这套流程。理解原始 HTTP 调用有助于调试。
 
 现在不必全部配置；在课程需要时再设置。
 
-## 交付成果
+## 交付
 
 本课会产出：
 - `outputs/prompt-api-troubleshooter.md` —— 诊断常见 API 错误
@@ -159,15 +159,13 @@ SDK 会在底层执行这套流程。理解原始 HTTP 调用有助于调试。
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Create a key in the Anthropic Console, put it in `ANTHROPIC_API_KEY` as shown in the lesson, and run `code/first_api_call.py`. The call works when the script prints the model reply and no error.
->
-> **Exercise 2.** Both functions in `code/first_api_call.py` print only the text and the token counts. Add `print(response)` in `call_with_sdk()` and `print(result)` in `call_raw_http()`, then run the script to see both full responses. Compare the field names: the raw JSON has the same `content`, `usage`, and `stop_reason` fields that the SDK turns into object attributes.
->
-> **Exercise 3.** Set `ANTHROPIC_API_KEY` to a fake value in one terminal only, then run the script again. Find the HTTP status code and the error type in the output; an authentication failure returns a 401 status.
+**练习 1.** 在 Anthropic Console 中创建一个 key，按课程所示将它放入 `ANTHROPIC_API_KEY`，然后运行 `code/first_api_call.py`。脚本打印出模型回复且没有报错，就说明调用成功。
 
-## 核心术语
+**练习 2.** `code/first_api_call.py` 中的两个函数只打印文本和词元计数。在 `call_with_sdk()` 中加上 `print(response)`，在 `call_raw_http()` 中加上 `print(result)`，然后运行脚本查看两个完整响应。比较字段名：原始 JSON 含有 `content`、`usage` 和 `stop_reason` 这几个字段，SDK 会把它们转为对象属性。
+
+**练习 3.** 只在一个终端里把 `ANTHROPIC_API_KEY` 设为一个假值，然后再次运行脚本。在输出中找到 HTTP 状态码和错误类型；认证失败会返回 401 状态码。
+
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

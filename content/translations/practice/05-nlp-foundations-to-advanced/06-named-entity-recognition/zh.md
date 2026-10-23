@@ -59,7 +59,7 @@ US       B-GPE
 ner-bio-tagging
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：BIO 标注辅助函数 <!-- learning-atlas: step-1-bio-tagging-helpers -->
 
@@ -216,7 +216,7 @@ class BiLSTM_CRF_Head(nn.Module):
 
 CRF 层可使用 `torchcrf.CRF`（执行 `pip install pytorch-crf`）。除非你有数万句标注数据，否则它相对手工 CRF 的增益虽然可测，却可能比预想的小。
 
-## 使用现成工具
+## 使用
 
 spaCy 内置了生产级 NER。
 
@@ -283,7 +283,7 @@ print(ner("Apple sued Google over its iPhone in the US."))
 - **长实体。** “United States Federal Deposit Insurance Corporation.”词元级模型有时会把它拆开。使用 `aggregation_strategy` 或后处理。
 - **稀疏类型。** 医疗 NER 中的 DRUG_BRAND、ADVERSE_EVENT、DOSE 等标签，通用模型毫无概念。应从 ScispaCy 和 BioBERT 开始。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-ner-picker.md`：
 

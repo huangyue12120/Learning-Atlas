@@ -95,7 +95,7 @@ h = h + CrossAttention(Q=h, K=text_embed, V=text_embed)
 
 这是类别条件扩散模型与 Stable Diffusion 之间唯一实质性的区别。
 
-## 常见问题
+## 陷阱
 
 - **VAE 尺度不匹配。** SD 1.x VAE 编码后会应用缩放常数（`scaling_factor ≈ 0.18215`）。漏掉它会让 U-Net 在方差严重错误的潜变量上训练。每个检查点都附带该值。
 - **文本编码器悄悄出错。** SD3 需要支持至少 128 个词元的 T5-XXL，只回退到 CLIP 会损失信息。务必检查 `use_t5=True`，否则提示词保真度会骤降。
@@ -103,7 +103,7 @@ h = h + CrossAttention(Q=h, K=text_embed, V=text_embed)
 - **CFG 太高。** `w > 10` 会产生饱和、油腻的图像，为迎合提示词牺牲多样性。合适范围是 `w = 3-7`。
 - **负向提示词泄漏。** 空负向提示词会变为空词元；非空负向提示词会变成 `ε_uncond`。两者并不相同，一些流水线会悄悄默认使用空词元。
 
-## 使用方法
+## 使用
 
 2026 年的生产技术栈：
 
@@ -116,7 +116,7 @@ h = h + CrossAttention(Q=h, K=text_embed, V=text_embed)
 | 编辑工作流 | Flux.1-Kontext（2024 年 12 月），原生接收图像 + 文本 |
 | 研究基线 | SD 1.5，虽已古老但研究充分 |
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-sd-prompter.md`。该技能接收文本提示词与目标风格，输出模型 + 检查点、CFG 强度、采样器、负向提示词、分辨率、可选 ControlNet/IP-Adapter 组合，以及逐步质量检查清单。
 

@@ -97,7 +97,7 @@ Qwen2.5-VL（第 12.09 课）做出了不同选择。它使用 M-RoPE 和动态 
 l5-onevision-budget
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 是 OneVision 风格 VLM 的课程与预算规划器。给定每个样本的词元预算和目标场景混合（例如 40% 单图像、30% 多图像、30% 视频），它会：
 
@@ -108,7 +108,7 @@ l5-onevision-budget
 
 使用它来规划 OneVision 微调，或检查 VLM 部署的每次请求成本。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-onevision-budget-planner.md`。给定目标任务分布和每个样本的预算，它会输出 AnyRes 因子、每帧池化、视频帧数和课程阶段权重。每当你训练或微调统一场景的 VLM 时，都可以使用这个技能。
 

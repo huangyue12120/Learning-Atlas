@@ -28,7 +28,7 @@ status: reviewed
 - 保持 `AGENTS.md`、Agent Skill、运行时适配器、工具和安全策略各司其职。
 - 说明哪些断言可以由本地输出验证，哪些必须通过在线集成测试验证。
 
-## 问题所在
+## 问题
 
 设计一个研究与报告系统。用户请求关于 agent 协议的论文。系统搜索论文目录，委派摘要，生成报告，返回 UI 资源，并记录系统中的路径。
 
@@ -45,22 +45,22 @@ status: reviewed
 
 `code/main.py` 用普通 Python 函数和字典让这些边界可见。它不会打开传输、联系 arXiv、执行 OAuth、调用 A2A 服务器、渲染 MCP App 或导出遥测，因此可以检查控制流，又不会把模拟冒充为兼容服务。
 
-## 核心概念 <!-- learning-atlas: the-concept -->
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### 目标架构
 
 ```mermaid
 flowchart LR
-  U[User] --> C[Agent client]
-  C --> G[Authorization gateway]
-  G --> M[Research MCP server]
-  M --> T[Search and report tools]
-  M --> R[Resources and prompts]
-  M --> Q[Task store]
-  M --> A[A2A client]
-  A --> W[Writer agent]
-  M --> UI[MCP App resource]
-  C --> O[Telemetry exporter]
+  U[用户] --> C[智能体客户端]
+  C --> G[授权网关]
+  G --> M[研究 MCP 服务器]
+  M --> T[搜索与报告工具]
+  M --> R[资源与提示词]
+  M --> Q[任务存储]
+  M --> A[A2A 客户端]
+  A --> W[写作智能体]
+  M --> UI[MCP App 资源]
+  C --> O[遥测导出器]
   G --> O
   M --> O
   A --> O
@@ -76,12 +76,12 @@ flowchart TD
   I --> L1[llm.chat]
   I --> S[tools/call: arxiv_search]
   I --> D[A2A SendMessage]
-  D --> X[Opaque writer-agent execution]
+  D --> X[不透明的写作智能体执行]
   I --> G[tools/call: generate_report]
-  G --> K[tasks/get polling]
-  K --> V[completed Task with final result]
+  G --> K[tasks/get 轮询]
+  K --> V[携带最终结果的 completed 任务]
   V --> UI[ui:// report resource]
-  I --> L2[llm.chat final synthesis]
+  I --> L2[llm.chat 最终综合]
 ```
 
 真实实现中每一跳都传播 trace context。span 名称和属性必须遵循所选 instrumentation 版本支持的 OpenTelemetry 语义约定。共享 trace ID 本身不能证明父子关系、导出或后端接收正确。
@@ -146,12 +146,12 @@ Agent Skill 可以告诉运行时如何执行研究流程、期待哪些工具�
 
 ```mermaid
 flowchart TD
-  RI[Repository instructions] --> H[Host runtime]
-  SK[Agent Skill procedure] --> H
-  H --> P[Invocation and permission policy]
-  P --> MCP[MCP client adapter]
-  P --> A2A[A2A client adapter]
-  P --> EX[Sandboxed executor]
+  RI[仓库指令] --> H[宿主运行时]
+  SK[Agent Skill 流程] --> H
+  H --> P[调用与权限策略]
+  P --> MCP[MCP 客户端适配器]
+  P --> A2A[A2A 客户端适配器]
+  P --> EX[沙箱执行器]
 ```
 
 当流程引用伴随文件时，应交付完整的 skill 目录。这个旧 capstone 中的扁平 artifact 只是课程蓝图，不能证明宿主会保留可移植 bundle。第 24–27 课会构建并测试完整 bundle 生命周期。

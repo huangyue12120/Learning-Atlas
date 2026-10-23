@@ -67,7 +67,7 @@ schema 字段顺序属于逻辑，而非格式。
 constrained-decoder
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从零实现正则约束生成 <!-- learning-atlas: step-1-regex-constrained-generation-from-scratch -->
 
@@ -172,7 +172,7 @@ print(response.output_parsed)
 - **过早承诺。** 参见上面的字段顺序陷阱。始终先放 reasoning 字段。
 - **供应商 JSON 模式未提供 schema。** 单纯的 JSON 模式只保证 JSON 有效，不保证它满足你的用例。务必提供完整 schema。
 
-## 使用现成工具
+## 使用
 
 2026 年的技术栈：
 
@@ -185,7 +185,7 @@ print(response.output_parsed)
 | 自托管推理服务器 | vLLM 引导解码 |
 | 可接受重试的批处理 | Instructor + 最便宜的模型 |
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-structured-output-picker.md`：
 

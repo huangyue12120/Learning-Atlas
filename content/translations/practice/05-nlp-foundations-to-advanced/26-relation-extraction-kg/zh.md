@@ -63,7 +63,7 @@ status: reviewed
 relation-triples
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：基于模式抽取
 
@@ -160,7 +160,7 @@ print(neighbors("Tim Cook", relation="P108"))    # -> [(P108, Apple)]
 - **时间错误。** “Tim Cook is CEO of Apple”现在为真，2005 年却为假。许多关系都有时间范围，应使用限定符，例如 Wikidata 中的 `P580` 开始时间和 `P582` 结束时间。
 - **领域不匹配。** REBEL 在 Wikipedia 上训练，法律、医学和科学文本往往需要领域微调的关系抽取模型。
 
-## 使用现成工具
+## 使用
 
 2026 年的技术栈：
 
@@ -175,7 +175,7 @@ print(neighbors("Tim Cook", relation="P108"))    # -> [(P108, Apple)]
 
 集成模式是：NER → 共指消解 → 实体链接 → 关系抽取 → 本体映射 → 图谱加载。每个阶段都可能成为质量门槛。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-re-designer.md`：
 

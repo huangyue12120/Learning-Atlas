@@ -150,7 +150,7 @@ graph LR
 perplexity-loss
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：最小评测框架
 
@@ -426,7 +426,7 @@ for quality, label in [(0.9, "Strong model"), (0.7, "Medium model"), (0.4, "Weak
     print(f"  {label} (quality={quality}): perplexity = {ppl:.2f}")
 ```
 
-## 使用它
+## 使用
 
 ### lm-evaluation-harness（EleutherAI）
 
@@ -490,7 +490,7 @@ tests:
 
 RAGAS 衡量通用评测容易遗漏的内容：模型答案是否扎根于检索到的上下文，而不只是答案抽象地看起来是否“正确”。
 
-## 交付产物
+## 交付
 
 本课会产出 `outputs/prompt-eval-designer.md`——一个可复用的提示词，用于为任意任务设计定制评测套件。给它一份任务描述，它会生成测试案例、评分函数和通过/失败阈值建议。
 

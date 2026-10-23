@@ -188,7 +188,7 @@ graph LR
 cross-entropy-loss
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：MSE 及梯度
 
@@ -389,7 +389,7 @@ class LossComparisonNetwork:
         return losses
 ```
 
-## 使用现成工具
+## 使用
 
 PyTorch 内置数值稳定的标准损失：
 
@@ -414,7 +414,7 @@ ce_smooth = F.cross_entropy(logits, labels, label_smoothing=0.1)
 
 对比学习大多数团队使用自定义实现或 `lightly`、`pytorch-metric-learning` 等库；核心始终是计算两两相似度、在正负样本上建 softmax、反向传播。
 
-## 交付成果
+## 交付
 
 - `outputs/prompt-loss-function-selector.md`——选择正确损失的可复用提示词。
 - `outputs/prompt-loss-debugger.md`——损失曲线异常时的诊断提示词。
@@ -427,7 +427,7 @@ ce_smooth = F.cross_entropy(logits, labels, label_smoothing=0.1)
 4. 在 MSE vs CE 中跟踪每层梯度幅度，画每 epoch 平均梯度范数，验证模型最不确定的初期 CE 产生更大梯度。
 5. 实现 KL divergence，验证 one-hot 真分布时最小化 KL(true||predicted) 与 CE 梯度相同；再试 teacher softmax 产生的 soft target（知识蒸馏）。
 
-## 核心术语
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

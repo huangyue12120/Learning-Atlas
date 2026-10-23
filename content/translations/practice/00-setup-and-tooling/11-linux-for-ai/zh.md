@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** --
 **前置课程：** Phase 0，第 01 课
-**预计学习：** 约 30 分钟
+**预计时间：** 约 30 分钟
 
 ## 学习目标
 
@@ -37,13 +37,13 @@ Linux 将一切组织在单一根目录 `/` 下，没有 `C:\` 或 `/Volumes`。
 
 ```mermaid
 graph TD
-    root["/"] --> home["home/your-username/<br/>Your files — clone repos, run training"]
-    root --> tmp["tmp/<br/>Temporary files, cleared on reboot"]
-    root --> usr["usr/<br/>System programs and libraries"]
-    root --> etc["etc/<br/>Config files"]
-    root --> varlog["var/log/<br/>Logs — check when something breaks"]
-    root --> mnt["mnt/ or /media/<br/>External drives and volumes"]
-    root --> proc["proc/ and /sys/<br/>Virtual files — kernel and hardware info"]
+    root["/"] --> home["home/your-username/<br/>你的文件 —— 克隆仓库、运行训练"]
+    root --> tmp["tmp/<br/>临时文件，重启后清空"]
+    root --> usr["usr/<br/>系统程序与库"]
+    root --> etc["etc/<br/>配置文件"]
+    root --> varlog["var/log/<br/>日志 —— 出问题时查看"]
+    root --> mnt["mnt/ 或 /media/<br/>外部驱动器与卷"]
+    root --> proc["proc/ 和 /sys/<br/>虚拟文件 —— 内核与硬件信息"]
 ```
 
 家目录是 `~` 或 `/home/your-username`；几乎所有操作都在这里完成。
@@ -310,23 +310,21 @@ s0-process-fork
 ```
 
 ## 练习
-### 提示
-
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Use `cd ~`, `mkdir`, and `cd` into the new folder, then run `touch` with three file names. In the `ls -la` output, check that the three files show a size of 0 and your user name as owner.
->
-> **Exercise 2.** Install with `sudo apt install -y htop`, start it, and press `F6` (or click the column name) to sort by `MEM%`. The process at the top of the list uses the most memory.
->
-> **Exercise 3.** Use `tmux new -s train` from the lesson, run `sleep 300`, and detach with `Ctrl+B` then `d`. Run `tmux ls` to see the session, then `tmux attach -t train`; the `sleep` must still run.
->
-> **Exercise 4.** Run `df -h` and read the `Avail` column for the file system that holds your home folder. Then run `du -sh ~/.cache/* | sort -h` so that the largest folder is on the last line.
->
-> **Exercise 5.** Copy a file with `scp file.txt user@host:~/`, then run `rsync -avP file.txt user@host:~/` for the same file. Run the `rsync` command a second time: it sends almost nothing, because the file on the remote side did not change.
-
 
 1. SSH 到任意 Linux 机器（或打开 WSL2），进入家目录，创建项目文件夹，在其中用 `touch` 创建三个空文件，然后用 `ls -la` 列出它们。
 2. 用 apt 安装 `htop`，运行它并找出最占内存的进程。
 3. 启动 tmux 会话，在其中运行 `sleep 300`，脱离、列出会话，然后重新连接。
 4. 用 `df -h` 检查可用磁盘空间，再用 `du -sh ~/.cache/*` 找出缓存中占空间的内容。
 5. 用 `scp` 将文件从本机传到远程机器，再用 `rsync` 做相同传输，比较体验。
+
+### 提示
+
+**练习 1.** 用 `cd ~`、`mkdir`，并 `cd` 进入新文件夹，然后用三个文件名运行 `touch`。在 `ls -la` 的输出里，确认这三个文件的大小为 0、所有者是你的用户名。
+
+**练习 2.** 用 `sudo apt install -y htop` 安装并启动它，按 `F6`（或点击列名）按 `MEM%` 排序。列表顶部的进程占用内存最多。
+
+**练习 3.** 用课程中的 `tmux new -s train`，运行 `sleep 300`，用 `Ctrl+B` 再按 `d` 脱离。运行 `tmux ls` 查看会话，再用 `tmux attach -t train` 重新连接；`sleep` 必须仍在运行。
+
+**练习 4.** 运行 `df -h`，查看承载你家目录的文件系统那一行的 `Avail` 列。然后运行 `du -sh ~/.cache/* | sort -h`，使最大的文件夹出现在最后一行。
+
+**练习 5.** 用 `scp file.txt user@host:~/` 复制一个文件，再对同一文件运行 `rsync -avP file.txt user@host:~/`。再运行一次 `rsync` 命令：它几乎不传输任何内容，因为远程端的文件没有变化。

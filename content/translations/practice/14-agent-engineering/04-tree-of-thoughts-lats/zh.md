@@ -16,22 +16,22 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 01 节（智能体循环）、第 14 阶段 · 第 03 节（Reflexion）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
 - 将推理描述为搜索：节点是“思维”，边是“扩展”，值是“有多大希望”。
 - 用标准库实现带自评打分的 ToT 风格 BFS 树搜索。
 - 扩展到包含选择 / 扩展 / 模拟 / 反向传播的玩具 LATS MCTS 循环。
-- 判断何时值得支付 token 倍增的搜索成本（Game of 24、代码生成），以及何时一条轨迹就够了（简单问答）。
+- 判断何时值得支付词元倍增的搜索成本（Game of 24、代码生成），以及何时一条轨迹就够了（简单问答）。
 
-## 问题所在
+## 问题
 
 思维链是一条线性路径。如果第一步错了，之后每一步都会建立在错误前提上。在 Game of 24 中（用四个数字和 `+ − × ÷` 运算得到 24），GPT-4 的 CoT 准确率只有 4%。模型很早就选错了子表达式，无法恢复。
 
 推理需要提出多个候选、评估它们、选出有希望的候选，并在出现死路时回溯。这类过程属于搜索，思维树和 LATS 是两种经典表达。
 
-## 核心概念 <!-- learning-atlas: the-concept -->
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### 思维树（Yao 等，NeurIPS 2023）
 
@@ -70,7 +70,7 @@ UCT 公式：`Q(s, a) + c * sqrt(ln N(s) / N(s, a))`。第一项是利用，第�
 
 ### 成本现实
 
-搜索会让 token 爆炸。ToT 在 Game of 24 上使用的 token 是 CoT 的 100–1000 倍，LATS 也类似。这不是免费的；应把搜索保留给：
+搜索会让词元爆炸。ToT 在 Game of 24 上使用的词元是 CoT 的 100–1000 倍，LATS 也类似。这不是免费的；应把搜索保留给：
 
 - 单条轨迹明显不够的任务（Game of 24、复杂代码）。
 - 墙钟时间不如正确性重要的任务。
@@ -106,9 +106,9 @@ tree-of-thoughts
 python3 code/main.py
 ```
 
-轨迹展示 ToT 如何用 BFS 为每个节点扩展三个候选，以及 LATS 如何通过 MCTS 收敛到最佳 rollout；两者的 token 数都会打印出来。
+轨迹展示 ToT 如何用 BFS 为每个节点扩展三个候选，以及 LATS 如何通过 MCTS 收敛到最佳 rollout；两者的词元数都会打印出来。
 
-## 实际使用
+## 使用
 
 LangGraph 以子图模式提供 ToT 风格的探索；LangChain 团队关于 LATS 的博客（2024 年 5 月）是参考教程。LlamaIndex 提供 `TreeOfThoughts` 智能体。对于多数 2026 年生产智能体，这种模式位于 `if task_complexity > threshold: use_search()` 这样的门控之后——参见第 05 节的 evaluator-optimizer 模式。
 
@@ -120,7 +120,7 @@ LangGraph 以子图模式提供 ToT 风格的探索；LangChain 团队关于 LAT
 
 1. 用 UCT `c=0.1` 与 `c=2.0` 运行玩具 LATS。轨迹有什么变化？
 2. 换用噪声更大的评分器（加入随机扰动）。MCTS 仍能找到最佳叶节点吗？它能容忍的最小信噪比是多少？
-3. 实现 beam-search ToT（每一层保留 top-k），并与 BFS 比较。在 token 预算紧张时，哪种更好？
+3. 实现 beam-search ToT（每一层保留 top-k），并与 BFS 比较。在词元预算紧张时，哪种更好？
 4. 阅读 LATS 第 5.1 节。复现 HumanEval 轨迹数量：达到报告的 pass@1 需要多少次 rollout？
 5. 阅读 LATS 论文关于“LATS 帮助较小的情况”的讨论。写一段决策规则，将任务形状映射到搜索策略。
 
@@ -135,7 +135,7 @@ LangGraph 以子图模式提供 ToT 风格的探索；LangChain 团队关于 LAT
 | Policy | “行动提议器” | ReAct 风格生成器；输出下一个候选思维/行动 |
 | Rollout | “模拟轨迹” | 使用策略从节点走到叶节点，再用价值函数打分 |
 | Backpropagate | “更新祖先节点” | 沿路径向上推送叶节点奖励，更新访问次数和 Q |
-| Search cost | “token 爆炸” | Game of 24 上是 CoT 的 100–1000 倍；采用前先设预算 |
+| Search cost | “词元爆炸” | Game of 24 上是 CoT 的 100–1000 倍；采用前先设预算 |
 
 ## 延伸阅读
 

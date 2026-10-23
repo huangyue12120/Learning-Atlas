@@ -119,7 +119,7 @@ Python 有四种内置集合，下面说明各自的适用场景。
 | `list` | `[0.5, 1.2]` | 是 | 是 | 样本、损失、权重 |
 | `tuple` | `(32, 784)` | 是 | 否 | 形状、固定记录、字典键 |
 | `dict` | `{"lr": 0.01}` | 按插入顺序 | 是 | 配置、词表、JSON 行 |
-| `set` | `{"cat", "dog"}` | 否 | 是 | 唯一 token、重叠检查 |
+| `set` | `{"cat", "dog"}` | 否 | 是 | 唯一词元、重叠检查 |
 
 本代码块说明赋值不会复制列表。
 
@@ -620,7 +620,7 @@ print(list(islice(range(100), 5, 10)))
 [5, 6, 7, 8, 9]
 ```
 
-`Counter` 用于统计可哈希元素，例如标签或 token。第一次使用新键时，`defaultdict(list)` 会创建空列表，因此分组循环无需检查键是否存在。`deque(maxlen=3)` 加入第四项时会删除最旧项，可形成最近损失的滑动窗口。`enumerate` 会同时给出元素及其索引。
+`Counter` 用于统计可哈希元素，例如标签或词元。第一次使用新键时，`defaultdict(list)` 会创建空列表，因此分组循环无需检查键是否存在。`deque(maxlen=3)` 加入第四项时会删除最旧项，可形成最近损失的滑动窗口。`enumerate` 会同时给出元素及其索引。
 
 `product` 生成输入的所有组合，可用来构造超参数网格。`chain` 把多个可迭代对象首尾相接；`islice` 可以从任意迭代器（包括生成器）取切片。“动手实现”中的小批量生成器就使用了 `islice`。
 
@@ -647,7 +647,7 @@ dis.dis(dot)
 
 循环中以字节码执行的步骤越少，速度越快。`sum`、`map` 和 `zip` 等内置函数用 C 编写。“动手实现”用纯 Python 测量这种差异，“实际使用”则把整个循环移入 NumPy。
 
-## 动手实现
+## 动手构建
 
 
 现在把后续课程需要的部件组合起来。完整版本位于 `code/main.py`，由 `code/tests/test_main.py` 测试。下面每个代码块都能独立运行。
@@ -933,7 +933,7 @@ print(peak_bytes(lambda: sum(i * i for i in range(100_000))))
 
 在装有 Python 3.11 的测试笔记本上，索引循环约需 33 毫秒，`zip` 版本约 30 毫秒，`map` 版本约 14 毫秒。三者执行相同算术；`map` 版本更快，是因为 `map` 和 `operator.mul` 用 C 编写，每个元素需要执行的字节码更少。内存结果也印证了图示：列表约 4 MB，生成器不到 1 KB。
 
-## 实际使用
+## 使用
 
 
 ### 标准库版本
@@ -1073,17 +1073,15 @@ NumPy 从最后一个维度向第一个维度比较两个形状。当两个维�
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Import `run_demo` from `code/main.py` and call it with `seed=7` and with `seed=8`, then print both results with `format_report`. The values that come from random data change; the split sizes depend only on `n` and `test_fraction`, so they stay the same.
->
-> **Exercise 2.** Sort a copy of the list first, then take the middle item for odd lengths and the mean of the two middle items for even lengths. Compare your result with `statistics.median` on lists such as `[3, 1, 2]` and `[4, 1, 3, 2]`; both must give the same numbers.
->
-> **Exercise 3.** Read `load_records` in `code/main.py` and keep its parsing step, but `yield` each `Record` instead of appending it to a list. Use `save_records` with `make_dataset(200_000)` to make the file, then compare `peak_bytes(lambda: load_records(path))` with `peak_bytes(lambda: sum(1 for _ in your_generator(path)))`. The generator must be consumed inside the callable, or `peak_bytes` measures only its creation. It must report a much smaller peak.
->
-> **Exercise 4.** Use `dot` as the model for the pure Python version and call it once for each row, then use `np.array(matrix) @ np.array(vector)` for NumPy. Time both with `best_time` and print one table row for each size; the two results must be equal before you compare the times.
->
-> **Exercise 5.** Read each file with `Path.read_text`, parse it with `ast.parse`, and use `any(isinstance(node, ast.ListComp) for node in ast.walk(tree))` to test one construct. Count each file one time, because the table in The Concept counts files.
+**练习 1.** 从 `code/main.py` 导入 `run_demo`，分别用 `seed=7` 和 `seed=8` 调用它，然后用 `format_report` 打印两次结果。来自随机数据的值会变化；划分大小只取决于 `n` 和 `test_fraction`，因此保持不变。
+
+**练习 2.** 先对列表的副本排序，然后在奇数长度时取中间项、偶数长度时取两个中间项的平均值。在 `[3, 1, 2]` 和 `[4, 1, 3, 2]` 等列表上把你的结果与 `statistics.median` 对比；两者必须给出相同的数字。
+
+**练习 3.** 阅读 `code/main.py` 中的 `load_records`，保留它的解析步骤，但用 `yield` 产出每个 `Record`，而不是把它追加到列表里。用 `save_records` 配合 `make_dataset(200_000)` 生成文件，然后比较 `peak_bytes(lambda: load_records(path))` 与 `peak_bytes(lambda: sum(1 for _ in your_generator(path)))`。生成器必须在可调用对象内部被消费，否则 `peak_bytes` 只会测量它的创建。它报告的峰值必须小得多。
+
+**练习 4.** 纯 Python 版本以 `dot` 为模型，对每一行调用一次；NumPy 版本则用 `np.array(matrix) @ np.array(vector)`。用 `best_time` 为两者计时，并为每个规模打印一行表格；在比较时间之前，两者的结果必须相等。
+
+**练习 5.** 用 `Path.read_text` 读取每个文件，用 `ast.parse` 解析它，并用 `any(isinstance(node, ast.ListComp) for node in ast.walk(tree))` 来检测某个构造。每个文件只计一次，因为“概念”一节的表格是按文件计数的。
 
 ## 关键术语
 

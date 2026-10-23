@@ -243,7 +243,7 @@ SVM 在以下情形仍有优势：
 svm-margin
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：Hinge loss 与梯度
 
@@ -324,7 +324,7 @@ def find_support_vectors(X, y, w, b, tol=1e-3):
 
 完整实现和全部演示请见 `code/svm.py`。
 
-## 在工具中使用
+## 使用
 
 使用 scikit-learn：
 

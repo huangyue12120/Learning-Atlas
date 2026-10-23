@@ -19,7 +19,7 @@
         "HBM 中的 KV 缓存压力导致抢占和同一前缀重复 prefill"
       ],
       "correct": 3,
-      "explanation": "正确答案是“HBM 中的 KV 缓存压力导致抢占和同一前缀重复 prefill”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "LMCache 把 KV 缓存从 HBM 卸到 CPU DRAM，缓解 HBM 中 KV 缓存压力造成的抢占，并让被抢占请求从 CPU 恢复、避免同一前缀重复 prefill。tokenizer GIL 竞争、网络出口过滤、冷启动镜像拉取都不是它解决的问题。"
     },
     {
       "id": "q2",
@@ -32,7 +32,7 @@
         "ChunkedPrefill API"
       ],
       "correct": 1,
-      "explanation": "正确答案是“vLLM v0.9.0 的 Connector API”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "vLLM 0.9.0 的 Connector API 引入可插拔 KV 缓存后端，引擎把块卸载给 connector（RAM、磁盘、对象存储、LMCache）再按需取回。前缀缓存开关、PagedAttention v2、ChunkedPrefill 都不是这个可插拔后端接口。"
     },
     {
       "id": "q3",
@@ -45,7 +45,7 @@
         "只支持同步卸载"
       ],
       "correct": 2,
-      "explanation": "正确答案是“异步卸载路径，常见路径不会被卸载阻塞”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "vLLM 0.11.0 增加了异步卸载路径，让卸载在后台进行，常见路径不必阻塞等待。它没有移除 LMCache 支持、不强制 FP8 KV，也不是只支持同步卸载。"
     },
     {
       "id": "q4",
@@ -58,7 +58,7 @@
         "希望完全禁用 KV 缓存"
       ],
       "correct": 1,
-      "explanation": "正确答案是“多个引擎在租户、LoRA 变体或重复 RAG 上下文之间共享前缀，跨引擎复用能产生收益”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "LMCache 是集群级共享缓存，当多个引擎在租户、LoRA 变体或重复 RAG 上下文间共享前缀、能跨引擎复用时才划算。纯 CPU 运行、单引擎无前缀共享、想禁用 KV 缓存都不是选 LMCache 的理由——单引擎 HBM 压力更适合原生 CPU 卸载。"
     },
     {
       "id": "q5",
@@ -71,7 +71,7 @@
         "吞吐量仍会翻倍"
       ],
       "correct": 1,
-      "explanation": "正确答案是“配置接近基线但有约 3–5% 开销，没有实际收益”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "当 KV 占用远低于 HBM、本就装得下时，LMCache 没有可捕获的复用，基准显示各配置贴近基线、仅约 3–5% 开销。它不会自动禁用、不会让引擎崩溃，也不会在这种情形下翻倍吞吐。"
     },
     {
       "id": "q6",
@@ -84,7 +84,7 @@
         "因为 LMCache 与引擎运行在同一 GPU"
       ],
       "correct": 0,
-      "explanation": "正确答案是“Prefill 传给 decode 的 KV 会进入 LMCache，后续查询可从 LMCache 取出并跳过 prefill，缓存感知路由可选择本地或共享缓存匹配的引擎”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "解耦时 prefill 池传给 decode 池的 KV 若未用会落入 LMCache，后续查询可从中取出直接跳过 prefill，缓存感知路由器据此选本地或共享缓存命中的引擎，两者叠加。LMCache 与引擎分开运行、不取代 NIXL，也不是“不能组合”。"
     }
   ]
 }

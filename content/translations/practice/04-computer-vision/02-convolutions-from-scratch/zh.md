@@ -195,7 +195,7 @@ flowchart LR
 convolution-kernel
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：填充数组
 
@@ -349,7 +349,7 @@ def apply_kernel(img2d, kernel):
 
 将它们用于任意灰度图像时，模糊会柔化图像，锐化会使边缘清晰，Sobel-x 点亮垂直边缘，Sobel-y 点亮水平边缘。这些正是 AlexNet 与 VGG 中*第一层*训练后卷积实际学到的模式——因为无论后续任务是什么，优秀的图像模型都需要边缘和斑块检测器。
 
-## 使用现成工具
+## 使用
 
 PyTorch 的 `nn.Conv2d` 用自动微分、CUDA 内核和 cuDNN 优化封装同一操作；形状语义完全相同。
 
@@ -371,7 +371,7 @@ print(f"output shape: {tuple(y.shape)}")
 
 将 `padding=1` 改为 `padding=0`，输出就降为 222x222；将 `stride=1` 改为 `stride=2`，输出降为 112x112。正是上面记住的同一公式。
 
-## 交付产物
+## 交付
 
 本课产出：
 

@@ -27,7 +27,7 @@ status: reviewed
 - 把残留的未知项作为由哈希链串联的、带版本的记录保留下来。
 - 在一个精确的键下缓存提供方的回答，并拒绝一次过期的重放。
 
-## 问题所在
+## 问题
 
 你问一个智能体，`ledger-x86_64-O1.o` 中的 `grade` 对分数 55 返回什么。智能体调用 rea，读取 Ghidra 的伪代码，回答 0。一位审查者问智能体怎么知道的。智能体手上有一块 Ghidra 打印出的文本。对于默认路径，那段文本写着 `uVar1 = -(param_1 >> 0x1f) ^ (uint)((ulong)((long)param_1 * 0x66666667) >> 0x3f);`。而那个位置的字节说的是 `xor eax, eax`。
 
@@ -310,7 +310,7 @@ rea 有三样看起来像缓存的东西。Ghidra 的目标快照是输入的一
 
 账本用一条记录回应上述每一种情况，而智能体只报告账本所持有的东西。一项没有观测运行的声明是 `unsupported`。一项有一些运行的声明是 `unknown`。一段提供方文本关于那个提供方是 `observed`，仅此而已。把 `outputs/` 里的技能文件交给智能体，并让账本成为它唯一写入结论的地方。这对 Claude、Cursor、Codex、OpenClaw、Hermes，或任何读取 SKILL.md 的智能体都成立。
 
-## 构建它
+## 动手构建
 
 运行标准库演示程序：
 
@@ -349,7 +349,7 @@ python3 code/main.py
 8. `check_claim()`、`promote_claim()` 和 `completion_ledger()` 应用晋升规则。
 9. `AnswerCache` 像 rea 的快照那样为答案设键，并拒绝过期的那些。
 
-## 使用它
+## 使用
 
 每个目标、每项调查各保留一个账本。把目标的 SHA-256 放进每一个 subject，把问题的 scope 摘要放进每一个未知项。当你更换工具时，更改 `provider` 并让各个 id 分道扬镳。当你重新构建夹具时，subject 摘要就变了，每一条旧记录都变成关于另一个文件的证据。
 
@@ -460,7 +460,7 @@ python3 code/lab.py
 
 [Inside a Decompiler](https://aiengineeringfromscratch.com/inside-a-decompiler?symbols=off) 机器维护一个证据账本，带四个托盘：观测、推导、推断和未知。这个链接打开关闭了符号表的那次运行，于是函数的名字和末尾被归入未知项，而起始被归入推断。
 
-## 交付物
+## 随课交付物
 
 本课产出 `outputs/skill-evidence-ledger.md`。它告诉智能体如何把每一个结论写成一条带有置信度、权威等级、限制和链接的记录。它告诉智能体如何把未知项保持为若干修订，以及一项声明何时是 `pass`、`fail`、`unknown` 或 `unsupported`。
 

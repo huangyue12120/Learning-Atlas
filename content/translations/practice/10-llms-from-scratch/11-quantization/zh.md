@@ -234,7 +234,7 @@ FP16 到 INT2：内存减少 8 倍，质量损失 5%–15%。只有在能够容�
 quantization
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：数字格式表示
 
@@ -782,7 +782,7 @@ if __name__ == "__main__":
     print("=" * 70)
 ```
 
-## 使用它
+## 使用
 
 ### 使用 GPTQModel 进行量化
 
@@ -852,7 +852,7 @@ AutoGPTQ 和 AutoAWQ（这两种方法的早期工具）已归档；GPTQModel �
 
 vLLM 原生支持 AWQ 和 GPTQ 模型，会从检查点配置读取量化方法，因此不需要 `--quantization` 标志。它会在矩阵乘法期间处理反量化，并为 KV 缓存使用分页注意力。在 H100 上加载 16 位检查点并于加载时量化权重，可加上 `--quantization fp8_per_tensor`。
 
-## 交付产物
+## 交付
 
 本课会产出 `outputs/skill-quantization.md`，这是一个用于选择合适量化策略的决策框架。给定模型大小、目标硬件和质量要求，它会告诉你应该使用哪种格式、方法和验证步骤，其中包括内存预算计算、逐组件精度建议，以及 vLLM、llama.cpp 和 TensorRT-LLM 的部署配方。
 

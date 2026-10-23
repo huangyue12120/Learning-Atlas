@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 01 节（智能体循环）、第 14 阶段 · 第 12 节（工作流模式）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -25,11 +25,11 @@ status: reviewed
 - 解释 LiveKit Agents 的两类语音智能体（MultimodalAgent、VoicePipelineAgent）以及各自适用场景。
 - 总结 2026 年生产延迟预期，以及它们如何驱动架构选择。
 
-## 问题所在
+## 问题
 
 语音智能体不是给文本循环外挂 TTS。延迟预算非常苛刻（约 600ms），部分音频是默认形态，轮次检测本身也是一个模型，而 transport 从电话 SIP 到 WebRTC 各不相同。要么构建基于 frame 的管线（Pipecat），要么依赖平台（LiveKit）。
 
-## 核心概念 <!-- learning-atlas: the-concept -->
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### Pipecat（pipecat-ai/pipecat）
 
@@ -77,7 +77,7 @@ Vapi（优化的高端技术栈约 450–600ms）和 Retell（180 次测试通�
 
 - VAD：20–60ms
 - STT partial：100–250ms
-- LLM 首 token：150–400ms
+- LLM 首词元：150–400ms
 - TTS 首段音频：100–200ms
 - Transport RTT：30–80ms
 
@@ -104,7 +104,7 @@ python3 code/main.py
 
 轨迹展示正常流动，以及在一句话中途停止 TTS 的插话取消。
 
-## 实际使用
+## 使用
 
 - **Pipecat** 用于完全控制——自定义 processor、Python-first、可插拔提供方。
 - **LiveKit Agents** 用于 WebRTC-first 部署和电话。

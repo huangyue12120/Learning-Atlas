@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** 第 01 课（开发环境），具备基础 PyTorch 经验
-**预计学习：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -48,7 +48,7 @@ graph TD
 s0-flame-hot
 ```
 
-## 构建它
+## 动手构建
 
 ### 第 1 部分：打印调试（没错，它有效）
 
@@ -379,7 +379,7 @@ tensorboard --logdir=runs
 
 它适合逐步检查数据预处理流水线，因为此时你想看到每次变换。
 
-## 使用它
+## 使用
 
 以下调试工作流能捕获大多数 AI bug：
 
@@ -389,7 +389,7 @@ tensorboard --logdir=runs
 4. **出现故障时：** 在故障点放置 `breakpoint()`。交互式检查张量。
 5. **性能方面：** 为数据加载、前向传播和反向传播分别计时。接近 OOM 时分析内存。
 
-## 交付它
+## 交付
 
 运行调试工具包脚本：
 
@@ -400,23 +400,21 @@ python phases/00-setup-and-tooling/12-debugging-and-profiling/code/debug_tools.p
 参阅 `outputs/prompt-debug-ai-code.md`，其中有一个帮助诊断 AI 特有 bug 的提示词。
 
 ## 练习
-### 提示
-
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Run `python3 phases/00-setup-and-tooling/12-debugging-and-profiling/code/debug_tools.py` and read the output of each demo function. Then change the model in `demo_nan_detection` so that its output divides by zero, and run again; `detect_nan` must print a NaN warning with the step number.
->
-> **Exercise 2.** Run the loop under `python -m cProfile -s cumtime your_script.py`, or wrap it in `cProfile.Profile()`. Read the top rows of the `cumtime` column; the function with the largest time that is your own code is the slowest one.
->
-> **Exercise 3.** Call `tracemalloc.start()` before the data loading code and `tracemalloc.take_snapshot()` after it, as in `demo_memory_tracking`. Print `snapshot.statistics("lineno")[:5]`; the first line shows the file and line number with the largest allocation.
->
-> **Exercise 4.** Log the training loss and the validation loss to a `SummaryWriter` at each epoch, then run `tensorboard --logdir=runs`. If the training loss continues to go down while the validation loss goes up, the model overfits.
->
-> **Exercise 5.** Put `breakpoint()` inside the loop after `loss.backward()` and run the script. At the `(Pdb)` prompt, print `x.shape`, `x.device`, and `next(model.parameters()).grad`, then type `c` to continue to the next step.
-
 
 1. 运行 `debug_tools.py` 并阅读每个部分的输出。修改虚拟模型以引入 NaN（提示：在前向传播中除以零），观察检测器捕获它。
 2. 使用 `cProfile` 分析一个训练循环，并找出最慢的函数。
 3. 使用 `tracemalloc` 找出数据加载流水线中分配内存最多的是哪一行。
 4. 为一次简单训练配置 TensorBoard，并判断模型是否过拟合。
 5. 在训练循环中使用 `breakpoint()`。练习从调试器提示符检查张量形状、设备和梯度值。
+
+### 提示
+
+**练习 1.** 运行 `python3 phases/00-setup-and-tooling/12-debugging-and-profiling/code/debug_tools.py`，阅读每个演示函数的输出。然后修改 `demo_nan_detection` 中的模型，使其输出发生除以零，再运行一次；`detect_nan` 必须打印带步数的 NaN 警告。
+
+**练习 2.** 用 `python -m cProfile -s cumtime your_script.py` 运行该循环，或用 `cProfile.Profile()` 包裹它。阅读 `cumtime` 列的前几行；其中属于你自己代码且耗时最大的函数就是最慢的那个。
+
+**练习 3.** 像 `demo_memory_tracking` 那样，在数据加载代码前调用 `tracemalloc.start()`，之后调用 `tracemalloc.take_snapshot()`。打印 `snapshot.statistics("lineno")[:5]`；第一行会显示分配内存最多的文件和行号。
+
+**练习 4.** 每个 epoch 把训练损失和验证损失记录到 `SummaryWriter`，然后运行 `tensorboard --logdir=runs`。如果训练损失持续下降而验证损失上升，说明模型过拟合。
+
+**练习 5.** 在循环中 `loss.backward()` 之后放置 `breakpoint()` 并运行脚本。在 `(Pdb)` 提示符下打印 `x.shape`、`x.device` 和 `next(model.parameters()).grad`，然后输入 `c` 继续到下一步。

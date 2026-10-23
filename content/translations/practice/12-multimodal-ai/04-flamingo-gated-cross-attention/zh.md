@@ -123,7 +123,7 @@ Otter（2023）在 OpenFlamingo 的基础上使用 MIMIC-IT（一个多模态指
 cross-attention-fusion
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 演示：
 
@@ -131,7 +131,7 @@ cross-attention-fusion
 2. 运行一个门控交叉注意力步骤：`alpha = 0` 时 → 输出等于输入（LLM 不变），随后 `alpha = 2.0` → 混入视觉贡献。
 3. 构建交错掩码，为“（图像 1）（文本 1）（图像 2）（文本 2）”序列生成二维注意力掩码。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-gated-bridge-diagnostic.md`。给定一个开放 VLM 的配置（是否有重采样器、交叉注意力频率、门控方案），它会识别其中的 Flamingo 谱系元素并解释冻结策略。它可用于调试微调为什么损害了文本性能（答案：门开得太快、太大）。
 

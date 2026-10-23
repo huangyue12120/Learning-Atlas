@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 19 节（SWE-bench、GAIA）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -25,11 +25,11 @@ status: reviewed
 - 说出 OSWorld 的两个主要失败模式：GUI grounding 和操作知识。
 - 总结 OSWorld-G 和 OSWorld-Human 在基础基准之上增加的内容。
 
-## 问题所在
+## 问题
 
 通用智能体可以调用工具，但它们能否通过 20 次点击驱动浏览器，完成一次购物结账？能否只用键盘和鼠标配置 Linux 机器？WebArena 与 OSWorld 回答的就是这些问题。
 
-## 核心概念
+## 概念
 
 ### WebArena（Zhou 等，ICLR 2024）
 
@@ -93,7 +93,7 @@ python3 code/main.py
 
 输出每个任务的成功率和轨迹效率，复现 OSWorld-Human 的方法。
 
-## 实际使用
+## 使用
 
 - **WebArena Verified**——在内部集群中自托管，用于持续评估。
 - **OSWorld**——在虚拟机集群中用于桌面智能体。

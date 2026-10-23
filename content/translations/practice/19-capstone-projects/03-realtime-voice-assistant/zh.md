@@ -17,7 +17,7 @@ status: reviewed
 **语言：** Python（智能体 + 流水线）、TypeScript（Web 客户端）
 **前置课程：** 第 6 阶段（语音与音频）、第 7 阶段（Transformer）、第 11 阶段（LLM 工程）、第 13 阶段（工具）、第 14 阶段（智能体）、第 17 阶段（基础设施）
 **涉及阶段：** P6 · P7 · P11 · P13 · P14 · P17
-**用时：** 30 小时
+**预计时间：** 30 小时
 
 ## 问题
 
@@ -104,7 +104,7 @@ ce-voice-latency
 
 9. **负载测试。** 使用模拟呼叫方在单台 g5.xlarge 上驱动 50 路并发通话。测量持续运行时首个音频输出的 p95。
 
-## 实际使用
+## 使用
 
 ```text
 caller: "what is the weather in tokyo tomorrow"

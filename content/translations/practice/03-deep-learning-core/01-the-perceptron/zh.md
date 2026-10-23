@@ -126,7 +126,7 @@ AND (separable):        XOR (not separable):
 perceptron-boundary
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：Perceptron 类
 
@@ -334,7 +334,7 @@ for inputs, expected in xor_data:
 
 这通向第 03 课。`d_output`、`hidden_deltas` 背后是对网络图应用链式法则，届时会完整推导。
 
-## 使用现成工具
+## 使用
 
 所有从零构建内容在一个 import 中已经存在：
 
@@ -361,7 +361,7 @@ print([clf.predict([x])[0] for x in X])
 
 单一感知机只能画直线，堆叠它们就能画任意形状。
 
-## 交付成果
+## 交付
 
 本课产出：
 
@@ -373,7 +373,7 @@ print([clf.predict([x])[0] for x in X])
 2. 修改 Perceptron 类，每个 epoch 跟踪决策边界（w1*x1 + w2*x2 + b = 0）；打印 AND 门训练中直线如何移动。
 3. 构建三输入感知机：仅当 3 个输入至少 2 个为 1 时输出 1（多数投票）；它线性可分吗？为什么？
 
-## 核心术语
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

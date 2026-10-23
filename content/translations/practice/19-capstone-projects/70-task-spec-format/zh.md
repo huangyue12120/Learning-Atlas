@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置知识：** Phase 19 Track B 基础
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -132,6 +132,6 @@ def render(task):
 
 `main.py` 定义 `TaskSpec`、`validate_task`、`validate_file` 和 CLI 入口；fixture 加载器是 `load_fixtures`，渲染与后处理辅助函数也紧邻校验逻辑。请从头读到尾，再阅读 `code/tests/test_spec.py`。文件底部的 demo 会校验捆绑的 fixture 并打印摘要。
 
-## 进一步学习
+## 进一步探索
 
 评测套件会像数据库表增加列一样增加类别。稳妥做法是：没有同时新增指标、后处理规则和 fixture 任务，就拒绝新增类别。把规格变化当作数据库迁移，逐次评审、版本化并配套测试；本课的校验器就是这道闸门。

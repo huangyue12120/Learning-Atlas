@@ -106,7 +106,7 @@ PipelineResult(
 v4-vision-pipeline
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：数据契约
 
@@ -319,7 +319,7 @@ def benchmark(pipe, num_runs=20, image_size=(400, 600)):
 
 CPU 上的典型输出：预处理约 3 ms、检测 300–500 ms、分类 20–40 ms、总计 350–550 ms。GPU 上检测为 20–40 ms，预处理和分类的相对影响会更大。
 
-## 使用现成工具
+## 使用
 
 生产模板收敛为相同结构，并额外包含：
 
@@ -331,7 +331,7 @@ CPU 上的典型输出：预处理约 3 ms、检测 300–500 ms、分类 20–4
 
 生产服务中，`torchserve`、Triton Inference Server 和 BentoML 原生处理批处理、版本控制、指标和健康检查。直接运行 `FastAPI` 适合原型和小规模产品。
 
-## 交付产物
+## 交付
 
 本课产出：
 

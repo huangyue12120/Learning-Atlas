@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 在 PR 之前用测试金字塔设置验证门
-  summary: 在沙盒中运行完整 CI、比较覆盖率差值并在失败时阻止发布时，用测试与质量保证理论核对单元测试、集成测试、端到端测试和持续集成各自的职责。
+  summary: 在沙盒中运行完整 CI、比较覆盖率差值并在失败时阻止发布时，用测试与质量保证理论核对单元测试、集成测试、端到端测试和持续集成各自的职责。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 15 - production software engineering/04. testing and quality assurance.md

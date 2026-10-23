@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 实验候选树的搜索与预算评分
-  summary: 在展开实验子节点、按新颖性与质量评分并在预算耗尽时选择分支时，用图论中的节点、边和搜索边界直觉理解 best-first 树搜索。
+  summary: 在展开实验子节点、按新颖性与质量评分并在预算耗尽时选择分支时，用图论中的节点、边和搜索边界直觉理解 best-first 树搜索。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 14 - data structures and algorithms/04. graphs.md

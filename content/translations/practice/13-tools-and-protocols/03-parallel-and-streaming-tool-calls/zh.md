@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库、线程池 + 流式测试工具）
 **前置课程：** Phase 13 · 02（函数调用深潜）
-**时间：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -125,7 +125,7 @@ call_C: median API, returns third
 tp-parallel-fanout
 ```
 
-## 动手使用
+## 使用
 
 `code/main.py` 分为两半。第一半使用 `concurrent.futures.ThreadPoolExecutor`，分别串行和并行运行三个模拟天气调用，并打印墙钟时间。第二半重放一个假的流式响应——三个并行调用的 `arguments` 块交错出现在一条流上——并使用 `StreamAccumulator` 按 ID 重组它们。没有 LLM，没有网络，只有重组逻辑。
 
@@ -135,7 +135,7 @@ tp-parallel-fanout
 - 累加器通过按 ID 缓冲来处理乱序到达的块，并且只在每个调用的 JSON 完整时解析。
 - 执行器在某个 ID 的参数完成时立即启动，而不是等到所有流结束。
 
-## 交付物
+## 交付
 
 本课会生成 `outputs/skill-parallel-call-safety-check.md`。给定一个工具注册表，这个 skill 会审查哪些工具可以安全并行化、哪些存在顺序依赖、哪些会压垮下游速率限制，并返回带有各工具 `parallel_safe` 标志的修订注册表。
 
@@ -151,7 +151,7 @@ tp-parallel-fanout
 
 5. 阅读 OpenAI 的并行函数调用章节和 Anthropic 的 `disable_parallel_tool_use` 文档。找出一种 Anthropic 建议禁用并行的真实工具类型。（提示：对同一资源进行后果性修改。）
 
-## 术语
+## 关键术语
 
 | 术语 | 人们常说 | 实际含义 |
 |------|----------------|------------------------|

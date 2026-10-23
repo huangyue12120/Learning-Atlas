@@ -15,7 +15,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** 第 1 阶段第 01—04、19 课（复数）
-**时间：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -99,17 +99,17 @@ O &= \text{DFT of odd-indexed samples}
 
 ```mermaid
 graph TD
-    subgraph "8-point FFT (Cooley-Tukey)"
-        X["x[0..7]<br/>8 samples"] -->|"split even/odd"| E["Even: x[0,2,4,6]"]
-        X -->|"split even/odd"| O["Odd: x[1,3,5,7]"]
-        E -->|"4-pt FFT"| EK["E[0..3]"]
-        O -->|"4-pt FFT"| OK["O[0..3]"]
-        EK -->|"combine with twiddle factors"| XK["X[0..7]"]
-        OK -->|"combine with twiddle factors"| XK
+    subgraph "8 点 FFT（Cooley-Tukey）"
+        X["x[0..7]<br/>8 个样本"] -->|"按偶/奇拆分"| E["偶: x[0,2,4,6]"]
+        X -->|"按偶/奇拆分"| O["奇: x[1,3,5,7]"]
+        E -->|"4 点 FFT"| EK["E[0..3]"]
+        O -->|"4 点 FFT"| OK["O[0..3]"]
+        EK -->|"用旋转因子合并"| XK["X[0..7]"]
+        OK -->|"用旋转因子合并"| XK
     end
-    subgraph "Complexity"
-        C1["DFT: O(N^2) = 64 multiplications"]
-        C2["FFT: O(N log N) = 24 multiplications"]
+    subgraph "复杂度"
+        C1["DFT: O(N^2) = 64 次乘法"]
+        C2["FFT: O(N log N) = 24 次乘法"]
     end
 ```
 
@@ -166,18 +166,18 @@ DFT 的频率分辨率取决于样本数 N 和采样率 fs。
 
 ```mermaid
 graph LR
-    subgraph "Time Domain"
-        TA["Signal x[n]"] -->|"convolve (slow: O(NM))"| TC["Output y[n]"]
-        TB["Filter h[n]"] -->|"convolve"| TC
+    subgraph "时域"
+        TA["信号 x[n]"] -->|"卷积（慢: O(NM)）"| TC["输出 y[n]"]
+        TB["滤波器 h[n]"] -->|"卷积"| TC
     end
-    subgraph "Frequency Domain"
-        FA["FFT(x)"] -->|"multiply (fast: O(N))"| FC["FFT(x) * FFT(h)"]
-        FB["FFT(h)"] -->|"multiply"| FC
+    subgraph "频域"
+        FA["FFT(x)"] -->|"相乘（快: O(N)）"| FC["FFT(x) * FFT(h)"]
+        FB["FFT(h)"] -->|"相乘"| FC
         FC -->|"IFFT"| FD["y[n]"]
     end
     TA -.->|"FFT"| FA
     TB -.->|"FFT"| FB
-    FD -.->|"same result"| TC
+    FD -.->|"结果相同"| TC
 ```
 
 ### 加窗
@@ -388,7 +388,7 @@ def convolve_fft(x, h):
     return [y[n].real for n in range(N)]
 ```
 
-## 实际使用
+## 使用
 
 在实际工作中，请使用 NumPy 的 FFT；它由高度优化的 C 语言库提供支持。
 
@@ -434,7 +434,7 @@ spectrogram = np.abs(Zxx) ** 2
 
 频谱图矩阵的形状为 (n_frequencies, n_time_frames)。每一列都是一个时间窗口内的功率谱。这正是音频机器学习模型所接收的输入。
 
-## 交付成果
+## 交付
 
 运行 `code/fourier.py`，生成 `outputs/prompt-spectral-analyzer.md`。
 
@@ -452,17 +452,15 @@ spectrogram = np.abs(Zxx) ** 2
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** With 128 samples over 1 second, bin $k$ is $k$ Hz, so for an integer frequency the index of the largest value in bins 1 to 63 is the frequency. Pick an integer number of hertz. A frequency between two bins spreads into its neighbors, and the peak gives only the nearest bin. Use `generate_signal` and `magnitude_spectrum`. After you add noise, check that the peak is still at the same bin while the other bins rise.
->
-> **Exercise 2.** Use a power of two length, because `fft` splits the signal in halves. Check `max(abs(a - b))` over all coefficients. The time ratio should grow roughly as $N / \log_2 N$.
->
-> **Exercise 3.** For circular convolution, compute $y[n] = \sum_k h[k] x[(n-k) \bmod 8]$ by hand for $n$ = 0, 1, and 2, and compare the first three values of `convolve_direct` and `convolve_fft`. Linear convolution has length 4 + 3 - 1 = 6, so first check if the length 8 is already long enough.
->
-> **Exercise 4.** Use `hann_window`, `hamming_window`, `apply_window`, and `power_spectrum`, and count the separate peaks between 9 and 13 Hz. Both 10 Hz and 12 Hz complete whole cycles in 1 second, so no window may look best. Repeat with 10.5 Hz and 12.5 Hz to see the leakage that windows reduce.
->
-> **Exercise 5.** Compute each encoding with `positional_encoding(pos, 128)`. Compare the dot product for positions (0, 10) with the dot product for (100, 110): the two values must match to about 1e-10. Then plot the dot product against $\lvert p_1 - p_2 \rvert$ for one fixed $p_1$.
+**练习 1.** 在 1 秒内取 128 个样本时，bin $k$ 对应 $k$ Hz，所以对整数频率而言，bins 1 到 63 中最大值的索引就是频率。选一个整数赫兹数。落在两个 bin 之间的频率会扩散到相邻的 bin，而峰值只给出最近的那个 bin。使用 `generate_signal` 和 `magnitude_spectrum`。加入噪声后，检查峰值仍在同一个 bin，而其他 bin 抬高。
+
+**练习 2.** 使用 2 的幂长度，因为 `fft` 把信号按半分割。在所有系数上检查 `max(abs(a - b))`。时间比值应大致随 $N / \log_2 N$ 增长。
+
+**练习 3.** 对于循环卷积，手工计算 $n$ = 0、1、2 时的 $y[n] = \sum_k h[k] x[(n-k) \bmod 8]$，并对比 `convolve_direct` 和 `convolve_fft` 的前三个值。线性卷积的长度为 4 + 3 - 1 = 6，所以先检查长度 8 是否已经足够。
+
+**练习 4.** 使用 `hann_window`、`hamming_window`、`apply_window` 和 `power_spectrum`，统计 9 到 13 Hz 之间分开的峰的数目。10 Hz 和 12 Hz 都在 1 秒内完成整数个周期，所以可能没有哪种窗口看起来最好。换成 10.5 Hz 和 12.5 Hz 再做一次，观察窗口所减少的频谱泄漏。
+
+**练习 5.** 用 `positional_encoding(pos, 128)` 计算每个编码。把位置 (0, 10) 的点积与 (100, 110) 的点积对比：两个值必须相符到约 1e-10。然后对固定的某个 $p_1$，画出点积关于 $\lvert p_1 - p_2 \rvert$ 的曲线。
 
 ## 关键术语
 

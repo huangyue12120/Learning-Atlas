@@ -27,7 +27,7 @@ status: reviewed
 - 把恢复出的布局与 DWARF 布局进行比较，并把每一处差异命名为缺失的证据、一次合并的访问，或一个无法证明的种类。
 - 从重定位中读取一个 Itanium C++ 虚函数表（vtable）、它的 typeinfo 和它的修饰名，并把一次虚调用解析到一个槽。
 
-## 问题所在
+## 问题
 
 你没带 `-g` 编译了 `account.c`，并问一个智能体 `bump` 做什么。该智能体把目标文件送进 Ghidra 12.1.4，得到了这个结果：
 
@@ -387,7 +387,7 @@ Ghidra 不带 DWARF 的输出展示了同样两条规则在起作用。它的反
 
 栈上结构体是本课的 pass 首先跳过的东西。在 `-O1` 下，`main` 把 `rows` 保留在栈上，而内联后的代码读取 `0x24(%rsp)`、`0x40(%rsp)`、`0x48(%rsp)`、`0x30(%rsp)` 和 `0x38(%rsp)`。那些偏移对 32 取模是 4、0、8、16 和 24：同一个结构体，但没有参数可以作为起点。实践实验要求你恢复它。
 
-## 构建它
+## 动手构建
 
 运行演示：
 
@@ -425,7 +425,7 @@ python3 code/main.py
 
 还存在四个命令。`python3 code/main.py dwarf FILE.o` 打印任何 DWARF 5 可重定位目标文件的各结构体和各函数。`python3 code/main.py infer LISTING.txt [FILE.o]` 在一段清单上运行该 pass，并在给出目标文件时与它的 DWARF 进行比较。`python3 code/main.py demangle NAME...` 和 `python3 code/main.py vtable FILE.o` 覆盖 C++ 那一半。
 
-## 使用它
+## 使用
 
 在你自己构建的一个新目标文件上：
 

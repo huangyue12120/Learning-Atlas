@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Docker
 **前置课程：** Phase 0，第 01、03 课
-**预计学习：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -37,16 +37,16 @@ Docker 将代码、运行时、库和系统工具包装为称作容器的隔离�
 
 ```mermaid
 graph TD
-    subgraph without["Without Docker"]
-        A1["Your machine<br/>Python 3.12<br/>CUDA 12.4<br/>PyTorch 2.3"] -->|crashes| X1["???"]
-        A2["Their machine<br/>Python 3.10<br/>CUDA 11.8<br/>PyTorch 2.1"] -->|crashes| X2["???"]
-        A3["Server<br/>Python 3.11<br/>CUDA 12.1<br/>PyTorch 2.2"] -->|crashes| X3["???"]
+    subgraph without["没有 Docker 时"]
+        A1["你的机器<br/>Python 3.12<br/>CUDA 12.4<br/>PyTorch 2.3"] -->|崩溃| X1["???"]
+        A2["他们的机器<br/>Python 3.10<br/>CUDA 11.8<br/>PyTorch 2.1"] -->|崩溃| X2["???"]
+        A3["服务器<br/>Python 3.11<br/>CUDA 12.1<br/>PyTorch 2.2"] -->|崩溃| X3["???"]
     end
 
-    subgraph with_docker["With Docker — Same image everywhere"]
-        B1["Your machine<br/>Python 3.12 | CUDA 12.4<br/>PyTorch 2.3 | Your code"]
-        B2["Their machine<br/>Python 3.12 | CUDA 12.4<br/>PyTorch 2.3 | Your code"]
-        B3["Server<br/>Python 3.12 | CUDA 12.4<br/>PyTorch 2.3 | Your code"]
+    subgraph with_docker["使用 Docker —— 各处同一镜像"]
+        B1["你的机器<br/>Python 3.12 | CUDA 12.4<br/>PyTorch 2.3 | 你的代码"]
+        B2["他们的机器<br/>Python 3.12 | CUDA 12.4<br/>PyTorch 2.3 | 你的代码"]
+        B3["服务器<br/>Python 3.12 | CUDA 12.4<br/>PyTorch 2.3 | 你的代码"]
     end
 ```
 
@@ -362,7 +362,7 @@ docker cp <container_id>:/workspace/results.csv ./results.csv
 docker logs -f <container_id>
 ```
 
-## 实际使用
+## 使用
 
 你现在拥有可复现的 AI 开发环境。后续课程中：
 
@@ -384,17 +384,15 @@ docker logs -f <container_id>
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Build with the `docker build -t ai-dev -f phases/00-setup-and-tooling/07-docker-for-ai/code/Dockerfile .` command from the lesson, then run the import inside `docker run --rm ai-dev`. On a Mac, leave out `--gpus all`, as the lesson explains. The container must print a version that starts with `2.6.0`.
->
-> **Exercise 2.** Run `docker compose up -d` in the `code/` folder, then open a shell in the `ai-dev` service with `docker compose exec ai-dev bash`. Inside it, run `curl http://qdrant:6333/collections`; a JSON reply means the service name resolves on the compose network.
->
-> **Exercise 3.** Add a `RUN pip install flask` line to the Dockerfile, rebuild, and start the server with `host="0.0.0.0"`, because a server bound to localhost inside the container is not reachable from outside. Open `http://localhost:5000` on your machine to confirm that the port mapping works.
->
-> **Exercise 4.** Run `docker images ai-dev` and write down the SIZE column. Change `devel` to `runtime` in the `FROM` line, build with a new tag, and compare the two sizes; the runtime image leaves out the compilers and headers.
+**练习 1.** 用课程中的 `docker build -t ai-dev -f phases/00-setup-and-tooling/07-docker-for-ai/code/Dockerfile .` 命令构建，然后在 `docker run --rm ai-dev` 内运行该导入。在 Mac 上按课程所述省略 `--gpus all`。容器必须打印出以 `2.6.0` 开头的版本。
 
-## 核心术语
+**练习 2.** 在 `code/` 文件夹中运行 `docker compose up -d`，然后用 `docker compose exec ai-dev bash` 在 `ai-dev` 服务中打开一个 shell。在其中运行 `curl http://qdrant:6333/collections`；收到 JSON 回复就说明服务名在 compose 网络上解析成功。
+
+**练习 3.** 在 Dockerfile 中加一行 `RUN pip install flask`，重建，并用 `host="0.0.0.0"` 启动服务器，因为在容器内绑定到 localhost 的服务器从外部无法访问。在你的机器上打开 `http://localhost:5000`，确认端口映射有效。
+
+**练习 4.** 运行 `docker images ai-dev` 并记下 SIZE 列。把 `FROM` 行里的 `devel` 改为 `runtime`，用新标签构建，比较两个大小；runtime 镜像不含编译器和头文件。
+
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

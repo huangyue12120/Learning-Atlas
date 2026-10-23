@@ -108,7 +108,7 @@ TTFAB 总计：7B 为 320–510ms，70B 为 600–900ms。前沿质量通常意�
 l5-thinker-talker
 ```
 
-## 使用它
+## 使用
 
 `code/main.py`：
 
@@ -116,7 +116,7 @@ l5-thinker-talker
 - 为可配置的模型规模和麦克风采样率计算 TTFAB。
 - 使用 VAD 静音阈值演示半双工轮流说话。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-omni-streaming-budget.md`。给定实时语音产品的目标 TTFAB 和功能集合（视觉输入、双语、全双工），它会选择 Qwen2.5-Omni、Qwen3-Omni、Moshi 或 Mini-Omni，并规划 Thinker/Talker 大小。
 

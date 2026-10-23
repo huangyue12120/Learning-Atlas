@@ -19,7 +19,7 @@
         "KV 缓存利用率"
       ],
       "correct": 1,
-      "explanation": "正确答案是“DCGM_FI_DEV_GPU_UTIL 占空比”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：HPA 常默认用 DCGM_FI_DEV_GPU_UTIL，但它是占空比指标，100% 可能是 10 个也可能是 100 个请求，对 vLLM 风格服务无意义。P99 TTFT、队列深度、KV 利用率恰是课程推荐的替代信号。"
     },
     {
       "id": "q2",
@@ -32,7 +32,7 @@
         "GPU 显存碎片"
       ],
       "correct": 1,
-      "explanation": "正确答案是“部分分配陷阱：8 张 GPU 中只有 7 张就绪，全部空闲等待第 8 张”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：gang 调度全有或全无，防止 8 张 GPU 只就绪 7 张却全部空等的部分分配陷阱。GIL 竞争、冷启动、显存碎片都不是 gang 调度要解决的问题。"
     },
     {
       "id": "q3",
@@ -45,7 +45,7 @@
         "它拒绝在突发流量下扩容"
       ],
       "correct": 2,
-      "explanation": "正确答案是“它会终止运行中的 GPU 节点来迁移 Pod，驱逐正在处理的请求并重新加载权重”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：WhenEmptyOrUnderutilized 会为迁移到更便宜实例而终止运行中的 GPU 节点，驱逐在处理的请求并重新加载权重，造成容量损失。它并非只整合 Spot、也不会阻止预配或拒绝扩容。"
     },
     {
       "id": "q4",
@@ -58,7 +58,7 @@
         "慢约 10 倍"
       ],
       "correct": 2,
-      "explanation": "正确答案是“快约 40%（约 45–60 秒，相比约 90–120 秒）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：Karpenter 约 45–60 秒预配，Cluster Autoscaler 约 90–120 秒，课程概括为快约 40%。其余幅度与课程数字不符。"
     },
     {
       "id": "q5",
@@ -71,7 +71,7 @@
         "prefill Pod 使用队列深度，decode Pod 使用 KV 缓存压力，按角色配置独立 HPA"
       ],
       "correct": 3,
-      "explanation": "正确答案是“prefill Pod 使用队列深度，decode Pod 使用 KV 缓存压力，按角色配置独立 HPA”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：课程建议 prefill pod 按队列深度扩缩、decode pod 按 KV 缓存压力扩缩，并按角色配置独立 HPA。共用一个占空比 HPA、只用 Cluster Autoscaler 或只手动扩缩都被课程排除。"
     },
     {
       "id": "q6",
@@ -84,7 +84,7 @@
         "consolidationPolicy: WhenEmpty，并设置 consolidateAfter: 1h"
       ],
       "correct": 3,
-      "explanation": "正确答案是“consolidationPolicy: WhenEmpty，并设置 consolidateAfter: 1h”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：课程给 GPU 池的安全设置是 consolidationPolicy: WhenEmpty 加 consolidateAfter: 1h，只整合真正空闲的节点。禁用 Karpenter、纯 Spot 或 consolidateAfter: 0s 都不能避免驱逐运行中任务。"
     }
   ]
 }

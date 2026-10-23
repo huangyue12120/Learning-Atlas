@@ -10,7 +10,7 @@ practice:
     slug: the-concept
 card:
   title: 视频词元的时间压缩与定位
-  summary: 在把帧、空间图块和时间窗口映射到语言查询时，用视频分词理论核对时空 token 数和时间压缩为何直接影响 temporal grounding。
+  summary: 在把帧、空间图块和时间窗口映射到语言查询时，用视频分词理论核对时空词元数和时间压缩为何直接影响 temporal grounding。
   context: "本课要把视频切成可供语言模型处理的时空词元并定位事件区间；采样和压缩方式决定模型还能看到哪些时间证据。"
   intuition: "视频是在图像图块之外再增加时间轴；模型必须既压缩大量重复帧，又保留足够的时间顺序来回答事件何时发生。"
   key_points:

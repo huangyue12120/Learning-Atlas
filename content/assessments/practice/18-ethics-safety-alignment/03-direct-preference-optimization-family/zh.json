@@ -19,7 +19,7 @@
         "Bradley–Terry 偏好与奖励函数无关"
       ],
       "correct": 2,
-      "explanation": "正确答案是“带 KL 的 RLHF 闭式最优解可把奖励写成策略对数比，从而代入 Bradley–Terry 损失”。本课把 DPO、IPO、KTO、SimPO、ORPO 与 BPO 放在同一偏好优化框架中比较。"
+      "explanation": "正确答案是“带 KL 的 RLHF 闭式最优解可把奖励写成策略对数比，从而代入 Bradley–Terry 损失”。DPO 利用带 KL 的 RLHF 目标的闭式最优解，把奖励表示成策略与参考的对数比，直接代入 Bradley-Terry 损失，因此无需单独训练奖励模型。它并不是“在第二个循环隐式训练完整 RM”，偏好与奖励函数也并非无关。"
     },
     {
       "id": "03-direct-preference-optimization-family-check-2",
@@ -32,7 +32,7 @@
         "极小偏好概率导致隐式奖励差距无界"
       ],
       "correct": 3,
-      "explanation": "正确答案是“极小偏好概率导致隐式奖励差距无界”。本课把 DPO、IPO、KTO、SimPO、ORPO 与 BPO 放在同一偏好优化框架中比较。"
+      "explanation": "正确答案是“极小偏好概率导致隐式奖励差距无界”。DPO 的隐式奖励间隔无界，很弱的偏好也能产生任意大的间隔；IPO 用恒等映射加平方误差把间隔限定在 `1/(2 beta)`。长度偏差是 SimPO 解决的问题，“必须成对”“依赖参考策略”不是 IPO 针对的失败模式。"
     },
     {
       "id": "03-direct-preference-optimization-family-check-3",
@@ -45,7 +45,7 @@
         "希望完全移除 KL 惩罚"
       ],
       "correct": 0,
-      "explanation": "正确答案是“只有非成对的可取/不可取单条标签，并希望使用损失厌恶效用”。本课把 DPO、IPO、KTO、SimPO、ORPO 与 BPO 放在同一偏好优化框架中比较。"
+      "explanation": "正确答案是“只有非成对的可取/不可取单条标签，并希望使用损失厌恶效用”。KTO 放弃成对结构，可用不成对的二元“理想/不理想”标签，并采用前景理论的损失厌恶效用。成对强偏好更适合 DPO/SimPO；KTO 并不保证零漂移，也不移除 KL 惩罚。"
     },
     {
       "id": "03-direct-preference-optimization-family-check-4",
@@ -58,7 +58,7 @@
         "保留参考策略并新增间隔"
       ],
       "correct": 0,
-      "explanation": "正确答案是“移除参考策略，并按序列长度归一化对数似然”。本课把 DPO、IPO、KTO、SimPO、ORPO 与 BPO 放在同一偏好优化框架中比较。"
+      "explanation": "正确答案是“移除参考策略，并按序列长度归一化对数似然”。SimPO 不用参考策略，并对对数似然做长度归一化，从而消除利用长度偏差的动机。赔率比加 NLL 是 ORPO，“把 log-sigmoid 换成恒等映射”是 IPO，“保留参考策略”与 SimPO 的设计相反。"
     },
     {
       "id": "03-direct-preference-optimization-family-post-5",
@@ -71,7 +71,7 @@
         "chosen 不在参考策略的支持集内"
       ],
       "correct": 2,
-      "explanation": "正确答案是“只要 rejected 的对数概率下降更快，DPO 就可能让 chosen 的绝对对数概率也下降”。本课把 DPO、IPO、KTO、SimPO、ORPO 与 BPO 放在同一偏好优化框架中比较。"
+      "explanation": "正确答案是“只要 rejected 的对数概率下降更快，DPO 就可能让 chosen 的绝对对数概率也下降”。被选回答退化指 DPO 维持排序 `y_w > y_l`，但只要被拒回答降得更快，被选回答的绝对对数概率也可能下降，BPO 加一行修正来惩罚这种下移。其余选项描述的是采样概率或支持集问题，不是该退化现象。"
     },
     {
       "id": "03-direct-preference-optimization-family-post-6",
@@ -84,7 +84,7 @@
         "直接对齐算法在金标准奖励上同样出现先升后降的过度优化形状"
       ],
       "correct": 3,
-      "explanation": "正确答案是“直接对齐算法在金标准奖励上同样出现先升后降的过度优化形状”。本课把 DPO、IPO、KTO、SimPO、ORPO 与 BPO 放在同一偏好优化框架中比较。"
+      "explanation": "正确答案是“直接对齐算法在金标准奖励上同样出现先升后降的过度优化形状”。Rafailov 等人在多数据集、多 KL 预算上发现 DAA 的金标准曲线与 Gao 等人先升后降的形状相同，说明 DAA 没有逃离古德哈特。“DPO 过优而 IPO/SimPO 不会”“从设计上消除 Goodhart”“十万样本后消失”都与该结论相反。"
     }
   ]
 }

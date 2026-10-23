@@ -108,7 +108,7 @@ M[i, j] = 1 iff there exists b where offsets[b] <= i < offsets[b+1] and offsets[
 mm-patch-n-pack
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 用整数像素坐标为异构图像批量实现 patch-n'-pack。它会：
 
@@ -121,7 +121,7 @@ mm-patch-n-pack
 
 运行它。输出的数字就是为什么每个 2026 年开放 VLM 都使用 patch-n'-pack 的原因。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-resolution-budget-planner.md`。给定一个混合宽高比的工作负载（OCR、图表、照片、视频帧）和总词元预算，它会选择正确的策略（NaFlex、AnyRes、M-RoPE 或固定正方形）并输出逐请求配置。在为产品估算 VLM 规模时使用这个技能——它能避免无声的 10 倍词元膨胀杀死延迟预算。
 

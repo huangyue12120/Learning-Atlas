@@ -11,12 +11,12 @@ status: reviewed
 
 # 服务引擎内部机制：PagedAttention、连续批处理、分块 Prefill
 
-> 现代服务引擎吞吐量建立在三个相互叠加的默认设置上。PagedAttention 始终开启；连续批处理在 decode 迭代之间向活跃批次注入新请求；分块 prefill 切分长提示词，使 decode token 永不挨饿。三者同时开启后，一张 H100 SXM5 上的 Llama 3.3 70B FP8 在 128 并发下可达到 2,200–2,400 tok/s，约比 vLLM 自身默认值高 25%，比朴素 PyTorch 循环高 3–4 倍。本课在你能画图理解的层级阅读 vLLM（这三种技术的参考引擎）的调度器与注意力内核，并以 `code/main.py` 中一个按 vLLM 方式安排 prefill 和 decode 的玩具连续批处理器收尾。
+> 现代服务引擎吞吐量建立在三个相互叠加的默认设置上。PagedAttention 始终开启；连续批处理在 decode 迭代之间向活跃批次注入新请求；分块 prefill 切分长提示词，使 decode 词元永不挨饿。三者同时开启后，一张 H100 SXM5 上的 Llama 3.3 70B FP8 在 128 并发下可达到 2,200–2,400 tok/s，约比 vLLM 自身默认值高 25%，比朴素 PyTorch 循环高 3–4 倍。本课在你能画图理解的层级阅读 vLLM（这三种技术的参考引擎）的调度器与注意力内核，并以 `code/main.py` 中一个按 vLLM 方式安排 prefill 和 decode 的玩具连续批处理器收尾。
 
 **类型：** 学习
 **语言：** Python（标准库，玩具连续批处理调度器）
 **前置要求：** 第 17 阶段 · 01（模型服务），第 11 阶段（LLM 工程）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -29,7 +29,7 @@ status: reviewed
 
 朴素 PyTorch 服务循环一次运行一个请求：分词、prefill、decode 直到 EOS、返回。一个用户时可行；一百个用户时，它变成耐心等候者的队列。静态批处理看似直接，却会将每个请求填充至窗口中最长提示词，将每次 decode 填充至最长预期输出，并让整个批次被最慢序列阻塞。你为永远不会使用的填充付费，快速请求也在等待慢请求。
 
-vLLM 同时解决三个问题。PagedAttention 阻止传统连续分配会造成的 KV 缓存碎片吞掉 60–80% GPU 内存。连续批处理使请求可在每次 decode 迭代之间加入或离开批次，因此批次始终充满真实工作。分块 prefill 将 32k token 提示词切成约 512-token 片段并与 decode 交错，因此一个长提示词不会冻结 GPU 上的每个 decode token。
+vLLM 同时解决三个问题。PagedAttention 阻止传统连续分配会造成的 KV 缓存碎片吞掉 60–80% GPU 内存。连续批处理使请求可在每次 decode 迭代之间加入或离开批次，因此批次始终充满真实工作。分块 prefill 将 32k 词元提示词切成约 512-词元片段并与 decode 交错，因此一个长提示词不会冻结 GPU 上的每个 decode 词元。
 
 2026 年的生产默认值是三者全开。你需要理解每一项做什么，因为全部失效模式都在调度器上，而不是模型上。
 
@@ -37,9 +37,9 @@ vLLM 同时解决三个问题。PagedAttention 阻止传统连续分配会造成
 
 ### 作为虚拟内存系统的 PagedAttention <!-- learning-atlas: pagedattention-as-a-virtual-memory-system -->
 
-每个序列的 KV 缓存是 `num_layers × 2 × num_heads × head_dim × seq_len × bytes_per_element`。对于 8192 token 的 Llama 3.3 70B，每序列 BF16 约为 1.25 GB。若为每个请求预留 8192 个槽位，但平均请求仅用 1500 token，就浪费约 82% 预留 HBM。传统批处理承担这种浪费。
+每个序列的 KV 缓存是 `num_layers × 2 × num_heads × head_dim × seq_len × bytes_per_element`。对于 8192 词元的 Llama 3.3 70B，每序列 BF16 约为 1.25 GB。若为每个请求预留 8192 个槽位，但平均请求仅用 1500 词元，就浪费约 82% 预留 HBM。传统批处理承担这种浪费。
 
-PagedAttention 借用 OS 虚拟内存的思想。KV 缓存不再按序列连续分配，而是按固定大小块（默认 16 token）分配。每条序列具有块表，将逻辑 token 位置映射到物理块 ID。序列增长超过已分配块时，就添加一个块；序列结束时，块归还到池中。
+PagedAttention 借用 OS 虚拟内存的思想。KV 缓存不再按序列连续分配，而是按固定大小块（默认 16 词元）分配。每条序列具有块表，将逻辑词元位置映射到物理块 ID。序列增长超过已分配块时，就添加一个块；序列结束时，块归还到池中。
 
 碎片从传统方式的 60–80% 降到 PagedAttention 的 4% 以下。你无需通过标志启用 PagedAttention——它是 vLLM 唯一提供的分配器。可调旋钮是 `--gpu-memory-utilization`（默认 0.9），它告诉 vLLM 在加载权重与激活值后为 KV 块保留多少 HBM。
 
@@ -51,15 +51,15 @@ PagedAttention 借用 OS 虚拟内存的思想。KV 缓存不再按序列连续�
 
 1. 从 `RUNNING` 中移除刚达到 EOS 或 `max_tokens` 的任意序列。
 2. 调度器查看等待队列。若有空闲 KV 块，则接纳新序列（prefill 或恢复的序列）。
-3. 对此时 `RUNNING` 中的所有序列运行前向传播，每序列产生一个新 token。
+3. 对此时 `RUNNING` 中的所有序列运行前向传播，每序列产生一个新词元。
 
 批次大小永远不会填充到固定数目。处在不同输出位置的序列共享一次融合前向传播。2026 年 vLLM 将此称为 `V1 scheduler`。关键不变量是：调度器每个 decode 迭代运行一次，而不是每个请求运行一次。
 
 ### 分块 Prefill 保护 TTFT 尾部
 
-Prefill 是计算密集型的。一条 32k token Llama 3.3 70B 提示词在一张 H100 上仅 prefill 就需要约 800 ms。prefill 运行时，批次中其他序列的 decode token 都在等待。服务循环中，一个长提示词的首 token 延迟（TTFT）会变成其他数十用户的 token 间延迟（ITL）抖动。
+Prefill 是计算密集型的。一条 32k 词元 Llama 3.3 70B 提示词在一张 H100 上仅 prefill 就需要约 800 ms。prefill 运行时，批次中其他序列的 decode 词元都在等待。服务循环中，一个长提示词的首词元延迟（TTFT）会变成其他数十用户的词元间延迟（ITL）抖动。
 
-分块 prefill 将 prefill 切成固定大小的片段（默认 512 token），并将每个片段作为一个调度单位。片段之间，调度器可让 decode 序列前进一个 token。你以少量绝对 prefill 延迟代价（每块数毫秒）换来更低的 decode 时间抖动。已发布基准显示，混合负载下 P99 ITL 从约 50 ms 降至约 15 ms。
+分块 prefill 将 prefill 切成固定大小的片段（默认 512 词元），并将每个片段作为一个调度单位。片段之间，调度器可让 decode 序列前进一个词元。你以少量绝对 prefill 延迟代价（每块数毫秒）换来更低的 decode 时间抖动。已发布基准显示，混合负载下 P99 ITL 从约 50 ms 降至约 15 ms。
 
 ### 三个默认设置如何交互
 
@@ -102,7 +102,7 @@ while True:
     run_forward(batch)                            # one fused GPU call
 ```
 
-`code/main.py` 正是这个循环的标准库 Python 版本，使用伪 token 计数和伪前向延迟。运行它可看到分块 prefill 如何让 decode 序列在长 prefill 期间保持活跃。
+`code/main.py` 正是这个循环的标准库 Python 版本，使用伪词元计数和伪前向延迟。运行它可看到分块 prefill 如何让 decode 序列在长 prefill 期间保持活跃。
 
 ```figure
 tensor-parallel
@@ -117,7 +117,7 @@ tensor-parallel
 - `CONTINUOUS` 模式：迭代层级接纳与释放。
 - `CONTINUOUS + CHUNKED` 模式：prefill 切片与 decode 交错。
 
-输出显示总吞吐量（每虚拟秒 token）、TTFT 均值和 P99 ITL。在混合流量上，`CONTINUOUS + CHUNKED` 行应占优。
+输出显示总吞吐量（每虚拟秒词元）、TTFT 均值和 P99 ITL。在混合流量上，`CONTINUOUS + CHUNKED` 行应占优。
 
 ## 交付
 
@@ -128,7 +128,7 @@ tensor-parallel
 1. 运行 `code/main.py`。在短长请求混合工作负载上比较 `STATIC` 和 `CONTINUOUS`。吞吐差距来自 prefill 效率、decode 效率还是尾延迟？
 2. 修改玩具调度器以加入 `--max-num-batched-tokens`。对于运行 Llama 3.3 70B FP8 的 H100，正确值是什么？（提示：它是 KV 块大小与空闲块数量的函数，而非原始 HBM。）
 3. 重读 vLLM v0.18.0 发布说明。哪些标志组合互斥？列出来。
-4. 对一个 1,000 请求的轨迹计算 KV 缓存碎片浪费：输出 token 均值 1,500、标准差 600，在（a）每请求连续分配、最大值 8192，（b）16-token 块的 PagedAttention 下分别计算。
+4. 对一个 1,000 请求的轨迹计算 KV 缓存碎片浪费：输出词元均值 1,500、标准差 600，在（a）每请求连续分配、最大值 8192，（b）16-词元块的 PagedAttention 下分别计算。
 5. 用一段话解释为何分块 prefill 有助于 P99 ITL，却不会单独提高吞吐。实践中的吞吐提升来自哪里？
 
 ## 关键术语
@@ -136,12 +136,12 @@ tensor-parallel
 | 术语 | 常见说法 | 实际含义 |
 |------|----------|----------|
 | PagedAttention | “KV 技巧” | 面向 KV 缓存的固定大小块分配器；碎片 <4%。 |
-| 块表 | “页表” | 每序列从逻辑 token 位置到物理 KV 块的映射。 |
+| 块表 | “页表” | 每序列从逻辑词元位置到物理 KV 块的映射。 |
 | 连续批处理 | “做对了的动态批处理” | 每个 decode 迭代做接纳/释放决策。 |
-| 分块 prefill | “拆分 prefill” | 将长 prefill 切成 512-token 切片，与 decode 交错。 |
-| TTFT | “首 token 时间” | prefill + 排队 + 网络；长提示时由 prefill 主导。 |
-| ITL | “token 间延迟” | 连续 decode token 间的时间；由批次大小主导。 |
-| Goodput | “满足 SLO 的吞吐” | 每个请求仍达到 TTFT 与 ITL 目标时的 tokens/sec。 |
+| 分块 prefill | “拆分 prefill” | 将长 prefill 切成 512-词元切片，与 decode 交错。 |
+| TTFT | “首词元时间” | prefill + 排队 + 网络；长提示时由 prefill 主导。 |
+| ITL | “词元间延迟” | 连续 decode 词元间的时间；由批次大小主导。 |
+| Goodput | “满足 SLO 的吞吐” | 每个请求仍达到 TTFT 与 ITL 目标时的词元/秒。 |
 | V1 调度器 | “新调度器” | vLLM 的 2026 调度器；支持连续批处理与分块 prefill。 |
 | `--gpu-memory-utilization` | “内存旋钮” | 加载权重和激活值后为 KV 块保留的 HBM 比例。 |
 

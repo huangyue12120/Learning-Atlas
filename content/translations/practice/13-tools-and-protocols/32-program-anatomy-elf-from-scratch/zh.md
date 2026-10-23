@@ -51,7 +51,7 @@ status: reviewed
 
 这些说明来自法律条文和判决意见，不构成法律建议。当未来某个目标不属于你时，在打开文件之前先取得书面授权，并把授权与你的证据保存在一起。Reverse Engineering 101 手册第 2.1 节给出完整的引用出处和欧盟法院（CJEU）判例。
 
-## 问题所在
+## 问题
 
 你编译了 `ledger.c`，并对目标文件运行了 `llvm-objdump -t`。输出把 `percent_change` 列在值 `0000000000000000`、大小 `0000000000000010` 处。这个 1,768 字节文件中的哪 16 个字节是这个函数？该列表还显示偏移 `0x36` 处有 `R_X86_64_PC32 .rodata+0x10`，而文件中该位置的四个字节是零。它们会变成什么，为什么表格从 `0x14` 开始时加数却是 `0x10`？
 
@@ -279,7 +279,7 @@ Load commands:
 
 rea 通过 `inspect_macho` 读取 Mach-O，它通过 `xcrun` 运行 `otool -h -l`、`nm -gjU`、`dyld_info -imports -exports` 和 `dwarfdump --uuid`。你的读取器一个都不需要，它读取的是和 `otool -l` 打印的相同的 `symoff` 和 `stroff`。rea 的 `open_binary` 工具从魔数字节检测 ELF、MZ、PE，以及瘦（thin）或通用（universal）Mach-O。它还自己读取偏移 18 处的 `e_machine`。那正是你在这里构建的前 20 个字节。对于没有头的文件，你给出 `format: raw-binary`、架构和入口地址。Ghidra 提供方拒绝通用二进制文件，并要求一个切片后的瘦文件。你的读取器在看到 `0xcafebabe` 时也这样做。
 
-## 构建它
+## 动手构建
 
 运行标准库读取器：
 
@@ -310,7 +310,7 @@ entry 0x4000b0 is file offset 0xb0 through PT_LOAD
 8. `MachOFile` 读取头、加载命令、带各节的 `LC_SEGMENT_64`、`LC_SYMTAB`、`LC_BUILD_VERSION` 以及按节组织的重定位。
 9. `compare_formats()` 用从各文件读取的值在两个文件中命名同一个思想。
 
-## 使用它
+## 使用
 
 在后续课程中，先把本课的 `code` 目录加入 `sys.path`，再用 `from main import ElfFile` 导入这个读取器。第 33 课向它请求 `function_bytes` 和 `relocations_for(".text")`。第 35 课把它的输出记录为观测证据。第 36 课向它请求重定位偏移，以便在字节比较前屏蔽掉它们。
 

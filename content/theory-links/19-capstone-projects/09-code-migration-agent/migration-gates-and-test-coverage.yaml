@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 迁移流水线的确定性重写与覆盖率门
-  summary: 在组合 AST recipe、智能体修复、测试套件和覆盖率差值门时，用测试金字塔理论区分确定性检查、回归验证和最终端到端验收。
+  summary: 在组合 AST recipe、智能体修复、测试套件和覆盖率差值门时，用测试金字塔理论区分确定性检查、回归验证和最终端到端验收。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 15 - production software engineering/04. testing and quality assurance.md

@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习 + 构建
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 01 节（智能体循环）、第 14 阶段 · 第 06 节（工具使用）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -25,11 +25,11 @@ status: reviewed
 - 区分输入防护栏、输出防护栏和工具防护栏；解释 run_in_parallel 与阻塞模式的差异。
 - 用标准库实现带 handoff、guardrail 和 span 风格追踪的运行时。
 
-## 问题所在
+## 问题
 
 不能干净委派的智能体，最后会把所有内容塞进一个提示词。没有防护栏的智能体会发送 PII、违反策略的输出，或无限循环。OpenAI 的 SDK 将让多智能体工作可控的三个原语编码成了标准形状。
 
-## 核心概念
+## 概念
 
 ### 五个原语
 
@@ -59,8 +59,8 @@ status: reviewed
 
 运行模式：
 
-- **并行（默认）。** 防护栏 LLM 与主 LLM 同时运行，尾部延迟更低。如果触发，主 LLM 的工作会被丢弃（浪费 token）。
-- **阻塞（run_in_parallel=False）。** 防护栏 LLM 先运行。如果触发，主调用不会浪费 token。
+- **并行（默认）。** 防护栏 LLM 与主 LLM 同时运行，尾部延迟更低。如果触发，主 LLM 的工作会被丢弃（浪费词元）。
+- **阻塞（run_in_parallel=False）。** 防护栏 LLM 先运行。如果触发，主调用不会浪费词元。
 
 Tripwire 会抛出 InputGuardrailTripwireTriggered / OutputGuardrailTripwireTriggered。
 
@@ -99,7 +99,7 @@ python3 code/main.py
 
 轨迹展示两次成功 handoff、一次输入防护栏触发，以及一棵对应真实 SDK 输出的 span 树。
 
-## 实际使用
+## 使用
 
 - **OpenAI Agents SDK** 用于 OpenAI 优先的产品。
 - **Claude Agent SDK**（第 17 节）用于 Claude 优先的产品。
@@ -128,8 +128,8 @@ outputs/skill-agents-sdk-scaffold.md 会搭建一个 Agents SDK 应用，包含 
 | Tripwire | “防护栏触发” | 防护栏拒绝时抛出的异常 |
 | Session | “历史存储” | 在运行之间持久化的对话记忆 |
 | Tracing | “Spans” | 对 LLM + 工具 + handoff + guardrail 的内置可观测性 |
-| Blocking guardrail | “顺序检查” | 防护栏先运行；触发时不浪费 token |
-| Parallel guardrail | “并发检查” | 防护栏并行运行；触发时会浪费 token，但延迟更低 |
+| Blocking guardrail | “顺序检查” | 防护栏先运行；触发时不浪费词元 |
+| Parallel guardrail | “并发检查” | 防护栏并行运行；触发时会浪费词元，但延迟更低 |
 
 ## 延伸阅读
 

@@ -41,7 +41,7 @@ status: reviewed
 sentiment-logits
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：真实的微型数据集
 
@@ -194,7 +194,7 @@ def evaluate(y_true, y_pred):
     return {"tp": tp, "fp": fp, "tn": tn, "fn": fn, "precision": precision, "recall": recall, "f1": f1}
 ```
 
-## 使用现成工具
+## 使用
 
 scikit-learn 用六行代码正确完成这项工作。
 
@@ -226,7 +226,7 @@ print(pipe.score(X_test, y_test))
 
 团队经常重新训练情感模型，却很少重新评估所有基线。论文中的准确率依赖特定数据划分、预处理和分词器。若新模型与基线使用不同流水线，比较出的差值会误导你。请始终在自己的流水线上重跑基线，不要直接引用论文数值。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/prompt-sentiment-baseline.md`：
 

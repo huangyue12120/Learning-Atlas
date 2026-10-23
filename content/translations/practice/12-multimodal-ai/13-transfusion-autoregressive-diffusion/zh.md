@@ -114,7 +114,7 @@ Janus-Pro（第 12.15 课）通过解耦理解与生成的视觉编码器来改�
 cfg-guidance-scale
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 在一个微型 MNIST 类问题上构建玩具 Transfusion：
 
@@ -126,7 +126,7 @@ cfg-guidance-scale
 
 Transformer 本身是玩具。双损失接线、注意力掩码构造和推理循环才是本课真正交付的产物。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-two-loss-trainer-designer.md`。给定一个新的多模态训练任务（文本 + 图像、文本 + 音频、文本 + 视频），它会设计双损失计划（损失权重、掩码形状、共享块与模态特定块），并标记实现风险。
 

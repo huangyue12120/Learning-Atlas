@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** 第 10 阶段，第 01 课（分词器：BPE、WordPiece、SentencePiece）
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -37,7 +37,7 @@ GPT-2 的分词器有 50,257 个词元，Llama 3 有 128,256 个，GPT-4 大约�
 
 你将构建这套机制。
 
-## 核心概念
+## 概念
 
 ### 完整流水线 <!-- learning-atlas: the-full-pipeline -->
 
@@ -163,7 +163,7 @@ tiktoken（OpenAI）使用 Rust 编写，并通过 Python 绑定提供接口。H
 weight-tying
 ```
 
-## 动手实现
+## 动手构建
 
 ### 第 1 步：字节级编码
 
@@ -392,7 +392,7 @@ for text in test_texts:
 
 每个汉字会产生 3 个字节，表情符号会产生 4 个字节。这些输入都不会让分词器崩溃，也不会产生未知词元，这体现了字节级 BPE 的能力。
 
-## 使用它
+## 使用
 
 ### 比较真实的分词器
 
@@ -426,7 +426,7 @@ for name, tok in [("Llama 3", llama_tok), ("Mistral", mistral_tok)]:
 
 权衡始终相同：词表越大，序列越短，但参数越多。
 
-## 交付产物
+## 交付
 
 本节会产出一个用于构建和调试生产级分词器的提示词。参见 `outputs/prompt-tokenizer-builder.md`。
 

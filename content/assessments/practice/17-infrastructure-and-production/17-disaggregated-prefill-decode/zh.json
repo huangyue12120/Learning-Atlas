@@ -19,7 +19,7 @@
         "Decode 需要更多网络带宽"
       ],
       "correct": 2,
-      "explanation": "正确答案是“Prefill 受矩阵乘吞吐限制，decode 受 HBM 带宽限制，共置会浪费一种资源”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "prefill 让整段输入做一次前向传播，矩阵乘占主导、受计算约束；decode 逐词元生成、每步读完整权重、受 HBM 带宽约束，共置一张 GPU 会浪费其中一种资源。两阶段用同一套权重、不绑定特定厂商，decode 也不是更吃网络带宽。"
     },
     {
       "id": "q2",
@@ -32,7 +32,7 @@
         "NFS 共享文件系统"
       ],
       "correct": 1,
-      "explanation": "正确答案是“NIXL（可用时使用 RDMA/InfiniBand，回退到 TCP）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "Dynamo 用 NIXL 在 prefill 与 decode 池间传 KV 缓存，可用时走 RDMA/InfiniBand，否则回退 TCP。只用 gRPC 双向流、普通 HTTP 或 NFS 共享文件系统都不是 Dynamo 的传输机制。"
     },
     {
       "id": "q3",
@@ -41,11 +41,11 @@
       "options": [
         "8K 以上前缀的 RAG",
         "Blackwell 上的 MoE 工作负载",
-        "共享系统提示的多租户服务",
-        "prompt 少于 512 token 且输出少于 200 token，此时 KV 传输税会超过收益"
+        "共享系统提示词的多租户服务",
+        "提示词少于 512 词元且输出少于 200 词元，此时 KV 传输税会超过收益"
       ],
       "correct": 3,
-      "explanation": "正确答案是“prompt 少于 512 token 且输出少于 200 token，此时 KV 传输税会超过收益”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "短请求（提示词 <512 词元、输出 <200 词元）的 KV 传输税会超过解耦带来的收益，所以不值得解耦。8K+ 前缀的 RAG、Blackwell 上的 MoE、共享系统提示词的多租户服务都是解耦受益的场景。"
     },
     {
       "id": "q4",
@@ -58,7 +58,7 @@
         "Dynamo 要求 AMD，llm-d 要求 NVIDIA"
       ],
       "correct": 2,
-      "explanation": "正确答案是“Dynamo 是位于 vLLM/SGLang/TRT-LLM 之上的编排器；llm-d 是 Kubernetes 原生，把 prefill、decode、router 作为独立 Service”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "Dynamo 是位于 vLLM/SGLang/TRT-LLM 之上的编排器，而 llm-d 是 Kubernetes 原生，把 prefill、decode、router 做成各自带 HPA 的独立 Service。两者都开源、都跑在 GPU、也不绑定特定厂商硬件。"
     },
     {
       "id": "q5",
@@ -71,7 +71,7 @@
         "Sidecar proxy 和 Envoy filter"
       ],
       "correct": 1,
-      "explanation": "正确答案是“Planner Profiler 和 SLA Planner”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "Dynamo 的 Planner Profiler 测量工作负载、SLA Planner 据此自动匹配 prefill:decode 比例来满足 SLO。Marlin 内核、Cluster Autoscaler、Sidecar proxy/Envoy filter 都不是负责这一自动配比的组件。"
     },
     {
       "id": "q6",
@@ -84,7 +84,7 @@
         "缓存感知路由只适用于共置服务"
       ],
       "correct": 1,
-      "explanation": "正确答案是“缓存感知路由器可把请求放到已经持有其前缀的 decode 池；未命中时流经 prefill → decode，两者可以叠加”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "缓存感知路由器可把请求送到已持有其前缀的 decode 池，命中就省去 prefill；未命中时请求再流经 prefill→decode，两者相互叠加。解耦不会禁用 KV 复用、也不与缓存感知路由互斥，后者更不仅限共置服务。"
     }
   ]
 }

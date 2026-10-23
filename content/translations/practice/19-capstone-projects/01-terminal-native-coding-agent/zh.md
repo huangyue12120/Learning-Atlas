@@ -17,7 +17,7 @@ status: reviewed
 **语言：** TypeScript / Bun（工作台）、Python（评测脚本）
 **前置课程：** 第 11 阶段（LLM 工程）、第 13 阶段（工具与协议）、第 14 阶段（智能体）、第 15 阶段（自治系统）、第 17 阶段（基础设施）
 **涉及阶段：** P0 · P5 · P7 · P10 · P11 · P13 · P14 · P15 · P17 · P18
-**用时：** 35 小时
+**预计时间：** 35 小时
 
 ## 问题
 
@@ -71,7 +71,7 @@ status: reviewed
 - 隔离：每个任务执行一次 `git worktree add`，成功/失败后清理
 - 评测工作台：SWE-bench Pro（verified 子集）+ Terminal-Bench 2.0 + 自建的 30 个任务留出集
 - 可观测性：带 `gen_ai.*` 语义约定的 OpenTelemetry SDK → 自托管 Langfuse
-- 提交 PR：GitHub App，使用细粒度 token，权限范围限制在目标仓库
+- 提交 PR：GitHub App，使用细粒度令牌，权限范围限制在目标仓库
 
 ```figure
 ce-agent-loop
@@ -95,7 +95,7 @@ ce-agent-loop
 
 8. **提交 PR。** 成功时，最后一步是 `git push`，再调用 GitHub API 打开一个 PR，并在正文中放入计划和 diff 摘要。
 
-## 实际使用
+## 使用
 
 ```text
 $ agent run ./my-repo "Fix the race condition in worker.rs"

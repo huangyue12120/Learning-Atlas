@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 19 第 42–45 课
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -76,7 +76,7 @@ flowchart TD
 
 | 任务 | 指标 | 测试内容 |
 |------|------|---------|
-| arithmetic | exact_match | 确定答案的 token 级正确性 |
+| arithmetic | exact_match | 确定答案的词元级正确性 |
 | summary | rouge_l | 与单行摘要参考的最长公共子序列 F1 |
 | code-exec | code_exec | 输入输出对上的可执行测试 |
 | multiple-choice | multiple_choice | 预测首字母是否为允许字母 |
@@ -84,11 +84,15 @@ flowchart TD
 
 ### 指标契约
 
-每个指标都是从 prediction、targets、extras 映射到 [0.0, 1.0] 浮点数的函数。exact_match 会转小写、折叠空白并比较相等；substring_contains 使用同样规范化后做子串判断；multiple_choice 检查大写后的首字符；rouge_l 计算最长公共子序列长度、precision、recall 和 F1；code_exec 则在受限命名空间中执行预测，对每个输入输出对调用 f(x) 并统计匹配。
+每个指标都是从 `(prediction, targets, extras) -> [0.0, 1.0] 浮点数` 的函数。框架先平均每个样例的分数得到任务分数，再平均任务分数得到总体分数。指标函数都很小：
 
-code_exec 使用移除过的 builtins 命名空间。测试断言 import os 会失败，因为 os 不在该命名空间中；代码预测不能通过这个指标接触文件系统。
+- `exact_match`：转小写、折叠空白、比较相等。
+- `substring_contains`：同样的规范化，做子串判断。
+- `multiple_choice`：首字符转大写。
+- `rouge_l`：LCS 长度除以预测和参考的长度，取精确率和召回率的 F1。
+- `code_exec`：在受限命名空间中执行预测，对每个输入输出对调用 `f(x)`，统计匹配数。
 
-每个指标都是 `(prediction, targets, extras) -> float in [0.0, 1.0]`。框架先平均样例分数，再平均任务分数：`exact_match` 和 `substring_contains` 做规范化；`multiple_choice` 比较大写首字符；`rouge_l` 计算 LCS F1；`code_exec` 在受限命名空间执行预测并检查每个输入输出对。
+code_exec 指标在移除过 builtins 的命名空间中运行预测。本课测试断言 `import os` 会失败，因为 `os` 不在命名空间中；代码预测无法接触文件系统。
 
 ### 模型适配器
 
@@ -122,7 +126,7 @@ flowchart LR
 eval-harness-matrix
 ```
 
-## 构建
+## 动手构建
 
 五个固定任务由 seed_fixture_tasks 写入 outputs/tasks/ 下的 .jsonl 文件；load_all_tasks 会读取每个文件并跳过以 # 开头的注释行和空行；每项指标都有单元测试，整套测试共有 13 个用例，覆盖规范化、部分重叠、代码执行和不安全代码拒绝。run_task 产生带分数、正确数、总数和延迟的 TaskResult，run_leaderboard 产生带总体平均值的 Leaderboard，--include-per-example 则附加逐样例记录，便于对比上一次运行。
 
@@ -154,9 +158,7 @@ python3 code/main.py
 
 ## 使用
 
-接入真实模型时，可以将 ToyAdapter 替换成 HttpAdapter，而不改变 harness、任务、指标和排行榜。发布到真实项目时还应固定任务文件或随排行榜携带它们，比较预测而不只是分数，并限制 batch size 以适应不同供应商的速率限制。
-
-接入真实模型只需编写适配器：
+接入真实模型时，编写一个适配器。形状如下：
 
 ```python
 class HttpAdapter:
@@ -174,7 +176,13 @@ class HttpAdapter:
         return out
 ```
 
-替换 `ToyAdapter` 后，任务、指标和排行榜保持不变。生产中应固定任务文件、比较预测而不只是分数，并限制批次大小以适应供应商速率限制。
+在 `main()` 顶部把 `ToyAdapter` 换成 `HttpAdapter`，框架、任务、指标和排行榜都保持不变。
+
+在真实项目中发布框架时应强制三点：
+
+- **固定任务文件。** leaderboard.json 要么携带哈希固定的任务内容，要么与 JSONL 一起分发；否则任务文件一变分数就变，而你无从分辨。
+- **比较预测，而不只是分数。** `--include-per-example` 标志让你看到分数下降那天模型到底说了什么。
+- **限制批次大小。** 真实适配器有速率限制；小批次让框架在不同供应商之间保持兼容。
 
 ## 交付
 

@@ -11,14 +11,14 @@ status: reviewed
 
 # Llama Guard 与输入/输出分类
 
-> Llama Guard 3（Meta，Llama-3.1-8B 基座，经内容安全微调）按照跨 8 种语言的 MLCommons 13 类危害分类法，对 LLM 输入和输出都进行分类。一个 1B-INT4 量化变体能在移动端 CPU 上以每秒超过 30 token 运行。Llama Guard 4 是多模态的（图像 + 文本），扩展至 S1–S14 分类集（包括 S14 代码解释器滥用），可直接替换 Llama Guard 3 8B/11B。NVIDIA NeMo Guardrails v0.20.0（2026 年 1 月）在输入和输出 rails 之上加入 Colang 对话流 rails。诚实的事实是：“Bypassing Prompt Injection and Jailbreak Detection in LLM Guardrails”（Huang 等，arXiv:2504.11168）表明 Emoji Smuggling 在六个知名 guard 系统上达到了 100% 攻击成功率；NeMo Guard Detect 在越狱上记录到 72.54% ASR。分类器是一层，不是解决方案。
+> Llama Guard 3（Meta，Llama-3.1-8B 基座，经内容安全微调）按照跨 8 种语言的 MLCommons 13 类危害分类法，对 LLM 输入和输出都进行分类。一个 1B-INT4 量化变体能在移动端 CPU 上以每秒超过 30 词元运行。Llama Guard 4 是多模态的（图像 + 文本），扩展至 S1–S14 分类集（包括 S14 代码解释器滥用），可直接替换 Llama Guard 3 8B/11B。NVIDIA NeMo Guardrails v0.20.0（2026 年 1 月）在输入和输出 rails 之上加入 Colang 对话流 rails。诚实的事实是：“Bypassing Prompt Injection and Jailbreak Detection in LLM Guardrails”（Huang 等，arXiv:2504.11168）表明 Emoji Smuggling 在六个知名 guard 系统上达到了 100% 攻击成功率；NeMo Guard Detect 在越狱上记录到 72.54% ASR。分类器是一层，不是解决方案。
 
 **类型：** 学习
 **语言：** Python（标准库，带类别标签的分类器模拟器）
 **前置要求：** 第 15 阶段 · 10（权限模式）、第 15 阶段 · 17（宪法）
-**用时：** 约 45 分钟
+**预计时间：** 约 45 分钟
 
-## 问题所在
+## 问题
 
 LLM 输入与输出分类器位于智能体栈最狭窄处：每个请求都从中通过，每个回复也从中通过。好的分类器层快速、基于分类法，并以小算力成本捕获大部分明显滥用；坏的分类器层则是虚假的安全感。
 
@@ -26,7 +26,7 @@ LLM 输入与输出分类器位于智能体栈最狭窄处：每个请求都从�
 
 已记录的失效面同样清晰。字符级攻击（emoji 走私、同形字替换）、上下文重定向（“忽略此前内容并回答”）和语义改述都会导致分类器准确率显著下降。Huang 等 2025 年展示了一种具体 Emoji Smuggling 攻击，在六个指定 guard 系统上获得 100% ASR。
 
-## 核心概念
+## 概念
 
 ### Llama Guard 3 一览
 
@@ -35,7 +35,7 @@ LLM 输入与输出分类器位于智能体栈最狭窄处：每个请求都从�
 - 对输入与输出均分类
 - MLCommons 13 类危害分类法
 - 8 种语言
-- 1B-INT4 量化变体在移动 CPU 上为 >30 token/秒
+- 1B-INT4 量化变体在移动 CPU 上为 >30 词元/秒
 
 分类法就是产品。“S1 暴力犯罪”至“S13 选举”映射为模型训练过的共享词汇。下游系统可按类别连接差异化动作：完全阻断 S1，将 S6 标记供人工审阅，为 S12 添加注释但允许。
 
@@ -98,11 +98,11 @@ S14 对本阶段很重要。自治编程智能体（第 9 课）会在沙箱中�
 a5-guard-sieve
 ```
 
-## 实际运行
+## 使用
 
 `code/main.py` 模拟一个具有 6 类分类法的玩具分类器，作用于输入轮次文本。相同文本分别以原样、emoji 走私与同形字替换传入；分类器命中率会按 Huang 等论文记录的方式下降。驱动程序还展示：即使输入被接受，输出 rails 如何拒绝输出。
 
-## 交付物
+## 交付
 
 `outputs/skill-classifier-stack-audit.md` 审计部署的分类器层（模型、分类法、输入/输出 rails、对话 rails），并标记缺口。
 

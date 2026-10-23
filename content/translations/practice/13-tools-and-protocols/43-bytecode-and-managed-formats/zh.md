@@ -27,7 +27,7 @@ status: reviewed
 - 从 PE 数据目录走到 `MethodDef` 行、再走到每个方法的 CIL，遍历一个 .NET 程序集的 ECMA-335 元数据，并对照 ILSpy 所用的那个读取库来核对。
 - 针对五种容器中的同一个函数，测量每种格式保留了哪些名称、类型和控制结构，又丢失了哪些。
 
-## 问题所在
+## 问题
 
 你构建了 `ledger.py`，并在 `__pycache__` 里发现了 `ledger.cpython-314.pyc`。你问一个智能体这个文件包含什么。该智能体运行了一个反编译器。工具打印了 `Unsupported opcode` 和一行写着 `# WARNING: Decompyle incomplete`。该智能体断定这个文件被混淆过了。
 
@@ -269,7 +269,7 @@ IL_0023: 1a 2a        ldc.i4.4, ret
 
 这张表告诉你反编译器得以工作所凭借的是什么，以及它的哪些输出是在复制一个被存储的事实、哪些是在推断一个事实。ILSpy 输出里的一个参数名是复制。同一个输出里的一个局部变量名是推断，除非当时存在一个 PDB。第 35 课把这种差别记录为每条结论的权威等级。
 
-## 构建它
+## 动手构建
 
 运行演示：
 
@@ -291,7 +291,7 @@ python3 code/main.py
 
 还存在另外五条命令。`python3 code/main.py pyc FILE`、`class FILE`、`wasm FILE` 和 `dll FILE` 打印你给它们的某个文件的结构和其中每个函数的清单。`python3 code/main.py compare` 用 `PATH` 上的每一个解释器编译 `ledger.py`，并打印每一个写了什么。
 
-## 使用它
+## 使用
 
 按这个顺序在你构建的一个容器上使用这些读取器。
 

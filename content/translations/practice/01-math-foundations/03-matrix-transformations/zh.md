@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 实作
 **学习实现：** Python（上游另有 Julia 版本，可由原文追溯）
 **前置课程：** Phase 1 · 第 01–02 课「线性代数直觉」「向量、矩阵与运算」
-**预计学习：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -261,7 +261,7 @@ NumPy 的 `R @ point` 执行矩阵乘向量，`np.linalg.eig(A)` 返回特征值
 - [3Blue1Brown：特征向量与特征值](https://www.3blue1brown.com/lessons/eigenvalues)
 - [MIT 18.06 Lecture 21：Eigenvalues and Eigenvectors](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/)
 
-## 动手实现
+## 动手构建
 
 以下代码按原文构建顺序组织；每段都可在前一段的定义基础上运行。
 
@@ -395,7 +395,7 @@ print(f"det(singular)     = {det_2x2(singular):.1f}")
 print("Singular: columns are proportional, space collapses to a line.")
 ```
 
-## 使用库
+## 使用
 
 NumPy 以优化过的例程完成相同操作。
 
@@ -456,7 +456,7 @@ print(f"Rotate 90 around z: {np.round(rotated_z, 4)}")
 print(f"Rotate 90 around x: {np.round(rotated_x, 4)}")
 ```
 
-## 交付物
+## 交付
 
 本课为 PCA（Phase 2）和神经网络权重分析建立几何基础。这里的特征值/特征向量代码，正是生产 ML 系统中降维、谱聚类和稳定性分析所用算法的核心。
 
@@ -468,15 +468,13 @@ print(f"Rotate 90 around x: {np.round(rotated_x, 4)}")
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Apply `rotation_2d`, `scaling_2d`, and `shearing_2d` to each corner with `mat_vec_mul`. For the rotation, compute the 4 side lengths and the 2 diagonals before and after; each must stay the same.
->
-> **Exercise 2.** Write the characteristic equation $\lambda^2 - (\text{trace})\lambda + \det = 0$ and solve it. Check that your two values add up to the trace (7) and multiply to the determinant (10), then compare with `eigenvalues_2x2` and `np.linalg.eigvals`.
->
-> **Exercise 3.** Build the three matrices, with `shearing_2d(0.3, 0)` for the shear, multiply them with `mat_mul` in the order of application, and apply the result to 8 points $(\cos\theta, \sin\theta)$. The rotation has a determinant of 1 and the shear has a determinant of 1, so `det_2x2` of the composition must equal $1.5 \times 0.8 = 1.2$.
+**练习 1.** 用 `mat_vec_mul` 把 `rotation_2d`、`scaling_2d` 和 `shearing_2d` 分别作用到每个角点。对旋转，变换前后分别计算 4 条边长和 2 条对角线长度，它们应各自保持不变。
 
-## 术语
+**练习 2.** 写出特征方程 $\lambda^2 - (\text{trace})\lambda + \det = 0$ 并求解。检查两个解之和等于迹（7）、乘积等于行列式（10），再与 `eigenvalues_2x2` 和 `np.linalg.eigvals` 的结果对照。
+
+**练习 3.** 构造这三个矩阵（剪切用 `shearing_2d(0.3, 0)`），按作用顺序用 `mat_mul` 相乘，再把结果作用到圆周上 8 个点 $(\cos\theta, \sin\theta)$。旋转的行列式为 1、剪切的行列式为 1，所以复合矩阵的 `det_2x2` 必须等于 $1.5 \times 0.8 = 1.2$。
+
+## 关键术语
 
 | 术语 | 实际含义 |
 |---|---|
@@ -491,7 +489,7 @@ print(f"Rotate 90 around x: {np.round(rotated_x, 4)}")
 | 行列式 | 变换缩放面积或体积的倍数；为零表示不可逆。 |
 | 特征方程 | `det(A - lambda * I) = 0`，其根为特征值。 |
 
-## 原文与补充阅读
+## 延伸阅读
 
 - [3Blue1Brown：线性变换](https://www.3blue1brown.com/lessons/linear-transformations)
 - [3Blue1Brown：特征向量与特征值](https://www.3blue1brown.com/lessons/eigenvalues)

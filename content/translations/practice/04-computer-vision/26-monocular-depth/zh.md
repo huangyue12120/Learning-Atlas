@@ -118,7 +118,7 @@ Z &= d
 depth-sweep
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：深度指标
 
@@ -221,7 +221,7 @@ depth_np = np.array(out["depth"])
 
 三行。`out["depth"]` 是 PIL 灰度图，转换为 numpy 后即可计算。Depth Anything 3（2025 年 11 月）不能通过这条 pipeline 加载，它使用自己的 `depth_anything_3` 包：`DepthAnything3.from_pretrained("depth-anything/DA3MONO-LARGE")` 加载相对单目深度模型，`model.inference(images).depth` 返回 `[N, H, W]` 深度数组。
 
-## 使用现成工具
+## 使用
 
 - **Depth Anything V3**（Meta AI / ByteDance，2024–2026）——相对深度默认选择，生产中最快的 ViT-large 骨干模型。
 - **Marigold**（ETH，2024）——视觉质量最高，推理慢。
@@ -239,7 +239,7 @@ depth_np = np.array(out["depth"])
 
 实时使用时，INT8 量化的 Depth Anything V2 Small 在消费级 GPU 的 518x518 分辨率可达约 30 fps。
 
-## 交付产物
+## 交付
 
 本课产出：
 

@@ -102,7 +102,7 @@ Argmax 给出整数坐标。为获得亚像素精度，可对 argmax 及其邻�
 cv3-pose-heatmap
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：高斯热图目标
 
@@ -202,14 +202,14 @@ for step in range(200):
     opt.zero_grad(); loss.backward(); opt.step()
 ```
 
-## 使用现成工具
+## 使用
 
 - **MediaPipe Pose**——Google 生产姿态估计器；提供 WebGL 和移动端运行时，延迟低于 10ms。
 - **MMPose**（OpenMMLab）——完整研究代码库；所有 SOTA 架构均有预训练权重。
 - **YOLOv8-pose**——单次前向中最快的实时多人姿态。
 - **transformers HumanDPT / PoseAnything**——更新的视觉语言方法，支持开放词汇姿态（任意对象、任意关键点集合）。
 
-## 交付产物
+## 交付
 
 本课产出：
 

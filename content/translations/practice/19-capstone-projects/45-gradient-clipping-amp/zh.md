@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 19 第 30–37 课
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -79,11 +79,15 @@ CPU autocast 是因为 CI 在 CPU 上运行；把 device_type 从 cpu 改为 cud
 grad-clip-monitor
 ```
 
-## 构建
+## 动手构建
 
-AmpTrainState.step 会完整执行裁剪、缩放和遇到 NaN 时跳过的流水线；StepLog 与 SkipLog 保存每步结构化结果。演示训练一个小型线性模型 20 步，并在第 5 步向梯度注入 Inf，确保至少触发一次 SKIP 路径。
+`code/main.py` 实现：
 
-`code/main.py` 实现 `clip_global_l2_norm`、`has_non_finite_grad`、封装模型/AdamW/GradScaler/autocast 的 `AmpTrainState`，以及结构化的 `StepLog`、`SkipLog`。演示训练小型 `nn.Linear` 20 步，并在第 5 步注入 Inf 以触发跳过路径。
+- `clip_global_l2_norm`——对 `torch.nn.utils.clip_grad_norm_` 的封装，同时返回裁剪前和裁剪后的范数。
+- `has_non_finite_grad`——扫描梯度中 NaN 和 Inf 的辅助函数。
+- `AmpTrainState`——封装模型、`AdamW` 优化器、GradScaler 和 autocast 设备；暴露一个 `step(inputs, targets)`，完整执行裁剪、缩放和遇到 NaN 时跳过的流水线。
+- `StepLog` 与 `SkipLog`——结构化的每步记录。
+- 一个演示：训练小型 `nn.Linear` 模型 20 步，在第 5 步向梯度注入 Inf 以触发跳过路径，并打印生成的日志。
 
 运行：
 

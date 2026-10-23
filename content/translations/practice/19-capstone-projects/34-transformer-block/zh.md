@@ -16,13 +16,13 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** 第 19 阶段第 30–33 课
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
 - 用 LayerNorm、多头因果注意力、残差连接和逐位置 MLP 构建 Transformer block。
 - 放置两种配置的 LayerNorm（pre-LN 与 post-LN），解释为何一种无需 warmup 也能稳定训练。
-- 在多头注意力内部实现因果 mask，使 token `i` 无法看到 `j > i`。
+- 在多头注意力内部实现因果 mask，使词元 `i` 无法看到 `j > i`。
 - 在 12 层堆叠上追踪两种变体的梯度流并解读结果。
 - 在下一课组装 1.24 亿参数 GPT 时复用该 block。
 
@@ -68,7 +68,7 @@ flowchart TB
 
 ### MLP
 
-逐位置 MLP 对每个 token 独立应用两层网络：隐藏宽度为 embedding 宽度的四倍，激活为 GELU，第二个线性层后接 dropout。token 间的信息混合全部发生在注意力中。
+逐位置 MLP 对每个词元独立应用两层网络：隐藏宽度为 embedding 宽度的四倍，激活为 GELU，第二个线性层后接 dropout。词元间的信息混合全部发生在注意力中。
 
 ### 残差连接的两个作用
 
@@ -78,11 +78,15 @@ flowchart TB
 cc-transformer-block
 ```
 
-## 构建
+## 动手构建
 
-其中，LayerNorm 带可学习的 scale、shift 和带偏置的 eps，并逐 token 向量应用；MultiHeadAttention 保存 num_heads、head_dim = d_model // num_heads、融合 QKV 投影、注册的因果 mask、注意力 dropout 和残差 dropout；FeedForward 由两个线性层、GELU 和 dropout 组成。演示用相同输入构建两个 6 层堆叠，并并排打印输出形状和一次反向传播后的嵌入梯度范数。pre-LN 梯度比 post-LN 大一个数量级，是它无需 warmup 即可训练的实证信号。
+`code/main.py` 实现：
 
-`code/main.py` 实现 `LayerNorm`、带 fused QKV 和因果 mask 的 `MultiHeadAttention`、含 GELU 的 `FeedForward`，以及通过 `pre_ln` 切换两种变体的 `TransformerBlock`。演示构建 6 层 pre-LN 和 post-LN 堆叠，打印输出形状及一次反向传播后的 embedding 梯度范数。
+- `class LayerNorm`：带可学习的 scale、shift 和带偏置的 eps，逐词元向量应用。
+- `class MultiHeadAttention`：带 `num_heads`、`head_dim = d_model // num_heads`、融合 QKV 投影、注册的因果 mask、注意力 dropout 和残差 dropout。
+- `class FeedForward`：由两个线性层、GELU 激活和 dropout 组成。
+- `class TransformerBlock`：带 `pre_ln` 标志，在两种变体之间切换。
+- 一段演示：用相同输入构建 6 层 pre-LN 堆叠和 6 层 post-LN 堆叠，打印 (a) 输出形状，(b) 一次反向传播后嵌入处的梯度范数。
 
 运行：
 
@@ -90,12 +94,12 @@ cc-transformer-block
 python3 code/main.py
 ```
 
-## 依赖
+## 技术栈
 
 - `torch`：张量计算、自动微分和 `nn.Module`。
 - 不使用 `transformers` 或预训练权重，block 完全由基础原语实现。
 
-## 生产实现模式
+## 生产环境中的模式
 
 三个独立线性层需要三次 kernel 启动和三次矩阵乘；一个宽度 3 × d_model 的线性层可以在一次启动中完成同样的工作，再沿最后一轴切分。融合路径在各种加速器上更快，也符合 GPT-2、LLaMA 和 Mistral 参考实现的做法。mask 只依赖最大上下文长度，构造时分配一次、前向时切活动窗口，可以避免长上下文下每次调用的分配器开销。前一个 dropout 位置是 attention dropout，后一个是 residual dropout；直接对残差做 dropout 会破坏深层梯度依赖的加法恒等路径，早期实现曾因此得到脆弱的训练。
 
@@ -124,7 +128,7 @@ python3 code/main.py
 |------|----------|----------|
 | Pre-LN | “Pre norm” | LayerNorm 在残差分支、每个子层之前；残差携带未归一化信号 |
 | Post-LN | “Post norm” | 残差相加之后的 LayerNorm；原始论文采用且需要 warmup |
-| Causal mask | “Triangle mask” | 将注意力 logits 上三角置为负无穷，使 token i 无法读取 j>i |
+| Causal mask | “Triangle mask” | 将注意力 logits 上三角置为负无穷，使词元 i 无法读取 j>i |
 | Fused QKV | “Combined projection” | 一个宽度 3D 的线性层替代三个宽度 D 的线性层 |
 | Residual stream | “Skip connection” | 穿过每个 block 的未归一化张量，每个 block 向其添加更新 |
 

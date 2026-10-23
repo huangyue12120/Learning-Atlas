@@ -18,7 +18,7 @@ status: reviewed
 **前置课程：** 第 11、13、14、17 和 18 阶段
 **必修 MCP 深入课程：** [第 28 课：工具契约](../../../13-tools-and-protocols/28-mcp-tool-contracts-and-content/docs/en.md)、[第 29 课：可靠性](../../../13-tools-and-protocols/29-mcp-reliability-cancellation-and-flow-control/docs/en.md)、[第 30 课：Registry 供应链](../../../13-tools-and-protocols/30-mcp-registry-supply-chain-and-drift/docs/en.md)和[第 31 课：一致性运营](../../../13-tools-and-protocols/31-mcp-conformance-versioning-and-operations/docs/en.md)
 **协议目标：** MCP `2026-07-28`
-**用时：** 约 25 小时
+**预计时间：** 约 25 小时
 
 ## 学习目标
 
@@ -53,7 +53,7 @@ status: reviewed
 5. 策略决定这一次具体动作能否运行。
 6. 审计证据记录哪些内容跨过边界，同时不泄漏秘密或敏感载荷。
 
-只要其中一项发生漂移，平台就可能列出一个无法访问的服务器，把不兼容的客户端路由过去，接受为其他资源签发的 token，或在没有预期审查的情况下暴露破坏性动作。
+只要其中一项发生漂移，平台就可能列出一个无法访问的服务器，把不兼容的客户端路由过去，接受为其他资源签发的令牌，或在没有预期审查的情况下暴露破坏性动作。
 
 ## 两层发现机制
 
@@ -139,7 +139,7 @@ MCP 修订版 `2026-07-28` 删除了协议会话以及 `initialize` / `notificat
 
 - `ttlMs`，给客户端的新鲜度提示；
 - `cacheScope`，取值为 `public` 或 `private`；
-- 稳定的工具顺序，使相同列表可以复用提示缓存；
+- 稳定的工具顺序，使相同列表可以复用提示词缓存；
 - `resultType: "complete"` 和服务器身份元数据。
 
 按用户的授权通常应产生 `cacheScope: "private"`。不要把用户特有的工具可见性放在共享 public cache 后面。
@@ -189,7 +189,7 @@ cf-mcp-gate
 4. 授权时发送 resource indicator。
 5. 将返回的 `iss` 与本次流程记录的授权服务器比较。
 6. 按发行者为客户端凭证建立键。绝不跨发行者复用注册数据。
-7. 在 MCP 服务器验证 token 的发行者、受众或资源、过期时间和 scope。
+7. 在 MCP 服务器验证令牌的发行者、受众或资源、过期时间和 scope。
 8. 对具体工具和参数再做一次策略决策。
 
 `readOnlyHint` 和 `destructiveHint` 等工具注解帮助客户端呈现风险，但不是可信的授权控制。
@@ -198,7 +198,7 @@ cf-mcp-gate
 
 改变状态的调用需要一条审批记录，绑定 actor、工具、规范化参数或摘要、目标环境、过期时间，以及一次性或可重复使用策略。单独一条聊天消息不是审批证据。
 
-Python 模型用排序后的 key 对规范 JSON 做哈希，再将摘要与 token subject、工具名、服务器 URL 和过期时间绑定。即使只改动一个参数，重放该记录也会在 handler 运行前失败。审批是独立证据，不是添加到访问 token 上的 scope。
+Python 模型用排序后的 key 对规范 JSON 做哈希，再将摘要与令牌 subject、工具名、服务器 URL 和过期时间绑定。即使只改动一个参数，重放该记录也会在 handler 运行前失败。审批是独立证据，不是添加到访问令牌上的 scope。
 
 当高风险工具分离确实能降低爆炸半径时，将它们放在可独立审查的表面上。只有凭证、策略、部署身份和审计控制也分离时，这种分离才有用。
 
@@ -340,7 +340,7 @@ Authorization: Bearer REDACTED
 1. 改变已发布的 remote URL，但保持实时服务器不变。让 Registry 验证报告精确漂移。
 2. 使用相同输入发送两次 `tools/list`，证明工具顺序按字节稳定。然后让 `ttlMs` 过期并刷新。
 3. 发送有效 body，但使用不同的 `MCP-Protocol-Version` header。返回 `-32020`，且不要调用策略或工具。
-4. 为只读服务器签发 token，再将它提交给改变状态的服务器。证明受众验证在 handler 运行前失败。
+4. 为只读服务器签发令牌，再将它提交给改变状态的服务器。证明受众验证在 handler 运行前失败。
 5. 将审批绑定到一个规范参数摘要。改变一个字段，证明审批不能重放。
 6. 将连续调用路由到交替副本。凡是流程需要持久化的地方，用明确的共享 handle 替代隐藏的进程内存。
 7. 断开请求范围的 SSE 连接，再用新的 JSON-RPC 请求 ID 重试。验证没有使用 `Last-Event-ID` 恢复路径。
@@ -353,7 +353,7 @@ Authorization: Bearer REDACTED
 | `server.json` | “工具 manifest” | 用于命名、打包、配置和传输的 Registry 元数据 |
 | `server/discover` | “握手” | 用于实时版本和能力的正常必需 RPC，不是会话初始化器 |
 | Cache scope | “能缓存吗？” | 可缓存结果是否适合共享或私有复用 |
-| Policy decision | “token 允许了” | 针对 actor、工具、目标、参数和上下文的独立决策 |
+| Policy decision | “令牌允许了” | 针对 actor、工具、目标、参数和上下文的独立决策 |
 | Approval record | “有人点了同意” | 在过期策略下绑定一个 actor 和一项后果性动作的证据 |
 | Explicit handle | “会话 ID” | 用于命名服务器管理状态的普通应用数据，不是协议连接状态 |
 

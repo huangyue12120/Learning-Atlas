@@ -140,7 +140,7 @@ T 通常为 8、16、32、64；更高 T 有更多时序信号，也有更多计�
 v4-video-temporal
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：帧采样器
 
@@ -252,7 +252,7 @@ print(f"(2+1)D output: {tuple(c(x).shape)}")
 
 完整 R(2+1)D 网络即 ResNet-18 中每个 3x3 卷积均由 `Conv2Plus1D` 替代。
 
-## 使用现成工具
+## 使用
 
 两种库覆盖生产视频工作：
 
@@ -261,7 +261,7 @@ print(f"(2+1)D output: {tuple(c(x).shape)}")
 
 视觉语言视频模型（视频字幕、视频问答）使用 `transformers`（`VideoMAE`、`VideoLLaMA`、`InternVideo`）。
 
-## 交付产物
+## 交付
 
 本课产出：
 

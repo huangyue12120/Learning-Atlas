@@ -163,11 +163,11 @@ H(X,Y) \le H(X) + H(Y)
 
 ```mermaid
 graph TD
-    subgraph "Information Venn Diagram"
+    subgraph "信息韦恩图"
         direction LR
         HX["H(X)"]
         HY["H(Y)"]
-        MI["I(X;Y)<br/>Mutual<br/>Information"]
+        MI["I(X;Y)<br/>互信息"]
         HXgY["H(X|Y)<br/>= H(X) - I(X;Y)"]
         HYgX["H(Y|X)<br/>= H(Y) - I(X;Y)"]
         HXY["H(X,Y) = H(X) + H(Y) - I(X;Y)"]
@@ -436,7 +436,7 @@ print(f"MI (independent): {mutual_information(independent):.4f} bits")
 print(f"MI (dependent):   {mutual_information(dependent):.4f} bits")
 ```
 
-## 实际使用
+## 使用
 
 以下使用 NumPy 实现相同的概念，也是你在实践中会采用的方式：
 
@@ -479,15 +479,13 @@ print(f"KL div:     {np_kl_divergence(true, pred):.4f} nats")
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Call `entropy` with 26 equal probabilities; the result must be $\log_2 26 \approx 4.70$ bits. Real letter frequencies are not uniform, so the entropy with them must be lower.
->
-> **Exercise 2.** Compute `softmax` of the logits, then $-\ln$ of the probability at index 1, and compare with `cross_entropy_loss(1, logits)`; both must be close to 3.06. The loss approaches 0 only when the logit for class 1 is much larger than the other two.
->
-> **Exercise 3.** Use two small distributions with different shapes, for example $P = [0.9, 0.1]$ and $Q = [0.5, 0.5]$, and call `kl_divergence` in both orders. The two values must differ, because each direction weights the log ratio by a different distribution.
->
-> **Exercise 4.** For each pair, compute `cross_entropy_loss(true_token_index, predicted_logits)`, take the mean, and pass it to `perplexity`. Check with uniform logits over $V$ tokens: the perplexity must be $V$.
+**练习 1.** 用 26 个相等的概率调用 `entropy`；结果必须是 $\log_2 26 \approx 4.70$ bits。真实字母频率并不均匀，因此用它们算出的熵必然更低。
+
+**练习 2.** 计算 logits 的 `softmax`，再取索引 1 处概率的 $-\ln$，并与 `cross_entropy_loss(1, logits)` 对照；两者都必须接近 3.06。只有当类别 1 的 logit 远大于另外两个时，损失才趋近 0。
+
+**练习 3.** 用两个形状不同的小分布，例如 $P = [0.9, 0.1]$ 和 $Q = [0.5, 0.5]$，按两种顺序调用 `kl_divergence`。两个值必须不同，因为每个方向都用不同的分布对 log 比值加权。
+
+**练习 4.** 对每一对，计算 `cross_entropy_loss(true_token_index, predicted_logits)`，取均值，再传给 `perplexity`。用 $V$ 个词元上的均匀 logits 检查：困惑度必须是 $V$。
 
 ## 关键术语
 

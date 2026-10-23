@@ -197,7 +197,7 @@ graph TD
 decision-tree-depth
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：Gini 不纯度与熵
 
@@ -420,7 +420,7 @@ class RandomForest:
 
 完整的辅助方法实现位于 `code/trees.py`。
 
-## 在工具中使用
+## 使用
 
 用 scikit-learn 训练随机森林只需三行：
 
@@ -440,7 +440,7 @@ print(f"Feature importances: {rf.feature_importances_}")
 
 实践中梯度提升树（XGBoost、LightGBM、CatBoost）常比随机森林更强，因为它们顺序建树，让每棵树修正前一棵的错误；但随机森林更难配置错误，几乎不需要超参数调优。
 
-## 产出
+## 交付
 
 本课最终产出 `outputs/prompt-tree-interpreter.md`：向业务干系人解释决策树划分的提示词。输入训练树的结构（深度、特征、划分阈值、准确率），它会把模型转为自然语言规则，排序特征重要性，标记过拟合或泄漏，并推荐下一步；适合向不读代码的人说明树模型。
 

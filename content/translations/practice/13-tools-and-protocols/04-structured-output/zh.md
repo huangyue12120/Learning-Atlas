@@ -11,12 +11,12 @@ status: reviewed
 
 # 结构化输出——JSON Schema、Pydantic、Zod 与受约束解码
 
-> 即使面对前沿模型，“礼貌地要求模型返回 JSON”也有 5% 到 15% 的失败率。结构化输出通过受约束解码弥合了这个缺口：模型实际上被禁止输出违反 schema 的 token。OpenAI 的严格模式、Anthropic 的 schema 类型化工具使用、Gemini 的 `responseSchema`、Pydantic AI 的 `output_type` 和 Zod 的 `.parse`，都是同一个思想的五种表面形式。本课构建 schema 校验器和严格模式契约，学习者之后会在每条生产级抽取管线中使用它们。
+> 即使面对前沿模型，“礼貌地要求模型返回 JSON”也有 5% 到 15% 的失败率。结构化输出通过受约束解码弥合了这个缺口：模型实际上被禁止输出违反 schema 的词元。OpenAI 的严格模式、Anthropic 的 schema 类型化工具使用、Gemini 的 `responseSchema`、Pydantic AI 的 `output_type` 和 Zod 的 `.parse`，都是同一个思想的五种表面形式。本课构建 schema 校验器和严格模式契约，学习者之后会在每条生产级抽取管线中使用它们。
 
 **类型：** 构建
 **语言：** Python（标准库、JSON Schema 2020-12 子集）
 **前置课程：** Phase 13 · 02（函数调用深潜）
-**时间：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -29,17 +29,17 @@ status: reviewed
 
 一个读取采购订单邮件的智能体，需要将自由文本转换成 `{customer, line_items, total_usd}`。有三种做法。
 
-**做法一：提示模型输出 JSON。**“用包含 customer、line_items、total_usd 字段的 JSON 回复。”对前沿模型的成功率为 85% 到 95%。它会以六种方式失败：缺少大括号、尾随逗号、错误类型、臆造字段、达到 token 上限时被截断，以及泄漏“这是你的 JSON：”之类的散文。
+**做法一：提示模型输出 JSON。**“用包含 customer、line_items、total_usd 字段的 JSON 回复。”对前沿模型的成功率为 85% 到 95%。它会以六种方式失败：缺少大括号、尾随逗号、错误类型、臆造字段、达到词元上限时被截断，以及泄漏“这是你的 JSON：”之类的散文。
 
 **做法二：生成后校验。** 自由生成，解析，针对 schema 校验，失败后重试。可靠但昂贵——每次重试都要付费，截断错误每发生一次都会多消耗一个回合。
 
-**做法三：受约束解码。** 提供商在解码时强制 schema。无效 token 会从采样分布中被屏蔽。输出既保证能够解析，也保证能够通过校验。失败收敛为一种模式：拒绝（模型判断输入无法适配 schema）。
+**做法三：受约束解码。** 提供商在解码时强制 schema。无效词元会从采样分布中被屏蔽。输出既保证能够解析，也保证能够通过校验。失败收敛为一种模式：拒绝（模型判断输入无法适配 schema）。
 
 每家 2026 年的前沿提供商都提供了某种第三种做法。
 
 - **OpenAI。** `response_format: {type: "json_schema", strict: true}`，如果模型拒绝，响应中会带 `refusal`。
 - **Anthropic。** 对 `tool_use` 输入进行 schema 强制；不存在 `stop_reason: "refusal"`，但没有工具调用的 `end_turn` 就是信号。
-- **Gemini。** 请求级 `responseSchema`；2026 年 Gemini 对选定类型提供 token 级语法约束。
+- **Gemini。** 请求级 `responseSchema`；2026 年 Gemini 对选定类型提供词元级语法约束。
 - **Pydantic AI。** `output_type=InvoiceModel` 会生成类型为 `InvoiceModel` 的结构化 `RunResult`。
 - **Zod（TypeScript）。** 针对 Zod schema 校验提供商输出的运行时解析器；与 OpenAI 的 `beta.chat.completions.parse` 配合使用。
 
@@ -86,9 +86,9 @@ Zod（`z.object({customer: z.string(), ...})`）是 TypeScript 的对应方案�
 
 开放权重实现使用三种技术。
 
-1. **基于语法的解码**（`outlines`、`guidance`、`lm-format-enforcer`）：根据 schema 构建确定性有限自动机；每一步都屏蔽会违反 FSM 的 token 的 logits。
-2. **使用 JSON 解析器的 logit 屏蔽**：让流式 JSON 解析器与模型锁步运行；每一步计算合法的下一个 token 集合。
-3. **带校验器的推测解码**：廉价的草稿模型提出 token，校验器强制 schema。
+1. **基于语法的解码**（`outlines`、`guidance`、`lm-format-enforcer`）：根据 schema 构建确定性有限自动机；每一步都屏蔽会违反 FSM 的词元的 logits。
+2. **使用 JSON 解析器的 logit 屏蔽**：让流式 JSON 解析器与模型锁步运行；每一步计算合法的下一个词元集合。
+3. **带校验器的推测解码**：廉价的草稿模型提出词元，校验器强制 schema。
 
 商业提供商在幕后选择这些方法之一。2026 年的技术水平在短结构化输出上比普通生成更快，在长结构化输出上速度大致相同。
 
@@ -116,7 +116,7 @@ generate -> parse -> validate -> if fail, inject error and retry, max 3x
 constrained-decoding
 ```
 
-## 动手使用
+## 使用
 
 `code/main.py` 用标准库实现了一个最小 JSON Schema 2020-12 校验器（类型、required、enum、min/max、pattern、items、additionalProperties）。它包装一个 `Invoice` schema，并让假的 LLM 输出通过校验器，演示解析错误、schema 违反和拒绝路径。在生产环境中，可以将假的输出替换成任意提供商的真实响应。
 
@@ -126,7 +126,7 @@ constrained-decoding
 - 拒绝分支不会重试。它记录日志并返回类型化拒绝。Phase 14 · 09 将拒绝作为安全信号使用。
 - 对抗性测试输入会触发 `additionalProperties: false` 检查，展示严格模式为何能阻断臆造字段。
 
-## 交付物
+## 交付
 
 本课会生成 `outputs/skill-structured-output-designer.md`。给定一个自由文本抽取目标（发票、支持工单、简历等），这个 skill 会生成兼容严格模式的 JSON Schema 2020-12 和与其对应的 Pydantic 模型，并预留类型化拒绝与重试处理桩。
 
@@ -142,13 +142,13 @@ constrained-decoding
 
 5. 从头到尾阅读 OpenAI 的结构化输出指南。找出它明确禁止、而普通 JSON Schema 允许的那个构造。然后设计一个非必要地使用该构造的 schema，再将它重构为兼容严格模式的形式。
 
-## 术语
+## 关键术语
 
 | 术语 | 人们常说 | 实际含义 |
 |------|----------------|------------------------|
 | JSON Schema 2020-12 | “Schema 规范” | 现代提供商都使用的 IETF 草案 schema 方言 |
 | 严格模式 | “保证 schema” | OpenAI 通过受约束解码执行 schema 的标志 |
-| 受约束解码 | “Logit 屏蔽” | 在解码时屏蔽无效下一个 token 的强制机制 |
+| 受约束解码 | “Logit 屏蔽” | 在解码时屏蔽无效下一个词元的强制机制 |
 | 拒绝 | “模型拒答” | 输入无法适配 schema 时的类型化结果 |
 | 解析错误 | “无效 JSON” | 输出无法解析为 JSON；严格模式下不可能出现 |
 | Schema 违反 | “形状错误” | 已经解析，但违反类型 / required / enum / 范围 |

@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库、工具 schema linter）
 **前置课程：** Phase 13 · 01（工具接口）、Phase 13 · 04（结构化输出）
-**时间：** 约 45 分钟
+**预计时间：** 约 45 分钟
 
 ## 学习目标
 
@@ -41,7 +41,7 @@ Composio 的 2025 年实战指南显示，仅通过重命名和重写描述，�
 
 ### 命名规则
 
-1. **`snake_case`。** 每家提供商的 tokenizer 都能干净地处理它。在某些 tokenizer 上，`camelCase` 会跨 token 边界被切碎。
+1. **`snake_case`。** 每家提供商的 tokenizer 都能干净地处理它。在某些 tokenizer 上，`camelCase` 会跨词元边界被切碎。
 2. **动词-名词顺序。** 使用 `get_weather`，不要使用 `weather_get`。这符合自然英语。
 3. **不带时态标记。** 使用 `get_weather`，不要使用 `got_weather` 或 `get_weather_later`。
 4. **稳定。** 重命名是破坏性变更。应通过添加新名称来给工具做版本，而不是改变旧工具。
@@ -136,7 +136,7 @@ GOOD : Invalid input: 'city' is required. Example: {"city": "Bengaluru"}.
 tp-schema-routing
 ```
 
-## 动手使用
+## 使用
 
 `code/main.py` 提供一个工具 schema linter，根据上面的规则审计注册表。它会标记：
 
@@ -147,7 +147,7 @@ tp-schema-routing
 
 在随附的 `GOOD_REGISTRY`（通过）和 `BAD_REGISTRY`（每条规则都失败）上运行它，就能看到确切的发现结果。
 
-## 交付物
+## 交付
 
 本课会生成 `outputs/skill-tool-schema-linter.md`。给定任意工具注册表，这个 skill 会根据上面的设计规则审计它，并生成带严重性和建议改写的修复清单。它可以在 CI 中运行。
 
@@ -163,7 +163,7 @@ tp-schema-routing
 
 5. 从头到尾阅读 Composio 的工具设计实战指南。找出本课未覆盖的一条规则，并将它加入 linter。
 
-## 术语
+## 关键术语
 
 | 术语 | 人们常说 | 实际含义 |
 |------|----------------|------------------------|

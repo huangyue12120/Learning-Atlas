@@ -106,7 +106,7 @@ BART 尝试五种加噪函数：
 encoder-decoder
 ```
 
-## 动手实现
+## 动手构建
 
 参见 `code/main.py`。我们为玩具语料实现 T5 风格片段破坏——这是本课最有用的单个组件，因为此后的每个编码器—解码器预训练配方中都会出现它。
 
@@ -131,7 +131,7 @@ def corrupt_spans(tokens, mask_rate=0.15, mean_span=3.0, rng=None):
 
 五个函数：`token_mask`、`token_delete`、`text_infill`、`sentence_permute`、`document_rotate`。组合其中两个并展示结果。
 
-## 用于实践
+## 使用
 
 Hugging Face 参考实现：
 
@@ -147,7 +147,7 @@ print(tok.decode(out[0], skip_special_tokens=True))
 
 T5 的技巧是：把任务名称写进输入文本。每项任务都是文本输入、文本输出，因此同一个模型可以处理数十种任务。到 2026 年，该模式已被指令微调的纯解码器模型推广，但 T5 是第一个将其系统化的模型。
 
-## 交付成果
+## 交付
 
 参见 `outputs/skill-seq2seq-picker.md`。该技能根据输入—输出结构、延迟和质量目标，为新任务选择编码器—解码器或纯解码器。
 

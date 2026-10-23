@@ -19,7 +19,7 @@
         "OpenAPI 规范"
       ],
       "correct": 2,
-      "explanation": "正确答案是“像 ML 模型的营养标签：训练数据、用途、指标、分组分析、伦理考量和限制”。本课生成 Model Card、Datasheet 和 System Card，比较三种面向不同读者的透明度层次。"
+      "explanation": "正确答案是“像 ML 模型的营养标签：训练数据、用途、指标、分组分析、伦理考量和限制”。Model Card 像 ML 模型的营养标签，记录训练数据、预期用途、指标、分组分析、伦理考量和限制。它不是 checkpoint 清单、监管合同或 OpenAPI 规范。"
     },
     {
       "id": "26-model-system-dataset-cards-check-2",
@@ -32,7 +32,7 @@
         "所有模型卡都记录伦理考量"
       ],
       "correct": 1,
-      "explanation": "正确答案是“约 0.3% 的模型卡记录伦理考量”。本课生成 Model Card、Datasheet 和 System Card，比较三种面向不同读者的透明度层次。"
+      "explanation": "正确答案是“约 0.3% 的模型卡记录伦理考量”。Oreamuno 等人审计发现只有约 0.3% 的 Hugging Face 模型卡记录了伦理考量，说明采用率极低。“没有包含文字”“约 80%”“全部记录”都与该审计结果不符。"
     },
     {
       "id": "26-model-system-dataset-cards-check-3",
@@ -45,7 +45,7 @@
         "隐私保护查询接口"
       ],
       "correct": 2,
-      "explanation": "正确答案是“同一文档服务不同读者的 boundary-object 框架，用三个缩放层级提供细节”。本课生成 Model Card、Datasheet 和 System Card，比较三种面向不同读者的透明度层次。"
+      "explanation": "正确答案是“同一文档服务不同读者的 boundary-object 框架，用三个缩放层级提供细节”。Data Cards 的望远镜/潜望镜/显微镜分层是边界对象框架，用三个缩放层级让同一文档服务非专家、实践者和审计员。它不是审计清单、可视化库或隐私查询接口。"
     },
     {
       "id": "26-model-system-dataset-cards-check-4",
@@ -58,7 +58,7 @@
         "只有数据集"
       ],
       "correct": 1,
-      "explanation": "正确答案是“端到端 AI 系统：模型、安全栈和部署上下文，包括安全能力、提示注入防护、数据外泄检测、对齐和事故响应”。本课生成 Model Card、Datasheet 和 System Card，比较三种面向不同读者的透明度层次。"
+      "explanation": "正确答案是“端到端 AI 系统：模型、安全栈和部署上下文，包括安全能力、提示注入防护、数据外泄检测、对齐和事故响应”。System Card 覆盖 Model Card 之外的端到端系统范围：模型、安全栈与部署上下文，含安全能力、提示注入防护、数据外泄检测、对齐与事故响应。只含分词器/提示模板/数据集都太窄。"
     },
     {
       "id": "26-model-system-dataset-cards-post-5",
@@ -71,7 +71,7 @@
         "细节对下载没有影响"
       ],
       "correct": 2,
-      "explanation": "正确答案是“详细模型卡让处理组周下载量提升约 29%，采用压力已不只是合规而是市场驱动”。本课生成 Model Card、Datasheet 和 System Card，比较三种面向不同读者的透明度层次。"
+      "explanation": "正确答案是“详细模型卡让处理组周下载量提升约 29%，采用压力已不只是合规而是市场驱动”。Liang 等人报告详细模型卡让处理组周下载量提升约 29%，说明采用压力已是市场驱动而非只靠合规。“只有伦理章节影响”“降低下载”“无影响”都与结果相反。"
     },
     {
       "id": "26-model-system-dataset-cards-post-6",
@@ -84,7 +84,7 @@
         "Datasheets 标准的替代品"
       ],
       "correct": 1,
-      "explanation": "正确答案是“利用硬件 TEE/加密签名提供可验证 attestation，使模型卡带有证明而不只是声明”。本课生成 Model Card、Datasheet 和 System Card，比较三种面向不同读者的透明度层次。"
+      "explanation": "正确答案是“利用硬件 TEE/加密签名提供可验证 attestation，使模型卡带有证明而不只是声明”。Laminator 用硬件 TEE/加密签名提供可验证 attestation，使模型卡从单纯声明变为带证明。它不是基准 harness、LLM 摘要器或 Datasheets 替代品。"
     }
   ]
 }

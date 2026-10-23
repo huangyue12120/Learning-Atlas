@@ -126,7 +126,7 @@ Qwen2.5-VL 的智能体训练明确针对结构化工具调用：
 mm-mrope-axes
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 实现：
 
@@ -136,7 +136,7 @@ mm-mrope-axes
 
 运行它，然后在 5 分钟视频上把固定 FPS 换成动态 FPS，感受差异。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-qwen-vl-pipeline-designer.md`。给定视频任务（监控、智能体、动作识别、无障碍），它会输出 Qwen2.5-VL 配置（帧预算、FPS 策略、窗口注意力开关、智能体输出模式）和延迟估计。部署 Qwen-VL 家族模型做视频产品时都可以使用它。
 

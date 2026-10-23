@@ -27,7 +27,7 @@ status: reviewed
 - 把每条推断都对照源代码签名、规范中的规则，以及编译器自己写在 `.pdata`、`.xdata` 和 `.eh_frame` 中的栈回溯数据来验证。
 - 比较 Ghidra、IDA、Binary Ninja、radare2、rizin 和 angr 如何命名并恢复同样的事实，并记录它们的输出与源代码不一致的地方。
 
-## 问题所在
+## 问题
 
 你把 `convention.c` 编译为 Linux x86-64 的 `-O2` 版本，并向 radare2 6.2.4 查询 `eight_args` 的参数。它回答了七个：`rdi`、`rsi`、`rdx`、`r8`、`r9`、`rsp+0x8` 和 `rsp+0x10`。C 源代码有八个参数。字节中 `%rcx` 只出现过一次，在 `leaq (%rdx,%rcx), %rax` 里，而该工具的变量恢复没有把一个只出现在地址内部的寄存器算进去。
 
@@ -199,7 +199,7 @@ CFA 是调用前的栈指针，即入口栈指针之上 8 字节，所以 `RBP -
 | 被调用者保存 | `<unaffected>` | `__spoils` 列出相反的集合 | `callee_saved_regs` | 配置文件 | `CALLEE_CLEANUP` 和架构 | `CALLEE_SAVED` |
 | 把约定分配给函数 | "Call Convention ID" 分析器、"Establish Function's Prototype" | 用户或类型库 | 带 `required_arg_regs` 的启发式检测 | `afc`、`afva`、`aaft` | `CallingConventionAnalysis` | 写前先读加上规则手册 |
 
-## 构建它
+## 动手构建
 
 运行演示：
 
@@ -248,7 +248,7 @@ python3 code/main.py
 
 还有三条命令。`python3 code/main.py analyze convention-x86_64-windows-O2 keeps` 打印单个函数。`python3 code/main.py object FILE` 打印头部的判定。`python3 code/main.py seh` 打印每个带有栈回溯信息的函数的解码后的 `UNWIND_INFO`。
 
-## 使用它
+## 使用
 
 在你构建的新目标文件上，按此顺序使用分析器。
 

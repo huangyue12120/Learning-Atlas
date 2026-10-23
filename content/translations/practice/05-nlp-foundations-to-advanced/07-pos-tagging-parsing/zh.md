@@ -59,7 +59,7 @@ pos-tagger
 dependency-arcs
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：最高频标签基线
 
@@ -199,7 +199,7 @@ at         tag=IN    pos=ADP    dep=prep       head=running
 
 从下往上读取 `dep` 列，句子的语法结构便会显现。
 
-## 使用现成工具
+## 使用
 
 生产 NLP 库通常把词性和依存分析器纳入标准流水线。
 
@@ -217,7 +217,7 @@ at         tag=IN    pos=ADP    dep=prep       head=running
 - **跨语言迁移。** UD 标签和依存关系不依赖具体语言，可对新语言执行零样本结构分析。
 - **低计算量流水线。** 无法部署 Transformer 时，POS、依存分析与词典的组合能完成相当多任务。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-grammar-pipeline.md`：
 

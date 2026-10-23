@@ -15,7 +15,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置知识：** 阶段 1，第 01–03 课（线性代数、矩阵）
-**时间：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -396,7 +396,7 @@ def message_passing(graph, features, weight_matrix):
 
 一轮 GNN 消息传递会为每个节点计算新特征：先对邻居特征加权平均，再乘以权重矩阵。堆叠多轮，即可将信息传播得更远。
 
-## 使用它
+## 使用
 
 借助 NetworkX 和 NumPy，同样的操作都可以用一行代码完成：
 
@@ -453,7 +453,7 @@ print(f"Cluster B: {group_b}")
 
 Fiedler 向量承担了主要工作。正数项归入一个簇，负数项归入另一个簇。不需要迭代优化——只需一次特征分解。
 
-## 交付它
+## 交付
 
 本课会产出：
 - `outputs/skill-graph-analysis.md`——一份用于分析图结构数据的技能参考
@@ -493,17 +493,15 @@ H^{(l+1)} = \sigma\left(\hat{D}^{-1/2} \hat{A} \hat{D}^{-1/2} H^{(l)} W^{(l)}\ri
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Use the formula from the exercise. A node without outgoing edges must share its score equally with all nodes, or the total falls below 1. Check that the scores add up to 1 after each step and compare your result with `pagerank(graph)`.
->
-> **Exercise 2.** Build two cliques with `add_edge`, connect them with one edge, and call `spectral_clustering(graph, k=2)`. Check that each clique gets one label. As you add cross edges, print the second smallest eigenvalue of `laplacian()`, which grows as the two groups join.
->
-> **Exercise 3.** Keep a priority queue with `heapq` and always expand the node with the smallest known distance. Make every weight 1 and check that each Dijkstra distance equals the BFS layer of that node from `bfs(graph, start)`.
->
-> **Exercise 4.** Use the identity matrix as `features`, so that each column marks one node, and apply `message_passing` twice. Then the nonzero entries in the row for node $v$ show which nodes reached $v$. Compare that set with the nodes within distance 2 from a breadth first search.
->
-> **Exercise 5.** `networkx.karate_club_graph()` gives the edge list and the ground truth in the node attribute `club`. Copy the edges into a `Graph` and check that it has 34 nodes and 78 edges. Compare the labels from `spectral_clustering` with the `club` values, and allow the two label names to be swapped.
+**练习 1.** 使用练习中给出的公式。没有出边的节点必须把自己的分数平均分给所有节点，否则总和会降到 1 以下。检查每一步后分数之和为 1，并把你的结果与 `pagerank(graph)` 对比。
+
+**练习 2.** 用 `add_edge` 构造两个团（clique），用一条边把它们连起来，再调用 `spectral_clustering(graph, k=2)`。检查每个团得到一个标签。随着不断添加跨越两团的边，打印 `laplacian()` 的第二小特征值，它会随着两组逐渐合并而增大。
+
+**练习 3.** 用 `heapq` 维护一个优先队列，总是展开已知距离最小的节点。把每条边的权重设为 1，检查每个 Dijkstra 距离等于该节点相对 `bfs(graph, start)` 的 BFS 层级。
+
+**练习 4.** 把单位矩阵作为 `features`，使每一列标记一个节点，并应用两次 `message_passing`。那么节点 $v$ 对应行中的非零项就显示了哪些节点到达了 $v$。把这个集合与广度优先搜索中距离 2 以内的节点对比。
+
+**练习 5.** `networkx.karate_club_graph()` 给出边列表以及节点属性 `club` 中的真实分组。把这些边复制到一个 `Graph`，检查它有 34 个节点、78 条边。把 `spectral_clustering` 给出的标签与 `club` 值对比，并允许两个标签名互换。
 
 ## 关键术语
 

@@ -87,7 +87,7 @@ SAM 2 为每个实例的时空特征保留**记忆库**。在一帧给定提示�
 优点：
 
 - 对大遮挡鲁棒（记忆可跨许多帧携带实例身份）。
-- 与 SAM 3 文本提示结合时支持开放词汇。
+- 与 SAM 3 文本提示词结合时支持开放词汇。
 - 不需独立运动模型。
 
 缺点：
@@ -113,7 +113,7 @@ Multiplex 是 2026 年人群跟踪的新默认选择：演唱会人群、仓库�
 cv3-track-assoc
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：基于 IoU 的成本矩阵
 
@@ -254,7 +254,7 @@ def count_id_switches(tracks_per_frame, gt_per_frame):
 
 这是简化的 IDF1 相邻指标：统计一个真值物体更改已分配预测轨迹 ID 的次数。完整的 MOTA / IDF1 / HOTA 实现可使用 `py-motmetrics` 与 `TrackEval`。
 
-## 使用现成工具
+## 使用
 
 2026 年生产跟踪器：
 
@@ -270,7 +270,7 @@ def count_id_switches(tracks_per_frame, gt_per_frame):
 - 带可识别外观的重遮挡：**DeepSORT / StrongSORT**（ReID 特征）。
 - 体育 / 复杂互动：**BoT-SORT** 或学习式跟踪器（MOTRv3）。
 
-## 交付产物
+## 交付
 
 本课产出：
 

@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 19 第 42–45 课
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -37,8 +37,6 @@ status: reviewed
 
 ## 概念
 
-契约有四点：每个微批次在 backward 前把损失除以 accum_steps，利用 PyTorch 默认将梯度累加到 param.grad 的行为恢复正确尺度；每个有效批次只在最后一个微批次反向之后更新一次，不能在累积中途 step；动量和 Adam 一阶、二阶矩等优化器状态按有效步而不是微批次推进；多卡时把非末尾微批次放入 no_sync 上下文，跳过梯度 all-reduce，只在最后一次反向时一次性归约完整累积梯度。
-
 ```mermaid
 flowchart LR
   start[开始] --> zero[清零梯度]
@@ -50,7 +48,12 @@ flowchart LR
   step --> next[下一次有效步骤]
 ```
 
-契约很短：每个微批次在 `backward()` 前将损失除以 `accum_steps`；每个有效批次只在最后一次反向后更新；优化器状态按有效步而非微批次推进。在多卡环境中，非最后微批次放在 `no_sync` 中，最后一次才进行梯度 all-reduce。
+契约很短：
+
+- 每个微批次在 `backward()` 前把损失除以 `accum_steps`。PyTorch 默认会把梯度累加到 `param.grad`，这个除法把累加和拉回正确尺度。
+- 优化器步骤在最后一个微批次反向之后、每个有效批次触发一次。中途 step 会扭曲此后整个训练都依赖的每个参数。
+- 优化器状态（动量缓冲、Adam 矩）按有效步而非微批次推进一次；否则指数移动平均会以错误频率运转、提前耗尽调度。
+- 单卡上这只是记账；多卡集群中，同样的模式把非末尾微批次包进 `no_sync` 上下文以跳过梯度 all-reduce，只在最后一个微批次一次性归约完整累积梯度，而不必付 N 次网络开销。
 
 ### 代码中的等价性证明
 
@@ -91,7 +94,7 @@ flowchart TD
 cc-grad-accumulation
 ```
 
-## 构建
+## 动手构建
 
 ### 第 1 步：等价性检查
 
@@ -103,19 +106,32 @@ train_one_optimizer_step 遍历微批次，除最后一个以外都进入 no_syn
 
 ### 第 3 步：吞吐曲线
 
-sweep_effective_batches 固定微批次大小，扫描一组累积步数，并记录 samples_per_sec、median_step_ms、sync_calls 和 avg_loss。结果写入 outputs/accum-curve.json，可从 notebook 复用。
+`sweep_effective_batches` 固定微批次大小，扫描一组累积步数。对每个设置，它记录：
 
-`code/main.py` 依次完成等价性检查、最后一步同步模式和吞吐扫描。扫描记录 `samples_per_sec`、`median_step_ms`、`sync_calls`、`avg_loss`，结果写入 `outputs/accum-curve.json`。
+- `samples_per_sec`：看到的总样本数除以墙钟时间
+- `median_step_ms`：每个有效步的第 50 百分位耗时
+- `sync_calls`：触发的集合通信点数
+- `avg_loss`：本次扫描所有优化器步骤的平均损失
+
+结果写入 `outputs/accum-curve.json`，可从 notebook 复用。
+
+运行：
 
 ```bash
 python3 code/main.py
 ```
 
+脚本先打印等价性差异，再打印扫描表，最后打印 JSON 路径。退出码为零。
+
 ## 使用
 
-生产中可将累积封装为一个旋钮：accumulation_steps = effective_batch // (micro_batch * world_size)。微批次应尽量填满设备显存；有效批次要结合学习率和预热选择；累积次数正是这两者之间可以运行时调节的桥梁。标准流程始终是缩放损失、非末尾微批次跳过同步、累积、每个有效批次只更新一次。
+在生产训练中，梯度累积藏在一个旋钮后面。PyTorch 的模式是 `accumulation_steps = effective_batch // (micro_batch * world_size)`。这里不允许使用的框架也只是包装了同一个循环，步骤不变：缩放损失、非末尾微批次跳过同步、累积、只 step 一次。
 
-生产训练可用 `accumulation_steps = effective_batch // (micro_batch * world_size)`。微批次应尽量填满设备显存；有效批次应配合学习率和预热选择；累积次数连接两者。
+实践中有三种常见模式：
+
+- 微批次大小按填满设备显存来选择。更小会浪费加速器周期，更大会崩溃。
+- 有效批次由学习率调度决定。大的有效批次需要缩放学习率并预热，这就是 2017 年以来一直讨论的线性缩放规则。
+- 累积次数是两者之间的桥梁，也是唯一一个无需重写数据加载器、就能在运行时自由调节的旋钮。
 
 ## 交付
 

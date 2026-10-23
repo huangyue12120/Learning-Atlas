@@ -66,7 +66,7 @@ status: reviewed
 n5-chunk-cuts
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：固定分块与递归分块
 
@@ -202,7 +202,7 @@ def recall_at_k(queries, corpus_chunks, encoder, k=5):
 - **不限制最小值与最大值。** 5 个词元和 5,000 个词元的块都会破坏检索，应限制范围。
 - **跨文档分块。** 绝不能让一个块跨越两份文档。应逐文档分块，再合并结果。
 
-## 使用现成工具
+## 使用
 
 2026 年的技术栈：
 
@@ -217,7 +217,7 @@ def recall_at_k(queries, corpus_chunks, encoder, k=5):
 
 从递归 512 开始，在含 50 个查询的评估集上测量 recall@5，再据此调优。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-chunker.md`：
 

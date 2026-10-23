@@ -17,13 +17,13 @@ status: reviewed
 **语言：** Python（服务）、C++ / CUDA（内核检查）、YAML（配置）
 **前置课程：** 第 3 阶段（深度学习）、第 7 阶段（Transformer）、第 10 阶段（从零实现 LLM）、第 17 阶段（基础设施）
 **涉及阶段：** P3 · P7 · P10 · P17
-**用时：** 30 小时
+**预计时间：** 30 小时
 
 ## 问题
 
 推测解码在 2026 年已经成为商品化能力。EAGLE-3 草稿头在目标模型的隐藏状态上训练，并预测后面的 N 个词元；目标模型一次前向完成验证。60–80% 的接受率可以转化为 2–3 倍端到端吞吐。vLLM 0.7 原生集成了它，SGLang + SpecForge 提供训练流水线，Red Hat 的 Speculators 为 Llama 3.3 70B、Qwen3-Coder-30B MoE 和 GPT-OSS-120B 发布对齐草稿。
 
-工程重点在服务运维，而不是模型。接受率会随着流量分布变化（ShareGPT、代码或领域数据不同而不同）。拒绝时的尾延迟可能比不使用推测更差——你必须在多个 batch size 下报告 p99，而不能只报告稳定状态下的 tokens/sec。与 Anthropic / OpenAI API 比较每 100 万词元美元成本，是证明方案可信度的关键。
+工程重点在服务运维，而不是模型。接受率会随着流量分布变化（ShareGPT、代码或领域数据不同而不同）。拒绝时的尾延迟可能比不使用推测更差——你必须在多个 batch size 下报告 p99，而不能只报告稳定状态下的词元/秒。与 Anthropic / OpenAI API 比较每 100 万词元美元成本，是证明方案可信度的关键。
 
 ## 概念
 
@@ -80,7 +80,7 @@ cf-spec-decode
 
 2. **准备草稿来源。** 从 Red Hat Speculators 拉取对齐的 EAGLE-3 草稿头（或通过 SpecForge 训练一个），加载到 vLLM 的推测解码配置。
 
-3. **基线数据。** 在未启用推测前测量 batch 1/8/32 下的 tokens/s、p50/p99 延迟和 GPU 利用率，并发布结果。
+3. **基线数据。** 在未启用推测前测量 batch 1/8/32 下的词元/秒、p50/p99 延迟和 GPU 利用率，并发布结果。
 
 4. **启用 EAGLE-3。** 打开配置，重新运行同一 benchmark。报告加速比、接受率和 p99 尾延迟差值。
 
@@ -94,7 +94,7 @@ cf-spec-decode
 
 9. **成本比较。** 在同一评测上计算相对于 Anthropic Claude Sonnet 4.7 和 OpenAI GPT-5.4 的每 100 万词元美元成本，并发布结果。
 
-## 实际使用
+## 使用
 
 ```text
 $ curl https://infer.example.com/v1/chat/completions -d '{"messages":[...]}'

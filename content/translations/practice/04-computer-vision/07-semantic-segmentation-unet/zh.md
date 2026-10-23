@@ -153,7 +153,7 @@ U-Net 编码器四次减半，输入须能被 16 整除。医学图像常为 512
 segmentation-flood
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：编码器模块
 
@@ -361,7 +361,7 @@ def train_one_epoch(model, loader, optimizer, device, num_classes):
 
 在合成数据上运行 10–30 个 epoch，观察形状类别的 mIoU 超过 0.9。注意 `nan_to_num(0)` 将批次中缺失类别视为零；为准确逐类别 IoU，应在评估时按是否出现做掩码，并跨批次用 `torch.nanmean`，而非在此平均。
 
-## 使用现成工具
+## 使用
 
 生产中，`segmentation_models_pytorch`（“smp”）以任意 torchvision 或 timm 骨干封装所有标准分割架构，三行即可：
 
@@ -384,7 +384,7 @@ model = smp.Unet(
 
 三者都可在 `smp` 或 `transformers` 中以相同 data loader 直接替换。
 
-## 交付产物
+## 交付
 
 本课产出：
 

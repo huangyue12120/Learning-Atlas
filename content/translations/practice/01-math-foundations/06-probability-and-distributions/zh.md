@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python
 **前置课程：** Phase 1，第 01–04 课
-**预计用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -287,7 +287,7 @@ log-softmax 将 softmax 与对数结合起来，以保证数值稳定性。PyTor
 gaussian-pdf
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：概率基础
 
@@ -426,7 +426,7 @@ plt.plot(xs, ys)
 
 包含所有可视化内容的完整实现在 `code/probability.py` 中。
 
-## 使用它
+## 使用
 
 借助 NumPy 和 SciPy，上述所有内容都可以用单行代码完成：
 
@@ -461,15 +461,13 @@ print(f"Log-softmax: {log_probs}")
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Draw `u` from a uniform distribution and return $-\ln(1 - u) / \lambda$. Check that the sample mean is close to $1/\lambda$ and that the histogram bins follow $\lambda e^{-\lambda x}$.
->
-> **Exercise 2.** Fill a 6x6 table where every cell is a probability and the sum of all cells is 1, then call `joint_to_marginals`. Use `check_independence`: the dice are independent only if every cell equals the product of its two marginals.
->
-> **Exercise 3.** Apply `softmax` to the logits and take $-\ln$ of the probability at index 3. The result must be close to 0.421, which is the value `nn.CrossEntropyLoss` gives for the same logits and target.
->
-> **Exercise 4.** Add the log probabilities; do not multiply raw probabilities. For 50 words with probability 0.01, the total must be $50 \ln(0.01) \approx -230.26$, and the raw probability is $10^{-100}$.
+**练习 1.** 从均匀分布中抽取 `u`，返回 $-\ln(1 - u) / \lambda$。检查样本均值接近 $1/\lambda$，且直方图分箱服从 $\lambda e^{-\lambda x}$。
+
+**练习 2.** 填一张 6x6 表，每格是一个概率且所有格之和为 1，再调用 `joint_to_marginals`。用 `check_independence`：只有当每格都等于其两个边缘分布之积时，两枚骰子才独立。
+
+**练习 3.** 对 logits 应用 `softmax`，取索引 3 处概率的 $-\ln$。结果必须接近 0.421，这正是 `nn.CrossEntropyLoss` 对同样的 logits 和目标给出的值。
+
+**练习 4.** 把对数概率相加；不要对原始概率做乘法。对 50 个概率均为 0.01 的词，总和必须是 $50 \ln(0.01) \approx -230.26$，对应的原始概率为 $10^{-100}$。
 
 ## 关键术语
 

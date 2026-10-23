@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置知识：** Phase 19 Track C 第 42–49 课
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -78,7 +78,7 @@ allreduce 会让每个 rank 都得到完整的梯度和。如果你只需要分�
 cd-zero-shard
 ```
 
-## 构建
+## 动手构建
 
 `code/main.py` 实现了：
 

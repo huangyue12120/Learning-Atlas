@@ -120,7 +120,7 @@ TMRoPE 支持“猫在第几秒跳起来？”这样的查询，模型可以回�
 video-temporal-patches
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 包含：
 
@@ -128,7 +128,7 @@ video-temporal-patches
 - 一个玩具时间定位评估器：给定时间 T 的“真实”事件和模型输出，在容差范围内计算准确率。
 - 对 Video-LLaMA（16 帧，Q-Former）、Video-LLaVA（8 帧，MLP）、Qwen2.5-VL（动态 FPS + TMRoPE）进行比较。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-video-vlm-frame-planner.md`。给定视频任务（监控、动作识别、时间定位、摘要），它会选择帧抽样器、池化因子、输出格式和预期准确率等级。
 

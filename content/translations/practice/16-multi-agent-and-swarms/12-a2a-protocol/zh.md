@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习 + 构建
 **语言：** Python（标准库，`http.server`、`json`）
 **前置要求：** 第 16 阶段 · 04（原语模型）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 问题
 
@@ -110,7 +110,7 @@ sequenceDiagram
 
 A2A 支持三种常见模式：
 
-- **Bearer token**：OAuth2 或不透明 token（`httpAuthSecurityScheme` 或 `oauth2SecurityScheme`）。
+- **Bearer 令牌**：OAuth2 或不透明令牌（`httpAuthSecurityScheme` 或 `oauth2SecurityScheme`）。
 - **mTLS**：双向 TLS，组织向彼此证明身份（`mtlsSecurityScheme`）。
 - **API key**：通过标头、查询参数或 cookie 传递密钥（`apiKeySecurityScheme`）。
 
@@ -171,11 +171,11 @@ python3 code/main.py
 
 脚本在后台线程启动服务器，再让客户端对其运行。你将看到完整流程：发现、提交、轮询、制品。
 
-## 实际使用
+## 使用
 
 `outputs/skill-a2a-integrator.md` 设计一项 A2A 集成：Agent Card 内容、任务模式、认证选择、流式与轮询的取舍。
 
-## 交付物
+## 交付
 
 检查表：
 

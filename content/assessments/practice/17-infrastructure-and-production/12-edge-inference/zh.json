@@ -19,7 +19,7 @@
         "内存带宽（移动 DRAM 为 50–90 GB/s，而 HBM3 为 2–3 TB/s）"
       ],
       "correct": 3,
-      "explanation": "正确答案是“内存带宽（移动 DRAM 为 50–90 GB/s，而 HBM3 为 2–3 TB/s）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "decode 每生成一个词元都要读完整权重，受内存带宽约束；移动 DRAM 仅 50–90 GB/s，而 HBM3 达 2–3 TB/s，这 30–50 倍的带宽差决定了移动端更慢。存储容量、Wi-Fi 延迟、计算吞吐量都不是本课强调的核心瓶颈。"
     },
     {
       "id": "q2",
@@ -32,7 +32,7 @@
         "它在复制前把权重转成 FP4"
       ],
       "correct": 0,
-      "explanation": "正确答案是“Apple Silicon 使用统一内存，CPU 和 ANE 共享同一内存池”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "Apple Silicon 采用统一内存，CPU 和 ANE 共享同一内存池，权重无需在两者间拷贝。PCIe 5.0、禁用 KV 缓存、复制前转 FP4 都不是课文给出的原因。"
     },
     {
       "id": "q3",
@@ -45,7 +45,7 @@
         "通过 mlc_llm convert_weight 编译的 Q4 MLC（q4f16_1）"
       ],
       "correct": 3,
-      "explanation": "正确答案是“通过 mlc_llm convert_weight 编译的 Q4 MLC（q4f16_1）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "浏览器里的 WebGPU/WebLLM 走 MLC 路径，本课推荐用 mlc_llm convert_weight 编译的 Q4 MLC（q4f16_1），并明确不支持 GGUF。GGUF Q4_K_M 是 CPU/边缘的 llama.cpp 格式，NVFP4、FP8 面向数据中心 GPU。"
     },
     {
       "id": "q4",
@@ -58,7 +58,7 @@
         "所有浏览器 100% 覆盖"
       ],
       "correct": 2,
-      "explanation": "正确答案是“约 70–75%，Firefox Android 仍在追赶”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "本课给出 2026 年移动端 WebGPU 总体覆盖约 70–75%，Chrome Android 与 Safari iOS 26 已支持，Firefox Android 仍在追赶。低于 10%、仅 iOS Safari、100% 全覆盖都与课文数字不符。"
     },
     {
       "id": "q5",
@@ -66,12 +66,12 @@
       "question": "为什么在普通手机上保留 128K 上下文并不现实？",
       "options": [
         "Tokenizer 超过 8K 就会失败",
-        "模型权重、32K token 的 KV 缓存和操作系统开销很容易超过 8 GB RAM",
+        "模型权重、32K 词元的 KV 缓存和操作系统开销很容易超过 8 GB RAM",
         "WebGPU 把上下文限制在 4K",
         "iOS 禁止长上下文"
       ],
       "correct": 1,
-      "explanation": "正确答案是“模型权重、32K token 的 KV 缓存和操作系统开销很容易超过 8 GB RAM”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "本课算过在 8 GB RAM 手机上，4 GB 模型加上 32K 词元的约 2 GB KV 缓存再加操作系统开销就会 OOM，所以边缘部署通常把上下文压在 4K–8K。tokenizer 不会在 8K 处失败，WebGPU 没有 4K 上下文限制，iOS 也未禁止长上下文。"
     },
     {
       "id": "q6",
@@ -80,11 +80,11 @@
       "options": [
         "语音模型不需要 KV 缓存",
         "语音模型总能放进 50 MB",
-        "语音 Agent 对延迟敏感（首 token < 500 ms），本地推理可以完全消除网络延迟",
+        "语音 Agent 对延迟敏感（首词元 < 500 ms），本地推理可以完全消除网络延迟",
         "语音只能在 WebAssembly 中运行"
       ],
       "correct": 2,
-      "explanation": "正确答案是“语音 Agent 对延迟敏感（首 token < 500 ms），本地推理可以完全消除网络延迟”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "语音智能体对延迟敏感（首词元需 < 500 ms），本地推理彻底消除网络延迟，因此成为边缘推理的杀手级应用。语音模型仍需 KV 缓存、未必能塞进 50 MB、也不限于 WebAssembly 运行。"
     }
   ]
 }

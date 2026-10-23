@@ -17,7 +17,7 @@ card:
     - "自回归模型根据已有前缀输出整个词表的下一词元 logits，softmax 将其归一化为条件分布。"
     - "无效候选的负无穷 logit 在 softmax 后概率为零，有效候选之间的 logit 差和相对排序保持不变。"
     - "约束器必须按生成前缀更新状态，并处理某一步没有任何合法词元的失败情况。"
-  application: "为简单正则状态列出每步允许 token，应用 mask 后检查非法概率为零、有效概率和为 1，并覆盖死路前缀。"
+  application: "为简单正则状态列出每步允许词元，应用 mask 后检查非法概率为零、有效概率和为 1，并覆盖死路前缀。"
   check_question: "屏蔽一个高分非法词元后，剩余有效词元的概率为何会增大，而它们之间的相对赔率仍不变？"
 theory:
   repository: maths-cs-ai-compendium

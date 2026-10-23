@@ -64,7 +64,7 @@ status: reviewed
 n5-crosslingual-bridge
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：零样本跨语言分类
 
@@ -156,7 +156,7 @@ def few_shot_finetune(base_model, base_tokenizer, examples):
 - **实体级测试。** 测试目标语言中的命名实体。多语言模型对远离拉丁字母的文字体系往往分词较弱。
 - **跨语言一致性。** 两种语言表达同一含义时应得到相同预测，需要测量两者的差距。
 
-## 使用现成工具
+## 使用
 
 2026 年的技术栈：
 
@@ -183,7 +183,7 @@ def few_shot_finetune(base_model, base_tokenizer, examples):
 
 缓解方法包括：选择充分覆盖目标语言的分词器，XLM-V 的 100 万词元词表就是直接改进；训练前在目标语言留出文本上检查分词切分率；对真正的长尾文字体系使用字节级回退，如 SentencePiece 的 `byte_fallback=True` 或 GPT-2 式字节级 BPE，确保永远不会产生 OOV。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-multilingual-picker.md`：
 

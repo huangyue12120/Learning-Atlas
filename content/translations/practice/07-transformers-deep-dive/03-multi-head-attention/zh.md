@@ -53,7 +53,7 @@ GQA 是现代默认选择，因为它把 KV 缓存内存缩小 `N/G` 倍，同�
 multihead-split
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：在已有单头注意力上拆分各头
 
@@ -110,7 +110,7 @@ def gqa_project(X, W, n_kv_heads, n_heads):
 
 使用 4 个头对短句运行 MHA。对每个头打印 `(N, N)` 注意力矩阵。即使随机初始化，也会看到不同头选择不同结构——其中一部分是信号，一部分是子空间的旋转对称性。
 
-## 用于实践
+## 使用
 
 在 PyTorch 中，一行即可实现：
 
@@ -142,7 +142,7 @@ out = scaled_dot_product_attention(q, k, v, is_causal=True, enable_gqa=True)
 
 `d_head` 几乎总是 64 或 128。它决定一个头能“看到”多少信息。低于 32 时，各头会开始受缩放因子 `sqrt(d_head)` 影响；高于 256 时，则失去“许多小型专家”的优势。
 
-## 交付成果
+## 交付
 
 参见 `outputs/skill-mha-configurator.md`。该技能根据参数预算、序列长度与部署目标，为新的 Transformer 推荐头数、KV 头数与投影策略。
 

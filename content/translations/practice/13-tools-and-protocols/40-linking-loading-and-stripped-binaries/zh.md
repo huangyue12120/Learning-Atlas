@@ -27,7 +27,7 @@ status: reviewed
 - 说清楚 `strip` 在每种格式中移除了什么、保留了什么，并运行去除符号后的程序来证明它仍能工作。
 - 用 `LC_FUNCTION_STARTS`、序言扫描和调用目标，恢复一个去除符号的 arm64 构建的函数起点，用未去除符号的孪生文件的符号表给每种方法打分，并用一个 FLIRT 形状的签名为这些函数命名。
 
-## 问题所在
+## 问题
 
 你把 `main.c` 链接到了 `libledger.dylib`，并问一个智能体 `main` 在 `0x1000005a0` 调用的是哪个函数。该智能体反汇编了这条指令，读到 `bl 0x100000694`。那个地址处有十二个字节：`adrp x16`、`ldr x16, [x16, #0x38]`、`br x16`。该智能体沿这次加载追到 `0x100004038`，读到八个字节 `00 00 00 00 00 00 10 80`，并报告说这是一次通过指向内核空间的损坏指针发出的调用。
 
@@ -287,7 +287,7 @@ IDA Pro 9.4 随每种处理器附带 FLIRT 签名，以及用于构建它们的 
 
 IDA 和 Binary Ninja 是闭源的，这里是根据它们的文档描述的。radare2 和 rizin 没有安装在这台机器上，它们的命令引自各自的书籍和源码。在这些 fixture 上实际运行过的工具是来自 Command Line Tools 的 `clang`、`ld`、`llvm-objdump`、`otool`、`nm`、`strip` 和 `dyld_info`，以及通过探针使用的 LIEF 1.0.0、pyelftools 0.33 和 pefile 2024.8.26。LIEF 读取了这里的每一种格式，包括它从 0.17.0 起支持的 COFF 目标文件，并在 `ledger_main` 上报告了十次绑定和两次重基，即同样的十二个修正项。pyelftools 只读取了 ELF 文件。pefile 以 `PEFormatError: 'DOS Header magic not found.'` 拒绝了 `main-x86_64.obj`，而读取了那个微型映像。
 
-## 构建它
+## 动手构建
 
 运行演示：
 
@@ -323,7 +323,7 @@ python3 code/main.py
 
 更多命令：`python3 code/main.py elf FILE`、`coff FILE`、`pe FILE` 和 `macho FILE` 打印一份报告。`python3 code/main.py plan OBJECT...` 为任意一组 ELF 目标文件打印链接计划。`python3 code/main.py functions STRIPPED UNSTRIPPED OBJECT...` 在你自己另一对构建上为查找器和签名打分。
 
-## 使用它
+## 使用
 
 在你自己构建的程序上按这个顺序使用这些读取器。
 

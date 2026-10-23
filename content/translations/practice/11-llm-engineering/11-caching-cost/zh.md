@@ -16,8 +16,8 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置要求：** 第 11 阶段，第 09 课（函数调用）
-**用时：** 约 45 分钟
-**相关课程：** 第 11 阶段 · 第 15 课（提示缓存）——本课覆盖应用层缓存（语义缓存、精确哈希缓存、模型路由）；第 15 课覆盖提供方层提示缓存（Anthropic `cache_control`、OpenAI 自动缓存、Gemini `CachedContent`）。两者结合可以降低 50–95% 的成本。
+**预计时间：** 约 45 分钟
+**相关课程：** 第 11 阶段 · 第 15 课（提示词缓存）——本课覆盖应用层缓存（语义缓存、精确哈希缓存、模型路由）；第 15 课覆盖提供方层提示词缓存（Anthropic `cache_control`、OpenAI 自动缓存、Gemini `CachedContent`）。两者结合可以降低 50–95% 的成本。
 
 ## 学习目标
 
@@ -26,7 +26,7 @@ status: reviewed
 - 构建包含提示词压缩、模型路由（昂贵模型与便宜模型）和响应缓存的成本优化层
 - 针对不同查询类型，使用精确匹配、语义相似度和前缀缓存设计分层缓存策略
 
-## 问题所在
+## 问题
 
 你构建了一个 RAG 聊天机器人，效果出色，用户很喜欢。
 
@@ -51,7 +51,7 @@ GPT-5 每百万输入词元收费 5 美元、每百万输出词元收费 15 美�
 
 你正在为冗余计算支付全价。
 
-## 核心概念
+## 概念
 
 ### LLM 调用的成本构成 <!-- learning-atlas: the-cost-anatomy-of-an-llm-call -->
 
@@ -73,7 +73,7 @@ graph LR
 
 ### 提供方缓存：内置折扣
 
-三大提供方在 2026 年都提供提供方侧提示缓存，但机制各不相同。深度介绍见第 11 阶段 · 第 15 课。
+三大提供方在 2026 年都提供提供方侧提示词缓存，但机制各不相同。深度介绍见第 11 阶段 · 第 15 课。
 
 | 提供方 | 机制 | 折扣 | 最小长度 | 缓存时长 |
 |----------|-----------|----------|---------|----------------|
@@ -186,7 +186,7 @@ OpenAI 的 Batch API 以 50% 折扣异步处理请求。你可以提交最多 50
 
 | 层 | 技术 | 典型节省 | 实现成本 |
 |-------|-----------|----------------|----------------------|
-| 1 | 提供方提示缓存 | 30–50% | 低（添加缓存标记） |
+| 1 | 提供方提示词缓存 | 30–50% | 低（添加缓存标记） |
 | 2 | 精确缓存 | 10–20% | 低（哈希 + 字典） |
 | 3 | 语义缓存 | 15–30% | 中（嵌入 + 相似度） |
 | 4 | 模型路由 | 40–70% | 中（分类器） |
@@ -763,9 +763,9 @@ if __name__ == "__main__":
     run_demo()
 ```
 
-## 实际使用
+## 使用
 
-### Anthropic 提示缓存
+### Anthropic 提示词缓存
 
 ```python
 # import anthropic
@@ -876,7 +876,7 @@ Batch API 对所有词元提供固定 50% 折扣，结果在 24 小时内返回�
 
 在生产环境中，把线性扫描替换为向量索引（Redis Vector Search、Pinecone 或 pgvector）。线性扫描适合少于 1,000 个条目的缓存；超过这个规模，应使用 ANN（近似最近邻）以实现 O(log n) 查找。
 
-## 交付上线
+## 交付
 
 本课产出 `outputs/prompt-cost-optimizer.md`——用于分析你的 LLM 应用，并推荐带预计节省额的具体成本优化方案的可复用提示词。
 
@@ -898,7 +898,7 @@ Batch API 对所有词元提供固定 50% 折扣，结果在 24 小时内返回�
 
 | 术语 | 人们常说 | 实际含义 |
 |------|----------------|----------------------|
-| 提示缓存 |“缓存系统提示词”| 提供方层缓存：重复的提示词前缀获得折扣（Anthropic 90%，OpenAI 50%）；OpenAI 无需改代码，Anthropic 需要显式标记 |
+| 提示词缓存 |“缓存系统提示词”| 提供方层缓存：重复的提示词前缀获得折扣（Anthropic 90%，OpenAI 50%）；OpenAI 无需改代码，Anthropic 需要显式标记 |
 | 语义缓存 |“智能缓存”| 对查询做嵌入，计算它与历史查询的相似度，并在相似度超过阈值时返回缓存响应；可以捕获精确匹配无法识别的改写问法 |
 | 精确缓存 |“哈希缓存”| 对完整提示词（模型 + 消息 + temperature）做哈希，为完全相同的输入返回缓存响应；只适用于 temperature=0 的确定性调用 |
 | 令牌桶 | “速率限制器” | 每个用户拥有一个容量为 N、以 R 速率补充的令牌桶；允许最多 N 个令牌的突发，同时保持平均速率 R |
@@ -911,8 +911,8 @@ Batch API 对所有词元提供固定 50% 折扣，结果在 24 小时内返回�
 
 ## 延伸阅读
 
-- [Anthropic 提示缓存指南](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching) —— Anthropic 显式 `cache_control` 标记、定价和缓存生命周期行为的官方文档
-- [OpenAI 提示缓存](https://platform.openai.com/docs/guides/prompt-caching) —— OpenAI 自动缓存、通过用量字段验证命中情况，以及最小前缀长度
+- [Anthropic 提示词缓存指南](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching) —— Anthropic 显式 `cache_control` 标记、定价和缓存生命周期行为的官方文档
+- [OpenAI 提示词缓存](https://platform.openai.com/docs/guides/prompt-caching) —— OpenAI 自动缓存、通过用量字段验证命中情况，以及最小前缀长度
 - [OpenAI Batch API](https://platform.openai.com/docs/guides/batch) —— 异步处理 50% 折扣、JSONL 格式、24 小时完成窗口和 50K 请求上限
 - [GPTCache](https://github.com/zilliztech/GPTCache) —— 开源语义缓存库，支持多种嵌入后端、向量存储和淘汰策略
 - [Martian Model Router](https://docs.withmartian.com) —— 生产级模型路由，自动选择能够处理每个查询的最便宜模型
@@ -920,4 +920,4 @@ Batch API 对所有词元提供固定 50% 折扣，结果在 24 小时内返回�
 - [Helicone](https://www.helicone.ai) —— LLM 可观测性平台，通过代理层提供成本追踪、缓存、速率限制和预算告警
 - [Dean & Barroso, “The Tail at Scale”（CACM 2013）](https://research.google/pubs/the-tail-at-scale/) —— 延迟、吞吐量、TTFT/TPOT 百分位和对冲请求；解释“选择仍能满足 P95 的最便宜模型”的成本模型
 - [Kwon 等，“Efficient Memory Management for Large Language Model Serving with PagedAttention”（SOSP 2023）](https://arxiv.org/abs/2309.06180) —— vLLM 论文：为什么分页 KV-cache + continuous batching 的吞吐量比朴素服务器高 24 倍；这是“缓存与成本”下方的基础设施层
-- [Dao 等，“FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning”（ICLR 2024）](https://arxiv.org/abs/2307.08691) —— 与提示缓存正交的 kernel 级成本降低方法；和 speculative decoding、GQA 一起阅读，可以得到完整的成本曲线。
+- [Dao 等，“FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning”（ICLR 2024）](https://arxiv.org/abs/2307.08691) —— 与提示词缓存正交的 kernel 级成本降低方法；和 speculative decoding、GQA 一起阅读，可以得到完整的成本曲线。

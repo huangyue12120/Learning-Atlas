@@ -140,7 +140,7 @@ MAE 让 ViT 可以仅在 ImageNet-1k 上训练，达到 SOTA，且是当前默�
 batchnorm-inference
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：图块嵌入
 
@@ -238,7 +238,7 @@ print(f"probs:  {logits.softmax(-1)}")
 
 应无报错地运行，且概率之和为 1。
 
-## 使用现成工具
+## 使用
 
 `timm` 为每种 ViT 变体提供 ImageNet 预训练权重，只需一行：
 
@@ -252,7 +252,7 @@ model = timm.create_model("vit_base_patch16_224", pretrained=True, num_classes=1
 
 多模态工作（图像 + 文本）可使用 `transformers` 提供的 CLIP、SigLIP、BLIP-2、LLaVA；它们的图像编码器全都是某种 ViT 变体。
 
-## 交付产物
+## 交付
 
 本课产出：
 

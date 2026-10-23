@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: SFT 掩码损失与 DPO 偏好目标
-  summary: 在比较只做 SFT、SFT+DPO 与 SFT+GRPO，并处理 assistant-only 监督与 chosen/rejected 偏好对时，用掩码交叉熵和 DPO 隐式奖励目标核对每个训练阶段到底优化什么。
+  summary: 在比较只做 SFT、SFT+DPO 与 SFT+GRPO，并处理 assistant-only 监督与 chosen/rejected 偏好对时，用掩码交叉熵和 DPO 隐式奖励目标核对每个训练阶段到底优化什么。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

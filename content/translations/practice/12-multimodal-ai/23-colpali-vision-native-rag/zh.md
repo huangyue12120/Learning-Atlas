@@ -123,7 +123,7 @@ ColPali 每份文档的存储量约为 30 倍。规模化时，OPQ / PQ 可将�
 mm-maxsim
 ```
 
-## 使用它
+## 使用
 
 `code/main.py`：
 
@@ -131,7 +131,7 @@ mm-maxsim
 - MaxSim 评分器：计算查询词嵌入集合与页面图像块集合之间的 ColBERT 风格分数。
 - 索引 5 个玩具页面，运行 3 个查询，返回带分数的 top-k 结果。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-vision-rag-designer.md`。给定一个文档 RAG 项目，它会在 ColPali / ColQwen2 / VisRAG / 文本 RAG 之间选择并估算存储。
 

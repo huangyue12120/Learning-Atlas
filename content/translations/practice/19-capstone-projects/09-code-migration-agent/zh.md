@@ -17,7 +17,7 @@ status: reviewed
 **语言：** Python（智能体）、Java / Python（目标代码）、TypeScript（仪表盘）
 **前置课程：** 第 5 阶段（NLP）、第 7 阶段（Transformer）、第 11 阶段（LLM 工程）、第 13 阶段（工具）、第 14 阶段（智能体）、第 15 阶段（自治系统）、第 17 阶段（基础设施）
 **涉及阶段：** P5 · P7 · P11 · P13 · P14 · P15 · P17
-**用时：** 30 小时
+**预计时间：** 30 小时
 
 ## 问题
 
@@ -96,7 +96,7 @@ ce-migration-funnel
 
 8. **运行 50 个仓库。** 在 MigrationBench 子集上执行。报告各类别通过率、每仓库成本、覆盖率保持情况，以及与仅确定性方案基线的比较。
 
-## 实际使用
+## 使用
 
 ```text
 $ migrate legacy-java-service --target java17

@@ -17,7 +17,7 @@ status: reviewed
 **语言：** Python（智能体 + 沙箱）、LaTeX（输出）
 **前置课程：** 第 2 阶段（ML）、第 3 阶段（深度学习）、第 7 阶段（Transformer）、第 10 阶段（从零实现 LLM）、第 14 阶段（智能体）、第 15 阶段（自治系统）、第 16 阶段（多智能体）、第 18 阶段（安全）
 **涉及阶段：** P0 · P2 · P3 · P7 · P10 · P14 · P15 · P16 · P18
-**用时：** 40 小时
+**预计时间：** 40 小时
 
 ## 问题
 
@@ -104,7 +104,7 @@ ce-experiment-tree
 
 9. **可复现性。** 每篇论文都附带树搜索轨迹 JSON、种子、W&B 运行链接、沙箱配置和能够端到端复现的 README。
 
-## 实际使用
+## 使用
 
 ```text
 $ ai-scientist run --seed "attention sparsity in sub-1B transformers" --budget 30

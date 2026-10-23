@@ -463,7 +463,7 @@ def mixed_precision_comparison(params_billions):
 
 大多数人最意外的一点是：混合精度不会让显存减半。无论采用哪种精度，优化器状态（Adam 的 m 和 v）都保持为 FP32。对于 70 亿参数模型，FP32 训练需要 112GB，混合精度需要 84GB，节省的是 25% 而不是 50%。显存主要由优化器状态占用。
 
-## 使用它
+## 使用
 
 ### 运行全部模拟
 
@@ -542,7 +542,7 @@ def run_all_demos():
               f"Savings={result['savings_vs_fp32']:.0%}")
 ```
 
-## 交付成果
+## 交付
 
 本课会产出 `outputs/prompt-distributed-training-planner.md`：一个接收模型规模和可用硬件，并生成完整分布式训练方案的提示词，内容包括并行策略、显存预算、通信开销和预期吞吐量。
 

@@ -13,7 +13,7 @@ npm run dev
 
 然后打开 <http://127.0.0.1:4173>。
 
-当前发布版本为 **v0.27.0**（2026-10-23）：首页展示 Phase 0-19 的完整实践地图与 20 章、104 篇笔记的完整理论目录。实践上游现有 542 节课程，已全部完成审核中文改编；实践阅读器开放 Phase 0-18 的 457 节课程，Phase 19 的 85 节内容显示为“已审核，待接入”。本版新增 Phase 13 第 32–45 课的逆向工程轨道：14 篇中文译文、14 份中文测验和 14 套 Python 工作区练习指南；“在 VS Code 中继续”现在会把课程的整个 `code/` 目录（fixtures、tests、评分实验）复制进私人工作区。本版同时修复了监控缺口：每日上游检查会把已开放 Phase 中缺少中文适配的新课程视为需要审核，覆盖率检查也会在 submodule 指针变化后立即运行，并在缺口补齐后自动关闭对应 Issue。当前开放课程的 289 张上下文理论卡已提供可展开的直觉、关键点、应用和自检问题，89 / 104 篇审核中文理论全文已覆盖 311 / 311 张理论卡，所有理论原文入口均打开官方上游最新 `main`。内容仓库维护 542 节审核中文实践译文、307 份中文测验、449 套 VS Code/Python 工作区模板与练习指南，以及 311 条人工批准的理论关联。本版理论复核记录见[理论复核清单](docs/theory-translation-review.md)与[术语表](docs/translation-glossary.md)。P16 的 25 节课程及其两个 TypeScript 例外继续保持已发布状态。
+当前发布版本为 **v0.27.1**（2026-10-23）：首页展示 Phase 0-19 的完整实践地图与 20 章、104 篇笔记的完整理论目录。实践上游现有 542 节课程，已全部完成审核中文改编；实践阅读器开放 Phase 0-18 的 457 节课程，Phase 19 的 85 节内容显示为“已审核，待接入”。本版修复了既有中文内容审查发现的问题：重译 P18 第 21 课测验，为 P17、P18 的 347 道测验写出逐题解析，恢复被压成段落的列表，翻译剩余的英文练习提示、Mermaid 标签和理论 SVG 说明，统一 reward hacking、system prompt、token、chunk 等术语，并修复 187 节课显示“预计学习：未提供”的问题。v0.27.0 新增了 Phase 13 第 32–45 课的逆向工程轨道：14 篇中文译文、14 份中文测验和 14 套 Python 工作区练习指南；“在 VS Code 中继续”现在会把课程的整个 `code/` 目录（fixtures、tests、评分实验）复制进私人工作区。本版同时修复了监控缺口：每日上游检查会把已开放 Phase 中缺少中文适配的新课程视为需要审核，覆盖率检查也会在 submodule 指针变化后立即运行，并在缺口补齐后自动关闭对应 Issue。当前开放课程的 289 张上下文理论卡已提供可展开的直觉、关键点、应用和自检问题，89 / 104 篇审核中文理论全文已覆盖 311 / 311 张理论卡，所有理论原文入口均打开官方上游最新 `main`。内容仓库维护 542 节审核中文实践译文、307 份中文测验、449 套 VS Code/Python 工作区模板与练习指南，以及 311 条人工批准的理论关联。本版理论复核记录见[理论复核清单](docs/theory-translation-review.md)与[术语表](docs/translation-glossary.md)。P16 的 25 节课程及其两个 TypeScript 例外继续保持已发布状态。
 
 ## 为什么使用它
 
@@ -98,6 +98,7 @@ maths-cs-ai-compendium/      上游理论知识库（Git submodule）
 ```bash
 python3 scripts/check_translation_correspondence.py
 python3 scripts/check_source_fingerprints.py
+python3 scripts/check_assessment_correspondence.py
 python3 scripts/check_theory_cards.py
 python3 scripts/check_repository_hygiene.py
 
@@ -106,7 +107,7 @@ npm run check
 npm test
 ```
 
-前四项分别核对译文与原文的结构对应关系、全部版本化内容的来源 SHA-256、已发布理论卡的内容契约，以及是否误提交学习数据、私钥、凭据、令牌和本地状态文件；后两项检查浏览器模块与服务端语法，并运行应用 API 测试。翻译覆盖率可用 `python3 scripts/check_translation_coverage.py` 查看（报告默认输出到终端），CI 也会在缺口出现时给出警告。
+前五项分别核对译文与原文的结构对应关系（含列表项数量）、全部版本化内容的来源 SHA-256、中文测验与上游逐题对应（题数、阶段、正确答案、未译英文和重复套话解析）、已发布理论卡的内容契约，以及是否误提交学习数据、私钥、凭据、令牌和本地状态文件；后两项检查浏览器模块与服务端语法，并运行应用 API 测试。翻译覆盖率可用 `python3 scripts/check_translation_coverage.py` 查看（报告默认输出到终端），CI 也会在缺口出现时给出警告。
 
 ## 跟踪上游更新
 
@@ -159,4 +160,4 @@ GitHub Actions 的命名采用统一的 `<类别> / <动作与对象>` 形式：
 
 ---
 
-发布信息、已知限制和备份建议请参阅 [v0.27.0 发布说明](docs/release-notes.md)。
+发布信息、已知限制和备份建议请参阅 [v0.27.1 发布说明](docs/release-notes.md)。

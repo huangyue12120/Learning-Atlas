@@ -65,7 +65,7 @@ status: reviewed
 coref-links
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：预训练神经共指模型（AllenNLP / spaCy-experimental）
 
@@ -118,7 +118,7 @@ Cluster them by what they refer to. Output JSON:
 - **性别假设。** 硬编码性别规则无法正确处理非二元性别指称、组织与动物。应使用学习模型或中性打分。
 - **LLM 在长文档上漂移。** 一次 API 调用无法可靠聚类横跨 50 多段的提及。应使用滑动窗口并合并结果。
 
-## 使用现成工具
+## 使用
 
 2026 年的技术栈：
 
@@ -132,7 +132,7 @@ Cluster them by what they refer to. Output JSON:
 
 2026 年投入生产的集成模式是：先运行 NER，再运行共指消解，把共指簇合并进 NER 实体。下游任务看到的是每个簇对应的一个实体，而不是每个提及对应一个实体。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-coref-picker.md`：
 

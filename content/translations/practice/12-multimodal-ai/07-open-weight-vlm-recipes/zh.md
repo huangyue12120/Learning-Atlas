@@ -113,7 +113,7 @@ Prismatic VLMs（Karamcheti 等，2024）控制了所有轴。使用相同的 13
 l5-vlm-recipe-knobs
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 是消融表解析器和方案选择器。它编码了 MM1 与 Idefics2 的消融表（压缩版），并允许你查询：
 
@@ -123,7 +123,7 @@ l5-vlm-recipe-knobs
 
 输出是带有预期基准差值的方案排序列表，以及“先消融”建议。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-vlm-recipe-picker.md`。给定目标任务混合、计算预算和延迟目标，它会输出完整方案（编码器、连接器、LLM、数据混合、分辨率计划），并为每项选择附上对应消融的引用。这样每次新的 VLM 项目开始时，工程师不必重新发明 Idefics2 的消融表。
 

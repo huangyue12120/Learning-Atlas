@@ -14,7 +14,7 @@ card:
   context: "本课把 TTFT、TPOT、ITL 和 goodput 组合成用户可感知的推理 SLO，重点处理右偏长尾。"
   intuition: "百分位数回答大多数请求最慢到哪里，goodput 则只计入同时满足多项约束的请求。"
   key_points:
-    - "TTFT 反映队列与 prefill，TPOT/ITL 反映逐 token decode，不能互相替代。"
+    - "TTFT 反映队列与 prefill，TPOT/ITL 反映逐词元 decode，不能互相替代。"
     - "P99 对尾部用户体验和容量规划敏感，适合做生产闸门。"
     - "goodput 是同时满足延迟、错误率和输出约束的请求比例。"
   application: "生成右偏延迟样本，比较 mean 与 P50/P90/P99，并改变 SLO 约束观察 goodput。"

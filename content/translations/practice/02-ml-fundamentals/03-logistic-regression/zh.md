@@ -189,7 +189,7 @@ F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \te
 logistic-sigmoid
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：Sigmoid 函数和数据生成
 
@@ -476,7 +476,7 @@ for t in thresholds:
     print(f"{t:>10.1f} {m.accuracy():>10.4f} {m.precision():>10.4f} {m.recall():>10.4f} {m.f1():>10.4f}")
 ```
 
-## 在工具中使用
+## 使用
 
 下面用 scikit-learn 完成同一任务：
 
@@ -515,7 +515,7 @@ print(f"\nClassification Report:\n{classification_report(y_te, y_pred)}")
 
 从零实现会得出相同的决策边界和指标。scikit-learn 另提供求解器选项（liblinear、lbfgs、saga）、自动正则化、多类别策略（one-vs-rest、multinomial）和数值稳定性优化。
 
-## 产出
+## 交付
 
 本课产出：
 

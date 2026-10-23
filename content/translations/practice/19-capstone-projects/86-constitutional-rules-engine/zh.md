@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python、YAML
 **前置课程：** Phase 18 安全课程、Phase 19 Track A 第 25–29 课
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 问题
 
@@ -66,7 +66,7 @@ flowchart LR
 cd-constitution-loop
 ```
 
-## 实现
+## 动手构建
 
 `code/rules.yml` 保存宪法。`code/main.py` 中的加载器在 PyYAML 可用时接受 YAML 文件，否则接受内置支持的 JSON 文件。本课提供的 `rules.yml` 会由两条代码路径解析测试。`code/main.py` 定义 `Engine` 和 `Fixer` 类以及 `diff` 函数。组合谓词会递归求值，并在 `any_of` 上短路。
 

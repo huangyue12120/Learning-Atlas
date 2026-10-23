@@ -49,7 +49,7 @@ status: reviewed
 bow-tfidf
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：构建词表
 
@@ -152,7 +152,7 @@ def l2_normalize(matrix):
 
 不做归一化时，较长文档会得到更大的向量，从而支配相似度分数。L2 归一化把每篇文档放到单位超球面上，此时行向量之间的余弦相似度就是点积。
 
-## 使用现成工具
+## 使用
 
 scikit-learn 提供了生产级实现。
 
@@ -224,7 +224,7 @@ def tfidf_weighted_embedding(doc, tfidf_scores, embedding_table, dim):
 
 嵌入提供语义能力，TF-IDF 强调稀有词，分类器在汇聚后的向量上训练。对不足约 5 万个标注样本的情感、主题和意图分类，这种组合往往胜过单独使用任一方法。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/prompt-vectorization-picker.md`：
 

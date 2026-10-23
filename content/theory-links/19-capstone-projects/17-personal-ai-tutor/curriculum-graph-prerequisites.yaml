@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 课程图中的概念节点与先修路径
-  summary: 在按先修边遍历课程图、选择下一个概念并避免跳过基础知识时，用图论理论核对节点、边、路径和搜索边界。
+  summary: 在按先修边遍历课程图、选择下一个概念并避免跳过基础知识时，用图论理论核对节点、边、路径和搜索边界。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 14 - data structures and algorithms/04. graphs.md

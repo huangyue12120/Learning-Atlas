@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库，用于模拟 trace 采样的玩具程序）
 **前置要求：** 第 17 阶段 · 08（推理指标），第 14 阶段（智能体工程）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -29,7 +29,7 @@ status: reviewed
 
 你交付了一项 LLM 功能，它能工作。可你完全看不到提示词失败、工具循环、延迟回归、成本尖峰或提示词缓存命中率。你搜索“LLM observability”，得到八种工具，它们都声称以三种不同价位解决同一个问题。
 
-它们解决的并不是同一个问题。LangSmith 回答“这次 LangGraph 运行为何失败？”；Phoenix 回答“我的 RAG 流水线是否发生漂移？”；Helicone 回答“哪个应用正在烧 token？”；Langfuse 回答“我能否自托管整个系统？”。工具不同，受众不同。
+它们解决的并不是同一个问题。LangSmith 回答“这次 LangGraph 运行为何失败？”；Phoenix 回答“我的 RAG 流水线是否发生漂移？”；Helicone 回答“哪个应用正在烧词元？”；Langfuse 回答“我能否自托管整个系统？”。工具不同，受众不同。
 
 选择涉及四个维度：栈（LangChain？原始 SDK？多供应商？）、许可容忍度（只接受 MIT？Elastic 可以？商业可接受？）、预算（免费层？$100/mo？$1000/mo？），以及自托管（必须？最好有？绝不需要？）。
 
@@ -39,7 +39,7 @@ status: reviewed
 
 **开发平台** 将可观测性与评估、提示词管理、数据集版本管理、会话回放打包。你可以运行实验，查看哪种提示词效果好，并以数据集回归方式将新提示词与旧优胜者比较。LangSmith、Langfuse、Comet Opik 都属于此类。
 
-**网关/遥测工具** 对推理调用进行插桩——提示词、响应、token、延迟、模型、成本。Helicone、SigNoz、OpenLLMetry、Phoenix。它们极简，可通过 OpenTelemetry 与独立评估工具组合。
+**网关/遥测工具** 对推理调用进行插桩——提示词、响应、词元、延迟、模型、成本。Helicone、SigNoz、OpenLLMetry、Phoenix。它们极简，可通过 OpenTelemetry 与独立评估工具组合。
 
 ### Langfuse——OSS 平衡
 

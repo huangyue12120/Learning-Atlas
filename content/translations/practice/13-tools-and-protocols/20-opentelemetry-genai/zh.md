@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库，OTel span 发射器）
 **前置课程：** Phase 13 · 07（MCP 服务器）、Phase 13 · 08（MCP 客户端）
-**时间：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -124,7 +124,7 @@ AgentOps（成立于 2024 年）专门做 GenAI 可观测性。它包装 LangGra
 t3-span-waterfall
 ```
 
-## 动手使用
+## 使用
 
 `code/main.py` 为一个调用 LLM、分发两个工具并进行一次 MCP 往返的智能体，以 OTel 形状将 spans 发到 stdout（类似 OTLP-JSON 的格式）。没有真正的 exporter——本课聚焦 span 形状和属性集合。你可以将输出粘贴到兼容 OTLP 的查看器中，也可以直接阅读。
 
@@ -135,7 +135,7 @@ t3-span-waterfall
 - 填充必需的 `gen_ai.*` 属性。
 - 默认关闭内容捕获；一个场景通过环境变量打开它。
 
-## 交付物
+## 交付
 
 本课产出 `outputs/skill-otel-genai-instrumentation.md`。给定一个智能体代码库，该 skill 会产出插桩计划：在哪里添加 spans、填充哪些属性，以及选择哪些 exporter。
 
@@ -151,7 +151,7 @@ t3-span-waterfall
 
 5. 阅读 OTel GenAI 语义约定规范。找出规范列出、但本课代码没有发出的一个属性，并添加它。
 
-## 术语
+## 关键术语
 
 | 术语 | 人们会怎么说 | 它实际表示什么 |
 |------|----------------|------------------------|

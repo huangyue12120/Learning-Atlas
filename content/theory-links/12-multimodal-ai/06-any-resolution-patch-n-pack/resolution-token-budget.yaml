@@ -10,7 +10,7 @@ practice:
     slug: the-concept
 card:
   title: 原生分辨率与视觉词元预算
-  summary: 在比较 patch-n-pack、NaFlex 和不同宽高比下的序列长度时，用视觉词元流水线理论核对 patch 特征的投影、视觉 token 压缩以及视觉序列送入语言模型时的预算权衡。
+  summary: 在比较 patch-n-pack、NaFlex 和不同宽高比下的序列长度时，用视觉词元流水线理论核对 patch 特征的投影、视觉词元压缩以及视觉序列送入语言模型时的预算权衡。
   context: "本课比较不同分辨率和宽高比的打包方式；视觉词元预算会同时影响细节保留、上下文占用和推理成本。"
   intuition: "更细或更多的图块能保留更多局部信息，却会形成更长的视觉序列；any-resolution 方法是在不强制拉伸图像的前提下分配这份预算。"
   key_points:
