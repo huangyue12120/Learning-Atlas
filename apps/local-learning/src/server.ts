@@ -371,7 +371,7 @@ function lessonFor(lessonId: string): Lesson | null {
   };
   const title = translation.match(/^#\s+(.+)$/m)?.[1] ?? sourceDocument.match(/^#\s+(.+)$/m)?.[1] ?? slug;
   const originalTitle = sourceDocument.match(/^#\s+(.+)$/m)?.[1] ?? slug;
-  const duration = translation.match(/^\*\*(?:预计学习|预计时间|时间)：\*\*\s*(.+)$/m)?.[1]?.trim() ?? "未提供";
+  const duration = translation.match(/^\*\*(?:预计时间|预计用时|预计学习|用时|时间)：\*\*\s*(.+)$/m)?.[1]?.trim() ?? "未提供";
   const resourceDirectory = join(repositoryDirectory, "content");
   return {
     id: lessonId,

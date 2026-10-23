@@ -27,6 +27,11 @@ SOURCE_PATH = re.compile(r"^\s*path:\s*(.+?)\s*$", re.MULTILINE)
 FENCE = re.compile(r"^```([^\n]*)\n(.*?)^```\s*$", re.MULTILINE | re.DOTALL)
 HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
 LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
+LIST_ITEM = re.compile(r"^\s*(?:[-*+]|\d+[.)])\s+\S", re.MULTILINE)
+# Lists are teaching units (checklists, invariants, steps). A translation may
+# join an item occasionally or split an inline enumeration into sub-items, but
+# must not flatten a source list into prose, so only a shortfall is an error.
+LIST_ITEM_TOLERANCE = 2
 MERMAID_QUOTED_TEXT = re.compile(r'"(?:[^"\\]|\\.)*"')
 MERMAID_EDGE_LABEL = re.compile(r'\|(?:[^|\\]|\\.)*\|')
 MERMAID_DOTTED_EDGE_LABEL = re.compile(r'(?P<prefix>-\.\s*)(?:[^\n.]+?)(?P<suffix>\s*\.->)')
@@ -73,6 +78,7 @@ class Structure:
     figures: list[str]
     links: list[str]
     mermaid: list[str]
+    list_items: int
 
 
 def normalize_mermaid(diagram: str) -> str:
@@ -149,6 +155,7 @@ def structure(markdown: str) -> Structure:
         figures=figures,
         links=LINK.findall(fenced_out),
         mermaid=[normalize_mermaid(content) for language, content in blocks if language.strip() == "mermaid"],
+        list_items=len(LIST_ITEM.findall(fenced_out)),
     )
 
 
@@ -175,6 +182,11 @@ def differences(source: Structure, translation: Structure, translation_markdown:
     if source.mermaid != translation.mermaid:
         errors.append(
             "Mermaid syntax/topology differs; only learner-visible labels may be translated in place"
+        )
+    if source.list_items - translation.list_items > LIST_ITEM_TOLERANCE:
+        errors.append(
+            f"translation has more than {LIST_ITEM_TOLERANCE} fewer list items than the source "
+            f"(source={source.list_items}, translation={translation.list_items}); keep source lists as lists"
         )
     link_index = 0
     for target in translation.links:

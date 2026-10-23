@@ -418,6 +418,13 @@ test("loads published lesson content and resources by lessonId", async () => {
     itemLesson.resources.workspace === true && itemContent.translationStatus === "reviewed" &&
     itemQuiz.status === "reviewed" && itemQuiz.questions.length === 6), true);
 
+  const publishedLessons = course.flatMap((phase: { lessons: { id: string }[] }) => phase.lessons);
+  assert.equal(publishedLessons.length, 457);
+  const durations = await Promise.all(publishedLessons.map(async (item: { id: string }) =>
+    fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent(item.id)}`).then((response) => response.json())));
+  assert.deepEqual(durations.filter((lesson: { duration: string }) => !/^(约 ?)?\d/.test(lesson.duration))
+    .map((lesson: { id: string; duration: string }) => `${lesson.id}: ${lesson.duration}`), []);
+
   const reverseEngineeringLessons = toolsAndProtocols.lessons.slice(31);
   assert.equal(reverseEngineeringLessons.length, 14);
   assert.equal(reverseEngineeringLessons[0].id, "practice/13-tools-and-protocols/32-program-anatomy-elf-from-scratch");

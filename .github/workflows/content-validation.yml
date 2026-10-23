@@ -36,6 +36,7 @@ jobs:
         run: |
           python3 scripts/check_translation_correspondence.py
           python3 scripts/check_source_fingerprints.py
+          python3 scripts/check_assessment_correspondence.py
           python3 scripts/check_theory_cards.py
       - name: Report translation coverage
         # Advisory: a submodule sync may land before its adaptations. The
