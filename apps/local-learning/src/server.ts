@@ -1049,6 +1049,20 @@ async function tutorReply(
   return { userMessage, assistantMessage };
 }
 
+const workspaceCopyExclusions = new Set(["__pycache__", ".pytest_cache", "node_modules", ".venv"]);
+
+// 只补齐学习者工作区中缺失的文件，绝不覆盖学习者已经修改过的文件。
+function copyMissingTree(sourceDirectory: string, targetDirectory: string) {
+  mkdirSync(targetDirectory, { recursive: true });
+  for (const entry of readdirSync(sourceDirectory, { withFileTypes: true })) {
+    if (workspaceCopyExclusions.has(entry.name)) continue;
+    const source = join(sourceDirectory, entry.name);
+    const target = join(targetDirectory, entry.name);
+    if (entry.isDirectory()) copyMissingTree(source, target);
+    else if (entry.isFile() && !existsSync(target)) copyFileSync(source, target);
+  }
+}
+
 export function prepareWorkspace(dataDirectory: string, lessonId = defaultLessonId): Workspace {
   const lesson = lessonFor(lessonId);
   if (!lesson) throw new Error("课程不存在。");
@@ -1058,7 +1072,8 @@ export function prepareWorkspace(dataDirectory: string, lessonId = defaultLesson
   const sourceDirectory = join(phaseDirectory(phase), slug, "code");
   const explorationDirectory = join(repositoryDirectory, "content/explorations", phase.slug, slug);
   const workspaceTemplateDirectory = join(repositoryDirectory, "content/workspace-templates", phase.slug, slug);
-  const sourceName = readdirSync(sourceDirectory).filter((name) => name.endsWith(".py")).sort()[0];
+  const pythonNames = readdirSync(sourceDirectory).filter((name) => name.endsWith(".py")).sort();
+  const sourceName = pythonNames.includes("main.py") ? "main.py" : pythonNames[0];
   if (!sourceName) throw new Error("当前课程没有 Python 参考实现。");
   const explorationName = existsSync(explorationDirectory)
     ? readdirSync(explorationDirectory).filter((name) => name.endsWith(".py")).sort()[0] ?? null
@@ -1075,7 +1090,8 @@ export function prepareWorkspace(dataDirectory: string, lessonId = defaultLesson
   const exerciseTestFile = exerciseTestName ? join(directory, exerciseTestName) : null;
   const exercisesGuide = guideName ? join(directory, guideName) : null;
   mkdirSync(directory, { recursive: true });
-  if (!existsSync(sourceFile)) copyFileSync(join(sourceDirectory, sourceName), sourceFile);
+  // 复制整个 code/ 目录（fixtures、tests、lab 等），参考实现常依赖同目录的其他文件。
+  copyMissingTree(sourceDirectory, directory);
   if (explorationFile && explorationName && !existsSync(explorationFile)) copyFileSync(join(explorationDirectory, explorationName), explorationFile);
   for (const name of templateNames) {
     const target = join(directory, name);
@@ -1087,7 +1103,7 @@ export function prepareWorkspace(dataDirectory: string, lessonId = defaultLesson
     "",
     "这是 Learning Atlas 为本课创建的私人实践工作区。",
     "",
-    `- 在 VS Code 中先运行参考实现 \`${sourceName}\`。`,
+    `- 在 VS Code 中先运行参考实现 \`${sourceName}\`；上游 \`code/\` 目录中的其他文件（如 fixtures、tests）也已复制到这里。`,
     exercisesGuide ? `- 阅读 \`${guideName}\`，完成练习后运行对应的标准库测试。` : "- 使用课程中的 Python 文件完成练习。",
     explorationFile ? `- 在 marimo 中打开 \`${explorationName}\`，改变参数并观察结果。` : "- 本课暂无已发布的 marimo 探索笔记。",
     "- 此目录不会修改上游课程仓库。",

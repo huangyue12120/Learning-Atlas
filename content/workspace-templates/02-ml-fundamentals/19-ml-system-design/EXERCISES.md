@@ -17,15 +17,11 @@
 
 ## 运行与验证
 
+在工作区目录执行（工作区包含上游 `code/` 目录的全部文件，包括 `tests/`）：
+
 ```bash
 python3 main.py
-```
-
-工作区只复制根目录的 `main.py` 和本指南；请另开一个以 Learning Atlas 仓库根目录为当前目录的终端，在上游课程目录运行完整测试：
-
-```bash
-cd ai-engineering-from-scratch/phases/02-ml-fundamentals/19-ml-system-design
-python3 -m unittest discover -s code/tests -p 'test_*.py'
+python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
 先阅读输出中的阻塞项，再修改文档直到检查器给出可评审结果。

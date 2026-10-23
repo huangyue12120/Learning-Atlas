@@ -17,15 +17,11 @@
 
 ## 运行与验证
 
+在工作区目录执行（工作区包含上游 `code/` 目录的全部文件，包括 `tests/`）：
+
 ```bash
 python3 main.py
-```
-
-工作区只复制根目录的 `main.py` 和本指南；请另开一个以 Learning Atlas 仓库根目录为当前目录的终端，在上游课程目录运行完整测试：
-
-```bash
-cd ai-engineering-from-scratch/phases/17-infrastructure-and-production/29-model-demo-interfaces
-python3 -m unittest discover -s code/tests -p 'test_*.py'
+python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
 浏览器测试之外，再用 `curl` 发送超大 body、空文本、连续请求和带令牌请求，确认服务器端校验不会被页面绕过。
