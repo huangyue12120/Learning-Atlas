@@ -21,13 +21,13 @@ jobs:
     name: Validate content and application
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           persist-credentials: false
           submodules: recursive
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
-          python-version: "3.12"
+          python-version-file: .python-version
       - name: Check content automation scripts
         run: |
           python3 -m py_compile scripts/*.py
@@ -37,9 +37,25 @@ jobs:
           python3 scripts/check_translation_correspondence.py
           python3 scripts/check_source_fingerprints.py
           python3 scripts/check_theory_cards.py
+      - name: Report translation coverage
+        # Advisory: a submodule sync may land before its adaptations. The
+        # warning annotation makes the gap visible on the commit or PR, and the
+        # coverage workflow opens the tracking issue.
+        shell: bash
+        run: |
+          set +e
+          python3 scripts/check_translation_coverage.py --fail-on-missing --output translation-coverage-report.md
+          status=$?
+          set -e
+          cat translation-coverage-report.md >> "$GITHUB_STEP_SUMMARY"
+          if [ "$status" = "2" ]; then
+            echo "::warning title=Translation coverage::Published phases contain upstream lessons without Chinese translations, assessments or workspace guides. See the job summary."
+          elif [ "$status" != "0" ]; then
+            exit "$status"
+          fi
       - name: Check repository hygiene
         run: python3 scripts/check_repository_hygiene.py
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22.18.0"
           cache: npm
@@ -49,9 +65,7 @@ jobs:
         run: npm ci
       - name: Check browser and server syntax
         working-directory: apps/local-learning
-        run: |
-          node --check public/app.js
-          npm run check
+        run: npm run check
       - name: Run application API tests
         working-directory: apps/local-learning
         run: npm test

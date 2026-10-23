@@ -37,6 +37,13 @@ personal-code/
 *.pem
 *.key
 
+# Generated monitoring reports (written by the coverage and upstream workflows).
+/translation-coverage-report.md
+/upstream-report.md
+/upstream-report-full.md
+/upstream-check.log
+/translation-coverage.log
+
 # Caches, logs, editor state, and OS files.
 .cache/
 .pytest_cache/

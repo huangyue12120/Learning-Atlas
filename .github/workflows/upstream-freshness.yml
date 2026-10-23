@@ -20,25 +20,31 @@ jobs:
     name: Report upstream source changes
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           fetch-depth: 0
           persist-credentials: false
           submodules: recursive
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
-          python-version: "3.12"
+          python-version-file: .python-version
       - name: Check tracked upstream branches
         id: freshness
-        continue-on-error: true
         shell: bash
         run: |
+          # Exit code 2 means "upstream has new commits", which is a normal
+          # result handled by the following steps. Only other non-zero codes
+          # (execution, network or permission failures) fail the job, so a red
+          # run always means the monitor itself is broken.
           set +e
           python3 scripts/manage_upstreams.py --check --fail-on-update > upstream-check.log 2>&1
           status=$?
+          set -e
           cat upstream-check.log
           echo "exit_code=$status" >> "$GITHUB_OUTPUT"
-          exit "$status"
+          if [ "$status" != "0" ] && [ "$status" != "2" ]; then
+            exit "$status"
+          fi
       - name: Generate upstream change report
         id: report
         if: steps.freshness.outputs.exit_code == '2'
@@ -52,13 +58,13 @@ jobs:
           fi
           echo "relevant=$relevant" >> "$GITHUB_OUTPUT"
           if [ "$relevant" = "true" ]; then
-            echo "Upstream changes touch tracked Chinese content. Review is required."
+            echo "::notice title=Upstream review required::Upstream changes touch tracked Chinese content or add unadapted lessons in published phases. See the review issue and job summary."
           else
             echo "Upstream changes do not touch tracked Chinese content. No review issue is needed."
           fi
       - name: Preserve complete upstream report
         if: steps.freshness.outputs.exit_code == '2'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: upstream-source-report
           path: upstream-report-full.md
@@ -86,8 +92,24 @@ jobs:
               gh issue comment "$issue_number" --body-file upstream-report.md
             fi
           fi
-      - name: Fail when upstream review is required
-        if: steps.freshness.outputs.exit_code == '1' || (steps.freshness.outputs.exit_code == '2' && steps.report.outputs.relevant == 'true')
+      - name: Close resolved upstream review issue
+        if: steps.freshness.outputs.exit_code == '0' || (steps.freshness.outputs.exit_code == '2' && steps.report.outputs.relevant == 'false')
         env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_TITLE: "[Upstream] Source updates require review"
           EXIT_CODE: ${{ steps.freshness.outputs.exit_code }}
-        run: exit "$EXIT_CODE"
+        shell: bash
+        run: |
+          # A relevant snapshot stays relevant until main moves the submodule
+          # pointer past it, and CI rejects that move while any recorded source
+          # fingerprint is stale. A clean report therefore means the review is done.
+          issue_number="$(gh issue list --state open --json number,title --limit 100 | jq -r --arg title "$ISSUE_TITLE" '.[] | select(.title == $title) | .number' | head -n 1)"
+          if [ -z "$issue_number" ]; then
+            exit 0
+          fi
+          if [ "$EXIT_CODE" = "0" ]; then
+            reason="锁定的 submodule 已与上游 main 一致。"
+          else
+            reason="最新上游提交没有命中已登记的中文内容，也没有给已开放 Phase 带来缺少中文适配的新课程。"
+          fi
+          gh issue close "$issue_number" --comment "自动关闭：${reason}（${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}）"

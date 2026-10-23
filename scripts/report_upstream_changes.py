@@ -14,6 +14,7 @@ from datetime import date
 from pathlib import Path
 
 from manage_upstreams import ROOT, Submodule, tracked_submodules
+from published_scope import THEORY_REPOSITORY, expected_adaptation, is_theory_note
 
 
 UPSTREAM_URLS = {
@@ -29,6 +30,7 @@ FIELD = re.compile(r"^\s{2}(?P<key>repository|path|revision|sha256):\s*(?P<value
 MAX_REPORT_BYTES = 60_000
 MAX_DIFF_PER_FILE_CHARS = 12_000
 MAX_COMMIT_LINES = 30
+MAX_SUMMARY_GAP_ROWS = 60
 TRUNCATION_NOTICE = (
     "\n\n> Issue 正文已达到大小上限或单文件 diff 上限；完整文件清单、来源映射和 diff "
     "见本次 Actions 运行的 `upstream-source-report` 附件，或使用各上游 compare 链接查看。"
@@ -232,17 +234,123 @@ def changed_artifacts(snapshot: Snapshot, index: dict[tuple[str, str], list[Arti
     return sorted(result.values(), key=lambda artifact: (artifact.path, artifact.kind))
 
 
+@dataclass(frozen=True)
+class AdaptationGap:
+    """A published upstream lesson file that has no local Chinese adaptation."""
+
+    status: str
+    source_path: str
+    kind: str
+    expected_path: str
+
+
+def local_file_exists(relative_path: str) -> bool:
+    return (ROOT / relative_path).is_file()
+
+
+def adaptation_gaps(snapshot: Snapshot, index: dict[tuple[str, str], list[Artifact]]) -> list[AdaptationGap]:
+    """Return lesson docs, quizzes and Python code in published phases that would arrive unadapted.
+
+    Coverage monitoring only inspects the pinned snapshot, so without this check
+    a new lesson in an already published phase would stay invisible until the
+    submodule pointer moved. Deleted files are excluded: losing the source of a
+    recorded artifact is reported through ``changed_artifacts`` instead.
+    Workspace guides have no source fingerprint and count as present when the
+    guide file exists; several changed ``.py`` files of one lesson give one gap.
+    """
+
+    gaps: dict[tuple[str, str], AdaptationGap] = {}
+    for change in snapshot.changes:
+        path = change.new_path
+        if not path or change.status.startswith("D"):
+            continue
+        expected = expected_adaptation(path)
+        if expected is None:
+            continue
+        kind, expected_path = expected
+        present = local_file_exists(expected_path) if kind == "workspace guide" else index.get((snapshot.module.name, path))
+        if present:
+            continue
+        gaps.setdefault((kind, expected_path), AdaptationGap(change.status, path, kind, expected_path))
+    order = {"practice translation": 0, "assessment": 1, "workspace guide": 2}
+    return sorted(gaps.values(), key=lambda gap: (order[gap.kind], gap.source_path))
+
+
+def new_theory_notes(snapshot: Snapshot, index: dict[tuple[str, str], list[Artifact]]) -> list[str]:
+    """Return theory notes added upstream that have no Chinese translation.
+
+    This is informational: the theory catalog lists every upstream note and
+    falls back to the official English ``main`` until a reviewed translation
+    exists, so a new note never breaks the published reader.
+    """
+
+    if snapshot.module.name != THEORY_REPOSITORY:
+        return []
+    return sorted(
+        change.new_path
+        for change in snapshot.changes
+        if change.new_path and change.status.startswith(("A", "R", "C"))
+        and is_theory_note(change.new_path)
+        and not index.get((snapshot.module.name, change.new_path))
+    )
+
+
+def render_theory_notes(notes: list[str], limit: int | None = None) -> list[str]:
+    if not notes:
+        return []
+    shown = notes if limit is None else notes[:limit]
+    lines = [
+        "",
+        "### 新增理论笔记（仅供参考）",
+        "",
+        f"上游新增 {len(notes)} 篇理论笔记。同步后它们会出现在首页理论目录中，并以官方英文 `main` 原文打开；"
+        "这不阻断发布，也不单独触发审核。需要中文全文时，再按理论译文流程补充。",
+        "",
+        *(f"- `{markdown_cell(note)}`" for note in shown),
+    ]
+    if len(shown) < len(notes):
+        lines.extend(["", f"> 另有 {len(notes) - len(shown)} 篇，请查看完整报告附件。"])
+    return lines
+
+
 def has_relevant_changes(snapshots: list[Snapshot], artifacts: list[Artifact]) -> bool:
-    """Return whether an upstream diff touches a tracked Chinese artifact source.
+    """Return whether an upstream diff needs Chinese content review.
 
     The freshness check is intentionally broader than the review gate: upstream
     repositories contain sites, tooling, and other files that are not copied into
-    Learning Atlas.  Only a changed path explicitly recorded by a translation,
-    assessment, or theory-link source is a content-review trigger.
+    Learning Atlas.  A content-review trigger is either a changed path explicitly
+    recorded by a translation, assessment, or theory-link source, or a lesson
+    document or quiz in a published phase that has no local adaptation yet.
     """
 
     index = artifact_index(artifacts)
-    return any(changed_artifacts(snapshot, index) for snapshot in snapshots)
+    return any(changed_artifacts(snapshot, index) or adaptation_gaps(snapshot, index) for snapshot in snapshots)
+
+
+def render_gaps(gaps: list[AdaptationGap], limit: int | None = None) -> list[str]:
+    if not gaps:
+        return []
+    labels = {"practice translation": "实践译文", "assessment": "中文测验", "workspace guide": "练习指南"}
+    counts = {kind: sum(gap.kind == kind for gap in gaps) for kind in labels}
+    lines = [
+        "",
+        "### 已开放 Phase 中缺少中文适配的上游课程",
+        "",
+        f"同步到目标 revision 后，已开放 Phase 会缺少 {counts['practice translation']} 篇中文实践译文、"
+        f"{counts['assessment']} 份中文测验和 {counts['workspace guide']} 份练习指南。"
+        "请先补齐这些中文改编，再合入 submodule 指针。",
+        "",
+        "| 状态 | 类型 | 上游文件 | 建议的中文路径 |",
+        "| --- | --- | --- | --- |",
+    ]
+    shown = gaps if limit is None else gaps[:limit]
+    lines.extend(
+        f"| `{markdown_cell(gap.status)}` | {labels[gap.kind]} | `{markdown_cell(gap.source_path)}` | `{gap.expected_path}` |"
+        for gap in shown
+    )
+    if len(shown) < len(gaps):
+        lines.extend(["", f"> 另有 {len(gaps) - len(shown)} 项，请查看完整报告附件。"])
+    return lines
 
 
 def diagnosis(module: Submodule, snapshot: Snapshot, artifact: Artifact) -> tuple[str, str]:
@@ -313,10 +421,12 @@ def render_snapshot(snapshot: Snapshot, index: dict[tuple[str, str], list[Artifa
         lines.extend(
             [
                 "",
-                "> 当前上游提交没有命中已记录的译文、测验或理论关联来源；仍需确认是否新增课程、"
-                "改动了尚未接入的内容，或仅改动了生成文件。",
+                "> 当前上游提交没有命中已记录的译文、测验或理论关联来源；已开放 Phase 中的新增课程见下方单独列表。",
             ]
         )
+
+    lines.extend(render_gaps(adaptation_gaps(snapshot, index)))
+    lines.extend(render_theory_notes(new_theory_notes(snapshot, index)))
 
     commits = git_text(module.path, "log", "--format=%h%x09%ad%x09%s", "--date=short", f"{snapshot.base}..{snapshot.target}")
     commit_lines = commits.splitlines()
@@ -371,7 +481,7 @@ def render_report(
         "2. 更新受影响的中文内容及其 `revision` / `sha256`，保留结构对应关系。",
         "3. 运行 `python3 scripts/check_translation_correspondence.py`、"
         "`python3 scripts/check_source_fingerprints.py` 和应用测试。",
-        "4. 通过验证后关闭本 Issue；上游 freshness workflow 的失败本身不代表网络或权限故障。",
+        "4. 合入 submodule 指针后，下一次每日检查会自动关闭本 Issue；也可以在验证通过后手动关闭。",
     ]
 
     report = "\n".join([*header, *sections, *review_steps])
@@ -389,7 +499,10 @@ def render_report(
                 f"- 锁定 revision：`{item.base}`\n"
                 f"- 上游 `{module.branch}`：`{item.target}`\n"
                 f"- 对比：{compare_url}\n"
-                f"- 原文改动文件：{len(item.changes)}；关联的本地内容：{len(changed_artifacts(item, index))}"
+                f"- 原文改动文件：{len(item.changes)}；关联的本地内容：{len(changed_artifacts(item, index))}；"
+                f"缺少中文适配：{len(adaptation_gaps(item, index))}；新增理论笔记：{len(new_theory_notes(item, index))}"
+                + "\n".join(["", *render_gaps(adaptation_gaps(item, index), MAX_SUMMARY_GAP_ROWS)])
+                + "\n".join(["", *render_theory_notes(new_theory_notes(item, index), MAX_SUMMARY_GAP_ROWS)])
             )
         report = "\n".join([*header, *summaries, *review_steps])
     detail_budget = report_limit - len(

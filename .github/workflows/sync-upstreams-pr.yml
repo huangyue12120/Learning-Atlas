@@ -19,11 +19,18 @@ jobs:
     name: Open upstream synchronization PR
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # Credentials are not persisted into .git/config: the submodule fetches
+      # below talk to third-party repositories, and only the final push needs
+      # the token, which it receives for that single command.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           ref: main
           fetch-depth: 0
+          persist-credentials: false
           submodules: recursive
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version-file: .python-version
       - name: Update tracked upstream submodules
         id: sync
         run: |
@@ -37,10 +44,56 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
             git diff --submodule=short
           fi
+      - name: Check translation coverage after synchronization
+        if: steps.sync.outputs.changed == 'true'
+        shell: bash
+        run: |
+          set +e
+          python3 scripts/check_translation_coverage.py --fail-on-missing --output translation-coverage-report.md
+          status=$?
+          set -e
+          if [ "$status" != "0" ] && [ "$status" != "2" ]; then
+            exit "$status"
+          fi
+          cat translation-coverage-report.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Write pull request body
+        if: steps.sync.outputs.changed == 'true'
+        shell: bash
+        run: |
+          {
+            echo "本 PR 只更新上游 submodule 指针，不包含中文内容改动。合并前请完成以下检查："
+            echo
+            echo "1. 查看 **Monitoring / Report upstream source changes** 生成的 Issue 或运行附件，逐项更新受影响的中文译文、测验和理论关联，并刷新其 \`revision\` / \`sha256\`。"
+            echo "2. 补齐下方覆盖率报告列出的中文实践译文、中文测验和练习指南。"
+            echo "3. 确认 **CI / Validate content and application** 在本分支上通过。"
+            echo
+            echo "## Submodule 变化"
+            echo
+            echo '```text'
+            git diff --submodule=short
+            echo '```'
+            echo
+            echo "## 同步后的翻译覆盖率"
+            echo
+            sed '1s/^# /### /' translation-coverage-report.md
+          } > pr-body.md
+          # GitHub rejects PR bodies above 65,536 characters; keep a margin and
+          # cut on a UTF-8 boundary.
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path("pr-body.md")
+          data = path.read_bytes()
+          limit = 60_000
+          if len(data) > limit:
+              notice = "\n\n> 正文已截断；完整覆盖率报告见本次 Actions 运行的 job summary。\n".encode()
+              data = data[: limit - len(notice)].decode("utf-8", errors="ignore").encode() + notice
+              path.write_bytes(data)
+          PY
       - name: Commit pointers and open review pull request
         if: steps.sync.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
+        shell: bash
         run: |
           branch="automation/upstream-sync-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           git switch -c "$branch"
@@ -48,10 +101,12 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add ai-engineering-from-scratch maths-cs-ai-compendium
           git commit -m "chore(upstream): synchronize tracked submodules"
-          git push origin "HEAD:refs/heads/$branch"
+          auth="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          echo "::add-mask::$auth"
+          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $auth" push origin "HEAD:refs/heads/$branch"
           gh pr create \
             --base main \
             --head "$branch" \
             --title "chore(upstream): synchronize tracked submodules" \
-            --body "This PR updates only submodule pointers. Review and update every affected Chinese adaptation, assessment and theory link until the validation workflow passes before merging."
+            --body-file pr-body.md
           gh workflow run content-validation.yml --ref "$branch"
