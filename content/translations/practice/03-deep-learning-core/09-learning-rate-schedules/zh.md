@@ -165,7 +165,7 @@ graph TD
 lr-schedule
 ```
 
-## 构建实现
+## 动手构建
 
 ### 步骤 1：调度函数
 
@@ -367,7 +367,7 @@ def lr_sensitivity(data):
         print(f"  {lr:>10.4f} {start:>12.6f} {end_str:>12} {status:>15}")
 ```
 
-## 应用
+## 使用
 
 PyTorch 在 `torch.optim.lr_scheduler` 中提供调度器：
 
@@ -400,7 +400,7 @@ scheduler = get_cosine_schedule_with_warmup(
 
 HuggingFace 函数正是多数 Llama 与 GPT 微调脚本使用的方案。若不确定，使用预热 + 余弦，并将预热设为总步数的 3–5%；它几乎适用于所有任务。
 
-## 交付物
+## 交付
 
 本课产出：
 

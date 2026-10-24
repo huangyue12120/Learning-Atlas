@@ -3,14 +3,14 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/11-llm-observability-dashboard/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 714070c966540405863a30473ef1f3e6b93748ed6a374e221979f1f37de187b7
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 64a1aae880494a058bde615a36d8a77f6e3218c36400a9e202a038f4bdc7180e
   anchor:
     heading: Concept
     slug: concept
 card:
   title: LLM trace 的层级、指标与漂移
-  summary: 在把模型、工具、评测和告警连接为带语义约定的 span 树，并对提示嵌入计算 PSI/KL 漂移时，用 tracing 理论核对请求生命周期、层级关联和指标信号如何支持故障定位。
+  summary: 在把模型、工具、评测和告警连接为带语义约定的 span 树，并对提示词嵌入计算 PSI/KL 漂移时，用 tracing 理论核对请求生命周期、层级关联和指标信号如何支持故障定位。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

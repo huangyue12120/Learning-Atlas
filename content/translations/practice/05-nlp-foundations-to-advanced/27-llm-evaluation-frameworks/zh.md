@@ -65,7 +65,7 @@ status: reviewed
 n5-judge-gauge
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：使用 NLI 计算忠实度（RAGAS 风格）
 
@@ -187,7 +187,7 @@ def test_rag_system():
 - **标准数据集腐化。** 没有版本的评估集随时间漂移，会破坏纵向比较。每次变更都要给数据集打标签。
 - **LLM 成本。** 大规模运行时，评判调用会成为主要成本。应使用满足校准阈值的最便宜模型，如 GPT-4o-mini、Claude Haiku、Mistral-small。
 
-## 使用现成工具
+## 使用
 
 2026 年的技术栈：
 
@@ -202,7 +202,7 @@ def test_rag_system():
 
 典型技术栈用 RAGAS 监控、DeepEval 做 CI、G-Eval 评估新维度。三者都应运行，因为它们之间有价值的分歧可以暴露问题。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-eval-architect.md`：
 

@@ -64,7 +64,7 @@ Massive Text Embedding Benchmark 最初于 2022 年发布，覆盖 8 种任务�
 gx-matryoshka
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：基线，使用 Sentence-BERT 生成稠密嵌入 <!-- learning-atlas: step-1-baseline-dense-embeddings-with-sentence-bert -->
 
@@ -154,7 +154,7 @@ results = evaluation.run(encoder, output_folder="./mteb-results")
 - **上下文截断。** 多数模型会静默截断超过最大长度的输入。长文档需要分块，见第 23 课。
 - **忽略尾延迟。** MTEB 分数不会显示 p99 延迟。6 亿参数模型可能只高 2 分，每次查询的成本却是 3.35 亿参数模型的 3 倍。
 
-## 使用现成工具
+## 使用
 
 2026 年的技术栈：
 
@@ -170,7 +170,7 @@ results = evaluation.run(encoder, output_folder="./mteb-results")
 
 2026 年的模式是：先使用 BGE-M3 或 text-3-large，通过 MTEB 在你的领域上评估；若领域专用模型领先超过 3 点，再替换模型。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-embedding-picker.md`：
 

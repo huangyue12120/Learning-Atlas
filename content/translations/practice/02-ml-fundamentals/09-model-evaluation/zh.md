@@ -153,7 +153,7 @@ K 折的步骤：
 precision-recall-threshold
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：训练/验证/测试切分
 
@@ -636,7 +636,7 @@ if __name__ == "__main__":
     print(f"  (|t| > 2.78 for significance at p<0.05 with df=4)")
 ```
 
-## 在工具中使用
+## 使用
 
 scikit-learn 已将评估纳入工作流：
 
@@ -654,7 +654,7 @@ scores = cross_val_score(model, X, y, cv=StratifiedKFold(5), scoring="f1")
 
 从零版本展示交叉验证真正做了什么（只是循环和索引追踪）、每项指标如何计算（统计 TP/FP/TN/FN），以及分层为何重要（各折保持类别比例）。库版本增加并行、更多评分选项及与流水线的集成。
 
-## 产出
+## 交付
 
 本课最终产出：
 

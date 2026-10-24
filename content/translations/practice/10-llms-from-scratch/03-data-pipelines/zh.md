@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置要求：** 第 10 阶段，第 01–02 课（分词器、构建分词器）
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -401,7 +401,7 @@ def compute_statistics(documents, token_ids, sequences, tokenizer_vocab_size):
 
 序列利用率反映打包序列中真实数据与填充数据的比例。低于 90% 意味着打包效率不高——你正在把计算资源浪费在填充词元上。
 
-## 使用它
+## 使用
 
 ### 与 HuggingFace 数据集比较
 

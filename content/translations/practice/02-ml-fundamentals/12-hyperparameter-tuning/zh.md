@@ -71,13 +71,13 @@ Grid for 2 hyperparameters:
 
 ```mermaid
 flowchart LR
-    subgraph Grid Search
+    subgraph 网格搜索
         G1[3 个不同学习率]
         G2[3 个不同最大深度]
         G3[共 9 次评估]
     end
 
-    subgraph Random Search
+    subgraph 随机搜索
         R1[9 个不同学习率]
         R2[9 个不同最大深度]
         R3[共 9 次评估]
@@ -264,7 +264,7 @@ print(f"Nested CV MSE: {-outer_scores.mean():.4f} +/- {outer_scores.std():.4f}")
 k-fold-cv
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从零实现网格搜索
 
@@ -433,7 +433,7 @@ print(f"{'Bayesian Opt':<20} {bayes_score:>12.4f} {len(bayes_history):>12}")
 
 在相同预算下，贝叶斯优化通常最快找到最佳分数，因为它不在明显差的区域浪费评估；随机搜索覆盖范围比网格广；仅当超参数极少且能穷举时网格搜索才会胜出。
 
-## 使用现成工具
+## 使用
 
 ### 实践中的 Optuna
 
@@ -554,7 +554,7 @@ print(f"Best CV MSE: {-search.best_score_:.4f}")
 4. 用 Optuna 在真实数据集（如 sklearn 乳腺癌数据集）上调 `RandomForestClassifier`，使用 `optuna.visualization.plot_param_importances(study)` 查看重要参数；是否符合本课排序？
 5. 实现简单采集函数（Expected Improvement），演示探索与利用；绘制代理模型均值与不确定性，并显示 EI 选择的下一个评估点。
 
-## 核心术语
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

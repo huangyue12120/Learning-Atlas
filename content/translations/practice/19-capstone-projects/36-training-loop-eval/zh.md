@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** 第 19 阶段课程 30–35
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -81,13 +81,24 @@ cap-training-loop
 
 ## 动手构建
 
-实现包含以下部件：make_batches(token_ids, batch_size, context_length) 把长 token tensor 切成输入—目标对；calc_loss_batch(model, inputs, targets) 完成前向、展平并返回标量交叉熵；evaluate_model(model, val_loader, max_batches) 不计算梯度地遍历固定数量验证 batch 并返回平均损失；generate_and_print_sample(model, prompt, max_new_tokens) 在固定提示词上调用第 35 课生成函数并打印结果；build_param_groups(model, weight_decay) 生成 AdamW 的两组参数；cosine_with_warmup(step, warmup_steps, total_steps, max_lr, min_lr) 返回某一步的学习率；train(...) 运行循环、持久化 outputs/losses.jsonl，并每 eval_every 步打印评估损失和样例。演示会在合成数据上用少量步骤训练小模型，在 CPU 上远低于一分钟完成。
+`code/main.py` 实现：
 
-`code/main.py` 实现批次切片、损失计算、评估、采样、AdamW 两组参数、预热余弦学习率和训练函数，并将 `outputs/losses.jsonl` 写入磁盘。运行：
+- `make_batches(token_ids, batch_size, context_length)`：把长词元张量切成输入—目标对。
+- `calc_loss_batch(model, inputs, targets)`：完成前向、展平并返回标量交叉熵。
+- `evaluate_model(model, val_loader, max_batches)`：不计算梯度地遍历固定数量的验证批次，返回平均损失。
+- `generate_and_print_sample(model, prompt, max_new_tokens)`：在固定提示词上调用第 35 课的生成函数并打印结果。
+- `build_param_groups(model, weight_decay)`：生成 AdamW 的两组参数列表。
+- `cosine_with_warmup(step, warmup_steps, total_steps, max_lr, min_lr)`：返回给定步的学习率。
+- `train(...)`：运行循环，持久化 `outputs/losses.jsonl`，并每 `eval_every` 步打印评估损失和一个样例。
+- 一个演示：在合成数据上用少量步骤训练小模型，写入 JSONL 日志，并在探测点打印评估损失和样例。演示在 CPU 上远低于一分钟即可完成。
+
+运行：
 
 ```bash
 python3 code/main.py
 ```
+
+输出：每步损失行、每个探测步的评估损失、每个探测步生成的样例，以及最终的 `outputs/losses.jsonl`，可按行用 `json.loads` 加载。
 
 ## 技术栈
 
@@ -96,7 +107,7 @@ python3 code/main.py
 
 ## 生产环境中的模式
 
-异常 batch 可能来自异常数据、学习率尖峰或数值边界情况，并产生足以抹掉数小时训练的巨大梯度；因此在 backward 后、step 前使用梯度范数裁剪，默认上限 1.0。逐步 loss 记录写成 JSONL 后，即使崩溃也留下可读、可 grep、可绘图的产物，还能从最后一步恢复；pickle 状态则绑定生成文件时的精确模块布局，跨重构很脆弱。验证 token 也应在脚本开始时切成固定 batch，而不是每次临时抽取，否则不同运行的评估损失同时反映批次随机性。
+异常 batch 可能来自异常数据、学习率尖峰或数值边界情况，并产生足以抹掉数小时训练的巨大梯度；因此在 backward 后、step 前使用梯度范数裁剪，默认上限 1.0。逐步 loss 记录写成 JSONL 后，即使崩溃也留下可读、可 grep、可绘图的产物，还能从最后一步恢复；pickle 状态则绑定生成文件时的精确模块布局，跨重构很脆弱。验证词元也应在脚本开始时切成固定 batch，而不是每次临时抽取，否则不同运行的评估损失同时反映批次随机性。
 
 **梯度范数裁剪不可省略。** 在 `backward` 后、`step` 前使用 `torch.nn.utils.clip_grad_norm_(params, max_norm=1.0)`，避免异常批次摧毁训练。
 
@@ -104,7 +115,7 @@ python3 code/main.py
 
 **评估批次来自固定切片。** 脚本开始时一次性切出验证批次，保证不同运行比较的是模型而不是批次随机性。
 
-## 使用它
+## 使用
 
 - 该循环可直接训练真实数据上的 124M 模型。
 - JSONL 日志将训练运行变成可检查的证据。

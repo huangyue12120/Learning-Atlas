@@ -277,7 +277,7 @@ flowchart TD
 f3-pipeline-flow
 ```
 
-## 动手实现
+## 动手构建
 
 `code/pipeline.py` 从零构建完整 ML 管道：
 
@@ -333,7 +333,7 @@ class PipelineFromScratch:
 
 完整管道包含 `ColumnTransformer`、多条预处理路径和模型；它在正确交叉验证与实验日志下训练。
 
-## 交付成果
+## 交付
 
 本课产出：
 
@@ -348,7 +348,7 @@ class PipelineFromScratch:
 4. 向管道添加一个自定义转换器，为两个最重要数值列创建二次多项式特征；它应在管道的何处？
 5. 为管道设置 MLflow 追踪，以不同超参数运行 5 次实验，用 MLflow UI（`mlflow ui`）比较并选择最佳模型。
 
-## 核心术语
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

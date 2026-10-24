@@ -209,7 +209,7 @@ Little 定律连接前两个数字：进行中的请求数等于吞吐量乘以�
 mlprod-serving-cost
 ```
 
-## 动手实现
+## 动手构建
 
 
 `code/main.py` 只使用标准库，包含三个工具：服务成本模型、基线比较器和设计文档检查器。
@@ -355,7 +355,7 @@ feed ranking, 2-hour freshness
 python3 code/main.py my_design_doc.json
 ```
 
-## 实际使用
+## 使用
 
 
 工具包的每个部分都对应团队在生产环境中使用的工具。

@@ -44,7 +44,7 @@ status: reviewed
 lstm-gates
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：编码器
 
@@ -148,7 +148,7 @@ seq_len=40  copy accuracy: 23%
 
 单个 GRU 隐藏状态无法无损记住 40 词元输入。每个编码步骤都保存了信息，解码器却只能看到最后状态。注意力直接修复了这个问题。
 
-## 使用现成工具
+## 使用
 
 PyTorch 提供 `nn.Transformer` 和基于 `nn.LSTM` 的 seq2seq 模板。Hugging Face 的 `transformers` 库提供在数十亿词元上训练的完整编码器与解码器模型，包括 BART、T5、mBART 和 NLLB。
 
@@ -181,7 +181,7 @@ print(tok.decode(out[0], skip_special_tokens=True))
 
 三种方法也都适用于基于 Transformer 的生成。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/prompt-seq2seq-design.md`：
 

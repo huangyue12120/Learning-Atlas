@@ -19,7 +19,7 @@
         "仅 decode 前向计算时间"
       ],
       "correct": 1,
-      "explanation": "正确答案是“队列时间、网络请求时间和 prefill 时间”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：TTFT = 排队时间 + 网络请求时间 + prefill 时间，长提示词时由 prefill 主导。它不由权重磁盘 I/O、tokenizer GIL 或仅 decode 前向决定。"
     },
     {
       "id": "q2",
@@ -32,7 +32,7 @@
         "GPU 占空比"
       ],
       "correct": 0,
-      "explanation": "正确答案是“Goodput：同时满足所有 SLO 约束的请求比例”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：goodput——同时满足所有 SLO 约束的请求比例——才是真正对产品重要的指标；高吞吐、低 goodput 意味着词元无法按时送达用户。汇总吞吐、平均 ITL、GPU 占空比都不能回答“用户是否达标”。"
     },
     {
       "id": "q3",
@@ -45,7 +45,7 @@
         "GenAI-Perf 不支持平均值"
       ],
       "correct": 0,
-      "explanation": "正确答案是“LLM 延迟分布通常右偏，用户会遇到被平均值掩盖的 P99 长尾”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：LLM 延迟分布右偏，用户会遇到被平均值掩盖的 P99 长尾，所以要报 P50/P90/P99 而非平均。流式仍可求平均，平均并非只适用于 prefill，也不是工具不支持。"
     },
     {
       "id": "q4",
@@ -58,7 +58,7 @@
         "GenAI-Perf 将 TTFT 排除在 ITL 计算之外，而 LLMPerf 将其计入，因此工具选择会改变数值"
       ],
       "correct": 3,
-      "explanation": "正确答案是“GenAI-Perf 将 TTFT 排除在 ITL 计算之外，而 LLMPerf 将其计入，因此工具选择会改变数值”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：GenAI-Perf 把 TTFT 排除在 ITL 计算外、LLMPerf 计入，所以同一轮运行两者 TPOT 不同。不是采样不同请求、不限 Blackwell，也不是单位差异。"
     },
     {
       "id": "q5",
@@ -71,7 +71,7 @@
         "冷启动时间"
       ],
       "correct": 1,
-      "explanation": "正确答案是“TPOT × 输出长度”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：对超过 500 词元的长输出，E2E≈TTFT+TPOT×输出长度，由 TPOT×输出长度主导。网络、TTFT、冷启动都不是长输出的主导项。"
     },
     {
       "id": "q6",
@@ -84,7 +84,7 @@
         "平均 TTFT 10 ms、平均 TPOT 1 ms"
       ],
       "correct": 1,
-      "explanation": "正确答案是“TTFT P99 800 ms、TPOT P99 25 ms、少于 300 token 输出的 E2E P99 3 s，goodput ≥ 99%”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：课程给面向用户的 70B 聊天 SLO 是 TTFT P99 800 ms、TPOT P99 25 ms、<300 词元输出 E2E P99 3 s、goodput ≥ 99%。只看 P50、放宽到 8 s/200 ms/50%，或平均 10 ms/1 ms 都不符合建议。"
     }
   ]
 }

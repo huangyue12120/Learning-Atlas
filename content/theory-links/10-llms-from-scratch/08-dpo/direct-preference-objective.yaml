@@ -17,7 +17,7 @@ card:
     - "DPO margin 由当前策略的 chosen−rejected log probability 差，再减去参考策略的对应差得到。"
     - "冻结 π_ref 提供 KL 正则化推导中的基准，训练只更新 π_θ，无需单独拟合标量奖励或运行 PPO。"
     - "β 缩放进入 sigmoid 的偏好 margin，控制直接偏好更新与参考约束之间的有效强度。"
-  application: "对同一批样本显式打印四个序列 log probability、margin 与 loss，交换 chosen/rejected 验证方向，并确保只累计响应 token。"
+  application: "对同一批样本显式打印四个序列 log probability、margin 与 loss，交换 chosen/rejected 验证方向，并确保只累计响应词元。"
   check_question: "训练开始时若当前模型与参考模型完全相同，每个偏好对的 DPO margin 和单样本损失分别是多少？"
 theory:
   repository: maths-cs-ai-compendium

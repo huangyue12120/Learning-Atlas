@@ -63,7 +63,7 @@ status: reviewed
 ctc-collapse
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：CTC 贪心解码
 
@@ -145,7 +145,7 @@ for chunk in streaming_audio():
 
 流式 ASR 需要分块编码器注意力和跨块状态；应使用提供支持的库（Parakeet 使用 NeMo，`transformers` 流水线使用 `chunk_length_s`）。
 
-## 用于实践
+## 使用
 
 2026 年的技术栈：
 
@@ -165,7 +165,7 @@ for chunk in streaming_audio():
 - **语言识别漂移。** Whisper 自动 LID 可能把嘈杂音频错误路由到日语或威尔士语；确定语言时，应强制设置 `language="en"`。
 - **长音频不分块。** Whisper 的窗口为 30 秒。对更长音频使用 `chunk_length_s=30, stride=5`。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-asr-picker.md`。针对给定部署目标选择模型、解码策略、分块方式与 LM 融合。
 

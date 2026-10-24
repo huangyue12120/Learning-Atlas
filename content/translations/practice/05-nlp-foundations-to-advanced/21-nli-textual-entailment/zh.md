@@ -61,7 +61,7 @@ status: reviewed
 nli-router
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：运行预训练 NLI 模型
 
@@ -123,7 +123,7 @@ def is_faithful(answer, context, threshold=0.5):
 - **零样本模板敏感性。** “This example is about {label}”“{label}”与“The topic is {label}”之间的差异可能让准确率波动 10 点以上，需要调优模板。
 - **领域不匹配。** MNLI 使用通用英语训练。法律、医学和科学文本需要领域专用 NLI 模型，如 SciNLI、MedNLI。
 
-## 使用现成工具
+## 使用
 
 2026 年的技术栈：
 
@@ -138,7 +138,7 @@ def is_faithful(answer, context, threshold=0.5):
 
 2026 年的元模式是：NLI 是文本理解的通用胶带。只要需要判断“A 是否支持 B？”或“A 是否与 B 矛盾？”，先尝试 NLI，再考虑额外调用一次 LLM。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-nli-picker.md`：
 

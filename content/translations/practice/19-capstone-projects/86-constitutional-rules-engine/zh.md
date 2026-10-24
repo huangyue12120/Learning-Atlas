@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/86-constitutional-rules-engine/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: f2445e8b46905733f897cdc3fc97681e315a49619a63cb3537db1135006fa632
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: ff288e9321ff8a5436b74084a529e5ff0d8be5ceb82a76d7efc435fc1b0203d6
 status: reviewed
 ---
 
@@ -16,13 +16,13 @@ status: reviewed
 **类型：** 构建
 **语言：** Python、YAML
 **前置课程：** Phase 18 安全课程、Phase 19 Track A 第 25–29 课
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 问题
 
 分类器覆盖可识别的失败，规则引擎覆盖契约性约束。编程助手团队可能需要“每个包含代码的响应都必须以可运行代码块或明确假设结尾”；客服机器人团队可能需要“每次拒答都必须提供下一步”。这些约束并不是自然的分类器目标，而是作用于响应、对话和系统策略的谓词，并且需要让非工程师也能读懂。
 
-诚实的表示方式是声明式文件。宪法与代码并列存放在 YAML 中，纳入版本控制，并采用独立的评审流程。每条规则都有 `name`、`predicate`、`severity` 和 `explanation` 模板。引擎加载文件，针对候选输出评估每条规则，并为每条触发的规则返回结构化 `Violation`。本综合项目中的规则引擎通过 `all_of`、`any_of` 和 `not_` 组合谓词，因此一条规则就能表达“如果响应包含代码，则必须以可运行代码块结尾，并且不能引用仅内部可用的库”。
+诚实的表示方式是声明式文件。宪法与代码并列存放在 YAML 中，纳入版本控制，并采用独立的评审流程。每条规则都有 `name`、`severity`、`explanation` 模板，以及拆成两个字段的谓词：`applies_when` 决定规则是否适用，`must` 是响应必须满足的条件。引擎加载文件，针对候选输出评估每条规则，并为每条触发的规则返回结构化 `Violation`。本综合项目中的规则引擎通过 `all_of`、`any_of` 和 `not_` 组合谓词，因此一条规则就能表达“如果响应包含代码，则必须以可运行代码块结尾，并且不能引用仅内部可用的库”。
 
 本课的另一半是修订。只会拦截的规则引擎只完成了一半；能提出修复方案的规则引擎才有实际运维价值：助手起草响应，引擎标记违规，修复器生成修订版，引擎再确认修订满足规则。本课提供一个最小修复器（按规则逐条进行正则替换），以及起草版与修订版之间的结构化差异（逐行增加、删除和编辑）。
 
@@ -66,7 +66,7 @@ flowchart LR
 cd-constitution-loop
 ```
 
-## 实现
+## 动手构建
 
 `code/rules.yml` 保存宪法。`code/main.py` 中的加载器在 PyYAML 可用时接受 YAML 文件，否则接受内置支持的 JSON 文件。本课提供的 `rules.yml` 会由两条代码路径解析测试。`code/main.py` 定义 `Engine` 和 `Fixer` 类以及 `diff` 函数。组合谓词会递归求值，并在 `any_of` 上短路。
 

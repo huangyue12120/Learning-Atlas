@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/07-semantic-segmentation-unet/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 90b6b1405dfb64fb5a0cdbd7fb6949bd5f6118c2a46a3d0262f595cf6afe2aaf
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 81af3735be0f9a8b904f3008084e52a18a6eea157197acfc87e592553da5f194
 status: reviewed
 ---
 
@@ -140,7 +140,7 @@ L = L_{\text{cross\_entropy}} + \lambda \cdot L_{\text{dice}} \qquad (\lambda \a
 
 ### 输入分辨率权衡
 
-U-Net 编码器四次减半，输入须能被 16 整除。医学图像常为 512x512 或 1024x1024，自动驾驶裁剪为 2048x1024。U-Net 内存成本随 `H * W * C_max` 增长，在 1024x1024、1024 瓶颈通道时一次前向已需数 GB 显存。
+U-Net 编码器四次减半，因此只有当输入能被 16 整除时，跳跃连接才会精确对齐。其他尺寸需要填充或在上采样块中做缩放（步骤 2）。医学图像常为 512x512 或 1024x1024，自动驾驶裁剪为 2048x1024。U-Net 内存成本随 `H * W * C_max` 增长，在 1024x1024、1024 瓶颈通道时一次前向已需数 GB 显存。
 
 两种标准变通方法：
 
@@ -153,7 +153,7 @@ U-Net 编码器四次减半，输入须能被 16 整除。医学图像常为 512
 segmentation-flood
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：编码器模块
 
@@ -361,7 +361,7 @@ def train_one_epoch(model, loader, optimizer, device, num_classes):
 
 在合成数据上运行 10–30 个 epoch，观察形状类别的 mIoU 超过 0.9。注意 `nan_to_num(0)` 将批次中缺失类别视为零；为准确逐类别 IoU，应在评估时按是否出现做掩码，并跨批次用 `torch.nanmean`，而非在此平均。
 
-## 使用现成工具
+## 使用
 
 生产中，`segmentation_models_pytorch`（“smp”）以任意 torchvision 或 timm 骨干封装所有标准分割架构，三行即可：
 
@@ -384,7 +384,7 @@ model = smp.Unet(
 
 三者都可在 `smp` 或 `transformers` 中以相同 data loader 直接替换。
 
-## 交付产物
+## 交付
 
 本课产出：
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/26-relation-extraction-kg/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: ef4e0adc778d183654f229858959b646052a784980c3aaff2e323634b2ca067e
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 87c898770746ac3959528e59fa544aaaf10626c7f7e5393a8b2c416cbc84b471
 status: reviewed
 ---
 
@@ -63,7 +63,7 @@ status: reviewed
 relation-triples
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：基于模式抽取
 
@@ -78,21 +78,21 @@ PATTERNS = [
 
 完整玩具抽取器见 `code/main.py`。Hearst 模式至今仍用于领域专用流水线，因为它容易调试。
 
-### 步骤 2：监督关系分类
+### 步骤 2：监督式 seq2seq 关系抽取
 
 ```python
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 tok = AutoTokenizer.from_pretrained("Babelscape/rebel-large")
-model = AutoModelForSequenceClassification.from_pretrained("Babelscape/rebel-large")
+model = AutoModelForSeq2SeqLM.from_pretrained("Babelscape/rebel-large")
 
 text = "Tim Cook was born in Alabama. He later became CEO of Apple."
 encoded = tok(text, return_tensors="pt", truncation=True)
 output = model.generate(**encoded, max_length=200)
-triples = tok.batch_decode(output, skip_special_tokens=False)
+decoded = tok.batch_decode(output, skip_special_tokens=False)
 ```
 
-REBEL 是 seq2seq 关系抽取器：输入文本，输出已经采用 Wikidata 属性 ID 的三元组。它在远程监督数据上微调，是开放权重的标准基线。
+REBEL 是基于 BART 的 seq2seq 关系抽取器：它生成三元组，而不是对实体对做分类。输入文本，输出三元组，关系名称取自 Wikidata 属性。解码后的字符串仍带有 REBEL 的 `<triplet>`、`<subj>` 和 `<obj>` 标记，因此需要按这些标记切分（和模型卡中的解析器一样）以得到 `(subject, relation, object)` 记录。它在远程监督数据上微调，是开放权重的标准基线。
 
 ### 步骤 3：通过锚定提示 LLM 抽取
 
@@ -160,7 +160,7 @@ print(neighbors("Tim Cook", relation="P108"))    # -> [(P108, Apple)]
 - **时间错误。** “Tim Cook is CEO of Apple”现在为真，2005 年却为假。许多关系都有时间范围，应使用限定符，例如 Wikidata 中的 `P580` 开始时间和 `P582` 结束时间。
 - **领域不匹配。** REBEL 在 Wikipedia 上训练，法律、医学和科学文本往往需要领域微调的关系抽取模型。
 
-## 使用现成工具
+## 使用
 
 2026 年的技术栈：
 
@@ -175,7 +175,7 @@ print(neighbors("Tim Cook", relation="P108"))    # -> [(P108, Apple)]
 
 集成模式是：NER → 共指消解 → 实体链接 → 关系抽取 → 本体映射 → 图谱加载。每个阶段都可能成为质量门槛。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-re-designer.md`：
 

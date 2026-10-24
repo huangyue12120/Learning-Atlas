@@ -72,7 +72,7 @@ status: reviewed
 sp-voice-factorize
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：通过识别—合成分解（`main.py` 中的纯代码演示）
 
@@ -133,7 +133,7 @@ def cloned_inference(text, ref_audio, consent_record):
     return wav
 ```
 
-## 用于实践
+## 使用
 
 2026 年的技术栈：
 
@@ -154,7 +154,7 @@ def cloned_inference(text, ref_audio, consent_record):
 - **语言泄漏。** 克隆英语说话人后让模型说法语，通常仍会带英语口音；应使用跨语言模型（XTTS、VALL-E X）。
 - **没有水印。** 自 2026 年 8 月起，在欧盟无法合法交付。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-voice-cloner.md`。设计包含同意门控、水印和质量目标的克隆或转换流水线。
 

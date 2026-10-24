@@ -51,7 +51,7 @@ one-hot(center) ── W ──▶ hidden (d-dim) ── W' ──▶ softmax(vo
 word-vector-arithmetic
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从语料生成训练词对
 
@@ -182,7 +182,7 @@ def analogy(vocab, W, a, b, c, topk=5):
 
 `king - man + woman = queen`。模型并不懂王室概念，而是向量 `(king - man)` 捕捉到了某种类似“王室”的方向，把它加到 `woman` 上后，结果落在女性王室成员所在区域附近。
 
-## 使用现成工具
+## 使用
 
 从零编写 Word2Vec 适合教学，生产 NLP 使用 `gensim`。
 
@@ -230,7 +230,7 @@ print(model.wv.most_similar("cat", topn=3))
 
 另一个问题是词表外词。若训练数据中没有 `Zoomer-approved`，Word2Vec 就没有回退方案。fastText 用子词组合解决了它，见第 04 课。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-embedding-probe.md`：
 

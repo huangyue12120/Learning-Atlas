@@ -112,7 +112,14 @@ stdio 仍有三条重要规则：
 
 `tools/call` 返回内容块和 `isError`。协议信封或方法参数无效时使用 JSON-RPC 错误；有效调用执行后工具自身失败时，返回 `isError: true`。
 
-工具注解仍是提示而非强制机制：`readOnlyHint`、`destructiveHint`、`idempotentHint`、`openWorldHint`。host 可用它们做确认和展示，但服务器仍必须执行真正的授权。
+工具注解仍是提示而非强制机制：
+
+- `readOnlyHint`
+- `destructiveHint`
+- `idempotentHint`
+- `openWorldHint`
+
+host 可用它们做确认和展示，但服务器仍必须执行真正的授权。
 
 ### 资源
 

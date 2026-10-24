@@ -11,12 +11,12 @@ status: reviewed
 
 # 解耦的 Prefill/Decode：NVIDIA Dynamo 与 llm-d
 
-> Prefill 受计算约束，decode 受内存约束。在同一 GPU 上运行两者，会浪费其中一种资源。解耦将它们拆分到独立的池，并通过 NIXL（RDMA/InfiniBand 或 TCP 回退）在它们之间传输 KV 缓存。NVIDIA Dynamo（2025 年 GTC 发布，1.0 GA）位于 vLLM/SGLang/TRT-LLM 之上——其 Planner Profiler + SLA Planner 自动匹配 prefill:decode 比例来满足 SLO。NVIDIA 发布了这一量级的吞吐量增益——developer.nvidia.com（2025-06）显示，在中延迟区间，GB200 NVL72 + Dynamo 上的 DeepSeek-R1 MoE 约提升 6 倍；Dynamo 产品页（developer.nvidia.com，未标日期）宣称 GB300 NVL72 + Dynamo 相比 Hopper 的 MoE 吞吐量最高可提升 50 倍。“30x”数字是完整 Blackwell + Dynamo + DeepSeek-R1 报告的社区汇总；我们未找到一份主要来源精确陈述 30x，因此应将其视为方向性主张。llm-d（Red Hat + AWS）原生面向 Kubernetes：prefill / decode / router 作为独立 Service，并分别使用 HPA。llm-d 0.5 新增分层 KV 卸载、缓存感知 LoRA 路由、UCCL 网络和 scale-to-zero。经济性方面：多份客户披露的内部汇总表明，在固定 SLA 下，从共置服务改为采用 Dynamo 解耦的 $2M 级推理支出可节省 30–40%（即 $600–800K/year）；具体的 $2M→$600–800K 数字是内部复合结果，并非单一公开案例研究——应作为数量级锚点，而非参考引文。短提示词（<512 token、短输出）无法证明传输成本合理。
+> Prefill 受计算约束，decode 受内存约束。在同一 GPU 上运行两者，会浪费其中一种资源。解耦将它们拆分到独立的池，并通过 NIXL（RDMA/InfiniBand 或 TCP 回退）在它们之间传输 KV 缓存。NVIDIA Dynamo（2025 年 GTC 发布，1.0 GA）位于 vLLM/SGLang/TRT-LLM 之上——其 Planner Profiler + SLA Planner 自动匹配 prefill:decode 比例来满足 SLO。NVIDIA 发布了这一量级的吞吐量增益——developer.nvidia.com（2025-06）显示，在中延迟区间，GB200 NVL72 + Dynamo 上的 DeepSeek-R1 MoE 约提升 6 倍；Dynamo 产品页（developer.nvidia.com，未标日期）宣称 GB300 NVL72 + Dynamo 相比 Hopper 的 MoE 吞吐量最高可提升 50 倍。“30x”数字是完整 Blackwell + Dynamo + DeepSeek-R1 报告的社区汇总；我们未找到一份主要来源精确陈述 30x，因此应将其视为方向性主张。llm-d（Red Hat + AWS）原生面向 Kubernetes：prefill / decode / router 作为独立 Service，并分别使用 HPA。llm-d 0.5 新增分层 KV 卸载、缓存感知 LoRA 路由、UCCL 网络和 scale-to-zero。经济性方面：多份客户披露的内部汇总表明，在固定 SLA 下，从共置服务改为采用 Dynamo 解耦的 $2M 级推理支出可节省 30–40%（即 $600–800K/year）；具体的 $2M→$600–800K 数字是内部复合结果，并非单一公开案例研究——应作为数量级锚点，而非参考引文。短提示词（<512 词元、短输出）无法证明传输成本合理。
 
 **类型：** 学习
 **语言：** Python（标准库，用于模拟解耦与共置服务的玩具程序）
 **前置要求：** 第 17 阶段 · 04（服务引擎内部机制），第 17 阶段 · 08（推理指标）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -37,9 +37,9 @@ status: reviewed
 
 ### 为什么瓶颈不同 <!-- learning-atlas: why-the-bottlenecks-differ -->
 
-**Prefill**——在一次前向传播中让 Transformer 运行完整输入提示词。矩阵乘法占主导，受计算约束。H100 FP8 提供约 2000 TFLOPS 的有效吞吐量。批处理效率很高——一次前向传播可处理许多 token。
+**Prefill**——在一次前向传播中让 Transformer 运行完整输入提示词。矩阵乘法占主导，受计算约束。H100 FP8 提供约 2000 TFLOPS 的有效吞吐量。批处理效率很高——一次前向传播可处理许多词元。
 
-**Decode**——一次生成一个 token，每次迭代都读取完整权重，受内存带宽约束。HBM3 提供约 3 TB/s。只有在高并发下批处理效率才高——权重读取可在批次间摊销。
+**Decode**——一次生成一个词元，每次迭代都读取完整权重，受内存带宽约束。HBM3 提供约 3 TB/s。只有在高并发下批处理效率才高——权重读取可在批次间摊销。
 
 共置二者意味着：购买针对两种目标都优化的 GPU。H100 两者都很擅长，但无论用于哪一种成本相同。大规模时，希望让 prefill 池采用 H100 / 计算密集型，decode 池采用 H200 / 内存密集型，或采用激进量化。
 
@@ -60,7 +60,7 @@ status: reviewed
                                                  客户端
 ```
 
-NIXL 是 NVIDIA 的跨节点传输机制。在可用时使用 RDMA/InfiniBand，否则 TCP 回退。传输延迟不可忽略：对于 70B FP8 的 4K-token 提示词 KV 缓存，通常为 20–80 ms。因此，短提示词不值得解耦，因为传输税会超过节省。
+NIXL 是 NVIDIA 的跨节点传输机制。在可用时使用 RDMA/InfiniBand，否则 TCP 回退。传输延迟不可忽略：对于 70B FP8 的 4K-词元提示词 KV 缓存，通常为 20–80 ms。因此，短提示词不值得解耦，因为传输税会超过节省。
 
 ### Dynamo 与 llm-d
 
@@ -91,11 +91,11 @@ NIXL 是 NVIDIA 的跨节点传输机制。在可用时使用 RDMA/InfiniBand，
 - 报告节省：$600K–$800K/year（降低 30–40%）。
 - 无新增硬件。
 
-这个数字来自多份客户披露的综合，而非一份可引用的案例研究；最接近的公开数据点是 Baseten 使用 Dynamo KV 路由后 TTFT 快 2 倍 / 吞吐量高 61%（baseten.co，2025-10），以及 VAST + CoreWeave 对 KV 命中率为 40–60% 时每美元 token 多出 60–130% 的预测（vastdata.com，2025-12）。节省来自为各池正确设定规模；prefill 密集型工作负载（具有 8K+ 前缀的 RAG）比均衡负载获益更多。
+这个数字来自多份客户披露的综合，而非一份可引用的案例研究；最接近的公开数据点是 Baseten 使用 Dynamo KV 路由后 TTFT 快 2 倍 / 吞吐量高 61%（baseten.co，2025-10），以及 VAST + CoreWeave 对 KV 命中率为 40–60% 时每美元词元多出 60–130% 的预测（vastdata.com，2025-12）。节省来自为各池正确设定规模；prefill 密集型工作负载（具有 8K+ 前缀的 RAG）比均衡负载获益更多。
 
 ### 何时不应解耦
 
-- 提示词 < 512 token 且输出 < 200 token：传输税主导收益。
+- 提示词 < 512 词元且输出 < 200 词元：传输税主导收益。
 - 小集群（< 4 GPU）：没有足够的池多样性。
 - 团队无法运维两个带按角色扩缩容的 GPU 池：Dynamo 有帮助，但并非轻而易举。
 - 没有 RDMA fabric：TCP 传输税更重。
@@ -115,7 +115,7 @@ GB300 NVL72 + Dynamo 相对 Hopper 基线显示 50 倍 MoE 吞吐量。MoE 专�
 - GB200 NVL72 + Dynamo 上的 DeepSeek-R1：中延迟区间相对基线约 6 倍吞吐量（developer.nvidia.com，2025-06）；完整 Blackwell + Dynamo 栈的社区“最高 30 倍”主张是没有单一主要来源的方向性汇总。
 - GB300 NVL72 + Dynamo：相对 Hopper 的 MoE 吞吐量最高 50 倍（developer.nvidia.com，未标日期）。
 - 节省锚点（内部复合数据，不是单一案例研究）：在恒定 SLA 下，每年 $2M 支出减少 $600–800K/year。
-- 解耦阈值：提示词 >512 token + 输出 >200 token。
+- 解耦阈值：提示词 >512 词元 + 输出 >200 词元。
 - 通过 NIXL 的 KV 传输：70B FP8 上 4K 提示词 KV 为 20–80 ms。
 
 ```figure
@@ -136,7 +136,7 @@ prefill-decode-split
 2. 为一个 RAG 服务设计 prefill 池和 decode 池：其 P99 前缀长度为 8K，输出为 300。
 3. Dynamo 对比 llm-d：对于不偏好 Python 运行时的纯 Kubernetes 团队，选择一个。
 4. 计算 KV 传输成本：70B FP8 上 4K prefill = 约 500 MB KV。在 RDMA 100 GB/s 下，传输 = 5 ms；在 TCP 10 GB/s 下 = 50 ms。哪一个对你的 SLA 有影响？
-5. MoE 专家路由改变 KV 访问模式。解耦面对每 token 激活不同专家的 MoE 时表现如何？
+5. MoE 专家路由改变 KV 访问模式。解耦面对每词元激活不同专家的 MoE 时表现如何？
 
 ## 关键术语
 
@@ -150,7 +150,7 @@ prefill-decode-split
 | SLA Planner | “Dynamo 策略” | 自动匹配 prefill:decode 以满足 SLO |
 | `packDomain: rack` | “llm-d 拓扑” | 将 prefill+decode 部署在同机架，以快速传输 KV |
 | UCCL | “统一集合通信” | llm-d 0.5 面向 scale-to-zero 的网络层 |
-| MoE 专家路由 | “每 token 一个专家” | DeepSeek-V3 模式；解耦有帮助 |
+| MoE 专家路由 | “每词元一个专家” | DeepSeek-V3 模式；解耦有帮助 |
 
 ## 延伸阅读
 

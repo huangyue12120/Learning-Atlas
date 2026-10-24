@@ -17,7 +17,7 @@ card:
     - "Constitutional AI 的 SFT 阶段用批评—修订结果制造训练目标。"
     - "RLAIF 阶段用反馈模型的偏好训练奖励模型，再以 PPO 优化策略。"
     - "替换标注者来源不等于消除了奖励偏差、Goodhart 或原则冲突。"
-  application: "改变原则列表或有害词替换，比较修订后的 token rate，再说明哪一部分是评价信号、哪一部分是策略更新。"
+  application: "改变原则列表或有害词替换，比较修订后的词元比率，再说明哪一部分是评价信号、哪一部分是策略更新。"
   check_question: "为什么 AI 生成的批评可以改变奖励信号，却不会在没有策略更新的情况下直接改变模型行为？"
 theory:
   repository: maths-cs-ai-compendium

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/03-realtime-voice-assistant/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: b35feb343a32c1aa45fe116afc86e243b139a741f3ab93347ce046b0b2d8a5d8
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: fc6011cf06c126d4b32ec75035294511699c452d4acc2350589810a881f3dd82
 status: reviewed
 ---
 
@@ -17,7 +17,7 @@ status: reviewed
 **语言：** Python（智能体 + 流水线）、TypeScript（Web 客户端）
 **前置课程：** 第 6 阶段（语音与音频）、第 7 阶段（Transformer）、第 11 阶段（LLM 工程）、第 13 阶段（工具）、第 14 阶段（智能体）、第 17 阶段（基础设施）
 **涉及阶段：** P6 · P7 · P11 · P13 · P14 · P17
-**用时：** 30 小时
+**预计时间：** 30 小时
 
 ## 问题
 
@@ -104,15 +104,16 @@ ce-voice-latency
 
 9. **负载测试。** 使用模拟呼叫方在单台 g5.xlarge 上驱动 50 路并发通话。测量持续运行时首个音频输出的 p95。
 
-## 实际使用
+## 使用
 
 ```text
 caller: "what is the weather in tokyo tomorrow"
 [asr  ] partial @280ms: "what is the"
 [asr  ] partial @540ms: "what is the weather"
 [turn ] completion score 0.82 at @820ms; commit
-[llm  ] first token @960ms
-[tool ] weather.tokyo tomorrow -> 68/52 partly cloudy @1140ms
+[llm  ] tool call emitted @880ms
+[tool ] weather.tokyo tomorrow -> 68/52 partly cloudy @940ms
+[llm  ] first token @990ms
 [tts  ] first audio-out @1040ms: "Tokyo tomorrow will be partly cloudy..."
 turn latency: 1040ms user-stop -> audio-out
 ```

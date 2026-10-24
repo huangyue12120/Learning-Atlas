@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/21-keypoint-pose/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 59a0be7092bc5de0ce61e27ff154859221edd9a323c65c7eadcb136bfc14cc85
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: ea6705b91e067902a07fc78a4769400aeb1f505876d53ae7ae443da672a40a57
 status: reviewed
 ---
 
@@ -71,7 +71,7 @@ flowchart LR
 
 ### 亚像素定位
 
-Argmax 给出整数坐标。为获得亚像素精度，可对 argmax 及其邻居拟合抛物线，或使用常见偏移方向：`(dx, dy) = 0.25 * (heatmap[y, x+1] - heatmap[y, x-1], ...)`。
+Argmax 给出整数坐标。为获得亚像素精度，可对 argmax 及其邻居拟合抛物线，或像代码那样用 `dx = 0.25 * (heatmap[y, x+1] - heatmap[y, x-1])` 把 argmax 朝取值更高的邻居偏移，`dy` 同理。
 
 ### 部分亲和场（PAF）
 
@@ -102,7 +102,7 @@ Argmax 给出整数坐标。为获得亚像素精度，可对 argmax 及其邻�
 cv3-pose-heatmap
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：高斯热图目标
 
@@ -202,14 +202,14 @@ for step in range(200):
     opt.zero_grad(); loss.backward(); opt.step()
 ```
 
-## 使用现成工具
+## 使用
 
 - **MediaPipe Pose**——Google 生产姿态估计器；提供 WebGL 和移动端运行时，延迟低于 10ms。
 - **MMPose**（OpenMMLab）——完整研究代码库；所有 SOTA 架构均有预训练权重。
 - **YOLOv8-pose**——单次前向中最快的实时多人姿态。
 - **transformers HumanDPT / PoseAnything**——更新的视觉语言方法，支持开放词汇姿态（任意对象、任意关键点集合）。
 
-## 交付产物
+## 交付
 
 本课产出：
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/65-hybrid-retrieval-bm25-dense/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 34e8d226d78d4fdd23d0f2924df3a1b19d606912bddbda1f7a98a646f07f5a45
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 96acb1ba997424618d21fbeecb658147a638a34c2da31b25a8146abcdaaeaa47
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 11 第 04、06 课；Phase 19 Track B 基础（第 20–29 课）；Phase 19 第 64 课
-**时间：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 - 从 Robertson–Sparck Jones 公式实现 BM25，加入字段权重、文档长度归一化以及可调的 k1、b。
@@ -49,7 +49,7 @@ flowchart LR
 
 BM25 对查询–文档对打分：对每个查询词求和，把逆文档频率因子乘以带长度归一化修正的饱和词频因子。它有两个旋钮。`k1` 控制词频饱和；发布建议的默认值是 1.5，没有基准测试不要改动。`b` 控制文档长度的影响；默认 0.75 表示长文档会受惩罚，但不是线性惩罚。
 
-IDF 使用平滑的 Robertson–Sparck Jones 定义：`log((N - df + 0.5) / (df + 0.5) + 1)`。对数内部的加一保证词项出现在超过一半语料时 IDF 仍为正，这对停用词很少的小语料尤其重要。
+IDF 使用平滑的 Robertson–Sparck Jones 定义：`log((N - df + 0.5) / (df + 0.5) + 1)`。对数内部的加一保证词项出现在超过一半语料时 IDF 仍为正。这对停用词很重要，因为它们出现在大多数文档中；在小语料中也很重要，因为一个常见词项就可能越过半数语料这条线。
 
 字段权重可以告诉 BM25：符号名中的匹配比正文中的匹配更重要。实现上是在索引阶段乘词项计数，而不是打分阶段再乘；这样数学公式不变，也不必为每个字段计算独立分数。
 
@@ -77,7 +77,7 @@ Vespa 与 Weaviate 文档中关于 RankFusion 与 RRF 的论证也是如此：�
 rrf-fusion
 ```
 
-## 构建
+## 动手构建
 
 `code/main.py` 实现：
 - `tokenize(text)`：快速正则分词器。
@@ -122,7 +122,7 @@ python3 code/main.py
 - 并行执行两种查询；融合只是对并集进行常数时间合并。
 - 持久化每条命中结果的模态，让下游重排器知道是哪种模态投票。
 
-## 发布
+## 交付
 
 第 66 课接收本课的融合前 k，并用交叉编码器重排。第 68 课用 precision、recall、MRR 和 nDCG 评估完整流程。本课的混合检索器是第 69 课端到端系统的第一阶段。
 

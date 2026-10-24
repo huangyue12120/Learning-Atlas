@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/15-indirect-prompt-injection/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: c45f346b585ff1881733b061f7e55d034eacaf23e912374d001ee27dac87df38
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 590fcb02b840d3542d3f4390022407b695d4aeba17db8be356f0a267fa4f5312
   anchor:
     heading: Three delivery vectors
     slug: three-delivery-vectors
@@ -15,7 +15,7 @@ card:
   intuition: "检索器像一条把外部文字搬进上下文的传送带；模型若把搬来的指令当成可信命令，就会把阅读内容升级为工具副作用。"
   key_points:
     - "IPI 的载荷来自检索结果、工具输出或文档工作流，而不是用户直接输入。"
-    - "来源标签和 trusted/untrusted 边界必须随上下文传播，不能只过滤用户提示。"
+    - "来源标签和 trusted/untrusted 边界必须随上下文传播，不能只过滤用户提示词。"
     - "由不可信内容触发的动作需要可信输入再次授权，尤其是读取私密数据或外传数据。"
   application: "运行攻击 trace，比较 naive agent 与加入 IFC ratification 的 agent，检查 tool call 和输出边界。"
   check_question: "为什么 RAG 检索本身不是执行权限，而是必须在工具调用前经过信任边界检查的输入？"

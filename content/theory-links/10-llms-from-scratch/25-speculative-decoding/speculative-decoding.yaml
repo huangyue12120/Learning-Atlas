@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/25-speculative-decoding/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: d51b4648a1ae71114397ce34c64a33f39a2db8bd7fd06e4333073ac3d20703cb
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 5d358dd85e5945899d91987d375d92beba77f4b38b05341c7b87934d5d0ccaa8
   anchor:
     heading: The Exactness Rule
     slug: the-exactness-rule
@@ -14,7 +14,7 @@ card:
   context: "本课把推测解码从线性候选扩展到树状候选和不同 draft 头；无论候选形状如何变化，精确性条件都必须先于吞吐量优化。"
   intuition: "draft 负责便宜地展开可能的未来，target 负责一次性验证树上的路径；每条路径只保留通过精确接受规则的前缀，其余质量由 target 重采样补回。"
   key_points:
-    - "验证阶段可以并行计算多个候选位置，但候选接受率决定一次 target 前向实际提交多少 token。"
+    - "验证阶段可以并行计算多个候选位置，但候选接受率决定一次 target 前向实际提交多少词元。"
     - "拒绝采样用 target 与 draft 概率的差异构造残差，避免把 draft 的偏好偷偷带入最终分布。"
     - "树注意力共享可复用的前缀状态，却需要为分支维护不同的 KV 路径并控制额外内存。"
     - "EAGLE、Medusa 等变体改变候选生成方式，仍应分别测量接受率、验证成本和端到端延迟。"

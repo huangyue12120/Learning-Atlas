@@ -10,7 +10,7 @@
 ## 动手练习
 
 1. 运行 `code/main.py`，配置 OpenAI → Anthropic → 自托管回退，估算 5% 供应商错误率下的命中率。
-2. 面对 TTFT P99 < 200 ms、基线 300 ms 的 SLA，筛选仍在延迟预算内的网关。
+2. 面对 TTFT P99 < 320 ms、模型本身 P99 实测 300 ms 的 SLA，筛选仍在延迟预算内的网关。
 3. 为医疗客户要求的自托管、PII 脱敏和审计选择 Portkey OSS 或 Kong，并写出理由。
 4. 比较 LiteLLM 与 Kong，给出需要迁移的 RPS、团队和治理信号。
 5. 为免费、试用和付费租户设计 token bucket 或 sliding-window 限流策略。

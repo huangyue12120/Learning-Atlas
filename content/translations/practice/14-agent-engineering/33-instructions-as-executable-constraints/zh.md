@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/33-instructions-as-executable-constraints/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 6ba9752ebfeb92b1a187a7cbace37940438fb57ad11f5518e8688195b5796f6a
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: c74dd5f24f9ea843e44df1fd7dc6d3037555e69511593e3304ceb0e1b5d8d883
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 32 节（最小工作台）
-**用时：** 约 50 分钟
+**预计时间：** 约 50 分钟
 
 ## 学习目标
 
@@ -25,13 +25,13 @@ status: reviewed
 - 实现一个规则检查器，依据规则集为一次运行评分。
 - 让规则集便于 diff，使审阅能够看出发生了什么变化。
 
-## 问题所在
+## 问题
 
 典型的 `AGENTS.md` 读起来像入职文档。它告诉智能体要“谨慎”“彻底测试”“不确定时先询问”。三天后，智能体交付了没有测试的改动，写入了禁止目录，而且从不提问，因为它根本不知道边界在哪里。
 
 当指令具有操作性时，它们很强；当指令只是愿望时，它们很弱。解决办法是编写工作台能够解释、审阅者能够评分的规则。
 
-## 核心概念
+## 概念
 
 规则应放在 `docs/agent-rules.md` 中，与简短的根路由器分开。每条规则都有名称、类别和检查项。
 
@@ -111,7 +111,7 @@ python3 code/main.py
 
 输出包括解析后的规则集、运行轨迹、每条规则的通过/失败结果，以及保存在脚本旁边的 `rule_report.json`。
 
-## 现实中的生产模式
+## 生产环境中的模式
 
 三个模式把能维持一个季度的规则集，与一周就开始腐烂的规则集区分开来。
 
@@ -119,9 +119,9 @@ python3 code/main.py
 
 **把规则过期作为强制机制。** 每条规则都带有 `expires_at` 日期（默认是从创建日起 90 天）。如果一条未过期规则连续 60 天零违规，检查器就发出警告；下一个季度审阅要么说明保留理由，要么将它弱化为 `info`，要么删除它。Cloudflare 的生产 AI Code Review 数据（2026 年 4 月，30 天内覆盖 5,169 个代码库的 131,246 次审阅运行）显示，明确设置过期时间的规则集每个代码库少于 30 条；没有过期时间的规则集增长到 80 条以上，而且大多数从未触发。
 
-**Markdown 作为源文件，JSON 作为缓存。** `agent-rules.md` 是作者维护的文件；`agent-rules.lock.json` 是检查器在热路径上读取的缓存。锁文件由 pre-commit hook 重新生成。Markdown diff 便于审阅；JSON 解析不会发生在每一轮中。这与 `package.json` / `package-lock.json` 和 `Cargo.toml` / `Cargo.lock` 是同一种形状。
+**Markdown 作为源文件，JSON 作为缓存。** `agent-rules.md` 是作者维护的文件；`agent-rules.lock.json` 是检查器在热路径上读取的缓存。锁文件由 pre-commit hook 重新生成。Markdown diff 便于审阅；Markdown 解析不会发生在每一轮中，因为检查器只加载预先构建好的小 JSON。这与 `package.json` / `package-lock.json` 和 `Cargo.toml` / `Cargo.lock` 是同一种形状。
 
-## 实际使用
+## 使用
 
 在生产环境中：
 

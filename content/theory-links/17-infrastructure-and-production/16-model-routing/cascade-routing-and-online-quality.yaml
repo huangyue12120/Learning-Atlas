@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/16-model-routing/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 3e656797e2c7218de4bcb1b9e5e57f93005619ec1ad560578ab43b29885f49b7
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 1b34b95e327b3e08c601e6c43166c83eaad749e2db4320a7bb950d7433e4a99d
   anchor:
     heading: Four routing signals
     slug: four-routing-signals

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/02-function-calling-deep-dive/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 4691bbc616aa41426d78eb1e3b77b8635de13cf451272e63fba79b59094a7e71
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: af3495ae5828e4e2c654f287aabfeb4b371d2b77bee6983a1d9696b18746404c
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库、schema 转换器）
 **前置课程：** Phase 13 · 01（工具接口）
-**时间：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -63,12 +63,12 @@ status: reviewed
 | 结果块 | `tool` 角色、`tool_call_id` | 带 `tool_result`、`tool_use_id` 的 `user` | 带匹配 `id` 的 `functionResponse` |
 | 强制工具 | `tool_choice: {type: "function", function: {name}}` | `tool_choice: {type: "tool", name}` | `tool_config: {function_calling_config: {mode: "ANY"}}` |
 | 禁止工具 | `tool_choice: "none"` | `tool_choice: {type: "none"}` | `mode: "NONE"` |
-| 严格 schema | `strict: true` | schema 即契约（始终强制） | 请求级 `responseSchema` |
+| 严格 schema | `strict: true` | 每个工具上的 `strict: true`（需主动开启） | 请求级 `responseSchema` |
 
 ### 你实际会遇到的限制
 
 - **OpenAI。** 每次请求 128 个工具。Schema 深度 5。参数字符串不超过 8192 字节。严格模式要求没有 `$ref`，没有相互重叠的 `oneOf`/`anyOf`/`allOf`，并且每个属性都列在 `required` 中。
-- **Anthropic。** 每次请求 64 个工具。Schema 深度实际上不设上限，但实践上限为 10。没有严格模式标志；schema 是契约，模型通常会遵守。
+- **Anthropic。** 每次请求 64 个工具。Schema 深度实际上不设上限，但实践上限为 10。严格工具调用需要主动开启：在工具定义上设置 `strict: true`。不开启时，schema 是模型通常会遵守的契约，而不是保证。
 - **Gemini。** 每次请求 64 个函数。Schema 类型是 OpenAPI 3.0 子集（与 JSON Schema 2020-12 有轻微差异）。Gemini 3 起并行调用具有唯一 ID。
 
 ### `tool_choice` 的行为
@@ -105,7 +105,7 @@ Phase 13 · 03 会深入并行与流式重组。本课聚焦声明和单调用�
 
 - **OpenAI（非严格模式）。** 模型返回 `arguments: "{bad json}"`，你的 JSON 解析失败，于是注入错误消息并重新调用。
 - **OpenAI（严格模式）。** 校验发生在解码期间；无效 JSON 不可能出现，但可能出现 `refusal`。
-- **Anthropic。** `input` 可能含有意外字段；schema 是建议性的。必须在服务器端校验。
+- **Anthropic（非严格模式）。** `input` 可能含有意外字段；schema 是建议性的。必须在服务器端校验。设置 `strict: true` 后，采样会被约束在 schema 内。
 - **Gemini。** OpenAPI 3.0 的一个问题：对象字段上的 `enum` 会被静默忽略；要自行校验。
 
 ### 转换器模式
@@ -129,7 +129,7 @@ Tool(
 function-call-args
 ```
 
-## 动手使用
+## 使用
 
 `code/main.py` 定义一个规范的 `Tool` 数据类和三个转换器，分别输出 OpenAI、Anthropic 与 Gemini 的声明 JSON。随后它会解析每种形状的手工编写的提供商响应，得到同一个规范调用对象，展示三种外表之下的语义是相同的。运行它，并排比较三个声明。
 
@@ -139,7 +139,7 @@ function-call-args
 - 三个响应块的差异在于调用所在的位置（顶层 `tool_calls`、`content[]` 块、`parts[]` 条目）。
 - 一个 `canonical_call()` 函数可以从三种响应形状中提取 `{id, name, args}`。
 
-## 交付物
+## 交付
 
 本课会生成 `outputs/skill-provider-portability-audit.md`。给定一个针对单一提供商的函数调用集成，这个 skill 会产出可移植性审计：它依赖哪些提供商限制，哪些字段需要重命名，以及迁移到其他提供商时会在哪里出问题。
 
@@ -155,7 +155,7 @@ function-call-args
 
 5. 编写一个测试向量：工具调用的参数违反声明的 schema。让它通过每个提供商的校验器（作为代理，使用第 01 课的标准库校验器即可），记录会触发哪些错误。说明在生产环境中你会选择哪家提供商来获得严格性。
 
-## 术语
+## 关键术语
 
 | 术语 | 人们常说 | 实际含义 |
 |------|----------------|------------------------|

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/83-prompt-injection-detector/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 3e0e78babb6644f69e67ab415dafd71efc91f92ce50b2707c74b82e1c19da90b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: f4fad47e48ce5bb61756a1cc439f32f3144bc9086b6ac50d3354246786a91b7a
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 18 安全课程、Phase 19 Track A 课程 25–29
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 问题
 
@@ -66,7 +66,7 @@ normalize 阶段使用标准库中的 `re.sub` 和 `codecs`。base64 normalize �
 
 指标 runner 生成 JSON 报告，其中包含逐类别 precision、recall、F1 和原始计数。检测器会故意在部分 fixture 上出错（尤其是看似良性的 role-play 提示词）；报告要揭示这些问题，而不是掩盖它们。
 
-## 使用它
+## 使用
 
 运行 `python3 main.py`。演示加载 taxonomy，对每个 fixture 运行检测器，再对 `benign.py` 中内置的 benign-prompt 语料运行检测器，并打印逐类别指标。`outputs/detector_report.json` 是第 87 课安全网关要消费的制品。
 
@@ -92,4 +92,4 @@ normalize 阶段使用标准库中的 `re.sub` 和 `codecs`。base64 normalize �
 
 ## 延伸阅读
 
-本 Track 的第 84–87 课。这里的检测器是端到端安全网关组合的三个信号之一。
+本 Track 的第 84–87 课。这里的检测器是端到端安全网关组合的四个信号之一，另外三个是词元过滤器、分类器和规则引擎。

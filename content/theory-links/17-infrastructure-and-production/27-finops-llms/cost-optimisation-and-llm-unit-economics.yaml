@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/27-finops-llms/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 1430e4cd6817449b618d6065ee9371aee75ed3cfbb05087a13b0c5db29827c34
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: ee002bdfe78387cd104a298b66a252f1d38a7348bffd033062725f166b2a43a7
   anchor:
     heading: The compounded-savings stack
     slug: the-compounded-savings-stack
@@ -15,10 +15,10 @@ card:
   intuition: "每个单项优化只减少一段成本，叠加后才会显著降低每个成功任务的成本；trace ID 把使用量与账单接起来。"
   key_points:
     - "第一天就应记录 user_id、task_id/route 和 tenant_id 三个归因维度。"
-    - "prompt、tool、memory、response 等 token 层要和 GPU、网关、观测开销分开。"
+    - "prompt、tool、memory、response 等词元层要和 GPU、网关、观测开销分开。"
     - "telemetry joiner 可把 trace 与账单关联，异常 z-score 触发暂停租户和告警。"
   application: "改变缓存命中、模型路由和租户支出，比较每个解决任务成本和执行阶梯。"
-  check_question: "为什么“每百万 token 成本”不足以作为产品经营指标，应该改看每个成功任务的成本？"
+  check_question: "为什么“每百万词元成本”不足以作为产品经营指标，应该改看每个成功任务的成本？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 17 - AI inference/05. scaling and deployment.md

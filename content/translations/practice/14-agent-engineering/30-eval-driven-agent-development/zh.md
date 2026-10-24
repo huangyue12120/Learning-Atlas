@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/30-eval-driven-agent-development/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 7f1772928ead5688466ea0b7178d2cbd7bd10f0fa2e3568656e76dc4e8fcf891
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 6ca347605df026b6378a3cbbd33e2a0bcf05bcd78adda0965e7c01f22937147c
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习 + 构建
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段全部内容
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -25,15 +25,15 @@ status: reviewed
 - 描述 2026 年最佳实践：评估与代码放在一起，在 CI 中运行，并为 PR 设置门控。
 - 将第 14 阶段的每一节连接到它生成的评估用例。
 
-## 问题所在
+## 问题
 
 智能体能通过 demo，却会以 demo 无法预测的方式在生产中失败。基准回答的是“这个模型总体上有能力吗”，而不是“这个智能体是否在为我的产品交付正确补丁”。答案是三层持续运行的评估，并将每个防护栏和习得规则映射到评估用例。
 
-## 核心概念 <!-- learning-atlas: the-concept -->
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### 三层评估
 
-1. **静态基准**——代码使用 SWE-bench Verified（第 19 节），浏览/桌面使用 WebArena/OSWorld（第 20 节），通用能力使用 GAIA（第 19 节），工具使用使用 BFCL V4（第 06 节）。用于跨模型比较和回归门控。污染是真实问题：SWE-bench+ 发现 32.67% 的解决方案泄漏。始终报告 Verified / 经过审计的分数。
+1. **静态基准**——代码使用 SWE-bench Verified（第 19 节），浏览/桌面使用 WebArena/OSWorld（第 20 节），通用能力使用 GAIA（第 19 节），工具使用使用 BFCL V4（第 06 节）。用于跨模型比较和回归门控。污染是真实问题：SWE-bench+ 发现 32.67% 的解决方案泄漏。始终报告 SWE-bench Verified 或经过泄漏审计的数据集（如 SWE-bench+）上的分数。
 
 2. **自定义离线评估**——你的产品形状：
    - LLM-as-judge（Langfuse、Phoenix、Opik——第 24 节）。
@@ -65,7 +65,7 @@ status: reviewed
 
 ### 将第 14 阶段串起来
 
-第 14 阶段的每一节都会生成评估用例：
+第 14 阶段的大多数课程都会生成评估用例。下表列出其中用例最清晰的课程：
 
 | 课程 | 它生成的评估用例 |
 |------|------------------|
@@ -88,7 +88,7 @@ status: reviewed
 | 28 编排 | Supervisor 路由到正确专家 |
 | 29 运行时形状 | DLQ 处理 N% 的失败 |
 
-如果评估套件包含每一种用例，就覆盖了第 14 阶段。
+如果评估套件为每一行都包含一个用例，就覆盖了第 14 阶段的核心内容。
 
 ### 评估驱动开发会在哪里失败
 
@@ -118,7 +118,7 @@ python3 code/main.py
 
 输出每个用例的通过/失败、回归标志和 CI 门控结论。
 
-## 实际使用
+## 使用
 
 - 将评估用例与智能体代码放在同一个仓库。
 - 通过 CI 在每个 PR 上运行。

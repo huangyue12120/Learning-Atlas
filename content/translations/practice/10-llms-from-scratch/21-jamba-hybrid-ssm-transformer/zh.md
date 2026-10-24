@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/21-jamba-hybrid-ssm-transformer/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 5bcf30d8629682e1a779be3a6ca438788e8ab7a0c91f59d1191b79f7d1dfdb9f
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: c427ae609267ee362479e3051f7675ea1930dccace1bca817ad8459897d6d0dd
 status: reviewed
 ---
 
@@ -16,11 +16,11 @@ status: reviewed
 **类型：** 学习  
 **语言：** Python（标准库，层混合计算器）  
 **前置课程：** 第 10 阶段 · 14（开放模型架构）、第 10 阶段 · 17（原生稀疏注意力）  
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
-- 解释 Jamba 块的三个原语——Transformer 层、Mamba 层和 MoE——以及 1:7:隔层交错配方。
+- 解释 Jamba 块的三个原语——Transformer 层、Mamba 层和 MoE——以及 1:7 加隔层交错的配方。
 - 在高层次上说明 SSM 的递归形式，以及它为何支持常数内存推理。
 - 计算 Jamba 模型在 256k 上下文下的 KV 缓存占用，并与纯 Transformer 的需求比较。
 - 说出 Mamba-3 的三个创新（指数–梯形离散化、复数值状态更新、MIMO）以及每一项针对的问题。
@@ -88,10 +88,10 @@ Mamba 层本身通过递归感知位置。在最初的基于 Mamba 的混合模�
 
 对于 Jamba-1 形状（32 层：28 个 Mamba + 4 个 Attention，隐藏维度 4096，32 个注意力头）：
 
-- KV 缓存（仅注意力层）：在 256k BF16 上下文下为 `2 * 4 * 32 * 128 * 256k * 2 = 8.4 GB`。只有 4 个注意力层贡献 KV 缓存。
+- KV 缓存（仅注意力层）：在 256k BF16 上下文下为 `2 * 4 * 32 * 128 * 256k * 2 = 16 GB`。只有 4 个注意力层贡献 KV 缓存。已发布的 Jamba 在这些层使用 8 个 KV 头的 GQA，从而把它降到 4 GB，也就是 Jamba 论文给出的数字。
 - SSM 状态：每个前缀的 `28 * hidden * state_size`，但它是每层固定大小，不随序列长度增长。典型 Mamba 状态每个特征为 16，隐藏维度为 4096：`28 * 4096 * 16 * 2 = 3.7 MB`。
 
-比较同样隐藏维度、32 层、完整 MHA 的纯 Transformer：在 256k BF16 下，`2 * 32 * 32 * 128 * 256k * 2 = 128 GB`。KV 缓存减少了 8 倍。即使与大多数 2024 模型采用的 GQA(8) 基线比较（`2 * 32 * 8 * 128 * 256k * 2 = 32 GB`），Jamba 的 1:7 混合架构约 16GB 的缓存仍小 2 倍。
+比较同样隐藏维度、32 层、完整 MHA 的纯 Transformer：在 256k BF16 下，`2 * 32 * 32 * 128 * 256k * 2 = 128 GB`。KV 缓存减少了 8 倍。即使与大多数 2024 模型采用的 GQA(8) 基线比较（`2 * 32 * 8 * 128 * 256k * 2 = 32 GB`），采用 32 个 KV 头的 1:7 混合架构约 16 GB 的缓存仍小 2 倍。已发布的 Jamba 为 4 GB，小 8 倍。
 
 这对应 AI21 所说的“单张 80GB GPU 上支持 256k 上下文”。完整 MHA 的纯 Transformer KV 缓存无法装下；即使是 GQA 基线，也会不给权重和激活留下空间；Jamba 则可以。
 
@@ -139,7 +139,7 @@ Mamba-3 尚未以生产级规模交付于混合模型，但它是下一代 Jamba
 swiglu-ffn
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 是一个混合架构的内存计算器。给定 SSM–Transformer 比例和隐藏维度/层数配置，它会计算：
 

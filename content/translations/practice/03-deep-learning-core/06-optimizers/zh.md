@@ -165,7 +165,7 @@ flowchart TD
 optimizer-trajectory
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：Vanilla SGD
 
@@ -382,7 +382,7 @@ class OptimizerTestNetwork:
         return losses
 ```
 
-## 使用现成工具
+## 使用
 
 PyTorch 优化器还处理参数组、梯度裁剪与 lr 调度：
 
@@ -414,7 +414,7 @@ for epoch in range(100):
 
 CNN 中许多人仍偏好 SGD+momentum（lr=0.1、momentum=0.9、weight_decay=1e-4）加 step/cosine schedule，因为 SGD 找到更平坦、常泛化更好的极小；Transformer/LLM 的通用默认是 AdamW 加 warmup+cosine decay，不要无测量理由地反对共识。
 
-## 交付成果
+## 交付
 
 - `outputs/prompt-optimizer-selector.md`——为任意架构选择优化器和学习率的决策提示词。
 
@@ -426,7 +426,7 @@ CNN 中许多人仍偏好 SGD+momentum（lr=0.1、momentum=0.9、weight_decay=1e
 4. 实现全局范数梯度裁剪，最大 1.0；高 lr=0.01 Adam 有/无裁剪、10 个种子统计发散（loss NaN）次数。
 5. 大权重 [-5,5] 初始化，200 epoch、weight_decay=0.1 比较 Adam/AdamW，画权重 L2 范数；AdamW 应更快收缩。
 
-## 核心术语
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

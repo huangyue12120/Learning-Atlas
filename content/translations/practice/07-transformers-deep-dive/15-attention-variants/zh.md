@@ -4,14 +4,14 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/15-attention-variants/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 6e8bba5b133d832d03a51da7f5aaf4c1ea33a76ab797d411bc479746719b7acb
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 9fd8c83a6c29b024ff4049e7e6854a7bd045a42268a76aeb3216d580ac27a8fc
 status: reviewed
 ---
 
 # 注意力变体——滑动窗口、稀疏与差分注意力
 
-> 完整注意力像一个圆：每个词元都能看到其他所有词元，内存则为此付出代价。四种变体改变了这个圆的形状，收回一半成本。
+> 完整注意力像一个圆：每个词元都能看到其他所有词元，内存则为此付出代价。三种变体改变了这个圆的形状，收回一半成本。
 
 **类型：** 构建  
 **学习实现：** Python  
@@ -54,7 +54,7 @@ status: reviewed
 
 **SWA 会缩小 KV 缓存。** 每一层只需保留最后 `W` 个词元的 K 与 V。采用类似 Gemma 3 的配置（窗口 1024、上下文 128K）时，KV 缓存可缩小 128 倍。
 
-**质量代价。** 只使用 SWA 的 Transformer 不擅长长距离检索。修复方法是在 SWA 层之间穿插完整注意力层。Gemma 3 使用 5:1 的 SWA:全局比例。Mistral 7B 使用因果 SWA 堆栈，信息通过重叠窗口“向前流动”——每一层都会把有效感受野扩大 `W`，经过 `L` 层后，模型可以关注到前方 `L × W` 个词元。
+**质量代价。** 只使用 SWA 的 Transformer 不擅长长距离检索。修复方法是在 SWA 层之间穿插完整注意力层。Gemma 3 使用 5:1 的 SWA 与全局层之比。Mistral 7B 使用因果 SWA 堆栈，信息通过重叠窗口“向前流动”——每一层都会把有效感受野扩大 `W`，经过 `L` 层后，模型可以关注到前方 `L × W` 个词元。
 
 ### 稀疏 / 分块注意力
 
@@ -157,7 +157,7 @@ def diff_attention(Q1, K1, Q2, K2, V, lam):
 
 对 `N = 131072` 打印每种变体的逐层缓存大小。SWA 和稀疏变体会缩小 10～100 倍，差分注意力则会翻倍。请有意识地承担内存成本。
 
-## 使用方法
+## 使用
 
 2026 年的生产模式：
 
@@ -189,7 +189,7 @@ out = flex_attention(q, k, v, block_mask=mask)
 - **稀疏分块注意力**——需要自定义内核和模式。通常保留给专门工作负载（检索、音频）。
 - **差分注意力**——适用于注意力汇点污染会损害结果的工作负载（长上下文 RAG、大海捞针测试）。
 
-## 交付成果
+## 交付
 
 参见 `outputs/skill-attention-variant-picker.md`。这个技能会根据目标上下文长度、检索要求以及训练 / 推理计算特征，为新模型选择注意力拓扑。
 
@@ -218,7 +218,7 @@ out = flex_attention(q, k, v, block_mask=mask)
 - [Beltagy、Peters、Cohan（2020），《Longformer: The Long-Document Transformer》](https://arxiv.org/abs/2004.05150)——经典的滑动窗口 + 全局词元论文。
 - [Zaheer 等（2020），《Big Bird: Transformers for Longer Sequences》](https://arxiv.org/abs/2007.14062)——局部 + 全局 + 随机。
 - [Child 等（2019），《Generating Long Sequences with Sparse Transformers》](https://arxiv.org/abs/1904.10509)——OpenAI 的局部 + 跨步模式。
-- [Gemma Team（2024），《Gemma 2: Improving Open Language Models at a Practical Size》](https://arxiv.org/abs/2408.00118)——1:1 的 SWA:全局混合。
+- [Gemma Team（2024），《Gemma 2: Improving Open Language Models at a Practical Size》](https://arxiv.org/abs/2408.00118)——1:1 的 SWA 与全局层混合。
 - [Gemma Team（2025），《Gemma 3 technical report》](https://arxiv.org/abs/2503.19786)——已成为教科书式默认配置的 5:1 混合与 window=1024。
 - [Ye 等（2024），《Differential Transformer》](https://arxiv.org/abs/2410.05258)——DIFF Transformer 论文。
 - [Yuan 等（2025），《Native Sparse Attention》](https://arxiv.org/abs/2502.11089)——DeepSeek-V3.2 的可学习稀疏注意力。

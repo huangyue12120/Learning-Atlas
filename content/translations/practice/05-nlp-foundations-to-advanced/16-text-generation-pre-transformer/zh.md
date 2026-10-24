@@ -79,7 +79,7 @@ Kneser-Ney 的洞见很深。“San Francisco”是常见二元组，单词“Fr
 ngram-backoff
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：三元组计数
 
@@ -211,14 +211,14 @@ def perplexity(prob_fn, sentences):
 
 越低越好。在 Brown 语料上，调优良好的四元 Kneser-Ney 模型困惑度约为 140；Transformer 语言模型在同一测试集上达到 15 至 30，差距约十倍。这解释了领域为何转向神经模型。
 
-## 使用现成工具
+## 使用
 
 - **经典 NLP 教学。** 它能最清楚地展示平滑、最大似然估计与困惑度。
 - **KenLM。** 生产级 n-gram 库。在低延迟语音和机器翻译系统中用作重评分器。
 - **端侧自动补全。** 键盘至今仍使用三元模型。
 - **基线。** 宣称神经语言模型优秀之前，始终先计算 n-gram 语言模型困惑度。若 Transformer 没有大幅超过 KN，说明系统有问题。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/prompt-lm-baseline.md`：
 

@@ -4,29 +4,29 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/11-browser-agents/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: fc1ad4d5c053b9effc8840efa4d993faabe6639a80b00a6485529331ddc0d493
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: bccab6553acb451770a43db65ca1af25e73071b289b9f25b0a907e431b96593c
 status: reviewed
 ---
 
 # 浏览器智能体与长时程 Web 任务
 
-> ChatGPT agent（2025 年 7 月）将 Operator 与深度研究合并为单一浏览器/终端智能体，并以 68.9% 达到 BrowseComp 最先进水平。OpenAI 于 2025 年 8 月 31 日关闭 Operator——这是产品层的整合。Anthropic 收购 Vercept 后，将 Claude Sonnet 在 OSWorld 上的分数从不足 15% 提升至 72.5%。WebArena-Verified（ServiceNow，ICLR 2026）修正了原 WebArena 中 11.3 个百分点的假阴性率，并发布了包含 258 任务的 Hard 子集。数字都是真的，攻击面也是真的：OpenAI preparedness 负责人公开表示，对浏览器智能体的间接提示词注入“不是一个能够被完全修补的漏洞”。已有记录的 2025–2026 攻击包括 Tainted Memories（Atlas CSRF）、HashJack（Cato Networks）和 Perplexity Comet 的一键劫持。
+> ChatGPT agent（2025 年 7 月）将 Operator 与深度研究合并为单一浏览器/终端智能体，并以 68.9% 达到 BrowseComp 最先进水平。OpenAI 于 2025 年 8 月 31 日关闭 Operator——这是产品层的整合。Anthropic 收购 Vercept 后，将 Claude Sonnet 在 OSWorld 上的分数从不足 15% 提升至 72.5%。WebArena-Verified（ServiceNow，ICLR 2026）修正了原 WebArena 中约 11.3% 的假阴性率，并发布了包含 258 任务的 Hard 子集。数字都是真的，攻击面也是真的：OpenAI preparedness 负责人公开表示，对浏览器智能体的间接提示词注入“不是一个能够被完全修补的漏洞”。已有记录的 2025–2026 攻击包括 Tainted Memories（Atlas CSRF）、HashJack（Cato Networks）和 Perplexity Comet 的一键劫持。
 
 **类型：** 学习
 **语言：** Python（标准库，间接提示词注入攻击面模型）
 **前置要求：** 第 15 阶段 · 10（权限模式）、第 15 阶段 · 01（长时程智能体）
-**用时：** 约 45 分钟
+**预计时间：** 约 45 分钟
 
-## 问题所在
+## 问题
 
 浏览器智能体是读取不可信内容、并采取有后果行动的长时程智能体。智能体访问的每个页面都是用户没有写的输入；每个页面上的表单都是潜在命令通道。2025–2026 年攻击语料表明，这不是假设：Tainted Memories 让攻击者通过精心构造的页面将恶意指令绑定到智能体记忆；HashJack 将命令藏在智能体访问的 URL 片段中；Perplexity Comet 劫持只需一次点击。
 
-防御图景令人不安。OpenAI preparedness 负责人直言不讳：间接提示词注入“不是一个能够被完全修补的漏洞”。原因在于攻击存在于智能体的阅读—行动边界，而这个边界在架构上是模糊的——模型读取的每个 token 原则上都可能被读作指令。
+防御图景令人不安。OpenAI preparedness 负责人直言不讳：间接提示词注入“不是一个能够被完全修补的漏洞”。原因在于攻击存在于智能体的阅读—行动边界，而这个边界在架构上是模糊的——模型读取的每个词元原则上都可能被读作指令。
 
 本课命名攻击面、命名基准全景（BrowseComp、OSWorld、WebArena-Verified），并建模一个最小间接提示词注入情形，使你可以在第 14 和 18 课中推理真实防御措施。
 
-## 核心概念
+## 概念
 
 ### 2026 全景：每个系统一段
 
@@ -62,7 +62,7 @@ status: reviewed
 
 攻击与智能体能力同构。智能体要完成工作，就必须读取不可信内容；它读取的任何内容都可能含有指令；它遵循的任何指令都可能与用户真实请求失配。防御措施（信任边界、分类器、工具允许列表、对有后果行动的 HITL）会提高攻击成本并缩小爆炸半径，但不能闭合这一类别。
 
-这与第 8 课的 Löb 定理是同一种推理模式：智能体无法证明下一个 token 安全；它只能建立一个让不安全 token 更容易被检测的系统。
+这与第 8 课的 Löb 定理是同一种推理模式：智能体无法证明下一个词元安全；它只能建立一个让不安全词元更容易被检测的系统。
 
 ### 真正上线的防御姿态
 
@@ -71,17 +71,17 @@ status: reviewed
 - **会话隔离。** 浏览器智能体会话仅使用范围受限的凭据。没有生产认证、没有个人邮箱。保留每个 HTTP 请求的日志供审计。
 - **内容清理器。** 在拼接进模型上下文前，移除抓取 HTML 中已知的恶意模式。（降低容易攻击；不能阻止复杂负载。）
 - **对有后果行动的人在回路。** 先提议后提交模式（第 15 课）。
-- **记忆中的金丝雀 token。** 若记忆条目被触发，用户就能看到它（第 14 课）。
+- **记忆中的金丝雀令牌。** 若记忆条目被触发，用户就能看到它（第 14 课）。
 
 ```figure
 injection-boundary
 ```
 
-## 实际运行
+## 使用
 
 `code/main.py` 建模一次针对三个合成页面的微型浏览器智能体运行。一个页面良性，一个页面在可见文本中有直接提示词注入 blob，一个页面有 URL 片段注入（不可见，但在智能体上下文中）。脚本展示：(a) 朴素智能体会做什么，(b) 读/写边界能捕获什么，(c) 清理器能捕获什么，(d) 两者都捕获不到什么。
 
-## 交付物
+## 交付
 
 `outputs/skill-browser-agent-trust-boundary.md` 规定拟议浏览器智能体部署的范围：它接触哪些信任区、被授权写什么，以及首次运行前必须具备哪些防御。
 

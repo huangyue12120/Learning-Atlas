@@ -3,14 +3,14 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/03-realtime-voice-assistant/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: b35feb343a32c1aa45fe116afc86e243b139a741f3ab93347ce046b0b2d8a5d8
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: fc6011cf06c126d4b32ec75035294511699c452d4acc2350589810a881f3dd82
   anchor:
     heading: Concept
     slug: concept
 card:
   title: 语音智能体的流式缓冲与端到端延迟
-  summary: 在处理 WebRTC 抖动缓冲、TTS 首块、抢话取消和旁路工具延迟时，用数字信号处理与流式音频理论核对缓冲、回声路径和实时性之间的权衡；该关联先保留候选状态，待独立审核。
+  summary: 在处理 WebRTC 抖动缓冲、TTS 首块、抢话取消和旁路工具延迟时，用数字信号处理与流式音频理论核对缓冲、回声路径和实时性之间的权衡；该关联先保留候选状态，待独立审核。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/01. digital signal processing.md

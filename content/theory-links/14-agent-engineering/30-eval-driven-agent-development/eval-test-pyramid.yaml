@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/30-eval-driven-agent-development/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 7f1772928ead5688466ea0b7178d2cbd7bd10f0fa2e3568656e76dc4e8fcf891
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 6ca347605df026b6378a3cbbd33e2a0bcf05bcd78adda0965e7c01f22937147c
   anchor:
     heading: The Concept
     slug: the-concept

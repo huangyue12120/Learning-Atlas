@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** --
 **前置课程：** Phase 0，第 01 课
-**预计学习：** 约 30 分钟
+**预计时间：** 约 30 分钟
 
 ## 学习目标
 
@@ -97,7 +97,7 @@ git checkout -b my-progress
 git push origin my-progress
 ```
 
-## 实际使用
+## 使用
 
 在本课程中，你只需要这些命令：
 
@@ -119,15 +119,13 @@ git push origin my-progress
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Click Fork on GitHub, then `git clone` the URL of your own fork. After `git push -u origin my-progress`, open your fork on GitHub and confirm that the branch list shows `my-progress` with your file.
->
-> **Exercise 2.** Add one pattern per extension, such as `*.pt`, to a `.gitignore` file in the repository root. Create an empty file with each extension and run `git status`; none of them may appear in the list of untracked files.
->
-> **Exercise 3.** Run `git log --oneline` and then `git log --oneline -- phases/00-setup-and-tooling` to show only the commits that changed this phase. Pick one commit and run `git show --stat <hash>` to see which lesson files it added.
+**练习 1.** 在 GitHub 上点击 Fork，然后 `git clone` 你自己 fork 的 URL。执行 `git push -u origin my-progress` 后，在 GitHub 上打开你的 fork，确认分支列表中出现带有你文件的 `my-progress`。
 
-## 核心术语
+**练习 2.** 在仓库根目录的 `.gitignore` 文件中，为每个扩展名各加一条模式，例如 `*.pt`。为每个扩展名创建一个空文件并运行 `git status`；它们都不应出现在未跟踪文件列表中。
+
+**练习 3.** 运行 `git log --oneline`，再运行 `git log --oneline -- phases/00-setup-and-tooling`，只显示改动了本 Phase 的提交。挑一个提交运行 `git show --stat <hash>`，查看它新增了哪些课程文件。
+
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

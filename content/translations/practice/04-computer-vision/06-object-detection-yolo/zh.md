@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/06-object-detection-yolo/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: aa1f2f8876fad7cf42796fc787dd143143f2d6e2da40b823fbf41c9108f14b85
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 05a0492e3e9dfa7a9741012eff04bf01bfb006cba332c8ac020b1edb1cbdb8bb
 status: reviewed
 ---
 
@@ -154,7 +154,7 @@ L = {} & \lambda_{\text{coord}} \cdot L_{\text{box}}(\text{pred}, \text{target},
 object-detection-nms
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：IoU
 
@@ -214,8 +214,10 @@ def encode(box_xyxy, cell_x, cell_y, stride, anchor_wh):
     cy = 0.5 * (y1 + y2)
     w = x2 - x1
     h = y2 - y1
-    tx = cx / stride - cell_x
-    ty = cy / stride - cell_y
+    off_x = np.clip(cx / stride - cell_x, 1e-6, 1 - 1e-6)
+    off_y = np.clip(cy / stride - cell_y, 1e-6, 1 - 1e-6)
+    tx = np.log(off_x / (1 - off_x))
+    ty = np.log(off_y / (1 - off_y))
     tw = np.log(w / anchor_wh[0] + 1e-8)
     th = np.log(h / anchor_wh[1] + 1e-8)
     return np.array([tx, ty, tw, th])
@@ -234,7 +236,7 @@ def sigmoid(x):
     return 1.0 / (1.0 + np.exp(-x))
 ```
 
-测试：编码一个框后再解码，应得到非常接近原框的结果（当 `tx` 不在 sigmoid 后范围时，sigmoid 反函数不是完美可逆，存在误差）。
+测试：编码一个中心严格落在格子内部的框，再解码，应得到原框（仅有浮点误差）。`encode` 把中心偏移存为 logit，即 `decode` 中 `sigmoid` 的逆运算。clip 保证 logit 有限；中心恰好落在格子边缘的框最多移动 `1e-6` 个格子。下面的 `assign_targets` 存储相同的 logits，因此检测头在 `decode` 所期望的空间中训练。
 
 ### 步骤 4：最小 YOLO 头
 
@@ -284,8 +286,10 @@ def assign_targets(boxes_xyxy, classes, anchors, stride, grid_size, num_classes)
         best = int(np.argmax(ious))
         aw, ah = anchors[best]
 
-        target[gy, gx, best, 0] = cx / stride - gx
-        target[gy, gx, best, 1] = cy / stride - gy
+        off_x = np.clip(cx / stride - gx, 1e-6, 1 - 1e-6)
+        off_y = np.clip(cy / stride - gy, 1e-6, 1 - 1e-6)
+        target[gy, gx, best, 0] = np.log(off_x / (1 - off_x))
+        target[gy, gx, best, 1] = np.log(off_y / (1 - off_y))
         target[gy, gx, best, 2] = np.log(bw / aw + 1e-8)
         target[gy, gx, best, 3] = np.log(bh / ah + 1e-8)
         target[gy, gx, best, 4] = 1.0
@@ -330,7 +334,7 @@ def yolo_loss(pred, target, has_obj, lambda_coord=5.0, lambda_obj=1.0, lambda_no
                    "obj_neg": loss_obj_neg.item(), "cls": loss_cls.item()}
 ```
 
-每个 YOLO 教程都会硬编码或扫描的五个超参数。比例很重要：`lambda_coord=5, lambda_noobj=0.5` 沿用原始 YOLOv1 论文，至今是合理默认值。
+每个 YOLO 教程都会硬编码或扫描的四个损失权重。比例很重要：`lambda_coord=5, lambda_noobj=0.5` 沿用原始 YOLOv1 论文，至今是合理默认值。
 
 ### 步骤 7：推理流水线
 
@@ -370,7 +374,7 @@ def postprocess(pred_tensor, anchors, stride, img_size, conf_threshold=0.25, iou
 
 完整评估路径为：head -> decode -> threshold -> NMS。
 
-## 使用现成工具
+## 使用
 
 `torchvision.models.detection` 提供具有相同概念结构的生产检测器。加载预训练模型只需三行。
 
@@ -390,7 +394,7 @@ print(f"labels: {predictions[0]['labels'].shape}")
 
 实时推理管线的标准是 `ultralytics`（YOLOv8/v9）：`from ultralytics import YOLO; model = YOLO('yolov8n.pt'); model(img)`。模型在内部处理解码和 NMS，返回与你上面构建相同的 `boxes / scores / labels` 三元组。
 
-## 交付产物
+## 交付
 
 本课产出：
 

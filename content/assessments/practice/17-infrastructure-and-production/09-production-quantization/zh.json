@@ -19,7 +19,7 @@
         "AWQ INT4"
       ],
       "correct": 0,
-      "explanation": "正确答案是“GGUF Q4_K_M / Q5_K_M”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "GGUF Q4_K_M / Q5_K_M 在 4–5 位下接近 BF16 质量，并由 llama.cpp 和 Ollama 主导 CPU 与边缘端，是这类部署的默认项。NVFP4、FP8、AWQ INT4 都面向数据中心 GPU，不是 CPU/边缘的选择。"
     },
     {
       "id": "q2",
@@ -32,7 +32,7 @@
         "AWQ"
       ],
       "correct": 2,
-      "explanation": "正确答案是“使用 Marlin 内核的 GPTQ”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "GPTQ-Int4 是 vLLM 中唯一支持多 LoRA 适配器的 INT4 路径，用 Marlin 内核又能跑得快（约 712 tok/s）。AWQ 吞吐更高但本课场景需要多 LoRA；NVFP4 当时尚不支持 LoRA；GGUF 是 CPU/边缘格式。"
     },
     {
       "id": "q3",
@@ -45,7 +45,7 @@
         "AWQ 要求使用 INT8 KV 缓存"
       ],
       "correct": 2,
-      "explanation": "正确答案是“AWQ 只缩小权重；KV 缓存和激活值是独立部分，在生产批次下还可能增加 30–50 GB”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "AWQ 只量化权重，KV 缓存和激活值是独立部分，仍保持 FP16/FP8，在生产批量下可再增加 30–50 GB，所以“只有 4 GB”的说法漏算了 HBM。AWQ 确实会缩小权重、与 vLLM 兼容、也不强制 INT8 KV，其余选项都不是这个陷阱。"
     },
     {
       "id": "q4",
@@ -58,7 +58,7 @@
         "它会禁用 Marlin 内核"
       ],
       "correct": 2,
-      "explanation": "正确答案是“算法会错误决定应保护哪些权重，使领域准确率下降（例如 HumanEval 的 Pass@1 下降数个百分点）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "AWQ 靠校准数据判断哪 1% 权重最显著，用通用网页文本校准领域模型会让它保护错权重，使领域准确率下降（HumanEval 的 Pass@1 下降数个百分点）。量化不会增大模型，也不限定 AMD GPU 或禁用 Marlin，这些都不是校准问题。"
     },
     {
       "id": "q5",
@@ -71,7 +71,7 @@
         "INT2 GGUF"
       ],
       "correct": 2,
-      "explanation": "正确答案是“FP8 权重”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "FP8 几乎无损、支持广泛，当质量不能妥协（推理、代码生成等）时是安全的默认精度。NVFP4/INT2/GPTQ INT4 这类更激进的量化在推理密集型任务上质量下降明显，不适合质量不可妥协的场景。"
     },
     {
       "id": "q6",
@@ -84,7 +84,7 @@
         "不支持 H100"
       ],
       "correct": 2,
-      "explanation": "正确答案是“尚不支持 LoRA”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "本课指出截至 2026 年初 NVFP4 尚不支持 LoRA，这正是需要多 LoRA 时改用 GPTQ 的原因。NVFP4 可与 FP8 KV 组合、运行在 Blackwell GPU 而非 CPU，其余选项都与课文不符。"
     }
   ]
 }

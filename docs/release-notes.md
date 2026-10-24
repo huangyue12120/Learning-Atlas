@@ -1,3 +1,105 @@
+# Learning Atlas v0.27.2 发布说明
+
+发布日期：2026-10-24。
+
+本版处理 Issue #31：将 `ai-engineering-from-scratch` 的可复现快照从 `f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299` 更新到 `3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a`。上游在 #691–#695 等提交中修正了 Phase 0-19 课程原文的事实和计算错误，命中 184 篇已登记中文实践译文、1 份测验和 102 条理论关联。课程范围和内容计数与 v0.27.1 相同。
+
+## 本版修复
+
+- **实践译文**：逐处对照上游 diff 修改 182 篇中文译文，例如 KV 缓存按全部 KV 头计算（7B 模型 32K 上下文为 16 GiB）、Chinchilla 系数改为 0.22 / 4.5、DeepSeek-V3 参数核算改为约 664B 总量 / 30B 激活、MTP 目标改为 `t_{i+k+1}`、Qwen2.5-VL 的时间位置编码改称“时间对齐 M-RoPE”、各厂商定价与模型规格更新、ZeRO 与 Adam 显存算式更正。另有 2 篇（P13 第 14、23 课）的上游改动在中文中已经正确，只刷新来源记录。上游未改动的段落保持原样。
+- **测验**：P17 第 11 课第 4 题的正确选项与解析改用上游修正后的跨区域 RTT 数字（约 220 ms RTT 把 720 ms 节省削减到约 500 ms）。
+- **理论关联**：刷新 102 条理论关联的实践来源记录。其中 26 张卡的锚点小节内有上游改动，逐张对照后卡片内容仍成立，无需修改。P17 第 19 课的锚点标题随上游改为 `Seven core features`。
+- **练习指南**：12 份 Python 工作区练习指南随上游练习题的修正同步更新（P10 第 18 课，P12 第 3、8、12、16、17、18、25 课，P13 第 18 课，P17 第 19、21、27 课）。上游 24 个 `code/` 文件的改动（新增 MPS 设备选择、GPU 同步计时、修正计算器数值等）会在学习者创建工作区时直接复制，不需要改动指南。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`（542 篇实践译文、89 篇理论译文）
+- `python3 scripts/check_source_fingerprints.py`（1560 条）
+- `python3 scripts/check_assessment_correspondence.py`（307 份）
+- `python3 scripts/check_theory_cards.py`（289 张）
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py`（19 个已开放 Phase，零缺口）
+- 用 Mermaid CLI 渲染 4 篇 Mermaid 有改动课程中的 11 张图示
+- `cd apps/local-learning && npm run check && npm test`（26 项）
+
+---
+
+# Learning Atlas v0.27.1 发布说明
+
+发布日期：2026-10-23。
+
+本版修复 `review/TRANSLATION-REVIEW.md` 中既有中文内容审查发现的问题。上游快照、课程范围和内容计数与 v0.27.0 相同。
+
+## 本版修复
+
+- **测验**：P18 第 21 课测验按上游 6 道题逐题重译（原版题目与上游不对应，4 题的正确答案下标不同）。P17、P18 共 58 份测验的 347 道题原先使用重复的套话解析，现改为逐题说明正确选项和主要干扰项；解析中的数字都能在对应课程中找到。P1 第 21、22 课测验中保留的英文术语改为术语表译法。
+- **阅读器时长**：阅读器现在也能识别 `**用时：**` 和 `**预计用时：**`，此前 187 节已开放课程显示“预计学习：未提供”。实践译文的时长标签统一为 `**预计时间：**`，并新增测试，断言 457 节课都能显示时长。
+- **结构**：恢复 21 篇实践译文和 2 篇理论译文中被压成段落的列表；`01-math-foundations/14-norms-and-distances` 和 `12-tensor-operations` 按原文逐段重译，删除 01/14 中多出来的练习汇总。P19 第 60–63 课的“测试”一节恢复为与上游一致的清单。
+- **未译内容**：34 篇实践译文中标为“上游新增练习提示（原文，待中文复核）”的英文提示全部译为中文，并移回“练习”一节之下。P0、P1、P13 等课程中学习者可见的 Mermaid 英文标签已翻译（节点 ID、公式、文件名和产品名保留）。11 张理论 SVG 图示的英文标题和说明已翻译，并逐张渲染检查。
+- **术语**：按术语表统一 reward hacking（奖励投机）、system prompt（系统提示词）、prompt caching（提示词缓存）、名词 prompt（提示词）、模型语境的 token（词元）、agent（智能体）、chunk（分块）和 reranking（重排）。认证语境的 token 译为“令牌”，编译器词法 token 译为“记号”。
+- **标题**：统一了 1135 处标准二级标题的译法（如 Build It → 动手构建、Use It → 使用、Ship It → 交付）。理论卡锚点绑定在 `<!-- learning-atlas: ... -->` 注释上，不受影响。
+- **练习指南**：重写 Phase 13 第 10、28–31 课的 5 份通用模板指南，步骤对应各课的实践实验，并在工作区中运行测试。
+- **理论卡**：按术语表修正约 110 处卡片文字；P19 的 22 张只有摘要的卡片注明“扩展内容待迁移，尚未经审核”。
+- **校验**：
+  - 结构检查新增列表项数量规则：译文比原文少 2 项以上时报错。
+  - 新增 `scripts/check_assessment_correspondence.py` 并接入 CI。它逐题核对题数、阶段、正确答案、选项数和未译英文，同一句解析用于 2 道以上题目时报错。题干与原文的专名、数字完全不重合时只给出警告。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`（542 篇实践译文、89 篇理论译文）
+- `python3 scripts/check_source_fingerprints.py`（1560 条）
+- `python3 scripts/check_assessment_correspondence.py`（307 份，6 条警告均经人工确认为正常意译）
+- `python3 scripts/check_theory_cards.py`（289 张）
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`
+- `cd apps/local-learning && npm run check && npm test`（26 项）
+
+---
+
+# Learning Atlas v0.27.0 发布说明
+
+发布日期：2026-10-23。
+
+本版补齐 Phase 13 第 32–45 课（逆向工程轨道）的中文改编，并修复让这 14 节课程没有被及时发现的监控缺口。上游快照保持 `f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299`。
+
+## 本版交付
+
+- 新增 14 篇中文实践译文：ELF 读取器、反汇编与控制流、提升为伪代码、证据与未知项、重建并证明等价、逆向工程全景、调用约定与栈帧、编译器惯用法、链接与去除符号、数据与类型恢复、动态分析、字节码格式、二进制差异比对与符号执行、AI 辅助逆向工程。每篇均与上游原文逐段对应，并经独立复核。
+- 新增 14 份中文测验（共 95 题），题序、阶段和正确答案与上游一致；新增 14 套 Python 工作区练习指南，步骤对应各课的交互实验与评分实验。
+- 术语表新增“逆向工程与二进制分析术语”一节。
+- “在 VS Code 中继续”现在会复制课程的整个 `code/` 目录（fixtures、tests、`lab.py` 等），不覆盖学习者已修改的文件；存在 `main.py` 时优先作为参考实现。此前只复制一个 `.py` 文件，第 32–36 课会误选 `lab.py`，依赖 fixtures 的程序也无法在工作区中运行。
+- 监控修复：
+  - 每日上游检查会把已开放 Phase 中新增、尚无中文改编的课程原文和测验视为需要审核，并在 Issue 中单独列出（报告超出大小上限时也保留这张表）。
+  - 覆盖率检查同时检查中文测验；除每周运行外，`main` 更新实践 submodule 指针、中文内容或发布范围时也会立即运行。
+  - 两个监控 Issue 在不再需要审核时自动关闭。
+  - CI 在已开放 Phase 存在覆盖缺口时给出警告，并把覆盖报告写入 job summary。
+  - 发布 Phase 范围集中到 `scripts/published_scope.py`，并由测试与阅读器的 Phase 列表保持一致。
+  - 覆盖率脚本默认把报告输出到终端，生成的报告文件已加入 `.gitignore`。
+  - 覆盖率检查和每日上游检查也要求有 Python 实作的课程提供练习指南；上游新增的理论笔记会在报告中列出供参考。
+  - 两条监控 workflow 只在执行、网络或权限出错时失败；需要审核时通过 Issue、summary 和 notice 提醒，运行保持成功。
+  - 同步 PR 的正文改为中文，并附带同步后的翻译覆盖率；checkout 不再保留凭据，推送时才临时使用令牌。
+  - 所有 action 按 commit SHA 固定，新增 `.github/dependabot.yml` 每周更新；CI 的 Python 从 3.12 改为读取 `.python-version`（3.14）；删除 CI 中重复的 `node --check public/app.js`。
+- 应用 SemVer 升至 v0.27.0；实践阅读器开放 457 节课程，中文测验 307 份，工作区练习指南 449 套。
+
+## 已知限制
+
+- 在学习者工作区中运行逆向工程课程的测试时，检查站点图示模块的测试会显示 skipped；第 45 课还有一项读取第 36 课 fixture 的测试会失败。练习指南给出了在上游课程目录运行完整测试套件的命令。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`
+- `python3 scripts/check_source_fingerprints.py`（1560 条来源指纹）
+- `python3 scripts/check_theory_cards.py`
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`（19 个已发布 Phase 无缺失）
+- `actionlint`（启用 shellcheck）
+- `python3 -m unittest discover -s scripts -p 'test_*.py'`（16 项）
+- 第 32–45 课 `python3 main.py` 与 `python3 -m unittest discover -s tests`，分别在上游课程目录和学习者工作区运行
+- `cd apps/local-learning && npm run check && npm test`
+- `git diff --check`
+
+---
+
 # Learning Atlas v0.26.9 发布说明
 
 发布日期：2026-10-22。

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/08-inference-metrics-goodput/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: a4cd1a98d6f40b0d2378e7d1bc8644370381c1f391a4e106986c4538d36ff218
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 20b9031b32843eb68b6903f07f830ea5835ffa01e81ba6c30a92ede732be48c2
   anchor:
     heading: Why mean is the wrong statistic
     slug: why-mean-is-the-wrong-statistic
@@ -14,7 +14,7 @@ card:
   context: "本课把 TTFT、TPOT、ITL 和 goodput 组合成用户可感知的推理 SLO，重点处理右偏长尾。"
   intuition: "百分位数回答大多数请求最慢到哪里，goodput 则只计入同时满足多项约束的请求。"
   key_points:
-    - "TTFT 反映队列与 prefill，TPOT/ITL 反映逐 token decode，不能互相替代。"
+    - "TTFT 反映队列与 prefill，TPOT/ITL 反映逐词元 decode，不能互相替代。"
     - "P99 对尾部用户体验和容量规划敏感，适合做生产闸门。"
     - "goodput 是同时满足延迟、错误率和输出约束的请求比例。"
   application: "生成右偏延迟样本，比较 mean 与 P50/P90/P99，并改变 SLO 约束观察 goodput。"

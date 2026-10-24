@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/11-multi-region-kv-locality/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 99573f1d95a1c6c3b0eb7dcb2762ae796b588cbafc4edac95d8cc0c6de439c4c
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 715c39184d431b6e4e6c489256679acb56a91702a328054e24416cbefbdc801f
   anchor:
     heading: Cache-aware routing
     slug: cache-aware-routing
@@ -15,7 +15,7 @@ card:
   intuition: "命中已有前缀的副本可以跳过 prefill，但跨区 RTT 可能超过省下的计算时间。"
   key_points:
     - "路由器使用副本发出的 KV 事件和请求前缀 hash 做匹配。"
-    - "2K token 前缀命中可显著降低 TTFT，但远端 RTT 可能抵消收益。"
+    - "2K 词元前缀命中可显著降低 TTFT，但远端 RTT 可能抵消收益。"
     - "灾备恢复还需验证权重、tokenizer 和量化配置完整。"
   application: "运行三种路由策略，比较命中率、TTFT P50/P99 和跨区费用，并改变 RTT 找出切换点。"
   check_question: "为什么全局缓存命中并不必然比区域内冷 prefill 更快？"

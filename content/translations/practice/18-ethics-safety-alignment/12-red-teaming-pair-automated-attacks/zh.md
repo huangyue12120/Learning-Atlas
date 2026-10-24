@@ -11,12 +11,12 @@ status: reviewed
 
 # 红队测试：PAIR 与自动化攻击
 
-> Chao、Robey、Dobriban、Hassani、Pappas、Wong（NeurIPS 2023，arXiv:2310.08419）。PAIR，即 Prompt Automatic Iterative Refinement，是经典的自动化黑盒越狱方法。带有红队系统提示词的攻击者 LLM 为目标 LLM 迭代提出越狱提示词，并将尝试和响应累积在自己的聊天历史中，作为上下文反馈。PAIR 通常在 20 次查询内成功，比 GCG（Zou 等人的 token 级梯度搜索）高效几个数量级，而且不需要白盒访问。如今，PAIR 已成为 JailbreakBench（arXiv:2404.01318）和 HarmBench 的标准基线，与 GCG、AutoDAN、TAP、Persuasive Adversarial Prompt 并列。
+> Chao、Robey、Dobriban、Hassani、Pappas、Wong（NeurIPS 2023，arXiv:2310.08419）。PAIR，即 Prompt Automatic Iterative Refinement，是经典的自动化黑盒越狱方法。带有红队系统提示词的攻击者 LLM 为目标 LLM 迭代提出越狱提示词，并将尝试和响应累积在自己的聊天历史中，作为上下文反馈。PAIR 通常在 20 次查询内成功，比 GCG（Zou 等人的词元级梯度搜索）高效几个数量级，而且不需要白盒访问。如今，PAIR 已成为 JailbreakBench（arXiv:2404.01318）和 HarmBench 的标准基线，与 GCG、AutoDAN、TAP、Persuasive Adversarial Prompt 并列。
 
 **类型：** 构建
 **语言：** Python（标准库，针对玩具目标的模拟 PAIR 循环）
 **前置要求：** 第 18 阶段 · 01（指令遵循）、第 14 阶段（智能体工程）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -54,11 +54,11 @@ status: reviewed
 
 ### PAIR 为何高效
 
-GCG（Zou 等，2023）通过梯度在对抗 token 后缀上搜索，需要白盒模型访问，并生成不可读的后缀。PAIR 是黑盒方法，生成自然语言攻击，还能跨模型迁移。PAIR 的上下文反馈让攻击者从每次拒绝中学习；GCG 没有等价机制，每次 token 更新都必须重新发现此前的进展。
+GCG（Zou 等，2023）通过梯度在对抗词元后缀上搜索，需要白盒模型访问，并生成不可读的后缀。PAIR 是黑盒方法，生成自然语言攻击，还能跨模型迁移。PAIR 的上下文反馈让攻击者从每次拒绝中学习；GCG 没有等价机制，每次词元更新都必须重新发现此前的进展。
 
 ### 相关自动化攻击
 
-- **GCG（Zou 等，2023，arXiv:2307.15043）。** 针对对抗后缀的 token 级梯度搜索，白盒、可迁移，生成不可读字符串。
+- **GCG（Zou 等，2023，arXiv:2307.15043）。** 针对对抗后缀的词元级梯度搜索，白盒、可迁移，生成不可读字符串。
 - **AutoDAN（Liu 等，2023）。** 在提示词上做进化搜索，由层级目标引导。
 - **TAP（Mehrotra 等，2024）。** 带剪枝的攻击树，会对多个 PAIR 风格的展开分支。
 - **PAP（Zeng 等，2024）。** Persuasive Adversarial Prompts，把人类说服技巧编码为提示词模板。
@@ -109,7 +109,7 @@ al-pair-loop
 | 术语 | 人们怎么说 | 实际含义 |
 |------|------------|----------|
 | PAIR | “自动化越狱” | Prompt Automatic Iterative Refinement，攻击者 LLM 加裁判 LLM 的循环 |
-| GCG | “梯度越狱” | 针对对抗后缀的白盒 token 级梯度搜索 |
+| GCG | “梯度越狱” | 针对对抗后缀的白盒词元级梯度搜索 |
 | 攻击成功率（ASR） | “k 次查询中的越狱百分比” | 主要指标，必须同时报告查询预算和裁判身份 |
 | 裁判 LLM | “评分器” | 判断响应是否满足有害目标的 LLM |
 | JailbreakBench | “评估集” | 带类别标签的标准化有害行为集合 |

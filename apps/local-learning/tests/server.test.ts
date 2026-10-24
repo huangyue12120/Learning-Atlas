@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { afterEach, test } from "node:test";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import { createServer, type Server } from "node:http";
 import { DatabaseSync } from "node:sqlite";
 import { createApp, firstLesson, prepareWorkspace, publishableTheoryDocument } from "../src/server.ts";
@@ -268,7 +268,7 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(llmEngineering.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(multimodalAI.lessons.length, 25);
   assert.equal(multimodalAI.lessons.every((item: { available: boolean }) => item.available), true);
-  assert.equal(toolsAndProtocols.lessons.length, 31);
+  assert.equal(toolsAndProtocols.lessons.length, 45);
   assert.equal(toolsAndProtocols.lessons.every((item: { available: boolean }) => item.available), true);
   assert.equal(agentEngineering.lessons.length, 54);
   assert.equal(agentEngineering.lessons.every((item: { available: boolean }) => item.available), true);
@@ -417,6 +417,34 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(issue26Resources.every(({ itemLesson, itemContent, itemQuiz }) =>
     itemLesson.resources.workspace === true && itemContent.translationStatus === "reviewed" &&
     itemQuiz.status === "reviewed" && itemQuiz.questions.length === 6), true);
+
+  const publishedLessons = course.flatMap((phase: { lessons: { id: string }[] }) => phase.lessons);
+  assert.equal(publishedLessons.length, 457);
+  const durations = await Promise.all(publishedLessons.map(async (item: { id: string }) =>
+    fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent(item.id)}`).then((response) => response.json())));
+  assert.deepEqual(durations.filter((lesson: { duration: string }) => !/^(约 ?)?\d/.test(lesson.duration))
+    .map((lesson: { id: string; duration: string }) => `${lesson.id}: ${lesson.duration}`), []);
+
+  const reverseEngineeringLessons = toolsAndProtocols.lessons.slice(31);
+  assert.equal(reverseEngineeringLessons.length, 14);
+  assert.equal(reverseEngineeringLessons[0].id, "practice/13-tools-and-protocols/32-program-anatomy-elf-from-scratch");
+  assert.equal(reverseEngineeringLessons[13].id, "practice/13-tools-and-protocols/45-ai-assisted-reverse-engineering");
+  const reverseEngineeringResources = await Promise.all(reverseEngineeringLessons.map(async (item: { id: string }) => {
+    const encoded = encodeURIComponent(item.id);
+    const [itemLesson, itemContent, itemQuiz] = await Promise.all([
+      fetch(`${baseUrl}/api/lesson?lessonId=${encoded}`).then((response) => response.json()),
+      fetch(`${baseUrl}/api/lesson/content?lessonId=${encoded}`).then((response) => response.json()),
+      fetch(`${baseUrl}/api/quiz?lessonId=${encoded}`).then((response) => response.json())
+    ]);
+    return { itemLesson, itemContent, itemQuiz };
+  }));
+  assert.equal(reverseEngineeringResources.every(({ itemLesson, itemContent, itemQuiz }) =>
+    itemLesson.resources.workspace === true && itemContent.translationStatus === "reviewed" &&
+    itemQuiz.status === "reviewed" && itemQuiz.questions.length >= 6 && itemLesson.duration !== "未提供"), true);
+  assert.deepEqual(reverseEngineeringResources.map(({ itemQuiz }) => itemQuiz.questions.length),
+    [6, 6, 6, 6, 6, 6, 8, 7, 7, 8, 7, 7, 7, 8]);
+  assert.equal(reverseEngineeringResources[0].itemLesson.position, "32 / 45");
+  assert.equal(reverseEngineeringResources[0].itemLesson.title, "程序剖析：从零实现一个 ELF 读取器");
 
   const p18Lessons = await Promise.all(ethicsSafetyAlignment.lessons.map(async (item: { id: string }) => {
     const encoded = encodeURIComponent(item.id);
@@ -1362,6 +1390,24 @@ test("creates a learner-owned workspace without changing the template", () => {
   assert.match(readFileSync(p14Workspace.sourceFile, "utf8"), /task|assumption/i);
   assert.ok(p14Workspace.exercisesGuide);
   assert.match(readFileSync(p14Workspace.exercisesGuide, "utf8"), /python3 code\/main\.py/);
+
+  const elfWorkspace = prepareWorkspace(directory, "practice/13-tools-and-protocols/32-program-anatomy-elf-from-scratch");
+  assert.equal(basename(elfWorkspace.sourceFile), "main.py");
+  assert.match(readFileSync(elfWorkspace.sourceFile, "utf8"), /read ELF64 and Mach-O/);
+  for (const name of ["lab.py", "lab_answers.json", "fixtures/ledger-x86_64-O1.o", "fixtures/ledger.c", "tests/test_main.py"]) {
+    assert.ok(existsSync(join(elfWorkspace.directory, name)), name);
+  }
+  assert.equal(existsSync(join(elfWorkspace.directory, "__pycache__")), false);
+  assert.ok(elfWorkspace.exercisesGuide);
+  assert.match(readFileSync(elfWorkspace.exercisesGuide, "utf8"), /python3 lab\.py/);
+  writeFileSync(join(elfWorkspace.directory, "lab_answers.json"), "{\"t1\": 1064}", "utf8");
+  rmSync(join(elfWorkspace.directory, "fixtures/ledger.c"));
+  prepareWorkspace(directory, "practice/13-tools-and-protocols/32-program-anatomy-elf-from-scratch");
+  assert.equal(readFileSync(join(elfWorkspace.directory, "lab_answers.json"), "utf8"), "{\"t1\": 1064}");
+  assert.ok(existsSync(join(elfWorkspace.directory, "fixtures/ledger.c")));
+
+  const monitoringWorkspace = prepareWorkspace(directory, "practice/02-ml-fundamentals/20-model-monitoring-and-drift");
+  assert.ok(existsSync(join(monitoringWorkspace.directory, "tests")));
 
   const p15Workspace = prepareWorkspace(directory, "practice/15-autonomous-systems/01-long-horizon-agents");
   assert.match(readFileSync(p15Workspace.sourceFile, "utf8"), /METR-style time-horizon simulator/);

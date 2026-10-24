@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/22-document-diagram-understanding/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 063ffd18e02c1add40116a7a4c3aa86eccae7b93d9e936e7cafa94ae76c13749
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 4a365c3d6af1e77b27c1ace4f020c0518b13762b42bd3923db5dd4c016d2a633
 status: reviewed
 ---
 
@@ -85,7 +85,7 @@ LayoutLMv3 是基于 OCR 的文档理解的高峰。在表单和发票上很强�
 
 ### DocLLM（2023）
 
-DocLLM（Wang 等，arXiv:2401.00908）是 LayoutLM 的生成式近亲。它根据布局词元生成自由形式答案，在文档问答上更好，但仍依赖 OCR 输入。
+DocLLM（Wang 等，arXiv:2401.00908，于 2023 年 12 月 31 日提交，因此编号带有 2024 年 1 月的前缀）是 LayoutLM 的生成式近亲。它根据布局词元生成自由形式答案，在文档问答上更好，但仍依赖 OCR 输入。
 
 ### 时代 3——VLM 原生（2024+）
 
@@ -94,7 +94,7 @@ DocLLM（Wang 等，arXiv:2401.00908）是 LayoutLM 的生成式近亲。它根�
 - LLaVA-NeXT 的 336 图块 AnyRes 适合小型文档。
 - Qwen2.5-VL 的动态分辨率原生处理 2048+ 像素。
 - Claude Opus 4.7 支持 2576px 文档。
-- PaliGemma 2（2025 年 4 月）专门针对文档 + 手写训练。
+- PaliGemma 2（2024 年 12 月）专门针对文档 + 手写训练。
 
 VLM 原生与 OCR 流水线之间的差距迅速缩小。到 2026 年，VLM 原生在以下方面胜出：
 
@@ -142,7 +142,7 @@ OCR 流水线仍然在以下方面胜出：
 mm-doc-layout
 ```
 
-## 使用它
+## 使用
 
 `code/main.py`：
 
@@ -150,7 +150,7 @@ mm-doc-layout
 - 一个 Donut 风格的任务 schema 生成器：用于表单的 JSON 模板。
 - 比较 OCR 流水线、Donut、Nougat 和 VLM 原生方案每页的词元预算。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-document-ai-stack-picker.md`。给定一个文档 AI 项目（领域、规模、质量、监管要求），它会在 OCR 流水线、无 OCR 专用模型和 VLM 原生方案之间选择。
 

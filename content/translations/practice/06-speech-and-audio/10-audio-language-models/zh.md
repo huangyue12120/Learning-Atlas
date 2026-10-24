@@ -95,7 +95,7 @@ status: reviewed
 v4-alm-tokens
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：查询 Qwen2.5-Omni
 
@@ -155,7 +155,7 @@ print(f"Accuracy: {correct / len(mcq):.3f}")
 
 分别报告各 `category`（语音、声音、音乐、多音频以及其余类别）结果。聚合数字会掩盖模型失败的位置。
 
-## 用于实践
+## 使用
 
 | 任务 | 2026 年选择 |
 |------|-------------|
@@ -173,7 +173,7 @@ print(f"Accuracy: {correct / len(mcq):.3f}")
 - **静音上的幻觉。** 使用 Whisper 编码器的 LALM 会继承同类问题。请用 VAD 门控。
 - **挑选有利基准。** 厂商博客只突出表现最好的类别。请自己运行 MMAU-Pro 的多音频子集。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-alm-picker.md`。针对给定音频理解任务，选择 LALM、基准子集与输出模态（文本或语音）。
 

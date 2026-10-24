@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/19-visual-autoregressive-var/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 2027fd1e8921fb2b90bc93eaf9468320416ba4c3b633e6da4a3fca2d505269e3
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 55797a05debe7039fc9f6388a8d1a09d8a9686249e5bd8ebfc1971755409ec49
   anchor:
     heading: VQ-VAE Multi-Scale Tokenizer
     slug: vq-vae-multi-scale-tokenizer
@@ -12,7 +12,7 @@ card:
   title: 多尺度残差 VQ 与粗到细图像词元
   summary: 在设计 VAR 分词器的共享码本、尺度金字塔和残差求和解码时，用图像分词理论笔记核对残差量化如何让低尺度编码全局结构、高尺度补充细节，并避免光栅顺序偏差。
   context: "VAR 不按像素光栅逐个生成，而是逐尺度完善整幅图；分词器必须让每层代码只表达前面尺度尚未解释的内容。"
-  intuition: "先用极少 token 画出全局草图，再把每一尺度的量化残差当作修订层，逐步补上轮廓、局部结构和纹理。"
+  intuition: "先用极少词元画出全局草图，再把每一尺度的量化残差当作修订层，逐步补上轮廓、局部结构和纹理。"
   key_points:
     - "多尺度分词器在从 1×1 到高分辨率的网格上使用共享码本，所有尺度 embedding 上采样后相加重建潜变量。"
     - "尺度 k 量化的是先前尺度重建后的剩余误差，因此低尺度承担全局结构，高尺度集中表达细节。"

@@ -149,7 +149,7 @@ The chief that well shame and hath been his friends,
 
 它还不是莎士比亚，但已经具有莎士比亚文本的形态。一个约 800K 参数、在笔记本电脑上训练 6 分钟的模型能达到这个结果，说明实现已经成功。
 
-## 使用方法
+## 使用
 
 这个综合项目是一套参考架构。要把它扩展成真正可用的系统，可以完成以下三项工作：
 
@@ -159,7 +159,7 @@ The chief that well shame and hath been his friends,
 
 最终会得到一个可以生成流畅英语的 125M 参数 GPT。它不是前沿模型，但只是把同一条代码路径放大，就构成了 Karpathy、EleutherAI 和 Allen Institute 在 2026 年训练研究检查点的基础。
 
-## 交付成果
+## 交付
 
 参见 `outputs/skill-transformer-review.md`。这个技能会依据前 13 课的知识，全面检查一个从零实现的 Transformer 是否正确。
 

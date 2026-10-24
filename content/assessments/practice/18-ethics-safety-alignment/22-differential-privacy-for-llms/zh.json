@@ -19,7 +19,7 @@
         "M 除噪声外是确定性的"
       ],
       "correct": 0,
-      "explanation": "正确答案是“对只差一个样本的两个数据集和任意事件 S，都有 P(M(D)∈S)≤e^epsilon P(M(D')∈S)+delta，单个个体难以被可靠推断”。本课用 DP-SGD 玩具实现展示隐私预算、梯度裁剪、噪声和模型效用之间的权衡。"
+      "explanation": "正确答案是“对只差一个样本的两个数据集和任意事件 S，都有 P(M(D)∈S)≤e^epsilon P(M(D')∈S)+delta，单个个体难以被可靠推断”。（ε, δ）-DP 保证相邻数据集的输出分布足够接近，除 δ 概率例外外无法可靠推断任一个体的贡献。它不等价于非隐私算法、不保证永不记忆，也不是“除噪声外确定”。"
     },
     {
       "id": "22-differential-privacy-for-llms-check-2",
@@ -32,7 +32,7 @@
         "采样 mini-batch 并计算逐样本梯度"
       ],
       "correct": 0,
-      "explanation": "正确答案是“每一步重新随机化模型分词器”。本课用 DP-SGD 玩具实现展示隐私预算、梯度裁剪、噪声和模型效用之间的权衡。"
+      "explanation": "正确答案是“每一步重新随机化模型分词器”。DP-SGD 的步骤是采样小批次、算逐样本梯度、裁剪到阈值 C、求和并加 σ·C 高斯噪声。“每步重新随机化分词器”不是 DP-SGD 的步骤。"
     },
     {
       "id": "22-differential-privacy-for-llms-check-3",
@@ -45,7 +45,7 @@
         "LoRA 是一种分词器"
       ],
       "correct": 2,
-      "explanation": "正确答案是“对前沿模型做全参数 DP-SGD 代价过高；LoRA 只更新小适配器，减少逐样本梯度存储且仍给适配器提供 DP 保证”。本课用 DP-SGD 玩具实现展示隐私预算、梯度裁剪、噪声和模型效用之间的权衡。"
+      "explanation": "正确答案是“对前沿模型做全参数 DP-SGD 代价过高；LoRA 只更新小适配器，减少逐样本梯度存储且仍给适配器提供 DP 保证”。全参数 DP-SGD 成本过高，LoRA 只更新小适配器、减少逐样本梯度存储，并对适配器提供 DP 保证，所以 LoRA+DP-SGD 常见。LoRA 不会故意增大 ε、不让记账器失效，也不是分词器。"
     },
     {
       "id": "22-differential-privacy-for-llms-check-4",
@@ -58,7 +58,7 @@
         "两者测量不同对象：插入 canary 的 MIA 低估了最可提取样本导致的真实记忆风险"
       ],
       "correct": 3,
-      "explanation": "正确答案是“两者测量不同对象：插入 canary 的 MIA 低估了最可提取样本导致的真实记忆风险”。本课用 DP-SGD 玩具实现展示隐私预算、梯度裁剪、噪声和模型效用之间的权衡。"
+      "explanation": "正确答案是“两者测量不同对象：插入 canary 的 MIA 低估了最可提取样本导致的真实记忆风险”。2025 年 3 月审计指出 canary-MIA 与提取测量不同对象：canary 未针对可提取性优化，会低估最易提取样本带来的真实记忆风险。它没有取消 canary、不证明两者相同，也不证明 DP-SGD 没必要。"
     },
     {
       "id": "22-differential-privacy-for-llms-post-5",
@@ -71,7 +71,7 @@
         "更快的 DP-SGD"
       ],
       "correct": 1,
-      "explanation": "正确答案是“在推理时对 next-token 分布做混合专家和聚合噪声，不需要 DP 训练”。本课用 DP-SGD 玩具实现展示隐私预算、梯度裁剪、噪声和模型效用之间的权衡。"
+      "explanation": "正确答案是“在推理时对 next-token 分布做混合专家和聚合噪声，不需要 DP 训练”。PMixED 在推理时让多专家对下一词元分布做混合并加聚合噪声实现 DP，完全避开 DP 训练。它不是新的 Rényi 记账器、不只是计算 ε，也不是更快的 DP-SGD。"
     },
     {
       "id": "22-differential-privacy-for-llms-post-6",
@@ -84,7 +84,7 @@
         "把 epsilon 重置为零"
       ],
       "correct": 2,
-      "explanation": "正确答案是“把 DP 训练模型的置信度分数当作 oracle，重新识别个体，即使直接输出没有泄露”。本课用 DP-SGD 玩具实现展示隐私预算、梯度裁剪、噪声和模型效用之间的权衡。"
+      "explanation": "正确答案是“把 DP 训练模型的置信度分数当作 oracle，重新识别个体，即使直接输出没有泄露”。该攻击把 DP 训练模型的置信度分数当预言机重新识别个体，即使直接输出不泄露，置信度分布仍可能泄露。它不是攻击分词器熵、反制 canary 或把 ε 重置为零。"
     }
   ]
 }

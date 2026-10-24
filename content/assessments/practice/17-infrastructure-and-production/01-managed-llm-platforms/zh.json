@@ -19,7 +19,7 @@
         "Azure OpenAI Service"
       ],
       "correct": 0,
-      "explanation": "正确答案是“AWS Bedrock”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：只有 Bedrock 是模型市场，通过一个 API 同时提供 Claude、Llama、Cohere 等。Vertex 以 Gemini 为先、Azure OpenAI 只有独家 OpenAI 模型，Anthropic 直连只给 Claude，都无法用单一 API 覆盖这三家。"
     },
     {
       "id": "q2",
@@ -32,7 +32,7 @@
         "Azure OpenAI"
       ],
       "correct": 3,
-      "explanation": "正确答案是“Azure OpenAI”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：Azure OpenAI 的赌注是独家 OpenAI 合作，目录里没有非 OpenAI 模型。Bedrock 与 Vertex 都是面向多家模型的市场/目录策略，OCI 同样不是独家合作定位。"
     },
     {
       "id": "q3",
@@ -45,7 +45,7 @@
         "约 25 ms"
       ],
       "correct": 3,
-      "explanation": "正确答案是“约 25 ms”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：课程给出 Azure OpenAI 中位 TTFT 约 50 ms、Bedrock 按需约 75 ms，差距约 25 ms，源于 PTU 专用容量胜过共享按需。其余选项与课程记录的数字不符。"
     },
     {
       "id": "q4",
@@ -58,7 +58,7 @@
         "Bedrock Guardrails"
       ],
       "correct": 2,
-      "explanation": "正确答案是“Application Inference Profiles”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：Application Inference Profiles 于 2025 年加入，可打 team/product/feature 标签，CloudWatch 原生按 profile 拆分成本，是最干净的归因方式。Agents、Knowledge Bases、Guardrails 都不负责成本归因。"
     },
     {
       "id": "q5",
@@ -71,7 +71,7 @@
         "20–30%"
       ],
       "correct": 0,
-      "explanation": "正确答案是“40–60%”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：课程明确 Azure PTU 的盈亏平衡通常在 40–60% 的持续利用率。其余区间均非课程给出的平衡点。"
     },
     {
       "id": "q6",
@@ -84,7 +84,7 @@
         "前沿模型每月轮换，锁定单一供应商会错过约三分之二的前沿能力"
       ],
       "correct": 3,
-      "explanation": "正确答案是“前沿模型每月轮换，锁定单一供应商会错过约三分之二的前沿能力”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：2026 年前沿每月轮换，锁定单一供应商会被挡在约三分之二的前沿之外，所以建议关键调用至少用两家。BAA、价格、SOC 2 等说法都不是课程给出的理由。"
     },
     {
       "id": "q7",
@@ -97,7 +97,7 @@
         "Azure 原生最干净，而 Bedrock 最不透明"
       ],
       "correct": 1,
-      "explanation": "正确答案是“Bedrock 原生最干净，Vertex 借助 BigQuery 最灵活，Azure 没有额外埋点时最不透明”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "正确：课程总结 Bedrock 原生归因最干净、Vertex 借助 BigQuery 最灵活、Azure 不额外埋点时最不透明。其余选项把三者的归因能力描述颠倒或抹平了差异。"
     }
   ]
 }

@@ -95,7 +95,7 @@ y_{ij} &= \begin{cases} +1 & \text{if matching} \\ -1 & \text{otherwise} \end{ca
 - **零样本分类**——直接使用。
 - **图像检索**——图像只编码一次，推理时嵌入查询。
 - **文本条件检测**——Grounding DINO、OWL-ViT 将 CLIP 文本塔包在检测器周围。
-- **文本条件分割**——CLIPSeg；SAM 通过 CLIP 使用文本提示输入。
+- **文本条件分割**——CLIPSeg；SAM 通过 CLIP 使用文本提示词输入。
 - **VLM**——LLaVA、Qwen-VL、InternVL 将 CLIP 家族视觉编码器接入 LLM。
 - **文生图**——Stable Diffusion、DALL-E 3 以 CLIP 文本嵌入作为条件。
 
@@ -105,7 +105,7 @@ y_{ij} &= \begin{cases} +1 & \text{if matching} \\ -1 & \text{otherwise} \end{ca
 clip-contrastive
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：微型双塔模型
 
@@ -179,7 +179,7 @@ print(f"batch size: {i.size(0)}   loss: {loss.item():.3f}")
 
 随机初始化模型的损失应接近 `log(N) = log(8) = 2.08`——尚未学到结构时，对称交叉熵的目标值。
 
-## 使用现成工具
+## 使用
 
 OpenCLIP 是 2026 年社区默认选择：
 
@@ -206,7 +206,7 @@ print(probs)
 
 SigLIP 更新、在小规模训练上更好，适合新项目：`google/siglip-base-patch16-224`。Hugging Face 同时提供二者。
 
-## 交付产物
+## 交付
 
 本课产出：
 

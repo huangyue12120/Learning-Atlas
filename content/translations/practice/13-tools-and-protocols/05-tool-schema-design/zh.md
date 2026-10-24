@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/05-tool-schema-design/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 960a389a1c12b06ec7f4731f06cfb5713657b665b15e09cd271c2be6c92a8d2b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0c634aab3cdc89ed08752a3bfc54f78182583a19593408fd26308609dea1397e
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库、工具 schema linter）
 **前置课程：** Phase 13 · 01（工具接口）、Phase 13 · 04（结构化输出）
-**时间：** 约 45 分钟
+**预计时间：** 约 45 分钟
 
 ## 学习目标
 
@@ -41,7 +41,7 @@ Composio 的 2025 年实战指南显示，仅通过重命名和重写描述，�
 
 ### 命名规则
 
-1. **`snake_case`。** 每家提供商的 tokenizer 都能干净地处理它。在某些 tokenizer 上，`camelCase` 会跨 token 边界被切碎。
+1. **`snake_case`。** 每家提供商的 tokenizer 都能干净地处理它。在某些 tokenizer 上，`camelCase` 会跨词元边界被切碎。
 2. **动词-名词顺序。** 使用 `get_weather`，不要使用 `weather_get`。这符合自然英语。
 3. **不带时态标记。** 使用 `get_weather`，不要使用 `got_weather` 或 `get_weather_later`。
 4. **稳定。** 重命名是破坏性变更。应通过添加新名称来给工具做版本，而不是改变旧工具。
@@ -95,7 +95,7 @@ notes_search(query)
 ### 参数设计
 
 - **对每个封闭集合使用 enum。** 使用 `units: "celsius" | "fahrenheit"`，不要使用 `units: string`。Enum 告诉模型可接受值的完整集合。
-- **必填与可选。** 标记最低限度需要的字段，其余全部可选。OpenAI 严格模式要求每个字段都在 `required` 中；在代码中加入 `is_default: true` 约定，让模型可以省略它。
+- **必填与可选。** 标记最低限度需要的字段，其余全部可选。OpenAI 严格模式要求每个字段都在 `required` 中，因此模型不能省略任何字段。把可选字段的类型写成与 `null` 的联合类型，让模型在没有值时发送 `null`。
 - **带类型的 ID。** `note_id: string` 本身可以，但还应加入 `pattern`（`^note-[0-9]{8}$`）以捕获模型臆造的 ID。
 - **不要使用过度灵活的类型。** 避免 `type: any`。模型会臆造形状。
 - **描述字段。** `{"type": "string", "description": "ISO 8601 date in UTC, e.g. 2026-04-22"}`。描述是模型提示的一部分。
@@ -136,7 +136,7 @@ GOOD : Invalid input: 'city' is required. Example: {"city": "Bengaluru"}.
 tp-schema-routing
 ```
 
-## 动手使用
+## 使用
 
 `code/main.py` 提供一个工具 schema linter，根据上面的规则审计注册表。它会标记：
 
@@ -147,7 +147,7 @@ tp-schema-routing
 
 在随附的 `GOOD_REGISTRY`（通过）和 `BAD_REGISTRY`（每条规则都失败）上运行它，就能看到确切的发现结果。
 
-## 交付物
+## 交付
 
 本课会生成 `outputs/skill-tool-schema-linter.md`。给定任意工具注册表，这个 skill 会根据上面的设计规则审计它，并生成带严重性和建议改写的修复清单。它可以在 CI 中运行。
 
@@ -163,7 +163,7 @@ tp-schema-routing
 
 5. 从头到尾阅读 Composio 的工具设计实战指南。找出本课未覆盖的一条规则，并将它加入 linter。
 
-## 术语
+## 关键术语
 
 | 术语 | 人们常说 | 实际含义 |
 |------|----------------|------------------------|

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/07-latent-diffusion-stable-diffusion/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: d866f087da7b455a3c13840e6e3624964b0be4b12cc481fdc707770622bca77b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 7b0f439de9ae31fc30d4191e4b86e20c170c14fa35cb5627b9671995cbc55550
 status: reviewed
 ---
 
@@ -60,7 +60,7 @@ noise-schedule
 
 ## 动手构建
 
-`code/main.py` 在第 06 课的 DDPM 上叠加一个玩具一维“VAE”（为方便演示，编码器与解码器是恒等变换；真实 VAE 应使用卷积网络），并加入带无分类器引导的类别条件控制。该示例说明，无论在原始一维值还是编码值上运行，扩散都使用同一项损失。
+`code/main.py` 在第 06 课的 DDPM 上叠加一个玩具一维“VAE”（为方便演示，编码器是固定乘以 0.5 的缩放，解码器是它的精确逆变换；真实 VAE 应使用卷积网络），并加入带无分类器引导的类别条件控制。该示例说明，无论在原始一维值还是编码值上运行，扩散都使用同一项损失。这就是关键洞见。
 
 ### 第 1 步：编码器 / 解码器
 
@@ -95,7 +95,7 @@ h = h + CrossAttention(Q=h, K=text_embed, V=text_embed)
 
 这是类别条件扩散模型与 Stable Diffusion 之间唯一实质性的区别。
 
-## 常见问题
+## 陷阱
 
 - **VAE 尺度不匹配。** SD 1.x VAE 编码后会应用缩放常数（`scaling_factor ≈ 0.18215`）。漏掉它会让 U-Net 在方差严重错误的潜变量上训练。每个检查点都附带该值。
 - **文本编码器悄悄出错。** SD3 需要支持至少 128 个词元的 T5-XXL，只回退到 CLIP 会损失信息。务必检查 `use_t5=True`，否则提示词保真度会骤降。
@@ -103,7 +103,7 @@ h = h + CrossAttention(Q=h, K=text_embed, V=text_embed)
 - **CFG 太高。** `w > 10` 会产生饱和、油腻的图像，为迎合提示词牺牲多样性。合适范围是 `w = 3-7`。
 - **负向提示词泄漏。** 空负向提示词会变为空词元；非空负向提示词会变成 `ε_uncond`。两者并不相同，一些流水线会悄悄默认使用空词元。
 
-## 使用方法
+## 使用
 
 2026 年的生产技术栈：
 
@@ -116,7 +116,7 @@ h = h + CrossAttention(Q=h, K=text_embed, V=text_embed)
 | 编辑工作流 | Flux.1-Kontext（2024 年 12 月），原生接收图像 + 文本 |
 | 研究基线 | SD 1.5，虽已古老但研究充分 |
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-sd-prompter.md`。该技能接收文本提示词与目标风格，输出模型 + 检查点、CFG 强度、采样器、负向提示词、分辨率、可选 ControlNet/IP-Adapter 组合，以及逐步质量检查清单。
 
@@ -143,7 +143,7 @@ h = h + CrossAttention(Q=h, K=text_embed, V=text_embed)
 
 参考 Flux 集成是“我有一张消费级 GPU，能否部署它？”的经典方案。它把生产推理文献中的三个调节项应用到了扩散 DiT：
 
-1. **错峰加载。** Flux 包含三个无需同时驻留显存的网络：T5-XXL 文本编码器（fp32 约 10 GB）、CLIP-L（较小）、120 亿参数的 MMDiT，以及 VAE。先编码提示词，*删除*编码器；加载 DiT 并去噪，*删除* DiT；最后加载 VAE 并解码。8GB 消费级 GPU 每次只能容纳一个阶段。
+1. **错峰加载。** Flux 包含四个无需同时驻留显存的网络：T5-XXL 文本编码器（fp32 约 10 GB）、CLIP-L（较小）、120 亿参数的 MMDiT，以及 VAE。先编码提示词，*删除*编码器；加载 DiT 并去噪，*删除* DiT；最后加载 VAE 并解码。8GB 消费级 GPU 每次只能容纳一个阶段。
 2. **通过 bitsandbytes 进行 4 位量化。** T5 编码器和 DiT 都使用 `BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)`。内存减少 8 倍；根据 Aritra 在所链接笔记本中的基准，文生图质量下降无法察觉。
 3. **CPU 卸载。** `pipe.enable_model_cpu_offload()` 会在每次前向传播推进时，自动在 CPU 与 GPU 之间交换模块。延迟增加 10%～20%，但流水线由此可以运行。
 

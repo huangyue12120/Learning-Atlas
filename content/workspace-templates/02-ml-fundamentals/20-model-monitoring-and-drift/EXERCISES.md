@@ -17,15 +17,11 @@
 
 ## 运行与验证
 
+在工作区目录执行（工作区包含上游 `code/` 目录的全部文件，包括 `tests/`）：
+
 ```bash
 python3 main.py
-```
-
-工作区只复制根目录的 `main.py` 和本指南；请另开一个以 Learning Atlas 仓库根目录为当前目录的终端，在上游课程目录运行完整测试：
-
-```bash
-cd ai-engineering-from-scratch/phases/02-ml-fundamentals/20-model-monitoring-and-drift
-python3 -m unittest discover -s code/tests -p 'test_*.py'
+python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
 保留一份告警表，标出协变量漂移、恢复和概念漂移分别由哪一层信号发现。

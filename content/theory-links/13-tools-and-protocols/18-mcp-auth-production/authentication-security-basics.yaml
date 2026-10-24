@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/18-mcp-auth-production/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: da053b84576ba4daba8561f51966376185fd250bcb8792830a9ca043845d5f4b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 37bf036ac5cb10930059f0414ba8ea56c5398ceb57dd3e736310f59d3bb133f7
   anchor:
     heading: MCP 2026-07-28 authorization profile
     slug: mcp-2026-07-28-authorization-profile

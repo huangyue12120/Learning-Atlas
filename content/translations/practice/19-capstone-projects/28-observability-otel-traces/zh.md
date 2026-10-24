@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/28-observability-otel-traces/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 673aceef7517fdf77a8dd6eaaee4dc59c6e32bfeca2e8926230161bc6caff1e2
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: c441b65e6b6fac8930613581c068e6c443bf40811dffe212767a24617f0560a2
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库）
 **前置课程：** 第 19 阶段 · 25（验证门），第 19 阶段 · 26（沙箱），第 19 阶段 · 27（评测 harness），第 13 阶段 · 20（OpenTelemetry GenAI），第 14 阶段 · 23（OTel GenAI 约定）
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -88,15 +88,15 @@ main.py 提供：
 6. wrap_tool_call(name) 装饰器，发出 span 并更新指标。
 7. 演示：合成一次完整的智能体调用（在工具 span 外包裹 gen_ai.chat span），写入 traces.jsonl，打印 Prometheus exposition，并以零状态退出。
 
-span ID 和 trace ID 是由 os.urandom 生成的 16 字节十六进制字符串，符合 OTel 的 W3C trace context。导出器不会抛出异常；IO 错误会暴露出来，但 harness 会继续运行。
+trace id 是一个 16 字节值（32 个十六进制字符），span id 是一个 8 字节值（16 个十六进制字符），二者都从随机 `uuid4` 的十六进制中截取。这与 OTel 使用的 W3C Trace Context 尺寸一致。导出器不会抛出异常；IO 错误会暴露出来，但 harness 会继续运行。
 
-直方图使用固定 bucket 集合（OTel 对毫秒延迟的默认值）：5、10、25、50、100、250、500、1000、2500、5000、10000 和 +Inf。样本以列表保存；exposition 按需计算每个 bucket 的计数。
+直方图对毫秒延迟使用固定 bucket 集合：5、10、25、50、100、250、500、1000、2500、5000、10000 和 +Inf。它是 OTel SDK 默认边界的精简版，后者还包含 0、75、750 和 7500。样本以列表保存；exposition 按需计算每个 bucket 的计数。
 
 ## 为什么手写，而不是使用 opentelemetry-sdk
 
-OTel Python SDK 是一个真实依赖。它也有数千行代码、OTLP 导出器的多进程开销，以及会吞噬课程预算的运行成本。手写版本教授 wire format；在生产环境中，把同样的属性接入真实 SDK，就能免费获得 OTLP 导出、批处理和资源检测。
+OTel Python SDK 是一个真实依赖。它也有数千行代码、OTLP 导出器的后台导出线程，以及会吞噬课程预算的运行成本。手写版本教授 wire format；在生产环境中，把同样的属性接入真实 SDK，就能免费获得 OTLP 导出、批处理和资源检测。
 
-这些约定是稳定的。本课发出的 wire format 到 2030 年仍会持续可解析，因为 OTel 不会破坏 GenAI 属性名，只会增加新的属性名。
+GenAI 约定在规范中仍标记为 Development（开发中），并且此前重命名过属性：`gen_ai.usage.prompt_tokens` 变成了 `gen_ai.usage.input_tokens`。请锁定你所发出的 semantic-conventions 版本，并在升级 SDK 时核对它。
 
 ## 它如何与轨道 A 的其余部分组合
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/44-cosine-lr-warmup/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 1e219332b326b35c46598e766a5aa9c29421cc5e326d7badd4e2b7f4a58106c9
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 98e7aad3f4ac3d899a4a38853b5045a4d18408ee7b150ff25cbece77f903cedd
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** 第 19 阶段课程 30–37
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -71,7 +71,7 @@ flowchart TD
 cap-cosine-warmup
 ```
 
-## 构建
+## 动手构建
 
 `code/main.py` 实现：
 
@@ -119,7 +119,7 @@ python3 code/main.py
 
 1. 增加逆平方根版本的调度，并在 200 步的玩具训练上进行比较。哪条曲线产生更低的最终损失？
 2. 增加 `--restart` 参数，在 `total_steps / 2` 处加入第二次预热。为 warm restart 在玩具运行上是改善还是损害效果进行辩护。
-3. 增加单元测试，验证调度是连续的：对于 `[0, total_steps]` 中的每一步，差值 `|lr(step+1) - lr(step)|` 都被 `lr_max / warmup_steps` 约束。
+3. 增加单元测试，验证调度是连续的：在 `warmup_steps > 0` 的前提下，对于 `[0, total_steps]` 中的每一步，差值 `|lr(step+1) - lr(step)|` 都被 warmup 斜率 `lr_max / warmup_steps` 与最陡余弦斜率 `pi * (lr_max - lr_min) / (2 * (total_steps - warmup_steps))` 二者中的较大者约束。一段很短的余弦段可能比 warmup 斜坡更陡，因此仅用 warmup 斜率并不是一个安全的上界。
 4. 将调度接入 `torch.optim.lr_scheduler.LambdaLR`，使其能与框架代码组合。本课使用普通步骤函数；这个包装器改变了什么？
 5. 增加 `--plot-png` 参数，通过 `matplotlib` 写出真实图表。为 CI 运行选择本课文本图还是 PNG 作为默认值，并进行辩护。
 

@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/33-disassembly-and-control-flow/quiz.json",
+    "revision": "f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299",
+    "sha256": "fe2f47d8744854a161634d0c14e2e717c05232e4b482c22014593db9b81e56ed"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"disasm-cfg-q1","stage":"pre","question":"来自 llvm-objdump 的一份反汇编清单把一个函数的每个字节都解码成了真实助记符。这证明了什么？","options":["该函数没有间接跳转","清单中的每条指令都会执行","控制流图是完整的","只证明一次线性扫描为每个字节找到了一个指令边界，而在数据位于代码之中的地方这仍可能出错"],"correct":3,"explanation":"扫描会把数据解码为代码并在几个字节内重新同步，所以一份看似合理的清单并不能证明指令边界或可达性。"},
+    {"id":"disasm-cfg-q2","stage":"check","question":"字节 48 8d 0d 00 00 00 00 解码为 leaq (%rip), %rcx，而 .rela.text 在位移字段处持有 R_X86_64_PC32 .rodata-0x4。链接后该操作数指向何处？","options":[".rodata+0x0，因为处理器把该字段加到下一条指令地址，即字段之后 4 个字节处",".rodata-0x4","lea 本身的地址",".rodata+0x4"],"correct":0,"explanation":"R_X86_64_PC32 存储 S + A - P。该字段是指令的最后 4 个字节，所以最终目标是 S + A + 4 = .rodata + 0。"},
+    {"id":"disasm-cfg-q3","stage":"check","question":"在陷阱夹具中，表字节是 31 c0 90 48，而下一条真实指令是 83 c0 01（addl $1, %eax）。线性扫描在跳转目标 0x14 处打印什么？","options":["0x14 处一个 nop","0x13 处一个无效操作码错误","0x14 处 addl $0x1, %eax","没有东西从 0x14 开始。0x13 处的 48 变成一个 REX 前缀，扫描打印出跨越 0x13 到 0x17 的 addq $0x1, %rax"],"correct":3,"explanation":"REX 字节把真实 add 的三个字节连在一起，所以清单在早一个字节处显示一个 64 位 add，且在分支目标处没有指令。"},
+    {"id":"disasm-cfg-q4","stage":"check","question":"对 grade 在 -O0 下的递归下降在 jmpq *%rax 处停止并报告三个块。什么证据让它能继续到那四个 case 块？","options":[".rodata 中那张表的字节，它们在目标文件里全是零","符号表中的函数大小","命名该表的 lea 重定位、界定索引的 cmp 或 sub 加 ja，以及 .rela.rodata 中给出 target = addend - 4k 的五条 R_X86_64_PC32 条目","清单中块的顺序"],"correct":2,"explanation":"在可重定位目标文件中，表保存占位符。表条目上的重定位是目标的唯一来源，而边界检查给出条目数。"},
+    {"id":"disasm-cfg-q5","stage":"post","question":"为什么 Cooper、Harvey 和 Kennedy 的迭代支配算法按逆后序处理块？","options":["因为入口块必须最后处理","这样当访问一个块时它的大多数前驱已经有了直接支配节点，从而让不动点在很少几遍内收敛","因为它免去了 intersect 步骤","因为逆后序就是内存中地址的顺序"],"correct":1,"explanation":"逆后序在一个块的前向前驱之后访问该块，所以每一遍沿前向边传播支配节点，只有回边需要再来一遍。"},
+    {"id":"disasm-cfg-q6","stage":"post","question":"在 -O1 下 clang 把 grade 编译为 cmpl $4, %ecx; ja; leaq (%rip), %rcx 并带一条指向 .rodata 的重定位; movl (%rcx,%rax,4), %eax; retq。分析应报告什么？","options":["一次通过表的调用","一张位于 .rodata+0x14、保存 1, 2, 3, 4, 4 的值表，三个基本块，无间接转移","一个未解析的间接跳转","一张带五个代码目标的跳转表"],"correct":1,"explanation":"该加载是一个普通 movl，函数在它之后立即返回。优化器用一张返回值表替换了 case 块，这改变的是一次加载而非控制流。"}
+  ]
+}

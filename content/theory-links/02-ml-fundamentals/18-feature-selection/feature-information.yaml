@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/18-feature-selection/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: ae14a559c169dc64e4ebddbebfc84b3c2321a5ba5f2ef1fee8fab532e8e0db49
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 292bda694502d73199356b998ca3f430bac934a99b7d75bf77417bca94e091cb
   anchor:
     heading: Mutual Information
     slug: mutual-information

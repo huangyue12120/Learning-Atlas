@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 02 节（ReWOO 与 Plan-and-Execute）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -25,7 +25,7 @@ status: reviewed
 - 解释 AlphaEvolve 的进化循环，以及它为什么只有在存在程序化评估器时才有效。
 - 用标准库实现一个玩具 HTN 规划器和一个玩具进化搜索。
 
-## 问题所在
+## 问题
 
 ReWOO（第 02 节）、Plan-and-Execute 与 ReAct 覆盖了大多数智能体规划场景，但以下两种情况处理得不好：
 
@@ -34,7 +34,7 @@ ReWOO（第 02 节）、Plan-and-Execute 与 ReAct 覆盖了大多数智能体�
 
 HTN 规划和 AlphaEvolve 解决的是两个不同问题。它们都把 LLM 当作放大器，而不是替代品。
 
-## 核心概念 <!-- learning-atlas: the-concept -->
+## 概念 <!-- learning-atlas: the-concept -->
 
 ### 分层任务网络
 
@@ -117,7 +117,7 @@ python3 code/main.py
 
 轨迹展示 HTN 规划器如何分解复合任务（计划中途使用 LLM 备用分解），以及进化循环如何收敛到目标表达式。
 
-## 实际使用
+## 使用
 
 - **HTN 规划器**——使用 pyhop、SHOP3，或自行构建领域专用规划器来执行策略。
 - **ChatHTN**——研究代码；其模式（符号 + LLM 备用分解）可以干净地迁移到任意 HTN 规划器。

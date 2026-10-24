@@ -43,7 +43,7 @@ status: reviewed
 gx-hybrid-retrieval
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从零实现 BM25 <!-- learning-atlas: step-1-bm25-from-scratch -->
 
@@ -169,7 +169,7 @@ def hybrid_search(query, bm25, encoder, dense_embeddings, corpus, top_k=5, pool_
 
 调试失败查询时，应比较稀疏与稠密排名。若一方找到正确文档、另一方没有，可能是词表不匹配，修复方法是补上缺少的检索分支；也可能是语义歧义，需要更好的嵌入或重排器。
 
-## 使用现成工具
+## 使用
 
 2026 年技术栈：
 
@@ -195,7 +195,7 @@ def hybrid_search(query, bm25, encoder, dense_embeddings, corpus, top_k=5, pool_
 
 2026 年行业测量显示，良好的检索设计可降低 70% 至 90% 的幻觉。多数 RAG 性能收益来自更好的检索，而不是模型微调。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-retrieval-picker.md`：
 

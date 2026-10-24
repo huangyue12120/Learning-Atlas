@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/05-full-transformer/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: cb33225ca1b2bbaf32a06d637343c22fbaaf3083081bcf04479409c53070a662
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: b6b70606d3ee9b0a4d7165bb78c97248da19aca1de0e05c576ef98640f25bac4
 status: reviewed
 ---
 
@@ -91,9 +91,9 @@ RMSNorm 去掉 LayerNorm 的均值中心化（少一次减法），节省计算�
 - FFN（SwiGLU）：`3 · d · (r · d)` ≈ `3rd²`
 - 归一化：可忽略
 
-当 `d = 4096, r = 2.6, layers = 32`（大致对应 Llama 3 8B）时，总计为：`32 · (4·4096² + 3·2.6·4096²) ≈ 32 · (16 + 32) M = ~1.5B parameters per layer × 32 ≈ 7B`（另加嵌入和输出头），与公开参数量相符。
+当 `d = 4096, r = 2.6, layers = 32`（大致对应 Llama 3 8B）时，总计为：`32 · (4·4096² + 3·2.6·4096²) ≈ 32 · (67M + 131M) ≈ 32 · 198M ≈ 6.3B`，这是各个块中的参数；嵌入和输出头另有约 1B（128K 词表 × 4096，不共享权重）。合计接近公开的 8B。真实模型使用 GQA（K、V 投影更小）和更宽的 FFN（`r = 3.5`），这会把参数从注意力移到 FFN，但总量仍接近 8B。
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：构建块
 
@@ -133,7 +133,7 @@ def decode(target_tokens, encoder_out, params):
 
 把 LayerNorm 与 ReLU-FFN 替换为 RMSNorm 与 SwiGLU，确认形状仍然匹配。只需替换一个函数，就完成了 2026 年的现代化。
 
-## 用于实践
+## 使用
 
 PyTorch/TF 参考实现为 `nn.TransformerEncoderLayer`、`nn.TransformerDecoderLayer`。但 2026 年大多数生产代码会自行编写块，因为：
 
@@ -153,7 +153,7 @@ HF `transformers` 中有值得阅读的清晰参考块：`modeling_llama.py` 是
 
 纯解码器赢得了语言领域，因为它的扩展最干净，而且既能理解也能生成。当输入具有明确的“源序列”身份（翻译、语音识别、结构化任务）时，编码器—解码器仍是最佳选择。
 
-## 交付成果
+## 交付
 
 参见 `outputs/skill-transformer-block-reviewer.md`。该技能对照 2026 年默认设置审查新的 Transformer 块实现，并标记缺失部分（pre-norm、RoPE、RMSNorm、GQA、FFN 扩展比例）。
 

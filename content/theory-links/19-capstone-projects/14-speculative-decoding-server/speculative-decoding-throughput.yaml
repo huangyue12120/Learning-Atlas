@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 草稿—目标模型协作与推测解码吞吐
-  summary: 在由廉价草稿模型提出词元、再由目标模型批量验证时，用自回归文本生成理论核对条件分布、接受前缀和拒绝重采样如何改变解码成本。
+  summary: 在由廉价草稿模型提出词元、再由目标模型批量验证时，用自回归文本生成理论核对条件分布、接受前缀和拒绝重采样如何改变解码成本。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

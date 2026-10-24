@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/02-bag-of-words-tfidf/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 9aeaeef9bbc86fb4e768d8f01b9123c2cd989df0287c8a814456a6dd13acd484
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 872c4686bc1d52f5ddfe91126eebd8f6e123547cf3bbe571e52f1646e31fdab2
 status: reviewed
 ---
 
@@ -49,7 +49,7 @@ status: reviewed
 bow-tfidf
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：构建词表
 
@@ -137,7 +137,7 @@ def tfidf(bow_matrix):
 >>> tfidf(bow)
 ```
 
-三篇文档共有五个词（`the`、`cat`、`sat`、`dog`、`ran`）。`the` 出现在三篇文档中，因此 IDF 低；`dog` 只出现一次，因此 IDF 高。所得向量是稀疏的，大多数元素都很小，具有区分力的词会凸显出来。
+三篇文档共有五个词（`the`、`cat`、`sat`、`dog`、`ran`）。`the` 出现在三篇文档中，因此 IDF 低；`dog` 只出现一次，因此 IDF 高。在拥有成千上万词的真实词表下，这些向量是稀疏的，大多数元素都为零。即便在这个玩具示例里，具有区分力的词也会凸显出来。
 
 ### 步骤 5：对行执行 L2 归一化
 
@@ -152,7 +152,7 @@ def l2_normalize(matrix):
 
 不做归一化时，较长文档会得到更大的向量，从而支配相似度分数。L2 归一化把每篇文档放到单位超球面上，此时行向量之间的余弦相似度就是点积。
 
-## 使用现成工具
+## 使用
 
 scikit-learn 提供了生产级实现。
 
@@ -224,7 +224,7 @@ def tfidf_weighted_embedding(doc, tfidf_scores, embedding_table, dim):
 
 嵌入提供语义能力，TF-IDF 强调稀有词，分类器在汇聚后的向量上训练。对不足约 5 万个标注样本的情感、主题和意图分类，这种组合往往胜过单独使用任一方法。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/prompt-vectorization-picker.md`：
 

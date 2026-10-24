@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python、Node.js、Rust
 **前置课程：** 无
-**预计学习：** 约 45 分钟
+**预计时间：** 约 45 分钟
 
 ## 学习目标
 
@@ -37,9 +37,9 @@ status: reviewed
 
 ```mermaid
 graph TD
-    A["4. AI/ML Libraries\nPyTorch, JAX, transformers, etc."] --> B["3. Language Runtimes\nPython 3.11+, Node 20+, Rust, Julia"]
-    B --> C["2. Package Managers\nuv, pnpm, cargo, juliaup"]
-    C --> D["1. System Foundation\nOS, shell, git, editor, GPU drivers"]
+    A["4. AI/ML 库\nPyTorch、JAX、transformers 等"] --> B["3. 语言运行时\nPython 3.11+、Node 20+、Rust、Julia"]
+    B --> C["2. 包管理器\nuv、pnpm、cargo、juliaup"]
+    C --> D["1. 系统基础\n操作系统、shell、git、编辑器、GPU 驱动"]
 ```
 
 我们从底向上安装；每一层都依赖于它下面的一层。
@@ -199,7 +199,7 @@ Ready to start Beginner course.
 Next: python3 phases/01-math-foundations/01-linear-algebra-intuition/code/vectors.py
 ```
 
-## 实际使用
+## 使用
 
 你的环境已经可以启动所检查的路线。后续课程需要时再安装对应工具，不必让整个技术栈阻塞第一节课。以下是它们在全课程中的使用范围：
 
@@ -210,24 +210,22 @@ Next: python3 phases/01-math-foundations/01-linear-algebra-intuition/code/vector
 | Rust | Phase 12、15–17（性能关键任务） | cargo |
 | Julia | Phase 1（数学基础） | Pkg |
 
-## 交付成果
+## 交付
 
 本课会产出一个人人可运行的验证脚本，用来检查自己的配置。
 
 参见 `outputs/prompt-env-check.md`，其中的提示词可帮助 AI 助手诊断环境问题。
 
 ## 练习
-### 提示
-
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Run `python3 phases/00-setup-and-tooling/01-dev-environment/code/verify.py --route beginner` from the repository root and fix the first failed line before you look at the next one. The check is done when you run the script again and every required probe passes.
->
-> **Exercise 2.** Make the environment with `uv venv` in the repository root, activate it, then install PyTorch with the command from Step 6 that matches your hardware. Run `python -c "import torch; print(torch.__version__)"` inside the environment; a version number means the install worked.
->
-> **Exercise 3.** Use the four runtimes from the stack in The Concept: Python, TypeScript on Node.js, Rust, and Julia. Write one small file for each and run it with `python3`, `npx tsx` (Node.js cannot run a `.ts` file directly), `cargo run` or `rustc`, and `julia`. Each run must print your message and exit with code 0.
-
 
 1. 运行验证脚本，并修复所有失败项
 2. 为本课程创建一个 Python 虚拟环境并安装 PyTorch
 3. 用四种语言分别编写并运行一个“hello world”
+
+### 提示
+
+**练习 1.** 从仓库根目录运行 `python3 phases/00-setup-and-tooling/01-dev-environment/code/verify.py --route beginner`，在查看下一行之前先修复第一个失败项。当你再次运行脚本、所有必需检查都通过时，本练习即完成。
+
+**练习 2.** 在仓库根目录用 `uv venv` 创建环境并激活它，然后用第 6 步中与你硬件匹配的命令安装 PyTorch。在该环境内运行 `python -c "import torch; print(torch.__version__)"`；出现版本号就表示安装成功。
+
+**练习 3.** 使用“概念”一节技术栈中的四种运行时：Python、运行在 Node.js 上的 TypeScript、Rust 和 Julia。为每种运行时写一个小文件，并分别用 `python3`、`npx tsx`（Node.js 无法直接运行 `.ts` 文件）、`cargo run` 或 `rustc`、以及 `julia` 运行。每次运行都必须打印出你的消息并以退出码 0 结束。

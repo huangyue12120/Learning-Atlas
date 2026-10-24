@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/09-reward-modeling-rlhf/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: f1ccc27870fa504fc71d7f8cf53854a1cb52141829fe3f0e44d165430526a0a9
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 1ec5485ebc328bcd79ef197179ec6f3cde0b318e870b6dc6fb8c3ccde5b3af76
 status: reviewed
 ---
 
@@ -124,7 +124,7 @@ def rlhf_step(theta, ref, w, prompt, rng, eps=0.2, beta=0.1, lr=0.05):
 
 ### 第 4 步：监控 KL
 
-每次更新都跟踪平均 `KL(π_θ || π_ref)`。如果它逐渐超过 `约 5-10`，策略已经偏离 `π_SFT` 太远，说明 `β` 过低或奖励投机已经开始。这是实际 RLHF 中最重要的诊断指标。
+每次更新都跟踪平均 `KL(π_θ || π_ref)`。如果它逐渐超过 `约 5-10`（以 nat 为单位、对各词元求和的每条回答 KL，也就是 TRL 记录的单位），策略已经偏离 `π_SFT` 太远：要么 `β` 过低（调高它把策略拉回来），要么奖励投机已经开始。这是实际 RLHF 中最重要的诊断指标。
 
 ### 第 5 步：使用 TRL 的生产配方
 
@@ -172,7 +172,7 @@ for batch in dataloader:
 
 这个库会替你完成三件事。`adap_kl_ctrl=True` 实现自适应 β 调度：观察到的 KL 超过 `target_kl` 时，β 加倍；低于一半时，β 减半。按照惯例，参考模型保持冻结，你不能让它意外地与 `policy` 共享参数。价值头位于与策略相同的主干上（`AutoModelForCausalLMWithValueHead` 会附加一个标量 MLP 头），因此 TRL 分别报告 `policy/kl` 与 `value/loss`。
 
-## 常见问题
+## 陷阱
 
 - **过度优化 / 奖励投机。** RM 并不完美；`π_θ` 会找到分数高但质量差的对抗性补全。症状是奖励无限上升，而人工评估分数趋于平稳或下降。解决方法是提前停止、提高 `β`、扩大 RM 训练数据的覆盖范围。
 - **长度投机。** 在有帮助的回答上训练的 RM 往往会隐式奖励长度，策略因而学会填充回答。可以使用长度规范化奖励，或采用带长度感知 RM 的 RLAIF。
@@ -181,7 +181,7 @@ for batch in dataloader:
 - **偏好数据噪声。** 约 30% 的人工标签存在噪声或歧义。可以只用标注者意见一致的数据训练 RM，或为 BT 引入温度进行校准。
 - **离策略问题。** 第一轮之后，PPO 数据会略微偏离当前策略。按照第 08 课的方法监控裁剪比例。
 
-## 使用方法
+## 使用
 
 2026 年的 RLHF 分为多个层次：
 
@@ -196,7 +196,7 @@ for batch in dataloader:
 
 RLHF 是 2022–2024 年的*主流*方法。到 2026 年，生产对齐流水线会优先使用 DPO，仅在 RM 密集或安全关键步骤中使用 PPO。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-rlhf-architect.md`：
 

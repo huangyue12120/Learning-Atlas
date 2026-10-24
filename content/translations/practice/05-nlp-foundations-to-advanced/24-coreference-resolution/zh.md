@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/24-coreference-resolution/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 79f99912087cb3f255382afe911e49cfa9200b20b8f0c96c20fc095a8ba019c8
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 53ee10b92ef19ae98b4f0edd7f980adf94a545332a382979929b0966dfecdf5b
 status: reviewed
 ---
 
@@ -65,21 +65,21 @@ status: reviewed
 coref-links
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：预训练神经共指模型（AllenNLP / spaCy-experimental）
 
 ```python
 import spacy
 nlp = spacy.load("en_coreference_web_trf")   # experimental model
-doc = nlp("Apple announced new products. The company said they would ship soon.")
+doc = nlp("Apple announced new products. The company said it would ship them soon.")
 for cluster in doc._.coref_clusters:
     print(cluster, "->", [m.text for m in cluster])
 ```
 
 对较长文档，结果类似：
-- 簇 1：[Apple, The company, they]
-- 簇 2：[new products]
+- 簇 1：[Apple, The company, it]
+- 簇 2：[new products, them]
 
 ### 步骤 2：基于规则的代词消解器（教学实现） <!-- learning-atlas: step-2-rule-based-pronoun-resolver-teaching -->
 
@@ -118,7 +118,7 @@ Cluster them by what they refer to. Output JSON:
 - **性别假设。** 硬编码性别规则无法正确处理非二元性别指称、组织与动物。应使用学习模型或中性打分。
 - **LLM 在长文档上漂移。** 一次 API 调用无法可靠聚类横跨 50 多段的提及。应使用滑动窗口并合并结果。
 
-## 使用现成工具
+## 使用
 
 2026 年的技术栈：
 
@@ -132,7 +132,7 @@ Cluster them by what they refer to. Output JSON:
 
 2026 年投入生产的集成模式是：先运行 NER，再运行共指消解，把共指簇合并进 NER 实体。下游任务看到的是每个簇对应的一个实体，而不是每个提及对应一个实体。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-coref-picker.md`：
 

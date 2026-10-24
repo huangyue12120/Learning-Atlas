@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/20-marl-maddpg-qmix-mappo/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 73e2c34e4c463c3cd868a99fcfa9f0f9e214e393cbebd60f771de525c22becda
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 381f30d7d976dc1580ffb6f20e114a1dda9abf2e3a5912e35d66743006d8725a
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库，小型无 NumPy 实现）
 **前置要求：** 第 09 阶段（强化学习），第 16 阶段 · 09（并行群体网络）
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 问题
 
@@ -53,7 +53,7 @@ critic update:   TD on Q_i(x, a_1..n) given next-state joint estimate
 
 ### QMIX（2018）——价值分解
 
-只适用于合作场景。全局奖励是逐智能体 Q 值的某个单调函数：
+只适用于合作场景。联合动作价值 `Q_tot` 是逐智能体 Q 值的单调混合函数：
 
 ```math
 Q_{\text{tot}}(\tau, a) = f\big(Q_1(\tau_1, a_1), \ldots, Q_n(\tau_n, a_n)\big), \quad \frac{\partial f}{\partial Q_i} \ge 0
@@ -112,7 +112,7 @@ QMIX 为何在 SMAC 获胜：合作型 StarCraft 微操具有同质智能体、�
 sw-ctde
 ```
 
-## 构建
+## 动手构建
 
 `code/main.py` 在一个微型双智能体合作网格世界中实现三种模式演示：
 

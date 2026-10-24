@@ -66,7 +66,7 @@ status: reviewed
 v4-voice-latency
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：带分块的麦克风捕获（伪代码）
 
@@ -142,7 +142,7 @@ while True:
         break
 ```
 
-## 用于实践
+## 使用
 
 参见 `code/main.py` 中可运行的模拟，它使用桩模型连接全部七个组件，让你无需硬件也能看到流水线形状。真实实现可将桩替换为：
 
@@ -161,7 +161,7 @@ while True:
 - **过度积极的幻觉过滤器。** 过滤过头，助理会反复说“I can't help with that.”；过滤不足，它就什么都敢说。请在留出集上校准。
 - **没有唤醒词选项。** 始终监听会带来隐私风险。增加唤醒词门控（Porcupine 或 openWakeWord）。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-voice-assistant-architect.md`。给定预算、规模、语言与合规约束，产出完整技术栈规范。
 

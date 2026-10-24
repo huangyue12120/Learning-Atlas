@@ -121,7 +121,7 @@ GAN 没有真值，如何知道是否有效？
 cv-gan-image
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：生成器
 
@@ -284,7 +284,7 @@ def build_sn_discriminator(img_channels=3, feat=64):
 
 将 `Discriminator` 换为 `build_sn_discriminator()` 后，通常不再需要 TTUR 技巧。谱归一化是最容易应用的单项鲁棒性升级。
 
-## 使用现成工具
+## 使用
 
 严肃生成任务应使用预训练权重或改用扩散模型；两种标准库：
 
@@ -293,7 +293,7 @@ def build_sn_discriminator(img_channels=3, feat=64):
 
 2026 年 GAN 仍最适合：实时图像生成（延迟 <10 ms）、风格迁移、精确控制的图像到图像转换（Pix2Pix、CycleGAN）。扩散在照片真实感和文本条件化上胜出。
 
-## 交付产物
+## 交付
 
 本课产出：
 

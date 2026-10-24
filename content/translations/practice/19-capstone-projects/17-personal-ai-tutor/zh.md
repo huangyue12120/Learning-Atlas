@@ -17,7 +17,7 @@ status: reviewed
 **语言：** Python（后端、学习者模型）、TypeScript（Web 应用）、SQL（通过 Postgres + Neo4j 实现课程图）
 **前置课程：** 第 5 阶段（NLP）、第 6 阶段（语音）、第 11 阶段（LLM 工程）、第 12 阶段（多模态）、第 14 阶段（智能体）、第 17 阶段（基础设施）、第 18 阶段（安全）
 **涉及阶段：** P5 · P6 · P11 · P12 · P14 · P17 · P18
-**用时：** 30 小时
+**预计时间：** 30 小时
 
 ## 问题
 
@@ -74,7 +74,7 @@ UX 是多模态的。文本输入用于键入答案。语音输入通过 LiveKit
 ## 技术栈
 
 - 学科选择：K–12 代数或 Python 入门（选择一个做深）
-- 导师策略：基于 Claude Sonnet 4.7、带提示缓存的 LangGraph
+- 导师策略：基于 Claude Sonnet 4.7、带提示词缓存的 LangGraph
 - 学习者模型：经典 Bayesian knowledge tracing（BKT）或 FSRS 间隔调度
 - 课程图：由带先修边的概念组成的 Neo4j，并挂接 OER 内容
 - 记忆：类似 agentmemory 的持久向量 + episodic + semantic 存储
@@ -107,7 +107,7 @@ cf-tutor-loop
 
 9. **每周进度报告。** 为每名学习者自动生成 PDF 摘要，包含探索过的主题、掌握轨迹和推荐的下一步。
 
-## 实际使用
+## 使用
 
 ```text
 学习者：“我不明白为什么 3x + 6 = 12 意味着 x = 2。”

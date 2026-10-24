@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/21-computer-use-agents/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: fddd303eb087f556eb13754431e8a118980c7c9184eb53f61dc810b91638605e
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: c066fa4272f477f73ca5cc89b13ff8296226788ddf8a8d673a6d4f1efec09fcf
   anchor:
     heading: The Concept
     slug: the-concept

@@ -46,7 +46,7 @@ Transformer 出现之前，两类架构填补了这个缺口。
 rnn-unroll
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：用 PyTorch 实现 TextCNN
 
@@ -128,7 +128,7 @@ LSTM 使用只含加性相互作用的**细胞状态（cell state）**穿过网�
 
 注意力解决了全部三个问题，Transformer 则彻底删除了循环。第 10 课将完成这一转折。
 
-## 使用现成工具
+## 使用
 
 PyTorch 的 `nn.LSTM`、`nn.GRU` 和 `nn.Conv1d` 已达到生产可用水平，训练代码遵循标准流程。
 
@@ -166,7 +166,7 @@ class BertCNN(nn.Module):
 
 其他情况应使用 Transformer。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/prompt-text-encoder-picker.md`：
 

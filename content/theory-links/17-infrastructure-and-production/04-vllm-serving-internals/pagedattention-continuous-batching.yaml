@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/04-vllm-serving-internals/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: ac55f16811358007b01b6a338df61bb4572f6e8d89a7e2af65387c6504508856
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 7eb89d931e970bda52360b99a34b3621ff891f16b1b7de77ba15fe886d1ad629
   anchor:
     heading: PagedAttention as a virtual memory system
     slug: pagedattention-as-a-virtual-memory-system

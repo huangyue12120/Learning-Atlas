@@ -3,14 +3,14 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/19-audio-language-whisper-to-af3/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 49c01d68f46738759c50c28f2b094f9328924f9cd37ba0cc497f975b3079b2eb
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: f9a3ca839797463ce70ec2600135887b50e2a28cf575a330b0d6923eb01f4635
   anchor:
     heading: The Concept
     slug: the-concept
 card:
   title: 音频词元与跨模态生成
-  summary: 在比较 Whisper 式编码器、音频 codec token 和语言模型接口时，用跨模态生成理论核对音频的语义/声学层级、离散 codec token 与文本条件生成之间的表示路径。
+  summary: 在比较 Whisper 式编码器、音频 codec 词元和语言模型接口时，用跨模态生成理论核对音频的语义/声学层级、离散 codec 词元与文本条件生成之间的表示路径。
   context: "本课要区分用于理解语音的连续编码表示与用于生成声音的 codec 词元；二者承载的信息层级和输出目标并不相同。"
   intuition: "音频可先变成频谱连续特征供模型理解，也可经神经编解码器量化成多层离散词元供模型生成，再由解码器还原波形。"
   key_points:

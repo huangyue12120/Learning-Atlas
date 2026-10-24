@@ -148,7 +148,7 @@ def reinforce_step(theta, trajectory, gamma, lr, baseline=0.0):
 
 使用近期回合中 `G` 的运行均值作为基线，就足以通过方差缩减让 4×4 GridWorld 学习起来；它需要约 500 个回合才能收敛。把基线升级为学习得到的 `V̂(s)`，就得到 Actor-Critic。
 
-## 常见问题
+## 陷阱
 
 - **梯度爆炸。** 回报可能很大。把 `G` 与 `∇ log π` 相乘前，始终在批次内将其规范化到 `约 N(0, 1)`。
 - **熵坍缩。** 策略过早收敛到近乎确定的动作，停止探索并陷入局部解。解决方法是在目标中加入熵奖励 `β · H(π(·|s))`。
@@ -157,7 +157,7 @@ def reinforce_step(theta, trajectory, gamma, lr, baseline=0.0):
 - **非平稳梯度。** 来自 100 个回合前的同一梯度使用的是旧 `π`。因此，同策略方法每完成几次展开就会更新。
 - **信用分配。** 不使用 reward-to-go 时，过去的奖励会引入噪声。始终使用 reward-to-go。
 
-## 使用方法
+## 使用
 
 到 2026 年，研究者很少直接运行 REINFORCE，但它的梯度公式无处不在：
 
@@ -172,7 +172,7 @@ def reinforce_step(theta, trajectory, gamma, lr, baseline=0.0):
 
 当你在 2026 年的训练脚本中读到 `loss = -advantage * log_prob`，看到的就是带基线的 REINFORCE。DPO、GRPO、RLOO 等整篇论文，都是建立在这一行代码之上的方差缩减技巧。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-policy-gradient-trainer.md`：
 

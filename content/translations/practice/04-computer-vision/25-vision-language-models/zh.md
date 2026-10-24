@@ -43,7 +43,7 @@ flowchart LR
     ViT --> FEATS["图像词元<br/>(N, d_vit)"]
     FEATS --> PROJ["Projector<br/>（2–4 层 MLP<br/>或 Q-former）"]
     PROJ --> VTOK["LLM 空间中的<br/>图像词元<br/>(N, d_llm)"]
-    TXT["文本提示"] --> TOK["LLM tokenizer"]
+    TXT["文本提示词"] --> TOK["LLM 分词器"]
     TOK --> TTOK["文本词元<br/>(M, d_llm)"]
     VTOK --> CONCAT["交错<br/>或拼接"]
     TTOK --> CONCAT
@@ -120,7 +120,7 @@ CMER = 输出中“文本置信度高、但图文相似度（由 CLIP 家族检�
 v4-vlm-projector
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：Projector
 
@@ -230,7 +230,7 @@ class ToyVLM(nn.Module):
 
 在合成（特征、类别）对上 200 步内可拟合，足以说明 projector 模式有效。
 
-## 使用现成工具
+## 使用
 
 2026 年生产团队使用 VLM 的三种方式：
 
@@ -261,7 +261,7 @@ answer = processor.decode(generated[0][inputs["input_ids"].shape[1]:], skip_spec
 
 `apply_chat_template` 隐藏了 `<image>` 占位词元的分词；模型在内部处理合并。
 
-## 交付产物
+## 交付
 
 本课产出：
 

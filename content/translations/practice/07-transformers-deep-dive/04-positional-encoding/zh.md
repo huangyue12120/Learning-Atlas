@@ -88,7 +88,7 @@ RoPE 胜出的原因是：可以嵌入注意力而不改变架构、编码相对
 rope-explorer
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：正弦编码
 
@@ -145,7 +145,7 @@ def alibi_bias(n_heads, seq_len):
 
 随机选择两个向量 `a, b`，按 `(pos_a, pos_b)` 旋转，再按 `(pos_a + k, pos_b + k)` 旋转。两个点积必须在浮点误差范围内相等。该性质就是 RoPE 的全部意义——它不受绝对偏移影响，只与相对间隔有关。
 
-## 用于实践
+## 使用
 
 PyTorch 2.5+ 在 `torch.nn.functional` 中提供 RoPE 工具。大多数生产代码使用 `flash_attn` 或 `xformers`，在注意力内核中应用 RoPE。
 
@@ -162,7 +162,7 @@ model = AutoModel.from_pretrained("meta-llama/Llama-3.2-3B")
 - **LongRoPE。** Microsoft 2024 年的方法，通过进化搜索选择逐维缩放因子。Phi-3-Long 使用它。
 - **位置插值 + 微调。** 只需按扩展因子缩小位置，再微调 10–50 亿词元。效果出奇地好。
 
-## 交付成果
+## 交付
 
 参见 `outputs/skill-positional-encoding-picker.md`。该技能根据目标上下文长度、外推需求与训练预算选择编码策略。
 

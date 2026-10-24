@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/77-data-parallel-ddp/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 6ba115be197abfd064ea9b7dd48b93cc51ddd08e13f76e7fef41ebdda2e8c6f6
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: ba4e5e072160097b74df0c309cd521418b32e8ad311bfa0f89e4c913482491f2
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置知识：** Phase 19 Track C 第 42–49 课
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -68,13 +68,13 @@ sequenceDiagram
 
 ### 为什么固定随机种子
 
-每个 rank 都必须使用 `torch.manual_seed(seed + rank)` 进行打乱，但要使用 `torch.manual_seed(seed)` 初始化参数。所有 rank 共用一个种子，会让它们看到相同的 batch 顺序（从而失去数据并行的意义）；用 rank 专属种子初始化参数，则会让初始参数产生一个浮点精度范围内的差异，梯度同步也就无法再使副本保持一致。种子模式一旦写错，参数等价性测试在第 1 步就会失败。
+每个 rank 都必须使用 `torch.manual_seed(seed + rank)` 进行打乱，但要使用 `torch.manual_seed(seed)` 初始化参数。如果打乱时所有 rank 共用一个种子，它们会看到相同的 batch 顺序（从而失去数据并行的意义）。对参数而言，真正让副本一致的是构造时由 rank 0 发起的广播，它会覆盖每个 rank 自行初始化的值。共享的初始化种子是后备手段：如果广播被跳过或出错，rank 专属的初始化会让每个副本的起始权重各不相同，仅靠梯度同步永远无法把它们拉回一致。种子模式一旦写错，参数等价性测试在第 1 步就会失败。
 
 ```figure
 ci-ddp-grad-sync
 ```
 
-## 构建
+## 动手构建
 
 `code/main.py` 实现了：
 

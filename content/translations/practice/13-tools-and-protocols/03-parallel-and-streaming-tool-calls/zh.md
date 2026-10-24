@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/03-parallel-and-streaming-tool-calls/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: b848b9e12e391ea6442042d0108f5c9cc9a5527a5f31a8acabed0083e8da9306
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0546dbcf5d05d4eec8e7fb5bfb352cd37d55f575c41ad2fd0c01f0f651e19b61
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库、线程池 + 流式测试工具）
 **前置课程：** Phase 13 · 02（函数调用深潜）
-**时间：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -77,7 +77,7 @@ LLM -> final text answer
 
 宿主让每个调用的执行器运行在自己的线程、协程或远程工作进程上。最简单的测试工具使用线程池；生产环境使用 `asyncio` 配合 `asyncio.gather` 或结构化并发。完成顺序不可预测——id 才是标识符。
 
-一个常见错误是按照调用列表顺序而不是完成顺序回复结果。通常这仍然有效，因为模型只关心 `tool_call_id`；但如果某个结果丢失或重复，乱序提交会让调试更困难。最好按照完成顺序回复，并明确带上 id。
+一个常见错误是按照调用列表顺序而不是完成顺序回复结果。通常这仍然有效，因为模型只关心 `tool_call_id`；但如果某个结果丢失或重复，回复列表的顺序与结果实际到达的顺序不一致，会让这个缺口更难在日志中找到。最好按照完成顺序回复，并明确带上 id。
 
 ### 流式工具调用
 
@@ -125,7 +125,7 @@ call_C: median API, returns third
 tp-parallel-fanout
 ```
 
-## 动手使用
+## 使用
 
 `code/main.py` 分为两半。第一半使用 `concurrent.futures.ThreadPoolExecutor`，分别串行和并行运行三个模拟天气调用，并打印墙钟时间。第二半重放一个假的流式响应——三个并行调用的 `arguments` 块交错出现在一条流上——并使用 `StreamAccumulator` 按 ID 重组它们。没有 LLM，没有网络，只有重组逻辑。
 
@@ -135,7 +135,7 @@ tp-parallel-fanout
 - 累加器通过按 ID 缓冲来处理乱序到达的块，并且只在每个调用的 JSON 完整时解析。
 - 执行器在某个 ID 的参数完成时立即启动，而不是等到所有流结束。
 
-## 交付物
+## 交付
 
 本课会生成 `outputs/skill-parallel-call-safety-check.md`。给定一个工具注册表，这个 skill 会审查哪些工具可以安全并行化、哪些存在顺序依赖、哪些会压垮下游速率限制，并返回带有各工具 `parallel_safe` 标志的修订注册表。
 
@@ -151,7 +151,7 @@ tp-parallel-fanout
 
 5. 阅读 OpenAI 的并行函数调用章节和 Anthropic 的 `disable_parallel_tool_use` 文档。找出一种 Anthropic 建议禁用并行的真实工具类型。（提示：对同一资源进行后果性修改。）
 
-## 术语
+## 关键术语
 
 | 术语 | 人们常说 | 实际含义 |
 |------|----------------|------------------------|

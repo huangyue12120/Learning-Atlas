@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 01 节（智能体循环）、第 14 阶段 · 第 03 节（Reflexion）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -25,7 +25,7 @@ status: reviewed
 - 用标准库实现带历史记录和可选外部验证器的 Self-Refine 循环。
 - 将这一模式映射到 Anthropic 的 evaluator-optimizer 工作流，以及 OpenAI Agents SDK 的输出防护栏。
 
-## 问题所在
+## 问题
 
 智能体产出一个几乎正确的答案。也许某行代码有语法错误，也许摘要太长，也许计划漏掉了边界情况。你想要的是：智能体批评自己的输出，然后修正它。
 
@@ -33,7 +33,7 @@ Self-Refine 说明只用一个模型、没有训练数据、没有 RL 也可以�
 
 这两篇论文共同定义了 2026 年迭代改进的默认模式：生成、验证（可能时使用外部验证）、改进，直到验证器通过。
 
-## 核心概念
+## 概念
 
 ### Self-Refine（Madaan 等，NeurIPS 2023）
 
@@ -91,7 +91,7 @@ OpenAI Agents SDK 以“输出防护栏”的名字提供了这一模式。防�
 ### 2026 年的陷阱
 
 - **机械盖章循环。** 同一个模型以同一种提示词风格生成和批评，最终会收敛到“看起来不错”。使用结构明显不同的提示词，或使用更小、更便宜的模型做批评。
-- **过度改进。** 每一轮改进都会增加延迟和 token。预算 1–3 轮；之后升级到人工审核。
+- **过度改进。** 每一轮改进都会增加延迟和词元。预算 1–3 轮；之后升级到人工审核。
 - **对琐碎任务使用 CRITIC。** 没有外部验证器时，CRITIC 会退化为 Self-Refine；不要为一个空壳验证器付出延迟。
 
 ```figure
@@ -118,7 +118,7 @@ python3 code/main.py
 
 比较 Self-Refine 和 CRITIC 的运行结果。CRITIC 能捕获 Self-Refine 漏掉的事实错误，因为外部验证器拥有自我批评器没有的依据。
 
-## 实际使用
+## 使用
 
 Anthropic 的 evaluator-optimizer 用适合 Claude 的语言表达了这个模式。OpenAI Agents SDK 的输出防护栏是 CRITIC 形状的（防护栏可以调用工具）。LangGraph 提供读起来像 Self-Refine 的 reflection 节点。Google 的 Gemini 2.5 Computer Use 加入了逐步安全评估器，这是 CRITIC 的一个变体：每次行动提交前都要验证。
 

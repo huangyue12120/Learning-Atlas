@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/27-data-provenance-training-governance/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: d54fe97d020370049a72763518047b23ebc1a86a62796db68f2780e76c4173e9
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: b08c2b2fff6dc63a0fa38bbbaaa355ee9517f19b386adbccef2d14472eb397e9
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库，加州 AB 2013 十二字段脚手架生成器）
 **前置要求：** 第 18 阶段 · 24（监管）、第 18 阶段 · 26（卡片）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -60,7 +60,7 @@ status: reviewed
 
 趋同原则：对于公开可用的第一方内容，带有退出机制的训练可以由合法利益正当化。不要求取得同意。
 
-### 巴西 ANPD（2024 年 6 月）
+### 巴西 ANPD（2024 年 7 月）
 
 巴西 ANPD 因信息透明度不足，暂停 Meta 处理巴西用户数据用于 AI 训练。这与欧盟 DPA 的结果不同——ANPD 将透明度置于合法利益可采纳性之上。
 

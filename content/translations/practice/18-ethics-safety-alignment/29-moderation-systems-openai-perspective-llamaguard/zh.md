@@ -4,19 +4,19 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/29-moderation-systems-openai-perspective-llamaguard/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: ad0da963675b3addadb37f2d439e28b60efebcc0dbd4c4292bb4ef57a39820ef
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 217072b64242c1312eec78c6cf1ae2af4447e9f05a579270115094278171e39a
 status: reviewed
 ---
 
 # 内容审核系统：OpenAI、Perspective、Llama Guard
 
-> 生产审核系统把第 12–16 课定义的安全策略落地。OpenAI Moderation API：`omni-moderation-latest`（2024）基于 GPT-4o，在一次调用中分类文本和图像；在多语言测试集上比前一版本好 42%；响应模式返回 13 个类别布尔值——骚扰、骚扰/威胁、仇恨、仇恨/威胁、非法、非法/暴力、自残、自残/意图、自残/指导、色情、色情/未成年人、暴力、暴力/血腥；对大多数开发者免费。分层模式包括：输入审核（生成前）、输出审核（生成后）和自定义审核（领域规则）。异步并行调用可以隐藏延迟；命中时返回占位响应。Llama Guard 3/4（第 16 课）：14 类 MLCommons 危害、代码解释器滥用、8 种语言（v3）、多图像（v4）。Perspective API（Google Jigsaw）：早于 LLM 审核时代的毒性评分，主要是单维毒性及严重毒性/侮辱/脏话变体，是内容审核研究的基线。弃用时间线：Azure Content Moderator 于 2024 年 2 月弃用、2027 年 2 月退役，由 Azure AI Content Safety 替代。
+> 生产审核系统把第 12–16 课定义的安全策略落地。OpenAI Moderation API：`omni-moderation-latest`（2024）基于 GPT-4o，在一次调用中分类文本和图像；在多语言测试集上比前一版本好 42%；响应模式返回 13 个类别布尔值——骚扰、骚扰/威胁、仇恨、仇恨/威胁、非法、非法/暴力、自残、自残/意图、自残/指导、色情、色情/未成年人、暴力、暴力/血腥；对大多数开发者免费。分层模式包括：输入审核（生成前）、输出审核（生成后）和自定义审核（领域规则）。异步并行调用可以隐藏延迟；输入审核完成前，可以用占位响应覆盖等待时间。Llama Guard 3/4（第 16 课）：14 类 MLCommons 危害、代码解释器滥用、8 种语言（v3）、多图像（v4）。Perspective API（Google Jigsaw）：早于 LLM 审核时代的毒性评分，主要是单维毒性及严重毒性/侮辱/脏话变体，是内容审核研究的基线。弃用时间线：Azure Content Moderator 于 2024 年 2 月弃用、2027 年 2 月退役，由 Azure AI Content Safety 替代。
 
 **类型：** 构建
 **语言：** Python（标准库，三层审核工具）
 **前置要求：** 第 18 阶段 · 16（Llama Guard / Garak / PyRIT）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -68,7 +68,7 @@ OpenAI 与 Llama Guard 的分类体系有重叠也有差异。OpenAI 将 `illici
 2. **输出审核。** 在交付前分类模型输出，命中则替换为拒答。延迟：生成后一次分类器调用。
 3. **自定义审核。** 领域规则（正则、允许列表、业务策略），在输入或输出侧运行。
 
-三层按顺序设计：输入审核必须在生成前完成，输出审核在生成后运行。并行只适用于层内：对同一文本并发运行多个分类器（例如 OpenAI Moderation、Llama Guard、Perspective）可以隐藏各分类器延迟。可选优化是输入审核期间显示“请稍候，正在检查……”占位响应，并延迟 token-1 流式输出。命中行为可配置为拒绝、清理或升级人工审核。
+三层按顺序设计：输入审核必须在生成前完成，输出审核在生成后运行。并行只适用于层内：对同一文本并发运行多个分类器（例如 OpenAI Moderation、Llama Guard、Perspective）可以隐藏各分类器延迟。可选优化是输入审核期间显示“请稍候，正在检查……”占位响应，并延迟词元-1 流式输出。命中行为可配置为拒绝、清理或升级人工审核。
 
 ### 失效模式
 

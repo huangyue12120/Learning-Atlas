@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/38-verification-gates/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 4959114e249714257295b82f895d03c8b8a144bd1c689883bc9cf7f25c9785a0
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 33f32ce98034eb1a33b488ddae38f3cd085ab2890731171f5aa18295a3d6ce4d
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 33 节（规则）、第 14 阶段 · 第 36 节（范围）、第 14 阶段 · 第 37 节（反馈）
-**用时：** 约 55 分钟
+**预计时间：** 约 55 分钟
 
 ## 学习目标
 
@@ -25,7 +25,7 @@ status: reviewed
 - 输出一份 `verification_report.json`，让审阅者智能体和 CI 都能读取。
 - 遇到任何阻塞级失败时，无一例外地拒绝推进任务。
 
-## 问题所在
+## 问题
 
 智能体太容易宣布成功。主要有三种失败形态：
 
@@ -35,7 +35,7 @@ status: reviewed
 
 工作台的修复方案是设置一个单一验证门，读取智能体已经产出的工件并作出判断。验证门是确定性的。验证门处于版本控制之下。验证门接入 CI。智能体无法贿赂它。
 
-## 核心概念 <!-- learning-atlas: the-concept -->
+## 概念 <!-- learning-atlas: the-concept -->
 
 ```mermaid
 flowchart TD
@@ -98,7 +98,7 @@ python3 code/main.py
 
 ## 生产环境中的模式
 
-四种模式可以把验证门从“又一个 lint 任务”提升为“决定性边界”。
+五种模式可以把验证门从“又一个 lint 任务”提升为“决定性边界”。
 
 **纵深防御，而不是单一验证门。** 提交前 hook → CI 状态检查 → 工具调用前授权 hook → 合并前验证门。每一层都具有确定性，因此某一层的失败会被下一层捕获。microservices.io 在 2026 年 3 月的实践手册说得很明确：提交前 hook 不可绕过，因为它不像模型侧 skill 那样依赖智能体遵守指令。验证门位于 CI / 合并前这一层。
 
@@ -110,7 +110,7 @@ python3 code/main.py
 
 **`--strict` 模式将警告提升为阻塞。** 对发布分支、必须阻止发布的 PR 或事故后排查，`--strict` 会把每条警告都变成硬失败。该标志按分支选择性启用，不设为全局默认，因为对所有事情都严格会侵蚀日常流程。
 
-## 实际使用
+## 使用
 
 生产环境中的用法：
 

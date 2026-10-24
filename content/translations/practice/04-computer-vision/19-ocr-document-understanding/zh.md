@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/19-ocr-document-understanding/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 7d3780797a294b83dc498521397a2dba8c180ef07541faaa5092d6ad655e714e
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0eee2f9155fbc36b8056201d25eb376f3a0566ac209bfb19bd69eea9d9e0c902
 status: reviewed
 ---
 
@@ -82,7 +82,7 @@ CTC 是 CRNN 在 2015 年成功的原因，也是 2026 年多数生产 OCR 模�
 
 ### 版面解析
 
-对于结构化文档，运行版面检测器（LayoutLMv3、DocLayNet），为每个区域标注 Title、Paragraph、Figure、Table、Footnote。阅读顺序随后就是“按版面顺序迭代区域并拼接”。
+对于结构化文档，运行版面模型（LayoutLMv3，或在 DocLayNet 数据集上训练的检测器），为每个区域标注 Title、Paragraph、Figure、Table、Footnote。阅读顺序随后就是“按版面顺序迭代区域并拼接”。
 
 对于表单，使用**键值提取**模型（视觉丰富文档用 Donut，普通扫描件用 LayoutLMv3）。它们接受图像 + 检测文字 + 位置，并预测结构化键值对。
 
@@ -97,7 +97,7 @@ CTC 是 CRNN 在 2015 年成功的原因，也是 2026 年多数生产 OCR 模�
 cv3-ctc-collapse
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：CTC 损失 + 贪心解码器
 
@@ -171,18 +171,23 @@ class TinyCRNN(nn.Module):
 
 ### 步骤 3：合成 OCR
 
-生成白底黑字的数字字符串，进行端到端 smoke test。
+生成白底黑字的字符串，进行端到端 smoke test。每个字符变成由六条竖条组成的一列，用二进制拼写出它在词表中的索引。图像必须携带字符的身份：若每个字符都是相同的空白方块，模型就无法区分 `a` 和 `x`，损失也会停滞不前。
 
 ```python
 import numpy as np
+
+GLYPHS = "0123456789abcdefghijklmnopqrstuvwxyz"
 
 def synthetic_line(text, height=32, char_width=16):
     W = char_width * len(text)
     img = np.ones((height, W), dtype=np.float32)
     for i, c in enumerate(text):
         x = i * char_width
-        shade = 0.0 if c.isalnum() else 0.5
-        img[6:height - 6, x + 2:x + char_width - 2] = shade
+        code = GLYPHS.find(c) + 1
+        for bit in range(6):
+            if code >> bit & 1:
+                y = 4 + 4 * bit
+                img[y:y + 3, x + 2:x + char_width - 2] = 0.0
     return img
 
 
@@ -213,7 +218,7 @@ print(f"images: {imgs.shape}   targets: {targets.shape}   lengths: {lengths.toli
 model = TinyCRNN(vocab_size=len(vocab))
 opt = torch.optim.Adam(model.parameters(), lr=1e-3)
 
-for step in range(200):
+for step in range(400):
     strings = ["abc" + str(step % 10)] * 4 + ["xyz" + str((step + 1) % 10)] * 4
     imgs, targets, target_lens = build_batch(strings, vocab)
     log_probs = model(imgs)  # (W', 8, vocab)
@@ -222,9 +227,9 @@ for step in range(200):
     opt.zero_grad(); loss.backward(); opt.step()
 ```
 
-这种简单合成数据上，损失在 200 步内应从约 3 降至约 0.2。
+这种简单合成数据上，损失应在 400 步内从两位数降至约 0.3。`code/main.py` 在自己的字符串集合上运行同样的循环，然后解码三个测试字符串。
 
-## 使用现成工具
+## 使用
 
 三条生产路径：
 
@@ -243,7 +248,7 @@ model = VisionEncoderDecoderModel.from_pretrained("naver-clova-ix/donut-base-fin
 
 对于结构可重复的收据、发票和表单，可微调 Donut；对于任意文档或需要 OCR 推理的任务，Qwen-VL-OCR 一类 VLM 是当前默认选择。
 
-## 交付产物
+## 交付
 
 本课产出：
 

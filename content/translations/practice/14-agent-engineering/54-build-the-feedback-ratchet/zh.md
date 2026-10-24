@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习 + 构建
 **语言：** Python（标准库）
 **前置要求：** Phase 14 第 46、53 节
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -169,7 +169,7 @@ Python 实验仅生成待办行动示例；它不会观察用户或测量干预�
 
 将 [career-delivery-evidence.md](https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/phases/14-agent-engineering/54-build-the-feedback-ratchet/outputs/career-delivery-evidence.md) 复制到你自己的项目中，填写并附上证据链接。保留仓库中的模板供重复使用。将决策说明、交互流程走查、测量比较和有人负责的后续行动，一并放入职业作品集产物。
 
-## 验证
+## 验证它
 
 与同伴一起使用以下人工验收量规。为每行标记 **met**（已满足）、**needs work**（需改进）或 **not observed**（未观察），并提供证据链接或明确缺少的观察。填好字段不能证明判断合理。
 

@@ -80,7 +80,7 @@ ViT 没有 CNN 的归纳偏置（平移不变性、局部性），因此需要*�
 n5-patch-stream
 ```
 
-## 动手实现
+## 动手构建
 
 参见 `code/main.py`。使用纯标准库完成 patch 切分、线性嵌入和合理性检查。无需训练——任何现实规模的 ViT 都需要 PyTorch 和数小时 GPU 计算。
 
@@ -115,7 +115,7 @@ def patchify(image, P):
 
 打印 ViT-Base 的参数量：12 层、12 个头、d=768、patch=16。与 ResNet-50（约 2500 万）比较。ViT-Base 约为 8600 万，ViT-Large 约 3.07 亿，ViT-Huge 约 6.32 亿。
 
-## 用于实践
+## 使用
 
 ```python
 from transformers import ViTImageProcessor, ViTModel
@@ -135,7 +135,7 @@ cls_emb = out[:, 0]                       # image representation
 
 **选择 patch 大小。** 小型模型使用 16×16（ViT-B/16）。稠密预测（分割）使用 8×8 或 14×14（SAM、DINOv2）。超大型模型使用 14×14。
 
-## 交付成果
+## 交付
 
 参见 `outputs/skill-vit-configurator.md`。该技能根据数据集大小、分辨率与计算预算，为新的视觉任务选择 ViT 变体与 patch 大小。
 
@@ -150,7 +150,7 @@ cls_emb = out[:, 0]                       # image representation
 | 术语 | 人们通常怎么说 | 实际含义 |
 |------|----------------|----------|
 | Patch | “视觉 Transformer 词元” | 图像中一个 `P × P × C` 区域的像素值扁平向量。 |
-| Patchify | “切块 + 展平” | 将图像切成不重叠 patch，并把每个展平为向量。 |
+| Patchify | “分块 + 展平” | 将图像切成不重叠 patch，并把每个展平为向量。 |
 | `[CLS]` 词元 | “图像摘要” | 前置的可学习词元；其最终嵌入就是图像表示。 |
 | 归纳偏置 | “模型的假设” | ViT 的先验比 CNN 少，需要更多数据弥补差距。 |
 | DINOv2 | “自监督 ViT” | 使用图像增强 + 动量教师进行无标签训练。2026 年最佳通用图像特征。 |

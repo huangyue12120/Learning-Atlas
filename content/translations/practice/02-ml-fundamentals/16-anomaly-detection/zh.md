@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/16-anomaly-detection/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: efe48f9f7a4642702b5cfc06e9203460097f78b2b115ad72949d8d11518e886e
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 511926f7ba6c9e974c5e5b3e0bb0603ee67934db7244824d97251c7ff075415a
 status: reviewed
 ---
 
@@ -238,7 +238,7 @@ flowchart LR
 f3-anomaly-fence
 ```
 
-## 动手实现
+## 动手构建
 
 `code/anomaly_detection.py` 从零实现 Z-score、IQR 和 Isolation Forest。
 
@@ -274,6 +274,14 @@ def iqr_detect(X, factor=1.5):
 从零实现构建随机划分特征空间的隔离树：
 
 ```python
+def _c_factor(n):
+    if n <= 1:
+        return 0.0
+    if n == 2:
+        return 1.0
+    return 2.0 * (np.log(n - 1) + 0.5772156649) - 2.0 * (n - 1.0) / n
+
+
 class IsolationTree:
     def __init__(self, max_depth):
         self.max_depth = max_depth
@@ -297,6 +305,13 @@ class IsolationTree:
         self.left = IsolationTree(self.max_depth).fit(X[left_mask], depth + 1)
         self.right = IsolationTree(self.max_depth).fit(X[~left_mask], depth + 1)
         return self
+
+    def path_length(self, x, depth=0):
+        if self.is_leaf:
+            return depth + _c_factor(self.size)
+        if x[self.feature] < self.threshold:
+            return self.left.path_length(x, depth + 1)
+        return self.right.path_length(x, depth + 1)
 ```
 
 隔离点的路径长度决定异常分数，越短越异常。
@@ -308,8 +323,14 @@ class IsolationForest:
     def __init__(self, n_estimators=100, max_samples=256, seed=42):
         self.n_estimators = n_estimators
         self.max_samples = max_samples
+        self.seed = seed
+        self.trees = []
+        self.n_train = 0
 
     def fit(self, X):
+        self.n_train = X.shape[0]
+        rng = np.random.RandomState(self.seed)
+        self.trees = []
         sample_size = min(self.max_samples, X.shape[0])
         max_depth = int(np.ceil(np.log2(sample_size)))
         for _ in range(self.n_estimators):
@@ -317,14 +338,19 @@ class IsolationForest:
             tree = IsolationTree(max_depth=max_depth)
             tree.fit(X[idx])
             self.trees.append(tree)
+        return self
 
     def anomaly_score(self, X):
-        avg_path = average path length across all trees
-        scores = 2.0 ** (-avg_path / c(max_samples))
-        return scores
+        avg_path = np.zeros(X.shape[0])
+        for tree in self.trees:
+            for i in range(X.shape[0]):
+                avg_path[i] += tree.path_length(X[i])
+        avg_path /= self.n_estimators
+        c = _c_factor(min(self.max_samples, self.n_train))
+        return 2.0 ** (-avg_path / c) if c > 0 else np.zeros(X.shape[0])
 ```
 
-归一化项 `c(n)` 是 n 元二叉搜索树一次失败搜索的期望路径长度：`2 * H(n-1) - 2*(n-1)/n`，H 是调和数；这保证不同数据集大小的分数可比较。
+归一化项 `c(n)`（代码中的 `_c_factor`）是 n 元二叉搜索树一次失败搜索的期望路径长度：`2 * H(n-1) - 2*(n-1)/n`，H 是调和数；代码按原始 Isolation Forest 论文的做法，使用标准近似 `H(i) ≈ ln(i) + 0.5772`（欧拉常数）。这保证不同数据集大小的分数可比较。
 
 ### 演示场景
 
@@ -336,7 +362,7 @@ class IsolationForest:
 
 每个演示以 precision、recall、F1 和 Precision@k 比较所有方法。
 
-## 使用现成工具
+## 使用
 
 sklearn（使用库实现而非从零代码）：
 
@@ -403,7 +429,7 @@ Autoencoder 是学习压缩与重构的神经网络。在正常数据上训练�
 4. **特征工程：** 原始特征很少足够；加入滚动统计、比率、距上次事件时间和领域特征，特征集比检测器选择更重要。
 5. **反馈环：** 操作员确认或驳回标记项后反馈给系统，逐渐积累标注以评估和改进检测器。
 
-## 交付成果
+## 交付
 
 本课产出：
 
@@ -436,7 +462,7 @@ Autoencoder 是学习压缩与重构的神经网络。在正常数据上训练�
 4. **流式异常检测。** 将 Z-score 改为流式：新点到来时更新运行均值、方差（Welford 在线算法），与同数据 batch Z-score 比较。
 5. **真实评估。** 在有已知异常的数据集（如 Kaggle 信用卡欺诈）上，以 precision@100、precision@500、AUPRC 评估四种方法；哪个最好、为什么？
 
-## 核心术语
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

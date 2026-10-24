@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/14-prompt-semantic-caching/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: b3e17333c21dae5ac19ff620cae7a650f42ddb517c295819b732e7ddbaaabc2d
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 115c4b454ca9dea2e42f6235b591e06962a123f4b72b2815db8b0bf177298a79
   anchor:
     heading: The dynamic content anti-pattern
     slug: the-dynamic-content-anti-pattern
@@ -12,7 +12,7 @@ card:
   title: 将稳定内容置于可复用的提示词前缀
   summary: 在重构供应商 L2 提示词缓存的 cache boundary 时，前缀缓存原理说明了为什么系统规则、示例等稳定内容必须位于前部，而时间、请求 ID 与用户数据必须在后部，才能跳过重复 prefill 并获得命中率收益。
   context: "本课比较 L1 语义缓存和 L2 前缀缓存，说明可缓存前缀的边界如何决定命中率。"
-  intuition: "稳定规则、工具 schema 和示例可以共享 KV；时间、请求 ID 和用户数据若放在前缀中，每次都会制造新 token。"
+  intuition: "稳定规则、工具 schema 和示例可以共享 KV；时间、请求 ID 和用户数据若放在前缀中，每次都会制造新词元。"
   key_points:
     - "L1 语义命中可跳过整个 LLM，L2 命中只复用 provider 侧 attention KV。"
     - "并行请求在首次写入完成前到达，会重复支付写入溢价。"

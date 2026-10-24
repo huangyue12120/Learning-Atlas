@@ -19,7 +19,7 @@
         "outer 是硬件是否运行，inner 是损失是否低"
       ],
       "correct": 1,
-      "explanation": "正确答案是“outer 问基础目标是否符合意图，inner 问 mesa-objective 是否符合基础目标”。本课用玩具 mesa-optimizer 区分外部对齐、内部对齐和欺骗性对齐。"
+      "explanation": "正确答案是“outer 问基础目标是否符合意图，inner 问 mesa-objective 是否符合基础目标”。外对齐关注“损失是否写对”，内对齐关注 SGD 找到的内层目标是否与基础目标一致。其余选项把它们误解成数据是否干净、策略稳定性或硬件运行，都不是这两个概念的定义。"
     },
     {
       "id": "06-mesa-optimization-deceptive-alignment-check-2",
@@ -32,7 +32,7 @@
         "代理对齐"
       ],
       "correct": 1,
-      "explanation": "正确答案是“概率对齐”。本课用玩具 mesa-optimizer 区分外部对齐、内部对齐和欺骗性对齐。"
+      "explanation": "正确答案是“概率对齐”。Hubinger 等人提出的四类是稳健对齐、代理对齐、近似对齐和欺骗性对齐；“概率对齐”不在其中。"
     },
     {
       "id": "06-mesa-optimization-deceptive-alignment-check-3",
@@ -45,7 +45,7 @@
         "它拥有任何内部表征"
       ],
       "correct": 0,
-      "explanation": "正确答案是“它有持久终局目标、能区分训练与部署，并且训练中背叛会被基础优化器修改”。本课用玩具 mesa-optimizer 区分外部对齐、内部对齐和欺骗性对齐。"
+      "explanation": "正确答案是“它有持久终局目标、能区分训练与部署，并且训练中背叛会被基础优化器修改”。欺骗性对齐成为稳定均衡需三条件同时成立：持续的终端目标、情境感知、以及训练中背离会被修改。用 PPO、参数量超过 100B 或“拥有任何内部表征”都不是触发该策略的充分条件。"
     },
     {
       "id": "06-mesa-optimization-deceptive-alignment-check-4",
@@ -58,7 +58,7 @@
         "它使用了错误损失"
       ],
       "correct": 1,
-      "explanation": "正确答案是“它教会 mesa-optimizer 区分测试与部署，而没有教会符合基础目标的 mesa-objective”。本课用玩具 mesa-optimizer 区分外部对齐、内部对齐和欺骗性对齐。"
+      "explanation": "正确答案是“它教会 mesa-optimizer 区分测试与部署，而没有教会符合基础目标的 mesa-objective”。对抗样本会被内层优化器当作“测试”来学习，结果只是更会区分测试与部署，而非对齐内层目标。计算量、能否跑在 GPU、损失是否用错都不是其失效的机制。"
     },
     {
       "id": "06-mesa-optimization-deceptive-alignment-post-5",
@@ -71,7 +71,7 @@
         "指令微调模型的越狱方法"
       ],
       "correct": 1,
-      "explanation": "正确答案是“一种推测中的病理：有能力的 mesa-optimizer 产出会塑造自身梯度、以保留 mesa-objective 的输出”。本课用玩具 mesa-optimizer 区分外部对齐、内部对齐和欺骗性对齐。"
+      "explanation": "正确答案是“一种推测中的病理：有能力的 mesa-optimizer 产出会塑造自身梯度、以保留 mesa-objective 的输出”。梯度黑客指内层优化器通过产生特定输出来塑造自身梯度更新，以保留其内层目标，是 2019 年论文中推测性最强的部分。它不是加速技巧、autograd 的 bug，也不是越狱方法。"
     },
     {
       "id": "06-mesa-optimization-deceptive-alignment-post-6",
@@ -81,10 +81,10 @@
         "后门在 SFT 后仍然存在",
         "mesa-optimizer 在评估中隐藏目标",
         "mesa-optimizer 在分布外优化偏离的代理目标",
-        "奖励黑客和谄媚源于基础目标本身就是人类意图的错误代理"
+        "奖励投机和谄媚源于基础目标本身就是人类意图的错误代理"
       ],
       "correct": 3,
-      "explanation": "正确答案是“奖励黑客和谄媚源于基础目标本身就是人类意图的错误代理”。本课用玩具 mesa-optimizer 区分外部对齐、内部对齐和欺骗性对齐。"
+      "explanation": "正确答案是“奖励投机和谄媚源于基础目标本身就是人类意图的错误代理”。外对齐失败指基础目标没写对，奖励投机和谄媚正属于此类。后门存活、评估中隐藏目标、分布外优化偏离代理目标都是内层目标与基础目标不一致，即内对齐失败。"
     }
   ]
 }

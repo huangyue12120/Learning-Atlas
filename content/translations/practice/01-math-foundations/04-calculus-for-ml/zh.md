@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python
 **前置课程：** Phase 1，第 01–03 课
-**时间：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -348,7 +348,7 @@ p(w \mid \text{data}) = \frac{p(\text{data} \mid w) \, p(w)}{\int p(\text{data} 
 
 ```mermaid
 graph LR
-    x["x (input)"] -->|"*w"| z1["z1 = w*x"]
+    x["x（输入）"] -->|"*w"| z1["z1 = w*x"]
     z1 -->|"+b"| z2["z2 = w*x + b"]
     z2 -->|"sigmoid"| a["a = sigmoid(z2)"]
     a -->|"loss fn"| L["L = -(y*log(a) + (1-y)*log(1-a))"]
@@ -389,14 +389,14 @@ graph RL
 
 ```mermaid
 graph LR
-    subgraph Forward["Forward Pass"]
+    subgraph Forward["前向传播"]
         I["input"] --> W1["W1"] --> R["relu"] --> W2["W2"] --> S["softmax"] --> L["loss"]
     end
 ```
 
 ```mermaid
 graph RL
-    subgraph Backward["Backward Pass"]
+    subgraph Backward["反向传播"]
         dL["dL/dloss"] --> dW2["dL/dW2"] --> d2["..."] --> dW1["dL/dW1"]
     end
 ```
@@ -412,7 +412,7 @@ graph RL
 derivative-tangent
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从零实现数值导数
 
@@ -591,7 +591,7 @@ print(f"Actual:  y = 2x + 1")
 
 每一个基于梯度的训练循环都遵循同一模式：预测、计算损失、计算梯度、更新权重。
 
-## 使用库
+## 使用
 
 使用 NumPy，同样的操作会更快、更简洁：
 
@@ -626,13 +626,11 @@ print(f"Learned: y = {w:.2f}x + {b:.2f}")
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Define a helper that returns `numerical_derivative(f, x)` and pass that helper to `numerical_derivative` again. If the result is noisy, use a larger step such as `h=1e-4` for both calls; the value at $x=2$ must be close to 12.
->
-> **Exercise 2.** Write the gradient $(2(x - 3), 2(y + 1))$ or use `numerical_gradient`, and call `gradient_descent_nd` from $(0, 0)$. Print the point every 10 steps; it must move toward $(3, -1)$ and the loss must fall to near 0.
->
-> **Exercise 3.** Keep a velocity `v`, update it as `v = momentum * v - lr * grad`, then add `v` to `x`. Count the steps each method needs to reach a gradient near 0; the minimum is at $x = \pm\sqrt{1.5} \approx \pm 1.225$.
+**练习 1.** 定义一个辅助函数，让它返回 `numerical_derivative(f, x)`，再把这个辅助函数传给 `numerical_derivative`。若结果有噪声，两次调用都改用更大的步长（如 `h=1e-4`）；$x=2$ 处的值必须接近 12。
+
+**练习 2.** 写出梯度 $(2(x - 3), 2(y + 1))$ 或使用 `numerical_gradient`，从 $(0, 0)$ 调用 `gradient_descent_nd`。每 10 步打印一次坐标；它必须朝 $(3, -1)$ 移动，损失必须降到接近 0。
+
+**练习 3.** 保存一个速度 `v`，按 `v = momentum * v - lr * grad` 更新它，再把 `v` 加到 `x` 上。统计每种方法达到梯度接近 0 所需的步数；最小值在 $x = \pm\sqrt{1.5} \approx \pm 1.225$ 处。
 
 ## 关键术语
 

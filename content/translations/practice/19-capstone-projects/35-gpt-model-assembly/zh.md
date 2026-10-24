@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/35-gpt-model-assembly/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 3ca888a42c783fc815deac07b4e992d6b4531c9a85a0f9ad2c7cf8b154e46227
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: f5ce8549603c13fe1c3b17163fa5825f19fd941600b736db3aef76ec7c8d35a1
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** 第 19 阶段课程 30–34
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -100,7 +100,7 @@ cc-gpt-assembly
 python3 code/main.py
 ```
 
-输出包括与 124M 参考值并列的参数量、随机提示词生成的词元 ID，以及确认 LM 头和词元嵌入共享存储的消息。脚本还会用小配置完成一次快速端到端运行；124M 配置只统计参数量并执行一次前向。
+输出包括与 124M 参考值并列的参数量、固定提示词生成的词元 ID，以及确认 LM 头和词元嵌入共享存储的消息。脚本还会用小配置完成一次快速端到端运行；124M 配置只统计参数量并执行一次前向。
 
 ## 技术栈
 
@@ -117,7 +117,7 @@ python3 code/main.py
 
 **在参数层面绑定权重。** `lm_head.weight = token_embedding.weight` 才会共享张量；复制只会创建两个参数，使绑定失效。
 
-## 使用它
+## 使用
 
 - 本课模型与下一课训练的模型形状相同。
 - 用 RoPE 替换学习到的位置嵌入即可得到 LLaMA 家族的关键变化。

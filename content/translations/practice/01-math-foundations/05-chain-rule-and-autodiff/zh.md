@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 实作
 **学习实现：** Python
 **前置课程：** Phase 1 · 第 04 课「机器学习微积分」（上游：Derivatives & Gradients）
-**预计学习：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -56,11 +56,25 @@ status: reviewed
 
 ### 构建 autograd 引擎
 
-`Value` 包装数值、梯度、父节点与本地 `_backward` 闭包。每次加、乘、ReLU、幂、exp、log、tanh 都创建输出节点并记录局部梯度。`backward()` 先拓扑排序计算图，再反序执行闭包；输出梯度种子为 1。PyTorch 的 `Tensor(requires_grad=True)`、动态图与 `.backward()` 遵循同一模式。
+autograd 引擎需要三样东西：
+
+1. **值的包装。** 把每个数值包进一个对象，存储它的值和梯度。
+2. **图的记录。** 每次运算都记录自己的输入和局部梯度函数。
+3. **反向传播。** 对图做拓扑排序，再反序遍历，在每个节点上应用链式法则。
+
+这正是 PyTorch `autograd` 的做法。`torch.Tensor` 类包装数值，在 `requires_grad=True` 时记录运算，并在调用 `.backward()` 时计算梯度。
 
 ### PyTorch 自动微分的底层机制
 
-PyTorch 中 `x=torch.tensor(2.0, requires_grad=True)` 与 `y=x**2+3*x+1` 会为每个运算创建节点；`y.backward()` 反向遍历动态图，通过节点的 `grad_fn` 将局部贡献累加到父节点 `.grad`。图在每次前向执行时新建，因此条件与循环等控制流也受支持。
+PyTorch 中 `x=torch.tensor(2.0, requires_grad=True)` 与 `y=x**2+3*x+1` 的内部过程是：
+
+1. 为 `x` 创建一个 `requires_grad=True` 的 `Tensor` 节点
+2. 每次运算（`**`、`*`、`+`）都新建一个节点并记录反向函数
+3. `y.backward()` 触发对已记录图的反向模式自动微分
+4. 每个节点的 `grad_fn` 计算局部梯度并传给父节点
+5. 梯度以加法（而非替换）累加进 `.grad` 属性
+
+图在每次前向执行时动态新建（define-by-run），因此模型内部支持 if/else、循环等控制流。
 
 | 运算 | 反向规则 | 用途 |
 |---|---|---|
@@ -701,21 +715,23 @@ print(f"df/dc = {c.grad}")  #  1.0
 
 ## 练习
 
-1. 增加 sigmoid：实现 `sigmoid()` 与 `sigmoid'(x)=sigmoid(x)(1-sigmoid(x))` 的反向规则，并做梯度检查。
-2. 实现交叉熵损失 `-sum(y*log(p))`，用它替换 XOR 的平方误差，并检查概率必须为正。
-3. 实现一个在 2D 点上训练的两层 MLP，记录训练前后损失并检查所有参数收到梯度。
+1. 给 `Value` 类添加 `__pow__`，使其能计算 `x ** n`。验证 $\frac{d}{dx}(x^3)$ 在 $x=2$ 处等于 `12.0`。
+
+2. 添加 `tanh` 作为激活函数。验证 $\tanh'(0) = 1$、$\tanh'(2) = 0.0707$（近似）。
+
+3. 为单个神经元 `y = relu(w1*x1 + w2*x2 + b)` 构建计算图。计算全部五个梯度并与 PyTorch 对照验证。
+
+4. 用对偶数实现前向模式自动微分。创建一个 `Dual` 类，并验证它给出与你的反向模式引擎相同的导数。
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** `Value` already defines `__pow__`. Read its `_backward` and confirm it applies $n x^{n-1}$ to the incoming gradient. Run `x = Value(2.0)`, `y = x ** 3`, `y.backward()`; `x.grad` must be 12.0.
->
-> **Exercise 2.** Use $\tanh'(x) = 1 - \tanh(x)^2$ in `_backward`. Check against your own finite difference: $\frac{\tanh(x + h) - \tanh(x - h)}{2h}$ must agree at $x = 0$ and $x = 2$.
->
-> **Exercise 3.** Build `w1*x1 + w2*x2 + b` from `Value` objects, apply `relu`, and call `backward`. Before you compare with PyTorch, check by hand: if the input to `relu` is positive, the gradient for `w1` equals `x1`; if it is negative, all five gradients are 0.
->
-> **Exercise 4.** Store a value and a derivative in each `Dual`, and use the product rule $(a, a')(b, b') = (ab, a'b + ab')$ for multiplication. Seed the input with derivative 1 and compare the result with `x.grad` from the reverse-mode engine for the same function.
+**练习 1.** `Value` 已经定义了 `__pow__`。阅读它的 `_backward`，确认它把 $n x^{n-1}$ 乘到上游梯度上。运行 `x = Value(2.0)`、`y = x ** 3`、`y.backward()`；`x.grad` 必须是 12.0。
+
+**练习 2.** 在 `_backward` 中使用 $\tanh'(x) = 1 - \tanh(x)^2$。用你自己的有限差分核对：$\frac{\tanh(x + h) - \tanh(x - h)}{2h}$ 在 $x = 0$ 和 $x = 2$ 处都必须一致。
+
+**练习 3.** 用 `Value` 对象构建 `w1*x1 + w2*x2 + b`，应用 `relu` 并调用 `backward`。在与 PyTorch 对照之前，先手算核对：若 `relu` 的输入为正，则 `w1` 的梯度等于 `x1`；若为负，则五个梯度全为 0。
+
+**练习 4.** 在每个 `Dual` 中存储一个值和一个导数，乘法使用乘积法则 $(a, a')(b, b') = (ab, a'b + ab')$。把输入的导数种子设为 1，再对同一函数把结果与反向模式引擎得到的 `x.grad` 对照。
 
 ## 术语
 

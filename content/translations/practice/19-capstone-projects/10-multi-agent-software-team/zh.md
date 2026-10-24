@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/10-multi-agent-software-team/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: ec2980b3248cd2ef9cbf3e151ba443bdf3751b5324306cd5d37caecf279c1cce
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 90d8337065b6192ff06609e2b99086dbd6a5ef060821ec711d1dc24fc859af7a
 status: reviewed
 ---
 
@@ -17,7 +17,7 @@ status: reviewed
 **语言：** Python / TypeScript（智能体）、Shell（worktree 脚本）
 **前置课程：** 第 11 阶段（LLM 工程）、第 13 阶段（工具）、第 14 阶段（智能体）、第 15 阶段（自治系统）、第 16 阶段（多智能体）、第 17 阶段（基础设施）
 **涉及阶段：** P11 · P13 · P14 · P15 · P16 · P17
-**用时：** 40 小时
+**预计时间：** 40 小时
 
 ## 问题
 
@@ -99,7 +99,7 @@ ce-team-handoff
 
 9. **事后复盘。** 对每个失败 issue 找出出问题的交接（计划太含糊、合并冲突、审阅者误批准、测试 flaky）。生成交接失败直方图。
 
-## 实际使用
+## 使用
 
 ```text
 $ team run --issue https://github.com/acme/widget/issues/842
@@ -134,7 +134,7 @@ $ team run --issue https://github.com/acme/widget/issues/842
 
 1. 在运行中途向 diff 注入一个明显 bug（在主体之前额外加入 return None）。测量审阅者的误批准率。调优审阅提示，直到误批准率低于 5%。
 
-2. 减少到两个编码者（架构师 + 编码者 + 审阅者 + 测试者，编码者依次运行两个子任务）。比较墙上时间和通过率。
+2. 减少到两个编码者（架构师 + 两个编码者 + 审阅者 + 测试者，每个编码者依次运行两个子任务）。比较墙上时间和通过率。
 
 3. 用单写入者约束替代合并协调器（子任务触碰互不相交的文件集）。测量这给架构师带来的规划负担。
 

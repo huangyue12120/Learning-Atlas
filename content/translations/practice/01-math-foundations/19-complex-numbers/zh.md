@@ -15,7 +15,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python
 **先修内容：** 阶段 1，第 01—04 课（线性代数、微积分）
-**时间：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -175,13 +175,13 @@ e^{i\pi} &= \cos\pi + i \sin\pi = -1 + 0i = -1 \\[4pt]
 
 ```mermaid
 graph TD
-    subgraph "Complex Multiplication = 2D Rotation"
-        A["z = x + yi<br/>Point (x, y)"] -->|"multiply by e^(i*theta)"| B["z' = z * e^(i*theta)<br/>Point rotated by theta"]
+    subgraph "复数乘法 = 二维旋转"
+        A["z = x + yi<br/>点 (x, y)"] -->|"乘以 e^(i*theta)"| B["z' = z * e^(i*theta)<br/>点旋转 theta"]
     end
-    subgraph "Equivalent Matrix Form"
-        C["vector [x, y]"] -->|"multiply by rotation matrix"| D["[x cos theta - y sin theta,<br/> x sin theta + y cos theta]"]
+    subgraph "等价矩阵形式"
+        C["向量 [x, y]"] -->|"乘以旋转矩阵"| D["[x cos theta - y sin theta,<br/> x sin theta + y cos theta]"]
     end
-    B -.->|"same result"| D
+    B -.->|"结果相同"| D
 ```
 
 ### 相量与旋转信号
@@ -266,17 +266,17 @@ PE(pos, 2i+1) &= \cos\left(pos / 10000^{2i/d}\right)
 
 ```mermaid
 graph LR
-    subgraph "Unit Circle"
+    subgraph "单位圆"
         direction TB
         U1["e^(i*0) = 1"] -.-> U2["e^(i*pi/2) = i"]
         U2 -.-> U3["e^(i*pi) = -1"]
         U3 -.-> U4["e^(i*3pi/2) = -i"]
         U4 -.-> U1
     end
-    subgraph "Applications"
-        A1["Euler's formula:<br/>e^(i*theta) = cos + i*sin"]
-        A2["DFT uses roots of unity:<br/>e^(2*pi*i*k/N)"]
-        A3["RoPE uses rotation:<br/>q * e^(i*m*theta)"]
+    subgraph "应用"
+        A1["欧拉公式：<br/>e^(i*theta) = cos + i*sin"]
+        A2["DFT 使用单位根：<br/>e^(2*pi*i*k/N)"]
+        A3["RoPE 使用旋转：<br/>q * e^(i*m*theta)"]
     end
     U1 --> A1
     U1 --> A2
@@ -400,7 +400,7 @@ def roots_of_unity(N):
 
 正是这些性质让 DFT 可逆。单位根构成了频域的一组正交基。
 
-## 实际使用
+## 使用
 
 Python 内置了复数支持。字面量 `j` 表示虚数单位。
 
@@ -434,7 +434,7 @@ spectrum = np.fft.fft(signal)
 freqs = np.fft.fftfreq(128, d=1/128)
 ```
 
-## 交付成果
+## 交付
 
 运行 `code/complex_numbers.py`，生成 `outputs/skill-complex-arithmetic.md`。
 
@@ -452,17 +452,15 @@ freqs = np.fft.fftfreq(128, d=1/128)
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Expand the product with $i^2 = -1$, then divide by multiplying the top and the bottom by the conjugate $1 + 3i$. Check the product with `Complex(2, 3) * Complex(4, -1)`: its `magnitude()` must equal the product of the two magnitudes, and its `phase()` must equal the sum of the two phases.
->
-> **Exercise 2.** Make the step with `euler(math.pi / 6)` and multiply 12 times. At each step, check that the magnitude stays 1 and that the angle grows by 30 degrees. The final point must be within about 1e-12 of (1, 0).
->
-> **Exercise 3.** Make the time points with $t = n/32$ and call `dft`. Look only at bins 0 to 15, because the upper half is a mirror image. The magnitude at bin $k$ for a sine of amplitude $A$ is $AN/2$, so expect about 16 at bin 3 and about 8 at bin 7.
->
-> **Exercise 4.** Call `roots_of_unity(8)` and add the roots: the magnitude of the sum must be near 0. Divide each root by the previous root and check that every result equals `euler(2 * math.pi / 8)`.
->
-> **Exercise 5.** The rotation matrix is [[cos t, -sin t], [sin t, cos t]]. For each angle and point, compute `euler(t) * Complex(x, y)` and the matrix product, then record the largest absolute difference. Expect a value near $10^{-15}$.
+**练习 1.** 用 $i^2 = -1$ 展开乘积，再通过分子分母同乘共轭 $1 + 3i$ 来做除法。用 `Complex(2, 3) * Complex(4, -1)` 检查乘积：它的 `magnitude()` 必须等于两个模长之积，`phase()` 必须等于两个相位之和。
+
+**练习 2.** 用 `euler(math.pi / 6)` 构造这一步，并乘 12 次。每一步检查模长保持为 1、角度增加 30 度。最终点必须与 (1, 0) 相差约 1e-12 以内。
+
+**练习 3.** 用 $t = n/32$ 构造时间点并调用 `dft`。只看第 0 到 15 个频率点（bin），因为上半部分是镜像。对振幅为 $A$ 的正弦波，第 $k$ 个 bin 的模长为 $AN/2$，所以 bin 3 处约为 16、bin 7 处约为 8。
+
+**练习 4.** 调用 `roots_of_unity(8)` 并把这些根相加：和的模长必须接近 0。用每个根除以前一个根，检查每个结果都等于 `euler(2 * math.pi / 8)`。
+
+**练习 5.** 旋转矩阵为 [[cos t, -sin t], [sin t, cos t]]。对每个角度和点，分别计算 `euler(t) * Complex(x, y)` 和矩阵乘积，然后记录最大绝对差。预期为约 $10^{-15}$ 的值。
 
 ## 关键术语
 

@@ -110,7 +110,7 @@ graph TD
         RATIO_W --> DIFF["beta * (ratio_w - ratio_l)"]
         RATIO_L --> DIFF
 
-        DIFF --> LOSS["-log sigmoid（diff）"]
+        DIFF --> LOSS["-log sigmoid(diff)"]
         LOSS --> UPDATE["在当前模型上进行\n梯度更新"]
     end
 
@@ -517,7 +517,7 @@ def beta_sensitivity_analysis(sft_model, preference_data, betas, max_seq_len=128
 
 较小的 beta（0.01）让模型可以自由偏离参考模型——学习快，但有产生退化解的风险。较大的 beta（1.0）让模型保持接近参考模型——稳定，但学习慢。对于大多数应用，甜蜜点在 0.1 到 0.3 之间。
 
-## 使用它
+## 使用
 
 ### 完整 DPO 流水线演示
 
@@ -631,7 +631,7 @@ if __name__ == "__main__":
     print("    - Many production systems use both: RLHF first, DPO to refine.")
 ```
 
-## 交付它
+## 交付
 
 本课会产出 `outputs/prompt-alignment-method-selector.md`——一个帮助你为具体用例选择合适对齐方法（SFT、RLHF、DPO、KTO、ORPO、SimPO）的提示词。根据你拥有的数据、计算预算和对齐目标，它会推荐一种方法和训练计划。
 

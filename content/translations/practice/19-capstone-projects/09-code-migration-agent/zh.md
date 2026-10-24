@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/09-code-migration-agent/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: c8415fbb54b54a6a6c1761bf52b1564fa7d565a50f18b55882fa8f4e5a9b07be
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: b8c5c520dd731c1dd823303d49644256cecd0e9e8c0ad186b5f6b22edc925449
 status: reviewed
 ---
 
@@ -17,7 +17,7 @@ status: reviewed
 **语言：** Python（智能体）、Java / Python（目标代码）、TypeScript（仪表盘）
 **前置课程：** 第 5 阶段（NLP）、第 7 阶段（Transformer）、第 11 阶段（LLM 工程）、第 13 阶段（工具）、第 14 阶段（智能体）、第 15 阶段（自治系统）、第 17 阶段（基础设施）
 **涉及阶段：** P5 · P7 · P11 · P13 · P14 · P15 · P17
-**用时：** 30 小时
+**预计时间：** 30 小时
 
 ## 问题
 
@@ -29,7 +29,7 @@ status: reviewed
 
 流水线有两层。**确定性底座**（Java 使用 OpenRewrite，Python 使用 libcst）安全地执行大量机械重写：导入、方法签名、空值安全编辑、try-with-resources 和弃用 API 替换。它速度快，并且能产生可审计的 diff。**智能体层**（基于 Claude Opus 4.7 和 GPT-5.4-Codex 的 OpenAI Agents SDK 或 LangGraph）处理 recipe 无法覆盖的情况：构建文件升级（Maven/Gradle/pyproject）、传递依赖冲突、测试 flaky 和自定义注解。
 
-每个仓库获得一个 Daytona 沙箱，并预装目标运行时。智能体反复执行：运行构建、分类失败、应用修复、重新运行。硬限制是每仓库 30 分钟、$8 和 20 个智能体回合。如果所有测试通过且覆盖率差值不为负，分支就打开 PR。否则，仓库会带着证据被归入某个失败类别。
+每个仓库获得一个 Daytona 沙箱，并预装目标运行时。智能体反复执行：运行构建、分类失败、应用修复、重新运行。硬限制是每仓库 30 分钟、$8 和 20 个智能体回合。如果所有测试通过且覆盖率下降不超过 2 个百分点，分支就打开 PR。否则，仓库会带着证据被归入某个失败类别。
 
 失败分类就是交付物。50 个仓库中什么坏了？传递依赖？自定义注解？构建工具版本？与迁移无关的测试 flaky？每个类别都要有计数和一个示例 diff。未来的 recipe 作者可以据此处理排名前三的类别。
 
@@ -88,7 +88,7 @@ ce-migration-funnel
 
 4. **预算上限。** 每仓库墙上时间 30 分钟、成本 $8、智能体回合 20 次。任何一项超限都会停止运行，并将当前 diff 归入 budget_exhausted。
 
-5. **测试 + 覆盖率门。** 构建变绿后运行测试套件。将覆盖率与基础仓库比较。如果覆盖率下降超过 2%，归入 coverage_regression。
+5. **测试 + 覆盖率门。** 构建变绿后运行测试套件。将覆盖率与基础仓库比较。如果覆盖率下降超过 2 个百分点，归入 coverage_regression。
 
 6. **打开 PR。** 成功后推送分支，打开带 diff 的 PR，并总结应用了哪些 recipe、智能体创建了哪些提交。
 
@@ -96,7 +96,7 @@ ce-migration-funnel
 
 8. **运行 50 个仓库。** 在 MigrationBench 子集上执行。报告各类别通过率、每仓库成本、覆盖率保持情况，以及与仅确定性方案基线的比较。
 
-## 实际使用
+## 使用
 
 ```text
 $ migrate legacy-java-service --target java17

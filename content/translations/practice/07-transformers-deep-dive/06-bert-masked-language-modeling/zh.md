@@ -88,7 +88,7 @@ BERT（Devlin 等，2018）提出：如果取一个 Transformer 编码器，在�
 transformer-residual
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：遮蔽逻辑
 
@@ -122,7 +122,7 @@ def create_mlm_batch(tokens, vocab_size, mask_prob=0.15, rng=None):
 
 在玩具情感数据集上，把 MLM 头替换为分类头。只训练分类头，冻结编码器。这是每个 BERT 应用遵循的模式。
 
-## 用于实践
+## 使用
 
 ```python
 from transformers import AutoModel, AutoTokenizer
@@ -141,7 +141,7 @@ out = model(**inputs).last_hidden_state   # (1, N, 768)
 
 **2026 年不应选择 BERT 的情况。** 任何生成任务。编码器没有合理的方式自回归生成词元。此外，若模型低于 10 亿参数，并且小型解码器可以在具有更多灵活性的同时达到相同质量（Phi-3-Mini、Qwen2-1.5B），也不应选择 BERT。
 
-## 交付成果
+## 交付
 
 参见 `outputs/skill-bert-finetuner.md`。该技能为新的分类或提取任务界定 BERT 微调范围（主干选择、分类头规范、数据、评估与停止条件）。
 

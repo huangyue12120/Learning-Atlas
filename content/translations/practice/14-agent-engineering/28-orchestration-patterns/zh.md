@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习 + 构建
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 12 节（工作流模式）、第 14 阶段 · 第 25 节（多智能体辩论）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -25,11 +25,11 @@ status: reviewed
 - 解释 Anthropic 的“构建正确系统”规则，以及它如何约束拓扑选择。
 - 用标准库针对一个共同的脚本化 LLM 实现全部四种模式。
 
-## 问题所在
+## 问题
 
 团队在还不需要多智能体之前就急着使用“多智能体”。框架中反复出现四种模式；一旦能说出它们，就可以选择正确方案——或者完全跳过拓扑。
 
-## 核心概念
+## 概念
 
 ### Supervisor-worker
 
@@ -113,7 +113,7 @@ python3 code/main.py
 
 输出每种模式的轨迹和操作数。Supervisor 最干净；swarm 最短；hierarchical 最深；debate 最昂贵。
 
-## 实际使用
+## 使用
 
 - **LangGraph** 用于 supervisor 和 hierarchical（嵌套子图）。
 - **OpenAI Agents SDK** 用于作为工具的 handoff（supervisor 形状）。

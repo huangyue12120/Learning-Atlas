@@ -225,7 +225,7 @@ KNN 回归不多数投票，而是平均 K 个邻居的目标值：
 knn-smoothness
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：距离函数
 
@@ -312,7 +312,7 @@ def standardize(X):
     return [[((X[i][j] - means[j]) / stds[j]) for j in range(d)] for i in range(n)], means, stds
 ```
 
-## 在工具中使用
+## 使用
 
 使用 scikit-learn：
 

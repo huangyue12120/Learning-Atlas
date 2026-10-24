@@ -19,7 +19,7 @@
         "没有微调就无法表示函数签名"
       ],
       "correct": 2,
-      "explanation": "正确答案是“它学习的是网页式文本续写，提示词后面常常还会有提示词”。本课用 InstructGPT 的 SFT、奖励模型和带 KL 惩罚的 PPO 建立后续对齐课程的参照线。"
+      "explanation": "正确答案是“它学习的是网页式文本续写，提示词后面常常还会有提示词”。预训练分布的大部分是会继续延展的网页文本，模型只是在完成文本续写目标，而不是在回答指令。温度为零只影响采样的确定性、词表完全能表示 Python 记号，都不是它续写出另一段提示词的原因。"
     },
     {
       "id": "01-instruction-following-alignment-signal-check-2",
@@ -32,7 +32,7 @@
         "Bradley–Terry 损失：-log sigmoid(r(x,y_w)-r(x,y_l))"
       ],
       "correct": 3,
-      "explanation": "正确答案是“Bradley–Terry 损失：-log sigmoid(r(x,y_w)-r(x,y_l))”。本课用 InstructGPT 的 SFT、奖励模型和带 KL 惩罚的 PPO 建立后续对齐课程的参照线。"
+      "explanation": "正确答案是“Bradley–Terry 损失：-log sigmoid(r(x,y_w)-r(x,y_l))”。奖励模型从成对排序学习，用 Bradley-Terry 把“偏好 y_w 而非 y_l”化为二元分类。标注者只给出相对排序而非绝对分数，所以均方误差不适用；交叉熵和 hinge loss 都不是论文采用的成对偏好形式。"
     },
     {
       "id": "01-instruction-following-alignment-signal-check-3",
@@ -45,7 +45,7 @@
         "PPO 梯度更新的数值不稳定"
       ],
       "correct": 1,
-      "explanation": "正确答案是“优化器找到利用奖励模型漏洞的对抗性高奖励字符串”。本课用 InstructGPT 的 SFT、奖励模型和带 KL 惩罚的 PPO 建立后续对齐课程的参照线。"
+      "explanation": "正确答案是“优化器找到利用奖励模型漏洞的对抗性高奖励字符串”。KL 项把策略约束在 SFT 锚点附近，防止它漂移到 RM 从未见过、因而误判高分的对抗性输出。灾难性遗忘、上下文窗口溢出、PPO 数值稳定性都不是 KL 惩罚针对的问题。"
     },
     {
       "id": "01-instruction-following-alignment-signal-check-4",
@@ -58,7 +58,7 @@
         "PPO 过程中奖励模型漂移"
       ],
       "correct": 0,
-      "explanation": "正确答案是“RLHF 没有瞄准的标准基准出现回归”。本课用 InstructGPT 的 SFT、奖励模型和带 KL 惩罚的 PPO 建立后续对齐课程的参照线。"
+      "explanation": "正确答案是“RLHF 没有瞄准的标准基准出现回归”。对齐税指 RLHF 后模型在 SQuAD、HellaSwag、DROP 等未被瞄准的基准上下降，PPO-ptx 把预训练对数似然混入 RL 目标来抵消它。分词器不匹配、KL 变负、奖励模型漂移都不是对齐税或 PPO-ptx 所针对的现象。"
     },
     {
       "id": "01-instruction-following-alignment-signal-post-5",
@@ -71,7 +71,7 @@
         "更大的基础模型总会输给小型对齐模型"
       ],
       "correct": 0,
-      "explanation": "正确答案是“对齐与能力是不同轴，基础模型设定能力下限”。本课用 InstructGPT 的 SFT、奖励模型和带 KL 惩罚的 PPO 建立后续对齐课程的参照线。"
+      "explanation": "正确答案是“对齐与能力是不同轴，基础模型设定能力下限”。175B 更强但 1.3B 对齐更好、更受偏好，说明两者是不同维度，且 RLHF 教不会基础模型没见过的事实。超过 50% 并不能证明代理奖励等同人类价值，“能力和对齐是同一轴”恰与结果相反。"
     },
     {
       "id": "01-instruction-following-alignment-signal-post-6",
@@ -84,7 +84,7 @@
         "没有预训练的随机标量回归器"
       ],
       "correct": 1,
-      "explanation": "正确答案是“将 LM head 换成标量 head 的 SFT 模型”。本课用 InstructGPT 的 SFT、奖励模型和带 KL 惩罚的 PPO 建立后续对齐课程的参照线。"
+      "explanation": "正确答案是“将 LM head 换成标量 head 的 SFT 模型”。奖励模型通常以 SFT 模型初始化，再把语言建模的 LM head 替换为输出单一标量分数的 head。保留 LM head 的基础模型、独立的 encoder-only Transformer 或随机初始化的回归器都不是论文的做法。"
     }
   ]
 }

@@ -17,7 +17,7 @@ status: reviewed
 **语言：** Python（流水线）、TypeScript（查看器 UI）
 **前置课程：** 第 4 阶段（计算机视觉）、第 5 阶段（NLP）、第 7 阶段（Transformer）、第 11 阶段（LLM 工程）、第 12 阶段（多模态）、第 17 阶段（基础设施）
 **涉及阶段：** P4 · P5 · P7 · P11 · P12 · P17
-**用时：** 30 小时
+**预计时间：** 30 小时
 
 ## 问题
 
@@ -92,7 +92,7 @@ ce-late-interaction
 
 8. **UI。** 先做 Streamlit 原型，再用 Next.js 15 实现带逐页证据区域覆盖的生产查看器。
 
-## 实际使用
+## 使用
 
 ```text
 $ doc-qa ask "what was the 2024 operating margin change for segment EMEA?"

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/05-eagle3-speculative-decoding/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 07f749b5a5c8b7c26f0e401cac986f18d57ed2a67225717987123969bc42aa7c
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 1051a6e787ee38c43d6c4446bae024b06942b4488895488146044cc464005ef4
   anchor:
     heading: What speculative decoding actually buys
     slug: what-speculative-decoding-actually-buys
@@ -12,9 +12,9 @@ card:
   title: 用接受率判断 EAGLE-3 是否值得部署
   summary: 在根据草稿长度 K、接受率 α 与验证开销决定是否开启 EAGLE-3 时，推测解码的拒绝采样与速度模型解释了为何必须在真实流量和目标并发度上测量 alpha，而非只看草稿模型速度。
   context: "本课用 EAGLE-3 的草稿长度、接受率和验证开销判断推测解码是否值得部署。"
-  intuition: "草稿模型先提出 token，目标模型批量验证并拒绝不一致部分；接受率越高，一次目标前向推进的 token 越多。"
+  intuition: "草稿模型先提出词元，目标模型批量验证并拒绝不一致部分；接受率越高，一次目标前向推进的词元越多。"
   key_points:
-    - "alpha 表示草稿 token 被目标模型接受的比例，且随任务和并发变化。"
+    - "alpha 表示草稿词元被目标模型接受的比例，且随任务和并发变化。"
     - "EAGLE-3 利用目标模型多层信息提高一般对话的接受率。"
     - "高并发的拒绝会增加验证轮次，必须同时观察 P99 ITL。"
   application: "在代表性提示词和并发度上扫描 K、alpha 与验证开销，比较启用前后的 ITL、E2E 延迟和吞吐量。"

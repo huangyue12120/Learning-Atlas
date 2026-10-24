@@ -3,10 +3,10 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/19-ai-gateways/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 37577b9d35784816daa5140188304ca352cde30704e7405c718095ea9cf8454e
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 3971447756acdfff93de997069f2af5827e4ee2437bdde6fd606a05340c53c9e
   anchor:
-    heading: Six core features
+    heading: Seven core features
     slug: six-core-features
 card:
   title: 将 AI 网关看作模型调用的控制平面

@@ -6,7 +6,7 @@
   </defs>
 
   <!-- Title -->
-  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">TTS Pipeline: Text to Waveform</text>
+  <text x="350" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">TTS 流程：从文本到波形</text>
 
   <!-- Step 1: Text -->
   <rect x="10" y="55" width="68" height="40" rx="8" fill="#3498db" fill-opacity="0.12" stroke="#3498db" stroke-width="1.5"/>

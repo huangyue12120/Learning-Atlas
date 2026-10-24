@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/13-transfusion-autoregressive-diffusion/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: a70a419b525b222b0bc17dab1d3e23742b84adf6f887b212b06d837121915cb1
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: a916f666c81f76e18d00665a0336c73b3d468d00c2eda158db7537ee6dc51862
 status: reviewed
 ---
 
@@ -62,7 +62,7 @@ Transfusion 提问：能不能两者兼得？保留连续图像，仍然训练�
 M[i, j] = 1 if:
   (i is text and j is text and j <= i)   # causal for text
   OR (i is image and j is image and same_image_block(i, j))   # bidirectional within image
-  OR (i is text and j is image and j < i_image_end)   # text attends to previous images
+  OR (i is text and j is image and j < i)   # text attends to images that closed before it
   OR (i is image and j is text and j < i_image_start)   # image attends to preceding text
 ```
 
@@ -108,13 +108,13 @@ MMDiT 的主要差异：
 
 Janus-Pro（第 12.15 课）通过解耦理解与生成的视觉编码器来改进 Transfusion 的想法——一侧用 SigLIP，另一侧用 VQ，同时共享 Transformer 主体。Show-o（第 12.14 课）把扩散换成离散扩散（掩码预测）。Transfusion 之后，统一生成家族迅速分叉。
 
-2026 年能够输出图像的生产 VLM——Gemini 3 Pro、GPT-5、Claude Opus 4.7 的图像生成路径——几乎肯定使用了这个家族的某个后代。具体细节是专有的。
+原生输出图像的闭源生产模型可能使用了这个家族的某个后代，但它们的架构没有公开，因此应把任何此类说法视为猜测。
 
 ```figure
 cfg-guidance-scale
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 在一个微型 MNIST 类问题上构建玩具 Transfusion：
 
@@ -122,11 +122,11 @@ cfg-guidance-scale
 - 图像是 4x4 的字节网格。
 - 一对共享权重的线性投影充当 Transformer 的替代品；文本使用 NTP 损失，噪声图像块使用 MSE 损失。
 - 训练循环交替两个损失，注意力掩码显式构造。
-- 生成过程在一次前向传播中同时产生文本标题和 4x4 图像。
+- 一个掩码演示打印文本、图像、文本序列的块三角注意力模式。生成不会实际运行：真实采样器会逐个词元解码文本，然后在许多步中对图像图像块去噪，正如下面的练习所统计的那样。
 
 Transformer 本身是玩具。双损失接线、注意力掩码构造和推理循环才是本课真正交付的产物。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-two-loss-trainer-designer.md`。给定一个新的多模态训练任务（文本 + 图像、文本 + 音频、文本 + 视频），它会设计双损失计划（损失权重、掩码形状、共享块与模态特定块），并标记实现风险。
 

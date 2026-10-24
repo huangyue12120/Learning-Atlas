@@ -10,7 +10,7 @@ practice:
     slug: the-two-discovery-layers
 card:
   title: 发布元数据与运行时发现的双层契约
-  summary: 在把 Registry 的发布记录与 MCP 进程的实时能力分开时，用客户端—服务器和 API 设计理论核对无状态请求、版本协商、路由与缓存边界。
+  summary: 在把 Registry 的发布记录与 MCP 进程的实时能力分开时，用客户端—服务器和 API 设计理论核对无状态请求、版本协商、路由与缓存边界。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/01. systems design fundamentals.md

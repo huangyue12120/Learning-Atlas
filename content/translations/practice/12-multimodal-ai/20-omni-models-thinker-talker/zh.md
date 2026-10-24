@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/20-omni-models-thinker-talker/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: c7a7970bac12cc04c3f159157f1bbf66312c5ca59d56e21d49cdee55604d93df
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: b4fb0e304c5a01ede1af9528c82ae7968e8bf18e63f82c88c2e992a64c759f21
 status: reviewed
 ---
 
@@ -23,7 +23,7 @@ status: reviewed
 - 将推理流水线拆分为 Thinker（文本推理）和 Talker（语音合成），并解释并行流式为何有效。
 - 逐组件计算对话交互的首个音频字节时间（TTFAB）预算。
 - 描述 Thinker 内部跨视觉、音频和文本的 TMRoPE 时间对齐位置编码。
-- 说出三种实时对话模式：半双工、轮流说话、全双工。
+- 说出两种实时对话模式：半双工和全双工，并解释 VAD 轮流说话如何驱动半双工交接。
 
 ## 问题
 
@@ -96,7 +96,7 @@ Qwen2.5-Omni 默认支持半双工，并通过静音阈值轮流说话。全双�
 - 残差 VQ 解码：30ms。
 - 语音波形解码：50–80ms。
 
-TTFAB 总计：7B 为 320–510ms，70B 为 600–900ms。前沿质量通常意味着 70B+，这也就造成了前沿系统的延迟差距。
+TTFAB 总计：7B 为 320–490ms，70B 为 600–900ms。前沿质量通常意味着 70B+，这也就造成了前沿系统的延迟差距。
 
 ### 词元速率数学
 
@@ -108,7 +108,7 @@ TTFAB 总计：7B 为 320–510ms，70B 为 600–900ms。前沿质量通常意�
 l5-thinker-talker
 ```
 
-## 使用它
+## 使用
 
 `code/main.py`：
 
@@ -116,7 +116,7 @@ l5-thinker-talker
 - 为可配置的模型规模和麦克风采样率计算 TTFAB。
 - 使用 VAD 静音阈值演示半双工轮流说话。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-omni-streaming-budget.md`。给定实时语音产品的目标 TTFAB 和功能集合（视觉输入、双语、全双工），它会选择 Qwen2.5-Omni、Qwen3-Omni、Moshi 或 Mini-Omni，并规划 Thinker/Talker 大小。
 

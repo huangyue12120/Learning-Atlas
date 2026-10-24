@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** 第 19 阶段课程 30–37
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -74,7 +74,7 @@ MinHash 在固定空间中估计两个集合的 Jaccard 相似度。对一篇文
 cap-corpus-downloader
 ```
 
-## 构建
+## 动手构建
 
 `code/main.py` 实现：
 

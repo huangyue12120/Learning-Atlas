@@ -5,6 +5,17 @@ run-name: Check translation coverage · ${{ github.event_name }}
 on:
   schedule:
     - cron: "47 3 * * 1"
+  # Re-check as soon as main moves the practice submodule pointer or changes the
+  # adaptations or published scope, instead of waiting for the weekly run.
+  push:
+    branches: [main]
+    paths:
+      - ai-engineering-from-scratch
+      - content/translations/practice/**
+      - content/assessments/practice/**
+      - apps/local-learning/src/server.ts
+      - scripts/check_translation_coverage.py
+      - scripts/published_scope.py
   workflow_dispatch:
 
 concurrency:
@@ -20,26 +31,32 @@ jobs:
     name: Check translation coverage
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           persist-credentials: false
           submodules: recursive
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
-          python-version: "3.12"
+          python-version-file: .python-version
       - name: Check Chinese practice translation coverage
         id: coverage
-        continue-on-error: true
         shell: bash
         run: |
+          # Exit code 2 reports missing adaptations and is handled through the
+          # issue below; only execution errors fail the job.
           set +e
           python3 scripts/check_translation_coverage.py \
             --fail-on-missing \
             --output translation-coverage-report.md > translation-coverage.log 2>&1
           status=$?
+          set -e
           cat translation-coverage.log
           echo "exit_code=$status" >> "$GITHUB_OUTPUT"
-          exit "$status"
+          if [ "$status" = "2" ]; then
+            echo "::notice title=Translation coverage::Published phases contain upstream lessons without Chinese translations, assessments or workspace guides. See the coverage issue and job summary."
+          elif [ "$status" != "0" ]; then
+            exit "$status"
+          fi
       - name: Add coverage report to job summary
         if: steps.coverage.outputs.exit_code == '2'
         run: cat translation-coverage-report.md >> "$GITHUB_STEP_SUMMARY"
@@ -67,8 +84,15 @@ jobs:
               gh issue comment "$issue_number" --body-file translation-coverage-report.md
             fi
           fi
-      - name: Fail when translation coverage is incomplete
-        if: steps.coverage.outputs.exit_code != '0'
+      - name: Close resolved translation coverage issue
+        if: steps.coverage.outputs.exit_code == '0'
         env:
-          EXIT_CODE: ${{ steps.coverage.outputs.exit_code }}
-        run: exit "$EXIT_CODE"
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_TITLE: "[Coverage] Chinese practice translations missing"
+        shell: bash
+        run: |
+          issue_number="$(gh issue list --state open --json number,title --limit 100 | jq -r --arg title "$ISSUE_TITLE" '.[] | select(.title == $title) | .number' | head -n 1)"
+          if [ -n "$issue_number" ]; then
+            revision="$(git -C ai-engineering-from-scratch rev-parse HEAD)"
+            gh issue close "$issue_number" --comment "覆盖率检查已在 \`${revision}\` 通过：已开放 Phase 中没有缺少中文实践译文、中文测验或练习指南的上游课程。（${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}）"
+          fi

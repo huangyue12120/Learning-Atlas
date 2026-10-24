@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置条件：** Phase 19 Track A 第 20–29 课
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 - 建模一个包含下游循环所需字段的小型论文记录。
@@ -77,7 +77,7 @@ flowchart TD
 
 ## 从零实现 BM25
 
-实现采用标准 Okapi BM25，默认参数为 `k1=1.5`、`b=0.75`。索引由两个字典组成：`term -> doc_frequency` 和 `term -> list of (doc_id, term_count)`。文档长度是摘要 token 数，平均长度在建索引时计算一次。查询分数是各查询词 `idf * tf_norm` 的总和。
+实现采用标准 Okapi BM25，默认参数为 `k1=1.5`、`b=0.75`。索引由两个字典组成：`term -> doc_frequency` 和 `term -> list of (doc_id, term_count)`。文档长度是摘要词元数，平均长度在建索引时计算一次。查询分数是各查询词 `idf * tf_norm` 的总和。
 
 ```math
 \begin{aligned}

@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 07 节（MemGPT）、第 14 阶段 · 第 08 节（Letta Blocks）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -25,17 +25,17 @@ status: reviewed
 - 用标准库实现一个支持注册、检索、组合和由失败驱动改进的 skill 库。
 - 将 Voyager 模式映射到 2026 年的 Claude Agent SDK skills 和 skillkit 生态。
 
-## 问题所在
+## 问题
 
 每次会话都从头重建能力的智能体会犯三类错误：
 
-1. **浪费 token。** 每项任务都重新诱导同一套推理。
+1. **浪费词元。** 每项任务都重新诱导同一套推理。
 2. **丢失进展。** 在会话 A 学到的纠正不会转移到会话 B。
 3. **长时程组合失败。** 复杂任务需要能力层级；一次性提示词无法表达它们。
 
 Voyager 的答案是：把每项可复用能力当作有名字的代码块存入库中，按相似度检索，与其他 skill 组合，并根据执行反馈改进。
 
-## 核心概念
+## 概念
 
 ### 三个组件
 
@@ -108,7 +108,7 @@ voyager-skills
 code/main.py 实现了一个标准库 skill 库：
 
 - Skill——名称、描述、代码（字符串）、版本、标签、依赖。
-- SkillLibrary——注册、搜索（token 重叠）、组合（对依赖做拓扑排序）和改进（更新时递增版本）。
+- SkillLibrary——注册、搜索（词元重叠）、组合（对依赖做拓扑排序）和改进（更新时递增版本）。
 - 一个脚本化智能体：注册三个原始 skill，组合出第四个，遇到失败后继续改进。
 
 运行：
@@ -119,7 +119,7 @@ python3 code/main.py
 
 轨迹展示库写入、检索、组合、一次失败执行以及 v2 改进——完整走过 Voyager 循环。
 
-## 实际使用
+## 使用
 
 - **Claude Agent SDK skills**（Anthropic）——2026 年的参考实现：每个 skill 有描述、代码和指令，在智能体会话中按需加载。
 - **skillkit**（npm: skillkit）——为 32+ 个 AI 编程智能体提供跨智能体 skill 管理。
@@ -134,7 +134,7 @@ outputs/skill-skill-library.md 会为任意目标运行时生成一个 Voyager �
 
 1. 为 compose() 增加依赖环检测。当 skill A 依赖 B，而 B 又依赖 A 时会发生什么？应该报错还是警告？
 2. 实现每个 skill 的版本固定。当父 skill 组合子 skill crafting@1 时，crafting@2 的改进不能静默升级父 skill。
-3. 用 sentence-transformers embedding（或标准库 BM25 实现）替换 token 重叠检索。在一个含 50 个 skill 的玩具库上测量 retrieval@5。
+3. 用 sentence-transformers embedding（或标准库 BM25 实现）替换词元重叠检索。在一个含 50 个 skill 的玩具库上测量 retrieval@5。
 4. 增加一个“课程”智能体：给定当前库和领域描述，提出 5 个缺失 skill。每周调用一次。
 5. 阅读 Anthropic 的 Claude Agent SDK skill 文档。将玩具库迁移到 SDK 的 skill schema。可发现性有什么变化？
 

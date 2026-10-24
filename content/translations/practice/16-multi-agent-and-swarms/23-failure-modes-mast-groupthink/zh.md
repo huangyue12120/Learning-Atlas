@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/23-failure-modes-mast-groupthink/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 01c36d0c07b02e58865546546e120a469f9bd58b1123aba79c3d0bccb13b6840
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 06d5aecf39813f16edf59287a767c41e9b3396e5cf28599b342a0c8f466b94e0
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库）
 **前置要求：** 第 16 阶段 · 13（共享记忆），第 16 阶段 · 14（共识与 BFT），第 16 阶段 · 15（投票与辩论拓扑）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 问题
 
@@ -128,7 +128,7 @@ STRATUS（NeurIPS 2025）报告：部署以下角色可将缓解成功率提高 
 
 ### 失效模式审计
 
-2026 年的最佳实践是每年一次（或每次重大发布时）进行失效模式审计：
+2026 年的最佳实践是每季度一次（并在每次重大发布时）进行失效模式审计：
 
 1. **抽样轨迹。** 收集约 1000 条真实执行轨迹。
 2. **归类。** 将每条轨迹中的失败映射到 MAST + 群体迷思类别。
@@ -158,7 +158,7 @@ STRATUS（NeurIPS 2025）报告：部署以下角色可将缓解成功率提高 
 a5-retry-cascade
 ```
 
-## 构建
+## 动手构建
 
 `code/main.py` 实现：
 

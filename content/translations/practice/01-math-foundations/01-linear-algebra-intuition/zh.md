@@ -4,8 +4,8 @@ language: zh-CN
 source:
   path: phases/01-math-foundations/01-linear-algebra-intuition/docs/en.md
   repository: ai-engineering-from-scratch
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: bb9c623a3a405f9aad08685cac764ab984fe5fac8df2a191449c1b93bc5f59df
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: f8bd6e7a8cd337ba0cb2d90a8acddb60b32c58d4dd5d27ae451181772267410c
 status: reviewed
 ---
 
@@ -127,7 +127,7 @@ v3 = [2, 1, 0]   # v3 = 2*v1 + v2
 
 | 情形 | 秩 | 对机器学习的含义 |
 |---|---|---|
-| 满秩（`rank = min(m, n)`） | 可能的最大值 | 最小二乘问题有唯一解，模型条件良好。 |
+| 满秩（`rank = min(m, n)`） | 可能的最大值 | 当行数至少与列数相等（列满秩）时，最小二乘问题有唯一解；当行数少于列数时，有无穷多个解可以完全拟合。 |
 | 秩亏（`rank < min(m, n)`） | 小于最大值 | 特征冗余，权重有无穷多组解，需要正则化。 |
 | 秩 1 | 1 | 每一列都是同一向量的缩放副本，所有数据都落在一条线上。 |
 | 近似秩亏（奇异值很小） | 数值上偏低 | 矩阵病态，微小的输入噪声会带来很大的输出变化，可使用 SVD 截断或岭回归。 |
@@ -200,7 +200,7 @@ QR 分解内部就使用了这个过程。`Q` 是标准正交基，`R` 保存投
 eigen-directions
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从零实现向量（Python）
 
@@ -365,7 +365,7 @@ print(f"u1 · u3 = {basis[0].dot(basis[2]):.6f}")
 print(f"u2 · u3 = {basis[1].dot(basis[2]):.6f}")
 ```
 
-## 延伸实践：在工具中使用
+## 使用
 
 现在用 NumPy 完成同样的操作。这也是你在实践中更常使用的写法：
 
@@ -424,7 +424,7 @@ print(f"d(dot)/dx = {x.grad}")
 
 你刚刚从零实现了 NumPy 用一行就能完成的部分操作。现在你知道这行代码背后做了什么。
 
-## 产出
+## 交付
 
 本课产出：
 
@@ -457,21 +457,19 @@ LoRA 值得单独说明。它把权重更新分解为低秩矩阵，从而微调
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Start from `cosine_similarity`, keep the value between -1 and 1, then take the arc cosine and convert radians to degrees. Check that `Vector([1, 0])` and `Vector([0, 1])` give 90 and that a vector with itself gives 0.
->
-> **Exercise 2.** Put the two scale factors on the diagonal of a 2x2 matrix and put 0 in the other two cells. The result for [1, 1] must be [2, 3].
->
-> **Exercise 3.** Compute the cosine similarity for every pair of the 5 vectors (10 pairs) and keep the largest value. Check your loop first with a vector against itself, which must give 1.
->
-> **Exercise 4.** Use `gram_schmidt` on three independent vectors, then compute `dot` for each pair and `magnitude` for each vector. Compare with a tolerance such as `1e-9`, because floating point does not give exact zeros.
->
-> **Exercise 5.** Make the third row or column the sum of the first two, so one direction repeats. `rank()` must return 2, and the columns then span a plane through the origin.
->
-> **Exercise 6.** Compute the scale $\frac{a \cdot b}{b \cdot b}$ and multiply $b$ by it, or call `project_onto`. Check that the remainder $a$ minus the projection has a dot product of 0 with [1, 1, 1].
+**练习 1.** 从 `cosine_similarity` 出发，把值限制在 -1 到 1 之间，再取反余弦并把弧度转换为角度。验证 `Vector([1, 0])` 与 `Vector([0, 1])` 得到 90，而一个向量与自身得到 0。
 
-## 术语表
+**练习 2.** 把两个缩放因子放在 2x2 矩阵的对角线上，其余两个位置填 0。作用于 [1, 1] 的结果必须是 [2, 3]。
+
+**练习 3.** 计算这 5 个向量两两之间（共 10 对）的余弦相似度，保留最大值。先用一个向量与自身测试循环，结果必须为 1。
+
+**练习 4.** 对三个线性无关的向量调用 `gram_schmidt`，再对每一对计算 `dot`、对每个向量计算 `magnitude`。用诸如 `1e-9` 的容差比较，因为浮点运算不会给出精确的零。
+
+**练习 5.** 让第三行或第三列等于前两者之和，使某个方向重复。`rank()` 必须返回 2，此时这些列张成一个过原点的平面。
+
+**练习 6.** 计算缩放系数 $\frac{a \cdot b}{b \cdot b}$ 并用它乘以 $b$，或调用 `project_onto`。验证余量 $a$ 减去投影后与 [1, 1, 1] 的点积为 0。
+
+## 关键术语
 
 | 术语 | 常见说法 | 准确含义 |
 |---|---|---|

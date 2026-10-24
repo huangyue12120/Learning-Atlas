@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/17-audio-evaluation-metrics/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 1384d50a713138f0b4459e40bf3c413b11a4e25171a2085daee16fd02be1ed5b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 7700fd5c9662a5acb4853fc0057ef4a3bba440da78615e44347e9c6d956a5d54
 status: reviewed
 ---
 
@@ -56,7 +56,7 @@ status: reviewed
 
 **SECS（说话人编码器余弦相似度）。** 用于语音克隆。计算参考音频与克隆输出的 ECAPA 嵌入余弦。&gt; 0.75 表示能够识别出克隆声音。
 
-**ASR 往返 WER。** 用 Whisper 识别 TTS 输出，再计算相对于输入文本的 WER，用于捕获可懂度回归。2026 年 SOTA：CER &lt; 2%。
+**ASR 往返 WER。** 用 Whisper 识别 TTS 输出，再计算相对于输入文本的 WER，用于捕获可懂度回归。2026 年 SOTA：英语测试集上 WER &lt; 2%（普通话测试集改报 CER）。
 
 **TTFA（首段音频时间，time-to-first-audio）。** 实际时钟延迟。Kokoro-82M 约为 100 ms，F5-TTS 约为 1 秒。
 
@@ -90,7 +90,7 @@ status: reviewed
 
 **CLAP 分数。** 使用 CLAP 嵌入得到的文本—音频对齐分数。&gt; 0.3 表示对齐尚可。
 
-**听评小组 MOS。** 对消费级音乐而言，它仍是最终判据。Suno v5 在 TTS Arena 上的 ELO 为 1293（来自成对人类偏好）。
+**听评小组 MOS。** 对消费级音乐而言，它仍是最终判据。Suno v5 在 Suno 自己的成对偏好基准上取得 ELO 1293。这是厂商自报的数字；TTS Arena 排名的是语音，而不是音乐。
 
 ### 音频—语言基准
 
@@ -126,7 +126,7 @@ status: reviewed
 sp-wer-align
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：带归一化的 WER
 
@@ -188,7 +188,7 @@ def eer(same_scores, diff_scores):
     return best[1]
 ```
 
-## 用于实践
+## 使用
 
 每次部署都应配备固定的评估工具，并在每次模型更新时运行。三条基本规则：
 
@@ -204,7 +204,7 @@ def eer(same_scores, diff_scores):
 - **聚合 WER。** 总体 5% WER 可能掩盖口音语音上的 30% WER。应按人口统计切片报告。
 - **公开基准饱和。** 大多数前沿模型在标准基准上已接近上限。请构建反映实际流量的内部留出集。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-audio-evaluator.md`。为任意音频模型发布选择指标、基准与报告格式。
 

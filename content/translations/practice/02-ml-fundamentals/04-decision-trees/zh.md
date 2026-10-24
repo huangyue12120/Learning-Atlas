@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/04-decision-trees/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 4b0f504a762eee1962ec224f7ace1863c22051223116185151a1fe4a01d80546
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: e020962c727412c6d0263c9c2324210a6a20c1074a325d16d011d797bd8a812e
 status: reviewed
 ---
 
@@ -111,7 +111,7 @@ Entropy = -(0.6 * log2(0.6) + 0.4 * log2(0.4))
 
 ### 停止条件
 
-没有停止条件时，树会一直长到每片叶都纯净（每叶仅一个样本），这会完美记住训练数据却泛化很差。
+没有停止条件时，树会一直长到每片叶都纯净，或者没有划分能再分开它的样本为止，往往会一直分到每叶仅一个样本，这会完美记住训练数据却泛化很差。
 
 **预剪枝**在树完全长成前停止：
 
@@ -197,7 +197,7 @@ graph TD
 decision-tree-depth
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：Gini 不纯度与熵
 
@@ -420,7 +420,7 @@ class RandomForest:
 
 完整的辅助方法实现位于 `code/trees.py`。
 
-## 在工具中使用
+## 使用
 
 用 scikit-learn 训练随机森林只需三行：
 
@@ -440,7 +440,7 @@ print(f"Feature importances: {rf.feature_importances_}")
 
 实践中梯度提升树（XGBoost、LightGBM、CatBoost）常比随机森林更强，因为它们顺序建树，让每棵树修正前一棵的错误；但随机森林更难配置错误，几乎不需要超参数调优。
 
-## 产出
+## 交付
 
 本课最终产出 `outputs/prompt-tree-interpreter.md`：向业务干系人解释决策树划分的提示词。输入训练树的结构（深度、特征、划分阈值、准确率），它会把模型转为自然语言规则，排序特征重要性，标记过拟合或泄漏，并推荐下一步；适合向不读代码的人说明树模型。
 

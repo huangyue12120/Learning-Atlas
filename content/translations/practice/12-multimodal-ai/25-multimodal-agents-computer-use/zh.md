@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/25-multimodal-agents-computer-use/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 388c376120b81d1302dfc355f2f1ef031c32a38b86c476410a050a32af72cb51
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: f0df1f04e3afc786d466607522e242d2d416f4358a4d0c75d8469bdc7854e9e7
 status: reviewed
 ---
 
@@ -135,23 +135,23 @@ ChartAgent（arXiv:2510.04514）为图表理解引入了视觉工具使用：裁
 mm-agent-loop
 ```
 
-## 使用它
+## 使用
 
 `code/main.py` 是毕业课骨架：
 
-- 动作 schema JSON 定义（10 种动作）。
+- 动作 schema JSON 定义（10 种动作：上面列出的九种，加上 `screenshot_region`，一个裁剪 + 缩放工具）。
 - 用字典表示的模拟浏览器状态。
 - 智能体循环骨架：接收状态、输出动作、执行、循环。
 - 10 任务小型基准（合成页面），用于测量端到端成功率。
 - 动作失败时的错误恢复钩子。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-multimodal-agent-designer.md`。给定一个计算机使用产品（领域、动作集合、评估目标），它会设计完整的智能体循环、记忆策略、定位模式和预期基准分数。
 
 ## 练习
 
-1. 为动作 schema 增加一个 `screenshot_region` 工具（裁剪 + 缩放）。哪些任务会受益？
+1. 代码的 schema 在九个核心动作之外增加了一个 `screenshot_region` 工具（裁剪 + 缩放）。哪些任务会受益？
 
 2. 阅读 AgentVista（arXiv:2602.23166）。描述最困难的任务类别，以及前沿模型为什么仍会失败。
 

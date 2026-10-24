@@ -179,7 +179,7 @@ flowchart LR
 softmax-attention-scaling
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从头实现 Softmax
 
@@ -292,7 +292,7 @@ def ascii_heatmap(weights, tokens, chars=" ░▒▓█"):
 ascii_heatmap(weights, sentence)
 ```
 
-## 用于实践
+## 使用
 
 PyTorch 的 `nn.MultiheadAttention` 所做的正是我们刚构建的操作，外加多头拆分与输出投影：
 
@@ -319,7 +319,7 @@ print(attn_weights[0].detach().numpy().round(3))
 
 关键区别是：多头注意力会并行运行多个注意力函数，每个函数都有自己的 Q、K、V 投影，大小为 dk = d_model / n_heads，然后拼接结果。这让模型能同时关注不同类型的关系。
 
-## 交付成果
+## 交付
 
 本课会产出：
 

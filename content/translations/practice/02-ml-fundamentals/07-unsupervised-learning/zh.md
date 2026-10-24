@@ -132,7 +132,7 @@ GMM 能建模椭圆簇（而非 K-Means 仅球形簇），也自然处理重叠�
 kmeans-step
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从零实现 K-Means
 
@@ -460,7 +460,7 @@ if __name__ == "__main__":
         print(f"    Point {[round(v, 2) for v in a]}")
 ```
 
-## 在工具中使用
+## 使用
 
 scikit-learn 中同样算法只需一行：
 
@@ -477,7 +477,7 @@ gmm_model = GaussianMixture(n_components=3, random_state=42).fit(data)
 
 从零版本揭示库确切计算的内容：K-Means 在分配和重算间迭代，DBSCAN 从稠密种子扩展簇，GMM 在期望与最大化间交替。库增加数值稳定性、更聪明的 K-Means++ 初始化和 GPU 加速，核心逻辑相同。
 
-## 产出
+## 交付
 
 本课产出可运行的 K-Means、DBSCAN、GMM 从零实现，可作为更高级无监督方法的基础。
 

@@ -19,7 +19,7 @@
         "覆盖 MLCommons 风险类别的输入/输出安全分类器，放在 LLM 前后"
       ],
       "correct": 3,
-      "explanation": "正确答案是“覆盖 MLCommons 风险类别的输入/输出安全分类器，放在 LLM 前后”。本课组装 Llama Guard、Garak 与 PyRIT 的红队栈，并强调裁判与探针新鲜度。"
+      "explanation": "正确答案是“覆盖 MLCommons 风险类别的输入/输出安全分类器，放在 LLM 前后”。Llama Guard 是覆盖 MLCommons 风险类别的输入/输出安全分类器，可放在 LLM 前、后或两侧。它不是思维链脚手架、RLHF 奖励模型或分词器。"
     },
     {
       "id": "16-red-team-tooling-garak-llamaguard-pyrit-check-2",
@@ -32,7 +32,7 @@
         "7"
       ],
       "correct": 2,
-      "explanation": "正确答案是“14”。本课组装 Llama Guard、Garak 与 PyRIT 的红队栈，并强调裁判与探针新鲜度。"
+      "explanation": "正确答案是“14”。Llama Guard 3 覆盖 MLCommons AILuminate 的 14 个风险类别。3、40、7 都与该数目不符。"
     },
     {
       "id": "16-red-team-tooling-garak-llamaguard-pyrit-check-3",
@@ -45,7 +45,7 @@
         "Routers、agents、queues"
       ],
       "correct": 0,
-      "explanation": "正确答案是“Probes（攻击生成器）、Detectors（输出评分器）、Harnesses（活动管理器）”。本课组装 Llama Guard、Garak 与 PyRIT 的红队栈，并强调裁判与探针新鲜度。"
+      "explanation": "正确答案是“Probes（攻击生成器）、Detectors（输出评分器）、Harnesses（活动管理器）”。Garak 架构由探针（攻击生成器）、检测器（输出评分器）和工具架（活动管理器）组成。嵌入/检索/重排、Tools/resources/prompts、Routers/agents/queues 都不是 Garak 的结构。"
     },
     {
       "id": "16-red-team-tooling-garak-llamaguard-pyrit-check-4",
@@ -58,7 +58,7 @@
         "PyRIT 训练奖励模型，Garak 训练分词器"
       ],
       "correct": 0,
-      "explanation": "正确答案是“PyRIT 运行多轮活动（转换器链、Crescendo/TAP 编排器和评分），Garak 运行数千个单轮 probe”。本课组装 Llama Guard、Garak 与 PyRIT 的红队栈，并强调裁判与探针新鲜度。"
+      "explanation": "正确答案是“PyRIT 运行多轮活动（转换器链、Crescendo/TAP 编排器和评分），Garak 运行数千个单轮 probe”。PyRIT 面向多轮活动（转换器链、Crescendo/TAP 编排器、评分），Garak 则运行数千个单轮探针，这是两者的分工差异。它们范围不同，也都不是 Llama Guard/Prompt-Guard 变体或训练 RM/分词器的工具。"
     },
     {
       "id": "16-red-team-tooling-garak-llamaguard-pyrit-post-5",
@@ -71,7 +71,7 @@
         "模型两侧都放 Llama Guard，Garak 每夜回归，发布前用 PyRIT 做多轮活动"
       ],
       "correct": 3,
-      "explanation": "正确答案是“模型两侧都放 Llama Guard，Garak 每夜回归，发布前用 PyRIT 做多轮活动”。本课组装 Llama Guard、Garak 与 PyRIT 的红队栈，并强调裁判与探针新鲜度。"
+      "explanation": "正确答案是“模型两侧都放 Llama Guard，Garak 每夜回归，发布前用 PyRIT 做多轮活动”。推荐的 2026 默认栈是：两侧放 Llama Guard、Garak 每夜回归、发布前用 PyRIT 跑多轮活动。只用 PAIR 替代一切、只跑一次 Garak、只做人工复核都不是该默认栈。"
     },
     {
       "id": "16-red-team-tooling-garak-llamaguard-pyrit-post-6",
@@ -84,7 +84,7 @@
         "攻击/防御率依赖裁判身份和探针新鲜度，必须注明裁判并在模型修补后刷新探针"
       ],
       "correct": 3,
-      "explanation": "正确答案是“攻击/防御率依赖裁判身份和探针新鲜度，必须注明裁判并在模型修补后刷新探针”。本课组装 Llama Guard、Garak 与 PyRIT 的红队栈，并强调裁判与探针新鲜度。"
+      "explanation": "正确答案是“攻击/防御率依赖裁判身份和探针新鲜度，必须注明裁判并在模型修补后刷新探针”。三种工具共享的陷阱是攻击/防御率依赖裁判身份与探针新鲜度，必须注明裁判并在模型修补后刷新探针。它们并非都要白盒、只支持英语或不能在 GPU 上运行。"
     }
   ]
 }

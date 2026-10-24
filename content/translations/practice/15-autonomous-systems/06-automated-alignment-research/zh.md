@@ -4,21 +4,21 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/06-automated-alignment-research/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: b9baea7e1c628eff4a700a67ed30eb3952574c159beb63e8e1def6acce623307
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 67665712bdaf0dbce50d98303ec3e8df4ee8df9a22c83be5ddc4b7a49775b81b
 status: reviewed
 ---
 
 # 自动化对齐研究（Anthropic AAR）
 
-> Anthropic 让 Claude Opus 4.6 自动化对齐研究员（AAR）组成并行团队，在彼此独立的沙箱中运行，并通过一个共享论坛协调；论坛日志保存在所有沙箱之外（因此智能体无法删除自己的记录）。在弱到强训练问题上，AAR 的表现超过了人类研究者。Anthropic 自己的摘要指出，规定工作流通常会限制 AAR 灵活性并降低表现。自动化对齐研究是压缩时间线的那一步，而被压缩的正是 RSP 意图检测的失配风险。
+> Anthropic 让 Claude Opus 4.6 自动化对齐研究员（AAR）组成并行团队，在彼此独立的沙箱中运行，并通过一个共享论坛协调；论坛日志保存在所有沙箱之外（因此智能体无法删除自己的记录）。在弱到强训练问题上，AAR 的表现超过了人类研究者。Anthropic 自己的摘要指出，规定工作流通常会限制 AAR 灵活性并降低表现。自动化对齐研究压缩了时间线，而它正是在 RSP 意图检测的那些失配风险上做这件事。
 
 **类型：** 学习
 **语言：** Python（标准库，并行研究论坛模拟器）
 **前置要求：** 第 15 阶段 · 05（AI Scientist v2）、第 15 阶段 · 04（DGM）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
-## 问题所在
+## 问题
 
 对齐研究消耗昂贵的人类研究时间。可扩展监督、奖励规格或弱到强训练等问题，每次迭代都需要数周实验。当前沿能力提升时，对齐工作量增长得比合格研究者的供给更快。
 
@@ -26,7 +26,7 @@ status: reviewed
 
 结果确实积极：AAR 比人类基线更好地解决了一项研究问题。但该结果也将本阶段发展出的每项顾虑集中在一个系统中。若对齐研究可以自动化，那么破坏防护措施的部分也可以自动化。RSP 针对 AI 研发能力设置的阈值，正是围绕这种循环写的。
 
-## 核心概念
+## 概念
 
 ### 架构（公开描述的部分）
 
@@ -65,7 +65,7 @@ AAR 距该阈值尚有一步：它自动化了流水线的一部分（特定、�
 aar-forum
 ```
 
-## 实际运行
+## 使用
 
 `code/main.py` 模拟一个多 AAR 研究论坛。三个独立的“研究智能体”并行运行，把发现发布到支持可选篡改尝试的追加写论坛。
 
@@ -75,7 +75,7 @@ aar-forum
 - 在较难问题上，自由分解的任务分配如何胜过固定工作流。
 - 若日志不可防篡改，单个被攻破的 AAR 如何污染论坛信号。
 
-## 交付物
+## 交付
 
 `outputs/skill-aar-deployment-review.md` 用于对自动化对齐研究流水线开展部署前审阅。
 

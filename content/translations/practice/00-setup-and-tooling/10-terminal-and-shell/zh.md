@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/10-terminal-and-shell/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 17dc65d11d74510bada6bd4cdd1ae4bdb85849632ca0e4a999d0da53b2d5292e
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 5febcabad487875619e38bab7b925c05ac61d3f059cbfcb0d7d8a4902fd8e4bf
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** --
 **前置课程：** Phase 0，第 01 课
-**预计学习：** 约 35 分钟
+**预计时间：** 约 35 分钟
 
 ## 学习目标
 
@@ -35,12 +35,12 @@ status: reviewed
 
 ```mermaid
 graph TD
-    subgraph tmux["tmux session: training"]
-        subgraph top["Top row"]
-            P1["Pane 1: Training run<br/>python train.py<br/>Epoch 12/100 ..."]
-            P2["Pane 2: GPU monitor<br/>watch -n1 nvidia-smi<br/>GPU: 78% | Mem: 14/24G"]
+    subgraph tmux["tmux 会话：training"]
+        subgraph top["上排"]
+            P1["Pane 1：训练运行<br/>python train.py<br/>Epoch 12/100 ..."]
+            P2["Pane 2：GPU 监控<br/>watch -n1 nvidia-smi<br/>GPU: 78% | Mem: 14/24G"]
         end
-        P3["Pane 3: Logs + experiments<br/>tail -f logs/train.log | grep loss"]
+        P3["Pane 3：日志 + 实验<br/>tail -f logs/train.log | grep loss"]
     end
 ```
 
@@ -108,7 +108,7 @@ python train.py > output.log 2> errors.log
 python train.py > train_full.log 2>&1
 ```
 
-需要的三类重定向：
+需要的四类重定向和管道：
 
 | 符号 | 作用 |
 |--------|-------------|
@@ -326,7 +326,7 @@ env | grep -i cuda
 env | grep -i torch
 ```
 
-## 实际使用
+## 使用
 
 本课程中各工具的使用时机：
 
@@ -349,17 +349,15 @@ env | grep -i torch
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Start with `tmux new -s practice`, then split with the prefix `Ctrl+B` followed by `"` and `%`, and move between panes with `Ctrl+B` and an arrow key. Detach with `Ctrl+B` then `d`, run `tmux ls`, and attach again with `tmux attach -t practice`; all three programs must still run.
->
-> **Exercise 2.** Copy the lines from `code/shell_aliases.sh` to the end of `~/.zshrc` or `~/.bashrc`, then run `source` on that file. Run `alias` or `type <name>` for one of the new aliases to confirm that the shell knows it.
->
-> **Exercise 3.** First run `tail -5 fake_train.log` to see the line format. Then filter with `grep loss` and print only the last field with `awk '{print $NF}'`; the output must be 100 numbers that get smaller.
->
-> **Exercise 4.** Copy the `Host gpu` block from the lesson into `~/.ssh/config` and change `HostName` and `User` to your server, or to `localhost` and your user name. Run `ssh -G gpu` to print the settings that SSH will use. If you have a reachable SSH server that accepts your key, run `ssh gpu` to connect.
+**练习 1.** 先执行 `tmux new -s practice`，然后用前缀 `Ctrl+B` 再按 `"` 和 `%` 来分割窗格，用 `Ctrl+B` 加方向键在窗格间移动。用 `Ctrl+B` 再按 `d` 脱离，运行 `tmux ls`，再用 `tmux attach -t practice` 重新连接；三个程序都必须仍在运行。
 
-## 核心术语
+**练习 2.** 把 `code/shell_aliases.sh` 中的内容复制到 `~/.zshrc` 或 `~/.bashrc` 末尾，然后对该文件执行 `source`。对其中一个新别名运行 `alias` 或 `type <name>`，确认 shell 已经识别它。
+
+**练习 3.** 先运行 `tail -5 fake_train.log` 查看行的格式。然后用 `grep loss` 过滤，并用 `awk '{print $NF}'` 只打印最后一个字段；输出应是 100 个逐渐变小的数字。
+
+**练习 4.** 把课程中的 `Host gpu` 配置块复制到 `~/.ssh/config`，把 `HostName` 和 `User` 改成你的服务器，或改成 `localhost` 和你的用户名。运行 `ssh -G gpu` 打印 SSH 将要使用的设置。如果你有一台可访问且接受你密钥的 SSH 服务器，运行 `ssh gpu` 连接它。
+
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

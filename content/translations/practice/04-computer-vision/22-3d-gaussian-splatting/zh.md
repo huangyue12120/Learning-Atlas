@@ -137,7 +137,7 @@ c_i &= \mathop{\mathrm{eval\_SH}}(\text{SH}_i, \text{view\_direction}) && \text{
 cv3-gaussian-splat
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：一个 2D 高斯
 
@@ -325,7 +325,7 @@ def eval_sh_degree_3(sh_coeffs, dirs):
 
 学习到的 `sh_coeffs` 存储该高斯“每个方向的颜色”。渲染时对当前观察方向求值，即得到 RGB 三向量。
 
-## 使用现成工具
+## 使用
 
 实际 3DGS 工作中，使用 `gsplat`（Meta）或 `nerfstudio`：
 
@@ -346,7 +346,7 @@ ns-train splatfacto --data path/to/data
 
 对于 4D / 动态场景，`4DGS` 和 `Deformable-3DGS` 用随时间变化的均值和不透明度扩展同一机制。
 
-## 交付产物
+## 交付
 
 本课产出：
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/72-code-exec-metric/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 3d34777c2060b8fbd19bd1dbb86466b6711287fa0a501fbf4ce0d856c65476d7
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 3a65a1b04223a643029b3dd65903937b7b042b5153791e62e1419c58f1b06c5d
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置知识：** Phase 19 Track B 基础，第 70、71 课
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -76,7 +76,7 @@ DENIED = {
 
 ## Wall-clock timeout
 
-每个子进程默认获得 3 秒的墙钟预算，运行器通过 `subprocess.run(..., timeout=t)` 执行。超时后捕获 `TimeoutExpired`、终止进程并记录该任务的 `timeout` 原因；该任务得分为零，但运行器会继续处理下一题。每个任务可通过 `task.metadata.timeout_s` 配置更长时间，但第 70 课校验器将上限设为 30 秒，以保持套件有界。
+每个子进程默认获得 3 秒的墙钟预算，运行器通过 `subprocess.run(..., timeout=t)` 执行。超时后捕获 `TimeoutExpired`、终止进程并记录该任务的 `timeout` 原因；该任务得分为零，但运行器会继续处理下一题。超时由 `run_candidate` 的 `timeout_s` 参数决定；第 75 课的运行器通过 `code_exec_timeout_s` 为每次运行设置一次。耗时较长的单元测试可以申请更多时间，但 `run_candidate` 会把该值限制在 0.1 到 30 秒之间，以保持套件有界。
 
 ## Output cap
 
@@ -90,7 +90,7 @@ DENIED = {
 pass_at_k(n, c, k) = 1 - C(n - c, k) / C(n, k)
 ```
 
-当 `n - c < k` 时结果为 1；实现直接处理该边界，并将 `pass_at_k` 暴露给第 74 课。
+当 `n - c < k` 时，按通常约定分子 `C(n - c, k)` 为零（不可能从少于 `k` 个失败样本中选出 `k` 个），因此结果为 1；实现直接处理该边界，并将 `pass_at_k` 暴露给第 74 课。
 
 ```mermaid
 flowchart LR
@@ -119,7 +119,7 @@ flowchart LR
 
 `main.py` 定义 `extract_code`、`run_candidate`、`score_code_exec` 和 `pass_at_k`；子进程运行器脚本作为字符串构造后，以 `-c` 参数传给新的 Python 解释器。测试覆盖四种退出码及来自 HumanEval 风格工作示例的 pass-at-k。请从头读到尾，重点观察运行器模板；盯着断言循环，直到能预测它写回父进程的 JSON 外壳。
 
-## 进一步学习
+## 进一步探索
 
 子进程结构运行起来后，下一个问题是可移植性：不同 Python 版本在 Windows 上处理 `SIGKILL` 的方式不同，最干净的修复是把运行器放进 Docker 镜像。再往后，可以用真实单元测试文件替代断言字符串，使评测更接近生产 CI；那时就不要再把断言字符串称为测试，它们只是会产生玩具级失败模式的玩具测试。
 

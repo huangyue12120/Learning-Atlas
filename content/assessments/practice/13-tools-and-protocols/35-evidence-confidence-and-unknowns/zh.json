@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/35-evidence-confidence-and-unknowns/quiz.json",
+    "revision": "f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299",
+    "sha256": "f54d7ea08b8335cc10a7c7420d1af4b5527a0d1e9e5e6e81db9ade07e25b7fbe"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"evid-q1","stage":"pre","question":"rea 给每一条 Evidence 记录一个置信度值。模式允许哪一组取值？","options":["从 0.0 到 1.0 的一个数字","observed、derived 或 inferred","pass、fail 或 unknown","low、medium、high 或 critical"],"correct":1,"explanation":"置信度在 src/domain/evidence.ts 中是一个三取值枚举。严重程度和完成状态是另外的字段，各有自己的取值。"},
+    {"id":"evid-q2","stage":"check","question":"两个人在不同机器的不同文件夹里，对同一个目标文件运行同一个 rea 查询。evidence_id 会怎样？","options":["它会不同，因为本地路径不同","它相同，因为哈希排除了 name 和 local_path","只有在文件夹名字相同时它才相同","它会不同，因为机器时钟不同"],"correct":1,"explanation":"语义投影保留 subject 的 digest、format 和 architecture，丢掉 name 和 local_path。对同一批字节的同一次观测在任何地方都得到相同的 id。"},
+    {"id":"evid-q3","stage":"check","question":"一项声明说 grade(55) == 0。账本持有 Ghidra 伪代码记录和推导出的表模型。这项声明的状态是什么？","options":["pass，因为伪代码记录是观测的","pass，因为有两条记录与该声明吻合","fail，因为伪代码显示了一个不同的表达式","unsupported，因为没有观测运行陈述这个结果"],"correct":3,"explanation":"伪代码是对 Ghidra 打印了什么的观测，而不是对函数返回什么的观测。只有对该函数的一次观测运行才能晋升一项行为声明。"},
+    {"id":"evid-q4","stage":"check","question":"一个快照被存在 profile 摘要 a04af771 之下。之后的一次 rea 发布把 jump_table_evidence 改成一个 v2 契约。缓存会对这个快照做什么？","options":["启动 Ghidra 并覆盖旧条目","重放这些条目并把每一个标记为过期","以 profile_mismatch 拒绝这次导入","只重放那些没有跳转表的条目"],"correct":2,"explanation":"profile 摘要覆盖每一个契约版本字符串。一个变更的版本给出一个新摘要，于是快照不再与活动绑定匹配。"},
+    {"id":"evid-q5","stage":"post","question":"什么以 verified 这个处置来关闭一个残留未知项？","options":["至少一个带所需置信度和权威等级的证据 id","把该未知项从账本里移除","分析者写下的一句理由","一个状态为 resolved、证据列表为空的新修订"],"correct":0,"explanation":"一个 verified 的 resolution 指明若干证据 id，账本会检查其中每一个都是观测的，且带着该未知项所要求的权威等级。"},
+    {"id":"evid-q6","stage":"post","question":"主机构建的运行显示 grade(95) == 4 且 grade(100) == 4。该声明覆盖从 90 到 100 的每一个分数。哪个状态是正确的？","options":["unknown，因为 11 个输入里有 2 个有观测运行","pass，因为每一次观测运行都与该声明吻合","unsupported，因为 x86-64 目标文件本身从未运行","fail，因为九个输入从未运行过"],"correct":0,"explanation":"部分覆盖是 unknown，既不是 pass 也不是 fail。该未知项记录保持开启，直到其余九个输入都有观测运行。"}
+  ]
+}

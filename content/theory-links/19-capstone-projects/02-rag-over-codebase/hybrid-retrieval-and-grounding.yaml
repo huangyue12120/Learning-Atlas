@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 混合检索如何形成有依据的上下文
-  summary: 在并行运行稠密检索与 BM25、合并候选、重排并强制 file:line 引用时，用高级文本生成理论核对检索结果如何成为生成模型的条件上下文，以及检索与生成各自的误差边界；该关联先保留候选状态，待独立审核。
+  summary: 在并行运行稠密检索与 BM25、合并候选、重排并强制 file:line 引用时，用高级文本生成理论核对检索结果如何成为生成模型的条件上下文，以及检索与生成各自的误差边界；该关联先保留候选状态，待独立审核。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

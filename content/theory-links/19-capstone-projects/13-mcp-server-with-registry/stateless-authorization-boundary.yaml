@@ -10,7 +10,7 @@ practice:
     slug: authorization-and-policy
 card:
   title: 无状态请求中的授权与策略边界
-  summary: 在将发行者、受众、scope、审批记录和审计证据绑定到每次工具调用时，用操作系统安全基础核对最小权限、输入验证和隔离边界。
+  summary: 在将发行者、受众、scope、审批记录和审计证据绑定到每次工具调用时，用操作系统安全基础核对最小权限、输入验证和隔离边界。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 13 - computing and OS/03. operating systems.md

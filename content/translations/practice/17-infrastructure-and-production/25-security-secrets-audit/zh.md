@@ -4,19 +4,19 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/25-security-secrets-audit/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 8fa0b2d28ab54c4c0cff0b90f08642aded7a71456dbef7011d96d0fbff11f467
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 423fafef1679b01975dda59d221731e3b8c1a671f8df9d5cb468cd77af2752e9
 status: reviewed
 ---
 
 # 安全：密钥、API Key 轮换、审计日志、护栏
 
-> 通过集中式 vault（HashiCorp Vault、AWS Secrets Manager、Azure Key Vault）消除密钥蔓延。绝不将凭证存入配置文件、VCS 中的 env 文件或电子表格。使用 IAM roles 而非静态 key；CI/CD 使用 OIDC。AI 网关模式是 2026 年的解决方案：应用 → 网关 → 模型供应商，网关在运行时从 vault 获取凭证。在 vault 中轮换，所有应用几分钟内取到新密钥——无需重新部署，也无需在 Slack 中询问“谁有新 key”。轮换策略 ≤90 天；每次 commit 使用 TruffleHog / GitGuardian / Gitleaks 扫描。零信任：MFA、SSO、RBAC/ABAC、短期 token、设备状态。PII 清理使用实体识别，在转发前掩盖 PHI/PII；一致 tokenization（Mesh 方法）将敏感值映射为稳定占位符，使 LLM 保留代码/关系语义。网络出站：LLM 服务位于专用 VPC/VNet 子网，仅允许 `api.openai.com`、`api.anthropic.com` 等；阻止所有其他出站。2026 年事故驱动因素：Vercel 供应链攻击通过被入侵的 CI/CD 凭证，从数千个客户部署中外泄 env var。
+> 通过集中式 vault（HashiCorp Vault、AWS Secrets Manager、Azure Key Vault）消除密钥蔓延。绝不将凭证存入配置文件、VCS 中的 env 文件或电子表格。使用 IAM roles 而非静态 key；CI/CD 使用 OIDC。AI 网关模式是 2026 年的解决方案：应用 → 网关 → 模型供应商，网关在运行时从 vault 获取凭证。在 vault 中轮换，所有应用几分钟内取到新密钥——无需重新部署，也无需在 Slack 中询问“谁有新 key”。轮换策略 ≤90 天；每次 commit 使用 TruffleHog / GitGuardian / Gitleaks 扫描。零信任：MFA、SSO、RBAC/ABAC、短期令牌、设备状态。PII 清理使用实体识别，在转发前掩盖 PHI/PII；一致 tokenization（Mesh 方法）将敏感值映射为稳定占位符，使 LLM 保留代码/关系语义。网络出站：LLM 服务位于专用 VPC/VNet 子网，仅允许 `api.openai.com`、`api.anthropic.com` 等；阻止所有其他出站。2026 年事故驱动因素：Vercel 供应链攻击通过被入侵的 CI/CD 凭证，从数千个客户部署中外泄 env var。
 
 **类型：** 学习
 **语言：** Python（标准库，用于 PII 清理器 + 审计日志写入器的玩具程序）
 **前置要求：** 第 17 阶段 · 19（AI 网关），第 17 阶段 · 13（可观测性）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -33,7 +33,7 @@ status: reviewed
 
 还有，EKS 集群的 LLM pod 可以访问任意互联网主机。有人通过向攻击者控制的域名发起 DNS 查询外泄数据，无任何阻止。
 
-LLM 服务的安全必须处理全部三个向量：基于 vault 的凭证、PII 清理、网络出站过滤和审计日志。
+LLM 服务的安全必须处理全部三个向量，并能在事后证明这一点：基于 vault 的凭证、PII 清理、网络出站过滤，以及作为证据链的审计日志。
 
 ## 概念
 
@@ -41,13 +41,13 @@ LLM 服务的安全必须处理全部三个向量：基于 vault 的凭证、PII
 
 **Vault：** HashiCorp Vault、AWS Secrets Manager、Azure Key Vault、GCP Secret Manager。单一事实来源。
 
-**IAM role：** 应用/网关通过其 IAM 身份而非静态 key 进行认证。Vault 在 token 有效期内返回密钥。
+**IAM role：** 应用/网关通过其 IAM 身份而非静态 key 进行认证。Vault 在令牌有效期内返回密钥。
 
 **AI 网关模式：** 网关在请求时从 vault 拉取 `OPENAI_API_KEY`。在 vault 中轮换；下一次请求取得新 key，无需重新部署。
 
 ### 轮换策略 ≤ 90 天
 
-所有 API key、vault root token、CI/CD 凭证。尽可能自动轮换，手动轮换则记录和跟踪。
+所有 API key、vault root 令牌、CI/CD 凭证。尽可能自动轮换，手动轮换则记录和跟踪。
 
 ### 密钥扫描
 
@@ -62,7 +62,7 @@ LLM 服务的安全必须处理全部三个向量：基于 vault 的凭证、PII
 - 所有账户必须 MFA。
 - 通过 SAML/OIDC 使用 SSO。
 - 使用 RBAC（基于角色）或 ABAC（基于属性）实现细粒度访问。
-- 短期 token（以小时而非天计）。
+- 短期令牌（以小时而非天计）。
 - 设备状态——仅允许启用磁盘加密的公司设备。
 
 ### PII / PHI 清理
@@ -98,7 +98,7 @@ LLM 服务位于专用子网：
 - 用户 / 租户。
 - 提示词哈希（为隐私而非原始提示词）。
 - 模型 + 版本。
-- Token 计数。
+- 词元计数。
 - 成本。
 - 响应哈希。
 - 任意护栏触发。
@@ -142,11 +142,11 @@ i4-vault-rotation
 |------|-----------|----------|
 | Vault | “密钥存储” | 集中式凭证管理服务 |
 | IAM role | “基于身份的认证” | 应用承担的角色；返回短期凭证 |
-| 面向 CI/CD 的 OIDC | “云签发 token” | CI 中没有静态 key——通过 OIDC 获得身份 |
+| 面向 CI/CD 的 OIDC | “云签发令牌” | CI 中没有静态 key——通过 OIDC 获得身份 |
 | TruffleHog / GitGuardian / Gitleaks | “密钥扫描器” | commit 时检测密钥 |
 | RBAC / ABAC | “访问控制” | 基于角色与基于属性 |
-| PII 清理 | “数据掩盖” | 移除或 token 化敏感实体 |
-| 一致 tokenization | “稳定占位符” | 相同值每次映射为同一 token |
+| PII 清理 | “数据掩盖” | 移除或令牌化敏感实体 |
+| 一致 tokenization | “稳定占位符” | 相同值每次映射为同一令牌 |
 | Mesh 方法 | “Mesh tokenization” | 保留语义的 tokenization 模式 |
 | 出站白名单 | “出站允许列表” | 只能访问获准域名 |
 | 审计日志 | “不可变历史” | 用于合规的仅追加记录 |

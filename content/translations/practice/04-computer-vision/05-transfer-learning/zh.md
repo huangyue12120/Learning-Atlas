@@ -130,7 +130,7 @@ backbone.heads.head = nn.Linear(..., num_classes)                       # torchv
 transfer-learning
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：加载预训练骨干并检查
 
@@ -294,7 +294,7 @@ def progressive_unfreeze_schedule(model):
 
 第一个 epoch 前调用一次 `start()`，每个 epoch 开始调用 `unfreeze(epoch)`。每次可训练参数集合改变时重建优化器；否则冻结参数仍持有会干扰优化器的缓存动量。
 
-## 使用现成工具
+## 使用
 
 对多数真实任务，`torchvision.models` 加三行就足够；遇到库默认值无法修复的问题时，上面较重的工具才重要。
 
@@ -311,7 +311,7 @@ optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4, weight_decay=1e-4)
 - `timm` 提供约 800 个具有一致 API 的预训练视觉骨干（`timm.create_model("resnet50", pretrained=True, num_classes=10)`）；任何超出 torchvision zoo 的微调通常都使用它。
 - 对 transformer，`transformers.AutoModelForImageClassification.from_pretrained(name, num_labels=N)` 可用与文本模型相同的加载语义获得 ViT / BEiT / DeiT。
 
-## 交付产物
+## 交付
 
 本课产出：
 

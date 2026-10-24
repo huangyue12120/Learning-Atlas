@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 页面 patch 的后交互与 MaxSim
-  summary: 在把查询词元与页面 patch 逐一打分并以 MaxSim 聚合时，用视觉原生向量检索理论核对多向量表示、细粒度相似度和存储—召回权衡。
+  summary: 在把查询词元与页面 patch 逐一打分并以 MaxSim 聚合时，用视觉原生向量检索理论核对多向量表示、细粒度相似度和存储—召回权衡。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

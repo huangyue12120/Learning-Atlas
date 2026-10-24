@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/13-numerical-stability/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 12856656d74e92c2e8b1a1766f7434cff54ef1b5be8875ef1f9a9e6fdde1ca1d
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0a2ed11f1728142676a900ccd812099c78e4429155692ca22d0b27aafd94c2e6
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 实作
 **学习实现：** Python
 **前置课程：** Phase 1 · 第 01–04 课
-**预计学习：** 约 120 分钟
+**预计时间：** 约 120 分钟
 
 ## 学习目标
 
@@ -196,7 +196,7 @@ exp(101) = 7.31e43
 exp(102) = 1.99e44
 sum      = 2.99e44
 
-These overflow float32 (max ~3.4e38)? No, 2.69e43 < 3.4e38? Actually:
+2.69e43 > 3.4e38, the float32 maximum, so every term overflows.
 exp(88.7) is already at the float32 limit.
 exp(100) = inf in float32.
 ```
@@ -409,7 +409,7 @@ Layer 50: values in [0, inf]
 logsumexp-stability
 ```
 
-## 构建
+## 动手构建
 
 ### 第 1 步：演示浮点精度限制
 
@@ -598,17 +598,15 @@ check_tensor("ugly", [1.0, float('inf'), 3.0])
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Convert the three values with `np.float32` before you square them, then call `variance_naive` and `welford_variance`. A value near $10^{12}$ in float32 has a spacing much larger than 1, so expect the naive result to be far from 0.6667 and the Welford result to be close.
->
-> **Exercise 2.** Start with `x = np.float32(1.0)` and halve it while `np.float32(1.0) + x != np.float32(1.0)`. Keep every value in float32, then compare the last value that still changed the sum with `numpy.finfo(numpy.float32).eps`, which is $2^{-23}$.
->
-> **Exercise 3.** Predict each answer first. For $n$ equal values $c$, the result is $c + \ln n$. For one large value, the result is close to that value. For values near -1000, the result is near $-1000 + \ln n$, while `logsumexp_naive` returns `-inf` because each exponential underflows to 0.
->
-> **Exercise 4.** For $y = Wx + b$ with a loss $L$, the gradient for $W$ is the outer product of the upstream gradient and $x$. Wrap the loss as a function of the flattened $W$, call `numerical_gradient`, and pass both results to `check_gradient`.
->
-> **Exercise 5.** Sample the magnitudes on a log scale with `10 ** np.random.uniform(-9, -3, n)` and convert with `np.float16`. Float16 cannot keep values below about $6 \times 10^{-8}$, so expect roughly a quarter of the values to become zero before scaling and almost none after you multiply by 1024.
+**练习 1.** 在平方之前先用 `np.float32` 转换这三个值，再调用 `variance_naive` 和 `welford_variance`。float32 中约为 $10^{12}$ 的值，其间距远大于 1，所以朴素结果会远离 0.6667，而 Welford 结果应当接近。
+
+**练习 2.** 从 `x = np.float32(1.0)` 开始，当 `np.float32(1.0) + x != np.float32(1.0)` 成立时不断把它减半。全程保持 float32，然后把最后一个仍能改变求和结果的值与 `numpy.finfo(numpy.float32).eps`（即 $2^{-23}$）比较。
+
+**练习 3.** 先预测每个答案。对 $n$ 个相等的值 $c$，结果为 $c + \ln n$。对单个大值，结果接近该值。对接近 -1000 的值，结果接近 $-1000 + \ln n$，而 `logsumexp_naive` 会返回 `-inf`，因为每个指数都下溢为 0。
+
+**练习 4.** 对带损失 $L$ 的 $y = Wx + b$，$W$ 的梯度是上游梯度与 $x$ 的外积。把损失包装成扁平化 $W$ 的函数，调用 `numerical_gradient`，再把两个结果都传给 `check_gradient`。
+
+**练习 5.** 用 `10 ** np.random.uniform(-9, -3, n)` 在对数尺度上采样这些模长，并用 `np.float16` 转换。float16 无法保留约 $6 \times 10^{-8}$ 以下的值，所以缩放前约有四分之一的值会变成零，而乘以 1024 之后几乎不再有零。
 
 ## 关键术语
 

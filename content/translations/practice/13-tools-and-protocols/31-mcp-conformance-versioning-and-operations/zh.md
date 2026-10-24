@@ -27,7 +27,7 @@ status: reviewed
 - 通过真实代理边界证明 header 与 body 的完整性。
 - 使用脱敏的 transcript、健康和回滚证据控制发布。
 
-## 问题所在
+## 问题
 
 你的客户端通过 SDK 调用 `tools/list` 并得到工具，集成测试通过了。
 
@@ -269,7 +269,7 @@ SDK 往往将线上对象转换为方便的语言类型。这很有用，但归�
 
 发布门禁也会拒绝空的 transcript、SDK 差分或代理证据。每个来源都必须携带有效的证据摘要。绿色健康窗口不能补齐从未观察到的边界。
 
-## 构建它
+## 动手构建
 
 运行标准库 harness：
 
@@ -308,7 +308,7 @@ python3 code/main.py
 8. `rollback_evidence_ready()` 校验精确 pin 字段和可信发布证明。
 9. `ReleaseGate.evaluate()` 汇合非空的一致性、SDK、代理、健康和回滚证据。
 
-## 使用它
+## 使用
 
 在四个时点运行 harness：
 
@@ -441,12 +441,12 @@ python3 -m unittest discover -s code/tests -v
 | 代理把 origin 400 变为普通 500 | “上游错误” | 保留 origin 和 egress 的状态及 JSON-RPC body |
 | 通知 middleware 发出 `{result: null}` | “handler 返回 none” | 最终 egress body 为空且没有 JSON-RPC 响应 |
 | SDK 删除新增字段 | “类型化对象相同” | 原始和归一化视图显示被删除的精确字段 |
-| 失败 artifact 泄漏 bearer token | “调试包已上传” | 哈希、日志或上传前已经脱敏 |
+| 失败 artifact 泄漏 bearer 令牌 | “调试包已上传” | 哈希、日志或上传前已经脱敏 |
 | 凭据 key 写法绕过脱敏 | “denylist 有 api_key” | camelCase 和分隔符变体使用同一规范化 denylist |
 | canary 没有样本却看似健康 | “错误数为零” | 强制最小样本量 |
 | 回滚选择未知构建 | “已恢复之前部署” | 目标版本、准入摘要、pin、状态和健康证据都存在 |
 
-## 运维规则
+## 操作规则
 
 测试你发出的字节、每个中间层转发的字节、每个 SDK 暴露的语义，以及运维在压力下会使用的证据。兼容性必须是显式分支，回滚必须是有证据的发布动作；两者都不应成为宽松解析器的意外副作用。
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/11-stable-diffusion/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 35526f8b1e2673b88763d4553eb03f46a83efe83a53621ed0570261c784c9932
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 8f7dd3fa44ea9ffdea9f696e6a841a1e6df7d8e9bee187a8f520099ff83314a9
 status: reviewed
 ---
 
@@ -119,7 +119,7 @@ LoRA 是几乎全部社区微调的分发方式；CivitAI 与 Hugging Face 托�
 cv3-latent-compression
 ```
 
-## 动手实现
+## 动手构建
 
 本课端到端使用 `diffusers`，而不从零重建 Stable Diffusion。要重建的 VAE、文本编码器、U-Net、调度器各自是独立课程主题；此处目标是熟练生产 API。
 
@@ -240,18 +240,18 @@ for step, batch in enumerate(dataloader):
 
 只有 LoRA 矩阵接收梯度，基础 U-Net、VAE、文本编码器冻结。批大小为 1 并启用梯度检查点时，这可放入 8 GB VRAM。
 
-## 使用现成工具
+## 使用
 
 生产中实际要做的选择：
 
 - **模型家族**：SD 1.5 用于开源社区微调，SDXL 用于更高保真，SD3 / FLUX 用于 SOTA 和严格许可证要求。
 - **调度器**：20–30 步选 DPM-Solver++ 2M Karras，延迟低于 1 秒选 LCM-LoRA。
-- **精度**：4080/4090 用 `float16`，A100 及更新设备用 `bfloat16`，VRAM 紧张时用 `int8`（经 `bitsandbytes` 或 `compel`）。
+- **精度**：4080/4090 用 `float16`，A100 及更新设备用 `bfloat16`，VRAM 紧张时用 `int8`（经 `bitsandbytes`）。
 - **条件化**：纯文本可用；更强控制时，在基础流水线上加 ControlNet（canny、深度、姿态）。
 
 批量生成使用社区工具 `AUTO1111` / `ComfyUI`；生产 API 使用 `diffusers` + `accelerate`，或带 TensorRT 编译的 `optimum-nvidia`。
 
-## 交付产物
+## 交付
 
 本课产出：
 

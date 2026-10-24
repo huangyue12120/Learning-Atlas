@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/78-zero-parameter-sharding/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 139129399d1aa5326830adda898fa7720616255187291e63d00715ffd148389d
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 2c9a05b62cbb763205718f96b805d3cc642d4275b4d0c5e29db03acdd99b6cd2
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置知识：** Phase 19 Track C 第 42–49 课
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -27,7 +27,7 @@ status: reviewed
 
 ## 问题
 
-原生 DDP 会复制所有内容：每个 rank 都完整保存参数、梯度和优化器状态。对于一个使用 fp16 的 7B 参数模型，这意味着每个 rank 需要 14 GB 参数、14 GB 梯度和 28 GB 优化器状态。优化器状态占用最大，也最容易分片，因为它只在更新步骤中使用，不参与前向或反向传播。
+原生 DDP 会复制所有内容：每个 rank 都完整保存参数、梯度和优化器状态。对于一个使用 fp16 的 7B 参数模型，这意味着每个 rank 需要 14 GB 参数、14 GB 梯度和 56 GB 优化器状态（Adam 的两个 float32 动量）。混合精度训练还要再加上一份 28 GB 的 float32 主权重副本。优化器状态占用最大，也最容易分片，因为它只在更新步骤中使用，不参与前向或反向传播。
 
 ZeRO stage 1 对优化器状态进行分片。每个 rank 只持有 Adam 动量的 1/N。反向传播后，ZeRO 不再对完整梯度执行 allreduce 再在本地更新，而是执行 `reduce_scatter`，让每个 rank 只收到自己分片对应的梯度和。随后，该 rank 在自己的主参数分片上执行优化器更新。更新后的参数分片再通过 `allgather` 汇集回来，使每个 rank 都拥有下一次前向所需的完整模型。优化器内存降为原来的 1/N。每一步在线路上传输的流量与 DDP 相同：按带宽计算，一次 `reduce_scatter` 加一次 `allgather` 等价于一次 allreduce。内存节省了，吞吐量保持不变。
 
@@ -78,7 +78,7 @@ allreduce 会让每个 rank 都得到完整的梯度和。如果你只需要分�
 cd-zero-shard
 ```
 
-## 构建
+## 动手构建
 
 `code/main.py` 实现了：
 
@@ -103,7 +103,7 @@ python3 code/main.py
 
 **混合精度才是关键。** ZeRO 是一种混合精度技术；被分片的正是 fp32 主副本。如果不使用混合精度运行 ZeRO，就要为 fp32 主副本支付内存代价，却得不到 fp16 前向带来的相应收益。生产环境总是把 ZeRO 与 autocast 或 bf16 权重搭配使用。
 
-**Stage 1 几乎是零成本收益。** 按带宽计算，它的通信量与 DDP 相同。内存节省量随 N 线性增长，唯一成本是记录和维护优化器分片。除非参数分片的内存也成为问题，生产系统通常默认使用 stage 1；遇到这种情况，再用 stage 2 或 stage 3 以通信换内存。
+**Stage 1 几乎是零成本收益。** 按带宽计算，它的通信量与 DDP 相同。内存节省量随 N 线性增长，唯一成本是记录和维护优化器分片。除非梯度或参数的内存也成为问题，生产系统通常默认使用 stage 1。Stage 2 对梯度分片，不增加额外带宽；只有 stage 3 会对参数本身分片，并以逐层通信换取这部分内存。
 
 ## 使用
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/11-multi-region-kv-locality/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 99573f1d95a1c6c3b0eb7dcb2762ae796b588cbafc4edac95d8cc0c6de439c4c
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 715c39184d431b6e4e6c489256679acb56a91702a328054e24416cbefbdc801f
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库，用于模拟前缀缓存感知路由器的玩具程序）
 **前置要求：** 第 17 阶段 · 04（vLLM 服务），第 17 阶段 · 06（SGLang RadixAttention）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
@@ -39,7 +39,7 @@ status: reviewed
 
 ### 缓存感知路由 <!-- learning-atlas: cache-aware-routing -->
 
-请求携带提示词到达。路由器对前缀（比如前 512 个 token）做哈希；询问每个副本“你是否缓存了这个前缀？”。副本在分配和驱逐块时，会在 pub/sub 通道发布 KV 缓存事件。路由器选择匹配副本；若无人匹配，则退回按 GPU 利用率决胜。
+请求携带提示词到达。路由器对前缀（比如前 512 个词元）做哈希；询问每个副本“你是否缓存了这个前缀？”。副本在分配和驱逐块时，会在 pub/sub 通道发布 KV 缓存事件。路由器选择匹配副本；若无人匹配，则退回按 GPU 利用率决胜。
 
 **vLLM Router**（Rust，2026 年生产栈）：订阅 `kv.cache.block_added` 事件，维护前缀哈希 → 副本索引，并以 O(1) 查找路由。若无匹配，退回到队列深度最小者。
 
@@ -49,7 +49,7 @@ status: reviewed
 
 ### 数字
 
-对 2K-token 提示词、Llama 3.3 70B FP8、H100 的 TTFT P50：
+对 2K-词元提示词、Llama 3.3 70B FP8、H100 的 TTFT P50：
 
 - 缓存命中（同一副本、前缀驻留）：约 80 ms。
 - 缓存未命中（冷 prefill）：约 800 ms。
@@ -64,7 +64,7 @@ status: reviewed
 - us-east-1 ↔ eu-west-1：约 75 ms。
 - us-east-1 ↔ ap-southeast-1：约 220 ms。
 
-如果路由将 us-east-1 的请求发送到 ap-southeast-1 的热点前缀，省下的 prefill（800 → 80 ms）会被 440 ms 的往返时间压倒。GORGO（2026 年研究）把它明确化——联合最小化 `prefill_time + network_latency`，而不是只最小化 prefill。通常答案是保持区域内路由，除非巨大的多 MB 前缀使 prefill 占主导。
+如果路由将 us-east-1 的请求发送到 ap-southeast-1 的热点前缀，省下的 prefill（800 → 80 ms，即 720 ms）在付出约 220 ms 的 RTT 后会缩减到约 500 ms；如果远端区域让请求排队，或已经驱逐了该前缀，这点余量就会消失。GORGO（2026 年研究）把它明确化——联合最小化 `prefill_time + network_latency`，而不是只最小化 prefill。通常答案是保持区域内路由，除非巨大的多 MB 前缀使 prefill 占主导。
 
 ### 商业“跨区域推理”对此无能为力
 
@@ -126,7 +126,7 @@ cache-aware-router
 |------|-----------|----------|
 | 缓存感知路由 | “智能负载均衡” | 按前缀哈希将请求路由到持有 KV 缓存的副本 |
 | KV 缓存事件 | “缓存 pub-sub” | 副本发布块新增/驱逐事件；路由器建立索引 |
-| 前缀哈希 | “缓存键” | 用作路由器查找的前 N 个 token 的哈希 |
+| 前缀哈希 | “缓存键” | 用作路由器查找的前 N 个词元的哈希 |
 | GORGO | “跨区域路由研究” | arXiv 2602.11688；将网络延迟作为显式项 |
 | 跨区域推理 | “Bedrock CRI” | AWS 产品；用于可用性故障切换，而非 TTFT 感知 |
 | DR 清单 | “备份列表” | 恢复所需的每一个文件——不仅是权重 |

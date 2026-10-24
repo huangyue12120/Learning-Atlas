@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/23-colpali-vision-native-rag/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 338f436cee994225bb436383248340ccb2ca366a8f90a1713b3c964db96fb98a
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 838f05af4b2097fa1acd9adaead3c60943c10b0f193f101e87b1607d4047b3ef
 status: reviewed
 ---
 
@@ -106,10 +106,10 @@ ColPali-v1 在 ViDoRe 上的 nDCG@5 约为 80%，同一批文档上的文本 RAG
 
 一份 50 页的财务报告，每页 729 个图像块、128 维嵌入：
 
-- ColPali：50 * 729 * 128 * 4 bytes = 约 18 MB 原始大小，PQ 后约 4 MB。
+- ColPali：50 * 729 * 128 * 4 bytes = 约 18 MB 原始大小，8 倍 PQ 后约 2.3 MB。
 - 文本 RAG：50 个分块 * 768 维 * 4 bytes = 约 150 kB。
 
-ColPali 每份文档的存储量约为 30 倍。规模化时，OPQ / PQ 可将其降到约 5–10 倍，通常可以接受。
+ColPali 每份文档的原始存储量约为 120 倍。规模化时，8 倍 OPQ / PQ 可将其降到约 15 倍，通常可以接受。
 
 ### 文本 RAG 仍然胜出的场景
 
@@ -123,7 +123,7 @@ ColPali 每份文档的存储量约为 30 倍。规模化时，OPQ / PQ 可将�
 mm-maxsim
 ```
 
-## 使用它
+## 使用
 
 `code/main.py`：
 
@@ -131,7 +131,7 @@ mm-maxsim
 - MaxSim 评分器：计算查询词嵌入集合与页面图像块集合之间的 ColBERT 风格分数。
 - 索引 5 个玩具页面，运行 3 个查询，返回带分数的 top-k 结果。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-vision-rag-designer.md`。给定一个文档 RAG 项目，它会在 ColPali / ColQwen2 / VisRAG / 文本 RAG 之间选择并估算存储。
 

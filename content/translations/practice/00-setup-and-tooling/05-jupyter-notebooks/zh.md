@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 0，第 01 课
-**预计学习：** 约 30 分钟
+**预计时间：** 约 30 分钟
 
 ## 学习目标
 
@@ -37,18 +37,18 @@ Notebook 是一组单元格；每个单元格是代码或文本。
 
 ```mermaid
 graph TD
-    A["**Markdown Cell**\n# My Experiment\nTesting learning rate 0.01"] --> B["**Code Cell** ► Run\nmodel.fit(X, y, lr=0.01)\n---\nOutput: loss = 0.342"]
-    B --> C["**Code Cell** ► Run\nplt.plot(losses)\n---\nOutput: inline plot"]
+    A["**Markdown 单元格**\n# My Experiment\nTesting learning rate 0.01"] --> B["**代码单元格** ► 运行\nmodel.fit(X, y, lr=0.01)\n---\n输出：loss = 0.342"]
+    B --> C["**代码单元格** ► 运行\nplt.plot(losses)\n---\n输出：内联图表"]
 ```
 
 内核（kernel）是在后台运行的 Python 进程。运行单元格时，界面将代码发给内核；内核执行并返回结果。所有单元格共享同一个内核，因此变量会在单元格之间保留。
 
 ```mermaid
 graph LR
-    A[Notebook UI] <--> B[Kernel\nPython process]
-    B --> C[Keeps variables in memory]
-    B --> D[Runs cells in whatever order you click]
-    B --> E[Dies when you restart it]
+    A[Notebook 界面] <--> B[内核\nPython 进程]
+    B --> C[在内存中保留变量]
+    B --> D[按你点击的任意顺序运行单元格]
+    B --> E[重启时销毁]
 ```
 
 “按任意点击顺序运行”既是超级能力，也是危险点。
@@ -210,7 +210,7 @@ Colab 与本地 Jupyter 的差异：
 - 使用 `from google.colab import drive; drive.mount('/content/drive')` 获得持久存储
 - 免费层空闲 90 分钟后会话超时
 
-## 实际使用
+## 使用
 
 ### Notebook 与脚本：分别在何时使用
 
@@ -239,7 +239,7 @@ AI 中的常见工作流：
 
 **内存泄漏。** 加载 4GB 数据集、训练模型、再加载另一个数据集，内存没有释放。修复：使用 `del variable_name` 和 `gc.collect()`，或重启内核。
 
-## 交付成果
+## 交付
 
 本课会产出：
 - `outputs/prompt-notebook-helper.md`，用于排查 notebook 问题
@@ -252,15 +252,13 @@ AI 中的常见工作流：
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Start JupyterLab with `jupyter lab`, then put each version in its own cell that begins with `%timeit`. Use the same 100,000 size in both cells so that the two times measure the same work.
->
-> **Exercise 2.** Use `pd.read_csv` for the data, show the dataframe as the last line of a cell, and plot with `df.plot()` or matplotlib. After Kernel > Restart & Run All, every cell must show a number in its execution counter and no cell may show an error.
->
-> **Exercise 3.** In Colab, select Runtime > Change runtime type > GPU before you paste the code. The run is correct when each function in `code/notebook_tips.py` prints its section, and `torch.cuda.is_available()` returns `True` in a cell.
+**练习 1.** 用 `jupyter lab` 启动 JupyterLab，然后把每个版本分别放进以 `%timeit` 开头的单元格。两个单元格都用相同的 100,000 规模，这样两次计时衡量的才是相同的工作量。
 
-## 核心术语
+**练习 2.** 用 `pd.read_csv` 读取数据，把 dataframe 作为单元格最后一行显示，再用 `df.plot()` 或 matplotlib 绘图。执行 Kernel > Restart & Run All 后，每个单元格的执行计数器都必须显示一个数字，且没有任何单元格报错。
+
+**练习 3.** 在 Colab 中，粘贴代码前先选择 Runtime > Change runtime type > GPU。当 `code/notebook_tips.py` 中每个函数都打印出各自的部分、且某个单元格中 `torch.cuda.is_available()` 返回 `True` 时，运行即正确。
+
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

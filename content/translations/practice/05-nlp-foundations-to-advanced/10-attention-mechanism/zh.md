@@ -71,7 +71,7 @@ Bahdanau、Cho 和 Bengio 在 2014 年发表了一个三行修复方案。不要
 attention-heatmap
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：加性（Bahdanau）注意力 <!-- learning-atlas: step-1-additive-bahdanau-attention -->
 
@@ -149,7 +149,7 @@ weights: [0.464 0.305 0.231]
 
 数学与形状都相同。从 Bahdanau 注意力跨到缩放点积注意力，在概念上主要只是符号变化。
 
-## 使用现成工具
+## 使用
 
 PyTorch 和 TensorFlow 都直接提供注意力。
 
@@ -185,7 +185,7 @@ torch.Size([2, 5, 128]) torch.Size([2, 5, 10])
 
 实际解释力没有表面上那么强。Jain 和 Wallace（2019）证明，在一些任务中，可以置换注意力分布，甚至用任意替代分布，而不改变模型预测。若没有消融或反事实检查，不要把注意力权重当作模型推理过程的证据。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/prompt-attention-shapes.md`：
 

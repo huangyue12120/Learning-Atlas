@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库，Agent Card + Task harness）
 **前置课程：** Phase 13 · 06（MCP 基础）、Phase 13 · 08（MCP 客户端）
-**时间：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -191,7 +191,7 @@ A2A-Version: 1.0
 a2a-task-lifecycle
 ```
 
-## 动手使用
+## 使用
 
 `code/main.py` 实现了一个最小 A2A harness：写作智能体发布自己的卡片；研究智能体向它发送带 PDF part 和文本指令的 `SendMessage` 请求。任务经历 `TASK_STATE_WORKING` → `TASK_STATE_INPUT_REQUIRED` → `TASK_STATE_WORKING` → `TASK_STATE_COMPLETED`，并返回文本 artifact。全部使用标准库，通过内存传输聚焦消息形状。
 
@@ -203,7 +203,7 @@ a2a-task-lifecycle
 - 任务中途的 `TASK_STATE_INPUT_REQUIRED` 分支。
 - 完成时返回 artifact。
 
-## 交付物
+## 交付
 
 本课产出 `outputs/skill-a2a-agent-spec.md`。给定一个应当能被其他智能体调用的新智能体，该 skill 会产出 Agent Card JSON、技能 schema 和端点蓝图。
 
@@ -219,7 +219,7 @@ a2a-task-lifecycle
 
 5. 阅读 A2A v1.0 公告，找出截至 2026 年 4 月尚未被任何框架实现的一项功能。（提示：与多跳任务委托有关。）
 
-## 术语
+## 关键术语
 
 | 术语 | 人们会怎么说 | 它实际表示什么 |
 |------|----------------|------------------------|

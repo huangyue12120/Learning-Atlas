@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/19-ai-gateways/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 37577b9d35784816daa5140188304ca352cde30704e7405c718095ea9cf8454e
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 3971447756acdfff93de997069f2af5827e4ee2437bdde6fd606a05340c53c9e
 status: reviewed
 ---
 
@@ -16,11 +16,11 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库，用于模拟网关路由的玩具程序）
 **前置要求：** 第 17 阶段 · 01（托管 LLM 平台），第 17 阶段 · 16（模型路由）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
-- 枚举六项网关核心能力（路由、回退、重试、限流、密钥、可观测性、护栏）。
+- 枚举七项网关核心能力（路由、回退、重试、限流、密钥、可观测性、护栏）。
 - 将四个 2026 年网关（LiteLLM、Portkey、Kong AI、Bifrost）映射到规模上限和适用场景。
 - 引用 Kong 基准（相对 Portkey 228%、相对 LiteLLM 859%），并说明为何它对 >500 RPS 很重要。
 - 根据数据驻留和运维预算选择自托管或托管。
@@ -33,7 +33,7 @@ status: reviewed
 
 ## 概念
 
-### 六项核心能力 <!-- learning-atlas: six-core-features -->
+### 七项核心能力 <!-- learning-atlas: six-core-features -->
 
 1. **供应商路由**——在一个 API 后接入 OpenAI、Anthropic、Gemini、自托管等。
 2. **回退**——遇到 429、5xx 或质量失败时，在其他地方重试。
@@ -120,7 +120,7 @@ mx-gateway-fallback
 ## 练习
 
 1. 运行 `code/main.py`。配置 OpenAI→Anthropic→自托管的回退。在 5% 供应商错误率下，预期命中率是多少？
-2. 你的 SLA 是 TTFT P99 < 200 ms，基线为 300 ms。哪些网关仍处于预算内？
+2. 你的 SLA 是 TTFT P99 < 320 ms，而模型本身在 P99 的实测值为 300 ms。哪些网关仍处于预算内？
 3. 医疗客户要求自托管 + PII 脱敏 + 审计。选择 Portkey OSS 或 Kong。
 4. 比较 LiteLLM 与 Kong：团队应在什么 RPS 上限迁移？
 5. 为多租户 SaaS 设计限流策略：免费层、试用层、付费层。用 token-bucket 还是 sliding-window？

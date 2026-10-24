@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/26-monocular-depth/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 2f25e1a1088bafca2ec045251010d6cdbe0bcab40960f170c124ae0f938f41f3
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 12de986ac233c7f8fce1f284f5d76c9e8251073ad8b043bfe75ff376c0273a70
 status: reviewed
 ---
 
@@ -103,7 +103,7 @@ Z &= d
 \end{aligned}
 ```
 
-内参来自 EXIF 元数据、标定图案，或单目内参估计器（Perspective Fields、UniDepth）。没有内参时，仍可假设 60–70° FOV 和中等分辨率主点来渲染点云——适合可视化，不适合测量。
+内参来自 EXIF 元数据、标定图案，或单目内参估计器（Perspective Fields、UniDepth）。没有内参时，仍可假设 60–70° FOV 并将主点设在图像中心来渲染点云。这适合可视化，不适合测量。
 
 ### 评估
 
@@ -118,7 +118,7 @@ Z &= d
 depth-sweep
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：深度指标
 
@@ -221,7 +221,7 @@ depth_np = np.array(out["depth"])
 
 三行。`out["depth"]` 是 PIL 灰度图，转换为 numpy 后即可计算。Depth Anything 3（2025 年 11 月）不能通过这条 pipeline 加载，它使用自己的 `depth_anything_3` 包：`DepthAnything3.from_pretrained("depth-anything/DA3MONO-LARGE")` 加载相对单目深度模型，`model.inference(images).depth` 返回 `[N, H, W]` 深度数组。
 
-## 使用现成工具
+## 使用
 
 - **Depth Anything V3**（Meta AI / ByteDance，2024–2026）——相对深度默认选择，生产中最快的 ViT-large 骨干模型。
 - **Marigold**（ETH，2024）——视觉质量最高，推理慢。
@@ -239,7 +239,7 @@ depth_np = np.array(out["depth"])
 
 实时使用时，INT8 量化的 Depth Anything V2 Small 在消费级 GPU 的 518x518 分辨率可达约 30 fps。
 
-## 交付产物
+## 交付
 
 本课产出：
 

@@ -19,7 +19,7 @@
         "专注推理的前沿模型"
       ],
       "correct": 1,
-      "explanation": "正确答案是“基于 GPT-4o 的文本+图像分类器，一次调用返回 13 类风险，且对多数开发者免费”。本课用标准库实现输入、输出和自定义规则三层 moderation harness。"
+      "explanation": "正确答案是“基于 GPT-4o 的文本+图像分类器，一次调用返回 13 类风险，且对多数开发者免费”。omni-moderation-latest 基于 GPT-4o，一次调用分类文本和图像、返回 13 类风险，对多数开发者免费。它不是 C2PA 水印端点、RLHF 奖励模型或推理前沿模型。"
     },
     {
       "id": "29-moderation-systems-openai-perspective-llamaguard-check-2",
@@ -32,7 +32,7 @@
         "harassment"
       ],
       "correct": 0,
-      "explanation": "正确答案是“election-interference”。本课用标准库实现输入、输出和自定义规则三层 moderation harness。"
+      "explanation": "正确答案是“election-interference”。OpenAI Moderation 的顶层类别包括 harassment、hate、self-harm、sexual、violence、illicit 等，但不含“election-interference”。violence、self-harm、harassment 都是其真实类别。"
     },
     {
       "id": "29-moderation-systems-openai-perspective-llamaguard-check-3",
@@ -45,7 +45,7 @@
         "tokenizer / model / detokenizer"
       ],
       "correct": 0,
-      "explanation": "正确答案是“输入 moderation（生成前）、输出 moderation（生成后）、自定义 moderation（领域规则）”。本课用标准库实现输入、输出和自定义规则三层 moderation harness。"
+      "explanation": "正确答案是“输入 moderation（生成前）、输出 moderation（生成后）、自定义 moderation（领域规则）”。标准三层模式是输入审核（生成前）、输出审核（生成后）、自定义审核（领域规则）。望远镜/潜望镜/显微镜是 Data Cards，probe/detector/harness 是 Garak，tokenizer/model/detokenizer 是组件链。"
     },
     {
       "id": "29-moderation-systems-openai-perspective-llamaguard-check-4",
@@ -58,7 +58,7 @@
         "毒性，并提供 severe-toxicity、insult、profanity、threat、identity-attack 等维度"
       ],
       "correct": 3,
-      "explanation": "正确答案是“毒性，并提供 severe-toxicity、insult、profanity、threat、identity-attack 等维度”。本课用标准库实现输入、输出和自定义规则三层 moderation harness。"
+      "explanation": "正确答案是“毒性，并提供 severe-toxicity、insult、profanity、threat、identity-attack 等维度”。Perspective API 主要评分毒性，并提供 severe-toxicity、insult、profanity、threat、identity-attack 等子维度。它不评奖励、推理质量或水印强度。"
     },
     {
       "id": "29-moderation-systems-openai-perspective-llamaguard-post-5",
@@ -71,7 +71,7 @@
         "它使输出分类器不再需要"
       ],
       "correct": 0,
-      "explanation": "正确答案是“它抓不到模型输出失败或幻觉，且第 12–14 课的编码攻击可绕过输入分类器”。本课用标准库实现输入、输出和自定义规则三层 moderation harness。"
+      "explanation": "正确答案是“它抓不到模型输出失败或幻觉，且第 12–14 课的编码攻击可绕过输入分类器”。只做输入审核的失败模式是抓不到输出失败或幻觉，且编码攻击可绕过输入分类器。它能在 GPU 上运行、不会总拦合法内容，也不会让输出分类器变得多余。"
     },
     {
       "id": "29-moderation-systems-openai-perspective-llamaguard-post-6",
@@ -84,7 +84,7 @@
         "立即弃用且没有替代品"
       ],
       "correct": 2,
-      "explanation": "正确答案是“2024 年 2 月弃用、2027 年 3 月 15 日退役，迁移到 Azure AI Content Safety”。本课用标准库实现输入、输出和自定义规则三层 moderation harness。"
+      "explanation": "正确答案是“2024 年 2 月弃用、2027 年 3 月 15 日退役，迁移到 Azure AI Content Safety”。Azure Content Moderator 于 2024 年 2 月弃用、2027 年退役，迁移目标是 Azure AI Content Safety。它不是并入 Llama Guard 4、替换为 Perspective API，也不是立即弃用且无替代。"
     }
   ]
 }

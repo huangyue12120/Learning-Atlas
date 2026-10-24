@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/18-feature-selection/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: ae14a559c169dc64e4ebddbebfc84b3c2321a5ba5f2ef1fee8fab532e8e0db49
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 292bda694502d73199356b998ca3f430bac934a99b7d75bf77417bca94e091cb
 status: reviewed
 ---
 
@@ -20,7 +20,7 @@ status: reviewed
 
 ## 学习目标
 
-- 从零实现筛选法（方差阈值、互信息、卡方）和包装法（RFE、前向选择）。
+- 从零实现筛选法（方差阈值、互信息）、一种包装法（RFE）和嵌入式方法（L1、树重要度），再在练习中加入前向选择。
 - 解释互信息为何能捕捉相关性遗漏的非线性特征—目标关系。
 - 比较 L1 正则化（嵌入式选择）与 RFE（包装选择）及计算权衡。
 - 构建组合多个方法的特征选择管道，并展示在留出数据上更好的泛化。
@@ -191,7 +191,7 @@ flowchart TD
 f3-feature-prune
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：生成已知特征结构的合成数据
 
@@ -448,7 +448,7 @@ def _build_tree_importance(X, y, feature_subset, max_depth, depth=0):
 
 代码文件在同一合成数据集运行五种方法，打印各方法选择的特征对比表。
 
-## 使用现成工具
+## 使用
 
 sklearn 已将特征选择整合入管道：
 
@@ -485,7 +485,7 @@ importances = rf.feature_importances_
 
 sklearn 版本更稳健（如 `mutual_info_classif` 使用 k-NN 密度估计而非分箱）、更快（C 实现）并能整合管道。
 
-## 交付成果
+## 交付
 
 本课产出：
 
@@ -499,7 +499,7 @@ sklearn 版本更稳健（如 `mutual_info_classif` 使用 k-NN 密度估计而�
 4. **特征选择管道：** 串联方差阈值、互信息筛选和 RFE：先去近零方差，再保留互信息前 50%，最后对幸存者 RFE；与全特征 RFE 比较速度和准确率。
 5. **从零置换重要性：** 每个特征打乱 10 次，测 F1 平均下降；与树重要性排名比较，找到不一致情形并解释（提示：相关特征）。
 
-## 核心术语
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

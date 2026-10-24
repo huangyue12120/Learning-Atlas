@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/05-support-vector-machines/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: a863b633b409bb5be6360fb07ac35bf132d955b3d65a595f28de5d9f85097da8
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: ffd0796857de5f9cfbcb5e5c5396f3d07c8379585fc271502d2b06a285b7999e
 status: reviewed
 ---
 
@@ -243,7 +243,7 @@ SVM 在以下情形仍有优势：
 svm-margin
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：Hinge loss 与梯度
 
@@ -324,7 +324,7 @@ def find_support_vectors(X, y, w, b, tol=1e-3):
 
 完整实现和全部演示请见 `code/svm.py`。
 
-## 在工具中使用
+## 使用
 
 使用 scikit-learn：
 
@@ -342,7 +342,7 @@ print(f"Accuracy: {clf.score(X_test, y_test):.4f}")
 print(f"Support vectors: {clf['svm'].n_support_}")
 ```
 
-训练 SVM 前务必缩放特征。SVM 对特征尺度敏感，因为间隔依赖 `||w||`，未缩放特征会扭曲几何关系。大数据集应使用 `LinearSVC`（原始形式、每 epoch `O(n)`），而非 `SVC`（对偶形式、`O(n^2)` 至 `O(n^3)`）：
+训练 SVM 前务必缩放特征。SVM 对特征尺度敏感，因为间隔依赖 `||w||`，未缩放特征会扭曲几何关系。大数据集应使用 `LinearSVC`（原始形式、每 epoch `O(n * d)`，关于 `n` 线性），而非 `SVC`（对偶形式、`O(n^2)` 至 `O(n^3)`）：
 
 ```python
 from sklearn.svm import LinearSVC

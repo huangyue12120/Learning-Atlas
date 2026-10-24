@@ -1,0 +1,20 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/38-calling-conventions-and-stack-frames/quiz.json",
+    "revision": "f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299",
+    "sha256": "f4d3aadbcf7e158b9a3f50f3a52f560af5f1cc65a2ca9945d0006465a685315d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id": "callconv-q1", "stage": "pre", "question": "同一个 C 函数 `double mixed(int i, double d, long long l, float f)` 分别编译为 Linux x86-64 和 Windows x64。哪些寄存器持有这四个参数？", "options": ["两者都用 edi、xmm0、rsi、xmm1，因为两个 ABI 都按顺序填充整数和 SSE 列表", "System V：edi、xmm0、rsi、xmm1（两个列表）。Microsoft x64：ecx、xmm1、r8、xmm3（每个位置一个槽）", "System V 在栈上传递 d 和 f，因为 SSE 寄存器只携带返回值", "两者都用 ecx、xmm0、rdx、xmm1，因为两个 ABI 都从 rcx 开始整数列表"], "correct": 1, "explanation": "psABI 3.2.3 从两个独立的寄存器列表中分配 INTEGER 和 SSE 类。Microsoft 约定是按位置的：参数 k 对槽 k 使用 RCX/RDX/R8/R9 或 XMM0 到 XMM3，所以槽 1 中的 double 进入 XMM1，槽 3 中的 float 进入 XMM3。"},
+    {"id": "callconv-q2", "stage": "check", "question": "在 -O2 下，eight_args 的 Microsoft x64 构建在没有序言的情况下于 0x28(%rsp) 读取它的第五个参数。0x28 从何而来？", "options": ["帧指针偏移加上序言在函数体之前压入的被保存 rbp", "从栈指针往上数的五个 8 字节参数槽，每个参数一个槽", "编译器为使加载落在 16 字节边界上而选择的对齐填充", "8 字节返回地址加上四个寄存器参数的 32 字节影子存储区"], "correct": 3, "explanation": "在入口处 0(%rsp) 是返回地址，8(%rsp) 到 39(%rsp) 是四个 home 槽。因此第一个栈参数从 40 开始，也就是 0x28。"},
+    {"id": "callconv-q3", "stage": "check", "question": "keeps 在 System V 上 -O2 时以 pushq %rbp; pushq %r14; pushq %rbx 开头，然后在没有 subq 的情况下调用 ext。为什么调用处栈是对齐的？", "options": ["24 字节的压栈加上 8 字节返回地址是 32，为 16 的倍数", "被调用者 ext 在它自己的序言中、在使用栈之前重新对齐栈", "每条 pushq 都保持栈 16 字节对齐，所以任意数量的压栈都是对齐的", "红区吸收了错位，所以调用不需要 subq"], "correct": 0, "explanation": "psABI 3.2.2 说入口时 (%rsp + 8) 是 16 的倍数。三次压栈把深度带到 24，而 24 + 8 = 32，所以调用点无需 subq 即已对齐。"},
+    {"id": "callconv-q4", "stage": "check", "question": "AArch64 的 keeps 序言是 stp x29, x30, [sp, #-0x30]!; str x21, [sp, #0x10]; mov x29, sp; stp x20, x19, [sp, #0x20]。帧记录在哪里？", "options": ["在帧的顶部、紧挨着调用者，因为记录必须在保存项之上", "序言之后在 sp+0 和 sp+8 处：x29 在较低地址，x30 在其上，x29 指向它", "无处可寻，因为保存 x21 的函数不需要帧记录", "在 x19 和 x20 中，因为 x20 和 x19 的 stp 最后存储了该记录"], "correct": 1, "explanation": "前变址的 stp 把 x29 存到新的 sp、把 x30 存到 sp+8，而 mov x29, sp 使 x29 指向这对值。同一函数的 Apple arm64 构建则把记录放在帧的顶部。"},
+    {"id": "callconv-q5", "stage": "check", "question": "在 -O0 下，eight_args 的 System V 构建在没有 subq 的情况下，把六个参数寄存器存到 -0x8(%rbp) 到 -0x30(%rbp)。是什么让这些存储合法？", "options": ["它们位于 rsp 之下的 128 字节红区中，而这个叶函数不做任何会覆盖它们的调用", "序言之后 rbp 指向 rsp 之下 48 字节处，所以这些存储在 rsp 之上", "调用者在调用之前分配了这 48 字节，作为它传出区的一部分", "这些存储进入调用者的帧，被调用者在返回之前拥有它"], "correct": 0, "explanation": "红区是 %rsp 之外、信号处理程序不会修改的 128 字节。同一函数的 Microsoft 和 AArch64 Linux 构建改为用 subq 或 sub sp 分配该空间，因为那些 ABI 没有红区。"},
+    {"id": "callconv-q6", "stage": "post", "question": "struct big big_ret(long long seed) 返回一个 32 字节结构体。每个 ABI 如何返回它？", "options": ["三者都在四个寄存器中返回它，因为每个 ABI 都有四个结果寄存器", "缓冲区地址放在 rdi（seed 到 rsi）、放在 rcx（seed 到 rdx），或放在 x8（seed 留在 x0）", "System V 和 Microsoft x64 在 rax:rdx 中返回它，AArch64 在 x0:x1 中返回它", "三者都在返回地址之上、在调用者的帧中于栈上返回它"], "correct": 1, "explanation": "psABI 3.2.3 把 32 字节聚合类型归为 MEMORY，并把地址传入 %rdi，如同它是第一个参数。Microsoft 在 RCX 中的隐藏指针之后把真实参数整体右移一个位置。AAPCS64 6.9 使用间接结果寄存器 x8 并保持 x0 到 x7 不受影响。"},
+    {"id": "callconv-q7", "stage": "post", "question": "radare2 6.2.4 在 System V 上为 -O2 的 eight_args 列出七个参数：rdi、rsi、rdx、r8、r9 和两个栈槽。哪个参数缺失了，为什么？", "options": ["rcx，因为它唯一的读取是 leaq (%rdx,%rcx), %rax 的变址", "r9，因为 r9 是被调用者保存的，而该工具跳过被调用者保存寄存器", "第二个栈槽，因为 rsp 之上 16 字节在帧之外", "没有缺失，因为该函数只从它的输入中读取七个值"], "correct": 0, "explanation": "源代码有八个参数，而字节在一条 lea 内部读取了 %rcx 一次。本课的分析器把基址和变址寄存器计为读取，从而找到全部六个寄存器参数。工具输出与源代码不一致，所以把它记录为一个待验证的发现。"},
+    {"id": "callconv-q8", "stage": "post", "question": "Windows 目标文件中 keeps 的 .xdata 条目是 01 07 04 00 07 32 03 30 02 70 01 60。它说了什么？", "options": ["版本 1，帧寄存器 rbp 带偏移 0x70，以及三次压栈 rbx、rdi、rsi", "版本 1，7 字节序言，偏移 7 处的 8 字节分配，然后压栈 rbx、rdi、rsi", "版本 1，7 字节序言，以及三次非易变保存进影子存储区", "版本 1，7 字节序言，偏移 7 处的 32 字节分配，然后压栈 rbx、rdi、rsi"], "correct": 3, "explanation": "UNWIND_CODE 字节 0x32 是操作 2（UWOP_ALLOC_SMALL）带信息 3，所以 3*8+8 = 32 字节。字节 0x30、0x70、0x60 是操作 0（UWOP_PUSH_NONVOL）带寄存器号 3、7、6：rbx、rdi、rsi。这与从字节读取的序言 56 57 53 48 83 ec 20 匹配。"}
+  ]
+}

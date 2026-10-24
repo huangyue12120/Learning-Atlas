@@ -128,7 +128,7 @@ def route(hidden, W_router, top_k, bias):
 
 打印一个 MoE 配置对应的“稠密等价”参数量。采用近似 DeepSeek-V3 的配置：256 个路由专家 + 1 个共享专家、8 个活跃专家、d_model=7168。总参数量大得惊人，而活跃参数量只有稠密 Llama 3 70B 的七分之一。
 
-## 使用方法
+## 使用
 
 通过 HuggingFace 加载：
 
@@ -149,7 +149,7 @@ model = AutoModelForCausalLM.from_pretrained("mistralai/Mixtral-8x22B-v0.1")
 - 对单用户延迟要求极高的服务——专家路由会增加开销。
 - 小模型（<7B）——MoE 的质量优势只会在超过某个计算阈值（约 6B 活跃参数）后出现。
 
-## 交付成果
+## 交付
 
 参见 `outputs/skill-moe-configurator.md`。这个技能会根据参数预算、训练词元量和部署目标，为新的 MoE 选择 E、k 和共享专家布局。
 

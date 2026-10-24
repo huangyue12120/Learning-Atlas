@@ -234,7 +234,7 @@ flowchart LR
 naive-bayes
 ```
 
-## 动手实现
+## 动手构建
 
 `code/naive_bayes.py` 从零实现多项式 NB 与高斯 NB。
 
@@ -323,7 +323,7 @@ class GaussianNB:
 
 二者在各维度上线性；相比 KNN（需计算到所有训练点的距离）或 RBF SVM（需对所有支持向量计算核），预测时快若干数量级。
 
-## 使用现成工具
+## 使用
 
 sklearn 中两种变体都是一行即可使用：
 
@@ -411,7 +411,7 @@ proba = calibrated_nb.predict_proba(X_test)
 3. **类别不平衡。** 99% 邮件非垃圾时 P(not-spam)=0.99 的先验可能淹没似然证据；可手动设 class priors，或使用 sklearn 的 class_prior 参数。
 4. **特征缩放。** MultinomialNB 不需缩放（处理计数）；GaussianNB 也不需缩放（估计逐特征统计量）。这是相对逻辑回归/SVM 的优势，二者对尺度敏感。
 
-## 交付成果
+## 交付
 
 本课产出：
 
@@ -436,7 +436,7 @@ proba = calibrated_nb.predict_proba(X_test)
 4. **NB 与逻辑回归。** 在文本数据上训练二者，从 100 个样本逐步增至 10,000，绘制准确率对训练集大小；逻辑回归何时超过 NB？
 5. **垃圾过滤器。** 构建完整分类器：分词原始邮件、建词表、创建词袋特征、训练 MultinomialNB，并用 precision 与 recall（而非只用准确率）评估；为什么？
 
-## 核心术语
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

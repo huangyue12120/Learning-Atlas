@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/16-sampling-methods/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: d6f7bb9b2e4b703ecfc8202fdcb36f463adcd8db3aecad472bc0ce0d343aeb2b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 5d04a2aa6d6b06c1632011d7fb65a4a8307b0ad057db4237db2b1d271b09428f
   anchor:
     heading: "Markov Chain Monte Carlo (MCMC): Metropolis-Hastings"
     slug: markov-chain-monte-carlo-mcmc-metropolis-hastings

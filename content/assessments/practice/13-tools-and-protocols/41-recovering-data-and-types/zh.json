@@ -1,0 +1,20 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/41-recovering-data-and-types/quiz.json",
+    "revision": "f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299",
+    "sha256": "a9172931f77ae0bcca39a1f29c70289017e28ad3047e4c416e290081470a30f3"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"data-types-q1","stage":"pre","question":"一段清单显示 addl 0x4(%rax), %ecx，其中 %rax 保存第一个参数。这条指令证明了该参数类型的什么？","options":["它指向一个在偏移 4 处有一个 4 字节字段的对象，没有名字、没有结构体大小、也没有关于其他字节的信息","该参数是一个 int","它指向一个结构体，其偏移 4 处的字段是一个名为 balance 的 4 字节整数","该对象长 8 字节"],"correct":0,"explanation":"位移给出偏移，l 后缀给出宽度。名字、结构体大小和其他成员都不在这些字节中。"},
+    {"id":"data-types-q2","stage":"check","question":"把 System V 规则应用到 struct account { char kind; int balance; short code; double rate; const char *label; }。各成员偏移和大小是多少？","options":["0, 8, 16, 24, 32，大小 40，因为每个成员都对齐到 8","0, 1, 5, 7, 15，大小 23，因为成员是紧凑排列的","0, 4, 8, 12, 16，大小 24，因为每个成员都对齐到 4","0, 4, 8, 16, 24，大小 32，因为每个成员去到它对齐的倍数中的最低偏移，而大小是最严格对齐（8）的倍数"],"correct":3,"explanation":"int 需要 4，所以去到 4；double 需要 8，所以去到 16；指针随后在 24；而 32 已经是 8 的倍数。有九个字节是填充。"},
+    {"id":"data-types-q3","stage":"check","question":"在 -O2 下，一个循环从一个指针读取偏移 4、36、68、100、132、164、196 和 228 处的 4 字节值，并每轮把指针前进 256。这个 pass 应该报告什么？","options":["八个 4 字节字段和一个至少 232 字节的结构体","步长 4，即这些偏移的最大公约数","偏移 4 处一个 4 字节字段，元素步长 32，因为 256 是 8 乘 32 且恰好有 8 个偏移，所以循环被展开了 8 次","步长 256，偏移 4 处一个字段"],"correct":2,"explanation":"相隔 d 字节的同宽度访问，加上一个为 k 乘 d 的循环步长和 k 个不同的偏移，就是同一次元素访问的 k 个副本。折叠它们给出一个字段和步长 32。"},
+    {"id":"data-types-q4","stage":"check","question":"在可重定位的 -g 目标文件中，.debug_str_offsets 的每个条目在文件里都是零。读取器如何为 form 为 DW_FORM_strx1 的 DW_AT_name 找到字符串？","options":["它从 .debug_line_str 读取字符串","它应用 .rela.debug_str_offsets 的 R_X86_64_32 重定位，然后读取 str_offsets_base 加 4 乘索引处的 4 字节条目，即进入 .debug_str 的偏移","它把索引当作进入 .debug_str 的直接偏移来读","它在 .debug_str 中搜索成员名字"],"correct":1,"explanation":"在一个可重定位目标文件中，字符串偏移表保存占位符。重定位加数携带真实偏移，而 str_offsets_base（即 8）跳过表头。"},
+    {"id":"data-types-q5","stage":"check","question":"describe 包含 movq (%rdi), %rax，后跟 callq *0x10(%rax)。在一个 Rect 上这次调用到达哪个虚函数？","options":["析构函数，因为槽 0 是第一个条目","不运行程序就无法得知","Rect::area()，因为 vptr 指向地址点，而 0x10 除以 8 是槽 2，vtable 重定位和 DW_AT_vtable_elem_location 都把它指派给 area","Rect::name()，因为 0x10 是 typeinfo 指针之后的第二个条目"],"correct":2,"explanation":"vptr 保存地址点，它在符号之后 16 字节处，位于 offset-to-top 和 typeinfo 指针之后。槽 0 和 1 是两个析构函数，槽 2 是 area，槽 3 是 name。"},
+    {"id":"data-types-q6","stage":"post","question":"Itanium 修饰名 _ZNK4Rect4areaEv 编码了什么？","options":["Rect::area() const：_Z 前缀，N 开启一个嵌套名，K 标记一个 const 成员函数，4Rect 和 4area 是长度前缀的名字，E 关闭，v 是一个空参数列表","一个 Rect 的 vtable","Rect::area(void*)","area(Rect)，带一个参数"],"correct":0,"explanation":"Itanium C++ ABI 第 5.1 节：特殊名 _ZTV、_ZTI 和 _ZTS 分别是 vtable、typeinfo 和 typeinfo 名字；一个普通函数先编码它的嵌套名、再编码它的参数类型。"},
+    {"id":"data-types-q7","stage":"post","question":"没有 DWARF 的 Ghidra 为 bump 打印 *(int *)(param_1 + 4)。哪一个单独的改变能让它打印 a->balance？","options":["重新运行自动分析","在 Data Type Manager 中建一个带 4 字节 int 成员（偏移 4）的结构体类型，应用到该参数上，反编译器随后把它传播；DWARF 会自动提供那个结构体，而恢复出的布局让你可以手工为它定型","把反编译器切换到另一种调用约定","把 param_1 重命名为 a"],"correct":1,"explanation":"两个目标文件中的指令完全相同。当该参数有一个可用的数据类型时，反编译器的输出才改变，无论该类型来自 DWARF 还是来自分析者。"},
+    {"id":"data-types-q8","stage":"post","question":"这个 pass 从三个构建为 struct account 恢复了五个字段和大小 32。其中哪一样它仍然无法从指令中恢复？","options":["每个字段的宽度","数组的元素步长","成员名字、const 限定符，以及偏移 24 处指针的确切被指向类型","哪个字段保存一个浮点值"],"correct":2,"explanation":"宽度来自助记符，步长来自循环，浮点来自 SSE 标量指令。名字和限定符只存在于源码和 DWARF 中，而被指向类型只知道其元素相隔 1 字节。"}
+  ]
+}

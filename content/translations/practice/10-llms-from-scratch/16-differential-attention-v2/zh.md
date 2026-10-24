@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/16-differential-attention-v2/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: fa962c2cd11ebfd1d9ac00516dd75945a750d4e84eee4aa7dbdf955c76506cf4
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 44d4818599b7ddd3dc3da41729fd83e288fda2f00764b11b5cf873d153950833
 status: reviewed
 ---
 
@@ -27,7 +27,7 @@ status: reviewed
 
 ## 问题
 
-标准 softmax 注意力有一个在规模化时会变成操作难题的数学性质。对于查询 `q`，注意力权重是 `softmax(qK^T / sqrt(d))`。Softmax 永远不会产生精确的零——每个不匹配的词元都会得到一些正概率。这些残余概率就是噪声，而且会随着上下文长度增长。在 128k 个词元时，即使每个不匹配词元只得到 0.001% 的概率，127,999 个词元合起来也会贡献约 12%。模型必须学会绕开一个不断增长的噪声底。
+标准 softmax 注意力有一个在规模化时会变成操作难题的数学性质。对于查询 `q`，注意力权重是 `softmax(qK^T / sqrt(d))`。Softmax 永远不会产生精确的零：每个不匹配的词元都会得到一些正概率。这些残余概率就是噪声，而且会随着上下文长度增长。在 128k 个词元时，即使每个不匹配词元只得到 0.0001% 的概率，127,999 个词元合起来也会贡献约 13%。模型必须学会绕开一个不断增长的噪声底。
 
 经验上，这表现为注意力头干扰：长上下文 RAG 中出现幻觉引用、10 万词元检索任务中的“中间遗失”失败，以及 32k 之后针落草垛基准上细微的准确率下降。Differential Transformer 论文（arXiv:2410.05258，ICLR 2025）测量了这一差距：与同规模基线相比，DIFF Transformer 的困惑度更低、长上下文准确率更高、幻觉更少。
 
@@ -112,7 +112,7 @@ V2 还移除了 V1 用来稳定相减的逐头 RMSNorm。在 70B 级别的预训
 differential-attention
 ```
 
-## 动手实现
+## 动手构建
 
 `code/main.py` 用纯 Python 实现了差分注意力。一个具有已知信号加噪声结构的玩具查询，可以让你直接测量噪声抵消比。
 
@@ -157,7 +157,7 @@ out = [[sum(w * v[j] for w, v in zip(row, V)) for j in range(d_v)] for row in di
 
 玩具实现会测量 V2 的额外参数成本（每个注意力块大约增加 `hidden * hidden`），并打印出来。
 
-## 使用它
+## 使用
 
 截至 2026 年 4 月，DIFF V2 还没有在每个生产推理服务器中上线，但 vLLM 和 SGLang 正在进行集成。同时，这种模式已经出现在：
 
@@ -175,7 +175,7 @@ out = [[sum(w * v[j] for w, v in zip(row, V)) for j in range(d_v)] for row in di
 - 你正在服务一个预训练的稠密模型，而且它的长上下文性能稳定。在已有权重上重新训练通常无法收回成本。
 - 你的上下文始终小于 16k。噪声底可以忽略。
 
-## 交付它
+## 交付
 
 本课产出 `outputs/skill-diff-attention-integrator.md`。给定模型架构、目标上下文长度、幻觉画像和训练预算，它会生成将差分注意力加入新预训练运行或 LoRA 微调的集成计划。
 

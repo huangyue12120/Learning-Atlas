@@ -254,7 +254,7 @@ w = jax.random.normal(key1, shape=(784, 256))
 batchnorm-effect
 ```
 
-## 构建实现
+## 动手构建
 
 ### 步骤 1：设置与数据
 
@@ -384,7 +384,7 @@ for epoch in range(n_epochs):
 
 留意不存在的内容：没有 `.zero_grad()`、`.backward()` 或 `.step()`。整个更新是一处组合函数调用；梯度计算、Adam 变换和参数应用都在 `train_step` 内部完成。
 
-## 应用
+## 使用
 
 ### Flax：Google 标准
 
@@ -444,7 +444,7 @@ optimizer = optax.chain(
 
 梯度裁剪、学习率预热和权重衰减都被组合为变换链。每项变换查看、修改梯度，再传给下一项；没有单体优化器类。
 
-## 交付物
+## 交付
 
 **安装：**
 

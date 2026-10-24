@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/19-audio-language-whisper-to-af3/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 49c01d68f46738759c50c28f2b094f9328924f9cd37ba0cc497f975b3079b2eb
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: f9a3ca839797463ce70ec2600135887b50e2a28cf575a330b0d6923eb01f4635
 status: reviewed
 ---
 
@@ -65,7 +65,7 @@ Whisper 在以语音为主的数据上训练，在音乐和环境音上较弱。
 
 BEATs（Chen 等，2022）是在 AudioSet 上训练的自监督 Transformer。在参数量相同的情况下，它比 Whisper 更擅长捕捉音乐和环境声音。
 
-AF-Whisper（Audio Flamingo 3 的混合体）：将 Whisper + BEATs 特征拼接作为音频输入。Whisper 携带语言信号，BEATs 携带声学信号。
+AF-Whisper（Audio Flamingo 3 的编码器）：从 Whisper-large-v3 编码器出发，继续在语音、声音和音乐上联合训练，使一个编码器同时携带语言信号和声学信号。SALMONN 等早期系统则通过拼接 Whisper 和 BEATs 特征获得同样的覆盖范围。
 
 ### 音频 Q-Former
 
@@ -81,7 +81,7 @@ Qwen-Audio（Chu 等，2023）：架构相似，在更丰富的数据集上训�
 
 LTU——Listen, Think, Understand（Gong 等，2023）：显式推理数据，重点是对音频片段进行思维链推理。规模更小，但更聚焦。
 
-Audio Flamingo 3（Goel 等，2025 年 7 月）：当前开放 SOTA。使用 8B LLM 骨干（Qwen2 7B）、Whisper-large 编码器拼接 BEATs、64 查询 Q-Former，在 100 万以上音频—文本指令对上训练。MMAU 0.72，在一些子任务上匹敌前沿专有模型。
+Audio Flamingo 3（Goel 等，2025 年 7 月）：当前开放 SOTA。使用 7B LLM 骨干（Qwen2.5-7B）、由 Whisper-large-v3 构建的 AF-Whisper 音频编码器，以及接入 LLM 的小型适配层，在 100 万以上音频—文本指令对上训练。MMAU 0.72，在一些子任务上匹敌前沿专有模型。
 
 AF3 还引入了音频按需思维链：模型可以选择先输出思考词元（“让我先识别乐器：……”），再输出最终答案。复杂推理任务在启用思考时准确率提升 3–5 个百分点。
 
@@ -123,7 +123,7 @@ MMAU（大规模多模态音频理解）是 2024–2025 年的音频推理基准
 audio-text-ctc
 ```
 
-## 使用它
+## 使用
 
 `code/main.py`：
 
@@ -131,7 +131,7 @@ audio-text-ctc
 - 音频 Q-Former 骨架：给定编码器输出帧，计算 Q、K、V 和注意力，并输出 N 个词元。
 - 在玩具任务上比较级联与端到端方案。
 
-## 交付成果
+## 交付
 
 本课生成 `outputs/skill-audio-llm-pipeline-picker.md`。给定音频任务（转写、音乐标注、情绪推断、多说话人分离、环境分类），它会选择级联、端到端 AF3 或混合方案。
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/22-cais-caisi-societal-risk/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 1529015064248f4681d5f98f3889c3d938cb29bf7c6b2f82de650573ae2d45a7
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 85030e0f43e5b6c3cf6ac7bbb7c61458c29ad9037f184deb708384f80590cb05
 status: reviewed
 ---
 
@@ -16,9 +16,9 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库，四风险清单与缓解措施匹配器）
 **前置要求：** 第 15 阶段 · 19（RSP），第 15 阶段 · 20（PF + FSF）
-**用时：** 约 45 分钟
+**预计时间：** 约 45 分钟
 
-## 问题所在
+## 问题
 
 第 19、20 课介绍了实验室内部的扩展政策；第 21 课介绍了独立能力评估。本课涵盖第三种视角：塑造公众讨论和灾难性 AI 风险监管基线的公民社会与政府组织。
 
@@ -26,11 +26,11 @@ status: reviewed
 
 实用内容是：CAIS 的四类风险框架是文献中引用最广的社会规模风险分类法。安全文化和组织风险是四类之一，也是实践者最能直接影响的一类。若获签署，SB-53（加州）将成为美国首个州级灾难性风险监管法规；该法案的框架很重要，因为美国技术政策历来常由州级监管带动联邦行动。
 
-## 核心概念
+## 概念
 
 ### CAIS —— AI 安全中心
 
-- 成立：2022 年在旧金山，由 Dan Hendrycks 与同事创办（“Zhang”这一名字指早期合作者，而非现任共同创办人；现任领导层见 CAIS 网站）。
+- 成立：2022 年在旧金山，由 Dan Hendrycks 与 Oliver Zhang 创办。Hendrycks 任执行与研究总监；Zhang 任常务总监。
 - 身份：501(c)(3) 非营利组织。
 - 2023 年代表成果：灭绝风险声明，由数百位研究者和 CEO 联署。其表述为：“缓解 AI 导致灭绝的风险，应与流行病和核战争等其他社会规模风险一道成为全球优先事项。”
 - 2026 年成果：用于前沿模型评估的 AI Dashboard、Remote Labor Index（与 Scale AI 联合）、超级智能战略论文和 AI Frontiers 通讯。
@@ -92,11 +92,11 @@ CAISI 的角色是 METR 与实验室私下合作（第 21 课）在公共、政�
 a5-four-risks
 ```
 
-## 实际运行
+## 使用
 
 `code/main.py` 实现一个小型风险清单工具。给定一项拟议部署，它按四类风险打标并返回缓解检查表。该工具帮助你阅读框架，但不能代替人类判断。
 
-## 交付物
+## 交付
 
 `outputs/skill-societal-risk-review.md` 使用四个框架作为参照，审阅某部署的社会规模风险姿态：涉及哪几类风险、已有哪些缓解措施、组织风险暴露在哪里。
 

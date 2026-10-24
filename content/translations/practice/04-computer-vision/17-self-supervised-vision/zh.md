@@ -120,7 +120,7 @@ BERT 遮住 15% 词元，MAE 遮住 75%。差异来自信息密度。
 data-augmentation
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：双视图增强流水线
 
@@ -210,7 +210,7 @@ print(f"masked:  {len(masked)} / {num_patches}")
 
 简单、快速，并且给定种子时是确定性的。真实 MAE 实现会将其批处理，并保留每个样本的掩码。
 
-## 使用现成工具
+## 使用
 
 2026 年，DINOv2 是生产标准：
 
@@ -233,7 +233,7 @@ with torch.no_grad():
 
 图像—文本嵌入可使用等价的 SigLIP 或 OpenCLIP；MAE 风格微调时，`timm` 仓库提供每种 MAE checkpoint。
 
-## 交付产物
+## 交付
 
 本课产出：
 

@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** 第 19 阶段课程 30–36
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -131,7 +131,7 @@ python3 code/main.py
 - `torch`：模型和赋值运算。
 - 不使用 `transformers`、`huggingface_hub`，也不发起网络调用。
 
-## 生产环境中的实践模式
+## 生产环境中的模式
 
 有三种模式能让加载器经得起处理非自制权重的考验。
 
@@ -141,7 +141,7 @@ python3 code/main.py
 
 **LM 头是权重绑定别名，而不是单独的副本。** 加载 `tok_embed` 后设置 `model.lm_head.weight = model.tok_embed.weight` 是规范做法。把嵌入矩阵复制到一个新的 `lm_head.weight` 参数中会破坏绑定，并悄悄使参数量翻倍。
 
-## 使用它
+## 使用
 
 - 对任何采用预训练命名约定的 safetensors 文件，加载器都能工作。真实的 GPT-2 small、medium、large 和 xl 文件无需改代码；只有模型配置不同。
 - 更新名称映射后，同一模式也能扩展到 LLaMA、Mistral 和 Qwen 权重。形状检查与报告保持不变。

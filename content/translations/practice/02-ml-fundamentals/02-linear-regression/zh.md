@@ -156,7 +156,7 @@ R^2 &= 1 - \frac{\text{sum of squared residuals}}{\text{sum of squared deviation
 linear-regression-fit
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：生成样例数据
 
@@ -475,7 +475,7 @@ print("Ridge weights are smaller (shrunk toward zero) due to the L2 penalty.")
 
 Ridge 的权重因 L2 惩罚被向零收缩，通常会小于未正则化回归的权重。
 
-## 在工具中使用
+## 使用
 
 下面是实际生产中会使用的 scikit-learn 版本；它与从零实现给出相同结果，但库会处理边界情况、数值稳定性和性能优化。生产环境使用库；从零实现用于理解其原理。
 
@@ -521,7 +521,7 @@ print(f"Ridge R-squared: {r2_score(y_test, ridge.predict(X_test_scaled)):.4f}")
 print(f"Ridge coefficient: {ridge.coef_[0]:.4f}")
 ```
 
-## 产出
+## 交付
 
 本课产出：
 

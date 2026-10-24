@@ -11,25 +11,25 @@ status: reviewed
 
 # 推理平台经济学：Fireworks、Together、Baseten、Modal、Replicate、Anyscale
 
-> 2026 年的推理市场已不再只是出租 GPU 时间。它分化为定制芯片（Groq、Cerebras、SambaNova）、GPU 平台（Baseten、Together、Fireworks、Modal）和 API 优先市场（Replicate、DeepInfra）。Fireworks 在 2026 年 5 月 1 日将每 GPU 价格提高 $1/小时；其 40 亿美元估值与每天处理 10T+ token 说明按量驱动模式可行。Baseten 于 2026 年 1 月以 50 亿美元估值完成 3 亿美元 E 轮融资。竞争定位规则很简单：Fireworks 优化延迟，Together 优化目录广度，Baseten 优化企业完善度，Modal 优化 Python 原生开发体验，Replicate 优化多模态覆盖，Anyscale 优化分布式 Python。本课提供一张可交给创始人的矩阵。
+> 2026 年的推理市场已不再只是出租 GPU 时间。它分化为定制芯片（Groq、Cerebras、SambaNova）、GPU 平台（Baseten、Together、Fireworks、Modal）和 API 优先市场（Replicate、DeepInfra）。Fireworks 在 2026 年 5 月 1 日将每 GPU 价格提高 $1/小时；其 40 亿美元估值与每天处理 10T+ 词元说明按量驱动模式可行。Baseten 于 2026 年 1 月以 50 亿美元估值完成 3 亿美元 E 轮融资。竞争定位规则很简单：Fireworks 优化延迟，Together 优化目录广度，Baseten 优化企业完善度，Modal 优化 Python 原生开发体验，Replicate 优化多模态覆盖，Anyscale 优化分布式 Python。本课提供一张可交给创始人的矩阵。
 
 **类型：** 学习
 **语言：** Python（标准库，玩具每调用经济性比较器）
 **前置要求：** 第 17 阶段 · 01（托管 LLM 平台），第 17 阶段 · 04（服务引擎内部机制）
-**用时：** 约 60 分钟
+**预计时间：** 约 60 分钟
 
 ## 学习目标
 
 - 说出三个市场分区（定制芯片、GPU 平台、API 优先），并将每家供应商映射到一个分区。
-- 解释为何“按 token”API 定价会向服务引擎的成本曲线而非硬件成本曲线收敛。
-- 计算至少三家供应商的有效每请求成本，并说明何时按分钟计费（Baseten、Modal）胜过按 token 计费。
+- 解释为何“按词元”API 定价会向服务引擎的成本曲线而非硬件成本曲线收敛。
+- 计算至少三家供应商的有效每请求成本，并说明何时按分钟计费（Baseten、Modal）胜过按词元计费。
 - 为给定工作负载识别正确的默认平台（无服务器突发、稳定高吞吐、微调变体、多模态）。
 
 ## 问题
 
-你评估过托管超大规模云平台，并决定需要更专门、更快的提供商：用 Fireworks 获得低延迟，用 Together 获得广度，用 Baseten 承载微调的定制模型。现在你有六种真实选择，价格页面却无法对齐。Fireworks 显示 $/M token，Baseten 显示 $/分钟，Modal 显示 $/秒，Replicate 显示 $/预测。若不对工作负载建模，就无法正面比较它们。
+你评估过托管超大规模云平台，并决定需要更专门、更快的提供商：用 Fireworks 获得低延迟，用 Together 获得广度，用 Baseten 承载微调的定制模型。现在你有六种真实选择，价格页面却无法对齐。Fireworks 显示 $/M 词元，Baseten 显示 $/分钟，Modal 显示 $/秒，Replicate 显示 $/预测。若不对工作负载建模，就无法正面比较它们。
 
-更糟的是，每个价格页面背后的商业模式不同。Fireworks 在共享 GPU 上运行自研引擎 FireAttention；按 token 价格反映其利用率曲线。Baseten 提供 Truss + 专用 GPU，按分钟计费反映独占性。Modal 是真正的 Python 无服务器，按秒计费，冷启动小于一秒。相同输出（一条 LLM 响应），三种不同成本函数。
+更糟的是，每个价格页面背后的商业模式不同。Fireworks 在共享 GPU 上运行自研引擎 FireAttention；按词元价格反映其利用率曲线。Baseten 提供 Truss + 专用 GPU，按分钟计费反映独占性。Modal 是真正的 Python 无服务器，按秒计费，冷启动小于一秒。相同输出（一条 LLM 响应），三种不同成本函数。
 
 本课为六家平台建模，并说明每家何时胜出。
 
@@ -37,7 +37,7 @@ status: reviewed
 
 ### 三个分区
 
-**定制芯片**——Groq（LPU）、Cerebras（WSE）、SambaNova（RDU）。在相同模型上，解码通常比 GPU 集群快 5–10 倍。每 token 价格更高（2025 年末 Groq 在 Llama-70B 上约为 $0.99/M），但对延迟敏感用例无可匹敌。Groq 是语音智能体与实时翻译的生产选择。
+**定制芯片**——Groq（LPU）、Cerebras（WSE）、SambaNova（RDU）。在相同模型上，解码通常比 GPU 集群快 5–10 倍。每词元价格更高（2025 年末 Groq 在 Llama-70B 上约为 $0.99/M），但对延迟敏感用例无可匹敌。Groq 是语音智能体与实时翻译的生产选择。
 
 **GPU 平台**——Baseten、Together、Fireworks、Modal、Anyscale。2026 年运行在 NVIDIA（H100、H200、B200）或有时 AMD 上，位于“原始 GPU 租赁”（RunPod、Lambda）与“超大规模云托管服务”（Bedrock）之间的经济层。
 
@@ -49,7 +49,7 @@ status: reviewed
 - 对非交互式工作负载，批处理层价格约为无服务器费率的 50%。
 - 微调模型以基础模型同样费率提供服务——相对那些为 LoRA 收取溢价的提供商，这是实在的差异点。
 - 2026 年中：按需 GPU 租赁自 5 月 1 日起上调 $1/小时；规模客户可协商按量价格。
-- 财务信号：估值 40 亿美元，每日处理 10T+ token。
+- 财务信号：估值 40 亿美元，每日处理 10T+ 词元。
 
 ### Together：广度优化
 
@@ -74,7 +74,7 @@ status: reviewed
 
 - 按预测计费，是图像、视频和音频模型的默认平台。
 - 集成生态丰富（Zapier、Vercel、CMS 插件）。
-- 在 LLM 按 token 费率上竞争力较弱，但多模态多样性胜出。
+- 在 LLM 按词元费率上竞争力较弱，但多模态多样性胜出。
 
 ### Anyscale：Ray 原生
 
@@ -82,11 +82,11 @@ status: reviewed
 - 最适合分布式 Python 工作负载，其中推理步骤是更大图的一部分。
 - 托管 Ray 集群，与 Ray AIR 和 Ray Serve 紧密集成。
 
-### 按 token 与按分钟：各自何时胜出
+### 按词元与按分钟：各自何时胜出
 
-按 token 适合对延迟不敏感、突发的工作负载——只为实际使用付费。按分钟适合利用率高且可预测的负载——GPU 饱和后成本会低于按 token。
+按词元适合对延迟不敏感、突发的工作负载——只为实际使用付费。按分钟适合利用率高且可预测的负载——GPU 饱和后成本会低于按词元。
 
-粗略规则：当工作负载超过专用 GPU 约 30% 的持续利用率，按分钟（Baseten、Modal）开始胜过按 token（Fireworks、Together）。低于该值时，按 token 胜出，因为无需为闲置付费。
+粗略规则：当工作负载超过专用 GPU 约 30% 的持续利用率，按分钟（Baseten、Modal）开始胜过按词元（Fireworks、Together）。低于该值时，按词元胜出，因为无需为闲置付费。
 
 ### 自研引擎才是真正的护城河
 
@@ -99,7 +99,7 @@ vLLM 与 SGLang 之上的每个平台都声称有自研引擎：FireAttention、
 - Together：LLM 比 Replicate 便宜 50–70%。
 - Baseten 估值：50 亿美元（2026 年 1 月 E 轮、$300M）。
 - Modal 估值：11 亿美元（2025 年 B 轮）。
-- 持续利用率超过约 30% 时，按分钟胜过按 token。
+- 持续利用率超过约 30% 时，按分钟胜过按词元。
 
 ```figure
 cost-per-token
@@ -107,7 +107,7 @@ cost-per-token
 
 ## 使用
 
-`code/main.py` 在不同定价模型的合成工作负载上比较六家供应商，并报告 $/天和有效 $/M token。运行它可找到按 token 与按分钟的盈亏平衡点。
+`code/main.py` 在不同定价模型的合成工作负载上比较六家供应商，并报告 $/天和有效 $/M 词元。运行它可找到按词元与按分钟的盈亏平衡点。
 
 ## 交付
 
@@ -115,7 +115,7 @@ cost-per-token
 
 ## 练习
 
-1. 运行 `code/main.py`。对于一张 H100 上的 70B 模型，Baseten（按分钟）在何种持续利用率下胜过 Fireworks（按 token）？自行推导交叉点，并与经验规则比较。
+1. 运行 `code/main.py`。对于一张 H100 上的 70B 模型，Baseten（按分钟）在何种持续利用率下胜过 Fireworks（按词元）？自行推导交叉点，并与经验规则比较。
 2. 你的产品同时提供图像生成、聊天和语音转文字。为每种模态选择平台，并说明将它们统一起来的网关模式。
 3. Fireworks 将主模型价格上调 $1/小时。如果 40% 流量移至批处理层（50% 折扣），建模混合成本影响。
 4. 受监管客户要求 SOC 2 Type II + HIPAA + 专用 GPU。哪三家平台可用，哪一家在 FinOps 上胜出？
@@ -128,7 +128,7 @@ cost-per-token
 | 定制芯片 | “非 GPU 芯片” | Groq LPU、Cerebras WSE、SambaNova RDU——为解码优化。 |
 | FireAttention | “Fireworks 引擎” | 自研注意力内核；宣传延迟比 vLLM 低 4 倍。 |
 | Truss | “Baseten 格式” | 模型打包 manifest：依赖 + 密钥 + 服务配置。 |
-| 按 token | “API 定价” | 按消耗 token 收费；不为闲置付费。 |
+| 按词元 | “API 定价” | 按消耗词元收费；不为闲置付费。 |
 | 按分钟 | “专用定价” | 按 GPU 墙钟时间收费；高利用率时胜出。 |
 | 按预测 | “Replicate 定价” | 按每次模型调用收费，常用于图像/视频。 |
 | RayTurbo | “Anyscale 引擎” | Ray 上的自研推理引擎，在 Ray 集群上与 vLLM 竞争。 |
@@ -137,10 +137,10 @@ cost-per-token
 
 ## 延伸阅读
 
-- [Fireworks Pricing](https://fireworks.ai/pricing) —— 按 token 费率、批处理层、GPU 租赁
+- [Fireworks Pricing](https://fireworks.ai/pricing) —— 按词元费率、批处理层、GPU 租赁
 - [Baseten Pricing](https://www.baseten.co/pricing/) —— 按分钟费率、承诺容量、企业层级
 - [Modal Pricing](https://modal.com/pricing) —— 按秒 GPU 费率和免费层
-- [Together AI Pricing](https://www.together.ai/pricing) —— 模型目录和按 token 费率
+- [Together AI Pricing](https://www.together.ai/pricing) —— 模型目录和按词元费率
 - [Anyscale Pricing](https://www.anyscale.com/pricing) —— RayTurbo 和托管 Ray 定价
 - [Northflank — Fireworks AI Alternatives](https://northflank.com/blog/7-best-fireworks-ai-alternatives-for-inference) —— 比较评估
 - [Infrabase — AI Inference API Providers 2026](https://infrabase.ai/blog/ai-inference-api-providers-compared) —— 供应商格局

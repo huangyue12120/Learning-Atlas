@@ -487,7 +487,7 @@ def measure_forgetting(model, test_text, seq_len=64):
 
 在真实微调中，应在整个训练过程中跟踪这一指标。如果原始文本损失上升超过 10%–15%，说明 SFT 过于激进，应降低学习率或减少 epoch 数。
 
-## 使用方法
+## 使用
 
 ### 完整 SFT 流水线演示
 
@@ -577,7 +577,7 @@ The model learns to predict the next token given all previous tokens."""
             print(f"  Steps {i:3d}-{i + len(chunk) - 1:3d}: avg loss = {avg:.4f}")
 ```
 
-## 交付成果
+## 交付
 
 本课会产出 `outputs/prompt-sft-data-curator.md`：一个帮助你设计和整理 SFT 指令数据集的提示词。给定目标能力（代码生成、数学或对话），它会生成包含格式规范、质量标准和多样性要求的数据采集方案。
 

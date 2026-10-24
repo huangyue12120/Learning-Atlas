@@ -168,7 +168,7 @@ flowchart LR
 pooling
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：LeNet-5
 
@@ -341,7 +341,7 @@ summary("TinyResNet", TinyResNet(),   x)
 
 三个模型、三个时代、参数量相差三个数量级。若干轮训练后的 CIFAR-10 准确率大致为：LeNet 60%、MiniVGG 89%、TinyResNet 93%。
 
-## 使用现成工具
+## 使用
 
 `torchvision.models` 提供上述全部模型的预训练版本。所有家族的调用签名相同，这正是骨干网络抽象的意义。
 
@@ -372,7 +372,7 @@ r18.fc = nn.Linear(r18.fc.in_features, 10)
 
 三行代码。现在你有一个 10 类 CIFAR 分类器，并继承了 ImageNet 已经付费得到的表征。
 
-## 交付产物
+## 交付
 
 本课产出：
 

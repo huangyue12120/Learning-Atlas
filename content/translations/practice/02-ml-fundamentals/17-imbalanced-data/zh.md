@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/17-imbalanced-data/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 68208483176b73e9d39b4158fb66115e649258cfe554e04b624998538cc74c4f
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 9a9a88a93765cf18f82e7169fbd23b8ff429d8344ed75fbfb9889f218342d138
 status: reviewed
 ---
 
@@ -218,7 +218,7 @@ flowchart TD
 class-imbalance
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：生成不平衡数据集
 
@@ -456,15 +456,21 @@ w_cw, b_cw = logistic_regression_weighted(
 probs_cw = sigmoid(X_test @ w_cw + b_cw)
 preds_cw = (probs_cw >= 0.5).astype(int)
 
-# Threshold tuning (tune on held-out validation set, not test set)
-probs_val = sigmoid(X_val @ w_cw + b_cw)
+# Threshold tuning (tune on a validation slice of the training set, not the test set)
+val_split = int(0.75 * len(y_train))
+X_tr, X_val = X_train[:val_split], X_train[val_split:]
+y_tr, y_val = y_train[:val_split], y_train[val_split:]
+w_val, b_val = logistic_regression_weighted(
+    X_tr, y_tr, compute_class_weights(y_tr), lr=0.1, epochs=300
+)
+probs_val = sigmoid(X_val @ w_val + b_val)
 best_thresh, best_f1 = find_optimal_threshold(y_val, probs_val, metric="f1")
 preds_thresh = (probs_cw >= best_thresh).astype(int)
 ```
 
 代码文件会在单个脚本中运行这些内容并打印结果。
 
-## 使用现成工具
+## 使用
 
 使用 scikit-learn 与 imbalanced-learn，这些技术是一行调用：
 
@@ -498,7 +504,7 @@ print(classification_report(y_test, pipeline.predict(X_test)))
 
 从零实现展示每项技术具体做什么：SMOTE 是少数类上的 k-NN 插值，类别权重乘损失，阈值调优是遍历切点的循环，并无魔法。
 
-## 交付成果
+## 交付
 
 本课产出：
 
@@ -512,7 +518,7 @@ print(classification_report(y_test, pipeline.predict(X_test)))
 4. **带平衡 bagging 的集成：** 训练多个模型，每个用平衡 bootstrap 样本（所有少数类 + 多数类随机子集），平均预测；与单个 SMOTE 模型比较性能和跨运行方差。
 5. **不平衡比例实验：** 将平衡数据集逐步变为 50/50、70/30、90/10、95/5、99/1；每种比例有无 SMOTE 都训练，绘制二者 F1 对比例曲线；SMOTE 从哪个比例开始显著有用？
 
-## 核心术语
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

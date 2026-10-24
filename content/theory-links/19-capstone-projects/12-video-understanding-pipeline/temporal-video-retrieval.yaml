@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 视频帧、时间词元与 grounding 窗口
-  summary: 在将场景帧、字幕和转写嵌入合并，并把查询细化为开始/结束时间窗口时，用视频词元化理论核对时空表示、时间压缩和 temporal grounding 之间的关系。
+  summary: 在将场景帧、字幕和转写嵌入合并，并把查询细化为开始/结束时间窗口时，用视频词元化理论核对时空表示、时间压缩和 temporal grounding 之间的关系。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 10 - multimodal learning/03. image and video tokenisation.md

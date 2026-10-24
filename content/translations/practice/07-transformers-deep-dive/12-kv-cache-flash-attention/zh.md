@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/12-kv-cache-flash-attention/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 3a6e3e4bba6a0dccd6e1eed4a8e38d784f47d2b3e45b407e3d745b073a3edcce
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 44214a35df27da4c3248dc34e6e9a36ff79294f411721c7b92f71f43dfc5a31e
 status: reviewed
 ---
 
@@ -37,32 +37,32 @@ status: reviewed
 
 ### KV 缓存的数学计算
 
-对解码器的每一层、每个词元和每个头：
+对解码器的每一层、每个词元，合计所有 KV 头：
 
 ```
-bytes_per_token_per_layer = 2 * d_head * dtype_size
+bytes_per_token_per_layer = 2 * n_kv_heads * d_head * dtype_size
                           ^
                           K and V
 ```
 
-对一个具有 32 层、32 个头、d_head=128、采用 fp16 的 7B 模型：
+对一个具有 32 层、32 个头（全部用于 K 和 V）、d_head=128、采用 fp16 的 7B 模型：
 
 ```
-per token per layer = 2 * 128 * 2 = 512 bytes
-per token (32 layers) = 16 KB
-per 32K context = 512 MB
+per token per layer = 2 * 32 * 128 * 2 = 16384 bytes (16 KiB)
+per token (32 layers) = 512 KiB
+per 32K context = 16 GiB
 ```
 
 对 Llama 3 70B（80 层、d_head=128、使用 8 个 KV 头的 GQA）：
 
 ```
-per token per layer = 2 * 8 * 128 * 2 = 4096 bytes (4 KB)
-per 32K context = 10.4 GB
+per token per layer = 2 * 8 * 128 * 2 = 4096 bytes (4 KiB)
+per 32K context = 10 GiB
 ```
 
-这 10 GB 正是 Llama 3 70B 在 128K 上下文、批大小为 1 时，仅 KV 缓存就会占掉一块 40 GB A100 大部分显存的原因。
+32K 时的 10 GiB 到 128K 时会增长到 40 GiB；在批大小为 1 时，仅 KV 缓存就会占满一整块 40 GB A100。
 
-**GQA 的主要收益就在 KV 缓存。** 使用 64 个头的 MHA 会占用 32 GB，MLA 还能把缓存进一步压缩。
+**GQA 的主要收益就在 KV 缓存。** 使用 64 个 KV 头的 MHA 会大 8 倍，在 32K 时约为 80 GiB。MLA 还能把缓存进一步压缩。
 
 拖动各个维度，观察缓存大小如何变化。提高序列长度或批大小，看看它多快就会超过单块 GPU 的容量：
 
@@ -127,7 +127,7 @@ Flash 4 发布时只支持前向传播，训练仍使用 Flash 3。Flash 4 对 G
 
 ### PagedAttention——把 KV 缓存当作虚拟内存 <!-- learning-atlas: pagedattention-kv-cache-as-virtual-memory -->
 
-这是 vLLM 的标志性特性。KV 缓存以 16 词元为一个块进行分配，页表把逻辑位置映射到物理块。这样可以让并行样本（束搜索、并行采样）共享 KV，为提示缓存快速切换前缀，并对内存进行去碎片化。与朴素的连续分配相比，吞吐量可提高 4 倍。
+这是 vLLM 的标志性特性。KV 缓存以 16 词元为一个块进行分配，页表把逻辑位置映射到物理块。这样可以让并行样本（束搜索、并行采样）共享 KV，为提示词缓存快速切换前缀，并对内存进行去碎片化。与朴素的连续分配相比，吞吐量可提高 4 倍。
 
 ```figure
 flash-attention-memory
@@ -190,7 +190,7 @@ def tiled_softmax_dot(q, K, V, tile=4):
 
 统计注意力操作次数。朴素方法为 `O(N²)` = 5050，缓存方法为 `O(N)` = 100。代码会打印二者。
 
-## 使用方法
+## 使用
 
 ```python
 # HuggingFace transformers auto-enables KV cache on decoder-only generate().
@@ -214,9 +214,9 @@ vllm serve meta-llama/Llama-3.1-70B-Instruct \
     --kv-cache-dtype fp8
 ```
 
-跨请求前缀缓存是 2026 年的一项重要优化——相同的系统提示、少样本示例或长上下文文档可以在多次调用间复用 KV。对于重复使用工具提示的智能体工作负载，前缀缓存通常能带来 5 倍吞吐量提升。
+跨请求前缀缓存是 2026 年的一项重要优化——相同的系统提示词、少样本示例或长上下文文档可以在多次调用间复用 KV。对于重复使用工具提示词的智能体工作负载，前缀缓存通常能带来 5 倍吞吐量提升。
 
-## 交付成果
+## 交付
 
 参见 `outputs/skill-inference-optimizer.md`。这个技能会为新的推理部署选择注意力实现、KV 缓存策略、量化和推测解码方案。
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/09-hybrid-memory-mem0/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: c7744ab0bcad640024d20164aab2f78a349c5aeb3839c969be1278cb3ad96204
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: f14ae13052bf345cb9ec62218f48538a7e81c411c35665563035d4a00a19c8fa
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 07 节（MemGPT）、第 14 阶段 · 第 08 节（Letta Blocks）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -25,9 +25,9 @@ status: reviewed
 - 描述 Mem0 的融合评分——相关性、重要性、新近性——并解释为什么它是加权和，而不是层级结构。
 - 用标准库实现一个玩具三存储记忆：add() 将内容写入三处，search() 融合结果。
 
-## 问题所在
+## 问题
 
-对于三类查询中的任意一类，单一存储都会出错：
+每个存储只适合三类查询中的一类：
 
 - **语义相似度**——“上周我们讨论过智能体漂移的什么内容？”向量存储胜出；KV 和图会漏掉。
 - **事实查找**——“用户的电话号码是多少？”KV 胜出；向量浪费资源，图则过度设计。
@@ -35,7 +35,7 @@ status: reviewed
 
 生产智能体会在一次会话中发出这三类查询。单一存储对其中两类总会不合适。Mem0 的贡献是将三者接在统一的 add/search 界面后，用一个评分函数融合它们。
 
-## 核心概念
+## 概念
 
 ### 三个并行存储
 
@@ -79,7 +79,7 @@ Mem0 论文报告了以下 2025 年结果：
 
 - **LoCoMo**（长篇对话记忆）：91.6
 - **LongMemEval**（长时程情景记忆）：93.4
-- **BEAM 1M**（百万 token 记忆基准）：64.1
+- **BEAM 1M**（百万词元记忆基准）：64.1
 
 对比基线（完整上下文 128k LLM、扁平向量存储、扁平 KV）都低 10 个百分点以上。基准本身不能证明某个选择正确——运行形态才是关键——但这些数字说明融合设计不是舍入误差。
 
@@ -107,7 +107,7 @@ ae-memory-fusion
 
 code/main.py 只用标准库实现三存储模式：
 
-- VectorStore——用朴素 token 重叠相似度代替 embedding。
+- VectorStore——用朴素词元重叠相似度代替 embedding。
 - KVStore——以 (user_id, fact_type, entity) 为键的字典。
 - GraphStore——类型化边（subject、relation、object、valid）。
 - Mem0——带 add()、search()、融合评分和按范围检索的顶层 facade。
@@ -121,7 +121,7 @@ python3 code/main.py
 
 输出会展示三条独立的召回路径以及融合后的 top-k。修改 main() 顶部的评分权重，观察排名变化。
 
-## 实际使用
+## 使用
 
 - **Mem0（Apache 2.0）**——可用于生产。可以使用 Postgres + Qdrant + Neo4j 自托管，或使用托管云。
 - **Letta**——core/recall/archival 三层；自行选择向量和图后端。

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/18-multi-token-prediction/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 390909f35b47294d57064a5663d646b6625ee4519723edc6d9e40861cd0b6983
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 2100ba50081d8c8d9556c17a2b43d9b6c4f3d5a995b4eeb7fff3cd8849cf2834
   anchor:
     heading: The sequential MTP recipe
     slug: the-sequential-mtp-recipe
@@ -18,7 +18,7 @@ card:
     - "每个预测深度都有自己的目标对齐和交叉熵，联合损失的权重会改变训练信号的相对强度。"
     - "更远深度的目标依赖连续的因果表示；实现时要检查移位、掩码和序列末端的有效样本数。"
     - "多词元目标可能改善训练或辅助解码，但不能把额外监督误解为一次前向就能无条件生成整段文本。"
-  application: "为每个预测深度画出输入位置到目标位置的对齐，分别计算有效 token 数和交叉熵，再比较不同损失权重的训练曲线。"
+  application: "为每个预测深度画出输入位置到目标位置的对齐，分别计算有效词元数和交叉熵，再比较不同损失权重的训练曲线。"
   check_question: "为什么多词元预测的第 k 个目标仍必须遵守因果掩码，而不能直接读取这 k 个未来词元？"
 theory:
   repository: maths-cs-ai-compendium

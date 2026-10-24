@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 19 Track C 课程 42–49
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -60,7 +60,7 @@ flowchart TB
 
 ### 为什么使用微型 GPT，而不是只用 MLP
 
-课程 77 中的 MLP 足以验证梯度同步。微型 GPT 额外增加了三点：词表上的独立 LM head（本课为清晰起见不共享权重；完整 GPT 通常会让 head 与 token embedding 共享）、作为 loss 的 softmax+交叉熵（比 MSE 有更多数值边界情况），以及非对称前向路径（每层依次经过嵌入、注意力和 MLP）。Capstone 如果仍使用 MLP，就无法暴露组合是否正确处理 LayerNorm 或嵌入层的梯度形状。
+课程 77 中的 MLP 足以验证梯度同步。微型 GPT 额外增加了三点：词表上的独立 LM head（本课为清晰起见不共享权重；完整 GPT 通常会让 head 与词元 embedding 共享）、作为 loss 的 softmax+交叉熵（比 MSE 有更多数值边界情况），以及非对称前向路径（每层依次经过嵌入、注意力和 MLP）。Capstone 如果仍使用 MLP，就无法暴露组合是否正确处理 LayerNorm 或嵌入层的梯度形状。
 
 ### 自行结束意味着退出码 0
 
@@ -75,7 +75,7 @@ ci-distributed-assembly
 `code/main.py` 实现：
 
 - `MiniGPT`：带掩码自注意力和独立 LM head 的 2 层 Transformer。
-- `make_corpus(seed, total_tokens)`：确定性的下一 token 预测数据。
+- `make_corpus(seed, total_tokens)`：确定性的下一词元预测数据。
 - `_train_worker`：每个 rank 启动一个 worker；广播初始化参数，运行循环，在第 10 步写入分片检查点。
 - `verify_resume`：主运行结束后，在进程内重新加载第 10 步检查点，并断言保存的主分片与内存快照逐字节一致。
 - `main`：编排整个演示，打印 loss 表、内存画像和验证结果。
@@ -88,7 +88,7 @@ python3 code/main.py
 
 输出：20 行 loss 表、4 行每 rank 内存画像、检查点清单，以及成功时的 “RESUME VERIFIED” 行。
 
-## 生产中的实践模式
+## 生产环境中的模式
 
 三种模式让组合适用于真实运行。
 
@@ -98,7 +98,7 @@ python3 code/main.py
 
 **跨 rank 聚合内存画像。** 真实运行中各 rank 内存不同（拥有最大流水线阶段的 rank 会持有更多激活）。生产日志记录各 rank 最大值和均值；本课打印每 rank 数值，以展示公式匹配情况。
 
-## 使用它
+## 使用
 
 生产模式：
 

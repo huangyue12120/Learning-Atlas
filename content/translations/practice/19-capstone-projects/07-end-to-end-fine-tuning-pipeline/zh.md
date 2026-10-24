@@ -4,32 +4,32 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/07-end-to-end-fine-tuning-pipeline/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: c283b32854099e155fd7dc7e745995ae141f85065a47050e4ad88af243ab9732
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 973d68c40ce1886d775102be73fba48e9c5a7800b56e7185f118fdaad99ad4a5
 status: reviewed
 ---
 
 # 毕业项目 07——端到端微调流水线（从数据到 SFT、DPO 再到服务）
 
-> 在自己的数据上训练一个 8B 模型，在自己的偏好上用 DPO 对齐，量化、进行推测解码，并以可测量的每 100 万词元美元成本提供服务。2026 年的开放技术栈是 Axolotl v0.8、TRL 0.15、用于迭代的 Unsloth、用于量化的 GPTQ/AWQ/GGUF，以及带 EAGLE-3 的 vLLM 0.7 服务。本毕业项目要求你可复现地运行完整流水线——输入 YAML，输出已提供服务的端点——并依据 2026 Model Openness Framework 发布模型卡。
+> 在自己的数据上训练一个 8B 级别模型，在自己的偏好上用 DPO 对齐，量化、进行推测解码，并以可测量的每 100 万词元美元成本提供服务。2026 年的开放技术栈是 Axolotl v0.8、TRL 0.15、用于迭代的 Unsloth、用于量化的 GPTQ/AWQ/GGUF，以及带 EAGLE-3 的 vLLM 0.7 服务。本毕业项目要求你可复现地运行完整流水线（输入 YAML，输出已提供服务的端点），并依据 2026 Model Openness Framework 发布模型卡。
 
 **类型：** 毕业项目
 **语言：** Python（流水线）、YAML（配置）、Bash（脚本）
 **前置课程：** 第 2 阶段（ML）、第 3 阶段（DL）、第 7 阶段（Transformer）、第 10 阶段（从零实现 LLM）、第 11 阶段（LLM 工程）、第 17 阶段（基础设施）、第 18 阶段（安全）
 **涉及阶段：** P2 · P3 · P7 · P10 · P11 · P17 · P18
-**用时：** 35 小时
+**预计时间：** 35 小时
 
 ## 问题
 
 到 2026 年，每个认真的 AI 团队都会随时准备一套微调流水线。这不是因为他们要交付前沿基础模型，而是因为下游适配——领域 SFT、针对标注偏好的 DPO、用于推测解码的蒸馏草稿模型，以及使用 EAGLE-3 提供服务——才是可测量收益所在。Axolotl v0.8 处理多 GPU SFT 配置，TRL 0.15 处理 DPO 和 GRPO，Unsloth 让单 GPU 迭代变得快速，带 EAGLE-3 的 vLLM 0.7 在不损失质量的情况下把解码吞吐提高 2–3 倍。工具已经可用；真正的工程在 YAML、数据卫生和评测纪律中。
 
-你将让一个 8B 基础模型（Llama 3.3、Qwen3 或 Gemma 3）在任务专用数据上先经过 SFT 再经过 DPO，为服务进行量化，并依据 lm-evaluation-harness、RewardBench-2、MT-Bench-v2 和 MMLU-Pro 测量收益。你还要依据 2026 Model Openness Framework 生成模型卡。重点是可复现性——一条命令就能端到端重跑整个流水线。
+你将让一个 8B 到 14B 基础模型（Llama 3.1 8B、Qwen3 14B 或 Gemma 3 12B）在任务专用数据上先经过 SFT 再经过 DPO，为服务进行量化，并依据 lm-evaluation-harness、RewardBench-2、MT-Bench-v2 和 MMLU-Pro 测量收益。你还要依据 2026 Model Openness Framework 生成模型卡。重点是可复现性：一条命令就能端到端重跑整个流水线。
 
 ## 概念
 
 流水线有五个阶段。**数据**：去重（MinHash / Datatrove）、质量过滤（Nemotron-CC 风格分类器）、PII 清理，以及针对公开 benchmark 污染的数据集划分卫生检查。**SFT**：Axolotl YAML、8xH100 上的 ZeRO-3、余弦调度、序列打包、2–3 个 epoch。**DPO 或 GRPO**：TRL 配置、1 个 epoch，偏好对可以由人类标注或模型评判，并调节 beta。**量化**：GPTQ + AWQ + GGUF，以适应部署弹性。**服务**：带 EAGLE-3 推测头的 vLLM 0.7（或带 SpecForge 的 SGLang）、K8s 部署，以及按队列等待时间设置 HPA。
 
-交付物是消融实验：只做 SFT、SFT+DPO 与 SFT+GRPO 在三个任务专用 benchmark 上的比较。服务指标包括批大小 1 / 8 / 32 时的 tokens/s、EAGLE-3 接受率和每 100 万词元美元成本。安全评测使用 Llama Guard 4 通过率。模型卡要包含偏差评估、可复现性种子和数据许可。
+交付物是消融实验：只做 SFT、SFT+DPO 与 SFT+GRPO 在三个任务专用 benchmark 上的比较。服务指标包括批大小 1 / 8 / 32 时的 词元/秒、EAGLE-3 接受率和每 100 万词元美元成本。安全评测使用 Llama Guard 4 通过率。模型卡要包含偏差评估、可复现性种子和数据许可。
 
 ## 架构
 
@@ -67,7 +67,7 @@ lm-eval-harness + RewardBench-2 + MT-Bench-v2 + MMLU-Pro
 ## 技术栈
 
 - 数据：Datatrove 去重、Nemotron-CC 分类器质量过滤、Presidio PII 清理
-- 基础模型：Llama 3.3 8B、Qwen3 14B 或 Gemma 3 12B
+- 基础模型：Llama 3.1 8B、Qwen3 14B 或 Gemma 3 12B
 - SFT：带 ZeRO-3、Flash Attention 3 和序列打包的 Axolotl v0.8
 - 偏好调优：TRL 0.15 进行 DPO 或 GRPO；Unsloth 用于单 GPU 迭代
 - 量化：GPTQ（Marlin）、AWQ、通过 llama.cpp 使用 GGUF
@@ -101,7 +101,7 @@ ce-finetune-stages
 
 9. **模型卡。** 使用 MOF 2026 模板，包含数据、训练、评测、安全、许可和可复现性章节，其中放入 YAML 与 commit SHA。
 
-## 实际使用
+## 使用
 
 ```text
 $ ./pipeline.sh config/llama3.3-8b-domainX.yaml
@@ -123,7 +123,7 @@ $ ./pipeline.sh config/llama3.3-8b-domainX.yaml
 | 25 | 相对基础模型的评测差值 | 在目标任务（MMLU-Pro、MT-Bench-v2、任务专用集）上测量收益 |
 | 20 | 流水线可复现性 | 使用相同种子通过一条命令端到端重跑 |
 | 20 | 数据卫生 | 去重率、PII 清理覆盖率、污染检查通过 |
-| 20 | 服务效率 | bs=1/8/32 时的 tokens/s、EAGLE-3 接受率、每 100 万词元美元成本 |
+| 20 | 服务效率 | bs=1/8/32 时的 词元/秒、EAGLE-3 接受率、每 100 万词元美元成本 |
 | 15 | 模型卡与安全评测 | 2026 MOF 完整度 + Llama Guard 4 通过率 |
 | **100** | | |
 
@@ -131,7 +131,7 @@ $ ./pipeline.sh config/llama3.3-8b-domainX.yaml
 
 1. 在同一个任务专用 benchmark 上比较只做 SFT、SFT+DPO 和 SFT+GRPO。报告哪种偏好方法胜出，以及胜出多少。
 
-2. 将 Llama 3.3 8B 换成 Qwen3 14B。在质量匹配的条件下测量每 100 万词元美元成本。
+2. 将 Llama 3.1 8B 换成 Qwen3 14B。在质量匹配的条件下测量每 100 万词元美元成本。
 
 3. 在领域数据和通用 ShareGPT 上分别测量 EAGLE-3 接受率。报告差值，并说明它对延迟预算意味着什么。
 
@@ -159,5 +159,5 @@ $ ./pipeline.sh config/llama3.3-8b-domainX.yaml
 - [DeepSeek R1 论文（arXiv:2501.12948）](https://arxiv.org/abs/2501.12948)——GRPO 方法
 - [vLLM + EAGLE-3 文档](https://docs.vllm.ai)——参考服务技术栈
 - [SGLang SpecForge](https://github.com/sgl-project/SpecForge)——另一种推测解码训练器
-- [Model Openness Framework 2026](https://isocpp.org/)——开放发布分级标准
+- [Model Openness Framework (arXiv:2403.13784)](https://arxiv.org/abs/2403.13784)：开放发布分级标准
 - [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)——规范评测运行器

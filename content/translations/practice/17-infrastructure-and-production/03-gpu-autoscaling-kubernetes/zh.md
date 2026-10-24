@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/03-gpu-autoscaling-kubernetes/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 6ac8b3437ee96f664c02173f7ebba8d43c61027861e7b27b5cd4e128be466241
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 8b82d0b1b6b92b89dddf1ab765d1110bdf2be6f15386577e5215dabbcd3ebef3
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python（标准库，玩具队列深度自动扩缩模拟器）
 **前置要求：** 第 17 阶段 · 02（推理平台经济学），第 17 阶段 · 04（服务引擎内部机制）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -29,9 +29,9 @@ status: reviewed
 
 你的团队在 Kubernetes 上发布 LLM 服务，并将 `DCGM_FI_DEV_GPU_UTIL` 设为 HPA 信号。工作时间服务固定在 100% 利用率，HPA 却从不扩容——它已经认为资源满了。你手动添加一个副本，TTFT 下降；HPA 仍不扩容，信号在骗你。
 
-与此同时，你用 Cluster Autoscaler 扩节点。凌晨两点，一个 100 万 token 的提示词到来；集群花 3 分钟预配节点，请求超时。
+与此同时，你用 Cluster Autoscaler 扩节点。凌晨两点，一个 100 万词元的提示词到来；集群花 3 分钟预配节点，请求超时。
 
-又在另一处，你部署需跨两节点 8 GPU 的 70B 模型。集群有 7 个空闲 GPU，另有 1 个分散在 3 个节点上。Cluster Autoscaler 为缺失的 1 个 GPU 预配新节点，七个节点则等待 4 分钟持续烧钱，Kubernetes 才把最后一个 GPU 准备好。
+又在另一处，你部署需跨两节点 8 GPU 的 70B 模型。集群有 7 个空闲 GPU，分散在 3 个节点上，还需要 1 个。Cluster Autoscaler 为缺失的 1 个 GPU 预配新节点，这 7 个已预留的 GPU 则闲置 4 分钟持续烧钱，Kubernetes 才把最后一个 GPU 准备好。
 
 三层对应三种不同失效模式。2026 年 GPU 感知自动扩缩需要组合节点预配、gang 调度和基于应用信号的自动扩缩。
 

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/04-glove-fasttext-subword/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: b92cf9d14b8729b4a378b0b4f468f4d957f6600c15d876b091d8dec54d8d3e47
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0e73db6c61425112e89f4791308625f948daa8cca2908841e058a484bfa56aa4
   anchor:
     heading: "BPE: learned subword vocabulary"
     slug: bpe-learned-subword-vocabulary

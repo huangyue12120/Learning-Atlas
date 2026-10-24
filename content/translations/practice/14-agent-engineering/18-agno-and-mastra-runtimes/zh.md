@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python、TypeScript
 **前置要求：** 第 14 阶段 · 第 01 节（智能体循环）、第 14 阶段 · 第 13 节（LangGraph）
-**用时：** 约 45 分钟
+**预计时间：** 约 45 分钟
 
 ## 学习目标
 
@@ -25,11 +25,11 @@ status: reviewed
 - 解释为什么无状态、按 session 作用域的 FastAPI 后端是推荐的 Agno 生产路径。
 - 针对给定技术栈选择 Agno 或 Mastra（Python-first 与 TypeScript-first）。
 
-## 问题所在
+## 问题
 
 LangGraph、AutoGen、CrewAI 都比较重。想要“只要智能体循环、速度快、运行在我的运行时里”的团队会选择 Agno（Python）或 Mastra（TypeScript）。二者都用一部分框架拥有的原语换取原始速度，以及与周围技术栈更紧密的结合。
 
-## 核心概念
+## 概念
 
 ### Agno
 
@@ -90,7 +90,7 @@ python3 code/main.py
 
 两条结构不同但功能等价的轨迹。
 
-## 实际使用
+## 使用
 
 - **Agno**——需要速度和 FastAPI 形状的 Python 后端。
 - **Mastra**——拥有多个提供方和工作流原语的 TypeScript 后端。

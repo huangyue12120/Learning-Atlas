@@ -11,25 +11,25 @@ status: reviewed
 
 # LLM API 压力测试：为何 k6 和 Locust 会撒谎
 
-> 传统压力测试器并非为流式响应、可变输出长度、token 级指标或 GPU 饱和而设计。两种陷阱最常伤害团队。GIL 陷阱：Locust 的 token 级测量在 Python GIL 下运行 tokenization，它会在高并发下与请求生成竞争；tokenization 堆积随即抬高报告的 token 间延迟——瓶颈是客户端，不是服务器。提示词均一性陷阱：在循环中使用相同提示词，只测试 token 分布上的一个点；真实流量有可变长度和多样的前缀匹配。LLMPerf 通过 `--mean-input-tokens` + `--stddev-input-tokens` 修复。2026 年工具映射：LLM 专用（GenAI-Perf、LLMPerf、LLM-Locust、guidellm）提供 token 级准确性；**k6 v2026.1.0** + **k6 Operator 1.0 GA（2025 年 9 月）**——流式感知、Kubernetes 原生，可通过 TestRun/PrivateLoadZone CRD 分布式运行，最适合 CI/CD 闸门；Vegeta 用于 Go 的恒定速率饱和；Locust 2.43.3 只有使用 LLM-Locust 扩展才适合流式。负载模式：稳态、爬坡、尖峰（自动扩缩容测试）、浸泡（内存泄漏）。
+> 传统压力测试器并非为流式响应、可变输出长度、词元级指标或 GPU 饱和而设计。两种陷阱最常伤害团队。GIL 陷阱：Locust 的词元级测量在 Python GIL 下运行 tokenization，它会在高并发下与请求生成竞争；tokenization 堆积随即抬高报告的词元间延迟——瓶颈是客户端，不是服务器。提示词均一性陷阱：在循环中使用相同提示词，只测试词元分布上的一个点；真实流量有可变长度和多样的前缀匹配。LLMPerf 通过 `--mean-input-tokens` + `--stddev-input-tokens` 修复。2026 年工具映射：LLM 专用（GenAI-Perf、LLMPerf、LLM-Locust、guidellm）提供词元级准确性；**k6 v2026.1.0** + **k6 Operator 1.0 GA（2025 年 9 月）**——流式感知、Kubernetes 原生，可通过 TestRun/PrivateLoadZone CRD 分布式运行，最适合 CI/CD 闸门；Vegeta 用于 Go 的恒定速率饱和；Locust 2.43.3 只有使用 LLM-Locust 扩展才适合流式。负载模式：稳态、爬坡、尖峰（自动扩缩容测试）、浸泡（内存泄漏）。
 
 **类型：** 构建
 **语言：** Python（标准库，用于生成真实提示词和收集延迟的玩具程序）
 **前置要求：** 第 17 阶段 · 08（推理指标），第 17 阶段 · 03（GPU 自动扩缩容）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
 - 解释使通用压力测试器在 LLM API 上撒谎的两种反模式（GIL 陷阱、提示词均一性陷阱）。
 - 为给定用途选择工具：LLMPerf（基准运行）、k6 + 流式扩展（CI 闸门）、guidellm（大规模合成）、GenAI-Perf（NVIDIA 参考）。
 - 设计四种负载模式（稳态、爬坡、尖峰、浸泡），并说出各自捕捉的失败模式。
-- 使用输入 token 的均值 + 标准差而非固定长度，构建真实提示词分布。
+- 使用输入词元的均值 + 标准差而非固定长度，构建真实提示词分布。
 
 ## 问题
 
 你用 k6 对 LLM 端点做了 500 并发用户测试，它挺住了，于是上线。生产中只有 200 个真实用户，服务却崩了——P99 TTFT 爆炸、GPU 被钉满。
 
-发生了两件事。第一，k6 发送了 500 个相同提示词；请求合并和前缀缓存让你以为正在处理 500 个并发 decode，实际只是在处理一个。第二，k6 不会以人眼所感知的方式跟踪流式响应中的 token 间延迟；它看到的是一个 HTTP 连接，而不是以不同间隔到达的 500 个 token。
+发生了两件事。第一，k6 发送了 500 个相同提示词；请求合并和前缀缓存让你以为正在处理 500 个并发 decode，实际只是在处理一个。第二，k6 不会以人眼所感知的方式跟踪流式响应中的词元间延迟；它看到的是一个 HTTP 连接，而不是以不同间隔到达的 500 个词元。
 
 LLM 压力测试是一门独立学科。
 
@@ -37,7 +37,7 @@ LLM 压力测试是一门独立学科。
 
 ### GIL 陷阱（Locust）
 
-Locust 使用 Python，并在 GIL 下于客户端运行 tokenization。高并发时，tokenizer 排在请求生成之后。报告的 token 间延迟包含客户端的 tokenization 堆积。你以为服务器慢，实际是测试工具。
+Locust 使用 Python，并在 GIL 下于客户端运行 tokenization。高并发时，tokenizer 排在请求生成之后。报告的词元间延迟包含客户端的 tokenization 堆积。你以为服务器慢，实际是测试工具。
 
 修复：LLM-Locust 扩展将 tokenization 移到独立进程，或使用编译语言的工具（k6、采用 tokenizers.rs 的 LLMPerf）。
 

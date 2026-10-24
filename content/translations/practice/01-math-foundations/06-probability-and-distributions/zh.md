@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/06-probability-and-distributions/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 9595bccbedd22dbf64a1412aebc327ba8817616da5cd2e3aa65ab4a748c1344c
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: a07e78b85e86e435d4afea907e6c8fdf06c004bcc76869e0dce20d7ab3ad52ed
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** Python
 **前置课程：** Phase 1，第 01–04 课
-**预计用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -201,14 +201,14 @@ P(X = x) = \sum_{y} P(X = x, Y = y)
 
 ### 正态分布为何无处不在
 
-中心极限定理：许多独立随机变量的和（或平均值）会收敛到正态分布，无论原始分布是什么。
+中心极限定理：来自同一分布的许多独立随机变量，其平均值在经过中心化并以 $\sqrt{n}$ 缩放后，会趋近于正态分布，无论原始分布的形状如何，只要其方差有限。经过中心化并缩放的和也是如此。
 
 ```text
 掷 1 个骰子：      均匀分布（平坦）
 2 个骰子的平均值： 三角形（中间高）
 30 个骰子的平均值：几乎完美的钟形曲线
 
-这适用于任何初始分布。
+这适用于任何方差有限的初始分布。
 ```
 
 以下现象的原因是：
@@ -287,7 +287,7 @@ log-softmax 将 softmax 与对数结合起来，以保证数值稳定性。PyTor
 gaussian-pdf
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：概率基础
 
@@ -426,7 +426,7 @@ plt.plot(xs, ys)
 
 包含所有可视化内容的完整实现在 `code/probability.py` 中。
 
-## 使用它
+## 使用
 
 借助 NumPy 和 SciPy，上述所有内容都可以用单行代码完成：
 
@@ -461,15 +461,13 @@ print(f"Log-softmax: {log_probs}")
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Draw `u` from a uniform distribution and return $-\ln(1 - u) / \lambda$. Check that the sample mean is close to $1/\lambda$ and that the histogram bins follow $\lambda e^{-\lambda x}$.
->
-> **Exercise 2.** Fill a 6x6 table where every cell is a probability and the sum of all cells is 1, then call `joint_to_marginals`. Use `check_independence`: the dice are independent only if every cell equals the product of its two marginals.
->
-> **Exercise 3.** Apply `softmax` to the logits and take $-\ln$ of the probability at index 3. The result must be close to 0.421, which is the value `nn.CrossEntropyLoss` gives for the same logits and target.
->
-> **Exercise 4.** Add the log probabilities; do not multiply raw probabilities. For 50 words with probability 0.01, the total must be $50 \ln(0.01) \approx -230.26$, and the raw probability is $10^{-100}$.
+**练习 1.** 从均匀分布中抽取 `u`，返回 $-\ln(1 - u) / \lambda$。检查样本均值接近 $1/\lambda$，且直方图分箱服从 $\lambda e^{-\lambda x}$。
+
+**练习 2.** 填一张 6x6 表，每格是一个概率且所有格之和为 1，再调用 `joint_to_marginals`。用 `check_independence`：只有当每格都等于其两个边缘分布之积时，两枚骰子才独立。
+
+**练习 3.** 对 logits 应用 `softmax`，取索引 3 处概率的 $-\ln$。结果必须接近 0.421，这正是 `nn.CrossEntropyLoss` 对同样的 logits 和目标给出的值。
+
+**练习 4.** 把对数概率相加；不要对原始概率做乘法。对 50 个概率均为 0.01 的词，总和必须是 $50 \ln(0.01) \approx -230.26$，对应的原始概率为 $10^{-100}$。
 
 ## 关键术语
 
@@ -483,7 +481,7 @@ print(f"Log-softmax: {log_probs}")
 | 期望 | “平均值” | 所有结果按概率加权后的总和。损失函数就是一个期望 |
 | 方差 | “分散程度” | 与均值之差的平方的期望。方差高 = 估计噪声大且不稳定 |
 | 正态分布 | “钟形曲线” | f(x) = (1/sqrt(2*pi*sigma^2)) * exp(-(x-mu)^2/(2*sigma^2))。由于中心极限定理而无处不在 |
-| 中心极限定理 | “平均值会变成正态分布” | 无论来源分布是什么，许多独立样本的均值都会收敛到正态分布 |
+| 中心极限定理 | “平均值会变成正态分布” | 对任何方差有限的来源，许多独立样本经过中心化、缩放后的均值都会收敛到正态分布 |
 | 联合分布 | “两个变量放在一起” | P(X, Y) 描述 X 和 Y 各种结果组合的概率 |
 | 边缘分布 | “把另一个变量求和消掉” | P(X) = sum_y P(X, Y)。从联合分布中恢复一个变量的分布 |
 | 对数概率 | “概率的对数” | log P(x)。将乘积转换为和，防止长序列发生数值下溢 |

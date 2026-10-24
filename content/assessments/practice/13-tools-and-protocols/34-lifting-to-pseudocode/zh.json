@@ -1,0 +1,18 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/13-tools-and-protocols/34-lifting-to-pseudocode/quiz.json",
+    "revision": "f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299",
+    "sha256": "bca8e4a3a0f9a62fc050410a1bba282d914d3b6fbab86ff824b1cf21eea2d3d7"
+  },
+  "status": "reviewed",
+  "questions": [
+    {"id":"lift-q1","stage":"pre","question":"Ghidra 从一个正确的目标文件把 percent_change 反编译成一个返回 16 字节、接收三个参数的函数。源代码有两个 int 参数并返回 int。这说明了什么？","options":["伪代码是一项推导出来的声明，它关于类型和调用约定的猜测可能是错的，而每一条指令都是对的","Ghidra 无法读取 ELF 可重定位目标文件","目标文件损坏了","clang 把这个函数编译错了"],"correct":0,"explanation":"指令是正确的，反编译器也把它们读对了。它关于返回值和第三个参数的猜测，源于 idiv 同时写入 rax 和 rdx，而没有调用者来说明实情。"},
+    {"id":"lift-q2","stage":"check","question":"在 System V AMD64 调用约定中，哪个寄存器承载一个函数的第二个整数参数？","options":["%rcx","%rdx","%rsi","%rax"],"correct":2,"explanation":"顺序是 %rdi、%rsi、%rdx、%rcx、%r8、%r9（psABI 第 3.2.3 节）。结果在 %rax 返回。"},
+    {"id":"lift-q3","stage":"check","question":"提升器看到 cmpl $0x4, %ecx 后紧跟 ja。分支在哪个 C 条件下被采用？","options":["ecx >= 4 的有符号比较","ecx > 4 的有符号比较","(unsigned int)ecx > 4","ecx != 4"],"correct":2,"explanation":"ja 检验 CF = 0 且 ZF = 0，即无符号的 above 条件。负的 ecx 是一个很大的无符号值，所以这次跳转在 grade 中也覆盖了低于 60 的分数。"},
+    {"id":"lift-q4","stage":"check","question":"SSA 构造为什么要在 total 的循环头为求和变量放置一个 phi 函数？","options":["每个循环头都为每个寄存器放一个 phi","循环头读取了内存","循环内部标志位寄存器发生了变化","有两个求和变量的定义到达循环头：初始的零和循环体内部的更新"],"correct":3,"explanation":"phi 被放置在每个定义的支配边界上。循环头是设置块与循环回边汇合的连接点，所以这两个可达定义需要一个合并后的名字。"},
+    {"id":"lift-q5","stage":"post","question":"grade 把符号扩展后的分数乘以 0x66666667，把乘积右移 34 位，再加上乘积的符号位。这计算的是什么？","options":["score * 10","score % 10","score 的某种哈希","按 C 向零截断的 score / 10"],"correct":3,"explanation":"0x66666667 是 2^34 / 10 的向上取整。乘法与移位对非负分数给出 floor(score / 10)。加上的符号位把负商朝零方向移动，这正是 C 除法的行为。"},
+    {"id":"lift-q6","stage":"post","question":"我们的提升器打印 int total(int *param_1, int param_2)，而 Ghidra 打印 int total(long param_1, uint param_2)。关于这两个签名，哪种说法是正确的？","options":["提升器错了，因为源代码写的是 const int *","两者都与指令一致。提升器从 4 字节带比例因子的加载推断出指针，而 Ghidra 保留了寄存器宽度","Ghidra 错了，因为 param_1 被当作指针使用","这两个签名证明该对象被编译了两次"],"correct":1,"explanation":"机器码没有类型。提升器把来自 rdi + rdx * 4 的加载变成了一次 int 元素访问，而 Ghidra 保留了一个 64 位整数。两者都无法恢复 const 限定符。"}
+  ]
+}

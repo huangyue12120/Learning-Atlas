@@ -10,7 +10,7 @@ practice:
     slug: concept
 card:
   title: 自适应导师的前后测与基线比较
-  summary: 在比较自适应导师与线性内容交付的学习增益、置信区间和安全护栏时，用 ML 系统评估理论核对前测/后测、对照组、线上效果与 guardrail 指标。
+  summary: 在比较自适应导师与线性内容交付的学习增益、置信区间和安全护栏时，用 ML 系统评估理论核对前测/后测、对照组、线上效果与 guardrail 指标。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/04. ML systems design.md

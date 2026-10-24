@@ -19,7 +19,7 @@
         "因为 cookie consent 禁止采集后使用"
       ],
       "correct": 0,
-      "explanation": "正确答案是“数据进入模型权重后无法外科式删除，完整补救只能从头再训练且成本极高”。本课生成 California AB 2013 的十二项数据摘要，并说明训练数据治理必须在采集时完成。"
+      "explanation": "正确答案是“数据进入模型权重后无法外科式删除，完整补救只能从头再训练且成本极高”。合规窗口在采集时，是因为数据一旦进入模型权重就无法外科式删除，完整补救只能从头重训且成本极高。它并非因为 GDPR 删除权不适用、监管不审计部署模型或 cookie consent 禁止采集后使用。"
     },
     {
       "id": "27-data-provenance-training-governance-check-2",
@@ -32,7 +32,7 @@
         "30 项"
       ],
       "correct": 0,
-      "explanation": "正确答案是“12 项”。本课生成 California AB 2013 的十二项数据摘要，并说明训练数据治理必须在采集时完成。"
+      "explanation": "正确答案是“12 项”。California AB 2013 第 3111(a) 节要求数据集摘要披露 12 项法定内容。3 项、7 项、30 项都不符。"
     },
     {
       "id": "27-data-provenance-training-governance-check-3",
@@ -45,7 +45,7 @@
         "清洗、处理或其他修改"
       ],
       "correct": 2,
-      "explanation": "正确答案是“是否使用或持续使用合成数据生成”。本课生成 California AB 2013 的十二项数据摘要，并说明训练数据治理必须在采集时完成。"
+      "explanation": "正确答案是“是否使用或持续使用合成数据生成”。相对 Gebru 等人的 datasheet，AB 2013 第 12 项“是否使用或持续使用合成数据生成”是新增关注。来源/所有者、采集时间段、清洗处理在 datasheet 中已有对应，不算新增。"
     },
     {
       "id": "27-data-provenance-training-governance-check-4",
@@ -58,7 +58,7 @@
         "只能使用合成数据"
       ],
       "correct": 1,
-      "explanation": "正确答案是“在退出机制和适当防护下，合法利益可支持训练，不总要求同意”。本课生成 California AB 2013 的十二项数据摘要，并说明训练数据治理必须在采集时完成。"
+      "explanation": "正确答案是“在退出机制和适当防护下，合法利益可支持训练，不总要求同意”。2025 年多家 DPA 趋同原则是：对公开的第一方内容，在退出机制与适当防护下合法利益可正当化训练，不总要求同意。“任何情况禁止”“始终需明确同意”“只能用合成数据”都与该趋同相反。"
     },
     {
       "id": "27-data-provenance-training-governance-post-5",
@@ -71,7 +71,7 @@
         "抑制来自该数据的输出"
       ],
       "correct": 2,
-      "explanation": "正确答案是“GDPR 强制自动删除模型权重”。本课生成 California AB 2013 的十二项数据摘要，并说明训练数据治理必须在采集时完成。"
+      "explanation": "正确答案是“GDPR 强制自动删除模型权重”。本课列出的部分补救是遗忘（用 MIA 近似评估）、基于影响函数的定位与选择性更新、以及抑制来自该数据的输出。“GDPR 强制自动删除模型权重”并不存在，不是列出的补救。"
     },
     {
       "id": "27-data-provenance-training-governance-post-6",
@@ -84,7 +84,7 @@
         "出版者加 robots.txt 限制的速度在上升，可公开训练的数据公地快速收缩"
       ],
       "correct": 3,
-      "explanation": "正确答案是“出版者加 robots.txt 限制的速度在上升，可公开训练的数据公地快速收缩”。本课生成 California AB 2013 的十二项数据摘要，并说明训练数据治理必须在采集时完成。"
+      "explanation": "正确答案是“出版者加 robots.txt 限制的速度在上升，可公开训练的数据公地快速收缩”。“Consent in Crisis”发现出版者加 robots.txt 限制的速度在上升，可公开训练的数据公地快速收缩。它并未发现同意率稳定、合成数据完全替代网页数据或限制逐年减少。"
     }
   ]
 }

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/15-real-time-edge/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 67456ce0e428e1ffa31eacece531fc95a2eec306f375a994f21571109e76642e
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 48728b0c4c921f076a9dbb739fe860f319c966bdbd0e58dd885722a81091c63c
 status: reviewed
 ---
 
@@ -52,7 +52,7 @@ flowchart LR
     style PWR fill:#dbeafe,stroke:#2563eb
 ```
 
-- **延迟**：p50、p95、p99。只平均 p50 会掩盖实时系统关注的长尾行为。
+- **延迟**：p50、p95、p99。只报告 p50（或均值）会掩盖实时系统关注的长尾行为。
 - **峰值内存**：设备任一时刻看到的最大值，而不是稳态平均值。嵌入式目标上的 OOM 是致命的。
 - **功耗 / 能量**：电池供电设备上每次推理消耗的毫焦耳数。常用 CPU/GPU 利用率 * 时间近似。
 
@@ -117,7 +117,7 @@ FLOPs（每次推理的浮点运算数）是廉价、与设备无关的延迟代
 cnn-param-count
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：正确测量延迟
 
@@ -241,7 +241,7 @@ def compare_regimes():
 
 对 `resnet50`、`efficientnet_v2_s` 和 `convnext_tiny` 运行同一函数，就能得到部署决策所需的比较表。
 
-## 使用现成工具
+## 使用
 
 生产技术栈通常归为三条路径之一：
 
@@ -251,7 +251,7 @@ def compare_regimes():
 
 测量时，`torch-tb-profiler`、`nvprof` / `nsys` 和 macOS 上的 Instruments 提供逐层分析。`benchmark_app`（OpenVINO）和 `trtexec`（TensorRT）提供独立 CLI 指标。
 
-## 交付产物
+## 交付
 
 本课产出：
 

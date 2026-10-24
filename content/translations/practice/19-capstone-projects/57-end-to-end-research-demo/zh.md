@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/57-end-to-end-research-demo/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 6b5834a19a77be2247a16b6cdb41bd28e75eb10f4496609d5ca72ac846d48bf8
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: a4d06d03ecc5f869ab08fa9d332fa92d6b398a4edf00dd12ccfd4bcc34568fb5
 status: reviewed
 ---
 # 端到端研究演示
@@ -15,7 +15,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 19 课程 50–53
-**时间：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
@@ -44,7 +44,7 @@ flowchart LR
     Writer --> Report[演示报告]
 ```
 
-共有五个阶段。种子是三个假设的列表；调度器用三个并行槽运行六个实验；总线报告一个或多个论文触发器；选择器挑出唯一最佳结果；批评器循环修订由该结果构建的草稿；论文写作者输出最终 LaTeX、BibTeX 和清单。
+共有六个阶段。种子是三个假设的列表；调度器用三个并行槽运行六个实验；总线报告一个或多个论文触发器；选择器挑出唯一最佳结果；批评器循环修订由该结果构建的草稿；论文写作者输出最终 LaTeX、BibTeX 和清单。
 
 ## 为什么导入，而不是复制
 

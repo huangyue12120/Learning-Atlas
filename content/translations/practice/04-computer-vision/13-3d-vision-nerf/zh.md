@@ -140,7 +140,7 @@ T_i &= \exp\left(-\sum_{j<i} \sigma_j \delta_j\right) \\
 nerf-rays
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：PointNet 分类器
 
@@ -270,7 +270,7 @@ print(f"depth:           {depth.item():.2f}")
 
 一条射线、64 个样本，合成为一个 RGB 像素和一个深度值。
 
-## 使用现成工具
+## 使用
 
 实际工作中可使用：
 
@@ -280,7 +280,7 @@ print(f"depth:           {depth.item():.2f}")
 
 部署时，3D Gaussian splatting 已在很大程度上取代纯 NeRF，因为其渲染速度快 100 倍，而重建质量相当。
 
-## 交付产物
+## 交付
 
 本课产出：
 

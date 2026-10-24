@@ -19,7 +19,7 @@
         "Ollama"
       ],
       "correct": 3,
-      "explanation": "正确答案是“Ollama”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "Ollama 是开发笔记本的一条命令默认项，安装后数秒出首个词元，适合单用户。llama.cpp 面向 CPU/边缘、vLLM 面向生产、TGI 已进入维护模式，都不是本课的开发机一键默认。"
     },
     {
       "id": "q2",
@@ -32,7 +32,7 @@
         "TGI 被 Anthropic 收购"
       ],
       "correct": 0,
-      "explanation": "正确答案是“TGI 于 2025 年 12 月 11 日进入维护模式”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "TGI 于 2025 年 12 月 11 日进入维护模式、此后只修 bug，这使它成为新项目的长期高风险选择，默认转向 vLLM 或 SGLang。它并未放弃 CUDA、涨价，也不是被 Anthropic 收购。"
     },
     {
       "id": "q3",
@@ -45,7 +45,7 @@
         "Apple M4"
       ],
       "correct": 0,
-      "explanation": "正确答案是“只有 CPU（没有加速器）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "只有 CPU、没有加速器时必须选 llama.cpp——它在 CPU 上最快，而 vLLM/TRT-LLM 在纯 CPU 上没有竞争力。AMD MI300X、NVIDIA Hopper、Apple M4 都有对应的 GPU/加速路径，不会把你逼到只能用 llama.cpp。"
     },
     {
       "id": "q4",
@@ -58,7 +58,7 @@
         "llama.cpp"
       ],
       "correct": 0,
-      "explanation": "正确答案是“SGLang”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "SGLang 凭 RadixAttention 在智能体多轮和重前缀复用场景下占优。Ollama 面向开发笔记本、TGI 已进入维护模式、llama.cpp 面向 CPU，都不是重前缀负载的首选。"
     },
     {
       "id": "q5",
@@ -71,7 +71,7 @@
         "从头到尾只用 TRT-LLM"
       ],
       "correct": 2,
-      "explanation": "正确答案是“开发用 Ollama，预发布用 llama.cpp，生产用 vLLM 或前缀密集时的 SGLang”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "本课在同一 GGUF/HF 权重上的流水线是开发用 Ollama、预发布用 llama.cpp、生产用 vLLM（前缀密集时用 SGLang），阶段间可能做 GGUF↔safetensors 转换。全程 TGI、全程 Ollama、从头到尾 TRT-LLM 都不是推荐流水线。"
     },
     {
       "id": "q6",
@@ -84,7 +84,7 @@
         "Go HTTP 序列化会增加开销，并发管理比 vLLM 简单，OpenTelemetry 支持也落后"
       ],
       "correct": 3,
-      "explanation": "正确答案是“Go HTTP 序列化增加开销、并发管理较简单且 OpenTelemetry 支持落后”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "Ollama 不适合共享生产，因为 Go 的 HTTP 序列化增加开销、并发管理比 vLLM 简单，OpenTelemetry 支持也落后，适合留给单用户场景。它能加载 GGUF、不限 Windows、也不是闭源，这些都不是原因。"
     }
   ]
 }

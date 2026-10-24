@@ -3,15 +3,15 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/31-agent-workbench-why-models-fail/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 2575fa8bca26da9a545cfc45d79237eac2911e977d5b9e3a77b1a21675111850
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 4f052ed30315ebe7387a99cb21dc6745d6213edd0828099725e04f8d465f4684
   anchor:
     heading: The Concept
     slug: the-concept
 card:
   title: Agent workbench 的可靠性面
   summary: 在把 instructions、state、scope、feedback、verification、review 和 handoff 组织成工作台时，用分布式系统可靠性理论核对持久化、故障转移和验证边界。
-  context: "本课把一组提示、状态文件、权限边界和验证步骤组合成可重复的 agent 工作台，目标是降低长任务中的隐性漂移。"
+  context: "本课把一组提示词、状态文件、权限边界和验证步骤组合成可重复的 agent 工作台，目标是降低长任务中的隐性漂移。"
   intuition: "可靠性不是模型一次答对，而是系统在重试、交接、部分失败和恢复后仍能保持关键不变量。"
   key_points:
     - "持久化状态必须能区分已确认事实、待验证结果和过期缓存。"

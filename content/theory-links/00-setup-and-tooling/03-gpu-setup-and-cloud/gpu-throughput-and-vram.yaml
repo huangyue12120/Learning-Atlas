@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/03-gpu-setup-and-cloud/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 1e6fdb7c16aeab51fb498a3b0d5fe984dd1a67e082d618bf30d1081639502809
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 913b61e496cff6bba6c95c5121a4fa389793f5ce98ae9b7745c491158428e25a
   anchor:
     heading: "Build It: GPU vs CPU benchmark"
     slug: build-it-gpu-vs-cpu-benchmark

@@ -159,7 +159,7 @@ npx skills remove skill-contract-reviewer
 
 选择和安装时相同的宿主与范围。rescan 或启动新会话后，显式请求 `skill-contract-reviewer` 应报告它不可用。后续课程还会用到 `my-first-skill`；也可以在完成这条学习路线后删除实验目录。
 
-## 问题所在
+## 问题
 
 假设团队有一条可靠的发布流程：查找已经合并的变更，检查迁移说明，更新 changelog，运行打包命令，并生成评审清单。
 
@@ -169,7 +169,7 @@ npx skills remove skill-contract-reviewer
 
 第一个工程任务是分类：先决定 artifact 是什么，再决定如何打包。
 
-## 核心概念
+## 概念
 
 ### Skill 编码程序性知识
 

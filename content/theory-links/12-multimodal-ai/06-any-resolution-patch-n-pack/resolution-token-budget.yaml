@@ -3,14 +3,14 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/06-any-resolution-patch-n-pack/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 350ebe112b4ae4c8fb7147905b46b9a47de37e8393e26cebb2e2f871a0ff737b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 182edb6d6c60231632c10476301bfd85a6da6c387cdb88698ff2cb6878eecd1c
   anchor:
     heading: The Concept
     slug: the-concept
 card:
   title: 原生分辨率与视觉词元预算
-  summary: 在比较 patch-n-pack、NaFlex 和不同宽高比下的序列长度时，用视觉词元流水线理论核对 patch 特征的投影、视觉 token 压缩以及视觉序列送入语言模型时的预算权衡。
+  summary: 在比较 patch-n-pack、NaFlex 和不同宽高比下的序列长度时，用视觉词元流水线理论核对 patch 特征的投影、视觉词元压缩以及视觉序列送入语言模型时的预算权衡。
   context: "本课比较不同分辨率和宽高比的打包方式；视觉词元预算会同时影响细节保留、上下文占用和推理成本。"
   intuition: "更细或更多的图块能保留更多局部信息，却会形成更长的视觉序列；any-resolution 方法是在不强制拉伸图像的前提下分配这份预算。"
   key_points:

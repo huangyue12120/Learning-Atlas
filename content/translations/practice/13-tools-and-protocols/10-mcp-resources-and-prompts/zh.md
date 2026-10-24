@@ -280,7 +280,7 @@ t3-primitive-sort
 
 每次分类都写明选择者。如果模型执行动作，就使用工具；如果宿主读取 URI 寻址的内容，就使用资源；如果用户启动准备好的消息工作流，就使用提示词。
 
-## 练习实验
+## 实践实验
 
 从仓库根目录运行模拟器：
 
@@ -307,7 +307,7 @@ Python 模型不会打开真正的 HTTP 连接，而是表示 SDK 应放在请�
 
 本课还提供 `assets/primitive-split.svg`，它是原语与订阅边界的静态版本，便于离线学习。
 
-## 验证
+## 验证它
 
 ```bash
 cd phases/13-tools-and-protocols/10-mcp-resources-and-prompts/code
@@ -323,7 +323,7 @@ python3 -m unittest discover tests -v
 
 证据应表明列表不依赖连接历史，且订阅事件本身不会授予底层资源访问权。
 
-## 练习题
+## 练习
 
 1. 增加 `notes://projects/{project}/notes/{id}` 资源模板，并校验两个变量。
 2. 为 `resources/list` 增加分页，同时保持确定性顺序。

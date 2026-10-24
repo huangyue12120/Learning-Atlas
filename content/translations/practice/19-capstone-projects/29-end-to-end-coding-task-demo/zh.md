@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/29-end-to-end-coding-task-demo/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: febbabee70a1c777c773df7161385ebd30c560c6fb3da1cae1722ad82ed9f9a6
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: c31f19bdb17e17033cb28106d33d4eac83e64c0aadae4c960db4af3756d3e242
 status: reviewed
 ---
 
@@ -16,13 +16,13 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（标准库）
 **前置课程：** 第 19 阶段 · 25（验证门），第 19 阶段 · 26（沙箱），第 19 阶段 · 27（评测 harness），第 19 阶段 · 28（观测），第 14 阶段 · 38（验证门），第 14 阶段 · 41（真实仓库工作台），第 14 阶段 · 42（智能体工作台毕业项目）
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
 - 将门链、沙箱、评测 harness 和 span 构建器组合为单一智能体循环。
 - 实现使用 read_file、run_tests 和 write_file 修复 fixture bug 的确定性策略。
-- 在端到端运行中强制全局步骤预算和观测 token 预算。
+- 在端到端运行中强制全局步骤预算和观测词元预算。
 - 为完整运行发出 OTel GenAI trace 和 Prometheus 指标。
 - 验证智能体在少于 12 步内解决 fixture，合法工具零次触发门拒绝。
 
@@ -32,7 +32,7 @@ status: reviewed
 
 门链允许调用，但沙箱却因门链没有预见的原因拒绝。评测 harness 记录了通过，但 OTel span 却显示门拒绝了智能体声称使用的工具。Prometheus 计数器本应递增一次，却递增了两次。观测预算已经超出，智能体却继续运行，因为预算只在门链里记录，沙箱并不知道。
 
-本课是整条轨道的集成测试。智能体必须依次完成四件事：读取项目、运行测试、从测试失败中识别 bug、写入修复、再次运行测试并停止。每项操作都经过门链，每次工具执行都经过沙箱，每一步都包在 span 中，评测 harness 最终为整个过程评分。
+本课是整条轨道的集成测试。智能体必须依次完成六件事：读取项目、运行测试、从测试失败中识别 bug、写入修复、再次运行测试并停止。每项操作都经过门链，每次工具执行都经过沙箱，每一步都包在 span 中，评测 harness 最终为整个过程评分。
 
 ## 概念
 

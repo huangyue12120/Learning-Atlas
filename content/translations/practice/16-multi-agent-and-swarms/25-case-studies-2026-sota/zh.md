@@ -4,19 +4,19 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/25-case-studies-2026-sota/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 6510b5b866402fd265d55f0f9c8fcc69646f71bb82828c1ac684150b58793b96
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 429ac897e7dfcde3c6a7ccd44f90602b99ae22e5469110d13166ba2f8bc7effb
 status: reviewed
 ---
 
 # 案例研究与 2026 年技术现状
 
-> 三个端到端的生产级参考案例，各自说明多智能体工程的不同切面。**Anthropic 的 Research 系统**（编排器—工作器、15 倍 token、相对单智能体 Opus 4 提升 90.2%、彩虹部署）是典型的主管案例。**MetaGPT / ChatDev**（将 SOP 编码为软件工程的角色专化；ChatDev 的“交互式去幻觉”；MacNet 通过 DAG 扩展至 1000+ 智能体，arXiv:2406.07155）是典型的角色分解案例。**OpenClaw / Moltbook**（最初为 Peter Steinberger 的 Clawdbot，2025 年 11 月；两次改名；2026 年 3 月 GitHub 约 24.7 万星；本地 ReAct 循环智能体；Moltbook 是纯智能体社交网络，发布数天内约有 230 万智能体账户，于 2026-03-10 被 Meta 收购）展示了群体规模下会发生什么：涌现经济活动、提示注入风险和国家级监管（2026 年 3 月，中国限制在政府计算机上使用 OpenClaw）。**2026 年 4 月框架格局：** LangGraph 与 CrewAI 引领生产；AG2 是社区维护的 AutoGen 延续；Microsoft AutoGen 处于维护模式（已合并入 Microsoft Agent Framework，2026 年 2 月 RC）；OpenAI Agents SDK 是生产级 Swarm 后继；Google ADK（2025 年 4 月）是 A2A 原生的新进入者。所有主要框架都支持 MCP，多数也支持 A2A。本课端到端阅读每个案例，提炼共同模式，帮助你为下一个生产系统选择正确参考。
+> 三个端到端的生产级参考案例，各自说明多智能体工程的不同切面。**Anthropic 的 Research 系统**（编排器—工作器、15 倍词元、相对单智能体 Opus 4 提升 90.2%、彩虹部署）是典型的主管案例。**MetaGPT / ChatDev**（将 SOP 编码为软件工程的角色专化；ChatDev 的“交互式去幻觉”；MacNet 通过 DAG 扩展至 1000+ 智能体，arXiv:2406.07155）是典型的角色分解案例。**OpenClaw / Moltbook**（最初为 Peter Steinberger 的 Clawdbot，2025 年 11 月；两次改名；2026 年 3 月 GitHub 约 24.7 万星；本地 ReAct 循环智能体；Moltbook 是纯智能体社交网络，发布数天内约有 230 万智能体账户，于 2026-03-10 被 Meta 收购）展示了群体规模下会发生什么：涌现经济活动、提示注入风险和国家级监管（2026 年 3 月，中国限制在政府计算机上使用 OpenClaw）。**2026 年 4 月框架格局：** LangGraph 与 CrewAI 引领生产；AG2 是社区维护的 AutoGen 延续；Microsoft AutoGen 处于维护模式（已合并入 Microsoft Agent Framework，2026 年 2 月 RC）；OpenAI Agents SDK 是生产级 Swarm 后继；Google ADK（2025 年 4 月）是 A2A 原生的新进入者。所有主要框架都支持 MCP，多数也支持 A2A。本课端到端阅读每个案例，提炼共同模式，帮助你为下一个生产系统选择正确参考。
 
 **类型：** 学习（综合项目）
 **语言：** —
 **前置要求：** 第 16 阶段全部课程（第 01–24 课）
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 问题
 
@@ -31,8 +31,8 @@ status: reviewed
 关键测量结果：
 
 - 内部研究评测中，相对单智能体 Opus 4 **提升 90.2%**。
-- **80% 的 BrowseComp 方差**仅由**token 用量**解释——多智能体获胜主要因为每个子智能体得到全新的上下文窗口。
-- 每次查询的 token 为单智能体的 **15 倍**。
+- **80% 的 BrowseComp 方差**仅由**词元用量**解释——多智能体获胜主要因为每个子智能体得到全新的上下文窗口。
+- 每次查询的词元为单智能体的 **15 倍**。
 - 因智能体长时程、有状态，采用**彩虹部署**。
 
 已编码的设计经验：
@@ -68,7 +68,7 @@ MacNet（arXiv:2406.07155）通过 DAG 将 ChatDev 扩展到**超过 1000 个智
 生产级群体规模案例。时间线：
 
 - **2025 年 11 月：** Clawdbot（Peter Steinberger 的本地 ReAct 循环编程智能体）发布。
-- **2025 年 12 月至 2026 年 3 月：** 两次改名（Clawdbot → OpenClaw → 在 OpenClaw 下延续）。
+- **2026 年 1 月：** 一周内两次改名（因商标投诉，1 月 27 日 Clawdbot → Moltbot，三天后 Moltbot → OpenClaw）。
 - **2026 年 2 月：** Moltbook 在同一基础原语上作为纯智能体社交网络发布；数天内约有 230 万智能体账户。
 - **2026 年 3 月（2026-03-10）：** Meta 收购 Moltbook。
 - **2026 年 3 月：** 中国限制在政府计算机上使用 OpenClaw。
@@ -76,7 +76,7 @@ MacNet（arXiv:2406.07155）通过 DAG 将 ChatDev 扩展到**超过 1000 个智
 
 把数百万智能体放在共享基底上后，多智能体系统会呈现以下特征：
 
-- **涌现经济活动。** 智能体使用 token 支付相互买卖并提供服务。
+- **涌现经济活动。** 智能体使用代币支付相互买卖并提供服务。
 - **群体规模的提示注入风险。** 一条恶意提示词进入病毒式传播的智能体档案，会在数小时内传播到数千次智能体间互动。
 - **国家级监管响应。** 上线数周内，监管已覆盖该生态。
 
@@ -110,7 +110,7 @@ MacNet（arXiv:2406.07155）通过 DAG 将 ChatDev 扩展到**超过 1000 个智
 2. **结构化交接契约**（Anthropic 的子智能体任务说明、MetaGPT 的 PRD/架构文档、OpenClaw 的 A2A 产物）。
 3. **验证作为一等角色**（Anthropic 的验证者、MetaGPT 的 QA 工程师、OpenClaw 的网络内验证者）。
 4. **扩展依靠拓扑 + 基底，而不只是更多智能体**（彩虹部署、MacNet DAG、群体规模基底）。
-5. **成本是实质性的且会披露**（15 倍 token、MetaGPT 的逐角色预算、Moltbook 的逐互动定价）。
+5. **成本是实质性的且会披露**（15 倍词元、MetaGPT 的逐角色预算、Moltbook 的逐互动定价）。
 6. **安全姿态是显式的**（Anthropic 的沙箱、MetaGPT 的角色限制、OpenClaw 将提示注入视为已知攻击面）。
 
 ### 为下一个项目选择参考
@@ -127,7 +127,7 @@ MacNet（arXiv:2406.07155）通过 DAG 将 ChatDev 扩展到**超过 1000 个智
 - **框架正在收敛。** MCP + A2A 支持已是基本要求；交接语义仍是设计选择。
 - **评估正在严格化。** SWE-bench Pro、MARBLE、STRATUS 缓解基准。Pro 是当前抗污染的现实检验。
 - **生产失败率可测量**（Cemri 2025 MAST：真实 MAS 的失败率为 41–86.7%）。领域已脱离“演示看起来很棒”的时代。
-- **成本是核心工程约束。** 每任务 token 成本、每次互动墙钟时间、彩虹部署开销。多智能体在准确度上获胜却在成本上失利，而这个取舍是商业决策。
+- **成本是核心工程约束。** 每任务词元成本、每次互动墙钟时间、彩虹部署开销。多智能体在准确度上获胜却在成本上失利，而这个取舍是商业决策。
 - **监管是近期输入，而非背景条件。** 司法辖区的行动速度比单次部署周期更快。
 
 ```figure
@@ -145,7 +145,7 @@ a5-orchestrator-scale
 - **从案例研究开始，而非从零开始。** 选择最接近的 Anthropic Research / MetaGPT / OpenClaw 并适配。
 - **采用 MCP + A2A。** 跨框架的可移植性很有价值，协议支持几乎免费。
 - **针对 SWE-bench Pro 或内部 Pro 等价物进行测量。** Verified 已受污染。
-- **支付验证税。** 独立验证者约占 token 预算的 20–30%，但换来可测的正确性。
+- **支付验证税。** 独立验证者约占词元预算的 20–30%，但换来可测的正确性。
 - **为长时程智能体做彩虹部署。** 应预计多小时智能体运行会成为常态。
 - **阅读 WMAC 2026 和 MAST 后续工作。** 该领域发展很快。
 
@@ -161,7 +161,7 @@ a5-orchestrator-scale
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------|----------|
-| Anthropic Research | “主管参考” | Claude Opus 4 + Sonnet 4 子智能体；15 倍 token；相对单智能体提升 90.2%。 |
+| Anthropic Research | “主管参考” | Claude Opus 4 + Sonnet 4 子智能体；15 倍词元；相对单智能体提升 90.2%。 |
 | MetaGPT | “SOP 即提示词” | 面向软件工程的角色分解；`Code = SOP(Team)`。 |
 | ChatDev | “智能体即角色” | 设计师 / 程序员 / 审查员 / 测试员；交互式去幻觉。 |
 | MacNet | “通过 DAG 扩展 ChatDev” | arXiv:2406.07155；通过显式 DAG 路由扩展到 1000+ 智能体。 |

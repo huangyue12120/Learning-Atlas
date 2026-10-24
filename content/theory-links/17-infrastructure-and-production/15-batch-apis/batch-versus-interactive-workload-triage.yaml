@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/15-batch-apis/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 38fa16c914a80a28947766893a261662e947d6931df0045c604c4666604daec8
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 8f0830eead1c5643e3e5d93c26ac5827a3c68800d07dc69c9c9c7f3cea99ac52
   anchor:
     heading: Workload triage
     slug: workload-triage
@@ -17,7 +17,7 @@ card:
     - "主流 batch 产品普遍提供约 50% 折扣和 24 小时周转承诺。"
     - "供应商的 JSONL、BigQuery 或 GCS 格式不同，客户端需要适配层。"
     - "用户不在意 24 小时交付时，内容管线和离线标注应优先考虑 batch。"
-  application: "改变用户 SLA、共享系统提示和缓存命中，比较同步、缓存、batch 和混合配置的成本。"
+  application: "改变用户 SLA、共享系统提示词和缓存命中，比较同步、缓存、batch 和混合配置的成本。"
   check_question: "什么简单的用户体验判断可以帮助你把一项工作分流到 batch？"
 theory:
   repository: maths-cs-ai-compendium

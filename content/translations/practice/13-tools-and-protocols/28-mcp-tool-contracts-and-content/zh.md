@@ -28,7 +28,7 @@ status: reviewed
 - 遍历游标分页，但不解释游标值。
 - 对 `completion/complete` 建议进行范围限制和授权。
 
-## 问题所在
+## 问题
 
 调用 Python 函数很容易；通过 AI 宿主调用远程能力，则是一个契约问题。
 
@@ -40,7 +40,7 @@ status: reviewed
 
 - 描述符说结果是对象，但服务器返回数组；
 - 客户端在 `nextCursor` 为空字符串时停止分页；
-- token 参数被镜像到 HTTP header，因而暴露给中间层；
+- 令牌参数被镜像到 HTTP header，因而暴露给中间层；
 - Unicode 路由值以原始 header 发送，网关和 origin 解释出不同字节；
 - completion endpoint 向没有权限的调用方建议 production 环境。
 
@@ -126,7 +126,14 @@ mcp-contract-pipeline
 
 ### 小型校验器仍能说明边界
 
-由于课程坚持 Python 标准库，实验使用有意缩小的 JSON Schema 子集。它检查示例工具用到的机制：object、array、string、integer、number、boolean、null 类型；必需属性；`additionalProperties: false`；数组 items；枚举值；以及字符串最小长度。
+由于课程坚持 Python 标准库，实验使用有意缩小的 JSON Schema 子集。它检查示例工具用到的机制：
+
+- object、array、string、integer、number、boolean 和 null 类型；
+- 必需属性；
+- `additionalProperties: false`；
+- 数组 items；
+- 枚举值；
+- 字符串最小长度。
 
 这不是完整的生产校验器。可复用的重点是校验时机：发现后校验描述符，执行前校验参数，消费前校验结构化结果。
 
@@ -171,7 +178,7 @@ Mcp-Param-Region: eu-west
 
 协议对注解施加以下限制：
 
-- header 名非空，并符合 HTTP field-name token 语法；
+- header 名非空，并符合 HTTP field-name 记号（token）语法；
 - 不区分大小写时 header 名仍必须唯一；
 - 属性类型为 string、integer 或 boolean；
 - 不允许 `number`；
@@ -265,7 +272,14 @@ completion 请求指定要补全的引用和参数：
 
 使用与被引用 prompt 或资源相同的授权边界。示例中的 analyst 能得到 `development` 和 `staging`，只有 operator 能得到 `production`。
 
-生产 completion 还需要输入校验、面向调用方的过滤、客户端请求去抖、服务器限流、有界的结果数量，以及不暴露敏感建议值的日志。
+生产 completion 还需要：
+
+- 输入校验；
+- 面向调用方的过滤；
+- 客户端请求去抖；
+- 服务器限流；
+- 有界的结果数量；
+- 不暴露敏感建议值的日志。
 
 Completion 是辅助，不是绕过发现和授权的入口。
 
@@ -273,9 +287,18 @@ Completion 是辅助，不是绕过发现和授权的入口。
 
 将协议错误与工具执行错误分开。
 
-当 MCP 请求无法正确 dispatch 时，使用 JSON-RPC error，例如未知工具名称、请求形状错误、缺少请求元数据或无效游标。
+当 MCP 请求无法正确 dispatch 时，使用 JSON-RPC error：
 
-当调用已经到达工具，而工具报告了可处理失败时，使用带 `isError: true` 的完整工具结果，例如报告来源不可用、日期超出支持范围或业务规则拒绝操作。
+- 未知工具名称；
+- 请求形状错误；
+- 缺少请求元数据；
+- 无效游标。
+
+当调用已经到达工具，而工具报告了可处理失败时，使用带 `isError: true` 的完整工具结果：
+
+- 报告来源不可用；
+- 日期超出支持范围；
+- 业务规则拒绝请求的操作。
 
 模型通常能修复工具执行错误，却不能修复服务器违反自身输出 schema 的问题。
 
@@ -285,9 +308,26 @@ Completion 是辅助，不是绕过发现和授权的入口。
 
 `code/main.py` 用 Python 标准库构建边界两侧。
 
-服务器实现：每请求 MCP 元数据校验、带 tools 和 completions 能力的 `server/discover`、确定性的 `tools/list` 分页、四个工具描述符（其中一个必须被拒绝）、数组结构化输出、当前所有工具内容块类型，以及 Streamable HTTP parity gate。该 gate 会解码已识别参数 header，在不匹配时返回 HTTP `400` 和 JSON-RPC `-32020`，并提供已授权且限流的 completion。
+服务器实现：
 
-客户端实现：描述符准入、完整 schema 树中的 `x-mcp-header` 位置校验与敏感字段策略、普通可见 ASCII 或 base64 UTF-8 的精确编码、跟随空字符串的不透明游标循环、参数和结果校验、内容块校验，以及只含名称不含值的 header 审计事件。
+- 每请求 MCP 元数据校验；
+- 带 tools 和 completions 能力的 `server/discover`；
+- 确定性的 `tools/list` 分页；
+- 四个工具描述符，其中一个必须被拒绝；
+- 数组结构化输出；
+- 当前所有工具内容块类型；
+- 一个 Streamable HTTP parity gate，它解码已识别参数 header，在不匹配时返回 HTTP `400` 和 JSON-RPC `-32020`；
+- 已授权且限流的 completion。
+
+客户端实现：
+
+- 描述符准入；
+- 完整 schema 树中的 `x-mcp-header` 位置校验与敏感字段策略；
+- 普通可见 ASCII 或 base64 UTF-8 的精确值编码；
+- 跟随空字符串的不透明游标循环；
+- 参数和结果校验；
+- 内容块校验；
+- 只含名称不含值的 header 审计事件。
 
 故意不安全的描述符只是教学数据，它证明一个被拒绝的工具不会阻止其他合法工具加载。
 
@@ -340,7 +380,7 @@ demo 会打印准入工具、被拒绝的描述符、两次分页请求、数组
 
 `outputs/skill-mcp-contract-reviewer.md` 是一个扁平、可复用的审查技能。给它工具描述符、示例结果、分页行为和 completion 策略，它会返回准入决定、结果校验计划、header 策略和具体失败测试。
 
-## 验证
+## 验证它
 
 满足以下条件时，本课完成：
 
@@ -380,7 +420,12 @@ demo 会打印准入工具、被拒绝的描述符、两次分页请求、数组
 
 Phase 13 capstone 需要一个能合并多个服务器工具的网关。本课提供其准入核心。
 
-使用本课 artifact 评估 capstone 的四类证据：确定且完整的分页发现；模型暴露前的描述符校验；经过校验的结构化输出与有界内容块；以及保持授权边界的 completion 和路由元数据。
+使用本课 artifact 评估 capstone 的四类证据：
+
+- 确定且完整的分页发现；
+- 模型暴露前的描述符校验；
+- 经过校验的结构化输出与有界内容块；
+- 保持授权边界的 completion 和路由元数据。
 
 不要仅凭成功的 `tools/call` 声称网关兼容。捕获描述符、页面 trace、准入工具集、被拒绝工具集和一个经过校验的结果。
 
@@ -393,7 +438,7 @@ Phase 13 capstone 需要一个能合并多个服务器工具的网关。本课�
 | `structuredContent` | 工具结果产生的任意 JSON 值 |
 | 内容块 | 类型化的文本、图像、音频、资源链接或嵌入资源 |
 | `x-mcp-header` | 将原始参数镜像到 Streamable HTTP 元数据的 schema 注解 |
-| 不透明游标 | 客户端不解释其值的服务器分页 token |
+| 不透明游标 | 客户端不解释其值的服务器分页令牌 |
 | Completion 引用 | 正在补全参数的 prompt 名称或资源 URI/template |
 | 准入 | 客户端决定暴露还是拒绝发现到的描述符 |
 

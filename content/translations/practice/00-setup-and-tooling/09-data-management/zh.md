@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 0，第 01 课
-**预计学习：** 约 45 分钟
+**预计时间：** 约 45 分钟
 
 ## 学习目标
 
@@ -33,12 +33,12 @@ status: reviewed
 
 ```mermaid
 graph TD
-    A["Hugging Face Hub"] --> B["datasets library"]
-    B --> C["Load / Stream"]
-    C --> D["Local Cache<br/>~/.cache/huggingface/"]
-    B --> E["Format Conversion<br/>CSV, JSON, Parquet, Arrow"]
-    E --> F["Data Splits<br/>train / val / test"]
-    F --> G["Your Training Pipeline"]
+    A["Hugging Face Hub"] --> B["datasets 库"]
+    B --> C["加载 / 流式读取"]
+    C --> D["本地缓存<br/>~/.cache/huggingface/"]
+    B --> E["格式转换<br/>CSV、JSON、Parquet、Arrow"]
+    E --> F["数据划分<br/>训练 / 验证 / 测试"]
+    F --> G["你的训练流水线"]
 ```
 
 Hugging Face `datasets` 是 AI 工作中加载数据的标准方式，开箱即可处理下载、缓存、格式转换和流式读取。
@@ -233,7 +233,7 @@ dvc push
 
 现在不需要下载全部数据集；每节课都会说明它需要什么。
 
-## 实际使用
+## 使用
 
 运行工具脚本验证所有内容：
 
@@ -243,7 +243,7 @@ python code/data_utils.py
 
 它会下载一个小数据集、转换、划分并打印摘要。
 
-## 交付成果
+## 交付
 
 本课会产出：
 - `code/data_utils.py` —— 可复用的数据加载与缓存工具
@@ -258,17 +258,15 @@ python code/data_utils.py
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Call `load_and_inspect("glue", "mrpc")` from `code/data_utils.py`, or `load_dataset("glue", "mrpc")` directly, and print `ds["train"][:5]`. Each example must have `sentence1`, `sentence2`, and `label` fields.
->
-> **Exercise 2.** Load the dataset with `streaming=True`, as `stream_dataset` does, and read examples in a loop that stops when `time.time()` passes the start time plus 10 seconds. Print the count; run it twice, because the first run includes the connection start-up.
->
-> **Exercise 3.** Save the same dataset with `to_csv` and `to_parquet`, as `convert_format` does, then compare the sizes with `ls -lh` or `os.path.getsize`. Load the Parquet file back with `load_from_parquet` and check that the row count did not change.
->
-> **Exercise 4.** Use `train_test_split` twice with a fixed `seed`: first split off 30 percent, then split that 30 percent in half. The three lengths must add up to the original length, and a second run with the same seed must give the same first row in each split.
+**练习 1.** 调用 `code/data_utils.py` 中的 `load_and_inspect("glue", "mrpc")`，或直接 `load_dataset("glue", "mrpc")`，并打印 `ds["train"][:5]`。每个样本都应包含 `sentence1`、`sentence2` 和 `label` 字段。
 
-## 核心术语
+**练习 2.** 像 `stream_dataset` 那样用 `streaming=True` 加载数据集，在循环中读取样本，当 `time.time()` 超过起始时间加 10 秒时停止。打印计数；运行两次，因为第一次运行包含连接启动时间。
+
+**练习 3.** 像 `convert_format` 那样用 `to_csv` 和 `to_parquet` 保存同一数据集，然后用 `ls -lh` 或 `os.path.getsize` 比较大小。用 `load_from_parquet` 把 Parquet 文件加载回来，确认行数没有变化。
+
+**练习 4.** 用固定的 `seed` 调用两次 `train_test_split`：先分出 30%，再把这 30% 对半分。三个长度之和必须等于原始长度，用相同种子再运行一次时每个划分的首行也必须相同。
+
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

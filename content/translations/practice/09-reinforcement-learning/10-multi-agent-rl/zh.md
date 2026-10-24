@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/10-multi-agent-rl/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 85ebe6302f573bd1a381fcdfc790854781dec795b16d9c9044ca50d5ddc76e53
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: e84f1af128d6bc5586fc039f866936be260aa912dbdf136eaf4cb5e483f1747a
 status: reviewed
 ---
 
@@ -97,10 +97,15 @@ def independent_q(env, episodes, alpha, gamma, epsilon):
     Q1, Q2 = defaultdict(default_q), defaultdict(default_q)
     for _ in range(episodes):
         s = env.reset()
+        done = False
         while not done:
             a1 = epsilon_greedy(Q1, s, epsilon)
             a2 = epsilon_greedy(Q2, s, epsilon)
             s_next, r, done = env.step(s, (a1, a2))
+            if done:
+                Q1[s][a1] += alpha * (r - Q1[s][a1])
+                Q2[s][a2] += alpha * (r - Q2[s][a2])
+                break
             target1 = r + gamma * max(Q1[s_next].values())
             target2 = r + gamma * max(Q2[s_next].values())
             Q1[s][a1] += alpha * (target1 - Q1[s][a1])
@@ -118,7 +123,7 @@ def independent_q(env, episodes, alpha, gamma, epsilon):
 
 同一个智能体承担两个角色。让智能体 A 与智能体 B 训练，每经过 `K` 个回合，把 A 的权重复制给 B。训练对称，进展一致。这是微型 AlphaZero 配方。
 
-## 常见问题
+## 陷阱
 
 - **非平稳回放。** 独立智能体的经验回放比单智能体更棘手，因为旧转移由现在已经过时的对手生成。可以重新标注，或根据新近程度加权。
 - **信用分配不明确。** 长回合结束后只有共享奖励，无法确定哪个智能体做出了贡献。可以采用反事实基线（COMA），或为每个智能体塑造奖励。
@@ -128,7 +133,7 @@ def independent_q(env, episodes, alpha, gamma, epsilon):
 - **联赛循环。** 纯自我对弈可能陷入优势循环。使用包含多样化对手的联赛训练。
 - **样本爆炸。** `n` 个智能体 × 状态空间 × 联合动作。使用函数近似，以及分解动作空间（每个智能体使用一个策略输出头）进行近似。
 
-## 使用方法
+## 使用
 
 2026 年的 MARL 应用图谱如下：
 
@@ -143,7 +148,7 @@ def independent_q(env, episodes, alpha, gamma, epsilon):
 
 到 2026 年，MARL 增长最快的应用来自大语言模型：语言模型智能体组成的群体会协商、辩论、构建软件。此时强化学习优化的是*轨迹级*输出的偏好，而不是词元级输出（Phase 16 第 03 课）。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-marl-architect.md`：
 

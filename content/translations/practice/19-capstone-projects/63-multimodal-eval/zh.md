@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/63-multimodal-eval/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 44d6e176df79bfb1bb3a073a28eecc717047f3d437dd25bee2dd7958b8f87c6d
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 63e8164d1f263d49353a7bb206ac80c554f292a43464154f8786f18cfe3621fc
 status: reviewed
 ---
 
@@ -16,18 +16,24 @@ status: reviewed
 **类型：** 构建
 **语言：** Python
 **前置课程：** Phase 19 第 58–62 课（编码器、transformer、投影、交叉注意力融合、预训练）
-**用时：** 约 90 分钟
+**预计时间：** 约 90 分钟
 
 ## 学习目标
 
 - 从图像与标题嵌入的相似度矩阵计算 Recall@K。
 - 计算固定答案词表上的视觉问答 exact-match 准确率。
-- 不依赖外部库，从生成和参考 token 序列计算 BLEU-4。
+- 不依赖外部库，从生成和参考词元序列计算 BLEU-4。
 - 用第 62 课训练模型运行三项评测。
 
 ## 问题
 
-训练损失平台期不代表模型完成。训练损失只反映训练分布上的拟合，不能说明模型能否在留出批次中排序、回答问题或写出可接受的标题。检索报告 R@1/R@5/R@10，VQA 报告答案 token 与参考答案相等的比例，标题生成报告带 brevity penalty 的 BLEU-4。每项都是薄函数，真实的 MS-COCO、VQA v2、GQA 和 OK-VQA 也可接入同样的接口。
+训练损失平台期不代表模型完成。训练损失只反映训练分布上的拟合，不能说明模型能否在留出批次中排序、回答问题或写出可接受的标题。以下三种评测面是标准做法：
+
+- **检索（R@1、R@5、R@10）。** 为查询标题构建联合嵌入，按余弦相似度对评测池中的每幅图像排序，报告匹配图像是否落入前 1、前 5、前 10；对称形式（图像到文本）同理。
+- **视觉问答（精确匹配）。** 给定（图像，问题），模型输出一个答案词元；精确匹配对每个样本是一比特：预测答案是否等于参考答案，再在评测集上取平均。
+- **标题生成（BLEU-4）。** 生成一个标题，针对参考标题计算 1-gram 到 4-gram 精度的几何平均并加上长度惩罚（brevity penalty）；标准形式是多参考（一幅图像，多个参考标题）。
+
+每项都是薄函数，本课在代码中全部实现，让数学具体、让评测面完全可控。真实的 MS-COCO、VQA v2、GQA 和 OK-VQA 也可接入同样的接口。
 
 ## 概念
 
@@ -50,7 +56,7 @@ flowchart TB
 
 ### VQA exact match
 
-对于每个 `(图像, 问题, 答案)`，编码图像、嵌入问题，经解码器融合后读取下一个 token；预测 token id 与参考 id 相等即记为正确，最后在评测集上取平均。真实 VQA 数据集每个问题通常有多个人工答案，并使用 soft accuracy：10 名人类标注中至少 3 人同意时得 1，否则按同意人数的比例缩放；本课为保持清晰使用单答案 exact match。
+对于每个 `(图像, 问题, 答案)`，编码图像、嵌入问题，经解码器融合后读取下一个词元；预测词元 ID 与参考 id 相等即记为正确，最后在评测集上取平均。真实 VQA 数据集每个问题通常有多个人工答案，并使用 soft accuracy：10 名人类标注中至少 3 人同意时得 1，否则按同意人数的比例缩放；本课为保持清晰使用单答案 exact match。
 
 ### BLEU-4
 
@@ -92,7 +98,7 @@ BLEU-4 为：
 ch-recall-window
 ```
 
-## 构建
+## 动手构建
 
 `code/main.py` 实现：
 
@@ -109,13 +115,28 @@ python3 code/main.py
 
 演示会打印训练前后表格；指标应从接近随机上升到高于随机基线。
 
-## 应用
+## 使用
 
-每个指标都能直接映射到生产基准：检索可使用 MS-COCO 5K val、Flickr30K 或 ImageNet zero-shot，替换合成评测文件即可保持函数签名；VQA v2、GQA 和 OK-VQA 使用相同的 exact-match 形状（VQA v2 另用 soft accuracy）；MS-COCO captioning、NoCaps 和 Flickr30K captioning 使用 BLEU-4，并通常加上 CIDEr 与 METEOR。真实基准只需把 `build_eval_suite` 换成加载器，函数主体不变。
+每个指标都能直接映射到生产基准：
+
+- **检索。** MS-COCO 5K val 和 Flickr30K 都是同一相似度矩阵上的 R@K 问题。ImageNet zero-shot 也使用该矩阵，每个类别一个提示词嵌入，但它报告的是 top-1 分类准确率，也就是对类别提示词的 R@1；把合成评测换成真实文件，函数签名保持不变。
+- **VQA。** VQA v2、GQA、OK-VQA 使用相同的 exact-match 形状（VQA v2 用 soft accuracy 代替单答案 EM）。
+- **BLEU-4。** MS-COCO captioning、NoCaps、Flickr30K captioning 都使用 BLEU-4，并加上 CIDEr 和 METEOR；增加 CIDEr 只是再写一个函数。
+
+真实基准只需把 `build_eval_suite` 换成加载器，函数主体不变，数学与基准无关。
 
 ## 测试
 
-`code/test_main.py` 覆盖：完美单位相似度矩阵与翻转矩阵的 recall@k、`k <= N` 上界、BLEU 完全匹配与不相交词表、VQA 相等对的比例，以及评测套件中 pairs、vqa 和 caption 条目的数量。
+`code/test_main.py` 覆盖：
+
+- recall@k 在完美单位相似度矩阵上返回 1.0，在 k < N 时对翻转矩阵返回 0.0
+- recall@k 遵守 `k <= N` 上界
+- 当生成结果与某条参考完全相同时，bleu4 返回 1.0
+- 在词表不相交时 bleu4 返回 0.0
+- VQA 精确匹配等于相等对的比例
+- build_eval_suite 返回预期数量的 pairs、vqa 条目和 caption 条目
+
+运行方式：
 
 ```bash
 python3 -m unittest code/test_main.py
@@ -123,7 +144,7 @@ python3 -m unittest code/test_main.py
 
 ## 练习
 
-1. 在标题指标中加入 CIDEr；它对 n-gram 使用 TF-IDF 加权，更奖励信息量大的 token。
+1. 在标题指标中加入 CIDEr；它对 n-gram 使用 TF-IDF 加权，更奖励信息量大的词元。
 2. 实现 soft-accuracy VQA：为每题保留多个人工答案，若有匹配则准确率为 `min(human_count / 3, 1)`，复现 VQA v2。
 3. 增加 NaN-safe 的 `bleu4` 变体，处理空生成序列而不崩溃。
 4. 在 R@K 之外计算平均倒数排名（MRR）；MRR 关注正确项在 top-K 之后的具体位置，R@K 关注它是否进入 top-K。

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/05-whisper-architecture-finetuning/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 90a39b539e0065af945955829839edeaaa63883fa9b5e21bf15c9b8c7db0efb5
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 2aceee4bc8aeb98c41506c992011b3b9dd2f500756cc74a3dce6c379593acd73
 status: reviewed
 ---
 
@@ -41,15 +41,15 @@ OpenAI 于 2022 年 9 月发布的 Whisper，是第一个成为通用商品的 A
 
 Large-v3 有 15.5 亿个参数。Turbo 把解码器从 32 层缩减到 4 层，在 WER 损失不到 1% 的情况下将延迟降低 8 倍。
 
-**提示格式。** Whisper 是一个多任务模型，通过解码器提示中的特殊词元控制：
+**提示词格式。** Whisper 是一个多任务模型，通过解码器提示词中的特殊词元控制：
 
 ```text
 <|startoftranscript|><|en|><|transcribe|><|notimestamps|> Hello world.<|endoftext|>
 ```
 
-- `<|en|>`——语言标签；控制翻译与转录行为。
-- `<|transcribe|>` 或 `<|translate|>`——分别表示按原文转录，或把任意语言输入翻译为英语输出。
-- `<|notimestamps|>`——跳过单词级时间戳，速度更快。
+- `<|en|>`：语言标签；指明音频中所讲的语言。省略它，Whisper 会先自动检测语言。
+- `<|transcribe|>` 或 `<|translate|>`：任务标签；按源语言转录语音，或把它翻译成英语文本。
+- `<|notimestamps|>`：跳过单词级时间戳，速度更快。
 
 正是这段提示让一个模型能够完成多种任务。把 `<|en|>` 换成 `<|fr|>`，它就会转录法语。
 
@@ -77,7 +77,7 @@ Large-v3 有 15.5 亿个参数。Turbo 把解码器从 32 层缩减到 4 层，�
 2. 使用带 `generate_with_loss` 回调的 `transformers.Seq2SeqTrainer`。
 3. 参数高效方案：在注意力层的 `q_proj`、`k_proj`、`v_proj` 上应用 LoRA，可将 GPU 内存降至 1/4，WER 代价不到 0.3。
 4. 若数据少于 10 小时，就冻结编码器，只微调解码器。
-5. 使用 Whisper 自带的分词器与提示格式，绝不要替换分词器。
+5. 使用 Whisper 自带的分词器与提示词格式，绝不要替换分词器。
 
 社区结果：在 20 小时医疗口述数据上微调 Medium，可将医疗词汇的 WER 从 12% 降到 4.5%；在 4 小时冰岛语数据上微调 Turbo，可将 WER 从 18% 降到 6%。
 
@@ -85,7 +85,7 @@ Large-v3 有 15.5 亿个参数。Turbo 把解码器从 32 层缩减到 4 层，�
 sp-asr-attention
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：直接运行 Whisper
 
@@ -149,7 +149,7 @@ with torch.inference_mode():
 
 用热力图可视化——你会看到随着解码步骤扫描编码器帧而形成的对角线对齐。那条对角线就是 Whisper 对单词时间戳的表示。
 
-## 用于实践
+## 使用
 
 2026 年的技术栈：
 
@@ -171,7 +171,7 @@ with torch.inference_mode():
 - **短音频填充。** 一段 2 秒音频被填充到 30 秒后，可能在尾部静音中产生幻觉。使用 `pad=False` 或 VAD 门控。
 - **错误的梅尔统计量。** 使用 librosa 的梅尔特征而非 Whisper 的特征会产生近似随机的输出。请使用 `whisper.audio.log_mel_spectrogram`。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-whisper-tuner.md`。针对给定领域设计 Whisper 微调或推理流水线。
 
@@ -186,7 +186,7 @@ with torch.inference_mode():
 | 术语 | 人们通常怎么说 | 实际含义 |
 |------|----------------|----------|
 | 30 秒窗口 | Whisper 的限制 | 硬性输入上限；更长音频需要分块。 |
-| SOT | 转录起点 | `<\|startoftranscript\|>` 启动解码器提示。 |
+| SOT | 转录起点 | `<\|startoftranscript\|>` 启动解码器提示词。 |
 | 时间戳词元 | 时间对齐 | 每个 0.02 秒偏移量都是 5.1 万词表中的一个特殊词元。 |
 | Turbo | 快速变体 | 4 层解码器，快 8 倍，WER 回退不到 1%。 |
 | WhisperX | 长音频封装 | VAD + Whisper + wav2vec 对齐 + 说话人分离。 |

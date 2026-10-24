@@ -128,7 +128,7 @@ mask-derivation
 causal-mask
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：因果遮蔽
 
@@ -153,7 +153,7 @@ def causal_mask(n):
 
 实现贪心、温度、top-k、top-p、min-p。对固定提示运行每种方法并比较输出。一个采样函数只需 10 行。
 
-## 用于实践
+## 使用
 
 2026 年的 PyTorch 写法：
 
@@ -178,7 +178,7 @@ print(tok.decode(out[0]))
 
 **一句话区分 GPT 与 BERT：** GPT 预测 `P(x_t | x_{<t})`，BERT 预测 `P(x_masked | x_unmasked)`。损失决定模型能否生成。
 
-## 交付成果
+## 交付
 
 参见 `outputs/skill-sampling-tuner.md`。该技能为新的生成任务选择采样参数，并标记必须使用确定性解码的情况。
 

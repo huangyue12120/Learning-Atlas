@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** --
 **前置课程：** Phase 0，第 01 课
-**预计学习：** 约 20 分钟
+**预计时间：** 约 20 分钟
 
 ## 学习目标
 
@@ -37,11 +37,11 @@ AI 工程编辑器需要五样东西：
 
 ```mermaid
 graph TD
-    L5["5. Remote Development<br/>SSH into GPU boxes, cloud VMs"] --> L4
-    L4["4. Terminal Integration<br/>Run scripts, debug, monitor GPU"] --> L3
-    L3["3. AI-Specific Settings<br/>Auto-format, type checking, rulers"] --> L2
-    L2["2. Extensions<br/>Python, Jupyter, Pylance, GitLens"] --> L1
-    L1["1. Base Editor<br/>VS Code — free, extensible, universal"]
+    L5["5. 远程开发<br/>SSH 连接 GPU 机器、云端虚拟机"] --> L4
+    L4["4. 终端集成<br/>运行脚本、调试、监控 GPU"] --> L3
+    L3["3. AI 专属设置<br/>自动格式化、类型检查、标尺线"] --> L2
+    L2["2. 扩展<br/>Python、Jupyter、Pylance、GitLens"] --> L1
+    L1["1. 基础编辑器<br/>VS Code —— 免费、可扩展、通用"]
 ```
 
 ```figure
@@ -187,7 +187,7 @@ Host gpu-box
 
 若尚未使用 Vim，不要现在开始；学习曲线会与 AI 工程学习竞争。请使用 VS Code。
 
-## 实际使用
+## 使用
 
 配置完成后，日常流程是：
 
@@ -206,17 +206,15 @@ Host gpu-box
 
 ### 提示
 
-> 上游新增练习提示（原文，待中文复核）：
->
-> **Exercise 1.** Install the extensions from the table in Step 2, or install each ID in `code/vscode/extensions.json` with `code --install-extension <id>`. Run `code --list-extensions` and check each ID against the file.
->
-> **Exercise 2.** Open Settings > Open Settings (JSON) and copy the content of `code/vscode/settings.json` into it. If the file already has settings, merge the keys and keep valid JSON; VS Code marks a broken file with a red line.
->
-> **Exercise 3.** Write a function with a type annotation, then hover on a call to it; Pylance shows the inferred type. Add extra spaces in a line and save the file; Black must reformat the line on save.
->
-> **Exercise 4.** Add the server to `~/.ssh/config` first and confirm that `ssh <host>` works in a terminal. Then use the Remote SSH command to connect; the status bar shows the host name when VS Code runs on the remote machine.
+**练习 1.** 安装第 2 步表格中的扩展，或用 `code --install-extension <id>` 逐个安装 `code/vscode/extensions.json` 中的每个 ID。运行 `code --list-extensions`，对照文件核对每个 ID。
 
-## 核心术语
+**练习 2.** 打开 Settings > Open Settings (JSON)，把 `code/vscode/settings.json` 的内容复制进去。如果文件里已有设置，合并键并保持 JSON 合法；文件损坏时 VS Code 会用红线标出。
+
+**练习 3.** 写一个带类型注解的函数，然后把鼠标悬停在对它的调用上；Pylance 会显示推断出的类型。在某一行中加入多余的空格并保存文件；保存时 Black 必须重新格式化该行。
+
+**练习 4.** 先把服务器加入 `~/.ssh/config`，并在终端确认 `ssh <host>` 能连通。然后用 Remote SSH 命令连接；当 VS Code 运行在远程机器上时，状态栏会显示主机名。
+
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

@@ -19,7 +19,7 @@
         "本地部署与云端"
       ],
       "correct": 0,
-      "explanation": "正确答案是“开发平台（捆绑评估、提示词和会话）与网关/遥测工具”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "本课按功能把市场分成两类：捆绑评估、提示词管理与会话回放的开发平台（LangSmith、Langfuse、Opik），以及只做遥测的网关/插桩工具（Helicone、Phoenix 等）。按语言、供应商/开源、本地/云来分都不是课文使用的划分维度。"
     },
     {
       "id": "q2",
@@ -32,7 +32,7 @@
         "Langfuse"
       ],
       "correct": 3,
-      "explanation": "正确答案是“Langfuse”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "本课把 Langfuse 描述为核心 MIT/Apache 许可、可 Docker 自托管，并提供每月 50K events 的免费云层。Phoenix 是 Elastic License、LangSmith 是商业且仅 Enterprise 自托管、Arize AX 是商业产品，都不符合这组特征。"
     },
     {
       "id": "q3",
@@ -45,7 +45,7 @@
         "便宜 10%"
       ],
       "correct": 1,
-      "explanation": "正确答案是“通过零拷贝 Iceberg/Parquet 集成，在大规模下约便宜 100 倍”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "Arize AX 把 trace 以 Parquet 存在你自己的 S3，通过零拷贝 Iceberg/Parquet 集成直接读取，声称大规模下比 Datadog 这类单体栈便宜约 100 倍。“始终更贵”“每天 100 万事件免费”“便宜 10%”都不是课文的主张。"
     },
     {
       "id": "q4",
@@ -58,7 +58,7 @@
         "把插桩写进 Agent 框架，因为这会把系统绑定到该框架"
       ],
       "correct": 3,
-      "explanation": "正确答案是“把插桩写进 Agent 框架，因为这会把系统绑定到该框架”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "在智能体框架内部插桩会让系统与该框架耦合，所以本课称之为错误的位置；应在 HTTP/OpenAI-SDK 层用 OpenTelemetry GenAI 约定插桩才可移植。HTTP/SDK 层插桩、GenAI 约定本身都是正确做法，5% 采样是另一话题，不是“错误的插桩层”。"
     },
     {
       "id": "q5",
@@ -71,7 +71,7 @@
         "OTel database 语义约定"
       ],
       "correct": 0,
-      "explanation": "正确答案是“GenAI 语义约定（gen_ai.system、gen_ai.request.model、gen_ai.usage.input_tokens）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "本课指出 OpenTelemetry 在 2025 年末发布的 GenAI 语义约定（gen_ai.system、gen_ai.request.model、gen_ai.usage.input_tokens）是让各工具互操作的粘合层。HTTP、messaging、database 语义约定面向别的领域，不是 LLM 工具间的互操作约定。"
     },
     {
       "id": "q6",
@@ -84,7 +84,7 @@
         "OpenTelemetry 限制 trace 数量"
       ],
       "correct": 2,
-      "explanation": "正确答案是“保留存储成本可能超过 LLM 调用本身，团队必须采样（例如 100% 错误、100% 高成本、5% 成功）”：本课用这一判断连接概念、生产约束与可验证的工程取舍。"
+      "explanation": "每天超过 100 万请求后，保留全部 trace 的存储成本可能超过 LLM 调用本身，所以必须按规则采样（100% 错误、100% 高成本、5% 成功）。这与供应商阻止、Phoenix 限 100 万 trace、OpenTelemetry 限制 trace 数量都无关。"
     }
   ]
 }

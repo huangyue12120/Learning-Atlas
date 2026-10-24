@@ -19,7 +19,7 @@
         "2026 年 8 月生效，只适用 GPAI"
       ],
       "correct": 2,
-      "explanation": "正确答案是“2024 年 8 月生效；禁止性实践和 AI literacy 于 2025 年 2 月 2 日适用”。本课把 EU AI Act、GPAI Code、英美机构重命名和韩国 AI Framework Act 放在同一时间线。"
+      "explanation": "正确答案是“2024 年 8 月生效；禁止性实践和 AI literacy 于 2025 年 2 月 2 日适用”。EU AI Act 于 2024 年 8 月 1 日生效，最先适用的是禁止性实践与 AI 素养（2025 年 2 月 2 日）。其余选项把生效时间或首批适用类别弄错了。"
     },
     {
       "id": "24-regulatory-frameworks-eu-us-uk-korea-check-2",
@@ -32,7 +32,7 @@
         "无限额"
       ],
       "correct": 2,
-      "explanation": "正确答案是“最高 1500 万欧元或全球营业额 3%”。本课把 EU AI Act、GPAI Code、英美机构重命名和韩国 AI Framework Act 放在同一时间线。"
+      "explanation": "正确答案是“最高 1500 万欧元或全球营业额 3%”。自 2026 年 8 月 2 日起，EU AI Act 对应违规的最高处罚为 1500 万欧元或全球营业额 3%（取较高者）。500 万/1%、100 万/0.1%、无限额都不符。"
     },
     {
       "id": "24-regulatory-frameworks-eu-us-uk-korea-check-3",
@@ -45,7 +45,7 @@
         "训练、推理、部署"
       ],
       "correct": 1,
-      "explanation": "正确答案是“透明度、版权、安全与安保”。本课把 EU AI Act、GPAI Code、英美机构重命名和韩国 AI Framework Act 放在同一时间线。"
+      "explanation": "正确答案是“透明度、版权、安全与安保”。GPAI 行为准则三章是透明度、版权、安全与安保。能力/控制/合规、隐私/偏差/水印、训练/推理/部署都不是这三章。"
     },
     {
       "id": "24-regulatory-frameworks-eu-us-uk-korea-check-4",
@@ -58,7 +58,7 @@
         "扩展到算法偏差"
       ],
       "correct": 0,
-      "explanation": "正确答案是“范围收窄到前沿能力安全，淡化算法偏差和言论自由框架”。本课把 EU AI Act、GPAI Code、英美机构重命名和韩国 AI Framework Act 放在同一时间线。"
+      "explanation": "正确答案是“范围收窄到前沿能力安全，淡化算法偏差和言论自由框架”。英国 AISI 更名为 AI Security Institute 收窄了范围，聚焦前沿能力安全，淡化算法偏差与言论自由。它并非停止前沿评估、与 EU AI Office 合并或扩展到算法偏差。"
     },
     {
       "id": "24-regulatory-frameworks-eu-us-uk-korea-post-5",
@@ -71,7 +71,7 @@
         "更严格的部署前安全评估"
       ],
       "correct": 2,
-      "explanation": "正确答案是“转向 pro-growth AI 政策，重视标准与创新支持，降低对部署前评估的强调”。本课把 EU AI Act、GPAI Code、英美机构重命名和韩国 AI Framework Act 放在同一时间线。"
+      "explanation": "正确答案是“转向 pro-growth AI 政策，重视标准与创新支持，降低对部署前评估的强调”。美国把 NIST AI Safety Institute 改为 CAISI，反映转向促进增长的 AI 政策、重标准与创新、少强调部署前评估。它不是强制开源、与 FDA 合并或更严格的部署前评估。"
     },
     {
       "id": "24-regulatory-frameworks-eu-us-uk-korea-post-6",
@@ -84,7 +84,7 @@
         "第 12 条在 MSIT 下设 AISI，并要求外国公司本地代表、高影响系统风险评估和安全措施"
       ],
       "correct": 3,
-      "explanation": "正确答案是“第 12 条在 MSIT 下设 AISI，并要求外国公司本地代表、高影响系统风险评估和安全措施”。本课把 EU AI Act、GPAI Code、英美机构重命名和韩国 AI Framework Act 放在同一时间线。"
+      "explanation": "正确答案是“第 12 条在 MSIT 下设 AISI，并要求外国公司本地代表、高影响系统风险评估和安全措施”。韩国 AI 基本法第 12 条在 MSIT 下设 AISI，并要求外国公司设本地代表、对高影响系统做风险评估并采取安全措施。它不是照搬 EU AI Act、禁止外国提供商或强制开放权重。"
     }
   ]
 }

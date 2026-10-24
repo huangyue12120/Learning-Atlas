@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/18-frontier-safety-frameworks-rsp-pf-fsf/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 21747f5afd1eecf95e7ac6a270e263bc855e85d9223e2c0fb834501671d84bf1
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 01ce7202fa1d710d1a041d0e1eb4d3d4a497d7a726f5450b1403fbf66962dd29
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 学习
 **语言：** 无
 **前置要求：** 第 18 阶段 · 17（WMDP）、第 18 阶段 · 07–09（欺骗失效）
-**用时：** 约 75 分钟
+**预计时间：** 约 75 分钟
 
 ## 学习目标
 
@@ -92,7 +92,7 @@ v2.0（2025 年 2 月）增加了欺骗性对齐章节，并为机器学习研�
 - DeepMind：“关键能力等级”。
 - OpenAI：“高能力阈值”。
 
-行业没有标准化术语，但结构一致：三层前沿能力和公开评估标准。自 2025 年起，三者都包含竞争者调整条款。
+行业没有标准化术语，但结构一致：三个框架各自定义了分层能力阈值和公开评估标准。自 2025 年起，三者都包含竞争者调整条款。
 
 ### 安全论证
 

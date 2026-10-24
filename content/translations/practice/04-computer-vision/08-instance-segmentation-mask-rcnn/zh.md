@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/08-instance-segmentation-mask-rcnn/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: fac560050ae169736c40cc8d4bff83fc1ad65bf026e9e85fa9ddc6a209e927b1
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0f4e856ae4965d90b4055fbf73541b84a4cb9feea80bb6a4da3b5af4e04280d1
 status: reviewed
 ---
 
@@ -95,7 +95,7 @@ RoIAlign 可免费将 COCO mask AP 提高 3–4 点。现在所有在意定位�
 
 ### 损失
 
-Mask R-CNN 将四种损失相加：
+Mask R-CNN 将五种损失相加：
 
 ```math
 L = L_{\text{rpn\_cls}} + L_{\text{rpn\_box}} + L_{\text{box\_cls}} + L_{\text{box\_reg}} + L_{\text{mask}}
@@ -127,7 +127,7 @@ L = L_{\text{rpn\_cls}} + L_{\text{rpn\_box}} + L_{\text{box\_cls}} + L_{\text{b
 cv3-roialign-sampling
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：从零实现 RoIAlign
 
@@ -257,7 +257,7 @@ print(f"trainable after freeze: {trainable:,}")
 
 对 500 张图像的数据集，这决定收敛还是过拟合。
 
-## 使用现成工具
+## 使用
 
 torchvision 中 Mask R-CNN 的完整训练循环仅 40 行，任务之间没有实质变化：替换数据集即可。
 
@@ -272,11 +272,11 @@ def train_step(model, images, targets, optimizer):
     return {k: v.item() for k, v in loss_dict.items()}
 ```
 
-`targets` 列表需有逐图字典，其中包含 `boxes`、`labels`、`masks`（形状 `(num_instances, H, W)` 的二值张量）。模型训练时返回四种损失字典，评估时返回预测列表，依据 `model.training` 切换。
+`targets` 列表需有逐图字典，其中包含 `boxes`、`labels`、`masks`（形状 `(num_instances, H, W)` 的二值张量）。模型训练时返回五种损失字典，评估时返回预测列表，依据 `model.training` 切换。
 
 `pycocotools` 评估器对框和掩码都产生 mAP@IoU=0.5:0.95；要知道框头还是掩码头是瓶颈，必须同时看两个数。
 
-## 交付产物
+## 交付
 
 本课产出：
 

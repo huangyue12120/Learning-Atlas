@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/23-colpali-vision-native-rag/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 338f436cee994225bb436383248340ccb2ca366a8f90a1713b3c964db96fb98a
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 838f05af4b2097fa1acd9adaead3c60943c10b0f193f101e87b1607d4047b3ef
   anchor:
     heading: The Concept
     slug: the-concept

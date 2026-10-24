@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/13-production-app/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: b0a346e45927205a67e1db24f0d67e16adde62736840bd2ac923a5fc03cd6101
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 7f99086009de3abfd6da810cf8a7427c6471299f3784270df5ead0aa1eb96b7b
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建（Capstone）
 **语言：** Python
 **前置要求：** 第 11 阶段第 01–15 课
-**用时：** 约 120 分钟
+**预计时间：** 约 120 分钟
 **相关课程：** 第 11 阶段 · 第 14 课（MCP），用于用共享协议替换定制工具 schema；第 11 阶段 · 第 15 课（提示词缓存），可将稳定前缀的成本降低 50–90%。在 2026 年，任何认真的生产技术栈都应包含这两者。
 
 ## 学习目标
@@ -26,7 +26,7 @@ status: reviewed
 - 把可观测性嵌入应用：请求日志、成本跟踪、延迟百分位和错误率看板
 - 使用健康检查、限流以及应对提供方故障的 fallback 策略部署应用
 
-## 问题所在
+## 问题
 
 构建一个 LLM 功能只需要一个下午；交付一个 LLM 产品却需要数月。
 
@@ -43,7 +43,7 @@ status: reviewed
 
 本课的 capstone 是一个完整的生产级 LLM 服务，集成提示词管理（L01–02）、嵌入与向量搜索（L04–07）、函数调用（L09）、评估（L10）、缓存（L11）、guardrails（L12）、流式输出、错误处理、可观测性和成本跟踪。所有组件在同一个服务中协作。
 
-## 核心概念
+## 概念
 
 ### 生产架构 <!-- learning-atlas: production-architecture -->
 
@@ -236,8 +236,8 @@ graph TD
 | 每用户每天查询次数 | 5 | 产品分析 |
 | 每次查询平均输入词元 | 1,500 | 实测（系统 + 上下文 + 用户） |
 | 每次查询平均输出词元 | 400 | 实测 |
-| 每百万词元输入价格 | $5.00 | OpenAI GPT-5 定价 |
-| 每百万词元输出价格 | $15.00 | OpenAI GPT-5 定价 |
+| 每百万词元输入价格 | $2.50 | OpenAI GPT-4o 定价 |
+| 每百万词元输出价格 | $10.00 | OpenAI GPT-4o 定价 |
 | 缓存命中率 | 35% | 缓存指标实测 |
 | 有效日查询量 | 32,500 | 50,000 * (1 - 0.35) |
 
@@ -1027,7 +1027,7 @@ if __name__ == "__main__":
     main()
 ```
 
-## 使用方法
+## 使用
 
 ### FastAPI 服务器（生产部署）
 

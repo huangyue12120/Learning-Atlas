@@ -223,7 +223,7 @@ flowchart TD
 softmax-temperature
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：实现全部激活及导数
 
@@ -464,7 +464,7 @@ for name, losses in results.items():
     print(f"  {name:10s}: start={losses[0]:.4f} -> end={losses[-1]:.4f} (improvement: {(1 - losses[-1]/losses[0])*100:.1f}%)")
 ```
 
-## 使用现成工具
+## 使用
 
 PyTorch 以 functional 和 module 两种形式提供所有这些：
 
@@ -496,7 +496,7 @@ Transformer 隐藏层用 GELU，CNN 隐藏层用 ReLU，分类输出 softmax，�
 
 RNN/LSTM 隐状态用 tanh、门用 sigmoid；如今从零构建时通常不会用 RNN。若 ReLU 网络神经元死亡，改 GELU；除非有具体理由，不必优先 Leaky ReLU，GELU 已解决死亡问题且梯度流更好。
 
-## 交付成果
+## 交付
 
 本课产出：
 
@@ -510,7 +510,7 @@ RNN/LSTM 隐状态用 tanh、门用 sigmoid；如今从零构建时通常不会�
 4. 构建训练中运行的“梯度健康监视器”：每 epoch 测每层平均梯度，任一层低于 0.001 或高于 100 时警告。
 5. 将训练比较换成第 01 课 XOR 数据，哪种激活收敛最快？为何与圆分类结果不同？
 
-## 核心术语
+## 关键术语
 
 | 术语 | 常见说法 | 实际含义 |
 |------|----------------|----------------------|

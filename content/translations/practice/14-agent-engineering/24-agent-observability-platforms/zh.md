@@ -4,32 +4,32 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/24-agent-observability-platforms/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: aa3f70277a5ad92c61142f4be10b0c68df38981115001dcc870d7987d827751b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 5755efc202e4fb27c9efd9380f45eee0a80a7ecd5301ef981ad1c0af5063910f
 status: reviewed
 ---
 
 # 智能体可观测性：Langfuse、Phoenix、Opik
 
-> 三个开源智能体可观测性平台在 2026 年占据主导。Langfuse（MIT）——每月 600 万+ 安装，追踪 + 提示词管理 + 评估 + session 重放；Arize Phoenix（Elastic 2.0）——深入的智能体专用评估、RAG 相关性、OpenInference 自动插桩；Comet Opik（Apache 2.0）——自动提示词优化、防护栏、LLM 评判的幻觉检测。
+> 三个可自托管的智能体可观测性平台在 2026 年占据主导。Langfuse（MIT）——每月 600 万+ 安装，追踪 + 提示词管理 + 评估 + session 重放；Arize Phoenix（Elastic 2.0）——深入的智能体专用评估、RAG 相关性、OpenInference 自动插桩；Comet Opik（Apache 2.0）——自动提示词优化、防护栏、LLM 评判的幻觉检测。
 
 **类型：** 学习
 **语言：** Python（标准库）
 **前置要求：** 第 14 阶段 · 第 23 节（OTel GenAI）
-**用时：** 约 45 分钟
+**预计时间：** 约 45 分钟
 
 ## 学习目标
 
-- 说出三个主要开源智能体可观测性平台及其许可证。
+- 说出三个主要的可自托管智能体可观测性平台及其许可证，并指出哪个许可证不是 OSI 认定的开源许可证。
 - 区分各平台最擅长的内容：Langfuse（提示词管理 + sessions）、Phoenix（RAG + 自动插桩）、Opik（优化 + 防护栏）。
 - 解释为什么到 2026 年有 89% 的组织报告已建立智能体可观测性。
 - 用标准库实现带 LLM-judge 评估的 trace 到 dashboard 管线。
 
-## 问题所在
+## 问题
 
 OTel GenAI（第 23 节）给你 schema，但你仍需要一个平台来接收 span、运行评估、保存提示词版本并暴露回归。三个竞争者分别强调生命周期的不同部分。
 
-## 核心概念
+## 概念
 
 ### Langfuse（MIT）
 
@@ -95,7 +95,7 @@ python3 code/main.py
 
 输出每个 session 的评估分数和失败分类，对应 Langfuse/Phoenix/Opik 会展示的内容。
 
-## 实际使用
+## 使用
 
 - **Langfuse** 自托管或云端；通过 OTel 或其 SDK 接入。
 - **Arize Phoenix** 自托管；用 OpenInference 自动插桩。

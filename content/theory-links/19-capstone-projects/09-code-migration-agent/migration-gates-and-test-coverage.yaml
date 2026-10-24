@@ -3,14 +3,14 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/09-code-migration-agent/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: c8415fbb54b54a6a6c1761bf52b1564fa7d565a50f18b55882fa8f4e5a9b07be
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: b8c5c520dd731c1dd823303d49644256cecd0e9e8c0ad186b5f6b22edc925449
   anchor:
     heading: Concept
     slug: concept
 card:
   title: 迁移流水线的确定性重写与覆盖率门
-  summary: 在组合 AST recipe、智能体修复、测试套件和覆盖率差值门时，用测试金字塔理论区分确定性检查、回归验证和最终端到端验收。
+  summary: 在组合 AST recipe、智能体修复、测试套件和覆盖率差值门时，用测试金字塔理论区分确定性检查、回归验证和最终端到端验收。（扩展内容待迁移，尚未经审核。）
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 15 - production software engineering/04. testing and quality assurance.md

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/15-topic-modeling/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 0b8bfca1c418447199c2d11972a26da45b772de059db589c56f2e1127d38499b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 21cac95499fc0ccc1eef2cdbf54e4b8302c27664319afedba9ba6709f5ea2969
 status: reviewed
 ---
 
@@ -54,7 +54,7 @@ LDA 的关键输出：
 topic-drift
 ```
 
-## 动手实现
+## 动手构建
 
 ### 步骤 1：使用 scikit-learn 运行 LDA
 
@@ -135,7 +135,7 @@ for topic_id in valid_topics[:5]:
 
 最重要的现实因素是文档长度。BERT 嵌入会截断，LDA 计数可以处理任意长度。文档超过嵌入模型上下文时，应先分块再聚合，或使用 LDA。
 
-## 使用现成工具
+## 使用
 
 2026 年技术栈：
 
@@ -147,7 +147,7 @@ for topic_id in valid_topics[:5]:
 - **FASTopic。** 更新的方法，在超大语料上比 BERTopic 快。
 - **基于 LLM 的标注。** 运行任意聚类，再提示模型为每个簇命名。
 
-## 交付成果
+## 交付
 
 保存为 `outputs/skill-topic-picker.md`：
 
@@ -185,7 +185,7 @@ Refuse BERTopic on documents longer than the embedding model's context window wi
 | 混合成员关系（mixed membership） | 一篇文档属于多个主题 | LDA 为每篇文档分配所有主题上的概率分布。 |
 | UMAP | 降维 | 保留局部结构的流形学习方法，BERTopic 会使用它。 |
 | HDBSCAN | 密度聚类 | 寻找大小不一的簇，为离群值生成“噪声”标签 -1。 |
-| c_v 连贯度 | 主题质量指标 | 滑动窗口中高排名主题词的平均逐点互信息。 |
+| c_v 连贯度 | 主题质量指标 | 在滑动窗口上计算高排名主题词的 NPMI，转成上下文向量后用余弦相似度比较。 |
 
 ## 延伸阅读
 

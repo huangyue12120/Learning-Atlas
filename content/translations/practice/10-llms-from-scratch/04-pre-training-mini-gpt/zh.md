@@ -16,7 +16,7 @@ status: reviewed
 **类型：** 构建
 **语言：** Python（使用 numpy）
 **前置要求：** 第 10 阶段，第 01–03 课（分词器、构建分词器、数据管道）
-**用时：** 约 120 分钟
+**预计时间：** 约 120 分钟
 
 ## 学习目标
 
@@ -482,7 +482,7 @@ def generate(model, prompt_tokens, max_new_tokens=100, temperature=0.8):
 sampling-decoder
 ```
 
-## 使用方法
+## 使用
 
 ### Full Training and Generation Demo
 
@@ -510,7 +510,7 @@ print(f"\nGenerated: {generated_text}")
 
 在小语料和小模型上，生成文本最多只能做到部分连贯。它会从训练文本中学到一些字节级模式，却无法像使用 40 GB 训练数据和完整 1.24 亿参数架构的 GPT-2 那样泛化。重点不在输出质量，而在于你可以追踪每一步：嵌入查找、注意力计算、前馈变换、logit 投影、softmax 和采样。每个操作都清晰可见。
 
-## 交付成果
+## 交付
 
 本课会产出 `outputs/prompt-gpt-architecture-analyzer.md`：一个分析任意 GPT 风格模型架构选择的提示词。输入模型卡片或技术报告后，它会拆解参数分配、注意力设计和规模化决策。
 

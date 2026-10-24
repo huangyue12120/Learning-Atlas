@@ -6,7 +6,7 @@
   </defs>
 
   <!-- Title -->
-  <text x="400" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">The Visual Token Pipeline</text>
+  <text x="400" y="24" font-size="14" font-weight="bold" fill="#333" text-anchor="middle">视觉词元流程</text>
 
   <!-- Step 1: Image -->
   <rect x="10" y="65" width="58" height="58" rx="4" fill="#eee" stroke="#ccc" stroke-width="1"/>
