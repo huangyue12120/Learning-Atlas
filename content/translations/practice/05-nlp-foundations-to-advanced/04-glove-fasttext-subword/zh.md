@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/04-glove-fasttext-subword/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: b92cf9d14b8729b4a378b0b4f468f4d957f6600c15d876b091d8dec54d8d3e47
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0e73db6c61425112e89f4791308625f948daa8cca2908841e058a484bfa56aa4
 status: reviewed
 ---
 
@@ -36,7 +36,7 @@ Transformer 出现后，问题再次转移。词级词表的容量通常止步�
 
 **FastText。** 一个词等于其字符 n-gram 与完整词本身的向量之和。`where` 会变成 `<wh, whe, her, ere, re>, <where>`。按 Word2Vec 的方式训练这些组成向量。它的好处是，未见过的词（如 `whereupon`）也能由已知 n-gram 组合出来。
 
-**BPE（Byte-Pair Encoding）。** 从单个字节或字符组成的词表开始，统计语料中所有相邻词元对，把最常见的一对合并成新词元，重复 `k` 次。最终词表含有 `k + 256` 个词元；高频序列（`ing`、`tion`、`the`）会成为单个词元，稀有词则拆成熟悉的片段。任何句子都能完成分词。
+**BPE（Byte-Pair Encoding）。** 从单个字节或字符组成的词表开始，统计语料中所有相邻词元对，把最常见的一对合并成新词元，重复 `k` 次。最终词表由基础符号加上 `k` 次合并组成（从字节起步时即 `k + 256` 个词元）；高频序列（`ing`、`tion`、`the`）会成为单个词元，稀有词则拆成熟悉的片段。任何句子都能完成分词。
 
 ```figure
 n5-subword-merge

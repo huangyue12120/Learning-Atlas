@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/21-ab-testing-llm-features/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: cb52fba426116a636f2d13ad6accb8c7237a8e973b0dba6da39ab8124249b1c6
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: a7f3177747ad17a22bf17b8ebd29f12c3d6c7b60a3a5a6a5d9095d06177bf4dd
 status: reviewed
 ---
 
@@ -121,7 +121,7 @@ mx-sequential-test
 2. 为一个医疗监管、本地部署的客户选择 Statsig 或 GrowthBook。
 3. 设计一个测试 GPT-4 对 GPT-3.5 的 A/B，目标是每张已解决工单成本。主要指标、护栏指标、次要指标分别是什么？
 4. 你的金丝雀通过，但 A/B 显示转化率 -1.2%。应上线吗？写出升级处理标准。
-5. 将 CUPED 应用于一个前期方差为后期 60% 的时段，计算有效样本量增益。
+5. 使用一个能解释后期方差 60% 的前期协变量（相关系数平方为 0.6）应用 CUPED，计算有效样本量增益。
 
 ## 关键术语
 

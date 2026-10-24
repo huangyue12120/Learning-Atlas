@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/25-security-secrets-audit/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 8fa0b2d28ab54c4c0cff0b90f08642aded7a71456dbef7011d96d0fbff11f467
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 423fafef1679b01975dda59d221731e3b8c1a671f8df9d5cb468cd77af2752e9
 status: reviewed
 ---
 
@@ -33,7 +33,7 @@ status: reviewed
 
 还有，EKS 集群的 LLM pod 可以访问任意互联网主机。有人通过向攻击者控制的域名发起 DNS 查询外泄数据，无任何阻止。
 
-LLM 服务的安全必须处理全部三个向量：基于 vault 的凭证、PII 清理、网络出站过滤和审计日志。
+LLM 服务的安全必须处理全部三个向量，并能在事后证明这一点：基于 vault 的凭证、PII 清理、网络出站过滤，以及作为证据链的审计日志。
 
 ## 概念
 

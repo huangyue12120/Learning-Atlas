@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/13-scaling-laws/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 69f57bfb6a990b363a67d2dce4b9607660d2f2c321d8caf0dcc65d052bd0f696
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 2ae99bef405e5405d6556e00e9c2ee7240238b70a4d0ceabd734932efccb9845
 status: reviewed
 ---
 
@@ -51,12 +51,12 @@ L(N, D) = \frac{A}{N^\alpha} + \frac{B}{D^\beta} + E
 - `E ≈ 1.69`，不可约损失下限。
 - `A ≈ 406`、`B ≈ 411`。
 
-随着规模扩大，这两项需要相互权衡。在算力固定（C = 6ND）时对 `N` 求导并求解：
+随着规模扩大，这两项需要相互权衡。在算力固定（C = 6ND）时对 `N` 求导并求解。代入上面的 α 和 β，`N` 的指数约为 0.45，`D` 的指数约为 0.55，因此精确的最优比例会随预算缓慢漂移；`code/main.py` 通过网格搜索找到它。论文的前两种拟合方法直接测量最优点，得到的两个指数都约为 0.5，由此得出固定比例的经验法则。在 C = 6ND 中令 D = 20N，经验法则写作：
 
 ```math
 \begin{aligned}
-N_{\text{opt}} &\approx 0.6 \times (C/6)^{0.5} \\
-D_{\text{opt}} &\approx 0.6 \times (C/6)^{0.5} \\
+N_{\text{opt}} &\approx 0.22 \times (C/6)^{0.5} \\
+D_{\text{opt}} &\approx 4.5 \times (C/6)^{0.5} \\
 D_{\text{opt}} / N_{\text{opt}} &\approx 20
 \end{aligned}
 ```

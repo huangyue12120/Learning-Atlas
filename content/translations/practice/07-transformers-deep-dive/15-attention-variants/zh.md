@@ -4,14 +4,14 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/15-attention-variants/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 6e8bba5b133d832d03a51da7f5aaf4c1ea33a76ab797d411bc479746719b7acb
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 9fd8c83a6c29b024ff4049e7e6854a7bd045a42268a76aeb3216d580ac27a8fc
 status: reviewed
 ---
 
 # 注意力变体——滑动窗口、稀疏与差分注意力
 
-> 完整注意力像一个圆：每个词元都能看到其他所有词元，内存则为此付出代价。四种变体改变了这个圆的形状，收回一半成本。
+> 完整注意力像一个圆：每个词元都能看到其他所有词元，内存则为此付出代价。三种变体改变了这个圆的形状，收回一半成本。
 
 **类型：** 构建  
 **学习实现：** Python  

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/19-visual-autoregressive-var/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 2027fd1e8921fb2b90bc93eaf9468320416ba4c3b633e6da4a3fca2d505269e3
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 55797a05debe7039fc9f6388a8d1a09d8a9686249e5bd8ebfc1971755409ec49
 status: reviewed
 ---
 
@@ -61,7 +61,7 @@ f \approx \mathop{\mathrm{upsample}}(\mathop{\mathrm{embed}}(z_1), \text{target\
 [START, z_1 词元, z_2 词元, z_3 词元, ..., z_K 词元]
 ```
 
-位置嵌入同时编码尺度索引和尺度内空间位置。注意力在尺度顺序上具有因果性：尺度 k、位置 (i, j) 的词元可以关注尺度 1..k 的所有词元，也可以关注尺度 k 内按照某种尺度内顺序排在前面的词元（VAR 使用固定位置注意力，没有尺度内因果性，同一尺度的所有位置并行预测）。
+位置嵌入同时编码尺度索引和尺度内空间位置。注意力在尺度顺序上具有因果性，在尺度内按块处理：尺度 k、位置 (i, j) 的词元可以关注尺度 1..k 的所有词元，包括尺度 k 自身的每个位置。尺度内没有顺序，也没有因果性，因此同一尺度的所有位置并行预测。
 
 训练损失：在每个尺度 k，根据此前所有尺度词元预测 z_k。对离散 VQ 编码计算交叉熵损失。结构与 GPT 相同，只是“序列”改成了按尺度组织。
 

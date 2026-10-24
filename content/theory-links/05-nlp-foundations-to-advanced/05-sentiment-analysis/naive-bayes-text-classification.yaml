@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/05-sentiment-analysis/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 6c0d5587fd261631bbf70042e355315dd840b25ea237f8525e5970dd10f87534
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: c48c529e4488899d90f75793462d9db55dbc9d7bd2e2111a289f85b59ad88537
   anchor:
     heading: "Step 2: multinomial Naive Bayes from scratch"
     slug: step-2-multinomial-naive-bayes-from-scratch

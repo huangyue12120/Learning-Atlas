@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/25-case-studies-2026-sota/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 6510b5b866402fd265d55f0f9c8fcc69646f71bb82828c1ac684150b58793b96
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 429ac897e7dfcde3c6a7ccd44f90602b99ae22e5469110d13166ba2f8bc7effb
 status: reviewed
 ---
 
@@ -68,7 +68,7 @@ MacNet（arXiv:2406.07155）通过 DAG 将 ChatDev 扩展到**超过 1000 个智
 生产级群体规模案例。时间线：
 
 - **2025 年 11 月：** Clawdbot（Peter Steinberger 的本地 ReAct 循环编程智能体）发布。
-- **2025 年 12 月至 2026 年 3 月：** 两次改名（Clawdbot → OpenClaw → 在 OpenClaw 下延续）。
+- **2026 年 1 月：** 一周内两次改名（因商标投诉，1 月 27 日 Clawdbot → Moltbot，三天后 Moltbot → OpenClaw）。
 - **2026 年 2 月：** Moltbook 在同一基础原语上作为纯智能体社交网络发布；数天内约有 230 万智能体账户。
 - **2026 年 3 月（2026-03-10）：** Meta 收购 Moltbook。
 - **2026 年 3 月：** 中国限制在政府计算机上使用 OpenClaw。

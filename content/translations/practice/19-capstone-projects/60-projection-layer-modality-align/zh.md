@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/60-projection-layer-modality-align/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: c43a0ab82ea91579e714eb15796b825c401c1f39dc3646384de1a65db84a1b39
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 461de926a79537fbc4b0bf021c1c55b04b1ad6fde1599397ff4f0f3bc88b8e5c
 status: reviewed
 ---
 
@@ -123,7 +123,7 @@ python3 -m unittest code/test_main.py
 2. 在余弦损失中加入可学习标量温度 `cos / tau`，观察 `tau` 过小时的梯度噪声，以及 `tau` 过大时损失在高位进入平台期。
 3. 用单线性层替换两层 MLP，量化损失差距。
 4. 给投影权重加入小的 L2 惩罚，观察它与余弦对齐的关系；由于余弦相似度对尺度不敏感，惩罚主要会压缩未使用方向。
-5. 持久化投影权重，重新加载后运行推理，不对视觉编码器做反向传播，以验证部署时只需要投影层。
+5. 持久化投影权重，然后把它们与冻结的视觉编码器一起重新加载，并在不做反向传播的情况下运行推理。验证投影层是你唯一需要交付的新产物；编码器在部署时仍会运行它的前向传播。
 
 ## 关键术语
 

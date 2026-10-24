@@ -9,7 +9,7 @@
 
 ## 建议步骤
 
-1. 运行 `main.py` 并追踪流程。注意第 6 步 IdP 轮换 key，计划 `refresh_jwks` 重新拉取已发布集合，旧令牌（重叠窗口）和新令牌都无需重启即可校验。
+1. 运行 `main.py` 并追踪流程。注意在脚本输出的第 6 步（即上方流程的第 7 步）IdP 轮换 key，计划 `refresh_jwks` 重新拉取已发布集合，旧令牌（重叠窗口）和新令牌都无需重启即可校验。
 2. 把新的 IdP 加入受保护资源元数据的 `authorization_servers`，用新 IdP 签发令牌并确认校验器接受；再用未列出的 IdP 签发令牌，确认校验器以 `WWW-Authenticate: Bearer error="invalid_token", error_description="iss not allowed"` 拒绝。
 3. 给 `register_client` 增加限流检查，在注册器接受请求前运行。用按 IP 存在小字典里的 token bucket。
 4. 阅读 RFC 7591，找出本课 `/register` 处理器没有校验的两个字段并补上校验。（提示：`software_statement` 和 `redirect_uris` URI scheme。）

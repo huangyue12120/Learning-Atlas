@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/08-feature-engineering/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 4b69623669fe49051971e28ec6e60f5fa84871f356cf311305400907ad5afd3b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: ae02a8730059df0644e63a8810e10a8ab39b339db4cc37ed2b1e23587d818444
 status: reviewed
 ---
 
@@ -86,7 +86,7 @@ flowchart LR
 真实数据总有空洞。处理策略包括：
 
 - **删除行：** 只在缺失罕见且随机时使用。
-- **均值/中位数填补：** 简单且保持分布形状（中位数对离群值更稳健）。
+- **均值/中位数填补：** 简单，保留特征的中心（中位数对离群值更稳健），但会缩小其方差，并把所有填补值堆到同一个尖峰上，因此会改变分布形状。
 - **众数填补：** 用于类别特征。
 - **指示列：** 填补前增加 `was_this_missing` 二元列；缺失本身可能有信息。
 - **前向/后向填充：** 用于时间序列数据。

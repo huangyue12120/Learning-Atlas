@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/49-lm-eval-harness/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: d9b825af59e4f53e39d83b197f23d5564974eaeb4b0e013e6782e4995d18e62d
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 1b37981edb41952ac75a26cab3d1ec38eb7d656141ba371e4d11e9b1044d8aa7
 status: reviewed
 ---
 
@@ -31,7 +31,7 @@ status: reviewed
 
 没有仓库内的 harness，你只能凭感觉比较两个模型；有了 harness，就可以在固定任务集、固定指标和可 diff 的 JSON 输出上比较。harness 是昨天运行和今天运行之间的契约；没有它，回归就会随版本一起发布。
 
-另一个陷阱是把 harness 过拟合到单个模型。解决方案是让 harness 足够小，十五分钟内读完；让任务足够小，可以随仓库发布；从头编写指标，方便同事审计；并把所有模型相关代码限制在 adapter 中。更换 adapter，排行榜移动；更换任务，排行榜移动；其他部分不应移动。
+另一个陷阱是把 harness 过拟合到单个模型。解决方案是把每一个模型相关的选择都挡在 harness 之外：让 harness 足够小，十五分钟内读完；让任务足够小，可以随仓库发布；从头编写指标，方便同事审计；并把所有模型相关代码限制在 adapter 中。更换 adapter，排行榜移动；更换任务，排行榜移动；其他部分不应移动。
 
 模型每周都在更新，真正的问题不是“它表现好不好”，而是“在哪些任务上好”。没有仓库内的框架，就只能凭感觉比较；有了固定任务、固定指标和可 diff 的 JSON，回归才会被发现。
 

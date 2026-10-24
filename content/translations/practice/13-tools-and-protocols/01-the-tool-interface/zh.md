@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/01-the-tool-interface/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 03823fa620a739c438f4e907af32445f81cc3a26387b86d13ca90ff0d1f14533
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: b6bf48f9a0e28daff3a4b9142b768b95c2cc7854bb56532b58cbdfc08a103d9d
 status: reviewed
 ---
 
@@ -22,7 +22,7 @@ status: reviewed
 
 - 解释为什么只能生成文本的 LLM 无法自行对现实世界采取行动。
 - 画出四步工具调用循环（描述 → 决策 → 执行 → 观察），并说明每一步由谁负责。
-- 将工具描述写成三个部分：名称、JSON Schema 输入，以及确定性的执行器函数。
+- 将工具定义写成四个部分：名称、描述、JSON Schema 输入，以及确定性的执行器函数。
 - 区分纯工具与有副作用的工具，并说明这种划分为何关系到安全性。
 
 ## 问题
@@ -39,7 +39,7 @@ LLM 输出的是关于下一个词元的概率分布，这就是它全部的输�
 
 ### 第一步：描述
 
-宿主为每个工具声明三个字段。
+宿主向模型为每个工具声明三个字段。第四部分是执行器，它留在宿主一侧，永远不会到达模型。
 
 - **名称。** 稳定、机器可读的标识符。使用 `get_weather`，不要使用“天气东西”。
 - **描述。** 一段自然语言简介，例如“当用户询问特定城市的当前天气时使用。不要用于历史数据”。
@@ -123,7 +123,7 @@ tp-tool-loop
 
 请重点观察：
 
-- 工具注册表为每个工具保存四项内容：名称、描述、schema 和执行器引用。
+- 工具注册表为每个工具保存四项内容：名称、描述、schema 和执行器引用。只有前三项会发送给模型。
 - 校验器只用标准库实现了一个最小 JSON Schema 子集（类型、required、enum、min/max）。Phase 13 · 04 会提供更完整的版本。
 - 循环将迭代次数限制为五次。生产级智能体恰恰需要这种断路器。
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/04-decision-trees/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 4b0f504a762eee1962ec224f7ace1863c22051223116185151a1fe4a01d80546
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: e020962c727412c6d0263c9c2324210a6a20c1074a325d16d011d797bd8a812e
 status: reviewed
 ---
 
@@ -111,7 +111,7 @@ Entropy = -(0.6 * log2(0.6) + 0.4 * log2(0.4))
 
 ### 停止条件
 
-没有停止条件时，树会一直长到每片叶都纯净（每叶仅一个样本），这会完美记住训练数据却泛化很差。
+没有停止条件时，树会一直长到每片叶都纯净，或者没有划分能再分开它的样本为止，往往会一直分到每叶仅一个样本，这会完美记住训练数据却泛化很差。
 
 **预剪枝**在树完全长成前停止：
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/73-perplexity-calibration/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 44c765c7c3b376b66571bab2fc66ffd7d1303d14a356e0321cca4b84f7a48b29
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 2d788d4d6b6b2467bdf93fc59954a230b4c8051b10bf723b60faacc52a4fab80
 status: reviewed
 ---
 
@@ -96,7 +96,7 @@ flowchart LR
 
 - 所有预测都错误：ECE 等于平均置信度，Brier 较高，困惑度则取决于模型如何评价留出文本。
 - 所有预测都正确且置信度很高：ECE 接近零，Brier 也接近零。
-- 完全不确定的预测器都给出 `p=0.5`：ECE 是 `0.5 - accuracy`，Brier 是 `0.25` 减去一个修正项。
+- 完全不确定的预测器都给出 `p=0.5`：所有预测都落在同一个分箱中，因此 ECE 是 `|0.5 - accuracy|`。Brier 恰好是 0.25，因为无论 `y` 是 0 还是 1，`(0.5 - y)^2 = 0.25`。
 - 空输入：ECE、Brier 和可靠性数据返回 `0.0`（或填零数组）；零词元时困惑度返回 `NaN`。这些路径都不发出警告，由运行器检查数值并决定报告还是跳过。
 
 这些情况都固定在测试中。真实模型在真实基准上未必会遇到它们，但有缺陷的适配器或很小的样本会遇到，运行器不应因此崩溃。

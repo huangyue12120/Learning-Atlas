@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/20-openai-preparedness-deepmind-fsf/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 3a74fd7227a18efce31a8c6da82f774f2c2ad69f196cb48c87d1feb06edbebcc
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 2b05df218261e5965c1ae7aca22465535f5d57dd6f1544f92f34ec72d49c2e90
 status: reviewed
 ---
 
@@ -41,7 +41,7 @@ v2 的关键框架是：研究类别不自动触发缓解，政策用语是“�
 
 结构：
 
-- **关键能力等级（CCLs）：** 五个领域中的能力阈值：网络安全、生物、ML 研发、CBRN、自治（纳入 ML 研发与网络安全）。
+- **关键能力等级（CCLs）：** 分为三组的能力阈值：滥用（CBRN、网络安全、有害操纵）、ML 研发，以及一条探索性的失配追踪线。自治不是独立领域；它被纳入 ML 研发与网络安全。
 - **跟踪能力等级（Tracked Capability Levels）：** 2026 年 4 月加入的额外粒度。具体例子：ML 研发自治等级 1 = 以相对于人类 + AI 工具的竞争性成本完全自动化 AI 研发流水线。
 - **欺骗性对齐监控：** 明确承诺对工具性推理滥用进行自动监控。
 
@@ -105,7 +105,7 @@ a5-tracked-vs-research
 | 跟踪类别 | “强制缓解” | 触发 Capabilities + Safeguards Reports 与 SAG 审阅 |
 | 研究类别 | “仅监控” | 被追踪但无自动缓解；包括长时程自治 |
 | Frontier Safety Framework | “DeepMind 的扩展政策” | FSF v3（2025 年 9 月）+ Tracked Capability Levels（2026 年 4 月） |
-| CCL | “关键能力等级” | DeepMind 每个领域的阈值（网络安全、生物、ML 研发、CBRN） |
+| CCL | “关键能力等级” | DeepMind 每个领域的阈值（CBRN、网络安全、有害操纵、ML 研发） |
 | ML 研发自治等级 1 | “研发自动化” | 以竞争性成本完全自动化 AI 研发流水线 |
 | Sandbagging | “战略性表现不足” | 模型在评估中表现不足；位于 OpenAI 研究类别 |
 | 工具性推理 | “手段—目的推理” | 关于如何实现目标的推理；是 DeepMind 监控对象 |

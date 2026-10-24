@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/05-eagle3-speculative-decoding/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 07f749b5a5c8b7c26f0e401cac986f18d57ed2a67225717987123969bc42aa7c
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 1051a6e787ee38c43d6c4446bae024b06942b4488895488146044cc464005ef4
 status: reviewed
 ---
 
@@ -27,7 +27,7 @@ status: reviewed
 
 ## 问题
 
-Decode 受内存带宽限制。在运行 Llama 3.3 70B FP8 的 H100 上，每个 decode 词元读取约 140 GB/s 权重并输出一个词元。decode 期间 GPU 计算几乎闲置——瓶颈是 HBM 带宽，而非矩阵乘法吞吐量。
+Decode 受内存带宽限制。在运行 Llama 3.3 70B FP8 的 H100 上，每个 decode 步骤从 HBM 读取全部约 70 GB 权重，并为每条序列输出一个词元。decode 期间 GPU 计算几乎闲置——瓶颈是 HBM 带宽，而非矩阵乘法吞吐量。
 
 推测解码利用这个缺口。先用便宜的草稿模型生成 K 个候选词元，再让目标模型通过一次前向传播验证全部 K 个。每个已验证词元的边际成本近乎为零（被均摊进目标模型本来就要完成的 batch-of-K 前向传播）。
 

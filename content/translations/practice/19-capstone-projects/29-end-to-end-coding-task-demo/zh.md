@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/29-end-to-end-coding-task-demo/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: febbabee70a1c777c773df7161385ebd30c560c6fb3da1cae1722ad82ed9f9a6
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: c31f19bdb17e17033cb28106d33d4eac83e64c0aadae4c960db4af3756d3e242
 status: reviewed
 ---
 
@@ -32,7 +32,7 @@ status: reviewed
 
 门链允许调用，但沙箱却因门链没有预见的原因拒绝。评测 harness 记录了通过，但 OTel span 却显示门拒绝了智能体声称使用的工具。Prometheus 计数器本应递增一次，却递增了两次。观测预算已经超出，智能体却继续运行，因为预算只在门链里记录，沙箱并不知道。
 
-本课是整条轨道的集成测试。智能体必须依次完成四件事：读取项目、运行测试、从测试失败中识别 bug、写入修复、再次运行测试并停止。每项操作都经过门链，每次工具执行都经过沙箱，每一步都包在 span 中，评测 harness 最终为整个过程评分。
+本课是整条轨道的集成测试。智能体必须依次完成六件事：读取项目、运行测试、从测试失败中识别 bug、写入修复、再次运行测试并停止。每项操作都经过门链，每次工具执行都经过沙箱，每一步都包在 span 中，评测 harness 最终为整个过程评分。
 
 ## 概念
 

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/10-cold-start-mitigation/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: d293a25aa3551eb703e1826e04cff4feb370996bcc769da2448f9e65eb27c2eb
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 1ba706ef6985945d191d9b272fc62653463ae27a7dcfed21d8e7496aa6030d65
   anchor:
     heading: The warm-pool math
     slug: the-warm-pool-math

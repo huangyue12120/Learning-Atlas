@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/06-tool-use-and-function-calling/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 73cf8bf653c6148817147fd98b4fc780d9794ca3e9651605f6c8e3f242a14992
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 17c7dab4c590fb0d604cdacf1f6ca3983b09690616101fcf74f6e41444b14158
 status: reviewed
 ---
 
@@ -90,7 +90,7 @@ Anthropic 直接使用 `input_schema`；OpenAI 使用 `function.parameters`。�
 
 ### 沙箱
 
-工具执行就是沙箱边界。详细内容参见第 09 节。每个工具都应声明读/写范围、网络访问、超时和内存上限。通用的 `run_shell(cmd)` 是危险信号；具体的 `git_status()` 更安全。
+工具执行就是沙箱边界。详细内容参见第 13 阶段 · 第 26 节。每个工具都应声明读/写范围、网络访问、超时和内存上限。通用的 `run_shell(cmd)` 是危险信号；具体的 `git_status()` 更安全。
 
 ```figure
 tool-routing

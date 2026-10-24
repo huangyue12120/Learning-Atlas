@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/05-dqn/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: e59787787c2637b4fb7e3b1d967aba579a03728801c64959a219dbfdb197e3f1
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 95f6a8570b1647bfcaf882fc089095bb5b5b4c251fe9a43d1e8ba868c68a372e
 status: reviewed
 ---
 
@@ -85,7 +85,7 @@ class ReplayBuffer:
         return rng.sample(self.buf, batch)
 ```
 
-Atari 需要约 50,000 的容量；我们的玩具环境用 5,000 就够了。
+Atari 需要约 10⁶ 的容量，与原始 DQN 一致（它在开始学习前会先收集 50,000 条转移）；我们的玩具环境用 5,000 就够了。
 
 ### 第 2 步：小型 Q 网络（手写 MLP）
 

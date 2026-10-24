@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/03-parallel-and-streaming-tool-calls/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: b848b9e12e391ea6442042d0108f5c9cc9a5527a5f31a8acabed0083e8da9306
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0546dbcf5d05d4eec8e7fb5bfb352cd37d55f575c41ad2fd0c01f0f651e19b61
   anchor:
     heading: The Concept
     slug: the-concept

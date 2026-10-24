@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/16-sampling-methods/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: d6f7bb9b2e4b703ecfc8202fdcb36f463adcd8db3aecad472bc0ce0d343aeb2b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 5d04a2aa6d6b06c1632011d7fb65a4a8307b0ad057db4237db2b1d271b09428f
 status: reviewed
 ---
 
@@ -128,7 +128,8 @@ CDF: F(x) = 1 - exp(-lambda * x)
   3. 若 u < p(x) / (M * q(x))，接受 x
   4. 否则拒绝，并返回第 1 步
 
-接受率 = 1/M
+接受率 = Z/M，其中 Z 是 p(x) 的积分
+          （当 p 已归一化时 Z = 1，因此接受率为 1/M）
 ```
 
 界 M 越紧，接受率越高。在低维（1–3 维）中，拒绝抽样效果良好；在高维中，因提议分布的大部分体积都会被拒绝，接受率会指数级下降，这种现象称为拒绝抽样中的维度灾难。

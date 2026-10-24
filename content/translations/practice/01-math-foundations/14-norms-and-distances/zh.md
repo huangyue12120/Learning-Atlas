@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/14-norms-and-distances/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 3458a8054e725603437b21aad1522f4a7bd503397cd25530661e68fda3c378c8
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 12f5a9c47e8c915d8e470b7426c03f7ce3dbe3d391f0af127438e95e7635d716
 status: reviewed
 ---
 
@@ -113,7 +113,7 @@ L1 和 L2 都是 Lp 范数的特例：
 \lVert x \rVert_p = (|x_1|^p + |x_2|^p + \cdots + |x_n|^p)^{1/p}
 ```
 
-不同的 $p$ 值会产生不同形状的“单位球”（所有与原点距离为 1 的点组成的集合）：
+不同的 $p$ 值会产生不同形状的“单位球”（所有与原点距离至多为 1 的点组成的集合；下面的形状是它们的边界）：
 
 ```
 p=1:    Diamond shape      (corners on axes)

@@ -4,14 +4,14 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/05-llava-visual-instruction-tuning/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 8eaf0cdcfc4548e7d44ac0a7cf50fe1b92154b42d99ac715926701719a8ff04c
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: b396054487d1ce686dfbf0bc9b74a29dd68643ab65a29a20416490e1e36de681
 status: reviewed
 ---
 
 # LLaVA 与视觉指令微调
 
-> LLaVA（2023 年 4 月）是全世界被复制最多的多模态架构。它用一个两层 MLP 替代了 BLIP-2 的 Q-Former，用朴素的词元拼接替代了 Flamingo 的门控交叉注意力，并在 GPT-4 根据纯文本标题生成的 15.8 万个视觉指令轮次上训练。2023 到 2026 年间，任何构建过 VLM 的实践者都构建过某种 LLaVA 变体。LLaVA-1.5 加入了 AnyRes。LLaVA-NeXT 提升了分辨率。LLaVA-OneVision 用一套方案统一了单图像、多图像和视频。本课阅读这套方案，实现投影器，并解释为什么“简单方案胜出”。
+> LLaVA（2023 年 4 月）是全世界被复制最多的多模态架构。它用一个两层 MLP 替代了 BLIP-2 的 Q-Former，用朴素的词元拼接替代了 Flamingo 的门控交叉注意力，并在 GPT-4 根据纯文本标题生成的 15.8 万个视觉指令轮次上训练。2023 到 2026 年间，任何构建过 VLM 的实践者都构建过某种 LLaVA 变体。LLaVA-1.5 换用了 MLP 投影器和 336px 编码器。LLaVA-NeXT 加入了 AnyRes 平铺以支持高分辨率输入。LLaVA-OneVision 用一套方案统一了单图像、多图像和视频。本课阅读这套方案，实现投影器，并解释为什么“简单方案胜出”。
 
 **类型：** 构建
 **语言：** Python（标准库，投影器 + 指令模板构建器）
@@ -43,10 +43,10 @@ LLaVA 的答案简单得有些尴尬：取 ViT 的 576 个图像块词元，让�
 
 ### 架构
 
-13B 版本的 LLaVA-1.5：
+7B 版本的 LLaVA-1.5：
 - 视觉编码器：CLIP ViT-L/14 @ 336（第一阶段冻结，第二阶段可选解冻）。
 - 投影器：带 GELU 激活的两层 MLP，`1024 → 4096 → 4096`。
-- LLM：Vicuna-13B（后来换成 Llama-3.1-8B）。
+- LLM：Vicuna-7B v1.5（13B 变体使用 Vicuna-13B；后来的分支转向 Llama-3.1-8B）。
 
 图像 + 文本提示词上的前向过程：
 
@@ -94,7 +94,8 @@ decode response
 LLaVA-1.5（2023 年 10 月）新增：
 - 将学术任务数据（VQA、OKVQA、RefCOCO）混入指令微调。
 - 更好的系统提示词。
-- 2048 → 32k 上下文。
+- 用两层 MLP 投影器替代原来的单个线性层，并用 336px 的 CLIP ViT-L/14（576 个词元）替代 224px（256 个词元）。训练序列仍保持 2048 个词元。
+- 论文中提出了一个网格切分的高分辨率变体，LLaVA-NeXT 后来将其作为 AnyRes 发布。
 
 LLaVA-NeXT（2024 年 1 月）新增：
 - AnyRes：把高分辨率图像切成 2x2 或 1x3 的 336x336 裁剪图，再加一张全局低分辨率缩略图。每个裁剪图变成 576 个词元；每张图像总共约 2880 个视觉词元。OCR 和图表任务大幅提升。
@@ -110,7 +111,7 @@ LLaVA-NeXT（2024 年 1 月）新增：
 | | Q-Former（BLIP-2） | MLP（LLaVA） |
 |---|---|---|
 | 每张图像的视觉词元 | 32 | 576（基础）或 2880（AnyRes） |
-| 可训练参数 | 1.88 亿 + LM | 4000 万 + LM |
+| 可训练参数 | 1.88 亿 + LM | 约 2200 万（7B）+ LM |
 | 第一阶段损失 | ITC+ITM+ITG | 只有 LM |
 | LLM 即插即用 | 需要重新训练 | 只需极少重新训练即可替换 |
 | 多图像 | 不自然 | 自然（拼接） |

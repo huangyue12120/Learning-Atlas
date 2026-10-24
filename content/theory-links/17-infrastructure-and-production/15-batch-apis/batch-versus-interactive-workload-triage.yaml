@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/15-batch-apis/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 38fa16c914a80a28947766893a261662e947d6931df0045c604c4666604daec8
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 8f0830eead1c5643e3e5d93c26ac5827a3c68800d07dc69c9c9c7f3cea99ac52
   anchor:
     heading: Workload triage
     slug: workload-triage

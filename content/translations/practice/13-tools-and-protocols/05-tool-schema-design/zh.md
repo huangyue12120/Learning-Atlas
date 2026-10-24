@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/05-tool-schema-design/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 960a389a1c12b06ec7f4731f06cfb5713657b665b15e09cd271c2be6c92a8d2b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0c634aab3cdc89ed08752a3bfc54f78182583a19593408fd26308609dea1397e
 status: reviewed
 ---
 
@@ -95,7 +95,7 @@ notes_search(query)
 ### 参数设计
 
 - **对每个封闭集合使用 enum。** 使用 `units: "celsius" | "fahrenheit"`，不要使用 `units: string`。Enum 告诉模型可接受值的完整集合。
-- **必填与可选。** 标记最低限度需要的字段，其余全部可选。OpenAI 严格模式要求每个字段都在 `required` 中；在代码中加入 `is_default: true` 约定，让模型可以省略它。
+- **必填与可选。** 标记最低限度需要的字段，其余全部可选。OpenAI 严格模式要求每个字段都在 `required` 中，因此模型不能省略任何字段。把可选字段的类型写成与 `null` 的联合类型，让模型在没有值时发送 `null`。
 - **带类型的 ID。** `note_id: string` 本身可以，但还应加入 `pattern`（`^note-[0-9]{8}$`）以捕获模型臆造的 ID。
 - **不要使用过度灵活的类型。** 避免 `type: any`。模型会臆造形状。
 - **描述字段。** `{"type": "string", "description": "ISO 8601 date in UTC, e.g. 2026-04-22"}`。描述是模型提示的一部分。

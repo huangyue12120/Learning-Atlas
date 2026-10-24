@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/24-plan-execute-control-flow/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: d19fe6f19f7f19f2c9dafc7c87d866fbc13ce8c45a22eda3627e5d3b26e403bf
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 445ac25f16cd1c3772866a44dfa197ae5e9a88c31197a21b6807d70d7083a7b1
 status: reviewed
 ---
 
@@ -100,7 +100,7 @@ revised: list of step ids whose tool_name or args changed
 
 ## 两个硬预算
 
-`max_steps` 限制整个会话（包括重规划）中的步骤执行总数，默认值为十二。一个五步的线性计划如果重规划两次、每次又增加三步，就会执行十六步，超过预算；执行器会拒绝重规划并返回 `FAILED`。
+`max_steps` 限制整个会话（包括重规划）中的步骤执行总数，默认值为十二。失败的尝试也计入其中。一个五步计划如果在最后一步失败，就已经花掉五次执行。如果每次重规划都重试那一步并新增三步，而第一次修订的最后一步再次失败，计数就是九；第二次修订还需要四步：十三。执行器执行第十二步，拒绝第十三步，并以原因 `step_budget` 返回 `FAILED`。
 
 `max_replans` 限制首次计划之后规划器被调用的次数，默认值为五。这是更重要的限制：如果不设上限，规划器连续五次返回同一份损坏的计划，就会一直循环，直到步骤预算将其拦截。限制重规划次数能让失败更快发生，原因也更清楚。
 

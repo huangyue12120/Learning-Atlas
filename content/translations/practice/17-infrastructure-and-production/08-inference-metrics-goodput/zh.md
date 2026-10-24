@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/08-inference-metrics-goodput/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: a4cd1a98d6f40b0d2378e7d1bc8644370381c1f391a4e106986c4538d36ff218
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 20b9031b32843eb68b6903f07f830ea5835ffa01e81ba6c30a92ede732be48c2
 status: reviewed
 ---
 
@@ -16,7 +16,7 @@ status: reviewed
 
 # 推理指标：TTFT、TPOT、ITL、Goodput 与 P99
 
-> 四项指标决定一次推理部署是否正常工作。TTFT 由 prefill、排队和网络组成。TPOT（等价于 ITL）是每个词元受内存约束的 decode 成本。端到端延迟等于 TTFT 加上 TPOT 乘以输出长度。吞吐量是整个集群汇总的每秒词元数。产品应关注 goodput，即同时满足每一项 SLO 的请求比例。高吞吐、低 goodput 代表你在处理无法按时送达用户的词元。2026 年 TRT-LLM 上 Llama-3.1-8B-Instruct 的参考数值为：平均 TTFT 162 ms、平均 TPOT 7.33 ms、平均 E2E 1,093 ms。始终报告 P50、P90、P99，绝不能只报平均值。也要当心测量陷阱：GenAI-Perf 在计算 ITL 时排除了 TTFT，LLMPerf 则纳入；同一次运行中，两个工具会对 TPOT 给出不同结果。
+> 五项指标决定一次推理部署是否正常工作。TTFT 由 prefill、排队和网络组成。TPOT（常以 ITL 报告，但各工具对 ITL 是否计入首词元看法不一）是每个词元受内存约束的 decode 成本。端到端延迟等于 TTFT 加上 TPOT 乘以输出长度。吞吐量是整个集群汇总的每秒词元数。产品应关注 goodput，即同时满足每一项 SLO 的请求比例。高吞吐、低 goodput 代表你在处理无法按时送达用户的词元。2026 年 TRT-LLM 上 Llama-3.1-8B-Instruct 的参考数值为：平均 TTFT 162 ms、平均 TPOT 7.33 ms、平均 E2E 1,093 ms。始终报告 P50、P90、P99，绝不能只报平均值。也要当心测量陷阱：GenAI-Perf 在计算 ITL 时排除了 TTFT，LLMPerf 则纳入；同一次运行中，两个工具会对 TPOT 给出不同结果。
 
 **类型：** 学习
 **语言：** Python（标准库，用于百分位数和 goodput 报告的玩具计算器）
@@ -68,7 +68,7 @@ status: reviewed
 
 `goodput = fraction of requests meeting (TTFT <= a) AND (TPOT <= b) AND (E2E <= c)`
 
-SLO 是多约束的。只有每项约束都成立，请求才是“好”的。Goodput 就是这部分请求的占比。60% goodput 下的高吞吐量意味着失败；99% goodput 下较低的吞吐量才是目标。
+SLO 是多约束的。只有每项约束都成立，请求才是“好”的。Goodput 就是这部分请求的占比。有些论文和仪表盘则把 goodput 报告为速率：每秒满足每项 SLO 的请求数。用占比乘以请求速率即可换算。60% goodput 下的高吞吐量意味着失败；99% goodput 下较低的吞吐量才是目标。
 
 2026 年，goodput 是 MLPerf Inference v6.0 提交以及 AI 平台提供方内部 SLA 跟踪中使用的指标。
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/03-gpu-setup-and-cloud/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 1e6fdb7c16aeab51fb498a3b0d5fe984dd1a67e082d618bf30d1081639502809
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 913b61e496cff6bba6c95c5121a4fa389793f5ce98ae9b7745c491158428e25a
 status: reviewed
 ---
 
@@ -66,7 +66,13 @@ s0-gpu-dispatch
 nvidia-smi
 ```
 
-安装带 CUDA 的 PyTorch：
+安装带 CUDA 的 PyTorch。在 Linux 上，默认 wheel 已自带 CUDA；在 Windows 上，请从 pytorch.org 的选择器复制对应的 CUDA 命令。
+
+```bash
+pip install torch torchvision torchaudio
+```
+
+然后检查 PyTorch 是否识别到 GPU：
 
 ```python
 import torch

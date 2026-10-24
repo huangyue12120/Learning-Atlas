@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/05-whisper-architecture-finetuning/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 90a39b539e0065af945955829839edeaaa63883fa9b5e21bf15c9b8c7db0efb5
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 2aceee4bc8aeb98c41506c992011b3b9dd2f500756cc74a3dce6c379593acd73
 status: reviewed
 ---
 
@@ -47,9 +47,9 @@ Large-v3 有 15.5 亿个参数。Turbo 把解码器从 32 层缩减到 4 层，�
 <|startoftranscript|><|en|><|transcribe|><|notimestamps|> Hello world.<|endoftext|>
 ```
 
-- `<|en|>`——语言标签；控制翻译与转录行为。
-- `<|transcribe|>` 或 `<|translate|>`——分别表示按原文转录，或把任意语言输入翻译为英语输出。
-- `<|notimestamps|>`——跳过单词级时间戳，速度更快。
+- `<|en|>`：语言标签；指明音频中所讲的语言。省略它，Whisper 会先自动检测语言。
+- `<|transcribe|>` 或 `<|translate|>`：任务标签；按源语言转录语音，或把它翻译成英语文本。
+- `<|notimestamps|>`：跳过单词级时间戳，速度更快。
 
 正是这段提示让一个模型能够完成多种任务。把 `<|en|>` 换成 `<|fr|>`，它就会转录法语。
 

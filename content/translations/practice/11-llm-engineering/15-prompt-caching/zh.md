@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/15-prompt-caching/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: abe8cd085fc41015985f4f324a89e8193593b341855dc82bdf697e68430cc350
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 7fdca84e772aada0026e73ca5756aa43a44ae9bba17d19914d6547f105cee94d
 status: reviewed
 ---
 
@@ -57,7 +57,7 @@ status: reviewed
 
 ### 盈亏平衡计算
 
-Anthropic 25% 的写入溢价意味着，一个缓存块至少被读取两次才会产生净节省。1 次写入 + 1 次读取时，每次请求的平均成本是原成本的 0.675 倍（节省 32%）；1 次写入 + 10 次读取时，平均成本是 0.205 倍（节省 80%）。经验法则：预期在 TTL 内至少复用 3 次的内容才值得缓存。
+Anthropic 25% 的写入溢价（5 分钟 TTL）在第一次读取时就能收回，因为缓存读取只需 0.1 倍成本。1 次写入 + 1 次读取时，每次请求的平均成本是原成本的 0.675 倍（节省 32%）；1 次写入 + 10 次读取时，平均成本是 0.205 倍（节省 80%）。1 小时 TTL 的写入按 2 倍收费，因此这样的缓存块需要读取两次才能划算。经验法则：预期在 TTL 内至少复用 3 次的内容才值得缓存；这样无论哪种 TTL 都能越过盈亏平衡点。
 
 ```figure
 prompt-cache-hit

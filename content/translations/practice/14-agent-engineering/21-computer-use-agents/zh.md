@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/21-computer-use-agents/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: fddd303eb087f556eb13754431e8a118980c7c9184eb53f61dc810b91638605e
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: c066fa4272f477f73ca5cc89b13ff8296226788ddf8a8d673a6d4f1efec09fcf
 status: reviewed
 ---
 
@@ -21,7 +21,7 @@ status: reviewed
 ## 学习目标
 
 - 描述 Claude computer use：输入截图，输出键盘/鼠标命令，不使用无障碍 API。
-- 说出三种模型在 OSWorld / WebArena / Online-Mind2Web 上的基准数字。
+- 回忆本课引用的发布时基准数字：OpenAI CUA 在 OSWorld / WebArena / WebVoyager 上的成绩，以及 Gemini 2.5 Computer Use 在 Online-Mind2Web 上的成绩。
 - 解释 Gemini 2.5 Computer Use 文档中的逐步安全模式。
 - 总结三种模型共同执行的不受信任输入契约。
 

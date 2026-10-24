@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/05-llava-visual-instruction-tuning/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 8eaf0cdcfc4548e7d44ac0a7cf50fe1b92154b42d99ac715926701719a8ff04c
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: b396054487d1ce686dfbf0bc9b74a29dd68643ab65a29a20416490e1e36de681
   anchor:
     heading: The Concept
     slug: the-concept

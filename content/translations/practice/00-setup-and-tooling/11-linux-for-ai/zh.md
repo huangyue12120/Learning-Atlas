@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/11-linux-for-ai/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: e4546b58d30ef83badb36b07dbfea227add11bf045a28780acee41f370885514
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 07a2808c4707f0ba4290d7c92df72e48cb09fc8a9f6e85222c4b2229b1d314af
 status: reviewed
 ---
 
@@ -50,7 +50,7 @@ graph TD
 
 ## 基础命令
 
-这 15 个命令覆盖远程 GPU 机器上 95% 的操作。
+这 13 个命令覆盖远程 GPU 机器上的大多数操作。
 
 ### 移动
 

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/15-prompt-caching/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: abe8cd085fc41015985f4f324a89e8193593b341855dc82bdf697e68430cc350
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 7fdca84e772aada0026e73ca5756aa43a44ae9bba17d19914d6547f105cee94d
   anchor:
     heading: The cache-friendly layout
     slug: the-cache-friendly-layout

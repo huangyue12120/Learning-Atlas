@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/11-caching-cost/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 51ee25c40da8bbfec145bf7b3f30290b9dee3225efc13f0df7ddcffcd1261be7
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: db2119645bb4edc5cd0edcf0c55a2c578605f7acc801f2b1c1de3d6190c70c81
 status: reviewed
 ---
 
@@ -32,7 +32,7 @@ status: reviewed
 
 然后账单来了。
 
-GPT-5 每百万输入词元收费 5 美元、每百万输出词元收费 15 美元。Claude Opus 4.7 的输入/输出价格为 15/75 美元，Gemini 3 Pro 为 1.25/5 美元，GPT-5-mini 为 0.25/2 美元。下面的价格仅用于示例，请始终查看提供方当前的定价页面。
+GPT-5 每百万输入词元收费 1.25 美元、每百万输出词元收费 10 美元。Claude Opus 4.7 的输入/输出价格为 5/25 美元，Gemini 3.1 Pro 为 2/12 美元（提示词最多 200K 词元），GPT-5-mini 为 0.25/2 美元。下面计算中使用的模型 GPT-4o 为 2.50/10 美元。这些价格仅用于示例，请始终查看提供方当前的定价页面。
 
 下面这笔账足以扼杀初创公司：
 

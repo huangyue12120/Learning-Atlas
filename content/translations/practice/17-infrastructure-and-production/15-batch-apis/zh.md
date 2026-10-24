@@ -4,14 +4,14 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/15-batch-apis/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 38fa16c914a80a28947766893a261662e947d6931df0045c604c4666604daec8
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 8f0830eead1c5643e3e5d93c26ac5827a3c68800d07dc69c9c9c7f3cea99ac52
 status: reviewed
 ---
 
 # Batch API：作为行业标准的 50% 折扣
 
-> 每家主要供应商都提供异步 batch API：50% 折扣，约 24 小时周转。OpenAI、Anthropic、Google 以及大多数推理平台（Fireworks batch tier、Together batch）采用同一模式。将 batch 与提示词缓存叠加，夜间流水线成本将降至同步未缓存成本的约 10%。规则极其简单：只要不是交互式任务，就应放进 batch。内容生成流水线、文档分类、数据提取、报告生成、批量标注、目录打标——凡是可容忍 24 小时延迟的工作，未迁入 batch 前都在桌上留下钱。2026 年的生产模式是将每项新 LLM 工作负载分流为三条通道：交互式（带缓存的同步调用）、半交互式（带回退的异步队列）、batch（夜间运行，叠加缓存输入）。假装交互式、实则可容忍数分钟延迟的工作负载，浪费得最多。
+> 每家主要供应商都提供异步 batch API：50% 折扣，约 24 小时周转。OpenAI、Anthropic、Google 以及大多数推理平台（Fireworks batch tier、Together batch）采用同一模式。将 batch 与提示词缓存叠加，夜间流水线成本将降至同步未缓存成本的约 10%。规则极其简单：只要能容忍数小时延迟，就应放进 batch。内容生成流水线、文档分类、数据提取、报告生成、批量标注、目录打标——凡是可容忍 24 小时延迟的工作，未迁入 batch 前都在桌上留下钱。2026 年的生产模式是将每项新 LLM 工作负载分流为三条通道：交互式（带缓存的同步调用）、半交互式（带回退的异步队列）、batch（夜间运行，叠加缓存输入）。假装交互式、实则可容忍数分钟延迟的工作负载，浪费得最多。
 
 **类型：** 学习
 **语言：** Python（标准库，用于模拟 batch 与同步成本的玩具程序）
@@ -63,7 +63,7 @@ Batch 的意思是“我承诺在 24 小时内返回”，而不是“这会花 
 
 **半交互式**——用户提交任务，数分钟后回来查看。使用异步队列，batch 不可用时回退同步。比如中等量级的 RAG 索引。
 
-**Batch**——用户期望“早上之前”或“下一小时”。内容流水线、大规模分类、离线分析。始终 batch，始终叠加缓存。
+**Batch**——用户期望“早上之前”或“今天下班前”。内容流水线、大规模分类、离线分析。始终 batch，始终叠加缓存。
 
 常见错误是因为流水线已上线生产，便将一切分类为交互式。生产不是延迟规格——SLA 才是。
 

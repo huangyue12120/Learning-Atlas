@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/20-shadow-canary-progressive/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 7f172d6f18a66561b84a773fe9ab9fc800c2cb30af597d8c740ceff0ede09dea
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: ed0625c65b34b084501408a2343a46729202134d2331403932e96954d4a7906f
 status: reviewed
 ---
 
@@ -88,7 +88,7 @@ status: reviewed
 
 ### 指标节奏
 
-金丝雀闸门每 5–15 分钟检查一次，取决于流量。每分钟 10 个请求的 1% 流量，每窗口有 50–150 个数据点——足以测延迟，却对用户反馈很嘈杂。10% 可得到约 10 倍数据。推进应暂停足够久，使每一步累积足够样本。
+金丝雀闸门每 5–15 分钟检查一次，取决于流量。每分钟 1,000 个请求中的 1%（金丝雀每分钟收到 10 个请求），每个 5–15 分钟窗口有 50–150 个数据点——足以测延迟，却对用户反馈很嘈杂。10% 可得到约 10 倍数据。推进应暂停足够久，使每一步累积足够样本。
 
 ### A/B 步骤是可选的
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/62-vision-language-pretraining/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 65c7abb2249f7b7f681025a415884c4b1333da7b6f5ed89c93d4dac44bf6e9fc
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 3c17a427a68580a8b67a51c21d791c3b09f94ce9e5ed890338edc4b132491b92
 status: reviewed
 ---
 
@@ -29,7 +29,7 @@ status: reviewed
 
 视觉语言模型需要两种能力：它要能排序——给定标题，在众多图像中找到正确的那张；它也要能生成——给定图像，写出一段标题。只在一种能力上预训练，只能得到半个系统。CLIP 把排序做到了极致，却无法生成标题；GPT-4V 能生成标题，但排序要用单独的检索头。多目标预训练在一次训练中同时获得两种能力。
 
-InfoNCE 处理排序这一半。对于一批 N 个样本对，模型把 N 个匹配对视为正样本，把 `N^2 - N` 个错配对视为负样本，然后在得到的 `(N, N)` 相似度矩阵上执行交叉熵损失。LM 损失处理生成这一半：以图像为条件的标准下一词元预测。两种损失都可微，并且可以共享编码器、投影层和解码器权重。
+InfoNCE 处理排序这一半。对于一批 N 个样本对，模型把 N 个匹配对视为正样本，把 `N^2 - N` 个错配对视为负样本，然后在得到的 `(N, N)` 相似度矩阵上执行交叉熵损失。LM 损失处理生成这一半：以图像为条件的标准下一词元预测。两种损失都可微，并且共享编码器和投影层权重；解码器只用 LM 损失训练。
 
 ## 概念
 
@@ -65,7 +65,7 @@ flowchart TB
 
 ### 组合两种损失
 
-总损失为 `total = contrastive + lm_weight * lm`，其中 `lm_weight` 是标量，常取 1.0。两种损失都会把梯度传入编码器和投影层，但只有解码器会收到 LM 损失的梯度。这是 CoCa、BLIP 和 SigLIP 风格模型都采用的多任务配方，只是权重各有不同。
+总损失为 `total = contrastive + lm_weight * lm`，其中 `lm_weight` 是标量，常取 1.0。两种损失都会把梯度传入编码器和投影层，而解码器只会收到 LM 损失的梯度。这是 CoCa 和 BLIP 采用的多任务配方，只是权重各有不同。SigLIP 只保留对比项，并把 softmax 换成 sigmoid 成对损失。
 
 | 组件 | 损失面 | 影响范围 |
 |---|---|---|

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/74-leaderboard-aggregation/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 4512a7ee65a2a74b009c7ee2bb339d58b4e8c64c77f5cc7b5240c8457de22c00
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 3aabe8ab0865359da1d59cc012ba1826c48435adfc613a958ba5ca8194fe9c44
 status: reviewed
 ---
 
@@ -68,7 +68,7 @@ flowchart LR
 
 ## 均值与胜率
 
-两种排名方式服务于不同目标。均值是某个模型逐任务分数的平均值，是排行榜常用的 headline 数字，但会受离群值和任务不平衡影响。胜率统计模型在同一任务上击败其他模型的次数：每个任务由最高分模型获胜，平局分摊胜利；胜率等于获胜次数除以该模型有分数的任务数。它对离群值和尺度差异不那么敏感，但会丢失分数的具体信息。
+两种排名方式服务于不同目标。均值是某个模型逐任务分数的平均值，是排行榜常用的 headline 数字，但会受离群值和任务不平衡影响。胜率统计模型在同一任务上击败其他模型的次数：每个任务由最高分模型获胜，平局时每个并列模型都记一次完整胜利；胜率等于获胜次数除以该模型有分数的任务数。它对离群值和尺度差异不那么敏感，但会丢失分数的具体信息。
 
 ```python
 def win_rate(model_id, runs_by_task, all_models):
@@ -130,7 +130,7 @@ Markdown 表按均值排序，CI 保留两位小数，过长的模型 ID 截断�
 
 ## 进一步探索
 
-自然的下一步是使用成对任务显著性，而不是非成对 bootstrap。如果模型 A 和 B 都运行同一百道题，应对逐任务差异做成对 bootstrap；本课的 `pairwise_diffs` 已实现这一点。再往后可以使用尊重任务族结构的分层 bootstrap，因为数学题之间并不独立，同一种算术错误模式可能影响十道题。本课先把可辩护的基础评测层搭好。
+每个模型的区间是非成对的，但模型之间的比较应当成对进行。如果模型 A 和 B 都运行同一百道题，应对逐任务差异做成对 bootstrap；`bootstrap_pairwise_diff` 已经实现了这一点。再往后可以使用尊重任务族结构的分层 bootstrap，因为数学题之间并不独立，同一种算术错误模式可能影响十道题。本课先把可辩护的基础评测层搭好。
 
 **练习检查：**
 用三种模型和十二个任务运行 demo，核对均值、胜率、CI 及 Markdown 排序。

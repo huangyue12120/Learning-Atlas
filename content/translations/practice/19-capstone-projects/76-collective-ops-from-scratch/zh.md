@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/76-collective-ops-from-scratch/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: bad323e0c9609c87e0a6c95801fc236faf43c2e630f21b27468535b6cedfa080
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 12dc32674a44da3f4e6564c87805696f61b2ecc2d840377bbb337eff35ac0500
 status: reviewed
 ---
 
@@ -27,7 +27,7 @@ status: reviewed
 
 ## 问题
 
-朴素地在 N 个 rank 上执行 `allreduce`，会把张量发送给根节点 N 次，再广播返回 N 次。每个 rank 的带宽开销按 O(N) 增长，根节点会成为瓶颈，而耗时下限是最慢链路延迟的 N 倍。环形 `allreduce` 把通信摊平成 2(N-1) 个、每个大小为 T/N 的分块，因此每个 rank 的字节数降为 2T(N-1)/N，且与集群规模无关。对于较小的 N 和高延迟链路，树形 `allreduce` 更有优势，因为它的深度是 log2(N) 跳，而不是 2(N-1) 跳。拓扑选错后，最慢的 GPU 就会决定 step 时间。
+朴素地在 N 个 rank 上执行 `allreduce`，会把张量发送给根节点 N 次，再广播返回 N 次。每个 rank 的带宽开销按 O(N) 增长，根节点会成为瓶颈，而耗时下限是最慢链路延迟的 N 倍。环形 `allreduce` 把通信摊平成 2(N-1) 个、每个大小为 T/N 的分块，因此每个 rank 的字节数降为 2T(N-1)/N；随着 N 增大，它趋近 2T 且永远不会超过 2T，无论集群规模多大。对于较小的 N 和高延迟链路，树形 `allreduce` 更有优势，因为它的深度是 log2(N) 跳，而不是 2(N-1) 跳。拓扑选错后，最慢的 GPU 就会决定 step 时间。
 
 你将在本课程线中学习的每个分布式训练框架，都依赖这四种原语。PyTorch DDP 为每个参数桶执行一次 `allreduce` 来同步梯度。ZeRO 用 `reduce_scatter` 分片优化器状态，再用 `allgather` 广播更新后的参数。FSDP 把完整前向改造成 `allgather` 加 `reduce_scatter`。流水线并行需要在各阶段组之间用 `broadcast` 传递激活值。如果你无法实现这四种集合操作，就无法解释训练为什么停滞、梯度不匹配为什么出现在 rank 3，或者为什么切换拓扑后流水线气泡会翻倍。
 
@@ -108,7 +108,7 @@ python3 code/main.py
 
 ## 交付
 
-在第 77–81 课中使用这些队列网格原语。第 77 课把 `allreduce` 接入 DDP；第 78 课把 `reduce_scatter` 接入 ZeRO；第 79 课把 `broadcast` 接入流水线激活值传递；第 81 课将四种原语组合进端到端演示。
+在第 77–81 课中使用这些队列网格原语。第 77 课把 `allreduce` 接入 DDP；第 78 课把 `reduce_scatter` 接入 ZeRO；第 79 课用点对点的 send 和 recv 传递流水线激活值，而不是使用集合通信；第 81 课将四种原语组合进端到端演示。
 
 ## 练习
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/11-multi-region-kv-locality/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 99573f1d95a1c6c3b0eb7dcb2762ae796b588cbafc4edac95d8cc0c6de439c4c
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 715c39184d431b6e4e6c489256679acb56a91702a328054e24416cbefbdc801f
 status: reviewed
 ---
 
@@ -64,7 +64,7 @@ status: reviewed
 - us-east-1 ↔ eu-west-1：约 75 ms。
 - us-east-1 ↔ ap-southeast-1：约 220 ms。
 
-如果路由将 us-east-1 的请求发送到 ap-southeast-1 的热点前缀，省下的 prefill（800 → 80 ms）会被 440 ms 的往返时间压倒。GORGO（2026 年研究）把它明确化——联合最小化 `prefill_time + network_latency`，而不是只最小化 prefill。通常答案是保持区域内路由，除非巨大的多 MB 前缀使 prefill 占主导。
+如果路由将 us-east-1 的请求发送到 ap-southeast-1 的热点前缀，省下的 prefill（800 → 80 ms，即 720 ms）在付出约 220 ms 的 RTT 后会缩减到约 500 ms；如果远端区域让请求排队，或已经驱逐了该前缀，这点余量就会消失。GORGO（2026 年研究）把它明确化——联合最小化 `prefill_time + network_latency`，而不是只最小化 prefill。通常答案是保持区域内路由，除非巨大的多 MB 前缀使 prefill 占主导。
 
 ### 商业“跨区域推理”对此无能为力
 

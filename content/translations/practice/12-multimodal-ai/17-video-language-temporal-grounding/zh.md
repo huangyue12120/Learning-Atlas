@@ -4,14 +4,14 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/17-video-language-temporal-grounding/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 9e17f6c9311d0df49f261e4435e4420793dd9780d5ae031beccc3249580751f1
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 30e57a32a304605c79a8f13d857b248c0936f9f2abd1dc4f4c6fa11b816bf185
 status: reviewed
 ---
 
 # 视频—语言模型：时间词元与定位
 
-> 视频不是照片的堆叠。一段 5 秒的片段具有因果顺序、动作动词和事件时间，而图像模型无法表示这些内容。Video-LLaMA（Zhang 等，2023 年 6 月）发布了第一个带音视频定位的开放视频 LLM。VideoChat 和 Video-LLaVA 扩展了这一模式。到 2025 年，Qwen2.5-VL 的 TMRoPE 缩小了与前沿专有模型的差距。每个系统以不同方式解决时间词元——每段片段一个 Q-Former、每帧拼接池化、每个词元使用 TMRoPE。本课阅读这些模式，构建一个均匀与动态帧抽样器，并在时间定位任务上评估。
+> 视频不是照片的堆叠。一段 5 秒的片段具有因果顺序、动作动词和事件时间，而图像模型无法表示这些内容。Video-LLaMA（Zhang 等，2023 年 6 月）发布了第一个带音视频定位的开放视频 LLM。VideoChat 和 Video-LLaVA 扩展了这一模式。到 2025 年，Qwen2.5-VL 的时间对齐 M-RoPE 缩小了与前沿专有模型的差距。每个系统以不同方式解决时间词元——每段片段一个 Q-Former、每帧拼接池化、每个词元使用时间对齐 M-RoPE。本课阅读这些模式，构建一个均匀与动态帧抽样器，并在时间定位任务上评估。
 
 **类型：** 构建
 **语言：** Python（标准库，帧抽样器 + 时间定位评估器）
@@ -22,7 +22,7 @@ status: reviewed
 
 - 解释时间位置编码如何在不改变视觉编码器的情况下改变视频 VLM 性能。
 - 从每秒词元数与定位准确率方面，比较均匀、动态 FPS 和事件驱动的帧抽样。
-- 描述每段片段使用 Q-Former（Video-LLaMA）、每帧池化（Video-LLaVA）和每个词元使用 M-RoPE（Qwen2.5-VL）的设计。
+- 描述每段片段使用 Q-Former（Video-LLaMA）、每帧池化（Video-LLaVA）和每个词元使用时间对齐 M-RoPE（Qwen2.5-VL）的设计。
 - 说出四个视频基准：VideoMME、TempCompass、EgoSchema、Video-MMMU。
 
 ## 问题
@@ -37,7 +37,7 @@ status: reviewed
 
 每种取舍都不同。子采样会丢失时间细节，池化会丢失空间细节，Q-Former 两者都会少量丢失，但能节省词元。
 
-时间位置编码是另一个轴：模型如何知道第 5 帧先于第 6 帧？方案包括简单的一维时间 RoPE（Video-LLaMA）、学习式时间嵌入（Video-LLaVA）和 TMRoPE（Qwen2.5-VL，完整三维）。
+时间位置编码是另一个轴：模型如何知道第 5 帧先于第 6 帧？方案包括简单的一维时间 RoPE（Video-LLaMA）、学习式时间嵌入（Video-LLaVA）和时间对齐 M-RoPE（Qwen2.5-VL，完整三维）。
 
 ## 概念 <!-- learning-atlas: the-concept -->
 
@@ -57,17 +57,17 @@ VideoChat 保留了 Video-LLaMA 的想法，但去掉音频并简化。Video-LLa
 
 两者都不能处理长视频，都是 8–16 帧系统。
 
-### Qwen2.5-VL 与 TMRoPE
+### Qwen2.5-VL 与时间对齐 M-RoPE
 
-Qwen2.5-VL 引入了 TMRoPE——时间—模态旋转位置嵌入。每个图像块词元携带一个（t、h、w）位置，其中 t 是真实时间戳，而不是帧索引。
+Qwen2.5-VL 沿用 Qwen2-VL 的 M-RoPE（多模态旋转位置嵌入），并把其时间轴与绝对时间对齐。每个图像块词元携带一个（t、h、w）位置，其中 t 跟随真实时间戳，而不是帧索引。Qwen2.5-Omni（第 12.20 课）后来把同一思路的音频和视频版本命名为 TMRoPE，即时间对齐多模态 RoPE。
 
 它与简单时间嵌入的关键区别：
 
 - 绝对时间，而不是索引。模型看到“4.2 秒时”，而不是“第 15 帧”。
 - 每个词元旋转，而不是每段片段旋转。每个视觉词元都按自己的时间戳独立旋转。
-- 兼容动态 FPS。如果这里按 2 FPS 抽样、那里按 4 FPS 抽样，TMRoPE 可以原生处理不均匀的时间间隔。
+- 兼容动态 FPS。如果这里按 2 FPS 抽样、那里按 4 FPS 抽样，时间对齐 M-RoPE 可以原生处理不均匀的时间间隔。
 
-TMRoPE 支持“猫在第几秒跳起来？”这样的查询，模型可以回答“4.2 秒”。Video-LLaMA 只能说“片段早期”。
+时间对齐 M-RoPE 支持“猫在第几秒跳起来？”这样的查询，模型可以回答“4.2 秒”。Video-LLaMA 只能说“片段早期”。
 
 ### 帧抽样策略
 
@@ -81,7 +81,7 @@ TMRoPE 支持“猫在第几秒跳起来？”这样的查询，模型可以回�
 
 ### 每帧池化
 
-按 1 FPS、每帧 576 个词元计算，5 分钟片段有 172,800 个词元。Qwen2.5-VL-72B 的 128k 上下文勉强可以处理，但成本很高。
+按 1 FPS、每帧 576 个词元计算，5 分钟片段有 172,800 个词元。这会超出 Qwen2.5-VL-72B 的 128k 上下文，因此必须先降低帧率或对每帧词元进行池化。
 
 3x3 双线性池化将每帧缩减到 64 个词元，因此 5 分钟只有 19,200 个词元。这是大多数任务的最佳平衡点。
 
@@ -102,7 +102,7 @@ TMRoPE 支持“猫在第几秒跳起来？”这样的查询，模型可以回�
 
 - 自由文本：“猫大约在第 4 秒时跳起来。”易解析，但不精确。
 - 结构化 JSON：`{"event": "jump", "start": 4.1, "end": 4.3}`。Qwen2.5-VL 用此训练。
-- 基于词元：在答案中交错特殊的 `<time>4.1</time>` 词元。Qwen2.5-VL 的内部格式。
+- 基于词元：在答案中交错特殊的 `<time>4.1</time>` 词元。一些视频模型采用这种方式；Qwen2.5-VL 则把时间编码在 M-RoPE 位置 ID 中，并用文本或 JSON 作答。
 
 下游使用时，基于词元的格式最准确。Qwen2.5-VL 的 JSON 输出格式可以直接解析。
 
@@ -110,7 +110,7 @@ TMRoPE 支持“猫在第几秒跳起来？”这样的查询，模型可以回�
 
 2026 年的视频 VLM：
 
-- 编码器：带 M-RoPE 的 SigLIP 2，或带 TMRoPE 的 Qwen2.5-VL。
+- 编码器：SigLIP 2 或原生分辨率 ViT，并在 LLM 中使用时间对齐 M-RoPE（Qwen2.5-VL）。
 - 帧抽样：动态 FPS（根据运动在 1–4 之间）并设置最大帧数上限。
 - 每帧池化：3x3 双线性。
 - 输出：带时间 + 事件字段的结构化 JSON。
@@ -126,7 +126,7 @@ video-temporal-patches
 
 - 均匀和动态 FPS 帧抽样器。
 - 一个玩具时间定位评估器：给定时间 T 的“真实”事件和模型输出，在容差范围内计算准确率。
-- 对 Video-LLaMA（16 帧，Q-Former）、Video-LLaVA（8 帧，MLP）、Qwen2.5-VL（动态 FPS + TMRoPE）进行比较。
+- 对 Video-LLaMA（16 帧，Q-Former）、Video-LLaVA（8 帧，MLP）、Qwen2.5-VL（动态 FPS + 时间对齐 M-RoPE）进行比较。
 
 ## 交付
 
@@ -136,7 +136,7 @@ video-temporal-patches
 
 1. 对于 3 分钟的烹饪演示，选择均匀还是动态 FPS。用词元数量说明理由。
 
-2. TMRoPE 具体增加了什么，是简单时间嵌入表无法做到的？
+2. 时间对齐 M-RoPE 具体增加了什么，是简单时间嵌入表无法做到的？
 
 3. 为时间定位写一个 VLM 可以学习输出的 JSON schema。包含错误情况。
 
@@ -149,7 +149,7 @@ video-temporal-patches
 | 术语 | 人们常说 | 实际含义 |
 |------|----------|----------|
 | 时间定位 | “时间局部化答案” | VLM 输出事件发生时的具体时间戳范围 |
-| TMRoPE | “时间多模态 RoPE” | 使用绝对时间戳的三维旋转位置，Qwen2.5-VL 使用 |
+| 时间对齐 M-RoPE | “TMRoPE” | 时间轴跟随绝对时间戳的三维旋转位置；Qwen2.5-VL 将其用于视频，Qwen2.5-Omni 把它的音频和视频形式命名为 TMRoPE |
 | 动态 FPS | “感知运动的抽样” | 高运动片段多抽帧，静态片段少抽帧 |
 | 帧池化 | “逐帧空间压缩” | 在送入 LLM 前通过双线性插值减少每帧图像块数量 |
 | 视频 Q-Former | “片段压缩器” | 将 N 帧映射为 K 个可学习查询的交叉注意力瓶颈 |

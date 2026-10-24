@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/06-devops-troubleshooting-agent/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: d6716091fbc7f7d6ee75c4a90de13f56d98d3f66bd6ab99f488d18ef4619c39f
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: adbe092341e976f7e74522e98212050348d813888eca786576995f373af935c6
 status: reviewed
 ---
 
@@ -152,7 +152,7 @@ webhook: alert.pagerduty.com -> checkout-api SLO breach, error rate 14%
 
 ## 延伸阅读
 
-- [AWS DevOps Agent GA](https://aws.amazon.com/blogs/aws/aws-devops-agent-helps-you-accelerate-incident-response-and-improve-system-reliability-preview/)——2026 年的权威参考
+- [AWS DevOps Agent GA](https://aws.amazon.com/blogs/mt/announcing-general-availability-of-aws-devops-agent/)：2026 年的权威参考
 - [Resolve AI K8s 故障排查](https://resolve.ai/blog/kubernetes-troubleshooting-in-resolve-ai)——竞品参考
 - [NeuBird 语义监控](https://www.neubird.ai)——语义图方法
 - [Metoro AI SRE](https://metoro.io)——SLO 优先的生产视角

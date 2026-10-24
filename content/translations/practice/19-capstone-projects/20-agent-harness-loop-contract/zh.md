@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/20-agent-harness-loop-contract/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 72b71caaa57fae3f8a5f0a55c9fb8417f2c8e0b0221dbfa82fa92fd816e258fd
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 7be162d0bed91fe6aff400812a4e9dd182fc2800fdf953c5a86a8451048ee899
 status: reviewed
 ---
 
@@ -54,7 +54,7 @@ stateDiagram-v2
     DONE --> [*]
 ```
 
-`IDLE` 是唯一合法入口，`DONE` 是唯一合法出口。`AWAITING_TOOL` 是唯一会产生拉取点的状态，其他转换都是内部转换。
+`IDLE` 是唯一合法入口，`DONE` 是唯一合法出口。`AWAITING_TOOL` 是唯一自身会产生拉取点的状态。第二个拉取点 `on_pause` 不是一个状态：当预算耗尽或 hook 要求审查时，它会从任一活动状态触发。其他转换都是内部转换。
 
 状态机是确定性的。给定同一事件日志，Harness 会重新进入同一状态；因此调试时可以回放会话，而不必再次调用模型。
 

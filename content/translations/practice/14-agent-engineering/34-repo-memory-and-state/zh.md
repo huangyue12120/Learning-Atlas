@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/34-repo-memory-and-state/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: c43ee57ba42296d7536eaa6b46281a3fa64c59ed392b19a7891cfdc0fb50e4bc
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: a9a181065ec273b0727f3c9da64750fdd027717a43b17eca32a2f194241a82b1
 status: reviewed
 ---
 
@@ -106,7 +106,7 @@ python3 code/main.py
 
 **把大型产物与状态分开。** 不要把 CSV、长篇记录或生成文件存进 `agent_state.json`。把产物保存为单独的文件（或上传到对象存储），状态中只保留路径。检查点保持小而快速；产物可以独立增长。
 
-**用事件溯源记录审计，用快照支持恢复。** 每次变更都追加到事件日志（`state.events.jsonl`）；定期生成 `state.json` 快照。恢复时读取快照，然后重放快照时间戳之后的事件。这会消耗更多磁盘，但能逐字重放智能体决策——调试长时程运行时必不可少。Postgres 内部使用的 WAL 也是同一种形状。
+**用事件溯源记录审计，用快照支持恢复。** 每次变更都追加到事件日志（`state.events.jsonl`）；定期生成 `state.json` 快照。恢复时读取快照，然后重放快照时间戳之后的事件。这会消耗更多磁盘，但能逐字重放智能体决策——调试长时程运行时必不可少。Postgres 在存储层通过其 WAL 使用的也是同一种“日志加检查点”的思路，只是比应用级事件低得多的层面。
 
 **要么迁移模式，要么拒绝加载。** `schema_version` 整数就是契约。当管理器加载未知版本的文件时，它拒绝读取。随着模式版本提升，在旁边发布迁移脚本；`tools/migrate_state.py` 会在每次启动时幂等运行。
 

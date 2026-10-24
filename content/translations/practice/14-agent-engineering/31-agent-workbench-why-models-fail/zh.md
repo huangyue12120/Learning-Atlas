@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/31-agent-workbench-why-models-fail/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 2575fa8bca26da9a545cfc45d79237eac2911e977d5b9e3a77b1a21675111850
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 4f052ed30315ebe7387a99cb21dc6745d6213edd0828099725e04f8d465f4684
 status: reviewed
 ---
 
@@ -135,7 +135,7 @@ flowchart LR
 
 这一部分不必客气。
 
-- LangChain 的《Anatomy of an Agent Harness》列举了十一项组件——提示词、工具、hook、沙箱、编排、记忆、skills、子智能体以及一个“笨循环”运行时。它没有命名队列、作为部署单元的 worker、触发器语义、作为独立关注点的会话持久化，或授权策略。它把 harness 当作一个需要配置的对象，而不是一个需要部署的系统。
+- LangChain 的《Anatomy of an Agent Harness》逐一介绍了核心 harness 组件——提示词、工具、hook、沙箱、编排、记忆、skills、子智能体以及一个“笨循环”运行时。它没有命名队列、作为部署单元的 worker、触发器语义、作为独立关注点的会话持久化，或授权策略。它把 harness 当作一个需要配置的对象，而不是一个需要部署的系统。
 - Addy Osmani 的《Agent Harness Engineering》提出了 `Agent = Model + Harness` 和棘轮模式，但没有继续说明 harness 由什么构成。它更像一种立场，而不是一份规范。
 - Anthropic 和 OpenAI 在工作台面上挖得最深，但仍然停留在各自的运行时内部。2026 年 4 月 Agents SDK 的“harness-compute separation”公告，是第一篇明确支持控制平面 / 数据平面分离的厂商文章。这是一个原语层面的想法，并不新鲜。
 - agentic_harness 一书把 harness 当作配置对象（Jaymin West 的《Agentic Engineering》第 6 章）；书中最有力的一句话是“harness 是智能体系统的首要安全边界”。那只是把授权策略换了一种说法。
@@ -204,7 +204,7 @@ python3 code/main.py
 厂商框架：
 
 - [Addy Osmani，Agent Harness Engineering](https://addyosmani.com/blog/agent-harness-engineering/)——`Agent = Model + Harness` 和棘轮模式；基础设施部分较薄
-- [LangChain，The Anatomy of an Agent Harness](https://blog.langchain.com/the-anatomy-of-an-agent-harness/)——十一项组件：提示词、工具、hook、编排、沙箱、记忆、skills、子智能体、运行时；遗漏队列、部署和授权
+- [LangChain，The Anatomy of an Agent Harness](https://blog.langchain.com/the-anatomy-of-an-agent-harness/)——核心 harness 组件：提示词、工具、hook、编排、沙箱、记忆、skills、子智能体、运行时；遗漏队列、部署和授权
 - [OpenAI，Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/)——Codex 团队对其运行时周围工作台面的看法
 - [OpenAI，Unrolling the Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop/)——把智能体循环化简为围绕函数调用的 `while`
 - [Anthropic，Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)——特定运行时中的长时程工作台面

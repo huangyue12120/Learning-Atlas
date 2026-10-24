@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/08-ppo/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 2ee2d1992dce0d1228937b1ddb0d6304094e0f98489a1752d84beaa07825c94e
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: cbe6811d840d1c1352313fb5af53ed29d8a654bfa8839bae317e8a0394ec0a63
 status: reviewed
 ---
 
@@ -45,7 +45,7 @@ PPO（Schulman 等，2017）用简单的裁剪目标替代硬性的信赖域约�
 它包含两项：
 
 - 如果优势 `A_t > 0`，且比率试图超过 `1 + ε`，裁剪会把梯度变平：不要把好动作的概率推到比旧概率高出 `+ε` 以上。
-- 如果优势 `A_t < 0`，且比率试图越过 `1 - ε`（也就是相对于裁剪后的降低幅度，我们会让坏动作更可能出现），裁剪会限制梯度：不要把坏动作推到 `-ε` 以下。
+- 如果优势 `A_t < 0`，且比率试图跌破 `1 - ε`（也就是我们会让坏动作比旧策略下更不可能出现），裁剪会把梯度变平：不要把坏动作推到比旧概率低出 `-ε` 以上。
 
 `min` 会处理另一个方向：如果比率朝*有利*方向移动，你仍会得到梯度（不会在会造成损害的那一侧裁剪）。
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/34-gradient-checkpointing/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: fe5666fbf27ab94e5d6bb37dac9556988a7d83364ad4b5ecf0550542cc7b66c0
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0e163637633045d697fc1ed0f88f3ad82297086b653f8c1dc909e843a240ab00
 status: reviewed
 ---
 
@@ -22,7 +22,7 @@ status: reviewed
 
 训练 Transformer 时，每一层都会存储反向传播中每个需要求导的算子的输入：注意力输入、Q/K/V 投影、softmax 输出、FFN 输入、归一化输出，以及残差流。对于隐藏尺寸为 `d`、序列长度为 `L`、批次大小为 `B` 的一层，这相当于每层约 `12 * B * L * d` 个浮点数。
 
-当 `d=8192, L=8192, B=1` 时，使用 BF16，每层激活约 800 MB。一个 64 层模型的激活就有 51 GB——这还没算微批次大小带来的倍增，没加上注意力 softmax 的中间结果（每个头都有 `L^2`），也没考虑张量并行产生的局部副本。
+当 `d=8192, L=8192, B=1` 时，这约为 805M 个数值，使用 BF16 时每层约 1.6 GB。一个 64 层模型的激活约为 103 GB——这还没算微批次大小带来的倍增，没加上注意力 softmax 的中间结果（每个头都有 `L^2`），也没考虑张量并行产生的局部副本。
 
 这是一笔双向账：BF16 权重加优化器状态或许能放进 80GB，但激活会把你推过容量上限。梯度检查点（也称激活重计算）是标准解决方案。丢掉大部分激活；在反向传播期间重新执行前向传播，把它们找回来。代价是额外 FLOPs，收益则是内存按检查点分段数与总层数的比例下降。
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/26-monocular-depth/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 2f25e1a1088bafca2ec045251010d6cdbe0bcab40960f170c124ae0f938f41f3
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 12de986ac233c7f8fce1f284f5d76c9e8251073ad8b043bfe75ff376c0273a70
 status: reviewed
 ---
 
@@ -103,7 +103,7 @@ Z &= d
 \end{aligned}
 ```
 
-内参来自 EXIF 元数据、标定图案，或单目内参估计器（Perspective Fields、UniDepth）。没有内参时，仍可假设 60–70° FOV 和中等分辨率主点来渲染点云——适合可视化，不适合测量。
+内参来自 EXIF 元数据、标定图案，或单目内参估计器（Perspective Fields、UniDepth）。没有内参时，仍可假设 60–70° FOV 并将主点设在图像中心来渲染点云。这适合可视化，不适合测量。
 
 ### 评估
 

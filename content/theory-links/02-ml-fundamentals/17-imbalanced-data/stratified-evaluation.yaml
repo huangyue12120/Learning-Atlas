@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/17-imbalanced-data/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 68208483176b73e9d39b4158fb66115e649258cfe554e04b624998538cc74c4f
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 9a9a88a93765cf18f82e7169fbd23b8ff429d8344ed75fbfb9889f218342d138
   anchor:
     heading: Better Metrics
     slug: better-metrics

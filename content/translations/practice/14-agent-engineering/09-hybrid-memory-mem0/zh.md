@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/09-hybrid-memory-mem0/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: c7744ab0bcad640024d20164aab2f78a349c5aeb3839c969be1278cb3ad96204
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: f14ae13052bf345cb9ec62218f48538a7e81c411c35665563035d4a00a19c8fa
 status: reviewed
 ---
 
@@ -27,7 +27,7 @@ status: reviewed
 
 ## 问题
 
-对于三类查询中的任意一类，单一存储都会出错：
+每个存储只适合三类查询中的一类：
 
 - **语义相似度**——“上周我们讨论过智能体漂移的什么内容？”向量存储胜出；KV 和图会漏掉。
 - **事实查找**——“用户的电话号码是多少？”KV 胜出；向量浪费资源，图则过度设计。

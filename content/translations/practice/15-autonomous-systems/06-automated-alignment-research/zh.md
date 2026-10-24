@@ -4,14 +4,14 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/06-automated-alignment-research/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: b9baea7e1c628eff4a700a67ed30eb3952574c159beb63e8e1def6acce623307
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 67665712bdaf0dbce50d98303ec3e8df4ee8df9a22c83be5ddc4b7a49775b81b
 status: reviewed
 ---
 
 # 自动化对齐研究（Anthropic AAR）
 
-> Anthropic 让 Claude Opus 4.6 自动化对齐研究员（AAR）组成并行团队，在彼此独立的沙箱中运行，并通过一个共享论坛协调；论坛日志保存在所有沙箱之外（因此智能体无法删除自己的记录）。在弱到强训练问题上，AAR 的表现超过了人类研究者。Anthropic 自己的摘要指出，规定工作流通常会限制 AAR 灵活性并降低表现。自动化对齐研究是压缩时间线的那一步，而被压缩的正是 RSP 意图检测的失配风险。
+> Anthropic 让 Claude Opus 4.6 自动化对齐研究员（AAR）组成并行团队，在彼此独立的沙箱中运行，并通过一个共享论坛协调；论坛日志保存在所有沙箱之外（因此智能体无法删除自己的记录）。在弱到强训练问题上，AAR 的表现超过了人类研究者。Anthropic 自己的摘要指出，规定工作流通常会限制 AAR 灵活性并降低表现。自动化对齐研究压缩了时间线，而它正是在 RSP 意图检测的那些失配风险上做这件事。
 
 **类型：** 学习
 **语言：** Python（标准库，并行研究论坛模拟器）

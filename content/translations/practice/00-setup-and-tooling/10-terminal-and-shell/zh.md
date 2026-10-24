@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/10-terminal-and-shell/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 17dc65d11d74510bada6bd4cdd1ae4bdb85849632ca0e4a999d0da53b2d5292e
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 5febcabad487875619e38bab7b925c05ac61d3f059cbfcb0d7d8a4902fd8e4bf
 status: reviewed
 ---
 
@@ -108,7 +108,7 @@ python train.py > output.log 2> errors.log
 python train.py > train_full.log 2>&1
 ```
 
-需要的三类重定向：
+需要的四类重定向和管道：
 
 | 符号 | 作用 |
 |--------|-------------|

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/14-show-o-discrete-diffusion-unified/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 15a1547e6db363fe53067ab51a3e22198af5c56cb247a1e3b71a2a60913c3e53
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: c108ed0b41a6902088a5dd7cf5d15caf86bf4309e17f472f0a3cfd526401d2fb
 status: reviewed
 ---
 
@@ -22,7 +22,7 @@ status: reviewed
 
 - 解释掩码离散扩散：均匀掩码词元，然后让 Transformer 恢复它们的计划。
 - 从速度和质量方面，比较并行图像解码（Show-o、MaskGIT）与自回归图像解码（Chameleon、Emu3）。
-- 说出 Show-o 在一个检查点中处理的三个任务：T2I、VQA、图像修复。
+- 说出 Show-o 在一个检查点中处理的四个任务：文本生成、VQA、T2I、图像修复。
 - 选择掩码计划（余弦、线性、截断），并分析它对样本质量的影响。
 
 ## 问题

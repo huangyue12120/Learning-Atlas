@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/38-verification-gates/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 4959114e249714257295b82f895d03c8b8a144bd1c689883bc9cf7f25c9785a0
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 33f32ce98034eb1a33b488ddae38f3cd085ab2890731171f5aa18295a3d6ce4d
 status: reviewed
 ---
 
@@ -98,7 +98,7 @@ python3 code/main.py
 
 ## 生产环境中的模式
 
-四种模式可以把验证门从“又一个 lint 任务”提升为“决定性边界”。
+五种模式可以把验证门从“又一个 lint 任务”提升为“决定性边界”。
 
 **纵深防御，而不是单一验证门。** 提交前 hook → CI 状态检查 → 工具调用前授权 hook → 合并前验证门。每一层都具有确定性，因此某一层的失败会被下一层捕获。microservices.io 在 2026 年 3 月的实践手册说得很明确：提交前 hook 不可绕过，因为它不像模型侧 skill 那样依赖智能体遵守指令。验证门位于 CI / 合并前这一层。
 

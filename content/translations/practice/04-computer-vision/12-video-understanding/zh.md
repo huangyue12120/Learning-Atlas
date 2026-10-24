@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/12-video-understanding/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 34e81835e8d37aa76defa8bdc0940b3b04ff308755b27aec9db7d2236755d3fa
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 078e43651935c7fd650fa1b11588573a26d4979d29d59dab0107b8089c4043c4
 status: reviewed
 ---
 
@@ -82,7 +82,7 @@ I3D 技巧：取预训练 2D ImageNet 模型，沿新时间轴复制每个 2D �
 
 缺点：
 
-- 比 2D 对应模型多约 `T/8` 倍 FLOPs（时间核为 3 且堆叠三次）。
+- 约为逐帧运行的 2D 网络的 3 倍 FLOPs，因为每个 3x3 卷积核都变成 3x3x3。
 - 时间核小，长程运动需要金字塔或双流方案。
 
 使用时机：运动就是信号的动作识别（Something-Something V2、含运动重类的 Kinetics）。

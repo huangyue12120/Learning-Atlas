@@ -4,14 +4,14 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/10-cold-start-mitigation/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: d293a25aa3551eb703e1826e04cff4feb370996bcc769da2448f9e65eb27c2eb
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 1ba706ef6985945d191d9b272fc62653463ae27a7dcfed21d8e7496aa6030d65
 status: reviewed
 ---
 
 # 无服务器 LLM 的冷启动缓解
 
-> 一个 20 GB 模型镜像从冷态到可服务需要 5–10 分钟（7B）到 20 分钟以上（70B）。在真正的无服务器世界中，这不是预热，而是一次宕机。缓解措施分布在五个层次：预置节点镜像（AWS 上的 Bottlerocket、双卷架构）、模型流式加载（NVIDIA Run:ai Model Streamer、vLLM 原生支持）、GPU 内存快照（Modal checkpoint，重启最高快 10 倍）、预热池（`min_workers=1`）、分层加载（ServerlessLLM 的 NVMe→DRAM→HBM 流水线，延迟降低 10–200 倍），以及传输输入词元（KB）而非 KV 缓存（GB）的实时迁移。Modal 将 2–4 秒冷启动作为下限公开；Baseten 默认 5–10 秒，通过预热可低于 1 秒。本课教你测量、预算并叠加这五层措施。
+> 大模型从冷态到可服务需要数分钟：一个 70B 模型在新节点上大约需要 3–8 分钟才能输出第一个词元。在真正的无服务器世界中，这不是预热，而是一次宕机。缓解措施分布在五个层次：预置节点镜像（AWS 上的 Bottlerocket、双卷架构）、模型流式加载（NVIDIA Run:ai Model Streamer、vLLM 原生支持）、GPU 内存快照（Modal checkpoint，重启最高快 10 倍）、预热池（`min_workers=1`）、分层加载（ServerlessLLM 的 NVMe→DRAM→HBM 流水线，延迟降低 10–200 倍），另有一个额外的第六种模式：传输输入词元（KB）而非 KV 缓存（GB）的实时迁移。Modal 将 2–4 秒冷启动作为下限公开；Baseten 默认 5–10 秒，通过预热可低于 1 秒。本课教你测量、预算并叠加这五层措施。
 
 **类型：** 学习
 **语言：** Python（标准库，用于模拟冷启动路径的玩具程序）

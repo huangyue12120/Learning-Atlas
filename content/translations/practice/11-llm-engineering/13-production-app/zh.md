@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/13-production-app/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: b0a346e45927205a67e1db24f0d67e16adde62736840bd2ac923a5fc03cd6101
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 7f99086009de3abfd6da810cf8a7427c6471299f3784270df5ead0aa1eb96b7b
 status: reviewed
 ---
 
@@ -236,8 +236,8 @@ graph TD
 | 每用户每天查询次数 | 5 | 产品分析 |
 | 每次查询平均输入词元 | 1,500 | 实测（系统 + 上下文 + 用户） |
 | 每次查询平均输出词元 | 400 | 实测 |
-| 每百万词元输入价格 | $5.00 | OpenAI GPT-5 定价 |
-| 每百万词元输出价格 | $15.00 | OpenAI GPT-5 定价 |
+| 每百万词元输入价格 | $2.50 | OpenAI GPT-4o 定价 |
+| 每百万词元输出价格 | $10.00 | OpenAI GPT-4o 定价 |
 | 缓存命中率 | 35% | 缓存指标实测 |
 | 有效日查询量 | 32,500 | 50,000 * (1 - 0.35) |
 

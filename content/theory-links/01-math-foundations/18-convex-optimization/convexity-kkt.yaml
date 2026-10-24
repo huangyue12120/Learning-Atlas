@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/18-convex-optimization/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 153f18d777cd392da2554ab9b190677f157d211ba207d86b48f89bbef709d76d
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 72524ce9415bddec5e280f607db73fd8d62c633e402433e07be593fbd525dc31
   anchor:
     heading: Convex sets
     slug: convex-sets

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/16-vision-pipeline-capstone/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 8f658578957bb2c27e48dd1926960ebc448d5030d5c21e3dd8398443689f9b73
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 7288d82f4883b033e1785336628e5506d1e639256189654016c6bff80742f990
 status: reviewed
 ---
 
@@ -65,7 +65,7 @@ Detection(
     box: tuple[float, float, float, float],   # (x1, y1, x2, y2), absolute pixels
     score: float,                              # [0, 1]
     class_id: int,                             # from detector's label map
-    mask: Optional[list[list[int]]],           # RLE-encoded if present
+    mask_rle: Optional[str],                   # RLE string if present
 )
 
 PipelineResult(

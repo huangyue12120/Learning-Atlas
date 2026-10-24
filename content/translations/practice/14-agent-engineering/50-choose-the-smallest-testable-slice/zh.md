@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/50-choose-the-smallest-testable-slice/docs/en.md
-  revision: a56b4b8ad43a3767c771953d217036813f697bc7
-  sha256: 8dcdf1ba55e1b58f5ceb019de63ab5be3006b51e051e7acfa4e5cbd6f40149ab
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: f80cf4a92ae976af6d109b4d4a9e7d0546f2302292d3d91b631233e8b9ce4e37
 status: reviewed
 ---
 
@@ -60,7 +60,7 @@ flowchart TD
   C2 --> G
   C3 --> G
   G -->|否| X[拒绝]
-  G -->|是| S[按工作量和风险比较证据]
+  G -->|是| S[比较每个候选切片：每单位工作量和风险获得的证据]
   S --> B[构建一个切片]
 ```
 

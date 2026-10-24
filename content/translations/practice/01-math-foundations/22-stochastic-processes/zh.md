@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/22-stochastic-processes/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: b2dd2a4a177a706a931de2c4d15daad61a9ea933b6c6c8dbc32d517ae556d211
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 2c438ab5ccab9e2916721ba1cda63f9ba53deab638d421cd89a02173206acb8d
 status: reviewed
 ---
 # 随机过程
@@ -131,7 +131,7 @@ graph LR
 
 **吸收状态。** 如果一旦进入某个状态就再也不会离开，那么这个状态就是吸收状态（P[i][i] = 1）。吸收马尔可夫链可以模拟带终止状态的过程——结束的游戏、流失的客户，或命中文本结束词元的词元序列。
 
-**混合时间。** 需要多少步，链才会“接近”平稳分布？形式化地说，就是链与平稳分布之间的全变差距离降到某个阈值以下所需的步数。快速混合 = 所需步数少。P 的谱隙（1 减去第二大特征值）控制着混合时间。谱隙越大 = 混合越快。
+**混合时间。** 需要多少步，链才会“接近”平稳分布？形式化地说，就是链与平稳分布之间的全变差距离降到某个阈值以下所需的步数。快速混合 = 所需步数少。对于可逆链，P 的谱隙（1 减去除特征值 1 之外的最大特征值模）控制着混合时间。谱隙越大 = 混合越快。
 
 ### 与语言模型的联系
 

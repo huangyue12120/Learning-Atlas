@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/05-sentiment-analysis/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 6c0d5587fd261631bbf70042e355315dd840b25ea237f8525e5970dd10f87534
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: c48c529e4488899d90f75793462d9db55dbc9d7bd2e2111a289f85b59ad88537
 status: reviewed
 ---
 
@@ -211,7 +211,7 @@ pipe.fit(X_train, y_train)
 print(pipe.score(X_test, y_test))
 ```
 
-留意三个设置。`stop_words=None` 保留否定词；`ngram_range=(1, 2)` 加入二元语法，让 `not_good` 成为特征；`sublinear_tf=True` 减弱重复词的影响。在 SST-2 上，这三个标志可能就是 75% 与 85% 准确率基线之间的差别。
+留意三个设置。`stop_words=None` 保留否定词；`ngram_range=(1, 2)` 加入二元语法，让 `not good` 成为特征（scikit-learn 用空格连接这两个词）；`sublinear_tf=True` 减弱重复词的影响。在 SST-2 上，这三个标志可能就是 75% 与 85% 准确率基线之间的差别。
 
 ### 何时改用 Transformer
 

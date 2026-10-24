@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/27-multi-object-tracking/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 4c0264f1f25c5bcae865f6a1b85d369af0e79a09fc9e153d5c502efce8291c88
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 4b47b07c13d23ed224b6b7b3c87412caea7d5d74a47a0ca700948d7fa32a6be8
 status: reviewed
 ---
 
@@ -80,7 +80,7 @@ Kalman filter 为每个轨迹维护带协方差的状态 `(x, y, w, h, dx, dy, d
 
 ### SAM 2 基于记忆的跟踪
 
-SAM 2 为每个实例的时空特征保留**记忆库**。在一帧给定提示（点击、框、文本）后，它将实例编码进记忆。后续帧中，记忆与新帧特征进行交叉注意力，解码器为新帧中的同一实例产生掩码。
+SAM 2 为每个实例的时空特征保留**记忆库**。在一帧给定提示（点击、框或掩码）后，它将实例编码进记忆。后续帧中，记忆与新帧特征进行交叉注意力，解码器为新帧中的同一实例产生掩码。
 
 没有 Kalman filter，也没有 Hungarian 分配；关联隐含在记忆注意力操作中。
 

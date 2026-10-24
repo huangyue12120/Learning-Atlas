@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/20-fourier-transform/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 6ef0d86a9deaba145cd232abd75377c5cd7eaf3bc3d7198eb7695beb1e5bb56f
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: cfe858731f5cdeadd7047837a44510d797db5009cce9a8a9d98359ac42db2da4
 status: reviewed
 ---
 # 傅里叶变换
@@ -44,7 +44,7 @@ status: reviewed
 X[k] = \sum_{n=0}^{N-1} x[n] \, e^{-2\pi i k n/N} \qquad \text{for } k = 0, 1, \ldots, N-1
 ```
 
-每个 X[k] 都是复数。它的模 |X[k]| 表示频率 k 的振幅。它的相位角 angle(X[k]) 表示该频率的相位偏移。
+每个 X[k] 都是复数。它的模 |X[k]| 与频率 k 的振幅成正比。在未归一化的情况下，一个振幅为 A、恰好落在频率箱 k 上的实正弦会给出 |X[k]| = AN/2，因此除以 N/2 即可读出振幅。它的相位角 angle(X[k]) 表示该频率的相位偏移。
 
 `e^(-2*pi*i*k*n/N)` 是一个以频率 k 旋转的相量。DFT 计算信号与 N 个等间隔频率中每个频率的相关性：如果信号在频率 k 上包含能量，这个相关性就很大；否则，它会接近零。
 
@@ -113,7 +113,7 @@ graph TD
     end
 ```
 
-FFT 要求信号长度为 2 的幂。在实践中，通常会在信号末尾补零，使其长度达到下一个 2 的幂。
+这里实现的基 2 FFT 在信号长度为 2 的幂时最快。每当某个子问题的长度为奇数时，它会回退到朴素的 `dft`，因此为了速度，信号通常会补零到下一个 2 的幂。像 `numpy.fft` 这样的库 FFT 使用混合基算法，可处理任意长度，但在长度仅含小素因子时最快。
 
 ### 频谱分析
 

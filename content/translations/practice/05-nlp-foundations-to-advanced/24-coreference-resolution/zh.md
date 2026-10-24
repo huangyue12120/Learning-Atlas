@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/24-coreference-resolution/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 79f99912087cb3f255382afe911e49cfa9200b20b8f0c96c20fc095a8ba019c8
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 53ee10b92ef19ae98b4f0edd7f980adf94a545332a382979929b0966dfecdf5b
 status: reviewed
 ---
 
@@ -72,14 +72,14 @@ coref-links
 ```python
 import spacy
 nlp = spacy.load("en_coreference_web_trf")   # experimental model
-doc = nlp("Apple announced new products. The company said they would ship soon.")
+doc = nlp("Apple announced new products. The company said it would ship them soon.")
 for cluster in doc._.coref_clusters:
     print(cluster, "->", [m.text for m in cluster])
 ```
 
 对较长文档，结果类似：
-- 簇 1：[Apple, The company, they]
-- 簇 2：[new products]
+- 簇 1：[Apple, The company, it]
+- 簇 2：[new products, them]
 
 ### 步骤 2：基于规则的代词消解器（教学实现） <!-- learning-atlas: step-2-rule-based-pronoun-resolver-teaching -->
 

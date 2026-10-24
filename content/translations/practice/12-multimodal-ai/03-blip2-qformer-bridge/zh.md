@@ -4,14 +4,14 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/03-blip2-qformer-bridge/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 8849ac3172d4edecb50891b890d4a3080f6efd1a7af17ea6c79c86b410a63c28
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 7803d89e907ea35e2f8897ceef587941a44380eda955920dab1fcc50754c3928
 status: reviewed
 ---
 
 # 从 CLIP 到 BLIP-2——Q-Former 作为模态桥
 
-> CLIP 能对齐图像和文本，却不能生成标题、回答问题或进行对话。BLIP-2（Salesforce，2023）用一个小型可训练桥解决了这个问题：32 个可学习查询向量通过交叉注意力关注冻结 ViT 的特征，然后直接插入冻结 LLM 的输入流。这个 1.88 亿参数的桥把一个 110 亿参数 LLM 与 ViT-g/14 连接起来。到 2026 年，所有基于适配器的 VLM——MiniGPT-4、InstructBLIP、LLaVA 的同类模型——都是它的后代。本课阅读 Q-Former 的架构，解释它的两阶段训练，并构建一个把视觉词元送入冻结文本解码器的玩具版本。
+> CLIP 能对齐图像和文本，却不能生成标题、回答问题或进行对话。BLIP-2（Salesforce，2023）用一个小型可训练桥解决了这个问题：32 个可学习查询向量通过交叉注意力关注冻结 ViT 的特征，然后直接插入冻结 LLM 的输入流。这个 1.88 亿参数的桥把 ViT-g/14 与多达 110 亿参数的 Flan-T5-XXL 等冻结 LLM 连接起来。到 2026 年，所有基于适配器的 VLM——MiniGPT-4、InstructBLIP、LLaVA 的同类模型——都是它的后代。本课阅读 Q-Former 的架构，解释它的两阶段训练，并构建一个把视觉词元送入冻结文本解码器的玩具版本。
 
 **类型：** 构建
 **语言：** Python（标准库，交叉注意力 + 可学习查询演示）
@@ -128,7 +128,7 @@ modality-projection
 
 4. 阅读 BLIP-2 论文第 3.2 节（arXiv:2301.12597），了解 Q-Former 如何初始化。解释为什么从 BERT-base 初始化（而不是随机初始化）会加速收敛。
 
-5. 一个 10 分钟的视频按 1 FPS 抽样得到 60 帧，计算采用（Q-Former → 每帧 32 个词元）与（MLP 投影器 → 每帧 576 个词元）时每帧的词元成本。哪一种能放入 128k 词元的 LLM 上下文窗口？
+5. 一个 10 分钟的视频按 1 FPS 抽样得到 60 帧，计算采用（Q-Former → 每帧 32 个词元）与（MLP 投影器 → 每帧 576 个词元）时每帧的词元成本。在提示词文本还未占用任何空间之前，每种桥能把多少帧放入 128k 词元的 LLM 上下文窗口？
 
 ## 关键术语
 
@@ -143,7 +143,7 @@ modality-projection
 | 两阶段预训练 | “先表示、后生成” | 第一阶段单独训练 Q-Former（ITC/ITM/ITG）；第二阶段接入冻结 LLM，只训练投影 + Q-Former |
 | 冻结骨干 | “不要微调” | 视觉编码器和 LLM 的权重固定，只有桥训练 |
 | 投影头 | “线性映射到 LLM 维度” | 把 Q-Former 输出映射到 LLM 嵌入维度的最终线性层 |
-| Perceiver 重采样器 | “Flamingo 版本” | 类似的可学习查询交叉注意力；Flamingo 在每层使用它，而不是把它作为单个桥 |
+| Perceiver 重采样器 | “Flamingo 版本” | 类似的可学习查询交叉注意力；Flamingo 对每张图像运行一次以生成固定数量的潜在向量，然后在每一层 LLM 通过门控交叉注意力读取它们 |
 
 ## 延伸阅读
 

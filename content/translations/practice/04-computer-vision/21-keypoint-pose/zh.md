@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/21-keypoint-pose/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 59a0be7092bc5de0ce61e27ff154859221edd9a323c65c7eadcb136bfc14cc85
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: ea6705b91e067902a07fc78a4769400aeb1f505876d53ae7ae443da672a40a57
 status: reviewed
 ---
 
@@ -71,7 +71,7 @@ flowchart LR
 
 ### 亚像素定位
 
-Argmax 给出整数坐标。为获得亚像素精度，可对 argmax 及其邻居拟合抛物线，或使用常见偏移方向：`(dx, dy) = 0.25 * (heatmap[y, x+1] - heatmap[y, x-1], ...)`。
+Argmax 给出整数坐标。为获得亚像素精度，可对 argmax 及其邻居拟合抛物线，或像代码那样用 `dx = 0.25 * (heatmap[y, x+1] - heatmap[y, x-1])` 把 argmax 朝取值更高的邻居偏移，`dy` 同理。
 
 ### 部分亲和场（PAF）
 

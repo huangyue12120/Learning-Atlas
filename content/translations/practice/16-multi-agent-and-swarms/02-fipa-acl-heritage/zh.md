@@ -4,14 +4,14 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/02-fipa-acl-heritage/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 234056963823e7433e031e18b2d7513c4dfbb778753155bd869af6bbda0df241
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 83f4a4b57b00654b34dc84cca207b8236171eb41122d89a3561d250efe374083
 status: reviewed
 ---
 
 # FIPA-ACL 与言语行为的传承
 
-> 在 MCP 和 A2A 之前，已有 FIPA-ACL。2000 年，IEEE Foundation for Intelligent Physical Agents 批准了一种智能体通信语言：二十种施为词、两种内容语言，以及一组交互协议——合同网、订阅/通知、条件请求。它淡出业界，是因为本体负担对 Web 过于沉重；但 LLM 对多智能体系统的复兴正悄然以没有形式语义的方式重建相同思想：JSON 合同替代施为词，自然语言替代本体。本课认真研读 FIPA-ACL，让你看清 2026 年的协议决策中哪些是重新发明，哪些才是新颖之处，以及当下浪潮会重新遇到哪些 2000 年代已经解决的问题。
+> 在 MCP 和 A2A 之前，已有 FIPA-ACL。2000 年，Foundation for Intelligent Physical Agents（FIPA，2005 年成为 IEEE Computer Society 的一个标准委员会）批准了一种智能体通信语言：二十种施为词、两种内容语言，以及一组交互协议——合同网、订阅/通知、条件请求。它淡出业界，是因为本体负担对 Web 过于沉重；但 LLM 对多智能体系统的复兴正悄然以没有形式语义的方式重建相同思想：JSON 合同替代施为词，自然语言替代本体。本课认真研读 FIPA-ACL，让你看清 2026 年的协议决策中哪些是重新发明，哪些才是新颖之处，以及当下浪潮会重新遇到哪些 2000 年代已经解决的问题。
 
 **类型：** 学习
 **语言：** Python（标准库）
@@ -204,7 +204,7 @@ python3 code/main.py
 | 术语 | 常见说法 | 实际含义 |
 |---|---|---|
 | 言语行为 | “能做事的话语” | Austin/Searle：话语即行动；ACL 的理论母体。 |
-| FIPA | “那个旧 XML 东西” | IEEE Foundation for Intelligent Physical Agents；2000 年标准化 ACL。 |
+| FIPA | “那个旧 XML 东西” | Foundation for Intelligent Physical Agents；2000 年标准化 ACL；2005 年成为 IEEE Computer Society 的一个标准委员会。 |
 | ACL | “智能体通信语言” | FIPA 的信封格式：施为词 + 内容 + 元数据。 |
 | 施为词 | “动词” | 消息的意图类别：`inform`、`request`、`propose`、`cfp` 等。 |
 | KQML | “FIPA 的前身” | Knowledge Query and Manipulation Language（1993）；更简单、更狭窄。 |

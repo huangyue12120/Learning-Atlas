@@ -1,3 +1,29 @@
+# Learning Atlas v0.27.2 发布说明
+
+发布日期：2026-10-24。
+
+本版处理 Issue #31：将 `ai-engineering-from-scratch` 的可复现快照从 `f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299` 更新到 `3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a`。上游在 #691–#695 等提交中修正了 Phase 0-19 课程原文的事实和计算错误，命中 184 篇已登记中文实践译文、1 份测验和 102 条理论关联。课程范围和内容计数与 v0.27.1 相同。
+
+## 本版修复
+
+- **实践译文**：逐处对照上游 diff 修改 182 篇中文译文，例如 KV 缓存按全部 KV 头计算（7B 模型 32K 上下文为 16 GiB）、Chinchilla 系数改为 0.22 / 4.5、DeepSeek-V3 参数核算改为约 664B 总量 / 30B 激活、MTP 目标改为 `t_{i+k+1}`、Qwen2.5-VL 的时间位置编码改称“时间对齐 M-RoPE”、各厂商定价与模型规格更新、ZeRO 与 Adam 显存算式更正。另有 2 篇（P13 第 14、23 课）的上游改动在中文中已经正确，只刷新来源记录。上游未改动的段落保持原样。
+- **测验**：P17 第 11 课第 4 题的正确选项与解析改用上游修正后的跨区域 RTT 数字（约 220 ms RTT 把 720 ms 节省削减到约 500 ms）。
+- **理论关联**：刷新 102 条理论关联的实践来源记录。其中 26 张卡的锚点小节内有上游改动，逐张对照后卡片内容仍成立，无需修改。P17 第 19 课的锚点标题随上游改为 `Seven core features`。
+- **练习指南**：12 份 Python 工作区练习指南随上游练习题的修正同步更新（P10 第 18 课，P12 第 3、8、12、16、17、18、25 课，P13 第 18 课，P17 第 19、21、27 课）。上游 24 个 `code/` 文件的改动（新增 MPS 设备选择、GPU 同步计时、修正计算器数值等）会在学习者创建工作区时直接复制，不需要改动指南。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`（542 篇实践译文、89 篇理论译文）
+- `python3 scripts/check_source_fingerprints.py`（1560 条）
+- `python3 scripts/check_assessment_correspondence.py`（307 份）
+- `python3 scripts/check_theory_cards.py`（289 张）
+- `python3 scripts/check_repository_hygiene.py`
+- `python3 scripts/check_translation_coverage.py`（19 个已开放 Phase，零缺口）
+- 用 Mermaid CLI 渲染 4 篇 Mermaid 有改动课程中的 11 张图示
+- `cd apps/local-learning && npm run check && npm test`（26 项）
+
+---
+
 # Learning Atlas v0.27.1 发布说明
 
 发布日期：2026-10-23。

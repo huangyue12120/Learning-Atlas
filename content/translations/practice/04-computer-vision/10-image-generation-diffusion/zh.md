@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/10-image-generation-diffusion/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 92c0ea4477aab1ee21e969a03d991e754afa372b9506eb42c995674ea771d6b5
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: b075e76e0b94a3d54919f392215cc24d3d1971d801e5d6a600082cd07d7d973c
 status: reviewed
 ---
 
@@ -271,7 +271,7 @@ def sample_ddim(model, schedule, shape, steps=50, T=1000, device="cpu", eta=0.0)
     x = torch.randn(shape, device=device)
     alphas_cumprod = schedule["alphas_cumprod"].to(device)
 
-    ts = torch.linspace(T - 1, 0, steps + 1).long()
+    ts = torch.linspace(T - 1, -1, steps + 1).round().long()
     for i in range(steps):
         t = ts[i]
         t_prev = ts[i + 1]
@@ -287,7 +287,7 @@ def sample_ddim(model, schedule, shape, steps=50, T=1000, device="cpu", eta=0.0)
     return x
 ```
 
-`eta=0` 完全确定（相同噪声输入总有相同输出），`eta=1` 恢复 DDPM。
+调度在 `t_prev = -1` 处结束，因此最后一步使用 `a_prev = 1.0`，返回不含残余噪声的干净 `x0_pred`。`eta=0` 完全确定（相同噪声输入总有相同输出）；当调度遍历每个时间步（`steps=T`）时，`eta=1` 恢复 DDPM。
 
 ## 使用
 

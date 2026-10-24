@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/04-vllm-serving-internals/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: ac55f16811358007b01b6a338df61bb4572f6e8d89a7e2af65387c6504508856
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 7eb89d931e970bda52360b99a34b3621ff891f16b1b7de77ba15fe886d1ad629
 status: reviewed
 ---
 
@@ -22,7 +22,7 @@ status: reviewed
 
 - 将 PagedAttention 解释为 KV 缓存分配器：块、块表，以及为何生产负载下碎片保持低于 4%。
 - 在迭代层级绘制连续批处理：已结束序列如何离开批次，新序列如何在不排空批次的情况下加入。
-- 用一句话描述分块 prefill，并说出它保护的延迟指标（提示：是 TTFT 尾部，而非平均吞吐量）。
+- 用一句话描述分块 prefill，并说出它保护的延迟指标（提示：是并发 decode 的 ITL 尾部，而非平均吞吐量）。
 - 说出 2026 年 vLLM v0.18.0 中同时启用所有优化会踩到的陷阱。
 
 ## 问题
@@ -55,7 +55,7 @@ PagedAttention 借用 OS 虚拟内存的思想。KV 缓存不再按序列连续�
 
 批次大小永远不会填充到固定数目。处在不同输出位置的序列共享一次融合前向传播。2026 年 vLLM 将此称为 `V1 scheduler`。关键不变量是：调度器每个 decode 迭代运行一次，而不是每个请求运行一次。
 
-### 分块 Prefill 保护 TTFT 尾部
+### 分块 Prefill 保护 ITL 尾部
 
 Prefill 是计算密集型的。一条 32k 词元 Llama 3.3 70B 提示词在一张 H100 上仅 prefill 就需要约 800 ms。prefill 运行时，批次中其他序列的 decode 词元都在等待。服务循环中，一个长提示词的首词元延迟（TTFT）会变成其他数十用户的词元间延迟（ITL）抖动。
 
@@ -141,7 +141,7 @@ tensor-parallel
 | 分块 prefill | “拆分 prefill” | 将长 prefill 切成 512-词元切片，与 decode 交错。 |
 | TTFT | “首词元时间” | prefill + 排队 + 网络；长提示时由 prefill 主导。 |
 | ITL | “词元间延迟” | 连续 decode 词元间的时间；由批次大小主导。 |
-| Goodput | “满足 SLO 的吞吐” | 每个请求仍达到 TTFT 与 ITL 目标时的词元/秒。 |
+| Goodput | “满足 SLO 的吞吐” | 仍达到 TTFT 与 ITL 目标的请求数/秒（第 17 阶段 · 08 将其报告为请求所占比例）。 |
 | V1 调度器 | “新调度器” | vLLM 的 2026 调度器；支持连续批处理与分块 prefill。 |
 | `--gpu-memory-utilization` | “内存旋钮” | 加载权重和激活值后为 KV 块保留的 HBM 比例。 |
 

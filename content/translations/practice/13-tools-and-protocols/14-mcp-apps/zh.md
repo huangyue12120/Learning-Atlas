@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/14-mcp-apps/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 40f058cda91f1ed151492d82de0578ec39a8df5ded405087c2824c4d885abdcc
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 41a95dd70ff50e777fd3764bfdb971f40cb25cff7883f3aac581b56b4d5f7eb1
 status: reviewed
 ---
 

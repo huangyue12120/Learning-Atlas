@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/22-async-hogwild-inference/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 2ae5527935376bc320f68a0dc4563963b7887da9376394152477e8bfc2e31f23
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: eab99bd43b48681be62980f75107b88ea5c385cd3d0c7c36dfc20b4521727113
 status: reviewed
 ---
 
@@ -66,7 +66,7 @@ Hogwild! 论文（Rodionov 等，2025）报告了以下观察：
 
 ### RoPE 让它可行 <!-- learning-atlas: rope-makes-this-tractable -->
 
-旋转位置嵌入（RoPE，Su 等，2021）通过旋转 Q、K 向量编码位置信息。由于位置表现为旋转，而不是写死的偏移，词元的位置可以改变而不需要重新计算 KV 缓存条目。当 worker `i` 在共享缓存位置 `p` 写入时，其他 worker 读取这个位置可以直接使用缓存条目，无需重新旋转。
+旋转位置嵌入（RoPE，Su 等，2021）通过旋转 Q、K 向量编码位置信息。由于旋转后的查询与旋转后的键之间的注意力分数只取决于两者的相对距离，整块缓存条目可以移动到新的偏移而无需重新计算：只旋转查询，而不是重新旋转每个缓存键。Hogwild! Inference 对每个缓存块只做一次这样的操作：对于位置 `i_q` 的查询，以及在该 worker 视角中起始于 `i_k` 的块，查询按相对距离 `i_q - i_k` 旋转。这正是每个 worker 以自己的顺序看待共享缓存块的方式。这个技巧适用于对一个连续块做统一平移。把单个词元移动到不同位置会改变它们的旋转，仍然需要重新计算。
 
 如果模型使用学习位置或绝对位置编码，Hogwild! 每次并发写入都需要使缓存失效；RoPE 让缓存保持稳定。
 

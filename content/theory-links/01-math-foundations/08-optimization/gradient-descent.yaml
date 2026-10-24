@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/08-optimization/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 3ff003a1ae4377981812e9aa7694924fd18d70e769291ffa60d573a9aa2cd5b1
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 37a97829f21025866d4bd4349478fcd6572dcc734154b836ce3e69f4813cb278
   anchor:
     heading: Gradient descent (vanilla)
     slug: gradient-descent-vanilla

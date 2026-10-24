@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/66-reranker-cross-encoder/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 78414ae722deb4fe67d9de821f8554b95c64dc2176fb1a7974d274816ced87cc
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0e1226c719b3a9ea1954cb5baa222ad02b59ed09f751172c6bb34e79714b0705
 status: reviewed
 ---
 
@@ -103,7 +103,7 @@ python3 code/main.py
 
 **交叉编码器不是对称的。** `rerank(q, d)` 和 `rerank(d, q)` 得到的是不同分数。始终把查询放在前面；如果误交换，召回率会崩溃。
 
-**N 太低，暴露不出问题。** 如果设置 N = K，交叉编码器无法重排，只能重新加权，提升看起来就是零。N 至少应为 K 的三倍。
+**N 太低，暴露不出问题。** 如果设置 N = K，交叉编码器可以重排这 K 个候选，却无法把新的候选带进前 K 名。K 处的召回率无法变化，所以提升看起来就是零。N 至少应为 K 的三倍。
 
 **训练数据泄漏到评估集。** 如果手工标注的训练对包含评估查询，重排器会看起来不可思议地好。即使只用 fixture，也要严格分开训练和评估。
 

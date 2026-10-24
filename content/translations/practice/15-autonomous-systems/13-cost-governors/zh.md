@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/13-cost-governors/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 4bbc8166514794ae938da3981b90bf55549cde613ad6b5440da67115dbb7fd83
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: f4ec183643dc2314b42eed2df7740bd8fde72b1c0a7824ba22fcbe67b6b55f6e
 status: reviewed
 ---
 
@@ -69,7 +69,7 @@ Microsoft 的 Agent Governance Toolkit 涵盖 OWASP Agentic Top 10 和欧盟 AI 
 
 ### 已观察到的 1,200 → 4,800 美元案例
 
-Microsoft 文档中的真实案例：一个电商智能体在增加新工具后，月度成本增长三倍。该工具允许智能体在每个会话中轮询订单状态。系统没有循环检测、每工具上限或周环比增长告警。修复方案是增加每工具上限和每日增长告警。每个新工具面都可能引入新循环，因此需要自己的上限和告警。
+Microsoft 文档中的真实案例：一个电商智能体在增加新工具后，月度成本增至四倍。该工具允许智能体在每个会话中轮询订单状态。系统没有循环检测、每工具上限或周环比增长告警。修复方案是增加每工具上限和每日增长告警。每个新工具面都可能引入新循环，因此需要自己的上限和告警。
 
 ```figure
 cost-governor-stack

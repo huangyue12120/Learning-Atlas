@@ -3,8 +3,8 @@
   "source": {
     "repository": "ai-engineering-from-scratch",
     "path": "phases/17-infrastructure-and-production/11-multi-region-kv-locality/quiz.json",
-    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
-    "sha256": "d9321d92db55334a225c68eaedf1c8e24e8c506394d2eba08447a5e5f10d85b8"
+    "revision": "3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a",
+    "sha256": "424e594e85cd2fb6e08eb6821ccf19078b660b46fbb38f8a2230bb706e60fe8d"
   },
   "status": "reviewed",
   "questions": [
@@ -55,10 +55,10 @@
         "跨区域不可能做缓存感知路由",
         "所有超大规模云厂商都禁止跨区路由",
         "GORGO 研究发现缓存命中没有帮助",
-        "节省的 prefill 可能被网络 RTT 抵消，例如 440 ms 往返会超过从 800 ms 降到 80 ms 的节省"
+        "网络 RTT 会吃掉大部分节省的 prefill，例如 220 ms 的美国—亚太 RTT 会把 720 ms 的节省削减到约 500 ms"
       ],
       "correct": 3,
-      "explanation": "跨区域命中前缀缓存省下的 prefill 要和区域间网络 RTT 一起计算：本课例子中，从 us-east-1 路由到 ap-southeast-1 的 440 ms 往返会吃掉 800→80 ms 节省中的大部分，所以 GORGO 联合最小化 prefill 时间与网络延迟。跨区域并非不能做缓存路由、也未被厂商普遍禁止，GORGO 更没有否定缓存命中。"
+      "explanation": "跨区域命中前缀缓存省下的 prefill 要和区域间网络 RTT 一起计算：本课例子中，从 us-east-1 路由到 ap-southeast-1 时，约 220 ms 的 RTT 会把 800→80 ms 带来的 720 ms 节省削减到约 500 ms；若远端排队或前缀已被驱逐，余量还会消失，所以 GORGO 联合最小化 prefill 时间与网络延迟。跨区域并非不能做缓存路由、也未被厂商普遍禁止，GORGO 更没有否定缓存命中。"
     },
     {
       "id": "q5",

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/15-attention-variants/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 6e8bba5b133d832d03a51da7f5aaf4c1ea33a76ab797d411bc479746719b7acb
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 9fd8c83a6c29b024ff4049e7e6854a7bd045a42268a76aeb3216d580ac27a8fc
   anchor:
     heading: The Concept
     slug: the-concept

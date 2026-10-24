@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/03-direct-preference-optimization-family/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 411314945b026014deb620ccda7b19d5e5bc6a8d456e586acd6e574fdbf69b43
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: a4152a40d87cdace13bde8137ceb09a4b83c6b42dce2ae6542d324a38560eb1b
   anchor:
     heading: DPO (Rafailov et al., 2023)
     slug: dpo-rafailov-et-al-2023

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/15-crewai-role-based-crews/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: cf08c2959fa6c2fc70a935fe932a8693664c61e39a7d7979bc049f487bc70561
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 7d4074c3393e128d5d2107662f6bb32ad3941daff1d8dbd2878a9d640441aeba
 status: reviewed
 ---
 
@@ -14,7 +14,7 @@ status: reviewed
 > 四个原语：Agent、Task、Crew、Process。两种顶层形状：Crews（自治、基于角色的协作）与 Flows（事件驱动、确定性）。CrewAI 是 2026 年的参考实现，其文档直截了当地说：“对于任何生产就绪的应用，从 Flow 开始。”
 
 **类型：** 学习 + 构建
-**语言：** Python（标准库）
+**语言：** Python（配合 numpy）
 **前置要求：** 第 14 阶段 · 第 12 节（工作流模式）、第 14 阶段 · 第 14 节（Actor 模型）
 **预计时间：** 约 75 分钟
 
@@ -25,8 +25,8 @@ status: reviewed
 - 区分 Crews（自治的基于角色）与 Flows（事件驱动的确定性），并解释文档给出的生产建议。
 - 使用 @tool 装饰器和 BaseTool 子类接入工具；推理结构化输出与自由文本的差异。
 - 说出 CrewAI 的四种记忆类型以及各自在何时发挥价值。
-- 用标准库实现三智能体 crew（researcher、writer、editor），生成一份 brief。
-- 识别 CrewAI 的三种失败模式：提示词膨胀、manager-LLM 税、脆弱的交接。
+- 用纯 Python 实现三智能体 crew（researcher、writer、editor），生成一份 brief。
+- 识别 CrewAI 的四种失败模式：提示词膨胀、manager-LLM 税、脆弱的交接、Crew 直接上生产。
 
 ## 问题
 
@@ -131,7 +131,7 @@ CrewAI 开箱提供四种记忆类型。它们可以组合：一个 Crew 可以�
 - 亚秒级延迟预算。Hierarchical 增加往返；即便是 Sequential，也会串行化包含 backstory 和之前输出的提示词。
 - 单智能体循环。跳过框架；第 01 节的智能体循环加工具注册表更短。
 
-第 17 节（智能体框架权衡）会用矩阵展开这些内容。概括来说，CrewAI 属于“协作式、基于角色”的框架。
+第 28 节（编排模式）会把这些拓扑并排比较。概括来说，CrewAI 属于“协作式、基于角色”的框架。
 
 ### 依赖形状
 
@@ -140,7 +140,7 @@ CrewAI 开箱提供四种记忆类型。它们可以组合：一个 Crew 可以�
 ### 这个模式会在哪里出错
 
 - **Backstory 造成提示词膨胀。** 每个智能体 2000 字的 backstory 和一个五智能体 crew，会在第一次工具调用前就耗尽上下文预算。保持 backstory 少于 200 字。在智能体之间复用短语，不要重复五遍团队风格。
-- **Manager-LLM 词元税。** Hierarchical 流程在每次专家调用前都增加一次 manager LLM 调用。五任务 crew 会从五次变成六次 LLM 调用，而且 manager 调用携带完整任务列表和之前输出。除非路由取决于输出，否则切换到 Sequential。
+- **Manager-LLM 词元税。** Hierarchical 流程在每次专家调用前都增加一次 manager LLM 调用。五任务 crew 会从五次变成十次 LLM 调用，而且 manager 调用携带完整任务列表和之前输出。除非路由取决于输出，否则切换到 Sequential。
 - **脆弱交接。** Task N 的 expected_output 是“大纲”。Task N+1 以 context 读取它，并试图解析三个区段；LLM 生成了四个。下游 Agent 临时发挥。用 Task N 的 output_pydantic 修复，让 Task N+1 读取类型化对象而不是自由文本。
 - **Crew 直接上生产。** 没有 Flow 包装就将自由形式 Crew 发布到生产。输出变化大，无法重放，值班人员无法把坏运行与好运行做 diff。用 Flow 包装。
 
@@ -150,7 +150,7 @@ ae-crew-vs-flow
 
 ## 动手构建
 
-code/main.py 用标准库实现了两种形状以及一个三智能体 crew。
+code/main.py 用纯 Python 实现了两种形状以及一个三智能体 crew。标准库之外唯一的依赖是 numpy，用于模拟相似度。
 
 形状包括：
 

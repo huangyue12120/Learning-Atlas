@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/11-chameleon-early-fusion-tokens/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: c5409ecf20aa61fcbb8e9e7203299b4585b047cb2eeaffeb3029e90d1d3eaf31
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 8088a838d626c08eaf480937130a4a370cfbe30b54caf77ebd16ac6cfe33e0d2
 status: reviewed
 ---
 
@@ -50,7 +50,7 @@ Chameleon 否定了这个前提：图像只是来自共享词汇的离散词元�
 
 训练使用 VAE 重建损失 + 承诺损失 + 码本损失。码本索引构成图像的离散字母表。
 
-对于 Chameleon，一张图像变成 32*32 = 1024 个词元，它们来自大小为 8192 的词汇。再与文本词元（来自 LLM 的 BPE 词汇，假设为 32000）拼接。最终词汇量为 40192。Transformer 看到的是一个序列和一个损失。
+对于 Chameleon，一张图像变成 32*32 = 1024 个词元，它们来自大小为 8192 的词汇。把这些图像 ID 放入与文本 BPE 词元相同的 ID 空间。Chameleon 的单个分词器有 65,536 个条目，这个数量已经包含了 8192 个图像码以及诸如图像分隔符之类的特殊词元。Transformer 看到的是一个序列和一个损失。
 
 ### 共享词汇
 

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/06-probability-and-distributions/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 9595bccbedd22dbf64a1412aebc327ba8817616da5cd2e3aa65ab4a748c1344c
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: a07e78b85e86e435d4afea907e6c8fdf06c004bcc76869e0dce20d7ab3ad52ed
   anchor:
     heading: Events, Sample Spaces, and Probability
     slug: events-sample-spaces-and-probability

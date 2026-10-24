@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/03-direct-preference-optimization-family/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 411314945b026014deb620ccda7b19d5e5bc6a8d456e586acd6e574fdbf69b43
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: a4152a40d87cdace13bde8137ceb09a4b83c6b42dce2ae6542d324a38560eb1b
 status: reviewed
 ---
 
@@ -64,7 +64,7 @@ L_{\text{DPO}} = -\log \sigma\!\left(
 
 - 隐式奖励间隔 `beta * (log(pi/pi_ref)_w - log(pi/pi_ref)_l)` 无界。很弱的偏好也能产生任意大的间隔。
 - 损失会把被选和被拒回答的对数概率推向相反方向。只要被拒回答降得更快，它也可以把被选回答的绝对对数概率压低，这种现象称为被选回答退化（Degraded Chosen Response）。
-- 分布外偏好，例如罕见回答与罕见回答之间的一对比较，会产生任意的隐式奖励。
+- 分布外偏好，例如两个回答在参考策略下都很罕见的样本对，会产生任意的隐式奖励。
 
 ### IPO（Azar 等，2024）
 

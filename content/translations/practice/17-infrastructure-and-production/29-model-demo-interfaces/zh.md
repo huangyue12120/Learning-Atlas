@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/29-model-demo-interfaces/docs/en.md
-  revision: 56c886c8821fc488b6f9608895c983d18f0d1ea3
-  sha256: 843375856e827b8e63619a29120120bd0d596eafd5111edebd1bf2a656179816
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 007a8c214f45058f45c8f51ec2c5011195945c51ee7bcc1b68fb303ff628daf8
 status: reviewed
 ---
 
@@ -92,6 +92,8 @@ flowchart LR
 
 | 失败的检查 | HTTP 状态 | 错误代码 |
 |--------------|-------------|------------|
+| 没有 `Content-Length` 请求头 | 411 Length Required | `length_required` |
+| `Content-Length` 不是数字 | 400 Bad Request | `bad_length` |
 | 请求体超过 4,096 字节 | 413 Content Too Large | `body_too_large` |
 | 请求体在收到 `Content-Length` 字节前结束 | 408 Request Timeout | `request_timeout` |
 | 内容类型不是 JSON | 415 Unsupported Media Type | `unsupported_media_type` |

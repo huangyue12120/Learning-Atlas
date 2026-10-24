@@ -4,14 +4,14 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/41-workbench-for-real-repos/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 75d2298297ec8a23832dea06df7e12a448e1030b265465aac178dc914b881d27
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: bc0338fc79fc3bf16277d3dcc03b8b4dd6c6ab3101558bf918546d908f546fa0
 status: reviewed
 ---
 
 # 在真实代码库中使用工作台
 
-> 如果不能经受真实代码库的检验，十一节工作台面的价值就等于零。本节在一个小型示例应用上运行同一项任务两次：一次只使用提示词，一次由工作台引导。数字会自己说明问题。
+> 如果不能经受真实代码库的检验，十一节课构建的工作台界面就毫无价值。本节在一个小型示例应用上运行同一项任务两次：一次只使用提示词，一次由工作台引导。数字会自己说明问题。
 
 **类型：** 构建
 **语言：** Python（标准库）

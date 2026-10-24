@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/02-bag-of-words-tfidf/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 9aeaeef9bbc86fb4e768d8f01b9123c2cd989df0287c8a814456a6dd13acd484
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 872c4686bc1d52f5ddfe91126eebd8f6e123547cf3bbe571e52f1646e31fdab2
 status: reviewed
 ---
 
@@ -137,7 +137,7 @@ def tfidf(bow_matrix):
 >>> tfidf(bow)
 ```
 
-三篇文档共有五个词（`the`、`cat`、`sat`、`dog`、`ran`）。`the` 出现在三篇文档中，因此 IDF 低；`dog` 只出现一次，因此 IDF 高。所得向量是稀疏的，大多数元素都很小，具有区分力的词会凸显出来。
+三篇文档共有五个词（`the`、`cat`、`sat`、`dog`、`ran`）。`the` 出现在三篇文档中，因此 IDF 低；`dog` 只出现一次，因此 IDF 高。在拥有成千上万词的真实词表下，这些向量是稀疏的，大多数元素都为零。即便在这个玩具示例里，具有区分力的词也会凸显出来。
 
 ### 步骤 5：对行执行 L2 归一化
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/09-information-theory/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 8b84ff00a2032ab036003c7f938423ec22fe180180406efa1ca02e5ddf7c723f
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 1b372ebc564904598949a0b72f73be63af0fd64ce21a3fff8ec3d5822b4ec9ed
 status: reviewed
 ---
 
@@ -216,7 +216,7 @@ I(X;Y) &= H(X) - H(X \mid Y) \\
 2. 按 MI 分数对特征排序。
 3. 保留前 k 个特征。
 
-这种方法适用于特征与目标之间的任何关系：线性、非线性、单调或非单调。相关性只能捕捉线性关系，MI 则能捕捉所有关系。
+这种方法适用于特征与目标之间的任何关系：线性、非线性、单调或非单调。皮尔逊相关系数只能捕捉线性关系，MI 则能捕捉任何依赖关系，但在数据有限时，其估计需要足够的样本和合理的分箱。
 
 | 方法 | 能检测的关系 | 计算成本 | 能处理类别变量？ |
 |--------|---------|-------------------|---------------------|

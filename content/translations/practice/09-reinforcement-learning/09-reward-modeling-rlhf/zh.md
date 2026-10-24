@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/09-reward-modeling-rlhf/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: f1ccc27870fa504fc71d7f8cf53854a1cb52141829fe3f0e44d165430526a0a9
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 1ec5485ebc328bcd79ef197179ec6f3cde0b318e870b6dc6fb8c3ccde5b3af76
 status: reviewed
 ---
 
@@ -124,7 +124,7 @@ def rlhf_step(theta, ref, w, prompt, rng, eps=0.2, beta=0.1, lr=0.05):
 
 ### 第 4 步：监控 KL
 
-每次更新都跟踪平均 `KL(π_θ || π_ref)`。如果它逐渐超过 `约 5-10`，策略已经偏离 `π_SFT` 太远，说明 `β` 过低或奖励投机已经开始。这是实际 RLHF 中最重要的诊断指标。
+每次更新都跟踪平均 `KL(π_θ || π_ref)`。如果它逐渐超过 `约 5-10`（以 nat 为单位、对各词元求和的每条回答 KL，也就是 TRL 记录的单位），策略已经偏离 `π_SFT` 太远：要么 `β` 过低（调高它把策略拉回来），要么奖励投机已经开始。这是实际 RLHF 中最重要的诊断指标。
 
 ### 第 5 步：使用 TRL 的生产配方
 

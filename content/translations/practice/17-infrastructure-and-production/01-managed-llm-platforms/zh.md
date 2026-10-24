@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/01-managed-llm-platforms/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: b6093433c72206b1ba7c936c1c55965aac147dd5789d9d09a645306bad215f55
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 3bc2410ee41ebf7a96d77929154c8036dfbfaa77a034dafdaf30ef5c5eb5c3a2
 status: reviewed
 ---
 
@@ -45,7 +45,7 @@ status: reviewed
 
 ### 规模下的延迟差距
 
-Artificial Analysis 运行持续基准。在等价的 Llama 3.1 405B 部署（共享按需）上，Azure OpenAI 的中位首词元延迟约 50 ms，Bedrock 约 75 ms。差距来自容量模型：Azure 出售 PTU（Provisioned Throughput Units），为你的租户预留 GPU 容量。Bedrock 的对应服务（Provisioned Throughput）也存在，但每单位约从 $21/小时起，因此多数客户仍使用共享按需服务。
+Artificial Analysis 运行持续基准。在等价的 Llama 3.1 405B 部署上，Azure 的中位首词元延迟在使用 PTU 时约 50 ms，Bedrock 在共享按需上约 75 ms。差距来自容量模型：Azure 出售 PTU（Provisioned Throughput Units），为你的租户预留 GPU 容量。Bedrock 的对应服务（Provisioned Throughput）也存在，但每单位约从 $21/小时起，因此多数客户仍使用共享按需服务。
 
 按需共享容量会与其他客户流量竞争，专用容量不会。若产品 SLA 要求 P99 TTFT < 100 ms，就需购买 Azure 的 PTU、Bedrock Provisioned Throughput，或接受默认方差。
 
@@ -107,7 +107,7 @@ i4-platform-lanes
 2. 你的产品需要 Claude 3.7 Sonnet 和 GPT-4o。设计一个双提供商部署：哪个模型去哪个超大规模云厂商、前面放什么网关、故障转移策略是什么？
 3. 一位受监管医疗客户要求 BAA、美国东部数据驻留和小于 100ms 的 P99 TTFT。选择一个平台，并用三个具体特性证明。
 4. 你发现本月 Bedrock 账单在流量未变的情况下增加了 4 倍。没有 Application Inference Profiles 时，如何找出原因？有 profiles 时需要多久？
-5. 阅读 Azure OpenAI 与 Bedrock 定价页。对于每月 1 亿词元的 Claude 工作负载，哪种更便宜：直接 Anthropic API、Bedrock 按需，还是 Bedrock Provisioned Throughput？
+5. 阅读 Anthropic API 与 Bedrock 定价页。对于每月 1 亿词元的 Claude 工作负载，哪种更便宜：直接 Anthropic API、Bedrock 按需，还是 Bedrock Provisioned Throughput？
 
 ## 关键术语
 

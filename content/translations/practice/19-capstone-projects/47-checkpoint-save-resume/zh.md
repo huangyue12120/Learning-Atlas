@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/47-checkpoint-save-resume/docs/en.md
-  revision: 319c898d87dbb709febdfe4837de72917b9d361a
-  sha256: 23232976ff57148fa4b4598793181fcf9040076e077357a8e486c425bb7bea09
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 92982555df1ac82ae9b6e1266e9034ceae19bec15a80380fabb9c633c248c34e
 status: reviewed
 ---
 
@@ -27,7 +27,7 @@ status: reviewed
 
 ## 问题
 
-例如，你把训练作业设为 18 小时，但墙钟上限是 4 小时；集群在第 11 小时因内核升级重启。如果没有检查点，就只能从头开始；即使模型权重幸存，前 11 小时学到的 AdamW 动量也丢失，下一步会突然偏向训练轨迹已经走过的方向。
+例如，你把训练作业设为 18 小时。调度器把每次分配上限设为 4 小时，因此这次运行本就是一连串被恢复的作业。随后集群在这次运行的第 11 小时因为级别比你高的人批准了内核升级而重启。如果没有检查点，就只能从头开始；即使模型权重幸存，前 11 小时学到的 AdamW 动量也丢失，下一步会突然偏向训练轨迹已经走过的方向。
 
 正确的产物是一个包含继续训练所需一切内容的文件：模型参数、优化器状态、调度器状态、可绘图的 loss 历史、当前 step、epoch、epoch 内 batch 计数器，以及所有随机源的 RNG 状态。没有 RNG 状态，恢复后的损失曲线就会不同：模型和数据也许相同，但打乱顺序、dropout mask 和仪表盘上的数字都会不同。
 

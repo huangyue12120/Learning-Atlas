@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/63-multimodal-eval/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 44d6e176df79bfb1bb3a073a28eecc717047f3d437dd25bee2dd7958b8f87c6d
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 63e8164d1f263d49353a7bb206ac80c554f292a43464154f8786f18cfe3621fc
 status: reviewed
 ---
 
@@ -119,7 +119,7 @@ python3 code/main.py
 
 每个指标都能直接映射到生产基准：
 
-- **检索。** MS-COCO 5K val、Flickr30K、ImageNet zero-shot 都是同一相似度矩阵上的 R@K 问题；把合成评测换成真实文件，函数签名保持不变。
+- **检索。** MS-COCO 5K val 和 Flickr30K 都是同一相似度矩阵上的 R@K 问题。ImageNet zero-shot 也使用该矩阵，每个类别一个提示词嵌入，但它报告的是 top-1 分类准确率，也就是对类别提示词的 R@1；把合成评测换成真实文件，函数签名保持不变。
 - **VQA。** VQA v2、GQA、OK-VQA 使用相同的 exact-match 形状（VQA v2 用 soft accuracy 代替单答案 EM）。
 - **BLEU-4。** MS-COCO captioning、NoCaps、Flickr30K captioning 都使用 BLEU-4，并加上 CIDEr 和 METEOR；增加 CIDEr 只是再写一个函数。
 

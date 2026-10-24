@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/46-gradient-accumulation/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 52ff1a6aa8ab689966f0ca949164cd5dc2265da0b0514f8fe432e9e54dc404aa
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 6bb02e2d36dec4aa564d89b0856600508074057c5915a2f906b2b37ca82fca26
 status: reviewed
 ---
 
@@ -20,7 +20,7 @@ status: reviewed
 
 ## 学习目标
 
-- 推导 `effective_batch = micro_batch * accum_steps`。
+- 推导 `effective_batch = micro_batch * accum_steps * world_size`，在本课使用的单设备上即为 `micro_batch * accum_steps`。
 - 实现逐微批次损失缩放，使累积梯度等同于一次完整批次反向传播。
 - 只在最后一个微批次同步优化器。
 - 阅读有效批次与吞吐曲线，解释收益递减。

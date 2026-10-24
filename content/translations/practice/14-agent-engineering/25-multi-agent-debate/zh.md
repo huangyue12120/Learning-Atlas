@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/25-multi-agent-debate/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 4dcb50b8b599fd3666f1a8ff1930ecec21a5dcd27ec5262deabad5a375aff61c
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 8b0db5540a5262197d49a09e20eb64b6d1947eb893f1ac58d0e846734489b8b5
 status: reviewed
 ---
 
@@ -128,7 +128,7 @@ outputs/skill-debate.md 会搭建可配置拓扑、N、R 和收敛规则的多�
 
 ## 延伸阅读
 
-- [Du 等，Society of Minds（arXiv:2305.14325）](https://arxiv.org/abs/2305.14325)——经典多智能体辩论
+- [Du 等，Improving Factuality and Reasoning in Language Models through Multiagent Debate（arXiv:2305.14325）](https://arxiv.org/abs/2305.14325)——经典多智能体辩论
 - [Sparse Communication Topology（arXiv:2406.11776）](https://arxiv.org/abs/2406.11776)——稀疏拓扑结果
 - [Anthropic，构建有效的智能体](https://www.anthropic.com/research/building-effective-agents)——编排器–worker 作为辩论变体
 - [Madaan 等，Self-Refine（arXiv:2303.17651）](https://arxiv.org/abs/2303.17651)——单模型自我批评对应方案

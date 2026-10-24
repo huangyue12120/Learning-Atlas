@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/20-deepseek-v3-walkthrough/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: dfd1e6bd1868266e470ed5c232da1c4cc0cb515fa1e02f7a23d840c8cb5fde13
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 95c34c357dc25aced21ff1e1353cfb26cfd5d2daff68fbecdf6c58344450e002
   anchor:
     heading: "The twist: MLA instead of GQA"
     slug: the-twist-mla-instead-of-gqa

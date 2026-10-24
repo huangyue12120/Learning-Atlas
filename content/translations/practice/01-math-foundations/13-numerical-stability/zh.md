@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/13-numerical-stability/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 12856656d74e92c2e8b1a1766f7434cff54ef1b5be8875ef1f9a9e6fdde1ca1d
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0a2ed11f1728142676a900ccd812099c78e4429155692ca22d0b27aafd94c2e6
 status: reviewed
 ---
 
@@ -196,7 +196,7 @@ exp(101) = 7.31e43
 exp(102) = 1.99e44
 sum      = 2.99e44
 
-These overflow float32 (max ~3.4e38)? No, 2.69e43 < 3.4e38? Actually:
+2.69e43 > 3.4e38, the float32 maximum, so every term overflows.
 exp(88.7) is already at the float32 limit.
 exp(100) = inf in float32.
 ```

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/05-full-transformer/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: cb33225ca1b2bbaf32a06d637343c22fbaaf3083081bcf04479409c53070a662
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: b6b70606d3ee9b0a4d7165bb78c97248da19aca1de0e05c576ef98640f25bac4
   anchor:
     heading: The Concept
     slug: the-concept

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/13-shared-memory-blackboard/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 7e7a61e06f94de6a99a218705ffcb297058136ace1c363d03e0dce8896a9b8e8
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 026e031bb1a4843bfce480f713b5ce499cd48df1078156390f14d322bf4c9120
 status: reviewed
 ---
 
@@ -79,7 +79,7 @@ status: reviewed
 
 1. **为每次写入附加来源信息。** 共享状态中的每条记录谁写、何时写、使用何种提示词，以及（如适用）智能体引用了什么来源。下游智能体根据来源信息保持怀疑。
 2. **对写入做版本化；将其视为只追加。** 更正是一条取代旧记录的新记录，而不是原地更新。审计轨迹得以保留。
-3. **至少保留一个不能写共享状态的智能体。** 只读验证者智能体抽样记录、重新获取来源并标记不一致。因为它不能写入池，不会被池投毒。
+3. **至少保留一个不能写共享状态的智能体。** 只读验证者智能体抽样记录、重新获取来源并标记不一致。它仍会读取池，因此可能被某条坏记录骗到，但它会对照原始来源核对每条记录，又不能写入，因此它的判定绝不会把被投毒的事实回灌进共享状态。
 
 ### 黑板先例（Hayes-Roth，1985）
 

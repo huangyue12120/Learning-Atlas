@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/39-reviewer-agent/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 363be9d97da5499c7fbfe8381559490ce77bbb1af46c45f33f01b5999e0086f1
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 99cbcda09dd49ac7c208c2d86446189f997e8f236243362dd2bc333032d9a1d4
 status: reviewed
 ---
 
@@ -54,7 +54,7 @@ flowchart LR
 | 验证质量 | 验收命令真的证明了目标，还是只证明了一个较弱的版本？ |
 | 交接准备度 | 下一次会话能从当前状态干净地接手吗？ |
 
-总分为 10 分。低于 7 分是软失败；低于 5 分是硬失败。
+总分为 10 分。低于 7 分是软失败；低于 5 分，或任一维度为 0，是硬失败。
 
 ### 审阅者是独立角色，而不是独立模型
 

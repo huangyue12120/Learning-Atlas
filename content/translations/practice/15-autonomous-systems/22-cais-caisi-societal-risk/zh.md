@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/22-cais-caisi-societal-risk/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 1529015064248f4681d5f98f3889c3d938cb29bf7c6b2f82de650573ae2d45a7
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 85030e0f43e5b6c3cf6ac7bbb7c61458c29ad9037f184deb708384f80590cb05
 status: reviewed
 ---
 
@@ -30,7 +30,7 @@ status: reviewed
 
 ### CAIS —— AI 安全中心
 
-- 成立：2022 年在旧金山，由 Dan Hendrycks 与同事创办（“Zhang”这一名字指早期合作者，而非现任共同创办人；现任领导层见 CAIS 网站）。
+- 成立：2022 年在旧金山，由 Dan Hendrycks 与 Oliver Zhang 创办。Hendrycks 任执行与研究总监；Zhang 任常务总监。
 - 身份：501(c)(3) 非营利组织。
 - 2023 年代表成果：灭绝风险声明，由数百位研究者和 CEO 联署。其表述为：“缓解 AI 导致灭绝的风险，应与流行病和核战争等其他社会规模风险一道成为全球优先事项。”
 - 2026 年成果：用于前沿模型评估的 AI Dashboard、Remote Labor Index（与 Scale AI 联合）、超级智能战略论文和 AI Frontiers 通讯。

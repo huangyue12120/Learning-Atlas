@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/04-image-classification/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: cc202c8c92aeb6a006651ee5afe8554209aa5eeb55b677c78e47112ea39575d4
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0af8e07488ade00c322b681d8889a968987dfe40b0f61180a10533eece8a9571
 status: reviewed
 ---
 
@@ -111,7 +111,7 @@ Cutmix：
 
 ### 标签平滑
 
-它是 mixup 的近亲。与其针对 `[0, 0, 1, 0, 0]` 训练，不如针对小 `eps`（如 0.1）的 `[eps/C, eps/C, 1-eps, eps/C, eps/C]` 训练。它阻止模型产生任意尖锐的 logits，几乎无成本地改善校准；从 PyTorch 1.10 起内置于 `nn.CrossEntropyLoss(label_smoothing=0.1)`。
+它是 mixup 的近亲。与其针对 `[0, 0, 1, 0, 0]` 训练，不如针对小 `eps`（如 0.1）的 `[eps/C, eps/C, 1-eps+eps/C, eps/C, eps/C]` 训练（即 one-hot 目标与均匀分布混合，因此各项之和仍为 1）。它阻止模型产生任意尖锐的 logits，几乎无成本地改善校准；从 PyTorch 1.10 起内置于 `nn.CrossEntropyLoss(label_smoothing=0.1)`。
 
 ### 准确率之外的评估
 
@@ -426,7 +426,7 @@ val_ds   = CIFAR10(root="./data", train=False, download=True, transform=eval_tf)
 | DataLoader | “批处理器” | 为数据集封装打乱、批处理和（可选）多 worker 加载；一半训练 bug 都会归咎于它 |
 | 增强（Augmentation） | “随机变换” | 训练时保持标签不变的任意像素变换；教授 CNN 本身没有的不变性 |
 | Mixup / Cutmix | “混合两张图” | 同时混合输入和标签，使分类器学习平滑插值而非硬边界 |
-| 标签平滑（Label smoothing） | “更软的目标” | 以 `(1-eps, eps/(C-1), ...)` 替换 one-hot；改善校准并轻微提升准确率 |
+| 标签平滑（Label smoothing） | “更软的目标” | 以 `(1-eps+eps/C, eps/C, ...)` 替换 one-hot；改善校准并轻微提升准确率 |
 | Top-k 准确率 | “Top-5” | 正确类位于概率最高的 k 个预测中；用于类别确实模糊的数据集 |
 | 混淆矩阵（Confusion matrix） | “错误所在” | C x C 表，项 `(i, j)` 计数真类 i 被预测为 j 的图像；对角线正确，非对角线说明应修什么 |
 

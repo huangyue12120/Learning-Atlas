@@ -4,8 +4,8 @@ language: zh-CN
 source:
   path: phases/01-math-foundations/01-linear-algebra-intuition/docs/en.md
   repository: ai-engineering-from-scratch
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: bb9c623a3a405f9aad08685cac764ab984fe5fac8df2a191449c1b93bc5f59df
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: f8bd6e7a8cd337ba0cb2d90a8acddb60b32c58d4dd5d27ae451181772267410c
 status: reviewed
 ---
 
@@ -127,7 +127,7 @@ v3 = [2, 1, 0]   # v3 = 2*v1 + v2
 
 | 情形 | 秩 | 对机器学习的含义 |
 |---|---|---|
-| 满秩（`rank = min(m, n)`） | 可能的最大值 | 最小二乘问题有唯一解，模型条件良好。 |
+| 满秩（`rank = min(m, n)`） | 可能的最大值 | 当行数至少与列数相等（列满秩）时，最小二乘问题有唯一解；当行数少于列数时，有无穷多个解可以完全拟合。 |
 | 秩亏（`rank < min(m, n)`） | 小于最大值 | 特征冗余，权重有无穷多组解，需要正则化。 |
 | 秩 1 | 1 | 每一列都是同一向量的缩放副本，所有数据都落在一条线上。 |
 | 近似秩亏（奇异值很小） | 数值上偏低 | 矩阵病态，微小的输入噪声会带来很大的输出变化，可使用 SVD 截断或岭回归。 |

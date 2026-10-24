@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/37-runtime-feedback-loops/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 702a2f8ef5e03dc631ba401af3b12cbfff1e4cfa1f5d1ae3a38f3ddd8f7681eb
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 37a5dfe431110daa7fc6e639681a387cdc41692f66e7adc0285dfa04c595494c
 status: reviewed
 ---
 
@@ -117,7 +117,7 @@ python3 code/main.py
 2. 添加一个 `redaction` 步骤，删除匹配 `^Bearer ` 或 `password=` 的行。在 fixture 记录上测试它。
 3. 将 `feedback_record.jsonl` 的总大小限制为 1 MB，通过轮换到 `.1`、`.2` 文件实现。为轮换策略辩护。
 4. 添加 `parent_command_id`，让重试链可见：哪条命令产生了下一条命令所消费的输入。
-5. 将 JSONL 管道传入一个突出显示最新非零退出码的小型 TUI。要让它在审阅中有用，TUI 必须显示哪八项关键功能？
+5. 将 JSONL 管道传入一个突出显示最新非零退出码的小型 TUI。列出要让它在审阅中有用，TUI 必须显示的八项关键功能。
 
 ## 关键术语
 

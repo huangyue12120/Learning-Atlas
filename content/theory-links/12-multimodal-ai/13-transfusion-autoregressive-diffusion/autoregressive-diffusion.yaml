@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/13-transfusion-autoregressive-diffusion/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: a70a419b525b222b0bc17dab1d3e23742b84adf6f887b212b06d837121915cb1
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: a916f666c81f76e18d00665a0336c73b3d468d00c2eda158db7537ee6dc51862
   anchor:
     heading: The Concept
     slug: the-concept

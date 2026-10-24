@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/15-indirect-prompt-injection/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: c45f346b585ff1881733b061f7e55d034eacaf23e912374d001ee27dac87df38
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 590fcb02b840d3542d3f4390022407b695d4aeba17db8be356f0a267fa4f5312
   anchor:
     heading: Three delivery vectors
     slug: three-delivery-vectors

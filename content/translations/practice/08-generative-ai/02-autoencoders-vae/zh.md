@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/02-autoencoders-vae/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: eba81d8e5209ac53fa26a2da2852d193c9ce0cbb348c5825cfd76d4495f6f4d6
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: fa9520546ee1f512dde70a010bc5ce868964eaf62ff09b7bd0411b76830ccdeb
 status: reviewed
 ---
 
@@ -110,7 +110,7 @@ def sample(dec, z_dim, rng):
 - **后验坍塌。** KL 项过于强烈地推动 `q(z|x) → N(0, I)`，导致 `z` 不再携带有关 `x` 的信息。解决方法：β 退火（从 β=0 开始，逐渐升到 1）、自由比特（free bits），或不对未激活维度施加 KL。
 - **样本模糊。** 高斯解码器似然意味着使用 MSE 重建，而 MSE 在 L2 下的贝叶斯最优解是均值；多个可信数字的均值就是一个模糊数字。解决方法：采用离散解码器（VQ-VAE、NVAE），或者只把 VAE 用作编码器，在潜变量上叠加扩散模型（Stable Diffusion 正是这样做的）。
 - **β 太大、增大得太早。** 这会导致后验坍塌。从 β≈0.01 开始并逐步提高。
-- **潜变量维度过小。** MNIST 可使用 16 维，ImageNet 256² 可使用 256 维，ImageNet 1024² 可使用 2048 维。Stable Diffusion 的 VAE 把 512×512×3 压缩为 64×64×4（原文表述为空间面积下采样 32 倍、通道下采样 32 倍）。
+- **潜变量维度过小。** MNIST 可使用 16 维，ImageNet 256² 可使用 256 维，ImageNet 1024² 可使用 2048 维。Stable Diffusion 的 VAE 把 512×512×3 压缩为 64×64×4（每条边下采样 8 倍，空间面积下采样 64 倍；通道数从 3 变为 4，因此数值总量约减少到原来的 1/48）。
 
 ## 使用
 

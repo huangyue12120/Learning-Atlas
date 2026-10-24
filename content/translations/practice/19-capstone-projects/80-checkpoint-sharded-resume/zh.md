@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/80-checkpoint-sharded-resume/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 426b4591abde1e27be4ce6c796ffd6fce3d2b818a2f6c6d47bbc0ead34705e42
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0a3c6dbb7e63bffccecfd6f76f96c2e96cddc30e6e0ef3997853f81c52e9c755
 status: reviewed
 ---
 
@@ -63,7 +63,7 @@ flowchart TD
 
 ### 原子写入
 
-标准模式是：把每个分片写入 `<name>.tmp`，把清单写入 `manifest.json.tmp`，分别执行 fsync，然后重命名。在同一文件系统内，POSIX rename 是原子的；新文件要么完整存在，要么旧文件仍然存在。最终重命名前发生崩溃时，上一份检查点仍是生效版本。没有原子写入时，崩溃可能留下一个已经存在清单但内容不完整的分片，加载时会损坏恢复中的优化器状态。
+标准模式是：把每个分片写入 `<name>.tmp`，把清单写入 `manifest.json.tmp`，分别执行 fsync，先重命名各分片，最后重命名清单。在同一文件系统内，单次 POSIX rename 是原子的：新文件要么完整存在，要么旧文件仍然存在。一组 rename 并不是事务，因此清单的重命名是提交点，加载器会用清单中的哈希逐一校验每个分片。把每份检查点写入各自的 step 目录；这样在清单重命名前发生崩溃时，上一份检查点仍是生效版本。复用同一个目录会破坏这一保证，因为在新清单落盘前，分片重命名就已经替换了旧分片。没有原子写入时，崩溃可能留下一个已经存在清单但内容不完整的分片，加载时会损坏恢复中的优化器状态。
 
 ### 结构必须防御的三种故障
 

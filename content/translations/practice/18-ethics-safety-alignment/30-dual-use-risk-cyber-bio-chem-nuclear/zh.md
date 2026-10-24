@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/30-dual-use-risk-cyber-bio-chem-nuclear/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 7a27fd0e8a64654fc19d8c308a93104ae72ab42d0a3a89e8fb5aaf5afbd4ce7e
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: a02cd2fbfc5f3eb0d58731a87d1703103a03916d5958a0284006d640b5c89a4c
 status: reviewed
 ---
 
@@ -36,7 +36,7 @@ status: reviewed
 
 ## 问题
 
-第 17 课是测量方法，第 30 课是 2026 年测量状态。2024 年到 2025 年末，图景发生了实质变化：每个领域都跨过了 2024 年框架未预料到的一个阈值。
+第 17 课是测量方法，第 30 课是 2026 年测量状态。2024 年到 2025 年末，图景发生了实质变化：四个领域中有三个跨过了 2024 年框架未预料到的阈值。
 
 ## 概念
 

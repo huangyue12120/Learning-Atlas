@@ -9,7 +9,7 @@
 
 ## 建议步骤
 
-1. 为动作 schema 增加一个 `screenshot_region` 工具（裁剪 + 缩放）。哪些任务会受益？
+1. 代码的 schema 在九个核心动作之外增加了一个 `screenshot_region` 工具（裁剪 + 缩放）。哪些任务会受益？
 
 2. 阅读 AgentVista（arXiv:2602.23166）。描述最困难的任务类别，以及前沿模型为什么仍会失败。
 

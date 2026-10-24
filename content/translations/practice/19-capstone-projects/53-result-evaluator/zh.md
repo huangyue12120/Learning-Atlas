@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/53-result-evaluator/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: f474a4571273b6ce7c206e8f7aecb0415109c2f0a0d60098bd40ca580eeb36e0
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: b8830d42dac13873d1a641bff4c94ca01ac2971061fa4b592afabc346213cab9
 status: reviewed
 ---
 # 结果评估器
@@ -80,7 +80,7 @@ flowchart TD
 
 困惑度是损失的指数函数，损失下降 0.1 对困惑度的影响并不相同。直接跨配置比较困惑度没有问题，但要在同一报告中把它和线性指标混合，就需要归一化。
 
-当指标的 `scale` 为 `"log"` 时，本课先取自然对数，再计算改进值，随后在对数空间应用阈值。困惑度从 32 降到 28 时，`log(28) - log(32) = -0.133`；对于越低越好的指标，这远高于百分之二阈值。
+当指标的 `scale` 为 `"log"` 时，本课先取自然对数，再计算改进值，随后在对数空间应用阈值。困惑度从 32 降到 28 时，会变成 `log(32) = 3.466` 对 `log(28) = 3.332`。对于越低越好的指标，相对改进为 `(3.466 - 3.332) / 3.466 = 0.039`，越过了百分之二阈值。
 
 ```text
 if scale == "log":

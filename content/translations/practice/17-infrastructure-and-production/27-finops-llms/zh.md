@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/27-finops-llms/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 1430e4cd6817449b618d6065ee9371aee75ed3cfbb05087a13b0c5db29827c34
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: ee002bdfe78387cd104a298b66a252f1d38a7348bffd033062725f166b2a43a7
 status: reviewed
 ---
 
@@ -143,7 +143,7 @@ i4-spend-ladder
 1. 运行 `code/main.py`。kill switch 在什么 z-score 触发？如何选择阈值？
 2. 设计一张按租户、按任务的成本仪表盘。最先构建哪 5 个视图？
 3. 你最大的租户在单位经济学上为负。提出三项按客户影响排序的干预。
-4. 计算支持产品每张已解决工单的成本：每张 3M 词元、每天约 800 张、GPT-5 缓存费率。
+4. 计算支持产品每张已解决工单的成本：每张 3M 词元、每天约 800 张，全部输入按 GPT-5 缓存费率 $0.125/M 计（发布时的标价；请查看实时价目表）。
 5. 请论证追溯打标签能否有效。何时可接受？
 
 ## 关键术语

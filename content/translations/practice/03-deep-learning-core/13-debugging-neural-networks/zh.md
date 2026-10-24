@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/13-debugging-neural-networks/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: f6eaa46e83913a121c488b047268074348f059bd269638f1960911b15a0c1ab2
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: dc610caff98900df37b4c9d66a8dd7f1e959706f664201e7190268c9aa81a378
 status: reviewed
 ---
 
@@ -33,7 +33,7 @@ status: reviewed
 
 损坏的神经网络仍可完整运行、打印损失值、输出预测；损失也许下降，预测看起来也许合理，但模型可能静默地学习捷径、记忆噪声，或收敛到无用局部极小值。Google 研究人员估计，ML 调试时间的 60–70% 花在不报错却降低模型质量的“静默” bug 上。
 
-工作模型和损坏模型之间往往只差一行：漏掉 `zero_grad()`、维度转置、学习率相差 10 倍。“Recipe for Training Neural Networks”（2019）开篇就说：“最常见的神经网络错误是不崩溃的 bug。”
+工作模型和损坏模型之间往往只差一行：漏掉 `zero_grad()`、维度转置、学习率相差 10 倍。经典的“Recipe for Training Neural Networks”（2019）开篇就说：“最常见的神经网络错误是不崩溃的 bug。”
 
 本课教你找到它们。
 

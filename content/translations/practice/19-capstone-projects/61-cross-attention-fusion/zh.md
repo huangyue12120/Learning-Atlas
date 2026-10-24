@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/61-cross-attention-fusion/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: ab465527a7ba5bb7ef01be0f03d86b1f23963384853c4e8c07a1afd5f3735e69
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: b52fbcfdcf193e43b5d601e94614bae5ebefc69406e728814a96c7e485b3c45a
 status: reviewed
 ---
 
@@ -71,7 +71,7 @@ flowchart LR
 
 ### 块组合
 
-解码器块依次执行：pre-LN → 自注意力 → 残差 → pre-LN → 交叉注意力 → 残差 → pre-LN → 前馈层 → 残差。三个子层各自拥有一个 LayerNorm。Flamingo 论文在交叉注意力上加入可学习门控，使模型出于训练稳定性考虑可以暂时跳过图像路径；本课采用的标准基线不带门控。
+解码器块依次执行：pre-LN → 自注意力 → 残差 → pre-LN → 交叉注意力 → 残差 → pre-LN → 前馈层 → 残差。三个子层各自拥有一个 LayerNorm。Flamingo 论文在交叉注意力上加入一个初始化为零的可学习 tanh 门控，使冻结的语言模型起初保持不变、训练保持稳定；本课采用的标准基线不带门控。
 
 ```python
 class DecoderBlock:

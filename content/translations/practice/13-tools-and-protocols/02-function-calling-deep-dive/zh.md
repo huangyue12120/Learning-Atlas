@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/02-function-calling-deep-dive/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 4691bbc616aa41426d78eb1e3b77b8635de13cf451272e63fba79b59094a7e71
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: af3495ae5828e4e2c654f287aabfeb4b371d2b77bee6983a1d9696b18746404c
 status: reviewed
 ---
 
@@ -63,12 +63,12 @@ status: reviewed
 | 结果块 | `tool` 角色、`tool_call_id` | 带 `tool_result`、`tool_use_id` 的 `user` | 带匹配 `id` 的 `functionResponse` |
 | 强制工具 | `tool_choice: {type: "function", function: {name}}` | `tool_choice: {type: "tool", name}` | `tool_config: {function_calling_config: {mode: "ANY"}}` |
 | 禁止工具 | `tool_choice: "none"` | `tool_choice: {type: "none"}` | `mode: "NONE"` |
-| 严格 schema | `strict: true` | schema 即契约（始终强制） | 请求级 `responseSchema` |
+| 严格 schema | `strict: true` | 每个工具上的 `strict: true`（需主动开启） | 请求级 `responseSchema` |
 
 ### 你实际会遇到的限制
 
 - **OpenAI。** 每次请求 128 个工具。Schema 深度 5。参数字符串不超过 8192 字节。严格模式要求没有 `$ref`，没有相互重叠的 `oneOf`/`anyOf`/`allOf`，并且每个属性都列在 `required` 中。
-- **Anthropic。** 每次请求 64 个工具。Schema 深度实际上不设上限，但实践上限为 10。没有严格模式标志；schema 是契约，模型通常会遵守。
+- **Anthropic。** 每次请求 64 个工具。Schema 深度实际上不设上限，但实践上限为 10。严格工具调用需要主动开启：在工具定义上设置 `strict: true`。不开启时，schema 是模型通常会遵守的契约，而不是保证。
 - **Gemini。** 每次请求 64 个函数。Schema 类型是 OpenAPI 3.0 子集（与 JSON Schema 2020-12 有轻微差异）。Gemini 3 起并行调用具有唯一 ID。
 
 ### `tool_choice` 的行为
@@ -105,7 +105,7 @@ Phase 13 · 03 会深入并行与流式重组。本课聚焦声明和单调用�
 
 - **OpenAI（非严格模式）。** 模型返回 `arguments: "{bad json}"`，你的 JSON 解析失败，于是注入错误消息并重新调用。
 - **OpenAI（严格模式）。** 校验发生在解码期间；无效 JSON 不可能出现，但可能出现 `refusal`。
-- **Anthropic。** `input` 可能含有意外字段；schema 是建议性的。必须在服务器端校验。
+- **Anthropic（非严格模式）。** `input` 可能含有意外字段；schema 是建议性的。必须在服务器端校验。设置 `strict: true` 后，采样会被约束在 schema 内。
 - **Gemini。** OpenAPI 3.0 的一个问题：对象字段上的 `enum` 会被静默忽略；要自行校验。
 
 ### 转换器模式

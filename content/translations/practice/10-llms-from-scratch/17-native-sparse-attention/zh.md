@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/17-native-sparse-attention/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 3b9e728207f324d13a63af2a9fb1fa519eddf18b129225fef32a38086c8a0b4c
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: dfddd42935d6ef205a85aebb07d7d04edbd39d81ae4fffb5427def0c26966c34
 status: reviewed
 ---
 
@@ -57,7 +57,7 @@ status: reviewed
 
 选择步骤（top-k 块）是离散的。离散操作会切断梯度流。此前的稀疏注意力工作要么跳过穿过选择步骤的反向传播（限制了训练），要么使用在推理时无法带来真正稀疏性的连续松弛。
 
-NSA 绕开了这个问题：压缩分支注意力本身就是对整个序列执行的可微粗粒度注意力。top-k 操作只是复用压缩分支的最高注意力分数，用来决定加载哪些细粒度块。梯度会穿过压缩分支的分数（这些分数同时影响压缩输出和选择逻辑），而被选块对最终输出的贡献也同样可微。不可微的 `top_k` 操作在前向计算图上相当于无操作——它只控制从内存中加载哪些块。
+NSA 绕开了这个问题：压缩分支注意力本身就是对整个序列执行的可微粗粒度注意力。top-k 操作只是复用压缩分支的最高注意力分数，用来决定加载哪些细粒度块。梯度通过压缩分支自身的输出到达压缩分支的分数，而不是通过块的选择。在被选块内部，对选定键值的注意力是普通注意力，因此它们对最终输出的贡献也同样可微。`top_k` 索引选择本身得不到梯度：它只控制从内存中加载哪些块。
 
 正因为如此，NSA 可以端到端用于预训练。模型联合学习如何通过三个分支路由信息，形成一种稀疏模式，并在推理时真正带来所承诺的加速。
 

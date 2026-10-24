@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/08-optimization/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 3ff003a1ae4377981812e9aa7694924fd18d70e769291ffa60d573a9aa2cd5b1
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 37a97829f21025866d4bd4349478fcd6572dcc734154b836ce3e69f4813cb278
 status: reviewed
 ---
 
@@ -84,7 +84,7 @@ w=w-lr*m_hat/(sqrt(v_hat)+epsilon)。
 
 ### 凸与非凸
 
-凸函数任意局部最小都是全局最小，如 f(x)=x^2；梯度下降总能找到它。神经网络损失是非凸的，含局部极小、鞍点和平台。高维中局部极小往往与全局最小损失相近，鞍点（有些方向最小、有些方向最大）才更常构成障碍；动量和 mini-batch 噪声有助逃离。
+凸函数没有坏的局部极小：任意局部最小都是全局最小。对一个有最小值的光滑凸函数，学习率足够小的梯度下降会收敛到它。如 f(x)=x^2 是凸的，其最小值唯一。神经网络损失是非凸的，含局部极小、鞍点和平台。高维中局部极小往往与全局最小损失相近，鞍点（有些方向最小、有些方向最大）才更常构成障碍；动量和 mini-batch 噪声有助逃离。
 
 ### 损失地形可视化
 
@@ -112,7 +112,7 @@ w = w - \text{lr} \cdot \text{gradient}
 
 ```mermaid
 graph TD
-    A["* 起点（高损失）"] --> B["沿梯度下山"]
+    A["* 起点（高损失）"] --> B["逆着梯度下山"]
     B --> C["接近最小值"]
     C --> D["o 最小值（低损失）"]
 ```

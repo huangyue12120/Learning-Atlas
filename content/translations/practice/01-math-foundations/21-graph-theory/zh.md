@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/21-graph-theory/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: a0457926d2720ab0189388e8a3487ff2ac75c613c6b35eabb290f9eb0a1c8353
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 5752ed6f872ea10f2dd68a5ef93766f214b3ed60c4ca786006d0c90aae1506fe
 status: reviewed
 ---
 # 面向机器学习的图论
@@ -276,6 +276,9 @@ class Graph:
     def degree(self, node):
         return len(self.adj[node])
 
+    def weighted_degree(self, node):
+        return sum(self.adj[node].values())
+
     def adjacency_matrix(self):
         import numpy as np
         A = np.zeros((self.n, self.n))
@@ -288,7 +291,7 @@ class Graph:
         import numpy as np
         D = np.zeros((self.n, self.n))
         for i in range(self.n):
-            D[i][i] = self.degree(i)
+            D[i][i] = self.weighted_degree(i)
         return D
 
     def laplacian(self):

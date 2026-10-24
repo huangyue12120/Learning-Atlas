@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/03-parallel-and-streaming-tool-calls/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: b848b9e12e391ea6442042d0108f5c9cc9a5527a5f31a8acabed0083e8da9306
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 0546dbcf5d05d4eec8e7fb5bfb352cd37d55f575c41ad2fd0c01f0f651e19b61
 status: reviewed
 ---
 
@@ -77,7 +77,7 @@ LLM -> final text answer
 
 宿主让每个调用的执行器运行在自己的线程、协程或远程工作进程上。最简单的测试工具使用线程池；生产环境使用 `asyncio` 配合 `asyncio.gather` 或结构化并发。完成顺序不可预测——id 才是标识符。
 
-一个常见错误是按照调用列表顺序而不是完成顺序回复结果。通常这仍然有效，因为模型只关心 `tool_call_id`；但如果某个结果丢失或重复，乱序提交会让调试更困难。最好按照完成顺序回复，并明确带上 id。
+一个常见错误是按照调用列表顺序而不是完成顺序回复结果。通常这仍然有效，因为模型只关心 `tool_call_id`；但如果某个结果丢失或重复，回复列表的顺序与结果实际到达的顺序不一致，会让这个缺口更难在日志中找到。最好按照完成顺序回复，并明确带上 id。
 
 ### 流式工具调用
 

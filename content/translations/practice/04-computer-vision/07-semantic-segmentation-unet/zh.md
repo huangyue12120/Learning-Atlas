@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/04-computer-vision/07-semantic-segmentation-unet/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 90b6b1405dfb64fb5a0cdbd7fb6949bd5f6118c2a46a3d0262f595cf6afe2aaf
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 81af3735be0f9a8b904f3008084e52a18a6eea157197acfc87e592553da5f194
 status: reviewed
 ---
 
@@ -140,7 +140,7 @@ L = L_{\text{cross\_entropy}} + \lambda \cdot L_{\text{dice}} \qquad (\lambda \a
 
 ### 输入分辨率权衡
 
-U-Net 编码器四次减半，输入须能被 16 整除。医学图像常为 512x512 或 1024x1024，自动驾驶裁剪为 2048x1024。U-Net 内存成本随 `H * W * C_max` 增长，在 1024x1024、1024 瓶颈通道时一次前向已需数 GB 显存。
+U-Net 编码器四次减半，因此只有当输入能被 16 整除时，跳跃连接才会精确对齐。其他尺寸需要填充或在上采样块中做缩放（步骤 2）。医学图像常为 512x512 或 1024x1024，自动驾驶裁剪为 2048x1024。U-Net 内存成本随 `H * W * C_max` 增长，在 1024x1024、1024 瓶颈通道时一次前向已需数 GB 显存。
 
 两种标准变通方法：
 

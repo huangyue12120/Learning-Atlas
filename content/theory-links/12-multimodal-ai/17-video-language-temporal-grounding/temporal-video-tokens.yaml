@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/17-video-language-temporal-grounding/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 9e17f6c9311d0df49f261e4435e4420793dd9780d5ae031beccc3249580751f1
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 30e57a32a304605c79a8f13d857b248c0936f9f2abd1dc4f4c6fa11b816bf185
   anchor:
     heading: The Concept
     slug: the-concept

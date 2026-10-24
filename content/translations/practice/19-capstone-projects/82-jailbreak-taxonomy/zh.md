@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/82-jailbreak-taxonomy/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: f99867815ae2040c21a5c28a41aec2615e67da79de46d86749fd8c0bd97c1c9f
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: a844fc587df1d1c09c632b9cd3942c054b5c1f37d2881051dbc80684fda35fa8
 status: reviewed
 ---
 
@@ -59,7 +59,7 @@ flowchart TB
   H --> D[覆盖率图]
 ```
 
-每个 fixture 是一条包含 `id`、`category`、`subtype`、`prompt`、`target_behavior` 和 `severity` 的记录。分类对象加载这些 fixture，按类别分组，并提供 `match` API：给定一个候选提示，返回最相近的 fixture 及其类别。匹配使用字符 trigram 余弦相似度，粗粒度、速度快且不依赖第三方库。它不是检测器；检测器位于第 83 课。本课的对象负责产出标签。
+每个 fixture 是一条包含 `id`、`category`、`subtype`、`prompt`、`target_behavior` 和 `severity` 的记录。分类对象加载这些 fixture，按类别分组，并提供 `match` API：给定一个候选提示，返回最相近的 fixture 及其类别。匹配使用字符 trigram 余弦相似度，粗粒度、速度快，且只依赖 numpy。它不是检测器；检测器位于第 83 课。本课的对象负责产出标签。
 
 严重度为 1–5 级：1 级是针对无害目标的笨拙攻击（例如“请假装自己是海盗”），5 级是成功后会产生部署系统绝不能输出的内容（例如危险活动的操作细节）。大多数 fixture 处于 2–3 级，因为生产规模的真实攻击往往简单而偷懒。严重度由 fixture 作者设定；两位评审相差超过一级，说明评分标准需要进一步明确。
 

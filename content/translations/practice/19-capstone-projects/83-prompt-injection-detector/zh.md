@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/83-prompt-injection-detector/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 3e0e78babb6644f69e67ab415dafd71efc91f92ce50b2707c74b82e1c19da90b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: f4fad47e48ce5bb61756a1cc439f32f3144bc9086b6ac50d3354246786a91b7a
 status: reviewed
 ---
 
@@ -92,4 +92,4 @@ normalize 阶段使用标准库中的 `re.sub` 和 `codecs`。base64 normalize �
 
 ## 延伸阅读
 
-本 Track 的第 84–87 课。这里的检测器是端到端安全网关组合的三个信号之一。
+本 Track 的第 84–87 课。这里的检测器是端到端安全网关组合的四个信号之一，另外三个是词元过滤器、分类器和规则引擎。

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/05-whisper-architecture-finetuning/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 90a39b539e0065af945955829839edeaaa63883fa9b5e21bf15c9b8c7db0efb5
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 2aceee4bc8aeb98c41506c992011b3b9dd2f500756cc74a3dce6c379593acd73
   anchor:
     heading: Fine-tuning
     slug: fine-tuning

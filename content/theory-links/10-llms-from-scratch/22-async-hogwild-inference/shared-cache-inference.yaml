@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/22-async-hogwild-inference/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 2ae5527935376bc320f68a0dc4563963b7887da9376394152477e8bfc2e31f23
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: eab99bd43b48681be62980f75107b88ea5c385cd3d0c7c36dfc20b4521727113
   anchor:
     heading: RoPE makes this tractable
     slug: rope-makes-this-tractable

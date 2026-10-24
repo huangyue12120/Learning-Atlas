@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/13-building-complete-llm-pipeline/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 8b040d977ac562106f2a65dc13d5a9e092e7768c8e89a0cc0ea5c4e5b6d7cac3
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: a106984511edeb8a5eb708cdd400911b8eb7fdbb184d84e097625ed8590e97df
 status: reviewed
 ---
 
@@ -20,7 +20,7 @@ status: reviewed
 
 ## 学习目标
 
-- 将此前的 11 课（分词器、数据、预训练、扩展、SFT、RLHF、DPO、CAI、评估、量化、推理）组合为一份可复现的流水线规范
+- 将此前的 12 课（两节分词器课、数据、预训练、扩展、SFT、RLHF、DPO、CAI、评估、量化、推理）组合为一份可复现的流水线规范
 - 定义阶段之间的工件契约：每个阶段消费什么、产出什么，以及下一阶段如何验证输入
 - 构建一个能追踪实验、为工件计算哈希，并依据评估阈值决定是否发布的编排器
 - 设计回滚计划：哪些工件可以低成本重跑，哪些代价昂贵，以及检查点损坏需要付出什么成本

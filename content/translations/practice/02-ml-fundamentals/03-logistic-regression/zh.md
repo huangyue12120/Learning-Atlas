@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/03-logistic-regression/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 9853f595623003ac5870c01e8bd9e4ae27c65e26fc4c8c89c5d823a360a97660
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 890e592523f62b14d6cefc31696b77c47afd43fa6a405dd3b4b4a843fd0577e9
 status: reviewed
 ---
 
@@ -98,7 +98,7 @@ flowchart LR
 - `y=0`、`p` 接近 0 时：`log(1) = 0`，损失接近 0（正确、代价低）。
 - `y=0`、`p` 接近 1 时：`log(0)` 趋于负无穷，损失很大（错误、代价高）。
 
-对逻辑回归，该损失是凸的，保证只有一个全局最小值。
+对逻辑回归，该损失是凸的，因此每个局部最小值都是全局最小值，梯度下降不会卡在坏的局部最小值。在完全可分的数据上，权重增大时损失会持续下降，因此不存在有限的最小值；L2 正则化可以解决这一点，并使最小值唯一。
 
 ### 逻辑回归的梯度下降
 

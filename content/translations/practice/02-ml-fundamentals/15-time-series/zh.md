@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/15-time-series/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 9e7be648954eb64887647754f4f2347b575f598c2720f82f3fe107cd47fa2ad3
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 283264485d86ce061f74965f9afca110d52ea2b455e8a32302869cc21319f6e3
 status: reviewed
 ---
 
@@ -417,7 +417,7 @@ print(f"Mean score: {scores.mean():.4f} +/- {scores.std():.4f}")
 ### 实用提示
 
 1. **先作图。** 任何建模前绘制原始序列，查看趋势、季节性、离群值和结构断点；30 秒目检常胜过一小时自动分析。
-2. **先差分、后建模。** 明确趋势时，创建滞后特征前先差分。树模型能处理趋势，线性模型不能，而差分从不有害。
+2. **先差分、后建模。** 明确趋势时，创建滞后特征前先差分。树模型能处理趋势，但没有显式趋势项的线性模型不能。一旦序列变平稳就停止：每多做一轮差分都会引入噪声，并丢弃水平信息。
 3. **至少留出完整季节周期。** 周季节性测试集至少一整周，月季节性至少一整月，否则无法评估是否学会季节模式。
 4. **生产中监测。** 世界改变会让模型退化；滚动追踪预测误差，误差升高时在近期数据上重训。
 5. **警惕制度变化。** 疫情前数据无法预测疫情后行为；加入已知制度变化指标，或用会忘掉旧数据的滑动窗口。

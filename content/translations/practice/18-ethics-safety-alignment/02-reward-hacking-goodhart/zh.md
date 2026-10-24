@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/02-reward-hacking-goodhart/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 75e7cb929ef0844f3411b82eda8fb8de9e373c88544a77d7c418ec4bfbcffc41
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: c40a3bf72719ff9220d3b19d4dcd6776ed7861621f7bcc5512fb345f94fcabd6
 status: reviewed
 ---
 
@@ -37,16 +37,16 @@ Gao、Schulman、Hilton（2023）直接测量了这一点。他们用 100k 个�
 
 古德哈特的原始表述是：“当一个度量成为目标时，它就不再是好度量。”Manheim 和 Garrabrant（2018）区分四种变体：回归型（有限样本）、极值型（尾部）、因果型（代理位于目标下游）和对抗型（智能体博弈）。对 RLHF 而言，极值型和对抗型是主要模式。
 
-Gao 等人给出函数形式。令 `d = sqrt(KL(pi || pi_init))`。令 `R_proxy(d)` 是平均代理奖励，`R_gold(d)` 是平均金标准奖励。经验上：
+Gao 等人给出金标准奖励的函数形式。令 `d = sqrt(KL(pi || pi_init))`，令 `R_gold(d)` 是平均金标准奖励。经验上：
 
 ```math
 \begin{aligned}
-R_{\text{proxy}}(d) &= \alpha d - \beta_{\text{proxy}} d^2 \\
-R_{\text{gold}}(d) &= \alpha d - \beta_{\text{gold}} d^2
+R_{\text{gold}}^{\text{BoN}}(d) &= d\,(\alpha_{\text{BoN}} - \beta_{\text{BoN}}\, d) \\
+R_{\text{gold}}^{\text{RL}}(d) &= d\,(\alpha_{\text{RL}} - \beta_{\text{RL}} \log d)
 \end{aligned}
 ```
 
-其中 `beta_gold > beta_proxy`。两者都从零 KL 开始上升，都达到峰值，但金标准的峰值更靠近原点。`d` 很大时，即使代理继续上升，金标准也会跌到基线以下。代理-金标准差距在 best-of-N 采样、PPO、SFT-to-best 中都有同样的特征。
+两种形式都从零 KL 开始上升，达到峰值，然后下降。代理分数在论文中没有干净的拟合形式；它会持续上升，在大 KL 时大致随 `d` 线性增长。因此 `d` 很大时，即使代理继续上升，金标准也会跌到基线以下。代理-金标准差距在 best-of-N 采样和强化学习中都有同样的特征。
 
 “过度优化曲线”描述的是问题本身的形状，而非某个奖励模型的 bug。
 
@@ -100,7 +100,7 @@ rlhf-reward-kl
 
 2. 将噪声分布由高斯改为自由度低的 Student-t 分布，即重尾分布。保持代理 RM 的训练设置不变。峰值位置和峰后坍缩发生了什么变化？
 
-3. 阅读 Gao 等人的图 1（ICML 2023）。论文为代理-金标准差距提出了函数形式。把它拟合到练习 1 的模拟曲线，并比较参数。
+3. 阅读 Gao 等人的图 1（ICML 2023）。论文为作为 `d` 函数的金标准奖励提出了函数形式。把它拟合到练习 1 的模拟曲线，并比较参数。
 
 4. 选取一篇声称“已解决”奖励投机的近期 RLHF 论文，这个短语本身就是危险信号。识别论文测试了四种表象中的哪一种，又遗漏了哪一种。
 

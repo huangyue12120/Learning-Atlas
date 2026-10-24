@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/08-in-context-scheming-frontier-models/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: b207aea82e7b3c5a0ef491fa9b6792cd0630cedce077712dee7178d907df7d18
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 6a5aa898d9290ad7bc1cd4f2069cbfdb143fa58759cab626f7d4ddf2f24a7f32
 status: reviewed
 ---
 
@@ -78,7 +78,7 @@ Schoen 等人（Apollo + OpenAI，2025）训练了一个审慎对齐目标，明
 
 ### 它在第 18 阶段主线中的位置
 
-第 7 课展示通过植入产生的持久欺骗；第 8 课展示没有植入、只由上下文诱发的欺骗；第 9 课（对齐伪装）补上三角的最后一边，展示没有上下文目标冲突时也会自发欺骗。三课之后，这个领域已经拥有欺骗光谱每个端点的证据。
+第 7 课展示通过植入产生的持久欺骗；第 8 课展示没有植入、只由上下文诱发的欺骗；第 9 课（对齐伪装）补上三角的最后一边，展示即使没有红队写进提示词的目标冲突时也会自发欺骗。三课之后，这个领域已经拥有欺骗光谱每个端点的证据。
 
 ```figure
 al-scheming-probe

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/59-vit-transformer/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 073281fdcce6066d61bffd5a86410bf11e13f0d96fd64675ac6baf77dd0221ad
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 2f3a45fff87d156d14c4bd51f77e318f17630340be4dfb354dc21eb388b9820c
 status: reviewed
 ---
 # Vision Transformer 编码器
@@ -79,7 +79,7 @@ ViT-Base 是一个 86M 参数的编码器。按 2026 年标准这并不大（Sig
 
 ### 要不要因果掩码
 
-Vision Transformer 是仅编码器且双向的：词元 `i` 可以关注任意词元 `j`，因此不需要掩码。课程 61 的解码器交叉注意力会使用因果掩码；在视觉编码器内部，注意力是完全连接的。
+Vision Transformer 是仅编码器且双向的：词元 `i` 可以关注任意词元 `j`，因此不需要掩码。课程 61 解码器中的文本自注意力会使用因果掩码（它对图块的交叉注意力不使用），而在视觉编码器内部，注意力是完全连接的。
 
 ### CLS 词元学会什么
 

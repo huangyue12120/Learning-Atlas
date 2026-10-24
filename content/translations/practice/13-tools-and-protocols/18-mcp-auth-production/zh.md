@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/18-mcp-auth-production/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: da053b84576ba4daba8561f51966376185fd250bcb8792830a9ca043845d5f4b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 37bf036ac5cb10930059f0414ba8ea56c5398ceb57dd3e736310f59d3bb133f7
 status: reviewed
 ---
 
@@ -363,7 +363,7 @@ python3 -m unittest discover -s code/tests -v
 
 ## 练习
 
-1. 运行 `code/main.py` 并追踪流程。注意第 6 步 IdP 轮换 key，计划 `refresh_jwks` 重新拉取已发布集合，旧令牌（重叠窗口）和新令牌都无需重启即可校验。
+1. 运行 `code/main.py` 并追踪流程。注意在脚本输出的第 6 步（即上方流程的第 7 步）IdP 轮换 key，计划 `refresh_jwks` 重新拉取已发布集合，旧令牌（重叠窗口）和新令牌都无需重启即可校验。
 2. 把新的 IdP 加入受保护资源元数据的 `authorization_servers`，用新 IdP 签发令牌并确认校验器接受；再用未列出的 IdP 签发令牌，确认校验器以 `WWW-Authenticate: Bearer error="invalid_token", error_description="iss not allowed"` 拒绝。
 3. 给 `register_client` 增加限流检查，在注册器接受请求前运行。用按 IP 存在小字典里的令牌桶。
 4. 阅读 RFC 7591，找出本课 `/register` 处理器没有校验的两个字段并补上校验。（提示：`software_statement` 和 `redirect_uris` URI scheme。）

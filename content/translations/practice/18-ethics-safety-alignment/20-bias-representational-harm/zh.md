@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/20-bias-representational-harm/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 22fbd564e6af48d8fe16272e0ed23b50088f13d25ae454d50e8b8e352b8da753
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 898af8ef1d3aae4f2293c54dbc9ca1c0a9c81f9a2fb7df141d83c82a6e496fde
 status: reviewed
 ---
 
@@ -23,7 +23,7 @@ status: reviewed
 - 定义表征伤害与分配伤害，并分别给出一个 LLM 部署中的例子。
 - 说出 Gallegos 等人 2024 年提出的三类评估指标，并各描述一种指标。
 - 描述交叉性，以及 WinoIdentity 的不确定性公平测量为何弥补单轴偏见评估的不足。
-- 描述两种研究偏见的机制可解释性方法（性别神经元、SAE 特征、注意力头操纵）。
+- 描述三种研究偏见的机制可解释性方法（性别神经元、SAE 特征、注意力头操纵）。
 
 ## 问题
 

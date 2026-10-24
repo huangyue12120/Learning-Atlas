@@ -4,14 +4,14 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/07-tensorrt-llm-blackwell/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 680c63c00fffe57852cb42cb24d17afdfa66084a5f4427aef99a91f5f3cc9942
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 984eda3b24a9b486c588f36d7ed09ce69d5ad7d7c2af03aabf1d7bfb1e7fbcb6
 status: reviewed
 ---
 
 # 面向专用硬件的推理编译：Blackwell 上的 FP8 与 NVFP4
 
-> 面向专用硬件的推理编译以可移植性换取吞吐量，而仅支持 NVIDIA、且为 Blackwell 调优的 TensorRT-LLM，是这种交换值得付出的最清晰例子。SemiAnalysis InferenceX 在 2026 年第一、二季度测得：对于 GB200 NVL72 加 Dynamo 编排上的 120B 模型，每百万词元成本为 $0.012；相比之下，H100 + vLLM 为 $0.09/M——经济性相差 7 倍。该栈将三种浮点精度叠加：FP8 因拥有 KV 缓存和注意力内核所需的动态范围，仍是关键精度；NVFP4（4 位微缩放）用于权重和激活值；多词元预测（MTP）与解耦的 prefill/decode 再带来 2–3 倍提升。首日模型支持可以直接加载 FP4 权重，无需训练后转换。对 2026 年工程团队而言，代价是：TRT-LLM 虽然开源，却专属于 NVIDIA——针对 CUDA 和 Blackwell 优化；采用它就是用可移植性交换吞吐量。作出承诺前，请先根据你的模型与硬件组合算清这笔账。
+> 面向专用硬件的推理编译以可移植性换取吞吐量，而仅支持 NVIDIA、且为 Blackwell 调优的 TensorRT-LLM，是这种交换值得付出的最清晰例子。SemiAnalysis InferenceX 在 2026 年第一、二季度测得：对于 GB200 NVL72 加 Dynamo 编排上的 120B 模型，每百万词元成本为 $0.012；相比之下，H100 + vLLM 为 $0.09/M——经济性相差 7 倍。该栈将两种浮点格式与两种服务技术叠加：FP8 因拥有 KV 缓存和注意力内核所需的动态范围，仍是关键精度；NVFP4（4 位微缩放）用于权重和激活值；多词元预测（MTP）与解耦的 prefill/decode 再带来 2–3 倍提升。首日模型支持可以直接加载 FP4 权重，无需训练后转换。对 2026 年工程团队而言，代价是：TRT-LLM 虽然开源，却专属于 NVIDIA——针对 CUDA 和 Blackwell 优化；采用它就是用可移植性交换吞吐量。作出承诺前，请先根据你的模型与硬件组合算清这笔账。
 
 **类型：** 学习
 **语言：** Python（标准库，用于 FP8/NVFP4 内存与成本计算的玩具程序）

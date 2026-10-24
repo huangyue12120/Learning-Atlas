@@ -4,14 +4,14 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/06-any-resolution-patch-n-pack/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 350ebe112b4ae4c8fb7147905b46b9a47de37e8393e26cebb2e2f871a0ff737b
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 182edb6d6c60231632c10476301bfd85a6da6c387cdb88698ff2cb6878eecd1c
 status: reviewed
 ---
 
 # 任意分辨率视觉：Patch-n'-Pack 与 NaFlex
 
-> 真实图像不是 224x224 的正方形。收据可能是 9:16，图表是 16:9，医学扫描可能是 4096x4096，手机截图是 9:19.5。2024 年以前 VLM 的答案是把所有图像调整为固定正方形，但这会丢掉让 OCR、文档理解和高分辨率场景解析有效的信号。NaViT（Google，2023）表明，可以用块对角掩码把不同分辨率的图像块打包到同一个 Transformer 批量中。Qwen2-VL 的 M-RoPE（2024）完全去掉了绝对位置表。LLaVA-NeXT 的 AnyRes 把高分辨率图像切成基础图像 + 子图像。SigLIP 2 的 NaFlex 变体（2025）如今是开放 VLM 中希望用一个检查点服务所有宽高比时的默认编码器。本课端到端实现 patch-n'-pack。
+> 真实图像不是 224x224 的正方形。收据可能是 1:3，图表是 16:9，医学扫描可能是 4096x4096，手机截图是 9:19.5。2024 年以前 VLM 的答案是把所有图像调整为固定正方形，但这会丢掉让 OCR、文档理解和高分辨率场景解析有效的信号。NaViT（Google，2023）表明，可以用块对角掩码把不同分辨率的图像块打包到同一个 Transformer 批量中。Qwen2-VL 的 M-RoPE（2024）完全去掉了绝对位置表。LLaVA-NeXT 的 AnyRes 把高分辨率图像切成基础图像 + 子图像。SigLIP 2 的 NaFlex 变体（2025）如今是开放 VLM 中希望用一个检查点服务所有宽高比时的默认编码器。本课端到端实现 patch-n'-pack。
 
 **类型：** 构建
 **语言：** Python（标准库，图像块打包器 + 块对角掩码）
@@ -66,7 +66,7 @@ LLaVA-NeXT 的 AnyRes 是一种务实的替代方案。给定一个高分辨率�
 
 对于 2x2 网格 + 缩略图的 672x672 图像：4 * 576 + 576 = 2880 个视觉词元。它成本高但有效——LLM 同时能看到局部细节和全局上下文。
 
-当编码器被冻结且只支持一种分辨率时，AnyRes 是首选方案。但它会让大图像的词元数量爆炸（4x4 网格的 1344x1344 图像会产生 9216 + 576 ≈ 9800 个词元，填满 8k LLM 上下文的大部分）。
+当编码器被冻结且只支持一种分辨率时，AnyRes 是首选方案。但它会让大图像的词元数量爆炸（4x4 网格的 1344x1344 图像会产生 9216 + 576 ≈ 9800 个词元，在任何文本进入之前就溢出了 8k LLM 上下文）。
 
 ### M-RoPE（Qwen2-VL）
 

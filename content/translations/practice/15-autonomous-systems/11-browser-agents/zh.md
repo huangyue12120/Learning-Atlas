@@ -4,14 +4,14 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/11-browser-agents/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: fc1ad4d5c053b9effc8840efa4d993faabe6639a80b00a6485529331ddc0d493
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: bccab6553acb451770a43db65ca1af25e73071b289b9f25b0a907e431b96593c
 status: reviewed
 ---
 
 # 浏览器智能体与长时程 Web 任务
 
-> ChatGPT agent（2025 年 7 月）将 Operator 与深度研究合并为单一浏览器/终端智能体，并以 68.9% 达到 BrowseComp 最先进水平。OpenAI 于 2025 年 8 月 31 日关闭 Operator——这是产品层的整合。Anthropic 收购 Vercept 后，将 Claude Sonnet 在 OSWorld 上的分数从不足 15% 提升至 72.5%。WebArena-Verified（ServiceNow，ICLR 2026）修正了原 WebArena 中 11.3 个百分点的假阴性率，并发布了包含 258 任务的 Hard 子集。数字都是真的，攻击面也是真的：OpenAI preparedness 负责人公开表示，对浏览器智能体的间接提示词注入“不是一个能够被完全修补的漏洞”。已有记录的 2025–2026 攻击包括 Tainted Memories（Atlas CSRF）、HashJack（Cato Networks）和 Perplexity Comet 的一键劫持。
+> ChatGPT agent（2025 年 7 月）将 Operator 与深度研究合并为单一浏览器/终端智能体，并以 68.9% 达到 BrowseComp 最先进水平。OpenAI 于 2025 年 8 月 31 日关闭 Operator——这是产品层的整合。Anthropic 收购 Vercept 后，将 Claude Sonnet 在 OSWorld 上的分数从不足 15% 提升至 72.5%。WebArena-Verified（ServiceNow，ICLR 2026）修正了原 WebArena 中约 11.3% 的假阴性率，并发布了包含 258 任务的 Hard 子集。数字都是真的，攻击面也是真的：OpenAI preparedness 负责人公开表示，对浏览器智能体的间接提示词注入“不是一个能够被完全修补的漏洞”。已有记录的 2025–2026 攻击包括 Tainted Memories（Atlas CSRF）、HashJack（Cato Networks）和 Perplexity Comet 的一键劫持。
 
 **类型：** 学习
 **语言：** Python（标准库，间接提示词注入攻击面模型）

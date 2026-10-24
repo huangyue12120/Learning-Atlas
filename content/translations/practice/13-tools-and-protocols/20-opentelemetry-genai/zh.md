@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/20-opentelemetry-genai/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 473d0c4210eddf4b2ae01ce38d1b5a997e75fab66b4be17c32b319c666d88dbb
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 6d23ae6218709778a0984fd54b3c8838c5aab933102ea8fc3b188159a49907ec
 status: reviewed
 ---
 
@@ -161,7 +161,7 @@ t3-span-waterfall
 | Span | “计时操作” | 带开始时间、结束时间和属性的工作单元 |
 | Trace | “跨 span 的祖先关系” | 共享 trace id 的 span 树 |
 | SpanKind | “CLIENT / SERVER / INTERNAL” | 对 span 方向的提示 |
-| OTLP | “OpenTelemetry 线路协议” | exporter 使用的线路格式 |
+| OTLP | “OpenTelemetry 协议” | exporter 使用的线路格式 |
 | 主动内容捕获 | “捕获提示词 / completion” | 默认关闭；通过环境变量开启 |
 | traceparent | “W3C 头” | 跨服务传播 trace 上下文 |
 | Exporter | “面向后端的发送器” | 将 spans 发送到 Jaeger / Datadog 等的组件 |

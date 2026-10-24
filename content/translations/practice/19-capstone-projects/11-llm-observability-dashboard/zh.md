@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/11-llm-observability-dashboard/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 714070c966540405863a30473ef1f3e6b93748ed6a374e221979f1f37de187b7
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: 64a1aae880494a058bde615a36d8a77f6e3218c36400a9e202a038f4bdc7180e
 status: reviewed
 ---
 
@@ -96,7 +96,7 @@ ce-otel-drift
 
 8. **告警链路。** Prometheus exporter 读取评测分数聚合值和延迟百分位数；Alertmanager 将警告路由到 Slack，将严重违约路由到 PagerDuty。
 
-9. **回归探针。** 注入一个 bug：被评测的聊天机器人有 1% 的概率泄漏伪造 SSN。测量 MTTR，即从 bug 部署到 Slack 告警的时间。
+9. **回归探针。** 注入一个 bug：被评测的聊天机器人有 1% 的概率泄漏伪造 SSN。测量检测时间（MTTD），即从 bug 部署到 Slack 告警的时间。检测是 MTTR 中由仪表盘负责的部分；修复和重新部署在其之后。
 
 ## 使用
 
@@ -117,7 +117,7 @@ $ curl -X POST https://my-otel-collector/v1/traces -d @trace.json
 |:-:|---|---|
 | 25 | Trace schema 覆盖 | 产生规范 GenAI span 的 SDK 家族数量（目标为 6+） |
 | 20 | 评测正确性 | DeepEval / RAGAS 分数与人工标注集比较 |
-| 20 | 仪表盘 UX | 注入回归后的 MTTR（目标低于 5 分钟） |
+| 20 | 仪表盘 UX | 注入回归后的 MTTD（目标低于 5 分钟） |
 | 20 | 成本 / 规模 | 无积压时持续摄取 1k spans/sec |
 | 15 | 告警 + 漂移检测 | Prometheus/Alertmanager 链路端到端运行 |
 | **100** | | |

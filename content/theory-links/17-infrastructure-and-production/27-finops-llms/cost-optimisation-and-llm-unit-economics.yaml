@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/27-finops-llms/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 1430e4cd6817449b618d6065ee9371aee75ed3cfbb05087a13b0c5db29827c34
+  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
+  sha256: ee002bdfe78387cd104a298b66a252f1d38a7348bffd033062725f166b2a43a7
   anchor:
     heading: The compounded-savings stack
     slug: the-compounded-savings-stack
