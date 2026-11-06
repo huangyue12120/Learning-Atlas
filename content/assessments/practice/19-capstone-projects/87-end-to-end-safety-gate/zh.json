@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/87-end-to-end-safety-gate/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "9e222409e1f5b2239a1db09a21ef779b9d9ca1fbaf2be5d7f70d17c69199fb78"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "87-end-to-end-safety-gate-pre-1",
+      "stage": "pre",
+      "question": "三个检查点分别位于请求生命周期哪里？",
+      "options": [
+        "全在模型调用前",
+        "pre-gen 检查输入，during-gen 过滤流，post-gen 检查完成输出",
+        "只有 post-gen，其他只是别名",
+        "全在模型完成后"
+      ],
+      "correct": 1,
+      "explanation": "上游本题未提供解析。改编补充：不同位置拦截不同失败路径，日志应标明跳过和实际执行的阶段。"
+    },
+    {
+      "id": "87-end-to-end-safety-gate-pre-2",
+      "stage": "pre",
+      "question": "during-gen 过滤的目标是什么？",
+      "options": [
+        "提高词元吞吐",
+        "缓冲输出块，发现已知有害续写时尽早终止，减少展示前泄漏",
+        "把输入改成拒答",
+        "翻译输出"
+      ],
+      "correct": 1,
+      "explanation": "上游本题未提供解析。改编补充：效果取决于跨块匹配、缓冲长度与何时释放，有限窗口不能保证识别所有风险。"
+    },
+    {
+      "id": "87-end-to-end-safety-gate-check-3",
+      "stage": "check",
+      "question": "聚合器如何决定最终动作？",
+      "options": [
+        "只看规则引擎",
+        "取 detector、token filter、classifier、rules 信号中的最高严重度，映射为 block/redact/warn/allow",
+        "平均所有置信度",
+        "再调用模型一次"
+      ],
+      "correct": 1,
+      "explanation": "上游本题未提供解析。改编补充：这是显式政策组合，需保证不同模块的严重度含义与动作优先级兼容。"
+    },
+    {
+      "id": "87-end-to-end-safety-gate-check-4",
+      "stage": "check",
+      "question": "为什么每请求生成结构化 RequestTrace？",
+      "options": [
+        "故意拖慢系统",
+        "代替所有日志",
+        "提供逐检查点证据，让回归能定位到对应模块",
+        "把 trace 复制进提示词"
+      ],
+      "correct": 2,
+      "explanation": "上游本题未提供解析。改编补充：trace 记录信号、动作与阶段状态，实际系统还需脱敏和访问控制，避免审计本身泄漏数据。"
+    },
+    {
+      "id": "87-end-to-end-safety-gate-check-5",
+      "stage": "check",
+      "question": "pre-gen confidence 超过阻断阈值时发生什么？",
+      "options": [
+        "仍调用模型以保证完整",
+        "抛异常终止进程",
+        "返回政策拒答，跳过模型生成以及后续 during-gen/post-gen",
+        "降低阈值重试"
+      ],
+      "correct": 2,
+      "explanation": "上游本题未提供解析。改编补充：早停避免已阻断请求继续产生模型成本和副作用；跳过状态应在 trace 中可见。"
+    },
+    {
+      "id": "87-end-to-end-safety-gate-post-6",
+      "stage": "post",
+      "question": "演示为何故意让部分 encoding-trick 到达 during-gen？",
+      "options": [
+        "编码攻击不是真攻击",
+        "展示输入检查可能漏检，后续流过滤作为纵深防御捕捉已知续写",
+        "规则引擎负责所有编码",
+        "模型一定会拒绝"
+      ],
+      "correct": 1,
+      "explanation": "上游本题未提供解析。改编补充：这是构造的分层验收案例，不代表所有编码攻击都会被下一层捕获；需保留各层误报与漏报评估。"
+    }
+  ]
+}

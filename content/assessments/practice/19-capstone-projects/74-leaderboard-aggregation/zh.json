@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/74-leaderboard-aggregation/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "59c334f6530f39f5a8bc4d1a6742ad99d23e350d3244d9f330934121e427733d"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "74-leaderboard-aggregation-pre-1",
+      "stage": "pre",
+      "question": "为什么聚合器要求每项任务分数在 [0,1]？",
+      "options": [
+        "统一数值尺度，避免 0–100 指标压过 0–1 指标的均值",
+        "numpy 强制要求",
+        "这是 ECE 分箱范围",
+        "Markdown 只能显示两位小数"
+      ],
+      "correct": 0,
+      "explanation": "归一化在指标层完成并在聚合层校验；共同范围仍不意味着各任务具有相同难度或实用价值。"
+    },
+    {
+      "id": "74-leaderboard-aggregation-pre-2",
+      "stage": "pre",
+      "question": "逐任务 win-rate 能补充均分的什么信息？",
+      "options": [
+        "bootstrap 区间本身",
+        "模型是否校准",
+        "比较胜负分布，减少少数巨大分差对总体判断的支配",
+        "已完成任务总数"
+      ],
+      "correct": 2,
+      "explanation": "某模型可能靠少量大胜抬高均分，却输掉多数任务；胜率也会丢失胜负幅度，应并列解释。"
+    },
+    {
+      "id": "74-leaderboard-aggregation-check-3",
+      "stage": "check",
+      "question": "bootstrap_mean_ci 如何估计区间？",
+      "options": [
+        "只假设均值服从正态",
+        "有放回重采样任务分数，逐次算均值，再取 alpha/2 与 1-alpha/2 分位数",
+        "只解析计算标准差",
+        "调用 scipy.stats.bootstrap"
+      ],
+      "correct": 1,
+      "explanation": "这是本课的非参数百分位 bootstrap；仍依赖样本代表性与重采样单位选择，不能称为无任何假设。"
+    },
+    {
+      "id": "74-leaderboard-aggregation-check-4",
+      "stage": "check",
+      "question": "本课何时把成对差值 CI 标记为 significant？",
+      "options": [
+        "两个模型都超过三十任务",
+        "区间严格不包含零",
+        "两个胜率不同",
+        "均分差大于 0.1"
+      ],
+      "correct": 1,
+      "explanation": "这是当前区间规则下的操作判据；不代表零差值的后验概率，也不替代效果大小和多重比较控制。"
+    },
+    {
+      "id": "74-leaderboard-aggregation-check-5",
+      "stage": "check",
+      "question": "为什么成对比较使用 paired bootstrap？",
+      "options": [
+        "同一任务同时产生两模型分数，按任务差值重采样保留配对关系",
+        "numpy 只支持 paired",
+        "paired 总是更快",
+        "独立 bootstrap 在 Python 中不合法"
+      ],
+      "correct": 0,
+      "explanation": "各轮使用相同任务集合比较两模型，避免打散难度对应关系；任务相关性仍需按设计处理。"
+    },
+    {
+      "id": "74-leaderboard-aggregation-post-6",
+      "stage": "post",
+      "question": "为什么除 headline 均分外还输出各类别均值？",
+      "options": [
+        "总体均值可能掩盖代码等类别的弱点",
+        "分组计算一定更快",
+        "JSON Schema 强制要求",
+        "Markdown 强制要求"
+      ],
+      "correct": 0,
+      "explanation": "分类别报告帮助识别收益集中或能力短板；也应报告样本数与类别权重。"
+    }
+  ]
+}

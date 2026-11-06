@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/73-perplexity-calibration/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "4ca55566f22b5410016d35db073c3fbad852e31caccd1783972beda70b7d0186"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "73-perplexity-calibration-pre-1",
+      "stage": "pre",
+      "question": "在非空测试语料上 perplexity=1.0 的数学含义是什么？",
+      "options": [
+        "模型已损坏",
+        "对所有被计分的实际词元赋予概率 1，平均 NLL 为零",
+        "词表上均匀分布",
+        "语料为空"
+      ],
+      "correct": 1,
+      "explanation": "exp(平均 NLL)=1；这只描述该语料上的预测，不代表模型在所有文本上完美，数值舍入时还需看精度。"
+    },
+    {
+      "id": "73-perplexity-calibration-pre-2",
+      "stage": "pre",
+      "question": "为什么适配器契约要求提供非负的逐词元 NLL？",
+      "options": [
+        "numpy 不能处理负数",
+        "ECE 分箱要求所有输入正数",
+        "任何负值都使数学指数未定义",
+        "输入应是 -log p 而非 log p；p 在 (0,1] 时 NLL 非负"
+      ],
+      "correct": 3,
+      "explanation": "编者注：题意是负对数概率非负，并不是 log p 非负；把 log p 当 NLL 会得到不合理的 perplexity<1。"
+    },
+    {
+      "id": "73-perplexity-calibration-check-3",
+      "stage": "check",
+      "question": "ECE 衡量什么？",
+      "options": [
+        "按分箱样本数加权的平均置信度与平均准确率之差的绝对值",
+        "预测的交叉熵",
+        "预测标签与真实标签的平均距离",
+        "softmax 方差"
+      ],
+      "correct": 0,
+      "explanation": "先按 confidence 分箱，在箱内比较 confidence 和 correctness，再按频数加权；结果依赖分箱选择。"
+    },
+    {
+      "id": "73-perplexity-calibration-check-4",
+      "stage": "check",
+      "question": "为什么除 ECE 外还返回 populated_bins？",
+      "options": [
+        "它是 Brier 的分母",
+        "numpy 必需",
+        "帮助暴露置信度覆盖范围与分箱稀疏性，提示单值可能信息不足",
+        "可靠性图只能接收该数量"
+      ],
+      "correct": 2,
+      "explanation": "编者注：占用箱少不自动表示噪声大，也可能模型置信度集中；还需同时看总样本量、各箱频数和不确定性。"
+    },
+    {
+      "id": "73-perplexity-calibration-check-5",
+      "stage": "check",
+      "question": "Brier 分数相比 ECE 多保留了什么？",
+      "options": [
+        "无需真实标签",
+        "一定更快",
+        "只能用于二分类",
+        "逐预测的概率平方误差，而不只比较箱均值"
+      ],
+      "correct": 3,
+      "explanation": "它是概率预测的适当评分规则，受校准与区分能力等共同影响；不能把较低 Brier 全部归因为更好校准。"
+    },
+    {
+      "id": "73-perplexity-calibration-post-6",
+      "stage": "post",
+      "question": "本课为何把校准报告按模型聚合？",
+      "options": [
+        "逐任务计算一定太慢",
+        "任务没有概率",
+        "ECE 需要知道模型架构",
+        "小任务的预测数量可能不足，汇总提供更多分箱样本"
+      ],
+      "correct": 3,
+      "explanation": "编者注：按任务或类别的校准也可以有意义，只要样本充分；总体聚合还可能掩盖切片失准。"
+    }
+  ]
+}

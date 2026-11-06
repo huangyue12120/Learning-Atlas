@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/51-literature-retrieval/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "8a7f9b49780311401f741f6f39721ee313021ac3a463f15dd4d29536a40da9c8"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "51-literature-retrieval-pre-1",
+      "stage": "pre",
+      "question": "检索客户端为什么同时使用 BM25 和引文图遍历？",
+      "options": [
+        "模拟 API 强制要求两路",
+        "否则解析器失败",
+        "BM25 必须靠引文图建索引",
+        "词面检索可能漏掉用词不同的基础论文，引文图又可能漏掉与种子没有引文连接的论文"
+      ],
+      "correct": 3,
+      "explanation": "两路覆盖不同的遗漏：BM25 利用共享词项，引文图沿引用关系寻找相关工作，再合并排序。"
+    },
+    {
+      "id": "51-literature-retrieval-pre-2",
+      "stage": "pre",
+      "question": "本课为何把引文图遍历限制为两跳？",
+      "options": [
+        "Python 递归限制不允许三跳",
+        "进一步扩展可能偏离主题，并让下游候选量过大",
+        "BM25 只能为两跳内论文打分",
+        "语料只能存两层引文"
+      ],
+      "correct": 1,
+      "explanation": "两跳是本课控制成本和主题漂移的策略，不是图检索的普遍最优深度；真实语料应按召回和成本评估。"
+    },
+    {
+      "id": "51-literature-retrieval-check-3",
+      "stage": "check",
+      "question": "当一个词出现在每篇文档中时，本课 BM25 的 idf 接近什么？",
+      "options": [
+        "负无穷",
+        "很大的正数",
+        "未定义，因此跳过该词",
+        "接近零的非负值"
+      ],
+      "correct": 3,
+      "explanation": "平滑公式在 df=N 时给出较小的非负权重，表示这个普遍词项区分文档的能力很弱。"
+    },
+    {
+      "id": "51-literature-retrieval-check-4",
+      "stage": "check",
+      "question": "合并两路命中时用什么键去重？",
+      "options": [
+        "BM25 分数所在区间",
+        "稳定的 paper id",
+        "年份与第一作者",
+        "标题文本"
+      ],
+      "correct": 1,
+      "explanation": "paper id 是稳定标识；标题和作者可能随版本重复或变化，年份也不能唯一标识论文。"
+    },
+    {
+      "id": "51-literature-retrieval-check-5",
+      "stage": "check",
+      "question": "默认配置下，距种子集两跳的论文 graph_score 是多少？",
+      "options": [
+        "BM25 分数除以十",
+        "0.3",
+        "1.0",
+        "0"
+      ],
+      "correct": 1,
+      "explanation": "本课默认零跳为 1.0、一跳为 0.6、两跳为 0.3，更远为零；这是配置规则，不是通用相关度概率。"
+    },
+    {
+      "id": "51-literature-retrieval-check-6",
+      "stage": "check",
+      "question": "为什么把语料一次加载到 RetrievalClient，而不每次查询重新抓取？",
+      "options": [
+        "时间新近性评分强制要求",
+        "构造时一次建立 BM25 索引和引文图，供后续查询复用",
+        "模拟 API 每次调用都很慢",
+        "解析器是全局对象"
+      ],
+      "correct": 1,
+      "explanation": "复用客户端可分摊索引构建成本；语料更新时仍需要明确刷新或重建策略。"
+    }
+  ]
+}

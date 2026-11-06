@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/80-checkpoint-sharded-resume/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "cbde35eac2f534f90f96740abe121401497b8db5869daeee070e6d5a483222c8"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "80-checkpoint-sharded-resume-pre-1",
+      "stage": "pre",
+      "question": "大规模检查点为什么避免先 gather 到 rank 0 再写？",
+      "options": [
+        "集中传输与单点写入可能成为带宽和内存瓶颈，无法充分利用并行存储",
+        "必须有特殊硬件",
+        "CPU 用量必定太大",
+        "只是不好看"
+      ],
+      "correct": 0,
+      "explanation": "分片并行写可分散负载；收益受共享存储和元数据瓶颈限制，不能保证 64 rank 就缩短为 1/64。"
+    },
+    {
+      "id": "80-checkpoint-sharded-resume-pre-2",
+      "stage": "pre",
+      "question": "manifest 除分片数据外提供什么关键恢复契约？",
+      "options": [
+        "world_size、schema 版本、各 shard 的 SHA-256 与所有权映射",
+        "主机名即可",
+        "随机数即可",
+        "文件系统名称即可"
+      ],
+      "correct": 0,
+      "explanation": "这些信息让 loader 在恢复状态前验证布局、完整性和归属；分片内容也应与 manifest 的参数范围一致。"
+    },
+    {
+      "id": "80-checkpoint-sharded-resume-check-3",
+      "stage": "check",
+      "question": "为什么先写临时文件再在同一文件系统 rename/replace？",
+      "options": [
+        "torch 强制要求",
+        "一定更快",
+        "节省内存",
+        "原子替换避免读者看到写到一半的目标文件，减少半成品可见风险"
+      ],
+      "correct": 3,
+      "explanation": "编者注：单文件原子替换不是整个多分片快照的事务，也不等于断电持久性；需要正确发布 manifest、保留旧代以及按需求 fsync。"
+    },
+    {
+      "id": "80-checkpoint-sharded-resume-check-4",
+      "stage": "check",
+      "question": "每 shard 的 SHA-256 主要防什么？",
+      "options": [
+        "性能变慢",
+        "自动防住所有网络攻击",
+        "加载前检测分片与可信预期摘要不一致，例如截断或损坏",
+        "内存泄漏"
+      ],
+      "correct": 2,
+      "explanation": "哈希支持完整性检查；摘要本身也被攻击者替换时并不提供真实性保证，截断文件也可能被反序列化器直接拒绝。"
+    },
+    {
+      "id": "80-checkpoint-sharded-resume-check-5",
+      "stage": "check",
+      "question": "为什么加载路径明确拒绝 world_size 不匹配？",
+      "options": [
+        "旧分片布局不能直接套到新 rank 数，需要显式重分片或再平衡",
+        "硬件必须如此",
+        "只因这样代码少",
+        "为了美观"
+      ],
+      "correct": 0,
+      "explanation": "静默把四 rank 分片分给八 rank 可能造成状态缺失或错误归属；拓扑迁移应有独立契约。"
+    },
+    {
+      "id": "80-checkpoint-sharded-resume-post-6",
+      "stage": "post",
+      "question": "生产系统为什么轮换检查点、仅保留最近 K 代？",
+      "options": [
+        "为了压缩",
+        "为了美观",
+        "生产不轮换",
+        "控制磁盘占用，避免积累到后续保存失败"
+      ],
+      "correct": 3,
+      "explanation": "编者注：不能盲目先删唯一可恢复旧代再写新代；应预留空间，成功完成新代并校验后再清理旧代，保留数量依恢复策略决定。"
+    }
+  ]
+}

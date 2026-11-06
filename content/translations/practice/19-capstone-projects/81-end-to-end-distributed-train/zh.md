@@ -70,6 +70,8 @@ flowchart TB
 ci-distributed-assembly
 ```
 
+> 编者注：LayerNorm 通常不维护 BatchNorm 式的 running mean/variance。相同参数范数只是同步线索，不能证明逐元素一致；固定 20 步也不能防止单步死锁，CI 仍需外部超时。墙钟检查点周期控制的是可能丢失的时间，不保证相同 FLOPs。
+
 ## 动手构建
 
 `code/main.py` 实现：

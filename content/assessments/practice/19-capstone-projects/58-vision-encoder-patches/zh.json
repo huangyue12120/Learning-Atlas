@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/58-vision-encoder-patches/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "c6422bf3c7a5d4fedee19300d289fa60a3356626f61939c2a9ca55efdbe5ef75"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "58-vision-encoder-patches-pre-1",
+      "stage": "pre",
+      "question": "ViT 为什么使用 patch，而不是每像素一个词元？",
+      "options": [
+        "PyTorch 强制使用 patch",
+        "逐像素序列过长，注意力随长度平方增长，常用分辨率成本很高",
+        "patch 必然改善画质",
+        "这样完全不需要词元化"
+      ],
+      "correct": 1,
+      "explanation": "编者注：224×224 图像有 50176 个像素位置，RGB 标量值为 150528 个；16×16 patch 把位置序列缩到 196，避免把标量数误称为像素词元数。"
+    },
+    {
+      "id": "58-vision-encoder-patches-pre-2",
+      "stage": "pre",
+      "question": "kernel=stride=patch_size 的 Conv2d 与逐 patch 展平后线性投影是什么关系？",
+      "options": [
+        "卷积额外加入非线性",
+        "两者必定产生不同结果",
+        "权重排列对应时，是同一个逐 patch 线性投影的两种实现",
+        "展平后做线性投影不可能"
+      ],
+      "correct": 2,
+      "explanation": "每个不重叠卷积窗口与一个展平 patch 对应；调整权重布局和 bias 后可数值验证等价。"
+    },
+    {
+      "id": "58-vision-encoder-patches-check-3",
+      "stage": "check",
+      "question": "本课为什么使用固定二维正弦位置嵌入？",
+      "options": [
+        "可按网格确定性生成位置，不依赖固定尺寸的可学习表，便于改变分辨率",
+        "随机初始化是必需条件",
+        "只是为了省磁盘",
+        "可学习位置编码不合法"
+      ],
+      "correct": 0,
+      "explanation": "编者注：固定 sin/cos 可为新网格生成表示，但不自动保证新分辨率的质量或泛化；仍需评估，不能把可运行等同于效果保持。"
+    },
+    {
+      "id": "58-vision-encoder-patches-check-4",
+      "stage": "check",
+      "question": "224×224 图像、patch_size=16，并加一个 CLS 词元，序列长度是多少？",
+      "options": [
+        "224",
+        "256",
+        "196",
+        "197"
+      ],
+      "correct": 3,
+      "explanation": "每边 14 个 patch，14×14=196，再加一个 CLS，总长度 197。"
+    },
+    {
+      "id": "58-vision-encoder-patches-check-5",
+      "stage": "check",
+      "question": "为什么 patch 前端的“unfold 后还原”是有用的检查？",
+      "options": [
+        "它会加快推理",
+        "未做有损投影时，展平与还原应精确重建像素，否则分块或排列逻辑可能错误",
+        "它必然提高准确率",
+        "ONNX 强制要求"
+      ],
+      "correct": 1,
+      "explanation": "检查可逆的分块步骤能尽早发现通道或空间顺序错误；经过降维线性投影后不再保证可逆。"
+    },
+    {
+      "id": "58-vision-encoder-patches-post-6",
+      "stage": "post",
+      "question": "把可学习位置表换成本课二维正弦位置编码，主要改变什么？",
+      "options": [
+        "什么都不变",
+        "每步随机生成位置",
+        "从固定网格的可训练参数改为可为新网格生成的无参数信号，分辨率迁移效果仍需评估",
+        "正弦编码有更多训练参数"
+      ],
+      "correct": 2,
+      "explanation": "编者注：可学习表有固定尺寸约束或需要插值；正弦编码没有这类训练参数，但不能据此断言性能必然更好或迁移无需验证。"
+    }
+  ]
+}

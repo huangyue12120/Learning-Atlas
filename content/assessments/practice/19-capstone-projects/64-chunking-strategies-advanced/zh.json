@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/64-chunking-strategies-advanced/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "24063cb0ac1eb772372c2ecf27c2f2d2e51647ca6f05cca1ea4ed0f1bd61b913"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "64-chunking-strategies-advanced-pre-1",
+      "stage": "pre",
+      "question": "为什么分块会限制后续检索能利用的信息？",
+      "options": [
+        "LLM 从不读取 chunk",
+        "BM25 对现代 RAG 没有作用",
+        "切断关键语义或遗漏答案片段，会使后续嵌入、重排与生成更难获得完整证据",
+        "嵌入模型训练后永远不能改变"
+      ],
+      "correct": 2,
+      "explanation": "编者注：破碎片段不必然不可恢复，重叠、多块联合和重建上下文可能补救；分块质量设置信息边界，但不是所有下游方法都绝无修复能力。"
+    },
+    {
+      "id": "64-chunking-strategies-advanced-pre-2",
+      "stage": "pre",
+      "question": "缺少语料结构先验时，本课建议从哪种单策略基线开始？",
+      "options": [
+        "句子打包",
+        "固定窗口",
+        "递归切分",
+        "Markdown 结构切分"
+      ],
+      "correct": 2,
+      "explanation": "递归切分逐级尝试分隔符，能应对结构不一致的区域；这是起点，仍应在实际语料评估，而非通用最优策略。"
+    },
+    {
+      "id": "64-chunking-strategies-advanced-check-3",
+      "stage": "check",
+      "question": "本课按答案偏移标注的 recall@k 实际统计什么？",
+      "options": [
+        "前 k 块是否包含问题原文",
+        "查询与前 k 块的余弦相似度",
+        "前 k 块中的独立文档数",
+        "前 k 块是否至少有一块与 gold answer span 重叠"
+      ],
+      "correct": 3,
+      "explanation": "本课使用任意重叠命中，再对查询平均；部分重叠未必覆盖完整答案，应与更严格覆盖指标区分。"
+    },
+    {
+      "id": "64-chunking-strategies-advanced-check-4",
+      "stage": "check",
+      "question": "固定字符窗口在代码或 YAML 上的典型风险是什么？",
+      "options": [
+        "可能切断标识符、键值或结构，削弱片段语义",
+        "必定丢失 Unicode 字符",
+        "无法并行处理",
+        "必定超过嵌入上下文长度"
+      ],
+      "correct": 0,
+      "explanation": "字符边界不理解语法结构；重叠或结构切分可以缓解，不能声称所有固定窗口都会嵌入成噪声。"
+    },
+    {
+      "id": "64-chunking-strategies-advanced-check-5",
+      "stage": "check",
+      "question": "语义分块的 centroid drift 边界条件是什么？",
+      "options": [
+        "运行均值向量与下一句的余弦相似度低于阈值",
+        "字符数超过最大值",
+        "句子数超过写死限制",
+        "已耗尽全部嵌入预算"
+      ],
+      "correct": 0,
+      "explanation": "本课用当前 chunk 的向量质心与下一句比较，低于阈值则开启新块；阈值与嵌入版本应记录。"
+    },
+    {
+      "id": "64-chunking-strategies-advanced-post-6",
+      "stage": "post",
+      "question": "语义分块额外引入哪种版本失配风险？",
+      "options": [
+        "chunk 一定太小",
+        "更换分块模型可能改变边界，需要协调重新分块与重建索引",
+        "chunk 不能再用于 BM25",
+        "chunk 必定丢掉偏移量"
+      ],
+      "correct": 1,
+      "explanation": "边界依赖分块用的嵌入模型；应分别固定分块模型与检索模型，升级时检查兼容性并按需重建。"
+    }
+  ]
+}

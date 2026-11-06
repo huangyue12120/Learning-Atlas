@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/84-refusal-evaluation/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "9d78ae66a1ced217071772f00a23e0c38b3ebb3fd87989b2cf0a871b1521f467"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "84-refusal-evaluation-pre-1",
+      "stage": "pre",
+      "question": "under-refusal 衡量什么？",
+      "options": [
+        "对安全提示词的拒答频率",
+        "每次 API 成本",
+        "对标为不安全的提示词仍给出回答的频率",
+        "每次回复词元数"
+      ],
+      "correct": 2,
+      "explanation": "上游本题未提供解析。改编补充：分母是不安全样本数；它与良性提示的误拒答使用不同样本集合。"
+    },
+    {
+      "id": "84-refusal-evaluation-pre-2",
+      "stage": "pre",
+      "question": "本课为什么用 mock LLM？",
+      "options": [
+        "综合项目不允许真实模型",
+        "mock 比真实模型更准确",
+        "固定输入输出，便于把回归归因于代码或规则变化",
+        "课程必须有 GPU"
+      ],
+      "correct": 2,
+      "explanation": "上游本题未提供解析。改编补充：确定性 mock 适合测试评估管线，不能替代真实模型的拒答质量与攻击适应性评估。"
+    },
+    {
+      "id": "84-refusal-evaluation-check-3",
+      "stage": "check",
+      "question": "30 条安全提示词中有 5 条被拒绝，over-refusal rate 约多少？",
+      "options": [
+        "0.30",
+        "0.17",
+        "0.50",
+        "0.05"
+      ],
+      "correct": 1,
+      "explanation": "上游本题未提供解析。改编补充：5/30≈0.1667，约为 0.17；应同时报告分子、分母与样本覆盖范围。"
+    },
+    {
+      "id": "84-refusal-evaluation-check-4",
+      "stage": "check",
+      "question": "这里的 ECE 测量什么？",
+      "options": [
+        "不安全提示词被拒答的比例",
+        "按置信度分箱后，模型声明置信度与观测正确率的加权差距",
+        "所有回复总词元数",
+        "命中 regex 的数量"
+      ],
+      "correct": 1,
+      "explanation": "上游本题未提供解析。改编补充：先明确“正确”的事件定义，再计算分箱置信度与正确率差；分箱和样本数影响估计。"
+    },
+    {
+      "id": "84-refusal-evaluation-check-5",
+      "stage": "check",
+      "question": "为什么按第 82 课 taxonomy 连接不安全提示词标签？",
+      "options": [
+        "只是重新运行 loader",
+        "让所有严重度加一",
+        "按攻击类别报告 under-refusal，定位哪类边界失守",
+        "只为去重"
+      ],
+      "correct": 2,
+      "explanation": "上游本题未提供解析。改编补充：总体平均可能掩盖某类攻击的高失败率，统一标签支持按类别诊断。"
+    },
+    {
+      "id": "84-refusal-evaluation-post-6",
+      "stage": "post",
+      "question": "为什么同时返回 under-refusal 与 over-refusal？",
+      "options": [
+        "前者只给 CI 用",
+        "二者是方向相反的错误，单一安全分会掩盖取舍",
+        "后者由另一团队计算",
+        "dataclass 喜欢多字段"
+      ],
+      "correct": 1,
+      "explanation": "上游本题未提供解析。改编补充：拒绝所有输入可压低 under-refusal，却使 over-refusal 极高；必须并列观察。"
+    }
+  ]
+}

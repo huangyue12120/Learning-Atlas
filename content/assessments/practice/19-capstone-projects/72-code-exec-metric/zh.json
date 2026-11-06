@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/72-code-exec-metric/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "a6bdd651c48574d93c9bb7a1394d099715d2666f48319ab8de9935d945436970"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "72-code-exec-metric-pre-1",
+      "stage": "pre",
+      "question": "为什么每个候选代码使用新的 Python 子进程，而不在主评估进程内 exec？",
+      "options": [
+        "只是避免修改 builtins",
+        "现代 Python 已弃用 exec",
+        "子进程一定更快",
+        "便于终止超时和过量输出，并减少候选崩溃对宿主的影响"
+      ],
+      "correct": 3,
+      "explanation": "编者注：新进程不是完整安全沙箱，危险导入与系统访问仍需操作系统权限、容器等隔离；不要将本课 runner 用于任意不可信代码。"
+    },
+    {
+      "id": "72-code-exec-metric-pre-2",
+      "stage": "pre",
+      "question": "三条断言中两条通过、一条失败，评分是多少？",
+      "options": [
+        "约 0.667",
+        "1.0",
+        "0.0",
+        "0.5"
+      ],
+      "correct": 0,
+      "explanation": "分数为 passed/total=2/3，运行状态仍可为 assertion_fail；部分得分与全部通过是两个概念。"
+    },
+    {
+      "id": "72-code-exec-metric-check-3",
+      "stage": "check",
+      "question": "候选代码无法通过语法编译时，返回哪个状态？",
+      "options": [
+        "syntax_error",
+        "error",
+        "timeout",
+        "assertion_fail"
+      ],
+      "correct": 0,
+      "explanation": "子脚本捕获 compile 的 SyntaxError，返回 syntax_error，与运行时异常或断言失败分开。"
+    },
+    {
+      "id": "72-code-exec-metric-check-4",
+      "stage": "check",
+      "question": "为什么墙钟超时比导入 denylist 更关键？",
+      "options": [
+        "Python 根本无法拦导入",
+        "subprocess.run 不支持任何参数检查",
+        "死循环可不导入模块，而进程内 denylist 可能被绕过，超时提供独立终止路径",
+        "编译时就检查墙钟"
+      ],
+      "correct": 2,
+      "explanation": "超时限制运行时间，denylist 只是补充；超时也不隔离文件和网络副作用，不等于安全执行环境。"
+    },
+    {
+      "id": "72-code-exec-metric-check-5",
+      "stage": "check",
+      "question": "合法参数下 n-c<k 时，pass_at_k(n,c,k) 返回什么？",
+      "options": [
+        "1，因为从 n 个结果无放回选 k 个必包含至少一个成功",
+        "c/n",
+        "0，因为样本未定义",
+        "抛 ValueError"
+      ],
+      "correct": 0,
+      "explanation": "失败样本数不足 k，组合失败概率为零，因此 1-C(n-c,k)/C(n,k)=1；仍需满足 1<=k<=n 等输入约束。"
+    },
+    {
+      "id": "72-code-exec-metric-post-6",
+      "stage": "post",
+      "question": "候选输出超过本课 256 KB 上限时如何报告？",
+      "options": [
+        "只写 stderr，大小固定等于 OS 管道缓冲",
+        "把分数转成百分比",
+        "流式累计输出达到上限后终止子进程，以 error 和 output overflow 详情报告",
+        "限制的是候选源码长度"
+      ],
+      "correct": 2,
+      "explanation": "上限是保护宿主的配置选择，不是通用最佳值；在流读取过程中终止比结束后截断更能限制失控输出。"
+    }
+  ]
+}

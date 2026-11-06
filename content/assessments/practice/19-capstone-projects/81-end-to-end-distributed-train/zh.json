@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/81-end-to-end-distributed-train/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "895018d98858b7e832015c5360bbda34c6cda20acf88e14d8d17b8e127546f78"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "81-end-to-end-distributed-train-pre-1",
+      "stage": "pre",
+      "question": "单课组件已有测试，为什么仍需要分布式综合项目？",
+      "options": [
+        "组合也有独立风险：连接后可能死锁、损失发散或内存增长",
+        "为了美观",
+        "为了变慢",
+        "只为方便评分"
+      ],
+      "correct": 0,
+      "explanation": "集成测试覆盖 rendezvous、barrier 顺序、集合通信和检查点契约等跨模块关系，单元测试无法覆盖全部连接错误。"
+    },
+    {
+      "id": "81-end-to-end-distributed-train-pre-2",
+      "stage": "pre",
+      "question": "演示主要检查哪四类不变量？",
+      "options": [
+        "只有速度",
+        "只有 tokens/s",
+        "只有硬件型号",
+        "训练到第 20 步无 NaN、rank 参数范数一致、优化器分片符合内存公式、step-10 检查点可按测试契约恢复"
+      ],
+      "correct": 3,
+      "explanation": "编者注：范数一致是同步线索，不证明张量逐元素相同；状态恢复相等也不单独证明断电原子性，应查看具体比较与保存流程。"
+    },
+    {
+      "id": "81-end-to-end-distributed-train-check-3",
+      "stage": "check",
+      "question": "为什么综合项目用 tiny GPT 而不继续只用 MLP？",
+      "options": [
+        "框架强制要求",
+        "为了显得复杂",
+        "增加 LayerNorm 运算、嵌入梯度形状及 softmax/交叉熵等需要组合验证的路径",
+        "GPT 一定更快"
+      ],
+      "correct": 2,
+      "explanation": "编者注：LayerNorm 通常不维护 BatchNorm 式运行均值/方差；原解析把 LayerNorm running statistics 当理由不准确，这里按真实算子与梯度路径说明。"
+    },
+    {
+      "id": "81-end-to-end-distributed-train-check-4",
+      "stage": "check",
+      "question": "这里 self-terminating 的含义是什么？",
+      "options": [
+        "进程无条件杀死自己",
+        "固定运行 20 步并以退出码报告完成，测试环境另设超时发现挂起",
+        "崩溃恢复",
+        "必须人工停止"
+      ],
+      "correct": 1,
+      "explanation": "编者注：固定步数不能防止某一步死锁；CI 必须设置外部超时或进程回收，不能等待无限久后声称自动发现。"
+    },
+    {
+      "id": "81-end-to-end-distributed-train-check-5",
+      "stage": "check",
+      "question": "本课如何组合 DDP 与 ZeRO？",
+      "options": [
+        "只有 ZeRO，与初始同步无关",
+        "重复执行两套全部通信",
+        "初始化采用广播同步，梯度同步与更新交给 ZeRO 的 reduce_scatter、分片更新和 allgather，无需另做 DDP 梯度 allreduce",
+        "只有 DDP"
+      ],
+      "correct": 2,
+      "explanation": "避免重复规约；ZeRO 分片更新仍是优化器更新的一种组织方式，而不是取消优化器数学。"
+    },
+    {
+      "id": "81-end-to-end-distributed-train-post-6",
+      "stage": "post",
+      "question": "为何生产检查点可按墙钟间隔而非固定步数触发？",
+      "options": [
+        "更好看",
+        "保存一定更快",
+        "NCCL 强制要求",
+        "步耗时随序列与批量变化，墙钟策略更直接控制故障时可能损失的运行时间"
+      ],
+      "correct": 3,
+      "explanation": "编者注：相同分钟数不是相同 FLOPs 或相同样本数；保存周期还需平衡失败率与写入开销，没有所有任务通用的固定分钟数。"
+    }
+  ]
+}

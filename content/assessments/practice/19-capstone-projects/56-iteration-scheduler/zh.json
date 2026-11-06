@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/56-iteration-scheduler/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "6c8737c7f5a498c7dedabbdee60a11e8f8cc52b61d9b139631b5b9ea5a87a4f9"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "56-iteration-scheduler-pre-1",
+      "stage": "pre",
+      "question": "调度器为什么使用 UCB，而不是总选当前均值最高的分支？",
+      "options": [
+        "否则队列无法排序",
+        "asyncio 强制要求 UCB",
+        "UCB 一定计算更快",
+        "UCB 用探索项平衡利用与探索，避免纯贪心过早锁定领先分支"
+      ],
+      "correct": 3,
+      "explanation": "sqrt(ln N/n) 型探索项为较少尝试的分支增加优先级；这是本课的分配策略，不保证任意研究任务的最优性。"
+    },
+    {
+      "id": "56-iteration-scheduler-pre-2",
+      "stage": "pre",
+      "question": "本课 UCB1 给尚无完成运行的分支什么分数？",
+      "options": [
+        "正无穷，使未尝试分支具有优先权",
+        "其他分支的平均奖励",
+        "零",
+        "探索常数 c"
+      ],
+      "correct": 0,
+      "explanation": "runs=0 时分数为 +inf，避免除零并优先探索；并发选择还需结合当前队列与在途任务理解。"
+    },
+    {
+      "id": "56-iteration-scheduler-check-3",
+      "stage": "check",
+      "question": "调度器如何保持多个执行槽忙碌？",
+      "options": [
+        "为派发的假设 create_task，并等待在途集合 FIRST_COMPLETED",
+        "把所有 runner 放进线程池",
+        "用阻塞 sleep 占住事件循环",
+        "一律使用 multiprocessing"
+      ],
+      "correct": 0,
+      "explanation": "asyncio 任务完成后释放槽位，循环可以继续派发；runner 内部是否另启进程属于另一层实现。"
+    },
+    {
+      "id": "56-iteration-scheduler-check-4",
+      "stage": "check",
+      "question": "何时对某分支发出 paper.trigger？",
+      "options": [
+        "每个结果完成都发送",
+        "触达剪枝下限时",
+        "只在全部运行结束时",
+        "分支均值首次达到论文阈值时发送，每个分支最多一次"
+      ],
+      "correct": 3,
+      "explanation": "paper_triggered 标志防止重复触发；阈值触达只是后续写作条件，不证明成果可发表。"
+    },
+    {
+      "id": "56-iteration-scheduler-post-5",
+      "stage": "post",
+      "question": "达到最小运行次数后，分支均值仍低于 prune floor，会发生什么？",
+      "options": [
+        "什么都不做，只等 UCB 换分支",
+        "自动降低奖励下限",
+        "将分支标为 pruned，并移除队列中的剩余假设",
+        "调度器必定抛异常"
+      ],
+      "correct": 2,
+      "explanation": "UCB 决定优先级，剪枝决定是否继续保留分支；已在运行的任务还需按实现处理。"
+    },
+    {
+      "id": "56-iteration-scheduler-post-6",
+      "stage": "post",
+      "question": "本课的两个停止预算是什么？",
+      "options": [
+        "内存和 CPU",
+        "论文触发数和剪枝数",
+        "槽位数和队列深度",
+        "max_experiments 总实验数与 max_seconds 墙钟时间"
+      ],
+      "correct": 3,
+      "explanation": "trace 记录实验数或时间预算触发的停止原因；实际中断粒度取决于调度检查和在途任务取消，不能把它当作内核级截止保证。"
+    }
+  ]
+}

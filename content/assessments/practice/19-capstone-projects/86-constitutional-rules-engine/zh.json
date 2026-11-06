@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/86-constitutional-rules-engine/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "207c7286b3eeee2b2a620d5fa25a9ebd30af7641bf2c5ee241d82a7d7390e0b4"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "86-constitutional-rules-engine-pre-1",
+      "stage": "pre",
+      "question": "为什么用声明式 YAML constitution，而非散落的代码检查？",
+      "options": [
+        "因为 YAML 有 anchor",
+        "YAML 必然比 Python 快",
+        "规则可版本化、可审阅，并可在既有谓词能力内不改代码地调整",
+        "标准库偏好 YAML"
+      ],
+      "correct": 2,
+      "explanation": "上游本题未提供解析。改编补充：新规则组合可复用现有谓词，新增谓词能力仍需代码；本课解析器也不等于支持完整 YAML。"
+    },
+    {
+      "id": "86-constitutional-rules-engine-pre-2",
+      "stage": "pre",
+      "question": "每条规则至少包含哪些字段？",
+      "options": [
+        "name、regex、fix",
+        "id、owner、timestamp",
+        "predicate、severity、owner",
+        "name、severity、must、explanation"
+      ],
+      "correct": 3,
+      "explanation": "上游本题未提供解析。改编补充：这些字段声明身份、严重度、必须成立的条件和解释；可选 applies_when 与 fix 提供适用范围和修订策略。"
+    },
+    {
+      "id": "86-constitutional-rules-engine-check-3",
+      "stage": "check",
+      "question": "引擎如何组合谓词？",
+      "options": [
+        "每条只支持单个 contains_regex",
+        "把置信度相乘",
+        "用神经分类器",
+        "使用 all_of、any_of、not_ 递归组合原子谓词"
+      ],
+      "correct": 3,
+      "explanation": "上游本题未提供解析。改编补充：组合逻辑应有明确短路与空集合语义，规则结构需先验证再执行。"
+    },
+    {
+      "id": "86-constitutional-rules-engine-check-4",
+      "stage": "check",
+      "question": "applies_when 的作用是什么？",
+      "options": [
+        "覆盖 severity",
+        "选择 fixer 操作",
+        "控制 must 是否适用，不适用时记为 not_applicable 而非 violation",
+        "恒为真"
+      ],
+      "correct": 2,
+      "explanation": "上游本题未提供解析。改编补充：不满足适用条件不表示违规，也不表示已经满足 must；报告应保留这一区别。"
+    },
+    {
+      "id": "86-constitutional-rules-engine-check-5",
+      "stage": "check",
+      "question": "Fixer 做什么？",
+      "options": [
+        "调用远端模型修复",
+        "应用 append、prepend、replace_regex 等逐规则声明的修订",
+        "重写规则文件",
+        "从修订反推严重度"
+      ],
+      "correct": 1,
+      "explanation": "上游本题未提供解析。改编补充：这是局部文本变换，不保证语义正确或同时满足所有规则，必须重新检查。"
+    },
+    {
+      "id": "86-constitutional-rules-engine-post-6",
+      "stage": "post",
+      "question": "为什么 fixer 后再次运行规则引擎？",
+      "options": [
+        "第一轮只是 dry-run",
+        "只为重新加载文件",
+        "扩大报告体积",
+        "验证新文本满足规则，并暴露无法局部修复或新增的违规"
+      ],
+      "correct": 3,
+      "explanation": "上游本题未提供解析。改编补充：一条修订可能破坏另一条规则，二次检查是必要反馈，但仍不构成任意语义风险的完备检测。"
+    }
+  ]
+}

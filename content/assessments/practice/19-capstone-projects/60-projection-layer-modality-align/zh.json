@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/60-projection-layer-modality-align/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "a4e4f82cf9a11ccf9085e32670e64e2c3cd5ee13ea7dab140f0f3210369e1ed9"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "60-projection-layer-modality-align-pre-1",
+      "stage": "pre",
+      "question": "为什么视觉编码器的词元不能直接当作文本解码器的词嵌入？",
+      "options": [
+        "图像词元经过加密",
+        "图像词元太短",
+        "文件格式不同",
+        "视觉与文本模型独立学习表示空间，维数和特征基底未必对应"
+      ],
+      "correct": 3,
+      "explanation": "桥接模块把视觉特征映射到解码器可用的表示；即使维数相等，也不表示语义坐标天然对齐。"
+    },
+    {
+      "id": "60-projection-layer-modality-align-pre-2",
+      "stage": "pre",
+      "question": "本课选择两层 MLP 做模态对齐的理由是什么？",
+      "options": [
+        "单层投影被禁止",
+        "PyTorch 要求两层",
+        "两个线性层之间的 GELU 提供非线性，是常见且轻量的桥接选择",
+        "更深投影不合法"
+      ],
+      "correct": 2,
+      "explanation": "两层 MLP 可比单个线性映射表达更多关系；“足够”依赖任务、特征和训练数据，不是所有模态对齐的通用保证。"
+    },
+    {
+      "id": "60-projection-layer-modality-align-check-3",
+      "stage": "check",
+      "question": "本课对齐阶段为什么冻结视觉编码器？",
+      "options": [
+        "编码器是空对象",
+        "小型演示只训练轻量投影，避免在很小语料上更新大编码器",
+        "冻结一定使所有操作更快",
+        "PyTorch 不支持训练编码器"
+      ],
+      "correct": 1,
+      "explanation": "冻结视觉编码器与文本表，使训练信号集中在投影层；这是本课阶段设计，不代表所有适配器式 VLM 都永久冻结主干。"
+    },
+    {
+      "id": "60-projection-layer-modality-align-check-4",
+      "stage": "check",
+      "question": "两个非零向量方向完全相反时，cosine_alignment_loss 返回多少？",
+      "options": [
+        "无穷",
+        "1.0",
+        "0.0",
+        "2.0"
+      ],
+      "correct": 3,
+      "explanation": "损失为 1-cos，反向向量的 cos=-1，因此损失为 2。"
+    },
+    {
+      "id": "60-projection-layer-modality-align-check-5",
+      "stage": "check",
+      "question": "为什么把 197 个图像词元用 CLS 池化成单个图像向量？",
+      "options": [
+        "节省磁盘",
+        "PyTorch 会自动求和",
+        "patch 词元完全没用",
+        "本课对齐目标每个 caption 一个向量，图像也需一个样本级表示，CLS 提供聚合入口"
+      ],
+      "correct": 3,
+      "explanation": "CLS 已通过编码器与 patch 交互；读取 CLS 不增加池化参数，但不表示 patch 未参与计算。"
+    },
+    {
+      "id": "60-projection-layer-modality-align-post-6",
+      "stage": "post",
+      "question": "哪种生产训练模式最接近本课的对齐阶段？",
+      "options": [
+        "LLaVA 1.5 第一阶段：冻结视觉编码器与语言模型，训练两层 MLP 投影",
+        "PaLM",
+        "AlphaFold",
+        "Stable Diffusion"
+      ],
+      "correct": 0,
+      "explanation": "这里对应 LLaVA 的桥接预训练思路；本课的合成目标与规模不等于完整 LLaVA 训练或后续指令微调。"
+    }
+  ]
+}

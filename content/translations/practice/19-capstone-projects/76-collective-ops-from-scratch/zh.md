@@ -69,6 +69,8 @@ NCCL 运行在 PCIe 和 NVLink 上，并由硬件卸载归约操作；CPU 上没
 ci-ring-allreduce
 ```
 
+> 编者注：当前代码 verify_against_gloo 使用 max_abs_diff<1e-5 判定，不是普遍逐字节相等。队列 mesh 只验证所测输入下的算法与调度，不等同于 NCCL 性能或硬件行为；树/环交叉点依设备、网络和消息大小而变。
+
 ## 动手构建
 
 `code/main.py` 实现了：

@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/67-query-rewriting-hyde/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "fc6370c83daeed43f7edb70e50106f0f70e92cd7ea616d4da12234d08d48c4ec"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "67-query-rewriting-hyde-pre-1",
+      "stage": "pre",
+      "question": "HyDE 的核心机制是什么？",
+      "options": [
+        "用更大的模型直接嵌入问题",
+        "哈希问题并查缓存",
+        "运行多种 retriever 后只选一个",
+        "先生成假想文档，再嵌入该文档并用其向量检索"
+      ],
+      "correct": 3,
+      "explanation": "假想文档把查询转为接近语料风格的文本，向量用于寻找真实证据，而不是把假想内容当答案来源。"
+    },
+    {
+      "id": "67-query-rewriting-hyde-pre-2",
+      "stage": "pre",
+      "question": "为什么 HyDE 的假想文档不要求每个事实都正确？",
+      "options": [
+        "reranker 必会修复所有事实",
+        "错误模型调用会被回滚",
+        "它用于语义检索而非直接充当事实证据，相关表达可能帮助靠近真实文档",
+        "只要用户看不到就没有风险"
+      ],
+      "correct": 2,
+      "explanation": "编者注：错误内容仍可能把检索带偏；它可以不作为事实答案，但必须以真实命中评估收益，不能保证只要词汇相似就检索正确。"
+    },
+    {
+      "id": "67-query-rewriting-hyde-check-3",
+      "stage": "check",
+      "question": "multi-query expansion 与 query decomposition 的区别是什么？",
+      "options": [
+        "前者生成同一问题的多种改写，后者拆出共同覆盖复合问题的子问题",
+        "后者只能本地运行，前者必须远端模型",
+        "二者完全相同",
+        "前者只能余弦，后者只能 BM25"
+      ],
+      "correct": 0,
+      "explanation": "改写尽量保留同一意图，分解则把多个可独立回答的需求分开，再合并证据。"
+    },
+    {
+      "id": "67-query-rewriting-hyde-check-4",
+      "stage": "check",
+      "question": "什么时候问题分解容易过度拆分并损害检索？",
+      "options": [
+        "关闭 BM25 时必定发生",
+        "语料小时必定发生",
+        "原问题只有一个主题，却被生成无关或重复子问题，稀释了有效候选",
+        "问题超出模型上下文时才会发生"
+      ],
+      "correct": 2,
+      "explanation": "原子问题不一定需要分解；用查询分类和基线对照检查新增子问题是否真正贡献证据。"
+    },
+    {
+      "id": "67-query-rewriting-hyde-check-5",
+      "stage": "check",
+      "question": "本课为什么用 RRF 合并不同改写的检索结果？",
+      "options": [
+        "避免直接混合未校准原始分数，按多份排名贡献融合",
+        "线性融合最多只能合两份列表",
+        "只有 RRF 能在 GPU 上运行",
+        "Python 只支持 RRF"
+      ],
+      "correct": 0,
+      "explanation": "排名融合减少原始分数尺度依赖，但仍需选择候选深度、常数和去重规则，并检查重写是否偏离意图。"
+    },
+    {
+      "id": "67-query-rewriting-hyde-post-6",
+      "stage": "post",
+      "question": "三个改写分支并行时，为什么端到端延迟仍不可能为零？",
+      "options": [
+        "必须串行做三次模型调用",
+        "只取决于最慢一次检索",
+        "至少要等待模型改写，并在各分支完成后续检索及融合，关键路径约为最慢分支而非三路时间之和",
+        "全部内容都会缓存所以是零"
+      ],
+      "correct": 2,
+      "explanation": "编者注：一轮模型调用只是延迟下界的一部分；完整关键路径还包括对应检索、排队和融合，不能说只需模型延迟。"
+    }
+  ]
+}

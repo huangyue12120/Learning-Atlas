@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/65-hybrid-retrieval-bm25-dense/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "4b33ce707097c6bf37e53e46ad9c504e14eb4b2a402889be81416c0c2768e424"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "65-hybrid-retrieval-bm25-dense-pre-1",
+      "stage": "pre",
+      "question": "为什么可以在一个 RAG 端点组合词面与语义检索？",
+      "options": [
+        "法律要求必须有词面检索",
+        "语义检索总是更准确",
+        "组合能把索引减半",
+        "查询同时含精确标识符和语义改写，两路检索可互补"
+      ],
+      "correct": 3,
+      "explanation": "BM25 常擅长精确词项，dense 常适合语义近似；是否需要两路及其收益应由查询分布和评测决定。"
+    },
+    {
+      "id": "65-hybrid-retrieval-bm25-dense-pre-2",
+      "stage": "pre",
+      "question": "BM25 的 b 参数（本课默认 0.75）控制什么？",
+      "options": [
+        "文档字段数量",
+        "查询时余弦指数",
+        "IDF 的乘数",
+        "文档长度归一化强度"
+      ],
+      "correct": 3,
+      "explanation": "b=0 不做长度归一化，b=1 使用完整长度归一化，0.75 是常见默认；其影响通过词频饱和分母发生。"
+    },
+    {
+      "id": "65-hybrid-retrieval-bm25-dense-check-3",
+      "stage": "check",
+      "question": "RRF 为每个候选计算什么？",
+      "options": [
+        "BM25 与 dense 分数 min-max 后的平均",
+        "对包含该候选的各排名表累加 1/(k+rank)",
+        "跨模态余弦相似度乘积",
+        "各路名次的中位数"
+      ],
+      "correct": 1,
+      "explanation": "RRF 按名次投票，本课使用常见常数 k=60；这里的 k 是平滑常数，不能与最终 top-k 混淆。"
+    },
+    {
+      "id": "65-hybrid-retrieval-bm25-dense-check-4",
+      "stage": "check",
+      "question": "为什么排名融合可避免直接相加 BM25 与余弦分数的尺度问题？",
+      "options": [
+        "余弦分数无界",
+        "BM25 分数随语料变化，余弦有界，两者原始尺度不可直接比较",
+        "BM25 分数无法排序",
+        "线性加权必须用 GPU"
+      ],
+      "correct": 1,
+      "explanation": "RRF 不要求校准两路原始分数；线性融合并非不可用，但通常需要归一化或校准与验证。"
+    },
+    {
+      "id": "65-hybrid-retrieval-bm25-dense-check-5",
+      "stage": "check",
+      "question": "把 RRF 常数 k 设得很小，会怎样改变权重？",
+      "options": [
+        "变成线性分数求和",
+        "更强调排名靠前候选，相比之下深排名的贡献更弱",
+        "让语料外词获得正分",
+        "完全忽略第二路检索"
+      ],
+      "correct": 1,
+      "explanation": "小 k 让 1/(k+rank) 随名次变化更陡；深候选仍可能累积多路贡献，并非全部为零。"
+    },
+    {
+      "id": "65-hybrid-retrieval-bm25-dense-post-6",
+      "stage": "post",
+      "question": "通过重复字段词项实现权重，本课主要省掉什么？",
+      "options": [
+        "查询时另做一层字段分数聚合，仍沿用单一 BM25 求和路径",
+        "词表外嵌入问题",
+        "IDF 变零问题",
+        "余弦变负问题"
+      ],
+      "correct": 0,
+      "explanation": "重复词项改变词频，也可能影响长度归一化；它是简化近似，不等于一般 BM25F 的独立字段校准。"
+    }
+  ]
+}

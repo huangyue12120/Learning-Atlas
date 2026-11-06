@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/54-paper-writer/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "b476522991afc153bcaada0b7983a9d802d79ac8b60e4a31111646317082cd97"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "54-paper-writer-pre-1",
+      "stage": "pre",
+      "question": "论文 writer 为什么先声明章节、图与引用，再生成正文？",
+      "options": [
+        "BibTeX 不能处理前向引用",
+        "LaTeX 必须先声明所有对象",
+        "模型需要系统提示词",
+        "结构是契约，harness 可以在生成正文前检查完整性"
+      ],
+      "correct": 3,
+      "explanation": "先声明结构便于检查标识唯一性、引文键与图引用覆盖，再调用正文生成器。"
+    },
+    {
+      "id": "54-paper-writer-pre-2",
+      "stage": "pre",
+      "question": "从实验 manifest 注入图像时，会生成什么？",
+      "options": [
+        "稳定 id、且路径按论文目录规范化的 Figure 记录列表",
+        "参考文献占位文本",
+        "已编译的 PDF",
+        "带图像描述的模型提示词"
+      ],
+      "correct": 0,
+      "explanation": "本课 read_experiment_manifest 读取图像路径、说明和稳定标识，不承担 PDF 编译。"
+    },
+    {
+      "id": "54-paper-writer-check-3",
+      "stage": "check",
+      "question": "哪种错误会在写入任何文件前触发 PaperValidationError？",
+      "options": [
+        "摘要超过 200 个词",
+        "作者数为奇数",
+        "章节引用了 bibliography 中没有声明的键",
+        "图像路径在磁盘上不存在"
+      ],
+      "correct": 2,
+      "explanation": "缺失文献键、重复图 id、空标题/摘要、未知图引用等会被结构校验拒绝；本课不在这一层强制检查图文件存在。"
+    },
+    {
+      "id": "54-paper-writer-check-4",
+      "stage": "check",
+      "question": "为何把正文生成器作为 callable 注入 PaperWriter？",
+      "options": [
+        "测试可换成确定性的 MockProseGenerator，生产可换模型调用而不改 writer",
+        "LaTeX 要求使用回调",
+        "dataclass 无法保存状态",
+        "Python 方法不能接收 Paper"
+      ],
+      "correct": 0,
+      "explanation": "注入生成器隔开结构输出与正文生成机制，使两者能独立测试。"
+    },
+    {
+      "id": "54-paper-writer-post-5",
+      "stage": "post",
+      "question": "PaperWriter.write 成功后输出哪三个文件？",
+      "options": [
+        "paper.tex、references.bib、manifest.json",
+        "manifest.json、prose.txt、paper.pdf",
+        "paper.tex、paper.pdf、references.bib",
+        "outline.json、paper.tex、figures.tar"
+      ],
+      "correct": 0,
+      "explanation": "它输出 LaTeX 源、参考文献与结构化 manifest；成功写入不表示已编译出 PDF。"
+    },
+    {
+      "id": "54-paper-writer-post-6",
+      "stage": "post",
+      "question": "为什么 writer 的契约包含 manifest，而不只包含 LaTeX？",
+      "options": [
+        "批评器和面板需要稳定的结构化接口",
+        "BibTeX 只接受 manifest.json",
+        "LaTeX 文件太大，任何工具都无法解析",
+        "LaTeX 编译器拒绝无类型章节"
+      ],
+      "correct": 0,
+      "explanation": "manifest 向下游提供章节、图与引用等记录；LaTeX 负责排版源，两者服务不同的消费方式。"
+    }
+  ]
+}

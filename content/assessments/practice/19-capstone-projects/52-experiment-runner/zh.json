@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/52-experiment-runner/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "cec70c2289da9c0af766a659fa022facea805847b1806f4c17e58b9ffb81c5ea"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "52-experiment-runner-pre-1",
+      "stage": "pre",
+      "question": "实验 runner 为什么启动子进程，而不是在主进程中 import 实验脚本？",
+      "options": [
+        "子进程一定比 import 快",
+        "独立进程便于超时终止和资源监测，也把实验崩溃与编排进程分开",
+        "Python 不允许嵌套导入",
+        "指标格式要求子进程"
+      ],
+      "correct": 1,
+      "explanation": "子进程提供独立地址空间和终止句柄，限制常见崩溃传播；它本身不是完整的恶意代码隔离机制。"
+    },
+    {
+      "id": "52-experiment-runner-pre-2",
+      "stage": "pre",
+      "question": "为什么把本课内存上限称为软限制？",
+      "options": [
+        "只限制堆而不限制栈",
+        "轮询有间隔，内存可能在两次观察之间短暂超限",
+        "操作系统一定覆盖该限制",
+        "numpy 会忽略上限"
+      ],
+      "correct": 1,
+      "explanation": "本课按采样观察内存并终止，不是内核即时强制的资源限制，因此检测粒度受轮询间隔影响。"
+    },
+    {
+      "id": "52-experiment-runner-check-3",
+      "stage": "check",
+      "question": "stdout 已含指标，但实验以非零状态退出，runner 返回哪个终态？",
+      "options": [
+        "timeout",
+        "crash",
+        "ok",
+        "oom"
+      ],
+      "correct": 1,
+      "explanation": "只有退出码为零且所需指标成功解析才算 ok；崩溃前输出的指标不能把非零退出变成成功。"
+    },
+    {
+      "id": "52-experiment-runner-check-4",
+      "stage": "check",
+      "question": "runner 如何确定 stdout 中的最终指标？",
+      "options": [
+        "扫描 stderr 中的 JSON",
+        "要求输出恰好一行",
+        "取最后一行覆盖全部 metric_keys 的合法 JSON，较早的匹配行作为中间指标",
+        "取第一行 JSON"
+      ],
+      "correct": 2,
+      "explanation": "日志可以混合普通文字与多轮指标；最后一个满足必需键的 JSON 是最终结果，前面的用于学习曲线。"
+    },
+    {
+      "id": "52-experiment-runner-check-5",
+      "stage": "check",
+      "question": "本课消融助手为什么每次只扫描一个参数，而不是全因子组合？",
+      "options": [
+        "单参数扫描易解释，全因子组合随参数数量增加可能迅速膨胀",
+        "随机种子只能沿一个参数变化",
+        "runner 不能启动多个子进程",
+        "numpy 不支持笛卡尔积"
+      ],
+      "correct": 0,
+      "explanation": "单参数扫描控制实验数量并提供清楚的横轴；它也可能漏掉参数交互，不能替代所有因子实验。"
+    },
+    {
+      "id": "52-experiment-runner-check-6",
+      "stage": "check",
+      "question": "把 spec.seed 传入 config['__seed'] 的作用是什么？",
+      "options": [
+        "减少内存",
+        "缩短墙钟时间",
+        "自动完成显著性检验",
+        "让遵守该种子契约的实验固定随机过程，便于重复与配对比较"
+      ],
+      "correct": 3,
+      "explanation": "编者注：传递种子只建立复现接口，实验还必须实际使用它；非确定性算子、环境和外部输入仍可能使结果变化，不能承诺任意实验逐位一致。"
+    }
+  ]
+}

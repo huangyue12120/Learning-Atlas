@@ -80,6 +80,8 @@ flowchart LR
 rerank-funnel
 ```
 
+> 编者注：当候选池 N 等于最终 K 时，cross-encoder 仍能重排顺序，并改善 MRR/nDCG；它不能从池外补入文档。N>K 提供替换最终集合的空间，3× 只是可评估的经验起点。低 top-1 分数是需校准的信号，不是语料必无答案的证明。
+
 ## 动手构建
 
 `code/main.py` 实现：

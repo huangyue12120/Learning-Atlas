@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/70-task-spec-format/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "5b91aa0fcbdb5d622a6f695f3cb1a519800151edf1b2b260d8718fc5fcd5fd3b"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "70-task-spec-format-pre-1",
+      "stage": "pre",
+      "question": "为什么在编写评分代码前先固定任务记录 schema？",
+      "options": [
+        "让指标、runner 与后处理对字段契约达成一致",
+        "可以不改代码就接受任意新指标",
+        "使 JSON 解析更快",
+        "不再需要校验器"
+      ],
+      "correct": 0,
+      "explanation": "schema 固定字段与类型，各层可围绕共同契约独立修改；扩展时仍需兼容策略与验证。"
+    },
+    {
+      "id": "70-task-spec-format-pre-2",
+      "stage": "pre",
+      "question": "metric_name 接受哪组封闭取值？",
+      "options": [
+        "作者任意定义的字符串",
+        "只有 exact_match 和 f1",
+        "runner 临时认识的任意名字",
+        "exact_match、f1、bleu_4、rouge_l、accuracy、code_exec"
+      ],
+      "correct": 3,
+      "explanation": "本课明确六种指标名；新增指标需同步 schema、验证器和分发实现，不必另造隐含规则。"
+    },
+    {
+      "id": "70-task-spec-format-check-3",
+      "stage": "check",
+      "question": "记录出现未知顶层字段时，校验器如何处理？",
+      "options": [
+        "只警告并接受",
+        "删掉后继续",
+        "改名为 metadata.unknown",
+        "返回校验错误并拒绝记录"
+      ],
+      "correct": 3,
+      "explanation": "严格字段检查避免拼写错误被静默忽略；扩展数据应使用 schema 允许的入口。"
+    },
+    {
+      "id": "70-task-spec-format-check-4",
+      "stage": "check",
+      "question": "为什么 few-shot 示例属于任务记录，而不是由 runner 临时生成？",
+      "options": [
+        "few-shot 只用于微调",
+        "示例组成也是评估定义，应让各模型使用一致的提示构造",
+        "节省磁盘",
+        "runner 不能读文件"
+      ],
+      "correct": 1,
+      "explanation": "把示例绑定到任务能减少跨模型的提示构造差异；具体适配器仍应忠实实现该契约。"
+    },
+    {
+      "id": "70-task-spec-format-check-5",
+      "stage": "check",
+      "question": "哪种 category 与 metric 组合不合法？",
+      "options": [
+        "code_exec 与 code_exec",
+        "summary 与 rouge_l",
+        "arithmetic 与 exact_match",
+        "mcq 与 bleu_4"
+      ],
+      "correct": 3,
+      "explanation": "本课选择题只允许 exact_match 或 accuracy；单字母答案的 BLEU 不适合此任务契约。"
+    },
+    {
+      "id": "70-task-spec-format-post-6",
+      "stage": "post",
+      "question": "extract_letter 处理 `Answer: C is correct` 时返回什么？",
+      "options": [
+        "Answer",
+        "空字符串",
+        "原字符串不变",
+        "C"
+      ],
+      "correct": 3,
+      "explanation": "编者注：当前代码优先找独立的 A–E 字母，再用 fallback；不是简单取任意首个大写 A–E，否则会错误提取 Answer 中的 A。"
+    }
+  ]
+}

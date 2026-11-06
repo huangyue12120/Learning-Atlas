@@ -1,8 +1,8 @@
 {
-  "questionCount": 2134,
-  "correctLongestIncludingTies": 1854,
-  "correctSoleLongest": 1753,
-  "soleLongestRate": 0.8215,
+  "questionCount": 2362,
+  "correctLongestIncludingTies": 2067,
+  "correctSoleLongest": 1955,
+  "soleLongestRate": 0.8277,
   "priority": [
     {
       "lessonId": "practice/13-tools-and-protocols/43-bytecode-and-managed-formats",
@@ -102,6 +102,17 @@
         76
       ],
       "ratio": 10.857
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/87-end-to-end-safety-gate",
+      "id": "87-end-to-end-safety-gate-check-3",
+      "lengths": [
+        6,
+        74,
+        7,
+        7
+      ],
+      "ratio": 10.571
     },
     {
       "lessonId": "practice/04-computer-vision/21-keypoint-pose",
@@ -245,6 +256,17 @@
         44
       ],
       "ratio": 8.8
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/78-zero-parameter-sharding",
+      "id": "78-zero-parameter-sharding-check-4",
+      "lengths": [
+        3,
+        2,
+        3,
+        26
+      ],
+      "ratio": 8.667
     },
     {
       "lessonId": "practice/05-nlp-foundations-to-advanced/14-information-retrieval-search",
@@ -454,6 +476,17 @@
         6
       ],
       "ratio": 7.571
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/79-pipeline-parallel",
+      "id": "79-pipeline-parallel-post-6",
+      "lengths": [
+        6,
+        4,
+        45,
+        5
+      ],
+      "ratio": 7.5
     },
     {
       "lessonId": "practice/04-computer-vision/20-image-retrieval-metric",
@@ -687,6 +720,17 @@
       "ratio": 6.833
     },
     {
+      "lessonId": "practice/19-capstone-projects/57-end-to-end-research-demo",
+      "id": "57-end-to-end-research-demo-post-6",
+      "lengths": [
+        9,
+        11,
+        8,
+        75
+      ],
+      "ratio": 6.818
+    },
+    {
       "lessonId": "practice/14-agent-engineering/29-production-runtimes",
       "id": "q5",
       "lengths": [
@@ -738,6 +782,17 @@
         4,
         9,
         60
+      ],
+      "ratio": 6.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/63-multimodal-eval",
+      "id": "63-multimodal-eval-pre-1",
+      "lengths": [
+        6,
+        6,
+        40,
+        6
       ],
       "ratio": 6.667
     },
@@ -896,6 +951,17 @@
       "ratio": 6.385
     },
     {
+      "lessonId": "practice/19-capstone-projects/78-zero-parameter-sharding",
+      "id": "78-zero-parameter-sharding-check-3",
+      "lengths": [
+        6,
+        3,
+        8,
+        51
+      ],
+      "ratio": 6.375
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/40-linking-loading-and-stripped-binaries",
       "id": "link-load-q3",
       "lengths": [
@@ -905,6 +971,17 @@
         9
       ],
       "ratio": 6.364
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/59-vit-transformer",
+      "id": "59-vit-transformer-post-6",
+      "lengths": [
+        4,
+        6,
+        38,
+        5
+      ],
+      "ratio": 6.333
     },
     {
       "lessonId": "practice/04-computer-vision/20-image-retrieval-metric",
@@ -947,6 +1024,17 @@
         93,
         15,
         12
+      ],
+      "ratio": 6.2
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/79-pipeline-parallel",
+      "id": "79-pipeline-parallel-pre-2",
+      "lengths": [
+        4,
+        5,
+        5,
+        31
       ],
       "ratio": 6.2
     },
@@ -1079,6 +1167,17 @@
         6,
         36,
         4
+      ],
+      "ratio": 6.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/81-end-to-end-distributed-train",
+      "id": "81-end-to-end-distributed-train-check-3",
+      "lengths": [
+        6,
+        6,
+        42,
+        7
       ],
       "ratio": 6.0
     },
@@ -1457,6 +1556,17 @@
       "ratio": 5.5
     },
     {
+      "lessonId": "practice/19-capstone-projects/78-zero-parameter-sharding",
+      "id": "78-zero-parameter-sharding-post-6",
+      "lengths": [
+        6,
+        6,
+        4,
+        33
+      ],
+      "ratio": 5.5
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/17-chatbots-rule-to-neural",
       "id": "chatbots-rule-to-neural-05-7",
       "lengths": [
@@ -1508,6 +1618,17 @@
         5,
         7,
         38
+      ],
+      "ratio": 5.429
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/85-content-classifier-integration",
+      "id": "85-content-classifier-integration-check-5",
+      "lengths": [
+        6,
+        38,
+        7,
+        4
       ],
       "ratio": 5.429
     },
@@ -1609,6 +1730,28 @@
         9
       ],
       "ratio": 5.333
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/62-vision-language-pretraining",
+      "id": "62-vision-language-pretraining-pre-2",
+      "lengths": [
+        32,
+        5,
+        5,
+        6
+      ],
+      "ratio": 5.333
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/81-end-to-end-distributed-train",
+      "id": "81-end-to-end-distributed-train-pre-2",
+      "lengths": [
+        4,
+        10,
+        6,
+        53
+      ],
+      "ratio": 5.3
     },
     {
       "lessonId": "practice/05-nlp-foundations-to-advanced/23-chunking-strategies-rag",
@@ -1732,6 +1875,17 @@
       "ratio": 5.167
     },
     {
+      "lessonId": "practice/19-capstone-projects/63-multimodal-eval",
+      "id": "63-multimodal-eval-post-6",
+      "lengths": [
+        5,
+        6,
+        31,
+        2
+      ],
+      "ratio": 5.167
+    },
+    {
       "lessonId": "practice/14-agent-engineering/42-agent-workbench-capstone",
       "id": "q1",
       "lengths": [
@@ -1849,6 +2003,17 @@
         8,
         11,
         14
+      ],
+      "ratio": 5.071
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/81-end-to-end-distributed-train",
+      "id": "81-end-to-end-distributed-train-check-5",
+      "lengths": [
+        14,
+        10,
+        71,
+        5
       ],
       "ratio": 5.071
     },
@@ -2183,6 +2348,17 @@
       "ratio": 4.875
     },
     {
+      "lessonId": "practice/19-capstone-projects/80-checkpoint-sharded-resume",
+      "id": "80-checkpoint-sharded-resume-pre-2",
+      "lengths": [
+        39,
+        5,
+        5,
+        8
+      ],
+      "ratio": 4.875
+    },
+    {
       "lessonId": "practice/19-capstone-projects/37-loading-pretrained-weights",
       "id": "37-loading-pretrained-weights-pre-1",
       "lengths": [
@@ -2234,6 +2410,17 @@
         5,
         6,
         6
+      ],
+      "ratio": 4.833
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/61-cross-attention-fusion",
+      "id": "61-cross-attention-fusion-pre-2",
+      "lengths": [
+        5,
+        4,
+        6,
+        29
       ],
       "ratio": 4.833
     },
@@ -2359,6 +2546,17 @@
       "ratio": 4.75
     },
     {
+      "lessonId": "practice/19-capstone-projects/86-constitutional-rules-engine",
+      "id": "86-constitutional-rules-engine-check-5",
+      "lengths": [
+        8,
+        38,
+        6,
+        8
+      ],
+      "ratio": 4.75
+    },
+    {
       "lessonId": "practice/04-computer-vision/24-sam3-open-vocab-segmentation",
       "id": "sam3-open-vocab-segmentation-04-4",
       "lengths": [
@@ -2480,6 +2678,17 @@
       "ratio": 4.667
     },
     {
+      "lessonId": "practice/19-capstone-projects/79-pipeline-parallel",
+      "id": "79-pipeline-parallel-check-4",
+      "lengths": [
+        6,
+        4,
+        28,
+        6
+      ],
+      "ratio": 4.667
+    },
+    {
       "lessonId": "practice/04-computer-vision/18-open-vocab-clip",
       "id": "open-vocab-clip-04-1",
       "lengths": [
@@ -2597,6 +2806,28 @@
         5,
         5,
         23
+      ],
+      "ratio": 4.6
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/68-rag-eval-precision-recall",
+      "id": "68-rag-eval-precision-recall-check-5",
+      "lengths": [
+        3,
+        3,
+        5,
+        23
+      ],
+      "ratio": 4.6
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/79-pipeline-parallel",
+      "id": "79-pipeline-parallel-check-5",
+      "lengths": [
+        5,
+        4,
+        23,
+        4
       ],
       "ratio": 4.6
     },
@@ -2854,6 +3085,17 @@
       "ratio": 4.5
     },
     {
+      "lessonId": "practice/19-capstone-projects/61-cross-attention-fusion",
+      "id": "61-cross-attention-fusion-post-6",
+      "lengths": [
+        5,
+        27,
+        6,
+        5
+      ],
+      "ratio": 4.5
+    },
+    {
       "lessonId": "practice/04-computer-vision/11-stable-diffusion",
       "id": "stable-diffusion-04-4",
       "lengths": [
@@ -2960,6 +3202,17 @@
         35,
         8,
         6
+      ],
+      "ratio": 4.375
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/77-data-parallel-ddp",
+      "id": "77-data-parallel-ddp-pre-2",
+      "lengths": [
+        35,
+        5,
+        5,
+        8
       ],
       "ratio": 4.375
     },
@@ -3151,6 +3404,17 @@
       "ratio": 4.333
     },
     {
+      "lessonId": "practice/19-capstone-projects/81-end-to-end-distributed-train",
+      "id": "81-end-to-end-distributed-train-pre-1",
+      "lengths": [
+        26,
+        4,
+        4,
+        6
+      ],
+      "ratio": 4.333
+    },
+    {
       "lessonId": "practice/04-computer-vision/10-image-generation-diffusion",
       "id": "image-generation-diffusion-04-4",
       "lengths": [
@@ -3279,6 +3543,17 @@
         51,
         12,
         11
+      ],
+      "ratio": 4.25
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/58-vision-encoder-patches",
+      "id": "58-vision-encoder-patches-check-5",
+      "lengths": [
+        6,
+        34,
+        8,
+        8
       ],
       "ratio": 4.25
     },
@@ -3459,6 +3734,17 @@
       "ratio": 4.143
     },
     {
+      "lessonId": "practice/19-capstone-projects/80-checkpoint-sharded-resume",
+      "id": "80-checkpoint-sharded-resume-check-5",
+      "lengths": [
+        29,
+        6,
+        7,
+        4
+      ],
+      "ratio": 4.143
+    },
+    {
       "lessonId": "practice/03-deep-learning-core/03-backpropagation",
       "id": "backpropagation-03-4",
       "lengths": [
@@ -3487,6 +3773,17 @@
         8,
         7,
         4,
+        33
+      ],
+      "ratio": 4.125
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/81-end-to-end-distributed-train",
+      "id": "81-end-to-end-distributed-train-post-6",
+      "lengths": [
+        3,
+        6,
+        8,
         33
       ],
       "ratio": 4.125
@@ -3576,6 +3873,17 @@
         9,
         10,
         9
+      ],
+      "ratio": 4.1
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/86-constitutional-rules-engine",
+      "id": "86-constitutional-rules-engine-check-4",
+      "lengths": [
+        10,
+        9,
+        41,
+        3
       ],
       "ratio": 4.1
     },
@@ -3877,6 +4185,17 @@
       "ratio": 4.0
     },
     {
+      "lessonId": "practice/19-capstone-projects/79-pipeline-parallel",
+      "id": "79-pipeline-parallel-pre-1",
+      "lengths": [
+        5,
+        8,
+        32,
+        4
+      ],
+      "ratio": 4.0
+    },
+    {
       "lessonId": "practice/17-infrastructure-and-production/13-llm-observability",
       "id": "q5",
       "lengths": [
@@ -3976,6 +4295,17 @@
       "ratio": 3.875
     },
     {
+      "lessonId": "practice/19-capstone-projects/79-pipeline-parallel",
+      "id": "79-pipeline-parallel-check-3",
+      "lengths": [
+        7,
+        31,
+        8,
+        6
+      ],
+      "ratio": 3.875
+    },
+    {
       "lessonId": "practice/14-agent-engineering/33-instructions-as-executable-constraints",
       "id": "q6",
       "lengths": [
@@ -4005,6 +4335,39 @@
         4,
         27,
         7
+      ],
+      "ratio": 3.857
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/53-result-evaluator",
+      "id": "53-result-evaluator-check-4",
+      "lengths": [
+        13,
+        13,
+        14,
+        54
+      ],
+      "ratio": 3.857
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/65-hybrid-retrieval-bm25-dense",
+      "id": "65-hybrid-retrieval-bm25-dense-post-6",
+      "lengths": [
+        27,
+        7,
+        7,
+        6
+      ],
+      "ratio": 3.857
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/87-end-to-end-safety-gate",
+      "id": "87-end-to-end-safety-gate-pre-2",
+      "lengths": [
+        6,
+        27,
+        7,
+        4
       ],
       "ratio": 3.857
     },
@@ -4060,6 +4423,17 @@
         11,
         7,
         9
+      ],
+      "ratio": 3.818
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/63-multimodal-eval",
+      "id": "63-multimodal-eval-check-4",
+      "lengths": [
+        4,
+        11,
+        42,
+        5
       ],
       "ratio": 3.818
     },
@@ -4581,6 +4955,28 @@
       "ratio": 3.667
     },
     {
+      "lessonId": "practice/19-capstone-projects/56-iteration-scheduler",
+      "id": "56-iteration-scheduler-post-6",
+      "lengths": [
+        6,
+        9,
+        8,
+        33
+      ],
+      "ratio": 3.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/77-data-parallel-ddp",
+      "id": "77-data-parallel-ddp-check-5",
+      "lengths": [
+        4,
+        9,
+        5,
+        33
+      ],
+      "ratio": 3.667
+    },
+    {
       "lessonId": "practice/11-llm-engineering/11-caching-cost",
       "id": "caching-cost-11-1",
       "lengths": [
@@ -4680,6 +5076,28 @@
       "ratio": 3.625
     },
     {
+      "lessonId": "practice/19-capstone-projects/76-collective-ops-from-scratch",
+      "id": "76-collective-ops-from-scratch-pre-2",
+      "lengths": [
+        8,
+        8,
+        29,
+        7
+      ],
+      "ratio": 3.625
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/85-content-classifier-integration",
+      "id": "85-content-classifier-integration-check-4",
+      "lengths": [
+        4,
+        8,
+        29,
+        8
+      ],
+      "ratio": 3.625
+    },
+    {
       "lessonId": "practice/17-infrastructure-and-production/19-ai-gateways",
       "id": "q1",
       "lengths": [
@@ -4720,6 +5138,28 @@
         10,
         36,
         9
+      ],
+      "ratio": 3.6
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/80-checkpoint-sharded-resume",
+      "id": "80-checkpoint-sharded-resume-post-6",
+      "lengths": [
+        4,
+        4,
+        5,
+        18
+      ],
+      "ratio": 3.6
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/87-end-to-end-safety-gate",
+      "id": "87-end-to-end-safety-gate-check-5",
+      "lengths": [
+        10,
+        7,
+        36,
+        6
       ],
       "ratio": 3.6
     },
@@ -4786,6 +5226,17 @@
         6,
         12,
         43
+      ],
+      "ratio": 3.583
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/67-query-rewriting-hyde",
+      "id": "67-query-rewriting-hyde-post-6",
+      "lengths": [
+        11,
+        10,
+        43,
+        12
       ],
       "ratio": 3.583
     },
@@ -4896,6 +5347,17 @@
         39,
         8,
         11
+      ],
+      "ratio": 3.545
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/66-reranker-cross-encoder",
+      "id": "66-reranker-cross-encoder-post-6",
+      "lengths": [
+        39,
+        8,
+        11,
+        10
       ],
       "ratio": 3.545
     },
@@ -5098,6 +5560,17 @@
       "ratio": 3.5
     },
     {
+      "lessonId": "practice/19-capstone-projects/83-prompt-injection-detector",
+      "id": "83-prompt-injection-detector-post-6",
+      "lengths": [
+        10,
+        7,
+        5,
+        35
+      ],
+      "ratio": 3.5
+    },
+    {
       "lessonId": "practice/17-infrastructure-and-production/17-disaggregated-prefill-decode",
       "id": "q4",
       "lengths": [
@@ -5219,6 +5692,17 @@
       "ratio": 3.455
     },
     {
+      "lessonId": "practice/19-capstone-projects/58-vision-encoder-patches",
+      "id": "58-vision-encoder-patches-post-6",
+      "lengths": [
+        5,
+        8,
+        38,
+        11
+      ],
+      "ratio": 3.455
+    },
+    {
       "lessonId": "practice/14-agent-engineering/19-benchmarks-swebench-gaia",
       "id": "q7",
       "lengths": [
@@ -5241,6 +5725,17 @@
       "ratio": 3.444
     },
     {
+      "lessonId": "practice/19-capstone-projects/80-checkpoint-sharded-resume",
+      "id": "80-checkpoint-sharded-resume-pre-1",
+      "lengths": [
+        31,
+        7,
+        9,
+        5
+      ],
+      "ratio": 3.444
+    },
+    {
       "lessonId": "practice/03-deep-learning-core/11-intro-to-pytorch",
       "id": "intro-to-pytorch-03-5",
       "lengths": [
@@ -5259,6 +5754,17 @@
         7,
         4,
         5
+      ],
+      "ratio": 3.429
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/73-perplexity-calibration",
+      "id": "73-perplexity-calibration-pre-1",
+      "lengths": [
+        5,
+        24,
+        7,
+        4
       ],
       "ratio": 3.429
     },
@@ -5303,6 +5809,17 @@
         41,
         5,
         2
+      ],
+      "ratio": 3.417
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/60-projection-layer-modality-align",
+      "id": "60-projection-layer-modality-align-check-5",
+      "lengths": [
+        4,
+        12,
+        11,
+        41
       ],
       "ratio": 3.417
     },
@@ -5439,12 +5956,34 @@
       "ratio": 3.375
     },
     {
+      "lessonId": "practice/19-capstone-projects/60-projection-layer-modality-align",
+      "id": "60-projection-layer-modality-align-pre-1",
+      "lengths": [
+        8,
+        6,
+        6,
+        27
+      ],
+      "ratio": 3.375
+    },
+    {
       "lessonId": "practice/19-capstone-projects/08-production-rag-chatbot",
       "id": "08-production-rag-chatbot-pre-1",
       "lengths": [
         5,
         37,
         9,
+        11
+      ],
+      "ratio": 3.364
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/61-cross-attention-fusion",
+      "id": "61-cross-attention-fusion-pre-1",
+      "lengths": [
+        9,
+        6,
+        37,
         11
       ],
       "ratio": 3.364
@@ -5578,6 +6117,28 @@
         30,
         5,
         9
+      ],
+      "ratio": 3.333
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/78-zero-parameter-sharding",
+      "id": "78-zero-parameter-sharding-check-5",
+      "lengths": [
+        5,
+        30,
+        5,
+        9
+      ],
+      "ratio": 3.333
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/85-content-classifier-integration",
+      "id": "85-content-classifier-integration-pre-1",
+      "lengths": [
+        30,
+        8,
+        9,
+        6
       ],
       "ratio": 3.333
     },
@@ -5732,6 +6293,17 @@
         36,
         10,
         11
+      ],
+      "ratio": 3.273
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/62-vision-language-pretraining",
+      "id": "62-vision-language-pretraining-post-6",
+      "lengths": [
+        11,
+        9,
+        36,
+        10
       ],
       "ratio": 3.273
     },
@@ -5934,6 +6506,28 @@
       "ratio": 3.222
     },
     {
+      "lessonId": "practice/19-capstone-projects/80-checkpoint-sharded-resume",
+      "id": "80-checkpoint-sharded-resume-check-3",
+      "lengths": [
+        9,
+        4,
+        4,
+        29
+      ],
+      "ratio": 3.222
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/81-end-to-end-distributed-train",
+      "id": "81-end-to-end-distributed-train-check-4",
+      "lengths": [
+        9,
+        29,
+        4,
+        6
+      ],
+      "ratio": 3.222
+    },
+    {
       "lessonId": "practice/17-infrastructure-and-production/15-batch-apis",
       "id": "q5",
       "lengths": [
@@ -6088,6 +6682,28 @@
       "ratio": 3.2
     },
     {
+      "lessonId": "practice/19-capstone-projects/58-vision-encoder-patches",
+      "id": "58-vision-encoder-patches-check-3",
+      "lengths": [
+        32,
+        10,
+        7,
+        10
+      ],
+      "ratio": 3.2
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/63-multimodal-eval",
+      "id": "63-multimodal-eval-check-5",
+      "lengths": [
+        32,
+        9,
+        8,
+        10
+      ],
+      "ratio": 3.2
+    },
+    {
       "lessonId": "practice/10-llms-from-scratch/02-building-a-tokenizer",
       "id": "building-tokenizer-10-4",
       "lengths": [
@@ -6194,6 +6810,17 @@
         12,
         8,
         38
+      ],
+      "ratio": 3.167
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/66-reranker-cross-encoder",
+      "id": "66-reranker-cross-encoder-pre-1",
+      "lengths": [
+        38,
+        10,
+        12,
+        10
       ],
       "ratio": 3.167
     },
@@ -7034,6 +7661,83 @@
       "ratio": 3.0
     },
     {
+      "lessonId": "practice/19-capstone-projects/50-hypothesis-generator",
+      "id": "50-hypothesis-generator-check-5",
+      "lengths": [
+        27,
+        9,
+        7,
+        7
+      ],
+      "ratio": 3.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/52-experiment-runner",
+      "id": "52-experiment-runner-check-6",
+      "lengths": [
+        4,
+        6,
+        9,
+        27
+      ],
+      "ratio": 3.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/61-cross-attention-fusion",
+      "id": "61-cross-attention-fusion-check-3",
+      "lengths": [
+        33,
+        9,
+        11,
+        6
+      ],
+      "ratio": 3.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/62-vision-language-pretraining",
+      "id": "62-vision-language-pretraining-check-5",
+      "lengths": [
+        5,
+        9,
+        27,
+        6
+      ],
+      "ratio": 3.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/69-end-to-end-rag-system",
+      "id": "69-end-to-end-rag-system-pre-1",
+      "lengths": [
+        10,
+        13,
+        12,
+        39
+      ],
+      "ratio": 3.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/77-data-parallel-ddp",
+      "id": "77-data-parallel-ddp-check-4",
+      "lengths": [
+        30,
+        8,
+        10,
+        10
+      ],
+      "ratio": 3.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/83-prompt-injection-detector",
+      "id": "83-prompt-injection-detector-check-4",
+      "lengths": [
+        6,
+        5,
+        5,
+        18
+      ],
+      "ratio": 3.0
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/11-mcp-sampling",
       "id": "mcp-sampling-q5",
       "lengths": [
@@ -7133,6 +7837,17 @@
       "ratio": 2.933
     },
     {
+      "lessonId": "practice/19-capstone-projects/70-task-spec-format",
+      "id": "70-task-spec-format-pre-2",
+      "lengths": [
+        10,
+        15,
+        15,
+        44
+      ],
+      "ratio": 2.933
+    },
+    {
       "lessonId": "practice/18-ethics-safety-alignment/16-red-team-tooling-garak-llamaguard-pyrit",
       "id": "16-red-team-tooling-garak-llamaguard-pyrit-post-5",
       "lengths": [
@@ -7173,6 +7888,39 @@
         38,
         13,
         8
+      ],
+      "ratio": 2.923
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/51-literature-retrieval",
+      "id": "51-literature-retrieval-pre-1",
+      "lengths": [
+        11,
+        7,
+        13,
+        38
+      ],
+      "ratio": 2.923
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/71-classical-metrics",
+      "id": "71-classical-metrics-check-3",
+      "lengths": [
+        13,
+        8,
+        10,
+        38
+      ],
+      "ratio": 2.923
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/77-data-parallel-ddp",
+      "id": "77-data-parallel-ddp-pre-1",
+      "lengths": [
+        6,
+        9,
+        13,
+        38
       ],
       "ratio": 2.923
     },
@@ -7331,6 +8079,17 @@
       "ratio": 2.9
     },
     {
+      "lessonId": "practice/19-capstone-projects/65-hybrid-retrieval-bm25-dense",
+      "id": "65-hybrid-retrieval-bm25-dense-check-4",
+      "lengths": [
+        6,
+        29,
+        10,
+        10
+      ],
+      "ratio": 2.9
+    },
+    {
       "lessonId": "practice/04-computer-vision/05-transfer-learning",
       "id": "transfer-learning-04-2",
       "lengths": [
@@ -7452,6 +8211,17 @@
       "ratio": 2.875
     },
     {
+      "lessonId": "practice/19-capstone-projects/76-collective-ops-from-scratch",
+      "id": "76-collective-ops-from-scratch-post-6",
+      "lengths": [
+        4,
+        8,
+        23,
+        5
+      ],
+      "ratio": 2.875
+    },
+    {
       "lessonId": "practice/18-ethics-safety-alignment/07-sleeper-agents-persistent-deception",
       "id": "07-sleeper-agents-persistent-deception-check-4",
       "lengths": [
@@ -7492,6 +8262,17 @@
         6,
         20,
         7
+      ],
+      "ratio": 2.857
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/75-end-to-end-eval-runner",
+      "id": "75-end-to-end-eval-runner-check-5",
+      "lengths": [
+        14,
+        40,
+        10,
+        10
       ],
       "ratio": 2.857
     },
@@ -7650,6 +8431,17 @@
       "ratio": 2.833
     },
     {
+      "lessonId": "practice/19-capstone-projects/78-zero-parameter-sharding",
+      "id": "78-zero-parameter-sharding-pre-2",
+      "lengths": [
+        4,
+        4,
+        12,
+        34
+      ],
+      "ratio": 2.833
+    },
+    {
       "lessonId": "practice/04-computer-vision/24-sam3-open-vocab-segmentation",
       "id": "sam3-open-vocab-segmentation-04-2",
       "lengths": [
@@ -7760,6 +8552,28 @@
       "ratio": 2.8
     },
     {
+      "lessonId": "practice/19-capstone-projects/50-hypothesis-generator",
+      "id": "50-hypothesis-generator-pre-1",
+      "lengths": [
+        28,
+        10,
+        10,
+        10
+      ],
+      "ratio": 2.8
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/87-end-to-end-safety-gate",
+      "id": "87-end-to-end-safety-gate-post-6",
+      "lengths": [
+        9,
+        28,
+        10,
+        7
+      ],
+      "ratio": 2.8
+    },
+    {
       "lessonId": "practice/04-computer-vision/23-diffusion-transformers-rectified-flow",
       "id": "diffusion-transformers-rectified-flow-04-2",
       "lengths": [
@@ -7780,6 +8594,17 @@
         10
       ],
       "ratio": 2.789
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/52-experiment-runner",
+      "id": "52-experiment-runner-check-4",
+      "lengths": [
+        14,
+        8,
+        39,
+        8
+      ],
+      "ratio": 2.786
     },
     {
       "lessonId": "practice/03-deep-learning-core/06-optimizers",
@@ -7969,6 +8794,17 @@
       "ratio": 2.75
     },
     {
+      "lessonId": "practice/19-capstone-projects/76-collective-ops-from-scratch",
+      "id": "76-collective-ops-from-scratch-check-4",
+      "lengths": [
+        12,
+        7,
+        33,
+        7
+      ],
+      "ratio": 2.75
+    },
+    {
       "lessonId": "practice/17-infrastructure-and-production/09-production-quantization",
       "id": "q3",
       "lengths": [
@@ -8130,6 +8966,17 @@
         38,
         14,
         5
+      ],
+      "ratio": 2.714
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/73-perplexity-calibration",
+      "id": "73-perplexity-calibration-check-5",
+      "lengths": [
+        6,
+        4,
+        7,
+        19
       ],
       "ratio": 2.714
     },
@@ -8387,6 +9234,28 @@
       "ratio": 2.667
     },
     {
+      "lessonId": "practice/19-capstone-projects/56-iteration-scheduler",
+      "id": "56-iteration-scheduler-check-4",
+      "lengths": [
+        9,
+        7,
+        9,
+        24
+      ],
+      "ratio": 2.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/69-end-to-end-rag-system",
+      "id": "69-end-to-end-rag-system-post-6",
+      "lengths": [
+        8,
+        32,
+        9,
+        12
+      ],
+      "ratio": 2.667
+    },
+    {
       "lessonId": "practice/14-agent-engineering/22-voice-agents-pipecat-livekit",
       "id": "q4",
       "lengths": [
@@ -8405,6 +9274,17 @@
         45,
         9,
         9
+      ],
+      "ratio": 2.647
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/54-paper-writer",
+      "id": "54-paper-writer-check-4",
+      "lengths": [
+        45,
+        11,
+        15,
+        17
       ],
       "ratio": 2.647
     },
@@ -8460,6 +9340,17 @@
         8,
         11,
         4
+      ],
+      "ratio": 2.636
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/60-projection-layer-modality-align",
+      "id": "60-projection-layer-modality-align-pre-2",
+      "lengths": [
+        7,
+        11,
+        29,
+        7
       ],
       "ratio": 2.636
     },
@@ -8526,6 +9417,17 @@
         5,
         6,
         8
+      ],
+      "ratio": 2.625
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/50-hypothesis-generator",
+      "id": "50-hypothesis-generator-pre-2",
+      "lengths": [
+        21,
+        6,
+        8,
+        6
       ],
       "ratio": 2.625
     },
@@ -8871,6 +9773,17 @@
       "ratio": 2.571
     },
     {
+      "lessonId": "practice/19-capstone-projects/63-multimodal-eval",
+      "id": "63-multimodal-eval-check-3",
+      "lengths": [
+        8,
+        14,
+        6,
+        36
+      ],
+      "ratio": 2.571
+    },
+    {
       "lessonId": "practice/11-llm-engineering/09-function-calling",
       "id": "function-calling-11-1",
       "lengths": [
@@ -8926,6 +9839,17 @@
       "ratio": 2.556
     },
     {
+      "lessonId": "practice/19-capstone-projects/57-end-to-end-research-demo",
+      "id": "57-end-to-end-research-demo-check-3",
+      "lengths": [
+        23,
+        7,
+        9,
+        7
+      ],
+      "ratio": 2.556
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/16-text-generation-pre-transformer",
       "id": "text-generation-pre-transformer-05-4",
       "lengths": [
@@ -8977,6 +9901,28 @@
         6,
         11,
         8
+      ],
+      "ratio": 2.545
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/73-perplexity-calibration",
+      "id": "73-perplexity-calibration-check-4",
+      "lengths": [
+        10,
+        7,
+        28,
+        11
+      ],
+      "ratio": 2.545
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/83-prompt-injection-detector",
+      "id": "83-prompt-injection-detector-pre-1",
+      "lengths": [
+        11,
+        7,
+        7,
+        28
       ],
       "ratio": 2.545
     },
@@ -9186,6 +10132,28 @@
         9,
         25,
         10
+      ],
+      "ratio": 2.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/69-end-to-end-rag-system",
+      "id": "69-end-to-end-rag-system-pre-2",
+      "lengths": [
+        8,
+        35,
+        14,
+        13
+      ],
+      "ratio": 2.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/80-checkpoint-sharded-resume",
+      "id": "80-checkpoint-sharded-resume-check-4",
+      "lengths": [
+        4,
+        10,
+        25,
+        4
       ],
       "ratio": 2.5
     },
@@ -9443,6 +10411,39 @@
       "ratio": 2.455
     },
     {
+      "lessonId": "practice/19-capstone-projects/54-paper-writer",
+      "id": "54-paper-writer-pre-2",
+      "lengths": [
+        27,
+        8,
+        7,
+        11
+      ],
+      "ratio": 2.455
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/58-vision-encoder-patches",
+      "id": "58-vision-encoder-patches-pre-2",
+      "lengths": [
+        9,
+        10,
+        27,
+        11
+      ],
+      "ratio": 2.455
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/75-end-to-end-eval-runner",
+      "id": "75-end-to-end-eval-runner-check-3",
+      "lengths": [
+        27,
+        11,
+        11,
+        9
+      ],
+      "ratio": 2.455
+    },
+    {
       "lessonId": "practice/14-agent-engineering/43-frame-the-task-before-code",
       "id": "q5",
       "lengths": [
@@ -9461,6 +10462,17 @@
         8,
         7,
         22
+      ],
+      "ratio": 2.444
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/65-hybrid-retrieval-bm25-dense",
+      "id": "65-hybrid-retrieval-bm25-dense-check-5",
+      "lengths": [
+        8,
+        22,
+        9,
+        9
       ],
       "ratio": 2.444
     },
@@ -9564,6 +10576,17 @@
       "ratio": 2.429
     },
     {
+      "lessonId": "practice/19-capstone-projects/64-chunking-strategies-advanced",
+      "id": "64-chunking-strategies-advanced-pre-1",
+      "lengths": [
+        12,
+        14,
+        34,
+        13
+      ],
+      "ratio": 2.429
+    },
+    {
       "lessonId": "practice/17-infrastructure-and-production/22-load-testing-llm-apis",
       "id": "q1",
       "lengths": [
@@ -9648,6 +10671,17 @@
         29,
         8,
         12
+      ],
+      "ratio": 2.417
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/84-refusal-evaluation",
+      "id": "84-refusal-evaluation-check-5",
+      "lengths": [
+        12,
+        8,
+        29,
+        4
       ],
       "ratio": 2.417
     },
@@ -9813,6 +10847,17 @@
         31,
         12,
         11
+      ],
+      "ratio": 2.385
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/66-reranker-cross-encoder",
+      "id": "66-reranker-cross-encoder-check-5",
+      "lengths": [
+        8,
+        13,
+        31,
+        7
       ],
       "ratio": 2.385
     },
@@ -10004,6 +11049,17 @@
       "ratio": 2.353
     },
     {
+      "lessonId": "practice/19-capstone-projects/87-end-to-end-safety-gate",
+      "id": "87-end-to-end-safety-gate-pre-1",
+      "lengths": [
+        7,
+        40,
+        17,
+        7
+      ],
+      "ratio": 2.353
+    },
+    {
       "lessonId": "practice/03-deep-learning-core/10-mini-framework",
       "id": "mini-framework-03-1",
       "lengths": [
@@ -10132,6 +11188,50 @@
         15,
         10,
         35
+      ],
+      "ratio": 2.333
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/60-projection-layer-modality-align",
+      "id": "60-projection-layer-modality-align-post-6",
+      "lengths": [
+        35,
+        4,
+        9,
+        15
+      ],
+      "ratio": 2.333
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/62-vision-language-pretraining",
+      "id": "62-vision-language-pretraining-check-3",
+      "lengths": [
+        8,
+        11,
+        15,
+        35
+      ],
+      "ratio": 2.333
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/71-classical-metrics",
+      "id": "71-classical-metrics-pre-2",
+      "lengths": [
+        28,
+        6,
+        6,
+        12
+      ],
+      "ratio": 2.333
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/83-prompt-injection-detector",
+      "id": "83-prompt-injection-detector-check-5",
+      "lengths": [
+        9,
+        4,
+        21,
+        4
       ],
       "ratio": 2.333
     },
@@ -10367,6 +11467,17 @@
       "ratio": 2.278
     },
     {
+      "lessonId": "practice/19-capstone-projects/75-end-to-end-eval-runner",
+      "id": "75-end-to-end-eval-runner-post-6",
+      "lengths": [
+        41,
+        9,
+        12,
+        18
+      ],
+      "ratio": 2.278
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/11-mcp-sampling",
       "id": "mcp-sampling-q2",
       "lengths": [
@@ -10429,6 +11540,28 @@
         11,
         25,
         10
+      ],
+      "ratio": 2.273
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/82-jailbreak-taxonomy",
+      "id": "82-jailbreak-taxonomy-post-6",
+      "lengths": [
+        11,
+        9,
+        10,
+        25
+      ],
+      "ratio": 2.273
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/85-content-classifier-integration",
+      "id": "85-content-classifier-integration-check-3",
+      "lengths": [
+        8,
+        25,
+        11,
+        11
       ],
       "ratio": 2.273
     },
@@ -10609,6 +11742,50 @@
       "ratio": 2.25
     },
     {
+      "lessonId": "practice/19-capstone-projects/64-chunking-strategies-advanced",
+      "id": "64-chunking-strategies-advanced-check-3",
+      "lengths": [
+        11,
+        12,
+        10,
+        27
+      ],
+      "ratio": 2.25
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/66-reranker-cross-encoder",
+      "id": "66-reranker-cross-encoder-pre-2",
+      "lengths": [
+        7,
+        27,
+        6,
+        12
+      ],
+      "ratio": 2.25
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/76-collective-ops-from-scratch",
+      "id": "76-collective-ops-from-scratch-check-5",
+      "lengths": [
+        8,
+        27,
+        10,
+        12
+      ],
+      "ratio": 2.25
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/85-content-classifier-integration",
+      "id": "85-content-classifier-integration-post-6",
+      "lengths": [
+        5,
+        6,
+        27,
+        12
+      ],
+      "ratio": 2.25
+    },
+    {
       "lessonId": "practice/18-ethics-safety-alignment/24-regulatory-frameworks-eu-us-uk-korea",
       "id": "24-regulatory-frameworks-eu-us-uk-korea-pre-1",
       "lengths": [
@@ -10697,6 +11874,39 @@
       "ratio": 2.231
     },
     {
+      "lessonId": "practice/19-capstone-projects/52-experiment-runner",
+      "id": "52-experiment-runner-pre-1",
+      "lengths": [
+        13,
+        29,
+        13,
+        9
+      ],
+      "ratio": 2.231
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/73-perplexity-calibration",
+      "id": "73-perplexity-calibration-pre-2",
+      "lengths": [
+        11,
+        13,
+        13,
+        29
+      ],
+      "ratio": 2.231
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/77-data-parallel-ddp",
+      "id": "77-data-parallel-ddp-post-6",
+      "lengths": [
+        13,
+        7,
+        6,
+        29
+      ],
+      "ratio": 2.231
+    },
+    {
       "lessonId": "practice/14-agent-engineering/24-agent-observability-platforms",
       "id": "q7",
       "lengths": [
@@ -10715,6 +11925,17 @@
         8,
         9,
         8
+      ],
+      "ratio": 2.222
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/64-chunking-strategies-advanced",
+      "id": "64-chunking-strategies-advanced-check-5",
+      "lengths": [
+        20,
+        8,
+        9,
+        9
       ],
       "ratio": 2.222
     },
@@ -10917,6 +12138,28 @@
       "ratio": 2.182
     },
     {
+      "lessonId": "practice/19-capstone-projects/54-paper-writer",
+      "id": "54-paper-writer-check-3",
+      "lengths": [
+        9,
+        6,
+        24,
+        11
+      ],
+      "ratio": 2.182
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/72-code-exec-metric",
+      "id": "72-code-exec-metric-check-5",
+      "lengths": [
+        24,
+        3,
+        9,
+        11
+      ],
+      "ratio": 2.182
+    },
+    {
       "lessonId": "practice/11-llm-engineering/12-guardrails",
       "id": "guardrails-11-1",
       "lengths": [
@@ -11060,6 +12303,28 @@
       "ratio": 2.167
     },
     {
+      "lessonId": "practice/19-capstone-projects/59-vit-transformer",
+      "id": "59-vit-transformer-check-4",
+      "lengths": [
+        26,
+        12,
+        7,
+        9
+      ],
+      "ratio": 2.167
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/84-refusal-evaluation",
+      "id": "84-refusal-evaluation-check-4",
+      "lengths": [
+        12,
+        26,
+        8,
+        10
+      ],
+      "ratio": 2.167
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/42-dynamic-analysis-of-your-own-program",
       "id": "dynanalysis-q7",
       "lengths": [
@@ -11192,6 +12457,28 @@
       "ratio": 2.143
     },
     {
+      "lessonId": "practice/19-capstone-projects/53-result-evaluator",
+      "id": "53-result-evaluator-pre-1",
+      "lengths": [
+        12,
+        14,
+        30,
+        11
+      ],
+      "ratio": 2.143
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/67-query-rewriting-hyde",
+      "id": "67-query-rewriting-hyde-check-4",
+      "lengths": [
+        11,
+        8,
+        30,
+        14
+      ],
+      "ratio": 2.143
+    },
+    {
       "lessonId": "practice/17-infrastructure-and-production/13-llm-observability",
       "id": "q6",
       "lengths": [
@@ -11286,6 +12573,17 @@
         7,
         9,
         16,
+        34
+      ],
+      "ratio": 2.125
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/83-prompt-injection-detector",
+      "id": "83-prompt-injection-detector-pre-2",
+      "lengths": [
+        16,
+        10,
+        8,
         34
       ],
       "ratio": 2.125
@@ -11401,6 +12699,17 @@
       "ratio": 2.111
     },
     {
+      "lessonId": "practice/19-capstone-projects/78-zero-parameter-sharding",
+      "id": "78-zero-parameter-sharding-pre-1",
+      "lengths": [
+        38,
+        18,
+        9,
+        9
+      ],
+      "ratio": 2.111
+    },
+    {
       "lessonId": "practice/19-capstone-projects/33-multihead-self-attention",
       "id": "33-multihead-self-attention-check-2",
       "lengths": [
@@ -11500,6 +12809,28 @@
       "ratio": 2.091
     },
     {
+      "lessonId": "practice/19-capstone-projects/65-hybrid-retrieval-bm25-dense",
+      "id": "65-hybrid-retrieval-bm25-dense-pre-1",
+      "lengths": [
+        11,
+        9,
+        8,
+        23
+      ],
+      "ratio": 2.091
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/73-perplexity-calibration",
+      "id": "73-perplexity-calibration-post-6",
+      "lengths": [
+        9,
+        6,
+        11,
+        23
+      ],
+      "ratio": 2.091
+    },
+    {
       "lessonId": "practice/02-ml-fundamentals/15-time-series",
       "id": "timeseries-pre-1",
       "lengths": [
@@ -11551,6 +12882,28 @@
         12,
         9,
         8
+      ],
+      "ratio": 2.083
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/51-literature-retrieval",
+      "id": "51-literature-retrieval-check-6",
+      "lengths": [
+        11,
+        25,
+        12,
+        8
+      ],
+      "ratio": 2.083
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/86-constitutional-rules-engine",
+      "id": "86-constitutional-rules-engine-post-6",
+      "lengths": [
+        12,
+        8,
+        6,
+        25
       ],
       "ratio": 2.083
     },
@@ -11643,6 +12996,17 @@
       "ratio": 2.077
     },
     {
+      "lessonId": "practice/19-capstone-projects/57-end-to-end-research-demo",
+      "id": "57-end-to-end-research-demo-pre-2",
+      "lengths": [
+        13,
+        27,
+        12,
+        12
+      ],
+      "ratio": 2.077
+    },
+    {
       "lessonId": "practice/14-agent-engineering/27-prompt-injection-defense",
       "id": "q4",
       "lengths": [
@@ -11694,6 +13058,17 @@
         6,
         7,
         29
+      ],
+      "ratio": 2.071
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/61-cross-attention-fusion",
+      "id": "61-cross-attention-fusion-check-5",
+      "lengths": [
+        9,
+        6,
+        29,
+        14
       ],
       "ratio": 2.071
     },
@@ -12248,6 +13623,138 @@
       "ratio": 2.0
     },
     {
+      "lessonId": "practice/19-capstone-projects/55-critic-loop",
+      "id": "55-critic-loop-check-3",
+      "lengths": [
+        10,
+        30,
+        15,
+        9
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/56-iteration-scheduler",
+      "id": "56-iteration-scheduler-pre-1",
+      "lengths": [
+        8,
+        14,
+        9,
+        28
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/56-iteration-scheduler",
+      "id": "56-iteration-scheduler-check-3",
+      "lengths": [
+        38,
+        14,
+        14,
+        19
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/67-query-rewriting-hyde",
+      "id": "67-query-rewriting-hyde-pre-2",
+      "lengths": [
+        16,
+        10,
+        32,
+        12
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/68-rag-eval-precision-recall",
+      "id": "68-rag-eval-precision-recall-pre-2",
+      "lengths": [
+        5,
+        9,
+        12,
+        24
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/68-rag-eval-precision-recall",
+      "id": "68-rag-eval-precision-recall-check-3",
+      "lengths": [
+        15,
+        4,
+        8,
+        30
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/68-rag-eval-precision-recall",
+      "id": "68-rag-eval-precision-recall-post-6",
+      "lengths": [
+        8,
+        9,
+        17,
+        34
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/72-code-exec-metric",
+      "id": "72-code-exec-metric-pre-2",
+      "lengths": [
+        6,
+        3,
+        3,
+        3
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/72-code-exec-metric",
+      "id": "72-code-exec-metric-post-6",
+      "lengths": [
+        21,
+        8,
+        42,
+        10
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/76-collective-ops-from-scratch",
+      "id": "76-collective-ops-from-scratch-check-3",
+      "lengths": [
+        16,
+        8,
+        8,
+        5
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/82-jailbreak-taxonomy",
+      "id": "82-jailbreak-taxonomy-check-4",
+      "lengths": [
+        13,
+        28,
+        14,
+        10
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/86-constitutional-rules-engine",
+      "id": "86-constitutional-rules-engine-pre-1",
+      "lengths": [
+        13,
+        14,
+        28,
+        9
+      ],
+      "ratio": 2.0
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/27-skill-evals-packaging-and-portability",
       "id": "skill-evals-q4",
       "lengths": [
@@ -12501,6 +14008,17 @@
       "ratio": 1.933
     },
     {
+      "lessonId": "practice/19-capstone-projects/69-end-to-end-rag-system",
+      "id": "69-end-to-end-rag-system-check-4",
+      "lengths": [
+        15,
+        11,
+        4,
+        29
+      ],
+      "ratio": 1.933
+    },
+    {
       "lessonId": "practice/03-deep-learning-core/04-activation-functions",
       "id": "activation-functions-03-1",
       "lengths": [
@@ -12655,6 +14173,17 @@
       "ratio": 1.923
     },
     {
+      "lessonId": "practice/19-capstone-projects/70-task-spec-format",
+      "id": "70-task-spec-format-check-4",
+      "lengths": [
+        13,
+        25,
+        4,
+        11
+      ],
+      "ratio": 1.923
+    },
+    {
       "lessonId": "practice/18-ethics-safety-alignment/15-indirect-prompt-injection",
       "id": "15-indirect-prompt-injection-check-3",
       "lengths": [
@@ -12699,6 +14228,28 @@
       "ratio": 1.917
     },
     {
+      "lessonId": "practice/19-capstone-projects/50-hypothesis-generator",
+      "id": "50-hypothesis-generator-check-3",
+      "lengths": [
+        9,
+        23,
+        12,
+        11
+      ],
+      "ratio": 1.917
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/59-vit-transformer",
+      "id": "59-vit-transformer-check-3",
+      "lengths": [
+        7,
+        23,
+        12,
+        8
+      ],
+      "ratio": 1.917
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/27-skill-evals-packaging-and-portability",
       "id": "skill-evals-q6",
       "lengths": [
@@ -12728,6 +14279,17 @@
         7,
         11,
         21
+      ],
+      "ratio": 1.909
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/52-experiment-runner",
+      "id": "52-experiment-runner-pre-2",
+      "lengths": [
+        9,
+        21,
+        11,
+        10
       ],
       "ratio": 1.909
     },
@@ -12783,6 +14345,17 @@
         20,
         15,
         38
+      ],
+      "ratio": 1.9
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/55-critic-loop",
+      "id": "55-critic-loop-post-5",
+      "lengths": [
+        6,
+        6,
+        10,
+        19
       ],
       "ratio": 1.9
     },
@@ -13018,6 +14591,17 @@
       "ratio": 1.867
     },
     {
+      "lessonId": "practice/19-capstone-projects/59-vit-transformer",
+      "id": "59-vit-transformer-pre-1",
+      "lengths": [
+        12,
+        15,
+        28,
+        12
+      ],
+      "ratio": 1.867
+    },
+    {
       "lessonId": "practice/04-computer-vision/02-convolutions-from-scratch",
       "id": "convolutions-from-scratch-04-4",
       "lengths": [
@@ -13102,6 +14686,39 @@
         26,
         14,
         10
+      ],
+      "ratio": 1.857
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/54-paper-writer",
+      "id": "54-paper-writer-pre-1",
+      "lengths": [
+        14,
+        14,
+        9,
+        26
+      ],
+      "ratio": 1.857
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/64-chunking-strategies-advanced",
+      "id": "64-chunking-strategies-advanced-post-6",
+      "lengths": [
+        9,
+        26,
+        14,
+        12
+      ],
+      "ratio": 1.857
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/73-perplexity-calibration",
+      "id": "73-perplexity-calibration-check-3",
+      "lengths": [
+        26,
+        6,
+        14,
+        9
       ],
       "ratio": 1.857
     },
@@ -13315,6 +14932,28 @@
       "ratio": 1.833
     },
     {
+      "lessonId": "practice/19-capstone-projects/68-rag-eval-precision-recall",
+      "id": "68-rag-eval-precision-recall-pre-1",
+      "lengths": [
+        14,
+        10,
+        18,
+        33
+      ],
+      "ratio": 1.833
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/84-refusal-evaluation",
+      "id": "84-refusal-evaluation-pre-2",
+      "lengths": [
+        11,
+        12,
+        22,
+        8
+      ],
+      "ratio": 1.833
+    },
+    {
       "lessonId": "practice/04-computer-vision/26-monocular-depth",
       "id": "monocular-depth-04-1",
       "lengths": [
@@ -13366,6 +15005,17 @@
         10,
         11,
         7
+      ],
+      "ratio": 1.818
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/53-result-evaluator",
+      "id": "53-result-evaluator-check-6",
+      "lengths": [
+        20,
+        11,
+        6,
+        6
       ],
       "ratio": 1.818
     },
@@ -13476,6 +15126,28 @@
         18,
         4,
         5
+      ],
+      "ratio": 1.8
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/52-experiment-runner",
+      "id": "52-experiment-runner-check-5",
+      "lengths": [
+        27,
+        13,
+        15,
+        12
+      ],
+      "ratio": 1.8
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/53-result-evaluator",
+      "id": "53-result-evaluator-pre-2",
+      "lengths": [
+        11,
+        27,
+        12,
+        15
       ],
       "ratio": 1.8
     },
@@ -13601,6 +15273,28 @@
       "ratio": 1.769
     },
     {
+      "lessonId": "practice/19-capstone-projects/67-query-rewriting-hyde",
+      "id": "67-query-rewriting-hyde-check-5",
+      "lengths": [
+        23,
+        13,
+        13,
+        12
+      ],
+      "ratio": 1.769
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/74-leaderboard-aggregation",
+      "id": "74-leaderboard-aggregation-pre-2",
+      "lengths": [
+        13,
+        6,
+        23,
+        7
+      ],
+      "ratio": 1.769
+    },
+    {
       "lessonId": "practice/17-infrastructure-and-production/04-vllm-serving-internals",
       "id": "q1",
       "lengths": [
@@ -13619,6 +15313,17 @@
         11,
         30,
         17
+      ],
+      "ratio": 1.765
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/67-query-rewriting-hyde",
+      "id": "67-query-rewriting-hyde-check-3",
+      "lengths": [
+        30,
+        17,
+        6,
+        15
       ],
       "ratio": 1.765
     },
@@ -13799,6 +15504,17 @@
       "ratio": 1.75
     },
     {
+      "lessonId": "practice/19-capstone-projects/58-vision-encoder-patches",
+      "id": "58-vision-encoder-patches-pre-1",
+      "lengths": [
+        16,
+        28,
+        11,
+        10
+      ],
+      "ratio": 1.75
+    },
+    {
       "lessonId": "practice/19-capstone-projects/23-function-call-dispatcher",
       "id": "23-function-call-dispatcher-post-7",
       "lengths": [
@@ -13872,6 +15588,17 @@
         10,
         15,
         26
+      ],
+      "ratio": 1.733
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/60-projection-layer-modality-align",
+      "id": "60-projection-layer-modality-align-check-3",
+      "lengths": [
+        7,
+        26,
+        11,
+        15
       ],
       "ratio": 1.733
     },
@@ -14019,6 +15746,17 @@
       "ratio": 1.706
     },
     {
+      "lessonId": "practice/19-capstone-projects/66-reranker-cross-encoder",
+      "id": "66-reranker-cross-encoder-check-3",
+      "lengths": [
+        4,
+        17,
+        15,
+        29
+      ],
+      "ratio": 1.706
+    },
+    {
       "lessonId": "practice/02-ml-fundamentals/05-support-vector-machines",
       "id": "svm-pre-1",
       "lengths": [
@@ -14028,6 +15766,17 @@
         17
       ],
       "ratio": 1.7
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/74-leaderboard-aggregation",
+      "id": "74-leaderboard-aggregation-check-3",
+      "lengths": [
+        9,
+        39,
+        8,
+        23
+      ],
+      "ratio": 1.696
     },
     {
       "lessonId": "practice/14-agent-engineering/15-crewai-role-based-crews",
@@ -14074,6 +15823,28 @@
       "ratio": 1.692
     },
     {
+      "lessonId": "practice/19-capstone-projects/57-end-to-end-research-demo",
+      "id": "57-end-to-end-research-demo-pre-1",
+      "lengths": [
+        10,
+        13,
+        10,
+        22
+      ],
+      "ratio": 1.692
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/59-vit-transformer",
+      "id": "59-vit-transformer-check-5",
+      "lengths": [
+        12,
+        13,
+        22,
+        10
+      ],
+      "ratio": 1.692
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/07-pos-tagging-parsing",
       "id": "pos-tagging-parsing-05-5",
       "lengths": [
@@ -14103,6 +15874,17 @@
         27,
         10,
         13
+      ],
+      "ratio": 1.688
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/82-jailbreak-taxonomy",
+      "id": "82-jailbreak-taxonomy-check-5",
+      "lengths": [
+        16,
+        27,
+        11,
+        6
       ],
       "ratio": 1.688
     },
@@ -14327,6 +16109,61 @@
       "ratio": 1.667
     },
     {
+      "lessonId": "practice/19-capstone-projects/56-iteration-scheduler",
+      "id": "56-iteration-scheduler-pre-2",
+      "lengths": [
+        15,
+        9,
+        1,
+        5
+      ],
+      "ratio": 1.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/66-reranker-cross-encoder",
+      "id": "66-reranker-cross-encoder-check-4",
+      "lengths": [
+        11,
+        10,
+        21,
+        35
+      ],
+      "ratio": 1.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/72-code-exec-metric",
+      "id": "72-code-exec-metric-pre-1",
+      "lengths": [
+        14,
+        15,
+        7,
+        25
+      ],
+      "ratio": 1.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/87-end-to-end-safety-gate",
+      "id": "87-end-to-end-safety-gate-check-4",
+      "lengths": [
+        6,
+        6,
+        20,
+        12
+      ],
+      "ratio": 1.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/72-code-exec-metric",
+      "id": "72-code-exec-metric-check-4",
+      "lengths": [
+        13,
+        23,
+        38,
+        8
+      ],
+      "ratio": 1.652
+    },
+    {
       "lessonId": "practice/10-llms-from-scratch/08-dpo",
       "id": "dpo-10-5",
       "lengths": [
@@ -14393,6 +16230,28 @@
       "ratio": 1.643
     },
     {
+      "lessonId": "practice/19-capstone-projects/56-iteration-scheduler",
+      "id": "56-iteration-scheduler-post-5",
+      "lengths": [
+        14,
+        8,
+        23,
+        8
+      ],
+      "ratio": 1.643
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/70-task-spec-format",
+      "id": "70-task-spec-format-pre-1",
+      "lengths": [
+        23,
+        14,
+        9,
+        7
+      ],
+      "ratio": 1.643
+    },
+    {
       "lessonId": "practice/02-ml-fundamentals/01-what-is-machine-learning",
       "id": "ml-intro-pre-2",
       "lengths": [
@@ -14431,6 +16290,17 @@
       "lengths": [
         11,
         11,
+        18,
+        7
+      ],
+      "ratio": 1.636
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/84-refusal-evaluation",
+      "id": "84-refusal-evaluation-pre-1",
+      "lengths": [
+        11,
+        7,
         18,
         7
       ],
@@ -14477,6 +16347,28 @@
         26,
         16,
         13
+      ],
+      "ratio": 1.625
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/62-vision-language-pretraining",
+      "id": "62-vision-language-pretraining-pre-1",
+      "lengths": [
+        13,
+        5,
+        6,
+        8
+      ],
+      "ratio": 1.625
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/74-leaderboard-aggregation",
+      "id": "74-leaderboard-aggregation-pre-1",
+      "lengths": [
+        26,
+        9,
+        9,
+        16
       ],
       "ratio": 1.625
     },
@@ -15174,6 +17066,17 @@
       "ratio": 1.545
     },
     {
+      "lessonId": "practice/19-capstone-projects/55-critic-loop",
+      "id": "55-critic-loop-pre-1",
+      "lengths": [
+        8,
+        11,
+        11,
+        17
+      ],
+      "ratio": 1.545
+    },
+    {
       "lessonId": "practice/02-ml-fundamentals/18-feature-selection",
       "id": "featsel-pre-2",
       "lengths": [
@@ -15203,6 +17106,17 @@
         13,
         11,
         20
+      ],
+      "ratio": 1.538
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/64-chunking-strategies-advanced",
+      "id": "64-chunking-strategies-advanced-check-4",
+      "lengths": [
+        20,
+        13,
+        6,
+        11
       ],
       "ratio": 1.538
     },
@@ -15801,6 +17715,28 @@
       "ratio": 1.5
     },
     {
+      "lessonId": "practice/19-capstone-projects/59-vit-transformer",
+      "id": "59-vit-transformer-pre-2",
+      "lengths": [
+        16,
+        15,
+        13,
+        24
+      ],
+      "ratio": 1.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/84-refusal-evaluation",
+      "id": "84-refusal-evaluation-post-6",
+      "lengths": [
+        7,
+        21,
+        9,
+        14
+      ],
+      "ratio": 1.5
+    },
+    {
       "lessonId": "practice/03-deep-learning-core/06-optimizers",
       "id": "optimizers-03-4",
       "lengths": [
@@ -15841,6 +17777,17 @@
         31,
         17,
         21
+      ],
+      "ratio": 1.476
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/75-end-to-end-eval-runner",
+      "id": "75-end-to-end-eval-runner-check-4",
+      "lengths": [
+        31,
+        17,
+        21,
+        13
       ],
       "ratio": 1.476
     },
@@ -16164,6 +18111,28 @@
       "ratio": 1.45
     },
     {
+      "lessonId": "practice/19-capstone-projects/71-classical-metrics",
+      "id": "71-classical-metrics-pre-1",
+      "lengths": [
+        20,
+        29,
+        13,
+        13
+      ],
+      "ratio": 1.45
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/71-classical-metrics",
+      "id": "71-classical-metrics-post-6",
+      "lengths": [
+        18,
+        26,
+        12,
+        12
+      ],
+      "ratio": 1.444
+    },
+    {
       "lessonId": "practice/16-multi-agent-and-swarms/03-communication-protocols",
       "id": "q5",
       "lengths": [
@@ -16292,6 +18261,28 @@
         20,
         13,
         12
+      ],
+      "ratio": 1.429
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/82-jailbreak-taxonomy",
+      "id": "82-jailbreak-taxonomy-pre-1",
+      "lengths": [
+        20,
+        9,
+        11,
+        14
+      ],
+      "ratio": 1.429
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/82-jailbreak-taxonomy",
+      "id": "82-jailbreak-taxonomy-pre-2",
+      "lengths": [
+        6,
+        7,
+        10,
+        5
       ],
       "ratio": 1.429
     },
@@ -16505,6 +18496,28 @@
       "ratio": 1.4
     },
     {
+      "lessonId": "practice/19-capstone-projects/51-literature-retrieval",
+      "id": "51-literature-retrieval-pre-2",
+      "lengths": [
+        15,
+        21,
+        14,
+        9
+      ],
+      "ratio": 1.4
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/75-end-to-end-eval-runner",
+      "id": "75-end-to-end-eval-runner-pre-1",
+      "lengths": [
+        33,
+        25,
+        46,
+        32
+      ],
+      "ratio": 1.394
+    },
+    {
       "lessonId": "practice/11-llm-engineering/16-langgraph-state-machines",
       "id": "langgraph-state-machines-11-1",
       "lengths": [
@@ -16525,6 +18538,17 @@
         23
       ],
       "ratio": 1.391
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/77-data-parallel-ddp",
+      "id": "77-data-parallel-ddp-check-3",
+      "lengths": [
+        18,
+        14,
+        25,
+        12
+      ],
+      "ratio": 1.389
     },
     {
       "lessonId": "practice/02-ml-fundamentals/11-ensemble-methods",
@@ -16901,6 +18925,28 @@
       "ratio": 1.333
     },
     {
+      "lessonId": "practice/19-capstone-projects/57-end-to-end-research-demo",
+      "id": "57-end-to-end-research-demo-check-4",
+      "lengths": [
+        11,
+        11,
+        21,
+        28
+      ],
+      "ratio": 1.333
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/57-end-to-end-research-demo",
+      "id": "57-end-to-end-research-demo-post-5",
+      "lengths": [
+        6,
+        20,
+        15,
+        6
+      ],
+      "ratio": 1.333
+    },
+    {
       "lessonId": "practice/14-agent-engineering/31-agent-workbench-why-models-fail",
       "id": "q2",
       "lengths": [
@@ -17187,6 +19233,17 @@
       "ratio": 1.286
     },
     {
+      "lessonId": "practice/19-capstone-projects/65-hybrid-retrieval-bm25-dense",
+      "id": "65-hybrid-retrieval-bm25-dense-pre-2",
+      "lengths": [
+        6,
+        7,
+        6,
+        9
+      ],
+      "ratio": 1.286
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/27-skill-evals-packaging-and-portability",
       "id": "skill-evals-q3",
       "lengths": [
@@ -17282,6 +19339,17 @@
         9,
         4,
         11
+      ],
+      "ratio": 1.273
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/74-leaderboard-aggregation",
+      "id": "74-leaderboard-aggregation-check-5",
+      "lengths": [
+        28,
+        14,
+        10,
+        22
       ],
       "ratio": 1.273
     },
@@ -17495,6 +19563,28 @@
       "ratio": 1.25
     },
     {
+      "lessonId": "practice/19-capstone-projects/86-constitutional-rules-engine",
+      "id": "86-constitutional-rules-engine-pre-2",
+      "lengths": [
+        14,
+        18,
+        24,
+        30
+      ],
+      "ratio": 1.25
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/86-constitutional-rules-engine",
+      "id": "86-constitutional-rules-engine-check-3",
+      "lengths": [
+        20,
+        6,
+        6,
+        25
+      ],
+      "ratio": 1.25
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/35-evidence-confidence-and-unknowns",
       "id": "evid-q3",
       "lengths": [
@@ -17689,6 +19779,17 @@
         8,
         11,
         17
+      ],
+      "ratio": 1.214
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/50-hypothesis-generator",
+      "id": "50-hypothesis-generator-check-6",
+      "lengths": [
+        11,
+        17,
+        9,
+        14
       ],
       "ratio": 1.214
     },
@@ -18078,6 +20179,39 @@
       "ratio": 1.176
     },
     {
+      "lessonId": "practice/19-capstone-projects/55-critic-loop",
+      "id": "55-critic-loop-check-4",
+      "lengths": [
+        9,
+        9,
+        17,
+        20
+      ],
+      "ratio": 1.176
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/82-jailbreak-taxonomy",
+      "id": "82-jailbreak-taxonomy-check-3",
+      "lengths": [
+        14,
+        15,
+        17,
+        20
+      ],
+      "ratio": 1.176
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/75-end-to-end-eval-runner",
+      "id": "75-end-to-end-eval-runner-pre-2",
+      "lengths": [
+        27,
+        12,
+        8,
+        23
+      ],
+      "ratio": 1.174
+    },
+    {
       "lessonId": "practice/01-math-foundations/09-information-theory",
       "id": "cross-entropy",
       "lengths": [
@@ -18118,6 +20252,17 @@
         15,
         18,
         18
+      ],
+      "ratio": 1.167
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/67-query-rewriting-hyde",
+      "id": "67-query-rewriting-hyde-pre-1",
+      "lengths": [
+        12,
+        8,
+        18,
+        21
       ],
       "ratio": 1.167
     },
@@ -18239,6 +20384,28 @@
         6,
         14,
         16
+      ],
+      "ratio": 1.143
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/63-multimodal-eval",
+      "id": "63-multimodal-eval-pre-2",
+      "lengths": [
+        16,
+        8,
+        6,
+        14
+      ],
+      "ratio": 1.143
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/74-leaderboard-aggregation",
+      "id": "74-leaderboard-aggregation-post-6",
+      "lengths": [
+        16,
+        8,
+        14,
+        12
       ],
       "ratio": 1.143
     },
@@ -18397,6 +20564,28 @@
       "ratio": 1.125
     },
     {
+      "lessonId": "practice/19-capstone-projects/68-rag-eval-precision-recall",
+      "id": "68-rag-eval-precision-recall-check-4",
+      "lengths": [
+        15,
+        7,
+        24,
+        27
+      ],
+      "ratio": 1.125
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/76-collective-ops-from-scratch",
+      "id": "76-collective-ops-from-scratch-pre-1",
+      "lengths": [
+        2,
+        8,
+        1,
+        9
+      ],
+      "ratio": 1.125
+    },
+    {
       "lessonId": "practice/10-llms-from-scratch/07-rlhf",
       "id": "rlhf-10-1",
       "lengths": [
@@ -18437,6 +20626,17 @@
         12,
         19,
         10
+      ],
+      "ratio": 1.118
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/54-paper-writer",
+      "id": "54-paper-writer-post-5",
+      "lengths": [
+        38,
+        33,
+        34,
+        34
       ],
       "ratio": 1.118
     },
@@ -19090,6 +21290,17 @@
       "ratio": 1.059
     },
     {
+      "lessonId": "practice/19-capstone-projects/69-end-to-end-rag-system",
+      "id": "69-end-to-end-rag-system-check-5",
+      "lengths": [
+        16,
+        18,
+        17,
+        6
+      ],
+      "ratio": 1.059
+    },
+    {
       "lessonId": "practice/00-setup-and-tooling/12-debugging-and-profiling",
       "id": "silent-failure",
       "lengths": [
@@ -19119,6 +21330,17 @@
         18,
         15,
         14
+      ],
+      "ratio": 1.056
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/55-critic-loop",
+      "id": "55-critic-loop-post-6",
+      "lengths": [
+        17,
+        18,
+        19,
+        6
       ],
       "ratio": 1.056
     },

@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/78-zero-parameter-sharding/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "60cf7b0c68dbb0be67312a6e8236963319c59e84c17415f31fa6fa9ccb63210b"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "78-zero-parameter-sharding-pre-1",
+      "stage": "pre",
+      "question": "为什么 ZeRO 分阶段首先分片优化器状态？",
+      "options": [
+        "Adam 混合精度下主权重与矩状态占很大内存，且更新时才需要，可先分片这些状态",
+        "DeepSpeed 强制所有程序这样做",
+        "优化器比参数更重要",
+        "参数总是更容易分片"
+      ],
+      "correct": 0,
+      "explanation": "在本课的 16P 字节模型中，fp32 master 与两个矩占 12P；先分片这部分能显著降低每 rank 状态内存，未计激活等其他开销。"
+    },
+    {
+      "id": "78-zero-parameter-sharding-pre-2",
+      "stage": "pre",
+      "question": "本课 ZeRO-1 演示采用什么每步通信模式？",
+      "options": [
+        "没有通信",
+        "一次广播",
+        "仅一次 allreduce",
+        "对梯度 reduce_scatter，再对更新后的参数 allgather"
+      ],
+      "correct": 3,
+      "explanation": "这让每个 rank 仅更新自己拥有的优化器分片，再恢复完整参数；真实 ZeRO-1 的具体梯度通信方案可因实现而异。"
+    },
+    {
+      "id": "78-zero-parameter-sharding-check-3",
+      "stage": "check",
+      "question": "在本课相同元素大小与环形理想模型下，为何通信量可与 DDP allreduce 对照？",
+      "options": [
+        "完全无法对照",
+        "靠魔法",
+        "ZeRO 使用压缩",
+        "allreduce 可分为 reduce_scatter 与 allgather，两阶段分别传梯度块和更新参数块"
+      ],
+      "correct": 3,
+      "explanation": "比较依赖字节精度、填充与调度假设；混合精度或重叠通信改变时，不能据此保证真实端到端带宽与性能完全相同。"
+    },
+    {
+      "id": "78-zero-parameter-sharding-check-4",
+      "stage": "check",
+      "question": "按本课 7B、8 rank 的简化 Adam 混合精度状态模型，ZeRO-1 相比 DDP 每 rank 内存下降约多少？",
+      "options": [
+        "99%",
+        "0%",
+        "10%",
+        "约 65.6%，从 16P 降至 4P+12P/8=5.5P"
+      ],
+      "correct": 3,
+      "explanation": "下降为 (16-5.5)/16=65.625%；这只统计参数、梯度与优化器状态，不是包含激活和临时缓冲的完整显存降幅。"
+    },
+    {
+      "id": "78-zero-parameter-sharding-check-5",
+      "stage": "check",
+      "question": "ZeRO-2 在 ZeRO-1 基础上增加什么？",
+      "options": [
+        "移除优化器",
+        "进一步分片保留梯度，减少非本地梯度占用，理想通信量可保持同级",
+        "什么都不变",
+        "只能切换为 NCCL"
+      ],
+      "correct": 1,
+      "explanation": "它减少梯度状态冗余；是否实际释放存储而非仅填零要看实现，填零本身不会减少张量分配。"
+    },
+    {
+      "id": "78-zero-parameter-sharding-post-6",
+      "stage": "post",
+      "question": "为什么分片优化器检查点必须记录所有权？",
+      "options": [
+        "不需要所有权",
+        "只是为了美观",
+        "为了压缩",
+        "恢复时需把各参数对应的状态分片交回正确 rank；拓扑变化还需重分片"
+      ],
+      "correct": 3,
+      "explanation": "manifest 应记录参数或切片范围与 shard/rank 的映射，仅凭文件名不足以安全恢复。"
+    }
+  ]
+}

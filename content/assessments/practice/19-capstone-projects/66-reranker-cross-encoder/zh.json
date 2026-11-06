@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/66-reranker-cross-encoder/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "75a9c585f2ac977e647a057876c30024e305273a9063d3670bba09cebc0fd804"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "66-reranker-cross-encoder-pre-1",
+      "stage": "pre",
+      "question": "bi-encoder 与 cross-encoder 的结构差别是什么？",
+      "options": [
+        "前者独立编码 query/document，后者联合读取拼接对，让两边词元交互",
+        "前者训练，后者不训练",
+        "前者用余弦，后者必用点积",
+        "后者只能运行在 GPU"
+      ],
+      "correct": 0,
+      "explanation": "联合编码可以利用细粒度 query-document 交互；不能仅凭输出相似度函数或设备类型区分架构。"
+    },
+    {
+      "id": "66-reranker-cross-encoder-pre-2",
+      "stage": "pre",
+      "question": "为什么不直接用 cross-encoder 对一千万文档逐个做首轮检索？",
+      "options": [
+        "它不能处理文本",
+        "每个查询需联合评分一千万对，即使批处理也有很大总计算量",
+        "它不支持负分",
+        "它要求 CLS 位于序列末尾"
+      ],
+      "correct": 1,
+      "explanation": "文档表示不能像 bi-encoder 那样提前独立缓存，通常先召回有限候选再重排。"
+    },
+    {
+      "id": "66-reranker-cross-encoder-check-3",
+      "stage": "check",
+      "question": "两阶段检索中的 N 是什么？",
+      "options": [
+        "词表大小",
+        "cross-encoder 隐藏维数",
+        "cross-encoder 层数",
+        "首轮召回并交给 cross-encoder 重新评分的候选数量"
+      ],
+      "correct": 3,
+      "explanation": "N 限制候选集合的召回上界和重排成本；实际批处理可同时处理多对，不必等同于 N 次串行调用。"
+    },
+    {
+      "id": "66-reranker-cross-encoder-check-4",
+      "stage": "check",
+      "question": "若希望重排不仅改变顺序，还能替换最终 top-K 集合，为什么需要 N>K？",
+      "options": [
+        "BM25 的 IDF 需要它",
+        "较小 N 会降低嵌入维数",
+        "cross-encoder 要求 N 是 K 的倍数",
+        "N=K 时仍可重排顺序，但无法从集合之外补入候选；N>K 才有额外选择空间"
+      ],
+      "correct": 3,
+      "explanation": "编者注：原题说 N=K 无法重排并且收益必为零，这是错误的；N=K 仍可改善 MRR/nDCG 等顺序指标，3× 也只是候选池经验起点。"
+    },
+    {
+      "id": "66-reranker-cross-encoder-check-5",
+      "stage": "check",
+      "question": "本课 cross-encoder 的 mean-pooling head 做什么？",
+      "options": [
+        "对词表分布求均值",
+        "对文档位置做 softmax",
+        "对末层非 padding 位置求均值，再用线性头输出一个相关度标量",
+        "对嵌入索引求和"
+      ],
+      "correct": 2,
+      "explanation": "池化时排除 padding，随后做标量评分；CLS pooling 是另一种选择，质量需对照而非预先认定相同。"
+    },
+    {
+      "id": "66-reranker-cross-encoder-post-6",
+      "stage": "post",
+      "question": "记录 top-1 重排分数可帮助发现什么？",
+      "options": [
+        "低于按语料校准的阈值时，提示候选可能与问题不匹配，可调查域外查询或低证据置信度",
+        "直接诊断网络断开",
+        "直接判断分词器词表漂移",
+        "直接证明向量索引损坏"
+      ],
+      "correct": 0,
+      "explanation": "低分是调查与拒答策略的信号，未经校准的标量不是“语料必无答案”的证明。"
+    }
+  ]
+}

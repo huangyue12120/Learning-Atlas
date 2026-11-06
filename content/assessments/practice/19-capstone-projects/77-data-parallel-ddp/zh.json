@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/77-data-parallel-ddp/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "0a503f4d5f47c04997eb4a4548975279a6f8f5187fd734605acd1c9662b1778a"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "77-data-parallel-ddp-pre-1",
+      "stage": "pre",
+      "question": "为什么初始化时广播参数，而不只依赖各 rank 设置相同种子？",
+      "options": [
+        "广播节省内存",
+        "广播必然比设种子快",
+        "PyTorch 禁止相同种子",
+        "广播直接同步实际参数，避免初始化执行路径、随机数消耗或环境差异造成起点不一致"
+      ],
+      "correct": 3,
+      "explanation": "编者注：同种子在相同确定环境中可以一致，不能声称一定漂移；广播是明确同步手段，也不是理论上唯一可行方式。"
+    },
+    {
+      "id": "77-data-parallel-ddp-pre-2",
+      "stage": "pre",
+      "question": "本课 DDP 在 backward 后、optimizer.step 前做什么？",
+      "options": [
+        "对每个参数梯度 allreduce-SUM，再除 world_size 得均值",
+        "什么都不做",
+        "保存检查点",
+        "广播 logits"
+      ],
+      "correct": 0,
+      "explanation": "等大小本地 batch、相同损失缩放等条件下对应全局平均梯度；改变 world_size 也改变有效批量，学习率是否可沿用仍需评估。"
+    },
+    {
+      "id": "77-data-parallel-ddp-check-3",
+      "stage": "check",
+      "question": "为什么 SUM 后可在每个 rank 本地除以 world_size？",
+      "options": [
+        "因为所有版本 gloo 都不存在均值操作",
+        "因为不知道 world_size",
+        "它实现所需均值算术，并避免依赖后端是否支持平均规约",
+        "因为直接相除会产生 NaN"
+      ],
+      "correct": 2,
+      "explanation": "数学上先求和再除得到平均；具体后端和版本对 AVG 的支持各异，本课选择可见的本地缩放。"
+    },
+    {
+      "id": "77-data-parallel-ddp-check-4",
+      "stage": "check",
+      "question": "生产 DDP 的 gradient bucketing 主要解决什么？",
+      "options": [
+        "把许多小梯度合并通信，分摊每次 collective 的固定延迟",
+        "释放全部梯度内存",
+        "把梯度量化为 int8",
+        "跳过 backward"
+      ],
+      "correct": 0,
+      "explanation": "合适分桶还可与反向计算重叠通信；桶大小要平衡启动延迟、等待和内存。"
+    },
+    {
+      "id": "77-data-parallel-ddp-check-5",
+      "stage": "check",
+      "question": "为什么 PyTorch DDP 提供 no_sync()？",
+      "options": [
+        "切换后端",
+        "关闭全部 DDP 功能",
+        "只用于调试",
+        "累积 K 个 microbatch 时前 K-1 次可跳过梯度同步，边界再同步"
+      ],
+      "correct": 3,
+      "explanation": "使用时需要把相应 forward 与 backward 都包含在上下文内，并正确缩放 loss；它减少通信而不是减少所需累积计算。"
+    },
+    {
+      "id": "77-data-parallel-ddp-post-6",
+      "stage": "post",
+      "question": "为什么单进程参考实现按 rank 顺序处理各 microbatch？",
+      "options": [
+        "这是使用 gloo 的唯一方式",
+        "单进程一定更快",
+        "只是节省内存",
+        "构造相同数据与损失缩放下的平均梯度基线，用于核对 DDP 结果"
+      ],
+      "correct": 3,
+      "explanation": "编者注：比较以浮点容差为准，不保证不同规约顺序逐字节相同；每步损失和参数检查比只看最终均值更有诊断价值。"
+    }
+  ]
+}

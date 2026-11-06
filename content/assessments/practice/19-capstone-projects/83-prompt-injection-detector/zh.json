@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/83-prompt-injection-detector/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "3dae37eaacba0ffc8afb499a6e72368c998e0dcd6abd83c7291a6840a413b189"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "83-prompt-injection-detector-pre-1",
+      "stage": "pre",
+      "question": "检测器对提示词返回什么？",
+      "options": [
+        "仅一个 block 布尔值",
+        "完整系统提示词",
+        "所有规则的列表",
+        "一个 category 与 [0,1] 内的 confidence"
+      ],
+      "correct": 3,
+      "explanation": "上游本题未提供解析。改编补充：结构化信号供后续门组合；数值在合法范围并不代表已经概率校准。"
+    },
+    {
+      "id": "83-prompt-injection-detector-pre-2",
+      "stage": "pre",
+      "question": "为什么先 normalize，再做 substring 和 regex 匹配？",
+      "options": [
+        "regex 比 substring 慢",
+        "标准库禁止匹配原文本",
+        "降低磁盘文件大小",
+        "尝试暴露 base64、rot13、零宽插入等被混淆线索，便于规则检查"
+      ],
+      "correct": 3,
+      "explanation": "上游本题未提供解析。改编补充：规范化有边界也可能误解码，需保留原文证据，不保证识别所有编码攻击。"
+    },
+    {
+      "id": "83-prompt-injection-detector-check-3",
+      "stage": "check",
+      "question": "某类 TP=6、FP=2，precision 是多少？",
+      "options": [
+        "0.86",
+        "0.60",
+        "0.75",
+        "0.50"
+      ],
+      "correct": 2,
+      "explanation": "上游本题未提供解析。改编补充：precision=TP/(TP+FP)=6/8=0.75；召回率还需要 FN，不能由这两个数计算。"
+    },
+    {
+      "id": "83-prompt-injection-detector-check-4",
+      "stage": "check",
+      "question": "为什么评估包含良性提示词语料？",
+      "options": [
+        "计算攻击召回",
+        "抬高准确率",
+        "预训练规则",
+        "测量安全文本上的误报率，发现过宽规则"
+      ],
+      "correct": 3,
+      "explanation": "上游本题未提供解析。改编补充：只测攻击会掩盖误拒绝；良性数据应覆盖真实用法且与调参样本区分。"
+    },
+    {
+      "id": "83-prompt-injection-detector-check-5",
+      "stage": "check",
+      "question": "没有任何规则命中时，analyze 返回什么？",
+      "options": [
+        "最后尝试规则的类别",
+        "随机类别",
+        "benign，confidence=0.0",
+        "抛出异常"
+      ],
+      "correct": 2,
+      "explanation": "上游本题未提供解析。改编补充：这是默认未命中状态，不是证明文本安全；未覆盖的攻击也可能走到这里。"
+    },
+    {
+      "id": "83-prompt-injection-detector-post-6",
+      "stage": "post",
+      "question": "为什么检测器不等于完整安全门？",
+      "options": [
+        "因为它用 Python",
+        "因为规则是数据",
+        "因为它太快",
+        "它只是多个信号之一，不同信号有不同 precision/recall 取舍"
+      ],
+      "correct": 3,
+      "explanation": "上游本题未提供解析。改编补充：安全门还需组合生成中和输出检查、策略与审计，不能把单一启发式分类当最终保证。"
+    }
+  ]
+}

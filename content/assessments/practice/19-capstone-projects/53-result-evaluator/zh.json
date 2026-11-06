@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/53-result-evaluator/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "2504639d011a7b7eff0a294f6a7bc3c5b8590f38a13ce7622699e5af1c676731"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "53-result-evaluator-pre-1",
+      "stage": "pre",
+      "question": "结果评估器为什么使用按种子配对的 t 检验？",
+      "options": [
+        "numpy 只接受配对数组",
+        "runner 不能输出单个数字",
+        "同一随机种子配对候选与基线，可减少初始化差异对配置比较的干扰",
+        "伦理审查总是要求 t 检验"
+      ],
+      "correct": 2,
+      "explanation": "配对分析比较每个种子下的差值，再估计均值与不确定性；它不自动消除全部混杂，仍需满足样本与检验假设。"
+    },
+    {
+      "id": "53-result-evaluator-pre-2",
+      "stage": "pre",
+      "question": "为什么每个指标都有 direction 字段？",
+      "options": [
+        "numpy 用它计算方差",
+        "准确率通常越高越好、损失通常越低越好，改进符号需要统一",
+        "runner 必须用它启动",
+        "解析器要求该字段才识别 JSON"
+      ],
+      "correct": 1,
+      "explanation": "direction 决定差值方向，使正向改进在不同指标上有一致含义。"
+    },
+    {
+      "id": "53-result-evaluator-check-3",
+      "stage": "check",
+      "question": "即使 p 值显著，若改进绝对值低于实用阈值，本课返回什么？",
+      "options": [
+        "noise",
+        "regressed",
+        "failed",
+        "improved"
+      ],
+      "correct": 0,
+      "explanation": "本课先检查效果大小，再看显著性；低于实用阈值的变化归入 noise，这个标签不表示变化在统计上不存在。"
+    },
+    {
+      "id": "53-result-evaluator-check-4",
+      "stage": "check",
+      "question": "为什么先变换对数尺度指标再计算本课的改进量？",
+      "options": [
+        "p 值强制要求所有指标取对数",
+        "numpy 的 log 运算更快",
+        "runner 只能输出对数指标",
+        "像 perplexity=exp(loss) 这样的指标在原尺度上非线性增长，对数变换提供另一种可解释的差值尺度"
+      ],
+      "correct": 3,
+      "explanation": "编者注：阈值意义取决于变换后使用的公式和尺度；取对数并不自动让不同指标的“2%”具有相同实用意义，应明确报告原值、变换与阈值定义。"
+    },
+    {
+      "id": "53-result-evaluator-check-5",
+      "stage": "check",
+      "question": "配对 t 检验助手在什么情况下返回 p_value=None？",
+      "options": [
+        "样本方差为零时一律如此",
+        "均值相等时一律如此",
+        "指标使用 log 尺度时",
+        "可用配对样本少于两个时"
+      ],
+      "correct": 3,
+      "explanation": "n<2 时无法估计配对差值方差，助手返回 None，由判定路径处理证据不足。"
+    },
+    {
+      "id": "53-result-evaluator-check-6",
+      "stage": "check",
+      "question": "如果候选结果中有任意一个终态不是 ok，评估器如何处理？",
+      "options": [
+        "返回 failed，并在理由中记录异常终态",
+        "直接删掉该种子继续比较",
+        "自动重跑实验",
+        "改用单侧检验"
+      ],
+      "correct": 0,
+      "explanation": "本课不从部分崩溃的候选集合中挑选成功样本得出改进结论，而是明确报告失败。"
+    }
+  ]
+}

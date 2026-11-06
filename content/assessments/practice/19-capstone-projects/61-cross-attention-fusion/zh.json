@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/61-cross-attention-fusion/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "3d30c1860e8dffbf62ff9e3833f6fa2f1b72ce7e84c5a401f7b1abaf94dca3c2"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "61-cross-attention-fusion-pre-1",
+      "stage": "pre",
+      "question": "本课把视觉语言建模的 early fusion 与 late fusion 如何区分？",
+      "options": [
+        "后融合一定更占内存",
+        "前融合不合法",
+        "前融合把图像与文本词元拼成一个序列；这里的后融合保留两路并用交叉注意力连接",
+        "前融合只是墙钟上先执行"
+      ],
+      "correct": 2,
+      "explanation": "这是本课使用的架构分类；融合方式会影响掩码形状和 KV 缓存设计，不只是执行先后顺序。"
+    },
+    {
+      "id": "61-cross-attention-fusion-pre-2",
+      "stage": "pre",
+      "question": "在图像完全已知的自回归文本 decoder 中，哪部分使用因果掩码？",
+      "options": [
+        "两者都不用",
+        "两者都用",
+        "仅交叉注意力",
+        "仅文本自注意力；图像作为可见 memory 不需要未来文本掩码"
+      ],
+      "correct": 3,
+      "explanation": "文本位置不能读取未来文本，但可以读取当前已给出的所有图像 patch；若 memory 存在 padding 等仍可能需要相应掩码。"
+    },
+    {
+      "id": "61-cross-attention-fusion-check-3",
+      "stage": "check",
+      "question": "为什么图像交叉注意力的 KV 投影可以每张图像只构建一次？",
+      "options": [
+        "解码过程中图像 memory 不变，相同层的 K/V 可复用，省去重复投影",
+        "这样就不再用 GPU",
+        "PyTorch 强制缓存",
+        "缓存节省磁盘"
+      ],
+      "correct": 0,
+      "explanation": "缓存减少重复计算，但每步的查询投影、注意力和读缓存仍有成本；图像或权重变化时缓存须失效。"
+    },
+    {
+      "id": "61-cross-attention-fusion-check-4",
+      "stage": "check",
+      "question": "Nt=10、Nv=197、hidden=256 时，交叉注意力输出形状是什么？",
+      "options": [
+        "(B,10,256)",
+        "(B,207,256)",
+        "(B,10,197)",
+        "(B,197,256)"
+      ],
+      "correct": 0,
+      "explanation": "输出长度跟随 query，即文本的 Nt；197 是 key/value 长度，出现在注意力权重轴而非最终输出序列轴。"
+    },
+    {
+      "id": "61-cross-attention-fusion-check-5",
+      "stage": "check",
+      "question": "本课固定完整图像 memory 为什么不使用交叉注意力因果掩码？",
+      "options": [
+        "掩码总会产生 NaN",
+        "掩码开销太大",
+        "生成文本前图像已全部可见，每个文本位置可查看全部 patch",
+        "PyTorch 不支持交叉掩码"
+      ],
+      "correct": 2,
+      "explanation": "无需按未来文本限制图像访问；这不排除其他任务为 padding、分块可见性或流式视频增加掩码。"
+    },
+    {
+      "id": "61-cross-attention-fusion-post-6",
+      "stage": "post",
+      "question": "哪种扩展可引入 Flamingo 式的平滑视觉残差接入？",
+      "options": [
+        "删除 FFN",
+        "在交叉注意力残差上增加零初始化的可学习 tanh gate",
+        "删除自注意力",
+        "只用一个头"
+      ],
+      "correct": 1,
+      "explanation": "初值为零时新增视觉残差不改变原文本路径，训练后门值逐渐调整；这有助于稳定接入，但不保证所有训练设置稳定。"
+    }
+  ]
+}

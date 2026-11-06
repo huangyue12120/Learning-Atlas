@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/85-content-classifier-integration/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "4e63c2d767032df491649e9f03e98ff2d9f6c74fbe582f6533d0952c65643bfa"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "85-content-classifier-integration-pre-1",
+      "stage": "pre",
+      "question": "输入已经检查，为什么还做输出分类？",
+      "options": [
+        "模型仍可能生成不该展示的内容，输出检查提供交付前的另一层信号",
+        "输入分类器已弃用",
+        "标准库强制双侧检查",
+        "故意拖慢系统"
+      ],
+      "correct": 0,
+      "explanation": "上游本题未提供解析。改编补充：正常输入也可能触发泄漏或不当输出；检查应在内容真正展示前生效，流式场景尤其如此。"
+    },
+    {
+      "id": "85-content-classifier-integration-pre-2",
+      "stage": "pre",
+      "question": "本课连接哪三类分类器？",
+      "options": [
+        "OCR、ASR、TTS",
+        "质量、事实、引用",
+        "毒性、PII、指令泄漏",
+        "情感、语言、长度"
+      ],
+      "correct": 2,
+      "explanation": "上游本题未提供解析。改编补充：三者检查不同风险，具体实现是教学启发式，不代表覆盖所有毒性或个人数据模式。"
+    },
+    {
+      "id": "85-content-classifier-integration-check-3",
+      "stage": "check",
+      "question": "一个 verdict 为 high，另一个为 medium，router 如何处理？",
+      "options": [
+        "顺序执行全部动作",
+        "按最高严重度选择动作，block 优先于 redact",
+        "丢弃所有判定并原样发送",
+        "只执行 medium 动作"
+      ],
+      "correct": 1,
+      "explanation": "上游本题未提供解析。改编补充：最大严重度策略避免较弱动作盖过高风险阻断；具体映射属于可版本化政策。"
+    },
+    {
+      "id": "85-content-classifier-integration-check-4",
+      "stage": "check",
+      "question": "PII 分类器中 Luhn 检查的作用是什么？",
+      "options": [
+        "压缩正则",
+        "计算社会安全号码",
+        "为信用卡样式数字增加校验，减少仅凭长度匹配任意数字串的误报",
+        "把数字翻译为字母"
+      ],
+      "correct": 2,
+      "explanation": "上游本题未提供解析。改编补充：通过 Luhn 不证明号码真实或有效，也不能覆盖全部 PII，应与其他规则及脱敏范围共同检查。"
+    },
+    {
+      "id": "85-content-classifier-integration-check-5",
+      "stage": "check",
+      "question": "本课指令泄漏分类器怎么判定？",
+      "options": [
+        "只检测花括号",
+        "计算输出与已知 system prompt 的字符 trigram 余弦，并与阈值比较",
+        "调用另一个模型",
+        "仅数词元"
+      ],
+      "correct": 1,
+      "explanation": "上游本题未提供解析。改编补充：表面相似度可发现部分复制，可能漏掉改写与编码泄漏，也可能误伤共同措辞。"
+    },
+    {
+      "id": "85-content-classifier-integration-post-6",
+      "stage": "post",
+      "question": "毒性分类器为何检查左侧短窗口中的否定？",
+      "options": [
+        "提高误报率",
+        "故意拖慢正则",
+        "跳过类似“你并不愚蠢”的否定语境，减少对安慰语句的误判",
+        "Unicode 要求有否定"
+      ],
+      "correct": 2,
+      "explanation": "上游本题未提供解析。改编补充：小窗口是简单启发式，仍可能误读双重否定、反讽或跨句范围，需保留反例。"
+    }
+  ]
+}

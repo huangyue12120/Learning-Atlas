@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/62-vision-language-pretraining/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "a5ef982fab8106f3227eeab2d476f3bbaa453731dec7d92eff4b4169ff261115"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "62-vision-language-pretraining-pre-1",
+      "stage": "pre",
+      "question": "联合 InfoNCE 与语言模型损失主要训练哪两种能力？",
+      "options": [
+        "图文匹配排序与条件文本生成",
+        "压缩与解压",
+        "速度与准确率",
+        "词元化与反词元化"
+      ],
+      "correct": 0,
+      "explanation": "InfoNCE 对齐匹配图文的相似度，LM 损失训练图像条件下的文本预测，二者可共享部分组件。"
+    },
+    {
+      "id": "62-vision-language-pretraining-pre-2",
+      "stage": "pre",
+      "question": "N 个一一匹配的图文对形成 N×N 相似度矩阵时，有多少正负位置？",
+      "options": [
+        "对角线上 N 个正位置，非对角线 N*(N-1) 个按训练约定视为负的位置",
+        "N 正、N 负",
+        "1 正、N 负",
+        "N² 个正位置"
+      ],
+      "correct": 0,
+      "explanation": "这是 batch 内配对标签的构造；不同样本也可能语义相关，非对角线存在假负例风险。"
+    },
+    {
+      "id": "62-vision-language-pretraining-check-3",
+      "stage": "check",
+      "question": "为什么可把对比温度设为可学习参数？",
+      "options": [
+        "这样不用 Adam",
+        "PyTorch 强制要求",
+        "可学习 tau 在 GPU 上一定更快",
+        "让模型调整归一化相似度的 softmax 尖锐程度，减少固定温度的手动选择"
+      ],
+      "correct": 3,
+      "explanation": "温度调节 logits 尺度，通常用对数参数化并限制范围；它并非让所有模型免于调参的保证。"
+    },
+    {
+      "id": "62-vision-language-pretraining-check-4",
+      "stage": "check",
+      "question": "本课哪个子模块接收 LM 损失梯度，但不接收对比损失梯度？",
+      "options": [
+        "MLP projector",
+        "视觉编码器",
+        "文本侧编码器",
+        "交叉注意力 decoder"
+      ],
+      "correct": 3,
+      "explanation": "对比路径不经过 decoder；本课文本均值池化编码器则不在 LM 路径上，应按计算图核对梯度。"
+    },
+    {
+      "id": "62-vision-language-pretraining-check-5",
+      "stage": "check",
+      "question": "LM 交叉熵中的 ignore_index=PAD_ID 有什么作用？",
+      "options": [
+        "仅加速计算",
+        "加密 padding",
+        "把 padding 位置排除出监督，避免学习填充位置的目标",
+        "重新排列词元"
+      ],
+      "correct": 2,
+      "explanation": "padding 不携带有效 caption 监督；有效长度、移位标签与损失分母都需保持一致。"
+    },
+    {
+      "id": "62-vision-language-pretraining-post-6",
+      "stage": "post",
+      "question": "为什么 50 步合成演示可以完成本课的工程验收？",
+      "options": [
+        "50 步就达到最先进性能",
+        "框架最多支持 50 步",
+        "它检查两类损失、梯度连接和数值路径可运行，真实质量与规模训练仍需单独验证",
+        "真实数据一定改变架构"
+      ],
+      "correct": 2,
+      "explanation": "编者注：合成短跑只能验证小规模实现契约，不能证明亿级图文训练会保持相同收敛动态或生产效果。"
+    }
+  ]
+}

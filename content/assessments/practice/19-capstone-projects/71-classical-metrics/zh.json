@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/71-classical-metrics/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "5b1ebbb79198facad3d8b0c08d66a00ea5ea9ea2245cbe3bc5362824ec87e669"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "71-classical-metrics-pre-1",
+      "stage": "pre",
+      "question": "为什么指标层需要固定分词规则？",
+      "options": [
+        "分词器只属于模型，runner 看不到模型",
+        "什么算词元匹配取决于分词，更换规则就改变 benchmark",
+        "任何指标复杂度都为 O(n)",
+        "numpy 导入时需要分词器"
+      ],
+      "correct": 1,
+      "explanation": "BLEU 与词元 F1 对分词和规范化敏感，报告应能追溯评分所用规则。"
+    },
+    {
+      "id": "71-classical-metrics-pre-2",
+      "stage": "pre",
+      "question": "modified n-gram precision 相比普通计数多做什么？",
+      "options": [
+        "候选中每个 n-gram 的命中数不超过任一参考中的最大计数",
+        "一定运行更快",
+        "更换对数底数",
+        "把分数范围改为 0–100"
+      ],
+      "correct": 0,
+      "explanation": "裁剪计数防止反复输出同一匹配短语来无限增加命中次数。"
+    },
+    {
+      "id": "71-classical-metrics-check-3",
+      "stage": "check",
+      "question": "BLEU 为什么使用 brevity penalty？",
+      "options": [
+        "长文本使几何平均数值不稳定",
+        "BP 替代计数裁剪",
+        "它只用于补偿加一平滑",
+        "只看 precision 可能偏爱过短但容易匹配的输出，BP 对短于参考的输出降权"
+      ],
+      "correct": 3,
+      "explanation": "候选长度 c<参考长度 r 时使用 exp(1-r/c) 一类惩罚；空候选等边界还需单独处理。"
+    },
+    {
+      "id": "71-classical-metrics-check-4",
+      "stage": "check",
+      "question": "ROUGE-L 比较什么？",
+      "options": [
+        "两个字符串的编辑距离",
+        "任意参考的 4-gram precision",
+        "候选与参考词元序列的最长公共子序列",
+        "字符 Jaccard"
+      ],
+      "correct": 2,
+      "explanation": "用 LCS 长度计算 precision 与 recall，再组合为 F 型分数；子序列允许中间不连续。"
+    },
+    {
+      "id": "71-classical-metrics-check-5",
+      "stage": "check",
+      "question": "按本课的空输入约定，哪种情况词元 F1 为 1.0？",
+      "options": [
+        "只共享一个词元就一定为一",
+        "预测比目标多出噪声词元",
+        "预测为空而目标非空",
+        "预测与目标都为空"
+      ],
+      "correct": 3,
+      "explanation": "空对空约定为完全匹配；一方为空而另一方非空则为零，其他完全匹配也可得到一。"
+    },
+    {
+      "id": "71-classical-metrics-post-6",
+      "stage": "post",
+      "question": "为什么 score 按 metric_name 而不是 category 分发？",
+      "options": [
+        "runner 访问不到 category",
+        "同一任务类别可以选择不同合法指标，分发按指标契约执行",
+        "category 无法验证",
+        "metric_name 更短"
+      ],
+      "correct": 1,
+      "explanation": "例如 summary 可用 rouge_l 或 bleu_4；分发器读取指标名，不把类别与唯一公式绑死。"
+    }
+  ]
+}

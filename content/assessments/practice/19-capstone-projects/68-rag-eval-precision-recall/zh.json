@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/68-rag-eval-precision-recall/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "2a73baa400f819b19d63dcc807d1735c1da033454f02292f50e083ba05330a6c"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "68-rag-eval-precision-recall-pre-1",
+      "stage": "pre",
+      "question": "为什么 RAG 常优先关注 recall@k？",
+      "options": [
+        "recall 忽略全部排序信息",
+        "OpenAPI 要求它",
+        "recall 与 precision 相同",
+        "若关键证据未被召回，有依据的回答会受限；因此漏召回通常值得优先调查"
+      ],
+      "correct": 3,
+      "explanation": "额外无关片段也可能浪费词元、误导或注入恶意内容，不能认为高召回就足以保证生成质量。"
+    },
+    {
+      "id": "68-rag-eval-precision-recall-pre-2",
+      "stage": "pre",
+      "question": "MRR 计算什么？",
+      "options": [
+        "答案词元数",
+        "余弦相似度几何平均",
+        "第二个相关文档的中位名次",
+        "各查询首个相关文档倒数名次的平均，未命中通常计零"
+      ],
+      "correct": 3,
+      "explanation": "首位贡献 1，第二位 0.5，第十位 0.1；必须声明截断深度与未命中的处理方式。"
+    },
+    {
+      "id": "68-rag-eval-precision-recall-check-3",
+      "stage": "check",
+      "question": "什么时候 nDCG 比二值 recall@k 更能反映标注信息？",
+      "options": [
+        "retriever 不返回分数时",
+        "语料小时",
+        "任何时候都不该用",
+        "相关性有等级，例如 3、2、1，需同时衡量等级增益和位置折扣时"
+      ],
+      "correct": 3,
+      "explanation": "nDCG 使用分级相关性与排序位置，并用理想排序归一化；二值指标会丢失等级差异。"
+    },
+    {
+      "id": "68-rag-eval-precision-recall-check-4",
+      "stage": "check",
+      "question": "faithfulness 与 answer relevance 的区别是什么？",
+      "options": [
+        "前者是检索指标，后者是分块指标",
+        "完全是同一指标",
+        "前者就是 precision，后者就是 recall",
+        "前者问答案是否受到上下文支持，后者问答案是否回应了问题"
+      ],
+      "correct": 3,
+      "explanation": "答案可以有依据却答非所问，也可以切题却缺乏所给证据；两维应分别检查。"
+    },
+    {
+      "id": "68-rag-eval-precision-recall-check-5",
+      "stage": "check",
+      "question": "recall@5 尚可但 MRR 偏低时，首先应检查哪一阶段？",
+      "options": [
+        "生成器",
+        "分块器",
+        "语料导入器",
+        "重排阶段，因为相关块可能已在前五却没有排到前面"
+      ],
+      "correct": 3,
+      "explanation": "应结合逐查询结果确认后再归因；总体平均不能保证每个查询都满足这种模式。"
+    },
+    {
+      "id": "68-rag-eval-precision-recall-post-6",
+      "stage": "post",
+      "question": "长期固定 qrels 的主要风险是什么？",
+      "options": [
+        "评估文件占满磁盘",
+        "向量在固定日期过期",
+        "retriever 六个月后自动停用",
+        "语料和答案随时间变化，旧 gold 标签可能失效，指标继续对错误目标计分"
+      ],
+      "correct": 3,
+      "explanation": "qrels 应与语料版本绑定并定期复核，频率取决于内容变化，而不是所有项目统一按季度更新即可。"
+    }
+  ]
+}
