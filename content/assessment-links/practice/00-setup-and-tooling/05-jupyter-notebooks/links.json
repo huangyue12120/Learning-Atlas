@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/00-setup-and-tooling/05-jupyter-notebooks",
+  "translationSha256": "3510714588e263be008d12d946d35851db664527537676a019fc0499ab883ede",
+  "assessmentSha256": "cf986033634a4953fcc6aaea452aff97ae82e0a9ca5a2a0c04d56b1f5dc23a5d",
+  "reviewedBy": "Codex 逐题语义核对；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "notebook",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "它让你分块运行代码、内联查看输出、混合代码和说明，并快速迭代。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。补充题干适用条件或修正解析中的绝对化说法。"
+    },
+    {
+      "id": "kernel",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "内核（kernel）是在后台运行的 Python 进程。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "time-magics",
+      "status": "reviewed",
+      "headingId": "第-4-步-magic-command",
+      "quote": "`%timeit` 会多次运行并取平均；`%%time` 只运行一次。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "execution-order",
+      "status": "reviewed",
+      "headingId": "常见陷阱",
+      "quote": "你先运行第 5 格，再运行第 2 格，最后运行第 7 格。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "move-to-script",
+      "status": "reviewed",
+      "headingId": "notebook-与脚本-分别在何时使用",
+      "quote": "规则是：**在 notebook 探索，在脚本交付**。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    }
+  ]
+}

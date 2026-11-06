@@ -56,6 +56,8 @@ Phase 1–3 的多数课程可在 CPU 上顺利运行。但当你开始训练 CN
 s0-gpu-dispatch
 ```
 
+> **Learning Atlas 编者注（概念核对）：** GPU 有大量并行计算核心，适合矩阵运算。计时前后调用 `torch.cuda.synchronize()` 是为了等待异步 GPU 操作完成；这不负责数据传输或释放显存。
+
 ## 动手构建
 
 ### 方案 1：本地 NVIDIA GPU

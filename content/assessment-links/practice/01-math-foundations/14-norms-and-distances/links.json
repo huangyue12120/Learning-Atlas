@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/14-norms-and-distances",
+  "translationSha256": "e907134ef2e953e52566332f57366b0f9fa61d27796a2eab41344ae7d1c4fcb0",
+  "assessmentSha256": "6ee0c76ba77409d9fddd38c171acec98ad11f81e1e27c788d1dc60b9265922eb",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "cosine",
+      "status": "reviewed",
+      "headingId": "cosine-相似度与-cosine-距离",
+      "quote": "余弦相似度度量两个向量之间的夹角，忽略它们的模长。",
+      "reviewNote": "cosine 为夹角余弦，范围 -1 到 1，按模长归一，故忽略长度。"
+    },
+    {
+      "id": "manhattan",
+      "status": "reviewed",
+      "headingId": "l1-范数-manhattan-距离",
+      "quote": "之所以称为 Manhattan 距离，是因为它度量你在只能沿坐标轴移动（不能走对角线）的城市网格上要走多远。",
+      "reviewNote": "L1 把各轴绝对差相加，如城市街道只能横纵移动。"
+    },
+    {
+      "id": "lasso",
+      "status": "reviewed",
+      "headingId": "l1-范数-manhattan-距离",
+      "quote": "L1 惩罚在权重空间中形成菱形约束区域，而菱形的角落落在某些权重为零的坐标轴上。",
+      "reviewNote": "L2 圆形约束没有角，接触点通常所有权重非零；L1 的几何使零权重更常出现。"
+    },
+    {
+      "id": "wasserstein",
+      "status": "reviewed",
+      "headingId": "wasserstein-距离-earth-mover-距离",
+      "quote": "对具有有限一阶矩的分布，Wasserstein-1 距离对称且有限；KL 在一方支持集不被另一方覆盖时可能为无穷。",
+      "reviewNote": "W₁ 对称且有限；KL 不对称，支持集不相容时可为无穷。不能由距离有限推断任意参数化下都处处存在有用梯度。"
+    },
+    {
+      "id": "mahalanobis",
+      "status": "reviewed",
+      "headingId": "mahalanobis-距离",
+      "quote": "Mahalanobis 距离先对数据去相关并归一化（白化），再在变换后的空间中计算 L2 距离。",
+      "reviewNote": "它利用 covariance 去相关并归一化后再计算 L2。"
+    }
+  ]
+}

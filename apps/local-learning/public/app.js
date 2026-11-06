@@ -297,13 +297,14 @@ function attachQuizEvidence() {
     const quote = normalize(result.reference.quote);
     let element = heading?.nextElementSibling, target;
     while (element && !/^H[1-6]$/.test(element.tagName)) {
-      target = [...element.querySelectorAll("p, li"), element].find(candidate => normalize(candidate.textContent).includes(quote));
+      target = [...element.querySelectorAll("p, li, td, th, pre > code"), element].find(candidate => normalize(candidate.textContent).includes(quote));
       if (target) break;
       element = element.nextElementSibling;
     }
     if (target) {
       const anchor = document.createElement("span"); anchor.id = id; anchor.className = "evidence-anchor"; anchor.tabIndex = -1;
-      target.before(anchor);
+      if (["LI", "TD", "TH"].includes(target.tagName)) target.prepend(anchor);
+      else target.before(anchor);
     } else {
       const link = [...document.querySelectorAll("[data-evidence-question]")].find(link => link.dataset.evidenceQuestion === result.id);
       if (link) { link.href = heading ? `#${heading.id}` : "#lesson-body"; link.textContent = heading ? "回看相关小节" : "回看本课正文"; }

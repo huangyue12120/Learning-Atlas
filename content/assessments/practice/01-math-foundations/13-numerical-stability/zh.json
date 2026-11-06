@@ -1,1 +1,77 @@
-{"kind":"practice-assessment","source":{"repository":"ai-engineering-from-scratch","path":"phases/01-math-foundations/13-numerical-stability/quiz.json","revision":"d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051","sha256":"39ad18920e7dfe01f8c6ba0f6fae466945e84ba652ab17595fa29492dd0f9f55"},"status":"reviewed","questions":[{"id":"float32-range","stage":"pre","question":"float32 可表示数字的近似范围是什么？","options":["±1.8e308","±3.4e38","±1.0e10","±65,504"],"correct":1,"explanation":"float32 的 8 位指数给约 ±3.4e38；float16 为 ±65,504，float64 约 ±1.8e308。"},{"id":"binary","stage":"pre","question":"为什么浮点算术中 0.1+0.2 不等于 0.3？","options":["CPU 加法电路有 bug","0.1、0.2 不能被二进制浮点精确表示","Python 把小数转整数","0.3 不是合法浮点数"],"correct":1,"explanation":"0.1 是二进制循环小数，mantissa 截断导致存储值近似，累积误差使和不同。"},{"id":"softmax","stage":"post","question":"稳定 softmax 为什么在指数化前减 max(logits)？","options":["使 logits 零均值","将 float16 转 float32","使概率更均匀","令最大指数为 0，从而防 exp 上溢"],"correct":3,"explanation":"最大值变 0，exp(0)=1，其余为负且指数小于 1；概率与 naive 计算数学等价。"},{"id":"gradient","stage":"post","question":"中心有限差分的 h 太小（如 1e-15）会怎样？","options":["更精确","梯度自动为零","f(x+h) 和 f(x-h) 近乎相同，相减产生 catastrophic cancellation","函数更快"],"correct":2,"explanation":"前导有效位抵消，只剩舍入噪声；常用 h 为 1e-5 到 1e-7。"},{"id":"bfloat","stage":"post","question":"为什么训练通常更偏好 bfloat16 而非 float16？","options":["占用内存更少","bfloat16 与 float32 有相同指数范围，能避免大 activation 溢出且通常不需 loss scaling","支持 GPU 更多","bfloat16 mantissa 更多"],"correct":1,"explanation":"bfloat16 有 8 指数位、范围到 3.4e38；float16 仅 5 指数位、最大约 65504。"}]}
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/01-math-foundations/13-numerical-stability/quiz.json",
+    "revision": "d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051",
+    "sha256": "39ad18920e7dfe01f8c6ba0f6fae466945e84ba652ab17595fa29492dd0f9f55"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "float32-range",
+      "stage": "pre",
+      "question": "float32 最大有限值的绝对值约为多少？",
+      "options": [
+        "±1.8e308",
+        "±3.4e38",
+        "±1.0e10",
+        "±65,504"
+      ],
+      "correct": 1,
+      "explanation": "float32 的 8 位指数给约 ±3.4e38；float16 为 ±65,504，float64 约 ±1.8e308。"
+    },
+    {
+      "id": "binary",
+      "stage": "pre",
+      "question": "为什么浮点算术中 0.1+0.2 不等于 0.3？",
+      "options": [
+        "十进制浮点会把全部小数截为整数",
+        "二进制浮点无法精确表示这些小数",
+        "加法会把浮点数自动转换为字符串",
+        "浮点数相加时会自动减少一位指数"
+      ],
+      "correct": 1,
+      "explanation": "0.1 是二进制循环小数，mantissa 截断导致存储值近似，累积误差使和不同。"
+    },
+    {
+      "id": "softmax",
+      "stage": "post",
+      "question": "稳定 softmax 为什么在指数化前减 max(logits)？",
+      "options": [
+        "使每个 logit 的绝对值相同",
+        "将输入数据类型自动升为 float64",
+        "使所有输出概率严格相等",
+        "使最大指数输入为 0，防止 exp 上溢"
+      ],
+      "correct": 3,
+      "explanation": "最大值变 0，exp(0)=1，其余为负且指数小于 1；概率与 naive 计算数学等价。"
+    },
+    {
+      "id": "gradient",
+      "stage": "post",
+      "question": "中心有限差分的 h 太小（如 1e-15）会怎样？",
+      "options": [
+        "步长越小就必定越精确",
+        "解析梯度会因此自动变成零",
+        "近似值相减，舍入误差可能被放大",
+        "函数的真实导数会随步长改变"
+      ],
+      "correct": 2,
+      "explanation": "极小 h 使两个近似值接近，相减可能放大舍入误差。合适的 h 依赖函数尺度与数据类型，不能认为越小越准。"
+    },
+    {
+      "id": "bfloat",
+      "stage": "post",
+      "question": "为什么训练通常更偏好 bfloat16 而非 float16？",
+      "options": [
+        "尾数更多，能保留更多有效数字",
+        "指数范围更大，降低溢出风险",
+        "相同元素数时占用一半内存",
+        "相同位数下可表示任意实数"
+      ],
+      "correct": 1,
+      "explanation": "bfloat16 的 8 位指数提供与 float32 近似相同的范围，较 float16 更不易溢出，但有效数字更少，也不能保证所有运算都安全。"
+    }
+  ]
+}

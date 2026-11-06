@@ -1,12 +1,77 @@
 {
-  "kind":"practice-assessment",
-  "source":{"repository":"ai-engineering-from-scratch","path":"phases/00-setup-and-tooling/07-docker-for-ai/quiz.json","revision":"d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051","sha256":"0def2e633359381f6cda81879717e3be9da3185ce568508201adf3ff4e61891a"},
-  "status":"reviewed",
-  "questions":[
-    {"id":"container-vm","stage":"pre","question":"Docker 容器与虚拟机的主要差别是什么？","options":["二者没有实际差别","容器比 VM 慢但更安全","容器共享宿主 OS 内核，VM 运行自己的完整 OS","容器只能运行 Linux，VM 支持任意 OS"],"correct":2,"explanation":"容器共享宿主内核并在进程级隔离，因此数秒启动；VM 运行带独立内核的完整客体 OS，资源需求更多、启动更慢。"},
-    {"id":"dockerfile","stage":"pre","question":"Dockerfile 是什么？","options":["Docker daemon 的配置文件","逐层构建 Docker 镜像的一组指令","列出运行容器的文件","记录容器活动的日志文件"],"correct":1,"explanation":"Dockerfile 包含 FROM、RUN、COPY 等顺序指令；Docker 执行它们以构建镜像，每条指令都会创建可缓存层。"},
-    {"id":"volumes","stage":"post","question":"为什么 volume mount 对 Docker 中的 AI 开发至关重要？","options":["让多个容器共享同一 GPU","利用宿主磁盘让容器更快","Python 包正确安装必须使用 volume","在容器重建间持久保存模型、数据集、代码，避免反复下载 GB 级数据"],"correct":3,"explanation":"没有 volume 时，容器停止后内部内容都会丢失；volume 将宿主目录映射入容器，使 14GB+ 模型权重和数据集可跨重建保留。"},
-    {"id":"nvidia-toolkit","stage":"post","question":"NVIDIA Container Toolkit 启用什么能力？","options":["在容器内安装 CUDA 驱动","在 AMD 硬件上运行 NVIDIA GPU 容器","通过 --gpus 标志将宿主 GPU 暴露给 Docker 容器","Docker 构建时编译 CUDA 代码"],"correct":2,"explanation":"NVIDIA Container Toolkit 是将宿主 GPU 暴露给容器的运行时 hook；CUDA toolkit 位于容器内，GPU 驱动由宿主共享。"},
-    {"id":"compose-network","stage":"post","question":"AI Docker Compose 文件中，`ai-dev` 服务如何访问 `qdrant` 向量数据库？","options":["在两个容器之间挂载共享 volume","使用服务名 `qdrant` 作为主机名，因为 Compose 创建共享网络","在容器之间配置 VPN","使用宿主机器 IP 与端口"],"correct":1,"explanation":"Docker Compose 自动创建共享网络，服务可通过名称互相访问；ai-dev 使用服务名作为主机名连接 `http://qdrant:6333`。"}
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/00-setup-and-tooling/07-docker-for-ai/quiz.json",
+    "revision": "d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051",
+    "sha256": "0def2e633359381f6cda81879717e3be9da3185ce568508201adf3ff4e61891a"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "container-vm",
+      "stage": "pre",
+      "question": "Docker 容器与虚拟机的主要差别是什么？",
+      "options": [
+        "两者都必须启动独立的完整操作系统",
+        "容器比 VM 更慢，但隔离程度更高",
+        "容器共享宿主内核，VM 有独立客体内核",
+        "容器只支持 Linux，VM 支持任意系统"
+      ],
+      "correct": 2,
+      "explanation": "容器共享运行它的 Linux 宿主或后端虚拟机的内核；虚拟机有独立客体内核。Docker Desktop 上的 Linux 容器通常运行在后端 Linux VM 中。"
+    },
+    {
+      "id": "dockerfile",
+      "stage": "pre",
+      "question": "Dockerfile 是什么？",
+      "options": [
+        "Docker daemon 的配置文件",
+        "逐层构建 Docker 镜像的一组指令",
+        "列出运行容器的文件",
+        "记录容器活动的日志文件"
+      ],
+      "correct": 1,
+      "explanation": "Dockerfile 包含 FROM、RUN、COPY 等顺序指令；Docker 执行它们以构建镜像，每条指令都会创建可缓存层。"
+    },
+    {
+      "id": "volumes",
+      "stage": "post",
+      "question": "为什么 volume mount 对 Docker 中的 AI 开发至关重要？",
+      "options": [
+        "让多个容器自动共享同一 GPU",
+        "使用宿主磁盘必定提高运行速度",
+        "安装 Python 包必须依赖 volume",
+        "跨删除和重建保留模型、数据及代码"
+      ],
+      "correct": 3,
+      "explanation": "容器被删除或重建时，未挂载的可写层不再保留；单纯停止同一个容器不会删除数据。bind mount 或 volume 可将模型、数据集与代码保留在容器之外。"
+    },
+    {
+      "id": "nvidia-toolkit",
+      "stage": "post",
+      "question": "NVIDIA Container Toolkit 启用什么能力？",
+      "options": [
+        "在容器中替宿主安装 GPU 驱动",
+        "让 AMD 硬件模拟 NVIDIA GPU",
+        "向容器暴露宿主 NVIDIA GPU",
+        "在构建镜像时自动编译 CUDA 内核"
+      ],
+      "correct": 2,
+      "explanation": "NVIDIA Container Toolkit 是将宿主 GPU 暴露给容器的运行时 hook；CUDA toolkit 位于容器内，GPU 驱动由宿主共享。"
+    },
+    {
+      "id": "compose-network",
+      "stage": "post",
+      "question": "AI Docker Compose 文件中，`ai-dev` 服务如何访问 `qdrant` 向量数据库？",
+      "options": [
+        "用共享 volume 传递数据库连接",
+        "用 Compose 共享网络中的服务名 qdrant",
+        "在两个容器之间单独配置 VPN",
+        "必须绕过服务名，改用宿主 IP"
+      ],
+      "correct": 1,
+      "explanation": "Docker Compose 自动创建共享网络，服务可通过名称互相访问；ai-dev 使用服务名作为主机名连接 `http://qdrant:6333`。"
+    }
   ]
 }

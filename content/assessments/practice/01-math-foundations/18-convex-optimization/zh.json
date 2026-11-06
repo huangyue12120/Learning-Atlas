@@ -1,1 +1,77 @@
-{"kind":"practice-assessment","source":{"repository":"ai-engineering-from-scratch","path":"phases/01-math-foundations/18-convex-optimization/quiz.json","revision":"d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051","sha256":"ddbaf14bf25f232ec26b85e8aca53f67d6d51861c9e66e4daaa46005c848e159"},"status":"reviewed","questions":[{"id":"convex","stage":"pre","question":"convex function 的定义性质是什么？","options":["恰有一个 critical point","图上任两点连线在曲线上方或重合","导数总为正","只能定义在正实数"],"correct":1,"explanation":"等价不等式为 f(tx+(1-t)y)<=tf(x)+(1-t)f(y)。"},{"id":"ml","stage":"pre","question":"哪个 ML 问题有 convex loss landscape？","options":["三层 ReLU NN","recommendation matrix factorization","k-means","cross-entropy logistic regression"],"correct":3,"explanation":"logistic log-loss 对权重凸，其余均非凸。"},{"id":"newton","stage":"post","question":"Newton 对 5x²+3x+1 几步到最小值？","options":["约 100 步","1 步","约 10 步","取决于 learning rate"],"correct":1,"explanation":"对 quadratic，二阶近似精确。"},{"id":"kkt","stage":"post","question":"KKT complementary slackness 表示？","options":["全部约束活跃","约束活跃或 multiplier 为零；非活跃约束无影响","所有梯度正交","Lagrangian 总为零"],"correct":1,"explanation":"lambda_i*g_i(x)=0。"},{"id":"sgd","stage":"post","question":"非凸 NN 中 SGD 为何仍常找到好解？","options":["总找全局最优","loss 无关紧要","高维 critical point 多为 saddle，SGD noise 帮助逃离","NN 秘密凸"],"correct":2,"explanation":"没有凸性保证，但景观与随机性解释了常见经验。"}]}
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/01-math-foundations/18-convex-optimization/quiz.json",
+    "revision": "d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051",
+    "sha256": "ddbaf14bf25f232ec26b85e8aca53f67d6d51861c9e66e4daaa46005c848e159"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "convex",
+      "stage": "pre",
+      "question": "convex function 的定义性质是什么？",
+      "options": [
+        "定义域凸且始终只有一个驻点",
+        "定义域凸且图上两点连线不低于函数图像",
+        "定义域凸且一阶导数始终大于零",
+        "定义域凸且只能在正实数上定义"
+      ],
+      "correct": 1,
+      "explanation": "等价不等式为 f(tx+(1-t)y)<=tf(x)+(1-t)f(y)。"
+    },
+    {
+      "id": "ml",
+      "stage": "pre",
+      "question": "下列标准建模方式中，哪个目标关于所述待优化变量是凸的？",
+      "options": [
+        "同时训练多层 ReLU 网络的权重",
+        "同时优化推荐矩阵分解的两组因子",
+        "同时优化 k-means 的中心与簇分配",
+        "线性逻辑回归的交叉熵关于权重优化"
+      ],
+      "correct": 3,
+      "explanation": "logistic log-loss 对权重凸，其余均非凸。"
+    },
+    {
+      "id": "newton",
+      "stage": "post",
+      "question": "对 5x²+3x+1，从非最优初值做精确、无阻尼 Newton 更新，几步到最小值？",
+      "options": [
+        "约 100 步",
+        "1 步",
+        "约 10 步",
+        "取决于 learning rate"
+      ],
+      "correct": 1,
+      "explanation": "二阶近似对这个严格凸二次函数恰好精确，一步到 x=−0.3。初值已经最优时无需更新；浮点计算可能有舍入误差。"
+    },
+    {
+      "id": "kkt",
+      "stage": "post",
+      "question": "对 gᵢ(x)≤0、λᵢ≥0，KKT 互补松弛 λᵢgᵢ(x)=0 意味着什么？",
+      "options": [
+        "每个约束都必须达到边界",
+        "严格非活跃约束的乘子必须为零",
+        "全部活跃约束的乘子必须为正",
+        "全部约束梯度必须相互垂直"
+      ],
+      "correct": 1,
+      "explanation": "严格非活跃时 gᵢ(x)<0，必须 λᵢ=0；活跃时 gᵢ(x)=0，λᵢ 可以为正，也可以为零。"
+    },
+    {
+      "id": "sgd",
+      "stage": "post",
+      "question": "对非凸网络中 SGD 有时能找到好解，哪种解释保留了必要边界？",
+      "options": [
+        "SGD 对所有非凸函数保证全局收敛",
+        "噪声会让任何非凸函数自动变凸",
+        "噪声可能帮助逃离部分鞍点",
+        "网络的层数增加后损失必然变凸"
+      ],
+      "correct": 2,
+      "explanation": "小批量噪声在一定条件下可能帮助逃离鞍点。这是有条件的机制，不是所有网络都能找到全局最优的保证。"
+    }
+  ]
+}

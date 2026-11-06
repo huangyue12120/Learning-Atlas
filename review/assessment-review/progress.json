@@ -1,0 +1,91 @@
+{
+  "questionCount": 1832,
+  "reviewedEvidenceCount": 177,
+  "remainingEvidenceCount": 1655,
+  "phases": [
+    {
+      "phase": "00-setup-and-tooling",
+      "questionCount": 66,
+      "reviewedEvidenceCount": 66,
+      "remainingEvidenceCount": 0
+    },
+    {
+      "phase": "01-math-foundations",
+      "questionCount": 111,
+      "reviewedEvidenceCount": 111,
+      "remainingEvidenceCount": 0
+    },
+    {
+      "phase": "02-ml-fundamentals",
+      "questionCount": 108,
+      "reviewedEvidenceCount": 0,
+      "remainingEvidenceCount": 108
+    },
+    {
+      "phase": "03-deep-learning-core",
+      "questionCount": 65,
+      "reviewedEvidenceCount": 0,
+      "remainingEvidenceCount": 65
+    },
+    {
+      "phase": "04-computer-vision",
+      "questionCount": 140,
+      "reviewedEvidenceCount": 0,
+      "remainingEvidenceCount": 140
+    },
+    {
+      "phase": "05-nlp-foundations-to-advanced",
+      "questionCount": 232,
+      "reviewedEvidenceCount": 0,
+      "remainingEvidenceCount": 232
+    },
+    {
+      "phase": "07-transformers-deep-dive",
+      "questionCount": 5,
+      "reviewedEvidenceCount": 0,
+      "remainingEvidenceCount": 5
+    },
+    {
+      "phase": "10-llms-from-scratch",
+      "questionCount": 55,
+      "reviewedEvidenceCount": 0,
+      "remainingEvidenceCount": 55
+    },
+    {
+      "phase": "11-llm-engineering",
+      "questionCount": 86,
+      "reviewedEvidenceCount": 0,
+      "remainingEvidenceCount": 86
+    },
+    {
+      "phase": "13-tools-and-protocols",
+      "questionCount": 233,
+      "reviewedEvidenceCount": 0,
+      "remainingEvidenceCount": 233
+    },
+    {
+      "phase": "14-agent-engineering",
+      "questionCount": 366,
+      "reviewedEvidenceCount": 0,
+      "remainingEvidenceCount": 366
+    },
+    {
+      "phase": "16-multi-agent-and-swarms",
+      "questionCount": 10,
+      "reviewedEvidenceCount": 0,
+      "remainingEvidenceCount": 10
+    },
+    {
+      "phase": "17-infrastructure-and-production",
+      "questionCount": 175,
+      "reviewedEvidenceCount": 0,
+      "remainingEvidenceCount": 175
+    },
+    {
+      "phase": "18-ethics-safety-alignment",
+      "questionCount": 180,
+      "reviewedEvidenceCount": 0,
+      "remainingEvidenceCount": 180
+    }
+  ]
+}

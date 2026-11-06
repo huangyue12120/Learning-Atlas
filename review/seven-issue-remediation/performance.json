@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-06",
+  "baselineCommit": "6d8fbf8",
+  "location": "actual workspace: /mnt/softwares/Claude Code/ai-learning",
+  "command": "cd apps/local-learning && npm run benchmark",
+  "dependencyGate": "all known dependencies checked per request; SHA-256 checked on invalidation; no TTL or watcher bypass",
+  "before": {
+    "node": "v22.23.1",
+    "ioThreads": "64",
+    "targetMs": 100,
+    "targetMet": true,
+    "rounds": [
+      {
+        "samples": 20,
+        "medianMs": 61.293567499999995,
+        "minMs": 58.915350999999646,
+        "maxMs": 74.80895699999996
+      },
+      {
+        "samples": 20,
+        "medianMs": 61.59790299999986,
+        "minMs": 59.59072000000015,
+        "maxMs": 71.5272329999998
+      },
+      {
+        "samples": 20,
+        "medianMs": 62.867765499999905,
+        "minMs": 60.05761199999961,
+        "maxMs": 72.73472700000002
+      }
+    ]
+  },
+  "final": {
+    "node": "v22.23.1",
+    "ioThreads": "64",
+    "targetMs": 100,
+    "targetMet": true,
+    "rounds": [
+      {
+        "samples": 20,
+        "medianMs": 64.13822199999993,
+        "minMs": 60.48623199999997,
+        "maxMs": 70.22852599999987
+      },
+      {
+        "samples": 20,
+        "medianMs": 62.18230349999999,
+        "minMs": 58.93742099999963,
+        "maxMs": 76.31537299999991
+      },
+      {
+        "samples": 20,
+        "medianMs": 69.22710049999955,
+        "minMs": 65.26620000000003,
+        "maxMs": 78.607301
+      }
+    ]
+  },
+  "interpretation": "Both baseline and final meet the target in this run. The cache scheduler was not changed. Earlier higher latencies remain archived; host load and storage conditions vary."
+}

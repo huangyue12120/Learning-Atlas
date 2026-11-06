@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/22-stochastic-processes",
+  "translationSha256": "2ffadb8f18e48c67a5072e66fe673efb7566324b7d1d67b3db829d0b1932f003",
+  "assessmentSha256": "9c22f0d9ea44dc9915901ea630a589ef8f3e5f32c83f2304c51818c49d902f93",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "markov",
+      "status": "reviewed",
+      "headingId": "markov-chains",
+      "quote": "这种条件独立性称为马尔可夫性质，因此可以用转移矩阵 P 描述整个系统的动力学：",
+      "reviewNote": "马尔可夫性质（无记忆性）为 P(X_(t+1)=j | X_t=i,X_(t-1),...)=P(X_(t+1)=j | X_t=i)。它让转移矩阵足以紧凑表示整个过程。"
+    },
+    {
+      "id": "random-walk",
+      "status": "reviewed",
+      "headingId": "第-1-步-随机游走模拟器",
+      "quote": "方差随 n 线性增长，因此标准差按 sqrt(n) 增长。",
+      "reviewNote": "每一步以相同概率为 ±1，n 步后的方差为 n，故典型距离（标准差）为 sqrt(n)。10000 步约为 100，而不是 10000。"
+    },
+    {
+      "id": "stationary",
+      "status": "reviewed",
+      "headingId": "markov-chains",
+      "quote": "状态分布会收敛到平稳分布 pi，其中 pi P = pi。",
+      "reviewNote": "平稳分布满足 πP=π。有限、齐次、不可约且非周期的链从任意初始分布收敛到唯一平稳分布；无限状态链还需额外条件。"
+    },
+    {
+      "id": "langevin",
+      "status": "reviewed",
+      "headingId": "朗之万动力学",
+      "quote": "当温度 T=0 时，系统执行纯梯度下降。",
+      "reviewNote": "T=0 时噪声项消失，只剩标准梯度下降；高温时噪声主导，过程接近随机游走。"
+    },
+    {
+      "id": "diffusion",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "扩散模型逐步向图像添加噪声，直到图像变成纯粹的静态噪声。",
+      "reviewNote": "前向链为 x_t=sqrt(alpha_t)*x_(t-1)+sqrt(1-alpha_t)*noise，最终 x_T 近似 N(0,I)；随后神经网络学习的反向过程逐步去噪生成数据。"
+    }
+  ]
+}

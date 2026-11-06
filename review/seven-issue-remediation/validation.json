@@ -1,0 +1,62 @@
+{
+  "version": "0.31.0",
+  "date": "2026-11-06",
+  "applicationSyntax": "pass",
+  "api": {
+    "passed": 43,
+    "failed": 0
+  },
+  "automationScripts": {
+    "passed": 24,
+    "failed": 0
+  },
+  "browser": {
+    "uniqueTestsPassed": 60,
+    "batches": {
+      "phase0": 13,
+      "phase1": 22,
+      "interaction": 15,
+      "visual": 10
+    },
+    "initialFindings": "Two new evidence tests initially fell back to section/lesson links. Hidden comment headings were excluded and a non-body introduction reference was replaced; both and the two later edited quizzes passed on rerun."
+  },
+  "content": {
+    "translationStructures": 631,
+    "sourceFingerprints": 1560,
+    "assessments": 307,
+    "existingTranslationWarnings": 6,
+    "theoryCards": 289,
+    "publishedPhases": 19,
+    "missingAdaptations": 0,
+    "repositoryHygiene": "pass"
+  },
+  "evidence": {
+    "reviewed": 177,
+    "remaining": 1655,
+    "total": 1832,
+    "newlyReviewed": 106,
+    "allQuizIdsStagesAndCorrectIndicesPreserved": true
+  },
+  "privateWorkspace": {
+    "testsRun": 39,
+    "passed": 37,
+    "skipped": 2,
+    "skipReason": "upstream fixture compiler / recorded host platform constraints; no missing external fixtures",
+    "learnerEditsAndUpstreamPreserved": true
+  },
+  "locksAndVersions": "pass",
+  "screenshots": {
+    "count": 44,
+    "widths": [
+      375,
+      768,
+      1024,
+      1440
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "historicalBaselinesPreserved": true
+  }
+}

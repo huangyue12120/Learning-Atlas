@@ -1100,8 +1100,11 @@ async function tutorReply(
     }
     if (!complete) throw new Error("模型流意外中断，回复未保存，请重试。");
   } else {
-    const payload = await response.json() as { choices?: Array<{ message?: { content?: string } }> };
-    reply = payload.choices?.[0]?.message?.content ?? "";
+    let payload: { choices?: Array<{ message?: { content?: unknown } }> } | null;
+    try { payload = await response.json(); }
+    catch { throw new Error("模型接口没有返回有效的 JSON，回复未保存；请检查接口地址和兼容性。"); }
+    const text = payload?.choices?.[0]?.message?.content;
+    reply = typeof text === "string" ? text : "";
     if (reply.length <= 4000) onDelta?.(reply);
   }
   signal?.throwIfAborted();
@@ -1159,6 +1162,22 @@ export function prepareWorkspace(dataDirectory: string, lessonId = defaultLesson
   mkdirSync(directory, { recursive: true });
   // 复制整个 code/ 目录（fixtures、tests、lab 等），参考实现常依赖同目录的其他文件。
   copyMissingTree(sourceDirectory, directory);
+  if (lessonId === "practice/13-tools-and-protocols/45-ai-assisted-reverse-engineering") {
+    // Keep the upstream assertions, relocating only references outside code/.
+    for (const [source, name] of [
+      [join(practiceDirectory, phase.slug, "36-rebuild-and-prove-equal/code/fixtures/ledger-x86_64-O1.o"), "lesson-36-ledger-x86_64-O1.o"],
+      [join(repositoryDirectory, "ai-engineering-from-scratch/site/figures-re-45.js"), "figures-re-45.js"]
+    ]) {
+      const target = join(directory, "fixtures", name);
+      if (!existsSync(target)) copyFileSync(source, target);
+    }
+    const testPath = join(directory, "tests/test_main.py");
+    const original = readFileSync(join(sourceDirectory, "tests/test_main.py"), "utf8");
+    // Never replace a learner-edited test, including in an existing workspace.
+    if (readFileSync(testPath, "utf8") === original) writeFileSync(testPath, original
+      .replace(/^SITE_MODULE = .+$/m, 'SITE_MODULE = FIXTURES / "figures-re-45.js"')
+      .replace(/^LESSON_36_OBJECT = .+$/m, 'LESSON_36_OBJECT = FIXTURES / "lesson-36-ledger-x86_64-O1.o"'), "utf8");
+  }
   if (explorationFile && explorationName && !existsSync(explorationFile)) copyFileSync(join(explorationDirectory, explorationName), explorationFile);
   for (const name of templateNames) {
     const target = join(directory, name);
@@ -1600,7 +1619,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
             const result = await tutorReply(database, lesson!, text, tutorContextFrom(body), tutorResponseModeFrom(body), delta => { if (!controller.signal.aborted) emit("delta", { text: delta }); }, controller.signal);
             emit("done", result);
           } catch (error) {
-            if (!controller.signal.aborted) emit("error", { error: error instanceof Error && ["TimeoutError", "AbortError"].includes(error.name) ? "模型响应超时，回复未保存；请缩小问题后重试。" : error instanceof TypeError ? "无法连接模型服务，回复未保存；请检查接口地址。" : error instanceof Error ? error.message : "模型响应失败，回复未保存。" });
+            if (!controller.signal.aborted) emit("error", { error: error instanceof Error && ["TimeoutError", "AbortError"].includes(error.name) ? "模型响应超时，回复未保存；请缩小问题后重试。" : error instanceof TypeError ? "无法连接模型服务，回复未保存；请检查接口地址。" : error instanceof Error && /^[\u3400-\u9fff]/.test(error.message) ? error.message : "模型响应失败，回复未保存；请检查接口兼容性后重试。" });
           }
           response.end(); return;
         }

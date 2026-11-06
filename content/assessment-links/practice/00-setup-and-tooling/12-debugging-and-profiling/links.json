@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/00-setup-and-tooling/12-debugging-and-profiling",
+  "translationSha256": "710c5f5818e37d0e664920010568f88709d544860acee7bdf5b4f0e4765431ed",
+  "assessmentSha256": "6331b45fd1e39f1833f81ebd4f890b6c248cd35bf529e6002eaaf73901504ab4",
+  "reviewedBy": "Codex 逐题语义核对；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "silent-failure",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "代码从未报错。bug 可能是张量在错误设备上",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。补充题干适用条件或修正解析中的绝对化说法。"
+    },
+    {
+      "id": "profiler",
+      "status": "reviewed",
+      "headingId": "第-4-部分-为代码段计时",
+      "quote": "了解时间花在哪里是优化的第一步。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "data-leakage",
+      "status": "reviewed",
+      "headingId": "数据泄漏",
+      "quote": "模型在测试集上达到 99% 准确率，也可能源于数据泄漏。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。补充题干适用条件或修正解析中的绝对化说法。"
+    },
+    {
+      "id": "data-loading",
+      "status": "reviewed",
+      "headingId": "第-4-部分-为代码段计时",
+      "quote": "常见发现是：数据加载占用了 60% 的训练时间。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。补充题干适用条件或修正解析中的绝对化说法。"
+    },
+    {
+      "id": "nan-root-cause",
+      "status": "reviewed",
+      "headingId": "nan-损失",
+      "quote": "def detect_nan(model, loss, step):",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    }
+  ]
+}

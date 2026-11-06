@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/11-singular-value-decomposition",
+  "translationSha256": "20fa3d83118662737183b7b704288fb12b3d13540328306d90a240dda3e79ba1",
+  "assessmentSha256": "e7b3e2e8c60c4be4b6c718766a2a622a815bde68d86b63474ca21e891f8dca9a",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "svd-advantage",
+      "status": "reviewed",
+      "headingId": "数值稳定性优势",
+      "quote": "任意形状实矩阵都存在 SVD。",
+      "reviewNote": "任意形状实矩阵都存在 SVD；以完整特征向量基写成 PDP⁻¹ 的对角化则要求方阵且可对角化。"
+    },
+    {
+      "id": "low-rank",
+      "status": "reviewed",
+      "headingId": "截断-svd-低秩近似",
+      "quote": "Eckart–Young–Mirsky 定理指出，在 Frobenius 范数和谱范数下，A 的最佳秩 k 近似都可以通过只保留前 k 个奇异值及其对应向量得到：",
+      "reviewNote": "rank-k 近似保留前 k 个奇异值和向量；Eckart–Young 定理保证它是该秩的最佳近似。"
+    },
+    {
+      "id": "geometry",
+      "status": "reviewed",
+      "headingId": "数值稳定性优势",
+      "quote": "实矩阵的 SVD 中 U、V 是正交矩阵，可以包含反射；",
+      "reviewNote": "Vᵀ 和 U 是正交变换，可能包含反射；Σ 对坐标轴缩放并适配输入输出维数。称为两次旋转只是直观简称。"
+    },
+    {
+      "id": "pca",
+      "status": "reviewed",
+      "headingId": "数值稳定性优势",
+      "quote": "对 A^T A 计算特征分解时，奇异值会被平方，因为 A^T A 的特征值为 sigma_i^2。这也会让条件数平方，从而放大数值误差。",
+      "reviewNote": "AᵀA 的二范数条件数是 A 的条件数平方。直接 SVD 避免这一步的误差放大；实际 PCA 库可提供不同求解器，并非都固定走 SVD。"
+    },
+    {
+      "id": "recommendation",
+      "status": "reviewed",
+      "headingId": "svd-用于推荐系统",
+      "quote": "用户对一部电影的预测评分，是其用户画像与电影画像按奇异值加权后的点积。",
+      "reviewNote": "低秩重建利用类型、年代、风格等潜因子填补未知评分。"
+    }
+  ]
+}

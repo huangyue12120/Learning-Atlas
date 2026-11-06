@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/07-bayes-theorem",
+  "translationSha256": "f3689695a16ec4decdb2029e2aba2b4f86f54e38615742431e532d8c74577a7a",
+  "assessmentSha256": "8d65f1cdd8ad0132268d4fa41e0edd793960e0f00968754710661017ab15a608",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "prior",
+      "status": "reviewed",
+      "headingId": "医疗检测示例",
+      "quote": "先验表示观察本轮证据之前对假设的信念。",
+      "reviewNote": "先验 P(A) 是观察数据前对假设 A 的初始信念；观察证据 B 后，它更新为后验 P(A|B)。"
+    },
+    {
+      "id": "rare-disease",
+      "status": "reviewed",
+      "headingId": "医疗检测示例",
+      "quote": "阳性后的患病概率为 0.99*0.0001/(0.99*0.0001+0.01*0.9999)，约 0.98%。",
+      "reviewNote": "疾病的先验只有 0.01%，多数阳性来自健康者的假阳性；贝叶斯计算得到约 0.98%。"
+    },
+    {
+      "id": "smoothing",
+      "status": "reviewed",
+      "headingId": "最大似然估计-mle",
+      "quote": "给每个计数加 1，可以确保概率永远不为零。",
+      "reviewNote": "未在某类训练集中出现的词会得到零概率并清零整个似然乘积；add-one 平滑避免此问题。"
+    },
+    {
+      "id": "map",
+      "status": "reviewed",
+      "headingId": "最大后验估计-map",
+      "quote": "MAP 还为参数本身加入先验。",
+      "reviewNote": "MAP 最大化 P(data|params)·P(params)，MLE 只最大化 P(data|params)。高斯先验对应 L2，Laplace 先验对应 L1。"
+    },
+    {
+      "id": "beta",
+      "status": "reviewed",
+      "headingId": "顺序贝叶斯更新",
+      "quote": "后验 = Beta(1 + 7, 1 + 3) = Beta(8, 4)",
+      "reviewNote": "Beta-Binomial 共轭更新把成功数加到第一参数、失败数加到第二参数：Beta(1+7,1+3)=Beta(8,4)。"
+    }
+  ]
+}

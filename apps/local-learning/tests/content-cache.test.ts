@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { mkdtempSync, writeFileSync, rmSync, mkdirSync } from "node:fs";
+import { mkdtempSync, writeFileSync, rmSync, mkdirSync, statSync, utimesSync, renameSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { cachedFiles, withFreshFiles, existsSync, readFileSync, readdirSync } from "../src/content-cache.ts";
@@ -37,5 +37,24 @@ test("concurrent preflight never reuses an index after a dependency edit or crea
     writeFileSync(source, "after"); writeFileSync(added, "new");
     assert.deepEqual(await withFreshFiles([root], compute), ["after", true]);
     rmSync(added); assert.deepEqual(await withFreshFiles([root], compute), ["after", false]);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+
+test("same-size writes with restored mtime and atomic replacement invalidate preflight", async () => {
+  const root = mkdtempSync(join(tmpdir(), "atlas-preflight-version-"));
+  try {
+    const source = join(root, "source"), replacement = join(root, "replacement");
+    writeFileSync(source, "before");
+    const compute = () => cachedFiles(root, () => readFileSync(source, "utf8"));
+    assert.equal(compute(), "before");
+    const original = statSync(source);
+    writeFileSync(source, "edited");
+    utimesSync(source, original.atime, original.mtime);
+    assert.equal(await withFreshFiles([root], compute), "edited");
+    writeFileSync(replacement, "atomic");
+    utimesSync(replacement, original.atime, original.mtime);
+    renameSync(replacement, source);
+    assert.equal(await withFreshFiles([root], compute), "atomic");
   } finally { rmSync(root, { recursive: true, force: true }); }
 });

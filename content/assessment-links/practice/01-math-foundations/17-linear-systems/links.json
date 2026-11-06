@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/17-linear-systems",
+  "translationSha256": "21c22d9b595effb2ec7b025be368b0b755ee645830959054ce7880a971f79cb1",
+  "assessmentSha256": "3f4dfc3998ce2fbc97fdca8b02573fb4e9c46495ffdc336764034046aa64246f",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "column-space",
+      "status": "reviewed",
+      "headingId": "ax-b-的几何含义",
+      "quote": "Ax=b 有精确解当且仅当 b 位于 A 的列空间。",
+      "reviewNote": "column picture 中 Ax=b 是用 A 的列组合产生 b；b 不在其 span 时无精确解。"
+    },
+    {
+      "id": "pivoting",
+      "status": "reviewed",
+      "headingId": "部分主元选取-为何重要",
+      "quote": "部分主元选取始终选择可用的最大主元，以尽量减小误差放大。",
+      "reviewNote": "小 pivot 会放大舍入误差；交换行使 multiplier 更小、计算更稳定。"
+    },
+    {
+      "id": "cholesky",
+      "status": "reviewed",
+      "headingId": "正规方程-线性回归",
+      "quote": "当 lambda>0 时，矩阵 X^T X+lambda I 始终对称正定，因此可用 Cholesky 求解。",
+      "reviewNote": "矩阵为实对称正定，可以用 Cholesky 利用结构，常规分解运算约为一般 LU 的一半；速度与存储收益依实现而定。"
+    },
+    {
+      "id": "condition",
+      "status": "reviewed",
+      "headingId": "条件数",
+      "quote": "kappa~10^k：浮点运算会损失约 k 位有效数字。",
+      "reviewNote": "粗估损失 log10(κ)=8 位，剩约 7 位。这是扰动敏感性的量级估计，不是每次计算必然达到的精度。"
+    },
+    {
+      "id": "lu-reuse",
+      "status": "reviewed",
+      "headingId": "lu-分解",
+      "quote": "O(n^3) 的成本只在分解时支付一次，之后每次求解都是 O(n^2)。",
+      "reviewNote": "前代与回代各为 O(n²)，避免为每个 b 重做消元。"
+    }
+  ]
+}

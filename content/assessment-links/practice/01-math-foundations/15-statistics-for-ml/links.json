@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/15-statistics-for-ml",
+  "translationSha256": "49e7acb77a72ae4b16348adf37eb1d5dc53e9ee27da61bc5067f0fbf282fc57f",
+  "assessmentSha256": "5efe11c5602c14e6bbc13575b5dd2fa09a8119708997aa22ae730380febfda32",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "p-value",
+      "status": "reviewed",
+      "headingId": "假设检验",
+      "quote": "p-value 是在 H0 为真时观察到同样或更极端数据的概率：",
+      "reviewNote": "在零假设和检验模型成立时，同等或更极端统计量的概率是 0.03。它不是零假设的后验概率，也不是效果大小。"
+    },
+    {
+      "id": "bessel",
+      "status": "reviewed",
+      "headingId": "描述统计-汇总数据",
+      "quote": "n-1 的 Bessel 校正补偿了以样本均值代替总体均值导致的低估；",
+      "reviewNote": "以样本均值估计总体均值会系统性低估方差；除以 n-1 可得到无偏估计。"
+    },
+    {
+      "id": "multiple-comparison",
+      "status": "reviewed",
+      "headingId": "多重比较问题",
+      "quote": "至少一次假阳性的公式 1−(1−α)^m 假定各检验独立且零假设均为真；",
+      "reviewNote": "在这些条件下，概率为 1−0.95²⁰≈64%。相关检验不能直接套该等式；Bonferroni 阈值 0.05/20 控制族错误率不要求独立。"
+    },
+    {
+      "id": "practical",
+      "status": "reviewed",
+      "headingId": "统计显著性与实践显著性",
+      "quote": "统计显著不等于实践重要。样本极大时微小差异也会显著；",
+      "reviewNote": "绝对提升是 0.03 个百分点。统计显著仍需结合效果大小、部署成本与业务意义，不能仅凭 p 值决定上线。"
+    },
+    {
+      "id": "bootstrap",
+      "status": "reviewed",
+      "headingId": "多重比较问题",
+      "quote": "非参数 bootstrap 不要求总体正态，但仍依赖重采样能代表抽样过程；模型配对比较应一起重采样两模型的同一批样本，",
+      "reviewNote": "它可重采样估计 F1、AUC 等统计量的抽样分布，不要求总体正态。仍需合理的抽样假设；配对比较须一起重采样，时序与聚类数据需适当方案。"
+    }
+  ]
+}

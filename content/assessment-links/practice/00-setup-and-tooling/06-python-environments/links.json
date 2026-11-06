@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/00-setup-and-tooling/06-python-environments",
+  "translationSha256": "08782f664277e32040694cb28f0dcfca8a6460ca357a3628adffa64da7310326",
+  "assessmentSha256": "c57397ab3d1a26e139f0f608d0a06311989dd14036394997d251d190946247a9",
+  "reviewedBy": "Codex 逐题语义核对；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "isolation",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "解决办法是：每个项目都有自己的隔离环境和包集合。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "lockfile",
+      "status": "reviewed",
+      "headingId": "lockfile",
+      "quote": "Lockfile 会把每个依赖（包括传递依赖）固定为精确版本",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "verify-venv",
+      "status": "reviewed",
+      "headingId": "1-全局安装",
+      "quote": "which python       # should show .venv/bin/python, not /usr/bin/python",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。补充题干适用条件或修正解析中的绝对化说法。"
+    },
+    {
+      "id": "conda-pip",
+      "status": "reviewed",
+      "headingId": "方案-3-conda-需要时使用",
+      "quote": "往 conda 环境混入 `pip install` 会制造难以调试的冲突。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "cuda-mismatch",
+      "status": "reviewed",
+      "headingId": "5-cuda-版本不匹配",
+      "quote": "PyTorch 的 CUDA 构建必须与 NVIDIA 驱动兼容",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。补充题干适用条件或修正解析中的绝对化说法。"
+    }
+  ]
+}

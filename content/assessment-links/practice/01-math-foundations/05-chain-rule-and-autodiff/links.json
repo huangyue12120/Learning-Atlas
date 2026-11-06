@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/05-chain-rule-and-autodiff",
+  "translationSha256": "bf49bbf80f913ca7ade48bff330c8a725832eff06b1af7dd5677d62d039ce469",
+  "assessmentSha256": "7baa3b1aee1a874de3009c3f9fb65fc06bad5f3a17e9033c719d77f7804a1316",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "chain-rule",
+      "status": "reviewed",
+      "headingId": "chain-rule",
+      "quote": "若 `y = f(g(x))`，则 `dy/dx = dy/dg * dg/dx = f'(g(x)) * g'(x)`。",
+      "reviewNote": "对 y=f(g(x))，dy/dx=f'(g(x))*g'(x)，是反向传播的数学基础。"
+    },
+    {
+      "id": "graph",
+      "status": "reviewed",
+      "headingId": "computational-graphs",
+      "quote": "计算图将操作画成节点：值前向流动，梯度反向流动。",
+      "reviewNote": "计算图记录计算操作及依赖关系，值前传、梯度反传。"
+    },
+    {
+      "id": "reverse-mode",
+      "status": "reviewed",
+      "headingId": "前向模式与反向模式",
+      "quote": "前者对每个输入变量需一次传播，后者对每个输出需一次传播；故标量损失网络选择反向模式。",
+      "reviewNote": "前向模式需每个输入一次传播，而反向模式对标量损失只需一次反传。"
+    },
+    {
+      "id": "accumulation",
+      "status": "reviewed",
+      "headingId": "computational-graphs",
+      "quote": "一个值可被多次使用，因此所有入射梯度必须用 `+=` 累加。",
+      "reviewNote": "共享节点会收到多条反向路径的贡献，覆盖会丢失梯度。"
+    },
+    {
+      "id": "gradient-check",
+      "status": "reviewed",
+      "headingId": "步骤-7-与手算结果核对",
+      "quote": "梯度检查应比较自动微分的梯度和中心差分 (f(x+h)-f(x-h))/(2h)",
+      "reviewNote": "以中心差分对照自动微分，可用于新增操作或排查训练错误。"
+    }
+  ]
+}

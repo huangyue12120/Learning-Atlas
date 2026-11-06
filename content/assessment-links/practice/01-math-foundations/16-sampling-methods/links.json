@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/16-sampling-methods",
+  "translationSha256": "deaf73cc18ae4dcf895f263d0b512fd1b1d49ebfa70e65d5494ed6461cef48a8",
+  "assessmentSha256": "c03f187221d96623fab02f806a25877a5b414921af68dd1f8e6bb428feb4f408",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "temperature",
+      "status": "reviewed",
+      "headingId": "温度抽样-用于-llm",
+      "quote": "将 logit 除以 T<1 会放大 logit 之间的差异。",
+      "reviewNote": "logits 除以小于 1 的数会放大差异，softmax 后最高概率项占比更高。"
+    },
+    {
+      "id": "top-p",
+      "status": "reviewed",
+      "headingId": "top-p-nucleus-抽样",
+      "quote": "Top-p 抽样会动态调整候选集合的大小。它不保留固定数量的词元，而是保留累计概率超过 p 的最小词元集合。",
+      "reviewNote": "top-p 自适应保留累计概率刚超过 p 的最小集合。"
+    },
+    {
+      "id": "reparameterization",
+      "status": "reviewed",
+      "headingId": "重参数化技巧-用于-vae",
+      "quote": "它把随机性移至一个不含参数的来源（epsilon），再将样本表示为参数的可微变换。",
+      "reviewNote": "设 ε~N(0,1)，z=μ+σε。固定与参数无关的 ε 后，z 对 μ、σ 可微，可沿该计算路径反传；并非正态分布本身没有导数。"
+    },
+    {
+      "id": "mh-scale",
+      "status": "reviewed",
+      "headingId": "markov-chain-monte-carlo-mcmc-metropolis-hastings",
+      "quote": "太大会导致大多数提议被拒绝（接受率低，链停在原地）",
+      "reviewNote": "过大的步长导致低接受率与停滞。"
+    },
+    {
+      "id": "rejection-dimension",
+      "status": "reviewed",
+      "headingId": "重参数化技巧-用于-vae",
+      "quote": "若每个独立维度的接受率固定为 a<1，联合接受率才为 a^d；",
+      "reviewNote": "独立接受事件的概率相乘，得到 a^d。一般拒绝采样的接受率为 1/M，是否随维度下降取决于目标和提议，不能脱离这些条件断言指数下降。"
+    }
+  ]
+}

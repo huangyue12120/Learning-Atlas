@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/10-dimensionality-reduction",
+  "translationSha256": "0c5900dd70bcc4b3593cfc4bb9efd1390e5d90d62d90d32b14fff3b4dbe31c44",
+  "assessmentSha256": "5cc1995e9053fadc5c60bf345079ec84830130f9f75241a1c5eb65082190918b",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "curse",
+      "status": "reviewed",
+      "headingId": "pca-find-the-directions-that-matter",
+      "quote": "若每条轴保持相同网格分辨率，所需格点数随维数指数增长；",
+      "reviewNote": "在每条轴都保持固定网格分辨率时，所需格点数会随维数指数增加。困难依赖分布与内在维数，不能断言任意高维数据都在角点。"
+    },
+    {
+      "id": "pca",
+      "status": "reviewed",
+      "headingId": "pca-find-the-directions-that-matter",
+      "quote": "协方差的正交特征向量给特征空间方向，特征值给该方向捕获的方差；",
+      "reviewNote": "PCA 求协方差矩阵特征向量，按捕获方差排序；第一个主成分指向最大扩散。"
+    },
+    {
+      "id": "variance",
+      "status": "reviewed",
+      "headingId": "pca-find-the-directions-that-matter",
+      "quote": "前 50 个主成分解释 95% 方差，仅表示保留了 95% 的总方差，",
+      "reviewNote": "累计解释方差为 95% 表示保留了该数据的 95% 总方差。剩余成分未必全是噪声，且解释方差不等于分类准确率。"
+    },
+    {
+      "id": "tsne",
+      "status": "reviewed",
+      "headingId": "pca-find-the-directions-that-matter",
+      "quote": "标准 scikit-learn t-SNE 主要用于可视化，没有直接将新样本映射到已有坐标的 transform；",
+      "reviewNote": "该实现提供 fit/fit_transform，没有直接把新样本映射到已有嵌入的 transform。它主要用于可视化；其他扩展实现及其他降维算法的能力需分别判断。"
+    },
+    {
+      "id": "kernel",
+      "status": "reviewed",
+      "headingId": "kernel-pca",
+      "quote": "普通 PCA 只找线性子空间；同心圆投向任一直线都会重叠。",
+      "reviewNote": "标准 PCA 只找线性子空间；kernel PCA 把非线性结构隐式映射为线性。"
+    }
+  ]
+}

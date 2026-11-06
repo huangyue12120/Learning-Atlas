@@ -345,6 +345,8 @@ Example:
 
 现代 SVD 算法（Golub–Kahan 双对角化）直接处理 A，从不构造 A^T A。因此，应始终优先使用 `np.linalg.svd(A)`，而不是 `np.linalg.eig(A.T @ A)`。
 
+> **编者注（题库核对）：** 实矩阵的 SVD 中 U、V 是正交矩阵，可以包含反射；“旋转、缩放、旋转”是直观简称。任意形状实矩阵都存在 SVD。直接处理中心化数据可避免显式构造 AᵀA 导致的条件数平方；这不表示所有库的 PCA 都固定使用同一求解器。scikit-learn 也提供 covariance_eigh，参见 [PCA 官方 API](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html)。
+
 ### 与 PCA 的联系
 
 PCA 对中心化数据执行的就是 SVD 计算。

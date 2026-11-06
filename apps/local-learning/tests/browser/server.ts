@@ -14,6 +14,9 @@ const modelServer = createServer(async (q, s) => {
   for await (const chunk of q) chunks.push(Buffer.from(chunk));
   const packet = JSON.parse(Buffer.concat(chunks).toString("utf8"));
   modelRequests.push(packet);
+  if (packet.messages?.at(-1)?.content.includes("HTML验收")) {
+    s.setHeader("content-type", "text/html"); s.end("<html>provider error</html>"); return;
+  }
   if (packet.stream) {
     s.setHeader("content-type", "text/event-stream; charset=utf-8");
     s.write(`data: ${JSON.stringify({ choices: [{ delta: { content: "你能指出" } }] })}\n\n`);

@@ -1,7 +1,7 @@
 {
   "name": "learning-atlas-local",
   "private": true,
-  "version": "0.29.1",
+  "version": "0.31.0",
   "type": "module",
   "engines": {
     "node": ">=22.18"
@@ -17,7 +17,7 @@
   "scripts": {
     "dev": "node --env-file=runtime.env --experimental-strip-types src/server.ts",
     "start": "node --env-file=runtime.env --experimental-strip-types src/server.ts",
-    "check": "node --experimental-strip-types --check src/server.ts && node --experimental-strip-types --check src/security.ts && node --experimental-strip-types --check src/content-cache.ts && node --experimental-strip-types --check src/reader-drafts.ts && node --experimental-strip-types --check src/undo.ts && node --check public/theme-init.js && node --check public/bootstrap.js && node --check public/theme.js && node --check public/markdown.js && node --check public/theory-card.js && node --check public/home.js && node --check public/theory.js && node --check public/app.js && node --experimental-strip-types --check src/tutor-context.ts && node --experimental-strip-types --check src/assessment-evidence.ts && node --check public/event-stream.js && node --check public/tutor-stream.js",
+    "check": "node --experimental-strip-types --check src/server.ts && node --experimental-strip-types --check src/security.ts && node --experimental-strip-types --check src/content-cache.ts && node --experimental-strip-types --check src/reader-drafts.ts && node --experimental-strip-types --check src/undo.ts && node --check public/theme-init.js && node --check public/bootstrap.js && node --check public/theme.js && node --check public/markdown.js && node --check public/theory-card.js && node --check public/home.js && node --check public/theory.js && node --check public/app.js && node --experimental-strip-types --check src/tutor-context.ts && node --experimental-strip-types --check src/assessment-evidence.ts && node --check public/event-stream.js && node --check public/tutor-stream.js && node --experimental-strip-types --check scripts/benchmark-course.ts && node --experimental-strip-types --check scripts/benchmark-local-storage.ts",
     "test": "node --env-file=runtime.env --experimental-strip-types --test tests/*.test.ts",
     "test:browser": "playwright test",
     "benchmark": "node --env-file=runtime.env --experimental-strip-types scripts/benchmark-course.ts"

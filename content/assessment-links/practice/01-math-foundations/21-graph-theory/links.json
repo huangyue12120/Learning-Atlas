@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/21-graph-theory",
+  "translationSha256": "910ca40d17342201f79899108a534b2a6498294e6d856e3fa7ef5b3b4d45b640",
+  "assessmentSha256": "706319dfd85247605444af2612d761dca454e6deff99524f1c82e7eb7ca82072",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "adjacency",
+      "status": "reviewed",
+      "headingId": "邻接矩阵",
+      "quote": "A[i][j]=1 表示 i 到 j 有直接边",
+      "reviewNote": "邻接矩阵是图的核心表示。A[i][j]=1 表示 i 与 j 之间存在边；无向图中它对称，即 A[i][j]=A[j][i]。"
+    },
+    {
+      "id": "bfs",
+      "status": "reviewed",
+      "headingId": "bfs-与-dfs",
+      "quote": "BFS 能找到无权图中的最短路径。",
+      "reviewNote": "BFS 以先进先出队列先探索距离 k 的全部邻居，再探索 k+1；所以节点首次被发现时的路径最短。"
+    },
+    {
+      "id": "laplacian",
+      "status": "reviewed",
+      "headingId": "the-graph-laplacian",
+      "quote": "一张连通图恰好有一个零特征值。",
+      "reviewNote": "拉普拉斯矩阵的零特征值数量等于连通分量数。连通图只有一个连通分量，故恰有一个零值。"
+    },
+    {
+      "id": "message-passing",
+      "status": "reviewed",
+      "headingId": "第-5-步-消息传递",
+      "quote": "先对邻居特征加权平均，再乘以权重矩阵。",
+      "reviewNote": "节点先对邻居特征做均值聚合，再乘以可学习权重 W 并激活；k 轮后包含 k 跳邻域的信息。"
+    },
+    {
+      "id": "fiedler",
+      "status": "reviewed",
+      "headingId": "the-graph-laplacian",
+      "quote": "取正值的节点进入一组，取负值的节点进入另一组，",
+      "reviewNote": "可按分量正负划分两组；零分量需另定规则。该方法利用谱松弛，不保证任意图上的最佳离散划分。"
+    }
+  ]
+}

@@ -1,1 +1,77 @@
-{"kind":"practice-assessment","source":{"repository":"ai-engineering-from-scratch","path":"phases/01-math-foundations/12-tensor-operations/quiz.json","revision":"d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051","sha256":"17c048a941364a868ae0e808025e395c0db80fa5d28aea071d40b6643ced7916"},"status":"reviewed","questions":[{"id":"shape","stage":"pre","question":"张量的 shape 描述什么？","options":["列出每个轴大小的元组","内存地址","张量总元素数","元素数据类型"],"correct":0,"explanation":"shape 是各轴大小元组，如 (2,3,4) 分别有 2、3、4 个元素。"},{"id":"layout","stage":"pre","question":"PyTorch 默认图像 batch 采用什么布局？","options":["CHWN","NHWC","WHCN","NCHW"],"correct":3,"explanation":"PyTorch 默认 channels-first NCHW，TensorFlow 默认 NHWC。"},{"id":"broadcast","stage":"post","question":"(8,1,6,1) 与 (7,1,5) 广播结果 shape 是？","options":["(8,7,6,5)","(8,1,6,5)","(8,7,6,1)","不兼容"],"correct":0,"explanation":"右对齐后为 (8,1,6,1) 和 (1,7,1,5)，每轴相等或有一方为 1，结果取最大值。"},{"id":"einsum","stage":"post","question":"einsum bhtd,bhsd->bhts 中 d 怎样处理？","options":["在两输入之间转置","在两输入出现但输出不存在，故被求和收缩","在两 tensor 广播","作为新轴保留"],"correct":1,"explanation":"输入中却不在输出的指标会被相乘求和。"},{"id":"view","stage":"post","question":"为什么 PyTorch 对转置张量调用 .view() 会失败？","options":["转置后内存不连续，view 要求连续","dtype 改变","转置改变元素数","view 只支持二维"],"correct":0,"explanation":"transpose 只交换 stride，不移动数据；使用 reshape 或 contiguous 后再 view。"}]}
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/01-math-foundations/12-tensor-operations/quiz.json",
+    "revision": "d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051",
+    "sha256": "17c048a941364a868ae0e808025e395c0db80fa5d28aea071d40b6643ced7916"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "shape",
+      "stage": "pre",
+      "question": "张量的 shape 描述什么？",
+      "options": [
+        "列出每个轴大小的元组",
+        "内存地址",
+        "张量总元素数",
+        "元素数据类型"
+      ],
+      "correct": 0,
+      "explanation": "shape 是各轴大小元组，如 (2,3,4) 分别有 2、3、4 个元素。"
+    },
+    {
+      "id": "layout",
+      "stage": "pre",
+      "question": "PyTorch 的 Conv2d 批量输入通常采用哪种逻辑轴序？",
+      "options": [
+        "CHWN",
+        "NHWC",
+        "WHCN",
+        "NCHW"
+      ],
+      "correct": 3,
+      "explanation": "常见逻辑形状为 NCHW：批次、通道、高、宽。channels_last 描述物理内存格式，不等于把逻辑轴序改为 NHWC。"
+    },
+    {
+      "id": "broadcast",
+      "stage": "post",
+      "question": "(8,1,6,1) 与 (7,1,5) 广播结果 shape 是？",
+      "options": [
+        "(8,7,6,5)",
+        "(8,1,6,5)",
+        "(8,7,6,1)",
+        "不兼容"
+      ],
+      "correct": 0,
+      "explanation": "右对齐后为 (8,1,6,1) 和 (1,7,1,5)，每轴相等或有一方为 1，结果取最大值。"
+    },
+    {
+      "id": "einsum",
+      "stage": "post",
+      "question": "einsum bhtd,bhsd->bhts 中 d 怎样处理？",
+      "options": [
+        "d 在输出中出现，因而按轴转置",
+        "d 不在输出中，因而沿 d 相乘求和",
+        "d 同时出现在输入中，因而复制该轴",
+        "d 标记两个输入，因而仅做逐元素加法"
+      ],
+      "correct": 1,
+      "explanation": "输入中却不在输出的指标会被相乘求和。"
+    },
+    {
+      "id": "view",
+      "stage": "post",
+      "question": "转置后用 view 合并步幅不兼容的维度，为什么失败？",
+      "options": [
+        "新形状不满足现有步幅的兼容条件",
+        "转置会自动改变张量的数据类型",
+        "转置改变了张量的元素总数",
+        "view 只能处理二维方形张量"
+      ],
+      "correct": 0,
+      "explanation": "view 要求新形状与原尺寸和步幅兼容。非连续不一定失败；可先 contiguous 再 view，或用必要时复制的 reshape。"
+    }
+  ]
+}

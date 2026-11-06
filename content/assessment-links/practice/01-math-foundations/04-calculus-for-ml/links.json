@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/04-calculus-for-ml",
+  "translationSha256": "ee180c3bd40ce7ae2a1a634a823ea52f2c6f6058f3ba77b1a70b9081a2488d20",
+  "assessmentSha256": "d34d1c7bc9888dbb37c6a903b74a98db594919a91eb323e8442d655198a22e08",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "derivative",
+      "status": "reviewed",
+      "headingId": "what-is-a-derivative",
+      "quote": "从几何上看，导数就是某一点处切线的斜率。",
+      "reviewNote": "f'(x) 表示输入每变化一个单位时输出的变化量，几何上是切线斜率。"
+    },
+    {
+      "id": "gradient",
+      "status": "reviewed",
+      "headingId": "gradient-vector-of-all-partial-derivatives",
+      "quote": "梯度把每个偏导数收集到一个向量中。",
+      "reviewNote": "梯度汇集所有偏导数；最小化损失时应沿其反方向移动。"
+    },
+    {
+      "id": "gradient-descent",
+      "status": "reviewed",
+      "headingId": "hessian-矩阵",
+      "quote": "沿负梯度更新只在步长适当等条件下保证局部下降；步长过大可能增大损失。",
+      "reviewNote": "更新为 w←w−η∇L；负梯度是欧氏空间中的最陡下降方向，但学习率过大仍可能使损失增大。"
+    },
+    {
+      "id": "newton-cost",
+      "status": "reviewed",
+      "headingId": "hessian-矩阵",
+      "quote": "问题在于：对于一个有 N 个参数的神经网络，Hessian 是 N x N 矩阵。",
+      "reviewNote": "N 个参数的稠密 Hessian 需要 O(N²) 存储，常规直接求解约 O(N³)。Hessian 向量积等迭代方法有不同成本。"
+    },
+    {
+      "id": "central-difference",
+      "status": "reviewed",
+      "headingId": "步骤-1-从零实现数值导数",
+      "quote": "return (f(x + h) - f(x - h)) / (2 * h)",
+      "reviewNote": "中心差分利用 x 两侧的斜率，抵消主要误差项。"
+    }
+  ]
+}

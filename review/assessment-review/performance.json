@@ -1,0 +1,86 @@
+{
+  "version": "0.30.0",
+  "date": "2026-11-06",
+  "baseline": {
+    "node": "v22.23.1",
+    "ioThreads": 16,
+    "samples": 20,
+    "medianMs": 272.31997350000074,
+    "minMs": 154.07228099999975,
+    "maxMs": 700.4917940000005
+  },
+  "experiments": {
+    "ioThreads64": {
+      "samples": 20,
+      "medianMs": 141.65595550000035
+    },
+    "ioThreads128": {
+      "samples": 20,
+      "medianMs": 136.4286849999994
+    }
+  },
+  "dependencyProfile": {
+    "paths": 1019,
+    "sourceAndDirectories": 477,
+    "translations": 542,
+    "statSpanMs": 157.8058799999999,
+    "callbackMs": 7.442478000008123
+  },
+  "acceptance": "Workspace medians must all be under 100ms; local-copy results are diagnostic only.",
+  "workspace": {
+    "node": "v22.23.1",
+    "ioThreads": "64",
+    "targetMs": 100,
+    "targetMet": false,
+    "rounds": [
+      {
+        "samples": 20,
+        "medianMs": 148.90877599999976,
+        "minMs": 132.62632699999995,
+        "maxMs": 183.42173600000024
+      },
+      {
+        "samples": 20,
+        "medianMs": 142.27059749999944,
+        "minMs": 128.61894699999993,
+        "maxMs": 170.8761340000001
+      },
+      {
+        "samples": 20,
+        "medianMs": 138.21970650000003,
+        "minMs": 113.16590200000064,
+        "maxMs": 169.3491839999988
+      }
+    ]
+  },
+  "localCopy": {
+    "storage": "temporary local copy; diagnostic only",
+    "sourceFiles": 542,
+    "benchmark": {
+      "node": "v22.23.1",
+      "ioThreads": "64",
+      "targetMs": 100,
+      "targetMet": true,
+      "rounds": [
+        {
+          "samples": 20,
+          "medianMs": 47.15805250000005,
+          "minMs": 13.009841000000051,
+          "maxMs": 171.38758500000006
+        },
+        {
+          "samples": 20,
+          "medianMs": 17.584334499999613,
+          "minMs": 13.628359000000273,
+          "maxMs": 98.38033499999983
+        },
+        {
+          "samples": 20,
+          "medianMs": 17.2743774999999,
+          "minMs": 12.495594999999867,
+          "maxMs": 41.29504799999995
+        }
+      ]
+    }
+  }
+}

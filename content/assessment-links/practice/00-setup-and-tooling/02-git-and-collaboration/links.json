@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/00-setup-and-tooling/02-git-and-collaboration",
+  "translationSha256": "a6bc08ed6065530d325d767d0f2a7a514b1efbcc407858a5d1252aeb8a4a72f1",
+  "assessmentSha256": "9e1dd4beb7adbe9002ceb1e8111972da558224406c8829bc38d3c972340e75b6",
+  "reviewedBy": "Codex 逐题语义核对；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "version-control",
+      "status": "reviewed",
+      "headingId": "the-concept",
+      "quote": "Git 记录项目文件的变更历史",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "repository",
+      "status": "reviewed",
+      "headingId": "the-concept",
+      "quote": "仓库保存受版本控制的项目文件及其提交历史",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "daily-workflow",
+      "status": "reviewed",
+      "headingId": "the-concept",
+      "quote": "日常保存顺序是先暂存（git add），再提交（git commit），最后推送（git push）。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "new-branch",
+      "status": "reviewed",
+      "headingId": "第-3-步-为实验创建分支",
+      "quote": "git checkout -b experiment",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "ignore-checkpoints",
+      "status": "reviewed",
+      "headingId": "提示",
+      "quote": "为每个扩展名各加一条模式，例如 `*.pt`。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    }
+  ]
+}

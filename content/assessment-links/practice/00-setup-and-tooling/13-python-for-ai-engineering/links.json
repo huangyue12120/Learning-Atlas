@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/00-setup-and-tooling/13-python-for-ai-engineering",
+  "translationSha256": "9437aeb1b586ed91cc1b1844f8e75a126349eef070362dc0480b53c6afc53f0c",
+  "assessmentSha256": "dd300158e155a102ec4eb8025f866a72a3d811430a73c3087df16e2a2de78a12",
+  "reviewedBy": "Codex 逐题语义核对；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "python-ai-pre-1",
+      "status": "reviewed",
+      "headingId": "步骤-2-固定随机种子的训练集-测试集划分",
+      "quote": "`random.Random(seed)` 会创建私有随机数生成器。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；保留数值、命令或已有平衡选项，未为凑长度改写。"
+    },
+    {
+      "id": "python-ai-check-1",
+      "status": "reviewed",
+      "headingId": "5-迭代器与生成器",
+      "quote": "调用它时不会执行函数体，而是返回生成器对象。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；保留数值、命令或已有平衡选项，未为凑长度改写。"
+    },
+    {
+      "id": "python-ai-check-2",
+      "status": "reviewed",
+      "headingId": "步骤-3-小批量生成器",
+      "quote": "长度不是批次大小整数倍时，最后一批会更小",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；保留数值、命令或已有平衡选项，未为凑长度改写。"
+    },
+    {
+      "id": "python-ai-check-3",
+      "status": "reviewed",
+      "headingId": "用编译数组完成相同运算",
+      "quote": "循环在编译代码中运行。NumPy 只为整个数组检查一次类型",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；保留数值、命令或已有平衡选项，未为凑长度改写。"
+    },
+    {
+      "id": "python-ai-post-1",
+      "status": "reviewed",
+      "headingId": "3-函数-参数与闭包",
+      "quote": "Python 在执行 `def` 语句时只计算一次默认值。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；保留数值、命令或已有平衡选项，未为凑长度改写。"
+    },
+    {
+      "id": "python-ai-post-2",
+      "status": "reviewed",
+      "headingId": "步骤-4-向量运算与标准化器",
+      "quote": "它只根据训练行计算一次均值和标准差",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；保留数值、命令或已有平衡选项，未为凑长度改写。"
+    }
+  ]
+}

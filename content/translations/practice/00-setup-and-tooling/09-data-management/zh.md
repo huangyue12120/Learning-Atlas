@@ -47,6 +47,8 @@ Hugging Face `datasets` 是 AI 工作中加载数据的标准方式，开箱即�
 s0-data-pipeline
 ```
 
+> **Learning Atlas 编者注（概念核对）：** Hugging Face Hub 托管和共享模型、数据集及演示工件；`datasets` 提供加载与转换接口，本地缓存保存已下载的副本。
+
 ## 动手构建
 
 ### 第 1 步：安装 datasets 库

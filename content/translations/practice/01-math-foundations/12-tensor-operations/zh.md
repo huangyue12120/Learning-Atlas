@@ -53,6 +53,8 @@ PyTorch 使用 NCHW（通道在前），TensorFlow 默认 NHWC（通道在后）
 
 转置并不移动数据。它交换步幅，使张量变得**非连续**（non-contiguous）——同一行的元素在内存中不再相邻。
 
+> **编者注（题库核对）：** view 的关键条件是新形状与现有尺寸和步幅兼容，并非所有非连续张量都无法 view。转置后合并不兼容的维度会失败，可先 contiguous 再 view，或使用必要时复制的 reshape。NCHW 描述逻辑轴序，不能与 channels_last 等物理内存格式混为一谈。参见 [PyTorch view 官方说明](https://docs.pytorch.org/docs/stable/generated/torch.Tensor.view.html)。
+
 ### 广播 <!-- learning-atlas: broadcasting-rules -->
 
 广播让你在不复制数据的情况下操作不同形状的张量。从右端对齐形状。当两个维度相等或其中一个为 1 时它们才兼容。维数较少的一方在左侧补 1。下面“动手构建”开头的填充示例展示了对齐规则。

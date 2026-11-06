@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/08-optimization",
+  "translationSha256": "e6bbfb9610031d260e04b4aa4749b8dc06a91a7697e9fe6e26732ca45fdc150b",
+  "assessmentSha256": "2935a0933c0a8cedd5fa0b472e72318d1c300538d3f5b2df0237827546e540bd",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "optimization",
+      "status": "reviewed",
+      "headingId": "gradient-descent",
+      "quote": "优化是找使函数最小（或最大）的输入。",
+      "reviewNote": "训练就是优化：损失衡量错误，优化寻找使其最小的权重。"
+    },
+    {
+      "id": "large-lr",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "步长过大会越过山谷、在两侧反弹甚至发散",
+      "reviewNote": "每一步会跨过谷底，损失可能上升而非下降。"
+    },
+    {
+      "id": "adam",
+      "status": "reviewed",
+      "headingId": "adam-自适应学习率",
+      "quote": "Adam（Adaptive Moment Estimation，自适应矩估计）为每个权重跟踪两样东西：",
+      "reviewNote": "一阶矩估计方向，二阶矩估计大小；除以二阶矩平方根让大梯度权重走小步。"
+    },
+    {
+      "id": "noise",
+      "status": "reviewed",
+      "headingId": "batch-sgd-与-mini-batch",
+      "quote": "噪声并非纯缺点：它能推动优化器越过浅局部极小和鞍点。",
+      "reviewNote": "随机扰动可把优化器推出无噪声方法会停住的区域。"
+    },
+    {
+      "id": "cosine",
+      "status": "reviewed",
+      "headingId": "学习率调度",
+      "quote": "lr_min+0.5(lr_max-lr_min)(1+cos(pi*t/T))",
+      "reviewNote": "早期大步加速，后期小步细调。"
+    }
+  ]
+}

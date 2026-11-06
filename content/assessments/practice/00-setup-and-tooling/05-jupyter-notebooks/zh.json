@@ -1,12 +1,77 @@
 {
-  "kind":"practice-assessment",
-  "source":{"repository":"ai-engineering-from-scratch","path":"phases/00-setup-and-tooling/05-jupyter-notebooks/quiz.json","revision":"d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051","sha256":"b5814d63ed98deabc15b82a5ad44102ad1336220cf0cea6e031f9a95de8dfa1c"},
-  "status":"reviewed",
-  "questions":[
-    {"id":"notebook","stage":"pre","question":"Jupyter notebook 是什么？","options":["混合可执行代码单元格、markdown 文本和内联输出的交互式文档","Python 库的包管理器","用于数据科学项目的版本控制系统","编写 Python 脚本的文本编辑器"],"correct":0,"explanation":"Jupyter notebook（.ipynb）是交互环境：你可在单元格中编写、执行代码，内联查看输出，并把代码与带格式的文字说明混合。"},
-    {"id":"kernel","stage":"pre","question":"Jupyter 内核做什么？","options":["运行单元格中的代码，并在各次执行之间保留内存变量","将 notebook 连接到 GitHub 做版本控制","管理 notebook 的文件存储","将 markdown 单元格格式化为 HTML"],"correct":0,"explanation":"内核是独立的 Python 进程，执行单元格代码并在内存中维护状态（变量、导入）；同一 notebook 的所有单元格共享内核。"},
-    {"id":"time-magics","stage":"post","question":"%timeit 与 %%time magic command 的差异是什么？","options":["两者没有差异，是别名","%timeit 多次运行并取平均，%%time 运行一次","%timeit 测墙钟时间，%%time 测 CPU 时间","%timeit 用于单行，%%time 用于整个 notebook"],"correct":1,"explanation":"%timeit 会多次运行语句获得统计平均值，适合微基准；%%time 运行一次单元格并报告墙钟时间，适合训练运行。"},
-    {"id":"execution-order","stage":"post","question":"Notebook 在你的机器上可用、但他人从上到下运行就失败的最常见原因是什么？","options":["缺少 %matplotlib inline","使用了太多 markdown 单元格","乱序执行单元格，导致依赖执行顺序的隐藏依赖","Python 版本不同"],"correct":2,"explanation":"乱序运行会制造隐藏状态依赖：变量可能因为先运行了第 5 格才存在。Kernel > Restart & Run All 可验证线性执行。"},
-    {"id":"move-to-script","stage":"post","question":"何时应将 notebook 中的代码移入 .py 脚本？","options":["永远不要，notebook 总更适合 AI 工作","只有需要 GPU 时","一旦超过 10 行代码","当代码是可复用工具、训练流水线或生产代码时"],"correct":3,"explanation":"规则是“在 notebook 探索，在脚本交付”。可复用工具、训练流水线和所有生产代码应放入 .py 文件；notebook 适合探索和原型。"}
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/00-setup-and-tooling/05-jupyter-notebooks/quiz.json",
+    "revision": "d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051",
+    "sha256": "b5814d63ed98deabc15b82a5ad44102ad1336220cf0cea6e031f9a95de8dfa1c"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "notebook",
+      "stage": "pre",
+      "question": "Jupyter notebook 是什么？",
+      "options": [
+        "将代码、说明和输出组合的交互文档",
+        "管理 Python 库及版本的依赖工具",
+        "追踪数据科学项目提交历史的系统",
+        "只编辑 .py 源文件、不执行的编辑器"
+      ],
+      "correct": 0,
+      "explanation": "Notebook 是由代码、Markdown 和内联输出组合的交互文档，可分块执行并保留内核状态。它不是依赖管理器或版本控制系统。"
+    },
+    {
+      "id": "kernel",
+      "stage": "pre",
+      "question": "Jupyter 内核做什么？",
+      "options": [
+        "执行代码并在单元格间保留变量",
+        "连接 GitHub 以记录 notebook 版本",
+        "管理 notebook 文件在磁盘上的存储",
+        "将 Markdown 源码格式化为 HTML"
+      ],
+      "correct": 0,
+      "explanation": "内核是独立的 Python 进程，执行单元格代码并在内存中维护状态（变量、导入）；同一 notebook 的所有单元格共享内核。"
+    },
+    {
+      "id": "time-magics",
+      "stage": "post",
+      "question": "%timeit 与 %%time magic command 的差异是什么？",
+      "options": [
+        "两者只是同一计时功能的两个别名",
+        "%timeit 多次计时，%%time 执行一次",
+        "%timeit 只测墙钟，%%time 只测 CPU",
+        "%timeit 测单行，%%time 测整个文档"
+      ],
+      "correct": 1,
+      "explanation": "%timeit 会多次运行语句获得统计平均值，适合微基准；%%time 运行一次单元格并报告墙钟时间，适合训练运行。"
+    },
+    {
+      "id": "execution-order",
+      "stage": "post",
+      "question": "Notebook 在你的机器上可用、但他人从上到下运行就失败的最常见原因是什么？",
+      "options": [
+        "没有启用 %matplotlib inline 导致依赖丢失",
+        "Markdown 单元格太多改变了执行顺序",
+        "乱序执行留下从上到下运行时缺失的状态",
+        "Python 版本一定不同，与执行顺序无关"
+      ],
+      "correct": 2,
+      "explanation": "乱序运行会制造隐藏状态依赖：变量可能因为先运行了第 5 格才存在。Kernel > Restart & Run All 可验证线性执行。"
+    },
+    {
+      "id": "move-to-script",
+      "stage": "post",
+      "question": "何时应将 notebook 中的代码移入 .py 脚本？",
+      "options": [
+        "永远不移出，notebook 适合所有场景",
+        "只要开始使用 GPU 就必须移出",
+        "代码一旦超过十行就必须移出",
+        "成为可复用工具、流水线或生产代码时"
+      ],
+      "correct": 3,
+      "explanation": "规则是“在 notebook 探索，在脚本交付”。可复用工具、训练流水线和所有生产代码应放入 .py 文件；notebook 适合探索和原型。"
+    }
   ]
 }

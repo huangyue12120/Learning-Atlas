@@ -1,1 +1,77 @@
-{"kind":"practice-assessment","source":{"repository":"ai-engineering-from-scratch","path":"phases/01-math-foundations/09-information-theory/quiz.json","revision":"d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051","sha256":"ffaf501d0873c2d7038308544fb3729cee4ce9b92e3a00bc55a5257b7d8ef721"},"status":"reviewed","questions":[{"id":"entropy","stage":"pre","question":"信息论中的“熵”度量什么？","options":["二进制消息的 bit 数","通信信道误码率","物理系统的能量","概率分布中的平均惊奇或不确定性"],"correct":3,"explanation":"H(P)=-sum p(x)log p(x) 是所有结果的平均惊奇；均匀分布熵高，结果更不确定。"},{"id":"cross-entropy","stage":"pre","question":"神经网络常将交叉熵损失用于什么？","options":["生成新数据样本","正则化权重","分类，衡量预测概率与真实标签的差异","连续输出的回归"],"correct":2,"explanation":"H(P,Q) 度量真实标签分布 P 与预测分布 Q 的编码失配，是分类的标准损失。"},{"id":"kl","stage":"post","question":"训练中为什么最小化交叉熵等价于最小化 KL 散度？","options":["两者公式完全相同","交叉熵=熵+KL，真实标签熵为常数","KL 在训练中总为零","收敛时模型熵为零"],"correct":1,"explanation":"H(P,Q)=H(P)+D_KL(P||Q)；训练中 P 不变，故最小化交叉熵即最小化 KL。"},{"id":"perplexity","stage":"post","question":"语言模型在测试集上困惑度为 50 表示什么？","options":["模型有 50 层","每句错 50 次","平均像从 50 个等可能的下一 token 中均匀选择一样不确定","训练了 50 个 epoch"],"correct":2,"explanation":"困惑度是交叉熵的指数；越低表示下一 token 预测越好。"},{"id":"mi","stage":"post","question":"用于特征选择时，互信息与 Pearson 相关有何不同？","options":["互信息计算更快","二者总给相同排序","Pearson 适用任何类型，互信息仅连续","互信息可检测任意统计依赖（含非线性），相关主要检测线性关系"],"correct":3,"explanation":"互信息捕捉线性、非线性和非单调的依赖；Pearson 只量化线性关联。"}]}
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/01-math-foundations/09-information-theory/quiz.json",
+    "revision": "d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051",
+    "sha256": "ffaf501d0873c2d7038308544fb3729cee4ce9b92e3a00bc55a5257b7d8ef721"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "entropy",
+      "stage": "pre",
+      "question": "信息论中的“熵”度量什么？",
+      "options": [
+        "分布中概率最大的单个结果",
+        "编码所有结果所需的固定长度",
+        "通信系统实际发生的误码率",
+        "分布的平均惊奇与不确定性"
+      ],
+      "correct": 3,
+      "explanation": "H(P)=-sum p(x)log p(x) 是所有结果的平均惊奇；均匀分布熵高，结果更不确定。"
+    },
+    {
+      "id": "cross-entropy",
+      "stage": "pre",
+      "question": "神经网络常将交叉熵损失用于什么？",
+      "options": [
+        "生成符合数据分布的新样本",
+        "惩罚过大的模型权重",
+        "度量分类标签与预测分布的失配",
+        "度量连续预测的平方误差"
+      ],
+      "correct": 2,
+      "explanation": "H(P,Q) 度量真实标签分布 P 与预测分布 Q 的编码失配，是分类的标准损失。"
+    },
+    {
+      "id": "kl",
+      "stage": "post",
+      "question": "训练中为什么最小化交叉熵等价于最小化 KL 散度？",
+      "options": [
+        "交叉熵与 KL 对所有分布都相同",
+        "交叉熵等于真实分布熵加 KL",
+        "训练时真实分布熵由模型参数决定",
+        "KL 为零时真实分布的熵必为零"
+      ],
+      "correct": 1,
+      "explanation": "H(P,Q)=H(P)+D_KL(P||Q)；训练中 P 不变，故最小化交叉熵即最小化 KL。"
+    },
+    {
+      "id": "perplexity",
+      "stage": "post",
+      "question": "语言模型在测试集上困惑度为 50 表示什么？",
+      "options": [
+        "每个句子平均恰好预测错 50 次",
+        "任意上下文都只剩 50 个候选词元",
+        "平均不确定性相当于 50 个等可能词元",
+        "词表中恰好有 50 个能被预测的词元"
+      ],
+      "correct": 2,
+      "explanation": "困惑度是交叉熵的指数；越低表示下一 token 预测越好。"
+    },
+    {
+      "id": "mi",
+      "stage": "post",
+      "question": "用于特征选择时，互信息与 Pearson 相关有何不同？",
+      "options": [
+        "互信息仅度量线性，Pearson 可度量非线性",
+        "互信息与 Pearson 对全部数据排序相同",
+        "互信息只适用于离散，Pearson 只适用于连续",
+        "互信息可捕捉非线性依赖，Pearson 主要度量线性"
+      ],
+      "correct": 3,
+      "explanation": "互信息捕捉线性、非线性和非单调的依赖；Pearson 只量化线性关联。"
+    }
+  ]
+}

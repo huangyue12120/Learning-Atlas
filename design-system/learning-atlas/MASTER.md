@@ -37,3 +37,5 @@ Motion is subtle and functional (150–250ms); support `prefers-reduced-motion`.
 The learning home is the entry surface, the practice reader remains the primary learning surface, and the theory reader is a secondary reference surface. The tutor is an explicitly opened, evidence-labelled panel in the practice reader: desktop side panel and mobile bottom sheet. Notes and review items are separate learner-data panels, never part of the versioned course content.
 
 The shared `theme.js` resolves preferences and supplies Mermaid colors from CSS. Primitive `--palette-*` values feed semantic `--color-*` aliases, then component tokens such as `--diagram-background`, `--prose-font` and `--toc-current`. Figures follow the current surface in both themes.
+
+Diff highlights follow `--palette-syntax-*-surface` → `--color-syntax-*-surface` → `--code-*-surface`; both themes retain the addition/deletion text and signs alongside colour. Theory-card copy describes the available reading material in learner language.

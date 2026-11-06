@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/19-complex-numbers",
+  "translationSha256": "c6545fcde1709baa9f7c6280d6fa9457d5471ef453359a69267c0cd65ce6b6f7",
+  "assessmentSha256": "e8ce280cfe7528468a34e2deb4dcb9478ebf71fe95a2310b870579451b0c23d1",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "i",
+      "status": "reviewed",
+      "headingId": "什么是复数",
+      "quote": "i 是虚数单位，定义为 i^2 = -1",
+      "reviewNote": "i²=-1；乘 i 代表 90 度旋转。"
+    },
+    {
+      "id": "euler",
+      "status": "reviewed",
+      "headingId": "第-6-步-单位根",
+      "quote": "欧拉公式为 e^(iθ)=cos(θ)+i*sin(θ)。",
+      "reviewNote": "它把 complex exponential 与 trig 连接起来。"
+    },
+    {
+      "id": "multiply",
+      "status": "reviewed",
+      "headingId": "第-6-步-单位根",
+      "quote": "乘法按分配律展开，并用 i²=−1 合并实部与虚部。",
+      "reviewNote": "展开后 3+14i+8i²=-5+14i。"
+    },
+    {
+      "id": "rope",
+      "status": "reviewed",
+      "headingId": "与-transformer-的联系",
+      "quote": "两个词元之间的相对位置转化为一个旋转角度。",
+      "reviewNote": "query/key 的位置乘 e^(i*m*theta)，相对位置转为相位差。"
+    },
+    {
+      "id": "roots",
+      "status": "reviewed",
+      "headingId": "第-6-步-单位根",
+      "quote": "全部 N 次单位根的和为零要求整数 N>1；N=1 时唯一的根为 1，和也是 1。",
+      "reviewNote": "单位根在圆上对称分布，和为 0；几何级数求和也可验证。N=1 是例外，和为 1。"
+    }
+  ]
+}
