@@ -1,3 +1,4 @@
+import { RequestError, secureRequest, normalizedBaseUrl } from "./security.ts";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { readFile, stat } from "node:fs/promises";
@@ -545,14 +546,19 @@ function sendDownload(response: ServerResponse, contentType: string, filename: s
 async function readJson(request: IncomingMessage, maximumBytes = 32_000): Promise<Record<string, unknown> | null> {
   const chunks: Buffer[] = [];
   let size = 0;
-  for await (const chunk of request) {
+  for await (const chunk of request.iterator({ destroyOnReturn: false })) {
     const buffer = Buffer.from(chunk);
     size += buffer.length;
-    if (size > maximumBytes) throw new Error("Request body is too large");
+    if (size > maximumBytes) {
+      request.resume();
+      throw new RequestError(413, "请求内容过大。请缩小后重试。");
+    }
     chunks.push(buffer);
   }
   if (chunks.length === 0) return null;
-  const value: unknown = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+  let value: unknown;
+  try { value = JSON.parse(Buffer.concat(chunks).toString("utf8")); }
+  catch { throw new RequestError(400, "请求不是有效的 JSON。"); }
   return value !== null && typeof value === "object" && !Array.isArray(value)
     ? value as Record<string, unknown>
     : null;
@@ -900,6 +906,7 @@ function saveModelConfig(database: DatabaseSync, config: ModelConfig) {
 async function compatibleModels(baseUrl: string, apiKey: string) {
   const response = await fetch(`${baseUrl.replace(/\/+$/, "")}/models`, {
     headers: apiKey ? { authorization: `Bearer ${apiKey}` } : {},
+    redirect: "error",
     signal: AbortSignal.timeout(15_000)
   });
   if (!response.ok) throw new Error(`模型列表接口返回 ${response.status}。请检查地址、权限和接口兼容性。`);
@@ -1297,14 +1304,14 @@ async function serveFile(rootDirectory: string, requestedPath: string, response:
   if (!filePath.startsWith(`${rootDirectory}/`)) return sendText(response, 403, "Forbidden");
 
   try {
-    if (!(await stat(filePath)).isFile()) return sendText(response, 404, "Not found");
+    if (!(await stat(filePath)).isFile()) return sendText(response, 404, "资源不存在。");
     response.writeHead(200, {
       "content-type": mimeTypes[extname(filePath)] ?? "application/octet-stream",
       "cache-control": "no-cache"
     });
     response.end(await readFile(filePath));
   } catch {
-    sendText(response, 404, "Not found");
+    sendText(response, 404, "资源不存在。");
   }
 }
 
@@ -1359,6 +1366,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
       const lesson = lessonFor(lessonId);
 
       try {
+        secureRequest(request, response);
         if (request.method === "GET" && url.pathname === "/api/health") {
           return sendJson(response, 200, { status: "ok" });
         }
@@ -1370,7 +1378,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           const content = theoryContentFor(theoryId);
           return content
             ? sendJson(response, 200, content)
-            : sendJson(response, 404, { error: "Theory content not found" });
+            : sendJson(response, 404, { error: "理论内容不存在。" });
         }
         if (request.method === "GET" && url.pathname.startsWith("/api/theory/assets/")) {
           return serveTheoryAsset(url.pathname, response);
@@ -1380,7 +1388,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           "/api/review-items", "/api/tools", "/api/workspace/open", "/api/exploration/open", "/api/learning-state",
           "/api/reading-position", "/api/notes"
         ].some((path) => url.pathname === path || url.pathname.startsWith(`${path}/`));
-        if (lessonRoute && !lesson) return sendJson(response, 404, { error: "Lesson not found" });
+        if (lessonRoute && !lesson) return sendJson(response, 404, { error: "课程不存在。" });
         if (request.method === "GET" && url.pathname === "/api/lesson") {
           return sendJson(response, 200, {
             ...lesson!,
@@ -1403,12 +1411,12 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           const body = await readJson(request);
           const answers = body?.answers;
           if (!answers || typeof answers !== "object" || Array.isArray(answers)) {
-            return sendJson(response, 400, { error: "answers must be an object" });
+            return sendJson(response, 400, { error: "答案必须是对象。" });
           }
           try {
             return sendJson(response, 201, submitQuiz(database, lesson!, answers as Record<string, unknown>));
           } catch (error) {
-            return sendJson(response, 400, { error: error instanceof Error ? error.message : "Invalid quiz attempt" });
+            return sendJson(response, 400, { error: error instanceof Error ? error.message : "无效的自测作答。" });
           }
         }
         if (request.method === "GET" && url.pathname === "/api/export") {
@@ -1419,7 +1427,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           if (format === "markdown") {
             return sendDownload(response, "text/markdown; charset=utf-8", "learning-atlas-data.md", markdownExport(database));
           }
-          return sendJson(response, 400, { error: "format must be json or markdown" });
+          return sendJson(response, 400, { error: "导出格式必须是 json 或 markdown。" });
         }
         if (request.method === "POST" && url.pathname === "/api/import") {
           try {
@@ -1427,7 +1435,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
             if (!body) return sendJson(response, 400, { error: "请提供 Learning Atlas JSON 备份。" });
             return sendJson(response, 200, { restored: restoreLearningData(database, body) });
           } catch (error) {
-            return sendJson(response, 400, { error: error instanceof Error ? error.message : "无法导入备份。" });
+            return sendJson(response, error instanceof RequestError ? error.status : 400, { error: error instanceof Error ? error.message : "无法导入备份。" });
           }
         }
         if (request.method === "GET" && url.pathname === "/api/model-config") {
@@ -1436,12 +1444,13 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
         if (request.method === "POST" && url.pathname === "/api/model-config/models") {
           const body = await readJson(request);
           const existing = modelConfigFor(database);
-          const baseUrl = typeof body?.baseUrl === "string" ? body.baseUrl.trim().replace(/\/+$/, "") : existing?.baseUrl ?? "";
-          const apiKey = typeof body?.apiKey === "string" && body.apiKey.trim() ? body.apiKey.trim() : existing?.apiKey ?? "";
+          const baseUrl = normalizedBaseUrl(typeof body?.baseUrl === "string" ? body.baseUrl : existing?.baseUrl ?? "");
+          const apiKey = typeof body?.apiKey === "string" && body.apiKey.trim() ? body.apiKey.trim()
+            : existing && baseUrl === normalizedBaseUrl(existing.baseUrl) ? existing.apiKey : "";
           try {
             if (!baseUrl || !["http:", "https:"].includes(new URL(baseUrl).protocol)) throw new Error();
           } catch {
-            return sendJson(response, 400, { error: "baseUrl must be an http(s) URL" });
+            return sendJson(response, 400, { error: "接口地址必须是 HTTP(S) 地址。" });
           }
           try {
             return sendJson(response, 200, { models: await compatibleModels(baseUrl, apiKey) });
@@ -1451,20 +1460,20 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
         }
         if (request.method === "PUT" && url.pathname === "/api/model-config") {
           const body = await readJson(request);
-          const baseUrl = typeof body?.baseUrl === "string" ? body.baseUrl.trim().replace(/\/+$/, "") : "";
+          const baseUrl = normalizedBaseUrl(typeof body?.baseUrl === "string" ? body.baseUrl : "");
           const model = typeof body?.model === "string" ? body.model.trim() : "";
           const apiKey = typeof body?.apiKey === "string" ? body.apiKey.trim() : null;
           const clearApiKey = body?.clearApiKey === "on";
           try {
             if (!baseUrl || !["http:", "https:"].includes(new URL(baseUrl).protocol) || !model || model.length > 200) throw new Error();
           } catch {
-            return sendJson(response, 400, { error: "baseUrl must be an http(s) URL and model must be provided" });
+            return sendJson(response, 400, { error: "请提供有效 HTTP(S) 接口地址和模型名称。" });
           }
           const existing = modelConfigFor(database);
           return sendJson(response, 200, saveModelConfig(database, {
             baseUrl,
             model,
-            apiKey: clearApiKey ? "" : apiKey || existing?.apiKey || ""
+            apiKey: clearApiKey ? "" : apiKey || (existing && baseUrl === normalizedBaseUrl(existing.baseUrl) ? existing.apiKey : "")
           }));
         }
         if (request.method === "GET" && url.pathname === "/api/tutor/messages") {
@@ -1484,7 +1493,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
         if (request.method === "POST" && url.pathname === "/api/tutor/messages") {
           const body = await readJson(request);
           const text = typeof body?.text === "string" ? body.text.trim() : "";
-          if (!text || text.length > 4_000) return sendJson(response, 400, { error: "text must contain 1–4000 characters" });
+          if (!text || text.length > 4_000) return sendJson(response, 400, { error: "问题须为 1–4000 个字符。" });
           return sendJson(response, 201, await tutorReply(
             database,
             lesson!,
@@ -1500,7 +1509,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           const body = await readJson(request);
           const text = typeof body?.text === "string" ? body.text.trim() : "";
           if (!text || text.length > 1_000) {
-            return sendJson(response, 400, { error: "review item text must contain 1–1000 characters" });
+            return sendJson(response, 400, { error: "复习内容须为 1–1000 个字符。" });
           }
           const createdAt = new Date().toISOString();
           const result = database.prepare(
@@ -1517,14 +1526,14 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
         const reviewItemMatch = url.pathname.match(/^\/api\/review-items\/(\d+)$/);
         if (request.method === "PUT" && reviewItemMatch) {
           const body = await readJson(request);
-          if (body?.resolved !== true) return sendJson(response, 400, { error: "resolved must be true" });
+          if (body?.resolved !== true) return sendJson(response, 400, { error: "请确认已完成复习。" });
           const resolvedAt = new Date().toISOString();
           const result = database.prepare(`
             UPDATE review_items
             SET resolved = 1, resolved_at = ?
             WHERE id = ? AND lesson_id = ? AND resolved = 0
           `).run(resolvedAt, Number(reviewItemMatch[1]), lessonId);
-          if (result.changes === 0) return sendJson(response, 404, { error: "Review item not found" });
+          if (result.changes === 0) return sendJson(response, 404, { error: "复习项不存在。" });
           return sendJson(response, 200, { resolvedAt });
         }
         if (request.method === "GET" && url.pathname === "/api/tools") {
@@ -1565,7 +1574,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
         if (request.method === "PUT" && url.pathname === "/api/learning-state") {
           const body = await readJson(request);
           if (typeof body?.completed !== "boolean" || typeof body.review !== "boolean") {
-            return sendJson(response, 400, { error: "completed and review must be boolean" });
+            return sendJson(response, 400, { error: "掌握与复习状态必须是布尔值。" });
           }
           database.prepare(`
             INSERT INTO learning_state (lesson_id, completed, review) VALUES (?, ?, ?)
@@ -1580,7 +1589,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           const body = await readJson(request);
           const position = body?.position;
           if (typeof position !== "number" || !Number.isSafeInteger(position) || position < 0 || position > 10_000_000) {
-            return sendJson(response, 400, { error: "position must be an integer between 0 and 10000000" });
+            return sendJson(response, 400, { error: "阅读位置必须是 0–10000000 的整数。" });
           }
           database.prepare(`
             INSERT INTO learning_state (lesson_id, reading_position) VALUES (?, ?)
@@ -1595,7 +1604,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           const body = await readJson(request);
           const text = typeof body?.text === "string" ? body.text.trim() : "";
           if (text.length === 0 || text.length > 2_000) {
-            return sendJson(response, 400, { error: "note text must contain 1–2000 characters" });
+            return sendJson(response, 400, { error: "笔记须为 1–2000 个字符。" });
           }
           const createdAt = new Date().toISOString();
           const result = database.prepare(
@@ -1607,15 +1616,15 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
             createdAt
           });
         }
-        if (url.pathname.startsWith("/api/")) return sendJson(response, 404, { error: "Not found" });
+        if (url.pathname.startsWith("/api/")) return sendJson(response, 404, { error: "资源不存在。" });
         if (url.pathname.startsWith("/vendor/mermaid/")) return serveMermaid(url.pathname, response);
         if (url.pathname.startsWith("/vendor/highlight/")) return serveHighlight(url.pathname, response);
         if (url.pathname.startsWith("/vendor/gsap/")) return serveGsap(url.pathname, response);
         if (url.pathname.startsWith("/vendor/katex/")) return serveKatex(url.pathname, response);
         return serveStatic(url.pathname, response);
       } catch (error) {
-        const message = error instanceof Error ? error.message : "Unexpected error";
-        return sendJson(response, 500, { error: message });
+        const status = error instanceof RequestError ? error.status : error instanceof TypeError && error.message.includes("URL") ? 400 : 500;
+        return sendJson(response, status, { error: status === 500 ? "本地服务处理失败，请检查服务日志后重试。" : error instanceof Error ? error.message : "请求处理失败。" });
       }
     }
   };
