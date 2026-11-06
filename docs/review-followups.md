@@ -1,6 +1,6 @@
-# 审查建议项跟踪（当前 v0.31.0）
+# 审查建议项跟踪（当前 v0.32.0）
 
-基线：v0.28.0 / `b0ced60`。日期：2026-11-06。延续原生 JavaScript、本机 SQLite、已批准理论关联与 Phase 0–18 发布范围；Phase 19 单列后续接入。
+基线：v0.28.0 / `b0ced60`。日期：2026-11-06。当时范围为原生 JavaScript、本机 SQLite、已批准理论关联与 Phase 0–18；P19 后续在 v0.32.0 接入。
 
 | 编号 | 工作 | 验收 | 状态 |
 | --- | --- | --- | --- |
@@ -24,7 +24,7 @@
 - A6：发布记录与术语分卷的散列及本地链接校验通过；旧版本与小节锚点保留入口。新增 15 处显式编者注中文提示词对照，原文、JSON 枚举/字段、标签、占位符和长度单位保持。
 - A7：已核验 [push 覆盖率](https://github.com/huangyue12120/Learning-Atlas/actions/runs/40089618507) 对应含实践子模块更新的 `b999ae7`；[Dependabot PR #33](https://github.com/huangyue12120/Learning-Atlas/pull/33) 更新四个 workflow 的 SHA 和版本注释。本轮触发[新版同步流程](https://github.com/huangyue12120/Learning-Atlas/actions/runs/42159532831)，临时令牌推送与创建 PR 步骤成功，产出[待审 PR #35](https://github.com/huangyue12120/Learning-Atlas/pull/35)，未合并。该记录验证自动化，不表示新上游内容已审核。
 
-全量内容复核的操作说明和风险优先级见 [review/followups](../review/followups/README.md)。其余工程项和回归验证不依赖这 1827 道题提前通过人工审核。Phase 19 仍单列后续接入。
+全量内容复核的操作说明和风险优先级见 [review/followups](../review/followups/README.md)。其余工程项和回归验证不依赖这 1827 道题提前通过人工审核。以上为 v0.28.0 的验收记录；P19 已在 v0.32.0 完成接入，见 [P19 复核记录](p19-review.md)。
 
 ## 本轮回归验收
 
@@ -57,3 +57,7 @@
 模型返回 HTML、非法 JSON 或无效结构时给出中文反馈，草稿保留且不保存半条回复。统一奖励投机、通用智能体译名；P13/45 私人工作区自带所需测试夹具，仅调整未被学习者改动的参考测试路径。diff 背景使用三层 token，理论卡改为面向学习者的文案。
 
 本次工作区基线三组中位为 61.294/61.598/62.868 ms，已经低于 100 ms；不把宿主负载变化归功于代码，也不保证任意并发负载下达标。最终原始测量、完整回归与七项验收见[尾项记录](seven-issue-remediation.md)和[证据目录](../review/seven-issue-remediation/README.md)。旧性能数据和截图保留为历史。
+
+## v0.32.0：P19 接入
+
+新增 85 份测验的 530 题已由 Codex 逐题核对，全部 2362 题的正式逐段证据仍只有 177 条、2185 条待建。语义审核与证据映射分别计数；五批清单、源码问题修正、Python 工作区和浏览器验收见 [P19 记录](p19-review.md)。

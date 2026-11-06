@@ -24,7 +24,11 @@ class PublishedScopeTests(unittest.TestCase):
             expected_adaptation("phases/13-tools-and-protocols/32-program-anatomy-elf-from-scratch/quiz.json"),
             ("assessment", "content/assessments/practice/13-tools-and-protocols/32-program-anatomy-elf-from-scratch/zh.json"),
         )
-        self.assertIsNone(expected_adaptation("phases/19-capstone-projects/01-terminal-native-coding-agent/docs/en.md"))
+        self.assertEqual(
+            expected_adaptation("phases/19-capstone-projects/01-terminal-native-coding-agent/docs/en.md"),
+            ("practice translation", "content/translations/practice/19-capstone-projects/01-terminal-native-coding-agent/zh.md"),
+        )
+        self.assertIsNone(expected_adaptation("phases/20-unpublished/01-staged/docs/en.md"))
         self.assertEqual(
             expected_adaptation("phases/13-tools-and-protocols/32-program-anatomy-elf-from-scratch/code/main.py"),
             ("workspace guide", "content/workspace-templates/13-tools-and-protocols/32-program-anatomy-elf-from-scratch/EXERCISES.md"),
@@ -45,7 +49,7 @@ class CoverageTests(unittest.TestCase):
                 (lesson_dir / "quiz.json").write_text("{}", encoding="utf-8")
                 for name in (("main.ts",) if lesson == "03-typescript" else ("main.py", "lab.py")):
                     (lesson_dir / "code" / name).write_text("", encoding="utf-8")
-            staged = root / "phases/19-capstone-projects/01-staged/docs"
+            staged = root / "phases/20-unpublished/01-staged/docs"
             staged.mkdir(parents=True)
             (staged / "en.md").write_text("# Staged\n", encoding="utf-8")
             module = Submodule("ai-engineering-from-scratch", root, "main")

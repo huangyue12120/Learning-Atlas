@@ -18,6 +18,8 @@ python3 -m unittest discover -s tests -v
 
 分布式实验需要本机回环通信和多进程；涉及 `fork` 的上游入口请在 Linux / WSL 运行，并确认 PyTorch 支持 gloo。CPU 结果不等同于多 GPU 性能。
 
+本地工作区适配：锁定上游通过队列发送检查点快照张量后立即退出，可能导致接收时共享存储连接断开。首次复制时，Learning Atlas 复用本课 `_serialize` / `_deserialize` 传递快照字节；保留训练、检查点和原测试断言。上游文件与已有学习者文件不变。
+
 ## 动手练习
 
 1. 记录 20 步 loss、rank norm drift、每 rank shard_bytes 与 step-10 RESUME VERIFIED。

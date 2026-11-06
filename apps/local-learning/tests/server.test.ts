@@ -429,7 +429,7 @@ test("loads published lesson content and resources by lessonId", async () => {
     itemQuiz.status === "reviewed" && itemQuiz.questions.length === 6), true);
 
   const publishedLessons = course.flatMap((phase: { lessons: { id: string }[] }) => phase.lessons.filter((lesson: { available: boolean }) => lesson.available));
-  assert.equal(publishedLessons.length, 457);
+  assert.equal(publishedLessons.length, 542);
   const durations = await Promise.all(publishedLessons.map(async (item: { id: string }) =>
     fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent(item.id)}`).then((response) => response.json())));
   assert.deepEqual(durations.filter((lesson: { duration: string }) => !/^(约 ?)?\d/.test(lesson.duration))
@@ -593,14 +593,14 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.equal(allSetupCourses[1].itemContent.theoryCards[0].title, "Git：让一次实验可以被准确追溯");
 });
 
-test("publishes all 289 visible theory cards with the complete rich-content contract", async () => {
+test("publishes all 311 visible theory cards with the complete rich-content contract", async () => {
   const baseUrl = await startTestServer();
   const course = await fetch(`${baseUrl}/api/course`).then((response) => response.json());
   const lessons = course.flatMap((phase: { lessons: Array<{ id: string }> }) => phase.lessons.filter((lesson: { available: boolean }) => lesson.available));
   const contents = await Promise.all(lessons.map(({ id }: { id: string }) =>
     fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(id)}`).then((response) => response.json())));
   const cards = contents.flatMap((content: { theoryCards: Array<Record<string, unknown>> }) => content.theoryCards);
-  assert.equal(cards.length, 289);
+  assert.equal(cards.length, 311);
   for (const card of cards) {
     assert.equal(typeof card.context, "string");
     assert.equal(typeof card.intuition, "string");
@@ -673,12 +673,12 @@ test("publishes the reviewed CLT theory card for statistics", async () => {
   }]);
 });
 
-test("serves the complete curriculum with safe staged phases and a dynamic target", async () => {
+test("serves all published phases with a dynamic target", async () => {
   const baseUrl = await startTestServer();
   const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
   assert.equal(curriculum.practice.length, 20);
   assert.equal(curriculum.theory.length, 20);
-  assert.equal(curriculum.summary.publishedPracticePhaseCount, 19);
+  assert.equal(curriculum.summary.publishedPracticePhaseCount, 20);
   assert.equal(curriculum.summary.reviewedTheoryNoteCount, 89);
   assert.equal(curriculum.target.kind, "start");
   assert.equal(curriculum.target.lessonId, "practice/00-setup-and-tooling/01-dev-environment");
@@ -707,8 +707,11 @@ test("serves the complete curriculum with safe staged phases and a dynamic targe
   assert.equal(publishedEthicsPhase.lessonCount, 30);
   assert.equal(publishedEthicsPhase.availableLessonCount, 30);
   assert.equal(publishedEthicsPhase.firstLessonId, "practice/18-ethics-safety-alignment/01-instruction-following-alignment-signal");
-  assert.equal(curriculum.practice.slice(19).every((phase: { status: string; firstLessonId: string | null }) =>
-    phase.status === "staged" && phase.firstLessonId === null), true);
+  const publishedCapstonePhase = curriculum.practice[19];
+  assert.equal(publishedCapstonePhase.status, "available");
+  assert.equal(publishedCapstonePhase.lessonCount, 85);
+  assert.equal(publishedCapstonePhase.availableLessonCount, 85);
+  assert.equal(publishedCapstonePhase.firstLessonId, "practice/19-capstone-projects/01-terminal-native-coding-agent");
 
   const publishedLesson = await fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent("practice/14-agent-engineering/01-the-agent-loop")}`);
   assert.equal(publishedLesson.status, 200);
@@ -1425,4 +1428,43 @@ test("creates a learner-owned workspace without changing the template", () => {
   assert.match(readFileSync(p15Workspace.sourceFile, "utf8"), /METR-style time-horizon simulator/);
   assert.ok(p15Workspace.exercisesGuide);
   assert.match(readFileSync(p15Workspace.exercisesGuide, "utf8"), /python3 code\/main\.py/);
+});
+
+
+test("publishes all 85 capstones with 530 questions, Python resources and 22 anchored theory cards", async () => {
+  const base = await startTestServer();
+  const course = await fetch(`${base}/api/course`).then(response => response.json());
+  const phase = course.find((item: { slug: string }) => item.slug === "19-capstone-projects");
+  assert.equal(phase.lessons.length, 85);
+  assert.equal(phase.lessons.every((item: { available: boolean; publicationStatus: string }) =>
+    item.available && item.publicationStatus === "available"), true);
+  const resources = await Promise.all(phase.lessons.map(async (item: { id: string }) => {
+    const query = `?lessonId=${encodeURIComponent(item.id)}`;
+    const [lesson, content, quiz] = await Promise.all(["lesson", "lesson/content", "quiz"].map(path =>
+      fetch(`${base}/api/${path}${query}`).then(response => response.json())));
+    assert.equal(lesson.resources.workspace, true);
+    assert.equal(lesson.resources.exploration, false);
+    assert.equal(content.translationStatus, "reviewed");
+    assert.equal(quiz.status, "reviewed");
+    assert.ok(quiz.questions.length >= 6);
+    for (const card of content.theoryCards) {
+      assert.ok(content.markdown.includes(`learning-atlas: ${card.slug}`));
+      assert.ok(card.context && card.intuition && card.application && card.checkQuestion);
+      assert.ok(card.keyPoints.length >= 2 && card.keyPoints.length <= 4);
+    }
+    return { lesson, content, quiz };
+  }));
+  assert.equal(resources.reduce((sum, item) => sum + item.quiz.questions.length, 0), 530);
+  assert.equal(resources.reduce((sum, item) => sum + item.content.theoryCards.length, 0), 22);
+  assert.equal(resources[0].lesson.position, "01 / 85");
+  assert.equal(resources.at(-1)!.lesson.position, "85 / 85");
+  assert.match(resources.at(-1)!.lesson.id, /87-end-to-end-safety-gate$/);
+  const lessonId = resources[20].lesson.id;
+  const position = await fetch(`${base}/api/reading-position?lessonId=${encodeURIComponent(lessonId)}`, {
+    method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify({ position: 840 })
+  });
+  assert.equal(position.status, 200);
+  const curriculum = await fetch(`${base}/api/curriculum`).then(response => response.json());
+  assert.equal(curriculum.target.kind, "continue");
+  assert.equal(curriculum.target.lessonId, lessonId);
 });

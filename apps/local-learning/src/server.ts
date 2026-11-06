@@ -45,13 +45,11 @@ const phases = [
   { slug: "15-autonomous-systems", title: "Phase 15 · 自主系统" },
   { slug: "16-multi-agent-and-swarms", title: "Phase 16 · 多智能体与群体智能" },
   { slug: "17-infrastructure-and-production", title: "Phase 17 · 基础设施与生产" },
-  { slug: "18-ethics-safety-alignment", title: "Phase 18 · 伦理、安全与对齐" }
-] as const;
-type Phase = typeof phases[number];
-const curriculumPhases = [
-  ...phases,
+  { slug: "18-ethics-safety-alignment", title: "Phase 18 · 伦理、安全与对齐" },
   { slug: "19-capstone-projects", title: "Phase 19 · 综合项目" }
 ] as const;
+type Phase = typeof phases[number];
+const curriculumPhases = phases;
 const defaultLessonId = "practice/00-setup-and-tooling/01-dev-environment";
 const officialTheoryRepository = "https://github.com/HenryNdubuaku/maths-cs-ai-compendium";
 
@@ -413,7 +411,7 @@ function courseOutline(database: DatabaseSync): CourseOutline[] {
     title: phase.title,
     lessons: lessonSlugs(phase as Phase).flatMap((slug) => {
       const id = `practice/${phase.slug}/${slug}`;
-      const staged = phase.slug === "19-capstone-projects";
+      const staged = !phases.some((published) => published.slug === phase.slug);
       const lesson = staged ? null : lessonFor(id, false);
       const status = lesson ? publishedLessonContent(lesson, false).translationStatus : "unavailable";
       const stagedTranslation = join(repositoryDirectory, "content/translations/practice", phase.slug, slug, "zh.md");
@@ -1122,14 +1120,61 @@ async function tutorReply(
 const workspaceCopyExclusions = new Set(["__pycache__", ".pytest_cache", "node_modules", ".venv"]);
 
 // 只补齐学习者工作区中缺失的文件，绝不覆盖学习者已经修改过的文件。
-function copyMissingTree(sourceDirectory: string, targetDirectory: string) {
+function copyMissingTree(sourceDirectory: string, targetDirectory: string, exclusions = workspaceCopyExclusions) {
   mkdirSync(targetDirectory, { recursive: true });
   for (const entry of readdirSync(sourceDirectory, { withFileTypes: true })) {
-    if (workspaceCopyExclusions.has(entry.name)) continue;
+    if (exclusions.has(entry.name)) continue;
     const source = join(sourceDirectory, entry.name);
     const target = join(targetDirectory, entry.name);
-    if (entry.isDirectory()) copyMissingTree(source, target);
+    if (entry.isDirectory()) copyMissingTree(source, target, exclusions);
     else if (entry.isFile() && !existsSync(target)) copyFileSync(source, target);
+  }
+}
+
+const capstoneDependencies: Record<string, string[]> = {
+  "57-end-to-end-research-demo": ["54-paper-writer", "55-critic-loop", "56-iteration-scheduler"],
+  "59-vit-transformer": ["58-vision-encoder-patches"],
+  "60-projection-layer-modality-align": ["59-vit-transformer"],
+  "62-vision-language-pretraining": ["59-vit-transformer", "60-projection-layer-modality-align", "61-cross-attention-fusion"],
+  "63-multimodal-eval": ["62-vision-language-pretraining"],
+  "75-end-to-end-eval-runner": ["70-task-spec-format", "71-classical-metrics", "72-code-exec-metric", "73-perplexity-calibration", "74-leaderboard-aggregation"],
+  "83-prompt-injection-detector": ["82-jailbreak-taxonomy"],
+  "87-end-to-end-safety-gate": ["82-jailbreak-taxonomy", "83-prompt-injection-detector", "85-content-classifier-integration", "86-constitutional-rules-engine"]
+};
+const capstoneCopyExclusions = new Set([...workspaceCopyExclusions, "ts"]);
+
+function copyCapstoneWorkspace(workspacePhaseDirectory: string, phase: Phase, slug: string) {
+  const source = join(phaseDirectory(phase), slug);
+  const target = join(workspacePhaseDirectory, slug);
+  const mainFile = join(target, "code/main.py");
+  const missingMain = !existsSync(mainFile);
+  // These lessons resolve siblings from code/__file__ and write to ../outputs.
+  copyMissingTree(join(source, "code"), join(target, "code"), capstoneCopyExclusions);
+  if (missingMain && slug === "76-collective-ops-from-scratch") {
+    // Copy tensor values through queues; upstream workers exit before FD-backed storage is read.
+    writeFileSync(mainFile, readFileSync(mainFile, "utf8")
+      .replace("self.out_queues[dst].put(payload)", "self.out_queues[dst].put(payload.numpy())")
+      .replace("return self.in_queues[src].get(timeout=RECV_TIMEOUT_S)", "return torch.from_numpy(self.in_queues[src].get(timeout=RECV_TIMEOUT_S))")
+      .replace("out_queue.put((rank, out.clone()))", "out_queue.put((rank, out.clone().numpy()))")
+      .replace("out_queue.put((rank, result))", "out_queue.put((rank, result.numpy()))")
+      .replaceAll("results[rank] = tensor", "results[rank] = torch.from_numpy(tensor)"), "utf8");
+  }
+  if (missingMain && slug === "81-end-to-end-distributed-train") {
+    // Reuse the lesson's byte serializer for the checkpoint snapshot sent after worker exit.
+    writeFileSync(mainFile, readFileSync(mainFile, "utf8")
+      .replace("                   master_at_ckpt))", "                   _serialize(master_at_ckpt)))")
+      .replace('"master_at_ckpt": master_at_ckpt,', '"master_at_ckpt": _deserialize(master_at_ckpt),'), "utf8");
+  }
+  if (existsSync(join(source, "tests"))) copyMissingTree(join(source, "tests"), join(target, "tests"));
+  const templates = join(repositoryDirectory, "content/workspace-templates", phase.slug, slug);
+  copyMissingTree(templates, target);
+  if (slug === "82-jailbreak-taxonomy") {
+    const taxonomy = join(target, "outputs/taxonomy.json");
+    mkdirSync(dirname(taxonomy), { recursive: true });
+    if (!existsSync(taxonomy)) copyFileSync(join(source, "outputs/taxonomy.json"), taxonomy);
+  }
+  for (const dependency of capstoneDependencies[slug] ?? []) {
+    copyCapstoneWorkspace(workspacePhaseDirectory, phase, dependency);
   }
 }
 
@@ -1154,14 +1199,16 @@ export function prepareWorkspace(dataDirectory: string, lessonId = defaultLesson
   const exerciseName = templateNames.find((name) => /^exercise_.*\.py$/.test(name)) ?? null;
   const exerciseTestName = templateNames.find((name) => /^test_exercise_.*\.py$/.test(name)) ?? null;
   const guideName = templateNames.includes("EXERCISES.md") ? "EXERCISES.md" : null;
-  const sourceFile = join(directory, sourceName);
+  const capstone = phase.slug === "19-capstone-projects";
+  const sourceFile = join(directory, capstone ? "code" : "", sourceName);
   const explorationFile = explorationName ? join(directory, explorationName) : null;
   const exerciseFile = exerciseName ? join(directory, exerciseName) : null;
   const exerciseTestFile = exerciseTestName ? join(directory, exerciseTestName) : null;
   const exercisesGuide = guideName ? join(directory, guideName) : null;
   mkdirSync(directory, { recursive: true });
   // 复制整个 code/ 目录（fixtures、tests、lab 等），参考实现常依赖同目录的其他文件。
-  copyMissingTree(sourceDirectory, directory);
+  if (capstone) copyCapstoneWorkspace(dirname(directory), phase, slug);
+  else copyMissingTree(sourceDirectory, directory);
   if (lessonId === "practice/13-tools-and-protocols/45-ai-assisted-reverse-engineering") {
     // Keep the upstream assertions, relocating only references outside code/.
     for (const [source, name] of [
@@ -1189,8 +1236,9 @@ export function prepareWorkspace(dataDirectory: string, lessonId = defaultLesson
     "",
     "这是 Learning Atlas 为本课创建的私人实践工作区。",
     "",
-    `- 在 VS Code 中先运行参考实现 \`${sourceName}\`；上游 \`code/\` 目录中的其他文件（如 fixtures、tests）也已复制到这里。`,
-    exercisesGuide ? `- 阅读 \`${guideName}\`，完成练习后运行对应的标准库测试。` : "- 使用课程中的 Python 文件完成练习。",
+    `- 在 VS Code 中先运行参考实现 \`${capstone ? "code/" : ""}${sourceName}\`；参考实现依赖的其他文件也已复制到这里。`,
+    ...(capstone ? ["- 保留 code/、根目录 tests/ 和同级先修课程目录；程序输出写入私人工作区，重新准备只补缺失文件。"] : []),
+    exercisesGuide ? `- 阅读 \`${guideName}\`，完成练习后运行指南中的验证命令。` : "- 使用课程中的 Python 文件完成练习。",
     explorationFile ? `- 在 marimo 中打开 \`${explorationName}\`，改变参数并观察结果。` : "- 本课暂无已发布的 marimo 探索笔记。",
     "- 此目录不会修改上游课程仓库。",
     ""

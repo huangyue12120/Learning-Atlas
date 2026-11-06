@@ -1,0 +1,1952 @@
+{
+  "date": "2026-11-06",
+  "practiceRevision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+  "environment": "Linux x86_64, Python 3.14.10, CPU; torch 2.13.0, numpy 2.5.2; one BLAS/OpenMP thread",
+  "workspacePreparation": "prepareWorkspace, empty private data directory, Python-only code tree, fixed dependency copies",
+  "upstreamUnchanged": true,
+  "upstreamFiles": 579,
+  "theoryRevision": "9850ee574a370bc1cde59de98b394e953775b67d",
+  "scope": "85 private lesson defaults and all 69 existing unittest commands; no production or GPU performance claim",
+  "dependencies": "Shared .venv unchanged; h5py 3.16.0 and zstandard 0.25.0 supplied from a temporary target directory; safetensors 0.8.0 available in the existing environment",
+  "summary": {
+    "mainPassed": 85,
+    "testCommandsPassed": 69,
+    "unitTestsPassed": 1021,
+    "skipped": 0
+  },
+  "initialAttempts": [
+    {
+      "scope": "48, 76 and remaining distributed lessons",
+      "result": "sandbox local process communication denied; stopped this audit, then prepared a new private directory with communication enabled"
+    },
+    {
+      "scope": "76 and 81, unadapted source with local communication enabled",
+      "result": "main and original tests failed rebuilding tensor shared storage after worker exit; FileNotFoundError or ConnectionResetError; original assertions retained"
+    },
+    {
+      "scope": "76 and 81, first-copy adapters in new empty private directories",
+      "result": "both mains and all 13 original tests passed; algorithms and checkpoint assertions retained"
+    }
+  ],
+  "results": [
+    {
+      "lesson": "01-terminal-native-coding-agent",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "02-rag-over-codebase",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "03-realtime-voice-assistant",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.07
+    },
+    {
+      "lesson": "04-multimodal-document-qa",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.12
+    },
+    {
+      "lesson": "05-autonomous-research-agent",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "06-devops-troubleshooting-agent",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "07-end-to-end-fine-tuning-pipeline",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "08-production-rag-chatbot",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "09-code-migration-agent",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "10-multi-agent-software-team",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "11-llm-observability-dashboard",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "12-video-understanding-pipeline",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "13-mcp-server-with-registry",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "13-mcp-server-with-registry",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.16,
+      "tests": 21,
+      "skipped": 0
+    },
+    {
+      "lesson": "14-speculative-decoding-server",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11
+    },
+    {
+      "lesson": "15-constitutional-safety-harness",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "16-github-issue-to-pr-agent",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "17-personal-ai-tutor",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "20-agent-harness-loop-contract",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "20-agent-harness-loop-contract",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 18,
+      "skipped": 0
+    },
+    {
+      "lesson": "21-tool-registry-schema-validation",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11
+    },
+    {
+      "lesson": "21-tool-registry-schema-validation",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 19,
+      "skipped": 0
+    },
+    {
+      "lesson": "22-jsonrpc-stdio-transport",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "22-jsonrpc-stdio-transport",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 15,
+      "skipped": 0
+    },
+    {
+      "lesson": "23-function-call-dispatcher",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.87
+    },
+    {
+      "lesson": "23-function-call-dispatcher",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.21,
+      "tests": 12,
+      "skipped": 0
+    },
+    {
+      "lesson": "24-plan-execute-control-flow",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "24-plan-execute-control-flow",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 8,
+      "skipped": 0
+    },
+    {
+      "lesson": "25-verification-gates-observation-budget",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "25-verification-gates-observation-budget",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 21,
+      "skipped": 0
+    },
+    {
+      "lesson": "26-sandbox-runner-denylist",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 5.68
+    },
+    {
+      "lesson": "26-sandbox-runner-denylist",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 6.03,
+      "tests": 26,
+      "skipped": 0
+    },
+    {
+      "lesson": "27-eval-harness-fixture-tasks",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11
+    },
+    {
+      "lesson": "27-eval-harness-fixture-tasks",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.16,
+      "tests": 20,
+      "skipped": 0
+    },
+    {
+      "lesson": "28-observability-otel-traces",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11
+    },
+    {
+      "lesson": "28-observability-otel-traces",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 14,
+      "skipped": 0
+    },
+    {
+      "lesson": "29-end-to-end-coding-task-demo",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.21
+    },
+    {
+      "lesson": "29-end-to-end-coding-task-demo",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.82,
+      "tests": 16,
+      "skipped": 0
+    },
+    {
+      "lesson": "30-bpe-tokenizer-from-scratch",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "30-bpe-tokenizer-from-scratch",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 16,
+      "skipped": 0
+    },
+    {
+      "lesson": "31-tokenized-dataset-sliding-window",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.37
+    },
+    {
+      "lesson": "31-tokenized-dataset-sliding-window",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.42,
+      "tests": 17,
+      "skipped": 0
+    },
+    {
+      "lesson": "32-token-positional-embeddings",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.37
+    },
+    {
+      "lesson": "32-token-positional-embeddings",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.52,
+      "tests": 21,
+      "skipped": 0
+    },
+    {
+      "lesson": "33-multihead-self-attention",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 9.08
+    },
+    {
+      "lesson": "33-multihead-self-attention",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.98,
+      "tests": 16,
+      "skipped": 0
+    },
+    {
+      "lesson": "34-transformer-block",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.62
+    },
+    {
+      "lesson": "34-transformer-block",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.42,
+      "tests": 10,
+      "skipped": 0
+    },
+    {
+      "lesson": "35-gpt-model-assembly",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.53
+    },
+    {
+      "lesson": "35-gpt-model-assembly",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 5.78,
+      "tests": 11,
+      "skipped": 0
+    },
+    {
+      "lesson": "36-training-loop-eval",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 8.28
+    },
+    {
+      "lesson": "36-training-loop-eval",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 8.28,
+      "tests": 14,
+      "skipped": 0
+    },
+    {
+      "lesson": "37-loading-pretrained-weights",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.47
+    },
+    {
+      "lesson": "37-loading-pretrained-weights",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.37,
+      "tests": 11,
+      "skipped": 0
+    },
+    {
+      "lesson": "38-classifier-finetuning",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 21.81
+    },
+    {
+      "lesson": "38-classifier-finetuning",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.83,
+      "tests": 16,
+      "skipped": 0
+    },
+    {
+      "lesson": "39-instruction-tuning-sft",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 39.29
+    },
+    {
+      "lesson": "39-instruction-tuning-sft",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.98,
+      "tests": 14,
+      "skipped": 0
+    },
+    {
+      "lesson": "40-dpo-from-scratch",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 11.08
+    },
+    {
+      "lesson": "40-dpo-from-scratch",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 8.13,
+      "tests": 19,
+      "skipped": 0
+    },
+    {
+      "lesson": "41-eval-pipeline",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 8.88
+    },
+    {
+      "lesson": "41-eval-pipeline",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.17,
+      "tests": 20,
+      "skipped": 0
+    },
+    {
+      "lesson": "42-large-corpus-downloader",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.16
+    },
+    {
+      "lesson": "42-large-corpus-downloader",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.16,
+      "tests": 15,
+      "skipped": 0
+    },
+    {
+      "lesson": "43-hdf5-tokenized-corpus",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.31
+    },
+    {
+      "lesson": "43-hdf5-tokenized-corpus",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.52,
+      "tests": 17,
+      "skipped": 0
+    },
+    {
+      "lesson": "44-cosine-lr-warmup",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.48
+    },
+    {
+      "lesson": "44-cosine-lr-warmup",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.43,
+      "tests": 27,
+      "skipped": 0
+    },
+    {
+      "lesson": "45-gradient-clipping-amp",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.88
+    },
+    {
+      "lesson": "45-gradient-clipping-amp",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.58,
+      "tests": 17,
+      "skipped": 0
+    },
+    {
+      "lesson": "46-gradient-accumulation",
+      "kind": "main",
+      "command": "python3 code/main.py --num-steps 3",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.73
+    },
+    {
+      "lesson": "46-gradient-accumulation",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.58,
+      "tests": 6,
+      "skipped": 0
+    },
+    {
+      "lesson": "47-checkpoint-save-resume",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.73
+    },
+    {
+      "lesson": "47-checkpoint-save-resume",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.68,
+      "tests": 9,
+      "skipped": 0
+    },
+    {
+      "lesson": "48-distributed-fsdp-ddp",
+      "kind": "main",
+      "command": "python3 code/main.py --world-size 2 --num-steps 3",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 14.34
+    },
+    {
+      "lesson": "48-distributed-fsdp-ddp",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 23.71,
+      "tests": 7,
+      "skipped": 0
+    },
+    {
+      "lesson": "49-lm-eval-harness",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11
+    },
+    {
+      "lesson": "49-lm-eval-harness",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 13,
+      "skipped": 0
+    },
+    {
+      "lesson": "50-hypothesis-generator",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "50-hypothesis-generator",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 18,
+      "skipped": 0
+    },
+    {
+      "lesson": "51-literature-retrieval",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "51-literature-retrieval",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 18,
+      "skipped": 0
+    },
+    {
+      "lesson": "52-experiment-runner",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 1.22
+    },
+    {
+      "lesson": "52-experiment-runner",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 2.17,
+      "tests": 11,
+      "skipped": 0
+    },
+    {
+      "lesson": "53-result-evaluator",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.21
+    },
+    {
+      "lesson": "53-result-evaluator",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.26,
+      "tests": 18,
+      "skipped": 0
+    },
+    {
+      "lesson": "54-paper-writer",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "54-paper-writer",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 15,
+      "skipped": 0
+    },
+    {
+      "lesson": "55-critic-loop",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "55-critic-loop",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 11,
+      "skipped": 0
+    },
+    {
+      "lesson": "56-iteration-scheduler",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.31
+    },
+    {
+      "lesson": "56-iteration-scheduler",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.87,
+      "tests": 12,
+      "skipped": 0
+    },
+    {
+      "lesson": "57-end-to-end-research-demo",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.31
+    },
+    {
+      "lesson": "57-end-to-end-research-demo",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.37,
+      "tests": 10,
+      "skipped": 0
+    },
+    {
+      "lesson": "58-vision-encoder-patches",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.32
+    },
+    {
+      "lesson": "58-vision-encoder-patches",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.27,
+      "tests": 9,
+      "skipped": 0
+    },
+    {
+      "lesson": "59-vit-transformer",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 8.43
+    },
+    {
+      "lesson": "59-vit-transformer",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.37,
+      "tests": 8,
+      "skipped": 0
+    },
+    {
+      "lesson": "60-projection-layer-modality-align",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 30.93
+    },
+    {
+      "lesson": "60-projection-layer-modality-align",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.68,
+      "tests": 8,
+      "skipped": 0
+    },
+    {
+      "lesson": "61-cross-attention-fusion",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.52
+    },
+    {
+      "lesson": "61-cross-attention-fusion",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.32,
+      "tests": 9,
+      "skipped": 0
+    },
+    {
+      "lesson": "62-vision-language-pretraining",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 9.03
+    },
+    {
+      "lesson": "62-vision-language-pretraining",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 7.83,
+      "tests": 7,
+      "skipped": 0
+    },
+    {
+      "lesson": "63-multimodal-eval",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 9.43
+    },
+    {
+      "lesson": "63-multimodal-eval",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.22,
+      "tests": 11,
+      "skipped": 0
+    },
+    {
+      "lesson": "64-chunking-strategies-advanced",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11
+    },
+    {
+      "lesson": "64-chunking-strategies-advanced",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.12,
+      "tests": 16,
+      "skipped": 0
+    },
+    {
+      "lesson": "65-hybrid-retrieval-bm25-dense",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "65-hybrid-retrieval-bm25-dense",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 15,
+      "skipped": 0
+    },
+    {
+      "lesson": "66-reranker-cross-encoder",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 8.93
+    },
+    {
+      "lesson": "66-reranker-cross-encoder",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 11.0,
+      "tests": 12,
+      "skipped": 0
+    },
+    {
+      "lesson": "67-query-rewriting-hyde",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "67-query-rewriting-hyde",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 13,
+      "skipped": 0
+    },
+    {
+      "lesson": "68-rag-eval-precision-recall",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "68-rag-eval-precision-recall",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 24,
+      "skipped": 0
+    },
+    {
+      "lesson": "69-end-to-end-rag-system",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 9.03
+    },
+    {
+      "lesson": "69-end-to-end-rag-system",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 11.79,
+      "tests": 20,
+      "skipped": 0
+    },
+    {
+      "lesson": "70-task-spec-format",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.06
+    },
+    {
+      "lesson": "70-task-spec-format",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 23,
+      "skipped": 0
+    },
+    {
+      "lesson": "71-classical-metrics",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.26
+    },
+    {
+      "lesson": "71-classical-metrics",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.27,
+      "tests": 42,
+      "skipped": 0
+    },
+    {
+      "lesson": "72-code-exec-metric",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 1.02
+    },
+    {
+      "lesson": "72-code-exec-metric",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 1.12,
+      "tests": 21,
+      "skipped": 0
+    },
+    {
+      "lesson": "73-perplexity-calibration",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.31
+    },
+    {
+      "lesson": "73-perplexity-calibration",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.26,
+      "tests": 23,
+      "skipped": 0
+    },
+    {
+      "lesson": "74-leaderboard-aggregation",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.26
+    },
+    {
+      "lesson": "74-leaderboard-aggregation",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.26,
+      "tests": 18,
+      "skipped": 0
+    },
+    {
+      "lesson": "75-end-to-end-eval-runner",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.42
+    },
+    {
+      "lesson": "75-end-to-end-eval-runner",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s code/tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 1.27,
+      "tests": 12,
+      "skipped": 0
+    },
+    {
+      "lesson": "76-collective-ops-from-scratch",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 35.46
+    },
+    {
+      "lesson": "76-collective-ops-from-scratch",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 30.68,
+      "tests": 7,
+      "skipped": 0
+    },
+    {
+      "lesson": "77-data-parallel-ddp",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 15.14
+    },
+    {
+      "lesson": "77-data-parallel-ddp",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 36.58,
+      "tests": 6,
+      "skipped": 0
+    },
+    {
+      "lesson": "78-zero-parameter-sharding",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 8.73
+    },
+    {
+      "lesson": "78-zero-parameter-sharding",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 17.8,
+      "tests": 7,
+      "skipped": 0
+    },
+    {
+      "lesson": "79-pipeline-parallel",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 11.09
+    },
+    {
+      "lesson": "79-pipeline-parallel",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 11.09,
+      "tests": 6,
+      "skipped": 0
+    },
+    {
+      "lesson": "80-checkpoint-sharded-resume",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.17
+    },
+    {
+      "lesson": "80-checkpoint-sharded-resume",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 4.27,
+      "tests": 7,
+      "skipped": 0
+    },
+    {
+      "lesson": "81-end-to-end-distributed-train",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 8.63
+    },
+    {
+      "lesson": "81-end-to-end-distributed-train",
+      "kind": "tests",
+      "command": "python3 -m unittest discover -s tests -v",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 30.82,
+      "tests": 6,
+      "skipped": 0
+    },
+    {
+      "lesson": "82-jailbreak-taxonomy",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.26
+    },
+    {
+      "lesson": "82-jailbreak-taxonomy",
+      "kind": "tests",
+      "command": "python3 code/tests.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.36,
+      "tests": 15,
+      "skipped": 0
+    },
+    {
+      "lesson": "83-prompt-injection-detector",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11
+    },
+    {
+      "lesson": "83-prompt-injection-detector",
+      "kind": "tests",
+      "command": "python3 code/tests.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.16,
+      "tests": 14,
+      "skipped": 0
+    },
+    {
+      "lesson": "84-refusal-evaluation",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.36
+    },
+    {
+      "lesson": "84-refusal-evaluation",
+      "kind": "tests",
+      "command": "python3 code/tests.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.31,
+      "tests": 15,
+      "skipped": 0
+    },
+    {
+      "lesson": "85-content-classifier-integration",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11
+    },
+    {
+      "lesson": "85-content-classifier-integration",
+      "kind": "tests",
+      "command": "python3 code/tests.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.11,
+      "tests": 18,
+      "skipped": 0
+    },
+    {
+      "lesson": "86-constitutional-rules-engine",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.21
+    },
+    {
+      "lesson": "86-constitutional-rules-engine",
+      "kind": "tests",
+      "command": "python3 code/tests.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.21,
+      "tests": 18,
+      "skipped": 0
+    },
+    {
+      "lesson": "87-end-to-end-safety-gate",
+      "kind": "main",
+      "command": "python3 code/main.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.16
+    },
+    {
+      "lesson": "87-end-to-end-safety-gate",
+      "kind": "tests",
+      "command": "python3 code/tests.py",
+      "exitCode": 0,
+      "timeout": false,
+      "seconds": 0.21,
+      "tests": 12,
+      "skipped": 0
+    }
+  ],
+  "mainFiles": [
+    {
+      "lesson": "01-terminal-native-coding-agent",
+      "sourceSha256": "1c873d6027118556d9c5b30b5bccae781c30fe38a2b86f0b9e010440e59e65b6",
+      "workspaceSha256": "1c873d6027118556d9c5b30b5bccae781c30fe38a2b86f0b9e010440e59e65b6",
+      "adapted": false
+    },
+    {
+      "lesson": "02-rag-over-codebase",
+      "sourceSha256": "aab1b22f0676444c7e46c22dc43bf5ee1a2f5490554b8f0636274b0eee59dbeb",
+      "workspaceSha256": "aab1b22f0676444c7e46c22dc43bf5ee1a2f5490554b8f0636274b0eee59dbeb",
+      "adapted": false
+    },
+    {
+      "lesson": "03-realtime-voice-assistant",
+      "sourceSha256": "7d5ebbb48efe72ff9366a8b2d331aad0f6c93de37beea0656c3e50e52c4ef9da",
+      "workspaceSha256": "7d5ebbb48efe72ff9366a8b2d331aad0f6c93de37beea0656c3e50e52c4ef9da",
+      "adapted": false
+    },
+    {
+      "lesson": "04-multimodal-document-qa",
+      "sourceSha256": "bdead3baff5f1597bd281385e0d7d74a467bf8c02e947a138d27d419936bb0fe",
+      "workspaceSha256": "bdead3baff5f1597bd281385e0d7d74a467bf8c02e947a138d27d419936bb0fe",
+      "adapted": false
+    },
+    {
+      "lesson": "05-autonomous-research-agent",
+      "sourceSha256": "2ee002022f8d98f71b4b99e31f9e43816edf2fd42b4bc088ee4539a6f92c50cd",
+      "workspaceSha256": "2ee002022f8d98f71b4b99e31f9e43816edf2fd42b4bc088ee4539a6f92c50cd",
+      "adapted": false
+    },
+    {
+      "lesson": "06-devops-troubleshooting-agent",
+      "sourceSha256": "9fcc1dabee290e157b0446a29201ead712d78a7301c3fc39b77f335994aca980",
+      "workspaceSha256": "9fcc1dabee290e157b0446a29201ead712d78a7301c3fc39b77f335994aca980",
+      "adapted": false
+    },
+    {
+      "lesson": "07-end-to-end-fine-tuning-pipeline",
+      "sourceSha256": "273dc22c661f2be449bfd013261293a0c770fcd0420b51dac88b875d3a7ac3ac",
+      "workspaceSha256": "273dc22c661f2be449bfd013261293a0c770fcd0420b51dac88b875d3a7ac3ac",
+      "adapted": false
+    },
+    {
+      "lesson": "08-production-rag-chatbot",
+      "sourceSha256": "c6a8450231cfba1db1f8aa5f2700b37f243d62d72e154a429d4c3be61b02fc8e",
+      "workspaceSha256": "c6a8450231cfba1db1f8aa5f2700b37f243d62d72e154a429d4c3be61b02fc8e",
+      "adapted": false
+    },
+    {
+      "lesson": "09-code-migration-agent",
+      "sourceSha256": "1ba6860f208c762a5df3ac721b145cbe8285824ac0291aed98f6364ebc1969c8",
+      "workspaceSha256": "1ba6860f208c762a5df3ac721b145cbe8285824ac0291aed98f6364ebc1969c8",
+      "adapted": false
+    },
+    {
+      "lesson": "10-multi-agent-software-team",
+      "sourceSha256": "5c374ed07457f346eef0c5cd9978810bc5f3fc6c5965e8c0988797ec8e88acec",
+      "workspaceSha256": "5c374ed07457f346eef0c5cd9978810bc5f3fc6c5965e8c0988797ec8e88acec",
+      "adapted": false
+    },
+    {
+      "lesson": "11-llm-observability-dashboard",
+      "sourceSha256": "c5824308e91b84eedc2ac14a09baadb67dbd4ee71f9964eaa967e02ca53e5aff",
+      "workspaceSha256": "c5824308e91b84eedc2ac14a09baadb67dbd4ee71f9964eaa967e02ca53e5aff",
+      "adapted": false
+    },
+    {
+      "lesson": "12-video-understanding-pipeline",
+      "sourceSha256": "3284cb544e6af26ad5aa308eed9519565aeb09a11057a8b32576f95c3e024548",
+      "workspaceSha256": "3284cb544e6af26ad5aa308eed9519565aeb09a11057a8b32576f95c3e024548",
+      "adapted": false
+    },
+    {
+      "lesson": "13-mcp-server-with-registry",
+      "sourceSha256": "f8d08a3da5f8b1b9f0970b45ad252815c7ec8be3838e5327ce292fbc776606b9",
+      "workspaceSha256": "f8d08a3da5f8b1b9f0970b45ad252815c7ec8be3838e5327ce292fbc776606b9",
+      "adapted": false
+    },
+    {
+      "lesson": "14-speculative-decoding-server",
+      "sourceSha256": "4fe26e221049ff0d629180d7c70448b612a968158d42f9f3506543cd7f11a0c2",
+      "workspaceSha256": "4fe26e221049ff0d629180d7c70448b612a968158d42f9f3506543cd7f11a0c2",
+      "adapted": false
+    },
+    {
+      "lesson": "15-constitutional-safety-harness",
+      "sourceSha256": "4486be34bc21367ee0c5b9b06d92009bfe0307017431c3ad6470b5a5befbd742",
+      "workspaceSha256": "4486be34bc21367ee0c5b9b06d92009bfe0307017431c3ad6470b5a5befbd742",
+      "adapted": false
+    },
+    {
+      "lesson": "16-github-issue-to-pr-agent",
+      "sourceSha256": "79439be454d8876bcf92bba0a46bd5ae06be575caee34f88224f44bcbaab545f",
+      "workspaceSha256": "79439be454d8876bcf92bba0a46bd5ae06be575caee34f88224f44bcbaab545f",
+      "adapted": false
+    },
+    {
+      "lesson": "17-personal-ai-tutor",
+      "sourceSha256": "f96dddd78e75c2d28fad379498922a36f1e24b79308bfe1e5704373a9e3f9d52",
+      "workspaceSha256": "f96dddd78e75c2d28fad379498922a36f1e24b79308bfe1e5704373a9e3f9d52",
+      "adapted": false
+    },
+    {
+      "lesson": "20-agent-harness-loop-contract",
+      "sourceSha256": "c795bf61778d8e9db181e413b846e478c8e1462c783a4429bf1444321a789ea8",
+      "workspaceSha256": "c795bf61778d8e9db181e413b846e478c8e1462c783a4429bf1444321a789ea8",
+      "adapted": false
+    },
+    {
+      "lesson": "21-tool-registry-schema-validation",
+      "sourceSha256": "ef440caecb0d5a507c44623af67b2e03783c848a354a0506c940eef99df726fc",
+      "workspaceSha256": "ef440caecb0d5a507c44623af67b2e03783c848a354a0506c940eef99df726fc",
+      "adapted": false
+    },
+    {
+      "lesson": "22-jsonrpc-stdio-transport",
+      "sourceSha256": "1710deae43d4335d4ba8aef52e31f91eab5849204aac30482ef063a0e70ac6b3",
+      "workspaceSha256": "1710deae43d4335d4ba8aef52e31f91eab5849204aac30482ef063a0e70ac6b3",
+      "adapted": false
+    },
+    {
+      "lesson": "23-function-call-dispatcher",
+      "sourceSha256": "a40d3065aa4cd10596a6c76e602837abe81cc2b5dd7b60ae06f57e1d42ea075c",
+      "workspaceSha256": "a40d3065aa4cd10596a6c76e602837abe81cc2b5dd7b60ae06f57e1d42ea075c",
+      "adapted": false
+    },
+    {
+      "lesson": "24-plan-execute-control-flow",
+      "sourceSha256": "bedf0bf884fd44b378c9891da3fc98c5cdef763c41d0870429af607c25c58a46",
+      "workspaceSha256": "bedf0bf884fd44b378c9891da3fc98c5cdef763c41d0870429af607c25c58a46",
+      "adapted": false
+    },
+    {
+      "lesson": "25-verification-gates-observation-budget",
+      "sourceSha256": "d21636677b0f0918f265f9ec7160596719edc9c4bc1b2aef3f9350cc4dab27c2",
+      "workspaceSha256": "d21636677b0f0918f265f9ec7160596719edc9c4bc1b2aef3f9350cc4dab27c2",
+      "adapted": false
+    },
+    {
+      "lesson": "26-sandbox-runner-denylist",
+      "sourceSha256": "afa52fcdf58c555fc1822ee353194c353ec6db11a7c5b39b0c43b7437f19cdbc",
+      "workspaceSha256": "afa52fcdf58c555fc1822ee353194c353ec6db11a7c5b39b0c43b7437f19cdbc",
+      "adapted": false
+    },
+    {
+      "lesson": "27-eval-harness-fixture-tasks",
+      "sourceSha256": "cd6ae1d5d7c3b0503c41642e83e66f2fc295bf29a051275a5ef262eafeee99b6",
+      "workspaceSha256": "cd6ae1d5d7c3b0503c41642e83e66f2fc295bf29a051275a5ef262eafeee99b6",
+      "adapted": false
+    },
+    {
+      "lesson": "28-observability-otel-traces",
+      "sourceSha256": "3f8bad98ee8a09f52838bafea85248b67ceca69d136cfd05c95e51ae31597334",
+      "workspaceSha256": "3f8bad98ee8a09f52838bafea85248b67ceca69d136cfd05c95e51ae31597334",
+      "adapted": false
+    },
+    {
+      "lesson": "29-end-to-end-coding-task-demo",
+      "sourceSha256": "78a95b86926f4d22b56c7823992c0378a1c7002cf80be188a87a4129660f9659",
+      "workspaceSha256": "78a95b86926f4d22b56c7823992c0378a1c7002cf80be188a87a4129660f9659",
+      "adapted": false
+    },
+    {
+      "lesson": "30-bpe-tokenizer-from-scratch",
+      "sourceSha256": "7603b7f6eb43978c6e2bce3d1fc205591e6416f3dfbb6d8e484f2e362b31df51",
+      "workspaceSha256": "7603b7f6eb43978c6e2bce3d1fc205591e6416f3dfbb6d8e484f2e362b31df51",
+      "adapted": false
+    },
+    {
+      "lesson": "31-tokenized-dataset-sliding-window",
+      "sourceSha256": "c354fb29936ced1a935fc734c16c55e34e5db10ef90dacbf8fb4ec6089dfc7fa",
+      "workspaceSha256": "c354fb29936ced1a935fc734c16c55e34e5db10ef90dacbf8fb4ec6089dfc7fa",
+      "adapted": false
+    },
+    {
+      "lesson": "32-token-positional-embeddings",
+      "sourceSha256": "116c90fe3faf645e770df5990b6dd31df00be3a858e525a87f12b66ceece6637",
+      "workspaceSha256": "116c90fe3faf645e770df5990b6dd31df00be3a858e525a87f12b66ceece6637",
+      "adapted": false
+    },
+    {
+      "lesson": "33-multihead-self-attention",
+      "sourceSha256": "90a3d7bfce2ed9bedc87e1156a102fcd1fad8a8c520167d5371fd40b66d9dfcc",
+      "workspaceSha256": "90a3d7bfce2ed9bedc87e1156a102fcd1fad8a8c520167d5371fd40b66d9dfcc",
+      "adapted": false
+    },
+    {
+      "lesson": "34-transformer-block",
+      "sourceSha256": "0e7af96c4be896b3f5f908c7190d07957a3979a5733e6badd199d5103dff3b01",
+      "workspaceSha256": "0e7af96c4be896b3f5f908c7190d07957a3979a5733e6badd199d5103dff3b01",
+      "adapted": false
+    },
+    {
+      "lesson": "35-gpt-model-assembly",
+      "sourceSha256": "3bdd723e8d955ae1835f685faf8e5e23d1b6453dca37cb8bb2bf02a830cc749b",
+      "workspaceSha256": "3bdd723e8d955ae1835f685faf8e5e23d1b6453dca37cb8bb2bf02a830cc749b",
+      "adapted": false
+    },
+    {
+      "lesson": "36-training-loop-eval",
+      "sourceSha256": "cdd8cd29a12555ce4da44ce711b7ed193bbd57187ab93582d7de4bc7c9e9fe8c",
+      "workspaceSha256": "cdd8cd29a12555ce4da44ce711b7ed193bbd57187ab93582d7de4bc7c9e9fe8c",
+      "adapted": false
+    },
+    {
+      "lesson": "37-loading-pretrained-weights",
+      "sourceSha256": "e53852efcd546c2cd5a942ef944d9b211e3b7c88bc364c162163e2cd4dc4e93f",
+      "workspaceSha256": "e53852efcd546c2cd5a942ef944d9b211e3b7c88bc364c162163e2cd4dc4e93f",
+      "adapted": false
+    },
+    {
+      "lesson": "38-classifier-finetuning",
+      "sourceSha256": "b9185dac3726ebc881d15c02b5a83ab625e8ad4f79df710b0d1e91846f6ba787",
+      "workspaceSha256": "b9185dac3726ebc881d15c02b5a83ab625e8ad4f79df710b0d1e91846f6ba787",
+      "adapted": false
+    },
+    {
+      "lesson": "39-instruction-tuning-sft",
+      "sourceSha256": "55d44a7bd6247eaac5d18711a54806ebc3ad0fc473667fe1f1309f554f565b76",
+      "workspaceSha256": "55d44a7bd6247eaac5d18711a54806ebc3ad0fc473667fe1f1309f554f565b76",
+      "adapted": false
+    },
+    {
+      "lesson": "40-dpo-from-scratch",
+      "sourceSha256": "16b54d760c30388f4f93c36b22160bf7303044a3cf7d76230a6873c445a37667",
+      "workspaceSha256": "16b54d760c30388f4f93c36b22160bf7303044a3cf7d76230a6873c445a37667",
+      "adapted": false
+    },
+    {
+      "lesson": "41-eval-pipeline",
+      "sourceSha256": "165c30dd5b221f6046a81b25c547d635f4787cea4560514f4abfee45926113d2",
+      "workspaceSha256": "165c30dd5b221f6046a81b25c547d635f4787cea4560514f4abfee45926113d2",
+      "adapted": false
+    },
+    {
+      "lesson": "42-large-corpus-downloader",
+      "sourceSha256": "39223d645777489579d387931d8919b4b39213ffeb986ad082eb8dcb767e9122",
+      "workspaceSha256": "39223d645777489579d387931d8919b4b39213ffeb986ad082eb8dcb767e9122",
+      "adapted": false
+    },
+    {
+      "lesson": "43-hdf5-tokenized-corpus",
+      "sourceSha256": "8cd6c9ec514499279bdc5c1cef7a922793e6b97faf95d5a727354b53f2b6187c",
+      "workspaceSha256": "8cd6c9ec514499279bdc5c1cef7a922793e6b97faf95d5a727354b53f2b6187c",
+      "adapted": false
+    },
+    {
+      "lesson": "44-cosine-lr-warmup",
+      "sourceSha256": "4bba4916370f31394e88d09d060c5b23e2499d97b2082e107769ce4e964f1858",
+      "workspaceSha256": "4bba4916370f31394e88d09d060c5b23e2499d97b2082e107769ce4e964f1858",
+      "adapted": false
+    },
+    {
+      "lesson": "45-gradient-clipping-amp",
+      "sourceSha256": "cd6e9d540071cc6d391ffdc7af2e2b8fa89309709ab34ba1fa613bcc0a368b7a",
+      "workspaceSha256": "cd6e9d540071cc6d391ffdc7af2e2b8fa89309709ab34ba1fa613bcc0a368b7a",
+      "adapted": false
+    },
+    {
+      "lesson": "46-gradient-accumulation",
+      "sourceSha256": "1af748a9db2dbae6b2d399b4a2853a398521b1ddb05ffe72d80f24648382b57b",
+      "workspaceSha256": "1af748a9db2dbae6b2d399b4a2853a398521b1ddb05ffe72d80f24648382b57b",
+      "adapted": false
+    },
+    {
+      "lesson": "47-checkpoint-save-resume",
+      "sourceSha256": "e06b66de4842612a8c985c0092d55f4f423c9a19cb1f4dc7224155f37c97b425",
+      "workspaceSha256": "e06b66de4842612a8c985c0092d55f4f423c9a19cb1f4dc7224155f37c97b425",
+      "adapted": false
+    },
+    {
+      "lesson": "48-distributed-fsdp-ddp",
+      "sourceSha256": "e5c6ece1e0be42fe6a58de80b10ea4cbd9920b1120a714d947c5bc6de222e9b2",
+      "workspaceSha256": "e5c6ece1e0be42fe6a58de80b10ea4cbd9920b1120a714d947c5bc6de222e9b2",
+      "adapted": false
+    },
+    {
+      "lesson": "49-lm-eval-harness",
+      "sourceSha256": "2eba4d8651b78dedc8a4fb68e9430607eb99399162658bccb9decf84f971f583",
+      "workspaceSha256": "2eba4d8651b78dedc8a4fb68e9430607eb99399162658bccb9decf84f971f583",
+      "adapted": false
+    },
+    {
+      "lesson": "50-hypothesis-generator",
+      "sourceSha256": "4ab5416d0d2de80ed89e777042c804f754e327f5086d0189d5c27c5a023e15ae",
+      "workspaceSha256": "4ab5416d0d2de80ed89e777042c804f754e327f5086d0189d5c27c5a023e15ae",
+      "adapted": false
+    },
+    {
+      "lesson": "51-literature-retrieval",
+      "sourceSha256": "b997a2f25d56e4c17199681a492cc26d118853729c311e27de19ca34a50b5725",
+      "workspaceSha256": "b997a2f25d56e4c17199681a492cc26d118853729c311e27de19ca34a50b5725",
+      "adapted": false
+    },
+    {
+      "lesson": "52-experiment-runner",
+      "sourceSha256": "cf8443d377cb48199dedfc6587318294e80cd60b2d73796c7eabd8eff8b505b7",
+      "workspaceSha256": "cf8443d377cb48199dedfc6587318294e80cd60b2d73796c7eabd8eff8b505b7",
+      "adapted": false
+    },
+    {
+      "lesson": "53-result-evaluator",
+      "sourceSha256": "80555b8fd57ed735ad0c698966ef44ded8d96e7874a4cf1f643d20c273a7dc0a",
+      "workspaceSha256": "80555b8fd57ed735ad0c698966ef44ded8d96e7874a4cf1f643d20c273a7dc0a",
+      "adapted": false
+    },
+    {
+      "lesson": "54-paper-writer",
+      "sourceSha256": "1a1ac26ccc66543439e8f8324ef68f4dff33bd3f446743bdc11eba58ff2f1dc5",
+      "workspaceSha256": "1a1ac26ccc66543439e8f8324ef68f4dff33bd3f446743bdc11eba58ff2f1dc5",
+      "adapted": false
+    },
+    {
+      "lesson": "55-critic-loop",
+      "sourceSha256": "1429bd564cbd86543c7b14d03f106d64d08c49fd9f4e7a3c6fa8bfc5c344e94e",
+      "workspaceSha256": "1429bd564cbd86543c7b14d03f106d64d08c49fd9f4e7a3c6fa8bfc5c344e94e",
+      "adapted": false
+    },
+    {
+      "lesson": "56-iteration-scheduler",
+      "sourceSha256": "9efecbd00dd3c81ea776b3b6599f38b83b3a11dc18a7545374782ab4f5a306f1",
+      "workspaceSha256": "9efecbd00dd3c81ea776b3b6599f38b83b3a11dc18a7545374782ab4f5a306f1",
+      "adapted": false
+    },
+    {
+      "lesson": "57-end-to-end-research-demo",
+      "sourceSha256": "17a5451ad65223d723bddc0b1ace72970a06cb11b3bd96fbbe332c3c3579abcc",
+      "workspaceSha256": "17a5451ad65223d723bddc0b1ace72970a06cb11b3bd96fbbe332c3c3579abcc",
+      "adapted": false
+    },
+    {
+      "lesson": "58-vision-encoder-patches",
+      "sourceSha256": "b91bab0303b00a9fbb9b1f6faa9badf22453736899e9400b396198a2ea66c15f",
+      "workspaceSha256": "b91bab0303b00a9fbb9b1f6faa9badf22453736899e9400b396198a2ea66c15f",
+      "adapted": false
+    },
+    {
+      "lesson": "59-vit-transformer",
+      "sourceSha256": "379f4ebb6a7f04cba39a1baf183ec53dca295e2cd076ed40b1d8a0fa888047fd",
+      "workspaceSha256": "379f4ebb6a7f04cba39a1baf183ec53dca295e2cd076ed40b1d8a0fa888047fd",
+      "adapted": false
+    },
+    {
+      "lesson": "60-projection-layer-modality-align",
+      "sourceSha256": "e435ea92736f2729ce7a0137b3d285a0fccb26d2bd4a6b9e36e29ef082079cd1",
+      "workspaceSha256": "e435ea92736f2729ce7a0137b3d285a0fccb26d2bd4a6b9e36e29ef082079cd1",
+      "adapted": false
+    },
+    {
+      "lesson": "61-cross-attention-fusion",
+      "sourceSha256": "68766f9fd8c8fb9de83bb6d8da7b90bbbe61e860b4f8eac38089c93413d74296",
+      "workspaceSha256": "68766f9fd8c8fb9de83bb6d8da7b90bbbe61e860b4f8eac38089c93413d74296",
+      "adapted": false
+    },
+    {
+      "lesson": "62-vision-language-pretraining",
+      "sourceSha256": "420d394bc14059338277bbd2e6460b1b4f402051ad14918ad58aef2acde92a25",
+      "workspaceSha256": "420d394bc14059338277bbd2e6460b1b4f402051ad14918ad58aef2acde92a25",
+      "adapted": false
+    },
+    {
+      "lesson": "63-multimodal-eval",
+      "sourceSha256": "425628da9c98ec7122ae2196bf7b67763ea43958f3e1821d6ca6b69d27b00935",
+      "workspaceSha256": "425628da9c98ec7122ae2196bf7b67763ea43958f3e1821d6ca6b69d27b00935",
+      "adapted": false
+    },
+    {
+      "lesson": "64-chunking-strategies-advanced",
+      "sourceSha256": "407030fcf81210ffbd276f245ac512306a94ee208f6ad5ee4e1076452fd82d29",
+      "workspaceSha256": "407030fcf81210ffbd276f245ac512306a94ee208f6ad5ee4e1076452fd82d29",
+      "adapted": false
+    },
+    {
+      "lesson": "65-hybrid-retrieval-bm25-dense",
+      "sourceSha256": "e003f58be999cc73f67da9c7d96ee251630dfd076943fc33c2f5ad55232817db",
+      "workspaceSha256": "e003f58be999cc73f67da9c7d96ee251630dfd076943fc33c2f5ad55232817db",
+      "adapted": false
+    },
+    {
+      "lesson": "66-reranker-cross-encoder",
+      "sourceSha256": "945f6c0bba0481a0c071fc4ed2dcbd7f4ee3c4a9956a603b8f55c20ab8a9e026",
+      "workspaceSha256": "945f6c0bba0481a0c071fc4ed2dcbd7f4ee3c4a9956a603b8f55c20ab8a9e026",
+      "adapted": false
+    },
+    {
+      "lesson": "67-query-rewriting-hyde",
+      "sourceSha256": "d389678a7e7e76cad112826804e3066eedeefec625d181adf04f51aed4efb3e6",
+      "workspaceSha256": "d389678a7e7e76cad112826804e3066eedeefec625d181adf04f51aed4efb3e6",
+      "adapted": false
+    },
+    {
+      "lesson": "68-rag-eval-precision-recall",
+      "sourceSha256": "24cf48ce02b08dc6be183605dc0407c2375d39338e7b379b700d694c41d687b0",
+      "workspaceSha256": "24cf48ce02b08dc6be183605dc0407c2375d39338e7b379b700d694c41d687b0",
+      "adapted": false
+    },
+    {
+      "lesson": "69-end-to-end-rag-system",
+      "sourceSha256": "5c1634f436963eb2a731cb3b5f1ee022482e76dc78964adce6a093c4a4eefa59",
+      "workspaceSha256": "5c1634f436963eb2a731cb3b5f1ee022482e76dc78964adce6a093c4a4eefa59",
+      "adapted": false
+    },
+    {
+      "lesson": "70-task-spec-format",
+      "sourceSha256": "3f279e14c3edd2bc5bfabc542c4eae76e058432e24af62c208f0fde88bf983b3",
+      "workspaceSha256": "3f279e14c3edd2bc5bfabc542c4eae76e058432e24af62c208f0fde88bf983b3",
+      "adapted": false
+    },
+    {
+      "lesson": "71-classical-metrics",
+      "sourceSha256": "b7af9e40ff155e17ec5f585fb77bef0aff6dff01c0c6c35a8e354926a2672558",
+      "workspaceSha256": "b7af9e40ff155e17ec5f585fb77bef0aff6dff01c0c6c35a8e354926a2672558",
+      "adapted": false
+    },
+    {
+      "lesson": "72-code-exec-metric",
+      "sourceSha256": "930c509564f368761b5cd4f133a1d2d07b2916f2afce028104f74c99ff701580",
+      "workspaceSha256": "930c509564f368761b5cd4f133a1d2d07b2916f2afce028104f74c99ff701580",
+      "adapted": false
+    },
+    {
+      "lesson": "73-perplexity-calibration",
+      "sourceSha256": "5aefae60ee1f902d013be45913f5250a386fe43befaf19191bd352b885bb3489",
+      "workspaceSha256": "5aefae60ee1f902d013be45913f5250a386fe43befaf19191bd352b885bb3489",
+      "adapted": false
+    },
+    {
+      "lesson": "74-leaderboard-aggregation",
+      "sourceSha256": "efd32f74dcf955f60919b6cc205dd643795892b4b04fd2eb659110b78010d6bb",
+      "workspaceSha256": "efd32f74dcf955f60919b6cc205dd643795892b4b04fd2eb659110b78010d6bb",
+      "adapted": false
+    },
+    {
+      "lesson": "75-end-to-end-eval-runner",
+      "sourceSha256": "9e2bd2b6bbbbda698c84ad3231a6aa34ad9f6f0c01f4b75cfd2015ad9a8d6a9e",
+      "workspaceSha256": "9e2bd2b6bbbbda698c84ad3231a6aa34ad9f6f0c01f4b75cfd2015ad9a8d6a9e",
+      "adapted": false
+    },
+    {
+      "lesson": "76-collective-ops-from-scratch",
+      "sourceSha256": "7e27d04b94e228b2a0748bbcfdb1ef127f4395bfb69267aa4f836f5347bd5e93",
+      "workspaceSha256": "74aa68e9dcea55c02f41bb7a9e5d8a9a913294a54a435d9a4192b2f9fddec921",
+      "adapted": true
+    },
+    {
+      "lesson": "77-data-parallel-ddp",
+      "sourceSha256": "621ab2e6570052845e6045614ab58ef1f22d5c904cda7b08233375681e447907",
+      "workspaceSha256": "621ab2e6570052845e6045614ab58ef1f22d5c904cda7b08233375681e447907",
+      "adapted": false
+    },
+    {
+      "lesson": "78-zero-parameter-sharding",
+      "sourceSha256": "625fa71007bf1a82c9c59d07ab0b5205a77eb807954bd28b4fbfb0d00b4ea03a",
+      "workspaceSha256": "625fa71007bf1a82c9c59d07ab0b5205a77eb807954bd28b4fbfb0d00b4ea03a",
+      "adapted": false
+    },
+    {
+      "lesson": "79-pipeline-parallel",
+      "sourceSha256": "36734858b1f70a8af5282b79e6a46d016ac2194649f0cdda932ab68b8ffc8c1e",
+      "workspaceSha256": "36734858b1f70a8af5282b79e6a46d016ac2194649f0cdda932ab68b8ffc8c1e",
+      "adapted": false
+    },
+    {
+      "lesson": "80-checkpoint-sharded-resume",
+      "sourceSha256": "11b6fef8cc2738dfd25de7fd8caf6d5b8c60f8fa08c92e070853863b1816737a",
+      "workspaceSha256": "11b6fef8cc2738dfd25de7fd8caf6d5b8c60f8fa08c92e070853863b1816737a",
+      "adapted": false
+    },
+    {
+      "lesson": "81-end-to-end-distributed-train",
+      "sourceSha256": "46122523add2e8183fa90a14dec36eaeb00b0e043741454daf121d4a084d9548",
+      "workspaceSha256": "fbd3248675071ff849c534c86f1dcf357acb95d67e0c099109ed6e382a087749",
+      "adapted": true
+    },
+    {
+      "lesson": "82-jailbreak-taxonomy",
+      "sourceSha256": "b5712dd0c716ca52b743a4f314ba8e64012e5f37d43ae3f01c0836a60161ce9f",
+      "workspaceSha256": "b5712dd0c716ca52b743a4f314ba8e64012e5f37d43ae3f01c0836a60161ce9f",
+      "adapted": false
+    },
+    {
+      "lesson": "83-prompt-injection-detector",
+      "sourceSha256": "7c5fb7085760c1899ec3331bea7fdfec7782daa828b9554ff84f0e58c0517b39",
+      "workspaceSha256": "7c5fb7085760c1899ec3331bea7fdfec7782daa828b9554ff84f0e58c0517b39",
+      "adapted": false
+    },
+    {
+      "lesson": "84-refusal-evaluation",
+      "sourceSha256": "560a77f8a6c70f8f5ce3c1bf9264264efcf099d7ee6d93e8393f20bf9dae1876",
+      "workspaceSha256": "560a77f8a6c70f8f5ce3c1bf9264264efcf099d7ee6d93e8393f20bf9dae1876",
+      "adapted": false
+    },
+    {
+      "lesson": "85-content-classifier-integration",
+      "sourceSha256": "cb00c0c95972c68ce5b6e4e248eae794b075a6b79b3de7cd7ffd4398e6a0f5b5",
+      "workspaceSha256": "cb00c0c95972c68ce5b6e4e248eae794b075a6b79b3de7cd7ffd4398e6a0f5b5",
+      "adapted": false
+    },
+    {
+      "lesson": "86-constitutional-rules-engine",
+      "sourceSha256": "b9e79abb239e87cebfe654becd210758691386ddcfd12c7ebc72282c87153f9f",
+      "workspaceSha256": "b9e79abb239e87cebfe654becd210758691386ddcfd12c7ebc72282c87153f9f",
+      "adapted": false
+    },
+    {
+      "lesson": "87-end-to-end-safety-gate",
+      "sourceSha256": "dbc2dd328e9930cfbaa3f0dfd812cc23e16be50318c523776b4a750fd2fab881",
+      "workspaceSha256": "dbc2dd328e9930cfbaa3f0dfd812cc23e16be50318c523776b4a750fd2fab881",
+      "adapted": false
+    }
+  ],
+  "dependencyIsolation": {
+    "workspacePreparation": "Each target prepared in its own empty data directory; only fixed prerequisite copies available",
+    "results": [
+      {
+        "lesson": "57-end-to-end-research-demo",
+        "kind": "main",
+        "command": "python3 code/main.py",
+        "exitCode": 0,
+        "timeout": false,
+        "seconds": 0.32
+      },
+      {
+        "lesson": "63-multimodal-eval",
+        "kind": "main",
+        "command": "python3 code/main.py",
+        "exitCode": 0,
+        "timeout": false,
+        "seconds": 9.28
+      },
+      {
+        "lesson": "75-end-to-end-eval-runner",
+        "kind": "main",
+        "command": "python3 code/main.py",
+        "exitCode": 0,
+        "timeout": false,
+        "seconds": 0.36
+      },
+      {
+        "lesson": "87-end-to-end-safety-gate",
+        "kind": "main",
+        "command": "python3 code/main.py",
+        "exitCode": 0,
+        "timeout": false,
+        "seconds": 0.16
+      }
+    ]
+  }
+}

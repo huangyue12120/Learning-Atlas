@@ -38,6 +38,7 @@ PUBLISHED_PRACTICE_PHASES = (
     "phases/16-multi-agent-and-swarms",
     "phases/17-infrastructure-and-production",
     "phases/18-ethics-safety-alignment",
+    "phases/19-capstone-projects",
 )
 
 LESSON_SOURCE = re.compile(

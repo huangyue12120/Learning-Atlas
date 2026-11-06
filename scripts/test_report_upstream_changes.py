@@ -123,9 +123,18 @@ class AdaptationGapTests(unittest.TestCase):
         self.assertIn("### 已开放 Phase 中缺少中文适配的上游课程", result)
 
     def test_new_lesson_in_staged_phase_is_not_a_review_trigger(self) -> None:
-        snapshot = self.snapshot(("A", "phases/19-capstone-projects/99-new-capstone/docs/en.md"))
+        snapshot = self.snapshot(("A", "phases/20-unpublished/01-staged/docs/en.md"))
         self.assertEqual(report.adaptation_gaps(snapshot, {}), [])
         self.assertIn("<!-- upstream-freshness-relevant: false -->", report.render_report([snapshot], []))
+
+    def test_new_capstone_requires_translation_assessment_and_guide(self) -> None:
+        lesson = "phases/19-capstone-projects/99-new-capstone"
+        snapshot = self.snapshot(("A", f"{lesson}/docs/en.md"), ("A", f"{lesson}/quiz.json"), ("A", f"{lesson}/code/main.py"))
+        self.assertEqual(
+            [gap.kind for gap in report.adaptation_gaps(snapshot, {})],
+            ["practice translation", "assessment", "workspace guide"],
+        )
+        self.assertIn("<!-- upstream-freshness-relevant: true -->", report.render_report([snapshot], []))
 
     def test_translated_or_deleted_lesson_is_not_a_gap(self) -> None:
         path = "phases/13-tools-and-protocols/01-the-tool-interface/docs/en.md"

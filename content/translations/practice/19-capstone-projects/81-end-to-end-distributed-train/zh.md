@@ -72,6 +72,8 @@ ci-distributed-assembly
 
 > 编者注：LayerNorm 通常不维护 BatchNorm 式的 running mean/variance。相同参数范数只是同步线索，不能证明逐元素一致；固定 20 步也不能防止单步死锁，CI 仍需外部超时。墙钟检查点周期控制的是可能丢失的时间，不保证相同 FLOPs。
 
+> 本地运行适配：锁定上游的工作进程将检查点快照张量放入队列后退出，父进程可能因共享存储连接断开而报错。Learning Atlas 仅在首次创建私人工作区时复用本课 `_serialize` / `_deserialize` 传递快照字节；保留训练、检查点和测试断言，不改上游文件，也不覆盖已有学习者实现。
+
 ## 动手构建
 
 `code/main.py` 实现：

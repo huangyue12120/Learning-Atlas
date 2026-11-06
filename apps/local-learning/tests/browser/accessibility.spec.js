@@ -25,7 +25,7 @@ test("model discovery and tutor use the actual local compatible API stub", async
 
 test("course filter and bracket shortcuts respect editable controls", async ({ page }) => {
   await page.goto(`/learn?lessonId=${lesson}`); await expect(page.locator("#lesson h1")).toBeVisible();
-  await page.fill("#course-filter", "待接入"); await expect(page.locator(".phase-group:not([hidden])")).toHaveCount(1);
+  await page.fill("#course-filter", "终端原生编码智能体"); await expect(page.locator(".phase-group:not([hidden])")).toHaveCount(1);
   await page.fill("#course-filter", ""); await page.locator("#course-filter").press("]");
   await expect(page).toHaveURL(new RegExp(encodeURIComponent(lesson)));
   await page.locator("#lesson h1").click(); await page.keyboard.press("]");

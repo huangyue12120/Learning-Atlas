@@ -18,6 +18,8 @@ python3 -m unittest discover -s tests -v
 
 分布式实验需要本机回环通信和多进程；涉及 `fork` 的上游入口请在 Linux / WSL 运行，并确认 PyTorch 支持 gloo。CPU 结果不等同于多 GPU 性能。
 
+本地工作区适配：锁定上游通过队列发送 PyTorch 张量后立即退出，可能导致父进程读取共享存储时出现 `FileNotFoundError`。首次复制时，Learning Atlas 将队列载荷改为 NumPy 值并在接收端恢复张量；保留算法、字节计数和原测试断言。上游文件与已有学习者文件不变。
+
 ## 动手练习
 
 1. 记录 allreduce、broadcast、allgather、reduce_scatter 的 max_abs_diff 与 measured/expected bytes。

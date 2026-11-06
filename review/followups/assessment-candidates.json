@@ -59911,7 +59911,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/76-collective-ops-from-scratch",
-    "translationSha256": "4efdee47632796bd2b6d1fb3ce26c938d316dcc1f94a7760c8f0a5c5710a070e",
+    "translationSha256": "2bc2d7d815f5f9e85d59dc3067a72ecc93f524fa671029fa53589eab774eb17a",
     "assessmentSha256": "c569922998033e0fa80140efb93c9d27c649e86aa29348c42b276e7775d73fd0",
     "questions": [
       {
@@ -59923,19 +59923,19 @@
             "headingId": "问题",
             "heading": "问题",
             "quote": "朴素地在N个rank上执行allreduce，会把张量发送给根节点N次，再广播返回N次。每个rank的带宽开销按O(N)增长，根节点会成为瓶颈，而耗时下限是最慢链路延迟的N倍。环形allreduce把通信摊平成2(N-1)个、每个大小为T/N的分块，因此每个rank的字节数降为2T(N-1)/N；随着N增大，它趋近2T且永远不会超过2T，无论集群规模多大。对",
-            "score": 12.4
+            "score": 12.258
           },
           {
             "headingId": "两遍环形-allreduce",
             "heading": "两遍环形 `allreduce`",
             "quote": "将张量切分成N个等大的分块，索引为0..N-1。每个rank持有与自身rank相同索引的分块。第1遍reducescatter执行N-1步。在第s步，rankr将分块(r-s)modN发送给rank(r+1)modN，并从rank(r-1)modN接收分块(r-s-1)modN，再把收到的分块累加到本地副本中。N-1步之后，rankr持有分块r的完整求和结果",
-            "score": 11.54
+            "score": 11.118
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "用两遍算法实现环形allreduce（先reducescatter，再allgather），并证明每个rank的通信量是每个元素2(N-1)/N字节。基于multiprocessing.Queue上的点对点发送，实现broadcast、allgather和reducescatter。对相同输入，将每个原语的输出与使用gloo的torch.distribute",
-            "score": 10.969
+            "score": 10.933
           }
         ]
       },
@@ -59948,19 +59948,19 @@
             "headingId": "对照-gloo-验证",
             "heading": "对照 gloo 验证",
             "quote": "编者注：当前代码verifyagainstgloo使用maxabsdiff<1e-5判定，不是普遍逐字节相等。队列mesh只验证所测输入下的算法与调度，不等同于NCCL性能或硬件行为；树/环交叉点依设备、网络和消息大小而变。",
-            "score": 20.892
+            "score": 21.027
           },
           {
             "headingId": "交付",
             "heading": "交付",
             "quote": "在第77–81课中使用这些队列网格原语。第77课把allreduce接入DDP；第78课把reducescatter接入ZeRO；第79课用点对点的send和recv传递流水线激活值，而不是使用集合通信；第81课将四种原语组合进端到端演示。",
-            "score": 8.579
+            "score": 8.487
           },
           {
             "headingId": "从零实现集合通信原语",
             "heading": "从零实现集合通信原语",
             "quote": "支撑分布式训练的四种集合操作是allreduce、broadcast、allgather和reducescatter。训练框架提供的其他原语都只是它们的封装。在multiprocessing.Queue网格上把它们实现一次，再用参考实现验证；完成后，后续课程剩下的就只是把这些组件接起来。",
-            "score": 6.181
+            "score": 6.045
           }
         ]
       },
@@ -59973,19 +59973,19 @@
             "headingId": "两遍环形-allreduce",
             "heading": "两遍环形 `allreduce`",
             "quote": "将张量切分成N个等大的分块，索引为0..N-1。每个rank持有与自身rank相同索引的分块。第1遍reducescatter执行N-1步。在第s步，rankr将分块(r-s)modN发送给rank(r+1)modN，并从rank(r-1)modN接收分块(r-s-1)modN，再把收到的分块累加到本地副本中。N-1步之后，rankr持有分块r的完整求和结果",
-            "score": 12.114
+            "score": 12.387
           },
           {
             "headingId": "从零实现集合通信原语",
             "heading": "从零实现集合通信原语",
             "quote": "支撑分布式训练的四种集合操作是allreduce、broadcast、allgather和reducescatter。训练框架提供的其他原语都只是它们的封装。在multiprocessing.Queue网格上把它们实现一次，再用参考实现验证；完成后，后续课程剩下的就只是把这些组件接起来。",
-            "score": 8.281
+            "score": 8.375
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "你将在本课程线中学习的每个分布式训练框架，都依赖这四种原语。PyTorchDDP为每个参数桶执行一次allreduce来同步梯度。ZeRO用reducescatter分片优化器状态，再用allgather广播更新后的参数。FSDP把完整前向改造成allgather加reducescatter。流水线并行需要在各阶段组之间用broadcast传递激活值。如果你",
-            "score": 7.939
+            "score": 8.128
           }
         ]
       },
@@ -59998,19 +59998,19 @@
             "headingId": "生产环境中的模式",
             "heading": "生产环境中的模式",
             "quote": "按消息大小选择ring或tree，不要固守一种拓扑。NCCL自带拓扑检测器：消息大于约1MB时选择ring，小于该大小时选择tree。临界点取决于带宽与延迟的对比：超过1MB时，带宽项2T(N-1)/N占主导，ring胜出；低于1MB时，log2(N)的跳数更关键。把一种拓扑硬编码下来，在消息大小不合适时会损失吞吐量。",
-            "score": 14.78
+            "score": 15.107
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "朴素地在N个rank上执行allreduce，会把张量发送给根节点N次，再广播返回N次。每个rank的带宽开销按O(N)增长，根节点会成为瓶颈，而耗时下限是最慢链路延迟的N倍。环形allreduce把通信摊平成2(N-1)个、每个大小为T/N的分块，因此每个rank的字节数降为2T(N-1)/N；随着N增大，它趋近2T且永远不会超过2T，无论集群规模多大。对",
-            "score": 12.315
+            "score": 12.413
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "增加树形allreduce变体，并按消息大小在ring与tree之间切换。测量两者的临界点。增加recvtimeoutms，使停滞的rank抛出截止时间错误，而不是永远挂起。用TCP套接字替换四种原语中的multiprocessing.Queue。测试保持不变，但改为使用真实线路。增加带宽埋点钩子，让逐rank的字节计数器记录到JSONL。在4个rank上，",
-            "score": 7.448
+            "score": 7.612
           }
         ]
       },
@@ -60023,19 +60023,19 @@
             "headingId": "对照-gloo-验证",
             "heading": "对照 gloo 验证",
             "quote": "编者注：当前代码verifyagainstgloo使用maxabsdiff<1e-5判定，不是普遍逐字节相等。队列mesh只验证所测输入下的算法与调度，不等同于NCCL性能或硬件行为；树/环交叉点依设备、网络和消息大小而变。",
-            "score": 32.738
+            "score": 32.73
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "用两遍算法实现环形allreduce（先reducescatter，再allgather），并证明每个rank的通信量是每个元素2(N-1)/N字节。基于multiprocessing.Queue上的点对点发送，实现broadcast、allgather和reducescatter。对相同输入，将每个原语的输出与使用gloo的torch.distribute",
-            "score": 14.803
+            "score": 14.724
           },
           {
             "headingId": "对照-gloo-验证",
             "heading": "对照 gloo 验证",
-            "quote": "每个原语都配有单元测试：在相同worldsize下，使用同一个张量，将其输出与采用gloo后端初始化的torch.distributed进行比较。如果你的环形allreduce与gloo的结果偏差超过float32的epsilon，测试就会失败。用参考实现进行验证是不可妥协的要求；没有这一步，原语可能看起来正确，直到真实训练运行到step10000才暴露问题",
-            "score": 12.088
+            "quote": "本地运行适配：锁定上游的工作进程通过队列发送PyTorch张量后退出，父进程可能无法再读取其共享存储。LearningAtlas仅在首次创建私人工作区时，将这些队列载荷改为NumPy值并在接收端恢复张量；保留集合算法、字节计数和测试断言，不改上游文件，也不覆盖已有学习者实现。",
+            "score": 12.581
           }
         ]
       },
@@ -60048,19 +60048,19 @@
             "headingId": "生产环境中的模式",
             "heading": "生产环境中的模式",
             "quote": "按消息大小选择ring或tree，不要固守一种拓扑。NCCL自带拓扑检测器：消息大于约1MB时选择ring，小于该大小时选择tree。临界点取决于带宽与延迟的对比：超过1MB时，带宽项2T(N-1)/N占主导，ring胜出；低于1MB时，log2(N)的跳数更关键。把一种拓扑硬编码下来，在消息大小不合适时会损失吞吐量。",
-            "score": 18.315
+            "score": 18.695
           },
           {
             "headingId": "对照-gloo-验证",
             "heading": "对照 gloo 验证",
             "quote": "编者注：当前代码verifyagainstgloo使用maxabsdiff<1e-5判定，不是普遍逐字节相等。队列mesh只验证所测输入下的算法与调度，不等同于NCCL性能或硬件行为；树/环交叉点依设备、网络和消息大小而变。",
-            "score": 8.803
+            "score": 8.976
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "增加树形allreduce变体，并按消息大小在ring与tree之间切换。测量两者的临界点。增加recvtimeoutms，使停滞的rank抛出截止时间错误，而不是永远挂起。用TCP套接字替换四种原语中的multiprocessing.Queue。测试保持不变，但改为使用真实线路。增加带宽埋点钩子，让逐rank的字节计数器记录到JSONL。在4个rank上，",
-            "score": 7.359
+            "score": 7.518
           }
         ]
       }
@@ -60696,7 +60696,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/81-end-to-end-distributed-train",
-    "translationSha256": "45359472528e8cf719c4ae9b9bdd980cf51b0e2499be06792409bd6c1242ef4b",
+    "translationSha256": "18bb51f8f9bdf859e52244821020d9af77b02d9d730dbaf5341e894bb63320bf",
     "assessmentSha256": "d541c02a730a56a6d3a6a6d225e10f7fa06f974b436babbf87f96a6fd49612b1",
     "questions": [
       {
@@ -60708,19 +60708,19 @@
             "headingId": "组合规则",
             "heading": "组合规则",
             "quote": "循环不需要知道reducescatter或rendezvous文件。ZeRO和检查点模块提供窄接口，由循环负责组合。",
-            "score": 11.183
+            "score": 11.307
+          },
+          {
+            "headingId": "自行结束意味着退出码-0",
+            "heading": "自行结束意味着退出码 0",
+            "quote": "本地运行适配：锁定上游的工作进程将检查点快照张量放入队列后退出，父进程可能因共享存储连接断开而报错。LearningAtlas仅在首次创建私人工作区时复用本课serialize/deserialize传递快照字节；保留训练、检查点和测试断言，不改上游文件，也不覆盖已有学习者实现。",
+            "score": 10.393
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "Capstone的证明在于各个部件确实能拼合。课程76实现了collective；课程77将其封装为DDP；课程78使用reducescatter分片优化器状态；课程79分析了流水线；课程80保存了分片检查点。每课都有自己的测试并能独立运行。真实训练会同时使用所有原语；如果组合错误，loss会发散，检查点无法恢复，或者每rank内存本应下降却反而增长。",
-            "score": 8.378
-          },
-          {
-            "headingId": "交付",
-            "heading": "交付",
-            "quote": "完整课程链在此结束。6课合在一起，就是一个真实团队在采用DeepSpeed之前会构建的分布式训练子系统；该抽象已经用gloo验证，并覆盖了故障模式。Phase17（基础设施与生产）负责把它带到真实集群。",
-            "score": 6.108
+            "score": 8.272
           }
         ]
       },
@@ -60733,19 +60733,19 @@
             "headingId": "自行结束意味着退出码-0",
             "heading": "自行结束意味着退出码 0",
             "quote": "编者注：LayerNorm通常不维护BatchNorm式的runningmean/variance。相同参数范数只是同步线索，不能证明逐元素一致；固定20步也不能防止单步死锁，CI仍需外部超时。墙钟检查点周期控制的是可能丢失的时间，不保证相同FLOPs。",
-            "score": 29.003
+            "score": 29.264
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "本课运行端到端演示并验证四个不变量：(a)20步内loss在浮点噪声范围内单调下降；(b)每个rank在每一步都持有相同的参数范数；(c)每rank的优化器内存等于ZeRO-1公式12P/N字节；(d)第10步的检查点在重启时逐字节相等地重新加载。演示会自行结束：20步、单条命令、退出码0。",
-            "score": 13.755
+            "score": 13.978
           },
           {
             "headingId": "自行结束意味着退出码-0",
             "heading": "自行结束意味着退出码 0",
             "quote": "循环运行固定的20步后退出。没有whileTrue，不需要人工干预，也不从外部状态恢复。一个可以无人看管地运行、结束后留下完整日志的Capstone，才能证明系统连线正确。如果任一部件死锁，演示就不会返回，测试工具会捕获这一点。",
-            "score": 11.011
+            "score": 10.996
           }
         ]
       },
@@ -60758,19 +60758,19 @@
             "headingId": "自行结束意味着退出码-0",
             "heading": "自行结束意味着退出码 0",
             "quote": "编者注：LayerNorm通常不维护BatchNorm式的runningmean/variance。相同参数范数只是同步线索，不能证明逐元素一致；固定20步也不能防止单步死锁，CI仍需外部超时。墙钟检查点周期控制的是可能丢失的时间，不保证相同FLOPs。",
-            "score": 18.813
+            "score": 19.15
           },
           {
             "headingId": "为什么使用微型-gpt-而不是只用-mlp",
             "heading": "为什么使用微型 GPT，而不是只用 MLP",
             "quote": "课程77中的MLP足以验证梯度同步。微型GPT额外增加了三点：词表上的独立LMhead（本课为清晰起见不共享权重；完整GPT通常会让head与词元embedding共享）、作为loss的softmax+交叉熵（比MSE有更多数值边界情况），以及非对称前向路径（每层依次经过嵌入、注意力和MLP）。Capstone如果仍使用MLP，就无法暴露组合是否正确处理La",
-            "score": 16.737
+            "score": 17.062
           },
           {
             "headingId": "微型-gpt",
             "heading": "微型 GPT",
             "quote": "模型刻意做得很小：2个Transformerblock、嵌入维度32、4个注意力头、词表64、序列长度16、批大小4。参数只有几千个，但足以检验每个连接决策（多头注意力执行标准的掩码路径；LayerNorm有需要同步的权重；LMhead是单独映射回词表的线性投影）。规模又足够小，使4个CPUrank上的20步训练能在几秒内完成。",
-            "score": 5.745
+            "score": 5.864
           }
         ]
       },
@@ -60783,19 +60783,19 @@
             "headingId": "自行结束意味着退出码-0",
             "heading": "自行结束意味着退出码 0",
             "quote": "编者注：LayerNorm通常不维护BatchNorm式的runningmean/variance。相同参数范数只是同步线索，不能证明逐元素一致；固定20步也不能防止单步死锁，CI仍需外部超时。墙钟检查点周期控制的是可能丢失的时间，不保证相同FLOPs。",
-            "score": 28.219
+            "score": 28.725
           },
           {
             "headingId": "自行结束意味着退出码-0",
             "heading": "自行结束意味着退出码 0",
             "quote": "循环运行固定的20步后退出。没有whileTrue，不需要人工干预，也不从外部状态恢复。一个可以无人看管地运行、结束后留下完整日志的Capstone，才能证明系统连线正确。如果任一部件死锁，演示就不会返回，测试工具会捕获这一点。",
-            "score": 6.238
+            "score": 6.361
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "本课运行端到端演示并验证四个不变量：(a)20步内loss在浮点噪声范围内单调下降；(b)每个rank在每一步都持有相同的参数范数；(c)每rank的优化器内存等于ZeRO-1公式12P/N字节；(d)第10步的检查点在重启时逐字节相等地重新加载。演示会自行结束：20步、单条命令、退出码0。",
-            "score": 2.442
+            "score": 2.485
           }
         ]
       },
@@ -60808,19 +60808,19 @@
             "headingId": "生产环境中的模式",
             "heading": "生产环境中的模式",
             "quote": "尽早检测发散。生产运行会在反向传播后增加NaN防护和loss峰值检测；如果单步loss增长超过2倍，就回滚到上一检查点，而不是让优化器继续走向退化状态。本课loss曲线平滑，因此防护未被触发，但保留了这个钩子。",
-            "score": 8.094
+            "score": 8.215
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "Capstone的证明在于各个部件确实能拼合。课程76实现了collective；课程77将其封装为DDP；课程78使用reducescatter分片优化器状态；课程79分析了流水线；课程80保存了分片检查点。每课都有自己的测试并能独立运行。真实训练会同时使用所有原语；如果组合错误，loss会发散，检查点无法恢复，或者每rank内存本应下降却反而增长。",
-            "score": 7.882
+            "score": 8.067
           },
           {
             "headingId": "端到端分布式训练",
             "heading": "端到端分布式训练",
             "quote": "课程76到80分别构建了一个部件。本课负责组装：一个微型GPT在4个模拟rank上训练，使用DDP做梯度同步、ZeRO-1做优化器状态分片，并在中途保存分片检查点。演示运行20步，自行结束，打印loss曲线和内存画像，并写出可恢复的检查点。",
-            "score": 7.726
+            "score": 7.844
           }
         ]
       },
@@ -60833,19 +60833,19 @@
             "headingId": "自行结束意味着退出码-0",
             "heading": "自行结束意味着退出码 0",
             "quote": "编者注：LayerNorm通常不维护BatchNorm式的runningmean/variance。相同参数范数只是同步线索，不能证明逐元素一致；固定20步也不能防止单步死锁，CI仍需外部超时。墙钟检查点周期控制的是可能丢失的时间，不保证相同FLOPs。",
-            "score": 17.818
+            "score": 18.066
           },
           {
             "headingId": "生产环境中的模式",
             "heading": "生产环境中的模式",
             "quote": "每K分钟保存一次，而不是每K步。序列长度和微批次数会改变每步耗时。每10分钟保存一次检查点，无论模型大小都能捕获相同的计算量。本课为简单起见按步数保存；生产系统按墙上时钟保存。",
-            "score": 15.477
+            "score": 15.71
           },
           {
             "headingId": "生产环境中的模式",
             "heading": "生产环境中的模式",
             "quote": "尽早检测发散。生产运行会在反向传播后增加NaN防护和loss峰值检测；如果单步loss增长超过2倍，就回滚到上一检查点，而不是让优化器继续走向退化状态。本课loss曲线平滑，因此防护未被触发，但保留了这个钩子。",
-            "score": 7.802
+            "score": 7.878
           }
         ]
       }

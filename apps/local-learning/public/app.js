@@ -206,7 +206,7 @@ function publishedMarkdown() {
     return { html: `<section class="content-unavailable"><h2>译文需要同步</h2><p>上游内容已变化或当前译文尚未审核。阅读器不会显示可能过期的内容。</p></section>`, headings: [] };
   }
   const firstSection = content.markdown.indexOf("## 学习目标");
-  const body = firstSection >= 0 ? content.markdown.slice(firstSection) : content.markdown;
+  const body = firstSection >= 0 ? content.markdown.slice(firstSection) : content.markdown.replace(/^\s*# [^\n]+(?:\n|$)/, "");
   return renderMarkdown(body, { cards: content.theoryCards, resourceBaseUrl: lesson.sourceUrl.replace(/[^/]+$/, ""), imageBaseUrl: new URL(content.resourceBaseUrl, location.origin).href });
 }
 

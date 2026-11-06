@@ -51,24 +51,31 @@ test("model discovery and saving only reuse keys for the normalized same endpoin
   assert.equal(changed.apiKeyConfigured, false);
 });
 
-test("default lesson starts at Phase 0 and staged lessons stay blocked", async (t) => {
+test("default lesson starts at Phase 0 and unknown lessons stay blocked", async (t) => {
   const base = await fixture(t);
   const lesson = await fetch(base + "/api/lesson").then(r => r.json());
   assert.equal(lesson.id, "practice/00-setup-and-tooling/01-dev-environment");
   assert.match(lesson.sourceUrl, /^https:\/\/github.com\/rohitg00\//);
   const course = await fetch(base + "/api/course").then(r => r.json());
-  const staged = course.at(-1).lessons[0];
-  assert.equal(staged.publicationStatus, "staged");
-  assert.match(staged.title, /[\u4e00-\u9fff]/);
-  assert.equal(staged.available, false);
-  assert.equal((await fetch(base + "/api/lesson?lessonId=" + encodeURIComponent(staged.id))).status, 404);
+  const capstone = course.at(-1).lessons[0];
+  assert.equal(capstone.publicationStatus, "available");
+  assert.match(capstone.title, /[\u4e00-\u9fff]/);
+  assert.equal(capstone.available, true);
+  assert.equal((await fetch(base + "/api/lesson?lessonId=" + encodeURIComponent(capstone.id))).status, 200);
+  for (const id of ["practice/20-unpublished/01-staged", "practice/19-capstone-projects/18-nonexistent", "practice/19-capstone-projects/../main.py"]) {
+    assert.equal((await fetch(base + "/api/lesson?lessonId=" + encodeURIComponent(id))).status, 404);
+  }
 });
 
 
-test("practice images are served locally while text and staged phase assets remain blocked", async t => {
+test("practice images are served locally while text and unknown phase assets remain blocked", async t => {
   const base = await fixture(t);
   const image = await fetch(base + "/api/practice/assets/11-llm-engineering/17-agent-framework-tradeoffs/assets/framework-matrix.svg");
   assert.equal(image.status, 200); assert.match(image.headers.get("content-type")!, /image\/svg/);
+  const capstoneImage = await fetch(base + "/api/practice/assets/19-capstone-projects/07-end-to-end-fine-tuning-pipeline/assets/pipeline-dag.svg");
+  assert.equal(capstoneImage.status, 200);
+  assert.match(capstoneImage.headers.get("content-type")!, /image\/svg/);
+  assert.equal((await fetch(base + "/api/practice/assets/19-capstone-projects/07-end-to-end-fine-tuning-pipeline/code/main.py")).status, 403);
   assert.equal((await fetch(base + "/api/practice/assets/11-llm-engineering/17-agent-framework-tradeoffs/docs/en.md")).status, 403);
-  assert.equal((await fetch(base + "/api/practice/assets/19-capstone-projects/01-terminal-native-coding-agent/assets/image.svg")).status, 403);
+  assert.equal((await fetch(base + "/api/practice/assets/20-unpublished/01-staged/assets/image.svg")).status, 403);
 });
