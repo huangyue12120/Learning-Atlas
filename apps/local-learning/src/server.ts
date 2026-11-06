@@ -1,3 +1,4 @@
+import { readerDraft, saveReaderDraft } from "./reader-drafts.ts";
 import { cachedFiles, existsSync, readFileSync, readdirSync } from "./content-cache.ts";
 import { RequestError, secureRequest, normalizedBaseUrl } from "./security.ts";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
@@ -601,6 +602,12 @@ function createDatabase(dataDirectory: string) {
       created_at TEXT NOT NULL,
       resolved INTEGER NOT NULL DEFAULT 0,
       resolved_at TEXT
+    ) STRICT;
+    CREATE TABLE IF NOT EXISTS reader_drafts (
+      lesson_id TEXT PRIMARY KEY,
+      data TEXT NOT NULL,
+      quiz_fingerprint TEXT NOT NULL,
+      updated_at TEXT NOT NULL
     ) STRICT;
     CREATE TABLE IF NOT EXISTS quiz_attempts (
       id INTEGER PRIMARY KEY,
@@ -1240,7 +1247,7 @@ function publishedQuiz(lesson: Lesson): PublishedQuiz {
 
 function quizForLearner(lesson: Lesson) {
   const quiz = publishedQuiz(lesson);
-  return { status: quiz.status, questions: quiz.questions.map(({ id, question, options }) => ({ id, question, options })) };
+  return { status: quiz.status, fingerprint: createHash("sha256").update(JSON.stringify(quiz.questions)).digest("hex"), questions: quiz.questions.map(({ id, question, options }) => ({ id, question, options })) };
 }
 
 function quizResultForAnswers(quiz: PublishedQuiz, selected: number[]) {
@@ -1394,7 +1401,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
         const lessonRoute = [
           "/api/lesson", "/api/lesson/content", "/api/quiz", "/api/quiz/attempts", "/api/tutor/messages",
           "/api/review-items", "/api/tools", "/api/workspace/open", "/api/exploration/open", "/api/learning-state",
-          "/api/reading-position", "/api/notes"
+          "/api/reading-position", "/api/notes", "/api/reader-draft"
         ].some((path) => url.pathname === path || url.pathname.startsWith(`${path}/`));
         const lesson = lessonRoute ? lessonFor(lessonId) : null;
         if (lessonRoute && !lesson) return sendJson(response, 404, { error: "课程不存在。" });
@@ -1590,6 +1597,11 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
             ON CONFLICT(lesson_id) DO UPDATE SET completed = excluded.completed, review = excluded.review
           `).run(lessonId, Number(body.completed), Number(body.review));
           return sendJson(response, 200, stateFor(database, lessonId));
+        }
+        if (url.pathname === "/api/reader-draft" && ["GET", "PUT"].includes(request.method ?? "")) {
+          const quiz = quizForLearner(lesson!);
+          if (request.method === "GET") return sendJson(response, 200, readerDraft(database, lessonId, quiz.fingerprint));
+          return sendJson(response, 200, saveReaderDraft(database, lessonId, await readJson(request), quiz.fingerprint, quiz.questions));
         }
         if (request.method === "GET" && url.pathname === "/api/reading-position") {
           return sendJson(response, 200, readingPositionFor(database, lessonId));
