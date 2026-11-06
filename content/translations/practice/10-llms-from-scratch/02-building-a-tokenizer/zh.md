@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/02-building-a-tokenizer/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 3e2af805d324028b1c673be3bebad6f17dc74ca2ffa0f1f050aa2d5d56d61da1
+  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
+  sha256: a7e4df3e8a19f0a31ae5fb74f4611b1a63165b5905bcaaf76ff577f8fb79893e
 status: reviewed
 ---
 
@@ -221,10 +221,10 @@ def pre_tokenize(text):
 
 ```python
 print(pre_tokenize("Hello, world! Don't stop."))
-# [' Hello', ',', ' world', '!', " Don", "'t", ' stop', '.']
+# ['Hello', ',', ' world', '!', ' Don', "'t", ' stop', '.']
 ```
 
-前导空格会保留在单词上。缩写会在撇号处分开。标点会成为自己的片段。BPE 永远不会跨越这些边界合并词元。
+前导空格会保留在其后的单词上。第一个单词前没有空格，因此对应的片段是 `Hello`。缩写会在撇号处分开。标点会成为自己的片段。BPE 永远不会跨越这些边界合并词元。
 
 ### 第 3 步：在字节序列上运行 BPE
 

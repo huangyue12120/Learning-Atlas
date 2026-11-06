@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/15-speculative-decoding-eagle3/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 60e2c6ad68167b79a2dea85fcfdd05d45df33ee71cb80ca0db5ed131fab6270b
+  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
+  sha256: bd0ed34419697988b58061aa666e4227869eaeafc335edd0b5f2f135c94c175a
 status: reviewed
 ---
 
@@ -81,6 +81,8 @@ Leviathan、Kalman、Matias（ICML 2023）的定理表明，输出分布与直�
 | EAGLE-2 | EAGLE-1 + 动态草稿树 | 0.80-0.88 | 3-4× | 约 60B 个词元 |
 | EAGLE-3 | 多层特征融合 + TTT | 0.88-0.92 | 3.5-6.5× | 约 60–200B 个词元 |
 | Lookahead | 无草稿（Jacobi 迭代） | N/A | 1.3-1.6× | 无 |
+
+`α` 列表示聊天基准中沿接受路径的逐词元接受率，草稿模型使用与基准匹配的聊天数据训练。这些数值属于较高区间。Phase 10 · 25 引用的另一组配置中，EAGLE-3 的接受率为 0.82；Phase 17 · 05 则按生产环境通用聊天接受率 0.6–0.8 规划部署。选择 `N` 前，应先在自己的流量上测量 `α`。
 
 在 2026 年的生产环境中：vLLM 和 SGLang 在可用时默认使用 EAGLE-3，否则使用 EAGLE-2。TensorRT-LLM 为 Meta 和 NVIDIA 的公开模型提供最快的 Medusa 路径。llama.cpp 为 CPU 部署提供原始草稿方案。
 

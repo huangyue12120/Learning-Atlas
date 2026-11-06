@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/27-eval-harness-fixture-tasks/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 76f36a6d77fbffa5815676c81dfe7a4ccba00c51ef7bdb169e121ce984052517
+  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
+  sha256: 7b3e83c83af086a9d8d29a50b63882900dade4d700bf3f0b7c64dc7cbf2a29b5
 status: reviewed
 ---
 
@@ -58,7 +58,7 @@ FixtureTask 是一个小型 JSON 文件加上可选的 expected/ 目录。JSON �
 
 第三种是 shell_exit_zero。harness 通过第 26 课的沙箱运行 shell 命令，只有命令退出码为零时任务才通过。它能捕获“测试必须通过”的任务。
 
-harness 对每个任务运行 k 次。pass@k 的公式是 1 - (1 - p)^k，其中 p 是经验通过率；harness 还报告原始计数，帮助你发现方差。延迟是每次采样的墙钟时间。成本由智能体自行报告（词元数、美元，或二者），harness 将它在所有采样之间求和，并展示逐任务与聚合后的数字。
+harness 对每个任务运行 k 次。pass@k 的公式是 1 - (1 - p)^k，其中 p 是经验通过率；harness 还报告原始计数，帮助你发现方差。这是代入估计（plug-in estimate）：把实测通过率 p 当作真实通过率。第 72 课对 `n` 次采样、`c` 次通过使用无偏估计量 `1 - C(n - c, k) / C(n, k)`。代入估计偏低。本 harness 使用 `n = k` 次采样，此时无偏估计量在任意一次采样通过时为 1，全部失败时为 0，只能反映是否出现过通过的样本。若要公开报告 pass@k，应采样 `n > k` 次，并使用第 72 课的估计量。延迟是每次采样的墙钟时间。成本由智能体自行报告（词元数、美元，或二者），harness 将它在所有采样之间求和，并展示逐任务与聚合后的数字。
 
 ```figure
 pass-at-k

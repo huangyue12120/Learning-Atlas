@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/25-speculative-decoding/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 5d358dd85e5945899d91987d375d92beba77f4b38b05341c7b87934d5d0ccaa8
+  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
+  sha256: b62292991800cb2662f181c8a58e1928301aa57eca26bdbc1c6eb86ab540ad21
 status: reviewed
 ---
 
@@ -97,7 +97,7 @@ EAGLE-1 的变化：
 
 EAGLE-2（2024）增加动态树拓扑：草稿不确定时树变宽，有把握时保持窄。无需增加验证成本就能提高 `α_effective`。
 
-EAGLE-3（Li 等，2025，《EAGLE-3: Scaling up Inference Acceleration of Large Language Models via Training-Time Test》）移除了固定顶层特征依赖，并用新的“测试时模拟”损失训练草稿器：训练目标是匹配目标模型测试时分布的输出，而不是教师强制训练分布。接受率从 EAGLE-2 的 0.75 提升到 EAGLE-3 的 0.82，每次验证的平均词元数从 3.0 提升到 4.5。
+EAGLE-3（Li 等，2025，《EAGLE-3: Scaling up Inference Acceleration of Large Language Models via Training-Time Test》）移除了固定顶层特征依赖，并用新的“测试时模拟”损失训练草稿器：训练目标是匹配目标模型测试时分布的输出，而不是教师强制训练分布。接受率从 EAGLE-2 的 0.75 提升到 EAGLE-3 的 0.82，每次验证的平均词元数从 3.0 提升到 4.5。这些数字来自一组参考配置。接受率取决于模型组合、草稿树和流量：Phase 10 · 15 引用的聊天基准中，沿接受路径的逐词元接受率为 0.88–0.92；Phase 17 · 05 则按生产环境通用聊天接受率 0.6–0.8 规划。
 
 ### 树注意力验证
 

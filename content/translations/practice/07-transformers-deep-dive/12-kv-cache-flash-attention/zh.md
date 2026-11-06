@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/12-kv-cache-flash-attention/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 44214a35df27da4c3248dc34e6e9a36ff79294f411721c7b92f71f43dfc5a31e
+  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
+  sha256: 1a78de127c990827f8e705f997a7dcdd7e266b997bb06ee1969a12b8791b0338
 status: reviewed
 ---
 
@@ -186,9 +186,9 @@ def tiled_softmax_dot(q, K, V, tile=4):
 
 输出与一次完成的 `softmax(qK) V` 逐位一致，但任意时刻的工作集都只是一个 `tile × d_head` 分块，而不是完整的 `N × d_head`。
 
-### 第 3 步：在生成 100 个词元时比较朴素解码与缓存解码
+### 第 3 步：比较朴素解码与缓存解码
 
-统计注意力操作次数。朴素方法为 `O(N²)` = 5050，缓存方法为 `O(N)` = 100。代码会打印二者。
+统计注意力操作次数。两种解码器执行的查询—键比较次数相同：第 `t` 步关注 `t` 个词元，总次数为 `1 + 2 + ... + N = N(N+1)/2`。代码使用 `N = 10`，两种解码器都会打印 55；生成 100 个词元时，二者都执行 5050 次比较。缓存节省的是 K、V 投影计算。没有缓存时，每一步都会为整个前缀重新计算 K 和 V，因此生成 100 个词元需要计算 5050 个词元状态；使用缓存时，每个词元的 K、V 只计算一次，同样的生成过程只需计算 100 个词元状态。
 
 ## 使用
 

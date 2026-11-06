@@ -1,3 +1,31 @@
+# Learning Atlas v0.27.3 发布说明
+
+发布日期：2026-11-06。
+
+本版处理 Issue #34：将 `ai-engineering-from-scratch` 的可复现快照从 `3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a` 更新到 `8fec9cc19ee7c73b92582899b5455333d30d718e`。上游 #749 修正了既有课程的计算与概念解释，影响 13 篇中文实践译文和 10 条理论关联。课程范围和内容计数与 v0.27.2 相同。
+
+## 本版修复
+
+- **KV 缓存与分词**：说明朴素解码和缓存解码的查询—键比较次数相同，缓存节省的是 K、V 投影；修正预分词示例中首词 `Hello` 前多出的空格。
+- **推测解码**：P7 第 16 课、P10 第 15、25 课和 P17 第 5 课补充 EAGLE 接受率的模型、训练数据和流量条件，区分聊天基准的较高数值与生产规划区间。
+- **流水线与发布**：P10 第 13 课区分确定性阶段的哈希核对与训练阶段的指标复现，对应理论卡同步修正；P17 第 20 课明确跳过 A/B 测试依赖离线评测已证明收益。
+- **视觉词元**：P12 第 5 课将 AnyRes 约 2880 个视觉词元限定到 2x2 网格加全局缩略图的配置。
+- **评测与位置编码**：P19 第 27 课区分 pass@k 代入估计与无偏估计，第 32 课修正正弦位置编码的波长方向，第 41 课说明按批平均会使短批次中词元权重偏高，第 73 课说明 ECE 误差可在同一箱内抵消、不同箱之间不会抵消。
+- **来源记录**：13 篇译文和 10 条理论关联均更新 revision 与 SHA-256。其余 9 张关联卡经对照仍适用，保留原内容。Phase 19 的 3 份上游测验和 1 个 Python 文件的注释修正随子模块快照保留；该 Phase 尚未接入阅读器，不新增中文测验或工作区指南。上游新增的面试题库与站点工具保持上游范围，不纳入本地学习路径。
+
+## 验证
+
+- `python3 scripts/check_translation_correspondence.py`（542 篇实践译文、89 篇理论译文）
+- `python3 scripts/check_source_fingerprints.py`（1560 条）
+- `python3 scripts/check_assessment_correspondence.py`（307 份；6 条既有意译警告）
+- `python3 scripts/check_theory_cards.py`（289 张）
+- `python3 scripts/check_translation_coverage.py --fail-on-missing`（19 个已开放 Phase，零缺口）
+- `python3 scripts/check_repository_hygiene.py`
+- 执行修正的预分词示例及 P7 第 12 课 KV 缓存演示，运行 P19 第 27 课的 20 项上游测试
+- `cd apps/local-learning && npm run check && npm test`（26 项全部通过；API 测试需允许监听本机端口）
+
+---
+
 # Learning Atlas v0.27.2 发布说明
 
 发布日期：2026-10-24。

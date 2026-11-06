@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/05-eagle3-speculative-decoding/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 1051a6e787ee38c43d6c4446bae024b06942b4488895488146044cc464005ef4
+  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
+  sha256: 12877ff8190983b8726b8d9e49568c87af6b43aa89321cf3bf5980388f364100
 status: reviewed
 ---
 
@@ -45,7 +45,7 @@ Decode 受内存带宽限制。在运行 Llama 3.3 70B FP8 的 H100 上，每个
 
 被拒绝的词元不会消失——它们迫使目标模型对第一个被拒词元再做一次前向传播。alpha 降至 0.4 的工作负载，会支付草稿开销、验证开销和重新采样开销。在高并发（如 256 并发）下，decode 批次已经足够大，使“仅目标模型”与“目标模型加验证”的内存带宽差距缩小。在大多数 2026 硬件上，alpha 低于 0.55 时，推测解码为净负收益。
 
-Alpha 随工作负载变化。在 ShareGPT 风格通用聊天上，使用 ShareGPT 训练的 EAGLE-3 可达到 0.6–0.8。对于领域流量（代码、医疗、法律），在通用数据上训练的草稿头降至 0.4–0.6。训练领域专用草稿头可恢复 alpha——相对目标模型微调，它是轻量、快速的训练任务。
+Alpha 随工作负载变化。在 ShareGPT 风格通用聊天上，使用 ShareGPT 训练的 EAGLE-3 可达到 0.6–0.8。对于领域流量（代码、医疗、法律），在通用数据上训练的草稿头降至 0.4–0.6。训练领域专用草稿头可恢复 alpha——相对目标模型微调，它是轻量、快速的训练任务。Phase 7 · 16 和 Phase 10 · 15 引用了更高的数值（0.85 及以上）；这些是与草稿训练数据匹配的聊天基准上的逐词元接受率。部署时应按本页的区间规划，并在自己的流量上测量 alpha。
 
 ### EAGLE 各代一览
 

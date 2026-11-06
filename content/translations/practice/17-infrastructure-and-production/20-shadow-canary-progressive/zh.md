@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/20-shadow-canary-progressive/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: ed0625c65b34b084501408a2343a46729202134d2331403932e96954d4a7906f
+  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
+  sha256: 5bbd6ad29833b7a488b8c6b7219fbec5c25ffd8e7f6e52db72415f44db1c60a7
 status: reviewed
 ---
 
@@ -92,7 +92,7 @@ status: reviewed
 
 ### A/B 步骤是可选的
 
-若新模型明显不同（行为不同、成本曲线不同、语调不同），金丝雀通过后在 50% 做 A/B。若它仅是改进版本，则在金丝雀闸门通过后直接升至 100%。
+若新模型明显不同（行为不同、成本曲线不同、语调不同），金丝雀通过后在 50% 做 A/B。若它是在保持相同行为的基础上改进的版本，则在金丝雀闸门通过后直接升至 100%。这里的“改进”指离线评测已经证明有收益。金丝雀闸门不衡量任务完成情况，因此跳过 A/B 测试的依据是离线评测。
 
 ### 应当记住的数字
 

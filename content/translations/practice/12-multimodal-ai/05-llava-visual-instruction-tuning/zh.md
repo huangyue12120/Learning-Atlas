@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/05-llava-visual-instruction-tuning/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: b396054487d1ce686dfbf0bc9b74a29dd68643ab65a29a20416490e1e36de681
+  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
+  sha256: df0a92928b2290c4989a5d84c4c76efee59c0a665e49d01e49e9564b29256765
 status: reviewed
 ---
 
@@ -98,7 +98,7 @@ LLaVA-1.5（2023 年 10 月）新增：
 - 论文中提出了一个网格切分的高分辨率变体，LLaVA-NeXT 后来将其作为 AnyRes 发布。
 
 LLaVA-NeXT（2024 年 1 月）新增：
-- AnyRes：把高分辨率图像切成 2x2 或 1x3 的 336x336 裁剪图，再加一张全局低分辨率缩略图。每个裁剪图变成 576 个词元；每张图像总共约 2880 个视觉词元。OCR 和图表任务大幅提升。
+- AnyRes：把高分辨率图像切成 2x2 或 1x3 的 336x336 裁剪图，再加一张全局低分辨率缩略图。每个裁剪图变成 576 个词元。2x2 网格加缩略图时，每张图像约有 2880 个视觉词元；1x3 网格的裁剪图更少，因此所需词元也更少。OCR 和图表任务大幅提升。
 - 更好的指令数据配比，并加入 ShareGPT4V（高质量 GPT-4V 标题）。
 - 更强的基础 LLM（Mistral-7B、Yi-34B）。
 
@@ -110,7 +110,7 @@ LLaVA-NeXT（2024 年 1 月）新增：
 
 | | Q-Former（BLIP-2） | MLP（LLaVA） |
 |---|---|---|
-| 每张图像的视觉词元 | 32 | 576（基础）或 2880（AnyRes） |
+| 每张图像的视觉词元 | 32 | 576（基础）或约 2880（AnyRes，2x2 网格） |
 | 可训练参数 | 1.88 亿 + LM | 约 2200 万（7B）+ LM |
 | 第一阶段损失 | ITC+ITM+ITG | 只有 LM |
 | LLM 即插即用 | 需要重新训练 | 只需极少重新训练即可替换 |
@@ -126,7 +126,7 @@ MLP 胜在简单和词元灵活性，Q-Former 胜在词元预算。到 2023 年�
 A chat between a curious human and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the human's questions. USER: <image> Describe this image in detail. ASSISTANT: The image shows ...
 ```
 
-`<image>` 是占位词元。在分词之前，它会被 576 个视觉词元替换（AnyRes 下为 2880 个）。分词器看到的序列会比训练时稍长，但由于第一阶段教会了 LLM 如何处理这种新输入，LLM 可以应对它。
+`<image>` 是占位词元。在分词之前，它会被 576 个视觉词元替换（2x2 AnyRes 网格下约为 2880 个）。分词器看到的序列会比训练时稍长，但由于第一阶段教会了 LLM 如何处理这种新输入，LLM 可以应对它。
 
 ### 参数经济性
 

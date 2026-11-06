@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/16-speculative-decoding/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 0474149a1c447b186c310e093b1d37cb1e911eb7c88e2524ddeeb5236f2e7e83
+  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
+  sha256: 6c01684f6cfabe0d15f3962db788ed316c048be18938f5dfdef76d58544eaaaf
 status: reviewed
 ---
 
@@ -81,7 +81,7 @@ Medusa 用验证器上的额外输出头替代草稿模型。在位置 `t`：
 
 ### EAGLE——复用隐藏状态，得到更好的草稿
 
-EAGLE-1/2/3（Li 等，2024～2025）让草稿模型成为一个微型 Transformer，通常只有 1 层，并把验证器最后一层的隐藏状态作为输入。因为草稿模型能看到验证器的特征表示，其预测与验证器输出分布高度相关。接受率会从约 0.6（基础方案）上升到 0.85 以上。
+EAGLE-1/2/3（Li 等，2024～2025）让草稿模型成为一个微型 Transformer，通常只有 1 层，并把验证器最后一层的隐藏状态作为输入。因为草稿模型能看到验证器的特征表示，其预测与验证器输出分布高度相关。接受率会从约 0.6（基础方案）上升到 0.85 以上。这些是聊天基准上的逐词元接受率，草稿模型使用与基准匹配的聊天数据训练。对于混合生产流量，Phase 17 · 05 按 EAGLE-3 接受率 0.6–0.8 规划，领域流量上的接受率还可能更低。
 
 EAGLE-3（2025）加入了候选续写的树搜索。vLLM 与 SGLang 已把 EAGLE-2/3 作为 Llama 3/4 和 Qwen 3 的默认推测路径。
 
