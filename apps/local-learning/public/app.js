@@ -205,7 +205,7 @@ function publishedMarkdown() {
   }
   const firstSection = content.markdown.indexOf("## 学习目标");
   const body = firstSection >= 0 ? content.markdown.slice(firstSection) : content.markdown;
-  return renderMarkdown(body, { cards: content.theoryCards });
+  return renderMarkdown(body, { cards: content.theoryCards, resourceBaseUrl: lesson.sourceUrl.replace(/[^/]+$/, "") });
 }
 
 function tableOfContents(headings) {
@@ -270,11 +270,57 @@ async function copyText(value) {
   if (!copied) throw new Error("Clipboard unavailable");
 }
 
+function questionOptions(question, prefix) {
+  return question.options.map((option, index) => `<label><input type="radio" name="${prefix}-${escapeHtml(question.id)}" value="${index}"> <span>${escapeHtml(option)}</span></label>`).join("");
+}
+function predictionMarkup() {
+  const questions = quiz.questions.filter(question => question.stage === "pre");
+  if (!questions.length) return "";
+  return `<section class="prediction" aria-labelledby="prediction-title"><p class="eyebrow">读前预测 · 不计分</p><h2 id="prediction-title">先记录你的直觉</h2><p>先选一个答案，读完后与自测对照。预测不会改变得分或学习状态。</p><form id="prediction-form">${questions.map(question => `<fieldset><legend>${escapeHtml(question.question)}</legend>${questionOptions(question, "prediction")}</fieldset>`).join("")}</form></section>`;
+}
+function quizFeedback() {
+  if (!quizResult) return "";
+  return `<section class="quiz-result" aria-live="polite"><p>本次得分：<strong>${quizResult.score} / ${quizResult.total}</strong></p>${quizResult.results.map((result, index) => {
+    const question = quiz.questions[index];
+    const prediction = draft.predictions[question.id];
+    const added = reviewItems.some(item => item.text === question.question.slice(0, 1000));
+    return `<article class="${result.correct ? "correct" : "incorrect"}"><strong>第 ${index + 1} 题：${result.correct ? "✓ 回答正确" : "△ 需要回顾"}</strong><p>正确选项：${escapeHtml(question.options[result.correctOption] ?? "")}</p><p>${escapeHtml(result.explanation)}</p>${prediction !== undefined ? `<p>你读前选择：${escapeHtml(question.options[prediction])}</p>` : ""}${result.correct ? "" : `<button type="button" data-review-question-id="${escapeHtml(question.id)}"${added ? " disabled" : ""}>${added ? "已加入待复习" : "将本题加入待复习"}</button>`}<a href="#lesson-body">回看本课正文</a></article>`;
+  }).join("")}<button type="button" data-quiz-reset>重新作答</button></section>`;
+}
+function quizMarkup() {
+  if (quiz.status !== "reviewed") return "";
+  return `<section class="quiz" aria-labelledby="quiz-title"><p class="eyebrow">本课自测</p><h2 id="quiz-title">检验你的理解</h2><p class="quiz-intro">本课共 ${quiz.questions.length} 题；课末完整作答计分，结果保存在此设备。</p><form id="quiz-form" novalidate>${quiz.questions.map((question, index) => `<fieldset tabindex="-1"><legend>${index + 1}. <small>${({ pre: "读前 pre", check: "检查 check", post: "课后 post" })[question.stage] ?? "检查"}</small> ${escapeHtml(question.question)}</legend>${questionOptions(question, "quiz")}</fieldset>`).join("")}<button>提交自测</button><p id="quiz-status" role="status"></p></form>${quizFeedback()}</section>`;
+}
+function inlineConfirm(button, text) {
+  return new Promise(resolve => {
+    const row = document.createElement("div"); row.className = "inline-confirm";
+    row.innerHTML = `<p>${escapeHtml(text)}</p><button type="button" data-confirm-yes>确认</button><button type="button" data-confirm-no>取消</button>`;
+    button.insertAdjacentElement("afterend", row);
+    row.querySelector("[data-confirm-no]").focus();
+    row.addEventListener("click", event => {
+      if (!event.target.matches("button")) return;
+      const yes = event.target.hasAttribute("data-confirm-yes"); row.remove(); button.focus(); resolve(yes);
+    });
+  });
+}
+let undoTimer;
+function showUndo(undo, message) {
+  clearTimeout(undoTimer);
+  const status = document.querySelector("#undo-status");
+  status.innerHTML = `${escapeHtml(message)} <button type="button" data-undo-token="${escapeHtml(undo.token)}" data-undo-scope="${escapeHtml(undo.scope)}">撤销（60 秒）</button>`;
+  undoTimer = setTimeout(() => { status.textContent = `${message} 撤销时限已过。`; }, Math.max(0, undo.expiresAt - Date.now()));
+}
+async function reloadRestoredLesson() {
+  clearTimeout(draftTimer); clearTimeout(readingPositionTimer);
+  const id = lesson.id; lesson = null; renderedLessonId = null; draftCache.clear();
+  await loadLesson(id, "none");
+}
+
 function render() {
   const changingLesson = renderedLessonId !== lesson.id;
   const lessonContent = changingLesson ? publishedMarkdown() : { html: "", headings: [] };
   const isSetupCourse = lesson.phaseSlug === "00-setup-and-tooling";
-  const lessonLede = content.markdown.match(/^>\s+(.+)$/m)?.[1]?.replace(/[*`]/g, "") ?? "阅读课程，完成实践，记录你的理解与疑问。";
+  const lessonLede = content.markdown.slice(content.markdown.indexOf("# ")).match(/^>\s+(.+)$/m)?.[1]?.replace(/[*`]/g, "") ?? "阅读课程，完成实践，记录你的理解与疑问。";
   const practiceTitle = isSetupCourse ? "把配置变成可复用的本地工作流" : "把理解变成可运行的代码";
   const practiceDescription = isSetupCourse
     ? "本课的 Python 示例会复制到你的私人工作区；配置和其他工具操作仍以课程中的原始步骤为准。"
@@ -288,10 +334,10 @@ function render() {
   const reviewToggleLabel = reviewOpen ? "收起复习" : `复习${reviewItems.length ? `（${reviewItems.length}）` : ""}`;
   const themeControl = themeSelect(themePreference, "theme-select");
   const noteList = notes.length
-    ? notes.map((note) => `<article class="note"><p>${escapeHtml(note.text)}</p><time datetime="${note.createdAt}">${new Date(note.createdAt).toLocaleString("zh-CN")}</time></article>`).join("")
+    ? notes.map((note) => `<article class="note"><p>${escapeHtml(note.text)}</p><button type="button" data-delete-note="${note.id}">删除笔记</button><time datetime="${note.createdAt}">${new Date(note.createdAt).toLocaleString("zh-CN")}</time></article>`).join("")
     : "<p class=\"empty\">尚无笔记。用自己的话记录一个理解或疑问。</p>";
   const reviewList = reviewItems.length
-    ? `<ul class="review-item-list">${reviewItems.map((item) => `<li><span>${escapeHtml(item.text)}</span><button type="button" class="review-item-resolve" data-review-item-id="${item.id}">已复习</button></li>`).join("")}</ul>`
+    ? `<ul class="review-item-list">${reviewItems.map((item) => `<li><span>${escapeHtml(item.text)}</span><button type="button" data-delete-review="${item.id}">删除</button><button type="button" class="review-item-resolve" data-review-item-id="${item.id}">已复习</button></li>`).join("")}</ul>`
     : "<p class=\"empty\">尚无确认的待复习点。</p>";
   const progressMeta = {
     "not-started": { label: "○ 未开始", className: "not-started" },
@@ -312,9 +358,7 @@ function render() {
     }).join("");
     return `<details class="phase-group"${phase.slug === lesson.phaseSlug ? " open" : ""}><summary><span>${escapeHtml(phase.title)}<small>${startedCourseCount} / ${phase.lessons.length} 已学习 · ${phaseProgress}</small></span><small>${publishedCourseCount} / ${phase.lessons.length} 已发布</small></summary><div class="phase-lessons">${lessons}</div></details>`;
   }).join("");
-  const quizPanel = quiz.status === "reviewed"
-    ? `<section class="quiz" aria-labelledby="quiz-title"><p class="eyebrow">本课自测</p><h2 id="quiz-title">检验你的理解</h2><p class="quiz-intro">本课共 ${quiz.questions.length} 题；结果仅保存在此设备。</p><form id="quiz-form">${quiz.questions.map((question, index) => `<fieldset><legend>${index + 1}. ${escapeHtml(question.question)}</legend>${question.options.map((option, optionIndex) => `<label><input type="radio" name="quiz-${escapeHtml(question.id)}" value="${optionIndex}" required> ${escapeHtml(option)}</label>`).join("")}</fieldset>`).join("")}<button>提交自测</button><p id="quiz-status" role="status"></p></form>${quizResult ? `<section class="quiz-result" aria-live="polite"><p>本次得分：<strong>${quizResult.score} / ${quizResult.total}</strong></p>${quizResult.results.map((result, index) => `<article class="${result.correct ? "correct" : "incorrect"}"><strong>第 ${index + 1} 题：${result.correct ? "回答正确" : "需要回顾"}</strong><p>${escapeHtml(result.explanation)}</p>${result.correct ? "" : '<button type="button" class="quiz-review-link" data-action="review" data-review-add="true">在待复习中确认</button>'}</article>`).join("")}</section>` : ""}</section>`
-    : "";
+  const quizPanel = quizMarkup();
   const translationLabel = content.translationStatus === "reviewed" ? "已审核" : "待同步";
   const modelNameControl = discoveredModels.length
     ? `<div id="model-name-control"><label for="model-name">模型名</label><select id="model-name" name="model" required>${discoveredModels.map((name) => `<option value="${escapeHtml(name)}"${name === modelConfig.model ? " selected" : ""}>${escapeHtml(name)}</option>`).join("")}</select></div>`
@@ -326,7 +370,7 @@ function render() {
   const next = document.createElement("div");
   next.innerHTML = `
     <div class="shell${notesOpen ? " notes-open" : ""}${tutorOpen ? " tutor-open" : ""}${reviewOpen ? " review-open" : ""}${navigatorOpen ? " navigator-open" : ""}" style="--navigator-width: ${navigatorWidth}px${tutorOpen ? `; --tutor-width: ${tutorWidth}px` : ""}">
-      <header class="topbar"><a class="brand" href="/">Learning Atlas</a><button type="button" class="navigator-toggle" data-action="navigator" aria-expanded="${navigatorOpen}" aria-controls="course-navigator">课程目录</button><span>本地优先 · 学习数据仅保存在此设备</span><div class="topbar-actions">${themeControl}<button type="button" class="tutor-toggle" data-action="tutor" aria-expanded="${tutorOpen}" aria-controls="tutor-panel">${tutorToggleLabel}</button><button type="button" class="notes-toggle" data-action="notes" aria-expanded="${notesOpen}" aria-controls="notes-panel">${notesToggleLabel}</button></div></header>
+      <div id="undo-status" role="status" aria-live="polite"></div><header class="topbar"><a class="brand" href="/">Learning Atlas</a><button type="button" class="navigator-toggle" data-action="navigator" aria-expanded="${navigatorOpen}" aria-controls="course-navigator">课程目录</button><span>本地优先 · 学习数据仅保存在此设备</span><div class="topbar-actions">${themeControl}<button type="button" class="tutor-toggle" data-action="tutor" aria-expanded="${tutorOpen}" aria-controls="tutor-panel">${tutorToggleLabel}</button><button type="button" class="notes-toggle" data-action="notes" aria-expanded="${notesOpen}" aria-controls="notes-panel">${notesToggleLabel}</button></div></header>
       <button type="button" class="navigator-scrim" data-action="navigator" aria-label="关闭课程目录" hidden tabindex="-1"></button>
       <nav id="course-navigator" class="navigator" aria-label="课程导航"><div class="navigator-resizer" role="separator" aria-label="调整实践主线宽度" aria-orientation="vertical" aria-valuemin="224" aria-valuemax="384" aria-valuenow="${navigatorWidth}" tabindex="0"></div><button class="navigator-close" type="button" data-action="navigator">关闭目录</button><p>实践主线</p><label for="course-filter">筛选课程</label><input id="course-filter" type="search" placeholder="课程名称或状态" value="${escapeHtml(navigatorFilter)}">${courseNavigation}</nav>
       <main id="lesson" class="lesson">
@@ -335,7 +379,7 @@ function render() {
         <p class="original-title">${escapeHtml(lesson.originalTitle)}</p>
         <p class="lede">${escapeHtml(lessonLede)}</p>
         <dl class="metadata"><div><dt>预计学习</dt><dd>${escapeHtml(lesson.duration)}</dd></div><div><dt>译文状态</dt><dd>${translationLabel}</dd></div></dl>
-        <div class="markdown-content">${lessonContent.html}</div>
+        ${predictionMarkup()}<div class="markdown-content" id="lesson-body">${lessonContent.html}</div>
         <section class="notice"><p class="eyebrow">本地实践</p><h2>${practiceTitle}</h2><p>${practiceDescription}</p><div class="actions">${lesson.resources.workspace ? '<button type="button" data-action="workspace">在 VS Code 中继续</button>' : ""}${lesson.resources.exploration ? '<button type="button" data-action="exploration">用 marimo 探索</button>' : ""}</div><p id="tool-status" role="status"></p><a href="${escapeHtml(lesson.sourceUrl)}" target="_blank" rel="noreferrer">查看锁定版本的原始课程</a></section>
         <section class="reflection" aria-labelledby="reflection-title"><p class="eyebrow">学习状态</p><h2 id="reflection-title">完成本课后，你能用自己的话解释关键概念并完成相应练习吗？</h2><div class="actions"><button type="button" data-state="completed" aria-pressed="${state.completed}">${completedLabel}</button><button type="button" data-state="review" aria-pressed="${state.review}">${reviewLabel}</button></div></section>
       ${lessonNavigation()}<p id="draft-status" role="status"></p></main>
@@ -402,12 +446,14 @@ function captureDraft() {
   draft.noteText = document.querySelector("#note-text")?.value ?? draft.noteText;
   draft.tutorText = document.querySelector("#tutor-text")?.value ?? draft.tutorText;
   draft.reviewText = document.querySelector("#review-item-text")?.value ?? draft.reviewText;
+  draft.predictions = Object.fromEntries([...document.querySelectorAll("#prediction-form input:checked")].map(input => [input.name.slice(11), Number(input.value)]));
   draft.answers = Object.fromEntries([...document.querySelectorAll('#quiz-form input:checked')].map(input => [input.name.slice(5), Number(input.value)]));
   draft.openCards = [...document.querySelectorAll(".theory-card[open]")].map(element => element.dataset.cardSlug).filter(Boolean);
   draftCache.set(lesson.id, structuredClone(draft));
 }
 function restoreDraft() {
   for (const [id, key] of [["note-text", "noteText"], ["tutor-text", "tutorText"], ["review-item-text", "reviewText"]]) document.getElementById(id).value = draft[key];
+  for (const input of document.querySelectorAll("#prediction-form input")) input.checked = draft.predictions[input.name.slice(11)] === Number(input.value);
   for (const input of document.querySelectorAll('#quiz-form input')) input.checked = draft.answers[input.name.slice(5)] === Number(input.value);
   for (const card of document.querySelectorAll(".theory-card")) card.open = draft.openCards.includes(card.dataset.cardSlug);
 }
@@ -428,7 +474,10 @@ app.addEventListener("input", event => {
   captureDraft(); clearTimeout(draftTimer); draftTimer = setTimeout(() => void persistDraft(), 350);
 });
 app.addEventListener("toggle", event => {
-  if (event.target.matches(".theory-card") && !shouldRestoreReadingPosition) void persistDraft();
+  if (event.target.matches(".theory-card") && !shouldRestoreReadingPosition) {
+    const open = [...document.querySelectorAll(".theory-card[open]")].map(card => card.dataset.cardSlug).filter(Boolean);
+    if (JSON.stringify(open) !== JSON.stringify(draft.openCards)) void persistDraft();
+  }
 }, true);
 
 function saveReadingPosition(keepalive = false) {
@@ -532,6 +581,52 @@ app.addEventListener("change", (event) => {
 });
 
 app.addEventListener("click", async (event) => {
+  const actionLessonId = lesson.id;
+  const undoButton = event.target.closest("[data-undo-token]");
+  if (undoButton) {
+    undoButton.disabled = true;
+    try {
+      await request("/api/undo", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token: undoButton.dataset.undoToken, scope: undoButton.dataset.undoScope }) });
+      if (undoButton.dataset.undoScope === "import") await reloadRestoredLesson();
+      else {
+        const [nextNotes, messages, items] = await Promise.all([request(lessonApi("/api/notes")), request(lessonApi("/api/tutor/messages")), request(lessonApi("/api/review-items"))]);
+        if (lesson.id === actionLessonId) { notes = nextNotes; tutorMessages = messages; reviewItems = items; render(); }
+      }
+      document.querySelector("#undo-status").textContent = "已撤销。";
+    } catch (error) { document.querySelector("#undo-status").textContent = error.message; }
+    return;
+  }
+  const deleteButton = event.target.closest("[data-delete-note], [data-delete-review]");
+  if (deleteButton) {
+    if (!await inlineConfirm(deleteButton, "删除这条记录？60 秒内可撤销。")) return;
+    const noteId = deleteButton.dataset.deleteNote, id = noteId ?? deleteButton.dataset.deleteReview;
+    try {
+      const result = await request(lessonApi(`/api/${noteId ? "notes" : "review-items"}/${id}`), { method: "DELETE" });
+      showUndo(result.undo, "记录已删除。");
+      if (lesson.id !== actionLessonId) return;
+      if (noteId) notes = notes.filter(item => item.id !== Number(id));
+      else reviewItems = reviewItems.filter(item => item.id !== Number(id));
+      render();
+    } catch (error) { showError(error); }
+    return;
+  }
+  if (event.target.closest("[data-quiz-reset]")) {
+    quizResult = null; draft.answers = {};
+    document.querySelectorAll("#quiz-form input").forEach(input => { input.checked = false; });
+    void persistDraft(); render(); document.querySelector("#quiz-form fieldset")?.focus(); return;
+  }
+  const questionReview = event.target.closest("[data-review-question-id]");
+  if (questionReview) {
+    const question = quiz.questions.find(question => question.id === questionReview.dataset.reviewQuestionId);
+    questionReview.disabled = true;
+    try {
+      const item = await request(lessonApi("/api/review-items"), { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text: question.question.slice(0, 1000) }) });
+      if (lesson.id !== actionLessonId) return;
+      if (!reviewItems.some(existing => existing.id === item.id)) reviewItems.unshift(item);
+      render();
+    } catch (error) { questionReview.disabled = false; showError(error); }
+    return;
+  }
   const copyButton = event.target.closest("button[data-copy-code]");
   if (copyButton) {
     const code = document.getElementById(copyButton.dataset.copyCode)?.textContent;
@@ -556,16 +651,17 @@ app.addEventListener("click", async (event) => {
   if (resolveReviewItem) {
     resolveReviewItem.disabled = true;
     try {
-      await request(`/api/review-items/${encodeURIComponent(resolveReviewItem.dataset.reviewItemId)}`, {
+      await request(lessonApi(`/api/review-items/${encodeURIComponent(resolveReviewItem.dataset.reviewItemId)}`), {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ resolved: true })
       });
+      if (lesson.id !== actionLessonId) return;
       reviewItems = reviewItems.filter((item) => item.id !== Number(resolveReviewItem.dataset.reviewItemId));
       render();
     } catch (error) {
       resolveReviewItem.disabled = false;
-      window.alert(error.message);
+      showError(error);
     }
     return;
   }
@@ -643,26 +739,31 @@ app.addEventListener("click", async (event) => {
     tutorMessageDelete.disabled = true;
     try {
       const id = tutorMessageDelete.dataset.tutorMessageId;
-      await request(lessonApi(`/api/tutor/messages/${encodeURIComponent(id)}`), { method: "DELETE" });
+      if (!await inlineConfirm(tutorMessageDelete, "删除这条对话？60 秒内可撤销。")) { tutorMessageDelete.disabled = false; return; }
+      const result = await request(lessonApi(`/api/tutor/messages/${encodeURIComponent(id)}`), { method: "DELETE" });
+      showUndo(result.undo, "对话已删除。");
+      if (lesson.id !== actionLessonId) return;
       tutorMessages = tutorMessages.filter((message) => message.id !== Number(id));
       render();
     } catch (error) {
       tutorMessageDelete.disabled = false;
-      window.alert(error.message);
+      showError(error);
     }
     return;
   }
   const clearTutor = event.target.closest("button[data-clear-tutor]");
   if (clearTutor) {
-    if (!window.confirm("确定清空本课的全部对话吗？此操作无法撤销。")) return;
+    if (!await inlineConfirm(clearTutor, "清空本课全部对话？60 秒内可撤销。")) return;
     clearTutor.disabled = true;
     try {
-      await request(lessonApi("/api/tutor/messages"), { method: "DELETE" });
+      const result = await request(lessonApi("/api/tutor/messages"), { method: "DELETE" });
+      showUndo(result.undo, "本课对话已清空。");
+      if (lesson.id !== actionLessonId) return;
       tutorMessages = [];
       render();
     } catch (error) {
       clearTutor.disabled = false;
-      window.alert(error.message);
+      showError(error);
     }
     return;
   }
@@ -689,7 +790,7 @@ app.addEventListener("click", async (event) => {
     await updateState(button.dataset.state);
   } catch (error) {
     button.disabled = false;
-    window.alert(error.message);
+    showError(error);
   }
 });
 
@@ -700,6 +801,12 @@ app.addEventListener("submit", async (event) => {
     const form = event.target;
     const button = form.querySelector("button");
     const status = form.querySelector("#quiz-status");
+    const values = new FormData(form);
+    const missing = quiz.questions.flatMap((question, index) => values.has(`quiz-${question.id}`) ? [] : [index]);
+    if (missing.length) {
+      status.textContent = `尚未作答：第 ${missing.map(index => index + 1).join("、")} 题。`;
+      form.querySelectorAll("fieldset")[missing[0]].focus(); return;
+    }
     button.disabled = true;
     status.textContent = "正在核对…";
     try {
@@ -804,7 +911,8 @@ app.addEventListener("submit", async (event) => {
       status.textContent = "请选择导出的 JSON 备份文件。";
       return;
     }
-    if (!window.confirm("导入会替换当前学习数据，且无法撤销。模型连接和私人工作区不会受影响。是否继续？")) return;
+    if (!await inlineConfirm(button, "导入会替换当前学习数据。确认恢复这份备份？60 秒内且没有新写入时可撤销。")) return;
+    await persistDraft();
     button.disabled = true;
     status.textContent = "正在验证并恢复备份…";
     try {
@@ -814,8 +922,8 @@ app.addEventListener("submit", async (event) => {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(backup)
       });
-      window.alert(`已恢复：${result.restored.learningStates} 个课程状态、${result.restored.notes} 条笔记、${result.restored.tutorMessages} 条对话、${result.restored.reviewItems} 个复习项和 ${result.restored.quizAttempts} 次自测。`);
-      await loadLesson(lesson.id);
+      await reloadRestoredLesson();
+      showUndo(result.undo, `已恢复备份；保留 ${result.restored.unknownLessonRecords} 条当前目录外记录。`);
     } catch (error) {
       button.disabled = false;
       status.textContent = error instanceof SyntaxError ? "备份不是有效的 JSON 文件。" : error.message;

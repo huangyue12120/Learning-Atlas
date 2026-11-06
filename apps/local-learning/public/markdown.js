@@ -99,7 +99,7 @@ export function createMarkdownRenderer({ hljs, renderMermaid, renderFigure, rend
     fragment.querySelectorAll("a[href], img[src]").forEach(element => {
       const attribute = element.tagName === "IMG" ? "src" : "href";
       const value = element.getAttribute(attribute);
-      const url = safeUrl(value, resourceBaseUrl);
+      const url = safeUrl(value, value?.startsWith("/theory?") ? window.location.href : resourceBaseUrl);
       if (!url) { element.removeAttribute(attribute); return; }
       element.setAttribute(attribute, url);
       if (attribute === "href" && new URL(url).origin !== window.location.origin) {

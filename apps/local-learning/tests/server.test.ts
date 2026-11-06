@@ -1133,7 +1133,7 @@ test("exports learner data as JSON and Markdown", async () => {
   const jsonResponse = await fetch(`${baseUrl}/api/export?format=json`);
   assert.match(jsonResponse.headers.get("content-disposition") ?? "", /learning-atlas-data\.json/);
   const json = await jsonResponse.json();
-  assert.equal(json.schemaVersion, 3);
+  assert.equal(json.schemaVersion, 4);
   assert.deepEqual(json.learningStates[0], {
     lessonId: firstLesson.id,
     completed: true,
@@ -1198,7 +1198,9 @@ test("restores a JSON backup into a new learner database", async () => {
     notes: 1,
     tutorMessages: 1,
     reviewItems: 1,
-    quizAttempts: 1
+    quizAttempts: 1,
+    readerDrafts: 0,
+    unknownLessonRecords: 0
   });
   const imported = await fetch(`${targetUrl}/api/export?format=json`).then((response) => response.json());
   assert.deepEqual(imported.learningStates, backup.learningStates);

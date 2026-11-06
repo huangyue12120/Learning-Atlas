@@ -2,7 +2,7 @@
 """Check that Chinese assessments correspond question by question to their sources.
 
 A matching source SHA-256 only proves freshness. This check also requires the
-same number of questions, the same ``stage`` and ``correct`` index and four
+same number of questions, the same ``stage`` and ``correct`` index and source-matched
 options per question, a non-empty Chinese explanation, unique ids, and no
 untranslated English sentence outside code spans. An explanation must explain
 its own question: the same sentence (ignoring the quoted answer) may not be
@@ -64,8 +64,8 @@ def check(path: Path) -> tuple[list[str], list[str]]:
             errors.append(f"Q{number}: stage differs (source={source.get('stage')}, translation={item.get('stage')})")
         if item.get("correct") != source.get("correct"):
             errors.append(f"Q{number}: correct index differs (source={source.get('correct')}, translation={item.get('correct')})")
-        if len(item.get("options", [])) != 4 or len(source.get("options", [])) != len(item.get("options", [])):
-            errors.append(f"Q{number}: option count differs from the source or is not 4")
+        if len(item.get("options", [])) < 2 or len(source.get("options", [])) != len(item.get("options", [])):
+            errors.append(f"Q{number}: option count differs from the source or is less than 2")
         if not str(item.get("explanation", "")).strip():
             errors.append(f"Q{number}: explanation is empty")
         for field, value in (("question", item.get("question", "")), ("explanation", item.get("explanation", "")),

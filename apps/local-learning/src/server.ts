@@ -1,4 +1,5 @@
-import { readerDraft, saveReaderDraft } from "./reader-drafts.ts";
+import { createUndoStore } from "./undo.ts";
+import { readerDraft, saveReaderDraft, validatedDraft } from "./reader-drafts.ts";
 import { cachedFiles, existsSync, readFileSync, readdirSync } from "./content-cache.ts";
 import { RequestError, secureRequest, normalizedBaseUrl } from "./security.ts";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
@@ -156,7 +157,7 @@ type LessonContent = {
   theoryCards: TheoryCard[];
 };
 
-type QuizQuestion = { id: string; question: string; options: string[]; correct: number; explanation: string };
+type QuizQuestion = { stage: "pre" | "check" | "post"; id: string; question: string; options: string[]; correct: number; explanation: string };
 type PublishedQuiz = { questions: QuizQuestion[]; status: "reviewed" | "stale" | "unavailable" };
 
 function yamlString(value: string | undefined) {
@@ -213,7 +214,7 @@ export function publishableTheoryDocument(sourceFile: string, translationFile: s
   const match = document.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (!match) return null;
   const [, frontmatter, markdown] = match;
-  if (yamlScalar(frontmatter, /^status:\s*(.+)$/m) !== "reviewed") return null;
+  if (yamlScalar(frontmatter, /^status:\s*(.+)$/m) !== "reviewed" || markdown.includes("待中文复核")) return null;
   if (yamlScalar(frontmatter, /^  repository:\s*(.+)$/m) !== "maths-cs-ai-compendium") return null;
   const sourcePath = yamlScalar(frontmatter, /^  path:\s*(.+)$/m);
   const branch = yamlScalar(frontmatter, /^  branch:\s*(.+)$/m) ?? "main";
@@ -708,17 +709,19 @@ function exportedQuizAttempts(database: DatabaseSync) {
 
 function learningDataExport(database: DatabaseSync) {
   return {
-    schemaVersion: 3,
+    schemaVersion: 4,
     exportedAt: new Date().toISOString(),
     learningStates: exportedLearningStates(database),
     notes: exportedNotes(database),
     tutorMessages: exportedTutorMessages(database),
     reviewItems: exportedReviewItems(database),
-    quizAttempts: exportedQuizAttempts(database)
+    quizAttempts: exportedQuizAttempts(database),
+    readerDrafts: (database.prepare("SELECT lesson_id AS lessonId, data, quiz_fingerprint AS fingerprint, updated_at AS updatedAt FROM reader_drafts ORDER BY lesson_id").all() as any[]).map(row => ({ ...row, data: JSON.parse(row.data) }))
   };
 }
 
 type RestoredLearningData = {
+  readerDrafts: Array<{ lessonId: string; data: ReturnType<typeof validatedDraft>; fingerprint: string; updatedAt: string }>;
   learningStates: ExportedLearningState[];
   notes: Array<Omit<Note, "id"> & { lessonId: string }>;
   tutorMessages: Array<Omit<TutorMessage, "id"> & { lessonId: string }>;
@@ -753,13 +756,16 @@ function importedTimestamp(row: Record<string, unknown>, key: string, optional =
 
 function importedLessonId(row: Record<string, unknown>) {
   const lessonId = importedText(row, "lessonId", 200)!;
-  if (!lessonFor(lessonId)) throw new Error(`备份包含当前课程目录中不存在的课程：${lessonId}`);
+  if (!/^practice\/[a-z0-9-]+\/[a-z0-9-]+$/.test(lessonId)) throw new Error("备份包含无效课程标识。");
   return lessonId;
 }
 
 function restoreDataFrom(data: Record<string, unknown>): RestoredLearningData {
-  if (data.schemaVersion !== 3) throw new Error("仅支持 schemaVersion 为 3 的 Learning Atlas JSON 备份。");
+  if (data.schemaVersion !== 3 && data.schemaVersion !== 4) throw new Error("仅支持 schemaVersion 为 3 或 4 的 Learning Atlas JSON 备份。");
   return {
+    readerDrafts: (data.schemaVersion === 3 ? [] : importRows(data, "readerDrafts")).map(row => ({
+      lessonId: importedLessonId(row), data: validatedDraft(row.data), fingerprint: importedText(row, "fingerprint", 100)!, updatedAt: importedTimestamp(row, "updatedAt")!
+    })),
     learningStates: importRows(data, "learningStates").map((row) => {
       const readingPosition = row.readingPosition;
       if (typeof row.completed !== "boolean" || typeof row.review !== "boolean" || !Number.isInteger(readingPosition) || readingPosition < 0 || readingPosition > 10_000_000) {
@@ -788,7 +794,7 @@ function restoreDataFrom(data: Record<string, unknown>): RestoredLearningData {
       const answers = importedText(row, "answers", 10_000)!;
       try {
         const values = JSON.parse(answers);
-        if (!Array.isArray(values) || !values.every((value) => Number.isInteger(value) && value >= 0 && value <= 3)) throw new Error();
+        if (!Array.isArray(values) || !values.every((value) => Number.isInteger(value) && value >= 0 && value <= 99)) throw new Error();
       } catch {
         throw new Error("quizAttempts 包含无效作答。" );
       }
@@ -799,9 +805,10 @@ function restoreDataFrom(data: Record<string, unknown>): RestoredLearningData {
 
 function restoreLearningData(database: DatabaseSync, source: Record<string, unknown>) {
   const data = restoreDataFrom(source);
-  database.exec("BEGIN IMMEDIATE");
+  const known = new Set(curriculumPhases.flatMap(phase => lessonSlugs(phase as Phase).map(slug => `practice/${phase.slug}/${slug}`)));
+  database.exec("SAVEPOINT restore_data");
   try {
-    database.exec("DELETE FROM learning_state; DELETE FROM notes; DELETE FROM tutor_messages; DELETE FROM review_items; DELETE FROM quiz_attempts;");
+    database.exec("DELETE FROM learning_state; DELETE FROM notes; DELETE FROM tutor_messages; DELETE FROM review_items; DELETE FROM quiz_attempts; DELETE FROM reader_drafts;");
     const stateStatement = database.prepare("INSERT INTO learning_state (lesson_id, completed, review, reading_position) VALUES (?, ?, ?, ?)");
     for (const state of data.learningStates) stateStatement.run(state.lessonId, Number(state.completed), Number(state.review), state.readingPosition);
     const noteStatement = database.prepare("INSERT INTO notes (lesson_id, text, created_at) VALUES (?, ?, ?)");
@@ -812,9 +819,11 @@ function restoreLearningData(database: DatabaseSync, source: Record<string, unkn
     for (const item of data.reviewItems) reviewStatement.run(item.lessonId, item.text, item.createdAt, Number(item.resolved), item.resolvedAt);
     const quizStatement = database.prepare("INSERT INTO quiz_attempts (lesson_id, score, total, answers, created_at) VALUES (?, ?, ?, ?, ?)");
     for (const attempt of data.quizAttempts) quizStatement.run(attempt.lessonId, attempt.score, attempt.total, attempt.answers, attempt.createdAt);
-    database.exec("COMMIT");
+    const draftStatement = database.prepare("INSERT INTO reader_drafts (lesson_id, data, quiz_fingerprint, updated_at) VALUES (?, ?, ?, ?)");
+    for (const draft of data.readerDrafts) draftStatement.run(draft.lessonId, JSON.stringify(draft.data), draft.fingerprint, draft.updatedAt);
+    database.exec("RELEASE restore_data");
   } catch (error) {
-    database.exec("ROLLBACK");
+    database.exec("ROLLBACK TO restore_data; RELEASE restore_data");
     throw error;
   }
   return {
@@ -822,7 +831,9 @@ function restoreLearningData(database: DatabaseSync, source: Record<string, unkn
     notes: data.notes.length,
     tutorMessages: data.tutorMessages.length,
     reviewItems: data.reviewItems.length,
-    quizAttempts: data.quizAttempts.length
+    quizAttempts: data.quizAttempts.length,
+    readerDrafts: data.readerDrafts.length,
+    unknownLessonRecords: Object.values(data).flat().filter(row => !known.has(row.lessonId)).length
   };
 }
 
@@ -1215,7 +1226,7 @@ function loadPublishedLessonContent(lesson: Lesson, withCards: boolean): LessonC
   const [, frontmatter, markdown] = match;
   const status = yamlScalar(frontmatter, /^status:\s*(.+)$/m);
   const fingerprint = yamlScalar(frontmatter, /^  sha256:\s*(.+)$/m);
-  if (status !== "reviewed") return { markdown: "", translationStatus: "unavailable", theoryCards: [] };
+  if (status !== "reviewed" || markdown.includes("待中文复核")) return { markdown: "", translationStatus: "unavailable", theoryCards: [] };
   if (!fingerprint || sha256(lessonDocumentFile) !== fingerprint) {
     return { markdown: "", translationStatus: "stale", theoryCards: [] };
   }
@@ -1237,7 +1248,7 @@ function publishedQuiz(lesson: Lesson): PublishedQuiz {
       return { questions: [], status: "stale" };
     }
     const valid = quiz.questions.every((item) => typeof item.id === "string" && typeof item.question === "string" &&
-      Array.isArray(item.options) && item.options.length === 4 && item.options.every((option) => typeof option === "string") &&
+      Array.isArray(item.options) && item.options.length >= 2 && item.options.length <= 20 && item.options.every((option) => typeof option === "string") &&
       Number.isInteger(item.correct) && item.correct >= 0 && item.correct < item.options.length && typeof item.explanation === "string");
     return valid ? { questions: quiz.questions, status: "reviewed" } : { questions: [], status: "unavailable" };
   } catch {
@@ -1247,13 +1258,14 @@ function publishedQuiz(lesson: Lesson): PublishedQuiz {
 
 function quizForLearner(lesson: Lesson) {
   const quiz = publishedQuiz(lesson);
-  return { status: quiz.status, fingerprint: createHash("sha256").update(JSON.stringify(quiz.questions)).digest("hex"), questions: quiz.questions.map(({ id, question, options }) => ({ id, question, options })) };
+  return { status: quiz.status, fingerprint: createHash("sha256").update(JSON.stringify(quiz.questions)).digest("hex"), questions: quiz.questions.map(({ id, question, options, stage }) => ({ id, question, options, stage })) };
 }
 
 function quizResultForAnswers(quiz: PublishedQuiz, selected: number[]) {
   const results = quiz.questions.map((question, index) => ({
     id: question.id,
     selected: selected[index],
+    correctOption: question.correct,
     correct: selected[index] === question.correct,
     explanation: question.explanation
   }));
@@ -1274,13 +1286,18 @@ function latestQuizAttempt(database: DatabaseSync, lesson: Lesson) {
   }
 }
 
+export function selectedQuizAnswers(quiz: PublishedQuiz, answers: Record<string, unknown>) {
+  const selected = quiz.questions.map((question) => answers[question.id]);
+  if (selected.some((answer, index) => !Number.isInteger(answer) || (answer as number) < 0 || (answer as number) >= quiz.questions[index].options.length)) {
+    throw new Error("请完成每一道题后再提交。");
+  }
+  return selected as number[];
+}
+
 function submitQuiz(database: DatabaseSync, lesson: Lesson, answers: Record<string, unknown>) {
   const quiz = publishedQuiz(lesson);
   if (quiz.status !== "reviewed") throw new Error("当前自测内容不可用。");
-  const selected = quiz.questions.map((question) => answers[question.id]);
-  if (selected.some((answer) => !Number.isInteger(answer) || (answer as number) < 0 || (answer as number) > 3)) {
-    throw new Error("请完成每一道题后再提交。");
-  }
+  const selected = selectedQuizAnswers(quiz, answers);
   const result = quizResultForAnswers(quiz, selected as number[]);
   database.prepare("INSERT INTO quiz_attempts (lesson_id, score, total, answers, created_at) VALUES (?, ?, ?, ?, ?)")
     .run(lesson.id, result.score, result.total, JSON.stringify(selected), new Date().toISOString());
@@ -1368,6 +1385,7 @@ function serveTheoryAsset(pathname: string, response: ServerResponse) {
 
 export function createApp(dataDirectory = join(applicationDirectory, "data")): App {
   const database = createDatabase(dataDirectory);
+  const undo = createUndoStore(database);
   const vscodeCommand = process.env.LEARNING_ATLAS_VSCODE_COMMAND ?? "code";
   const marimoCommand = process.env.LEARNING_ATLAS_MARIMO_COMMAND ?? "marimo";
 
@@ -1449,10 +1467,16 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           try {
             const body = await readJson(request, 5_000_000);
             if (!body) return sendJson(response, 400, { error: "请提供 Learning Atlas JSON 备份。" });
-            return sendJson(response, 200, { restored: restoreLearningData(database, body) });
+            const operation = undo.perform("import", undo.allTables, () => restoreLearningData(database, body));
+            return sendJson(response, 200, { restored: operation.result, undo: operation.undo });
           } catch (error) {
             return sendJson(response, error instanceof RequestError ? error.status : 400, { error: error instanceof Error ? error.message : "无法导入备份。" });
           }
+        }
+        if (request.method === "POST" && url.pathname === "/api/undo") {
+          const body = await readJson(request);
+          if (typeof body?.token !== "string" || typeof body?.scope !== "string") return sendJson(response, 400, { error: "请提供撤销令牌和操作范围。" });
+          return sendJson(response, 200, undo.restore(body.token, body.scope));
         }
         if (request.method === "GET" && url.pathname === "/api/model-config") {
           return sendJson(response, 200, publicModelConfig(modelConfigFor(database)));
@@ -1496,15 +1520,16 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           return sendJson(response, 200, tutorMessagesFor(database, lessonId));
         }
         if (request.method === "DELETE" && url.pathname === "/api/tutor/messages") {
-          clearTutorMessages(database, lessonId);
-          return sendJson(response, 200, { cleared: true });
+          const operation = undo.perform(`tutor:${lessonId}`, [{ table: "tutor_messages", lessonId }], () => clearTutorMessages(database, lessonId));
+          return sendJson(response, 200, { cleared: true, undo: operation.undo });
         }
         const tutorMessageMatch = url.pathname.match(/^\/api\/tutor\/messages\/(\d+)$/);
         if (request.method === "DELETE" && tutorMessageMatch) {
-          if (!deleteTutorMessage(database, lessonId, Number(tutorMessageMatch[1]))) {
+          const operation = undo.perform(`tutor:${lessonId}`, [{ table: "tutor_messages", lessonId, id: Number(tutorMessageMatch[1]) }], () => deleteTutorMessage(database, lessonId, Number(tutorMessageMatch[1])));
+          if (!operation.result) {
             return sendJson(response, 404, { error: "对话不存在。" });
           }
-          return sendJson(response, 200, { deleted: true });
+          return sendJson(response, 200, { deleted: true, undo: operation.undo });
         }
         if (request.method === "POST" && url.pathname === "/api/tutor/messages") {
           const body = await readJson(request);
@@ -1527,6 +1552,8 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           if (!text || text.length > 1_000) {
             return sendJson(response, 400, { error: "复习内容须为 1–1000 个字符。" });
           }
+          const existing = reviewItemsFor(database, lessonId).find(item => item.text === text);
+          if (existing) return sendJson(response, 200, existing);
           const createdAt = new Date().toISOString();
           const result = database.prepare(
             "INSERT INTO review_items (lesson_id, text, created_at) VALUES (?, ?, ?)"
@@ -1636,6 +1663,14 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
             text,
             createdAt
           });
+        }
+        const noteDelete = url.pathname.match(/^\/api\/(notes|review-items)\/(\d+)$/);
+        if (request.method === "DELETE" && noteDelete) {
+          const table = noteDelete[1] === "notes" ? "notes" : "review_items";
+          const id = Number(noteDelete[2]);
+          const operation = undo.perform(`${table}:${lessonId}`, [{ table, lessonId, id }], () => database.prepare(`DELETE FROM ${table} WHERE id = ? AND lesson_id = ?`).run(id, lessonId));
+          if (!operation.result.changes) return sendJson(response, 404, { error: "记录不存在。" });
+          return sendJson(response, 200, { deleted: true, undo: operation.undo });
         }
         if (url.pathname.startsWith("/api/")) return sendJson(response, 404, { error: "资源不存在。" });
         if (url.pathname.startsWith("/vendor/marked/")) return serveFile(join(applicationDirectory, "node_modules/marked/lib"), url.pathname.slice("/vendor/marked/".length), response);

@@ -18,6 +18,8 @@ status: reviewed
 **前置课程：** 无
 **预计时间：** 约 45 分钟
 
+> **Learning Atlas 编者注（Python-first）：** 下文保留上游覆盖 Python、TypeScript、Rust 与 Julia 的环境说明。Learning Atlas 的实践主线只要求 Python 实作；Node.js 用于运行本地阅读器，TypeScript、Rust、Julia 的实作与安装可按需选读。练习 1 只需修复当前 Python 学习路线的必需检查项；练习 3 只需用 Python 编写并运行 hello world，其余三种语言不作为本产品的完成要求。
+
 ## 学习目标
 
 - 从零配置 Python 3.11+、Node.js 20+ 和 Rust 工具链
