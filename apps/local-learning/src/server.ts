@@ -1626,6 +1626,8 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           });
         }
         if (url.pathname.startsWith("/api/")) return sendJson(response, 404, { error: "资源不存在。" });
+        if (url.pathname.startsWith("/vendor/marked/")) return serveFile(join(applicationDirectory, "node_modules/marked/lib"), url.pathname.slice("/vendor/marked/".length), response);
+        if (url.pathname.startsWith("/vendor/dompurify/")) return serveFile(join(applicationDirectory, "node_modules/dompurify/dist"), url.pathname.slice("/vendor/dompurify/".length), response);
         if (url.pathname.startsWith("/vendor/mermaid/")) return serveMermaid(url.pathname, response);
         if (url.pathname.startsWith("/vendor/highlight/")) return serveHighlight(url.pathname, response);
         if (url.pathname.startsWith("/vendor/gsap/")) return serveGsap(url.pathname, response);

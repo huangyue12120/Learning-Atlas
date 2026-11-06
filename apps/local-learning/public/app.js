@@ -9,6 +9,7 @@ import python from "/vendor/highlight/es/languages/python.min.js";
 import yaml from "/vendor/highlight/es/languages/yaml.min.js";
 import { createMarkdownRenderer, escapeHtml } from "/markdown.js";
 import { renderTheoryCard } from "/theory-card.js";
+import { applyTheme, saveTheme, themeSelect, themePreference as getThemePreference, observeSystemTheme, mermaidTheme } from "/theme.js";
 
 hljs.registerLanguage("bash", bash);
 hljs.registerLanguage("dockerfile", dockerfile);
@@ -46,70 +47,12 @@ let quizResult = null;
 let course = [];
 let selectedLessonId = new URLSearchParams(window.location.search).get("lessonId") ??
   (window.location.pathname === "/learn" ? "practice/00-setup-and-tooling/01-dev-environment" : null);
-const themeStorageKey = "learning-atlas-theme";
-const systemThemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+let themePreference = getThemePreference();
 const themePreferences = ["system", "light", "dark"];
-
-function readThemePreference() {
-  try {
-    const savedTheme = localStorage.getItem(themeStorageKey);
-    return themePreferences.includes(savedTheme) ? savedTheme : "system";
-  } catch {
-    return "system";
-  }
-}
-
-let themePreference = readThemePreference();
-
-function configureMermaid() {
-  const dark = document.documentElement.dataset.theme === "dark";
-  mermaid.initialize({
-    startOnLoad: false,
-    securityLevel: "strict",
-    theme: "base",
-    themeVariables: dark
-      ? {
-        background: "#202624",
-        primaryColor: "#202624",
-        primaryTextColor: "#e8eee8",
-        primaryBorderColor: "#69b9af",
-        lineColor: "#69b9af",
-        secondaryColor: "#171b1a",
-        tertiaryColor: "#1d3a35",
-        clusterBkg: "#171b1a",
-        clusterBorder: "#44504b",
-        fontFamily: "Atlas Sans SC, system-ui, sans-serif"
-      }
-      : {
-        background: "#fffefa",
-        primaryColor: "#fffefa",
-        primaryTextColor: "#183538",
-        primaryBorderColor: "#0a726c",
-        lineColor: "#0a726c",
-        secondaryColor: "#f7f4ec",
-        tertiaryColor: "#e9f3ef",
-        clusterBkg: "#f7f4ec",
-        clusterBorder: "#d8d4c8",
-        fontFamily: "Atlas Sans SC, system-ui, sans-serif"
-      }
-  });
-}
-
-function applyThemePreference() {
-  const dark = themePreference === "dark" || (themePreference === "system" && systemThemeQuery.matches);
-  const resolvedTheme = dark ? "dark" : "light";
-  document.documentElement.dataset.theme = resolvedTheme;
-  document.documentElement.style.colorScheme = resolvedTheme;
-  configureMermaid();
-}
-
+function configureMermaid() { mermaid.initialize(mermaidTheme()); }
+function applyThemePreference() { applyTheme(themePreference); configureMermaid(); }
 applyThemePreference();
-
-systemThemeQuery.addEventListener("change", () => {
-  if (themePreference !== "system") return;
-  applyThemePreference();
-  if (lesson) render();
-});
+observeSystemTheme(() => { configureMermaid(); if (lesson) void renderMermaidDiagrams(); });
 
 const panelControls = {
   tutor: { panel: "#tutor-panel", heading: "#tutor-title", trigger: ".tutor-toggle" },
@@ -493,11 +436,7 @@ app.addEventListener("change", (event) => {
   const select = event.target.closest("#theme-select");
   if (!select || !themePreferences.includes(select.value)) return;
   themePreference = select.value;
-  try {
-    localStorage.setItem(themeStorageKey, themePreference);
-  } catch {
-    // Theme still applies for this session when storage is unavailable.
-  }
+  saveTheme(themePreference);
   applyThemePreference();
   render();
   window.requestAnimationFrame(() => document.querySelector("#theme-select")?.focus({ preventScroll: true }));

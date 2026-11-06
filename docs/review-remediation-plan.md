@@ -7,7 +7,7 @@
 | --- | --- | --- | --- | --- | --- |
 | 1 | S1–S4、安全与错误处理 | 已通过 | Host/Origin/JSON 边界、key 地址隔离、安全头、v0.27.4 | 安全回归 2/2；应用语法通过 | `fix(server): enforce local request and credential boundaries` |
 | 2 | P1–P3、目录与默认入口 | 已通过 | 索引按依赖失效、批量 SQL、完整课程状态、20 次热请求中位降幅 ≥90% | API/缓存 30/30；20 次中位 569.63 ms，降低 91.6% | `perf(course): cache file dependencies and batch learner progress` |
-| 3 | Markdown、D1/D2、深色图示 | 待实施 | marked + DOMPurify、稳定锚点、代码复制、系统中文字体、共享主题 | 待验证 | 待提交 |
+| 3 | Markdown、D1/D2、深色图示 | 已通过 | marked + DOMPurify、稳定锚点、代码复制、系统中文字体、共享主题 | Chrome 2/2；应用语法通过；金额/引用/列表/HTML/代码/锚点/公式/双主题 | `fix(reader): render sanitized Markdown with shared theme tokens` |
 | 4 | F1–F4、F6–F8、阅读器 | 待实施 | 外壳只初始化一次、SQLite 草稿、历史/竞态、翻页/筛选、响应式目录 | 待验证 | 待提交 |
 | 5 | F5/F7、P3、环境课 | 待实施 | 预测不计分、完整反馈、主动复习、60 秒撤销、备份 v4/v3、Python-first | 待验证 | 待提交 |
 | 6 | 跨页面验收与发布 | 待实施 | 焦点/触控/主题、API 数量、截图对照、全部回归、v0.28.0 文档同步 | 待验证 | 待提交 |

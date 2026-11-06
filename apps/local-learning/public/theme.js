@@ -42,3 +42,14 @@ export function observeSystemTheme(callback) {
   systemTheme.addEventListener("change", listener);
   return () => systemTheme.removeEventListener("change", listener);
 }
+
+export function mermaidTheme() {
+  const styles = getComputedStyle(document.documentElement);
+  const color = name => styles.getPropertyValue(name).trim();
+  return { startOnLoad: false, securityLevel: "strict", theme: "base", themeVariables: {
+    background: color("--color-surface"), primaryColor: color("--color-surface"), primaryTextColor: color("--color-ink"),
+    primaryBorderColor: color("--color-primary"), lineColor: color("--color-primary"), secondaryColor: color("--color-canvas"),
+    tertiaryColor: color("--color-primary-pale"), clusterBkg: color("--color-canvas"), clusterBorder: color("--color-border"),
+    fontFamily: styles.getPropertyValue("--font-sans").trim()
+  } };
+}
