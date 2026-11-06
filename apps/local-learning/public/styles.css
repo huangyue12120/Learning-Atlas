@@ -829,3 +829,6 @@ a, button, input, select, textarea, summary { scroll-margin-top: 9rem; }
 .phase-group summary small { font-size: .72rem; line-height: 1.5; }
 .theory-practice-return { display: none; }
 @media (max-width: 1023px) { .theory-practice-return { display: inline-flex; align-items: center; min-height: 44px; padding: .5rem; font-size: .82rem; } }
+.evidence-anchor { display: block; height: 0; scroll-margin-top: 9rem; }
+
+.tutor-heading { position: sticky; top: 0; z-index: 2; background: var(--color-surface); }

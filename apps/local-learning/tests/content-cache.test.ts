@@ -3,7 +3,7 @@ import { test } from "node:test";
 import { mkdtempSync, writeFileSync, rmSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { cachedFiles, existsSync, readFileSync, readdirSync } from "../src/content-cache.ts";
+import { cachedFiles, withFreshFiles, existsSync, readFileSync, readdirSync } from "../src/content-cache.ts";
 
 test("file cache invalidates translations, source fingerprints, associations and directory membership immediately", () => {
   const root = mkdtempSync(join(tmpdir(), "atlas-content-"));
@@ -23,5 +23,19 @@ test("file cache invalidates translations, source fingerprints, associations and
     rmSync(join(links, "card.yaml")); read();
     writeFileSync(join(root, "new.md"), "lesson"); read();
     assert.equal(runs, 7);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+
+test("concurrent preflight never reuses an index after a dependency edit or creation", async () => {
+  const root = mkdtempSync(join(tmpdir(), "atlas-preflight-"));
+  try {
+    const source = join(root, "source"), added = join(root, "added");
+    writeFileSync(source, "before");
+    const compute = () => cachedFiles(root, () => [readFileSync(source, "utf8"), existsSync(added)]);
+    assert.deepEqual(compute(), ["before", false]);
+    writeFileSync(source, "after"); writeFileSync(added, "new");
+    assert.deepEqual(await withFreshFiles([root], compute), ["after", true]);
+    rmSync(added); assert.deepEqual(await withFreshFiles([root], compute), ["after", false]);
   } finally { rmSync(root, { recursive: true, force: true }); }
 });

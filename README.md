@@ -13,9 +13,9 @@ npm run dev
 
 然后打开 <http://127.0.0.1:4173>。
 
-当前版本为 **v0.28.0**（2026-11-06）。实践主线开放 Phase 0–18 的 457 节课程，Phase 19 的 85 节已审核内容等待接入；理论目录包含 20 章、104 篇笔记，其中 89 篇提供审核中文全文。
+当前版本为 **v0.29.0**（2026-11-06）。实践主线开放 Phase 0–18 的 457 节课程，Phase 19 的 85 节已审核内容等待接入；理论目录包含 20 章、104 篇笔记，其中 89 篇提供审核中文全文。
 
-阅读器支持按课恢复草稿、测验选项与阅读位置，提供读前预测、课末自测、待复习和本地学习助理。个人数据保存在本机 SQLite，可导出备份；删除和导入提供限时撤销。内容范围与来源见[内容清单](docs/content-manifest.md)，本次修复与历史变更见[发布说明](docs/release-notes.md)。
+阅读器支持按课恢复草稿、测验选项与阅读位置，提供读前预测、课末自测、待复习和支持流式输出的本地学习助理。个人数据保存在本机 SQLite，可导出备份；删除和导入提供限时撤销。内容范围与来源见[内容清单](docs/content-manifest.md)，本次修复与历史变更见[发布说明](docs/release-notes.md)。
 
 ## 为什么使用它
 
@@ -62,7 +62,8 @@ npm run dev
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install marimo numpy matplotlib jax
+python -m pip install marimo numpy matplotlib
+# 数学课程需要 JAX 时另行安装：python -m pip install jax
 ```
 
 `.venv/` 不会进入版本控制。遇到特定 CUDA、PyTorch 或系统级依赖时，请为该课程创建专用环境，不要破坏共享基础环境。
@@ -162,4 +163,7 @@ GitHub Actions 的命名采用统一的 `<类别> / <动作与对象>` 形式：
 
 ---
 
-发布信息、已知限制和备份建议请参阅 [v0.28.0 发布说明](docs/release-notes.md)。
+发布信息、已知限制和备份建议请参阅 [v0.29.0 发布说明](docs/release-notes.md)。
+
+
+Python 依赖也可用 uv 按需安装：根目录 `uv sync --locked` 只安装 marimo、NumPy、Matplotlib 及其依赖；需要时使用 `uv sync --locked --extra math`、`--extra deep-learning`、`--extra audio` 等。根环境使用 `.python-version` 指定的 Python 3.14，不需要为了阅读课程安装训练框架。完整依赖组与性能说明见[本轮建议项记录](docs/review-followups.md)。

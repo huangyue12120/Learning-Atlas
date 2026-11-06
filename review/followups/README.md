@@ -1,0 +1,30 @@
+# v0.29.0 建议项验收与内容候选
+
+本轮以 v0.28.0 为基线，旧截图保留在 `review/remediation/`。`screenshots/` 包含本轮三页面四种宽度、浅深主题、面板、公式图示与 375/1440px 流式生成过程的截图。
+
+## 已完成的工程项
+
+- Python 依赖按需分组，锁文件只改根项目依赖结构；基础同步 dry-run 为 34 个包，没有安装或替换学习者的既有环境。
+- 目录逐请求并发校验文件，不使用 TTL，也不以 watcher 事件代替来源检查。`runtime.env` 为正式启动与基准测试提供 16 个文件 I/O 工作线程；此前 20 次热请求中位 96.884 ms，最终复测 255.975 ms（103.427–571.953 ms）。优化已交付，稳定低于 100 ms 的目标仍未达成。
+- 助理逐段输出、可停止生成；失败、取消和上游截断不保存半轮对话。课程节选、理论卡和历史轮次均有界。
+- 历史发布记录与术语表按版本/领域拆分，分卷散列记录在 `docs/archive-split-manifest.json`，原版本和旧小节锚点保留入口；英文提示词增加 15 处中文对照。
+- 线上验证：[覆盖率 push 运行](https://github.com/huangyue12120/Learning-Atlas/actions/runs/40089618507)、[Dependabot PR #33](https://github.com/huangyue12120/Learning-Atlas/pull/33)、[新版同步流程](https://github.com/huangyue12120/Learning-Atlas/actions/runs/42159532831)。同步验收创建 [PR #35](https://github.com/huangyue12120/Learning-Atlas/pull/35)，仅更新待审上游指针，未合并，不代表其内容已审核。
+
+## 内容工作：候选与已核对内容分开记录
+
+`assessment-quality.json` 是全量长度偏差统计，`priority` 按正确选项相对干扰项的长度比排序。当前 1832 题中 1562 题（85.26%）正确选项唯一最长；这是一项风险提示，不等于这些题都存在语义错误。
+
+第一课的 5 道题已逐题比对原题、答案和解释，改写中文选项并确认段落证据；正确索引、题数、阶段和来源含义保留。全库“正确且唯一最长”从 1565 降至 1562，不能据此宣布全库偏差修复完成。
+
+`assessment-candidates.json` 覆盖 307 份测验、1832 道题，每题提供至多三个候选标题和原文片段。候选使用检索匹配生成，全部为 `draft`。相似度分数不证明段落支持答案；低分、同分或泛化段落尤其需要逐题核对。阅读器不会加载这个文件。
+
+已核对的 5 个引用单独存入 `content/assessment-links/practice/01-math-foundations/01-linear-algebra-intuition/links.json`，绑定译文和测验 SHA-256；其余 **1827 道题的正式段落映射仍待内容审核**。不包含尚未接入的 Phase 19。
+
+复核步骤：
+
+1. 以题目、各选项和解析为起点，阅读原题及候选所在小节，确认干扰项仍然错误且有区分度。
+2. 选择真正支持解释的段落；不匹配时另选，不能以检索排名自动批准。
+3. 在对应 `content/assessment-links` 文件中记录逐题核对者、`headingId`、足以唯一定位的原句和 `status: reviewed`，更新两个文件指纹。
+4. 执行 `python3 scripts/assessment_review.py --write` 更新候选，再执行 `--check`、测验对应检查及浏览器精确回看测试。
+
+题库批量改写与剩余映射的人工审核保留为未完成项；工程基础、数据和可重复校验已交付。完整状态见 [建议项跟踪](../../docs/review-followups.md)。

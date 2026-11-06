@@ -1,6 +1,6 @@
 # Learning Atlas 首次使用与恢复
 
-适用版本：v0.28.0（2026-11-06）。
+适用版本：v0.29.0（2026-11-06）。
 
 Learning Atlas 是本地优先应用：课程内容来自仓库，个人学习数据、模型 key 和私人工作区仅保存在你的设备上。
 
@@ -26,7 +26,8 @@ npm run dev
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install marimo numpy matplotlib jax
+python -m pip install marimo numpy matplotlib
+# 需要时再安装 JAX：python -m pip install jax
 ```
 
 课程工作区由阅读器复制到个人数据目录；VS Code 和 marimo 均应使用这个解释器。例如：
@@ -70,3 +71,11 @@ python -m pip install marimo numpy matplotlib jax
 首次从 Phase 0 第一课开始；之后从首页或无参数的阅读器入口继续学习。使用目录筛选或上一课/下一课切换，也可在输入框外按 `[` / `]`。面板开关、主题、切课和浏览器历史会保留草稿与选项，短暂停顿后自动保存到 SQLite；保存失败会在正文末尾显示提示。模型 key 的未保存输入不持久化。
 
 读前预测只记录直觉，不计分、不标记掌握；课末自测提交后显示正确选项与解析。需要复习时主动点击“将本题加入待复习”。手机上的主题入口保持可见，目录与辅助面板可用 Esc 关闭。
+
+## 按课安装 Python 依赖与助理响应
+
+根项目的 uv 环境使用 Python 3.14，默认 `uv sync --locked` 仅拉取基础阅读实验所需的 marimo、NumPy、Matplotlib。选择课程后再安装相应 extra：`math`（JAX）、`ml`（scikit-learn/Pandas）、`deep-learning`（PyTorch/Transformers/分词）、`audio`、`vision`、`data`、`notebooks` 或 `models`。例如：`uv sync --locked --extra math --extra ml`。不要用 `--all-extras` 作为入门安装步骤。原有 `.venv` 仅在你主动运行同步命令时才会变更。
+
+助理优先读取当前小节、后一个小节和前一个小节；课程节选最多 6000 字符，关联理论最多 2000 字符，历史最多 4000 字符并保留完整轮次。界面逐段显示生成结果，可点击“停止生成”；中断或失败时保留问题草稿，不保存半条回复。回复完成后才成对保存本轮问题与回答。较长解释可能触及回复长度限制，可缩小问题后重试。
+
+`npm run dev` 与 `npm start` 读取仓库内 `runtime.env`，使用 16 个文件 I/O 工作线程并发检查课程来源；没有跳过依赖检查或关闭 SHA-256 门禁。需要复测时运行 `npm run benchmark`。

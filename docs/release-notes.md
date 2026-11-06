@@ -1,1041 +1,761 @@
-# Learning Atlas v0.28.0 发布说明
+# Learning Atlas 发布说明
+
+当前版本见首项；历史记录按版本归档，保留原章节标题以兼容已有锚点。
+
+## Learning Atlas v0.29.0 发布说明
 
 发布日期：2026-11-06。
 
-本版完成阅读器审查修复，课程范围维持 Phase 0–18 的 457 节，Phase 19 的 85 节等待接入；20 章理论目录、89 篇审核中文理论与现有人工关联范围不变。
+[阅读完整记录](releases/v0.29.0.md)
 
-## 学习体验
-
-- 阅读器外壳与面板保持稳定，按课保存笔记、助理、复习草稿、测验选择、理论卡展开状态和阅读位置；刷新与重启可恢复。模型 key 的未保存输入不进入草稿。
-- 支持浏览器前进/后退、上一课/下一课、`[`/`]` 快捷键与目录筛选；快速切课时只接收最新请求结果。桌面带文字目录和进度，窄屏采用折叠目录、抽屉及底部面板。
-- `pre` 题作为不计分的读前预测；课末完整自测显示阶段、漏答题号、正确选项与解析，并对照预测。错题仅在点击后加入待复习，重复点击不重复创建。
-- 笔记和对话删除、清空对话与备份导入采用行内确认，服务端提供 60 秒撤销；整库导入后已有新写入时拒绝撤销覆盖。
-
-## 内容、安全与兼容
-
-- 延续 v0.27.4 的本机 Host/Origin/JSON 边界和模型 key 地址隔离；加入 CSP 等响应头与中文错误。
-- 进程内索引按文件与目录的修改时间、大小失效，再核对 SHA-256；目录不加载理论卡正文，学习活动用批量 SQL 合并。20 次热目录请求中位耗时从 6751.87 ms 降至 564.76 ms（91.6%），100 ms 目标仍待进一步优化。
-- 使用直接依赖 marked、DOMPurify 渲染并清理 Markdown；保留稳定理论锚点、KaTeX、Mermaid、代码高亮和复制。中文界面与正文统一为系统无衬线字体，图示跟随主题。
-- JSON 备份升级为 `schemaVersion: 4`，包含草稿，继续接收版本 3。目录外课程数据原样保存并报告数量；模型连接、key 和私人工作区不进入备份。迁移仅增加结构。
-- 环境课明确 Python-first 要求；逐项复核残留的 1 张英文总结表与 4 组参考链接。含“待中文复核”的 `reviewed` 内容被校验器和阅读接口拒绝。
-
-## 验证与记录
-
-验证结果、六阶段提交与截图对照见[审查修复跟踪](review-remediation-plan.md)。性能记录保留当前挂载文件系统的实测数据，不承诺不同设备的绝对耗时。完整回归使用临时数据库与本机模型桩，不接触学习者数据。
-
----
-
-# Learning Atlas v0.27.4 发布说明
+## Learning Atlas v0.28.0 发布说明
 
 发布日期：2026-11-06。
 
-修复 S1–S4：按实际端口校验本机 Host，拒绝跨来源 API 访问，JSON 写接口验证媒体类型；无正文工具与删除请求仍可使用。更换模型接口地址不复用原 key，模型发现拒绝重定向。增加 CSP、安全响应头与中文 JSON/体积错误。课程范围和内容计数保持不变。
+[阅读完整记录](releases/v0.28.0.md)
 
----
+<details>
+<summary>旧小节链接</summary>
 
-# Learning Atlas v0.27.3 发布说明
+<a id="学习体验"></a>
+
+[学习体验](releases/v0.28.0.md#学习体验)
+
+<a id="内容安全与兼容"></a>
+
+[内容、安全与兼容](releases/v0.28.0.md#内容安全与兼容)
+
+<a id="验证与记录"></a>
+
+[验证与记录](releases/v0.28.0.md#验证与记录)
+
+</details>
+
+## Learning Atlas v0.27.4 发布说明
 
 发布日期：2026-11-06。
 
-本版处理 Issue #34：将 `ai-engineering-from-scratch` 的可复现快照从 `3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a` 更新到 `8fec9cc19ee7c73b92582899b5455333d30d718e`。上游 #749 修正了既有课程的计算与概念解释，影响 13 篇中文实践译文和 10 条理论关联。课程范围和内容计数与 v0.27.2 相同。
+[阅读完整记录](releases/v0.27.4.md)
 
-## 本版修复
+## Learning Atlas v0.27.3 发布说明
 
-- **KV 缓存与分词**：说明朴素解码和缓存解码的查询—键比较次数相同，缓存节省的是 K、V 投影；修正预分词示例中首词 `Hello` 前多出的空格。
-- **推测解码**：P7 第 16 课、P10 第 15、25 课和 P17 第 5 课补充 EAGLE 接受率的模型、训练数据和流量条件，区分聊天基准的较高数值与生产规划区间。
-- **流水线与发布**：P10 第 13 课区分确定性阶段的哈希核对与训练阶段的指标复现，对应理论卡同步修正；P17 第 20 课明确跳过 A/B 测试依赖离线评测已证明收益。
-- **视觉词元**：P12 第 5 课将 AnyRes 约 2880 个视觉词元限定到 2x2 网格加全局缩略图的配置。
-- **评测与位置编码**：P19 第 27 课区分 pass@k 代入估计与无偏估计，第 32 课修正正弦位置编码的波长方向，第 41 课说明按批平均会使短批次中词元权重偏高，第 73 课说明 ECE 误差可在同一箱内抵消、不同箱之间不会抵消。
-- **来源记录**：13 篇译文和 10 条理论关联均更新 revision 与 SHA-256。其余 9 张关联卡经对照仍适用，保留原内容。Phase 19 的 3 份上游测验和 1 个 Python 文件的注释修正随子模块快照保留；该 Phase 尚未接入阅读器，不新增中文测验或工作区指南。上游新增的面试题库与站点工具保持上游范围，不纳入本地学习路径。
+发布日期：2026-11-06。
 
-## 验证
+[阅读完整记录](releases/v0.27.3.md)
 
-- `python3 scripts/check_translation_correspondence.py`（542 篇实践译文、89 篇理论译文）
-- `python3 scripts/check_source_fingerprints.py`（1560 条）
-- `python3 scripts/check_assessment_correspondence.py`（307 份；6 条既有意译警告）
-- `python3 scripts/check_theory_cards.py`（289 张）
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`（19 个已开放 Phase，零缺口）
-- `python3 scripts/check_repository_hygiene.py`
-- 执行修正的预分词示例及 P7 第 12 课 KV 缓存演示，运行 P19 第 27 课的 20 项上游测试
-- `cd apps/local-learning && npm run check && npm test`（26 项全部通过；API 测试需允许监听本机端口）
+<details>
+<summary>旧小节链接</summary>
 
----
+<a id="本版修复"></a>
 
-# Learning Atlas v0.27.2 发布说明
+[本版修复](releases/v0.27.3.md#本版修复)
+
+<a id="验证"></a>
+
+[验证](releases/v0.27.3.md#验证)
+
+</details>
+
+## Learning Atlas v0.27.2 发布说明
 
 发布日期：2026-10-24。
 
-本版处理 Issue #31：将 `ai-engineering-from-scratch` 的可复现快照从 `f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299` 更新到 `3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a`。上游在 #691–#695 等提交中修正了 Phase 0-19 课程原文的事实和计算错误，命中 184 篇已登记中文实践译文、1 份测验和 102 条理论关联。课程范围和内容计数与 v0.27.1 相同。
+[阅读完整记录](releases/v0.27.2.md)
 
-## 本版修复
+<details>
+<summary>旧小节链接</summary>
 
-- **实践译文**：逐处对照上游 diff 修改 182 篇中文译文，例如 KV 缓存按全部 KV 头计算（7B 模型 32K 上下文为 16 GiB）、Chinchilla 系数改为 0.22 / 4.5、DeepSeek-V3 参数核算改为约 664B 总量 / 30B 激活、MTP 目标改为 `t_{i+k+1}`、Qwen2.5-VL 的时间位置编码改称“时间对齐 M-RoPE”、各厂商定价与模型规格更新、ZeRO 与 Adam 显存算式更正。另有 2 篇（P13 第 14、23 课）的上游改动在中文中已经正确，只刷新来源记录。上游未改动的段落保持原样。
-- **测验**：P17 第 11 课第 4 题的正确选项与解析改用上游修正后的跨区域 RTT 数字（约 220 ms RTT 把 720 ms 节省削减到约 500 ms）。
-- **理论关联**：刷新 102 条理论关联的实践来源记录。其中 26 张卡的锚点小节内有上游改动，逐张对照后卡片内容仍成立，无需修改。P17 第 19 课的锚点标题随上游改为 `Seven core features`。
-- **练习指南**：12 份 Python 工作区练习指南随上游练习题的修正同步更新（P10 第 18 课，P12 第 3、8、12、16、17、18、25 课，P13 第 18 课，P17 第 19、21、27 课）。上游 24 个 `code/` 文件的改动（新增 MPS 设备选择、GPU 同步计时、修正计算器数值等）会在学习者创建工作区时直接复制，不需要改动指南。
+<a id="本版修复-1"></a>
 
-## 验证
+[本版修复](releases/v0.27.2.md#本版修复)
 
-- `python3 scripts/check_translation_correspondence.py`（542 篇实践译文、89 篇理论译文）
-- `python3 scripts/check_source_fingerprints.py`（1560 条）
-- `python3 scripts/check_assessment_correspondence.py`（307 份）
-- `python3 scripts/check_theory_cards.py`（289 张）
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py`（19 个已开放 Phase，零缺口）
-- 用 Mermaid CLI 渲染 4 篇 Mermaid 有改动课程中的 11 张图示
-- `cd apps/local-learning && npm run check && npm test`（26 项）
+<a id="验证-1"></a>
 
----
+[验证](releases/v0.27.2.md#验证)
 
-# Learning Atlas v0.27.1 发布说明
+</details>
+
+## Learning Atlas v0.27.1 发布说明
 
 发布日期：2026-10-23。
 
-本版修复 `review/TRANSLATION-REVIEW.md` 中既有中文内容审查发现的问题。上游快照、课程范围和内容计数与 v0.27.0 相同。
+[阅读完整记录](releases/v0.27.1.md)
 
-## 本版修复
+<details>
+<summary>旧小节链接</summary>
 
-- **测验**：P18 第 21 课测验按上游 6 道题逐题重译（原版题目与上游不对应，4 题的正确答案下标不同）。P17、P18 共 58 份测验的 347 道题原先使用重复的套话解析，现改为逐题说明正确选项和主要干扰项；解析中的数字都能在对应课程中找到。P1 第 21、22 课测验中保留的英文术语改为术语表译法。
-- **阅读器时长**：阅读器现在也能识别 `**用时：**` 和 `**预计用时：**`，此前 187 节已开放课程显示“预计学习：未提供”。实践译文的时长标签统一为 `**预计时间：**`，并新增测试，断言 457 节课都能显示时长。
-- **结构**：恢复 21 篇实践译文和 2 篇理论译文中被压成段落的列表；`01-math-foundations/14-norms-and-distances` 和 `12-tensor-operations` 按原文逐段重译，删除 01/14 中多出来的练习汇总。P19 第 60–63 课的“测试”一节恢复为与上游一致的清单。
-- **未译内容**：34 篇实践译文中标为“上游新增练习提示（原文，待中文复核）”的英文提示全部译为中文，并移回“练习”一节之下。P0、P1、P13 等课程中学习者可见的 Mermaid 英文标签已翻译（节点 ID、公式、文件名和产品名保留）。11 张理论 SVG 图示的英文标题和说明已翻译，并逐张渲染检查。
-- **术语**：按术语表统一 reward hacking（奖励投机）、system prompt（系统提示词）、prompt caching（提示词缓存）、名词 prompt（提示词）、模型语境的 token（词元）、agent（智能体）、chunk（分块）和 reranking（重排）。认证语境的 token 译为“令牌”，编译器词法 token 译为“记号”。
-- **标题**：统一了 1135 处标准二级标题的译法（如 Build It → 动手构建、Use It → 使用、Ship It → 交付）。理论卡锚点绑定在 `<!-- learning-atlas: ... -->` 注释上，不受影响。
-- **练习指南**：重写 Phase 13 第 10、28–31 课的 5 份通用模板指南，步骤对应各课的实践实验，并在工作区中运行测试。
-- **理论卡**：按术语表修正约 110 处卡片文字；P19 的 22 张只有摘要的卡片注明“扩展内容待迁移，尚未经审核”。
-- **校验**：
-  - 结构检查新增列表项数量规则：译文比原文少 2 项以上时报错。
-  - 新增 `scripts/check_assessment_correspondence.py` 并接入 CI。它逐题核对题数、阶段、正确答案、选项数和未译英文，同一句解析用于 2 道以上题目时报错。题干与原文的专名、数字完全不重合时只给出警告。
+<a id="本版修复-2"></a>
 
-## 验证
+[本版修复](releases/v0.27.1.md#本版修复)
 
-- `python3 scripts/check_translation_correspondence.py`（542 篇实践译文、89 篇理论译文）
-- `python3 scripts/check_source_fingerprints.py`（1560 条）
-- `python3 scripts/check_assessment_correspondence.py`（307 份，6 条警告均经人工确认为正常意译）
-- `python3 scripts/check_theory_cards.py`（289 张）
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`
-- `cd apps/local-learning && npm run check && npm test`（26 项）
+<a id="验证-2"></a>
 
----
+[验证](releases/v0.27.1.md#验证)
 
-# Learning Atlas v0.27.0 发布说明
+</details>
+
+## Learning Atlas v0.27.0 发布说明
 
 发布日期：2026-10-23。
 
-本版补齐 Phase 13 第 32–45 课（逆向工程轨道）的中文改编，并修复让这 14 节课程没有被及时发现的监控缺口。上游快照保持 `f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299`。
+[阅读完整记录](releases/v0.27.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 新增 14 篇中文实践译文：ELF 读取器、反汇编与控制流、提升为伪代码、证据与未知项、重建并证明等价、逆向工程全景、调用约定与栈帧、编译器惯用法、链接与去除符号、数据与类型恢复、动态分析、字节码格式、二进制差异比对与符号执行、AI 辅助逆向工程。每篇均与上游原文逐段对应，并经独立复核。
-- 新增 14 份中文测验（共 95 题），题序、阶段和正确答案与上游一致；新增 14 套 Python 工作区练习指南，步骤对应各课的交互实验与评分实验。
-- 术语表新增“逆向工程与二进制分析术语”一节。
-- “在 VS Code 中继续”现在会复制课程的整个 `code/` 目录（fixtures、tests、`lab.py` 等），不覆盖学习者已修改的文件；存在 `main.py` 时优先作为参考实现。此前只复制一个 `.py` 文件，第 32–36 课会误选 `lab.py`，依赖 fixtures 的程序也无法在工作区中运行。
-- 监控修复：
-  - 每日上游检查会把已开放 Phase 中新增、尚无中文改编的课程原文和测验视为需要审核，并在 Issue 中单独列出（报告超出大小上限时也保留这张表）。
-  - 覆盖率检查同时检查中文测验；除每周运行外，`main` 更新实践 submodule 指针、中文内容或发布范围时也会立即运行。
-  - 两个监控 Issue 在不再需要审核时自动关闭。
-  - CI 在已开放 Phase 存在覆盖缺口时给出警告，并把覆盖报告写入 job summary。
-  - 发布 Phase 范围集中到 `scripts/published_scope.py`，并由测试与阅读器的 Phase 列表保持一致。
-  - 覆盖率脚本默认把报告输出到终端，生成的报告文件已加入 `.gitignore`。
-  - 覆盖率检查和每日上游检查也要求有 Python 实作的课程提供练习指南；上游新增的理论笔记会在报告中列出供参考。
-  - 两条监控 workflow 只在执行、网络或权限出错时失败；需要审核时通过 Issue、summary 和 notice 提醒，运行保持成功。
-  - 同步 PR 的正文改为中文，并附带同步后的翻译覆盖率；checkout 不再保留凭据，推送时才临时使用令牌。
-  - 所有 action 按 commit SHA 固定，新增 `.github/dependabot.yml` 每周更新；CI 的 Python 从 3.12 改为读取 `.python-version`（3.14）；删除 CI 中重复的 `node --check public/app.js`。
-- 应用 SemVer 升至 v0.27.0；实践阅读器开放 457 节课程，中文测验 307 份，工作区练习指南 449 套。
+<a id="本版交付"></a>
 
-## 已知限制
+[本版交付](releases/v0.27.0.md#本版交付)
 
-- 在学习者工作区中运行逆向工程课程的测试时，检查站点图示模块的测试会显示 skipped；第 45 课还有一项读取第 36 课 fixture 的测试会失败。练习指南给出了在上游课程目录运行完整测试套件的命令。
+<a id="已知限制"></a>
 
-## 验证
+[已知限制](releases/v0.27.0.md#已知限制)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1560 条来源指纹）
-- `python3 scripts/check_theory_cards.py`
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`（19 个已发布 Phase 无缺失）
-- `actionlint`（启用 shellcheck）
-- `python3 -m unittest discover -s scripts -p 'test_*.py'`（16 项）
-- 第 32–45 课 `python3 main.py` 与 `python3 -m unittest discover -s tests`，分别在上游课程目录和学习者工作区运行
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-3"></a>
 
----
+[验证](releases/v0.27.0.md#验证)
 
-# Learning Atlas v0.26.9 发布说明
+</details>
+
+## Learning Atlas v0.26.9 发布说明
 
 发布日期：2026-10-22。
 
-本版处理 Issue #30：将 `ai-engineering-from-scratch` 的可复现快照从 `f0c979b98d35f0547fe7a5f9aadf2f25d6c2e375` 更新到 `f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299`。本次上游变更命中 190 篇已登记中文实践译文和 146 条理论关联。
+[阅读完整记录](releases/v0.26.9.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 将 190 篇实践译文与上游当前文档重新对齐：数学展示块切换为 LaTeX/KaTeX，保留中文代码和说明，并补齐 22 个新增数学块与 3 个图示占位符。
-- 补入 34 个练习提示和 1 个公式总结；提示以“上游原文，待中文复核”标记，避免把未完成的中文润色误报为已审核译文。
-- 为 5 篇基础设施/安全课程补回 8 个上游新增参考链接，刷新 146 条理论关联的实践来源 revision 与 SHA-256。
-- 同步上游 submodule 指针、README、内容目录说明、内容清单、项目进度及应用 SemVer 至 v0.26.9；实践译文、测验、工作区和理论关联计数保持不变。
+<a id="本版交付-1"></a>
 
-## 验证
+[本版交付](releases/v0.26.9.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1532 条来源指纹）
-- `python3 scripts/check_theory_cards.py`
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py`（报告 Phase 13 新增的 14 节待适配课程；本版不伪造未审核译文）
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-4"></a>
 
----
+[验证](releases/v0.26.9.md#验证)
 
-# Learning Atlas v0.26.8 发布说明
+</details>
+
+## Learning Atlas v0.26.8 发布说明
 
 发布日期：2026-10-15。
 
-本版处理 Issue #28：将 `ai-engineering-from-scratch` 的可复现快照从 `56c886c8821fc488b6f9608895c983d18f0d1ea3` 更新到 `f0c979b98d35f0547fe7a5f9aadf2f25d6c2e375`。上游大量新增的站点、技能和资产文件没有本地内容映射；唯一命中已登记内容的是 Phase 10 第 14 课及其一条理论关联。
+[阅读完整记录](releases/v0.26.8.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 更新《开放模型：架构漫游》的中文译文，补入 Spark-X2.5 4B、显式 `head_dim`、`tie_word_embeddings`、混合滑动窗口层级、逐层 KV 缓存公式、参数量校验和运行练习。
-- 更新该课程理论关联的实践来源 revision 与 SHA-256；锚点、理论卡内容和批准状态保持不变。
-- 同步上游 submodule 指针、README、内容目录说明、内容清单、项目进度及应用 SemVer 至 v0.26.8；实践译文、测验、工作区和理论关联计数保持不变。
+<a id="本版交付-2"></a>
 
-## 验证
+[本版交付](releases/v0.26.8.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1532 条来源指纹）
-- `python3 scripts/check_theory_cards.py`
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`
-- `cd apps/local-learning && npm run check && npm test`
-- Phase 10 第 14 课 `python3 code/main.py` 与 `python3 -m unittest discover -s code -p 'test_*.py'`
-- `git diff --check`
+<a id="验证-5"></a>
 
----
+[验证](releases/v0.26.8.md#验证)
 
-# Learning Atlas v0.26.7 发布说明
+</details>
+
+## Learning Atlas v0.26.7 发布说明
 
 发布日期：2026-10-13。
 
-本版处理 Issue #26，补齐覆盖报告列出的 5 节上游实践课程。实践上游快照保持 `56c886c8821fc488b6f9608895c983d18f0d1ea3` 不变。
+[阅读完整记录](releases/v0.26.7.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 新增 `13-python-for-ai-engineering`、`19-ml-system-design`、`20-model-monitoring-and-drift`、`21-feature-stores-and-training-serving-skew` 和 `29-model-demo-interfaces` 5 篇中文实践译文；保留标题层级、代码块、图示占位符、链接顺序及来源 SHA-256。
-- 新增 5 份对应中文测验，保留上游题目阶段、选项顺序和正确答案，并翻译解释。
-- 新增 5 套 Python 工作区练习指南，覆盖运行命令、测试命令和与课程目标对应的扩展练习。
-- 内容总量更新为 528 篇审核中文实践译文、293 份中文测验和 435 套 Python 工作区；Phase 0–18 阅读器可用课程增至 443 节。
-- 同步 README、内容目录说明、内容清单、项目进度及应用 SemVer 至 v0.26.7；翻译覆盖检查恢复为零缺口。
+<a id="本版交付-3"></a>
 
-## 验证
+[本版交付](releases/v0.26.7.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1532 条来源指纹）
-- `python3 scripts/check_theory_cards.py`
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`（19 个已发布 Phase，0 个缺失译文）
-- 5 个新增课程的 `python3 code/main.py` 与 `python3 -m unittest discover -s code/tests -p 'test_*.py'`
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-6"></a>
 
----
+[验证](releases/v0.26.7.md#验证)
 
-# Learning Atlas v0.26.6 发布说明
+</details>
+
+## Learning Atlas v0.26.6 发布说明
 
 发布日期：2026-10-12。
 
-本版处理 Issue #24：将 `ai-engineering-from-scratch` 的可复现快照从 `cdfd9df74ed8c38049c3150dc1a99e2ef25d87b0` 更新到 `56c886c8821fc488b6f9608895c983d18f0d1ea3`。1424 个上游变更文件中，5 篇课程原文命中本地中文译文，4 条课程原文命中既有理论关联，共 9 条来源记录需要复核。
+[阅读完整记录](releases/v0.26.6.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 更新视频生成、提示词工程、共识与拜占庭容错、心智理论与协调、LLM 混沌工程 5 篇中文译文的来源 revision 与 SHA-256，并同步上游 Further Reading 中变更的官方链接和标题。
-- 更新视频生成的 2 条、提示词工程的 1 条和 LLM 混沌工程的 1 条理论关联来源记录；理论卡内容、锚点和批准状态沿用既有版本。
-- 审核上游新增的 `13-python-for-ai-engineering`、`19-ml-system-design`、`20-model-monitoring-and-drift`、`21-feature-stores-and-training-serving-skew` 和 `29-model-demo-interfaces` 课程及其 Python 代码文件；它们没有本地内容映射，因此不复制课程、测验或工作区模板。
-- 同步 README、内容目录说明、内容清单、项目进度及应用 SemVer 至 v0.26.6。
+<a id="本版交付-4"></a>
 
-## 验证
+[本版交付](releases/v0.26.6.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1522 条来源指纹）
-- `python3 scripts/check_theory_cards.py`
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py`（报告 5 节新上游课程尚无本地译文；带 `--fail-on-missing` 的监控门禁按预期返回缺口）
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-7"></a>
 
----
+[验证](releases/v0.26.6.md#验证)
 
-# Learning Atlas v0.26.5 发布说明
+</details>
+
+## Learning Atlas v0.26.5 发布说明
 
 发布日期：2026-10-10。
 
-本版对齐 Issue #22 的上游实践更新，将 `ai-engineering-from-scratch` 的可复现快照从 `7a181b46332db6d2e1274c798e851bf978a008a9` 更新到 `cdfd9df74ed8c38049c3150dc1a99e2ef25d87b0`。75 个上游改动文件中，两篇课程原文影响两篇中文译文和一条既有理论关联，共 3 条来源记录。
+[阅读完整记录](releases/v0.26.5.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 补齐 P14 第 42 节的职业实践：记录任务与自主程度、准备上下文、验证改动前后行为、用刻意错误挑战验收检查、演练运行与恢复，并完成改进和交接。
-- 补齐 P14 第 54 节的实践实验：根据挫折证据界定权限、比较方案、走查用户交互、比较结果与每个成功任务的成本，并为后续改进指定负责人和复查日期。
-- 保留两份上游证据模板的链接和人工验收量规，说明本地演练、模拟样本和真实用户证据各自支持的结论。
-- 刷新两篇译文及第 42 节既有理论关联的来源 revision 与 SHA-256；原有实践和理论锚点未变化，理论卡内容和批准状态沿用既有版本。
-- 同步 README、内容目录说明、内容清单、项目进度及应用 SemVer 至 v0.26.5。
+<a id="本版交付-5"></a>
 
-## 验证
+[本版交付](releases/v0.26.5.md#本版交付)
 
-- 更新前复现两篇译文的结构失败和 3 条来源指纹失败。
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1522 条来源指纹）
-- `python3 scripts/check_theory_cards.py`
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-8"></a>
 
----
+[验证](releases/v0.26.5.md#验证)
 
-# Learning Atlas v0.26.4 发布说明
+</details>
+
+## Learning Atlas v0.26.4 发布说明
 
 发布日期：2026-10-07。
 
-本版处理第 65 次上游定时监控失败：文件清单让审核报告达到 178,214 字符，超过 GitHub Issue 正文上限，导致审核 Issue 未能创建。现将完整 Issue 正文限制为 60,000 UTF-8 字节，并先将完整文件清单、来源映射和课程 diff 保存为 Actions 附件。
+[阅读完整记录](releases/v0.26.4.md)
 
-同时将实践上游快照从 `bf7791e140768d8223d24e616bb60cbf07fea014` 同步至 `7a181b46332db6d2e1274c798e851bf978a008a9`。本次 2028 个上游改动文件中，4 个已记录来源文件关联 5 份本地内容；依官方 [A2A v1.0.1 规范](https://github.com/a2aproject/A2A/tree/v1.0.1)完成复核。
+<details>
+<summary>旧小节链接</summary>
 
-## 本版交付
+<a id="本版交付-6"></a>
 
-- 更新 P13 的 A2A 协议课及 P16 的通信协议、A2A 协议课：采用 `/.well-known/agent-card.json`、`supportedInterfaces`、`securityRequirements`、`TASK_STATE_*` 和 `ROLE_*`，说明消息 Parts、流式事件与 `returnImmediately` 的行为。
-- 将 P13 的理论卡和实践锚点更新为三种协议绑定：JSON-RPC、gRPC、HTTP+JSON/REST；修正 P16 测验中的发现路径，刷新 5 条来源指纹，并将工作区幂等练习改为按客户端 `messageId` 去重。
-- 以编者注记录 v1.0.1 规范性 proto 与说明文本在订阅 HTTP 方法上的冲突，并说明 TypeScript 内部教学类型与完整线上事件格式的转换边界。
-- 补充报告长度、中文 diff 边界、多上游摘要和完整附件的 7 个回归测试，并纳入 CI。
-- 将 README、内容清单、项目进度和应用版本统一至 v0.26.4。
+[本版交付](releases/v0.26.4.md#本版交付)
 
-## 验证
+<a id="验证-9"></a>
 
-- `python3 -m unittest discover -s scripts -p 'test_*.py'`（7 项）
-- #65 的实际快照报告：Issue 正文 59,096 字节，完整报告 353,154 字节。
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1522 条来源指纹）
-- `python3 scripts/check_theory_cards.py`
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`
-- P13 A2A Python harness、P16 A2A HTTP+JSON Python 演示和 P16 通信协议 TypeScript 演示均运行通过。
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+[验证](releases/v0.26.4.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.26.3 发布说明
+## Learning Atlas v0.26.3 发布说明
 
 发布日期：2026-09-28。
 
-本版完成 Issue #18 的上游更新审核：将 `ai-engineering-from-scratch` 的可复现快照从 `319c898d87dbb709febdfe4837de72917b9d361a` 更新到 `bf7791e140768d8223d24e616bb60cbf07fea014`。逐项审核 55 篇发生变化的课程文档与测验原文，更新受影响的中文实践内容、测验和已批准理论关联，并刷新 96 条来源记录。
+[阅读完整记录](releases/v0.26.3.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 更新受影响的中文实践课程、测验与理论关联；修订量化工具链、推测解码配置、Gemini 示例、vLLM 特性兼容性和对齐伪装缓解说明。
-- 保持既有课程范围与理论快照不变，记录并追溯本次实践上游快照。
-- 同步 README、内容清单、项目进度及应用 SemVer 至 v0.26.3。
+<a id="本版交付-7"></a>
 
-## 验证
+[本版交付](releases/v0.26.3.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1522 条来源指纹）
-- `python3 scripts/check_theory_cards.py`
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-10"></a>
 
----
+[验证](releases/v0.26.3.md#验证)
 
-# Learning Atlas v0.26.2 发布说明
+</details>
+
+## Learning Atlas v0.26.2 发布说明
 
 发布日期：2026-09-27。
 
-本版完成 Issue #16 的上游更新审核：将 `ai-engineering-from-scratch` 的可复现快照从 `0285d9bd92bc95d56ba79bed2071be6fb3365369` 更新到 `319c898d87dbb709febdfe4837de72917b9d361a`。审核发现两篇已发布课程的英文原文发生变化：函数调用课更新了代码运行过滤器，检查点课增加了安全加载和分片路径边界；现有工具调用理论关联仍适用。
+[阅读完整记录](releases/v0.26.2.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 更新函数调用中文课程，说明 AST 静态检查的行为和教学用途，并明确它不构成真正的代码隔离。
-- 更新检查点中文课程，记录基础类型 RNG 状态、`weights_only=True`、PyTorch 2.6+ 要求和分片路径限制。
-- 刷新两篇译文和一条已批准理论关联的来源指纹，按补丁版本规则同步内容清单、项目进度及应用 SemVer 至 v0.26.2。
+<a id="本版交付-8"></a>
 
-## 验证
+[本版交付](releases/v0.26.2.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`
-- `python3 scripts/check_theory_cards.py`
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`
-- 上游函数调用演示与 9 项测试通过。
-- 检查点代码和测试的 Python 语法检查通过；运行测试因当前环境缺少 NumPy 和 PyTorch 未完成。
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-11"></a>
 
----
+[验证](releases/v0.26.2.md#验证)
 
-# Learning Atlas v0.26.1 发布说明
+</details>
+
+## Learning Atlas v0.26.1 发布说明
 
 发布日期：2026-09-25。
 
-本版完成 Issue #14 的上游更新审核：将 `ai-engineering-from-scratch` 的可复现快照从 `d18b8fe5a913c46011a3b06cb6ebd6a924414fd3` 更新到 `0285d9bd92bc95d56ba79bed2071be6fb3365369`。对比确认正文源变更影响开发环境、Docker 和 Few-shot/CoT 三篇中文课程；另外同步了评测随机种子、智能体任务等待与审计顺序、沙箱符号链接路径检查的中文代码示例。两条理论关联均仍适用；刷新其实践来源指纹，并修正一条卡片摘要中与 `approved` 状态冲突的“候选”表述。
+[阅读完整记录](releases/v0.26.1.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 在开发环境课中补充 `unzip` 安装依赖和 fnm 的依赖提示；在 Docker 课中加入 x86_64 平台配置及 Apple Silicon 的运行边界。
-- 更新 Few-shot/CoT 的升级条件：高自洽性结果还必须与确定性单路径答案一致，否则升级到 ToT。
-- 将 Phase 10 的演示随机种子改为稳定 SHA-256 派生值；更新 P16 任务执行与审计顺序；说明 Phase 19 现在也会检查无斜杠符号链接和悬空链接的路径逃逸。
-- 保留两条关联的理论目标与状态；修正 Few-shot/CoT 理论卡摘要，说明它提供理论背景但不覆盖全部经验规律。
-- 刷新受影响内容与理论关联的来源指纹，按补丁版本规则同步 README、内容清单、项目进度及应用 SemVer 至 v0.26.1。
+<a id="本版交付-9"></a>
 
-## 验证
+[本版交付](releases/v0.26.1.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`
-- `python3 scripts/check_theory_cards.py`
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-12"></a>
 
----
+[验证](releases/v0.26.1.md#验证)
 
-# Learning Atlas v0.26.0 发布说明
+</details>
+
+## Learning Atlas v0.26.0 发布说明
 
 发布日期：2026-09-25。
 
-本版对 T1–T6 的 89 篇中文理论全文逐篇核对英文原文，检查定义、条件、数值、公式、代码、图示说明与链接，统一关键术语，并按 `$stop-slop` 润色中文。英文原文与两个上游快照保持不变。
+[阅读完整记录](releases/v0.26.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 完成 89 / 89 篇理论译文的中英一致性复核，修订语义遗漏、条件边界、术语和中文表达问题。
-- 建立逐篇续查清单，记录审核状态、英文与中文文件路径、两侧 SHA-256 和复核要点；更新跨实践与理论课程共用术语表。
-- 同步 README、内容清单、项目进度、发布说明以及应用 SemVer 至 v0.26.0；应用版本文件和锁文件保持一致。
+<a id="本版交付-10"></a>
 
-## 验证
+[本版交付](releases/v0.26.0.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1522 条来源指纹）
-- `git diff --check`
+<a id="验证-13"></a>
 
----
+[验证](releases/v0.26.0.md#验证)
 
-# Learning Atlas v0.25.2 发布说明
+</details>
+
+## Learning Atlas v0.25.2 发布说明
 
 发布日期：2026-09-24。
 
-本版是 T1–T6 理论中文内容的修订补丁：重新整理 89 篇中文理论正文，修复结构对应问题，并重新生成 255 个本地中文 SVG 图示；上游 `maths-cs-ai-compendium` 快照保持不变。
+[阅读完整记录](releases/v0.25.2.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 更新 89 篇理论译文，保留标题层级、公式、代码、图片引用和来源指纹。
-- 更新 255 个理论 SVG 图示，保留原有几何结构并清理 XML 特殊字符与翻译占位符。
-- 同步 README、内容清单、项目进度以及应用 SemVer 至 v0.25.2；应用版本文件和锁文件保持一致。
+<a id="本版交付-11"></a>
 
-## 验证
+[本版交付](releases/v0.25.2.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`
-- `python3 scripts/check_theory_cards.py`
-- `python3 scripts/check_translation_coverage.py`
-- `python3 scripts/check_repository_hygiene.py`
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-14"></a>
 
----
+[验证](releases/v0.25.2.md#验证)
 
-# Learning Atlas v0.25.1 发布说明
+</details>
+
+## Learning Atlas v0.25.1 发布说明
 
 发布日期：2026-09-23。
 
-本版完成 T1–T6 理论中文体验的复核收尾：在保持 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 不变的前提下，统一修订 89 篇中文理论正文的术语与结构，并为理论引用的 255 个 SVG 图示提供本地中文版本。
+[阅读完整记录](releases/v0.25.1.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 复核并修订 T1–T6 的 89 篇中文理论正文，保留上游标题层级、公式、代码、图片引用和来源指纹；统一常用数学、机器学习、视觉、音频、图神经网络和系统术语。
-- 新增 255 个本地中文 SVG 图示；理论资源服务优先返回本地译图，不存在本地资源时继续安全回退到上游英文图示。
-- 扩展理论资源 API 回归测试，确认抽样图示返回中文内容，同时保留路径遍历和非图像资源拒绝行为。
-- 同步 README、内容清单、项目进度以及应用 SemVer 至 v0.25.1；应用版本文件和锁文件保持一致。
+<a id="本版交付-12"></a>
 
-## 验证
+[本版交付](releases/v0.25.1.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1522 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（289 张已发布理论卡）
-- `python3 scripts/check_translation_coverage.py`（19 个已发布 Phase，0 个缺失译文）
-- `python3 scripts/check_repository_hygiene.py`
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-15"></a>
 
-完整快照、来源路径、结构统计和理论卡计数见[内容清单](content-manifest.md)、[项目进度](project-progress.md)和 [T6 审核表](t6-theory-review.md)。
+[验证](releases/v0.25.1.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.25.0 发布说明
+## Learning Atlas v0.25.0 发布说明
 
 发布日期：2026-09-23。
 
-本版完成 T6「独立理论 B」里程碑：以 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 为依据，按理论目录章节顺序新增 16 篇此前未被理论卡引用的中文理论全文。理论目录现在有 89 / 104 篇中文全文；剩余 15 篇独立笔记继续按章节顺序留待 T7。
+[阅读完整记录](releases/v0.25.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 新增 16 份 `theory-translation`，覆盖图神经网络、离散数学、计算机体系结构、编程语言、数据结构与算法、生产软件工程以及 SIMD/ARM；保留源文件的标题层级、公式、代码、图片和链接顺序，逐篇审核记录见 [`docs/t6-theory-review.md`](t6-theory-review.md)。
-- 16 篇译文均声明跟踪 `main`，记录审核 revision 和当前源文件 SHA-256，并通过结构对应与来源指纹门禁；它们不新增理论卡或 theory-link。
-- 更新理论目录、全文 API 和 API 回归测试；89 篇中文理论全文均返回 `readKind: internal`，stale 或 draft 内容仍安全回退到官方英文 `main`，原文入口继续跟随官方最新 `main`。
-- 同步 `README.md`、内容清单、项目进度、审核表以及应用 SemVer 至 v0.25.0；应用版本文件和锁文件保持一致。
+<a id="本版交付-13"></a>
 
-## 验证
+[本版交付](releases/v0.25.0.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1522 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（289 张已发布理论卡）
-- `python3 scripts/check_repository_hygiene.py`
-- `cd apps/local-learning && npm run check && npm test`
-- 桌面与窄屏理论阅读器 smoke check：抽查图神经网络、数据结构与 ARM/NEON 长文档的标题、代码、图片资源和窄屏换行。
-- `git diff --check`
+<a id="验证-16"></a>
 
-完整快照、来源路径、结构统计和理论卡计数见[内容清单](content-manifest.md)、[项目进度](project-progress.md)和 [T6 审核表](t6-theory-review.md)。
+[验证](releases/v0.25.0.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.24.0 发布说明
+## Learning Atlas v0.24.0 发布说明
 
 发布日期：2026-09-22。
 
-本版完成 P18「伦理、安全与对齐」里程碑：以 `ai-engineering-from-scratch` 实践快照 `d18b8fe5a913c46011a3b06cb6ebd6a924414fd3` 为依据，将 30 节经审核中文课程从 staged 接入阅读器。阅读器累计开放 Phase 0–18 的 438 节课程；Phase 19 的 85 节译文继续保持 staged。
+[阅读完整记录](releases/v0.24.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 接入 P18 的 30 节中文实践课程，保留原文路径、revision 与 SHA-256 来源指纹；每课的 Python `code/main.py` 均可创建学习者私有工作区。
-- 新增 30 份中文测验，保留上游每课 6 题、正确选项和来源指纹，全部标记 `reviewed`。
-- 新增 30 套 Python 工作区练习指南，覆盖指令跟随、偏好优化、对齐训练、提示注入、红队工具、安全评估和生产安全等主题。
-- 为 P18 的 5 条已批准理论关联补齐中文课程锚点和 rich-content 字段；当前开放课程的 289 张理论卡全部通过扩展内容契约，剩余 22 张随 Phase 19 接入。
-- 更新首页、课程服务、动态继续目标、覆盖率与理论卡检查、API 回归测试和版本化文档；Phase 19 仍以 staged 状态呈现。
+<a id="本版交付-14"></a>
 
-## 验证
+[本版交付](releases/v0.24.0.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1506 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（289 张已发布理论卡）
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`
-- `cd apps/local-learning && npm run check && npm test`
-- 逐个运行 P18 的 30 个 `code/main.py`
-- 使用 Chrome headless 检查 P18 首课的 1440×1200 桌面与 375×900 窄屏页面；课程标题、目标/章节面板和正文均可见，窄屏内容正常换行。
-- `git diff --check`
+<a id="验证-17"></a>
 
-完整快照、来源路径、结构统计和理论卡计数见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
+[验证](releases/v0.24.0.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.23.0 发布说明
+## Learning Atlas v0.23.0 发布说明
 
 发布日期：2026-09-19。
 
-本版完成 T5「独立理论 A」里程碑：以 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 为依据，按理论目录章节顺序新增 16 篇此前未被理论卡引用的中文理论全文。理论目录现在有 73 / 104 篇中文全文；剩余 31 篇独立笔记继续按章节顺序留待 T6–T7。
+[阅读完整记录](releases/v0.23.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 新增 16 份 `theory-translation`，覆盖向量、矩阵、微积分、统计、概率、计算机视觉、自主系统和图神经网络；保留源文件的标题层级、公式、代码、图片和链接顺序，逐篇审核记录见 [`docs/t5-theory-review.md`](t5-theory-review.md)。
-- 16 篇译文均声明跟踪 `main`，记录审核 revision 和当前源文件 SHA-256，并通过结构对应与来源指纹门禁；它们不新增理论卡或 theory-link。
-- 更新理论目录、全文 API 和 API 回归测试；73 篇中文理论全文均返回 `readKind: internal`，stale 或 draft 内容仍安全回退到官方英文 `main`，原文入口继续跟随官方最新 `main`。
-- 同步 `README.md`、内容清单、项目进度、审核表以及应用 SemVer 至 v0.23.0；应用版本文件和锁文件保持一致。
+<a id="本版交付-15"></a>
 
-## 验证
+[本版交付](releases/v0.23.0.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1476 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（284 张已发布理论卡）
-- `python3 scripts/check_repository_hygiene.py`
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-18"></a>
 
-完整快照、来源路径、结构统计和理论卡计数见[内容清单](content-manifest.md)、[项目进度](project-progress.md)和 [T5 审核表](t5-theory-review.md)。
+[验证](releases/v0.23.0.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.22.0 发布说明
+## Learning Atlas v0.22.0 发布说明
 
 发布日期：2026-09-17。
 
-本版完成 P17「基础设施与生产」里程碑：以 `ai-engineering-from-scratch` 实践快照 `d18b8fe5a913c46011a3b06cb6ebd6a924414fd3` 为依据，将 28 节经审核中文课程从 staged 接入阅读器。阅读器累计开放 Phase 0–17 的 408 节课程；Phase 18–19 的 115 节译文继续保持 staged。
+[阅读完整记录](releases/v0.22.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 接入 P17 的 28 节中文实践课程，保留原文路径、revision 与 SHA-256 来源指纹；每课的 Python `code/main.py` 均可创建学习者私有工作区。
-- 新增 28 份中文测验，保留上游题目数量（01 课 7 题，其余各 6 题）、正确选项和来源指纹，全部标记 `reviewed`。
-- 新增 28 套 Python 工作区练习指南，覆盖推理平台、GPU 调度、服务引擎、缓存、发布、可观测性、安全、合规、FinOps 和引擎选型。
-- 为 P17 的 27 条已批准理论关联补齐中文课程锚点和 rich-content 字段；当前开放课程的 284 张理论卡全部通过扩展内容契约，剩余 27 张随 Phase 18–19 接入。
-- 更新首页、课程服务、动态继续目标、覆盖率与理论卡检查、API 回归测试和版本化文档；Phase 18–19 仍以 staged 状态呈现。
+<a id="本版交付-16"></a>
 
-## 验证
+[本版交付](releases/v0.22.0.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1460 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（284 张已发布理论卡）
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
-- 逐个运行 P17 的 28 个 `code/main.py`
+<a id="验证-19"></a>
 
-完整快照、来源路径、结构统计和理论卡计数见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
+[验证](releases/v0.22.0.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.21.0 发布说明
+## Learning Atlas v0.21.0 发布说明
 
 发布日期：2026-09-16。
 
-本版完成 T4「关联长尾理论」里程碑：以 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 为依据，新增 19 篇经维护者逐篇复核的中文理论全文，覆盖剩余 28 条已批准理论关联。理论目录现在有 57 / 104 篇中文全文，311 / 311 条理论卡关联均可进入中文全文；实践阅读器仍开放 Phase 0–16 的 380 节课程。
+[阅读完整记录](releases/v0.21.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 新增 19 份 `theory-translation`，覆盖向量与矩阵、微积分与统计、概率、视频与三维视觉、音频源分离、多模态表示、机器人、Linux/Git、CUDA、边缘推理和云计算；保留源文件的标题层级、公式、代码、图片、链接和教学顺序，逐篇审核记录见 [`docs/t4-theory-review.md`](t4-theory-review.md)。
-- 中文理论全文从 38 / 104 增至 57 / 104，理论卡关联从 283 / 311 补齐至 311 / 311；尚未被理论卡引用的 47 篇笔记仍安全回退到官方英文 `main`。
-- 增加 T4 19 个理论 ID 的目录、全文 API、审核 revision、来源路径和官方 `main` 链接回归测试；stale 或 draft 内容仍安全回退到英文原文。
-- 同步 `README.md`、内容清单、项目进度和应用 SemVer 至 v0.21.0；来源指纹检查覆盖 1432 条记录，理论原文入口继续跟随官方最新 `main`。
+<a id="本版交付-17"></a>
 
-## 验证
+[本版交付](releases/v0.21.0.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1432 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（257 张已发布理论卡）
-- `python3 scripts/check_repository_hygiene.py`
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-20"></a>
 
-完整快照、来源路径、结构统计和理论卡计数见[内容清单](content-manifest.md)、[项目进度](project-progress.md)和 [T4 审核表](t4-theory-review.md)。
+[验证](releases/v0.21.0.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.20.0 发布说明
+## Learning Atlas v0.20.0 发布说明
 
 发布日期：2026-09-10。
 
-本版完成 P16「多智能体与群体」里程碑：以 `ai-engineering-from-scratch` 快照 `39ea8a1c6d0b61f071226eff7ede4d4105fed820` 的 25 节课程为依据，将经审核中文实践接入阅读器，补齐两份上游测验的中文改编、23 套 Python 工作区练习指南和 9 条已批准理论关联。`01-why-multi-agent` 与 `03-communication-protocols` 保留 TypeScript 上游实现，不创建平行 Python 路径。
+[阅读完整记录](releases/v0.20.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 开放 Phase 16「多智能体与群体智能」的 25 节课程；阅读器累计开放 Phase 0–16 的 380 节课程，Phase 17–19 的 143 节内容继续保持 staged。
-- 新增 2 份经审核中文测验（各 5 题），并按上游 SHA-256 提供 stale 保护；没有 `quiz.json` 的 23 节课程仍安全返回 `unavailable`。
-- 为 23 节 Python 课程建立工作区练习指南；01、03 课明确标记为 TypeScript-only，并由课程正文保留上游实现链接。
-- 为 9 条理论关联补齐中文课程锚点、上下文、核心直觉、关键点、应用和自检问题；当前开放理论卡从 248 张增至 257 张，重复理论来源仍按目标去重。
-- 更新课程服务、首页开放状态、动态继续目标、理论卡发布门禁和 API 回归测试；Phase 16 的 25 节译文、2 份测验、23 个工作区资源和 9 张理论卡均通过指纹与内容检查。
-- 同步 `README.md`、内容清单、项目进度和应用 SemVer 至 v0.20.0；理论正文数量保持 38 / 104，覆盖 283 / 311 条理论卡关联。
+<a id="本版交付-18"></a>
 
-## 验证
+[本版交付](releases/v0.20.0.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1413 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（257 张已发布理论卡）
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`（17 个已发布 Phase，0 个缺译）
-- `cd apps/local-learning && npm run check && npm test`
-- 逐个运行 P16 的 23 个 `code/main.py`
-- `git diff --check`
+<a id="验证-21"></a>
 
-完整快照、来源路径、结构统计、理论卡计数和剩余 staged 范围见[内容清单](content-manifest.md)、[项目进度](project-progress.md)。
+[验证](releases/v0.20.0.md#验证)
 
-# Learning Atlas v0.19.0 发布说明
+</details>
+
+## Learning Atlas v0.19.0 发布说明
 
 发布日期：2026-09-10。
 
-本版完成 T3「中关联理论 B」里程碑：以 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 为依据，新增 13 篇经维护者逐篇复核的中文理论全文，覆盖 53 条已批准理论关联；实践阅读器范围保持为 Phase 0–15 的 355 节课程。
+[阅读完整记录](releases/v0.19.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 新增 13 篇 `theory-translation`，涵盖范数与度量、多元微积分、梯度与分布式深度学习、语言学基础、数字信号处理、自动语音识别、文本转语音与声音、说话人与音频分析、视觉语言模型、图像与视频 token 化、并发与并行、量化；全部正文保留源文件的标题层级、公式、代码、图片、表格、链接和教学顺序，逐篇审核记录见 [`docs/t3-theory-review.md`](t3-theory-review.md)。
-- 中文理论全文从 25 / 104 增至 38 / 104，进入应用内中文阅读的理论卡关联从 230 / 311 增至 283 / 311；其中当前已开放课程的 248 张理论卡继续满足 rich-content 契约，尚未接入 Phase 16–19 的关联仍保持 staged。
-- 增加 T3 13 个理论 ID 的目录、全文 API、审核 revision、来源路径和官方 `main` 链接回归测试；stale 或 draft 内容仍安全回退到英文原文。
-- 同步 `README.md`、内容清单、项目进度和应用 SemVer 至 v0.19.0；理论正文的英文入口继续指向官方最新 `main`，不因本地中文全文而复制或冻结上游链接。
+<a id="本版交付-19"></a>
 
-## 验证
+[本版交付](releases/v0.19.0.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1411 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（248 张已发布理论卡）
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`（16 个已发布 Phase，0 个缺译）
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-22"></a>
 
-完整快照、来源路径、结构统计、理论卡计数和剩余 staged 范围见[内容清单](content-manifest.md)、[项目进度](project-progress.md)和 [T3 审核表](t3-theory-review.md)。
+[验证](releases/v0.19.0.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.18.0 发布说明
+## Learning Atlas v0.18.0 发布说明
 
 发布日期：2026-09-10。
 
-本版完成 P15「自主系统」里程碑：以 `ai-engineering-from-scratch` 快照 `39ea8a1c6d0b61f071226eff7ede4d4105fed820` 和 `maths-cs-ai-compendium` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 为依据，将 22 节经审核中文实践课程接入本地阅读器，补齐 22 套 Python 工作区练习指南，并把 13 条已批准理论关联迁移为完整 rich theory card。由于上游没有 `quiz.json`，本版不凭空创建测验。
+[阅读完整记录](releases/v0.18.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 开放 Phase 15「自主系统」的 22 节课程；阅读器累计开放 Phase 0–15 的 355 节课程，Phase 16–19 的 168 节内容继续保持 staged。
-- 为 22 节 Python 课程建立工作区练习指南；工作区仍只复制缺失文件，不覆盖学习者已有修改。
-- 为 13 条 P15 理论关联补齐中文课程标题锚点、上下文、核心直觉、关键点、应用和自检问题；当前开放课程的 248 张理论卡全部满足 rich-content 契约。
-- 更新课程服务、首页开放状态、动态继续目标、覆盖率和理论卡检查；P15 22 节课程均可加载，资源标记为 workspace，测验 API 对所有课程安全返回 `unavailable`。
-- 同步文档与应用 SemVer 至 v0.18.0；剩余待接入范围为 Phase 16–19 的 168 节课程、166 套 Python 工作区和 63 条理论关联。
+<a id="本版交付-20"></a>
 
-## 验证
+[本版交付](releases/v0.18.0.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1398 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（248 张已发布理论卡）
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`（16 个已发布 Phase，0 个缺译）
-- `cd apps/local-learning && npm run check && npm test`
-- 逐个运行 P15 的 22 个 `code/main.py`
-- `git diff --check`
+<a id="验证-23"></a>
 
-使用临时 Chrome 在 1440×1200 与 375×900 视口完成首页和 P15 首课的桌面/窄屏视觉验收；理论卡可展开，页面无错误状态和横向滚动。服务端与浏览器脚本语法检查也已通过。
+[验证](releases/v0.18.0.md#验证)
 
-完整快照、内容计数与剩余 staged 范围见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
+</details>
 
----
-
-# Learning Atlas v0.17.2 发布说明
+## Learning Atlas v0.17.2 发布说明
 
 发布日期：2026-09-09。
 
-本版完成 Issue #10 的上游更新审核：将 `ai-engineering-from-scratch` 的可复现快照从 `a63ead400272c339441f07d0f920e76cdfb0d1d1` 更新到 `d18b8fe5a913c46011a3b06cb6ebd6a924414fd3`。对比 `bcd09d91`、`f068c1e6` 和 `d18b8fe5` 三个提交确认，改动只涉及 EPUB/PDF 图书构建、排版过滤器、主题和渲染测试，没有命中课程正文、测验或理论来源，中文学习内容与发布范围保持不变。
+[阅读完整记录](releases/v0.17.2.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 按审核结论同步 `ai-engineering-from-scratch` submodule 指针到 `d18b8fe5`；不复制上游图书构建脚本或生成文件到根项目。
-- 未修改任何中文译文、测验、理论卡或来源指纹；保持阅读器 333 节课程、523 节实践译文、228 份中文测验、25 篇中文理论全文和 230 / 311 条理论卡关联等发布统计不变。
-- 上游 PDF 构建现在验证长代码、URL、表格标识符和字面量 token 的排版边界，并在渲染失败时终止构建；这些变化不改变 Learning Atlas 的学习语义。
+<a id="本版交付-21"></a>
 
-## 验证
+[本版交付](releases/v0.17.2.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1398 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（235 张已发布理论卡）
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`（15 个已发布 Phase，0 个缺译）
-- `cd ai-engineering-from-scratch && python3 scripts/test_book_rendering.py`（6 项测试，1 项因缺少 `xelatex` 跳过）
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-24"></a>
 
-Issue #10：[上游原文更新待审核](https://github.com/huangyue12120/Learning-Atlas/issues/10) 已完成审核，修复已提交至 [PR #11](https://github.com/huangyue12120/Learning-Atlas/pull/11)，合并后将自动关闭本 Issue。完整快照与当前范围见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
+[验证](releases/v0.17.2.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.17.1 发布说明
+## Learning Atlas v0.17.1 发布说明
 
 发布日期：2026-09-08。
 
-本版完成 Issue #8 的上游更新审核：将 `ai-engineering-from-scratch` 的可复现快照从 `a56b4b8ad43a3767c771953d217036813f697bc7` 更新到 `a63ead400272c339441f07d0f920e76cdfb0d1d1`。对比确认本次上游变更未触及课程正文、测验或理论来源，中文学习内容与发布范围保持不变。
+[阅读完整记录](releases/v0.17.1.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 审核上游提交 `2cde5bc4`（站点计数、操作入口和公共资源修复）与 `a63ead40`（站点数据重建）；改动仅涉及上游网站、文档、API、脚本和生成资源。
-- 按审核结论同步 `ai-engineering-from-scratch` submodule 指针；未修改任何中文译文、测验、理论卡或来源指纹。
-- 保持阅读器 333 节课程、523 节实践译文、228 份中文测验、25 篇中文理论全文和 230 / 311 条理论卡关联等发布统计不变。
+<a id="本版交付-22"></a>
 
-## 验证
+[本版交付](releases/v0.17.1.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1398 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（235 张已发布理论卡）
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`（15 个已发布 Phase，0 个缺译）
-- `cd apps/local-learning && npm run check && npm test`（22/22）
-- `git diff --check`
+<a id="验证-25"></a>
 
-Issue #8：[上游原文更新待审核](https://github.com/huangyue12120/Learning-Atlas/issues/8) 已完成审核，修复已提交至 [PR #9](https://github.com/huangyue12120/Learning-Atlas/pull/9)，合并后将自动关闭本 Issue。完整快照与当前范围见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
+[验证](releases/v0.17.1.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.17.0 发布说明
+## Learning Atlas v0.17.0 发布说明
 
 发布日期：2026-09-02。
 
-本版完成 T2「中关联理论 A」里程碑：新增 13 篇经维护者逐篇复核的理论译文，连同既有《抽样》和 T1 的 11 篇译文共发布 25 / 104 篇中文理论全文，覆盖 230 / 311 张理论卡关联；实践阅读器范围保持不变。
+[阅读完整记录](releases/v0.17.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 新增 13 篇 `theory-translation`，保持上游章节顺序、标题层级、公式、代码、图片、表格、Mermaid 和链接语义；逐篇审核记录见 [`docs/t2-theory-review.md`](t2-theory-review.md)。
-- 13 篇译文均针对 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 完成语义、结构、公式、代码和图示复核，并将英文原文入口统一保持为官方最新 `main`。
-- 理论目录与 API 现在发布 25 篇 `readKind: internal` 的中文全文；缺失、`draft`、`stale` 或来源指纹不匹配的理论仍安全回退到官方英文 `main`。
-- 更新 T2 应用回归测试，覆盖 13 个理论 ID、中文阅读入口、审核 revision、来源路径和官方 `main` 链接一致性；来源指纹检查扩展到 1398 条记录。
+<a id="本版交付-23"></a>
 
-## 验证
+[本版交付](releases/v0.17.0.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1398 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（235 张已发布理论卡）
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`（15 个已发布 Phase，0 个缺译）
-- `cd apps/local-learning && npm run check && npm test`（22/22）
-- `git diff --check`
+<a id="验证-26"></a>
 
-完整快照、内容计数与剩余理论缺口见[内容清单](content-manifest.md)、[项目进度](project-progress.md)和 [T2 审核表](t2-theory-review.md)。
+[验证](releases/v0.17.0.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.16.0 发布说明
+## Learning Atlas v0.16.0 发布说明
 
 发布日期：2026-09-01。
 
-本版开放 Phase 14「Agent 工程」：54 节中文实践课程全部接入本地阅读器，阅读器累计开放 Phase 0–14 的 333 节课程；Phase 15–19 的 190 节内容继续保持 staged。
+[阅读完整记录](releases/v0.16.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 补齐 Phase 14 第 43–54 节中文学习改编，当前快照的 523 节实践课程均有中文译文。
-- 新增并核对 54 份中文测验（01–42 每课 7 题，43–54 每课 6 题），应用按上游题目数量动态处理。
-- 新增 54 套 Python 工作区练习指南；工作区仍只复制缺失文件，不覆盖学习者已有修改。
-- 将 12 条 P14 理论关联补齐为 rich theory card，包含上下文、直觉、关键点、应用和自检问题，并绑定对应的中文课程锚点。
-- 更新覆盖率检查，使监控范围与应用已发布的 Phase 0–14 保持一致；Phase 15–19 的 staged 译文不会误触发缺译 Issue。
+<a id="本版交付-24"></a>
 
-## 验证
+[本版交付](releases/v0.16.0.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1385 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（235 张已发布理论卡）
-- `python3 scripts/check_repository_hygiene.py`
-- `python3 scripts/check_translation_coverage.py --fail-on-missing`（15 个已发布 Phase，0 个缺译）
-- `cd apps/local-learning && npm run check && npm test`（21/21）
-- `git diff --check`
+<a id="验证-27"></a>
 
-完整快照、内容计数与剩余 staged 范围见[内容清单](content-manifest.md)和[项目进度](project-progress.md)。
+[验证](releases/v0.16.0.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.15.0 发布说明
+## Learning Atlas v0.15.0 发布说明
 
 发布日期：2026-08-31。
 
-本版完成 T1 高关联中文理论里程碑：新增 11 篇经维护者逐篇复核的理论译文，连同既有《抽样》共发布 12 / 104 篇中文理论全文，覆盖 154 / 311 张理论卡关联；实践阅读器范围保持不变。
+[阅读完整记录](releases/v0.15.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 新增 11 篇 `theory-translation`，保持上游章节顺序、标题层级、公式、代码、图片和链接语义；审核表见 [`docs/t1-theory-review.md`](t1-theory-review.md)。
-- 11 篇译文均针对 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d` 完成语义复核，并将英文原文入口统一保持为官方最新 `main`。
-- 理论目录与 API 现在发布 12 篇 `readKind: internal` 的中文全文；缺失、`draft`、`stale` 或来源指纹不匹配的理论仍安全回退到官方英文 `main`。
-- 更新 T1 应用回归测试，覆盖 11 个理论 ID、中文阅读入口、审核 revision、来源路径和官方 `main` 链接一致性。
+<a id="本版交付-25"></a>
 
-## 验证
+[本版交付](releases/v0.15.0.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`（1319 条来源指纹）
-- `python3 scripts/check_theory_cards.py`（223 张理论卡）
-- `python3 scripts/check_repository_hygiene.py`
-- `cd apps/local-learning && npm run check && npm test`（21/21）
-- 使用独立临时 Chrome 完成 1440×1200 与 375×900 页面验收：章节目录、KaTeX 公式、4 个代码复制控件和 8 个 SVG 图片均正常；移动端章节抽屉可打开/关闭并恢复焦点，两个视口均无横向溢出。
-- `git diff --check`
+<a id="验证-28"></a>
 
-完整快照、来源指纹、当前范围和逐篇审核记录见[内容清单](content-manifest.md)、[项目进度](project-progress.md)与 [T1 审核表](t1-theory-review.md)。
+[验证](releases/v0.15.0.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.14.0 发布说明
+## Learning Atlas v0.14.0 发布说明
 
 发布日期：2026-08-31。
 
-本版完成 P0 理论卡收尾与根项目许可证治理：223 张当前可见理论卡通过全量结构/链接复核和维护者确认的语义抽样；重复英文原文入口继续保持去重；原创软件与原创学习内容采用分层许可证，并补齐上游与第三方归属边界。
+[阅读完整记录](releases/v0.14.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 维护者确认 `fast_worker` 对 223 张理论卡的逐卡结构化复核：实践锚点、理论来源、扩展字段和自检问题均通过，未发现具体疑点；技术语义仍明确记录为人工抽样结论，不把脚本当作语义证明。
-- 将 C0 · [P0] 理论卡内容与展示重构标记为完成：英文 fallback 的重复目标只渲染一个入口，卡片提供上下文、直觉、关键点、应用和可回答的自检问题。
-- 采用分层许可证：原创软件代码使用 Apache-2.0，原创文档/设计/独立学习内容使用 CC BY 4.0；上游 MIT/Apache-2.0、字体 OFL、GSAP Standard license 及其他依赖继续按各自条款分发。
-- 新增 `LICENSE`、`LICENSE-CONTENT.md`、`THIRD_PARTY_NOTICES.md` 和 ADR 0023，并同步 README、内容清单、应用说明和项目进度。
+<a id="本版交付-26"></a>
 
-## 验证
+[本版交付](releases/v0.14.0.md#本版交付)
 
-- `python3 scripts/check_theory_cards.py`（223 / 223）
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`
-- `python3 scripts/check_repository_hygiene.py`
-- `cd apps/local-learning && npm run check && npm test`
-- `git diff --check`
+<a id="验证-29"></a>
 
-许可证边界和当前内容范围见[内容清单](content-manifest.md)与[第三方归属清单](../THIRD_PARTY_NOTICES.md)。
+[验证](releases/v0.14.0.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.13.1 发布说明
+## Learning Atlas v0.13.1 发布说明
 
 发布日期：2026-08-31。
 
-本版完成 Issue #4 的上游内容复核：将 `ai-engineering-from-scratch` 的可复现快照从 `39ea8a1c6d0b61f071226eff7ede4d4105fed820` 更新到 `a56b4b8ad43a3767c771953d217036813f697bc7`，并处理唯一命中的本地中文内容指纹漂移。
+[阅读完整记录](releases/v0.13.1.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 审核上游 `6cdb135c` 与 `a56b4b8a` 两个提交；新增的 12 节 Phase 14 课程（43–54）尚无中文改编，属于尚未接入阅读器的范围，不伪造或自动发布中文内容。
-- 更新《向量、矩阵与运算》中文测验，使其与上游最新 `quiz.json` 的 6 题、阶段、选项、答案和解释对应，并记录新的 revision 与 SHA-256。
-- 将上游实践源课程总数、Phase 14 待接入工作量和中文内容缺口同步到内容清单、项目进度和当前版本说明；当前实践阅读器边界仍为 Phase 0–13 的 279 节课程。
-- `ai-engineering-from-scratch` 子模块跟踪上游 `main`；其他未命中本地版本化内容的上游改动经核对后保留为上游来源，不复制到 Learning Atlas。
+<a id="本版交付-27"></a>
 
-## 验证
+[本版交付](releases/v0.13.1.md#本版交付)
 
-- `python3 scripts/check_translation_correspondence.py`
-- `python3 scripts/check_source_fingerprints.py`
-- `python3 scripts/check_repository_hygiene.py`
-- `cd apps/local-learning && npm run check && npm test`
+<a id="验证-30"></a>
 
-上述内容与应用门禁均通过；完整快照、来源指纹和当前范围见[内容清单](content-manifest.md)。
+[验证](releases/v0.13.1.md#验证)
 
----
+</details>
 
-# Learning Atlas v0.13.0 发布说明
+## Learning Atlas v0.13.0 发布说明
 
 发布日期：2026-08-31。
 
-本版完成当前开放课程上下文理论卡的渐进式内容与展示重构：223 张可见卡片从标题/摘要扩展为可展开的学习引导，同时保持理论全文来源和上游 `main` 的可追溯性。根项目许可证治理仍是下一次可再分发公开版本的阻断项。
+[阅读完整记录](releases/v0.13.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 为当前开放课程的 223 张已批准理论卡补齐 `context`、`intuition`、2–4 个 `key_points`、`application` 和 `check_question` 字段；新增契约检查会拒绝缺失、过短、占位或重复内容。
-- 将理论卡渲染拆为可复用的渐进式卡片组件：折叠状态保留上下文、标题、摘要和全文语言，展开后显示学习提示、关键点、自检问题和来源操作；移动端改为单列布局，操作目标保持可触摸尺寸。
-- 将当前开放的 223 张理论卡绑定到中文课程中的对应标题锚点，并新增门禁检查，避免卡片只出现在 API 而未注入阅读正文。
-- 增加迁移期 summary-only 兼容路径：缺少扩展字段的旧卡只显示已审核的标题、摘要和来源入口，并明确提示待迁移，不由应用生成未经审核的理论内容。
-- 对理论来源目标做规范化去重：英文 fallback 只显示一个英文原文入口；中文全文与不同的官方英文 `main` 目标才同时显示。
-- 将扩展卡片内容同步提供给学习助理证据和当前段落上下文，避免界面与助理使用不同的理论摘要；API 回归覆盖 223 张卡、HTML 转义和来源操作。
-- 新增 `scripts/check_theory_cards.py` 并接入内容验证 workflow；全量来源指纹检查覆盖 1308 条记录，本地 API 测试 20/20 通过。
+<a id="本版交付-28"></a>
 
-## 当前边界
+[本版交付](releases/v0.13.0.md#本版交付)
 
-- 223 张卡对应当前开放的 Phase 0–13；尚未接入阅读器的 88 张理论关联仍在后续 Phase 接入时迁移，不会因为本版而提前展示。
-- 卡片的 `status: approved` 与结构检查不替代维护者对实践锚点、理论来源和技术语义的人工复核；未完成该复核的内容不得作为新的审核结论。
-- 阅读器仍开放 Phase 0–13 的 279 节实践课程；Phase 14–19 的 232 节内容只显示“已审核，待接入”。
+<a id="当前边界"></a>
 
----
+[当前边界](releases/v0.13.0.md#当前边界)
 
-# Learning Atlas v0.12.0 发布说明
+</details>
+
+## Learning Atlas v0.12.0 发布说明
 
 发布日期：2026-08-29。
 
-本版将 `/` 升级为学习首页，并开放完整理论课程目录。实践课程仍是默认主线；理论课程可独立浏览，但本轮不增加理论进度、笔记、自测或助理状态。
+[阅读完整记录](releases/v0.12.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 新增 Phase 0-19 实践课程地图和 20 章、104 篇笔记的理论目录；新学习者从 Phase 0 第一课开始，有学习记录时按“学习中、需复习、连续完成区段后的第一节未开始课程”选择继续目标。
-- Phase 0-13 的 279 节课程继续使用实践阅读器；Phase 14-19 统一显示“已审核，待接入”，不生成可进入阅读器的目标。
-- 新增 `/learn?lessonId=...` 实践规范链接和 `/theory?theoryId=...` 理论阅读器；原有 `/?lessonId=...` 深链接继续兼容。
-- 理论目录在服务启动时从本地同步到上游 `main` 的快照建立缓存。只有 `status: reviewed` 且 SHA-256 与当前理论源匹配的中文正文会在应用内发布；draft、stale、缺失或指纹不符均回退到官方上游最新英文 `main`。中文正文的审核 revision 只用于追溯，不锁定原文入口。
-- 第 15 课的 CLT 理论卡现在进入应用内《抽样》中文全文。理论阅读器支持两张上游 SVG、两处 KaTeX 公式、三段 Python 代码、章节目录、代码复制、审核来源追溯和上游 `main` 原文入口。
-- 首页保留纸张色、深青、琥珀、Atlas Sans SC 与 Source Serif 4，使用真实 CLT、Transformer 与 RAG 教学图；GSAP 动画在移动端、低性能设备和 reduced-motion 下退化为静态最终状态。
-- 新增课程首页与理论阅读器页面规范、ADR 0022，并同步领域语言以区分“理论课程”和连接实践与理论的“上下文理论层”。
+<a id="本版交付-29"></a>
 
-## 当前边界
+[本版交付](releases/v0.12.0.md#本版交付)
 
-- 理论个人学习数据仍未建立。进度、笔记、自测、助理和工作区只属于实践课程。
-- 中文理论正文是针对本地 `main` 快照审核的版本化内容；审核 revision 只作追溯，原文入口跟随官方 `main`，可能随上游变化。上游同步后，SHA-256 不匹配的旧译文会暂不发布，直到重新审核。
-- Phase 14-19 只进入首页课程地图，不进入实践阅读器。
+<a id="当前边界-1"></a>
 
-# Learning Atlas v0.11.0 发布说明
+[当前边界](releases/v0.12.0.md#当前边界)
+
+</details>
+
+## Learning Atlas v0.11.0 发布说明
 
 发布日期：2026-08-28。
 
-本版完成 105 条候选实践—理论关联的人工审核与正式发布，并修复理论关联元数据的严格 YAML 格式和原文标题锚点问题；阅读器仍保持只开放 Phase 0–13 的边界。
+[阅读完整记录](releases/v0.11.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 完成此前 105 条 `proposed` 实践—理论关联的逐条人工审核，全部更新为 `approved`；理论关联总数仍为 311 条，当前没有待审核候选。
-- 修复 14 个关联文件中的严格 YAML 解析问题，并修正 1 个课程标题锚点；全量 311 个关联的 YAML、来源 SHA-256 和标题锚点校验通过。
-- 让本地应用的轻量 YAML 标量解析器兼容合法的带引号标量，并同步更新受影响的理论卡 API 断言；应用 API 测试 14/14 通过。
-- 审核期间使用临时本地工具记录人工选择；审核结果未写入版本库，工具已在审核完成后移除。
+<a id="本版交付-30"></a>
 
-## 当前边界
+[本版交付](releases/v0.11.0.md#本版交付)
 
-- 阅读器开放 Phase 0–13 的 279 节课程；Phase 14–19 的 232 节已审核内容仍暂存于内容仓库，接入前还需补齐课程目录和端到端验收。
-- 理论卡只展示已批准关联；当前 311 条关联均已批准，尚未接入阅读器的课程关联会在对应课程接入后展示。
+<a id="当前边界-2"></a>
 
-# Learning Atlas v0.10.0 发布说明
+[当前边界](releases/v0.11.0.md#当前边界)
 
-发布日期：2026-08-28。
+</details>
 
-本版补齐当前开放课程的中文测验与 VS Code/Python 实作入口，并接入上游 Phase 13 新增课程；阅读器仍保持只开放 Phase 0–13 的边界。
-
-## 本版交付
-
-- 新增 Phase 13 第 24–31 课共 8 节经审核中文实践译文，当前内容仓库累计维护 511 节 Phase 0–19 译文；阅读器开放范围扩展到 Phase 13 的 31 节，共 279 节课程。
-- 为当前开放范围内所有存在上游 `quiz.json` 的课程建立 174 份中文测验改编：Phase 0–5、Phase 7、Phase 10–11 和 Phase 13 均已覆盖；另外 105 节上游课程没有测验文件，不作为缺失项。
-- 为当前开放范围内的 273 节 Python 课程建立 VS Code 工作区模板与练习指南，并修正应用把代码文件复制到工作区根目录后的指南路径；新增补齐 Phase 1 数学基础第 16–22 课的练习指南。
-- 清理 Phase 5 的 29 份测验改编中的中英混杂文本和重复提示语，保留每题的来源、阶段和正确选项；来源指纹检查覆盖 1308 条记录。
-- 更新本地应用、内容清单、项目进度和版本号至 v0.10.0；修正 Phase 13 课程数量的 API 测试断言。
-
-## 当前边界
-
-- 阅读器开放 Phase 0–13 的 279 节课程；Phase 14–19 的 232 节已审核内容仍暂存于内容仓库，接入前还需补齐课程目录和端到端验收。
-- 中文测验覆盖当前开放范围内所有存在上游 `quiz.json` 的课程；没有对应上游测验文件的课程不会凭空生成题目。
-- 当前开放范围的 279 节课程中，273 节提供 VS Code/Python 工作区模板与练习指南，其余课程没有 Python 实作资源。
-- 理论卡只展示已批准关联；Phase 19 的 19 条已批准关联随尚未接入阅读器的课程内容暂不展示，`proposed` 关联不会自动展示。
-
-# Learning Atlas v0.9.0 发布说明
+## Learning Atlas v0.10.0 发布说明
 
 发布日期：2026-08-28。
 
-本版完成 Phase 19「综合项目」的中文学习改编，继续保持阅读器当前 Phase 0–13 的集成边界；v0.1 的应用与内容边界仍记录在 [`ADR 0018`](adr/0018-freeze-v0-1-around-reviewed-practice-and-context.md) 中。
+[阅读完整记录](releases/v0.10.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 新增 Phase 19 共 85 节经审核中文实践译文，累计维护 503 节 Phase 0–19 译文；正文保留代码、公式、链接、图示结构和来源指纹，并完成占位文本与残留整段英文清理。
-- 新增 22 条 Phase 19 实践—理论关联，其中 19 条已标为 `approved`、3 条保留为 `proposed`；理论关联总数为 311 条，其中 206 条 `approved`、105 条 `proposed`，候选关联不会自动展示。
-- 保持 `ai-engineering-from-scratch` 锁定在 `39ea8a1c6d0b61f071226eff7ede4d4105fed820`，`maths-cs-ai-compendium` 锁定在 `9850ee574a370bc1cde59de98b394e953775b67d`。
-- 更新内容清单、项目进度和本地应用版本号至 v0.9.0；结构检查覆盖 503 份实践译文和 1 份中文理论笔记，来源指纹检查覆盖 1160 条记录。
+<a id="本版交付-31"></a>
 
-## 当前边界
+[本版交付](releases/v0.10.0.md#本版交付)
 
-- 阅读器继续开放 Phase 0–13 的 271 节课程；Phase 14–19 的 232 节已审核内容暂存于内容仓库，接入前还需补齐课程目录和端到端验收。
-- 中文测验仍覆盖 Phase 0–1 的 34 节课程。
-- 理论卡只展示已批准关联；Phase 19 的 19 条已批准关联随尚未接入阅读器的课程内容暂不展示，另有 3 条 `proposed` 关联以及其他候选关联不会自动展示。
+<a id="当前边界-3"></a>
 
----
+[当前边界](releases/v0.10.0.md#当前边界)
 
-# Learning Atlas v0.8.0 发布说明
+</details>
+
+## Learning Atlas v0.9.0 发布说明
+
+发布日期：2026-08-28。
+
+[阅读完整记录](releases/v0.9.0.md)
+
+<details>
+<summary>旧小节链接</summary>
+
+<a id="本版交付-32"></a>
+
+[本版交付](releases/v0.9.0.md#本版交付)
+
+<a id="当前边界-4"></a>
+
+[当前边界](releases/v0.9.0.md#当前边界)
+
+</details>
+
+## Learning Atlas v0.8.0 发布说明
 
 发布日期：2026-08-27。
 
-本版扩展版本化中文内容范围，保留阅读器当前 Phase 0–13 的集成边界；v0.1 的应用与内容边界仍记录在 [`ADR 0018`](adr/0018-freeze-v0-1-around-reviewed-practice-and-context.md) 中。
+[阅读完整记录](releases/v0.8.0.md)
 
-## 本版交付
+<details>
+<summary>旧小节链接</summary>
 
-- 新增 Phase 14–18 共 147 节经审核中文实践译文，累计维护 418 节 Phase 0–18 译文；正文完成 `$stop-slop` 语言复核，保留代码、公式、链接、图示结构和来源指纹。
-- 新增 66 条实践—理论关联，其中 49 条 `approved`、17 条 `proposed`；应用仍只展示当前开放课程中的已批准关联。
-- 保持 `ai-engineering-from-scratch` 锁定在 `39ea8a1c6d0b61f071226eff7ede4d4105fed820`，`maths-cs-ai-compendium` 锁定在 `9850ee574a370bc1cde59de98b394e953775b67d`。
-- 更新内容清单与术语/审核记录；结构检查覆盖 418 份实践译文和 1 份中文理论笔记，来源指纹检查覆盖 1031 条记录。
+<a id="本版交付-33"></a>
 
-## 当前边界
+[本版交付](releases/v0.8.0.md#本版交付)
 
-- 阅读器继续开放 Phase 0–13 的 271 节课程；Phase 14–18 已审核内容暂存于内容仓库，接入前还需补齐课程目录和端到端验收。
-- 中文测验仍覆盖 Phase 0–1 的 34 节课程。
-- 理论卡只展示已批准关联；Phase 14 的 12 条关联及其他标为 `proposed` 的关联不会自动展示。
+<a id="当前边界-5"></a>
 
----
+[当前边界](releases/v0.8.0.md#当前边界)
 
-## v0.7.0 历史版本
+<a id="v070-历史版本"></a>
 
-发布日期：2026-08-27。
+[v0.7.0 历史版本](releases/v0.8.0.md#v070-历史版本)
 
-本版在 v0.6 的课程范围和阅读器基础上，同步上游实践源并修复 freshness 检查；v0.1 的应用与内容边界仍记录在 [`ADR 0018`](adr/0018-freeze-v0-1-around-reviewed-practice-and-context.md) 中。
+<a id="本版交付-34"></a>
 
-### 本版交付
+[本版交付](releases/v0.8.0.md#本版交付-1)
 
-- 将 `ai-engineering-from-scratch` 从 `7c3323508a5186739feecd76838ba1ae962c736f` 同步到 `39ea8a1c6d0b61f071226eff7ede4d4105fed820`；`maths-cs-ai-compendium` 保持在原锁定版本。
-- 更新受上游改动影响的 19 份中文译文，完成结构对应和来源 SHA-256 复核；阅读器继续开放 Phase 0–13 共 271 节经审核中文实践课。
-- 上游 Phase 13 现在包含第 24–31 课，但这些课程尚无中文改编，仍未接入阅读器；已接入的中文范围仍为 Phase 13 的 23 节课程。
-- Phase 12 的 12 条已批准理论关联、Phase 13 的 8 条已批准理论关联继续随课程开放；异步任务和生产认证的 2 条候选关联仍保留在内容仓库，不会自动展示。
-- 保留 Phase 0–1 的 34 份中文测验；Phase 2–13 尚未建立测验改编。
-- 累计维护 223 条理论关联，其中 138 条已批准、85 条候选；应用只展示已批准关联，并支持同一课程段落下的多个已批准理论卡。
-- 完成 Phase 12–13 理论关联复核：已同步受影响关联的上游指纹和原文锚点；视觉词元、跨模态生成、约束解码等关联保持最直接的理论锚点，异步任务和生产认证关联继续保留候选状态。
-- 建立中文术语基线，并对现有译文完成一轮 `$stop-slop` 语言复核，重点处理模板化转折、填充语和夸张式引导。
-- 课程侧栏以“未开始、学习中、已理解、需复习”呈现学习进度，当前课程单独突出。
-- 代码块使用本地浏览器资源完成语法高亮；不依赖 CDN。
-- 学习助理支持兼容模型的模型列表发现、单条对话删除和按课清空历史；回答优先使用课程内证据。
-- 提供 JSON 与 Markdown 导出，以及经过校验、事务化的 JSON 恢复。
-- 第 15 课补建中心极限定理专题理论笔记，并更新正式理论卡指向。
+<a id="使用与备份"></a>
 
-### 使用与备份
+[使用与备份](releases/v0.8.0.md#使用与备份)
 
-请阅读 [首次使用与恢复](first-use.md)。升级前先导出 JSON；需要连同模型连接和私人工作区迁移时，停止应用后复制整个个人数据目录。
+<a id="已知限制-1"></a>
 
-### 已知限制
+[已知限制](releases/v0.8.0.md#已知限制)
 
-- 中文测验只覆盖 Phase 0–1。
-- 学习助理由学习者自带的 OpenAI 兼容接口提供；应用不会托管或同步模型 key。
-- 本版不提供联网搜索和多设备同步。
-- JSON 恢复会替换学习数据，不能撤销；模型连接和私人工作区不会随 JSON 恢复。
-- 理论卡只展示已批准关联，完整理论章节的中文化将单独推进。
+</details>

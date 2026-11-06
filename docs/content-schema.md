@@ -92,3 +92,9 @@ Run `python3 scripts/check_translation_correspondence.py <translation-file>...` 
 `/api/quiz` exposes `stage` and a content fingerprint, without answers. Grading exposes `correctOption`; predictions are draft state only. `/api/reader-draft?lessonId=...` supports GET/PUT for note/tutor/review text, answer/prediction selections and expanded cards. Choices bind to the quiz fingerprint and clear when questions change. Model credentials are excluded.
 
 JSON backup schema 4 adds `readerDrafts`; schema 3 remains accepted with no drafts. Unknown lesson records are retained. `/api/undo` accepts the server-issued token and scope, enforces a 60-second lifetime and rejects whole-import restoration after any subsequent learner-data write. Snapshot and learner tables remain local SQLite data and never enter versioned content.
+
+## Assessment evidence (v0.29.0)
+
+`content/assessment-links/practice/<phase>/<lesson>/links.json` records the lesson id, translation/assessment SHA-256, reviewer attribution and per-question `id`, `status`, `headingId`, `quote`. Only explicitly reviewed entries with matching fingerprints and an existing quote are eligible for grading feedback. Draft candidates live under `review/followups/assessment-candidates.json` and are never loaded by the reader. Candidate similarity scores are search aids, not a semantic approval. The reader confirms the paragraph against rendered text and falls back to a section or the lesson body if it cannot locate the quote.
+
+Run `python3 scripts/assessment_review.py --write` after source changes, examine the option-length priority report, then run `--check`. Candidate generation never updates a published mapping. Updated reviewed links require a new comparison of question, answer/explanation and the actual supporting paragraph before refreshing their fingerprints. The current pilot covers five checked questions; full question-by-question editorial review remains separate.

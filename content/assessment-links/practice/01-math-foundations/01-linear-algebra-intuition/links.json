@@ -1,0 +1,38 @@
+{
+  "lessonId": "practice/01-math-foundations/01-linear-algebra-intuition",
+  "translationSha256": "9e17fefe112c3cd68a3d16bc0a16ef2c65001d531b904d965d38b08e317d2f92",
+  "assessmentSha256": "2a4ced1f1242e7156d95375de2fa804eee660647e8bd637b8fe01a2786bd0211",
+  "reviewedBy": "Codex 逐题核对题干、解析与当前正文；不代表全题库人工审查完成",
+  "links": [
+    {
+      "id": "dot-product",
+      "status": "reviewed",
+      "headingId": "the-dot-product-measures-similarity",
+      "quote": "两个向量的点积能反映它们的方向有多接近。"
+    },
+    {
+      "id": "embedding",
+      "status": "reviewed",
+      "headingId": "vectors-are-points-and-directions",
+      "quote": "一个词 → 由 768 个数字构成的向量，即它在嵌入空间中的“含义”"
+    },
+    {
+      "id": "linear-independence",
+      "status": "reviewed",
+      "headingId": "线性无关",
+      "quote": "v1 和 v2 线性无关，二者都不是对方的标量倍数或线性组合。"
+    },
+    {
+      "id": "matrix-rank",
+      "status": "reviewed",
+      "headingId": "基与秩",
+      "quote": "矩阵的秩等于线性无关列的数量，也等于线性无关行的数量。"
+    },
+    {
+      "id": "lora",
+      "status": "reviewed",
+      "headingId": "延伸理解-概念在-ai-中的位置",
+      "quote": "LoRA 值得单独说明。它把权重更新分解为低秩矩阵，从而微调大语言模型。"
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { createApp, selectedQuizAnswers } from "../src/server.ts";
+import { eventStream } from "../public/event-stream.js";
 import { createUndoStore } from "../src/undo.ts";
 
 async function fixture(t: any) {
@@ -18,7 +19,7 @@ async function fixture(t: any) {
     const response = await fetch(base + path, { method, ...(body === undefined ? {} : { headers: { "content-type": "application/json" }, body: JSON.stringify(body) }) });
     return { status: response.status, data: await response.json() };
   };
-  return { api, directory };
+  return { api, directory, base };
 }
 const emptyV3 = () => ({ schemaVersion: 3, learningStates: [], notes: [], tutorMessages: [], reviewItems: [], quizAttempts: [] });
 const dataOnly = ({ exportedAt, ...data }: any) => data;
@@ -95,4 +96,34 @@ test("quiz answer validation follows each question's actual option count", () =>
   const quiz: any = { status: "reviewed", questions: [{ id: "two", options: ["a", "b"] }, { id: "five", options: ["a", "b", "c", "d", "e"] }] };
   assert.deepEqual(selectedQuizAnswers(quiz, { two: 1, five: 4 }), [1, 4]);
   assert.throws(() => selectedQuizAnswers(quiz, { two: 2, five: 3 }), /完成每一道/);
+});
+
+
+test("streaming tutor emits deltas, bounds context, and never persists broken or cancelled turns", async t => {
+  const { api, base } = await fixture(t);
+  let mode = "success", payload: any;
+  const model = createServer(async (q, s) => {
+    const chunks = []; for await (const chunk of q) chunks.push(chunk);
+    payload = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+    s.setHeader("content-type", "text/event-stream");
+    s.write(`data: ${JSON.stringify({ choices: [{ delta: { content: "中文提示" } }] })}\r\n\r\n`);
+    if (mode === "broken") { s.end(); return; }
+    const timer = setTimeout(() => s.end(`data: ${JSON.stringify({ choices: [{ delta: { content: "：请先验证。" }, finish_reason: "stop" }] })}\n\ndata: [DONE]\n\n`), mode === "cancel" ? 2000 : 50);
+    s.on("close", () => clearTimeout(timer));
+  });
+  await new Promise<void>(resolve => model.listen(0, "127.0.0.1", resolve)); t.after(() => model.close());
+  await api("/api/model-config", "PUT", { baseUrl: `http://127.0.0.1:${(model.address() as any).port}`, model: "stub" });
+  const open = (signal?: AbortSignal) => fetch(base + "/api/tutor/messages/stream", { method: "POST", signal, headers: { "content-type": "application/json" }, body: JSON.stringify({ text: "如何验证？", context: { sectionTitle: "学习目标" } }) });
+  const events = [];
+  for await (const event of eventStream(await open())) events.push({ event: event.event, data: JSON.parse(event.data) });
+  assert.ok(events.some(event => event.event === "delta")); assert.equal(events.at(-1)?.event, "done");
+  assert.equal(payload.stream, true); assert.ok(payload.messages[0].content.length < 11000);
+  assert.equal((await api("/api/tutor/messages")).data.length, 2);
+  mode = "broken";
+  const failures = []; for await (const event of eventStream(await open())) failures.push(event.event);
+  assert.equal(failures.at(-1), "error"); assert.equal((await api("/api/tutor/messages")).data.length, 2);
+  mode = "cancel"; const controller = new AbortController();
+  try { for await (const event of eventStream(await open(controller.signal))) if (event.event === "delta") { controller.abort(); break; } } catch {}
+  await new Promise(resolve => setTimeout(resolve, 80));
+  assert.equal((await api("/api/tutor/messages")).data.length, 2);
 });

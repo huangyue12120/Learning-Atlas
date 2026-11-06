@@ -1,6 +1,9 @@
+import { assessmentEvidence } from "./assessment-evidence.ts";
+import { boundedHistory, sectionEvidence } from "./tutor-context.ts";
+import { eventStream } from "../public/event-stream.js";
 import { createUndoStore } from "./undo.ts";
 import { readerDraft, saveReaderDraft, validatedDraft } from "./reader-drafts.ts";
-import { cachedFiles, existsSync, readFileSync, readdirSync } from "./content-cache.ts";
+import { cachedFiles, withFreshFiles, existsSync, readFileSync, readdirSync } from "./content-cache.ts";
 import { RequestError, secureRequest, normalizedBaseUrl } from "./security.ts";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { copyFileSync, mkdirSync, symlinkSync, writeFileSync } from "node:fs";
@@ -356,11 +359,11 @@ function lessonSlugs(phase: Phase) {
     .sort();
 }
 
-export function lessonFor(lessonId: string): Lesson | null {
-  return cachedFiles(`lesson:${lessonId}`, () => loadLessonMetadata(lessonId));
+export function lessonFor(lessonId: string, withResources = true): Lesson | null {
+  return cachedFiles(`lesson:${lessonId}:${withResources}`, () => loadLessonMetadata(lessonId, withResources));
 }
 
-function loadLessonMetadata(lessonId: string): Lesson | null {
+function loadLessonMetadata(lessonId: string, withResources: boolean): Lesson | null {
   const reference = lessonReference(lessonId);
   if (!reference) return null;
   const { phase, slug } = reference;
@@ -395,9 +398,9 @@ function loadLessonMetadata(lessonId: string): Lesson | null {
     source,
     sourceUrl: sourceUrl(source.repository, source.revision, source.path),
     resources: {
-      workspace: existsSync(join(phaseDirectory(phase), slug, "code")) &&
+      workspace: withResources && existsSync(join(phaseDirectory(phase), slug, "code")) &&
         readdirSync(join(phaseDirectory(phase), slug, "code")).some((name) => name.endsWith(".py")),
-      exploration: existsSync(join(resourceDirectory, "explorations", phase.slug, slug))
+      exploration: withResources && existsSync(join(resourceDirectory, "explorations", phase.slug, slug))
     }
   };
 }
@@ -411,7 +414,7 @@ function courseOutline(database: DatabaseSync): CourseOutline[] {
     lessons: lessonSlugs(phase as Phase).flatMap((slug) => {
       const id = `practice/${phase.slug}/${slug}`;
       const staged = phase.slug === "19-capstone-projects";
-      const lesson = staged ? null : lessonFor(id);
+      const lesson = staged ? null : lessonFor(id, false);
       const status = lesson ? publishedLessonContent(lesson, false).translationStatus : "unavailable";
       const stagedTranslation = join(repositoryDirectory, "content/translations/practice", phase.slug, slug, "zh.md");
       const stagedTitle = staged && existsSync(stagedTranslation) ? readFileSync(stagedTranslation, "utf8").match(/^#\s+(.+)$/m)?.[1] : null;
@@ -968,10 +971,10 @@ function clearTutorMessages(database: DatabaseSync, lessonId: string) {
   return database.prepare("DELETE FROM tutor_messages WHERE lesson_id = ?").run(lessonId).changes;
 }
 
-function tutorEvidence(lesson: Lesson) {
+function tutorEvidence(lesson: Lesson, context: TutorContext) {
   const content = publishedLessonContent(lesson);
   if (content.translationStatus !== "reviewed") throw new Error("当前课程译文不可作为助理证据。");
-  const theory = content.theoryCards.map((card) => {
+  const theory = content.theoryCards.filter(card => card.slug === context.theoryCardSlug).map((card) => {
     if (!isRichTheoryCard(card)) {
       return `- ${card.title}：${card.summary}\n  扩展内容待迁移，助理不应补写未经审核的字段。`;
     }
@@ -985,11 +988,11 @@ function tutorEvidence(lesson: Lesson) {
     ].join("\n");
   }).join("\n");
   return [
-    "当前实践课程（已审核中文改编）：",
-    content.markdown,
+    `当前实践课程（已审核中文改编）：${lesson.title}`,
+    sectionEvidence(content.markdown, context.sectionTitle),
     "",
     "已批准的上下文理论卡：",
-    theory || "无"
+    theory.slice(0, 2000) || "当前段落没有关联理论卡"
   ].join("\n");
 }
 
@@ -1008,7 +1011,7 @@ function tutorLearningContext(database: DatabaseSync, lesson: Lesson, context: T
     `当前段落：${context.sectionTitle}`,
     `关联理论卡：${theoryContext}`,
     `本课状态：${state.completed ? "学习者已标记理解" : "尚未标记理解"}；${state.review ? "整课仍需复习" : "未标记整课复习"}。`,
-    `已确认待复习点：${pendingReviews.length ? pendingReviews.map((item) => item.text).join("；") : "无"}。`
+    `已确认待复习点：${pendingReviews.length ? pendingReviews.slice(0, 5).map((item) => item.text.slice(0, 200)).join("；") : "无"}。`
   ].join("\n");
 }
 
@@ -1035,11 +1038,13 @@ async function tutorReply(
   lesson: Lesson,
   text: string,
   context: TutorContext,
-  responseMode: TutorResponseMode
+  responseMode: TutorResponseMode,
+  onDelta?: (text: string) => void,
+  signal?: AbortSignal
 ) {
   const config = modelConfigFor(database);
   if (!config || !config.baseUrl || !config.model) throw new Error("请先配置本地学习助理的兼容接口和模型名。");
-  const priorMessages = tutorMessagesFor(database, lesson.id).slice(-10);
+  const priorMessages = boundedHistory((database.prepare("SELECT role, text FROM tutor_messages WHERE lesson_id = ? ORDER BY id DESC LIMIT 20").all(lesson.id) as TutorMessage[]).reverse());
   const endpoint = `${config.baseUrl.replace(/\/+$/, "")}/chat/completions`;
   const response = await fetch(endpoint, {
     method: "POST",
@@ -1049,6 +1054,8 @@ async function tutorReply(
     },
     body: JSON.stringify({
       model: config.model,
+      stream: Boolean(onDelta),
+      max_tokens: 1024,
       messages: [
         {
           role: "system",
@@ -1063,22 +1070,50 @@ async function tutorReply(
             "\n--- 当前学习上下文 ---\n",
             tutorLearningContext(database, lesson, context),
             "\n--- 课程内证据 ---\n",
-            tutorEvidence(lesson)
+            tutorEvidence(lesson, context)
           ].join("\n")
         },
-        ...priorMessages.map((message) => ({ role: message.role, content: message.text })),
+        ...priorMessages,
         { role: "user", content: text }
       ]
     }),
-    signal: AbortSignal.timeout(30_000)
+    redirect: "error",
+    signal: AbortSignal.any([AbortSignal.timeout(60_000), ...(signal ? [signal] : [])])
   });
   if (!response.ok) throw new Error(`模型接口返回 ${response.status}。`);
-  const payload = await response.json() as { choices?: Array<{ message?: { content?: string } }> };
-  const reply = payload.choices?.[0]?.message?.content?.trim();
-  if (!reply) throw new Error("模型接口没有返回可显示的文本。");
-  const userMessage = saveTutorMessage(database, lesson.id, "user", text);
-  const assistantMessage = saveTutorMessage(database, lesson.id, "assistant", reply);
-  return { userMessage, assistantMessage };
+  let reply = "";
+  if (response.headers.get("content-type")?.includes("text/event-stream")) {
+    let complete = false;
+    for await (const event of eventStream(response)) {
+      if (event.data === "[DONE]") { complete = true; break; }
+      let packet;
+      try { packet = JSON.parse(event.data); } catch { throw new Error("模型流包含无效 JSON，回复未保存。"); }
+      if (packet.error) throw new Error("模型流返回了错误，回复未保存。");
+      const delta = packet.choices?.[0]?.delta?.content;
+      if (typeof delta === "string") {
+        reply += delta;
+        if (reply.length > 4000) throw new Error("模型回复超过 4000 字符，回复未保存。");
+        onDelta?.(delta);
+      }
+      if (packet.choices?.[0]?.finish_reason === "length") throw new Error("模型回复被长度限制截断，回复未保存。");
+      if (packet.choices?.[0]?.finish_reason === "stop") complete = true;
+    }
+    if (!complete) throw new Error("模型流意外中断，回复未保存，请重试。");
+  } else {
+    const payload = await response.json() as { choices?: Array<{ message?: { content?: string } }> };
+    reply = payload.choices?.[0]?.message?.content ?? "";
+    if (reply.length <= 4000) onDelta?.(reply);
+  }
+  signal?.throwIfAborted();
+  reply = reply.trim();
+  if (!reply || reply.length > 4000) throw new Error("模型没有返回 1–4000 字符的完整回复。");
+  database.exec("SAVEPOINT tutor_turn");
+  try {
+    const userMessage = saveTutorMessage(database, lesson.id, "user", text);
+    const assistantMessage = saveTutorMessage(database, lesson.id, "assistant", reply);
+    database.exec("RELEASE tutor_turn");
+    return { userMessage, assistantMessage };
+  } catch (error) { database.exec("ROLLBACK TO tutor_turn; RELEASE tutor_turn"); throw error; }
 }
 
 const workspaceCopyExclusions = new Set(["__pycache__", ".pytest_cache", "node_modules", ".venv"]);
@@ -1271,9 +1306,11 @@ function quizForLearner(lesson: Lesson) {
   return { status: quiz.status, fingerprint: createHash("sha256").update(JSON.stringify(quiz.questions)).digest("hex"), questions: quiz.questions.map(({ id, question, options, stage }) => ({ id, question, options, stage })) };
 }
 
-function quizResultForAnswers(quiz: PublishedQuiz, selected: number[]) {
+function quizResultForAnswers(quiz: PublishedQuiz, selected: number[], lesson: Lesson) {
+  const references = assessmentEvidence(repositoryDirectory, lesson.id);
   const results = quiz.questions.map((question, index) => ({
     id: question.id,
+    reference: references.get(question.id) ?? null,
     selected: selected[index],
     correctOption: question.correct,
     correct: selected[index] === question.correct,
@@ -1290,7 +1327,7 @@ function latestQuizAttempt(database: DatabaseSync, lesson: Lesson) {
     const selected = JSON.parse(row.answers);
     const quiz = publishedQuiz(lesson);
     if (!Array.isArray(selected) || selected.length !== quiz.questions.length || !selected.every(Number.isInteger)) return null;
-    return quizResultForAnswers(quiz, selected);
+    return quizResultForAnswers(quiz, selected, lesson);
   } catch {
     return null;
   }
@@ -1308,7 +1345,7 @@ function submitQuiz(database: DatabaseSync, lesson: Lesson, answers: Record<stri
   const quiz = publishedQuiz(lesson);
   if (quiz.status !== "reviewed") throw new Error("当前自测内容不可用。");
   const selected = selectedQuizAnswers(quiz, answers);
-  const result = quizResultForAnswers(quiz, selected as number[]);
+  const result = quizResultForAnswers(quiz, selected as number[], lesson);
   database.prepare("INSERT INTO quiz_attempts (lesson_id, score, total, answers, created_at) VALUES (?, ?, ?, ?, ?)")
     .run(lesson.id, result.score, result.total, JSON.stringify(selected), new Date().toISOString());
   return result;
@@ -1422,7 +1459,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           return sendJson(response, 200, { status: "ok" });
         }
         if (request.method === "GET" && url.pathname === "/api/curriculum") {
-          return sendJson(response, 200, curriculumFor(database));
+          return await withFreshFiles(["course-index", "theory-index"], () => sendJson(response, 200, curriculumFor(database)));
         }
         if (request.method === "GET" && url.pathname === "/api/theory/content") {
           const theoryId = url.searchParams.get("theoryId") ?? "";
@@ -1449,7 +1486,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           });
         }
         if (request.method === "GET" && url.pathname === "/api/course") {
-          return sendJson(response, 200, courseOutline(database));
+          return await withFreshFiles(["course-index"], () => sendJson(response, 200, courseOutline(database)));
         }
         if (request.method === "GET" && url.pathname === "/api/lesson/content") {
           return sendJson(response, 200, publishedLessonContent(lesson!));
@@ -1549,6 +1586,23 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
             return sendJson(response, 404, { error: "对话不存在。" });
           }
           return sendJson(response, 200, { deleted: true, undo: operation.undo });
+        }
+        if (request.method === "POST" && url.pathname === "/api/tutor/messages/stream") {
+          const body = await readJson(request);
+          const text = typeof body?.text === "string" ? body.text.trim() : "";
+          if (!text || text.length > 4000) return sendJson(response, 400, { error: "问题须为 1–4000 个字符。" });
+          const controller = new AbortController();
+          response.on("close", () => controller.abort());
+          response.writeHead(200, { "content-type": "text/event-stream; charset=utf-8", "cache-control": "no-store", "x-accel-buffering": "no" });
+          const emit = (event: string, data: unknown) => response.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+          emit("start", {});
+          try {
+            const result = await tutorReply(database, lesson!, text, tutorContextFrom(body), tutorResponseModeFrom(body), delta => { if (!controller.signal.aborted) emit("delta", { text: delta }); }, controller.signal);
+            emit("done", result);
+          } catch (error) {
+            if (!controller.signal.aborted) emit("error", { error: error instanceof Error && ["TimeoutError", "AbortError"].includes(error.name) ? "模型响应超时，回复未保存；请缩小问题后重试。" : error instanceof TypeError ? "无法连接模型服务，回复未保存；请检查接口地址。" : error instanceof Error ? error.message : "模型响应失败，回复未保存。" });
+          }
+          response.end(); return;
         }
         if (request.method === "POST" && url.pathname === "/api/tutor/messages") {
           const body = await readJson(request);

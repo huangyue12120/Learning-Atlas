@@ -1,6 +1,6 @@
 import * as fs from "node:fs";
 
-// Every dependency is checked synchronously before reuse, including missing files
+// Every dependency is checked before reuse, including missing files
 // and directory listings. Timestamps/size invalidate; SHA-256 remains the gate.
 type Entry = { value: unknown; dependencies: Map<string, string> };
 const entries = new Map<string, Entry>();
@@ -11,7 +11,7 @@ function stamp(path: string) {
   let value: string;
   try {
     const stat = fs.statSync(path, { bigint: true });
-    value = `${stat.mtimeNs}:${stat.ctimeNs}:${stat.size}:${stat.ino}`;
+    value = version(stat);
   } catch { value = "missing"; }
   checking?.set(path, value);
   return value;
@@ -37,4 +37,26 @@ export function cachedFiles<T>(key: string, compute: () => T): T {
     if (outer) for (const [path, version] of entry.dependencies) outer.set(path, version);
     return entry.value as T;
   } finally { collecting = outer; checking = outerCheck; }
+}
+
+function version(value: fs.BigIntStats) {
+  return `${value.mtimeNs}:${value.ctimeNs}:${value.size}:${value.ino}`;
+}
+
+// Refresh all known dependencies before using an index. Only the checks run
+// concurrently; index rebuilding and SHA gates remain synchronous and fail closed.
+export async function withFreshFiles<T>(keys: string[], compute: () => T): Promise<T> {
+  const paths = new Set(keys.flatMap(key => [...(entries.get(key)?.dependencies.keys() ?? [])]));
+  const fresh = new Map<string, string>();
+  if (paths.size) await new Promise<void>(resolve => {
+    let remaining = paths.size;
+    for (const path of paths) fs.stat(path, { bigint: true }, (error, value) => {
+      fresh.set(path, error ? "missing" : version(value));
+      if (--remaining === 0) resolve();
+    });
+  });
+  const outer = checking;
+  checking = fresh;
+  try { return compute(); }
+  finally { checking = outer; }
 }

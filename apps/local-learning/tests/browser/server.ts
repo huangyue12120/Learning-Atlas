@@ -12,7 +12,17 @@ const modelServer = createServer(async (q, s) => {
   if (q.url === "/v1/models") return s.end(JSON.stringify({ data: [{ id: "atlas-fixture" }] }));
   const chunks: Buffer[] = [];
   for await (const chunk of q) chunks.push(Buffer.from(chunk));
-  modelRequests.push(JSON.parse(Buffer.concat(chunks).toString("utf8")));
+  const packet = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+  modelRequests.push(packet);
+  if (packet.stream) {
+    s.setHeader("content-type", "text/event-stream; charset=utf-8");
+    s.write(`data: ${JSON.stringify({ choices: [{ delta: { content: "你能指出" } }] })}\n\n`);
+    if (packet.messages?.at(-1)?.content.includes("断流验收")) { s.end(); return; }
+    await new Promise(resolve => setTimeout(resolve, packet.messages?.at(-1)?.content.includes("验收") ? 1500 : 500));
+    if (s.destroyed) return;
+    s.end(`data: ${JSON.stringify({ choices: [{ delta: { content: "本课哪个证据支持你的判断吗？" }, finish_reason: "stop" }] })}\n\ndata: [DONE]\n\n`);
+    return;
+  }
   s.end(JSON.stringify({ choices: [{ message: { content: "你能指出本课哪个证据支持你的判断吗？" } }] }));
 });
 modelServer.listen(4176, "127.0.0.1");

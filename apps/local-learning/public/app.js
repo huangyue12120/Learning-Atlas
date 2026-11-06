@@ -1,3 +1,4 @@
+import { streamTutor } from "/tutor-stream.js";
 import mermaid from "/vendor/mermaid/mermaid.esm.min.mjs";
 import hljs from "/vendor/highlight/es/core.js";
 import bash from "/vendor/highlight/es/languages/bash.min.js";
@@ -41,6 +42,7 @@ let tutorMessages = [];
 let activeSectionTitle = "本课概览";
 let activeTheoryCardSlug = "";
 let tutorStatus = "";
+let tutorRequest = null;
 let reviewItems = [];
 let quiz = { status: "unavailable", questions: [] };
 let quizResult = null;
@@ -270,6 +272,45 @@ async function copyText(value) {
   if (!copied) throw new Error("Clipboard unavailable");
 }
 
+function updateStreamingView() {
+  const active = tutorRequest && tutorRequest.lessonId === lesson?.id;
+  document.querySelectorAll("#tutor-form button[type='submit']").forEach(button => { button.disabled = Boolean(active); });
+  const stop = document.querySelector("[data-stop-tutor]");
+  if (stop) stop.hidden = !active;
+  let preview = document.querySelector(".tutor-streaming");
+  if (!active) { preview?.remove(); return; }
+  if (!preview) {
+    preview = document.createElement("article"); preview.className = "tutor-message assistant tutor-streaming";
+    preview.innerHTML = '<strong>学习助理（生成中，尚未保存）</strong><p></p>';
+    document.querySelector(".tutor-messages").append(preview);
+  }
+  preview.querySelector("p").textContent = tutorRequest.text;
+}
+
+function attachQuizEvidence() {
+  for (const result of quizResult?.results ?? []) {
+    if (!result.reference) continue;
+    const id = `evidence-${result.id}`;
+    if (document.getElementById(id)) continue;
+    const heading = document.getElementById(result.reference.headingId);
+    const normalize = text => text.replace(/[`*_\s]/g, "");
+    const quote = normalize(result.reference.quote);
+    let element = heading?.nextElementSibling, target;
+    while (element && !/^H[1-6]$/.test(element.tagName)) {
+      target = [...element.querySelectorAll("p, li"), element].find(candidate => normalize(candidate.textContent).includes(quote));
+      if (target) break;
+      element = element.nextElementSibling;
+    }
+    if (target) {
+      const anchor = document.createElement("span"); anchor.id = id; anchor.className = "evidence-anchor"; anchor.tabIndex = -1;
+      target.before(anchor);
+    } else {
+      const link = [...document.querySelectorAll("[data-evidence-question]")].find(link => link.dataset.evidenceQuestion === result.id);
+      if (link) { link.href = heading ? `#${heading.id}` : "#lesson-body"; link.textContent = heading ? "回看相关小节" : "回看本课正文"; }
+    }
+  }
+}
+
 function questionOptions(question, prefix) {
   return question.options.map((option, index) => `<label><input type="radio" name="${prefix}-${escapeHtml(question.id)}" value="${index}"> <span>${escapeHtml(option)}</span></label>`).join("");
 }
@@ -284,7 +325,7 @@ function quizFeedback() {
     const question = quiz.questions[index];
     const prediction = draft.predictions[question.id];
     const added = reviewItems.some(item => item.text === question.question.slice(0, 1000));
-    return `<article class="${result.correct ? "correct" : "incorrect"}"><strong>第 ${index + 1} 题：${result.correct ? "✓ 回答正确" : "△ 需要回顾"}</strong><p>正确选项：${escapeHtml(question.options[result.correctOption] ?? "")}</p><p>${escapeHtml(result.explanation)}</p>${prediction !== undefined ? `<p>你读前选择：${escapeHtml(question.options[prediction])}</p>` : ""}${result.correct ? "" : `<button type="button" data-review-question-id="${escapeHtml(question.id)}"${added ? " disabled" : ""}>${added ? "已加入待复习" : "将本题加入待复习"}</button>`}<a href="#lesson-body">回看本课正文</a></article>`;
+    return `<article class="${result.correct ? "correct" : "incorrect"}"><strong>第 ${index + 1} 题：${result.correct ? "✓ 回答正确" : "△ 需要回顾"}</strong><p>正确选项：${escapeHtml(question.options[result.correctOption] ?? "")}</p><p>${escapeHtml(result.explanation)}</p>${prediction !== undefined ? `<p>你读前选择：${escapeHtml(question.options[prediction])}</p>` : ""}${result.correct ? "" : `<button type="button" data-review-question-id="${escapeHtml(question.id)}"${added ? " disabled" : ""}>${added ? "已加入待复习" : "将本题加入待复习"}</button>`}<a data-evidence-question="${escapeHtml(question.id)}" href="${result.reference ? `#evidence-${escapeHtml(question.id)}` : "#lesson-body"}">${result.reference ? "回看相关段落" : "回看本课正文"}</a></article>`;
   }).join("")}<button type="button" data-quiz-reset>重新作答</button></section>`;
 }
 function quizMarkup() {
@@ -385,7 +426,7 @@ function render() {
       ${lessonNavigation()}<p id="draft-status" role="status"></p></main>
       <button id="panel-scrim" class="panel-scrim" type="button" data-action="tutor" hidden tabindex="-1" aria-label="关闭辅助面板"></button>
       <aside id="notes-panel" class="notes" aria-labelledby="notes-title"><div class="notes-heading"><div><p class="eyebrow">个人学习数据</p><h2 id="notes-title" tabindex="-1">笔记</h2></div><button type="button" class="notes-close" data-action="notes" aria-label="关闭笔记">关闭</button></div><form id="note-form"><label for="note-text">写下自己的表述</label><textarea id="note-text" name="text" required maxlength="2000" placeholder="${notePlaceholder}"></textarea><button>保存笔记</button><p id="form-status" role="status"></p></form><div class="note-list">${noteList}</div><section class="export-actions" aria-labelledby="backup-title"><h3 id="backup-title">备份与恢复</h3><p>JSON 可恢复学习数据；Markdown 仅用于阅读。恢复会替换课程状态、笔记、对话、复习项和自测记录，但不会修改模型连接或私人工作区。</p><div><a href="/api/export?format=json" download>导出 JSON</a><a href="/api/export?format=markdown" download>导出 Markdown</a></div><form id="import-form"><label for="import-file">导入 JSON 备份</label><input id="import-file" name="file" type="file" accept="application/json,.json" required><button type="submit">导入并替换学习数据</button><p id="import-status" role="status"></p></form></section></aside>
-      <aside id="tutor-panel" class="tutor" aria-labelledby="tutor-title" aria-describedby="tutor-evidence"><div class="tutor-resizer" role="separator" aria-label="调整学习助理宽度" aria-orientation="vertical" aria-valuemin="280" aria-valuemax="560" aria-valuenow="${tutorWidth}" tabindex="0"></div><div class="tutor-heading"><div><p class="eyebrow">本地学习助理</p><h2 id="tutor-title" tabindex="-1">一起推理</h2></div><button type="button" class="tutor-close" data-action="tutor" aria-label="关闭学习助理">关闭</button></div><p id="tutor-evidence" class="tutor-evidence">当前证据：${activeSectionTitle}；已批准的上下文理论卡。</p><details class="tutor-config"><summary>模型连接${modelConfig.model ? `：${escapeHtml(modelConfig.model)}` : "（未配置）"}</summary>${modelConfigForm}</details><div class="tutor-messages">${tutorMessagesHtml}</div><form id="tutor-form"><label for="tutor-text">向学习助理说明你的卡点</label><textarea id="tutor-text" name="text" required maxlength="4000" placeholder="${tutorPlaceholder}"></textarea><button type="submit">发送问题</button><p id="tutor-status" role="status" aria-live="polite">${escapeHtml(tutorStatus)}</p></form></aside>
+      <aside id="tutor-panel" class="tutor" aria-labelledby="tutor-title" aria-describedby="tutor-evidence"><div class="tutor-resizer" role="separator" aria-label="调整学习助理宽度" aria-orientation="vertical" aria-valuemin="280" aria-valuemax="560" aria-valuenow="${tutorWidth}" tabindex="0"></div><div class="tutor-heading"><div><p class="eyebrow">本地学习助理</p><h2 id="tutor-title" tabindex="-1">一起推理</h2></div><button type="button" data-stop-tutor hidden>停止生成</button><button type="button" class="tutor-close" data-action="tutor" aria-label="关闭学习助理">关闭</button></div><p id="tutor-evidence" class="tutor-evidence">当前证据：${activeSectionTitle}；已批准的上下文理论卡。</p><details class="tutor-config"><summary>模型连接${modelConfig.model ? `：${escapeHtml(modelConfig.model)}` : "（未配置）"}</summary>${modelConfigForm}</details><div class="tutor-messages">${tutorMessagesHtml}</div><form id="tutor-form"><label for="tutor-text">向学习助理说明你的卡点</label><textarea id="tutor-text" name="text" required maxlength="4000" placeholder="${tutorPlaceholder}"></textarea><button type="submit">发送问题</button><p id="tutor-status" role="status" aria-live="polite">${escapeHtml(tutorStatus)}</p></form></aside>
     </div>`;
   next.querySelector(".reflection")?.insertAdjacentHTML("afterend", quizPanel);
   next.querySelector(".lesson .metadata")?.insertAdjacentHTML("afterend", tableOfContents(lessonContent.headings));
@@ -417,6 +458,8 @@ function render() {
   document.querySelector("#tutor-status").textContent = tutorStatus;
   document.querySelector("#quiz-status")?.replaceChildren();
   syncPanelUI();
+  updateStreamingView();
+  attachQuizEvidence();
   filterCourse();
   document.querySelectorAll('.theory-card-action[href^="/theory?"]').forEach(link => {
     const url = new URL(link.href); url.searchParams.set("lessonId", lesson.id); link.href = url.href;
@@ -582,6 +625,7 @@ app.addEventListener("change", (event) => {
 
 app.addEventListener("click", async (event) => {
   const actionLessonId = lesson.id;
+  if (event.target.closest("[data-stop-tutor]")) { tutorRequest?.controller.abort(); return; }
   const undoButton = event.target.closest("[data-undo-token]");
   if (undoButton) {
     undoButton.disabled = true;
@@ -851,32 +895,31 @@ app.addEventListener("submit", async (event) => {
   }
   if (event.target.id === "tutor-form") {
     event.preventDefault();
-    const form = event.target;
-    const submittedText = new FormData(form).get("text");
-    const button = form.querySelector("button");
-    button.disabled = true;
-    tutorStatus = "正在依据课程证据思考…";
+    if (tutorRequest) return;
+    const form = event.target, submittedText = new FormData(form).get("text");
+    const pending = { lessonId: actionLessonId, controller: new AbortController(), text: "" };
+    tutorRequest = pending;
+    tutorStatus = "正在依据当前小节的证据思考…";
     document.querySelector("#tutor-status").textContent = tutorStatus;
+    updateStreamingView();
     try {
-      const result = await request(`/api/tutor/messages?lessonId=${encodeURIComponent(lesson.id)}`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          text: submittedText,
-          context: { sectionTitle: activeSectionTitle, theoryCardSlug: activeTheoryCardSlug },
-          mode: event.submitter?.dataset?.tutorMode === "explanation" ? "explanation" : "socratic"
-        })
+      const result = await streamTutor(lessonApi("/api/tutor/messages/stream", actionLessonId), {
+        text: submittedText, context: { sectionTitle: activeSectionTitle, theoryCardSlug: activeTheoryCardSlug },
+        mode: event.submitter?.dataset?.tutorMode === "explanation" ? "explanation" : "socratic"
+      }, pending.controller.signal, delta => {
+        pending.text += delta;
+        if (lesson?.id === actionLessonId) updateStreamingView();
       });
-      if (lesson.id !== actionLessonId) return;
+      if (lesson?.id !== actionLessonId) return;
       tutorMessages.push(result.userMessage, result.assistantMessage);
-      tutorStatus = "";
+      tutorStatus = "回复已保存在本机。";
       if (document.querySelector("#tutor-text").value === submittedText) document.querySelector("#tutor-text").value = "";
       void persistDraft();
-      render();
     } catch (error) {
-      button.disabled = false;
-      tutorStatus = error.message;
-      document.querySelector("#tutor-status").textContent = tutorStatus;
+      if (lesson?.id === actionLessonId) tutorStatus = pending.controller.signal.aborted ? "已停止生成，草稿已保留；未保存半条回复。" : error.message;
+    } finally {
+      if (tutorRequest === pending) tutorRequest = null;
+      if (lesson?.id === actionLessonId) render();
     }
     return;
   }
@@ -962,6 +1005,7 @@ app.addEventListener("submit", async (event) => {
 
 async function loadLesson(lessonId, navigation = "push") {
   const sequence = ++loadSequence;
+  tutorRequest?.controller.abort();
   clearTimeout(readingPositionTimer);
   if (lesson) { saveReadingPosition(); await persistDraft(); }
   if (!lessonId) lessonId = (await request("/api/curriculum")).target.lessonId;
@@ -989,6 +1033,7 @@ async function loadLesson(lessonId, navigation = "push") {
   render();
 }
 window.addEventListener("popstate", () => {
+  if (new URLSearchParams(location.search).get("lessonId") === lesson?.id) return;
   void loadLesson(new URLSearchParams(location.search).get("lessonId"), "none").catch(showError);
 });
 function adjacentLesson(direction) {
