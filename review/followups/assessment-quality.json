@@ -1,8 +1,8 @@
 {
   "questionCount": 1832,
-  "correctLongestIncludingTies": 1624,
-  "correctSoleLongest": 1562,
-  "soleLongestRate": 0.8526,
+  "correctLongestIncludingTies": 1618,
+  "correctSoleLongest": 1556,
+  "soleLongestRate": 0.8493,
   "priority": [
     {
       "lessonId": "practice/13-tools-and-protocols/43-bytecode-and-managed-formats",
@@ -91,17 +91,6 @@
         2
       ],
       "ratio": 11.75
-    },
-    {
-      "lessonId": "practice/10-llms-from-scratch/07-rlhf",
-      "id": "rlhf-10-3",
-      "lengths": [
-        2,
-        2,
-        23,
-        2
-      ],
-      "ratio": 11.5
     },
     {
       "lessonId": "practice/14-agent-engineering/32-minimal-agent-workbench",
@@ -839,17 +828,6 @@
         9
       ],
       "ratio": 6.455
-    },
-    {
-      "lessonId": "practice/10-llms-from-scratch/06-instruction-tuning-sft",
-      "id": "instruction-tuning-sft-10-4",
-      "lengths": [
-        7,
-        45,
-        6,
-        4
-      ],
-      "ratio": 6.429
     },
     {
       "lessonId": "practice/04-computer-vision/16-vision-pipeline-capstone",
@@ -2359,17 +2337,6 @@
       "ratio": 4.667
     },
     {
-      "lessonId": "practice/10-llms-from-scratch/07-rlhf",
-      "id": "rlhf-10-1",
-      "lengths": [
-        6,
-        28,
-        6,
-        6
-      ],
-      "ratio": 4.667
-    },
-    {
       "lessonId": "practice/11-llm-engineering/04-embeddings",
       "id": "embeddings-11-4",
       "lengths": [
@@ -3162,17 +3129,6 @@
       "ratio": 4.222
     },
     {
-      "lessonId": "practice/10-llms-from-scratch/06-instruction-tuning-sft",
-      "id": "instruction-tuning-sft-10-3",
-      "lengths": [
-        3,
-        38,
-        6,
-        9
-      ],
-      "ratio": 4.222
-    },
-    {
       "lessonId": "practice/11-llm-engineering/10-evaluation",
       "id": "evaluation-11-1",
       "lengths": [
@@ -3226,17 +3182,6 @@
         46
       ],
       "ratio": 4.182
-    },
-    {
-      "lessonId": "practice/10-llms-from-scratch/06-instruction-tuning-sft",
-      "id": "instruction-tuning-sft-10-2",
-      "lengths": [
-        6,
-        4,
-        5,
-        25
-      ],
-      "ratio": 4.167
     },
     {
       "lessonId": "practice/14-agent-engineering/23-otel-genai-conventions",
@@ -4746,28 +4691,6 @@
       "ratio": 3.5
     },
     {
-      "lessonId": "practice/10-llms-from-scratch/06-instruction-tuning-sft",
-      "id": "instruction-tuning-sft-10-1",
-      "lengths": [
-        8,
-        6,
-        6,
-        28
-      ],
-      "ratio": 3.5
-    },
-    {
-      "lessonId": "practice/10-llms-from-scratch/07-rlhf",
-      "id": "rlhf-10-5",
-      "lengths": [
-        4,
-        4,
-        4,
-        14
-      ],
-      "ratio": 3.5
-    },
-    {
       "lessonId": "practice/11-llm-engineering/01-prompt-engineering",
       "id": "prompt-engineering-11-3",
       "lengths": [
@@ -5280,17 +5203,6 @@
         50,
         15,
         12,
-        4
-      ],
-      "ratio": 3.333
-    },
-    {
-      "lessonId": "practice/10-llms-from-scratch/06-instruction-tuning-sft",
-      "id": "instruction-tuning-sft-10-5",
-      "lengths": [
-        20,
-        6,
-        4,
         4
       ],
       "ratio": 3.333
@@ -9751,17 +9663,6 @@
       "ratio": 2.273
     },
     {
-      "lessonId": "practice/10-llms-from-scratch/07-rlhf",
-      "id": "rlhf-10-4",
-      "lengths": [
-        5,
-        6,
-        25,
-        11
-      ],
-      "ratio": 2.273
-    },
-    {
       "lessonId": "practice/18-ethics-safety-alignment/18-frontier-safety-frameworks-rsp-pf-fsf",
       "id": "18-frontier-safety-frameworks-rsp-pf-fsf-post-6",
       "lengths": [
@@ -12908,17 +12809,6 @@
       "ratio": 1.714
     },
     {
-      "lessonId": "practice/10-llms-from-scratch/07-rlhf",
-      "id": "rlhf-10-2",
-      "lengths": [
-        4,
-        6,
-        14,
-        24
-      ],
-      "ratio": 1.714
-    },
-    {
       "lessonId": "practice/14-agent-engineering/10-skill-libraries-voyager",
       "id": "q7",
       "lengths": [
@@ -13102,6 +12992,17 @@
         4,
         6,
         6
+      ],
+      "ratio": 1.667
+    },
+    {
+      "lessonId": "practice/10-llms-from-scratch/06-instruction-tuning-sft",
+      "id": "instruction-tuning-sft-10-5",
+      "lengths": [
+        20,
+        10,
+        12,
+        12
       ],
       "ratio": 1.667
     },
@@ -13652,6 +13553,17 @@
         19,
         12,
         10
+      ],
+      "ratio": 1.583
+    },
+    {
+      "lessonId": "practice/10-llms-from-scratch/06-instruction-tuning-sft",
+      "id": "instruction-tuning-sft-10-3",
+      "lengths": [
+        21,
+        38,
+        24,
+        24
       ],
       "ratio": 1.583
     },
@@ -16604,6 +16516,17 @@
       "ratio": 1.125
     },
     {
+      "lessonId": "practice/10-llms-from-scratch/07-rlhf",
+      "id": "rlhf-10-1",
+      "lengths": [
+        23,
+        28,
+        22,
+        25
+      ],
+      "ratio": 1.12
+    },
+    {
       "lessonId": "practice/14-agent-engineering/14-autogen-actor-model",
       "id": "q4",
       "lengths": [
@@ -17185,6 +17108,17 @@
         37
       ],
       "ratio": 1.028
+    },
+    {
+      "lessonId": "practice/10-llms-from-scratch/06-instruction-tuning-sft",
+      "id": "instruction-tuning-sft-10-4",
+      "lengths": [
+        35,
+        45,
+        38,
+        44
+      ],
+      "ratio": 1.023
     }
   ]
 }

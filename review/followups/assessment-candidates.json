@@ -19726,7 +19726,7 @@
   {
     "lessonId": "practice/10-llms-from-scratch/06-instruction-tuning-sft",
     "translationSha256": "8de11bac5c9c5da7b8e57348ddc583152d9a99e21b7b90f13b1deeed44b59ee5",
-    "assessmentSha256": "2901cf9c672f032f792a7b4670dadcc5eb6e96b385126b811213c4533431386f",
+    "assessmentSha256": "b79d8aecb12e9fd9a5fbfc088c559ffba3119d3eb19c23bfb8b3ded2d4573f52",
     "questions": [
       {
         "id": "instruction-tuning-sft-10-1",
@@ -19858,7 +19858,7 @@
   {
     "lessonId": "practice/10-llms-from-scratch/07-rlhf",
     "translationSha256": "4fdfd8cbf5bfec7f001689cc0b53e0905e080c1837c0326261b94be04719c01d",
-    "assessmentSha256": "b28b7fe2a0b3f596d91f0225dbfff49ebb7d42e706719655ba6de49525928551",
+    "assessmentSha256": "07fa1c8fa5cb34d9a6e203c8f69b1dc1ac603228bc752debe7feecd31dc8e54a",
     "questions": [
       {
         "id": "rlhf-10-1",
@@ -28663,7 +28663,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/45-ai-assisted-reverse-engineering",
-    "translationSha256": "45643b939484762a26f6d51d4ad4978c92f4ed477ffdd8c2a60c1151b2017a8f",
+    "translationSha256": "90942b6cfb0946ea23f32c20514912ee54b24a31c8a9f2775a1072d05c6c2130",
     "assessmentSha256": "adf35a239322d78d02dbd8112fd99f9fe96b3b654ec4849a4620d5c48254912d",
     "questions": [
       {
@@ -28675,19 +28675,19 @@
             "headingId": "基准度量什么-遗漏什么",
             "heading": "基准度量什么、遗漏什么",
             "quote": "Liu、Raff和Micinski度量了第二行与最后一行之间的差距。他们以九种配置运行了八个反编译系统，并保留通过了每个随附测试的候选。那些候选在模糊测试输入上仍然与原版相异：总体4.9%的时候、某个系统最高达13%。在300个库函数和287个与已披露漏洞相关的函数上，最强的精炼模型把Ghidra的构建率从75%提升到90%，而行为匹配率却从74%跌到62%",
-            "score": 84.166
+            "score": 84.138
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "说出LLM反编译器的两种设计，以及每种已发表基准所报告的指标。陈述可重执行性、精确匹配命名、字符错误率和结构相似度各度量什么，以及各自遗漏什么。从你自己目标的调试构建中手工读取DWARF5的名称和类型，穿过字符串偏移、地址表和抽象来源。用标准库Python构建一张六字段记分卡：字节、网格、模糊测试、名称、引用和来源记录。对照二进制核对一份AI报告所引用的每个",
-            "score": 37.119
+            "score": 36.881
           },
           {
             "headingId": "llm-反编译器的两种设计",
             "heading": "LLM 反编译器的两种设计",
             "quote": "LLM4Decompile（EMNLP2024）确立了后续工作所遵循的形态。End系列模型读取一个函数的objdump汇编并写出C。Ref系列模型读取Ghidra写出的伪C并重写它。两条路线都在用GCC以-O0到-O3为Linuxx86-64编译的C上训练，规模从13亿到330亿参数。该论文的指标是可重执行性：输出与基准的断言一起编译，并且必须通过它们。在H",
-            "score": 29.955
+            "score": 29.717
           }
         ]
       },
@@ -28700,19 +28700,19 @@
             "headingId": "这张卡",
             "heading": "这张卡",
             "quote": "有两行值得再看一眼。f1safediv把Decompile-Diverge的发现反了过来：代码保持了行为，而报告臆造了一个被调用者。一个只读代码的审查者会接受它。一个只读报告的审查者会相信有一个辅助函数。f1widelong又是第36课那个候选，而语料补上了网格看不到的一个事实：它的125次相异中的每一次都是一个宽输入。",
-            "score": 53.978
+            "score": 54.083
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "一个审查者会向每份报告提六个问题。代码用相同的编译器和标志编译后是否得到与原版相同的字节？它在一个触及每种风险的网格上是否与原版一致？它在没人设计过的输入上是否一致？名称和类型是否与源匹配？报告所引用的每个函数、地址、字符串和常量是否都在二进制中存在？是谁产生了这份报告，针对哪个文件，代价多少？第35课和第36课构建了前两个答案和相应词汇。本课补上另外四个，",
-            "score": 51.219
+            "score": 51.348
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "说出LLM反编译器的两种设计，以及每种已发表基准所报告的指标。陈述可重执行性、精确匹配命名、字符错误率和结构相似度各度量什么，以及各自遗漏什么。从你自己目标的调试构建中手工读取DWARF5的名称和类型，穿过字符串偏移、地址表和抽象来源。用标准库Python构建一张六字段记分卡：字节、网格、模糊测试、名称、引用和来源记录。对照二进制核对一份AI报告所引用的每个",
-            "score": 42.654
+            "score": 42.678
           }
         ]
       },
@@ -28725,7 +28725,7 @@
             "headingId": "citations",
             "heading": "citations",
             "quote": "f1safediv的6条引用失败3条：0x40在f3内部、safediv不是一个符号，而“divisionbyzero”不在任何节中。f2clamp的8条失败5条，原因是同样的三条再加上0x3e（f2之后的填充字节）和立即数100（它是clamp的操作数而不是f2的）。f1base64的4条失败1条。报告说0x6处的立即数是64。那里的字节是6bc664，而",
-            "score": 31.895
+            "score": 31.726
           },
           {
             "headingId": "citations",
@@ -28737,7 +28737,7 @@
             "headingId": "问题",
             "heading": "问题",
             "quote": "每个函数都返回四份报告。每一份都能编译。每一份都给函数命名、给参数命名，并引用了地址和常量。一份报告说f1乘以64。一份说f1把它的结果经由位于0x40、名为safediv的辅助函数传递，该辅助函数记录“divisionbyzero”。一份说f2通过一个名为clampscore的辅助函数把分数夹紧。一份说f2是一组阈值测试，并把它叫作gradepoints。",
-            "score": 19.912
+            "score": 19.807
           }
         ]
       },
@@ -28750,13 +28750,13 @@
             "headingId": "从-dwarf-手工求真值",
             "heading": "从 DWARF 手工求真值",
             "quote": "grade需要再加一条规则。Clang把grade内联进了gradelabel，同时也把它独立发出。DWARF5于是保留该函数的一个抽象实例（带共享属性），并从每个具体实例引用它。位于0xae的具体DIE是0d062e0000000157ff000000：缩写13、一个用于DWATlowpc的.debugaddr索引、一个0x2e的四字节DWAThighpc",
-            "score": 85.592
+            "score": 85.645
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "你给一个智能体ledger-x8664-O1-renamed.o。它是第36课那个目标，用同样的方式再次编译，但把四个函数重命名为f1、f2、f3和f4，这样符号表不再告诉智能体任何东西是做什么的。你要求重建f1和f2：C源码、一个名字、参数名和类型，以及一段引用了所见内容的摘要。",
-            "score": 20.225
+            "score": 20.278
           },
           {
             "headingId": "names",
@@ -28775,13 +28775,13 @@
             "headingId": "不可信内容-向分析者喊话的字符串",
             "heading": "不可信内容：向分析者喊话的字符串",
             "quote": "2026年关于表示混淆的研究是这个标记存在的原因。Santos-Grueiro在二进制内部植入文本，并让模型跑过Ghidra、r2pipe和angr流水线。在没有控制的情况下，模型在40个案例中有35个提议了那个植入的不安全动作，而在干净的二进制上是40个里0个。只把二进制内容当作数据展示，仍然留下15个不安全提议。来源记录门禁加上工具授权消除了它们。rea",
-            "score": 114.797
+            "score": 114.692
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "说出LLM反编译器的两种设计，以及每种已发表基准所报告的指标。陈述可重执行性、精确匹配命名、字符错误率和结构相似度各度量什么，以及各自遗漏什么。从你自己目标的调试构建中手工读取DWARF5的名称和类型，穿过字符串偏移、地址表和抽象来源。用标准库Python构建一张六字段记分卡：字节、网格、模糊测试、名称、引用和来源记录。对照二进制核对一份AI报告所引用的每个",
-            "score": 24.192
+            "score": 24.088
           },
           {
             "headingId": "不可信内容-向分析者喊话的字符串",
@@ -28856,7 +28856,7 @@
             "headingId": "智能体研究度量了什么",
             "heading": "智能体研究度量了什么",
             "quote": "harness由此得出三条规则。覆盖是一个带记录id的函数列表，绝不是一个百分比。代价是卡上的一个字段，因为那些研究在准确度打平时按代价来决定。任何对服务器的比较都需要一个shell基线编排，工具为llvm-objdump和第33课的解码器。",
-            "score": 50.75
+            "score": 50.645
           },
           {
             "headingId": "智能体研究度量了什么",

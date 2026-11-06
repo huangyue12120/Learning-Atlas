@@ -12,7 +12,7 @@ npm run dev
 
 Open the printed `http://127.0.0.1:<port>` URL. The application creates `data/learning-atlas.sqlite` locally. To keep personal data elsewhere, set `LEARNING_ATLAS_DATA_DIR` before starting it.
 
-## Current scope — v0.29.0 (2026-11-06)
+## Current scope — v0.29.1 (2026-11-06)
 
 The home page maps all 20 practice phases and all 20 theory chapters. `/learn?lessonId=...` loads each published practice lesson's identity, provenance, content, quiz, theory cards, and local resources, alongside persistent notes, learning state, reading position, learner-confirmed review items, and local tutor conversations. `/theory?theoryId=...` publishes only reviewed Chinese theory content whose source fingerprint matches the locally synchronized `main` snapshot; every theory source link follows the official upstream English `main`.
 
