@@ -36,7 +36,7 @@ function highlightedCode(hljs, source, language) {
 }
 
 export function createMarkdownRenderer({ hljs, renderMermaid, renderFigure, renderTheoryCard } = {}) {
-  return function renderMarkdown(markdown, { cards = [], resourceBaseUrl = window.location.href } = {}) {
+  return function renderMarkdown(markdown, { cards = [], resourceBaseUrl = window.location.href, imageBaseUrl = resourceBaseUrl } = {}) {
     const headings = [];
     const usedIds = new Map();
     let codeIndex = 0;
@@ -68,7 +68,7 @@ export function createMarkdownRenderer({ hljs, renderMermaid, renderFigure, rend
           return `<div class="table-wrap">${defaults.table(token)}</div>`;
         },
         image({ href, text }) {
-          const url = safeUrl(href, resourceBaseUrl);
+          const url = safeUrl(href, imageBaseUrl);
           return url ? `<img src="${escapeHtml(url)}" alt="${escapeHtml(text)}" loading="lazy" decoding="async">` : "";
         },
         link({ href, tokens }) {

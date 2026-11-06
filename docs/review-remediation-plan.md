@@ -5,12 +5,12 @@
 
 | 阶段 | 问题 | 状态 | 验收条件 | 验证结果 | 提交 |
 | --- | --- | --- | --- | --- | --- |
-| 1 | S1–S4、安全与错误处理 | 已通过 | Host/Origin/JSON 边界、key 地址隔离、安全头、v0.27.4 | 安全回归 2/2；应用语法通过 | `fix(server): enforce local request and credential boundaries` |
-| 2 | P1–P3、目录与默认入口 | 已通过 | 索引按依赖失效、批量 SQL、完整课程状态、20 次热请求中位降幅 ≥90% | API/缓存 30/30；20 次中位 569.63 ms，降低 91.6% | `perf(course): cache file dependencies and batch learner progress` |
-| 3 | Markdown、D1/D2、深色图示 | 已通过 | marked + DOMPurify、稳定锚点、代码复制、系统中文字体、共享主题 | Chrome 2/2；应用语法通过；金额/引用/列表/HTML/代码/锚点/公式/双主题 | `fix(reader): render sanitized Markdown with shared theme tokens` |
-| 4 | F1–F4、F6–F8、阅读器 | 已通过 | 外壳只初始化一次、SQLite 草稿、历史/竞态、翻页/筛选、响应式目录 | Chrome 5/5；API/持久化 31/31；语法通过 | `feat(reader): preserve lesson drafts and browser navigation` |
-| 5 | F5/F7、P3、环境课 | 已通过 | 预测不计分、完整反馈、主动复习、60 秒撤销、备份 v4/v3、Python-first | API 35/35；Chrome 7/7；脚本 18/18（原 16 + 门禁 2）；结构与测验检查通过 | `feat(learning): add predictions and recoverable learner data operations` |
-| 6 | 跨页面验收与发布 | 待实施 | 焦点/触控/主题、API 数量、截图对照、全部回归、v0.28.0 文档同步 | 待验证 | 待提交 |
+| 1 | S1–S4、安全与错误处理 | 已通过 | Host/Origin/JSON 边界、key 地址隔离、安全头、v0.27.4 | 安全回归 2/2；应用语法通过 | `849e331` |
+| 2 | P1–P3、目录与默认入口 | 已通过 | 索引按依赖失效、批量 SQL、完整课程状态、20 次热请求中位降幅 ≥90% | API/缓存 30/30；20 次中位 569.63 ms，降低 91.6% | `d0ed977` |
+| 3 | Markdown、D1/D2、深色图示 | 已通过 | marked + DOMPurify、稳定锚点、代码复制、系统中文字体、共享主题 | Chrome 2/2；应用语法通过；金额/引用/列表/HTML/代码/锚点/公式/双主题 | `64b6ee6` |
+| 4 | F1–F4、F6–F8、阅读器 | 已通过 | 外壳只初始化一次、SQLite 草稿、历史/竞态、翻页/筛选、响应式目录 | Chrome 5/5；API/持久化 31/31；语法通过 | `741146a` |
+| 5 | F5/F7、P3、环境课 | 已通过 | 预测不计分、完整反馈、主动复习、60 秒撤销、备份 v4/v3、Python-first | API 35/35；Chrome 7/7；脚本 18/18（原 16 + 门禁 2）；结构与测验检查通过 | `d3060cd` |
+| 6 | 跨页面验收与发布 | 已通过 | 焦点/触控/主题、API 数量、截图对照、全部回归、v0.28.0 文档同步 | API 36/36；Chrome 20/20；六项内容校验；脚本 18/18；40 张截图与语法检查 | `release: complete review remediation for v0.28.0` |
 
 ## 回归清单
 
@@ -37,3 +37,34 @@
 ## 内容门禁补查
 
 启用“待中文复核”发布门禁后，发现仍有 5 篇 `reviewed` 内容带该标记（并非原有练习提示批次）：P1 第 1 课总结表和 P17/P18 的 4 组参考链接。已逐项对照本地上游：总结表保留 9 条公式并译为中文，参考链接保留完整 URL、补充中文含义。课程数量与理论关联审批范围不变。环境课与练习指南新增显式 Python-first 编者注。
+
+## 最终验收记录
+
+- API：36/36，通过安全边界、实际随机端口、模型 key 地址隔离、草稿重启、schema 3/4、目录外记录、事务回滚、撤销范围/时限/冲突、预测无副作用与动态选项数。
+- 内容：六项检查全部通过。1560 条来源指纹、289 张已发布理论卡、631 篇实践/理论译文结构、307 份测验（6 条既有意译警告）、19 个已开放 Phase 零覆盖缺口、仓库卫生检查。
+- 脚本：18/18，通过既有 16 项及新增 2 项发布门禁测试。
+- 浏览器：20/20（完整 19 项 + 追加面板/实践图片 1 项），真实 Chrome、临时 SQLite、本机兼容模型桩；包含普通动态效果设置下的交互测试，以及减少动态效果下的 375/768/1024/1440px 三页面双主题检查。截图无页面横向溢出，主题可见、按钮和选择控件至少 44px，代码/表格独立滚动。
+- 最终独立性能复测：20 次热请求中位 **564.765 ms**（482.112–708.405 ms），相对基线 **降低 91.6%**。并行截图期间曾测得 716.317 ms，作为受并行负载干扰的诊断数据保留，不替代独立复测。复测命令：`cd apps/local-learning && node --experimental-strip-types scripts/benchmark-course.ts`。
+- 应用语法检查和 `git diff --check` 通过。版本 `0.28.0` 在 README、清单、发布说明、应用 package 与 lock 中一致，发布日期 2026-11-06。
+- 新旧视觉对照见 [截图说明](../review/remediation/README.md)。原始 `review/` 报告、原型和截图保留。
+
+100 ms 性能目标未达；本轮达到明确的 ≥90% 降幅验收线。保留逐文件即时检查，后续优化不应以时间窗口跳过来源指纹门禁。
+
+## 问题到证据的对应
+
+| 问题 | 完成结果 | 可重复验证 |
+| --- | --- | --- |
+| S1–S4 | 实际端口 Host、全 API Origin、JSON 类型/大小、安全头、模型 key 地址隔离与本机保存说明 | `tests/security.test.ts`；首次使用文档 |
+| P1/P2 | 依赖文件/目录索引、SHA 复核、批量 SQL、静态请求不解析课程、工具异步按需检查 | `tests/content-cache.test.ts`；`scripts/benchmark-course.ts` |
+| P3/F8 | 官方实践链接、完整目录状态、Phase 0/继续学习目标、理论返回来源课、未知课程备份、按实际选项验证 | `tests/security.test.ts`、`tests/remediation-api.test.ts`；浏览器 accessibility |
+| Markdown/D1/D2 | 成熟解析与安全过滤、稳定卡片锚点、代码内容、金额/列表/HTML、共享主题、系统字体、图示背景 | 浏览器 markdown/visual；MASTER 规范 |
+| F1/F2 | 稳定外壳与面板，草稿/选项/展开保留，SQLite 恢复，pushState/popstate 与请求顺序 | `tests/reader-drafts.test.ts`；浏览器 reader（含迟到响应） |
+| F3/F4/F6 | 上/下课、输入框外快捷键、目录筛选、课程导语、中性提示、动态题数、带文字目录与进度 | 浏览器 accessibility/visual；面板截图 |
+| F5 | 不计分预测、完整自测、漏答聚焦、正确答案/解析、主动去重复习、正文回看、重新作答 | 浏览器 assessment；API remediation |
+| F7 | 移动主题、Esc、焦点限制/返回、inert、状态形状与文字、外链提示、44px 控件、行内确认/撤销 | 浏览器 accessibility/assessment/visual；API 撤销时限与冲突 |
+| T1–T14 / Actions 回归 | 既有修复保留，补查残留标记，Python-first 编者注与发布门禁 | 六项内容校验，脚本既有 16 项 + 新增 2 项 |
+| 首页/发布 | API 数量、章节默认折叠、无复制朗读和装饰滚动、resize 防抖、README 首屏精简、版本一致 | 浏览器 visual；v0.28.0 文档与 package/lock |
+
+所有浏览器与 API 验收使用临时目录。源码没有写入个人学习数据或模型密钥；只读上游子模块未修改。原始审查资料未修改，与新增对照截图一并纳入版本控制，便于复现基线。
+
+最终目录复测使用仓库内基准脚本（Node v22.23.1）；加入 Phase 19 中文标题后仍达到验收线。早一轮独立复测为 585.999 ms，方向一致。

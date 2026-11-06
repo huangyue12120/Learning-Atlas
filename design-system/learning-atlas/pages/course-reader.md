@@ -18,3 +18,9 @@ The reading column contains, in order: lesson identity and source status, title 
 ## Behaviour
 
 Use disclosure rather than modal interruption. Preserve reading position when panels open or close. Buttons provide immediate feedback, but completion and review status must never imply mastery without learner confirmation. Code is visually distinct, scrollable on narrow screens, and copyable without changing its semantics.
+
+## v0.28.0 implementation
+
+The shell and panel forms stay mounted. Lesson navigation replaces the lesson region, while note lists, conversation messages, review items and grading feedback update locally. Store drafts by lesson in SQLite; bind quiz choices to their content fingerprint. Keep unsaved model credentials in memory only.
+
+At 1440px the right region shows a text section directory and reading progress; opening any auxiliary panel uses that region. At 1024px panels overlay with focus containment. At 375/768px the directory collapses, curriculum navigation is a drawer and auxiliary panels are bottom sheets. Modal surfaces trap focus, make background regions inert, close with Escape and return focus to their trigger. Theme control remains available at every width. Course statuses combine shape and text; external links announce a new window. Destructive actions use inline confirmation and a 60-second server-backed undo.

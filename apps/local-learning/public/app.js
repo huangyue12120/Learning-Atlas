@@ -150,7 +150,7 @@ function syncPanelAccessibility() {
   const panel = modalPanel();
   document.querySelectorAll(".topbar, .navigator, .lesson, .notes, .review-panel, .tutor").forEach(element => {
     element.inert = Boolean(panel && element !== panel);
-    element.toggleAttribute("aria-hidden", Boolean(panel && element !== panel));
+    if (panel && element !== panel) element.setAttribute("aria-hidden", "true"); else element.removeAttribute("aria-hidden");
     if (element === panel) { element.setAttribute("role", "dialog"); element.setAttribute("aria-modal", "true"); }
     else { element.removeAttribute("role"); element.removeAttribute("aria-modal"); }
   });
@@ -205,7 +205,7 @@ function publishedMarkdown() {
   }
   const firstSection = content.markdown.indexOf("## 学习目标");
   const body = firstSection >= 0 ? content.markdown.slice(firstSection) : content.markdown;
-  return renderMarkdown(body, { cards: content.theoryCards, resourceBaseUrl: lesson.sourceUrl.replace(/[^/]+$/, "") });
+  return renderMarkdown(body, { cards: content.theoryCards, resourceBaseUrl: lesson.sourceUrl.replace(/[^/]+$/, ""), imageBaseUrl: new URL(content.resourceBaseUrl, location.origin).href });
 }
 
 function tableOfContents(headings) {
@@ -852,6 +852,7 @@ app.addEventListener("submit", async (event) => {
   if (event.target.id === "tutor-form") {
     event.preventDefault();
     const form = event.target;
+    const submittedText = new FormData(form).get("text");
     const button = form.querySelector("button");
     button.disabled = true;
     tutorStatus = "正在依据课程证据思考…";
@@ -861,7 +862,7 @@ app.addEventListener("submit", async (event) => {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          text: new FormData(form).get("text"),
+          text: submittedText,
           context: { sectionTitle: activeSectionTitle, theoryCardSlug: activeTheoryCardSlug },
           mode: event.submitter?.dataset?.tutorMode === "explanation" ? "explanation" : "socratic"
         })
@@ -869,7 +870,8 @@ app.addEventListener("submit", async (event) => {
       if (lesson.id !== actionLessonId) return;
       tutorMessages.push(result.userMessage, result.assistantMessage);
       tutorStatus = "";
-      draft.tutorText = ""; document.querySelector("#tutor-text").value = ""; void persistDraft();
+      if (document.querySelector("#tutor-text").value === submittedText) document.querySelector("#tutor-text").value = "";
+      void persistDraft();
       render();
     } catch (error) {
       button.disabled = false;
@@ -881,6 +883,7 @@ app.addEventListener("submit", async (event) => {
   if (event.target.id === "review-item-form") {
     event.preventDefault();
     const form = event.target;
+    const submittedText = new FormData(form).get("text");
     const button = form.querySelector("button");
     const status = form.querySelector("#review-item-status");
     button.disabled = true;
@@ -889,11 +892,12 @@ app.addEventListener("submit", async (event) => {
       const reviewItem = await request(`/api/review-items?lessonId=${encodeURIComponent(lesson.id)}`, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ text: new FormData(form).get("text") })
+        body: JSON.stringify({ text: submittedText })
       });
       if (lesson.id !== actionLessonId) return;
       reviewItems.unshift(reviewItem);
-      draft.reviewText = ""; document.querySelector("#review-item-text").value = ""; void persistDraft();
+      if (document.querySelector("#review-item-text").value === submittedText) document.querySelector("#review-item-text").value = "";
+      void persistDraft();
       render();
     } catch (error) {
       button.disabled = false;
@@ -933,6 +937,7 @@ app.addEventListener("submit", async (event) => {
   if (event.target.id !== "note-form") return;
   event.preventDefault();
   const form = event.target;
+  const submittedText = new FormData(form).get("text");
   const status = form.querySelector("#form-status");
   const button = form.querySelector("button");
   button.disabled = true;
@@ -941,11 +946,12 @@ app.addEventListener("submit", async (event) => {
     const note = await request(`/api/notes?lessonId=${encodeURIComponent(lesson.id)}`, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ text: new FormData(form).get("text") })
+      body: JSON.stringify({ text: submittedText })
     });
     if (lesson.id !== actionLessonId) return;
     notes.unshift(note);
-    draft.noteText = ""; document.querySelector("#note-text").value = ""; void persistDraft();
+    if (document.querySelector("#note-text").value === submittedText) document.querySelector("#note-text").value = "";
+    void persistDraft();
     course = await request("/api/course");
     render();
   } catch (error) {

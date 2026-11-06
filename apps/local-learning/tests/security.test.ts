@@ -59,6 +59,16 @@ test("default lesson starts at Phase 0 and staged lessons stay blocked", async (
   const course = await fetch(base + "/api/course").then(r => r.json());
   const staged = course.at(-1).lessons[0];
   assert.equal(staged.publicationStatus, "staged");
+  assert.match(staged.title, /[\u4e00-\u9fff]/);
   assert.equal(staged.available, false);
   assert.equal((await fetch(base + "/api/lesson?lessonId=" + encodeURIComponent(staged.id))).status, 404);
+});
+
+
+test("practice images are served locally while text and staged phase assets remain blocked", async t => {
+  const base = await fixture(t);
+  const image = await fetch(base + "/api/practice/assets/11-llm-engineering/17-agent-framework-tradeoffs/assets/framework-matrix.svg");
+  assert.equal(image.status, 200); assert.match(image.headers.get("content-type")!, /image\/svg/);
+  assert.equal((await fetch(base + "/api/practice/assets/11-llm-engineering/17-agent-framework-tradeoffs/docs/en.md")).status, 403);
+  assert.equal((await fetch(base + "/api/practice/assets/19-capstone-projects/01-terminal-native-coding-agent/assets/image.svg")).status, 403);
 });

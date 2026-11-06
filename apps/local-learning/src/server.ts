@@ -155,6 +155,7 @@ type LessonContent = {
   markdown: string;
   translationStatus: "reviewed" | "stale" | "unavailable";
   theoryCards: TheoryCard[];
+  resourceBaseUrl?: string;
 };
 
 type QuizQuestion = { stage: "pre" | "check" | "post"; id: string; question: string; options: string[]; correct: number; explanation: string };
@@ -299,13 +300,16 @@ function buildTheoryCatalog(): TheoryChapter[] {
     });
 }
 
-const theoryCatalog = buildTheoryCatalog();
-const theoryNotes = theoryCatalog.flatMap((chapter) => chapter.notes);
-const theoryNoteById = new Map(theoryNotes.map((note) => [note.theoryId, note]));
-const theoryNoteBySourcePath = new Map(theoryNotes.map((note) => [note.sourcePath, note]));
+function theoryIndex() {
+  return cachedFiles("theory-index", () => {
+    const catalog = buildTheoryCatalog();
+    const notes = catalog.flatMap(chapter => chapter.notes);
+    return { catalog, notes, byId: new Map(notes.map(note => [note.theoryId, note])), bySource: new Map(notes.map(note => [note.sourcePath, note])) };
+  });
+}
 
 function theoryContentFor(theoryId: string) {
-  const note = theoryNoteById.get(theoryId);
+  const note = theoryIndex().byId.get(theoryId);
   if (!note || note.readKind !== "internal") return null;
   const sourceFile = join(theoryDirectory, note.sourcePath);
   const translationFile = join(theoryTranslationDirectory, ...theoryId.split("/").slice(1), "zh.md");
@@ -409,8 +413,10 @@ function courseOutline(database: DatabaseSync): CourseOutline[] {
       const staged = phase.slug === "19-capstone-projects";
       const lesson = staged ? null : lessonFor(id);
       const status = lesson ? publishedLessonContent(lesson, false).translationStatus : "unavailable";
+      const stagedTranslation = join(repositoryDirectory, "content/translations/practice", phase.slug, slug, "zh.md");
+      const stagedTitle = staged && existsSync(stagedTranslation) ? readFileSync(stagedTranslation, "utf8").match(/^#\s+(.+)$/m)?.[1] : null;
       return [{ id, position: lesson?.position ?? `${slug.slice(0, 2)} / ${practicePhaseLessonCount(phase.slug)}`,
-        title: lesson?.title ?? slug.replace(/^\d+-/, ""),
+        title: lesson?.title ?? stagedTitle ?? slug.replace(/^\d+-/, ""),
         available: !staged && status === "reviewed",
         publicationStatus: staged ? "staged" : status === "reviewed" ? "available" : status === "stale" ? "stale" : "untranslated" }];
     })
@@ -450,6 +456,7 @@ function learningTarget(course: CourseOutline[]) {
 
 function curriculumFor(database: DatabaseSync) {
   const course = courseOutline(database);
+  const { catalog: theoryCatalog, notes: theoryNotes } = theoryIndex();
   const outlines = new Map(course.map((phase) => [phase.slug, phase]));
   const practice = curriculumPhases.map((phase, index) => {
     const outline = outlines.get(phase.slug);
@@ -1175,6 +1182,9 @@ function approvedTheoryCards(lesson: Lesson): TheoryCard[] {
       const document = readFileSync(join(theoryLinksDirectory, name), "utf8");
       if (yamlScalar(document, /^status:\s*(.+)$/m) !== "approved") return [];
       const practiceBlock = document.match(/^practice:\n([\s\S]*?)(?=^card:)/m)?.[1] ?? "";
+      const practicePath = yamlScalar(practiceBlock, /^  path:\s*(.+)$/m);
+      const practiceFingerprint = yamlScalar(practiceBlock, /^  sha256:\s*(.+)$/m);
+      if (practicePath !== lesson.source.path || !practiceFingerprint || sha256(join(repositoryDirectory, "ai-engineering-from-scratch", practicePath)) !== practiceFingerprint) return [];
       const cardBlock = document.match(/^card:\n([\s\S]*?)(?=^theory:)/m)?.[1] ?? "";
       const theoryBlock = document.match(/^theory:\n([\s\S]*)$/m)?.[1] ?? "";
       const slug = yamlScalar(practiceBlock, /^    slug:\s*(.+)$/m);
@@ -1191,7 +1201,7 @@ function approvedTheoryCards(lesson: Lesson): TheoryCard[] {
       if (!slug || !title || !summary || !repository || !path || !fingerprint) return [];
       const currentSource = join(repositoryDirectory, repository, path);
       if (!existsSync(currentSource) || sha256(currentSource) !== fingerprint) return [];
-      const note = theoryNoteBySourcePath.get(path);
+      const note = theoryIndex().bySource.get(path);
       if (!note) return [];
       const hasRichContent = Boolean(context && intuition && keyPoints.length >= 2 && keyPoints.length <= 4 && application && checkQuestion);
       return [{
@@ -1230,7 +1240,7 @@ function loadPublishedLessonContent(lesson: Lesson, withCards: boolean): LessonC
   if (!fingerprint || sha256(lessonDocumentFile) !== fingerprint) {
     return { markdown: "", translationStatus: "stale", theoryCards: [] };
   }
-  return { markdown, translationStatus: "reviewed", theoryCards: withCards ? approvedTheoryCards(lesson) : [] };
+  return { markdown, translationStatus: "reviewed", theoryCards: withCards ? approvedTheoryCards(lesson) : [], resourceBaseUrl: `/api/practice/assets/${phase.slug}/${slug}/docs/` };
 }
 
 function publishedQuiz(lesson: Lesson): PublishedQuiz {
@@ -1247,7 +1257,7 @@ function publishedQuiz(lesson: Lesson): PublishedQuiz {
     if (quiz.status !== "reviewed" || quiz.source?.sha256 !== sha256(quizSourceFile) || !Array.isArray(quiz.questions)) {
       return { questions: [], status: "stale" };
     }
-    const valid = quiz.questions.every((item) => typeof item.id === "string" && typeof item.question === "string" &&
+    const valid = quiz.questions.every((item) => typeof item.id === "string" && typeof item.question === "string" && ["pre", "check", "post"].includes(item.stage) &&
       Array.isArray(item.options) && item.options.length >= 2 && item.options.length <= 20 && item.options.every((option) => typeof option === "string") &&
       Number.isInteger(item.correct) && item.correct >= 0 && item.correct < item.options.length && typeof item.explanation === "string");
     return valid ? { questions: quiz.questions, status: "reviewed" } : { questions: [], status: "unavailable" };
@@ -1383,6 +1393,16 @@ function serveTheoryAsset(pathname: string, response: ServerResponse) {
   return serveFile(assetRoot, requestedPath, response);
 }
 
+function servePracticeAsset(pathname: string, response: ServerResponse) {
+  let path: string;
+  try { path = normalize(decodeURIComponent(pathname.slice("/api/practice/assets/".length))); }
+  catch { return sendText(response, 400, "无效的资源路径。"); }
+  const [phase, slug] = path.split(/[/\\]/);
+  if (!phaseFor(phase) || !/^\d{2}-[a-z0-9-]+$/.test(slug ?? "") ||
+    ![".gif", ".jpeg", ".jpg", ".png", ".svg", ".webp"].includes(extname(path).toLowerCase())) return sendText(response, 403, "不允许访问此资源。");
+  return serveFile(practiceDirectory, path, response);
+}
+
 export function createApp(dataDirectory = join(applicationDirectory, "data")): App {
   const database = createDatabase(dataDirectory);
   const undo = createUndoStore(database);
@@ -1394,12 +1414,10 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
       database.close();
     },
     async handler(request, response) {
-      const url = new URL(request.url ?? "/", "http://127.0.0.1");
-      const lessonId = url.searchParams.get("lessonId") ?? defaultLessonId;
-
-
       try {
         secureRequest(request, response);
+        const url = new URL(request.url ?? "/", "http://127.0.0.1");
+        const lessonId = url.searchParams.get("lessonId") ?? defaultLessonId;
         if (request.method === "GET" && url.pathname === "/api/health") {
           return sendJson(response, 200, { status: "ok" });
         }
@@ -1416,6 +1434,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
         if (request.method === "GET" && url.pathname.startsWith("/api/theory/assets/")) {
           return serveTheoryAsset(url.pathname, response);
         }
+        if (request.method === "GET" && url.pathname.startsWith("/api/practice/assets/")) return servePracticeAsset(url.pathname, response);
         const lessonRoute = [
           "/api/lesson", "/api/lesson/content", "/api/quiz", "/api/quiz/attempts", "/api/tutor/messages",
           "/api/review-items", "/api/tools", "/api/workspace/open", "/api/exploration/open", "/api/learning-state",

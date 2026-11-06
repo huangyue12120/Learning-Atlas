@@ -1,18 +1,14 @@
-import { gsap } from "/vendor/gsap/index.js";
-import { ScrollTrigger } from "/vendor/gsap/ScrollTrigger.js";
 import { escapeHtml } from "/markdown.js";
 import { applyTheme, observeSystemTheme, saveTheme, themePreference, themeSelect } from "/theme.js";
 
-gsap.registerPlugin(ScrollTrigger);
 
 const app = document.querySelector("#app");
 let phaseIndex = 0;
 let phaseVisibleCount = 1;
 let curriculum;
-let motionContext;
 
 applyTheme();
-observeSystemTheme(() => ScrollTrigger.refresh());
+observeSystemTheme();
 
 async function request(path) {
   const response = await fetch(path);
@@ -29,7 +25,7 @@ function phaseCards(phases) {
     return `<article class="phase-card${available ? "" : " staged"}" data-phase-card>
       <div class="phase-card-top"><span>${available ? "可学习" : "已审核，待接入"}</span><strong>${escapeHtml(phase.position)}</strong></div>
       <h3>${escapeHtml(phase.title)}</h3>
-      <p>${phase.lessonCount} 节课程${available ? `，${phase.availableLessonCount} 节已发布` : "，本轮不开放阅读"}</p>
+      <p>${phase.lessonCount} 节课程${available ? `，${phase.availableLessonCount} 节已发布` : "，等待接入阅读器"}</p>
       ${available && phase.firstLessonId ? `<a href="/learn?lessonId=${encodeURIComponent(phase.firstLessonId)}" aria-label="进入${escapeHtml(title)}">进入本阶段</a>` : '<span class="phase-staged-note">待后续版本开放</span>'}
     </article>`;
   }).join("");
@@ -37,12 +33,12 @@ function phaseCards(phases) {
 
 function theoryDirectory(chapters) {
   if (!chapters.length) return '<div class="home-empty"><h3>理论目录还没有内容</h3><p>刷新目录后再试。</p></div>';
-  return chapters.map((chapter, chapterIndex) => {
+  return chapters.map((chapter) => {
     const notes = chapter.notes.map((note) => {
       const external = note.readKind === "external";
-      return `<a href="${escapeHtml(note.readUrl)}"${external ? ' target="_blank" rel="noreferrer"' : ""}><span>${escapeHtml(note.position)} ${escapeHtml(note.title)}</span><small>${note.readLanguage === "zh" ? "已审核中文" : "English main"}</small></a>`;
+      return `<a href="${escapeHtml(note.readUrl)}"${external ? ' target="_blank" rel="noreferrer"' : ""}><span>${escapeHtml(note.position)} ${escapeHtml(note.title)}</span><small>${note.readLanguage === "zh" ? "已审核中文" : "英文原文"}</small></a>`;
     }).join("");
-    return `<details class="home-theory-chapter"${chapterIndex === 3 ? " open" : ""}><summary><span>${escapeHtml(chapter.position)}</span><strong>${escapeHtml(chapter.title)}</strong><small>${chapter.notes.length} 节</small></summary><div class="home-theory-notes">${notes}</div></details>`;
+    return `<details class="home-theory-chapter"><summary><span>${escapeHtml(chapter.position)}</span><strong>${escapeHtml(chapter.title)}</strong><small>${chapter.notes.length} 节</small></summary><div class="home-theory-notes">${notes}</div></details>`;
   }).join("");
 }
 
@@ -52,7 +48,7 @@ function courseMarquee(phases, chapters) {
     ...chapters.map((chapter) => chapter.title)
   ];
   const content = fields.map((field) => `<span>${escapeHtml(field)}</span>`).join("");
-  return `<div class="course-marquee" aria-label="课程领域"><div>${content}${content}</div></div>`;
+  return `<div class="course-marquee" aria-label="课程领域"><div>${content}</div></div>`;
 }
 
 function updateCarousel(nextIndex, announce = true) {
@@ -88,57 +84,6 @@ function updateCarousel(nextIndex, announce = true) {
   if (jump) jump.value = String(phaseIndex);
 }
 
-function splitScrubText() {
-  const element = document.querySelector("[data-scrub-copy]");
-  if (!element || element.dataset.split === "true") return;
-  const words = element.textContent.trim().split(/(\s+)/);
-  element.innerHTML = words.map((word) => /^\s+$/.test(word) ? word : `<span>${escapeHtml(word)}</span>`).join("");
-  element.dataset.split = "true";
-}
-
-function initMotion() {
-  motionContext?.revert();
-  splitScrubText();
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const desktop = window.matchMedia("(min-width: 1024px)").matches;
-  const lowPerformance = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
-    (navigator.deviceMemory && navigator.deviceMemory <= 4);
-  const words = gsap.utils.toArray("[data-scrub-copy] span");
-  const staticMotion = reduce || !desktop || lowPerformance;
-  document.body.classList.toggle("home-static-motion", staticMotion);
-  gsap.set(words, { opacity: 1 });
-  if (staticMotion) return;
-  motionContext = gsap.context(() => {
-    const mapSection = document.querySelector(".practice-map-section");
-    const mapHeading = document.querySelector(".practice-map-heading");
-    if (mapSection && mapHeading) {
-      ScrollTrigger.create({
-        trigger: mapHeading,
-        start: "top top",
-        endTrigger: document.querySelector(".phase-carousel") ?? mapSection,
-        end: () => `top ${Math.min(mapHeading.offsetHeight + 16, window.innerHeight - 96)}px`,
-        pin: mapHeading,
-        pinSpacing: false
-      });
-    }
-    if (words.length) {
-      gsap.fromTo(words, { opacity: 0.18 }, {
-        opacity: 1,
-        stagger: 0.08,
-        ease: "none",
-        scrollTrigger: {
-          trigger: "[data-scrub-copy]",
-          start: "top 90%",
-          end: "top 68%",
-          scrub: 0.2,
-          onLeave: () => gsap.set(words, { opacity: 1 }),
-          onEnterBack: () => gsap.set(words, { opacity: 0.18 })
-        }
-      });
-    }
-  }, app);
-}
-
 function render() {
   const target = curriculum.target;
   const targetHref = target.url ?? "#practice-course";
@@ -172,8 +117,8 @@ function render() {
         ${courseMarquee(curriculum.practice, curriculum.theory)}
         <section id="practice-course" class="practice-map-section" aria-labelledby="practice-title">
           <div class="practice-map-heading">
-            <h2 id="practice-title">20 个 Phase，一条实践主线</h2>
-            <p>Phase 0-18 可进入学习。Phase 19 已审核，等待接入阅读器。</p>
+            <h2 id="practice-title">${curriculum.summary.practicePhaseCount} 个 Phase，一条实践主线</h2>
+            <p>${curriculum.summary.publishedPracticePhaseCount} 个阶段已开放学习；其余阶段等待接入阅读器。</p>
           </div>
           <div class="phase-carousel" aria-roledescription="carousel" aria-label="实践课程 Phase">
             <div class="phase-carousel-controls"><button type="button" data-phase-prev aria-label="查看上一组 Phase">上一组</button><p id="phase-carousel-status" role="status" aria-live="polite">当前显示 Phase 00</p><button type="button" data-phase-next aria-label="查看下一组 Phase">下一组</button></div>
@@ -182,19 +127,19 @@ function render() {
           </div>
         </section>
         <section id="theory-course" class="theory-directory-section" aria-labelledby="theory-title">
-          <div class="theory-directory-intro"><h2 id="theory-title">20 章完整理论课程</h2><p>有审核中文全文时在应用内阅读；其余条目打开官方上游最新英文原文。</p></div>
+          <div class="theory-directory-intro"><h2 id="theory-title">${curriculum.summary.theoryChapterCount} 章完整理论课程</h2><p>有审核中文全文时在应用内阅读；其余条目打开官方上游最新英文原文。</p></div>
           <div class="home-theory-directory">${theoryDirectory(curriculum.theory)}</div>
         </section>
         <section class="course-relationship" aria-labelledby="relationship-title">
           <p id="relationship-title" data-scrub-copy>实践主线回答怎样构建，理论课程回答为什么成立。上下文理论卡把两者连接在当前任务需要的位置。</p>
-          <div class="course-relationship-grid"><article><h2>实践优先</h2><p>学习状态、笔记、自测、助理和工作区继续属于实践课程。</p></article><article><h2>理论独立</h2><p>理论课程可以完整浏览，但本轮不记录个人进度，也不制造掌握感。</p></article></div>
+          <div class="course-relationship-grid"><article><h2>实践优先</h2><p>学习状态、笔记、自测、助理和工作区继续属于实践课程。</p></article><article><h2>理论独立</h2><p>理论课程可以完整浏览，目前不记录个人进度，也不制造掌握感。</p></article></div>
         </section>
         <section class="home-action" aria-labelledby="action-title"><h2 id="action-title">从第一节可运行课程开始</h2><p>你的学习数据只保存在本机。</p><a class="primary-action" href="${escapeHtml(targetHref)}">${escapeHtml(target.label)}</a></section>
       </main>
       <footer class="home-footer"><a class="brand" href="/">Learning Atlas</a><p>理论与实践，共用一张可追溯的学习地图。</p><a href="#home-title">回到顶部</a></footer>
     </div>`;
   updateCarousel(0);
-  initMotion();
+  document.body.classList.add("home-static-motion");
 }
 
 function renderError(message) {
@@ -228,9 +173,10 @@ app.addEventListener("keydown", (event) => {
   }
 });
 
+let resizeTimer;
 window.addEventListener("resize", () => {
-  updateCarousel(phaseIndex, false);
-  initMotion();
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => updateCarousel(phaseIndex, false), 100);
 });
 
 request("/api/curriculum")

@@ -83,7 +83,12 @@ function setDrawer(open) {
   button?.setAttribute("aria-expanded", String(open));
   navigation?.setAttribute("aria-hidden", String(mobile && !open));
   navigation?.toggleAttribute("inert", mobile && !open);
-  if (!open && wasOpen) window.requestAnimationFrame(() => button?.focus({ preventScroll: true }));
+  const modal = mobile && open;
+  if (modal) navigation?.setAttribute("aria-modal", "true"); else navigation?.removeAttribute("aria-modal");
+  if (modal) navigation?.setAttribute("role", "dialog"); else navigation?.removeAttribute("role");
+  document.querySelectorAll(".reader-header, .theory-reading-area").forEach(element => { element.inert = modal; });
+  if (modal && !wasOpen) navigation?.querySelector(".theory-nav-close")?.focus({ preventScroll: true });
+  if (!open && wasOpen && mobile) button?.focus({ preventScroll: true });
 }
 
 function renderError(message) {
@@ -108,7 +113,7 @@ async function loadTheory() {
       <header class="reader-header">
         <a class="brand" href="/">Learning Atlas</a>
         <nav aria-label="主要导航"><a id="practice-return" href="/learn">实践主线</a><a href="/#theory-course" aria-current="page">理论课程</a></nav>
-        <div class="reader-header-actions"><button type="button" class="theory-nav-toggle" aria-expanded="false" aria-controls="theory-navigation">章节</button>${themeSelect(themePreference(), "theory-theme-select")}</div>
+        <div class="reader-header-actions"><a class="theory-practice-return" href="/learn">返回实践课</a><button type="button" class="theory-nav-toggle" aria-expanded="false" aria-controls="theory-navigation">章节</button>${themeSelect(themePreference(), "theory-theme-select")}</div>
       </header>
       <button type="button" class="theory-nav-scrim" aria-label="关闭章节导航"></button>
       <nav id="theory-navigation" class="theory-nav" aria-label="理论章节导航">
@@ -120,8 +125,8 @@ async function loadTheory() {
           <header class="theory-article-header">
             <p>${escapeHtml(chapter.title)} / ${escapeHtml(content.source.path)}</p>
             <h1>${escapeHtml(content.title)}</h1>
-            <div class="theory-source-meta"><span>中文全文已审核</span><span>跟踪上游 main</span><span>审核快照 ${escapeHtml(reviewedRevision)}</span></div>
-            <div class="theory-source-links"><a href="${escapeHtml(content.sourceUrl)}" target="_blank" rel="noreferrer">查看上游 main 原文</a></div>
+            <div class="theory-source-meta"><span>中文全文已审核</span><span>保留原文来源</span><span>审核版本 <span title="${escapeHtml(reviewedRevision)}">${escapeHtml(reviewedRevision.slice(0, 7))}</span></span></div>
+            <div class="theory-source-links"><a href="${escapeHtml(content.sourceUrl)}" target="_blank" rel="noreferrer">查看英文原文</a></div>
           </header>
           ${tableOfContents(rendered.headings)}
           <div class="markdown-content theory-prose">${rendered.html}</div>
@@ -129,7 +134,9 @@ async function loadTheory() {
       </main>
     </div>`;
   const sourceLesson = new URLSearchParams(location.search).get("lessonId");
-  document.querySelector("#practice-return").href = sourceLesson ? `/learn?lessonId=${encodeURIComponent(sourceLesson)}` : curriculum.target.url ?? "/learn";
+  const returnUrl = sourceLesson ? `/learn?lessonId=${encodeURIComponent(sourceLesson)}` : curriculum.target.url ?? "/learn";
+  document.querySelector("#practice-return").href = returnUrl;
+  document.querySelector(".theory-practice-return").href = returnUrl;
   setDrawer(false);
   activateTableOfContents();
 }
@@ -166,6 +173,12 @@ app.addEventListener("click", async (event) => {
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && drawerOpen) setDrawer(false);
+  if (event.key !== "Tab" || !drawerOpen || !matchMedia("(max-width: 1023px)").matches) return;
+  const navigation = document.querySelector(".theory-nav");
+  const focusable = [...navigation.querySelectorAll("a[href], button, summary")].filter(element => element.getClientRects().length);
+  const index = focusable.indexOf(document.activeElement);
+  if (event.shiftKey && index <= 0) { event.preventDefault(); focusable.at(-1)?.focus(); }
+  else if (!event.shiftKey && (index < 0 || index === focusable.length - 1)) { event.preventDefault(); focusable[0]?.focus(); }
 });
 
 window.addEventListener("resize", () => setDrawer(drawerOpen && window.matchMedia("(max-width: 1023px)").matches));
