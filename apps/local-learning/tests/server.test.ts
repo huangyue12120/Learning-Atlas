@@ -6,8 +6,10 @@ import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
 import { createServer, type Server } from "node:http";
 import { DatabaseSync } from "node:sqlite";
-import { createApp, firstLesson, prepareWorkspace, publishableTheoryDocument } from "../src/server.ts";
+import { createApp, lessonFor, prepareWorkspace, publishableTheoryDocument } from "../src/server.ts";
 import { renderTheoryCard, theoryCardActions } from "../public/theory-card.js";
+
+const firstLesson = lessonFor("practice/01-math-foundations/01-linear-algebra-intuition")!;
 
 const cleanups: Array<() => void> = [];
 const correctFirstQuizAnswers = {
@@ -180,7 +182,14 @@ test("renders rich theory cards with deduplicated source actions", () => {
 
 async function startTestServer(directory = mkdtempSync(join(tmpdir(), "learning-atlas-"))) {
   const app = createApp(directory);
-  const server = createServer((request, response) => void app.handler(request, response));
+  const server = createServer((request, response) => {
+    const url = new URL(request.url!, "http://localhost");
+    if (/^\/api\/(lesson|quiz|learning-state|reading-position|notes|tutor|review-items|tools|workspace|exploration)(\/|$)/.test(url.pathname) && !url.searchParams.has("lessonId")) {
+      url.searchParams.set("lessonId", firstLesson.id);
+      request.url = url.pathname + url.search;
+    }
+    void app.handler(request, response);
+  });
   await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
   const address = server.address();
   assert.ok(address && typeof address !== "string");
@@ -204,7 +213,7 @@ test("loads published lesson content and resources by lessonId", async () => {
   assert.match(content.markdown, /线性代数直觉/);
   assert.equal(content.theoryCards.length, 3);
   const course = await fetch(`${baseUrl}/api/course`).then((response) => response.json());
-  assert.equal(course.length, 19);
+  assert.equal(course.length, 20);
   const setup = course.find((phase: { slug: string }) => phase.slug === "00-setup-and-tooling");
   const foundations = course.find((phase: { slug: string }) => phase.slug === "01-math-foundations");
   const mlFundamentals = course.find((phase: { slug: string }) => phase.slug === "02-ml-fundamentals");
@@ -285,6 +294,7 @@ test("loads published lesson content and resources by lessonId", async () => {
     position: "01 / 22",
     title: "线性代数直觉",
     available: true,
+    publicationStatus: "available",
     progress: "not-started"
   });
   assert.equal(foundations.lessons[1].available, true);
@@ -418,7 +428,7 @@ test("loads published lesson content and resources by lessonId", async () => {
     itemLesson.resources.workspace === true && itemContent.translationStatus === "reviewed" &&
     itemQuiz.status === "reviewed" && itemQuiz.questions.length === 6), true);
 
-  const publishedLessons = course.flatMap((phase: { lessons: { id: string }[] }) => phase.lessons);
+  const publishedLessons = course.flatMap((phase: { lessons: { id: string }[] }) => phase.lessons.filter((lesson: { available: boolean }) => lesson.available));
   assert.equal(publishedLessons.length, 457);
   const durations = await Promise.all(publishedLessons.map(async (item: { id: string }) =>
     fetch(`${baseUrl}/api/lesson?lessonId=${encodeURIComponent(item.id)}`).then((response) => response.json())));
@@ -586,7 +596,7 @@ test("loads published lesson content and resources by lessonId", async () => {
 test("publishes all 289 visible theory cards with the complete rich-content contract", async () => {
   const baseUrl = await startTestServer();
   const course = await fetch(`${baseUrl}/api/course`).then((response) => response.json());
-  const lessons = course.flatMap((phase: { lessons: Array<{ id: string }> }) => phase.lessons);
+  const lessons = course.flatMap((phase: { lessons: Array<{ id: string }> }) => phase.lessons.filter((lesson: { available: boolean }) => lesson.available));
   const contents = await Promise.all(lessons.map(({ id }: { id: string }) =>
     fetch(`${baseUrl}/api/lesson/content?lessonId=${encodeURIComponent(id)}`).then((response) => response.json())));
   const cards = contents.flatMap((content: { theoryCards: Array<Record<string, unknown>> }) => content.theoryCards);
@@ -1366,7 +1376,7 @@ test("rejects empty notes", async () => {
 test("creates a learner-owned workspace without changing the template", () => {
   const directory = mkdtempSync(join(tmpdir(), "learning-atlas-workspace-"));
   cleanups.push(() => rmSync(directory, { recursive: true, force: true }));
-  const workspace = prepareWorkspace(directory);
+  const workspace = prepareWorkspace(directory, firstLesson.id);
   assert.match(readFileSync(workspace.sourceFile, "utf8"), /class Vector/);
   assert.match(readFileSync(workspace.explorationFile, "utf8"), /import marimo/);
   assert.match(readFileSync(workspace.exerciseFile, "utf8"), /实现 Vector\.dot/);
@@ -1374,7 +1384,7 @@ test("creates a learner-owned workspace without changing the template", () => {
   assert.match(readFileSync(workspace.exercisesGuide, "utf8"), /python -m unittest/);
   writeFileSync(workspace.sourceFile, "learner edit", "utf8");
   writeFileSync(workspace.exerciseFile, "learner exercise edit", "utf8");
-  prepareWorkspace(directory);
+  prepareWorkspace(directory, firstLesson.id);
   assert.equal(readFileSync(workspace.sourceFile, "utf8"), "learner edit");
   assert.equal(readFileSync(workspace.exerciseFile, "utf8"), "learner exercise edit");
 

@@ -808,11 +808,10 @@ app.addEventListener("submit", async (event) => {
 });
 
 async function loadLesson(lessonId) {
-  const [nextLesson, nextState, nextNotes, , nextContent, nextReadingPosition, nextModelConfig, nextTutorMessages, nextReviewItems, nextQuiz, nextQuizResult, nextCourse] = await Promise.all([
+  const [nextLesson, nextState, nextNotes, nextContent, nextReadingPosition, nextModelConfig, nextTutorMessages, nextReviewItems, nextQuiz, nextQuizResult, nextCourse] = await Promise.all([
     request(lessonApi("/api/lesson", lessonId)),
     request(lessonApi("/api/learning-state", lessonId)),
     request(lessonApi("/api/notes", lessonId)),
-    request(lessonApi("/api/tools", lessonId)),
     request(lessonApi("/api/lesson/content", lessonId)),
     request(lessonApi("/api/reading-position", lessonId)),
     request("/api/model-config"),

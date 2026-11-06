@@ -50,3 +50,15 @@ test("model discovery and saving only reuse keys for the normalized same endpoin
   const changed = await fetch(`${base}/api/model-config`, json("PUT", { baseUrl: endpoint + "/different", model: "m" })).then(r => r.json());
   assert.equal(changed.apiKeyConfigured, false);
 });
+
+test("default lesson starts at Phase 0 and staged lessons stay blocked", async (t) => {
+  const base = await fixture(t);
+  const lesson = await fetch(base + "/api/lesson").then(r => r.json());
+  assert.equal(lesson.id, "practice/00-setup-and-tooling/01-dev-environment");
+  assert.match(lesson.sourceUrl, /^https:\/\/github.com\/rohitg00\//);
+  const course = await fetch(base + "/api/course").then(r => r.json());
+  const staged = course.at(-1).lessons[0];
+  assert.equal(staged.publicationStatus, "staged");
+  assert.equal(staged.available, false);
+  assert.equal((await fetch(base + "/api/lesson?lessonId=" + encodeURIComponent(staged.id))).status, 404);
+});

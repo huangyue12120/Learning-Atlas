@@ -107,7 +107,7 @@ async function loadTheory() {
     <div class="theory-reader-shell">
       <header class="reader-header">
         <a class="brand" href="/">Learning Atlas</a>
-        <nav aria-label="主要导航"><a href="/learn">实践主线</a><a href="/#theory-course" aria-current="page">理论课程</a></nav>
+        <nav aria-label="主要导航"><a id="practice-return" href="/learn">实践主线</a><a href="/#theory-course" aria-current="page">理论课程</a></nav>
         <div class="reader-header-actions"><button type="button" class="theory-nav-toggle" aria-expanded="false" aria-controls="theory-navigation">章节</button>${themeSelect(themePreference(), "theory-theme-select")}</div>
       </header>
       <button type="button" class="theory-nav-scrim" aria-label="关闭章节导航"></button>
@@ -128,6 +128,8 @@ async function loadTheory() {
         </article>
       </main>
     </div>`;
+  const sourceLesson = new URLSearchParams(location.search).get("lessonId");
+  document.querySelector("#practice-return").href = sourceLesson ? `/learn?lessonId=${encodeURIComponent(sourceLesson)}` : curriculum.target.url ?? "/learn";
   setDrawer(false);
   activateTableOfContents();
 }

@@ -1,8 +1,9 @@
+import { cachedFiles, existsSync, readFileSync, readdirSync } from "./content-cache.ts";
 import { RequestError, secureRequest, normalizedBaseUrl } from "./security.ts";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, symlinkSync, writeFileSync } from "node:fs";
 import { readFile, stat } from "node:fs/promises";
-import { spawn, spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
 import { dirname, extname, join, normalize, resolve } from "node:path";
@@ -46,7 +47,7 @@ const curriculumPhases = [
   ...phases,
   { slug: "19-capstone-projects", title: "Phase 19 · 综合项目" }
 ] as const;
-const defaultLessonId = "practice/01-math-foundations/01-linear-algebra-intuition";
+const defaultLessonId = "practice/00-setup-and-tooling/01-dev-environment";
 const officialTheoryRepository = "https://github.com/HenryNdubuaku/maths-cs-ai-compendium";
 
 type LearningState = {
@@ -90,7 +91,7 @@ type Lesson = {
 type CourseOutline = {
   slug: string;
   title: string;
-  lessons: Array<Pick<Lesson, "id" | "position" | "title"> & { available: boolean; progress: CourseProgress }>;
+  lessons: Array<Pick<Lesson, "id" | "position" | "title"> & { available: boolean; progress: CourseProgress; publicationStatus: "available" | "stale" | "untranslated" | "staged" }>;
 };
 
 type CourseProgress = "not-started" | "in-progress" | "understood" | "review";
@@ -185,8 +186,8 @@ function yamlList(block: string, key: string) {
 
 function sourceUrl(repository: string, revision: string, path: string) {
   const repositories: Record<string, string> = {
-    "ai-engineering-from-scratch": "https://github.com/huangyue12120/ai-engineering-from-scratch",
-    "maths-cs-ai-compendium": "https://github.com/huangyue12120/maths-cs-ai-compendium"
+    "ai-engineering-from-scratch": "https://github.com/rohitg00/ai-engineering-from-scratch",
+    "maths-cs-ai-compendium": "https://github.com/HenryNdubuaku/maths-cs-ai-compendium"
   };
   const base = repositories[repository];
   if (!base) throw new Error(`Unknown source repository: ${repository}`);
@@ -344,13 +345,16 @@ function phaseDirectory(phase: Phase) {
 
 function lessonSlugs(phase: Phase) {
   return readdirSync(phaseDirectory(phase), { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && /^\d{2}-/.test(entry.name) &&
-      existsSync(join(repositoryDirectory, "content/translations/practice", phase.slug, entry.name, "zh.md")))
+    .filter((entry) => entry.isDirectory() && /^\d{2}-/.test(entry.name))
     .map((entry) => entry.name)
     .sort();
 }
 
-function lessonFor(lessonId: string): Lesson | null {
+export function lessonFor(lessonId: string): Lesson | null {
+  return cachedFiles(`lesson:${lessonId}`, () => loadLessonMetadata(lessonId));
+}
+
+function loadLessonMetadata(lessonId: string): Lesson | null {
   const reference = lessonReference(lessonId);
   if (!reference) return null;
   const { phase, slug } = reference;
@@ -360,9 +364,9 @@ function lessonFor(lessonId: string): Lesson | null {
 
   const documentFile = join(phaseDirectory(phase), slug, "docs/en.md");
   const translationFile = join(repositoryDirectory, "content/translations/practice", phase.slug, slug, "zh.md");
-  if (!existsSync(documentFile) || !existsSync(translationFile)) return null;
+  if (!existsSync(documentFile)) return null;
   const sourceDocument = readFileSync(documentFile, "utf8");
-  const translation = readFileSync(translationFile, "utf8");
+  const translation = existsSync(translationFile) ? readFileSync(translationFile, "utf8") : "";
   const frontmatter = translation.match(/^---\n([\s\S]*?)\n---/)?.[1] ?? "";
   const source = {
     repository: yamlScalar(frontmatter, /^  repository:\s*(.+)$/m) ?? "ai-engineering-from-scratch",
@@ -394,32 +398,28 @@ function lessonFor(lessonId: string): Lesson | null {
 
 export const firstLesson = lessonFor(defaultLessonId)!;
 
-function courseProgress(database: DatabaseSync, lessonId: string): CourseProgress {
-  const state = database.prepare("SELECT completed, review, reading_position AS readingPosition FROM learning_state WHERE lesson_id = ?")
-    .get(lessonId) as { completed: number; review: number; readingPosition: number } | undefined;
-  if (state?.review === 1) return "review";
-  if (state?.completed === 1) return "understood";
-  const hasActivity = Boolean(state?.readingPosition) ||
-    Boolean(database.prepare("SELECT 1 FROM notes WHERE lesson_id = ? LIMIT 1").get(lessonId)) ||
-    Boolean(database.prepare("SELECT 1 FROM quiz_attempts WHERE lesson_id = ? LIMIT 1").get(lessonId));
-  return hasActivity ? "in-progress" : "not-started";
-}
-
 function courseOutline(database: DatabaseSync): CourseOutline[] {
-  return phases.map((phase) => ({
+  const index = cachedFiles("course-index", () => curriculumPhases.map((phase) => ({
     slug: phase.slug,
     title: phase.title,
-    lessons: lessonSlugs(phase).map((slug) => {
-      const lesson = lessonFor(`practice/${phase.slug}/${slug}`)!;
-      return {
-        id: lesson.id,
-        position: lesson.position,
-        title: lesson.title,
-        available: publishedLessonContent(lesson).translationStatus === "reviewed",
-        progress: courseProgress(database, lesson.id)
-      };
+    lessons: lessonSlugs(phase as Phase).flatMap((slug) => {
+      const id = `practice/${phase.slug}/${slug}`;
+      const staged = phase.slug === "19-capstone-projects";
+      const lesson = staged ? null : lessonFor(id);
+      const status = lesson ? publishedLessonContent(lesson, false).translationStatus : "unavailable";
+      return [{ id, position: lesson?.position ?? `${slug.slice(0, 2)} / ${practicePhaseLessonCount(phase.slug)}`,
+        title: lesson?.title ?? slug.replace(/^\d+-/, ""),
+        available: !staged && status === "reviewed",
+        publicationStatus: staged ? "staged" : status === "reviewed" ? "available" : status === "stale" ? "stale" : "untranslated" }];
     })
-  }));
+  })));
+  const states = new Map((database.prepare("SELECT lesson_id, completed, review, reading_position FROM learning_state").all() as any[]).map(row => [row.lesson_id, row]));
+  const active = new Set((database.prepare("SELECT lesson_id FROM notes UNION SELECT lesson_id FROM quiz_attempts").all() as any[]).map(row => row.lesson_id));
+  return index.map(phase => ({ ...phase, lessons: phase.lessons.map(lesson => {
+    const state = states.get(lesson.id);
+    const progress: CourseProgress = state?.review ? "review" : state?.completed ? "understood" : state?.reading_position || active.has(lesson.id) ? "in-progress" : "not-started";
+    return { ...lesson, progress } as CourseOutline["lessons"][number];
+  }) }));
 }
 
 function practicePhaseLessonCount(slug: string) {
@@ -1134,13 +1134,17 @@ export function prepareWorkspace(dataDirectory: string, lessonId = defaultLesson
   return { directory, sourceFile, explorationFile, exerciseFile, exerciseTestFile, exercisesGuide };
 }
 
-function commandAvailable(command: string) {
-  const result = spawnSync(command, ["--version"], { stdio: "ignore" });
-  return !result.error && result.status === 0;
+function commandAvailable(command: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const child = spawn(command, ["--version"], { stdio: "ignore" });
+    const timer = setTimeout(() => { child.kill(); resolve(false); }, 5000);
+    child.once("error", () => { clearTimeout(timer); resolve(false); });
+    child.once("exit", code => { clearTimeout(timer); resolve(code === 0); });
+  });
 }
 
 function sha256(path: string) {
-  return createHash("sha256").update(readFileSync(path)).digest("hex");
+  return cachedFiles(`sha256:${path}`, () => createHash("sha256").update(readFileSync(path)).digest("hex"));
 }
 
 function approvedTheoryCards(lesson: Lesson): TheoryCard[] {
@@ -1187,7 +1191,11 @@ function approvedTheoryCards(lesson: Lesson): TheoryCard[] {
     });
 }
 
-function publishedLessonContent(lesson: Lesson): LessonContent {
+function publishedLessonContent(lesson: Lesson, withCards = true): LessonContent {
+  return cachedFiles(`content:${lesson.id}:${withCards}`, () => loadPublishedLessonContent(lesson, withCards));
+}
+
+function loadPublishedLessonContent(lesson: Lesson, withCards: boolean): LessonContent {
   const { phase, slug } = lessonReference(lesson.id)!;
   const translationFile = join(repositoryDirectory, "content/translations/practice", phase.slug, slug, "zh.md");
   const lessonDocumentFile = join(phaseDirectory(phase), slug, "docs/en.md");
@@ -1204,7 +1212,7 @@ function publishedLessonContent(lesson: Lesson): LessonContent {
   if (!fingerprint || sha256(lessonDocumentFile) !== fingerprint) {
     return { markdown: "", translationStatus: "stale", theoryCards: [] };
   }
-  return { markdown, translationStatus: "reviewed", theoryCards: approvedTheoryCards(lesson) };
+  return { markdown, translationStatus: "reviewed", theoryCards: withCards ? approvedTheoryCards(lesson) : [] };
 }
 
 function publishedQuiz(lesson: Lesson): PublishedQuiz {
@@ -1363,7 +1371,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
     async handler(request, response) {
       const url = new URL(request.url ?? "/", "http://127.0.0.1");
       const lessonId = url.searchParams.get("lessonId") ?? defaultLessonId;
-      const lesson = lessonFor(lessonId);
+
 
       try {
         secureRequest(request, response);
@@ -1388,6 +1396,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           "/api/review-items", "/api/tools", "/api/workspace/open", "/api/exploration/open", "/api/learning-state",
           "/api/reading-position", "/api/notes"
         ].some((path) => url.pathname === path || url.pathname.startsWith(`${path}/`));
+        const lesson = lessonRoute ? lessonFor(lessonId) : null;
         if (lessonRoute && !lesson) return sendJson(response, 404, { error: "课程不存在。" });
         if (request.method === "GET" && url.pathname === "/api/lesson") {
           return sendJson(response, 200, {
@@ -1538,13 +1547,13 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
         }
         if (request.method === "GET" && url.pathname === "/api/tools") {
           return sendJson(response, 200, {
-            vscodeAvailable: commandAvailable(vscodeCommand),
-            marimoAvailable: commandAvailable(marimoCommand)
+            vscodeAvailable: await commandAvailable(vscodeCommand),
+            marimoAvailable: await commandAvailable(marimoCommand)
           });
         }
         if (request.method === "POST" && url.pathname === "/api/workspace/open") {
           const workspace = prepareWorkspace(dataDirectory, lessonId);
-          if (!commandAvailable(vscodeCommand)) {
+          if (!await commandAvailable(vscodeCommand)) {
             return sendJson(response, 409, { error: "未找到 VS Code 命令。请安装 code 命令后重试。", workspace });
           }
           launch(vscodeCommand, [workspace.directory], workspace.directory);
@@ -1555,7 +1564,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           if (!workspace.explorationFile) {
             return sendJson(response, 409, { error: "本课暂无已发布的 marimo 探索笔记。", workspace });
           }
-          if (!commandAvailable(marimoCommand)) {
+          if (!await commandAvailable(marimoCommand)) {
             return sendJson(response, 409, { error: "未找到 marimo。请在你的 Python 环境中安装它后重试。", workspace });
           }
           launch(marimoCommand, [
