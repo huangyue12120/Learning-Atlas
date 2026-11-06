@@ -45,8 +45,8 @@ function detailBlock(label, content, className = "") {
 export function renderTheoryCard(card) {
   const languageLabel = card.readKind === "internal" ? "中文全文可读" : "英文原文";
   const sourceNote = card.readKind === "internal"
-    ? "中文全文按本地同步快照审核；英文入口始终跟随官方上游 main。"
-    : "中文全文尚未发布；当前入口打开官方上游 main。";
+    ? "中文全文已审核；英文入口打开官方最新原文。"
+    : "中文全文尚未发布；当前提供官方英文原文。";
   const actions = theoryCardActions(card).map(actionHtml).join("");
   const header = `
     <summary>
@@ -59,7 +59,7 @@ export function renderTheoryCard(card) {
   if (!hasRichContent) {
     return `<details class="theory-card" data-card-slug="${escapeHtml(card.slug ?? "")}">${header}
     <div class="theory-card-body">
-      <div class="theory-card-legacy"><p class="theory-card-detail-label">扩展内容待迁移</p><p>当前只展示已审核的标题与摘要；不会自动补写未经审核的理论解释。</p></div>
+      <div class="theory-card-legacy"><p class="theory-card-detail-label">当前提供摘要</p><p>以下标题与摘要已审核，完整解释尚未发布。</p></div>
       ${footer}
     </div>
   </details>`;

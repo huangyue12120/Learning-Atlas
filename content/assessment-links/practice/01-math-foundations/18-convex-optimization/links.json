@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/18-convex-optimization",
+  "translationSha256": "f4570e56fa1029fddf58ea8512d86125f81d653f20a6c4cdaf31a387e43fddb7",
+  "assessmentSha256": "04ecc1b3441a81b303962466a689959117b7b4f303973ffe8f154057b2b972ca",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "convex",
+      "status": "reviewed",
+      "headingId": "凸函数",
+      "quote": "如果函数 f 的定义域是凸集，并且对其定义域中的任意两点 x、y 以及 [0, 1] 中任意 t，都有：",
+      "reviewNote": "等价不等式为 f(tx+(1-t)y)<=tf(x)+(1-t)f(y)。"
+    },
+    {
+      "id": "ml",
+      "status": "reviewed",
+      "headingId": "kkt-条件",
+      "quote": "无正则或使用凸正则的线性逻辑回归交叉熵对权重凸。",
+      "reviewNote": "logistic log-loss 对权重凸，其余均非凸。"
+    },
+    {
+      "id": "newton",
+      "status": "reviewed",
+      "headingId": "牛顿法",
+      "quote": "它在当前点拟合一个二次近似，然后直接跳到该二次函数的最小值。",
+      "reviewNote": "二阶近似对这个严格凸二次函数恰好精确，一步到 x=−0.3。初值已经最优时无需更新；浮点计算可能有舍入误差。"
+    },
+    {
+      "id": "kkt",
+      "status": "reviewed",
+      "headingId": "kkt-条件",
+      "quote": "严格非活跃约束 gᵢ(x)<0 的乘子必须为零，活跃约束的乘子也可以为零。",
+      "reviewNote": "严格非活跃时 gᵢ(x)<0，必须 λᵢ=0；活跃时 gᵢ(x)=0，λᵢ 可以为正，也可以为零。"
+    },
+    {
+      "id": "sgd",
+      "status": "reviewed",
+      "headingId": "kkt-条件",
+      "quote": "SGD 噪声可能帮助逃离部分鞍点，但非凸网络没有普遍的全局最优保证，",
+      "reviewNote": "小批量噪声在一定条件下可能帮助逃离鞍点。这是有条件的机制，不是所有网络都能找到全局最优的保证。"
+    }
+  ]
+}

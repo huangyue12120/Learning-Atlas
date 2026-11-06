@@ -1,1 +1,77 @@
-{"kind":"practice-assessment","source":{"repository":"ai-engineering-from-scratch","path":"phases/01-math-foundations/14-norms-and-distances/quiz.json","revision":"d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051","sha256":"7f4fddc0c2191450c45ba645af33a8352999524a0b1c4648c0ca3a1224e68828"},"status":"reviewed","questions":[{"id":"cosine","stage":"pre","question":"cosine similarity 度量两个向量的什么？","options":["忽略模长的夹角","欧氏距离","单维最大差异","逐元素乘积和"],"correct":0,"explanation":"cosine 为夹角余弦，范围 -1 到 1，按模长归一，故忽略长度。"},{"id":"manhattan","stage":"pre","question":"为什么 L1 又称 Manhattan distance？","options":["只适用于二维","取最大维度差","在 Manhattan 发明","在只能沿轴走的街区网格中度量距离"],"correct":3,"explanation":"L1 把各轴绝对差相加，如城市街道只能横纵移动。"},{"id":"lasso","stage":"post","question":"L1（Lasso）为何得到稀疏权重而 L2（Ridge）通常不会？","options":["L1 penalty 常数更大","L1 菱形约束在轴上有角，loss contour 易先触碰权重为零的角","L2 只作用 bias","L1 直接阈值剪零"],"correct":1,"explanation":"L2 圆形约束没有角，接触点通常所有权重非零；L1 的几何使零权重更常出现。"},{"id":"wasserstein","stage":"post","question":"比较分布时 Wasserstein 相比 KL 有何优势？","options":["总小于 KL","无重叠时仍给有意义梯度，而 KL 可为无穷","Wasserstein 对称但 KL 不对称","B 和 C 都对"],"correct":3,"explanation":"Wasserstein 是满足三角不等式的 metric，并在无重叠时仍有限；KL 非对称且可无穷。"},{"id":"mahalanobis","stage":"post","question":"何时用 Mahalanobis 而非 Euclidean？","options":["特征尺度不同且彼此相关","需比 L2 更快","全部 binary 特征","比较字符串"],"correct":0,"explanation":"它利用 covariance 去相关并归一化后再计算 L2。"}]}
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/01-math-foundations/14-norms-and-distances/quiz.json",
+    "revision": "d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051",
+    "sha256": "7f4fddc0c2191450c45ba645af33a8352999524a0b1c4648c0ca3a1224e68828"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "cosine",
+      "stage": "pre",
+      "question": "对两个非零向量，余弦相似度主要反映什么？",
+      "options": [
+        "忽略模长后的方向相似性",
+        "欧氏距离",
+        "单维最大差异",
+        "逐元素乘积和"
+      ],
+      "correct": 0,
+      "explanation": "cosine 为夹角余弦，范围 -1 到 1，按模长归一，故忽略长度。"
+    },
+    {
+      "id": "manhattan",
+      "stage": "pre",
+      "question": "为什么 L1 又称 Manhattan distance？",
+      "options": [
+        "只沿一个最大差异轴计算距离",
+        "用两点之间的直线长度作为距离",
+        "只比较两个点是否位于同一象限",
+        "把各坐标轴的绝对位移相加"
+      ],
+      "correct": 3,
+      "explanation": "L1 把各轴绝对差相加，如城市街道只能横纵移动。"
+    },
+    {
+      "id": "lasso",
+      "stage": "post",
+      "question": "L1（Lasso）为何得到稀疏权重而 L2（Ridge）通常不会？",
+      "options": [
+        "L1 只惩罚偏置，L2 只惩罚斜率",
+        "L1 约束在坐标轴有角，更易取得零权重",
+        "L1 对所有权重直接执行固定阈值截断",
+        "L1 的任何惩罚强度都大于 L2"
+      ],
+      "correct": 1,
+      "explanation": "L2 圆形约束没有角，接触点通常所有权重非零；L1 的几何使零权重更常出现。"
+    },
+    {
+      "id": "wasserstein",
+      "stage": "post",
+      "question": "对有限一阶矩的分布，Wasserstein-1（W₁）与 KL 的区别哪项正确？",
+      "options": [
+        "W₁ 和 KL 总都对称且有限",
+        "W₁ 和 KL 总都不对称但有限",
+        "W₁ 总无穷，KL 总对称且有限",
+        "W₁ 对称且有限，KL 可能不对称或无穷"
+      ],
+      "correct": 3,
+      "explanation": "W₁ 对称且有限；KL 不对称，支持集不相容时可为无穷。不能由距离有限推断任意参数化下都处处存在有用梯度。"
+    },
+    {
+      "id": "mahalanobis",
+      "stage": "post",
+      "question": "何时用 Mahalanobis 而非 Euclidean？",
+      "options": [
+        "需要考虑特征尺度与相关性",
+        "需要比较字符串的编辑次数",
+        "只需比较两个集合的交集比例",
+        "希望完全忽略数据的协方差信息"
+      ],
+      "correct": 0,
+      "explanation": "它利用 covariance 去相关并归一化后再计算 L2。"
+    }
+  ]
+}

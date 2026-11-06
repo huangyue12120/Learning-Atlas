@@ -1,1 +1,77 @@
-{"kind":"practice-assessment","source":{"repository":"ai-engineering-from-scratch","path":"phases/01-math-foundations/16-sampling-methods/quiz.json","revision":"d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051","sha256":"5a4bdb12fa860168b8e4e90fcdc3f6fbba67e0d02d839004368eb462b05d0dd7"},"status":"reviewed","questions":[{"id":"temperature","stage":"pre","question":"temperature 小于 1.0 对语言模型输出分布有什么作用？","options":["只保留 top 1","没有影响","使分布更均匀","锐化分布，使最高概率 token 更可能"],"correct":3,"explanation":"logits 除以小于 1 的数会放大差异，softmax 后最高概率项占比更高。"},{"id":"top-p","stage":"pre","question":"top-k 和 top-p 的关键区别是什么？","options":["top-k 总更快","top-k 保留固定 token 数，top-p 按累计概率保留可变数量","top-p 只适用于 T=1","top-k 用 logits 而 top-p 用概率"],"correct":1,"explanation":"top-p 自适应保留累计概率刚超过 p 的最小集合。"},{"id":"reparameterization","stage":"post","question":"为何不能直接穿过 z~N(mu,sigma²) 反向传播？","options":["随机抽样对 mu、sigma 没有定义良好的导数","PyTorch 不支持正态分布","正态分布没有梯度","梯度总为零"],"correct":0,"explanation":"写成 z=mu+sigma*epsilon 后，随机性移至 epsilon，z 才成为可微函数。"},{"id":"mh-scale","stage":"post","question":"Metropolis-Hastings 的 proposal 标准差过大时？","options":["更快收敛","大多提议落入低概率区域而被拒，链几乎不动","burn-in 为零","平稳分布变均匀"],"correct":1,"explanation":"过大的步长导致低接受率与停滞。"},{"id":"rejection-dimension","stage":"post","question":"rejection sampling 的维度升高时接受率如何变化？","options":["因大部分 proposal 体积被拒而指数下降","不变","升高","总趋于 50%"],"correct":0,"explanation":"高维中的覆盖比例下降，M 增大而接受率 1/M 指数降低。"}]}
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/01-math-foundations/16-sampling-methods/quiz.json",
+    "revision": "d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051",
+    "sha256": "5a4bdb12fa860168b8e4e90fcdc3f6fbba67e0d02d839004368eb462b05d0dd7"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "temperature",
+      "stage": "pre",
+      "question": "温度 0<T<1 如何改变有限 logits 的 softmax 分布？",
+      "options": [
+        "把分布完全截断为最高概率一个词元",
+        "保持每个词元的概率严格不变",
+        "使所有词元的概率更趋于均匀",
+        "放大 logit 差异，使分布更集中"
+      ],
+      "correct": 3,
+      "explanation": "logits 除以小于 1 的数会放大差异，softmax 后最高概率项占比更高。"
+    },
+    {
+      "id": "top-p",
+      "stage": "pre",
+      "question": "top-k 和 top-p 的关键区别是什么？",
+      "options": [
+        "top-k 固定概率阈值，top-p 固定候选数",
+        "top-k 固定候选数，top-p 固定累计概率阈值",
+        "top-k 必须先抽样，top-p 必须先重训练",
+        "top-k 适用于词元，top-p 只适用于句子"
+      ],
+      "correct": 1,
+      "explanation": "top-p 自适应保留累计概率刚超过 p 的最小集合。"
+    },
+    {
+      "id": "reparameterization",
+      "stage": "post",
+      "question": "正态抽样如何通过重参数化获得对 μ、σ 的路径梯度？",
+      "options": [
+        "将样本写为参数对固定噪声的可微变换",
+        "把编码器参数从优化器中全部删除",
+        "停止计算解码器输出对应的损失",
+        "把随机噪声设为模型可训练参数"
+      ],
+      "correct": 0,
+      "explanation": "设 ε~N(0,1)，z=μ+σε。固定与参数无关的 ε 后，z 对 μ、σ 可微，可沿该计算路径反传；并非正态分布本身没有导数。"
+    },
+    {
+      "id": "mh-scale",
+      "stage": "post",
+      "question": "Metropolis-Hastings 的 proposal 标准差过大时？",
+      "options": [
+        "所有提议都会接受，导致独立样本增多",
+        "提议可能多落在低概率区，导致低接受率",
+        "目标平稳分布会自动变为均匀分布",
+        "链从第一步起就不需要任何预热"
+      ],
+      "correct": 1,
+      "explanation": "过大的步长导致低接受率与停滞。"
+    },
+    {
+      "id": "rejection-dimension",
+      "stage": "post",
+      "question": "独立的 d 个维度各以固定概率 a（0<a<1）通过拒绝采样，联合接受率是多少？",
+      "options": [
+        "a^d，随维度指数下降",
+        "a，始终与维度无关",
+        "1−a^d，随维度趋近 1",
+        "d*a，随维度线性增长"
+      ],
+      "correct": 0,
+      "explanation": "独立接受事件的概率相乘，得到 a^d。一般拒绝采样的接受率为 1/M，是否随维度下降取决于目标和提议，不能脱离这些条件断言指数下降。"
+    }
+  ]
+}

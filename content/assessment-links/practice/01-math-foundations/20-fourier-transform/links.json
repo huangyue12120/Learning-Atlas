@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/20-fourier-transform",
+  "translationSha256": "4dcb9c6caf10325cbc014be68bef038904a5d942f362e305e566095f6e535ce5",
+  "assessmentSha256": "73d9f082b465b3fb8e29e3586269ed8033af5f53603129bf21b202de3b899c4f",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "transform",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "它接收一个信号，并将其分解成频率各不相同的正弦波。",
+      "reviewNote": "它将时域转为频域，每个 X[k] 表示一个频率分量的幅度与相位。"
+    },
+    {
+      "id": "fft",
+      "status": "reviewed",
+      "headingId": "fft-让变换更快",
+      "quote": "这种对称性意味着每一层递归只需完成 O(N) 的工作，而递归共有 log2(N) 层。因此总时间复杂度为 O(N log N)。",
+      "reviewNote": "FFT 每层 O(N)、共 log2 N 层；直接 DFT 为 N 个长度 N 的和。"
+    },
+    {
+      "id": "convolution",
+      "status": "reviewed",
+      "headingId": "与-cnn-的联系",
+      "quote": "DFT 的逐点乘积对应循环卷积；",
+      "reviewNote": "循环卷积的 DFT 等于各自 DFT 的逐点乘积。若求长度 N、M 的序列的线性卷积，需先补零至至少 N+M−1。"
+    },
+    {
+      "id": "padding",
+      "status": "reviewed",
+      "headingId": "与-cnn-的联系",
+      "quote": "补零只加密频率采样网格，不增加原观测时长的信息；",
+      "reviewNote": "真实 resolution 取决于观察时间 T=N/fs；padding 只给更密的频率网格。"
+    },
+    {
+      "id": "position",
+      "status": "reviewed",
+      "headingId": "与位置编码的联系",
+      "quote": "每一对维度（2i, 2i+1）都以不同频率振荡。这些频率按几何级数排列，",
+      "reviewNote": "高频提供细位置尺度，低频提供粗位置尺度，多频率共同帮助区分位置；不保证任意有限精度与任意长度下都绝无碰撞。"
+    }
+  ]
+}

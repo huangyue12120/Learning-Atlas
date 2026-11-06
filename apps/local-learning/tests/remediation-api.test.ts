@@ -105,6 +105,10 @@ test("streaming tutor emits deltas, bounds context, and never persists broken or
   const model = createServer(async (q, s) => {
     const chunks = []; for await (const chunk of q) chunks.push(chunk);
     payload = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+    if (mode === "html" || mode === "invalid-json" || mode === "invalid-shape") {
+      s.setHeader("content-type", mode === "html" ? "text/html" : "application/json");
+      s.end(mode === "html" ? "<html>provider error</html>" : mode === "invalid-json" ? "not JSON" : JSON.stringify({ choices: [{ message: { content: { invalid: true } } }] })); return;
+    }
     s.setHeader("content-type", "text/event-stream");
     s.write(`data: ${JSON.stringify({ choices: [{ delta: { content: "中文提示" } }] })}\r\n\r\n`);
     if (mode === "broken") { s.end(); return; }
@@ -119,6 +123,12 @@ test("streaming tutor emits deltas, bounds context, and never persists broken or
   assert.ok(events.some(event => event.event === "delta")); assert.equal(events.at(-1)?.event, "done");
   assert.equal(payload.stream, true); assert.ok(payload.messages[0].content.length < 11000);
   assert.equal((await api("/api/tutor/messages")).data.length, 2);
+  for (mode of ["html", "invalid-json", "invalid-shape"]) {
+    const errors = []; for await (const event of eventStream(await open())) errors.push(JSON.parse(event.data));
+    assert.match(errors.at(-1).error, /^[\u3400-\u9fff]/);
+    assert.doesNotMatch(errors.at(-1).error, /Unexpected|provider error|not JSON/);
+    assert.equal((await api("/api/tutor/messages")).data.length, 2);
+  }
   mode = "broken";
   const failures = []; for await (const event of eventStream(await open())) failures.push(event.event);
   assert.equal(failures.at(-1), "error"); assert.equal((await api("/api/tutor/messages")).data.length, 2);

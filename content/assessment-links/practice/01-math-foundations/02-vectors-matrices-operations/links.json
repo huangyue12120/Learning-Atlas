@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/01-math-foundations/02-vectors-matrices-operations",
+  "translationSha256": "b0076f34c29abf031484bf32e6b8c76192c2394149c0a2027c829a79229b95ff",
+  "assessmentSha256": "23700c6d0b705d5b5e6a53c88c6371c415372d6c83e85cdb35aff4f8a3ff3b52",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "matrix-multiplication-shape",
+      "status": "reviewed",
+      "headingId": "形状为何重要",
+      "quote": "矩阵乘法遵循严格规则：`(m × n) @ (n × p) = (m × p)`。内侧维度必须相同：",
+      "reviewNote": "第一个矩阵的列数必须等于第二个矩阵的行数；结果的形状是 `(m × p)`。"
+    },
+    {
+      "id": "identity-matrix",
+      "status": "reviewed",
+      "headingId": "形状为何重要",
+      "quote": "单位矩阵的主对角为 1、其余为 0，左右乘兼容矩阵都不改变它。",
+      "reviewNote": "单位矩阵 I 的主对角线为 1、其余位置为 0；与它相乘不会改变兼容形状的矩阵。"
+    },
+    {
+      "id": "element-wise-versus-matmul",
+      "status": "reviewed",
+      "headingId": "element-wise-vs-matrix-multiplication",
+      "quote": "矩阵乘法计算左侧每一行与右侧每一列的点积，内侧维度需要匹配：",
+      "reviewNote": "Hadamard 积匹配对应元素并要求形状相同；矩阵乘法计算行与列的点积，并遵循 `(m, n) @ (n, p) = (m, p)`。"
+    },
+    {
+      "id": "bias-broadcasting",
+      "status": "reviewed",
+      "headingId": "广播",
+      "quote": "把偏置向量加到一批输出时，两个形状并不完全相同。广播会把较小向量沿缺失维度重复：",
+      "reviewNote": "对于单个输入，`W @ x` 与 `b` 必须具有相同的输出形状。对于形状为 `(特征数, 批次大小)` 的按列批次，应使用 `b[:, None]`，使偏置形状为 `(输出数, 1)`，从而沿列广播。一维 `b` 遵循末尾维度对齐规则，不能可靠地沿批次轴广播。"
+    },
+    {
+      "id": "zero-determinant",
+      "status": "reviewed",
+      "headingId": "形状为何重要",
+      "quote": "方阵行列式为零时不可逆。",
+      "reviewNote": "零行列式表示变换至少压缩掉一个维度（例如将二维空间映射到一条直线），矩阵没有逆矩阵；相关线性方程组可能无解或有无穷多解。"
+    },
+    {
+      "id": "transpose-operation",
+      "status": "reviewed",
+      "headingId": "形状为何重要",
+      "quote": "转置交换行与列。方阵行列式为零时不可逆。",
+      "reviewNote": "转置会交换矩阵的行和列，因此位于第 i 行、第 j 列的元素会移动到第 j 行、第 i 列。"
+    }
+  ]
+}

@@ -1,11 +1,12 @@
+import { screenshotDirectory } from "./screenshot-directory.js";
 import { test, expect } from '@playwright/test';
 import { readFileSync, readdirSync, mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 const root = resolve('../..');
-const phase = '00-setup-and-tooling';
-const lessons = readdirSync(`${root}/content/assessment-links/practice/${phase}`);
+const phases = ['00-setup-and-tooling', '01-math-foundations'];
+const lessons = phases.flatMap(phase => readdirSync(`${root}/content/assessment-links/practice/${phase}`).map(slug => ({ phase, slug })));
 
-for (const slug of lessons) test(`reviewed Phase 0 evidence resolves in the rendered lesson: ${slug}`, async ({ page }) => {
+for (const { phase, slug } of lessons) test(`reviewed ${phase} evidence resolves in the rendered lesson: ${slug}`, async ({ page }) => {
   const lessonId = `practice/${phase}/${slug}`;
   const quiz = JSON.parse(readFileSync(`${root}/content/assessments/practice/${phase}/${slug}/zh.json`, 'utf8'));
   const mapping = JSON.parse(readFileSync(`${root}/content/assessment-links/practice/${phase}/${slug}/links.json`, 'utf8'));
@@ -39,7 +40,7 @@ for (const slug of lessons) test(`reviewed Phase 0 evidence resolves in the rend
       const top = element.getBoundingClientRect().top;
       return top >= 0 && top < innerHeight;
     })).toBe(true);
-    const directory = `${root}/review/assessment-review/screenshots`; mkdirSync(directory, { recursive: true });
+    const directory = screenshotDirectory; mkdirSync(directory, { recursive: true });
     await page.screenshot({ path: `${directory}/${slug}.png` });
   }
 });

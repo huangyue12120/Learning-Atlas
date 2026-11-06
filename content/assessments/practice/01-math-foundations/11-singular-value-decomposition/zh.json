@@ -1,1 +1,77 @@
-{"kind":"practice-assessment","source":{"repository":"ai-engineering-from-scratch","path":"phases/01-math-foundations/11-singular-value-decomposition/quiz.json","revision":"d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051","sha256":"2675cf72e3924412dc60301139940d0f63561db06b1104085df164b0a1d7312a"},"status":"reviewed","questions":[{"id":"svd-advantage","stage":"pre","question":"SVD 相比特征分解的优势是什么？","options":["SVD 总是更快","SVD 输出总更小","SVD 适用于任意形状矩阵；特征分解需要有完整特征向量集的方阵","SVD 不需数值计算"],"correct":2,"explanation":"SVD 将任意 m×n 矩阵分成 U*Sigma*V^T，不受形状或秩限制。"},{"id":"low-rank","stage":"pre","question":"什么是“低秩近似”？","options":["把矩阵转低精度类型","删除低值行","按大小排序行","只保留最重要的分量，以更少独立方向构造简化矩阵"],"correct":3,"explanation":"rank-k 近似保留前 k 个奇异值和向量；Eckart–Young 定理保证它是该秩的最佳近似。"},{"id":"geometry","stage":"post","question":"SVD A=U*Sigma*V^T 中各因子分别表示什么几何操作？","options":["三个全是旋转","U 压缩、Sigma 扩展、V^T 归一化","V^T 在输入空间旋转，Sigma 沿主轴缩放，U 旋转到输出空间","U 缩放、Sigma 旋转、V^T 平移"],"correct":2,"explanation":"矩阵作用可拆为旋转、缩放、旋转。"},{"id":"pca","stage":"post","question":"sklearn 为什么用 SVD 而非协方差矩阵特征分解实现 PCA？","options":["SVD 给不同且更准的 ML 结果","SVD 更易 GPU 并行","SVD 直接处理数据矩阵，避免平方条件数从而更稳定","SVD 不需中心化"],"correct":2,"explanation":"形成 A^T A 会平方奇异值和条件数，直接 SVD 避免精度损失。"},{"id":"recommendation","stage":"post","question":"截断 SVD 如何预测推荐系统的缺失评分？","options":["训练神经网络","把评分分成潜在用户和电影画像，二者加权点积预测缺失值","填均值","聚类用户复制评分"],"correct":1,"explanation":"低秩重建利用类型、年代、风格等潜因子填补未知评分。"}]}
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/01-math-foundations/11-singular-value-decomposition/quiz.json",
+    "revision": "d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051",
+    "sha256": "2675cf72e3924412dc60301139940d0f63561db06b1104085df164b0a1d7312a"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "svd-advantage",
+      "stage": "pre",
+      "question": "SVD 相比把矩阵对角化的特征分解，在适用范围上有什么优势？",
+      "options": [
+        "仅适用于对称正定实矩阵",
+        "仅适用于具有非零行列式的方阵",
+        "适用于任意形状的实矩阵",
+        "仅适用于行数大于列数的矩阵"
+      ],
+      "correct": 2,
+      "explanation": "任意形状实矩阵都存在 SVD；以完整特征向量基写成 PDP⁻¹ 的对角化则要求方阵且可对角化。"
+    },
+    {
+      "id": "low-rank",
+      "stage": "pre",
+      "question": "什么是“低秩近似”？",
+      "options": [
+        "把矩阵全部元素改为低精度浮点数",
+        "删除矩阵中取值最小的若干行",
+        "把矩阵各行按其模长重新排序",
+        "保留少数主要奇异分量近似矩阵"
+      ],
+      "correct": 3,
+      "explanation": "rank-k 近似保留前 k 个奇异值和向量；Eckart–Young 定理保证它是该秩的最佳近似。"
+    },
+    {
+      "id": "geometry",
+      "stage": "post",
+      "question": "SVD A=U*Sigma*V^T 中各因子分别表示什么几何操作？",
+      "options": [
+        "三部分均为平移",
+        "U 缩放、Σ 旋转、Vᵀ 平移",
+        "Vᵀ 正交变换、Σ 轴向缩放、U 正交变换",
+        "Vᵀ 平移、Σ 正交变换、U 轴向缩放"
+      ],
+      "correct": 2,
+      "explanation": "Vᵀ 和 U 是正交变换，可能包含反射；Σ 对坐标轴缩放并适配输入输出维数。称为两次旋转只是直观简称。"
+    },
+    {
+      "id": "pca",
+      "stage": "post",
+      "question": "直接对中心化数据做 SVD，相比先构造 AᵀA 再分解，有什么数值优势？",
+      "options": [
+        "不再需要对数据进行中心化",
+        "能够消除所有浮点舍入误差",
+        "避免显式 AᵀA 导致条件数平方",
+        "保证采用更少的主成分"
+      ],
+      "correct": 2,
+      "explanation": "AᵀA 的二范数条件数是 A 的条件数平方。直接 SVD 避免这一步的误差放大；实际 PCA 库可提供不同求解器，并非都固定走 SVD。"
+    },
+    {
+      "id": "recommendation",
+      "stage": "post",
+      "question": "截断 SVD 如何预测推荐系统的缺失评分？",
+      "options": [
+        "直接复制最相似用户的全部评分",
+        "以潜在用户与电影因子的加权点积估计",
+        "用每行相同的平均值代替全部缺失项",
+        "把评分矩阵每个元素都缩放到相同值"
+      ],
+      "correct": 1,
+      "explanation": "低秩重建利用类型、年代、风格等潜因子填补未知评分。"
+    }
+  ]
+}

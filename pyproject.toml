@@ -1,6 +1,6 @@
 [project]
 name = "learning-atlas"
-version = "0.30.0"
+version = "0.31.0"
 description = "Learning Atlas 的本地 Python 学习环境与按课可选依赖"
 readme = "README.md"
 requires-python = ">=3.14"

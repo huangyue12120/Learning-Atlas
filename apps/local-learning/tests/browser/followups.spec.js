@@ -1,8 +1,8 @@
+import { screenshotDirectory } from "./screenshot-directory.js";
 import { test, expect } from "@playwright/test";
 import { mkdirSync } from "node:fs";
-import { resolve } from "node:path";
 const lesson = "practice/00-setup-and-tooling/01-dev-environment";
-const directory = resolve("../../review/assessment-review/screenshots");
+const directory = screenshotDirectory;
 async function configure(request) {
   await request.put("/api/model-config", { data: { baseUrl: "http://127.0.0.1:4176/v1", model: "atlas-fixture" } });
 }
@@ -23,6 +23,14 @@ test("broken stream shows an error and keeps the learner draft", async ({ page, 
   await configure(request); await page.goto(`/learn?lessonId=${lesson}`); await page.locator(".tutor-toggle").click();
   await page.fill("#tutor-text", "断流验收"); await page.locator("#tutor-form button[type='submit']").first().click();
   await expect(page.locator("#tutor-status")).toContainText("中断"); await expect(page.locator("#tutor-text")).toHaveValue("断流验收");
+});
+
+test("HTML model errors are explained in Chinese and retain the learner draft", async ({ page, request }) => {
+  await configure(request); await page.goto(`/learn?lessonId=${lesson}`); await page.locator(".tutor-toggle").click();
+  await page.fill("#tutor-text", "HTML验收"); await page.locator("#tutor-form button[type='submit']").first().click();
+  await expect(page.locator("#tutor-status")).toContainText("模型接口没有返回有效的 JSON");
+  await expect(page.locator("#tutor-status")).not.toContainText("Unexpected");
+  await expect(page.locator("#tutor-text")).toHaveValue("HTML验收");
 });
 
 test("reviewed quiz evidence links to the exact paragraph without losing answers on hash history", async ({ page }) => {

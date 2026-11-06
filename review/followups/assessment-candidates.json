@@ -1874,8 +1874,8 @@
   },
   {
     "lessonId": "practice/01-math-foundations/02-vectors-matrices-operations",
-    "translationSha256": "eac55a0a429936886423257cc3e763a620ce3143a68a4762340dba99d16196ff",
-    "assessmentSha256": "7cc85e21ecf3f4c5e42b766ef5b98b0cef76fe7a3648fdd19f6b3fd514cbddaa",
+    "translationSha256": "b0076f34c29abf031484bf32e6b8c76192c2394149c0a2027c829a79229b95ff",
+    "assessmentSha256": "23700c6d0b705d5b5e6a53c88c6371c415372d6c83e85cdb35aff4f8a3ff3b52",
     "questions": [
       {
         "id": "matrix-multiplication-shape",
@@ -1886,19 +1886,19 @@
             "headingId": "形状为何重要",
             "heading": "形状为何重要",
             "quote": "矩阵乘法遵循严格规则：(m×n)@(n×p)=(m×p)。内侧维度必须相同：",
-            "score": 12.103
+            "score": 12.111
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习3.做乘法前先写出每个矩阵的形状：如demoneuralnetworklayer中，W1为4×3，W2为2×4。一个3×1的输入必然得到4×1的隐层向量和2×1的输出。",
-            "score": 10.539
+            "score": 10.264
           },
           {
             "headingId": "形状为何重要",
             "heading": "形状为何重要",
             "quote": "因此，PyTorch的形状不匹配错误说明这个数学条件没有满足。",
-            "score": 8.994
+            "score": 9.037
           }
         ]
       },
@@ -1908,22 +1908,22 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "形状为何重要",
+            "heading": "形状为何重要",
+            "quote": "编者注（题库核对）：单位矩阵的主对角为1、其余为0，左右乘兼容矩阵都不改变它。转置交换行与列。方阵行列式为零时不可逆。逐元素乘法的同形要求是在不使用广播时讨论的；NumPy等框架也允许兼容形状广播。",
+            "score": 24.734
+          },
+          {
             "headingId": "element-wise-vs-matrix-multiplication",
             "heading": "逐元素乘法与矩阵乘法",
             "quote": "这两个概念很容易混淆。逐元素乘法要求形状相同，只相乘对应位置：",
-            "score": 7.653
+            "score": 7.651
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习1.对三个矩阵分别计算A@A.inverse2x2()，并在1e-9的容差内逐元素与单位矩阵比较。对于行列式为0的矩阵（如[[1,2],[2,4]]），inverse2x2会抛出ValueError，这是预期结果。",
-            "score": 7.226
-          },
-          {
-            "headingId": "练习",
-            "heading": "练习",
-            "quote": "验证逆矩阵。计算A@A.inverse2x2()并确认得到单位矩阵。用三组不同的2×2矩阵重复；行列式为零时会怎样？实现3×3逆矩阵。用伴随矩阵法扩展Matrix，再与numpy.linalg.inv对照。搭建两层网络。只用Matrix类（不使用NumPy）构造两层神经网络：输入(3)→隐层(4)→输出(2)。随机初始化权重，运行一次前向传播，并验证所有形状",
-            "score": 6.405
+            "score": 6.931
           }
         ]
       },
@@ -1936,19 +1936,19 @@
             "headingId": "element-wise-vs-matrix-multiplication",
             "heading": "逐元素乘法与矩阵乘法",
             "quote": "矩阵乘法计算左侧每一行与右侧每一列的点积，内侧维度需要匹配：",
-            "score": 29.569
+            "score": 29.181
           },
           {
             "headingId": "element-wise-vs-matrix-multiplication",
             "heading": "逐元素乘法与矩阵乘法",
             "quote": "这两个概念很容易混淆。逐元素乘法要求形状相同，只相乘对应位置：",
-            "score": 26.259
+            "score": 25.742
           },
           {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "从零实现矩阵的逐元素运算、矩阵乘法、转置、行列式与逆。区分逐元素乘法与矩阵乘法，并说明各自适用的场景。只用自建的Matrix类实现一个稠密神经网络层：relu(W@x+b)。解释广播（broadcasting）以及偏置如何加到神经网络输出上。",
-            "score": 12.431
+            "headingId": "形状为何重要",
+            "heading": "形状为何重要",
+            "quote": "编者注（题库核对）：单位矩阵的主对角为1、其余为0，左右乘兼容矩阵都不改变它。转置交换行与列。方阵行列式为零时不可逆。逐元素乘法的同形要求是在不使用广播时讨论的；NumPy等框架也允许兼容形状广播。",
+            "score": 17.954
           }
         ]
       },
@@ -1961,19 +1961,19 @@
             "headingId": "形状为何重要",
             "heading": "形状为何重要",
             "quote": "矩阵乘法遵循严格规则：(m×n)@(n×p)=(m×p)。内侧维度必须相同：",
-            "score": 14.731
+            "score": 14.617
           },
           {
             "headingId": "广播",
             "heading": "广播",
             "quote": "把偏置向量加到一批输出时，两个形状并不完全相同。广播会把较小向量沿缺失维度重复：",
-            "score": 10.609
+            "score": 10.556
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "验证逆矩阵。计算A@A.inverse2x2()并确认得到单位矩阵。用三组不同的2×2矩阵重复；行列式为零时会怎样？实现3×3逆矩阵。用伴随矩阵法扩展Matrix，再与numpy.linalg.inv对照。搭建两层网络。只用Matrix类（不使用NumPy）构造两层神经网络：输入(3)→隐层(4)→输出(2)。随机初始化权重，运行一次前向传播，并验证所有形状",
-            "score": 9.599
+            "score": 9.518
           }
         ]
       },
@@ -1986,19 +1986,19 @@
             "headingId": "练习",
             "heading": "练习",
             "quote": "验证逆矩阵。计算A@A.inverse2x2()并确认得到单位矩阵。用三组不同的2×2矩阵重复；行列式为零时会怎样？实现3×3逆矩阵。用伴随矩阵法扩展Matrix，再与numpy.linalg.inv对照。搭建两层网络。只用Matrix类（不使用NumPy）构造两层神经网络：输入(3)→隐层(4)→输出(2)。随机初始化权重，运行一次前向传播，并验证所有形状",
-            "score": 12.505
+            "score": 11.653
+          },
+          {
+            "headingId": "形状为何重要",
+            "heading": "形状为何重要",
+            "quote": "编者注（题库核对）：单位矩阵的主对角为1、其余为0，左右乘兼容矩阵都不改变它。转置交换行与列。方阵行列式为零时不可逆。逐元素乘法的同形要求是在不使用广播时讨论的；NumPy等框架也允许兼容形状广播。",
+            "score": 8.979
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习1.对三个矩阵分别计算A@A.inverse2x2()，并在1e-9的容差内逐元素与单位矩阵比较。对于行列式为0的矩阵（如[[1,2],[2,4]]），inverse2x2会抛出ValueError，这是预期结果。",
-            "score": 7.226
-          },
-          {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "从零实现矩阵的逐元素运算、矩阵乘法、转置、行列式与逆。区分逐元素乘法与矩阵乘法，并说明各自适用的场景。只用自建的Matrix类实现一个稠密神经网络层：relu(W@x+b)。解释广播（broadcasting）以及偏置如何加到神经网络输出上。",
-            "score": 4.958
+            "score": 6.677
           }
         ]
       },
@@ -2008,22 +2008,22 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "形状为何重要",
+            "heading": "形状为何重要",
+            "quote": "编者注（题库核对）：单位矩阵的主对角为1、其余为0，左右乘兼容矩阵都不改变它。转置交换行与列。方阵行列式为零时不可逆。逐元素乘法的同形要求是在不使用广播时讨论的；NumPy等框架也允许兼容形状广播。",
+            "score": 11.836
+          },
+          {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从零实现矩阵的逐元素运算、矩阵乘法、转置、行列式与逆。区分逐元素乘法与矩阵乘法，并说明各自适用的场景。只用自建的Matrix类实现一个稠密神经网络层：relu(W@x+b)。解释广播（broadcasting）以及偏置如何加到神经网络输出上。",
-            "score": 7.016
+            "score": 6.488
           },
           {
             "headingId": "矩阵-数字构成的网格",
             "heading": "矩阵：数字构成的网格",
             "quote": "矩阵是二维数字网格，由行和列构成。一个m×n矩阵有m行、n列：",
-            "score": 6.206
-          },
-          {
-            "headingId": "element-wise-vs-matrix-multiplication",
-            "heading": "逐元素乘法与矩阵乘法",
-            "quote": "矩阵乘法计算左侧每一行与右侧每一列的点积，内侧维度需要匹配：",
-            "score": 5.118
+            "score": 6.265
           }
         ]
       }
@@ -2031,8 +2031,8 @@
   },
   {
     "lessonId": "practice/01-math-foundations/03-matrix-transformations",
-    "translationSha256": "d124b297184b0309ddfd12b87307a43c4c4efa43a4f50433e068382c948bdc54",
-    "assessmentSha256": "3dc515ee6af9c02a119944c9466c95159d26f02e2d0ca11df42b534e466da84b",
+    "translationSha256": "7880dd0cb6cfd585598fb7dc2f946029fdbf8b2e47ab19150e1467bcd2df9365",
+    "assessmentSha256": "3b1e23d6332c4affad5141e49c35b329e0ae25661e36858c20d8eddb3699cc87",
     "questions": [
       {
         "id": "eigenvector",
@@ -2040,122 +2040,122 @@
         "status": "draft",
         "candidates": [
           {
-            "headingId": "eigenvalues-and-eigenvectors",
-            "heading": "特征值与特征向量",
-            "quote": "大多数向量经过矩阵会改变方向；特征向量是例外，矩阵只缩放它，缩放因子就是特征值：",
-            "score": 15.512
+            "headingId": "特征值为何重要",
+            "heading": "特征值为何重要",
+            "quote": "编者注（题库核对）：特征向量必须非零，并满足Av=λv。负特征值会反向，零特征值会把该向量映到零。二维行列式是有向面积缩放因子，其绝对值才是面积倍数。线性递推在模大于1的特征方向上若有非零初始分量，该分量会指数增长；非线性RNN的梯度还取决于激活函数和各步Jacobian，不能仅由权重特征值保证爆炸。矩阵变换一般不交换，但均匀缩放等特殊情况可以交换。",
+            "score": 24.76
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "构造旋转、缩放、剪切和反射矩阵，并应用到二维、三维点用矩阵乘法复合多个变换，并验证顺序的重要性由特征方程计算2×2矩阵的特征值和特征向量说明特征值如何决定PCA方向、RNN稳定性和谱聚类行为",
-            "score": 10.209
+            "score": 9.564
           },
           {
-            "headingId": "行列式是体积缩放因子",
-            "heading": "行列式是体积缩放因子",
-            "quote": "对[[a,b],[c,d]]，特征值满足lambda^2-(a+d)lambda+(ad-bc)=0。实现eigenvalues2x2和eigenvector2x2后，以[[2,1],[1,2]]验证A@v与lambdav相同。最后实现det2x2，比较旋转、缩放、剪切、反射及奇异矩阵的行列式。",
-            "score": 9.148
+            "headingId": "eigenvalues-and-eigenvectors",
+            "heading": "特征值与特征向量",
+            "quote": "大多数向量经过矩阵会改变方向；特征向量是例外，矩阵只缩放它，缩放因子就是特征值：",
+            "score": 9.205
           }
         ]
       },
       {
         "id": "determinant",
-        "question": "二维变换矩阵的行列式在几何上表示什么？",
+        "question": "二维方阵的行列式在几何上表示什么？",
         "status": "draft",
         "candidates": [
+          {
+            "headingId": "特征值为何重要",
+            "heading": "特征值为何重要",
+            "quote": "编者注（题库核对）：特征向量必须非零，并满足Av=λv。负特征值会反向，零特征值会把该向量映到零。二维行列式是有向面积缩放因子，其绝对值才是面积倍数。线性递推在模大于1的特征方向上若有非零初始分量，该分量会指数增长；非线性RNN的梯度还取决于激活函数和各步Jacobian，不能仅由权重特征值保证爆炸。矩阵变换一般不交换，但均匀缩放等特殊情况可以交换。",
+            "score": 31.714
+          },
           {
             "headingId": "行列式是体积缩放因子",
             "heading": "行列式是体积缩放因子",
             "quote": "行列式说明变换把二维面积或三维体积缩放多少：det=1保持面积（旋转），det=2使面积加倍，det=0将空间压到低维，det=-1保持面积但翻转方向。旋转的行列式恒为1，缩放为sxsy，剪切为1，反射为-1。",
-            "score": 33.097
-          },
-          {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "阅读PCA时会遇到“求协方差矩阵的特征向量”；阅读模型稳定性时会遇到“检查所有特征值的模是否小于1”；数据增强会要求“应用随机旋转”。这些结论的共同基础是矩阵如何在几何上改变空间。",
-            "score": 10.733
+            "score": 19.513
           },
           {
             "headingId": "行列式是体积缩放因子",
             "heading": "行列式是体积缩放因子",
             "quote": "对[[a,b],[c,d]]，特征值满足lambda^2-(a+d)lambda+(ad-bc)=0。实现eigenvalues2x2和eigenvector2x2后，以[[2,1],[1,2]]验证A@v与lambdav相同。最后实现det2x2，比较旋转、缩放、剪切、反射及奇异矩阵的行列式。",
-            "score": 10.627
+            "score": 13.981
           }
         ]
       },
       {
         "id": "composition-order",
-        "question": "为何 `R @ S` 与 `S @ R` 不同？",
+        "question": "为什么一般情况下先旋转再非均匀缩放，与反过来应用的结果不同？",
         "status": "draft",
         "candidates": [
+          {
+            "headingId": "特征值为何重要",
+            "heading": "特征值为何重要",
+            "quote": "编者注（题库核对）：特征向量必须非零，并满足Av=λv。负特征值会反向，零特征值会把该向量映到零。二维行列式是有向面积缩放因子，其绝对值才是面积倍数。线性递推在模大于1的特征方向上若有非零初始分量，该分量会指数增长；非线性RNN的梯度还取决于激活函数和各步Jacobian，不能仅由权重特征值保证爆炸。矩阵变换一般不交换，但均匀缩放等特殊情况可以交换。",
+            "score": 34.765
+          },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "构造旋转、缩放、剪切和反射矩阵，并应用到二维、三维点用矩阵乘法复合多个变换，并验证顺序的重要性由特征方程计算2×2矩阵的特征值和特征向量说明特征值如何决定PCA方向、RNN稳定性和谱聚类行为",
-            "score": 7.779
+            "score": 14.731
           },
           {
             "headingId": "composition-chaining-transformations",
             "heading": "复合：串联变换",
             "quote": "先应用A、再应用B，等价于result=B@A@point。顺序不可交换：先将(1,0)旋转90°再按(2,0.5)缩放，得到(0,0.5)；先缩放再旋转，得到(0,2)。",
-            "score": 7.753
-          },
-          {
-            "headingId": "行列式是体积缩放因子",
-            "heading": "行列式是体积缩放因子",
-            "quote": "在Python工作区运行transformations.py，再从零实现rotation2d、scaling2d、shearing2d、reflectionx、reflectiony、矩阵乘向量与矩阵乘法。用R=rotation2d(math.pi/2)和S=scaling2d(2,0.5)比较matmul(S,R)与matmul(R,S)。",
-            "score": 5.751
+            "score": 11.453
           }
         ]
       },
       {
         "id": "rnn-stability",
-        "question": "RNN 权重矩阵存在模大于 1 的特征值时，会发生什么？",
+        "question": "线性递推 hₜ=W hₜ₋₁ 在模大于 1 的特征方向上有非零初始分量，该分量如何变化？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "特征值为何重要",
             "heading": "特征值为何重要",
+            "quote": "编者注（题库核对）：特征向量必须非零，并满足Av=λv。负特征值会反向，零特征值会把该向量映到零。二维行列式是有向面积缩放因子，其绝对值才是面积倍数。线性递推在模大于1的特征方向上若有非零初始分量，该分量会指数增长；非线性RNN的梯度还取决于激活函数和各步Jacobian，不能仅由权重特征值保证爆炸。矩阵变换一般不交换，但均匀缩放等特殊情况可以交换。",
+            "score": 105.148
+          },
+          {
+            "headingId": "特征值为何重要",
+            "heading": "特征值为何重要",
             "quote": "PCA取协方差矩阵的特征向量为主成分，特征值表示各主成分捕获的方差；RNN和动力系统中，模大于1的特征值导致爆炸、模小于1的导致消失；图神经网络和谱聚类从图矩阵或Laplacian的特征向量读取结构。",
-            "score": 15.943
+            "score": 13.514
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "构造旋转、缩放、剪切和反射矩阵，并应用到二维、三维点用矩阵乘法复合多个变换，并验证顺序的重要性由特征方程计算2×2矩阵的特征值和特征向量说明特征值如何决定PCA方向、RNN稳定性和谱聚类行为",
-            "score": 13.898
-          },
-          {
-            "headingId": "行列式是体积缩放因子",
-            "heading": "行列式是体积缩放因子",
-            "quote": "将旋转、缩放和剪切应用到单位正方形（角点[0,0]、[1,0]、[1,1]、[0,1]），打印变换后的角点，并验证旋转保留角点间距离。用特征方程手算[[4,2],[1,3]]的特征值，再用从零函数和NumPy验证。复合旋转30°、缩放[1.5,0.8]、剪切kx=0.3，应用到圆周上的8个点；验证复合矩阵行列式等于各行列式乘积。",
-            "score": 6.9
+            "score": 9.772
           }
         ]
       },
       {
         "id": "eigendecomposition",
-        "question": "A = [[2,1],[1,2]] 的特征值为 3 和 1。`A = V @ D @ V^(-1)` 说明什么？",
+        "question": "对 A=[[2,1],[1,2]]，沿 [1,1] 和 [1,-1] 这两个方向分别如何缩放？",
         "status": "draft",
         "candidates": [
+          {
+            "headingId": "eigenvalues-and-eigenvectors",
+            "heading": "特征值与特征向量",
+            "quote": "矩阵会在[1,1]方向拉伸3倍、在[1,-1]方向保持不变；其他方向都是这两个方向的混合。",
+            "score": 11.796
+          },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "构造旋转、缩放、剪切和反射矩阵，并应用到二维、三维点用矩阵乘法复合多个变换，并验证顺序的重要性由特征方程计算2×2矩阵的特征值和特征向量说明特征值如何决定PCA方向、RNN稳定性和谱聚类行为",
-            "score": 7.526
+            "score": 5.326
           },
           {
-            "headingId": "特征值为何重要",
-            "heading": "特征值为何重要",
-            "quote": "PCA取协方差矩阵的特征向量为主成分，特征值表示各主成分捕获的方差；RNN和动力系统中，模大于1的特征值导致爆炸、模小于1的导致消失；图神经网络和谱聚类从图矩阵或Laplacian的特征向量读取结构。",
-            "score": 6.693
-          },
-          {
-            "headingId": "行列式是体积缩放因子",
-            "heading": "行列式是体积缩放因子",
-            "quote": "NumPy的R@point执行矩阵乘向量，np.linalg.eig(A)返回特征值和按列存储的特征向量，np.linalg.det计算行列式。用V@D@np.linalg.inv(V)重构B=[[3,1],[0,2]]，并以rotation3dz(np.pi/2)、rotation3dx(np.pi/2)旋转三维点[1,0,0]。",
-            "score": 5.041
+            "headingId": "eigenvalues-and-eigenvectors",
+            "heading": "特征值与特征向量",
+            "quote": "大多数向量经过矩阵会改变方向；特征向量是例外，矩阵只缩放它，缩放因子就是特征值：",
+            "score": 5.326
           }
         ]
       }
@@ -2163,8 +2163,8 @@
   },
   {
     "lessonId": "practice/01-math-foundations/04-calculus-for-ml",
-    "translationSha256": "a8add7bc4cbf53337a1effee00f875bb2e8db426f2f98161caaa310a95f87a44",
-    "assessmentSha256": "5efeeaab270fea7fa310de9502cc63d1d0e4c93fb3b436026916f2c5f3502e46",
+    "translationSha256": "ee180c3bd40ce7ae2a1a634a823ea52f2c6f6058f3ba77b1a70b9081a2488d20",
+    "assessmentSha256": "d34d1c7bc9888dbb37c6a903b74a98db594919a91eb323e8442d655198a22e08",
     "questions": [
       {
         "id": "derivative",
@@ -2175,19 +2175,19 @@
             "headingId": "what-is-a-derivative",
             "heading": "什么是导数？",
             "quote": "从几何上看，导数就是某一点处切线的斜率。",
-            "score": 17.766
+            "score": 17.84
           },
           {
             "headingId": "jacobian-矩阵",
             "heading": "Jacobian 矩阵",
             "quote": "当函数把一个向量映射为另一个向量时（例如神经网络层），它的导数是矩阵。Jacobian包含每个输出相对于每个输入的所有偏导数。",
-            "score": 12.068
+            "score": 12.126
           },
           {
             "headingId": "what-is-a-derivative",
             "heading": "什么是导数？",
             "quote": "导数衡量变化率。对于函数y=f(x)，导数f'(x)会告诉你：如果将x略微改变一点，y会变化多少？",
-            "score": 8.43
+            "score": 8.475
           }
         ]
       },
@@ -2200,19 +2200,19 @@
             "headingId": "gradient-vector-of-all-partial-derivatives",
             "heading": "梯度：所有偏导数组成的向量",
             "quote": "梯度指向最陡上升方向。要最小化一个函数，就向相反方向移动。",
-            "score": 25.897
+            "score": 26.0
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "计算常见机器学习函数（x^2、sigmoid、交叉熵）的数值导数和解析导数从零实现梯度下降，最小化一维和二维损失函数推导线性回归模型的梯度，并通过手动更新权重来训练模型解释Hessian矩阵、Taylor级数近似及其与优化方法的联系",
-            "score": 16.281
+            "score": 16.304
           },
           {
             "headingId": "机器学习中的积分",
             "heading": "机器学习中的积分",
             "quote": "数据分布上的期望损失是一个积分。训练过程最小化的是它的经验近似。",
-            "score": 14.775
+            "score": 14.816
           }
         ]
       },
@@ -2222,47 +2222,47 @@
         "status": "draft",
         "candidates": [
           {
-            "headingId": "机器学习微积分",
-            "heading": "机器学习微积分",
-            "quote": "导数给出损失下降的方向，神经网络据此更新参数。",
-            "score": 9.783
+            "headingId": "hessian-矩阵",
+            "heading": "Hessian 矩阵",
+            "quote": "编者注（题库核对）：沿负梯度更新只在步长适当等条件下保证局部下降；步长过大可能增大损失。这里Hessian的存储与求解成本指显式稠密矩阵，不能概括使用Hessian向量积的迭代方法。Adam跟踪梯度的一、二阶矩，并非直接计算Hessian；Newton法的二次收敛也需要局部正则条件。",
+            "score": 20.514
           },
           {
-            "headingId": "gradient-vector-of-all-partial-derivatives",
-            "heading": "梯度：所有偏导数组成的向量",
-            "quote": "梯度指向最陡上升方向。要最小化一个函数，就向相反方向移动。",
-            "score": 6.086
+            "headingId": "the-connection-to-optimization",
+            "heading": "与优化的联系",
+            "quote": "梯度下降沿斜率向下移动。它可能陷入局部最小值，但在拥有数百万个权重的高维空间中，这在实践中很少成为问题。",
+            "score": 13.499
           },
           {
-            "headingId": "使用",
-            "heading": "使用",
-            "quote": "你刚刚从零实现了梯度下降。PyTorch会自动完成梯度计算，但更新循环完全相同。",
-            "score": 5.607
+            "headingId": "the-connection-to-optimization",
+            "heading": "与优化的联系",
+            "quote": "学习率控制步长。学习率过大就会越过目标，过小则会缓慢爬行。",
+            "score": 11.725
           }
         ]
       },
       {
         "id": "newton-cost",
-        "question": "为何不能直接对数百万参数的网络使用完整 Newton 法？",
+        "question": "为什么显式使用稠密 Hessian 的 Newton 法通常不适合百万参数的神经网络？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "hessian-矩阵",
             "heading": "Hessian 矩阵",
+            "quote": "编者注（题库核对）：沿负梯度更新只在步长适当等条件下保证局部下降；步长过大可能增大损失。这里Hessian的存储与求解成本指显式稠密矩阵，不能概括使用Hessian向量积的迭代方法。Adam跟踪梯度的一、二阶矩，并非直接计算Hessian；Newton法的二次收敛也需要局部正则条件。",
+            "score": 45.4
+          },
+          {
+            "headingId": "hessian-矩阵",
+            "heading": "Hessian 矩阵",
             "quote": "问题在于：对于一个有N个参数的神经网络，Hessian是NxN矩阵。包含100万个参数的模型需要一个拥有1万亿个元素的矩阵。因此，我们会使用近似方法。",
-            "score": 17.862
+            "score": 25.244
           },
           {
-            "headingId": "这为何对神经网络很重要",
-            "heading": "这为何对神经网络很重要",
-            "quote": "前向传播计算预测和损失。反向传播计算损失相对于每个权重的梯度。然后，每个权重向下坡方向迈出一小步。重复数百万步，这套过程构成深度学习。",
-            "score": 12.217
-          },
-          {
-            "headingId": "机器学习中的积分",
-            "heading": "机器学习中的积分",
-            "quote": "分母是对所有可能参数值的积分。它往往难以直接计算，因此我们会采用MCMC和变分推断等近似方法。",
-            "score": 7.674
+            "headingId": "问题",
+            "heading": "问题",
+            "quote": "你有一个包含数百万个权重的神经网络。每个权重都是一个旋钮。你需要弄清楚每个旋钮该往哪个方向转，才能让模型的错误稍微减少一点。微积分会告诉你这个方向。",
+            "score": 13.91
           }
         ]
       },
@@ -2275,19 +2275,19 @@
             "headingId": "what-is-a-derivative",
             "heading": "什么是导数？",
             "quote": "从几何上看，导数就是某一点处切线的斜率。",
-            "score": 6.228
+            "score": 6.253
           },
           {
             "headingId": "数值导数与解析导数",
             "heading": "数值导数与解析导数",
             "quote": "数值方法：利用定义进行近似。取一个很小的h，计算f(x+h)和f(x-h)，再求它们的差。",
-            "score": 5.418
+            "score": 5.442
           },
           {
             "headingId": "步骤-7-实际使用-taylor-近似",
             "heading": "步骤 7：实际使用 Taylor 近似",
             "quote": "在x0=0附近，sin(x)~x（一阶Taylor近似）。当h很小时，近似非常准确；但h较大时，近似就会失效。这正是梯度下降在学习率较小时效果最好的原因——每一步都假定线性近似是准确的。",
-            "score": 5.418
+            "score": 5.442
           }
         ]
       }
@@ -2296,7 +2296,7 @@
   {
     "lessonId": "practice/01-math-foundations/05-chain-rule-and-autodiff",
     "translationSha256": "bf49bbf80f913ca7ade48bff330c8a725832eff06b1af7dd5677d62d039ce469",
-    "assessmentSha256": "eaed8c96eed5c58637126fc6483b720bf6c03dd06de9c8dc650d582c9cb4159f",
+    "assessmentSha256": "7baa3b1aee1a874de3009c3f9fb65fc06bad5f3a17e9033c719d77f7804a1316",
     "questions": [
       {
         "id": "chain-rule",
@@ -2307,19 +2307,19 @@
             "headingId": "pytorch-自动微分的底层机制",
             "heading": "PyTorch 自动微分的底层机制",
             "quote": "本课产出一个可验证的微型自动微分引擎：可继续扩展为神经网络、优化器与损失函数实验的基础。它把第04课的链式法则变成可运行的反向传播程序。",
-            "score": 11.978
+            "score": 11.828
           },
           {
             "headingId": "交付物",
             "heading": "交付物",
             "quote": "本课产出一个可验证的微型自动微分引擎：可继续扩展为神经网络、优化器与损失函数实验的基础。它把第04课的链式法则变成可运行的反向传播程序。",
-            "score": 11.978
+            "score": 11.828
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "网络是矩阵乘法、偏置、激活、softmax和交叉熵等数百个函数的复合。手工求数百万个权重的导数不可能，有限差分又太慢。链式法则给出数学，自动微分给出算法：它在与一次前向传播同阶的时间内，精确计算任意复合函数的梯度。这正是PyTorch、TensorFlow与JAX的工作方式。",
-            "score": 11.047
+            "score": 10.915
           }
         ]
       },
@@ -2332,19 +2332,19 @@
             "headingId": "computational-graphs",
             "heading": "计算图与反向模式",
             "quote": "计算图将操作画成节点：值前向流动，梯度反向流动。例如y=relu(x1x2+b)，从dy/dy=1开始，ReLU、加法和乘法依次将局部导数传播给x1、x2与b。一个值可被多次使用，因此所有入射梯度必须用+=累加。",
-            "score": 13.189
+            "score": 13.082
           },
           {
             "headingId": "pytorch-自动微分的底层机制",
             "heading": "PyTorch 自动微分的底层机制",
             "quote": "Neuron计算tanh(w1x1+...+b)；Layer是神经元列表，MLP堆叠层。每个参数都是Value，故loss.backward()自动把梯度传播至所有权重。XOR训练每步先清零梯度，再反传，最后执行p.data-=lrp.grad。梯度检查以(f(x+h)-f(x-h))/(2h)对比autodiff梯度，适用于新增操作或排查训练错误。",
-            "score": 7.397
+            "score": 7.34
           },
           {
-            "headingId": "更复杂的表达式",
-            "heading": "更复杂的表达式",
+            "headingId": "步骤-7-与手算结果核对",
+            "heading": "步骤 7：与手算结果核对",
             "quote": "构建引擎的三个不可缺步骤是：(1)用对象包装数值与梯度；(2)每次运算记录输入和局部反传函数；(3)拓扑排序后反序执行，保证子节点接到的全部贡献先累加完成。PyTorch中requiresgrad=True会记录对应运算，gradfn计算局部梯度，并以加法而不是替换方式存入.grad；它是define-by-run的动态图，因而允许前向内包含if/else与",
-            "score": 6.643
+            "score": 6.588
           }
         ]
       },
@@ -2357,19 +2357,19 @@
             "headingId": "前向模式与反向模式",
             "heading": "前向模式与反向模式",
             "quote": "对y=sin(x^2)、x=2，前向模式从dx/dx=1出发，先得d(x^2)/dx=4，再得dy/dx=cos(4)4≈-2.615；反向模式从dy/dy=1出发，先得dy/d(x^2)=cos(4)≈-0.654，再乘局部导数4，结果相同。前者对每个输入变量需一次传播，后者对每个输出需一次传播；故标量损失网络选择反向模式。",
-            "score": 31.341
+            "score": 31.262
           },
           {
             "headingId": "computational-graphs",
             "heading": "计算图与反向模式",
             "quote": "前向模式从输入传播导数，适合少输入、多输出；反向模式从输出回传，适合多输入、少输出。网络有数百万权重却通常只有一个标量损失，因此一次反向传播能得到所有梯度，反向模式正是反向传播。对偶数(value,derivative)可优雅实现前向模式，乘法规则为(a,a')(b,b')=(ab,a'b+ab')。",
-            "score": 21.63
+            "score": 21.384
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "构建记录运算并用反向模式自动微分计算梯度的最小autograd引擎（Value类）通过拓扑排序实现计算图前向与反向传播仅用自建autograd引擎构造并训练XOR多层感知机用有限差分梯度检查验证自动微分正确性",
-            "score": 16.369
+            "score": 16.162
           }
         ]
       },
@@ -2382,19 +2382,19 @@
             "headingId": "pytorch-自动微分的底层机制",
             "heading": "PyTorch 自动微分的底层机制",
             "quote": "为x创建一个requiresgrad=True的Tensor节点每次运算（、、+）都新建一个节点并记录反向函数y.backward()触发对已记录图的反向模式自动微分每个节点的gradfn计算局部梯度并传给父节点梯度以加法（而非替换）累加进.grad属性",
-            "score": 13.3
+            "score": 13.177
           },
           {
-            "headingId": "更复杂的表达式",
-            "heading": "更复杂的表达式",
+            "headingId": "步骤-7-与手算结果核对",
+            "heading": "步骤 7：与手算结果核对",
             "quote": "构建引擎的三个不可缺步骤是：(1)用对象包装数值与梯度；(2)每次运算记录输入和局部反传函数；(3)拓扑排序后反序执行，保证子节点接到的全部贡献先累加完成。PyTorch中requiresgrad=True会记录对应运算，gradfn计算局部梯度，并以加法而不是替换方式存入.grad；它是define-by-run的动态图，因而允许前向内包含if/else与",
-            "score": 9.615
+            "score": 9.534
           },
           {
             "headingId": "pytorch-自动微分的底层机制",
             "heading": "PyTorch 自动微分的底层机制",
             "quote": "增加sigmoid：实现sigmoid()与sigmoid'(x)=sigmoid(x)(1-sigmoid(x))的反向规则，并做梯度检查。实现交叉熵损失-sum(ylog(p))，用它替换XOR的平方误差，并检查概率必须为正。实现一个在2D点上训练的两层MLP，记录训练前后损失并检查所有参数收到梯度。",
-            "score": 7.304
+            "score": 7.249
           }
         ]
       },
@@ -2407,19 +2407,19 @@
             "headingId": "pytorch-自动微分的底层机制",
             "heading": "PyTorch 自动微分的底层机制",
             "quote": "Neuron计算tanh(w1x1+...+b)；Layer是神经元列表，MLP堆叠层。每个参数都是Value，故loss.backward()自动把梯度传播至所有权重。XOR训练每步先清零梯度，再反传，最后执行p.data-=lrp.grad。梯度检查以(f(x+h)-f(x-h))/(2h)对比autodiff梯度，适用于新增操作或排查训练错误。",
-            "score": 42.565
+            "score": 42.405
           },
           {
-            "headingId": "更复杂的表达式",
-            "heading": "更复杂的表达式",
+            "headingId": "步骤-7-与手算结果核对",
+            "heading": "步骤 7：与手算结果核对",
             "quote": "梯度检查应比较自动微分的梯度和中心差分(f(x+h)-f(x-h))/(2h)，误差应小于1e-5。手算验证、XOR训练和PyTorch对照都应检查损失下降、梯度近似一致，而不是假定固定步数后的输出必然满足某个符号结果。对复杂表达式和torch对照的完整可运行代码已保留在下方Build/Use对照中。",
-            "score": 19.997
+            "score": 20.018
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "构建记录运算并用反向模式自动微分计算梯度的最小autograd引擎（Value类）通过拓扑排序实现计算图前向与反向传播仅用自建autograd引擎构造并训练XOR多层感知机用有限差分梯度检查验证自动微分正确性",
-            "score": 12.144
+            "score": 12.239
           }
         ]
       }
@@ -2427,8 +2427,8 @@
   },
   {
     "lessonId": "practice/01-math-foundations/06-probability-and-distributions",
-    "translationSha256": "10e2091ea4c95ccdf1b4bdb83ebc7c23d805e1faad930d5c02ef8405e62849a2",
-    "assessmentSha256": "8bc682ae1a578611b46c260ea4ac6e17300fe3e569f2eebf93a4dcf4d58f6ccb",
+    "translationSha256": "631c5eca4446c4799f9ca6a21ae2176a6f7069e685360784f88b5cdb3be65f4a",
+    "assessmentSha256": "6abc47def87cf5061cc3f5446efd88008134044879b5b25b68277963b85e97c9",
     "questions": [
       {
         "id": "pmf-pdf",
@@ -2439,44 +2439,44 @@
             "headingId": "pmf-vs-pdf",
             "heading": "概率质量函数与概率密度函数",
             "quote": "连续随机变量具有概率密度函数（PDF）。单个点上的密度不是概率。概率来自对某一区间内的密度进行积分。",
-            "score": 26.024
+            "score": 26.215
           },
           {
             "headingId": "pmf-vs-pdf",
             "heading": "概率质量函数与概率密度函数",
             "quote": "这一区别在机器学习中很重要。分类输出是PMF（离散选择）。VAE的潜在空间使用PDF（连续变量）。",
-            "score": 19.541
+            "score": 19.691
           },
           {
             "headingId": "pmf-vs-pdf",
             "heading": "概率质量函数与概率密度函数",
             "quote": "离散随机变量具有概率质量函数（PMF）。每个结果都有一个可以直接读出的具体概率。",
-            "score": 7.988
+            "score": 8.059
           }
         ]
       },
       {
         "id": "clt",
-        "question": "中心极限定理说明什么？",
+        "question": "本课常用的中心极限定理，采用哪组条件与考察对象？",
         "status": "draft",
         "candidates": [
           {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "从零实现Bernoulli、categorical、Poisson、均匀分布和正态分布的PMF与PDF计算期望和方差，并用中心极限定理解释高斯分布为何占据主导地位使用数值稳定技巧（减去最大logit）构建softmax和log-softmax函数从logits计算交叉熵损失，并将其与负对数似然联系起来",
-            "score": 26.833
+            "headingId": "正态分布为何无处不在",
+            "heading": "正态分布为何无处不在",
+            "quote": "编者注（题库核对）：本课采用独立同分布、有限正方差的中心极限定理：标准化均值sqrt(n)(mean−μ)/σ趋于标准正态。未缩放的均值本身趋于μ，重尾且方差无穷的分布不满足这一版本的条件。",
+            "score": 79.925
           },
           {
             "headingId": "正态分布为何无处不在",
             "heading": "正态分布为何无处不在",
             "quote": "中心极限定理：来自同一分布的许多独立随机变量，其平均值在经过中心化并以$\\sqrt{n}$缩放后，会趋近于正态分布，无论原始分布的形状如何，只要其方差有限。经过中心化并缩放的和也是如此。",
-            "score": 25.295
+            "score": 29.281
           },
           {
-            "headingId": "延伸阅读",
-            "heading": "延伸阅读",
-            "quote": "3Blue1Brown：中心极限定理究竟是什么？——直观证明平均值为何会变成正态分布StanfordCS229概率复习——涵盖本文全部内容及更多知识的简明参考资料Log-Sum-Exp技巧——数值稳定性为何重要，以及如何实现它",
-            "score": 20.553
+            "headingId": "学习目标",
+            "heading": "学习目标",
+            "quote": "从零实现Bernoulli、categorical、Poisson、均匀分布和正态分布的PMF与PDF计算期望和方差，并用中心极限定理解释高斯分布为何占据主导地位使用数值稳定技巧（减去最大logit）构建softmax和log-softmax函数从logits计算交叉熵损失，并将其与负对数似然联系起来",
+            "score": 16.603
           }
         ]
       },
@@ -2489,19 +2489,19 @@
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从零实现Bernoulli、categorical、Poisson、均匀分布和正态分布的PMF与PDF计算期望和方差，并用中心极限定理解释高斯分布为何占据主导地位使用数值稳定技巧（减去最大logit）构建softmax和log-softmax函数从logits计算交叉熵损失，并将其与负对数似然联系起来",
-            "score": 9.744
+            "score": 9.657
           },
           {
             "headingId": "softmax-作为概率分布",
             "heading": "softmax 作为概率分布",
             "quote": "softmax技巧：在取指数之前减去最大logit，以防止溢出。",
-            "score": 7.402
+            "score": 7.46
           },
           {
             "headingId": "正态分布为何无处不在",
             "heading": "正态分布为何无处不在",
             "quote": "以下现象的原因是：测量误差近似服从正态分布（由许多微小的独立来源组成）神经网络的权重初始化使用正态分布SGD中的梯度噪声近似服从正态分布（许多样本梯度之和）对于给定的均值和方差，正态分布是最大熵分布",
-            "score": 4.887
+            "score": 4.762
           }
         ]
       },
@@ -2514,19 +2514,19 @@
             "headingId": "对数概率",
             "heading": "对数概率",
             "quote": "规则：log(ab)=log(a)+log(b)对数概率始终<=0（因为0<P<=1）越负表示可能性越低交叉熵损失是正确类别概率的负对数",
-            "score": 8.055
+            "score": 8.114
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "一个五分类分类器输出logits[2.0,0.5,-1.0,3.0,0.1]，正确类别的索引为3。计算其交叉熵损失，然后使用PyTorch的nn.CrossEntropyLoss验证答案。",
-            "score": 4.856
+            "score": 4.895
           },
           {
             "headingId": "延伸阅读",
             "heading": "延伸阅读",
             "quote": "3Blue1Brown：中心极限定理究竟是什么？——直观证明平均值为何会变成正态分布StanfordCS229概率复习——涵盖本文全部内容及更多知识的简明参考资料Log-Sum-Exp技巧——数值稳定性为何重要，以及如何实现它",
-            "score": 3.199
+            "score": 3.219
           }
         ]
       },
@@ -2539,19 +2539,19 @@
             "headingId": "问题",
             "heading": "问题",
             "quote": "一个分类器输出[0.03,0.91,0.06]。一个语言模型从50,000个候选词中选择下一个词。一个扩散模型通过从学到的分布中采样来生成图像。这些都是概率在实际发挥作用。",
-            "score": 8.555
+            "score": 8.627
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从零实现Bernoulli、categorical、Poisson、均匀分布和正态分布的PMF与PDF计算期望和方差，并用中心极限定理解释高斯分布为何占据主导地位使用数值稳定技巧（减去最大logit）构建softmax和log-softmax函数从logits计算交叉熵损失，并将其与负对数似然联系起来",
-            "score": 8.539
+            "score": 8.45
           },
           {
             "headingId": "采样",
             "heading": "采样",
             "quote": "采样意味着从一个分布中抽取随机值。在机器学习中：Dropout随机采样要置零的神经元数据增强采样随机变换语言模型从预测分布中采样下一个词元扩散模型采样噪声并逐步去噪",
-            "score": 7.497
+            "score": 7.555
           }
         ]
       }
@@ -2559,56 +2559,56 @@
   },
   {
     "lessonId": "practice/01-math-foundations/07-bayes-theorem",
-    "translationSha256": "a48e9a36bdb7be535c1e2374092ce9e17caa5d67e3cb3c9011ea169f769fb9f9",
-    "assessmentSha256": "d536b931184a1b0d1ba290ee525fbef63aa5ff8f95669aef29adb06610482968",
+    "translationSha256": "f3689695a16ec4decdb2029e2aba2b4f86f54e38615742431e532d8c74577a7a",
+    "assessmentSha256": "8d65f1cdd8ad0132268d4fa41e0edd793960e0f00968754710661017ab15a608",
     "questions": [
       {
         "id": "prior",
-        "question": "在贝叶斯定理中，什么是“先验”？",
+        "question": "贝叶斯更新中的先验表示什么？",
         "status": "draft",
         "candidates": [
+          {
+            "headingId": "医疗检测示例",
+            "heading": "医疗检测示例",
+            "quote": "编者注（题库核对）：这里的99%指灵敏度和特异度都为99%，并采用万分之一的患病先验；它不是单个笼统的“准确率”指标。阳性后的患病概率为0.990.0001/(0.990.0001+0.010.9999)，约0.98%。这是教学设定，不用于个体诊断。先验表示观察本轮证据之前对假设的信念。",
+            "score": 24.501
+          },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "贝叶斯定理解释了这个结果。垃圾邮件过滤、医疗诊断和量化不确定性的机器学习模型都采用同一种推理方式：从先验信念出发，观察证据，再更新信念。",
-            "score": 20.813
-          },
-          {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "应用贝叶斯定理，根据先验、似然和证据计算后验概率使用Laplace平滑和log空间计算，从零构建NaiveBayes文本分类器比较MLE与MAP估计，并解释MAP如何对应L2正则化使用Beta-Binomial共轭先验，为A/B测试实现顺序贝叶斯更新",
-            "score": 13.896
+            "score": 16.403
           },
           {
             "headingId": "顺序贝叶斯更新",
             "heading": "顺序贝叶斯更新",
             "quote": "第3天：又观察到5次正面、5次反面。把昨天的后验用作今天的先验。后验=Beta(8+5,4+5)=Beta(13,9)后验均值：13/22=0.591新的均衡数据将估计拉回到了0.5附近",
-            "score": 11.611
+            "score": 15.898
           }
         ]
       },
       {
         "id": "rare-disease",
-        "question": "某罕见疾病每一万人中有一人，99% 准确的检测给出阳性；患病概率大约是多少？",
+        "question": "教学设定中，患病率万分之一、灵敏度和特异度均 99%，一次阳性后的患病概率约为多少？",
         "status": "draft",
         "candidates": [
+          {
+            "headingId": "医疗检测示例",
+            "heading": "医疗检测示例",
+            "quote": "编者注（题库核对）：这里的99%指灵敏度和特异度都为99%，并采用万分之一的患病先验；它不是单个笼统的“准确率”指标。阳性后的患病概率为0.990.0001/(0.990.0001+0.010.9999)，约0.98%。这是教学设定，不用于个体诊断。先验表示观察本轮证据之前对假设的信念。",
+            "score": 61.541
+          },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "大多数人会回答99%。真实答案取决于这种疾病有多罕见。如果每10,000人中只有1人患病，那么一次阳性结果只能说明你患病的概率约为1%。其余99%的阳性结果，都是健康人产生的误报。",
-            "score": 28.253
+            "score": 35.012
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "多次检测。一名患者在两次相互独立的检测中都呈阳性（两次检测的准确率均为99%，疾病患病率为万分之一）。两次检测之后P(sick)是多少？把第一次检测的后验用作第二次检测的先验。",
-            "score": 25.288
-          },
-          {
-            "headingId": "医疗检测示例",
-            "heading": "医疗检测示例",
-            "quote": "某种疾病每10,000人中有1人患病。检测的准确率为99%（能检出99%的患者，假阳性率为1%）。",
-            "score": 24.657
+            "score": 29.528
           }
         ]
       },
@@ -2621,19 +2621,19 @@
             "headingId": "最大似然估计-mle",
             "heading": "最大似然估计（MLE）",
             "quote": "问题在于：如果某个单词在训练期间从未出现在垃圾邮件中，MLE会给它分配零概率。一个未见过的单词就会让整个乘积变为零。可以用Laplace平滑修复这个问题：",
-            "score": 26.388
+            "score": 26.501
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习2.为每个取值创建一个NaiveBayes(smoothing=s)，在相同数据上训练，并分别打印topwords。当smoothing为0时，从未在垃圾邮件中出现的词概率为0，其log无定义。",
-            "score": 19.506
+            "score": 19.577
           },
           {
             "headingId": "步骤-2-naive-bayes-分类器",
             "heading": "步骤 2：Naive Bayes 分类器",
             "quote": "log概率可以防止下溢。许多小概率相乘，会得到小到浮点数无法表示的数值；对log概率求和在数学上等价，同时具有数值稳定性。",
-            "score": 11.634
+            "score": 11.674
           }
         ]
       },
@@ -2646,19 +2646,19 @@
             "headingId": "为什么贝叶斯思维对-ml-很重要",
             "heading": "为什么贝叶斯思维对 ML 很重要",
             "quote": "先验就是正则化。权重上的高斯先验对应L2正则化，Laplace先验对应L1。添加正则化项，也是在用贝叶斯形式表达对参数值的预期。",
-            "score": 22.894
+            "score": 22.974
           },
           {
             "headingId": "最大后验估计-map",
             "heading": "最大后验估计（MAP）",
             "quote": "MAP还为参数本身加入先验。如果你认为参数应该较小，就可以把这种信念编码成一个惩罚大参数值的先验。这与ML中的L2正则化完全相同；岭回归中的“ridge”惩罚对应权重上的高斯先验。",
-            "score": 17.791
+            "score": 17.854
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "应用贝叶斯定理，根据先验、似然和证据计算后验概率使用Laplace平滑和log空间计算，从零构建NaiveBayes文本分类器比较MLE与MAP估计，并解释MAP如何对应L2正则化使用Beta-Binomial共轭先验，为A/B测试实现顺序贝叶斯更新",
-            "score": 14.099
+            "score": 14.147
           }
         ]
       },
@@ -2671,19 +2671,19 @@
             "headingId": "顺序贝叶斯更新",
             "heading": "顺序贝叶斯更新",
             "quote": "第2天：观察到7次正面、3次反面。后验=Beta(1+7,1+3)=Beta(8,4)后验均值：8/12=0.667证据表明硬币偏向正面",
-            "score": 27.518
+            "score": 27.524
           },
           {
             "headingId": "顺序贝叶斯更新",
             "heading": "顺序贝叶斯更新",
             "quote": "第3天：又观察到5次正面、5次反面。把昨天的后验用作今天的先验。后验=Beta(8+5,4+5)=Beta(13,9)后验均值：13/22=0.591新的均衡数据将估计拉回到了0.5附近",
-            "score": 27.518
+            "score": 27.524
           },
           {
             "headingId": "顺序贝叶斯更新",
             "heading": "顺序贝叶斯更新",
             "quote": "观测顺序并不重要。用全部12次正面和8次反面一次性更新Beta(1,1)，也会得到Beta(13,9)——结果完全相同。顺序更新和批量更新在数学上等价，但顺序更新让你无需保存原始数据，就能在每一步作出决策。",
-            "score": 26.729
+            "score": 26.89
           }
         ]
       }
@@ -2692,7 +2692,7 @@
   {
     "lessonId": "practice/01-math-foundations/08-optimization",
     "translationSha256": "e6bbfb9610031d260e04b4aa4749b8dc06a91a7697e9fe6e26732ca45fdc150b",
-    "assessmentSha256": "1ef47040ccb236d27123bf066da75f5f69eb9cae3b3007d076e89e3fc3e5571e",
+    "assessmentSha256": "2935a0933c0a8cedd5fa0b472e72318d1c300538d3f5b2df0237827546e540bd",
     "questions": [
       {
         "id": "optimization",
@@ -2824,7 +2824,7 @@
   {
     "lessonId": "practice/01-math-foundations/09-information-theory",
     "translationSha256": "74b0d2c9128d0a4ec93ba37526ec62b8803172199ea5fff998310f0cb329c77c",
-    "assessmentSha256": "1ec45f1513ae4062156eccd3c991197e3a5a5c36d1c35f5085a1730c971541c7",
+    "assessmentSha256": "230cacc8e110bed90e3fbe8249c255074596ca47e8be89066b0259d70103aeae",
     "questions": [
       {
         "id": "entropy",
@@ -2955,8 +2955,8 @@
   },
   {
     "lessonId": "practice/01-math-foundations/10-dimensionality-reduction",
-    "translationSha256": "7c868e0e5b614ea63c83d0555d528bb9c605f44f64cf079df1bba9787ffa8685",
-    "assessmentSha256": "d85eaa5527adb43f1cbd20c85aaa371467089ca8486770ce57d73b30a11d627d",
+    "translationSha256": "0c5900dd70bcc4b3593cfc4bb9efd1390e5d90d62d90d32b14fff3b4dbe31c44",
+    "assessmentSha256": "5cc1995e9053fadc5c60bf345079ec84830130f9f75241a1c5eb65082190918b",
     "questions": [
       {
         "id": "curse",
@@ -2964,22 +2964,22 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "pca-find-the-directions-that-matter",
+            "heading": "PCA：寻找重要方向",
+            "quote": "编者注（题库核对）：高维覆盖的困难依赖数据分布。若每条轴保持相同网格分辨率，所需格点数随维数指数增长；不能把所有高维数据都描述为集中在立方体角点。前50个主成分解释95%方差，仅表示保留了95%的总方差，不说明余下全是噪声，也不保证95%分类准确率。标准scikit-learnt-SNE主要用于可视化，没有直接将新样本映射到已有坐标的transform；其他",
+            "score": 68.225
+          },
+          {
             "headingId": "维度灾难",
             "heading": "维度灾难",
             "quote": "维度升高会令距离失去区分力：随机点最大/最小距离比例大约从2D的5.0降至10D的1.8、100D的1.2、1000D的1.02；最近邻不再可靠。单位超立方体有2^d个角，100D中几乎所有体积集中在远离中心的角落。维度从2到20，维持相同样本密度需约10^18倍数据；降低维数把密度带回可用范围。",
-            "score": 31.044
-          },
-          {
-            "headingId": "t-sne-保持邻域",
-            "heading": "t-SNE：保持邻域",
-            "quote": "非线性。它能展开PCA无法处理的复杂流形。随机。不同运行产生不同布局。perplexity参数控制考虑多少邻居（典型范围5–50）。输出中簇与簇之间的距离没有意义，只有簇本身有意义。在大数据集上慢，默认O(n^2)。",
-            "score": 6.048
+            "score": 12.461
           },
           {
             "headingId": "降维",
             "heading": "降维",
             "quote": "高维数据有结构；从正确角度观察便能发现它。",
-            "score": 5.433
+            "score": 5.63
           }
         ]
       },
@@ -2992,19 +2992,19 @@
             "headingId": "pca-find-the-directions-that-matter",
             "heading": "PCA：寻找重要方向",
             "quote": "PCA旋转坐标轴，使第一轴承载最大方差、第二轴承载次大方差。步骤为：(1)每列减均值；(2)计算特征共同变化的协方差；(3)对对称半正定协方差矩阵特征分解；(4)按特征值降序；(5)保留前k个特征向量并投影。协方差的正交特征向量给特征空间方向，特征值给该方向捕获的方差；最大特征值对应最大伸展方向。丢弃窄方向PC2就是以很小信息损失投到PC1。",
-            "score": 29.776
+            "score": 29.812
+          },
+          {
+            "headingId": "pca-find-the-directions-that-matter",
+            "heading": "PCA：寻找重要方向",
+            "quote": "编者注（题库核对）：高维覆盖的困难依赖数据分布。若每条轴保持相同网格分辨率，所需格点数随维数指数增长；不能把所有高维数据都描述为集中在立方体角点。前50个主成分解释95%方差，仅表示保留了95%的总方差，不说明余下全是噪声，也不保证95%分类准确率。标准scikit-learnt-SNE主要用于可视化，没有直接将新样本映射到已有坐标的transform；其他",
+            "score": 11.509
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从零实现PCA：中心化、协方差、特征分解、投影。用解释方差比与elbow方法选择主成分数。比较PCA、t-SNE、UMAP的二维MNIST可视化取舍。用RBFkernelPCA将普通PCA无法分开的非线性结构分离。",
-            "score": 10.985
-          },
-          {
-            "headingId": "kernel-pca",
-            "heading": "Kernel PCA",
-            "quote": "计算kernel矩阵$K$，其中$K{ij}=k(xi,xj)$在特征空间中心化kernel矩阵对中心化后的kernel矩阵做特征分解前若干特征向量（按$1/\\sqrt{\\text{eigenvalue}}$缩放）即为投影",
-            "score": 9.856
+            "score": 10.555
           }
         ]
       },
@@ -3014,47 +3014,47 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "pca-find-the-directions-that-matter",
+            "heading": "PCA：寻找重要方向",
+            "quote": "编者注（题库核对）：高维覆盖的困难依赖数据分布。若每条轴保持相同网格分辨率，所需格点数随维数指数增长；不能把所有高维数据都描述为集中在立方体角点。前50个主成分解释95%方差，仅表示保留了95%的总方差，不说明余下全是噪声，也不保证95%分类准确率。标准scikit-learnt-SNE主要用于可视化，没有直接将新样本映射到已有坐标的transform；其他",
+            "score": 40.367
+          },
+          {
             "headingId": "延伸阅读",
             "heading": "延伸阅读",
             "quote": "把MNIST划分训练/测试集后，对k=10、30、50、100、200依次在训练集拟合PCA、变换两部分数据，再训练LogisticRegression，并记录accuracy与累计解释方差。性能常在远少于784维时进入平台；那个accuracy不再显著提高的k就是实际运行点，而不是“方差百分比等于准确率”。",
-            "score": 15.79
+            "score": 20.734
           },
           {
-            "headingId": "pca-find-the-directions-that-matter",
-            "heading": "PCA：寻找重要方向",
-            "quote": "PCA旋转坐标轴，使第一轴承载最大方差、第二轴承载次大方差。步骤为：(1)每列减均值；(2)计算特征共同变化的协方差；(3)对对称半正定协方差矩阵特征分解；(4)按特征值降序；(5)保留前k个特征向量并投影。协方差的正交特征向量给特征空间方向，特征值给该方向捕获的方差；最大特征值对应最大伸展方向。丢弃窄方向PC2就是以很小信息损失投到PC1。",
-            "score": 10.735
-          },
-          {
-            "headingId": "选择成分数",
-            "heading": "选择成分数",
-            "quote": "阈值法。保留足以解释90–95%方差的成分数。elbow方法。画出每个成分的方差，寻找陡降拐点。下游性能。把PCA当作预处理，扫描$k$并衡量模型准确率，准确率进入平台处就是最佳$k$。",
-            "score": 9.364
+            "headingId": "提示",
+            "heading": "提示",
+            "quote": "练习3.调用makeclassification(nfeatures=50,ninformative=5,nredundant=45)，拟合PCA，并打印累计解释方差。冗余特征是信息特征的线性组合，因此曲线在5个成分处就接近1.0。再试nredundant=0：其余45个特征是独立噪声，曲线不会变平。",
+            "score": 13.615
           }
         ]
       },
       {
         "id": "tsne",
-        "question": "为什么不应把 t-SNE 作为分类器训练前预处理？",
+        "question": "标准 scikit-learn t-SNE 用于将新样本加入已有嵌入时，主要接口限制是什么？",
         "status": "draft",
         "candidates": [
           {
-            "headingId": "使用",
-            "heading": "使用",
-            "quote": "PCA也可作为分类器的预处理；将训练与测试数据分别按训练集拟合的成分变换。",
-            "score": 19.936
+            "headingId": "pca-find-the-directions-that-matter",
+            "heading": "PCA：寻找重要方向",
+            "quote": "编者注（题库核对）：高维覆盖的困难依赖数据分布。若每条轴保持相同网格分辨率，所需格点数随维数指数增长；不能把所有高维数据都描述为集中在立方体角点。前50个主成分解释95%方差，仅表示保留了95%的总方差，不说明余下全是噪声，也不保证95%分类准确率。标准scikit-learnt-SNE主要用于可视化，没有直接将新样本映射到已有坐标的transform；其他",
+            "score": 52.206
           },
           {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "从零实现PCA：中心化、协方差、特征分解、投影。用解释方差比与elbow方法选择主成分数。比较PCA、t-SNE、UMAP的二维MNIST可视化取舍。用RBFkernelPCA将普通PCA无法分开的非线性结构分离。",
-            "score": 9.203
+            "headingId": "kernel-pca",
+            "heading": "Kernel PCA",
+            "quote": "标准PCA在速度、可解释性、可扩展性和直接inversetransform上占优；kernelPCA适用于非线性流形，却需nnkernel、O(n^2d+n^3)，成分不直接解释且逆变换要pre-image近似。RBFkernelPCA可把内外圆映射到可线性分隔区域。",
+            "score": 14.432
           },
           {
-            "headingId": "选择成分数",
-            "heading": "选择成分数",
-            "quote": "阈值法。保留足以解释90–95%方差的成分数。elbow方法。画出每个成分的方差，寻找陡降拐点。下游性能。把PCA当作预处理，扫描$k$并衡量模型准确率，准确率进入平台处就是最佳$k$。",
-            "score": 5.862
+            "headingId": "问题",
+            "heading": "问题",
+            "quote": "一张手写数字有784像素，基因表达和用户行为也可有数百特征，既不能可视化也难直觉理解。但多数特征冗余：一个“7”主要由笔画角度、横杠长度、倾斜等少数因素决定，其余是噪声。降维把784维压到2、10或50维，同时保留重要结构。",
+            "score": 8.62
           }
         ]
       },
@@ -3067,19 +3067,19 @@
             "headingId": "kernel-pca",
             "heading": "Kernel PCA",
             "quote": "普通PCA只找线性子空间；同心圆投向任一直线都会重叠。KernelPCA用kernel隐式映射到高维特征空间，不显式计算坐标——这就是kernel技巧，与SVM背后的思想相同。算法为：",
-            "score": 25.747
-          },
-          {
-            "headingId": "kernel-pca",
-            "heading": "Kernel PCA",
-            "quote": "标准PCA在速度、可解释性、可扩展性和直接inversetransform上占优；kernelPCA适用于非线性流形，却需nnkernel、O(n^2d+n^3)，成分不直接解释且逆变换要pre-image近似。RBFkernelPCA可把内外圆映射到可线性分隔区域。",
-            "score": 11.959
+            "score": 25.793
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从零实现PCA：中心化、协方差、特征分解、投影。用解释方差比与elbow方法选择主成分数。比较PCA、t-SNE、UMAP的二维MNIST可视化取舍。用RBFkernelPCA将普通PCA无法分开的非线性结构分离。",
-            "score": 11.523
+            "score": 11.63
+          },
+          {
+            "headingId": "kernel-pca",
+            "heading": "Kernel PCA",
+            "quote": "标准PCA在速度、可解释性、可扩展性和直接inversetransform上占优；kernelPCA适用于非线性流形，却需nnkernel、O(n^2d+n^3)，成分不直接解释且逆变换要pre-image近似。RBFkernelPCA可把内外圆映射到可线性分隔区域。",
+            "score": 11.491
           }
         ]
       }
@@ -3087,31 +3087,31 @@
   },
   {
     "lessonId": "practice/01-math-foundations/11-singular-value-decomposition",
-    "translationSha256": "8912f6fe2e6f1a274a0a5531b6976a250d3448ae0fcdd8cab05ea235ea6bbab9",
-    "assessmentSha256": "2c4833742c0903cca9c7d4861535564076ce2b7048935013f3e962b573fc2bd1",
+    "translationSha256": "20fa3d83118662737183b7b704288fb12b3d13540328306d90a240dda3e79ba1",
+    "assessmentSha256": "e7b3e2e8c60c4be4b6c718766a2a622a815bde68d86b63474ca21e891f8dca9a",
     "questions": [
       {
         "id": "svd-advantage",
-        "question": "SVD 相比特征分解的优势是什么？",
+        "question": "SVD 相比把矩阵对角化的特征分解，在适用范围上有什么优势？",
         "status": "draft",
         "candidates": [
           {
+            "headingId": "数值稳定性优势",
+            "heading": "数值稳定性优势",
+            "quote": "编者注（题库核对）：实矩阵的SVD中U、V是正交矩阵，可以包含反射；“旋转、缩放、旋转”是直观简称。任意形状实矩阵都存在SVD。直接处理中心化数据可避免显式构造AᵀA导致的条件数平方；这不表示所有库的PCA都固定使用同一求解器。scikit-learn也提供covarianceeigh，参见PCA官方API。",
+            "score": 29.129
+          },
+          {
             "headingId": "问题",
             "heading": "问题",
-            "quote": "SVD适用于任何矩阵，不受形状、秩或其他条件限制。它将矩阵分解成三个因子，揭示这个矩阵对空间所做变换的几何本质。在整个线性代数中，SVD是最通用、也最实用的分解方法。",
-            "score": 19.865
+            "quote": "假设你有一个1000×2000的矩阵。它可能是用户–电影评分矩阵，也可能是文档–词项频率表，或者是一幅图像的像素值。你需要压缩它、为它去噪、从中发现隐藏结构，或者用它求解最小二乘系统。特征分解只适用于方阵；即使面对方阵，它还要求矩阵具有一组完备的线性无关特征向量。",
+            "score": 20.948
           },
           {
             "headingId": "与特征分解的关系",
             "heading": "与特征分解的关系",
             "quote": "奇异值始终是实数且非负，因为它们是半正定矩阵特征值的平方根。可以通过A^TA的特征分解计算SVD，但这种做法会让条件数平方，并损失数值精度；专用的SVD算法能够避免这个问题。当A是方阵、对称矩阵且为半正定矩阵时，SVD与特征分解完全相同。",
-            "score": 11.163
-          },
-          {
-            "headingId": "与特征分解的关系",
-            "heading": "与特征分解的关系",
-            "quote": "SVD与特征分解紧密相关。A的奇异值和奇异向量可以直接从A^TA与AA^T的特征值和特征向量得到。",
-            "score": 10.028
+            "score": 16.705
           }
         ]
       },
@@ -3124,19 +3124,19 @@
             "headingId": "截断-svd-低秩近似",
             "heading": "截断 SVD：低秩近似",
             "quote": "Eckart–Young–Mirsky定理指出，在Frobenius范数和谱范数下，A的最佳秩k近似都可以通过只保留前k个奇异值及其对应向量得到：",
-            "score": 33.573
+            "score": 33.788
           },
           {
             "headingId": "截断-svd-低秩近似",
             "heading": "截断 SVD：低秩近似",
             "quote": "保留前三项时，A3捕获三个最大的奇异值，误差则来自剩余的奇异值，即sigma4到sigma8。",
-            "score": 17.832
+            "score": 17.951
           },
           {
             "headingId": "外积形式",
             "heading": "外积形式",
             "quote": "这种形式是低秩近似的基础。每一项都为矩阵增加一层结构：第一项捕获最重要的单一模式，第二项捕获次重要的模式，依此类推。截断这个和，就能在任意给定秩下得到最佳近似。",
-            "score": 11.843
+            "score": 11.921
           }
         ]
       },
@@ -3146,47 +3146,47 @@
         "status": "draft",
         "candidates": [
           {
-            "headingId": "what-svd-does-geometrically",
-            "heading": "SVD 的几何作用",
-            "quote": "无论形状如何，每个矩阵都依次执行三种操作：旋转、缩放、再旋转。SVD将这一分解明确地表示出来。",
-            "score": 18.111
-          },
-          {
-            "headingId": "what-svd-does-geometrically",
-            "heading": "SVD 的几何作用",
-            "quote": "可以这样理解：你把一个矩阵交给SVD，它会告诉你：“这个矩阵先用V^T旋转一个输入球体，再用Sigma将其拉伸成椭球，最后用U旋转这个椭球。”奇异值就是椭球各条轴的长度。",
-            "score": 14.59
+            "headingId": "数值稳定性优势",
+            "heading": "数值稳定性优势",
+            "quote": "编者注（题库核对）：实矩阵的SVD中U、V是正交矩阵，可以包含反射；“旋转、缩放、旋转”是直观简称。任意形状实矩阵都存在SVD。直接处理中心化数据可避免显式构造AᵀA导致的条件数平方；这不表示所有库的PCA都固定使用同一求解器。scikit-learn也提供covarianceeigh，参见PCA官方API。",
+            "score": 37.773
           },
           {
             "headingId": "what-svd-does-geometrically",
             "heading": "SVD 的几何作用",
             "quote": "V^T在输入空间（n维）中旋转向量。Sigma沿每条轴缩放，即拉伸或压缩向量。U将结果旋转到输出空间（m维）中。",
-            "score": 12.589
+            "score": 18.639
+          },
+          {
+            "headingId": "what-svd-does-geometrically",
+            "heading": "SVD 的几何作用",
+            "quote": "无论形状如何，每个矩阵都依次执行三种操作：旋转、缩放、再旋转。SVD将这一分解明确地表示出来。",
+            "score": 13.891
           }
         ]
       },
       {
         "id": "pca",
-        "question": "sklearn 为什么用 SVD 而非协方差矩阵特征分解实现 PCA？",
+        "question": "直接对中心化数据做 SVD，相比先构造 AᵀA 再分解，有什么数值优势？",
         "status": "draft",
         "candidates": [
           {
-            "headingId": "与特征分解的关系",
-            "heading": "与特征分解的关系",
-            "quote": "奇异值始终是实数且非负，因为它们是半正定矩阵特征值的平方根。可以通过A^TA的特征分解计算SVD，但这种做法会让条件数平方，并损失数值精度；专用的SVD算法能够避免这个问题。当A是方阵、对称矩阵且为半正定矩阵时，SVD与特征分解完全相同。",
-            "score": 32.109
+            "headingId": "数值稳定性优势",
+            "heading": "数值稳定性优势",
+            "quote": "编者注（题库核对）：实矩阵的SVD中U、V是正交矩阵，可以包含反射；“旋转、缩放、旋转”是直观简称。任意形状实矩阵都存在SVD。直接处理中心化数据可避免显式构造AᵀA导致的条件数平方；这不表示所有库的PCA都固定使用同一求解器。scikit-learn也提供covarianceeigh，参见PCA官方API。",
+            "score": 57.179
           },
           {
             "headingId": "数值稳定性优势",
             "heading": "数值稳定性优势",
             "quote": "对A^TA计算特征分解时，奇异值会被平方，因为A^TA的特征值为sigmai^2。这也会让条件数平方，从而放大数值误差。",
-            "score": 16.981
+            "score": 22.806
           },
           {
             "headingId": "与特征分解的关系",
             "heading": "与特征分解的关系",
-            "quote": "SVD与特征分解紧密相关。A的奇异值和奇异向量可以直接从A^TA与AA^T的特征值和特征向量得到。",
-            "score": 14.894
+            "quote": "奇异值始终是实数且非负，因为它们是半正定矩阵特征值的平方根。可以通过A^TA的特征分解计算SVD，但这种做法会让条件数平方，并损失数值精度；专用的SVD算法能够避免这个问题。当A是方阵、对称矩阵且为半正定矩阵时，SVD与特征分解完全相同。",
+            "score": 21.808
           }
         ]
       },
@@ -3199,19 +3199,19 @@
             "headingId": "练习",
             "heading": "练习",
             "quote": "构建一个微型推荐系统。创建一个10×8的用户–电影评分矩阵，并填入部分已知评分。用各行均值填补缺失项，计算SVD并重建其秩3近似。使用重建后的矩阵预测缺失评分，并验证预测结果是否合理。",
-            "score": 25.018
+            "score": 25.171
           },
           {
             "headingId": "svd-用于推荐系统",
             "heading": "SVD 用于推荐系统",
             "quote": "用户对一部电影的预测评分，是其用户画像与电影画像按奇异值加权后的点积。低秩近似由此填补缺失的条目。",
-            "score": 18.147
+            "score": 18.266
           },
           {
             "headingId": "svd-用于推荐系统",
             "heading": "SVD 用于推荐系统",
             "quote": "对填补过缺失值的评分矩阵应用SVD，可以将其分解为：",
-            "score": 13.43
+            "score": 13.518
           }
         ]
       }
@@ -3219,8 +3219,8 @@
   },
   {
     "lessonId": "practice/01-math-foundations/12-tensor-operations",
-    "translationSha256": "99d3f6d85dd924cd11435c27feac16ab43d6a5fcf58a16ac434b5c86ee57743a",
-    "assessmentSha256": "a02876eb106b51f09b036294c47423e8a46f4899a3f032f88141e9bd78398054",
+    "translationSha256": "9090293a8cc8d887063485c07cb58d0972b5209c3e0b06781074ce6bfc118ca7",
+    "assessmentSha256": "f78244b9f213eec8d92726dffd69f1dd01cca231ede5fb457080c450604113ab",
     "questions": [
       {
         "id": "shape",
@@ -3231,44 +3231,44 @@
             "headingId": "what-a-tensor-is",
             "heading": "什么是张量",
             "quote": "张量是具有统一数据类型的多维数值数组。维度的数目是秩（rank，或order）。每个维度是一条轴（axis）。形状（shape）是列出每条轴大小的元组。",
-            "score": 11.131
+            "score": 11.206
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "简单——reshape往返。取(2,3,4)张量，依次reshape为(6,4)、(24,)，再还原为(2,3,4)；每一步打印扁平数据，验证元素顺序保持不变。中等——实现广播。为Tensor增加broadcastto(shape)，将大小为1的轴扩展到目标形状；修改elementwiseop以便运算前自动广播。用(3,1)与(1,4)测试，结果应为(3,4",
-            "score": 6.633
+            "score": 6.679
           },
           {
             "headingId": "what-a-tensor-is",
             "heading": "什么是张量",
             "quote": "总元素数等于所有大小之积。形状(2,3,4)含$2\\cdot3\\cdot4=24$个元素。",
-            "score": 6.274
+            "score": 6.319
           }
         ]
       },
       {
         "id": "layout",
-        "question": "PyTorch 默认图像 batch 采用什么布局？",
+        "question": "PyTorch 的 Conv2d 批量输入通常采用哪种逻辑轴序？",
         "status": "draft",
         "candidates": [
+          {
+            "headingId": "内存布局如何工作",
+            "heading": "内存布局如何工作",
+            "quote": "编者注（题库核对）：view的关键条件是新形状与现有尺寸和步幅兼容，并非所有非连续张量都无法view。转置后合并不兼容的维度会失败，可先contiguous再view，或使用必要时复制的reshape。NCHW描述逻辑轴序，不能与channelslast等物理内存格式混为一谈。参见PyTorchview官方说明。",
+            "score": 29.413
+          },
           {
             "headingId": "深度学习中的张量形状",
             "heading": "深度学习中的张量形状",
             "quote": "PyTorch使用NCHW（通道在前），TensorFlow默认NHWC（通道在后）。布局不一致会导致无声的变慢或报错。",
-            "score": 15.924
+            "score": 11.491
           },
           {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "矩阵处理两组事物之间的成对关系。真实数据并不止于二维。一批32张224×224的RGB图像是一个4维张量：(32,3,224,224)。12个头的自注意力也是4维：(batch,heads,seqlen,headdim)。你需要一种能推广到任意维数的数据结构，其操作能在所有维度上干净地组合。这种结构就是张量。掌握它的操作，形状错误就变得极易调试。",
-            "score": 5.991
-          },
-          {
-            "headingId": "步骤-3-transpose-与-permute",
-            "heading": "步骤 3：transpose 与 permute",
-            "quote": "转置交换两条轴。permute重排所有轴。这就是你在NCHW和NHWC之间转换的方式。",
-            "score": 5.23
+            "headingId": "交付",
+            "heading": "交付",
+            "quote": "outputs/prompt-tensor-shapes.md——一个系统化调试张量形状不匹配的提示词。包含每种常见操作（matmul、broadcast、cat、Linear、Conv2d、BatchNorm、softmax）的决策表，以及一张修复查找表。outputs/prompt-tensor-debugger.md——当形状错误卡住你时，粘贴给任意A",
+            "score": 6.477
           }
         ]
       },
@@ -3281,19 +3281,19 @@
             "headingId": "broadcasting-rules",
             "heading": "广播",
             "quote": "广播让你在不复制数据的情况下操作不同形状的张量。从右端对齐形状。当两个维度相等或其中一个为1时它们才兼容。维数较少的一方在左侧补1。下面“动手构建”开头的填充示例展示了对齐规则。",
-            "score": 12.79
+            "score": 12.908
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "形状错误是深度学习代码中最常见的bug。它们在概念上并不难——每个操作都有一份形状契约——但会迅速累积。一个Transformer把几十个reshape、transpose和广播串联在一起，一条轴搞错，错误就会级联。更糟的是，有些形状错误根本不抛异常，它们会沿着错误的维度广播、或在错误的轴上求和，从而无声地产生垃圾结果。",
-            "score": 6.557
+            "score": 6.625
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习2.只有当两个维度大小相等、或其中一个为1时才能广播，所以先检查这条规则，不满足时抛出错误。对形状(3,1)和(1,4)，检查结果中[i][j]项是否等于a[i][0]+b[0][j]，并把完整结果与NumPy对比。",
-            "score": 6.176
+            "score": 6.243
           }
         ]
       },
@@ -3306,44 +3306,44 @@
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习3.在->处拆分下标。出现在输入中但不在输出中的字母是求和指标，所以遍历每个字母的所有取值，累加到对应的输出位置。用小的随机数组对四种情况逐一测试：np.allclose(mine,np.einsum(...))。",
-            "score": 19.321
+            "score": 19.508
           },
           {
             "headingId": "einsum-the-universal-tensor-operation",
             "heading": "Einsum 与 attention",
             "quote": "爱因斯坦求和为每条轴标记一个字母。出现在输入中但不出现在输出中的轴会被求和，两边都出现的轴会被保留。",
-            "score": 16.706
+            "score": 16.869
           },
           {
             "headingId": "einsum-the-universal-tensor-operation",
             "heading": "Einsum 与 attention",
             "quote": "常用模式：i,i->（点积）、i,j->ij（外积）、ii->（迹）、ij->ji（转置）、bij,bjk->bik（批量矩阵乘）、bhtd,bhsd->bhts（注意力分数）。",
-            "score": 10.64
+            "score": 10.735
           }
         ]
       },
       {
         "id": "view",
-        "question": "为什么 PyTorch 对转置张量调用 .view() 会失败？",
+        "question": "转置后用 view 合并步幅不兼容的维度，为什么失败？",
         "status": "draft",
         "candidates": [
+          {
+            "headingId": "内存布局如何工作",
+            "heading": "内存布局如何工作",
+            "quote": "编者注（题库核对）：view的关键条件是新形状与现有尺寸和步幅兼容，并非所有非连续张量都无法view。转置后合并不兼容的维度会失败，可先contiguous再view，或使用必要时复制的reshape。NCHW描述逻辑轴序，不能与channelslast等物理内存格式混为一谈。参见PyTorchview官方说明。",
+            "score": 76.642
+          },
           {
             "headingId": "步骤-3-transpose-与-permute",
             "heading": "步骤 3：transpose 与 permute",
             "quote": "转置或permute之后，张量在内存中变为非连续。在PyTorch中，view会在非连续张量上失败——请改用reshape，或先调用.contiguous()。",
-            "score": 20.642
+            "score": 16.064
           },
           {
             "headingId": "内存布局如何工作",
             "heading": "内存布局如何工作",
             "quote": "转置并不移动数据。它交换步幅，使张量变得非连续（non-contiguous）——同一行的元素在内存中不再相邻。",
-            "score": 16.298
-          },
-          {
-            "headingId": "步骤-3-transpose-与-permute",
-            "heading": "步骤 3：transpose 与 permute",
-            "quote": "转置交换两条轴。permute重排所有轴。这就是你在NCHW和NHWC之间转换的方式。",
-            "score": 6.6
+            "score": 8.647
           }
         ]
       }
@@ -3351,31 +3351,31 @@
   },
   {
     "lessonId": "practice/01-math-foundations/13-numerical-stability",
-    "translationSha256": "db8da35389c198ed5d540f41e42f1d040447b1472180444c8f218222643c7b24",
-    "assessmentSha256": "342ffc8150e9f9f7e5795fd62fdc006284ea17d53bfd5660832644517fe46c43",
+    "translationSha256": "322fa31f5c61ebcaf07017f84d88d072062c89e2237278367220b78aa1dc1ff8",
+    "assessmentSha256": "c77e36bf4a8a128aacb6573d21150cb3af7fd739360e34d51fea087c06cf602b",
     "questions": [
       {
         "id": "float32-range",
-        "question": "float32 可表示数字的近似范围是什么？",
+        "question": "float32 最大有限值的绝对值约为多少？",
         "status": "draft",
         "candidates": [
-          {
-            "headingId": "ieee-754-how-computers-store-real-numbers",
-            "heading": "IEEE 754：计算机如何存储实数",
-            "quote": "bfloat16是Google为解决float16范围问题给出的方案。它和float32一样使用8位指数，因此范围相同，最高可达3.4e38；但它只有7位尾数，精度比float16更低。训练神经网络时，范围通常比精度更重要，因此bfloat16往往更胜一筹。",
-            "score": 15.521
-          },
-          {
-            "headingId": "ieee-754-how-computers-store-real-numbers",
-            "heading": "IEEE 754：计算机如何存储实数",
-            "quote": "尾数决定精度，也就是能保留多少位有效数字；指数决定范围，也就是能表示多大或多小的数。",
-            "score": 9.912
-          },
           {
             "headingId": "bfloat16-与-float16-为何-bfloat16-更适合训练",
             "heading": "bfloat16 与 float16：为何 bfloat16 更适合训练",
             "quote": "float16的精度更高，尾数为10位而非7位，但范围有限，最大值约为65,504。bfloat16精度较低，却拥有与float32相同的范围，最大值约为3.4e38。",
-            "score": 9.541
+            "score": 18.254
+          },
+          {
+            "headingId": "ieee-754-how-computers-store-real-numbers",
+            "heading": "IEEE 754：计算机如何存储实数",
+            "quote": "bfloat16是Google为解决float16范围问题给出的方案。它和float32一样使用8位指数，因此范围相同，最高可达3.4e38；但它只有7位尾数，精度比float16更低。训练神经网络时，范围通常比精度更重要，因此bfloat16往往更胜一筹。",
+            "score": 13.059
+          },
+          {
+            "headingId": "学习目标",
+            "heading": "学习目标",
+            "quote": "使用减去最大值的技巧，实现数值稳定的softmax和log-sum-exp识别浮点计算中的溢出、下溢和灾难性抵消使用中心有限差分，将解析梯度与数值梯度进行核对解释为什么训练时更适合使用bfloat16而非float16，以及损失缩放如何防止梯度下溢",
+            "score": 10.302
           }
         ]
       },
@@ -3388,19 +3388,19 @@
             "headingId": "为什么-0-1-0-2-0-3",
             "heading": "为什么 0.1 + 0.2 != 0.3",
             "quote": "数字0.1无法用二进制浮点数精确表示。在二进制中，它是一个无限循环小数：",
-            "score": 22.335
+            "score": 22.33
           },
           {
             "headingId": "延伸阅读",
             "heading": "延伸阅读",
             "quote": "WhatEveryComputerScientistShouldKnowAboutFloating-PointArithmetic(Goldberg1991)--关于浮点算术的权威资料，内容密集但十分完整MixedPrecisionTraining(Micikeviciusetal.,2018)--NVIDIA首次提出在float16训练中使用损失缩放的论文",
-            "score": 9.251
+            "score": 9.284
           },
           {
             "headingId": "为什么-0-1-0-2-0-3",
             "heading": "为什么 0.1 + 0.2 != 0.3",
             "quote": "float32会将其截断为23位尾数。存储的值约为0.100000001490116。类似地，0.2存储为约0.200000002980232。两者之和是0.300000004470348，而不是0.3。",
-            "score": 8.14
+            "score": 8.088
           }
         ]
       },
@@ -3412,20 +3412,20 @@
           {
             "headingId": "为什么-softmax-需要减去最大值",
             "heading": "为什么 softmax 需要减去最大值",
+            "quote": "编者注（题库核对）：对有限logits减去最大值后，最大的指数输入为0，最大指数值为1，可防止exp上溢；这不保证任意输入与低精度计算都无误差。有限差分的合适步长随函数尺度、数据类型而变，并无通用的固定最佳h。bfloat16的较大范围能降低溢出风险，但不能保证绝不溢出。",
+            "score": 16.407
+          },
+          {
+            "headingId": "为什么-softmax-需要减去最大值",
+            "heading": "为什么 softmax 需要减去最大值",
             "quote": "Softmax将logits转换为概率：",
-            "score": 13.016
+            "score": 12.697
           },
           {
             "headingId": "为什么-softmax-需要减去最大值",
             "heading": "为什么 softmax 需要减去最大值",
             "quote": "所得概率完全相同，计算过程却更安全；这种处理是保证正确性的必要条件。",
-            "score": 12.372
-          },
-          {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "使用减去最大值的技巧，实现数值稳定的softmax和log-sum-exp识别浮点计算中的溢出、下溢和灾难性抵消使用中心有限差分，将解析梯度与数值梯度进行核对解释为什么训练时更适合使用bfloat16而非float16，以及损失缩放如何防止梯度下溢",
-            "score": 11.925
+            "score": 12.105
           }
         ]
       },
@@ -3435,22 +3435,22 @@
         "status": "draft",
         "candidates": [
           {
-            "headingId": "灾难性抵消",
-            "heading": "灾难性抵消",
-            "quote": "两个几乎相等的浮点数相减时，有效数字会相互抵消，剩余的舍入噪声反而被提升为前导数字。",
-            "score": 18.669
+            "headingId": "为什么-softmax-需要减去最大值",
+            "heading": "为什么 softmax 需要减去最大值",
+            "quote": "编者注（题库核对）：对有限logits减去最大值后，最大的指数输入为0，最大指数值为1，可防止exp上溢；这不保证任意输入与低精度计算都无误差。有限差分的合适步长随函数尺度、数据类型而变，并无通用的固定最佳h。bfloat16的较大范围能降低溢出风险，但不能保证绝不溢出。",
+            "score": 41.024
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "使用减去最大值的技巧，实现数值稳定的softmax和log-sum-exp识别浮点计算中的溢出、下溢和灾难性抵消使用中心有限差分，将解析梯度与数值梯度进行核对解释为什么训练时更适合使用bfloat16而非float16，以及损失缩放如何防止梯度下溢",
-            "score": 18.352
+            "score": 21.606
           },
           {
-            "headingId": "ieee-754-how-computers-store-real-numbers",
-            "heading": "IEEE 754：计算机如何存储实数",
-            "quote": "float32大约提供7位十进制有效数字。这意味着它能区分1.0000001和1.0000002，却无法区分1.00000001和1.00000002。超过7位之后，一切都只是舍入噪声。",
-            "score": 12.488
+            "headingId": "灾难性抵消",
+            "heading": "灾难性抵消",
+            "quote": "对均值很大的数据计算方差：当E[x]很大时使用E[x^2]-E[x]^2两个几乎相等的对数概率相减用过小的epsilon计算有限差分梯度",
+            "score": 16.974
           }
         ]
       },
@@ -3460,22 +3460,22 @@
         "status": "draft",
         "candidates": [
           {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "使用减去最大值的技巧，实现数值稳定的softmax和log-sum-exp识别浮点计算中的溢出、下溢和灾难性抵消使用中心有限差分，将解析梯度与数值梯度进行核对解释为什么训练时更适合使用bfloat16而非float16，以及损失缩放如何防止梯度下溢",
-            "score": 17.138
+            "headingId": "为什么-softmax-需要减去最大值",
+            "heading": "为什么 softmax 需要减去最大值",
+            "quote": "编者注（题库核对）：对有限logits减去最大值后，最大的指数输入为0，最大指数值为1，可防止exp上溢；这不保证任意输入与低精度计算都无误差。有限差分的合适步长随函数尺度、数据类型而变，并无通用的固定最佳h。bfloat16的较大范围能降低溢出风险，但不能保证绝不溢出。",
+            "score": 25.022
           },
           {
             "headingId": "bfloat16-与-float16-为何-bfloat16-更适合训练",
             "heading": "bfloat16 与 float16：为何 bfloat16 更适合训练",
             "quote": "float16的精度更高，尾数为10位而非7位，但范围有限，最大值约为65,504。bfloat16精度较低，却拥有与float32相同的范围，最大值约为3.4e38。",
-            "score": 16.945
+            "score": 23.324
           },
           {
             "headingId": "ieee-754-how-computers-store-real-numbers",
             "heading": "IEEE 754：计算机如何存储实数",
             "quote": "bfloat16是Google为解决float16范围问题给出的方案。它和float32一样使用8位指数，因此范围相同，最高可达3.4e38；但它只有7位尾数，精度比float16更低。训练神经网络时，范围通常比精度更重要，因此bfloat16往往更胜一筹。",
-            "score": 16.252
+            "score": 21.188
           }
         ]
       }
@@ -3483,31 +3483,31 @@
   },
   {
     "lessonId": "practice/01-math-foundations/14-norms-and-distances",
-    "translationSha256": "db270a1451c16111ecc593218ce1b8132b19bc8e8b196383449cb1cc40ee254b",
-    "assessmentSha256": "8008985a9738a6c4a77a9bb3aeba9155234c874c9eb3695806663937a666cd79",
+    "translationSha256": "e907134ef2e953e52566332f57366b0f9fa61d27796a2eab41344ae7d1c4fcb0",
+    "assessmentSha256": "6ee0c76ba77409d9fddd38c171acec98ad11f81e1e27c788d1dc60b9265922eb",
     "questions": [
       {
         "id": "cosine",
-        "question": "cosine similarity 度量两个向量的什么？",
+        "question": "对两个非零向量，余弦相似度主要反映什么？",
         "status": "draft",
         "candidates": [
-          {
-            "headingId": "cosine-相似度与-cosine-距离",
-            "heading": "Cosine 相似度与 Cosine 距离",
-            "quote": "余弦相似度度量两个向量之间的夹角，忽略它们的模长。",
-            "score": 23.539
-          },
           {
             "headingId": "点积相似度与-cosine-相似度",
             "heading": "点积相似度与 Cosine 相似度",
             "quote": "余弦相似度是点积按两个模长归一化后的结果。当两个向量都已单位归一化（模长=1）时，点积与余弦相似度完全相同。",
-            "score": 18.848
+            "score": 20.985
+          },
+          {
+            "headingId": "cosine-相似度与-cosine-距离",
+            "heading": "Cosine 相似度与 Cosine 距离",
+            "quote": "余弦相似度度量两个向量之间的夹角，忽略它们的模长。",
+            "score": 20.775
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习2.余弦相似度忽略长度，所以先取两个方向几乎相同的向量，再把其中一个拉得长很多。对第二种情形，取原点附近两个方向不同的短向量，然后用cosinesimilarity和l2distance检验两个条件。",
-            "score": 14.957
+            "score": 19.777
           }
         ]
       },
@@ -3520,19 +3520,19 @@
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习4.写出每个分布的累积和，然后把两个累积和的绝对差相加。用wasserstein1d(p,q)核对两次手算结果，再根据概率质量必须移动多远来解释较大的那个值。",
-            "score": 15.486
+            "score": 15.554
           },
           {
             "headingId": "l1-范数-manhattan-距离",
             "heading": "L1 范数（Manhattan 距离）",
             "quote": "之所以称为Manhattan距离，是因为它度量你在只能沿坐标轴移动（不能走对角线）的城市网格上要走多远。",
-            "score": 14.479
+            "score": 14.546
           },
           {
             "headingId": "l1-范数-manhattan-距离",
             "heading": "L1 范数（Manhattan 距离）",
             "quote": "L1范数将各分量的绝对值相加。",
-            "score": 9.878
+            "score": 9.93
           }
         ]
       },
@@ -3545,44 +3545,44 @@
             "headingId": "l2-范数-euclidean-距离",
             "heading": "L2 范数（Euclidean 距离）",
             "quote": "与L2正则化（Ridge）的联系：在损失函数中加入$\\lVertw\\rVert2^2$会惩罚较大的权重。与L1不同，它不会把权重推到零，而是让所有权重按比例向零收缩。L2惩罚形成圆形约束区域，坐标轴上没有角落，因此权重会变小，但很少恰好为零。",
-            "score": 34.498
+            "score": 34.658
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从零实现L1、L2、cosine、Mahalanobis、Jaccard与editdistance。为ML任务选合适距离，并解释备选为何失败。将L1/L2连接至Lasso/Ridge和其几何约束区域。展示同一数据在不同度量下有不同nearestneighbor。",
-            "score": 18.27
+            "score": 18.362
           },
           {
             "headingId": "与正则化的连接",
             "heading": "与正则化的连接",
             "quote": "为什么L1产生稀疏而L2不会：想象二维权重空间中的约束区域。L1是菱形，L2是圆。损失函数的等高线（椭圆）最容易在菱形的角落处相切，那里某个权重为零；而它与圆相切于光滑点，那里两个权重都非零。",
-            "score": 18.178
+            "score": 17.878
           }
         ]
       },
       {
         "id": "wasserstein",
-        "question": "比较分布时 Wasserstein 相比 KL 有何优势？",
+        "question": "对有限一阶矩的分布，Wasserstein-1（W₁）与 KL 的区别哪项正确？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "wasserstein-距离-earth-mover-距离",
             "heading": "Wasserstein 距离（Earth Mover 距离）",
-            "quote": "Wasserstein为何重要：它是真正的度量（对称、满足三角不等式）即使分布不重叠它也能提供梯度（此时KL散度趋于无穷大）这一性质使它成为WassersteinGAN（WGAN）的核心，WGAN解决了原始GAN的训练不稳定问题",
-            "score": 35.448
-          },
-          {
-            "headingId": "kl-散度-不是距离-但常这样使用",
-            "heading": "KL 散度（不是距离，但常这样使用）",
-            "quote": "这意味着它不满足距离度量的基本要求。它也不满足三角不等式。它是散度，不是距离。",
-            "score": 21.32
+            "quote": "编者注（题库核对）：对具有有限一阶矩的分布，Wasserstein-1距离对称且有限；KL在一方支持集不被另一方覆盖时可能为无穷。距离有限不保证任意参数化下处处可微，也不保证WGAN总能稳定训练。余弦相似度在这里要求两个向量均非零。",
+            "score": 85.164
           },
           {
             "headingId": "wasserstein-距离-earth-mover-距离",
             "heading": "Wasserstein 距离（Earth Mover 距离）",
-            "quote": "何时使用Wasserstein：GAN训练（WGAN、WGAN-GP）比较可能不重叠的分布最优传输问题图像检索（比较颜色直方图）",
-            "score": 9.906
+            "quote": "Wasserstein为何重要：它是真正的度量（对称、满足三角不等式）即使分布不重叠它也能提供梯度（此时KL散度趋于无穷大）这一性质使它成为WassersteinGAN（WGAN）的核心，WGAN解决了原始GAN的训练不稳定问题",
+            "score": 14.643
+          },
+          {
+            "headingId": "kl-散度-不是距离-但常这样使用",
+            "heading": "KL 散度（不是距离，但常这样使用）",
+            "quote": "你会在哪里见到KL散度：VAE（ELBO中的KL项把隐分布推向先验）知识蒸馏（学生试图匹配教师的分布）RLHF（KL惩罚让微调后的模型保持接近基础模型）策略梯度方法（约束策略更新）",
+            "score": 11.241
           }
         ]
       },
@@ -3595,19 +3595,19 @@
             "headingId": "mahalanobis-距离",
             "heading": "Mahalanobis 距离",
             "quote": "直观地说：Mahalanobis距离先对数据去相关并归一化（白化），再在变换后的空间中计算L2距离。如果$S$是单位矩阵（特征不相关、单位方差），Mahalanobis距离就退化为欧氏距离。",
-            "score": 25.567
+            "score": 25.687
           },
           {
             "headingId": "点积相似度与-cosine-相似度",
             "heading": "点积相似度与 Cosine 相似度",
             "quote": "实践中：需要纯方向相似度时用余弦相似度模长携带有意义的信息时用点积许多向量数据库（Pinecone、Weaviate、Qdrant）允许你在两者间选择如果嵌入已做L2归一化，选哪个都一样",
-            "score": 11.048
+            "score": 11.101
           },
           {
             "headingId": "点积相似度与-cosine-相似度",
             "heading": "点积相似度与 Cosine 相似度",
             "quote": "余弦相似度是点积按两个模长归一化后的结果。当两个向量都已单位归一化（模长=1）时，点积与余弦相似度完全相同。",
-            "score": 9.378
+            "score": 9.419
           }
         ]
       }
@@ -3615,8 +3615,8 @@
   },
   {
     "lessonId": "practice/01-math-foundations/15-statistics-for-ml",
-    "translationSha256": "3e5f149919cd868eb766d8bfd1633c9a43dc637aa991e2da93c8c9e68c514b27",
-    "assessmentSha256": "4069fb02efb62349252aca64b52eedd2d6d4e442ff60d75c004264ee944d2b97",
+    "translationSha256": "49e7acb77a72ae4b16348adf37eb1d5dc53e9ee27da61bc5067f0fbf282fc57f",
+    "assessmentSha256": "5efe11c5602c14e6bbc13575b5dd2fa09a8119708997aa22ae730380febfda32",
     "questions": [
       {
         "id": "p-value",
@@ -3627,119 +3627,119 @@
             "headingId": "假设检验",
             "heading": "假设检验",
             "quote": "零假设H0是“无效应/无差异”的默认立场，备择假设H1是要寻找的效果，例如H0：两个模型准确率相同；H1：B更高。p-value是在H0为真时观察到同样或更极端数据的概率：P(datathisextreme|H0istrue)，不是H0为真的概率。p<alpha（常取0.05）时拒绝H0；否则只是“未能拒绝”，绝不等于H0为真。",
-            "score": 46.262
+            "score": 28.722
           },
           {
             "headingId": "假设检验",
             "heading": "假设检验",
             "quote": "均值的95%置信区间为xbar+/-z(s/sqrt(n))，大样本正态近似时95%的z=1.96；小样本且总体方差未知时，应使用t分布的临界值。重复许多次实验时，95%的这样构造的区间会覆盖真值；它不是“当前这个区间含真值的概率为95%”。区间越宽，估计越不精确；窄区间仍可能因数据偏倚而不准确。",
-            "score": 12.845
+            "score": 14.326
           },
           {
-            "headingId": "多重比较问题",
-            "heading": "多重比较问题",
-            "quote": "同时以alpha=0.05测20个假设，至少一个假阳性的概率为1-(1-alpha)^m=1-0.95^20=0.64。Bonferroni将阈值改为alpha/m=0.0025，简单但保守；模型多超参数、多指标或多数据集比较时必须考虑它。",
-            "score": 7.038
+            "headingId": "学习目标",
+            "heading": "学习目标",
+            "quote": "从零计算描述统计量、Pearson/Spearman相关与协方差矩阵。执行t检验、卡方检验，正确解释p-value与置信区间。用bootstrap重采样为任意指标构造无需分布假设的置信区间。通过effectsize区分统计显著性和实践显著性。",
+            "score": 10.871
           }
         ]
       },
       {
         "id": "bessel",
-        "question": "为何计算样本方差时用 (n-1) 而非 n 作分母？",
+        "question": "对 n>1 个独立同分布、有限方差的样本，以样本均值计算方差，为何分母用 n−1？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "描述统计-汇总数据",
             "heading": "描述统计：汇总数据",
             "quote": "区分总体与样本：总体方差分母为N，样本方差为s^2=(1/(n-1))sum((xi-xbar)^2)。n-1的Bessel校正补偿了以样本均值代替总体均值导致的低估；样本很大时差异很小，小样本时很重要。",
-            "score": 26.735
+            "score": 23.739
           },
           {
-            "headingId": "假设检验",
-            "heading": "假设检验",
-            "quote": "均值的95%置信区间为xbar+/-z(s/sqrt(n))，大样本正态近似时95%的z=1.96；小样本且总体方差未知时，应使用t分布的临界值。重复许多次实验时，95%的这样构造的区间会覆盖真值；它不是“当前这个区间含真值的概率为95%”。区间越宽，估计越不精确；窄区间仍可能因数据偏倚而不准确。",
-            "score": 9.147
+            "headingId": "central-limit-theorem-practical-implications",
+            "heading": "中心极限定理：实践含义",
+            "quote": "中心极限定理（CLT）说iid变量的样本均值随n增大趋于Normal(mu,sigma^2/n)；多数情形n>=30即可适用，强偏斜分布常需n>=100。它支撑聚合指标CI、CV平均、mini-batchgradient与ensemble平均，但不会把原始数据变正态，也不适用于无限方差重尾分布或相关时间序列。",
+            "score": 14.592
           },
           {
             "headingId": "t-检验",
             "heading": "t 检验",
             "quote": "单样本t检验用t=(xbar-mu0)/(s/sqrt(n))、自由度n-1检验均值是否为假设值。独立两样本比较用Welcht-test：t=(xbar1-xbar2)/sqrt(s1^2/n1+s2^2/n2)；它不假定方差相等，除非确有理由，否则应优先使用。配对t检验先计算每对di=xi-yi，再对差值做单样本检验；同一批交叉验证folds评估两个模型时",
-            "score": 8.99
+            "score": 11.143
           }
         ]
       },
       {
         "id": "multiple-comparison",
-        "question": "以 alpha=0.05 测试 20 个模型配置，至少一个假阳性的近似概率是多少？",
+        "question": "20 个相互独立且零假设均为真的检验，各以 α=0.05 检验，至少一次假阳性的概率约为多少？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "多重比较问题",
             "heading": "多重比较问题",
-            "quote": "同时以alpha=0.05测20个假设，至少一个假阳性的概率为1-(1-alpha)^m=1-0.95^20=0.64。Bonferroni将阈值改为alpha/m=0.0025，简单但保守；模型多超参数、多指标或多数据集比较时必须考虑它。",
-            "score": 36.441
+            "quote": "编者注（题库核对）：至少一次假阳性的公式1−(1−α)^m假定各检验独立且零假设均为真；相关检验不能直接套用等式。Bonferroni控制族错误率不要求检验相互独立。准确率从0.9234到0.9237是0.03个百分点的绝对提升。非参数bootstrap不要求总体正态，但仍依赖重采样能代表抽样过程；模型配对比较应一起重采样两模型的同一批样本，时序或聚类数据需",
+            "score": 91.08
           },
           {
-            "headingId": "ml-论文中的常见统计错误",
-            "heading": "ML 论文中的常见统计错误",
-            "quote": "忽略多重比较。测试50个配置却不加校正地只报告最好的那个，会抬高假阳性率。",
-            "score": 9.677
+            "headingId": "多重比较问题",
+            "heading": "多重比较问题",
+            "quote": "同时以alpha=0.05测20个假设，至少一个假阳性的概率为1-(1-alpha)^m=1-0.95^20=0.64。Bonferroni将阈值改为alpha/m=0.0025，简单但保守；模型多超参数、多指标或多数据集比较时必须考虑它。",
+            "score": 26.044
           },
           {
             "headingId": "假设检验",
             "heading": "假设检验",
             "quote": "零假设H0是“无效应/无差异”的默认立场，备择假设H1是要寻找的效果，例如H0：两个模型准确率相同；H1：B更高。p-value是在H0为真时观察到同样或更极端数据的概率：P(datathisextreme|H0istrue)，不是H0为真的概率。p<alpha（常取0.05）时拒绝H0；否则只是“未能拒绝”，绝不等于H0为真。",
-            "score": 8.138
+            "score": 14.851
           }
         ]
       },
       {
         "id": "practical",
-        "question": "A 为 0.9234、B 为 0.9237，100 万测试样本上 p=0.001，应如何结论？",
+        "question": "A 准确率 0.9234、B 为 0.9237，百万测试样本上 p=0.001，应怎样判断？",
         "status": "draft",
         "candidates": [
           {
-            "headingId": "统计显著性与实践显著性",
-            "heading": "统计显著性与实践显著性",
-            "quote": "统计显著不等于实践重要。样本极大时微小差异也会显著；Cohen'sd衡量独立于样本量的效果（0.2小、0.5中、0.8大），应同时报告p-value与d。",
-            "score": 11.268
-          },
-          {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "测试集上A为0.87、B为0.89，并不自动说明B更好：0.02可能只是测试集过小或方差过高造成的噪声。排行榜波动、无法复现的论文、样本只有数百个就宣布获胜的A/B测试，都常源于跳过统计推断。统计学让我们量化不确定性、判断差异是否真实并估计所需数据量；没有它，模型比较只是猜测。",
-            "score": 8.11
+            "headingId": "多重比较问题",
+            "heading": "多重比较问题",
+            "quote": "编者注（题库核对）：至少一次假阳性的公式1−(1−α)^m假定各检验独立且零假设均为真；相关检验不能直接套用等式。Bonferroni控制族错误率不要求检验相互独立。准确率从0.9234到0.9237是0.03个百分点的绝对提升。非参数bootstrap不要求总体正态，但仍依赖重采样能代表抽样过程；模型配对比较应一起重采样两模型的同一批样本，时序或聚类数据需",
+            "score": 24.479
           },
           {
             "headingId": "ml-论文中的常见统计错误",
             "heading": "ML 论文中的常见统计错误",
-            "quote": "小测试集且没有方差估计。在100个样本上评估并宣称2%的提升，那是噪声而非信号。",
-            "score": 6.03
-          }
-        ]
-      },
-      {
-        "id": "bootstrap",
-        "question": "bootstrap 相比 paired t-test 在模型比较中的优势是什么？",
-        "status": "draft",
-        "candidates": [
-          {
-            "headingId": "bootstrap-方法",
-            "heading": "Bootstrap 方法",
-            "quote": "Bootstrap对n个数据有放回抽样n个，计算统计量并重复B次（通常1,000–10,000）；排序后取2.5与97.5百分位得到95%CI。它无需分布假设，适用于AUC、F1、precision@k、median以及模型指标差。",
-            "score": 19.075
-          },
-          {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "从零计算描述统计量、Pearson/Spearman相关与协方差矩阵。执行t检验、卡方检验，正确解释p-value与置信区间。用bootstrap重采样为任意指标构造无需分布假设的置信区间。通过effectsize区分统计显著性和实践显著性。",
-            "score": 17.39
+            "quote": "混淆统计显著性与实践显著性。在0.01%的accuracy提升上得到0.001的p值毫无意义。",
+            "score": 10.266
           },
           {
             "headingId": "构建实现",
             "heading": "构建实现",
             "quote": "从零实现描述统计（均值、中位数、众数、标准差、百分位数、IQR）相关函数（Pearson和Spearman，含协方差矩阵）假设检验（单样本t检验、双样本t检验、卡方检验）Bootstrap置信区间（适用于任意统计量，无需任何假设）A/B测试模拟器（生成数据、做检验、检查第一类和第二类错误）统计显著性与实践显著性演示（展示大$n$如何让一切都变得“显著”）",
-            "score": 12.885
+            "score": 10.215
+          }
+        ]
+      },
+      {
+        "id": "bootstrap",
+        "question": "非参数 bootstrap 相比只针对均值差的 paired t-test，适用范围有什么优势？",
+        "status": "draft",
+        "candidates": [
+          {
+            "headingId": "多重比较问题",
+            "heading": "多重比较问题",
+            "quote": "编者注（题库核对）：至少一次假阳性的公式1−(1−α)^m假定各检验独立且零假设均为真；相关检验不能直接套用等式。Bonferroni控制族错误率不要求检验相互独立。准确率从0.9234到0.9237是0.03个百分点的绝对提升。非参数bootstrap不要求总体正态，但仍依赖重采样能代表抽样过程；模型配对比较应一起重采样两模型的同一批样本，时序或聚类数据需",
+            "score": 57.312
+          },
+          {
+            "headingId": "bootstrap-方法",
+            "heading": "Bootstrap 方法",
+            "quote": "Bootstrap对n个数据有放回抽样n个，计算统计量并重复B次（通常1,000–10,000）；排序后取2.5与97.5百分位得到95%CI。它无需分布假设，适用于AUC、F1、precision@k、median以及模型指标差。",
+            "score": 18.857
+          },
+          {
+            "headingId": "学习目标",
+            "heading": "学习目标",
+            "quote": "从零计算描述统计量、Pearson/Spearman相关与协方差矩阵。执行t检验、卡方检验，正确解释p-value与置信区间。用bootstrap重采样为任意指标构造无需分布假设的置信区间。通过effectsize区分统计显著性和实践显著性。",
+            "score": 13.153
           }
         ]
       }
@@ -3747,31 +3747,31 @@
   },
   {
     "lessonId": "practice/01-math-foundations/16-sampling-methods",
-    "translationSha256": "ac0f66f5fbeb8338178687c9e36c19e9144ce028a920a7d4e5249264d6b148e5",
-    "assessmentSha256": "46b3a8dbc0792cb13903ecd1f8fbeb85e3fe6bbdc7eb9979f2289800224fcbc6",
+    "translationSha256": "deaf73cc18ae4dcf895f263d0b512fd1b1d49ebfa70e65d5494ed6461cef48a8",
+    "assessmentSha256": "c03f187221d96623fab02f806a25877a5b414921af68dd1f8e6bb428feb4f408",
     "questions": [
       {
         "id": "temperature",
-        "question": "temperature 小于 1.0 对语言模型输出分布有什么作用？",
+        "question": "温度 0<T<1 如何改变有限 logits 的 softmax 分布？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "温度抽样-用于-llm",
             "heading": "温度抽样（用于 LLM）",
             "quote": "为何有效。将logit除以T<1会放大logit之间的差异。若z1=2且z2=1，除以T=0.5后，z1/T=4、z2/T=2，二者的差距变得更大。经过Softmax后，logit最高的词元会获得大得多的概率份额。",
-            "score": 22.464
+            "score": 24.718
+          },
+          {
+            "headingId": "步骤-7-温度抽样",
+            "heading": "步骤 7：温度抽样",
+            "quote": "展示温度如何改变一组词元logit的输出分布。",
+            "score": 10.572
           },
           {
             "headingId": "温度抽样-用于-llm",
             "heading": "温度抽样（用于 LLM）",
-            "quote": "语言模型会为词表中的每个词元输出logitz1,...,zV。Softmax将这些logit转换为概率。温度会在Softmax之前对logit进行缩放：",
-            "score": 14.875
-          },
-          {
-            "headingId": "为什么抽样重要",
-            "heading": "为什么抽样重要",
-            "quote": "生成。语言模型、扩散模型和GAN都通过抽样产生输出。抽样算法直接控制创造性、连贯性和多样性。温度、top-k与核采样是工程师每天调节的旋钮。",
-            "score": 9.817
+            "quote": "温度不会改变哪些词元是可能的；它改变的是分配给各词元的概率质量。",
+            "score": 7.533
           }
         ]
       },
@@ -3784,44 +3784,44 @@
             "headingId": "top-p-nucleus-抽样",
             "heading": "Top-p（nucleus）抽样",
             "quote": "Top-p抽样会动态调整候选集合的大小。它不保留固定数量的词元，而是保留累计概率超过p的最小词元集合。",
-            "score": 31.974
+            "score": 32.085
           },
           {
             "headingId": "top-p-nucleus-抽样",
             "heading": "Top-p（nucleus）抽样",
             "quote": "当模型很有把握时，核抽样会保留很少的词元（可能只有2–3个）；当模型不确定时，它会保留较多词元（可能有200个）。这种自适应行为正是核抽样通常比Top-k生成更好文本的原因。",
-            "score": 14.766
+            "score": 14.821
           },
           {
             "headingId": "top-p-nucleus-抽样",
             "heading": "Top-p（nucleus）抽样",
             "quote": "Top-k和Top-p可以结合使用：先应用Top-k，再在剩余集合上应用Top-p。",
-            "score": 7.797
+            "score": 7.829
           }
         ]
       },
       {
         "id": "reparameterization",
-        "question": "为何不能直接穿过 z~N(mu,sigma²) 反向传播？",
+        "question": "正态抽样如何通过重参数化获得对 μ、σ 的路径梯度？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "重参数化技巧-用于-vae",
             "heading": "重参数化技巧（用于 VAE）",
-            "quote": "重参数化之所以可行，是因为N(mu,sigma^2)与mu+sigmaN(0,1)具有相同的分布。它把随机性移至一个不含参数的来源（epsilon），再将样本表示为参数的可微变换。",
-            "score": 24.055
+            "quote": "编者注（题库核对）：普通sample操作通常不把抽样路径记录为参数的可微函数；正态分布可以改写为z=μ+σε、ε~N(0,1)，使固定ε下的z对μ、σ可微，并估计路径导数。不能笼统声称随机变量没有导数。拒绝采样的接受率取决于目标、提议分布与包络常数M：若每个独立维度的接受率固定为a<1，联合接受率才为a^d；匹配目标的提议不必随维度指数下降。",
+            "score": 33.191
+          },
+          {
+            "headingId": "步骤-9-重参数化技巧",
+            "heading": "步骤 9：重参数化技巧",
+            "quote": "演示梯度可穿过重参数化样本、却不能穿过直接抽样传播。",
+            "score": 13.759
           },
           {
             "headingId": "重参数化技巧-用于-vae",
             "heading": "重参数化技巧（用于 VAE）",
             "quote": "在VAE训练循环中：编码器为每个输入输出mu和log(sigma^2)抽取epsilon~N(0,1)计算z=mu+sigmaepsilon解码z以重建输入经由第4、3、2、1步反向传播（因为第3步可微，所以这是可行的）",
-            "score": 19.519
-          },
-          {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "抽样并不局限于文本生成。强化学习通过抽样轨迹来估计策略梯度；VAE通过从已学习的分布中抽样，并穿过随机性进行反向传播来学习潜在表示；扩散模型通过抽样噪声并迭代去噪来生成图像；蒙特卡洛方法用于估计没有闭式解的积分；MCMC算法则探索无法枚举的高维后验分布。",
-            "score": 14.846
+            "score": 11.317
           }
         ]
       },
@@ -3834,44 +3834,44 @@
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习4.写出目标分布的对数，即$-(x^2y^2+x^2+y^2-8x-8y)/2$，并把它传给metropolishastings2d。记录每个提议标准差对应的接受率：非常小的值几乎每步都接受但移动缓慢，非常大的值则几乎每步都拒绝。",
-            "score": 14.276
+            "score": 14.128
           },
           {
             "headingId": "markov-chain-monte-carlo-mcmc-metropolis-hastings",
             "heading": "马尔可夫链 Monte Carlo（MCMC）：Metropolis–Hastings",
             "quote": "实践注意事项：预热：丢弃链达到平衡前产生的早期样本抽稀：每隔k个样本保留一个，以降低自相关性提议尺度：太小会使链移动缓慢（接受率高，但探索慢）；太大会导致大多数提议被拒绝（接受率低，链停在原地）在高维空间中，高斯提议分布的最优接受率约为0.234",
-            "score": 8.572
+            "score": 8.403
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "实现Metropolis–Hastings，从与exp(-(x^2y^2+x^2+y^2-8x-8y)/2)成正比的二维分布p(x,y)中抽样。绘制样本和链轨迹，并试验不同的提议标准差。",
-            "score": 6.098
+            "score": 6.12
           }
         ]
       },
       {
         "id": "rejection-dimension",
-        "question": "rejection sampling 的维度升高时接受率如何变化？",
+        "question": "独立的 d 个维度各以固定概率 a（0<a<1）通过拒绝采样，联合接受率是多少？",
         "status": "draft",
         "candidates": [
+          {
+            "headingId": "重参数化技巧-用于-vae",
+            "heading": "重参数化技巧（用于 VAE）",
+            "quote": "编者注（题库核对）：普通sample操作通常不把抽样路径记录为参数的可微函数；正态分布可以改写为z=μ+σε、ε~N(0,1)，使固定ε下的z对μ、σ可微，并估计路径导数。不能笼统声称随机变量没有导数。拒绝采样的接受率取决于目标、提议分布与包络常数M：若每个独立维度的接受率固定为a<1，联合接受率才为a^d；匹配目标的提议不必随维度指数下降。",
+            "score": 69.558
+          },
+          {
+            "headingId": "练习",
+            "heading": "练习",
+            "quote": "使用Uniform(0,1)提议分布，以拒绝抽样生成Beta(2,5)分布样本。将接受样本与真实BetaPDF对照绘制。理论接受率是多少？",
+            "score": 20.248
+          },
           {
             "headingId": "拒绝抽样",
             "heading": "拒绝抽样",
             "quote": "界M越紧，接受率越高。在低维（1–3维）中，拒绝抽样效果良好；在高维中，因提议分布的大部分体积都会被拒绝，接受率会指数级下降，这种现象称为拒绝抽样中的维度灾难。",
-            "score": 26.716
-          },
-          {
-            "headingId": "markov-chain-monte-carlo-mcmc-metropolis-hastings",
-            "heading": "马尔可夫链 Monte Carlo（MCMC）：Metropolis–Hastings",
-            "quote": "实践注意事项：预热：丢弃链达到平衡前产生的早期样本抽稀：每隔k个样本保留一个，以降低自相关性提议尺度：太小会使链移动缓慢（接受率高，但探索慢）；太大会导致大多数提议被拒绝（接受率低，链停在原地）在高维空间中，高斯提议分布的最优接受率约为0.234",
-            "score": 10.792
-          },
-          {
-            "headingId": "提示",
-            "heading": "提示",
-            "quote": "练习2.Beta(2,5)的密度为$30x(1-x)^4$。在众数$x=1/5$处求其最大值，并把该值作为rejectionsample中的$M$。理论接受率为$1/M$，用它与你实际接受的提议比例对比。",
-            "score": 10.075
+            "score": 17.812
           }
         ]
       }
@@ -3879,8 +3879,8 @@
   },
   {
     "lessonId": "practice/01-math-foundations/17-linear-systems",
-    "translationSha256": "014cd8a418a635fec78df745f56ada413fe3c4dfeec47b9d8241c6eeae7cce61",
-    "assessmentSha256": "0455afde608bda4418291c389b8b37481b3f27384d38a01704c95e1382ee3f7e",
+    "translationSha256": "21c22d9b595effb2ec7b025be368b0b755ee645830959054ce7880a971f79cb1",
+    "assessmentSha256": "3f4dfc3998ce2fbc97fdca8b02573fb4e9c46495ffdc336764034046aa64246f",
     "questions": [
       {
         "id": "column-space",
@@ -3891,19 +3891,19 @@
             "headingId": "ax-b-的几何含义",
             "heading": "Ax = b 的几何含义",
             "quote": "用矩阵语言说，“唯一解”表示A可逆；“无解”表示方程组不一致；“无穷多解”表示A有零空间（nullspace）。多数机器学习问题属于“没有精确解”，因为方程（数据点）多于未知量（参数）。这正是最小二乘发挥作用的地方。",
-            "score": 18.538
+            "score": 17.866
+          },
+          {
+            "headingId": "ax-b-的几何含义",
+            "heading": "Ax = b 的几何含义",
+            "quote": "编者注（题库核对）：Ax=b有精确解当且仅当b位于A的列空间。一般矩形矩阵也可能有唯一解；“唯一解意味着可逆”仅适用于方阵。条件数给出对扰动敏感性的上界，损失log10(κ)位是粗略最坏情形估计，不是每次求解必然达到的误差。",
+            "score": 14.703
           },
           {
             "headingId": "最小二乘-当-ax-b-没有精确解时",
             "heading": "最小二乘：当 Ax = b 没有精确解时",
             "quote": "若A为m×n矩阵且m>n（方程多于未知量），该方程组为超定系统，通常没有精确解。此时改为最小化平方误差：",
-            "score": 12.149
-          },
-          {
-            "headingId": "最小二乘-当-ax-b-没有精确解时",
-            "heading": "最小二乘：当 Ax = b 没有精确解时",
-            "quote": "推导：展开||Ax-b||^2=(Ax-b)^T(Ax-b)=x^TA^TAx-2x^TA^Tb+b^Tb。对x求梯度并令其为零：2A^TAx-2A^Tb=0。",
-            "score": 12.149
+            "score": 11.658
           }
         ]
       },
@@ -3916,94 +3916,94 @@
             "headingId": "部分主元选取-为何重要",
             "heading": "部分主元选取：为何重要",
             "quote": "没有主元选取时，高斯消元可能失败或产生错误结果。主元为零时会发生除零；主元很小时，舍入误差会被放大。",
-            "score": 15.535
+            "score": 15.398
           },
           {
             "headingId": "部分主元选取-为何重要",
             "heading": "部分主元选取：为何重要",
             "quote": "在精度有限的浮点运算中，不选主元的版本可能损失有效数字。部分主元选取始终选择可用的最大主元，以尽量减小误差放大。",
-            "score": 8.483
+            "score": 8.316
           },
           {
             "headingId": "延伸阅读",
             "heading": "延伸阅读",
             "quote": "MIT18.06：线性代数（GilbertStrang）——讲解线性方程组和矩阵分解的权威课程数值线性代数（Trefethen与Bau）——理解数值稳定性、条件数及算法为何失败的标准参考矩阵计算（Golub与VanLoan）——覆盖各种矩阵算法的百科式参考书3Blue1Brown：逆矩阵——直观理解从几何上求解Ax=b的含义",
-            "score": 7.623
+            "score": 7.665
           }
         ]
       },
       {
         "id": "cholesky",
-        "question": "ridge 的 (X^TX+lambda I)w=X^Ty 为何优先 Cholesky？",
+        "question": "λ>0 时，岭回归的 XᵀX+λI 为什么适合使用 Cholesky？",
         "status": "draft",
         "candidates": [
           {
-            "headingId": "与机器学习的联系",
-            "heading": "与机器学习的联系",
-            "quote": "岭回归。向X^TX加入lambdaI。正则化系统(X^TX+lambdaI)w=X^Ty总能通过Cholesky求解，因为在lambda>0时X^TX+lambdaI对称正定。",
-            "score": 20.332
-          },
-          {
-            "headingId": "正规方程-线性回归",
-            "heading": "正规方程 = 线性回归",
-            "quote": "正则化使矩阵的条件更好（更容易精确求逆），并通过把权重向零收缩来防止过拟合。当lambda>0时，矩阵X^TX+lambdaI始终对称正定，因此可用Cholesky求解。",
-            "score": 18.83
-          },
-          {
             "headingId": "cholesky-分解",
             "heading": "Cholesky 分解",
-            "quote": "协方差矩阵是对称半正定的（加入正则化后为正定）。高斯过程中的核矩阵是对称正定的。凸函数在极小点处的Hessian矩阵是对称正定的。A^TA始终是对称半正定的。",
-            "score": 15.207
+            "quote": "Cholesky的速度约为LU的两倍，存储需求约为一半。它只能处理对称正定矩阵，但这类矩阵频繁出现：",
+            "score": 27.705
+          },
+          {
+            "headingId": "提示",
+            "heading": "提示",
+            "quote": "练习5.三个求解器都使用同样的B@B.T+nnp.eye(n)矩阵，并用time.perfcounter为每次求解计时，取多次运行中的最优值。Cholesky所需的算术量约为LU的一半，所以在较大规模下比值最清晰。",
+            "score": 16.126
+          },
+          {
+            "headingId": "练习",
+            "heading": "练习",
+            "quote": "为一个100×100的随机对称正定矩阵实现共轭梯度算法。统计它收敛到容差1e-8所需的迭代次数，并与理论上最多n次迭代进行比较。",
+            "score": 13.331
           }
         ]
       },
       {
         "id": "condition",
-        "question": "kappa=10^8、float64 约 15 位时，可信任多少位解？",
+        "question": "κ=10⁸，若仅有约 15 位输入有效数字，按条件数粗估最坏情形还可能保留约几位？",
         "status": "draft",
         "candidates": [
+          {
+            "headingId": "ax-b-的几何含义",
+            "heading": "Ax = b 的几何含义",
+            "quote": "编者注（题库核对）：Ax=b有精确解当且仅当b位于A的列空间。一般矩形矩阵也可能有唯一解；“唯一解意味着可逆”仅适用于方阵。条件数给出对扰动敏感性的上界，损失log10(κ)位是粗略最坏情形估计，不是每次求解必然达到的误差。",
+            "score": 66.919
+          },
+          {
+            "headingId": "部分主元选取-为何重要",
+            "heading": "部分主元选取：为何重要",
+            "quote": "在精度有限的浮点运算中，不选主元的版本可能损失有效数字。部分主元选取始终选择可用的最大主元，以尽量减小误差放大。",
+            "score": 17.351
+          },
           {
             "headingId": "条件数",
             "heading": "条件数",
             "quote": "kappa<100：安全，解较精确。kappa~10^k：浮点运算会损失约k位有效数字。kappa~10^16（对float64）：解没有意义，矩阵可视为奇异矩阵。",
-            "score": 9.524
-          },
-          {
-            "headingId": "练习",
-            "heading": "练习",
-            "quote": "生成一个50×5的随机矩阵X，以及目标y=X@wtrue+noise。分别用正规方程、QR（通过np.linalg.qr）、SVD（通过np.linalg.svd）和np.linalg.lstsq求解w。比较这四种解。测量X^TX的条件数，并说明它如何影响你信任哪一种方法。",
-            "score": 3.526
-          },
-          {
-            "headingId": "与机器学习的联系",
-            "heading": "与机器学习的联系",
-            "quote": "特征工程。X^TX的条件数能表明特征是否共线。若kappa很大，应删除特征或加入正则化。",
-            "score": 3.135
+            "score": 15.196
           }
         ]
       },
       {
         "id": "lu-reuse",
-        "question": "同一 A、多个 b 时 LU 相比直接消元的主要优势？",
+        "question": "对同一可逆 n×n 矩阵 A 和多个右端 b，复用 LU 的主要成本优势是什么？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "gaussian-elimination",
             "heading": "高斯消元法",
             "quote": "高斯消元需要O(n^3)次运算。对一个1000×1000的方程组，这大约是十亿次浮点运算。它很快；但若需用同一个A求解多个方程组，还能做得更好。",
-            "score": 9.173
+            "score": 9.215
           },
           {
-            "headingId": "gaussian-elimination",
-            "heading": "高斯消元法",
-            "quote": "高斯消元将Ax=b变换为上三角方程组Ux=c，再通过回代求解。这是最直接的方法。",
-            "score": 8.118
+            "headingId": "学习目标",
+            "heading": "学习目标",
+            "quote": "使用带部分主元选取（partialpivoting）和回代（backsubstitution）的高斯消元法求解Ax=b以LU、QR和Cholesky分解矩阵，并说明各自适用的情形推导最小二乘的正规方程，并将它与线性回归和岭回归联系起来用条件数诊断病态方程组，并应用正则化使其稳定",
+            "score": 8.128
           },
           {
             "headingId": "lu-分解",
             "heading": "LU 分解",
             "quote": "为何分解而不只做消元？因为一旦得到L和U，对任意新的b求解Ax=b只需O(n^2)：",
-            "score": 7.39
+            "score": 7.43
           }
         ]
       }
@@ -4011,8 +4011,8 @@
   },
   {
     "lessonId": "practice/01-math-foundations/18-convex-optimization",
-    "translationSha256": "1492f8554f234c60b4296b9c3c45a4d6f2822fdd637a37070c9d3659612731df",
-    "assessmentSha256": "7450fbe77c06c80d13f4631ac32b8d63c5152661c284ca8d77afa98ecedec646",
+    "translationSha256": "f4570e56fa1029fddf58ea8512d86125f81d653f20a6c4cdaf31a387e43fddb7",
+    "assessmentSha256": "04ecc1b3441a81b303962466a689959117b7b4f303973ffe8f154057b2b972ca",
     "questions": [
       {
         "id": "convex",
@@ -4023,119 +4023,119 @@
             "headingId": "检验凸性",
             "heading": "检验凸性",
             "quote": "检验3：定义检验。直接检查不等式f(tx+(1-t)y)<=tf(x)+(1-t)f(y)。这种方法适用于难以计算导数的函数。",
-            "score": 15.647
+            "score": 15.707
           },
           {
             "headingId": "kkt-条件",
             "heading": "KKT 条件",
             "quote": "Karush-Kuhn-Tucker（KKT）条件将拉格朗日乘子法扩展到不等式约束。",
-            "score": 6.616
+            "score": 6.64
           },
           {
             "headingId": "凸函数",
             "heading": "凸函数",
             "quote": "如果函数f的定义域是凸集，并且对其定义域中的任意两点x、y以及[0,1]中任意t，都有：",
-            "score": 6.21
+            "score": 6.234
           }
         ]
       },
       {
         "id": "ml",
-        "question": "哪个 ML 问题有 convex loss landscape？",
+        "question": "下列标准建模方式中，哪个目标关于所述待优化变量是凸的？",
         "status": "draft",
         "candidates": [
-          {
-            "headingId": "对偶性",
-            "heading": "对偶性",
-            "quote": "对偶性的重要之处：对偶问题有时比原问题更容易求解SVM以对偶形式求解，此时问题取决于数据点之间的点积（从而可以使用核技巧）对偶问题为原问题的最优值提供下界，可用于检查解的质量",
-            "score": 5.301
-          },
-          {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "使用定义、二阶导数和Hessian判据检验函数是否为凸函数实现牛顿法，并将其二次收敛速度与梯度下降进行比较使用拉格朗日乘子求解约束优化问题，并解释KKT条件解释神经网络损失景观为何是非凸的，以及SGD为何仍能找到良好解",
-            "score": 3.556
-          },
-          {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "第08课介绍了梯度下降、动量法和Adam。这些优化器能在任何曲面上向下行进，但不提供任何保证。在非凸景观上，梯度下降可能落入糟糕的局部最小值、困在鞍点，或永远来回振荡。尽管如此，你仍然会使用它，因为神经网络是非凸的，并没有其他可行的通用选择。",
-            "score": 3.556
-          }
-        ]
-      },
-      {
-        "id": "newton",
-        "question": "Newton 对 5x²+3x+1 几步到最小值？",
-        "status": "draft",
-        "candidates": [
-          {
-            "headingId": "牛顿法",
-            "heading": "牛顿法",
-            "quote": "梯度下降使用一阶信息（梯度），牛顿法则使用二阶信息（Hessian）。它在当前点拟合一个二次近似，然后直接跳到该二次函数的最小值。",
-            "score": 7.869
-          },
-          {
-            "headingId": "凸性为何重要",
-            "heading": "凸性为何重要",
-            "quote": "这意味着梯度下降不会被困在坏的局部最小值中。它能到达的每个最小值都具有相同的损失。对一个有最小值的光滑凸函数，步长合适的梯度下降能保证收敛到最优值。",
-            "score": 6.633
-          },
-          {
-            "headingId": "第-4-步-比较一阶方法与二阶方法",
-            "heading": "第 4 步：比较一阶方法与二阶方法",
-            "quote": "牛顿法将在1步内收敛（对二次函数而言它是精确的）。梯度下降则需要数百步，因为Hessian的特征值相差5倍，形成了一个狭长的谷地。",
-            "score": 5.595
-          }
-        ]
-      },
-      {
-        "id": "kkt",
-        "question": "KKT complementary slackness 表示？",
-        "status": "draft",
-        "candidates": [
-          {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "使用定义、二阶导数和Hessian判据检验函数是否为凸函数实现牛顿法，并将其二次收敛速度与梯度下降进行比较使用拉格朗日乘子求解约束优化问题，并解释KKT条件解释神经网络损失景观为何是非凸的，以及SGD为何仍能找到良好解",
-            "score": 2.508
-          },
           {
             "headingId": "kkt-条件",
             "heading": "KKT 条件",
-            "quote": "Karush-Kuhn-Tucker（KKT）条件将拉格朗日乘子法扩展到不等式约束。",
-            "score": 2.508
-          },
-          {
-            "headingId": "kkt-条件",
-            "heading": "KKT 条件",
-            "quote": "问题：在i=1,...,m时满足gi(x)<=0的条件下，最小化f(x)。",
-            "score": 2.508
-          }
-        ]
-      },
-      {
-        "id": "sgd",
-        "question": "非凸 NN 中 SGD 为何仍常找到好解？",
-        "status": "draft",
-        "candidates": [
-          {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "使用定义、二阶导数和Hessian判据检验函数是否为凸函数实现牛顿法，并将其二次收敛速度与梯度下降进行比较使用拉格朗日乘子求解约束优化问题，并解释KKT条件解释神经网络损失景观为何是非凸的，以及SGD为何仍能找到良好解",
-            "score": 22.149
-          },
-          {
-            "headingId": "深度学习为何能在非凸条件下奏效",
-            "heading": "深度学习为何能在非凸条件下奏效",
-            "quote": "神经网络的损失函数具有极强的非凸性。按照所有经典衡量标准，优化它们本应失败，然而随机梯度下降却能可靠地找到良好解。以下几个因素可以解释这一现象。",
-            "score": 17.265
+            "quote": "编者注（题库核对）：互补松弛是λᵢgᵢ(x)=0；严格非活跃约束gᵢ(x)<0的乘子必须为零，活跃约束的乘子也可以为零。KKT必要性需要约束资格条件；凸问题满足相应条件时才可用于全局最优判断。无正则或使用凸正则的线性逻辑回归交叉熵对权重凸。SGD噪声可能帮助逃离部分鞍点，但非凸网络没有普遍的全局最优保证，正文对随机临界点比例及泛化的描述是有假设的直觉。",
+            "score": 12.376
           },
           {
             "headingId": "延伸阅读",
             "heading": "延伸阅读",
             "quote": "Boyd&Vandenberghe：《凸优化》——可在线免费获取的标准教材Bottou、Curtis、Nocedal：《大规模机器学习的优化方法》（2018）——连接凸优化理论与深度学习实践Choromanska等：《多层网络的损失曲面》（2015）——解释非凸神经网络景观为何没有看起来那么糟糕Nocedal&Wright：《数值优化》——关于牛顿法、L-B",
-            "score": 12.042
+            "score": 10.272
+          },
+          {
+            "headingId": "学习目标",
+            "heading": "学习目标",
+            "quote": "使用定义、二阶导数和Hessian判据检验函数是否为凸函数实现牛顿法，并将其二次收敛速度与梯度下降进行比较使用拉格朗日乘子求解约束优化问题，并解释KKT条件解释神经网络损失景观为何是非凸的，以及SGD为何仍能找到良好解",
+            "score": 9.89
+          }
+        ]
+      },
+      {
+        "id": "newton",
+        "question": "对 5x²+3x+1，从非最优初值做精确、无阻尼 Newton 更新，几步到最小值？",
+        "status": "draft",
+        "candidates": [
+          {
+            "headingId": "牛顿法",
+            "heading": "牛顿法",
+            "quote": "优点：在最小值附近二次收敛（误差在每一步都会平方）无需调节学习率具有尺度不变性（无论怎样参数化问题都能工作）",
+            "score": 15.063
+          },
+          {
+            "headingId": "牛顿法",
+            "heading": "牛顿法",
+            "quote": "梯度下降使用一阶信息（梯度），牛顿法则使用二阶信息（Hessian）。它在当前点拟合一个二次近似，然后直接跳到该二次函数的最小值。",
+            "score": 14.67
+          },
+          {
+            "headingId": "第-4-步-比较一阶方法与二阶方法",
+            "heading": "第 4 步：比较一阶方法与二阶方法",
+            "quote": "牛顿法将在1步内收敛（对二次函数而言它是精确的）。梯度下降则需要数百步，因为Hessian的特征值相差5倍，形成了一个狭长的谷地。",
+            "score": 12.376
+          }
+        ]
+      },
+      {
+        "id": "kkt",
+        "question": "对 gᵢ(x)≤0、λᵢ≥0，KKT 互补松弛 λᵢgᵢ(x)=0 意味着什么？",
+        "status": "draft",
+        "candidates": [
+          {
+            "headingId": "kkt-条件",
+            "heading": "KKT 条件",
+            "quote": "编者注（题库核对）：互补松弛是λᵢgᵢ(x)=0；严格非活跃约束gᵢ(x)<0的乘子必须为零，活跃约束的乘子也可以为零。KKT必要性需要约束资格条件；凸问题满足相应条件时才可用于全局最优判断。无正则或使用凸正则的线性逻辑回归交叉熵对权重凸。SGD噪声可能帮助逃离部分鞍点，但非凸网络没有普遍的全局最优保证，正文对随机临界点比例及泛化的描述是有假设的直觉。",
+            "score": 38.498
+          },
+          {
+            "headingId": "kkt-条件",
+            "heading": "KKT 条件",
+            "quote": "互补松弛给出了一个直接判据：约束活跃时（gi=0，解位于边界上），对应乘子可以为正；约束不影响解时，其lambda=0。",
+            "score": 25.27
+          },
+          {
+            "headingId": "凸函数",
+            "heading": "凸函数",
+            "quote": "那么f就是凸函数。几何上，这意味着函数图像上任意两点之间的线段都位于图像上方或与图像重合。",
+            "score": 6.089
+          }
+        ]
+      },
+      {
+        "id": "sgd",
+        "question": "对非凸网络中 SGD 有时能找到好解，哪种解释保留了必要边界？",
+        "status": "draft",
+        "candidates": [
+          {
+            "headingId": "kkt-条件",
+            "heading": "KKT 条件",
+            "quote": "编者注（题库核对）：互补松弛是λᵢgᵢ(x)=0；严格非活跃约束gᵢ(x)<0的乘子必须为零，活跃约束的乘子也可以为零。KKT必要性需要约束资格条件；凸问题满足相应条件时才可用于全局最优判断。无正则或使用凸正则的线性逻辑回归交叉熵对权重凸。SGD噪声可能帮助逃离部分鞍点，但非凸网络没有普遍的全局最优保证，正文对随机临界点比例及泛化的描述是有假设的直觉。",
+            "score": 52.637
+          },
+          {
+            "headingId": "学习目标",
+            "heading": "学习目标",
+            "quote": "使用定义、二阶导数和Hessian判据检验函数是否为凸函数实现牛顿法，并将其二次收敛速度与梯度下降进行比较使用拉格朗日乘子求解约束优化问题，并解释KKT条件解释神经网络损失景观为何是非凸的，以及SGD为何仍能找到良好解",
+            "score": 21.295
+          },
+          {
+            "headingId": "深度学习为何能在非凸条件下奏效",
+            "heading": "深度学习为何能在非凸条件下奏效",
+            "quote": "高维优化的主要障碍是鞍点。对一个有n个参数的函数，鞍点在不同方向上兼有正曲率和负曲率。在高维空间的随机临界点处，全部n个特征值均为正（即局部最小值）的概率大约为2^(-n)。几乎所有临界点都是鞍点，而SGD的噪声有助于逃离这些点。",
+            "score": 19.519
           }
         ]
       }
@@ -4143,8 +4143,8 @@
   },
   {
     "lessonId": "practice/01-math-foundations/19-complex-numbers",
-    "translationSha256": "0d20701de3db9e946f91b32d6b52b47a75500750649698ab32ff745bd8851cb3",
-    "assessmentSha256": "d47cefe4c032d2548b6cf2e57f876a347ead14210c23ad7339cf0484fcb68685",
+    "translationSha256": "c6545fcde1709baa9f7c6280d6fa9457d5471ef453359a69267c0cd65ce6b6f7",
+    "assessmentSha256": "e8ce280cfe7528468a34e2deb4dcb9478ebf71fe95a2310b870579451b0c23d1",
     "questions": [
       {
         "id": "i",
@@ -4155,19 +4155,19 @@
             "headingId": "面向-ai-的复数",
             "heading": "面向 AI 的复数",
             "quote": "-1的平方根并不是虚幻之物。它是理解旋转、频率以及信号处理半壁江山的关键。",
-            "score": 1.333
+            "score": 1.344
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "分别以直角坐标形式和极坐标形式进行复数运算（加法、乘法、除法和共轭）运用欧拉公式在复指数函数与三角函数之间转换使用复数单位根实现离散傅里叶变换解释复数旋转如何构成Transformer中RoPE和正弦位置编码的基础",
-            "score": 1.333
+            "score": 1.344
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "复数看起来十分抽象，因为它建立在-1的平方根之上。它为旋转和振荡提供了自然的数学表示；处理转动、振动或周期信号时，复数通常是合适的工具。",
-            "score": 1.333
+            "score": 1.344
           }
         ]
       },
@@ -4180,19 +4180,19 @@
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习1.用$i^2=-1$展开乘积，再通过分子分母同乘共轭$1+3i$来做除法。用Complex(2,3)Complex(4,-1)检查乘积：它的magnitude()必须等于两个模长之积，phase()必须等于两个相位之和。",
-            "score": 6.026
+            "score": 6.054
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习5.旋转矩阵为[[cost,-sint],[sint,cost]]。对每个角度和点，分别计算euler(t)Complex(x,y)和矩阵乘积，然后记录最大绝对差。预期为约$10^{-15}$的值。",
-            "score": 5.817
+            "score": 5.845
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习4.调用rootsofunity(8)并把这些根相加：和的模长必须接近0。用每个根除以前一个根，检查每个结果都等于euler(2math.pi/8)。",
-            "score": 5.544
+            "score": 5.571
           }
         ]
       },
@@ -4202,21 +4202,21 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "第-6-步-单位根",
+            "heading": "第 6 步：单位根",
+            "quote": "编者注（题库核对）：全部N次单位根的和为零要求整数N>1；N=1时唯一的根为1，和也是1。欧拉公式为e^(iθ)=cos(θ)+isin(θ)。乘法按分配律展开，并用i²=−1合并实部与虚部。",
+            "score": 3.164
+          },
+          {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习1.用$i^2=-1$展开乘积，再通过分子分母同乘共轭$1+3i$来做除法。用Complex(2,3)Complex(4,-1)检查乘积：它的magnitude()必须等于两个模长之积，phase()必须等于两个相位之和。",
-            "score": 3.541
+            "score": 3.164
           },
           {
             "headingId": "面向-ai-的复数",
             "heading": "面向 AI 的复数",
             "quote": "-1的平方根并不是虚幻之物。它是理解旋转、频率以及信号处理半壁江山的关键。",
-            "score": 0
-          },
-          {
-            "headingId": "面向-ai-的复数",
-            "heading": "面向 AI 的复数",
-            "quote": "类型：学习语言：Python先修内容：阶段1，第01—04课（线性代数、微积分）预计时间：约60分钟",
             "score": 0
           }
         ]
@@ -4230,44 +4230,44 @@
             "headingId": "与-transformer-的联系",
             "heading": "与 Transformer 的联系",
             "quote": "RoPE（旋转位置嵌入）将这一思路又推进了一步。它显式地把查询向量和键向量乘以复数旋转矩阵。两个词元之间的相对位置转化为一个旋转角度。注意力使用这些经过旋转的向量来计算，使模型能够通过复数乘法感知相对位置。",
-            "score": 17.201
+            "score": 17.283
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "分别以直角坐标形式和极坐标形式进行复数运算（加法、乘法、除法和共轭）运用欧拉公式在复指数函数与三角函数之间转换使用复数单位根实现离散傅里叶变换解释复数旋转如何构成Transformer中RoPE和正弦位置编码的基础",
-            "score": 6.969
+            "score": 7.009
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "当你打开一篇有关傅里叶变换的论文时，会发现i无处不在。查看Transformer的位置编码时，你会看到不同频率的sin和cos——它们正是复指数的实部和虚部。阅读量子计算资料时，你又会发现一切都用复向量空间来表达。",
-            "score": 5.674
+            "score": 5.702
           }
         ]
       },
       {
         "id": "roots",
-        "question": "N 个 roots of unity 的和？",
+        "question": "整数 N>1 时，全部 N 次单位根之和是多少？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "第-6-步-单位根",
             "heading": "第 6 步：单位根",
             "quote": "验证以下两个性质：每个单位根的模都恰好为1。全部N个单位根之和为零（它们会因对称性相互抵消）。",
-            "score": 14.654
+            "score": 21.872
           },
           {
-            "headingId": "练习",
-            "heading": "练习",
-            "quote": "单位根可视化。计算8次单位根。验证它们的和为零。验证任一单位根乘以本原单位根e^(2pii/8)后，都会得到下一个单位根。",
-            "score": 11.113
+            "headingId": "第-6-步-单位根",
+            "heading": "第 6 步：单位根",
+            "quote": "编者注（题库核对）：全部N次单位根的和为零要求整数N>1；N=1时唯一的根为1，和也是1。欧拉公式为e^(iθ)=cos(θ)+isin(θ)。乘法按分配律展开，并用i²=−1合并实部与虚部。",
+            "score": 19.738
           },
           {
             "headingId": "单位根",
             "heading": "单位根",
             "quote": "N次单位根是单位圆上等间距分布的N个点：",
-            "score": 8.173
+            "score": 13.683
           }
         ]
       }
@@ -4275,8 +4275,8 @@
   },
   {
     "lessonId": "practice/01-math-foundations/20-fourier-transform",
-    "translationSha256": "13c9519bfc63965da9844cc02d1141a8407ad427957b6e45f3ce29462e887fcb",
-    "assessmentSha256": "f7e527f211102e57b52b25ce363925681ce97911d3694069a9db4676c6927028",
+    "translationSha256": "4dcb9c6caf10325cbc014be68bef038904a5d942f362e305e566095f6e535ce5",
+    "assessmentSha256": "73d9f082b465b3fb8e29e3586269ed8033af5f53603129bf21b202de3b899c4f",
     "questions": [
       {
         "id": "transform",
@@ -4287,19 +4287,19 @@
             "headingId": "问题",
             "heading": "问题",
             "quote": "傅里叶变换把数据从时域转换到频域。它接收一个信号，并将其分解成频率各不相同的正弦波。每个正弦波都有振幅（强度有多大）和相位（从哪里开始）。傅里叶变换会把这两者都告诉你。",
-            "score": 21.698
+            "score": 21.78
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "这对机器学习很重要，因为频域思维无处不在。卷积神经网络执行卷积，而卷积在频域中就是乘法。Transformer的位置编码利用频率分解来表示位置。音频模型（语音识别、音乐生成）处理的是频谱图——声音的频率表示。时间序列模型会寻找周期模式。理解傅里叶变换，能让你掌握处理所有这些问题所需的概念语言。",
-            "score": 17.938
+            "score": 17.996
           },
           {
             "headingId": "频谱图与短时傅里叶变换",
             "heading": "频谱图与短时傅里叶变换",
             "quote": "一次FFT可以给出整个信号的频率成分，却完全无法告诉你这些频率是在什么时候出现的。啁啾信号（一种频率随时间增加的信号）和和弦（所有频率同时出现）可能拥有相同的幅度谱。",
-            "score": 16.227
+            "score": 16.27
           }
         ]
       },
@@ -4312,44 +4312,44 @@
             "headingId": "fft-让变换更快",
             "heading": "FFT：让变换更快",
             "quote": "这种对称性意味着每一层递归只需完成O(N)的工作，而递归共有log2(N)层。因此总时间复杂度为O(NlogN)。",
-            "score": 9.62
+            "score": 9.674
           },
           {
             "headingId": "与-cnn-的联系",
             "heading": "与 CNN 的联系",
             "quote": "标准CNN实现使用直接卷积（对3x3这样的小型卷积核更快）。但对大型卷积核或全局卷积，基于FFT的方法会快得多。有些架构（如FNet）甚至完全用FFT取代注意力机制，在把复杂度从O(N^2)降至O(NlogN)的同时取得了有竞争力的准确率。",
-            "score": 8.579
+            "score": 8.633
           },
           {
-            "headingId": "练习",
-            "heading": "练习",
-            "quote": "验证FFT与DFT。生成一个长度为64的随机信号。分别计算DFT（O(N^2)）和FFT。验证所有系数的误差都在1e-10以内。对长度为256、512、1024和2048的信号，分别测量两个函数的运行时间。绘制DFT运行时间与FFT运行时间之比。",
-            "score": 8.579
+            "headingId": "第-1-步-从零实现-dft",
+            "heading": "第 1 步：从零实现 DFT",
+            "quote": "时间复杂度为O(N^2)的DFT直接遵循定义。",
+            "score": 8.56
           }
         ]
       },
       {
         "id": "convolution",
-        "question": "convolution theorem 表示？",
+        "question": "对长度相同的离散周期序列，循环卷积定理表示什么？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "与-cnn-的联系",
             "heading": "与 CNN 的联系",
-            "quote": "根据卷积定理，这等价于：对输入做FFT对卷积核做FFT在频域中相乘对结果做IFFT",
-            "score": 4.958
+            "quote": "编者注（题库核对）：DFT的逐点乘积对应循环卷积；计算线性卷积时须把两个序列补零至至少N+M−1，再变换、相乘和逆变换。补零只加密频率采样网格，不增加原观测时长的信息；实际可分辨能力还受窗函数和信噪比影响。位置编码的多频率提供不同位置尺度，并非任意有限精度、任意长度下绝无碰撞的保证。",
+            "score": 43.775
           },
           {
-            "headingId": "频谱图与短时傅里叶变换",
-            "heading": "频谱图与短时傅里叶变换",
-            "quote": "短时傅里叶变换（STFT）通过在信号的重叠窗口上计算FFT来解决这个问题。其结果是频谱图：一种二维表示，其中一个轴表示时间，另一个轴表示频率。每一点的强度表示该频率在该时刻的能量。",
-            "score": 3.554
+            "headingId": "卷积定理",
+            "heading": "卷积定理",
+            "quote": "注意：DFT计算的是循环卷积（信号会从末尾绕回开头）。若要计算线性卷积（不会绕回），请先把两个信号都补零到N+M-1的长度，然后再进行计算。",
+            "score": 22.136
           },
           {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "这对机器学习很重要，因为频域思维无处不在。卷积神经网络执行卷积，而卷积在频域中就是乘法。Transformer的位置编码利用频率分解来表示位置。音频模型（语音识别、音乐生成）处理的是频谱图——声音的频率表示。时间序列模型会寻找周期模式。理解傅里叶变换，能让你掌握处理所有这些问题所需的概念语言。",
-            "score": 2.107
+            "headingId": "练习",
+            "heading": "练习",
+            "quote": "用示例证明卷积定理。创建信号x=[1,2,3,4,0,0,0,0]和滤波器h=[1,1,1,0,0,0,0,0]。直接计算它们的循环卷积（使用嵌套循环）。然后通过FFT计算（变换、相乘、逆变换）。验证结果是否相同。接下来，通过适当补零来计算线性卷积。",
+            "score": 20.75
           }
         ]
       },
@@ -4362,19 +4362,19 @@
             "headingId": "补零不会提高分辨率",
             "heading": "补零不会提高分辨率",
             "quote": "频率分辨率只取决于观测时间T=N/fs。要分辨两个相差deltaf的频率，至少需要T=1/deltaf秒的数据；补零无法改变这个基本限制。",
-            "score": 19.885
+            "score": 19.97
           },
           {
             "headingId": "频率分辨率",
             "heading": "频率分辨率",
             "quote": "DFT的频率分辨率取决于样本数N和采样率fs。",
-            "score": 11.578
+            "score": 11.622
           },
           {
             "headingId": "补零不会提高分辨率",
             "heading": "补零不会提高分辨率",
             "quote": "一个常见误解是，在FFT之前给信号补零能提高频率分辨率。补零只会在已有的频率箱之间插值，使频谱看起来更平滑，无法增加原始样本没有包含的频率细节。",
-            "score": 7.603
+            "score": 7.629
           }
         ]
       },
@@ -4384,22 +4384,22 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "与-cnn-的联系",
+            "heading": "与 CNN 的联系",
+            "quote": "编者注（题库核对）：DFT的逐点乘积对应循环卷积；计算线性卷积时须把两个序列补零至至少N+M−1，再变换、相乘和逆变换。补零只加密频率采样网格，不增加原观测时长的信息；实际可分辨能力还受窗函数和信噪比影响。位置编码的多频率提供不同位置尺度，并非任意有限精度、任意长度下绝无碰撞的保证。",
+            "score": 56.853
+          },
+          {
             "headingId": "与位置编码的联系",
             "heading": "与位置编码的联系",
             "quote": "每一对维度（2i,2i+1）都以不同频率振荡。这些频率按几何级数排列，从高频（第0、1维）逐渐过渡到低频（最后几个维度）。这使每个位置在所有频带上都具有独一无二的模式——类似于傅里叶系数能唯一标识一个信号。",
-            "score": 21.083
+            "score": 15.957
           },
           {
-            "headingId": "dft-的定义",
-            "heading": "DFT 的定义",
-            "quote": "e^(-2piikn/N)是一个以频率k旋转的相量。DFT计算信号与N个等间隔频率中每个频率的相关性：如果信号在频率k上包含能量，这个相关性就很大；否则，它会接近零。",
-            "score": 9.991
-          },
-          {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "从零实现离散傅里叶变换（DFT），并用时间复杂度为O(NlogN)的Cooley-Tukey快速傅里叶变换（FFT）进行验证解读频率系数：从信号中提取振幅、相位和功率谱应用卷积定理，通过FFT乘法完成卷积建立傅里叶频率分解与Transformer位置编码、CNN卷积层之间的联系",
-            "score": 7.7
+            "headingId": "fft-让变换更快",
+            "heading": "FFT：让变换更快",
+            "quote": "这里实现的基2FFT在信号长度为2的幂时最快。每当某个子问题的长度为奇数时，它会回退到朴素的dft，因此为了速度，信号通常会补零到下一个2的幂。像numpy.fft这样的库FFT使用混合基算法，可处理任意长度，但在长度仅含小素因子时最快。",
+            "score": 9.804
           }
         ]
       }
@@ -4407,8 +4407,8 @@
   },
   {
     "lessonId": "practice/01-math-foundations/21-graph-theory",
-    "translationSha256": "a75914370de9d158d31eb3a5631357cb216f31b72de631d2d9809f61ad7fcb70",
-    "assessmentSha256": "20e3f7da205c056a516addc8bf1283355ba9de8f3209cbf20d44ac8fe551882b",
+    "translationSha256": "910ca40d17342201f79899108a534b2a6498294e6d856e3fa7ef5b3b4d45b640",
+    "assessmentSha256": "706319dfd85247605444af2612d761dca454e6deff99524f1c82e7eb7ca82072",
     "questions": [
       {
         "id": "adjacency",
@@ -4419,19 +4419,19 @@
             "headingId": "邻接矩阵",
             "heading": "邻接矩阵",
             "quote": "邻接矩阵A是核心表示方式。对于一张有n个节点的图：",
-            "score": 13.715
+            "score": 13.491
           },
           {
             "headingId": "邻接矩阵",
             "heading": "邻接矩阵",
             "quote": "对于无向图，A是对称矩阵：A[i][j]=A[j][i]。对于加权图，A[i][j]=边(i,j)的权重。",
-            "score": 12.949
+            "score": 12.656
           },
           {
-            "headingId": "图-节点与边",
-            "heading": "图：节点与边",
-            "quote": "有向与无向。在无向图中，边(u,v)表示u连接到v，并且v也连接到u。在有向图（digraph）中，边(u,v)表示u指向v，但反向关系不一定成立。",
-            "score": 10.072
+            "headingId": "邻接矩阵",
+            "heading": "邻接矩阵",
+            "quote": "编者注（题库核对）：本课邻接矩阵判断采用无权图、A[i][j]=1表示i到j有直接边的约定。有边时最短路径长也可能为1，因此该描述不能与“有边”同时列作互斥答案。零特征值与连通分量的结论用于无向、非负权图的组合拉普拉斯矩阵。Fiedler向量按符号二分是启发式，零分量需另定规则，也不普遍保证最佳离散划分。",
+            "score": 12.35
           }
         ]
       },
@@ -4444,44 +4444,44 @@
             "headingId": "bfs-与-dfs",
             "heading": "BFS 与 DFS",
             "quote": "广度优先搜索（BFS）：先探索所有邻居，再探索邻居的邻居。它使用队列（FIFO，先进先出）。",
-            "score": 28.061
+            "score": 28.217
           },
           {
             "headingId": "bfs-与-dfs",
             "heading": "BFS 与 DFS",
             "quote": "BFS能找到无权图中的最短路径。从起点到任意节点的距离，就等于BFS首次发现该节点时所在的层级。因此，BFS可用于计算社交网络中的跳数距离。",
-            "score": 23.928
+            "score": 23.522
           },
           {
             "headingId": "bfs-与-dfs",
             "heading": "BFS 与 DFS",
             "quote": "深度优先搜索（DFS）：尽可能深入，然后再回溯。它使用栈（LIFO，后进先出）或递归。",
-            "score": 9.64
+            "score": 9.7
           }
         ]
       },
       {
         "id": "laplacian",
-        "question": "连通图的拉普拉斯矩阵 L=D-A 有几个零特征值？",
+        "question": "无向、非负权、连通图的组合拉普拉斯矩阵 L=D−A 有几个零特征值？",
         "status": "draft",
         "candidates": [
+          {
+            "headingId": "邻接矩阵",
+            "heading": "邻接矩阵",
+            "quote": "编者注（题库核对）：本课邻接矩阵判断采用无权图、A[i][j]=1表示i到j有直接边的约定。有边时最短路径长也可能为1，因此该描述不能与“有边”同时列作互斥答案。零特征值与连通分量的结论用于无向、非负权图的组合拉普拉斯矩阵。Fiedler向量按符号二分是启发式，零分量需另定规则，也不普遍保证最佳离散划分。",
+            "score": 42.847
+          },
           {
             "headingId": "the-graph-laplacian",
             "heading": "图拉普拉斯矩阵",
             "quote": "零特征值的数量等于连通分量的数量。一张连通图恰好有一个零特征值。具有3个互不连通分量的图有三个零特征值。",
-            "score": 42.697
+            "score": 41.886
           },
           {
             "headingId": "第-3-步-连通分量和拉普拉斯特征值",
             "heading": "第 3 步：连通分量和拉普拉斯特征值",
             "quote": "eigvalsh用于对称矩阵——对于无向图，拉普拉斯矩阵始终是对称的。它会按升序返回特征值。数一数零值的数量，就能得到连通分量的数量。",
-            "score": 24.68
-          },
-          {
-            "headingId": "the-graph-laplacian",
-            "heading": "图拉普拉斯矩阵",
-            "quote": "最小的非零特征值（Fiedler值）衡量连通性。Fiedler值大，意味着图的连通性良好。Fiedler值小，意味着图中存在薄弱点——一个瓶颈。",
-            "score": 19.192
+            "score": 26.61
           }
         ]
       },
@@ -4494,44 +4494,44 @@
             "headingId": "第-5-步-消息传递",
             "heading": "第 5 步：消息传递",
             "quote": "一轮GNN消息传递会为每个节点计算新特征：先对邻居特征加权平均，再乘以权重矩阵。堆叠多轮，即可将信息传播得更远。",
-            "score": 31.592
+            "score": 31.732
           },
           {
             "headingId": "消息传递",
             "heading": "消息传递",
             "quote": "一轮消息传递让每个节点能够“看到”其直接邻居。两轮让它看到邻居的邻居。K轮则让每个节点获得来自其K跳邻域的信息。",
-            "score": 18.412
+            "score": 18.519
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "构建一个两层消息传递网络。使用不同的权重矩阵应用两次消息传递。证明两轮之后，每个节点都拥有来自其2跳邻域的信息。",
-            "score": 18.273
+            "score": 18.38
           }
         ]
       },
       {
         "id": "fiedler",
-        "question": "谱聚类怎样使用 Fiedler 向量（L 的第二小特征值对应的特征向量）？",
+        "question": "用 Fiedler 向量进行简单的图二分时，一种常见启发式是什么？",
         "status": "draft",
         "candidates": [
           {
-            "headingId": "谱性质",
-            "heading": "谱性质",
-            "quote": "为什么这会奏效？L的特征向量编码了图上最“平滑”的函数。连接紧密的节点会获得相近的特征向量值，被瓶颈分隔的节点则会获得不同的值。这些特征向量会自然地将聚类分开。",
-            "score": 37.692
+            "headingId": "邻接矩阵",
+            "heading": "邻接矩阵",
+            "quote": "编者注（题库核对）：本课邻接矩阵判断采用无权图、A[i][j]=1表示i到j有直接边的约定。有边时最短路径长也可能为1，因此该描述不能与“有边”同时列作互斥答案。零特征值与连通分量的结论用于无向、非负权图的组合拉普拉斯矩阵。Fiedler向量按符号二分是启发式，零分量需另定规则，也不普遍保证最佳离散划分。",
+            "score": 56.742
+          },
+          {
+            "headingId": "学习目标",
+            "heading": "学习目标",
+            "quote": "构建一个采用邻接矩阵/邻接表表示的图类，并实现BFS和DFS遍历计算图拉普拉斯矩阵，并用其特征值检测连通分量和对节点进行聚类将归一化邻接矩阵乘法实现为一轮GNN风格的消息传递使用Fiedler向量进行谱聚类，以划分一张图",
+            "score": 16.613
           },
           {
             "headingId": "the-graph-laplacian",
             "heading": "图拉普拉斯矩阵",
             "quote": "Fiedler值对应的特征向量（Fiedler向量）揭示最佳划分。取正值的节点进入一组，取负值的节点进入另一组，这种方法称为谱聚类。",
-            "score": 24.958
-          },
-          {
-            "headingId": "第-4-步-谱聚类",
-            "heading": "第 4 步：谱聚类",
-            "quote": "当k=2时，Fiedler向量的符号会将图分成两个簇。当k>2时，需要对前k个特征向量（排除平凡的全1特征向量）运行k-means。",
-            "score": 19.834
+            "score": 12.747
           }
         ]
       }
@@ -4539,8 +4539,8 @@
   },
   {
     "lessonId": "practice/01-math-foundations/22-stochastic-processes",
-    "translationSha256": "e3835cb124c48a13aede40234f1fa72068b3c80b567c0742b0e62bcf3a40f5ae",
-    "assessmentSha256": "b39eba51082f78ccf73f89ff446aa0d4232834d25b872b82f6f3a3c35b001785",
+    "translationSha256": "2ffadb8f18e48c67a5072e66fe673efb7566324b7d1d67b3db829d0b1932f003",
+    "assessmentSha256": "9c22f0d9ea44dc9915901ea630a589ef8f3e5f32c83f2304c51818c49d902f93",
     "questions": [
       {
         "id": "markov",
@@ -4551,44 +4551,44 @@
             "headingId": "markov-chains",
             "heading": "马尔可夫链",
             "quote": "这种条件独立性称为马尔可夫性质，因此可以用转移矩阵P描述整个系统的动力学：",
-            "score": 20.408
+            "score": 20.06
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "所有这些方法都建立在四个基础思想之上：随机游走——最简单的随机过程马尔可夫链——由转移矩阵描述的结构化随机性朗之万动力学——带噪声的梯度下降Metropolis-Hastings——从任意分布中采样",
-            "score": 12.339
+            "score": 11.926
           },
           {
-            "headingId": "练习",
-            "heading": "练习",
-            "quote": "使用马尔可夫链构建文本生成器。在一个小型语料库上训练：对每个单词，统计它向下一个单词转移的次数。构建转移矩阵。通过从链中采样来生成新句子。",
-            "score": 10.829
+            "headingId": "markov-chains",
+            "heading": "马尔可夫链",
+            "quote": "编者注（题库核对）：有限状态、齐次、不可约且非周期的马尔可夫链，从任意初始分布收敛到唯一平稳分布。无限状态链还需正再生等条件；转移矩阵之外仍需初始分布才能确定完整过程。随机游走的sqrt(n)尺度指独立、对称、单位步长的情形。",
+            "score": 11.926
           }
         ]
       },
       {
         "id": "random-walk",
-        "question": "一维随机游走离原点的典型距离怎样随步数 n 缩放？",
+        "question": "独立、对称、单位步长的一维随机游走，离原点的典型尺度怎样随步数 n 变化？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "随机游走",
             "heading": "随机游走",
             "quote": "为什么是sqrt(n)？每一步以相等概率取+1或-1。n步后，位置Sn=X1+X2+...+Xn，其中每个Xi都是+/-1。每一步的方差为1，而且各步相互独立，因此Var(Sn)=n。标准差=sqrt(n)。根据中心极限定理，Sn/sqrt(n)收敛到标准正态分布。",
-            "score": 35.821
+            "score": 38.433
+          },
+          {
+            "headingId": "markov-chains",
+            "heading": "马尔可夫链",
+            "quote": "编者注（题库核对）：有限状态、齐次、不可约且非周期的马尔可夫链，从任意初始分布收敛到唯一平稳分布。无限状态链还需正再生等条件；转移矩阵之外仍需初始分布才能确定完整过程。随机游走的sqrt(n)尺度指独立、对称、单位步长的情形。",
+            "score": 28.694
           },
           {
             "headingId": "第-1-步-随机游走模拟器",
             "heading": "第 1 步：随机游走模拟器",
             "quote": "一维游走保存的是累积和。每一步为+1或-1。n步后，位置就是这些步长之和。方差随n线性增长，因此标准差按sqrt(n)增长。",
-            "score": 24.015
-          },
-          {
-            "headingId": "随机游走",
-            "heading": "随机游走",
-            "quote": "在二维空间中，游走以相等概率向上、向下、向左或向右移动。到原点距离仍遵循相同的sqrt(n)缩放规律。其路径会描绘出类似分形的图案。",
-            "score": 23.906
+            "score": 26.747
           }
         ]
       },
@@ -4600,20 +4600,20 @@
           {
             "headingId": "markov-chains",
             "heading": "马尔可夫链",
+            "quote": "编者注（题库核对）：有限状态、齐次、不可约且非周期的马尔可夫链，从任意初始分布收敛到唯一平稳分布。无限状态链还需正再生等条件；转移矩阵之外仍需初始分布才能确定完整过程。随机游走的sqrt(n)尺度指独立、对称、单位步长的情形。",
+            "score": 95.671
+          },
+          {
+            "headingId": "markov-chains",
+            "heading": "马尔可夫链",
             "quote": "收敛条件。如果一条马尔可夫链满足以下条件，它就会收敛到唯一的平稳分布：不可约：从每个状态都可以到达其他任意状态非周期：链不会以固定周期循环",
-            "score": 29.647
+            "score": 46.002
           },
           {
             "headingId": "markov-chains",
             "heading": "马尔可夫链",
             "quote": "从任意状态开始。经过多次转移后，状态分布会收敛到平稳分布pi，其中piP=pi。它是P对应于特征值1的左特征向量。",
-            "score": 19.402
-          },
-          {
-            "headingId": "markov-chains",
-            "heading": "马尔可夫链",
-            "quote": "对于这条天气链，平稳分布为[0.55,0.18,0.27]——从长期来看，无论初始状态是什么，晴朗天气都占55%。",
-            "score": 17.034
+            "score": 24.935
           }
         ]
       },
@@ -4626,19 +4626,19 @@
             "headingId": "朗之万动力学",
             "heading": "朗之万动力学",
             "quote": "当温度T=0时，系统执行纯梯度下降。在高温下，它近似为随机游走。在适当温度下，粒子会探索能量景观，并在低能量区域停留更长时间。",
-            "score": 20.935
+            "score": 20.944
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "所有这些方法都建立在四个基础思想之上：随机游走——最简单的随机过程马尔可夫链——由转移矩阵描述的结构化随机性朗之万动力学——带噪声的梯度下降Metropolis-Hastings——从任意分布中采样",
-            "score": 19.116
+            "score": 19.086
           },
           {
             "headingId": "联系",
             "heading": "联系",
             "quote": "SGLD（随机梯度朗之万动力学）将小批量梯度下降与朗之万噪声相结合。它不计算完整梯度，而是使用随机估计并加入经过校准的噪声。随着学习率衰减，SGLD会从优化转向采样——你无需额外代价，就能获得近似的贝叶斯后验样本。这是从神经网络中获得不确定性估计的最简单方法之一。",
-            "score": 14.43
+            "score": 14.486
           }
         ]
       },
@@ -4651,19 +4651,19 @@
             "headingId": "问题",
             "heading": "问题",
             "quote": "扩散模型逐步向图像添加噪声，直到图像变成纯粹的静态噪声。然后，它们将这个过程反转，逐步去噪，直到一幅新图像出现。前向过程是一条马尔可夫链。逆向过程则是一条反向运行的、学习得到的马尔可夫链。",
-            "score": 28.278
+            "score": 28.375
           },
           {
             "headingId": "朗之万动力学",
             "heading": "朗之万动力学",
             "quote": "从噪声回到数据的逆向过程也是一条马尔可夫链，但其转移概率由神经网络学习。网络会学习预测每一步中添加的噪声，然后将其减去。",
-            "score": 24.623
+            "score": 24.698
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "模拟一维和二维随机游走，并验证位移的sqrt(n)缩放规律构建马尔可夫链模拟器，并通过特征分解计算其平稳分布实现Metropolis-HastingsMCMC和朗之万动力学，从目标分布中采样将前向扩散过程与布朗运动联系起来，并解释逆向过程如何生成数据",
-            "score": 20.862
+            "score": 20.871
           }
         ]
       }
@@ -19857,8 +19857,8 @@
   },
   {
     "lessonId": "practice/10-llms-from-scratch/07-rlhf",
-    "translationSha256": "4fdfd8cbf5bfec7f001689cc0b53e0905e080c1837c0326261b94be04719c01d",
-    "assessmentSha256": "07fa1c8fa5cb34d9a6e203c8f69b1dc1ac603228bc752debe7feecd31dc8e54a",
+    "translationSha256": "fac895c3b514aae4977515098b8eff953ac05f797336341924ddb0f1e5587563",
+    "assessmentSha256": "ffb65af3e3347226e952bbf91799f0a987ebd4a59793ce165942505768245934",
     "questions": [
       {
         "id": "rlhf-10-1",
@@ -19899,7 +19899,7 @@
           {
             "headingId": "练习",
             "heading": "练习",
-            "quote": "模拟奖励劫持。创建一个会给长回答高分的奖励模型（reward=len(response)/100）。使用这个有缺陷的奖励模型运行PPO，观察策略模型生成越来越长、越来越重复的输出。然后加入0.1的KL惩罚，展示它如何阻止这种退化行为。",
+            "quote": "模拟奖励投机。创建一个会给长回答高分的奖励模型（reward=len(response)/100）。使用这个有缺陷的奖励模型运行PPO，观察策略模型生成越来越长、越来越重复的输出。然后加入0.1的KL惩罚，展示它如何阻止这种退化行为。",
             "score": 21.722
           },
           {
@@ -19918,7 +19918,7 @@
           {
             "headingId": "学习目标",
             "heading": "学习目标",
-            "quote": "构建一个奖励模型，根据人类偏好对（选中回答vs拒绝回答）为回答质量打分实现PPO训练循环，在KL惩罚下让语言模型策略针对奖励模型进行优化解释RLHF为何需要三个模型（SFT、奖励模型、策略模型），以及KL约束如何防止奖励劫持通过比较偏好优化前后的回答质量，评估RLHF的效果",
+            "quote": "构建一个奖励模型，根据人类偏好对（选中回答vs拒绝回答）为回答质量打分实现PPO训练循环，在KL惩罚下让语言模型策略针对奖励模型进行优化解释RLHF为何需要三个模型（SFT、奖励模型、策略模型），以及KL约束如何防止奖励投机通过比较偏好优化前后的回答质量，评估RLHF的效果",
             "score": 22.49
           },
           {
@@ -19937,12 +19937,12 @@
       },
       {
         "id": "rlhf-10-4",
-        "question": "RLHF 中的“奖励劫持”是什么？",
+        "question": "RLHF 中的“奖励投机”是什么？",
         "status": "draft",
         "candidates": [
           {
-            "headingId": "奖励劫持",
-            "heading": "奖励劫持",
+            "headingId": "奖励投机",
+            "heading": "奖励投机",
             "quote": "这是RLHF的阴暗面。语言模型是在针对奖励模型进行优化，而奖励模型只是人类偏好的不完美代理。语言模型越来越擅长最大化奖励后，就会开始利用奖励模型的弱点。",
             "score": 34.365
           },
@@ -19955,7 +19955,7 @@
           {
             "headingId": "练习",
             "heading": "练习",
-            "quote": "模拟奖励劫持。创建一个会给长回答高分的奖励模型（reward=len(response)/100）。使用这个有缺陷的奖励模型运行PPO，观察策略模型生成越来越长、越来越重复的输出。然后加入0.1的KL惩罚，展示它如何阻止这种退化行为。",
+            "quote": "模拟奖励投机。创建一个会给长回答高分的奖励模型（reward=len(response)/100）。使用这个有缺陷的奖励模型运行PPO，观察策略模型生成越来越长、越来越重复的输出。然后加入0.1的KL惩罚，展示它如何阻止这种退化行为。",
             "score": 22.784
           }
         ]
@@ -19980,7 +19980,7 @@
           {
             "headingId": "练习",
             "heading": "练习",
-            "quote": "比较不同的KL系数。分别使用beta=0.001（过低，会奖励劫持）、beta=0.02（标准值）和beta=0.5（过高，无法学习）运行PPO。为每种设置绘制奖励曲线和KL曲线。beta=0.02的运行应表现为奖励稳定提升，同时KL保持在有界范围内。",
+            "quote": "比较不同的KL系数。分别使用beta=0.001（过低，会奖励投机）、beta=0.02（标准值）和beta=0.5（过高，无法学习）运行PPO。为每种设置绘制奖励曲线和KL曲线。beta=0.02的运行应表现为奖励稳定提升，同时KL保持在有界范围内。",
             "score": 9.528
           }
         ]
@@ -19989,8 +19989,8 @@
   },
   {
     "lessonId": "practice/10-llms-from-scratch/08-dpo",
-    "translationSha256": "7b151443597ee47b50d71cf81b49974c78f26da63b1715882b356b1f92008e57",
-    "assessmentSha256": "22bffc772c4f95fbfd118648c57970013c80c26a964a8f242002e23e6e9035ef",
+    "translationSha256": "fc395be69185729da00d3df31ae9028ef4eee051624a3bcae3c05d00835930ef",
+    "assessmentSha256": "7c5d1346166a63d9f0f55e19cc55a8613b0d89ddb655b87d7ba98653f9b151af",
     "questions": [
       {
         "id": "dpo-10-1",
@@ -20037,7 +20037,7 @@
           {
             "headingId": "问题",
             "heading": "问题",
-            "quote": "在实践中，PPO训练以不稳定著称。超参数的微小变化就可能导致训练发散。奖励模型是人类偏好的不完美代理，策略会设法利用它的弱点。KL惩罚虽然有帮助，却也需要单独调节：过低会导致奖励劫持，过高则会让模型几乎学不到东西。",
+            "quote": "在实践中，PPO训练以不稳定著称。超参数的微小变化就可能导致训练发散。奖励模型是人类偏好的不完美代理，策略会设法利用它的弱点。KL惩罚虽然有帮助，却也需要单独调节：过低会导致奖励投机，过高则会让模型几乎学不到东西。",
             "score": 19.807
           }
         ]
@@ -25298,7 +25298,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/25-skill-invocation-and-routing",
-    "translationSha256": "97b6a2b6b19c508b27655406b8af16426059b1f453f918a67d421b5308c6055d",
+    "translationSha256": "33e6ac953d064b4697161b148e4a85de14b125a2dd695f64040919477642ec2d",
     "assessmentSha256": "78a088e5ebceda5da3179e4a2972dadac8643b77ae08d9ab88ade7fdc4ea910d",
     "questions": [
       {
@@ -25315,7 +25315,7 @@
           {
             "headingId": "动手构建",
             "heading": "动手构建",
-            "quote": "demo会打印显式人类、隐式模型、自主agent、应用、技能组合和harness通道的矩阵与决策。扩展适配器的结果展示了：先移除被阻止的最高词法匹配，再对合格替代项排序。它还包含精确名称allowlist。不需要模型API。这个确定性路由器的目的是让策略边界可检查，而不是声称词法匹配能够复现生产模型的路由。",
+            "quote": "demo会打印显式人类、隐式模型、自主智能体、应用、技能组合和harness通道的矩阵与决策。扩展适配器的结果展示了：先移除被阻止的最高词法匹配，再对合格替代项排序。它还包含精确名称allowlist。不需要模型API。这个确定性路由器的目的是让策略边界可检查，而不是声称词法匹配能够复现生产模型的路由。",
             "score": 12.702
           },
           {
@@ -25365,7 +25365,7 @@
           {
             "headingId": "动手构建",
             "heading": "动手构建",
-            "quote": "demo会打印显式人类、隐式模型、自主agent、应用、技能组合和harness通道的矩阵与决策。扩展适配器的结果展示了：先移除被阻止的最高词法匹配，再对合格替代项排序。它还包含精确名称allowlist。不需要模型API。这个确定性路由器的目的是让策略边界可检查，而不是声称词法匹配能够复现生产模型的路由。",
+            "quote": "demo会打印显式人类、隐式模型、自主智能体、应用、技能组合和harness通道的矩阵与决策。扩展适配器的结果展示了：先移除被阻止的最高词法匹配，再对合格替代项排序。它还包含精确名称allowlist。不需要模型API。这个确定性路由器的目的是让策略边界可检查，而不是声称词法匹配能够复现生产模型的路由。",
             "score": 6.412
           },
           {
@@ -25409,7 +25409,7 @@
           {
             "headingId": "动手构建",
             "heading": "动手构建",
-            "quote": "demo会打印显式人类、隐式模型、自主agent、应用、技能组合和harness通道的矩阵与决策。扩展适配器的结果展示了：先移除被阻止的最高词法匹配，再对合格替代项排序。它还包含精确名称allowlist。不需要模型API。这个确定性路由器的目的是让策略边界可检查，而不是声称词法匹配能够复现生产模型的路由。",
+            "quote": "demo会打印显式人类、隐式模型、自主智能体、应用、技能组合和harness通道的矩阵与决策。扩展适配器的结果展示了：先移除被阻止的最高词法匹配，再对合格替代项排序。它还包含精确名称allowlist。不需要模型API。这个确定性路由器的目的是让策略边界可检查，而不是声称词法匹配能够复现生产模型的路由。",
             "score": 20.983
           },
           {

@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/09-information-theory",
+  "translationSha256": "74b0d2c9128d0a4ec93ba37526ec62b8803172199ea5fff998310f0cb329c77c",
+  "assessmentSha256": "230cacc8e110bed90e3fbe8249c255074596ca47e8be89066b0259d70103aeae",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "entropy",
+      "status": "reviewed",
+      "headingId": "熵-平均惊奇",
+      "quote": "熵是一个分布所有可能结果的期望惊奇。",
+      "reviewNote": "H(P)=-sum p(x)log p(x) 是所有结果的平均惊奇；均匀分布熵高，结果更不确定。"
+    },
+    {
+      "id": "cross-entropy",
+      "status": "reviewed",
+      "headingId": "为什么交叉熵是分类损失",
+      "quote": "最后一行就是交叉熵损失。最小化交叉熵 = 最大化模型下训练数据的似然。",
+      "reviewNote": "H(P,Q) 度量真实标签分布 P 与预测分布 Q 的编码失配，是分类的标准损失。"
+    },
+    {
+      "id": "kl",
+      "status": "reviewed",
+      "headingId": "kl-散度-分布之间的距离",
+      "quote": "交叉熵等于熵加 KL 散度。由于训练期间真实分布的熵是常量，最小化交叉熵就等同于最小化 KL 散度。",
+      "reviewNote": "H(P,Q)=H(P)+D_KL(P||Q)；训练中 P 不变，故最小化交叉熵即最小化 KL。"
+    },
+    {
+      "id": "perplexity",
+      "status": "reviewed",
+      "headingId": "困惑度",
+      "quote": "困惑度为 50 的语言模型，平均而言就像它必须从 50 个可能的下一个词元中均匀选择一样困惑。",
+      "reviewNote": "困惑度是交叉熵的指数；越低表示下一 token 预测越好。"
+    },
+    {
+      "id": "mi",
+      "status": "reviewed",
+      "headingId": "互信息-深入理解",
+      "quote": "皮尔逊相关系数只能捕捉线性关系，MI 则能捕捉任何依赖关系，",
+      "reviewNote": "互信息捕捉线性、非线性和非单调的依赖；Pearson 只量化线性关联。"
+    }
+  ]
+}

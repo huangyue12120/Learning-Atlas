@@ -1,8 +1,8 @@
 {
   "questionCount": 1832,
-  "correctLongestIncludingTies": 1603,
-  "correctSoleLongest": 1535,
-  "soleLongestRate": 0.8379,
+  "correctLongestIncludingTies": 1585,
+  "correctSoleLongest": 1499,
+  "soleLongestRate": 0.8182,
   "priority": [
     {
       "lessonId": "practice/13-tools-and-protocols/43-bytecode-and-managed-formats",
@@ -399,17 +399,6 @@
         8
       ],
       "ratio": 7.75
-    },
-    {
-      "lessonId": "practice/01-math-foundations/13-numerical-stability",
-      "id": "gradient",
-      "lengths": [
-        3,
-        6,
-        46,
-        4
-      ],
-      "ratio": 7.667
     },
     {
       "lessonId": "practice/05-nlp-foundations-to-advanced/27-llm-evaluation-frameworks",
@@ -1444,17 +1433,6 @@
         65
       ],
       "ratio": 5.417
-    },
-    {
-      "lessonId": "practice/01-math-foundations/20-fourier-transform",
-      "id": "transform",
-      "lengths": [
-        27,
-        2,
-        5,
-        4
-      ],
-      "ratio": 5.4
     },
     {
       "lessonId": "practice/04-computer-vision/13-3d-vision-nerf",
@@ -2601,17 +2579,6 @@
       "ratio": 4.529
     },
     {
-      "lessonId": "practice/01-math-foundations/18-convex-optimization",
-      "id": "sgd",
-      "lengths": [
-        6,
-        8,
-        36,
-        5
-      ],
-      "ratio": 4.5
-    },
-    {
       "lessonId": "practice/03-deep-learning-core/13-debugging-neural-networks",
       "id": "debugging-neural-networks-03-3",
       "lengths": [
@@ -3481,17 +3448,6 @@
       "ratio": 4.0
     },
     {
-      "lessonId": "practice/01-math-foundations/20-fourier-transform",
-      "id": "padding",
-      "lengths": [
-        28,
-        4,
-        7,
-        6
-      ],
-      "ratio": 4.0
-    },
-    {
       "lessonId": "practice/03-deep-learning-core/02-multi-layer-networks",
       "id": "multi-layer-networks-03-1",
       "lengths": [
@@ -3987,17 +3943,6 @@
       "ratio": 3.769
     },
     {
-      "lessonId": "practice/01-math-foundations/10-dimensionality-reduction",
-      "id": "tsne",
-      "lengths": [
-        30,
-        5,
-        7,
-        8
-      ],
-      "ratio": 3.75
-    },
-    {
       "lessonId": "practice/03-deep-learning-core/03-backpropagation",
       "id": "backpropagation-03-2",
       "lengths": [
@@ -4328,17 +4273,6 @@
       "ratio": 3.636
     },
     {
-      "lessonId": "practice/01-math-foundations/15-statistics-for-ml",
-      "id": "bessel",
-      "lengths": [
-        8,
-        8,
-        4,
-        29
-      ],
-      "ratio": 3.625
-    },
-    {
       "lessonId": "practice/02-ml-fundamentals/17-imbalanced-data",
       "id": "imbalanced-post-3",
       "lengths": [
@@ -4548,17 +4482,6 @@
       "ratio": 3.571
     },
     {
-      "lessonId": "practice/01-math-foundations/19-complex-numbers",
-      "id": "rope",
-      "lengths": [
-        5,
-        4,
-        9,
-        32
-      ],
-      "ratio": 3.556
-    },
-    {
       "lessonId": "practice/10-llms-from-scratch/03-data-pipelines",
       "id": "data-pipelines-10-3",
       "lengths": [
@@ -4667,17 +4590,6 @@
         13
       ],
       "ratio": 3.533
-    },
-    {
-      "lessonId": "practice/01-math-foundations/16-sampling-methods",
-      "id": "rejection-dimension",
-      "lengths": [
-        21,
-        2,
-        2,
-        6
-      ],
-      "ratio": 3.5
     },
     {
       "lessonId": "practice/05-nlp-foundations-to-advanced/25-entity-linking",
@@ -5153,17 +5065,6 @@
       "ratio": 3.353
     },
     {
-      "lessonId": "practice/01-math-foundations/11-singular-value-decomposition",
-      "id": "svd-advantage",
-      "lengths": [
-        7,
-        8,
-        30,
-        9
-      ],
-      "ratio": 3.333
-    },
-    {
       "lessonId": "practice/04-computer-vision/12-video-understanding",
       "id": "video-understanding-04-3",
       "lengths": [
@@ -5382,17 +5283,6 @@
         9
       ],
       "ratio": 3.267
-    },
-    {
-      "lessonId": "practice/01-math-foundations/11-singular-value-decomposition",
-      "id": "recommendation",
-      "lengths": [
-        6,
-        26,
-        3,
-        8
-      ],
-      "ratio": 3.25
     },
     {
       "lessonId": "practice/02-ml-fundamentals/04-decision-trees",
@@ -5912,17 +5802,6 @@
       "ratio": 3.118
     },
     {
-      "lessonId": "practice/01-math-foundations/13-numerical-stability",
-      "id": "bfloat",
-      "lengths": [
-        6,
-        56,
-        7,
-        18
-      ],
-      "ratio": 3.111
-    },
-    {
       "lessonId": "practice/02-ml-fundamentals/07-unsupervised-learning",
       "id": "unsupervised-post-2",
       "lengths": [
@@ -6229,39 +6108,6 @@
         13
       ],
       "ratio": 3.05
-    },
-    {
-      "lessonId": "practice/01-math-foundations/05-chain-rule-and-autodiff",
-      "id": "accumulation",
-      "lengths": [
-        21,
-        6,
-        4,
-        7
-      ],
-      "ratio": 3.0
-    },
-    {
-      "lessonId": "practice/01-math-foundations/10-dimensionality-reduction",
-      "id": "kernel",
-      "lengths": [
-        5,
-        8,
-        6,
-        24
-      ],
-      "ratio": 3.0
-    },
-    {
-      "lessonId": "practice/01-math-foundations/17-linear-systems",
-      "id": "lu-reuse",
-      "lengths": [
-        21,
-        5,
-        7,
-        5
-      ],
-      "ratio": 3.0
     },
     {
       "lessonId": "practice/03-deep-learning-core/05-loss-functions",
@@ -6779,17 +6625,6 @@
         35
       ],
       "ratio": 2.917
-    },
-    {
-      "lessonId": "practice/01-math-foundations/04-calculus-for-ml",
-      "id": "newton-cost",
-      "lengths": [
-        11,
-        32,
-        10,
-        8
-      ],
-      "ratio": 2.909
     },
     {
       "lessonId": "practice/05-nlp-foundations-to-advanced/23-chunking-strategies-rag",
@@ -7463,17 +7298,6 @@
       "ratio": 2.733
     },
     {
-      "lessonId": "practice/01-math-foundations/06-probability-and-distributions",
-      "id": "pmf-pdf",
-      "lengths": [
-        9,
-        30,
-        4,
-        11
-      ],
-      "ratio": 2.727
-    },
-    {
       "lessonId": "practice/03-deep-learning-core/09-learning-rate-schedules",
       "id": "learning-rate-schedules-03-1",
       "lengths": [
@@ -7705,17 +7529,6 @@
       "ratio": 2.679
     },
     {
-      "lessonId": "practice/01-math-foundations/10-dimensionality-reduction",
-      "id": "variance",
-      "lengths": [
-        7,
-        24,
-        9,
-        9
-      ],
-      "ratio": 2.667
-    },
-    {
       "lessonId": "practice/04-computer-vision/08-instance-segmentation-mask-rcnn",
       "id": "instance-segmentation-mask-rcnn-04-2",
       "lengths": [
@@ -7936,17 +7749,6 @@
       "ratio": 2.632
     },
     {
-      "lessonId": "practice/01-math-foundations/06-probability-and-distributions",
-      "id": "clt",
-      "lengths": [
-        21,
-        7,
-        8,
-        6
-      ],
-      "ratio": 2.625
-    },
-    {
       "lessonId": "practice/04-computer-vision/01-image-fundamentals",
       "id": "image-fundamentals-04-2",
       "lengths": [
@@ -8145,17 +7947,6 @@
       "ratio": 2.591
     },
     {
-      "lessonId": "practice/01-math-foundations/21-graph-theory",
-      "id": "message-passing",
-      "lengths": [
-        12,
-        11,
-        31,
-        8
-      ],
-      "ratio": 2.583
-    },
-    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/14-information-retrieval-search",
       "id": "information-retrieval-search-05-8",
       "lengths": [
@@ -8200,28 +7991,6 @@
       "ratio": 2.577
     },
     {
-      "lessonId": "practice/01-math-foundations/16-sampling-methods",
-      "id": "temperature",
-      "lengths": [
-        7,
-        4,
-        6,
-        18
-      ],
-      "ratio": 2.571
-    },
-    {
-      "lessonId": "practice/01-math-foundations/17-linear-systems",
-      "id": "cholesky",
-      "lengths": [
-        12,
-        14,
-        9,
-        36
-      ],
-      "ratio": 2.571
-    },
-    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/18-multilingual-nlp",
       "id": "multilingual-nlp-05-4",
       "lengths": [
@@ -8255,17 +8024,6 @@
       "ratio": 2.571
     },
     {
-      "lessonId": "practice/01-math-foundations/11-singular-value-decomposition",
-      "id": "low-rank",
-      "lengths": [
-        9,
-        5,
-        6,
-        23
-      ],
-      "ratio": 2.556
-    },
-    {
       "lessonId": "practice/11-llm-engineering/09-function-calling",
       "id": "function-calling-11-1",
       "lengths": [
@@ -8275,28 +8033,6 @@
         14
       ],
       "ratio": 2.556
-    },
-    {
-      "lessonId": "practice/01-math-foundations/05-chain-rule-and-autodiff",
-      "id": "reverse-mode",
-      "lengths": [
-        11,
-        28,
-        5,
-        4
-      ],
-      "ratio": 2.545
-    },
-    {
-      "lessonId": "practice/01-math-foundations/09-information-theory",
-      "id": "perplexity",
-      "lengths": [
-        6,
-        6,
-        28,
-        11
-      ],
-      "ratio": 2.545
     },
     {
       "lessonId": "practice/05-nlp-foundations-to-advanced/16-text-generation-pre-transformer",
@@ -8341,17 +8077,6 @@
         28
       ],
       "ratio": 2.545
-    },
-    {
-      "lessonId": "practice/01-math-foundations/14-norms-and-distances",
-      "id": "lasso",
-      "lengths": [
-        13,
-        33,
-        9,
-        8
-      ],
-      "ratio": 2.538
     },
     {
       "lessonId": "practice/02-ml-fundamentals/11-ensemble-methods",
@@ -8684,17 +8409,6 @@
       "ratio": 2.462
     },
     {
-      "lessonId": "practice/01-math-foundations/07-bayes-theorem",
-      "id": "map",
-      "lengths": [
-        9,
-        11,
-        27,
-        10
-      ],
-      "ratio": 2.455
-    },
-    {
       "lessonId": "practice/11-llm-engineering/17-agent-framework-tradeoffs",
       "id": "agent-framework-tradeoffs-11-2",
       "lengths": [
@@ -8748,17 +8462,6 @@
         16
       ],
       "ratio": 2.438
-    },
-    {
-      "lessonId": "practice/01-math-foundations/09-information-theory",
-      "id": "cross-entropy",
-      "lengths": [
-        7,
-        5,
-        17,
-        7
-      ],
-      "ratio": 2.429
     },
     {
       "lessonId": "practice/04-computer-vision/26-monocular-depth",
@@ -8970,17 +8673,6 @@
       "ratio": 2.41
     },
     {
-      "lessonId": "practice/01-math-foundations/05-chain-rule-and-autodiff",
-      "id": "gradient-check",
-      "lengths": [
-        10,
-        24,
-        10,
-        6
-      ],
-      "ratio": 2.4
-    },
-    {
       "lessonId": "practice/03-deep-learning-core/04-activation-functions",
       "id": "activation-functions-03-3",
       "lengths": [
@@ -9102,17 +8794,6 @@
       "ratio": 2.381
     },
     {
-      "lessonId": "practice/01-math-foundations/04-calculus-for-ml",
-      "id": "gradient",
-      "lengths": [
-        8,
-        5,
-        19,
-        8
-      ],
-      "ratio": 2.375
-    },
-    {
       "lessonId": "practice/10-llms-from-scratch/12-inference-optimization",
       "id": "inference-optimization-10-4",
       "lengths": [
@@ -9232,17 +8913,6 @@
         10
       ],
       "ratio": 2.353
-    },
-    {
-      "lessonId": "practice/01-math-foundations/08-optimization",
-      "id": "cosine",
-      "lengths": [
-        10,
-        28,
-        9,
-        12
-      ],
-      "ratio": 2.333
     },
     {
       "lessonId": "practice/03-deep-learning-core/10-mini-framework",
@@ -9432,17 +9102,6 @@
       "ratio": 2.308
     },
     {
-      "lessonId": "practice/01-math-foundations/03-matrix-transformations",
-      "id": "eigendecomposition",
-      "lengths": [
-        4,
-        7,
-        10,
-        23
-      ],
-      "ratio": 2.3
-    },
-    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/23-chunking-strategies-rag",
       "id": "chunking-strategies-rag-05-2",
       "lengths": [
@@ -9507,17 +9166,6 @@
         17
       ],
       "ratio": 2.296
-    },
-    {
-      "lessonId": "practice/01-math-foundations/17-linear-systems",
-      "id": "column-space",
-      "lengths": [
-        16,
-        4,
-        7,
-        3
-      ],
-      "ratio": 2.286
     },
     {
       "lessonId": "practice/11-llm-engineering/09-function-calling",
@@ -9674,17 +9322,6 @@
       "ratio": 2.267
     },
     {
-      "lessonId": "practice/01-math-foundations/03-matrix-transformations",
-      "id": "composition-order",
-      "lengths": [
-        12,
-        10,
-        27,
-        8
-      ],
-      "ratio": 2.25
-    },
-    {
       "lessonId": "practice/03-deep-learning-core/02-multi-layer-networks",
       "id": "multi-layer-networks-03-5",
       "lengths": [
@@ -9828,17 +9465,6 @@
       "ratio": 2.233
     },
     {
-      "lessonId": "practice/01-math-foundations/15-statistics-for-ml",
-      "id": "bootstrap",
-      "lengths": [
-        8,
-        13,
-        29,
-        6
-      ],
-      "ratio": 2.231
-    },
-    {
       "lessonId": "practice/03-deep-learning-core/09-learning-rate-schedules",
       "id": "learning-rate-schedules-03-2",
       "lengths": [
@@ -9870,28 +9496,6 @@
         12
       ],
       "ratio": 2.231
-    },
-    {
-      "lessonId": "practice/01-math-foundations/05-chain-rule-and-autodiff",
-      "id": "graph",
-      "lengths": [
-        20,
-        5,
-        8,
-        9
-      ],
-      "ratio": 2.222
-    },
-    {
-      "lessonId": "practice/01-math-foundations/16-sampling-methods",
-      "id": "mh-scale",
-      "lengths": [
-        4,
-        20,
-        9,
-        7
-      ],
-      "ratio": 2.222
     },
     {
       "lessonId": "practice/14-agent-engineering/24-agent-observability-platforms",
@@ -9947,17 +9551,6 @@
         12
       ],
       "ratio": 2.214
-    },
-    {
-      "lessonId": "practice/01-math-foundations/22-stochastic-processes",
-      "id": "stationary",
-      "lengths": [
-        10,
-        6,
-        10,
-        22
-      ],
-      "ratio": 2.2
     },
     {
       "lessonId": "practice/10-llms-from-scratch/01-tokenizers",
@@ -10200,17 +9793,6 @@
         18
       ],
       "ratio": 2.158
-    },
-    {
-      "lessonId": "practice/01-math-foundations/10-dimensionality-reduction",
-      "id": "curse",
-      "lengths": [
-        28,
-        13,
-        8,
-        8
-      ],
-      "ratio": 2.154
     },
     {
       "lessonId": "practice/03-deep-learning-core/08-weight-initialization",
@@ -10466,17 +10048,6 @@
       "ratio": 2.111
     },
     {
-      "lessonId": "practice/01-math-foundations/04-calculus-for-ml",
-      "id": "gradient-descent",
-      "lengths": [
-        6,
-        10,
-        8,
-        21
-      ],
-      "ratio": 2.1
-    },
-    {
       "lessonId": "practice/14-agent-engineering/18-agno-and-mastra-runtimes",
       "id": "q7",
       "lengths": [
@@ -10686,17 +10257,6 @@
       "ratio": 2.074
     },
     {
-      "lessonId": "practice/01-math-foundations/07-bayes-theorem",
-      "id": "smoothing",
-      "lengths": [
-        8,
-        29,
-        11,
-        14
-      ],
-      "ratio": 2.071
-    },
-    {
       "lessonId": "practice/02-ml-fundamentals/16-anomaly-detection",
       "id": "anomaly-pre-1",
       "lengths": [
@@ -10882,72 +10442,6 @@
         21
       ],
       "ratio": 2.043
-    },
-    {
-      "lessonId": "practice/01-math-foundations/08-optimization",
-      "id": "adam",
-      "lengths": [
-        12,
-        15,
-        12,
-        30
-      ],
-      "ratio": 2.0
-    },
-    {
-      "lessonId": "practice/01-math-foundations/08-optimization",
-      "id": "noise",
-      "lengths": [
-        5,
-        12,
-        6,
-        4
-      ],
-      "ratio": 2.0
-    },
-    {
-      "lessonId": "practice/01-math-foundations/15-statistics-for-ml",
-      "id": "p-value",
-      "lengths": [
-        22,
-        7,
-        11,
-        11
-      ],
-      "ratio": 2.0
-    },
-    {
-      "lessonId": "practice/01-math-foundations/18-convex-optimization",
-      "id": "kkt",
-      "lengths": [
-        6,
-        26,
-        6,
-        13
-      ],
-      "ratio": 2.0
-    },
-    {
-      "lessonId": "practice/01-math-foundations/20-fourier-transform",
-      "id": "position",
-      "lengths": [
-        7,
-        26,
-        7,
-        13
-      ],
-      "ratio": 2.0
-    },
-    {
-      "lessonId": "practice/01-math-foundations/22-stochastic-processes",
-      "id": "markov",
-      "lengths": [
-        9,
-        22,
-        10,
-        11
-      ],
-      "ratio": 2.0
     },
     {
       "lessonId": "practice/01-math-foundations/22-stochastic-processes",
@@ -11632,17 +11126,6 @@
       "ratio": 1.914
     },
     {
-      "lessonId": "practice/01-math-foundations/15-statistics-for-ml",
-      "id": "practical",
-      "lengths": [
-        8,
-        11,
-        21,
-        9
-      ],
-      "ratio": 1.909
-    },
-    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/29-dialogue-state-tracking",
       "id": "dialogue-state-tracking-05-1",
       "lengths": [
@@ -11663,17 +11146,6 @@
         13
       ],
       "ratio": 1.905
-    },
-    {
-      "lessonId": "practice/01-math-foundations/12-tensor-operations",
-      "id": "einsum",
-      "lengths": [
-        8,
-        19,
-        10,
-        6
-      ],
-      "ratio": 1.9
     },
     {
       "lessonId": "practice/05-nlp-foundations-to-advanced/04-glove-fasttext-subword",
@@ -11762,28 +11234,6 @@
         36
       ],
       "ratio": 1.895
-    },
-    {
-      "lessonId": "practice/01-math-foundations/09-information-theory",
-      "id": "kl",
-      "lengths": [
-        8,
-        17,
-        9,
-        8
-      ],
-      "ratio": 1.889
-    },
-    {
-      "lessonId": "practice/01-math-foundations/12-tensor-operations",
-      "id": "view",
-      "lengths": [
-        17,
-        7,
-        7,
-        9
-      ],
-      "ratio": 1.889
     },
     {
       "lessonId": "practice/02-ml-fundamentals/14-naive-bayes",
@@ -12039,17 +11489,6 @@
       "ratio": 1.85
     },
     {
-      "lessonId": "practice/01-math-foundations/17-linear-systems",
-      "id": "pivoting",
-      "lengths": [
-        24,
-        6,
-        13,
-        6
-      ],
-      "ratio": 1.846
-    },
-    {
       "lessonId": "practice/17-infrastructure-and-production/08-inference-metrics-goodput",
       "id": "q2",
       "lengths": [
@@ -12092,6 +11531,17 @@
         46
       ],
       "ratio": 1.84
+    },
+    {
+      "lessonId": "practice/01-math-foundations/14-norms-and-distances",
+      "id": "cosine",
+      "lengths": [
+        11,
+        4,
+        6,
+        6
+      ],
+      "ratio": 1.833
     },
     {
       "lessonId": "practice/03-deep-learning-core/07-regularization",
@@ -12457,17 +11907,6 @@
       "ratio": 1.758
     },
     {
-      "lessonId": "practice/01-math-foundations/08-optimization",
-      "id": "optimization",
-      "lengths": [
-        14,
-        7,
-        8,
-        8
-      ],
-      "ratio": 1.75
-    },
-    {
       "lessonId": "practice/11-llm-engineering/14-model-context-protocol",
       "id": "model-context-protocol-11-4",
       "lengths": [
@@ -12655,17 +12094,6 @@
       "ratio": 1.722
     },
     {
-      "lessonId": "practice/01-math-foundations/11-singular-value-decomposition",
-      "id": "pca",
-      "lengths": [
-        14,
-        10,
-        24,
-        8
-      ],
-      "ratio": 1.714
-    },
-    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/01-text-processing",
       "id": "text-processing-05-6",
       "lengths": [
@@ -12710,17 +12138,6 @@
       "ratio": 1.706
     },
     {
-      "lessonId": "practice/01-math-foundations/03-matrix-transformations",
-      "id": "rnn-stability",
-      "lengths": [
-        10,
-        5,
-        17,
-        8
-      ],
-      "ratio": 1.7
-    },
-    {
       "lessonId": "practice/02-ml-fundamentals/05-support-vector-machines",
       "id": "svm-pre-1",
       "lengths": [
@@ -12730,17 +12147,6 @@
         17
       ],
       "ratio": 1.7
-    },
-    {
-      "lessonId": "practice/01-math-foundations/22-stochastic-processes",
-      "id": "diffusion",
-      "lengths": [
-        10,
-        22,
-        7,
-        13
-      ],
-      "ratio": 1.692
     },
     {
       "lessonId": "practice/14-agent-engineering/15-crewai-role-based-crews",
@@ -12829,17 +12235,6 @@
         19
       ],
       "ratio": 1.684
-    },
-    {
-      "lessonId": "practice/01-math-foundations/11-singular-value-decomposition",
-      "id": "geometry",
-      "lengths": [
-        6,
-        18,
-        30,
-        17
-      ],
-      "ratio": 1.667
     },
     {
       "lessonId": "practice/01-math-foundations/12-tensor-operations",
@@ -13029,17 +12424,6 @@
       "ratio": 1.643
     },
     {
-      "lessonId": "practice/01-math-foundations/03-matrix-transformations",
-      "id": "eigenvector",
-      "lengths": [
-        18,
-        11,
-        7,
-        9
-      ],
-      "ratio": 1.636
-    },
-    {
       "lessonId": "practice/02-ml-fundamentals/01-what-is-machine-learning",
       "id": "ml-intro-pre-2",
       "lengths": [
@@ -13200,17 +12584,6 @@
         16,
         10,
         6,
-        10
-      ],
-      "ratio": 1.6
-    },
-    {
-      "lessonId": "practice/01-math-foundations/05-chain-rule-and-autodiff",
-      "id": "chain-rule",
-      "lengths": [
-        9,
-        16,
-        9,
         10
       ],
       "ratio": 1.6
@@ -13392,17 +12765,6 @@
       "ratio": 1.588
     },
     {
-      "lessonId": "practice/01-math-foundations/13-numerical-stability",
-      "id": "binary",
-      "lengths": [
-        11,
-        19,
-        12,
-        10
-      ],
-      "ratio": 1.583
-    },
-    {
       "lessonId": "practice/10-llms-from-scratch/06-instruction-tuning-sft",
       "id": "instruction-tuning-sft-10-3",
       "lengths": [
@@ -13465,17 +12827,6 @@
         7,
         11,
         6
-      ],
-      "ratio": 1.571
-    },
-    {
-      "lessonId": "practice/01-math-foundations/16-sampling-methods",
-      "id": "reparameterization",
-      "lengths": [
-        22,
-        14,
-        8,
-        5
       ],
       "ratio": 1.571
     },
@@ -13810,17 +13161,6 @@
       "ratio": 1.529
     },
     {
-      "lessonId": "practice/01-math-foundations/16-sampling-methods",
-      "id": "top-p",
-      "lengths": [
-        8,
-        32,
-        12,
-        21
-      ],
-      "ratio": 1.524
-    },
-    {
       "lessonId": "practice/13-tools-and-protocols/15-mcp-security-tool-poisoning",
       "id": "mcp-tool-security-q6",
       "lengths": [
@@ -13872,17 +13212,6 @@
         12,
         24,
         16
-      ],
-      "ratio": 1.5
-    },
-    {
-      "lessonId": "practice/01-math-foundations/09-information-theory",
-      "id": "entropy",
-      "lengths": [
-        10,
-        7,
-        7,
-        15
       ],
       "ratio": 1.5
     },
@@ -14503,17 +13832,6 @@
       "ratio": 1.455
     },
     {
-      "lessonId": "practice/01-math-foundations/09-information-theory",
-      "id": "mi",
-      "lengths": [
-        7,
-        8,
-        20,
-        29
-      ],
-      "ratio": 1.45
-    },
-    {
       "lessonId": "practice/04-computer-vision/01-image-fundamentals",
       "id": "image-fundamentals-04-5",
       "lengths": [
@@ -14679,17 +13997,6 @@
       "ratio": 1.421
     },
     {
-      "lessonId": "practice/01-math-foundations/02-vectors-matrices-operations",
-      "id": "identity-matrix",
-      "lengths": [
-        17,
-        10,
-        10,
-        12
-      ],
-      "ratio": 1.417
-    },
-    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/03-word-embeddings-word2vec",
       "id": "word-embeddings-word2vec-05-5",
       "lengths": [
@@ -14732,6 +14039,17 @@
         12
       ],
       "ratio": 1.417
+    },
+    {
+      "lessonId": "practice/01-math-foundations/10-dimensionality-reduction",
+      "id": "tsne",
+      "lengths": [
+        24,
+        16,
+        17,
+        17
+      ],
+      "ratio": 1.412
     },
     {
       "lessonId": "practice/17-infrastructure-and-production/06-sglang-radixattention",
@@ -14932,6 +14250,17 @@
       "ratio": 1.364
     },
     {
+      "lessonId": "practice/01-math-foundations/10-dimensionality-reduction",
+      "id": "kernel",
+      "lengths": [
+        13,
+        14,
+        13,
+        19
+      ],
+      "ratio": 1.357
+    },
+    {
       "lessonId": "practice/14-agent-engineering/16-openai-agents-sdk",
       "id": "q5",
       "lengths": [
@@ -15016,17 +14345,6 @@
         9,
         12,
         7
-      ],
-      "ratio": 1.333
-    },
-    {
-      "lessonId": "practice/01-math-foundations/14-norms-and-distances",
-      "id": "manhattan",
-      "lengths": [
-        6,
-        6,
-        12,
-        16
       ],
       "ratio": 1.333
     },
@@ -15313,6 +14631,39 @@
         7,
         7,
         9
+      ],
+      "ratio": 1.286
+    },
+    {
+      "lessonId": "practice/01-math-foundations/14-norms-and-distances",
+      "id": "wasserstein",
+      "lengths": [
+        12,
+        13,
+        14,
+        18
+      ],
+      "ratio": 1.286
+    },
+    {
+      "lessonId": "practice/01-math-foundations/15-statistics-for-ml",
+      "id": "bessel",
+      "lengths": [
+        14,
+        13,
+        14,
+        18
+      ],
+      "ratio": 1.286
+    },
+    {
+      "lessonId": "practice/01-math-foundations/18-convex-optimization",
+      "id": "convex",
+      "lengths": [
+        13,
+        18,
+        14,
+        14
       ],
       "ratio": 1.286
     },
@@ -15636,6 +14987,17 @@
       "ratio": 1.235
     },
     {
+      "lessonId": "practice/01-math-foundations/05-chain-rule-and-autodiff",
+      "id": "reverse-mode",
+      "lengths": [
+        13,
+        16,
+        13,
+        13
+      ],
+      "ratio": 1.231
+    },
+    {
       "lessonId": "practice/02-ml-fundamentals/21-feature-stores-and-training-serving-skew",
       "id": "feature-skew-pre-1",
       "lengths": [
@@ -15808,6 +15170,17 @@
         15,
         14,
         18
+      ],
+      "ratio": 1.2
+    },
+    {
+      "lessonId": "practice/01-math-foundations/05-chain-rule-and-autodiff",
+      "id": "chain-rule",
+      "lengths": [
+        15,
+        18,
+        15,
+        15
       ],
       "ratio": 1.2
     },
@@ -16032,13 +15405,35 @@
       "ratio": 1.176
     },
     {
-      "lessonId": "practice/01-math-foundations/14-norms-and-distances",
-      "id": "cosine",
+      "lessonId": "practice/01-math-foundations/22-stochastic-processes",
+      "id": "markov",
       "lengths": [
-        7,
-        4,
-        6,
-        6
+        17,
+        20,
+        16,
+        17
+      ],
+      "ratio": 1.176
+    },
+    {
+      "lessonId": "practice/01-math-foundations/09-information-theory",
+      "id": "cross-entropy",
+      "lengths": [
+        12,
+        9,
+        14,
+        11
+      ],
+      "ratio": 1.167
+    },
+    {
+      "lessonId": "practice/01-math-foundations/11-singular-value-decomposition",
+      "id": "pca",
+      "lengths": [
+        12,
+        12,
+        14,
+        10
       ],
       "ratio": 1.167
     },
@@ -16153,6 +15548,17 @@
       "ratio": 1.156
     },
     {
+      "lessonId": "practice/01-math-foundations/13-numerical-stability",
+      "id": "gradient",
+      "lengths": [
+        10,
+        12,
+        15,
+        13
+      ],
+      "ratio": 1.154
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/10-attention-mechanism",
       "id": "attention-mechanism-05-5",
       "lengths": [
@@ -16164,13 +15570,13 @@
       "ratio": 1.143
     },
     {
-      "lessonId": "practice/01-math-foundations/06-probability-and-distributions",
-      "id": "log-probability",
+      "lessonId": "practice/01-math-foundations/16-sampling-methods",
+      "id": "reparameterization",
       "lengths": [
         17,
-        5,
-        12,
-        15
+        15,
+        14,
+        14
       ],
       "ratio": 1.133
     },
@@ -16204,6 +15610,17 @@
         16,
         14,
         14
+      ],
+      "ratio": 1.125
+    },
+    {
+      "lessonId": "practice/01-math-foundations/11-singular-value-decomposition",
+      "id": "geometry",
+      "lengths": [
+        7,
+        12,
+        18,
+        16
       ],
       "ratio": 1.125
     },
@@ -16261,6 +15678,28 @@
         25
       ],
       "ratio": 1.12
+    },
+    {
+      "lessonId": "practice/01-math-foundations/06-probability-and-distributions",
+      "id": "pmf-pdf",
+      "lengths": [
+        17,
+        19,
+        17,
+        17
+      ],
+      "ratio": 1.118
+    },
+    {
+      "lessonId": "practice/01-math-foundations/06-probability-and-distributions",
+      "id": "clt",
+      "lengths": [
+        19,
+        17,
+        17,
+        17
+      ],
+      "ratio": 1.118
     },
     {
       "lessonId": "practice/14-agent-engineering/14-autogen-actor-model",
@@ -16340,17 +15779,6 @@
       "ratio": 1.105
     },
     {
-      "lessonId": "practice/01-math-foundations/14-norms-and-distances",
-      "id": "mahalanobis",
-      "lengths": [
-        11,
-        6,
-        10,
-        5
-      ],
-      "ratio": 1.1
-    },
-    {
       "lessonId": "practice/01-math-foundations/21-graph-theory",
       "id": "bfs",
       "lengths": [
@@ -16417,6 +15845,17 @@
       "ratio": 1.093
     },
     {
+      "lessonId": "practice/01-math-foundations/16-sampling-methods",
+      "id": "top-p",
+      "lengths": [
+        22,
+        24,
+        22,
+        22
+      ],
+      "ratio": 1.091
+    },
+    {
       "lessonId": "practice/11-llm-engineering/14-model-context-protocol",
       "id": "model-context-protocol-11-5",
       "lengths": [
@@ -16461,15 +15900,15 @@
       "ratio": 1.091
     },
     {
-      "lessonId": "practice/01-math-foundations/07-bayes-theorem",
-      "id": "prior",
+      "lessonId": "practice/01-math-foundations/09-information-theory",
+      "id": "mi",
       "lengths": [
-        12,
-        10,
-        5,
-        13
+        22,
+        20,
+        23,
+        25
       ],
-      "ratio": 1.083
+      "ratio": 1.087
     },
     {
       "lessonId": "practice/13-tools-and-protocols/36-rebuild-and-prove-equal",
@@ -16571,6 +16010,28 @@
       "ratio": 1.077
     },
     {
+      "lessonId": "practice/01-math-foundations/07-bayes-theorem",
+      "id": "smoothing",
+      "lengths": [
+        13,
+        14,
+        11,
+        12
+      ],
+      "ratio": 1.077
+    },
+    {
+      "lessonId": "practice/01-math-foundations/18-convex-optimization",
+      "id": "kkt",
+      "lengths": [
+        11,
+        14,
+        13,
+        12
+      ],
+      "ratio": 1.077
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/22-skills-and-agent-sdks",
       "id": "skills-sdks-q6",
       "lengths": [
@@ -16593,12 +16054,34 @@
       "ratio": 1.077
     },
     {
-      "lessonId": "practice/01-math-foundations/02-vectors-matrices-operations",
-      "id": "zero-determinant",
+      "lessonId": "practice/01-math-foundations/05-chain-rule-and-autodiff",
+      "id": "gradient-check",
+      "lengths": [
+        14,
+        15,
+        13,
+        13
+      ],
+      "ratio": 1.071
+    },
+    {
+      "lessonId": "practice/01-math-foundations/10-dimensionality-reduction",
+      "id": "variance",
+      "lengths": [
+        12,
+        15,
+        14,
+        13
+      ],
+      "ratio": 1.071
+    },
+    {
+      "lessonId": "practice/01-math-foundations/12-tensor-operations",
+      "id": "view",
       "lengths": [
         15,
+        14,
         12,
-        11,
         14
       ],
       "ratio": 1.071
@@ -16659,6 +16142,28 @@
       "ratio": 1.067
     },
     {
+      "lessonId": "practice/01-math-foundations/20-fourier-transform",
+      "id": "padding",
+      "lengths": [
+        16,
+        14,
+        15,
+        15
+      ],
+      "ratio": 1.067
+    },
+    {
+      "lessonId": "practice/01-math-foundations/22-stochastic-processes",
+      "id": "diffusion",
+      "lengths": [
+        14,
+        16,
+        15,
+        15
+      ],
+      "ratio": 1.067
+    },
+    {
       "lessonId": "practice/02-ml-fundamentals/20-model-monitoring-and-drift",
       "id": "drift-post-2",
       "lengths": [
@@ -16692,6 +16197,94 @@
       "ratio": 1.067
     },
     {
+      "lessonId": "practice/01-math-foundations/04-calculus-for-ml",
+      "id": "newton-cost",
+      "lengths": [
+        12,
+        17,
+        13,
+        16
+      ],
+      "ratio": 1.062
+    },
+    {
+      "lessonId": "practice/01-math-foundations/07-bayes-theorem",
+      "id": "map",
+      "lengths": [
+        15,
+        16,
+        17,
+        16
+      ],
+      "ratio": 1.062
+    },
+    {
+      "lessonId": "practice/01-math-foundations/09-information-theory",
+      "id": "perplexity",
+      "lengths": [
+        14,
+        15,
+        17,
+        16
+      ],
+      "ratio": 1.062
+    },
+    {
+      "lessonId": "practice/01-math-foundations/11-singular-value-decomposition",
+      "id": "recommendation",
+      "lengths": [
+        14,
+        17,
+        16,
+        16
+      ],
+      "ratio": 1.062
+    },
+    {
+      "lessonId": "practice/01-math-foundations/15-statistics-for-ml",
+      "id": "bootstrap",
+      "lengths": [
+        15,
+        16,
+        17,
+        16
+      ],
+      "ratio": 1.062
+    },
+    {
+      "lessonId": "practice/01-math-foundations/20-fourier-transform",
+      "id": "position",
+      "lengths": [
+        13,
+        17,
+        15,
+        16
+      ],
+      "ratio": 1.062
+    },
+    {
+      "lessonId": "practice/01-math-foundations/14-norms-and-distances",
+      "id": "lasso",
+      "lengths": [
+        15,
+        18,
+        17,
+        14
+      ],
+      "ratio": 1.059
+    },
+    {
+      "lessonId": "practice/01-math-foundations/16-sampling-methods",
+      "id": "mh-scale",
+      "lengths": [
+        17,
+        18,
+        15,
+        14
+      ],
+      "ratio": 1.059
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/14-mcp-apps",
       "id": "mcp-apps-q1",
       "lengths": [
@@ -16710,6 +16303,17 @@
         18,
         19,
         17
+      ],
+      "ratio": 1.056
+    },
+    {
+      "lessonId": "practice/01-math-foundations/10-dimensionality-reduction",
+      "id": "curse",
+      "lengths": [
+        19,
+        18,
+        17,
+        15
       ],
       "ratio": 1.056
     },

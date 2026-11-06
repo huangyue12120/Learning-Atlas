@@ -1,7 +1,7 @@
 {
   "questionCount": 1832,
-  "reviewedEvidenceCount": 71,
-  "remainingEvidenceCount": 1761,
+  "reviewedEvidenceCount": 177,
+  "remainingEvidenceCount": 1655,
   "phases": [
     {
       "phase": "00-setup-and-tooling",
@@ -12,8 +12,8 @@
     {
       "phase": "01-math-foundations",
       "questionCount": 111,
-      "reviewedEvidenceCount": 5,
-      "remainingEvidenceCount": 106
+      "reviewedEvidenceCount": 111,
+      "remainingEvidenceCount": 0
     },
     {
       "phase": "02-ml-fundamentals",

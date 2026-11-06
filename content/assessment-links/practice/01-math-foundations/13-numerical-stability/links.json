@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/13-numerical-stability",
+  "translationSha256": "322fa31f5c61ebcaf07017f84d88d072062c89e2237278367220b78aa1dc1ff8",
+  "assessmentSha256": "c77e36bf4a8a128aacb6573d21150cb3af7fd739360e34d51fea087c06cf602b",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "float32-range",
+      "status": "reviewed",
+      "headingId": "ieee-754-how-computers-store-real-numbers",
+      "quote": "float32    32     8         23        ~7-8            +/- 3.4e38",
+      "reviewNote": "float32 的 8 位指数给约 ±3.4e38；float16 为 ±65,504，float64 约 ±1.8e308。"
+    },
+    {
+      "id": "binary",
+      "status": "reviewed",
+      "headingId": "为什么-0-1-0-2-0-3",
+      "quote": "数字 0.1 无法用二进制浮点数精确表示。在二进制中，它是一个无限循环小数：",
+      "reviewNote": "0.1 是二进制循环小数，mantissa 截断导致存储值近似，累积误差使和不同。"
+    },
+    {
+      "id": "softmax",
+      "status": "reviewed",
+      "headingId": "为什么-softmax-需要减去最大值",
+      "quote": "对有限 logits 减去最大值后，最大的指数输入为 0，最大指数值为 1，可防止 exp 上溢；",
+      "reviewNote": "最大值变 0，exp(0)=1，其余为负且指数小于 1；概率与 naive 计算数学等价。"
+    },
+    {
+      "id": "gradient",
+      "status": "reviewed",
+      "headingId": "灾难性抵消",
+      "quote": "两个几乎相等的浮点数相减时，有效数字会相互抵消，剩余的舍入噪声反而被提升为前导数字。",
+      "reviewNote": "极小 h 使两个近似值接近，相减可能放大舍入误差。合适的 h 依赖函数尺度与数据类型，不能认为越小越准。"
+    },
+    {
+      "id": "bfloat",
+      "status": "reviewed",
+      "headingId": "bfloat16-与-float16-为何-bfloat16-更适合训练",
+      "quote": "bfloat16 精度较低，却拥有与 float32 相同的范围，最大值约为 3.4e38。",
+      "reviewNote": "bfloat16 的 8 位指数提供与 float32 近似相同的范围，较 float16 更不易溢出，但有效数字更少，也不能保证所有运算都安全。"
+    }
+  ]
+}

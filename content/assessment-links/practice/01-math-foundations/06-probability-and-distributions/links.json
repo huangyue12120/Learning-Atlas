@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/06-probability-and-distributions",
+  "translationSha256": "631c5eca4446c4799f9ca6a21ae2176a6f7069e685360784f88b5cdb3be65f4a",
+  "assessmentSha256": "6abc47def87cf5061cc3f5446efd88008134044879b5b25b68277963b85e97c9",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "pmf-pdf",
+      "status": "reviewed",
+      "headingId": "pmf-vs-pdf",
+      "quote": "连续随机变量具有概率密度函数（PDF）。单个点上的密度不是概率。概率来自对某一区间内的密度进行积分。",
+      "reviewNote": "连续变量单点密度不是概率；区间积分才是概率。"
+    },
+    {
+      "id": "clt",
+      "status": "reviewed",
+      "headingId": "正态分布为何无处不在",
+      "quote": "本课采用独立同分布、有限正方差的中心极限定理：",
+      "reviewNote": "独立同分布且方差有限、非零时，sqrt(n)*(mean−μ)/σ 趋于标准正态；未标准化均值本身趋于 μ。"
+    },
+    {
+      "id": "softmax-trick",
+      "status": "reviewed",
+      "headingId": "softmax-作为概率分布",
+      "quote": "softmax 技巧：在取指数之前减去最大 logit，以防止溢出。",
+      "reviewNote": "平移会在分子分母抵消，而最大值变为 0 避免 overflow。"
+    },
+    {
+      "id": "cross-entropy",
+      "status": "reviewed",
+      "headingId": "对数概率",
+      "quote": "交叉熵损失是正确类别概率的负对数",
+      "reviewNote": "正确类 0.9 的损失低，0.01 的损失高。"
+    },
+    {
+      "id": "log-probability",
+      "status": "reviewed",
+      "headingId": "对数概率",
+      "quote": "原始概率会造成数值问题。许多小概率相乘会很快下溢为零。",
+      "reviewNote": "对数和保持在有限数值范围。"
+    }
+  ]
+}

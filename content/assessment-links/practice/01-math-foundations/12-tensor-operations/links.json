@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/12-tensor-operations",
+  "translationSha256": "9090293a8cc8d887063485c07cb58d0972b5209c3e0b06781074ce6bfc118ca7",
+  "assessmentSha256": "f78244b9f213eec8d92726dffd69f1dd01cca231ede5fb457080c450604113ab",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "shape",
+      "status": "reviewed",
+      "headingId": "what-a-tensor-is",
+      "quote": "形状（shape）是列出每条轴大小的元组。",
+      "reviewNote": "shape 是各轴大小元组，如 (2,3,4) 分别有 2、3、4 个元素。"
+    },
+    {
+      "id": "layout",
+      "status": "reviewed",
+      "headingId": "深度学习中的张量形状",
+      "quote": "PyTorch 使用 NCHW（通道在前），TensorFlow 默认 NHWC（通道在后）。",
+      "reviewNote": "常见逻辑形状为 NCHW：批次、通道、高、宽。channels_last 描述物理内存格式，不等于把逻辑轴序改为 NHWC。"
+    },
+    {
+      "id": "broadcast",
+      "status": "reviewed",
+      "headingId": "broadcasting-rules",
+      "quote": "从右端对齐形状。当两个维度相等或其中一个为 1 时它们才兼容。维数较少的一方在左侧补 1。",
+      "reviewNote": "右对齐后为 (8,1,6,1) 和 (1,7,1,5)，每轴相等或有一方为 1，结果取最大值。"
+    },
+    {
+      "id": "einsum",
+      "status": "reviewed",
+      "headingId": "einsum-the-universal-tensor-operation",
+      "quote": "出现在输入中但不出现在输出中的轴会被求和，两边都出现的轴会被保留。",
+      "reviewNote": "输入中却不在输出的指标会被相乘求和。"
+    },
+    {
+      "id": "view",
+      "status": "reviewed",
+      "headingId": "内存布局如何工作",
+      "quote": "view 的关键条件是新形状与现有尺寸和步幅兼容，并非所有非连续张量都无法 view。",
+      "reviewNote": "view 要求新形状与原尺寸和步幅兼容。非连续不一定失败；可先 contiguous 再 view，或用必要时复制的 reshape。"
+    }
+  ]
+}

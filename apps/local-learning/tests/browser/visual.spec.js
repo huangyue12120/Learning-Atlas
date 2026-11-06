@@ -1,7 +1,7 @@
+import { screenshotDirectory } from "./screenshot-directory.js";
 import { test, expect } from "@playwright/test";
 import { mkdirSync } from "node:fs";
-import { resolve } from "node:path";
-const directory = resolve("../../review/followups/screenshots");
+const directory = screenshotDirectory;
 const surfaces = [
   ["home", "/", ".home-hero"],
   ["reader", "/learn?lessonId=practice/01-math-foundations/01-linear-algebra-intuition", "#lesson h1"],

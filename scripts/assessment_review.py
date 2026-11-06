@@ -29,13 +29,26 @@ def slug(title):
 
 
 def sections(text):
-    result = []; counts = {}; current = None; paragraph = []; fence = False
+    result = []; counts = {}; current = None; paragraph = []; fence = False; comment = False
     def flush():
         if current and paragraph:
             quote = plain(" ".join(paragraph))
             if len(quote) >= 15: current["paragraphs"].append(quote[:180])
         paragraph.clear()
     for line in text.splitlines():
+        if not fence:
+            while True:
+                if comment:
+                    _, end, line = line.partition("-->")
+                    if not end: break
+                    comment = False
+                opening = re.search(r"<!--(?! learning-atlas: [a-z0-9-]+ -->)", line)
+                if not opening: break
+                before, rest = line[:opening.start()], line[opening.end():]
+                _, end, rest = rest.partition("-->")
+                line = before + rest
+                if not end:
+                    comment = True; break
         if re.match(r"^\s*(`{3,}|~{3,})", line):
             flush(); fence = not fence; continue
         heading = None if fence else re.match(r"^(#{1,6})\s+(.+?)(?:\s+<!-- learning-atlas: ([a-z0-9-]+) -->)?$", line)

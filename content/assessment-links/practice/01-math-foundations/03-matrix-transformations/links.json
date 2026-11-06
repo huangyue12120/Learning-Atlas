@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/01-math-foundations/03-matrix-transformations",
+  "translationSha256": "7880dd0cb6cfd585598fb7dc2f946029fdbf8b2e47ab19150e1467bcd2df9365",
+  "assessmentSha256": "3b1e23d6332c4affad5141e49c35b329e0ae25661e36858c20d8eddb3699cc87",
+  "reviewedBy": "Codex 逐题核对题干、四个选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "eigenvector",
+      "status": "reviewed",
+      "headingId": "特征值为何重要",
+      "quote": "特征向量必须非零，并满足 Av=λv。",
+      "reviewNote": "特征向量是满足 Av=λv 的非零向量。λ<0 时反向，λ=0 时映到零，所以“方向始终不变”不是完整定义。"
+    },
+    {
+      "id": "determinant",
+      "status": "reviewed",
+      "headingId": "特征值为何重要",
+      "quote": "二维行列式是有向面积缩放因子，其绝对值才是面积倍数。",
+      "reviewNote": "行列式是有向面积的缩放因子；绝对值给面积缩放倍数，负号表示取向翻转，为零表示退化。"
+    },
+    {
+      "id": "composition-order",
+      "status": "reviewed",
+      "headingId": "composition-chaining-transformations",
+      "quote": "先应用 A、再应用 B，等价于 `result = B @ A @ point`。",
+      "reviewNote": "复合变换按相反书写顺序相乘，矩阵乘法通常不交换。均匀缩放与旋转等特殊情况可以交换。"
+    },
+    {
+      "id": "rnn-stability",
+      "status": "reviewed",
+      "headingId": "特征值为何重要",
+      "quote": "线性递推在模大于 1 的特征方向上若有非零初始分量，该分量会指数增长；",
+      "reviewNote": "该方向每步乘相应特征值，模长随步数指数增长。非线性 RNN 的梯度还取决于激活导数及 Jacobian，不能仅由权重特征值断言爆炸。"
+    },
+    {
+      "id": "eigendecomposition",
+      "status": "reviewed",
+      "headingId": "eigenvalues-and-eigenvectors",
+      "quote": "矩阵会在 `[1, 1]` 方向拉伸 3 倍、在 `[1, -1]` 方向保持不变；",
+      "reviewNote": "特征值 3 对应 [1,1]，特征值 1 对应 [1,-1]；D 保存两种缩放。"
+    }
+  ]
+}

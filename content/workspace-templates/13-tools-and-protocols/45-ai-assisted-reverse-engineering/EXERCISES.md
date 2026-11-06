@@ -27,7 +27,9 @@ python3 -m unittest discover -s tests
 
 fixture（三个 ledger 目标、调试构建 `ledger-x86_64-O1-g.o`、被投毒目标、八个候选、捕获的 `llvm-objdump`/`llvm-dwarfdump` 文本和记录下来的运行）由上游预先编译并提交。`main.py` 读取它们、不调用任何模型。若主机既没有 clang 也没有 cc，演示会把 `grid`、`fuzz` 字段和每个判定置为 `unknown`，测试套件中依赖编译的用例会 skip，这都属于正常情况。
 
-在工作区中运行测试时有两项与上游目录不同：检查站点图示模块 `site/figures-re-45.js` 的测试会显示 skipped；`test_three_fixture_objects_share_the_text_bytes_of_the_lesson_36_object` 会失败，因为它按上游目录结构读取第 36 课的 fixture，而工作区不包含相邻课程。这一项失败与你的修改无关。如需运行完整套件，在 Learning Atlas 仓库根目录执行：
+Learning Atlas 会把测试需要的第 36 课参考目标文件和图示数据复制到本课的 `fixtures/`，并将尚未修改的参考测试的两处路径改为本地路径，原测试断言保持不变。在私人工作区直接运行上面的 `unittest discover` 即可，不需要切换到相邻课程。若你已修改参考测试，应用会保留修改；请将 `SITE_MODULE` 指向 `FIXTURES / "figures-re-45.js"`、`LESSON_36_OBJECT` 指向 `FIXTURES / "lesson-36-ledger-x86_64-O1.o"`。
+
+也可以在只读上游目录核对原始套件：
 
 ```bash
 cd ai-engineering-from-scratch/phases/13-tools-and-protocols/45-ai-assisted-reverse-engineering/code && python3 -m unittest discover -s tests
