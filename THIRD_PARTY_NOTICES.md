@@ -36,7 +36,7 @@ The local reader bundles font files under
 `apps/local-learning/public/fonts/`. Each font remains under its own SIL Open
 Font License, Version 1.1 notice:
 
-- Atlas Sans SC: `apps/local-learning/public/fonts/OFL-AtlasSansSC.txt`
+- Atlas Sans SC (retained legacy file; not loaded): `apps/local-learning/public/fonts/OFL-AtlasSansSC.txt`
 - DM Mono: `apps/local-learning/public/fonts/OFL-DMMono.txt`
 - Source Serif 4: `apps/local-learning/public/fonts/OFL-SourceSerif4.md`
 
@@ -64,3 +64,5 @@ their source terms. Bundled visual assets under
 `apps/local-learning/public/assets/` are Learning Atlas materials only to the
 extent that the project holds the necessary rights; add a per-asset notice
 before redistributing any asset whose provenance is not project-owned.
+
+Direct Markdown dependencies added in v0.28.0: `marked` (MIT), `dompurify` (Apache-2.0 OR MPL-2.0); browser test dependency `@playwright/test` (Apache-2.0). Exact resolved versions and transitive dependencies are recorded in `apps/local-learning/package-lock.json`; dependency license texts remain in their installed packages.

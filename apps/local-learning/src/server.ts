@@ -1,7 +1,14 @@
+import { assessmentEvidence } from "./assessment-evidence.ts";
+import { boundedHistory, sectionEvidence } from "./tutor-context.ts";
+import { eventStream } from "../public/event-stream.js";
+import { createUndoStore } from "./undo.ts";
+import { readerDraft, saveReaderDraft, validatedDraft } from "./reader-drafts.ts";
+import { cachedFiles, withFreshFiles, existsSync, readFileSync, readdirSync } from "./content-cache.ts";
+import { RequestError, secureRequest, normalizedBaseUrl } from "./security.ts";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, symlinkSync, writeFileSync } from "node:fs";
 import { readFile, stat } from "node:fs/promises";
-import { spawn, spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
 import { dirname, extname, join, normalize, resolve } from "node:path";
@@ -45,7 +52,7 @@ const curriculumPhases = [
   ...phases,
   { slug: "19-capstone-projects", title: "Phase 19 · 综合项目" }
 ] as const;
-const defaultLessonId = "practice/01-math-foundations/01-linear-algebra-intuition";
+const defaultLessonId = "practice/00-setup-and-tooling/01-dev-environment";
 const officialTheoryRepository = "https://github.com/HenryNdubuaku/maths-cs-ai-compendium";
 
 type LearningState = {
@@ -89,7 +96,7 @@ type Lesson = {
 type CourseOutline = {
   slug: string;
   title: string;
-  lessons: Array<Pick<Lesson, "id" | "position" | "title"> & { available: boolean; progress: CourseProgress }>;
+  lessons: Array<Pick<Lesson, "id" | "position" | "title"> & { available: boolean; progress: CourseProgress; publicationStatus: "available" | "stale" | "untranslated" | "staged" }>;
 };
 
 type CourseProgress = "not-started" | "in-progress" | "understood" | "review";
@@ -151,9 +158,10 @@ type LessonContent = {
   markdown: string;
   translationStatus: "reviewed" | "stale" | "unavailable";
   theoryCards: TheoryCard[];
+  resourceBaseUrl?: string;
 };
 
-type QuizQuestion = { id: string; question: string; options: string[]; correct: number; explanation: string };
+type QuizQuestion = { stage: "pre" | "check" | "post"; id: string; question: string; options: string[]; correct: number; explanation: string };
 type PublishedQuiz = { questions: QuizQuestion[]; status: "reviewed" | "stale" | "unavailable" };
 
 function yamlString(value: string | undefined) {
@@ -184,8 +192,8 @@ function yamlList(block: string, key: string) {
 
 function sourceUrl(repository: string, revision: string, path: string) {
   const repositories: Record<string, string> = {
-    "ai-engineering-from-scratch": "https://github.com/huangyue12120/ai-engineering-from-scratch",
-    "maths-cs-ai-compendium": "https://github.com/huangyue12120/maths-cs-ai-compendium"
+    "ai-engineering-from-scratch": "https://github.com/rohitg00/ai-engineering-from-scratch",
+    "maths-cs-ai-compendium": "https://github.com/HenryNdubuaku/maths-cs-ai-compendium"
   };
   const base = repositories[repository];
   if (!base) throw new Error(`Unknown source repository: ${repository}`);
@@ -210,7 +218,7 @@ export function publishableTheoryDocument(sourceFile: string, translationFile: s
   const match = document.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (!match) return null;
   const [, frontmatter, markdown] = match;
-  if (yamlScalar(frontmatter, /^status:\s*(.+)$/m) !== "reviewed") return null;
+  if (yamlScalar(frontmatter, /^status:\s*(.+)$/m) !== "reviewed" || markdown.includes("待中文复核")) return null;
   if (yamlScalar(frontmatter, /^  repository:\s*(.+)$/m) !== "maths-cs-ai-compendium") return null;
   const sourcePath = yamlScalar(frontmatter, /^  path:\s*(.+)$/m);
   const branch = yamlScalar(frontmatter, /^  branch:\s*(.+)$/m) ?? "main";
@@ -295,13 +303,16 @@ function buildTheoryCatalog(): TheoryChapter[] {
     });
 }
 
-const theoryCatalog = buildTheoryCatalog();
-const theoryNotes = theoryCatalog.flatMap((chapter) => chapter.notes);
-const theoryNoteById = new Map(theoryNotes.map((note) => [note.theoryId, note]));
-const theoryNoteBySourcePath = new Map(theoryNotes.map((note) => [note.sourcePath, note]));
+function theoryIndex() {
+  return cachedFiles("theory-index", () => {
+    const catalog = buildTheoryCatalog();
+    const notes = catalog.flatMap(chapter => chapter.notes);
+    return { catalog, notes, byId: new Map(notes.map(note => [note.theoryId, note])), bySource: new Map(notes.map(note => [note.sourcePath, note])) };
+  });
+}
 
 function theoryContentFor(theoryId: string) {
-  const note = theoryNoteById.get(theoryId);
+  const note = theoryIndex().byId.get(theoryId);
   if (!note || note.readKind !== "internal") return null;
   const sourceFile = join(theoryDirectory, note.sourcePath);
   const translationFile = join(theoryTranslationDirectory, ...theoryId.split("/").slice(1), "zh.md");
@@ -343,13 +354,16 @@ function phaseDirectory(phase: Phase) {
 
 function lessonSlugs(phase: Phase) {
   return readdirSync(phaseDirectory(phase), { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && /^\d{2}-/.test(entry.name) &&
-      existsSync(join(repositoryDirectory, "content/translations/practice", phase.slug, entry.name, "zh.md")))
+    .filter((entry) => entry.isDirectory() && /^\d{2}-/.test(entry.name))
     .map((entry) => entry.name)
     .sort();
 }
 
-function lessonFor(lessonId: string): Lesson | null {
+export function lessonFor(lessonId: string, withResources = true): Lesson | null {
+  return cachedFiles(`lesson:${lessonId}:${withResources}`, () => loadLessonMetadata(lessonId, withResources));
+}
+
+function loadLessonMetadata(lessonId: string, withResources: boolean): Lesson | null {
   const reference = lessonReference(lessonId);
   if (!reference) return null;
   const { phase, slug } = reference;
@@ -359,9 +373,9 @@ function lessonFor(lessonId: string): Lesson | null {
 
   const documentFile = join(phaseDirectory(phase), slug, "docs/en.md");
   const translationFile = join(repositoryDirectory, "content/translations/practice", phase.slug, slug, "zh.md");
-  if (!existsSync(documentFile) || !existsSync(translationFile)) return null;
+  if (!existsSync(documentFile)) return null;
   const sourceDocument = readFileSync(documentFile, "utf8");
-  const translation = readFileSync(translationFile, "utf8");
+  const translation = existsSync(translationFile) ? readFileSync(translationFile, "utf8") : "";
   const frontmatter = translation.match(/^---\n([\s\S]*?)\n---/)?.[1] ?? "";
   const source = {
     repository: yamlScalar(frontmatter, /^  repository:\s*(.+)$/m) ?? "ai-engineering-from-scratch",
@@ -384,41 +398,39 @@ function lessonFor(lessonId: string): Lesson | null {
     source,
     sourceUrl: sourceUrl(source.repository, source.revision, source.path),
     resources: {
-      workspace: existsSync(join(phaseDirectory(phase), slug, "code")) &&
+      workspace: withResources && existsSync(join(phaseDirectory(phase), slug, "code")) &&
         readdirSync(join(phaseDirectory(phase), slug, "code")).some((name) => name.endsWith(".py")),
-      exploration: existsSync(join(resourceDirectory, "explorations", phase.slug, slug))
+      exploration: withResources && existsSync(join(resourceDirectory, "explorations", phase.slug, slug))
     }
   };
 }
 
 export const firstLesson = lessonFor(defaultLessonId)!;
 
-function courseProgress(database: DatabaseSync, lessonId: string): CourseProgress {
-  const state = database.prepare("SELECT completed, review, reading_position AS readingPosition FROM learning_state WHERE lesson_id = ?")
-    .get(lessonId) as { completed: number; review: number; readingPosition: number } | undefined;
-  if (state?.review === 1) return "review";
-  if (state?.completed === 1) return "understood";
-  const hasActivity = Boolean(state?.readingPosition) ||
-    Boolean(database.prepare("SELECT 1 FROM notes WHERE lesson_id = ? LIMIT 1").get(lessonId)) ||
-    Boolean(database.prepare("SELECT 1 FROM quiz_attempts WHERE lesson_id = ? LIMIT 1").get(lessonId));
-  return hasActivity ? "in-progress" : "not-started";
-}
-
 function courseOutline(database: DatabaseSync): CourseOutline[] {
-  return phases.map((phase) => ({
+  const index = cachedFiles("course-index", () => curriculumPhases.map((phase) => ({
     slug: phase.slug,
     title: phase.title,
-    lessons: lessonSlugs(phase).map((slug) => {
-      const lesson = lessonFor(`practice/${phase.slug}/${slug}`)!;
-      return {
-        id: lesson.id,
-        position: lesson.position,
-        title: lesson.title,
-        available: publishedLessonContent(lesson).translationStatus === "reviewed",
-        progress: courseProgress(database, lesson.id)
-      };
+    lessons: lessonSlugs(phase as Phase).flatMap((slug) => {
+      const id = `practice/${phase.slug}/${slug}`;
+      const staged = phase.slug === "19-capstone-projects";
+      const lesson = staged ? null : lessonFor(id, false);
+      const status = lesson ? publishedLessonContent(lesson, false).translationStatus : "unavailable";
+      const stagedTranslation = join(repositoryDirectory, "content/translations/practice", phase.slug, slug, "zh.md");
+      const stagedTitle = staged && existsSync(stagedTranslation) ? readFileSync(stagedTranslation, "utf8").match(/^#\s+(.+)$/m)?.[1] : null;
+      return [{ id, position: lesson?.position ?? `${slug.slice(0, 2)} / ${practicePhaseLessonCount(phase.slug)}`,
+        title: lesson?.title ?? stagedTitle ?? slug.replace(/^\d+-/, ""),
+        available: !staged && status === "reviewed",
+        publicationStatus: staged ? "staged" : status === "reviewed" ? "available" : status === "stale" ? "stale" : "untranslated" }];
     })
-  }));
+  })));
+  const states = new Map((database.prepare("SELECT lesson_id, completed, review, reading_position FROM learning_state").all() as any[]).map(row => [row.lesson_id, row]));
+  const active = new Set((database.prepare("SELECT lesson_id FROM notes UNION SELECT lesson_id FROM quiz_attempts").all() as any[]).map(row => row.lesson_id));
+  return index.map(phase => ({ ...phase, lessons: phase.lessons.map(lesson => {
+    const state = states.get(lesson.id);
+    const progress: CourseProgress = state?.review ? "review" : state?.completed ? "understood" : state?.reading_position || active.has(lesson.id) ? "in-progress" : "not-started";
+    return { ...lesson, progress } as CourseOutline["lessons"][number];
+  }) }));
 }
 
 function practicePhaseLessonCount(slug: string) {
@@ -447,6 +459,7 @@ function learningTarget(course: CourseOutline[]) {
 
 function curriculumFor(database: DatabaseSync) {
   const course = courseOutline(database);
+  const { catalog: theoryCatalog, notes: theoryNotes } = theoryIndex();
   const outlines = new Map(course.map((phase) => [phase.slug, phase]));
   const practice = curriculumPhases.map((phase, index) => {
     const outline = outlines.get(phase.slug);
@@ -545,14 +558,19 @@ function sendDownload(response: ServerResponse, contentType: string, filename: s
 async function readJson(request: IncomingMessage, maximumBytes = 32_000): Promise<Record<string, unknown> | null> {
   const chunks: Buffer[] = [];
   let size = 0;
-  for await (const chunk of request) {
+  for await (const chunk of request.iterator({ destroyOnReturn: false })) {
     const buffer = Buffer.from(chunk);
     size += buffer.length;
-    if (size > maximumBytes) throw new Error("Request body is too large");
+    if (size > maximumBytes) {
+      request.resume();
+      throw new RequestError(413, "请求内容过大。请缩小后重试。");
+    }
     chunks.push(buffer);
   }
   if (chunks.length === 0) return null;
-  const value: unknown = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+  let value: unknown;
+  try { value = JSON.parse(Buffer.concat(chunks).toString("utf8")); }
+  catch { throw new RequestError(400, "请求不是有效的 JSON。"); }
   return value !== null && typeof value === "object" && !Array.isArray(value)
     ? value as Record<string, unknown>
     : null;
@@ -595,6 +613,12 @@ function createDatabase(dataDirectory: string) {
       created_at TEXT NOT NULL,
       resolved INTEGER NOT NULL DEFAULT 0,
       resolved_at TEXT
+    ) STRICT;
+    CREATE TABLE IF NOT EXISTS reader_drafts (
+      lesson_id TEXT PRIMARY KEY,
+      data TEXT NOT NULL,
+      quiz_fingerprint TEXT NOT NULL,
+      updated_at TEXT NOT NULL
     ) STRICT;
     CREATE TABLE IF NOT EXISTS quiz_attempts (
       id INTEGER PRIMARY KEY,
@@ -695,17 +719,19 @@ function exportedQuizAttempts(database: DatabaseSync) {
 
 function learningDataExport(database: DatabaseSync) {
   return {
-    schemaVersion: 3,
+    schemaVersion: 4,
     exportedAt: new Date().toISOString(),
     learningStates: exportedLearningStates(database),
     notes: exportedNotes(database),
     tutorMessages: exportedTutorMessages(database),
     reviewItems: exportedReviewItems(database),
-    quizAttempts: exportedQuizAttempts(database)
+    quizAttempts: exportedQuizAttempts(database),
+    readerDrafts: (database.prepare("SELECT lesson_id AS lessonId, data, quiz_fingerprint AS fingerprint, updated_at AS updatedAt FROM reader_drafts ORDER BY lesson_id").all() as any[]).map(row => ({ ...row, data: JSON.parse(row.data) }))
   };
 }
 
 type RestoredLearningData = {
+  readerDrafts: Array<{ lessonId: string; data: ReturnType<typeof validatedDraft>; fingerprint: string; updatedAt: string }>;
   learningStates: ExportedLearningState[];
   notes: Array<Omit<Note, "id"> & { lessonId: string }>;
   tutorMessages: Array<Omit<TutorMessage, "id"> & { lessonId: string }>;
@@ -740,13 +766,16 @@ function importedTimestamp(row: Record<string, unknown>, key: string, optional =
 
 function importedLessonId(row: Record<string, unknown>) {
   const lessonId = importedText(row, "lessonId", 200)!;
-  if (!lessonFor(lessonId)) throw new Error(`备份包含当前课程目录中不存在的课程：${lessonId}`);
+  if (!/^practice\/[a-z0-9-]+\/[a-z0-9-]+$/.test(lessonId)) throw new Error("备份包含无效课程标识。");
   return lessonId;
 }
 
 function restoreDataFrom(data: Record<string, unknown>): RestoredLearningData {
-  if (data.schemaVersion !== 3) throw new Error("仅支持 schemaVersion 为 3 的 Learning Atlas JSON 备份。");
+  if (data.schemaVersion !== 3 && data.schemaVersion !== 4) throw new Error("仅支持 schemaVersion 为 3 或 4 的 Learning Atlas JSON 备份。");
   return {
+    readerDrafts: (data.schemaVersion === 3 ? [] : importRows(data, "readerDrafts")).map(row => ({
+      lessonId: importedLessonId(row), data: validatedDraft(row.data), fingerprint: importedText(row, "fingerprint", 100)!, updatedAt: importedTimestamp(row, "updatedAt")!
+    })),
     learningStates: importRows(data, "learningStates").map((row) => {
       const readingPosition = row.readingPosition;
       if (typeof row.completed !== "boolean" || typeof row.review !== "boolean" || !Number.isInteger(readingPosition) || readingPosition < 0 || readingPosition > 10_000_000) {
@@ -775,7 +804,7 @@ function restoreDataFrom(data: Record<string, unknown>): RestoredLearningData {
       const answers = importedText(row, "answers", 10_000)!;
       try {
         const values = JSON.parse(answers);
-        if (!Array.isArray(values) || !values.every((value) => Number.isInteger(value) && value >= 0 && value <= 3)) throw new Error();
+        if (!Array.isArray(values) || !values.every((value) => Number.isInteger(value) && value >= 0 && value <= 99)) throw new Error();
       } catch {
         throw new Error("quizAttempts 包含无效作答。" );
       }
@@ -786,9 +815,10 @@ function restoreDataFrom(data: Record<string, unknown>): RestoredLearningData {
 
 function restoreLearningData(database: DatabaseSync, source: Record<string, unknown>) {
   const data = restoreDataFrom(source);
-  database.exec("BEGIN IMMEDIATE");
+  const known = new Set(curriculumPhases.flatMap(phase => lessonSlugs(phase as Phase).map(slug => `practice/${phase.slug}/${slug}`)));
+  database.exec("SAVEPOINT restore_data");
   try {
-    database.exec("DELETE FROM learning_state; DELETE FROM notes; DELETE FROM tutor_messages; DELETE FROM review_items; DELETE FROM quiz_attempts;");
+    database.exec("DELETE FROM learning_state; DELETE FROM notes; DELETE FROM tutor_messages; DELETE FROM review_items; DELETE FROM quiz_attempts; DELETE FROM reader_drafts;");
     const stateStatement = database.prepare("INSERT INTO learning_state (lesson_id, completed, review, reading_position) VALUES (?, ?, ?, ?)");
     for (const state of data.learningStates) stateStatement.run(state.lessonId, Number(state.completed), Number(state.review), state.readingPosition);
     const noteStatement = database.prepare("INSERT INTO notes (lesson_id, text, created_at) VALUES (?, ?, ?)");
@@ -799,9 +829,11 @@ function restoreLearningData(database: DatabaseSync, source: Record<string, unkn
     for (const item of data.reviewItems) reviewStatement.run(item.lessonId, item.text, item.createdAt, Number(item.resolved), item.resolvedAt);
     const quizStatement = database.prepare("INSERT INTO quiz_attempts (lesson_id, score, total, answers, created_at) VALUES (?, ?, ?, ?, ?)");
     for (const attempt of data.quizAttempts) quizStatement.run(attempt.lessonId, attempt.score, attempt.total, attempt.answers, attempt.createdAt);
-    database.exec("COMMIT");
+    const draftStatement = database.prepare("INSERT INTO reader_drafts (lesson_id, data, quiz_fingerprint, updated_at) VALUES (?, ?, ?, ?)");
+    for (const draft of data.readerDrafts) draftStatement.run(draft.lessonId, JSON.stringify(draft.data), draft.fingerprint, draft.updatedAt);
+    database.exec("RELEASE restore_data");
   } catch (error) {
-    database.exec("ROLLBACK");
+    database.exec("ROLLBACK TO restore_data; RELEASE restore_data");
     throw error;
   }
   return {
@@ -809,7 +841,9 @@ function restoreLearningData(database: DatabaseSync, source: Record<string, unkn
     notes: data.notes.length,
     tutorMessages: data.tutorMessages.length,
     reviewItems: data.reviewItems.length,
-    quizAttempts: data.quizAttempts.length
+    quizAttempts: data.quizAttempts.length,
+    readerDrafts: data.readerDrafts.length,
+    unknownLessonRecords: Object.values(data).flat().filter(row => !known.has(row.lessonId)).length
   };
 }
 
@@ -900,6 +934,7 @@ function saveModelConfig(database: DatabaseSync, config: ModelConfig) {
 async function compatibleModels(baseUrl: string, apiKey: string) {
   const response = await fetch(`${baseUrl.replace(/\/+$/, "")}/models`, {
     headers: apiKey ? { authorization: `Bearer ${apiKey}` } : {},
+    redirect: "error",
     signal: AbortSignal.timeout(15_000)
   });
   if (!response.ok) throw new Error(`模型列表接口返回 ${response.status}。请检查地址、权限和接口兼容性。`);
@@ -936,10 +971,10 @@ function clearTutorMessages(database: DatabaseSync, lessonId: string) {
   return database.prepare("DELETE FROM tutor_messages WHERE lesson_id = ?").run(lessonId).changes;
 }
 
-function tutorEvidence(lesson: Lesson) {
+function tutorEvidence(lesson: Lesson, context: TutorContext) {
   const content = publishedLessonContent(lesson);
   if (content.translationStatus !== "reviewed") throw new Error("当前课程译文不可作为助理证据。");
-  const theory = content.theoryCards.map((card) => {
+  const theory = content.theoryCards.filter(card => card.slug === context.theoryCardSlug).map((card) => {
     if (!isRichTheoryCard(card)) {
       return `- ${card.title}：${card.summary}\n  扩展内容待迁移，助理不应补写未经审核的字段。`;
     }
@@ -953,11 +988,11 @@ function tutorEvidence(lesson: Lesson) {
     ].join("\n");
   }).join("\n");
   return [
-    "当前实践课程（已审核中文改编）：",
-    content.markdown,
+    `当前实践课程（已审核中文改编）：${lesson.title}`,
+    sectionEvidence(content.markdown, context.sectionTitle),
     "",
     "已批准的上下文理论卡：",
-    theory || "无"
+    theory.slice(0, 2000) || "当前段落没有关联理论卡"
   ].join("\n");
 }
 
@@ -976,7 +1011,7 @@ function tutorLearningContext(database: DatabaseSync, lesson: Lesson, context: T
     `当前段落：${context.sectionTitle}`,
     `关联理论卡：${theoryContext}`,
     `本课状态：${state.completed ? "学习者已标记理解" : "尚未标记理解"}；${state.review ? "整课仍需复习" : "未标记整课复习"}。`,
-    `已确认待复习点：${pendingReviews.length ? pendingReviews.map((item) => item.text).join("；") : "无"}。`
+    `已确认待复习点：${pendingReviews.length ? pendingReviews.slice(0, 5).map((item) => item.text.slice(0, 200)).join("；") : "无"}。`
   ].join("\n");
 }
 
@@ -1003,11 +1038,13 @@ async function tutorReply(
   lesson: Lesson,
   text: string,
   context: TutorContext,
-  responseMode: TutorResponseMode
+  responseMode: TutorResponseMode,
+  onDelta?: (text: string) => void,
+  signal?: AbortSignal
 ) {
   const config = modelConfigFor(database);
   if (!config || !config.baseUrl || !config.model) throw new Error("请先配置本地学习助理的兼容接口和模型名。");
-  const priorMessages = tutorMessagesFor(database, lesson.id).slice(-10);
+  const priorMessages = boundedHistory((database.prepare("SELECT role, text FROM tutor_messages WHERE lesson_id = ? ORDER BY id DESC LIMIT 20").all(lesson.id) as TutorMessage[]).reverse());
   const endpoint = `${config.baseUrl.replace(/\/+$/, "")}/chat/completions`;
   const response = await fetch(endpoint, {
     method: "POST",
@@ -1017,6 +1054,8 @@ async function tutorReply(
     },
     body: JSON.stringify({
       model: config.model,
+      stream: Boolean(onDelta),
+      max_tokens: 1024,
       messages: [
         {
           role: "system",
@@ -1031,22 +1070,50 @@ async function tutorReply(
             "\n--- 当前学习上下文 ---\n",
             tutorLearningContext(database, lesson, context),
             "\n--- 课程内证据 ---\n",
-            tutorEvidence(lesson)
+            tutorEvidence(lesson, context)
           ].join("\n")
         },
-        ...priorMessages.map((message) => ({ role: message.role, content: message.text })),
+        ...priorMessages,
         { role: "user", content: text }
       ]
     }),
-    signal: AbortSignal.timeout(30_000)
+    redirect: "error",
+    signal: AbortSignal.any([AbortSignal.timeout(60_000), ...(signal ? [signal] : [])])
   });
   if (!response.ok) throw new Error(`模型接口返回 ${response.status}。`);
-  const payload = await response.json() as { choices?: Array<{ message?: { content?: string } }> };
-  const reply = payload.choices?.[0]?.message?.content?.trim();
-  if (!reply) throw new Error("模型接口没有返回可显示的文本。");
-  const userMessage = saveTutorMessage(database, lesson.id, "user", text);
-  const assistantMessage = saveTutorMessage(database, lesson.id, "assistant", reply);
-  return { userMessage, assistantMessage };
+  let reply = "";
+  if (response.headers.get("content-type")?.includes("text/event-stream")) {
+    let complete = false;
+    for await (const event of eventStream(response)) {
+      if (event.data === "[DONE]") { complete = true; break; }
+      let packet;
+      try { packet = JSON.parse(event.data); } catch { throw new Error("模型流包含无效 JSON，回复未保存。"); }
+      if (packet.error) throw new Error("模型流返回了错误，回复未保存。");
+      const delta = packet.choices?.[0]?.delta?.content;
+      if (typeof delta === "string") {
+        reply += delta;
+        if (reply.length > 4000) throw new Error("模型回复超过 4000 字符，回复未保存。");
+        onDelta?.(delta);
+      }
+      if (packet.choices?.[0]?.finish_reason === "length") throw new Error("模型回复被长度限制截断，回复未保存。");
+      if (packet.choices?.[0]?.finish_reason === "stop") complete = true;
+    }
+    if (!complete) throw new Error("模型流意外中断，回复未保存，请重试。");
+  } else {
+    const payload = await response.json() as { choices?: Array<{ message?: { content?: string } }> };
+    reply = payload.choices?.[0]?.message?.content ?? "";
+    if (reply.length <= 4000) onDelta?.(reply);
+  }
+  signal?.throwIfAborted();
+  reply = reply.trim();
+  if (!reply || reply.length > 4000) throw new Error("模型没有返回 1–4000 字符的完整回复。");
+  database.exec("SAVEPOINT tutor_turn");
+  try {
+    const userMessage = saveTutorMessage(database, lesson.id, "user", text);
+    const assistantMessage = saveTutorMessage(database, lesson.id, "assistant", reply);
+    database.exec("RELEASE tutor_turn");
+    return { userMessage, assistantMessage };
+  } catch (error) { database.exec("ROLLBACK TO tutor_turn; RELEASE tutor_turn"); throw error; }
 }
 
 const workspaceCopyExclusions = new Set(["__pycache__", ".pytest_cache", "node_modules", ".venv"]);
@@ -1127,13 +1194,17 @@ export function prepareWorkspace(dataDirectory: string, lessonId = defaultLesson
   return { directory, sourceFile, explorationFile, exerciseFile, exerciseTestFile, exercisesGuide };
 }
 
-function commandAvailable(command: string) {
-  const result = spawnSync(command, ["--version"], { stdio: "ignore" });
-  return !result.error && result.status === 0;
+function commandAvailable(command: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const child = spawn(command, ["--version"], { stdio: "ignore" });
+    const timer = setTimeout(() => { child.kill(); resolve(false); }, 5000);
+    child.once("error", () => { clearTimeout(timer); resolve(false); });
+    child.once("exit", code => { clearTimeout(timer); resolve(code === 0); });
+  });
 }
 
 function sha256(path: string) {
-  return createHash("sha256").update(readFileSync(path)).digest("hex");
+  return cachedFiles(`sha256:${path}`, () => createHash("sha256").update(readFileSync(path)).digest("hex"));
 }
 
 function approvedTheoryCards(lesson: Lesson): TheoryCard[] {
@@ -1146,6 +1217,9 @@ function approvedTheoryCards(lesson: Lesson): TheoryCard[] {
       const document = readFileSync(join(theoryLinksDirectory, name), "utf8");
       if (yamlScalar(document, /^status:\s*(.+)$/m) !== "approved") return [];
       const practiceBlock = document.match(/^practice:\n([\s\S]*?)(?=^card:)/m)?.[1] ?? "";
+      const practicePath = yamlScalar(practiceBlock, /^  path:\s*(.+)$/m);
+      const practiceFingerprint = yamlScalar(practiceBlock, /^  sha256:\s*(.+)$/m);
+      if (practicePath !== lesson.source.path || !practiceFingerprint || sha256(join(repositoryDirectory, "ai-engineering-from-scratch", practicePath)) !== practiceFingerprint) return [];
       const cardBlock = document.match(/^card:\n([\s\S]*?)(?=^theory:)/m)?.[1] ?? "";
       const theoryBlock = document.match(/^theory:\n([\s\S]*)$/m)?.[1] ?? "";
       const slug = yamlScalar(practiceBlock, /^    slug:\s*(.+)$/m);
@@ -1162,7 +1236,7 @@ function approvedTheoryCards(lesson: Lesson): TheoryCard[] {
       if (!slug || !title || !summary || !repository || !path || !fingerprint) return [];
       const currentSource = join(repositoryDirectory, repository, path);
       if (!existsSync(currentSource) || sha256(currentSource) !== fingerprint) return [];
-      const note = theoryNoteBySourcePath.get(path);
+      const note = theoryIndex().bySource.get(path);
       if (!note) return [];
       const hasRichContent = Boolean(context && intuition && keyPoints.length >= 2 && keyPoints.length <= 4 && application && checkQuestion);
       return [{
@@ -1180,7 +1254,11 @@ function approvedTheoryCards(lesson: Lesson): TheoryCard[] {
     });
 }
 
-function publishedLessonContent(lesson: Lesson): LessonContent {
+function publishedLessonContent(lesson: Lesson, withCards = true): LessonContent {
+  return cachedFiles(`content:${lesson.id}:${withCards}`, () => loadPublishedLessonContent(lesson, withCards));
+}
+
+function loadPublishedLessonContent(lesson: Lesson, withCards: boolean): LessonContent {
   const { phase, slug } = lessonReference(lesson.id)!;
   const translationFile = join(repositoryDirectory, "content/translations/practice", phase.slug, slug, "zh.md");
   const lessonDocumentFile = join(phaseDirectory(phase), slug, "docs/en.md");
@@ -1193,11 +1271,11 @@ function publishedLessonContent(lesson: Lesson): LessonContent {
   const [, frontmatter, markdown] = match;
   const status = yamlScalar(frontmatter, /^status:\s*(.+)$/m);
   const fingerprint = yamlScalar(frontmatter, /^  sha256:\s*(.+)$/m);
-  if (status !== "reviewed") return { markdown: "", translationStatus: "unavailable", theoryCards: [] };
+  if (status !== "reviewed" || markdown.includes("待中文复核")) return { markdown: "", translationStatus: "unavailable", theoryCards: [] };
   if (!fingerprint || sha256(lessonDocumentFile) !== fingerprint) {
     return { markdown: "", translationStatus: "stale", theoryCards: [] };
   }
-  return { markdown, translationStatus: "reviewed", theoryCards: approvedTheoryCards(lesson) };
+  return { markdown, translationStatus: "reviewed", theoryCards: withCards ? approvedTheoryCards(lesson) : [], resourceBaseUrl: `/api/practice/assets/${phase.slug}/${slug}/docs/` };
 }
 
 function publishedQuiz(lesson: Lesson): PublishedQuiz {
@@ -1214,8 +1292,8 @@ function publishedQuiz(lesson: Lesson): PublishedQuiz {
     if (quiz.status !== "reviewed" || quiz.source?.sha256 !== sha256(quizSourceFile) || !Array.isArray(quiz.questions)) {
       return { questions: [], status: "stale" };
     }
-    const valid = quiz.questions.every((item) => typeof item.id === "string" && typeof item.question === "string" &&
-      Array.isArray(item.options) && item.options.length === 4 && item.options.every((option) => typeof option === "string") &&
+    const valid = quiz.questions.every((item) => typeof item.id === "string" && typeof item.question === "string" && ["pre", "check", "post"].includes(item.stage) &&
+      Array.isArray(item.options) && item.options.length >= 2 && item.options.length <= 20 && item.options.every((option) => typeof option === "string") &&
       Number.isInteger(item.correct) && item.correct >= 0 && item.correct < item.options.length && typeof item.explanation === "string");
     return valid ? { questions: quiz.questions, status: "reviewed" } : { questions: [], status: "unavailable" };
   } catch {
@@ -1225,13 +1303,16 @@ function publishedQuiz(lesson: Lesson): PublishedQuiz {
 
 function quizForLearner(lesson: Lesson) {
   const quiz = publishedQuiz(lesson);
-  return { status: quiz.status, questions: quiz.questions.map(({ id, question, options }) => ({ id, question, options })) };
+  return { status: quiz.status, fingerprint: createHash("sha256").update(JSON.stringify(quiz.questions)).digest("hex"), questions: quiz.questions.map(({ id, question, options, stage }) => ({ id, question, options, stage })) };
 }
 
-function quizResultForAnswers(quiz: PublishedQuiz, selected: number[]) {
+function quizResultForAnswers(quiz: PublishedQuiz, selected: number[], lesson: Lesson) {
+  const references = assessmentEvidence(repositoryDirectory, lesson.id);
   const results = quiz.questions.map((question, index) => ({
     id: question.id,
+    reference: references.get(question.id) ?? null,
     selected: selected[index],
+    correctOption: question.correct,
     correct: selected[index] === question.correct,
     explanation: question.explanation
   }));
@@ -1246,20 +1327,25 @@ function latestQuizAttempt(database: DatabaseSync, lesson: Lesson) {
     const selected = JSON.parse(row.answers);
     const quiz = publishedQuiz(lesson);
     if (!Array.isArray(selected) || selected.length !== quiz.questions.length || !selected.every(Number.isInteger)) return null;
-    return quizResultForAnswers(quiz, selected);
+    return quizResultForAnswers(quiz, selected, lesson);
   } catch {
     return null;
   }
 }
 
+export function selectedQuizAnswers(quiz: PublishedQuiz, answers: Record<string, unknown>) {
+  const selected = quiz.questions.map((question) => answers[question.id]);
+  if (selected.some((answer, index) => !Number.isInteger(answer) || (answer as number) < 0 || (answer as number) >= quiz.questions[index].options.length)) {
+    throw new Error("请完成每一道题后再提交。");
+  }
+  return selected as number[];
+}
+
 function submitQuiz(database: DatabaseSync, lesson: Lesson, answers: Record<string, unknown>) {
   const quiz = publishedQuiz(lesson);
   if (quiz.status !== "reviewed") throw new Error("当前自测内容不可用。");
-  const selected = quiz.questions.map((question) => answers[question.id]);
-  if (selected.some((answer) => !Number.isInteger(answer) || (answer as number) < 0 || (answer as number) > 3)) {
-    throw new Error("请完成每一道题后再提交。");
-  }
-  const result = quizResultForAnswers(quiz, selected as number[]);
+  const selected = selectedQuizAnswers(quiz, answers);
+  const result = quizResultForAnswers(quiz, selected as number[], lesson);
   database.prepare("INSERT INTO quiz_attempts (lesson_id, score, total, answers, created_at) VALUES (?, ?, ?, ?, ?)")
     .run(lesson.id, result.score, result.total, JSON.stringify(selected), new Date().toISOString());
   return result;
@@ -1297,14 +1383,14 @@ async function serveFile(rootDirectory: string, requestedPath: string, response:
   if (!filePath.startsWith(`${rootDirectory}/`)) return sendText(response, 403, "Forbidden");
 
   try {
-    if (!(await stat(filePath)).isFile()) return sendText(response, 404, "Not found");
+    if (!(await stat(filePath)).isFile()) return sendText(response, 404, "资源不存在。");
     response.writeHead(200, {
       "content-type": mimeTypes[extname(filePath)] ?? "application/octet-stream",
       "cache-control": "no-cache"
     });
     response.end(await readFile(filePath));
   } catch {
-    sendText(response, 404, "Not found");
+    sendText(response, 404, "资源不存在。");
   }
 }
 
@@ -1344,8 +1430,19 @@ function serveTheoryAsset(pathname: string, response: ServerResponse) {
   return serveFile(assetRoot, requestedPath, response);
 }
 
+function servePracticeAsset(pathname: string, response: ServerResponse) {
+  let path: string;
+  try { path = normalize(decodeURIComponent(pathname.slice("/api/practice/assets/".length))); }
+  catch { return sendText(response, 400, "无效的资源路径。"); }
+  const [phase, slug] = path.split(/[/\\]/);
+  if (!phaseFor(phase) || !/^\d{2}-[a-z0-9-]+$/.test(slug ?? "") ||
+    ![".gif", ".jpeg", ".jpg", ".png", ".svg", ".webp"].includes(extname(path).toLowerCase())) return sendText(response, 403, "不允许访问此资源。");
+  return serveFile(practiceDirectory, path, response);
+}
+
 export function createApp(dataDirectory = join(applicationDirectory, "data")): App {
   const database = createDatabase(dataDirectory);
+  const undo = createUndoStore(database);
   const vscodeCommand = process.env.LEARNING_ATLAS_VSCODE_COMMAND ?? "code";
   const marimoCommand = process.env.LEARNING_ATLAS_MARIMO_COMMAND ?? "marimo";
 
@@ -1354,33 +1451,34 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
       database.close();
     },
     async handler(request, response) {
-      const url = new URL(request.url ?? "/", "http://127.0.0.1");
-      const lessonId = url.searchParams.get("lessonId") ?? defaultLessonId;
-      const lesson = lessonFor(lessonId);
-
       try {
+        secureRequest(request, response);
+        const url = new URL(request.url ?? "/", "http://127.0.0.1");
+        const lessonId = url.searchParams.get("lessonId") ?? defaultLessonId;
         if (request.method === "GET" && url.pathname === "/api/health") {
           return sendJson(response, 200, { status: "ok" });
         }
         if (request.method === "GET" && url.pathname === "/api/curriculum") {
-          return sendJson(response, 200, curriculumFor(database));
+          return await withFreshFiles(["course-index", "theory-index"], () => sendJson(response, 200, curriculumFor(database)));
         }
         if (request.method === "GET" && url.pathname === "/api/theory/content") {
           const theoryId = url.searchParams.get("theoryId") ?? "";
           const content = theoryContentFor(theoryId);
           return content
             ? sendJson(response, 200, content)
-            : sendJson(response, 404, { error: "Theory content not found" });
+            : sendJson(response, 404, { error: "理论内容不存在。" });
         }
         if (request.method === "GET" && url.pathname.startsWith("/api/theory/assets/")) {
           return serveTheoryAsset(url.pathname, response);
         }
+        if (request.method === "GET" && url.pathname.startsWith("/api/practice/assets/")) return servePracticeAsset(url.pathname, response);
         const lessonRoute = [
           "/api/lesson", "/api/lesson/content", "/api/quiz", "/api/quiz/attempts", "/api/tutor/messages",
           "/api/review-items", "/api/tools", "/api/workspace/open", "/api/exploration/open", "/api/learning-state",
-          "/api/reading-position", "/api/notes"
+          "/api/reading-position", "/api/notes", "/api/reader-draft"
         ].some((path) => url.pathname === path || url.pathname.startsWith(`${path}/`));
-        if (lessonRoute && !lesson) return sendJson(response, 404, { error: "Lesson not found" });
+        const lesson = lessonRoute ? lessonFor(lessonId) : null;
+        if (lessonRoute && !lesson) return sendJson(response, 404, { error: "课程不存在。" });
         if (request.method === "GET" && url.pathname === "/api/lesson") {
           return sendJson(response, 200, {
             ...lesson!,
@@ -1388,7 +1486,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           });
         }
         if (request.method === "GET" && url.pathname === "/api/course") {
-          return sendJson(response, 200, courseOutline(database));
+          return await withFreshFiles(["course-index"], () => sendJson(response, 200, courseOutline(database)));
         }
         if (request.method === "GET" && url.pathname === "/api/lesson/content") {
           return sendJson(response, 200, publishedLessonContent(lesson!));
@@ -1403,12 +1501,12 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           const body = await readJson(request);
           const answers = body?.answers;
           if (!answers || typeof answers !== "object" || Array.isArray(answers)) {
-            return sendJson(response, 400, { error: "answers must be an object" });
+            return sendJson(response, 400, { error: "答案必须是对象。" });
           }
           try {
             return sendJson(response, 201, submitQuiz(database, lesson!, answers as Record<string, unknown>));
           } catch (error) {
-            return sendJson(response, 400, { error: error instanceof Error ? error.message : "Invalid quiz attempt" });
+            return sendJson(response, 400, { error: error instanceof Error ? error.message : "无效的自测作答。" });
           }
         }
         if (request.method === "GET" && url.pathname === "/api/export") {
@@ -1419,16 +1517,22 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           if (format === "markdown") {
             return sendDownload(response, "text/markdown; charset=utf-8", "learning-atlas-data.md", markdownExport(database));
           }
-          return sendJson(response, 400, { error: "format must be json or markdown" });
+          return sendJson(response, 400, { error: "导出格式必须是 json 或 markdown。" });
         }
         if (request.method === "POST" && url.pathname === "/api/import") {
           try {
             const body = await readJson(request, 5_000_000);
             if (!body) return sendJson(response, 400, { error: "请提供 Learning Atlas JSON 备份。" });
-            return sendJson(response, 200, { restored: restoreLearningData(database, body) });
+            const operation = undo.perform("import", undo.allTables, () => restoreLearningData(database, body));
+            return sendJson(response, 200, { restored: operation.result, undo: operation.undo });
           } catch (error) {
-            return sendJson(response, 400, { error: error instanceof Error ? error.message : "无法导入备份。" });
+            return sendJson(response, error instanceof RequestError ? error.status : 400, { error: error instanceof Error ? error.message : "无法导入备份。" });
           }
+        }
+        if (request.method === "POST" && url.pathname === "/api/undo") {
+          const body = await readJson(request);
+          if (typeof body?.token !== "string" || typeof body?.scope !== "string") return sendJson(response, 400, { error: "请提供撤销令牌和操作范围。" });
+          return sendJson(response, 200, undo.restore(body.token, body.scope));
         }
         if (request.method === "GET" && url.pathname === "/api/model-config") {
           return sendJson(response, 200, publicModelConfig(modelConfigFor(database)));
@@ -1436,12 +1540,13 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
         if (request.method === "POST" && url.pathname === "/api/model-config/models") {
           const body = await readJson(request);
           const existing = modelConfigFor(database);
-          const baseUrl = typeof body?.baseUrl === "string" ? body.baseUrl.trim().replace(/\/+$/, "") : existing?.baseUrl ?? "";
-          const apiKey = typeof body?.apiKey === "string" && body.apiKey.trim() ? body.apiKey.trim() : existing?.apiKey ?? "";
+          const baseUrl = normalizedBaseUrl(typeof body?.baseUrl === "string" ? body.baseUrl : existing?.baseUrl ?? "");
+          const apiKey = typeof body?.apiKey === "string" && body.apiKey.trim() ? body.apiKey.trim()
+            : existing && baseUrl === normalizedBaseUrl(existing.baseUrl) ? existing.apiKey : "";
           try {
             if (!baseUrl || !["http:", "https:"].includes(new URL(baseUrl).protocol)) throw new Error();
           } catch {
-            return sendJson(response, 400, { error: "baseUrl must be an http(s) URL" });
+            return sendJson(response, 400, { error: "接口地址必须是 HTTP(S) 地址。" });
           }
           try {
             return sendJson(response, 200, { models: await compatibleModels(baseUrl, apiKey) });
@@ -1451,40 +1556,58 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
         }
         if (request.method === "PUT" && url.pathname === "/api/model-config") {
           const body = await readJson(request);
-          const baseUrl = typeof body?.baseUrl === "string" ? body.baseUrl.trim().replace(/\/+$/, "") : "";
+          const baseUrl = normalizedBaseUrl(typeof body?.baseUrl === "string" ? body.baseUrl : "");
           const model = typeof body?.model === "string" ? body.model.trim() : "";
           const apiKey = typeof body?.apiKey === "string" ? body.apiKey.trim() : null;
           const clearApiKey = body?.clearApiKey === "on";
           try {
             if (!baseUrl || !["http:", "https:"].includes(new URL(baseUrl).protocol) || !model || model.length > 200) throw new Error();
           } catch {
-            return sendJson(response, 400, { error: "baseUrl must be an http(s) URL and model must be provided" });
+            return sendJson(response, 400, { error: "请提供有效 HTTP(S) 接口地址和模型名称。" });
           }
           const existing = modelConfigFor(database);
           return sendJson(response, 200, saveModelConfig(database, {
             baseUrl,
             model,
-            apiKey: clearApiKey ? "" : apiKey || existing?.apiKey || ""
+            apiKey: clearApiKey ? "" : apiKey || (existing && baseUrl === normalizedBaseUrl(existing.baseUrl) ? existing.apiKey : "")
           }));
         }
         if (request.method === "GET" && url.pathname === "/api/tutor/messages") {
           return sendJson(response, 200, tutorMessagesFor(database, lessonId));
         }
         if (request.method === "DELETE" && url.pathname === "/api/tutor/messages") {
-          clearTutorMessages(database, lessonId);
-          return sendJson(response, 200, { cleared: true });
+          const operation = undo.perform(`tutor:${lessonId}`, [{ table: "tutor_messages", lessonId }], () => clearTutorMessages(database, lessonId));
+          return sendJson(response, 200, { cleared: true, undo: operation.undo });
         }
         const tutorMessageMatch = url.pathname.match(/^\/api\/tutor\/messages\/(\d+)$/);
         if (request.method === "DELETE" && tutorMessageMatch) {
-          if (!deleteTutorMessage(database, lessonId, Number(tutorMessageMatch[1]))) {
+          const operation = undo.perform(`tutor:${lessonId}`, [{ table: "tutor_messages", lessonId, id: Number(tutorMessageMatch[1]) }], () => deleteTutorMessage(database, lessonId, Number(tutorMessageMatch[1])));
+          if (!operation.result) {
             return sendJson(response, 404, { error: "对话不存在。" });
           }
-          return sendJson(response, 200, { deleted: true });
+          return sendJson(response, 200, { deleted: true, undo: operation.undo });
+        }
+        if (request.method === "POST" && url.pathname === "/api/tutor/messages/stream") {
+          const body = await readJson(request);
+          const text = typeof body?.text === "string" ? body.text.trim() : "";
+          if (!text || text.length > 4000) return sendJson(response, 400, { error: "问题须为 1–4000 个字符。" });
+          const controller = new AbortController();
+          response.on("close", () => controller.abort());
+          response.writeHead(200, { "content-type": "text/event-stream; charset=utf-8", "cache-control": "no-store", "x-accel-buffering": "no" });
+          const emit = (event: string, data: unknown) => response.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+          emit("start", {});
+          try {
+            const result = await tutorReply(database, lesson!, text, tutorContextFrom(body), tutorResponseModeFrom(body), delta => { if (!controller.signal.aborted) emit("delta", { text: delta }); }, controller.signal);
+            emit("done", result);
+          } catch (error) {
+            if (!controller.signal.aborted) emit("error", { error: error instanceof Error && ["TimeoutError", "AbortError"].includes(error.name) ? "模型响应超时，回复未保存；请缩小问题后重试。" : error instanceof TypeError ? "无法连接模型服务，回复未保存；请检查接口地址。" : error instanceof Error ? error.message : "模型响应失败，回复未保存。" });
+          }
+          response.end(); return;
         }
         if (request.method === "POST" && url.pathname === "/api/tutor/messages") {
           const body = await readJson(request);
           const text = typeof body?.text === "string" ? body.text.trim() : "";
-          if (!text || text.length > 4_000) return sendJson(response, 400, { error: "text must contain 1–4000 characters" });
+          if (!text || text.length > 4_000) return sendJson(response, 400, { error: "问题须为 1–4000 个字符。" });
           return sendJson(response, 201, await tutorReply(
             database,
             lesson!,
@@ -1500,8 +1623,10 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           const body = await readJson(request);
           const text = typeof body?.text === "string" ? body.text.trim() : "";
           if (!text || text.length > 1_000) {
-            return sendJson(response, 400, { error: "review item text must contain 1–1000 characters" });
+            return sendJson(response, 400, { error: "复习内容须为 1–1000 个字符。" });
           }
+          const existing = reviewItemsFor(database, lessonId).find(item => item.text === text);
+          if (existing) return sendJson(response, 200, existing);
           const createdAt = new Date().toISOString();
           const result = database.prepare(
             "INSERT INTO review_items (lesson_id, text, created_at) VALUES (?, ?, ?)"
@@ -1517,25 +1642,25 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
         const reviewItemMatch = url.pathname.match(/^\/api\/review-items\/(\d+)$/);
         if (request.method === "PUT" && reviewItemMatch) {
           const body = await readJson(request);
-          if (body?.resolved !== true) return sendJson(response, 400, { error: "resolved must be true" });
+          if (body?.resolved !== true) return sendJson(response, 400, { error: "请确认已完成复习。" });
           const resolvedAt = new Date().toISOString();
           const result = database.prepare(`
             UPDATE review_items
             SET resolved = 1, resolved_at = ?
             WHERE id = ? AND lesson_id = ? AND resolved = 0
           `).run(resolvedAt, Number(reviewItemMatch[1]), lessonId);
-          if (result.changes === 0) return sendJson(response, 404, { error: "Review item not found" });
+          if (result.changes === 0) return sendJson(response, 404, { error: "复习项不存在。" });
           return sendJson(response, 200, { resolvedAt });
         }
         if (request.method === "GET" && url.pathname === "/api/tools") {
           return sendJson(response, 200, {
-            vscodeAvailable: commandAvailable(vscodeCommand),
-            marimoAvailable: commandAvailable(marimoCommand)
+            vscodeAvailable: await commandAvailable(vscodeCommand),
+            marimoAvailable: await commandAvailable(marimoCommand)
           });
         }
         if (request.method === "POST" && url.pathname === "/api/workspace/open") {
           const workspace = prepareWorkspace(dataDirectory, lessonId);
-          if (!commandAvailable(vscodeCommand)) {
+          if (!await commandAvailable(vscodeCommand)) {
             return sendJson(response, 409, { error: "未找到 VS Code 命令。请安装 code 命令后重试。", workspace });
           }
           launch(vscodeCommand, [workspace.directory], workspace.directory);
@@ -1546,7 +1671,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           if (!workspace.explorationFile) {
             return sendJson(response, 409, { error: "本课暂无已发布的 marimo 探索笔记。", workspace });
           }
-          if (!commandAvailable(marimoCommand)) {
+          if (!await commandAvailable(marimoCommand)) {
             return sendJson(response, 409, { error: "未找到 marimo。请在你的 Python 环境中安装它后重试。", workspace });
           }
           launch(marimoCommand, [
@@ -1565,13 +1690,18 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
         if (request.method === "PUT" && url.pathname === "/api/learning-state") {
           const body = await readJson(request);
           if (typeof body?.completed !== "boolean" || typeof body.review !== "boolean") {
-            return sendJson(response, 400, { error: "completed and review must be boolean" });
+            return sendJson(response, 400, { error: "掌握与复习状态必须是布尔值。" });
           }
           database.prepare(`
             INSERT INTO learning_state (lesson_id, completed, review) VALUES (?, ?, ?)
             ON CONFLICT(lesson_id) DO UPDATE SET completed = excluded.completed, review = excluded.review
           `).run(lessonId, Number(body.completed), Number(body.review));
           return sendJson(response, 200, stateFor(database, lessonId));
+        }
+        if (url.pathname === "/api/reader-draft" && ["GET", "PUT"].includes(request.method ?? "")) {
+          const quiz = quizForLearner(lesson!);
+          if (request.method === "GET") return sendJson(response, 200, readerDraft(database, lessonId, quiz.fingerprint));
+          return sendJson(response, 200, saveReaderDraft(database, lessonId, await readJson(request), quiz.fingerprint, quiz.questions));
         }
         if (request.method === "GET" && url.pathname === "/api/reading-position") {
           return sendJson(response, 200, readingPositionFor(database, lessonId));
@@ -1580,7 +1710,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           const body = await readJson(request);
           const position = body?.position;
           if (typeof position !== "number" || !Number.isSafeInteger(position) || position < 0 || position > 10_000_000) {
-            return sendJson(response, 400, { error: "position must be an integer between 0 and 10000000" });
+            return sendJson(response, 400, { error: "阅读位置必须是 0–10000000 的整数。" });
           }
           database.prepare(`
             INSERT INTO learning_state (lesson_id, reading_position) VALUES (?, ?)
@@ -1595,7 +1725,7 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
           const body = await readJson(request);
           const text = typeof body?.text === "string" ? body.text.trim() : "";
           if (text.length === 0 || text.length > 2_000) {
-            return sendJson(response, 400, { error: "note text must contain 1–2000 characters" });
+            return sendJson(response, 400, { error: "笔记须为 1–2000 个字符。" });
           }
           const createdAt = new Date().toISOString();
           const result = database.prepare(
@@ -1607,15 +1737,25 @@ export function createApp(dataDirectory = join(applicationDirectory, "data")): A
             createdAt
           });
         }
-        if (url.pathname.startsWith("/api/")) return sendJson(response, 404, { error: "Not found" });
+        const noteDelete = url.pathname.match(/^\/api\/(notes|review-items)\/(\d+)$/);
+        if (request.method === "DELETE" && noteDelete) {
+          const table = noteDelete[1] === "notes" ? "notes" : "review_items";
+          const id = Number(noteDelete[2]);
+          const operation = undo.perform(`${table}:${lessonId}`, [{ table, lessonId, id }], () => database.prepare(`DELETE FROM ${table} WHERE id = ? AND lesson_id = ?`).run(id, lessonId));
+          if (!operation.result.changes) return sendJson(response, 404, { error: "记录不存在。" });
+          return sendJson(response, 200, { deleted: true, undo: operation.undo });
+        }
+        if (url.pathname.startsWith("/api/")) return sendJson(response, 404, { error: "资源不存在。" });
+        if (url.pathname.startsWith("/vendor/marked/")) return serveFile(join(applicationDirectory, "node_modules/marked/lib"), url.pathname.slice("/vendor/marked/".length), response);
+        if (url.pathname.startsWith("/vendor/dompurify/")) return serveFile(join(applicationDirectory, "node_modules/dompurify/dist"), url.pathname.slice("/vendor/dompurify/".length), response);
         if (url.pathname.startsWith("/vendor/mermaid/")) return serveMermaid(url.pathname, response);
         if (url.pathname.startsWith("/vendor/highlight/")) return serveHighlight(url.pathname, response);
         if (url.pathname.startsWith("/vendor/gsap/")) return serveGsap(url.pathname, response);
         if (url.pathname.startsWith("/vendor/katex/")) return serveKatex(url.pathname, response);
         return serveStatic(url.pathname, response);
       } catch (error) {
-        const message = error instanceof Error ? error.message : "Unexpected error";
-        return sendJson(response, 500, { error: message });
+        const status = error instanceof RequestError ? error.status : error instanceof TypeError && error.message.includes("URL") ? 400 : 500;
+        return sendJson(response, status, { error: status === 500 ? "本地服务处理失败，请检查服务日志后重试。" : error instanceof Error ? error.message : "请求处理失败。" });
       }
     }
   };

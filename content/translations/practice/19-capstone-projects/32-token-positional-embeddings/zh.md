@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/32-token-positional-embeddings/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: dbbd0c875706c38bdae59a5ef9020ba69726363b40134978e64e54c75432ebbb
+  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
+  sha256: 364b63f1f52be150de96253cf7922e59df48b70336eb84f16ad425f856fa5ecd
 status: reviewed
 ---
 
@@ -76,7 +76,7 @@ emb[p, 2k]     = sin(angle)
 emb[p, 2k + 1] = cos(angle)
 ```
 
-它没有参数。每个位置都有一个独特的向量；不同特征维度上的波长按几何级数变化，因此低维编码粗粒度位置，高维编码细粒度位置。
+它没有参数。每个位置都有一个独特的向量；不同特征维度上的波长按几何级数变化。低维的波长最短，编码细粒度位置；高维的波长最长，编码粗粒度位置。
 
 同时使用 sin 和 cos 带来的性质是：位置 `p + k` 的向量可以由位置 `p` 的向量作线性变换得到。这为注意力层学习相对位置偏移提供了便捷路径，模型无需额外参数就能表达“向前看五个词元”。
 

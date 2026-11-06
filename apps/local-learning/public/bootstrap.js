@@ -40,3 +40,13 @@ start().catch((error) => {
   app.innerHTML = `<main class="page-state" id="main-content"><p>页面模块无法加载。</p><h1>${escapeHtml(error.message ?? error)}</h1><div class="page-state-actions"><button type="button" data-bootstrap-retry>重试</button><a href="/">返回首页</a></div></main>`;
   app.querySelector("[data-bootstrap-retry]")?.addEventListener("click", () => window.location.reload());
 });
+
+function labelExternalLinks() {
+  app.querySelectorAll('a[target="_blank"]').forEach(link => {
+    const label = link.getAttribute("aria-label") ?? link.textContent.trim();
+    if (!label.includes("在新窗口打开")) link.setAttribute("aria-label", `${label}（在新窗口打开）`);
+    link.setAttribute("rel", "noreferrer noopener");
+  });
+}
+new MutationObserver(labelExternalLinks).observe(app, { childList: true, subtree: true });
+labelExternalLinks();

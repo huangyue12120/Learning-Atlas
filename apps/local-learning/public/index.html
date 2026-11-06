@@ -6,15 +6,7 @@
     <meta name="color-scheme" content="light dark">
     <meta name="description" content="Learning Atlas 将完整理论课程与可运行的 AI 工程实践组织在一张本地优先学习地图中。">
     <title>Learning Atlas</title>
-    <script>
-      try {
-        const savedTheme = localStorage.getItem("learning-atlas-theme");
-        const darkByDefault = savedTheme !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches;
-        document.documentElement.dataset.theme = savedTheme === "dark" || darkByDefault ? "dark" : "light";
-      } catch {
-        document.documentElement.dataset.theme = "light";
-      }
-    </script>
+    <script src="/theme-init.js"></script>
     <link rel="stylesheet" href="/vendor/katex/katex.min.css">
     <link rel="stylesheet" href="/styles.css">
   </head>

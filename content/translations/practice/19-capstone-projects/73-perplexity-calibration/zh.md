@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/73-perplexity-calibration/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 2d788d4d6b6b2467bdf93fc59954a230b4c8051b10bf723b60faacc52a4fab80
+  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
+  sha256: a35c60410cab97591c6b41acfaad54a56ef04ad0450f7c3debd169b1e173e7c2
 status: reviewed
 ---
 
@@ -62,7 +62,7 @@ ECE 会受到箱数和样本量影响：在 10 个箱、100 个预测的情况�
 
 ## Brier 分数能补充什么
 
-ECE 只关注平均差距。一个模型可能在一半箱中过度自信、另一半箱自信不足，误差相互抵消后 ECE 仍然很低，但模型在局部并没有校准好。Brier 分数对每个预测相对于真实结果计算平方误差，因此会直接惩罚置信度的偏离。
+ECE 只关注每个箱内的平均差距，并对各箱的差距取绝对值，因此不同箱之间的差距不会相互抵消。但同一个箱内可以出现抵消：一部分预测过度自信，另一部分自信不足，箱内平均置信度与准确率可能恰好相等，使该箱对 ECE 的贡献几乎为零，而各个预测在局部仍未校准好。Brier 分数对每个预测相对于真实结果计算平方误差，因此会直接惩罚置信度的偏离。
 
 对于二分类结果，Brier 分数是 `mean((p_i - y_i)^2)`。它可以分解为可靠性、分辨率和不确定性三部分。本课计算分数及其分解；运行器报告标量，同时把分解记录给仪表板。
 

@@ -9,13 +9,13 @@ source:
 status: reviewed
 ---
 
-> 上游新增参考链接（原文，待中文复核）：
+> 上游参考：逆向工程课程与交互演示：
 >
-> - [上游参考](../../../13-tools-and-protocols/32-program-anatomy-elf-from-scratch/docs/en.md)
-> - [上游参考](../../../13-tools-and-protocols/33-disassembly-and-control-flow/docs/en.md)
-> - [上游参考](../../../13-tools-and-protocols/34-lifting-to-pseudocode/docs/en.md)
-> - [上游参考](../../../13-tools-and-protocols/35-evidence-confidence-and-unknowns/docs/en.md)
-> - [上游参考](https://aiengineeringfromscratch.com/inside-a-decompiler)
+> - [ELF 程序结构](../../../13-tools-and-protocols/32-program-anatomy-elf-from-scratch/docs/en.md)
+> - [反汇编与控制流](../../../13-tools-and-protocols/33-disassembly-and-control-flow/docs/en.md)
+> - [提升为伪代码](../../../13-tools-and-protocols/34-lifting-to-pseudocode/docs/en.md)
+> - [证据、置信度与未知项](../../../13-tools-and-protocols/35-evidence-confidence-and-unknowns/docs/en.md)
+> - [反编译器交互演示（英文）](https://aiengineeringfromscratch.com/inside-a-decompiler)
 
 
 # 双重用途风险：网络、生物、化学与核能力提升

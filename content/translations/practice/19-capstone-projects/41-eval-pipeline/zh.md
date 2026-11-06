@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/41-eval-pipeline/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 544d07e08207947abf3c2fedd245e3d7851eb676554e7550a57d3f45aa16002d
+  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
+  sha256: 129bc0e0e10da2bb3f8c0a795c297b6578ef040e06c71daee9258d7c980db5c0
 status: reviewed
 ---
 
@@ -58,7 +58,7 @@ flowchart LR
 - 平均值必须针对真实词元位置，而不是 `batch * sequence`；padding 词元必须从分母排除，否则困惑度会看起来比真实情况更好。
 - 模型预测下一个词元，所以位置 `i` 的 logits 预测位置 `i+1` 的词元。这里的差一错误很隐蔽：损失仍然可以训练，但指标会失去意义。
 
-评测对每个 batch 计算非 padding 位置上的 `-log p(token)` 总和以及词元数，最后再相除。相比对每个 batch 的困惑度取平均，这种方法数值上更安全，也不会让短序列权重过低，并且符合教材中的定义。
+评测对每个 batch 计算非 padding 位置上的 `-log p(token)` 总和以及词元数，最后再相除。相比对每个 batch 的困惑度取平均，这种方法数值上更安全，也符合教材中的定义。直接平均会让每个 batch 的权重相同，导致短 batch 中每个词元的权重高于长 batch 中的词元。
 
 ## 规范化后的精确匹配
 

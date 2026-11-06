@@ -161,6 +161,8 @@ def structure(markdown: str) -> Structure:
 
 def differences(source: Structure, translation: Structure, translation_markdown: str) -> list[str]:
     errors: list[str] = []
+    if re.search(r"^status:\s*reviewed\s*$", translation_markdown, re.MULTILINE) and "待中文复核" in translation_markdown:
+        errors.append("reviewed translation contains a pending Chinese review marker")
     if source.heading_levels != translation.heading_levels:
         errors.append(
             "heading levels differ "

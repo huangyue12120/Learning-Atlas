@@ -3,15 +3,15 @@
   "source": {
     "repository": "ai-engineering-from-scratch",
     "path": "phases/10-llms-from-scratch/06-instruction-tuning-sft/quiz.json",
-    "revision": "39ea8a1c6d0b61f071226eff7ede4d4105fed820",
-    "sha256": "90b1412a2e887229f6dd76c6ae51fb78028a7190d4db3e5a8702a983f2ab53fe"
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "047abf5337845be90e0d6aa2b95dd8ac1b778a8cb2a041ba31cff0e71eb2b5aa"
   },
   "status": "reviewed",
   "questions": [
-    {"id":"instruction-tuning-sft-10-1","stage":"pre","question":"基础语言模型与指令微调模型的根本区别是什么？","options":["指令微调模型更大","基础模型更快","二者架构不同","基础模型会延续文本模式；指令微调模型会遵循指令并回答问题"],"correct":3,"explanation":"用下一个 token 预测训练的基础模型擅长延续文本模式。SFT 在“指令—回答”对上训练，使模型学会针对指令生成回答，而不只是继续写问题。"},
-    {"id":"instruction-tuning-sft-10-2","stage":"pre","question":"SFT 时遮蔽非 assistant token 的损失有什么目的？","options":["减少内存使用","加快训练","防止过拟合","只训练模型生成回答，而不是记忆指令格式或系统提示词"],"correct":3,"explanation":"SFT 的目标是让模型学会回答，而不是复述指令。把 system/user token 的损失设为 0 后，梯度只来自 assistant 的回答 token。"},
-    {"id":"instruction-tuning-sft-10-3","stage":"post","question":"SFT 训练数据通常采用什么格式？","options":["键值对","用特殊 token 标记 system、user、assistant 角色的聊天模板","原始文本文档","SQL 查询及其结果"],"correct":1,"explanation":"SFT 数据使用结构化聊天格式：system 角色设定行为，user 提出指令，assistant 给出回答。特殊 token 标记角色边界，让模型学会对话结构。"},
-    {"id":"instruction-tuning-sft-10-4","stage":"post","question":"为什么 SFT 模型可能在基准测试上困惑度更低，却有更差的对话质量？","options":["基准测试有错误","SFT 优化的是训练样例上的模式匹配，而不是人类关心的细致质量判断；后者需要 RLHF/DPO","学习率不正确","模型太小"],"correct":1,"explanation":"SFT 教模型遵循格式并生成合理回答，但没有教它在多个有效回答中判断哪个更好。RLHF 或 DPO 通过人类偏好进一步完成对齐。"},
-    {"id":"instruction-tuning-sft-10-5","stage":"post","question":"有效的 SFT 通常需要多少高质量的指令—回答对？","options":["10,000 到 100,000 个高质量样本","少于 100 个","数十亿个","数百万个"],"correct":0,"explanation":"SFT 对数据相当高效。研究表明，1 万到 10 万个高质量样本（如 Alpaca 或 LIMA 数据集）就能有效教会指令遵循；质量远比数量重要。"}
+    {"id":"instruction-tuning-sft-10-1","stage":"pre","question":"基础语言模型与指令微调模型的根本区别是什么？","options":["指令微调模型更大，因为微调会增加新参数来存储如何回答","基础模型更快，因为指令微调增加了每生成一个 token 都要运行的安全检查","二者架构不同：指令微调增加了新的输出头，把预测转换为回答","基础模型会延续文本模式；指令微调模型会遵循指令并回答问题"],"correct":3,"explanation":"用下一个 token 预测训练的基础模型擅长延续文本模式。SFT 在“指令—回答”对上训练，使模型学会针对指令生成回答，而不只是继续写问题。"},
+    {"id":"instruction-tuning-sft-10-2","stage":"pre","question":"SFT 时遮蔽非 assistant token 的损失有什么目的？","options":["减少内存使用，因为被遮蔽的 token 在前向传播开始前就从批次中删除","加快训练，因为反向传播会跳过所有损失被设为零的 token","通过随机隐藏部分提示词 token 来防止过拟合，类似预训练中的 dropout","只训练模型生成回答，而不是记忆指令格式或系统提示词"],"correct":3,"explanation":"SFT 的目标是让模型学会回答，而不是复述指令。把 system/user token 的损失设为 0 后，梯度只来自 assistant 的回答 token。"},
+    {"id":"instruction-tuning-sft-10-3","stage":"post","question":"SFT 训练数据通常采用什么格式？","options":["由人类选出较优回答的偏好回答与被拒绝回答对","用特殊 token 标记 system、user、assistant 角色的聊天模板","类似预训练数据、但来自更高质量来源的原始文本文档","单个提示词，每个都用 1 到 10 分标注理想回答的评分"],"correct":1,"explanation":"SFT 数据使用结构化聊天格式：system 角色设定行为，user 提出指令，assistant 给出回答。特殊 token 标记角色边界，让模型学会对话结构。"},
+    {"id":"instruction-tuning-sft-10-4","stage":"post","question":"为什么 SFT 模型可能在基准测试上困惑度更低，却有更差的对话质量？","options":["模型太小：参数不到约 700 亿时，SFT 能提高基准分数，却绝不会改善对话","SFT 优化的是训练样例上的模式匹配，而不是人类关心的细致质量判断；后者需要 RLHF/DPO","SFT 数据太少，无法改变行为：数万个样本只会改变基准数值，对话风格仍保持原样","基准测试不适合对话：困惑度是在被遮蔽的指令 token 上计算的，因此完全看不到模型如何回答"],"correct":1,"explanation":"SFT 教模型遵循格式并生成合理回答，但没有教它在多个有效回答中判断哪个更好。RLHF 或 DPO 通过人类偏好进一步完成对齐。"},
+    {"id":"instruction-tuning-sft-10-5","stage":"post","question":"有效的 SFT 通常需要多少高质量的指令—回答对？","options":["10,000 到 100,000 个高质量样本","少于 100 个手写样本","数十亿个，与预训练一样多","从网上抓取的数百万个样本"],"correct":0,"explanation":"SFT 对数据相当高效。研究表明，1 万到 10 万个高质量样本（如 Alpaca 或 LIMA 数据集）就能有效教会指令遵循；质量远比数量重要。"}
   ]
 }

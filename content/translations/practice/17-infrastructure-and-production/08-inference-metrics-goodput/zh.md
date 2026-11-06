@@ -9,9 +9,9 @@ source:
 status: reviewed
 ---
 
-> 上游新增参考链接（原文，待中文复核）：
+> 上游参考：LLM 服务 GPU 交互演示（英文）：
 >
-> - [上游参考](https://aiengineeringfromscratch.com/inside-an-llm-serving-gpu?users=1)
+> - [查看课程对应的服务场景](https://aiengineeringfromscratch.com/inside-an-llm-serving-gpu?users=1)
 
 
 # 推理指标：TTFT、TPOT、ITL、Goodput 与 P99

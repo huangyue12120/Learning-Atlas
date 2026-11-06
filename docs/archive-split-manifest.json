@@ -1,0 +1,394 @@
+[
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.28.0 发布说明",
+    "destination": "docs/releases/v0.28.0.md",
+    "originalSha256": "fd8c2b2329033821b442b1bf2c38af075f4bbbfee7640593894f055457fe2f5f",
+    "sha256": "0274504ec3ce5f12bb6d57c8f3df44388fa87ce06096a95600aaa7328a309081"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.27.4 发布说明",
+    "destination": "docs/releases/v0.27.4.md",
+    "originalSha256": "662c3b2910ac8b1d1a3ebd596be471fe9d49f4062152c5d4b8e508924b2776a5",
+    "sha256": "662c3b2910ac8b1d1a3ebd596be471fe9d49f4062152c5d4b8e508924b2776a5"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.27.3 发布说明",
+    "destination": "docs/releases/v0.27.3.md",
+    "originalSha256": "52483c98af3d1f09371058a37d72e76d6c5a893bcacdbe44820e92a0cf730e35",
+    "sha256": "52483c98af3d1f09371058a37d72e76d6c5a893bcacdbe44820e92a0cf730e35"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.27.2 发布说明",
+    "destination": "docs/releases/v0.27.2.md",
+    "originalSha256": "1d8402cf31bc674dac1547acb8a6f8583c43747628e3129ee899778ff3380949",
+    "sha256": "1d8402cf31bc674dac1547acb8a6f8583c43747628e3129ee899778ff3380949"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.27.1 发布说明",
+    "destination": "docs/releases/v0.27.1.md",
+    "originalSha256": "6e26c40dd904468466db65e2da84979d569903799c0217b35d7a102e15f06ad6",
+    "sha256": "6e26c40dd904468466db65e2da84979d569903799c0217b35d7a102e15f06ad6"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.27.0 发布说明",
+    "destination": "docs/releases/v0.27.0.md",
+    "originalSha256": "7667a0aef4f45efefdd05c98719db370499945a1fcd5d01e523c13742f71d2b3",
+    "sha256": "7667a0aef4f45efefdd05c98719db370499945a1fcd5d01e523c13742f71d2b3"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.26.9 发布说明",
+    "destination": "docs/releases/v0.26.9.md",
+    "originalSha256": "30e50eee62f61ac54f8c9b7074585e0b521cb57130f48c56532c891a005034fc",
+    "sha256": "30e50eee62f61ac54f8c9b7074585e0b521cb57130f48c56532c891a005034fc"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.26.8 发布说明",
+    "destination": "docs/releases/v0.26.8.md",
+    "originalSha256": "0b1857d92bd77208c8be5b2a1cdb1e4f2a0accf662c8ff0df403ba0cb1d0760e",
+    "sha256": "0b1857d92bd77208c8be5b2a1cdb1e4f2a0accf662c8ff0df403ba0cb1d0760e"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.26.7 发布说明",
+    "destination": "docs/releases/v0.26.7.md",
+    "originalSha256": "48ffc213137af4e844d0a9e9a8abe59daac46104eb1d6b4fe16c4bb5d3d2cb8e",
+    "sha256": "48ffc213137af4e844d0a9e9a8abe59daac46104eb1d6b4fe16c4bb5d3d2cb8e"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.26.6 发布说明",
+    "destination": "docs/releases/v0.26.6.md",
+    "originalSha256": "b5153d01490b4f2560fbd974e74efeacd20897fba2f4fcb69de0693da06b96b6",
+    "sha256": "b5153d01490b4f2560fbd974e74efeacd20897fba2f4fcb69de0693da06b96b6"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.26.5 发布说明",
+    "destination": "docs/releases/v0.26.5.md",
+    "originalSha256": "956e94ef47a11e46859a43d4a7c12f3b8b6f7a02cfc7870cff3784820e0ddea6",
+    "sha256": "956e94ef47a11e46859a43d4a7c12f3b8b6f7a02cfc7870cff3784820e0ddea6"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.26.4 发布说明",
+    "destination": "docs/releases/v0.26.4.md",
+    "originalSha256": "1d303191bbc9cf81a97a3c2eb85bd49175dd4aa3dfb97cd0481c640a52a388a1",
+    "sha256": "1d303191bbc9cf81a97a3c2eb85bd49175dd4aa3dfb97cd0481c640a52a388a1"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.26.3 发布说明",
+    "destination": "docs/releases/v0.26.3.md",
+    "originalSha256": "a44e65cef46cfe6bc8903e4e045d4a86a88077eed5ea2fb92485f3f3e0c63d1f",
+    "sha256": "a44e65cef46cfe6bc8903e4e045d4a86a88077eed5ea2fb92485f3f3e0c63d1f"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.26.2 发布说明",
+    "destination": "docs/releases/v0.26.2.md",
+    "originalSha256": "dd72603a6d7747371451f29b05c1750371f75f3c8035ce6422a64e8a489dcb4f",
+    "sha256": "dd72603a6d7747371451f29b05c1750371f75f3c8035ce6422a64e8a489dcb4f"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.26.1 发布说明",
+    "destination": "docs/releases/v0.26.1.md",
+    "originalSha256": "5612a34b62715fc80eedeedbc0beb465a38f0f4bfc495ebcc8d23770d98eebab",
+    "sha256": "5612a34b62715fc80eedeedbc0beb465a38f0f4bfc495ebcc8d23770d98eebab"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.26.0 发布说明",
+    "destination": "docs/releases/v0.26.0.md",
+    "originalSha256": "ea9f729b3b8a59b9b7b860865a25ad95bfc4d481c69007427a54b31fc48d5a3a",
+    "sha256": "ea9f729b3b8a59b9b7b860865a25ad95bfc4d481c69007427a54b31fc48d5a3a"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.25.2 发布说明",
+    "destination": "docs/releases/v0.25.2.md",
+    "originalSha256": "df2da3e6ac915329a7d6ae9e4ba204046c15bf9d1166572b4a3ebb6385890c02",
+    "sha256": "df2da3e6ac915329a7d6ae9e4ba204046c15bf9d1166572b4a3ebb6385890c02"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.25.1 发布说明",
+    "destination": "docs/releases/v0.25.1.md",
+    "originalSha256": "b8580ab502f72c5df3fa7ceb15741f3bec8f490e47ae52f034fc36e5803091ef",
+    "sha256": "5083315df5464117afbd254a51dea5a450dba617a9015b1d703434f71d1d127f"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.25.0 发布说明",
+    "destination": "docs/releases/v0.25.0.md",
+    "originalSha256": "f205700c6434e36d0481073e59d6c25861325a456cbd9986d435bbde016d44e1",
+    "sha256": "2469c3ee8851aa5b7d2ae523d9d684d5dd075edc9667d6cb62e5fc46e871aff0"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.24.0 发布说明",
+    "destination": "docs/releases/v0.24.0.md",
+    "originalSha256": "356a9e72eccea0b69d6e5a1659664bda9660486928e192f22d606fc5b6cfd61c",
+    "sha256": "c7b870b60a566fc07210416db8c96df0ce9df7a6ae077cbfb71e73cacd145f96"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.23.0 发布说明",
+    "destination": "docs/releases/v0.23.0.md",
+    "originalSha256": "8dc477656f0841b21fdfc36c519efdfeb0de833d0c69a74a0cc349cd7d99d88c",
+    "sha256": "ef2c1c08859e57c5786d6a7e801a8e4418da2d379f6e7d18159a950260d77906"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.22.0 发布说明",
+    "destination": "docs/releases/v0.22.0.md",
+    "originalSha256": "316541113ed2d1a276ef3d4dbf85c8419b93bacaf89cdfb83cf1f64bccaeb235",
+    "sha256": "08603b2b68bf92c9bd3437f1b818f47c5569cdeb838ab36be1f6800eda7923d3"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.21.0 发布说明",
+    "destination": "docs/releases/v0.21.0.md",
+    "originalSha256": "ce5e1f512d72d67f59ce967d512c617be19c23b0d516f13c3abfa5a79b2ae84c",
+    "sha256": "4476166cad5d9554d1c9b682ea6167f06410cf5ce0d57a6ca52eb969fb92dfd4"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.20.0 发布说明",
+    "destination": "docs/releases/v0.20.0.md",
+    "originalSha256": "20f1daf587f3d4fc05a5ad45c978d38c2660c92b40fae6ed61ca207f3108a71c",
+    "sha256": "e7af25539e1f1c4602220a7abacda5555b23804d1e0df0a290974f4666b42ceb"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.19.0 发布说明",
+    "destination": "docs/releases/v0.19.0.md",
+    "originalSha256": "ee92f71870d92916532e58860cf8e2205f5f2209b8e2a50b39ebff3a7df6be30",
+    "sha256": "439cb489cae98b5b7f687fe8fb0adff5ec02ec3e2e65c9a87fb3fa25646f4053"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.18.0 发布说明",
+    "destination": "docs/releases/v0.18.0.md",
+    "originalSha256": "e6f8900acbe22c50df71db9b2e2e0c9aced84594becfa72249454931629baccb",
+    "sha256": "ec7e94ec9092525d5c8e75c9bf397abb7ef0365142b9e29bd4f5f0060ac17018"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.17.2 发布说明",
+    "destination": "docs/releases/v0.17.2.md",
+    "originalSha256": "f55c643bedaf41d1f67710840a8ea9453d9135fddf541d9ac86865b461c6756d",
+    "sha256": "4082ff8e60135f9a8b7b427646c4184b86bdab473cd5d5a38346de8fda257285"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.17.1 发布说明",
+    "destination": "docs/releases/v0.17.1.md",
+    "originalSha256": "8aca21bc15e14d40270ae11ae66f7a213910af0a58a385bdbf4a3902b2315b41",
+    "sha256": "28bb67749a1c19b5bb98f2b288fc41656bacf8c7454be5a8ec3834d27123d661"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.17.0 发布说明",
+    "destination": "docs/releases/v0.17.0.md",
+    "originalSha256": "4862e6f924b6f4cb1791470ef821f6a5c48a806296f5a6160cc03330fd38fa78",
+    "sha256": "cf10aa32b4ca346ecf41d552bd9d319f676d46eb2246bd758114f098eec16ba1"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.16.0 发布说明",
+    "destination": "docs/releases/v0.16.0.md",
+    "originalSha256": "ef95c889d53a5a93c5e352058d1623d04d81c1c9f8ad97f1e1ba310043d53b74",
+    "sha256": "10caab82534ea621b68bf8cd752bb3141ee21be58436c39dd704fd6b738cfcee"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.15.0 发布说明",
+    "destination": "docs/releases/v0.15.0.md",
+    "originalSha256": "f5ded2b0ef283f3fbdfa6a303934452e4f8bcd417493f6e0353b4948f8def16c",
+    "sha256": "e09604d79606cae334a7f8d368f0b579865c3b2f95b1c39a62a6e5b38c029508"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.14.0 发布说明",
+    "destination": "docs/releases/v0.14.0.md",
+    "originalSha256": "9e069002d30132267c8ef4ac2d7e5845b562681cb9ab661bcf8ee960a15c6198",
+    "sha256": "f91193f38e810595c2f7f3ed46f165c84d74ce6a6a87a7050c4cd29ef9f0a4b3"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.13.1 发布说明",
+    "destination": "docs/releases/v0.13.1.md",
+    "originalSha256": "c991e73120f7be42ff6113c9f1d250fd9dfd0ee69ed6a9acfe73311d769476e4",
+    "sha256": "1c78ff107bfee8500d4eea8e7db091808b6313a57cacc9ab2930900a25c33305"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.13.0 发布说明",
+    "destination": "docs/releases/v0.13.0.md",
+    "originalSha256": "6c6e9d93fb44c5aec52377cfe409f3b082ef9f1297625cababb293c70d8533a0",
+    "sha256": "6c6e9d93fb44c5aec52377cfe409f3b082ef9f1297625cababb293c70d8533a0"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.12.0 发布说明",
+    "destination": "docs/releases/v0.12.0.md",
+    "originalSha256": "a2c094ec5195ed06ccb19011e055232d812577ba975494b4bc23a18360f234e1",
+    "sha256": "a2c094ec5195ed06ccb19011e055232d812577ba975494b4bc23a18360f234e1"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.11.0 发布说明",
+    "destination": "docs/releases/v0.11.0.md",
+    "originalSha256": "fe96bb551b2b6b693307fb484e0ecedbd104acd4091af4ac8ad1be558197529d",
+    "sha256": "fe96bb551b2b6b693307fb484e0ecedbd104acd4091af4ac8ad1be558197529d"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.10.0 发布说明",
+    "destination": "docs/releases/v0.10.0.md",
+    "originalSha256": "947714b98a1c890e46c4f9f91b55ab1a9b26c7d330e2f097e21dd1889c7713ce",
+    "sha256": "947714b98a1c890e46c4f9f91b55ab1a9b26c7d330e2f097e21dd1889c7713ce"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.9.0 发布说明",
+    "destination": "docs/releases/v0.9.0.md",
+    "originalSha256": "3c9c0ca6b2dafb29fd2d4bdd75323e7e01edb4179cda58f87da3e4eac5b281e6",
+    "sha256": "222cd237f08c04338f41a6b2e62949c9008c6e16e0c5fd5d1c7eb0e72d87938f"
+  },
+  {
+    "source": "docs/release-notes.md",
+    "heading": "# Learning Atlas v0.8.0 发布说明",
+    "destination": "docs/releases/v0.8.0.md",
+    "originalSha256": "f8d7c512e524520b2a717ecee1690cdfa5a97655c3cb3de81045a722f1a36e5c",
+    "sha256": "7b3d1afe7172b317c75c81aa0bd19fec6e111c202e9f4d897a0e50cfcd8f36d5"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "# 中文译文术语基线",
+    "destination": "docs/glossary/01.md",
+    "originalSha256": "096af048de8ababb7f68147a0a8643e2d19ac64e6c98b1db364ac64031c2424f",
+    "sha256": "096af048de8ababb7f68147a0a8643e2d19ac64e6c98b1db364ac64031c2424f"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 理论课程常用术语",
+    "destination": "docs/glossary/02.md",
+    "originalSha256": "5428428553a96e76acc78476ad038cf4649d32df0735140f28da0add1053a397",
+    "sha256": "5428428553a96e76acc78476ad038cf4649d32df0735140f28da0add1053a397"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 计算语言学常用术语",
+    "destination": "docs/glossary/03.md",
+    "originalSha256": "e9adb88fd30610812bc6df60ae54dd5e43a02b2283ca40f9cd53d377adbb9215",
+    "sha256": "e9adb88fd30610812bc6df60ae54dd5e43a02b2283ca40f9cd53d377adbb9215"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 文本处理与经典 NLP 术语",
+    "destination": "docs/glossary/04.md",
+    "originalSha256": "c1b1ea740b95879b79de4fa1b1b9b4a879820b8fe10e2f6d9f87839aa8a70c49",
+    "sha256": "c1b1ea740b95879b79de4fa1b1b9b4a879820b8fe10e2f6d9f87839aa8a70c49"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 词嵌入与序列模型术语",
+    "destination": "docs/glossary/05.md",
+    "originalSha256": "cd73b5902ad326b16dab155416aaebb27b0a1fb402bb2bb41c021ddf806f4763",
+    "sha256": "cd73b5902ad326b16dab155416aaebb27b0a1fb402bb2bb41c021ddf806f4763"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 计算机视觉常用术语",
+    "destination": "docs/glossary/06.md",
+    "originalSha256": "a7409c6017223951b49e107adeb5975952fba11dce0497f79880dc0a8dd70063",
+    "sha256": "a7409c6017223951b49e107adeb5975952fba11dce0497f79880dc0a8dd70063"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 音频与语音处理常用术语",
+    "destination": "docs/glossary/07.md",
+    "originalSha256": "e421e60d7ce995d91b38f5ff04325ee55c3b1d5f6a4eb4390831aa42caa709ae",
+    "sha256": "e421e60d7ce995d91b38f5ff04325ee55c3b1d5f6a4eb4390831aa42caa709ae"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 多模态学习与跨模态对齐术语",
+    "destination": "docs/glossary/08.md",
+    "originalSha256": "251496a40b93b2b05218573268bcb6c02a198ba6ca0048d727dae772c1e555da",
+    "sha256": "251496a40b93b2b05218573268bcb6c02a198ba6ca0048d727dae772c1e555da"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 自主系统感知术语",
+    "destination": "docs/glossary/09.md",
+    "originalSha256": "d52c7cef68c547a76606d5b6ac80bb79bc0a3beb90b3a4a4319d0aeca0dd8e53",
+    "sha256": "d52c7cef68c547a76606d5b6ac80bb79bc0a3beb90b3a4a4319d0aeca0dd8e53"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 自主系统机器人学习术语",
+    "destination": "docs/glossary/10.md",
+    "originalSha256": "109c896fc6c6dbd75dff6b3d07134fc056404e16fbda773ffbef1a6f2c0227db",
+    "sha256": "109c896fc6c6dbd75dff6b3d07134fc056404e16fbda773ffbef1a6f2c0227db"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 自主系统 VLA 术语",
+    "destination": "docs/glossary/11.md",
+    "originalSha256": "d7973ca0b4825b63c1926be52e5f42d9fbd8cd64f136fbb2b845aa2ebe0bd7c9",
+    "sha256": "d7973ca0b4825b63c1926be52e5f42d9fbd8cd64f136fbb2b845aa2ebe0bd7c9"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 自动驾驶术语",
+    "destination": "docs/glossary/12.md",
+    "originalSha256": "8655b1d409c2ce51e2b8a02fcf3160da7791798b7e142a93b466d16a53b2cefa",
+    "sha256": "8655b1d409c2ce51e2b8a02fcf3160da7791798b7e142a93b466d16a53b2cefa"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 极端环境机器人术语",
+    "destination": "docs/glossary/13.md",
+    "originalSha256": "03d49ba1b0e9bcc9b38f251c13d9604637953f22b30d711909305a18c921b15f",
+    "sha256": "03d49ba1b0e9bcc9b38f251c13d9604637953f22b30d711909305a18c921b15f"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 几何深度学习术语",
+    "destination": "docs/glossary/14.md",
+    "originalSha256": "aafaeca0ecebfdcd7cfdedd6477c3890972495793b0fe9d7a9da48094af78792",
+    "sha256": "aafaeca0ecebfdcd7cfdedd6477c3890972495793b0fe9d7a9da48094af78792"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## C++、SIMD 与 GPU 编程术语",
+    "destination": "docs/glossary/15.md",
+    "originalSha256": "e2aaf7764723be2cfe752bcdc69cc7013091e6e5e4b5b8bca21b0ffe2f032676",
+    "sha256": "e2aaf7764723be2cfe752bcdc69cc7013091e6e5e4b5b8bca21b0ffe2f032676"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 逆向工程与二进制分析术语",
+    "destination": "docs/glossary/16.md",
+    "originalSha256": "599425aa045b5157ec50286df9aba2a73dbc0f20c41d435f7cea5beec667caec",
+    "sha256": "599425aa045b5157ec50286df9aba2a73dbc0f20c41d435f7cea5beec667caec"
+  },
+  {
+    "source": "docs/translation-glossary.md",
+    "heading": "## 复核规则",
+    "destination": "docs/glossary/17.md",
+    "originalSha256": "f49c8214b1244c752a03ababe53cd60aa22819a5e8f767fca2220a92813e7951",
+    "sha256": "f49c8214b1244c752a03ababe53cd60aa22819a5e8f767fca2220a92813e7951"
+  }
+]

@@ -13,7 +13,9 @@ npm run dev
 
 然后打开 <http://127.0.0.1:4173>。
 
-当前发布版本为 **v0.27.2**（2026-10-24）：首页展示 Phase 0-19 的完整实践地图与 20 章、104 篇笔记的完整理论目录。实践上游现有 542 节课程，已全部完成审核中文改编；实践阅读器开放 Phase 0-18 的 457 节课程，Phase 19 的 85 节内容显示为“已审核，待接入”。本版处理 Issue #31，将实践快照从 `f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299` 更新到 `3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a`：按上游对 Phase 0-19 原文错误的修正，复核 184 篇中文实践译文（182 篇随之修改）、1 份测验、102 条理论关联和 12 份练习指南，内容计数不变。v0.27.1 修复了既有中文内容审查发现的问题：重译 P18 第 21 课测验，为 P17、P18 的 347 道测验写出逐题解析，恢复被压成段落的列表，翻译剩余的英文练习提示、Mermaid 标签和理论 SVG 说明，统一 reward hacking、system prompt、token、chunk 等术语，并修复 187 节课显示“预计学习：未提供”的问题。v0.27.0 新增了 Phase 13 第 32–45 课的逆向工程轨道：14 篇中文译文、14 份中文测验和 14 套 Python 工作区练习指南；“在 VS Code 中继续”现在会把课程的整个 `code/` 目录（fixtures、tests、评分实验）复制进私人工作区。本版同时修复了监控缺口：每日上游检查会把已开放 Phase 中缺少中文适配的新课程视为需要审核，覆盖率检查也会在 submodule 指针变化后立即运行，并在缺口补齐后自动关闭对应 Issue。当前开放课程的 289 张上下文理论卡已提供可展开的直觉、关键点、应用和自检问题，89 / 104 篇审核中文理论全文已覆盖 311 / 311 张理论卡，所有理论原文入口均打开官方上游最新 `main`。内容仓库维护 542 节审核中文实践译文、307 份中文测验、449 套 VS Code/Python 工作区模板与练习指南，以及 311 条人工批准的理论关联。本版理论复核记录见[理论复核清单](docs/theory-translation-review.md)与[术语表](docs/translation-glossary.md)。P16 的 25 节课程及其两个 TypeScript 例外继续保持已发布状态。
+当前版本为 **v0.29.1**（2026-11-06）。实践主线开放 Phase 0–18 的 457 节课程，Phase 19 的 85 节已审核内容等待接入；理论目录包含 20 章、104 篇笔记，其中 89 篇提供审核中文全文。
+
+阅读器支持按课恢复草稿、测验选项与阅读位置，提供读前预测、课末自测、待复习和支持流式输出的本地学习助理。个人数据保存在本机 SQLite，可导出备份；删除和导入提供限时撤销。内容范围与来源见[内容清单](docs/content-manifest.md)，本次修复与历史变更见[发布说明](docs/release-notes.md)。
 
 ## 为什么使用它
 
@@ -60,7 +62,8 @@ npm run dev
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install marimo numpy matplotlib jax
+python -m pip install marimo numpy matplotlib
+# 数学课程需要 JAX 时另行安装：python -m pip install jax
 ```
 
 `.venv/` 不会进入版本控制。遇到特定 CUDA、PyTorch 或系统级依赖时，请为该课程创建专用环境，不要破坏共享基础环境。
@@ -160,4 +163,7 @@ GitHub Actions 的命名采用统一的 `<类别> / <动作与对象>` 形式：
 
 ---
 
-发布信息、已知限制和备份建议请参阅 [v0.27.2 发布说明](docs/release-notes.md)。
+发布信息、已知限制和备份建议请参阅 [v0.29.1 发布说明](docs/release-notes.md)。
+
+
+Python 依赖也可用 uv 按需安装：根目录 `uv sync --locked` 只安装 marimo、NumPy、Matplotlib 及其依赖；需要时使用 `uv sync --locked --extra math`、`--extra deep-learning`、`--extra audio` 等。根环境使用 `.python-version` 指定的 Python 3.14，不需要为了阅读课程安装训练框架。完整依赖组与性能说明见[本轮建议项记录](docs/review-followups.md)。

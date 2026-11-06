@@ -20,7 +20,7 @@ Use a quiet, paper-like editorial interface for technically serious adult learne
 | Review cue | `--color-review` | `#B6463D` |
 | Border | `--color-border` | `#D8D4C8` |
 
-Use `Noto Sans SC` for Chinese UI text, `Source Serif 4` for long-form explanations and formulas, and `DM Mono` for source paths, code, and compact metadata. Use a 4px spacing scale, restrained shadows, and square-to-slightly-rounded surfaces. Avoid oversized display type, playful illustration, gradients used as decoration, and conversion-oriented CTA patterns.
+Use the system sans-serif stack (`system-ui`, PingFang SC, Noto Sans CJK SC, Microsoft YaHei) for Chinese UI and prose, `Source Serif 4` for the brand, and `DM Mono` for source paths, code, and compact metadata. Use a 4px spacing scale, restrained shadows, and square-to-slightly-rounded surfaces. Avoid oversized display type, playful illustration, gradients used as decoration, and conversion-oriented CTA patterns.
 
 ## Token and Component Rules
 
@@ -35,3 +35,5 @@ Motion is subtle and functional (150–250ms); support `prefers-reduced-motion`.
 ## Product Surfaces
 
 The learning home is the entry surface, the practice reader remains the primary learning surface, and the theory reader is a secondary reference surface. The tutor is an explicitly opened, evidence-labelled panel in the practice reader: desktop side panel and mobile bottom sheet. Notes and review items are separate learner-data panels, never part of the versioned course content.
+
+The shared `theme.js` resolves preferences and supplies Mermaid colors from CSS. Primitive `--palette-*` values feed semantic `--color-*` aliases, then component tokens such as `--diagram-background`, `--prose-font` and `--toc-current`. Figures follow the current surface in both themes.

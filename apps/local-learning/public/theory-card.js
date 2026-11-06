@@ -57,7 +57,7 @@ export function renderTheoryCard(card) {
   const footer = `<div class="theory-card-footer"><div class="theory-card-actions">${actions}</div><small>${sourceNote}</small></div>`;
   const hasRichContent = Boolean(card.context && card.intuition && Array.isArray(card.keyPoints) && card.keyPoints.length >= 2 && card.keyPoints.length <= 4 && card.application && card.checkQuestion);
   if (!hasRichContent) {
-    return `<details class="theory-card">${header}
+    return `<details class="theory-card" data-card-slug="${escapeHtml(card.slug ?? "")}">${header}
     <div class="theory-card-body">
       <div class="theory-card-legacy"><p class="theory-card-detail-label">扩展内容待迁移</p><p>当前只展示已审核的标题与摘要；不会自动补写未经审核的理论解释。</p></div>
       ${footer}
@@ -65,7 +65,7 @@ export function renderTheoryCard(card) {
   </details>`;
   }
   const keyPoints = card.keyPoints.map((point) => `<li>${escapeHtml(point)}</li>`).join("");
-  return `<details class="theory-card">
+  return `<details class="theory-card" data-card-slug="${escapeHtml(card.slug ?? "")}">
     ${header}
     <div class="theory-card-body">
       ${detailBlock("为什么现在需要", card.context, "context")}

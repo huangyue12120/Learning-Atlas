@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/45-ai-assisted-reverse-engineering/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 4ec0a4eaa8d80ad1b8364289b8627752ba888cb57c892a207e2022fee67b501e
+  revision: d7b5633f91591ee3bf55c8d80831b515498cc0e6
+  sha256: 205a7e22a5c08dae27cc2583bcf6d7e947882f8e56bc3465d6c75e544e3371d5
 status: reviewed
 ---
 
@@ -231,7 +231,7 @@ cd phases/13-tools-and-protocols/45-ai-assisted-reverse-engineering
 python3 code/main.py
 ```
 
-当 clang 在路径中时，演示用 fixture 的标志编译每个候选，构建八个差分程序，让 92 个格和 256 个语料输入穿过每一个，读取 DWARF，核对每条引用，并打印这张卡。没有 clang 时，`grid` 和 `fuzz` 字段读作 `unknown`，每个判定也一样。
+当 clang 在路径中时，演示用 fixture 的标志编译每个候选，构建八个差分程序，让 92 个格和 256 个语料输入穿过每一个，读取 DWARF，核对每条引用，并打印这张卡。当路径中既没有 clang 也没有 cc 时，`grid` 和 `fuzz` 字段读作 `unknown`，每个判定也一样。如果 clang 不是 `code/fixtures/build-record.json` 记录的 fixture 编译器，只有字节比较继续使用已提交的目标文件；`grid` 和 `fuzz` 仍用主机编译器重新编译每个候选。字节比较只有在编译器和标志相同的条件下才有意义，而且只有当 `code/fixtures/build-record.json` 仍能将已提交的目标文件与磁盘上的候选源码对应起来时，才能使用该目标文件。修改源码后，字节字段会变为 `unknown`，而不会根据过期字节作出判定。
 
 预期的形态：
 
@@ -311,7 +311,7 @@ card = score_candidate(load_candidate("f1_base_64"), Path("/tmp/re45"), run_prog
 card["fields"]["bytes"]["evidence"], card["fields"]["citations"]["evidence"]
 ```
 
-先创建 `/tmp/re45`，或者传入 `None` 以使用已提交的目标。现在编辑 `fixtures/candidates/f1_base_64.c`，把乘数改成 100，运行同样这两行，观察 `bytes` 变成 `pass`，而 `citations` 仍然点出报告中的那个 64。然后把引用改成 100 再运行一次。代码和报告两者都必须改。
+先创建 `/tmp/re45`，或者传入 `None` 以使用已提交的目标。现在编辑 `fixtures/candidates/f1_base_64.c`，把乘数改成 100，运行同样这两行，观察 `bytes` 变成 `pass`，而 `citations` 仍然点出报告中的那个 64。使 `bytes` 变成 `pass` 的重新构建只会在 `code/fixtures/build-record.json` 指定的编译器下执行；使用其他 clang 或传入 `None` 时，编辑后的源码不再对应已提交的目标文件，此时 `bytes` 会变为 `unknown`，而不会比较过期字节。然后把引用改成 100 再运行一次。代码和报告两者都必须改。
 
 ### 实验 C：向分析者喊话的那个字符串
 

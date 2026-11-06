@@ -54,6 +54,8 @@ jobs:
           elif [ "$status" != "0" ]; then
             exit "$status"
           fi
+      - name: Report assessment quality and validate reviewed paragraph evidence
+        run: python3 scripts/assessment_review.py --check
       - name: Check repository hygiene
         run: python3 scripts/check_repository_hygiene.py
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
