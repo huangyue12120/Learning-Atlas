@@ -55,7 +55,7 @@ status: reviewed
 
 只要其中一项发生漂移，平台就可能列出一个无法访问的服务器，把不兼容的客户端路由过去，接受为其他资源签发的令牌，或在没有预期审查的情况下暴露破坏性动作。
 
-## 两层发现机制
+## 两层发现机制 <!-- learning-atlas: the-two-discovery-layers -->
 
 Registry 和实时 MCP 服务器回答的是不同问题。
 
@@ -177,7 +177,7 @@ flowchart LR
 cf-mcp-gate
 ```
 
-## 授权与策略
+## 授权与策略 <!-- learning-atlas: authorization-and-policy -->
 
 传输元数据不是授权。每次调用都要验证授权。
 

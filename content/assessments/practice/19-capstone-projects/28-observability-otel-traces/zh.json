@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/28-observability-otel-traces/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "7651b44a8d958bccf11c6a563b8e010b6337e8cf2fc5838290d6466d9516b93f"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "28-observability-otel-traces-pre-1",
+      "stage": "pre",
+      "question": "按 OTel GenAI 属性格式记录工作台 span 有什么实用价值？",
+      "options": [
+        "兼容后端可按约定字段接入，减少自定义解析",
+        "OTel 只支持 Python，因此获得类型提示",
+        "HIPAA 强制要求",
+        "span 在磁盘上压缩率更高"
+      ],
+      "correct": 0,
+      "explanation": "统一字段名让采集器与分析后端共享数据含义。具体后端的展示能力仍需配置和验证，格式兼容不自动完成全部集成。"
+    },
+    {
+      "id": "28-observability-otel-traces-check-2",
+      "stage": "check",
+      "question": "在 `SpanBuilder.span()` 上下文中抛出异常，本课记录什么？",
+      "options": [
+        "保持 UNSET 并吞掉异常",
+        "丢弃 span",
+        "status=ERROR，状态消息含异常类型与信息，并追加 exception 事件",
+        "把 span 名改成 error"
+      ],
+      "correct": 2,
+      "explanation": "构造器记录错误状态和异常事件后重新抛出，让调用方仍能处理失败。遥测记录不能悄悄改变程序的错误传播。"
+    },
+    {
+      "id": "28-observability-otel-traces-check-3",
+      "stage": "check",
+      "question": "Prometheus 直方图为什么把各 le 桶的计数设为累计值？",
+      "options": [
+        "减少浮点误差",
+        "后端可用相邻累计值相减得到各桶数量，无需保存原始观察",
+        "只有 Grafana 支持累计桶",
+        "本课不是累计值，格式不标准"
+      ],
+      "correct": 1,
+      "explanation": "每个阈值记录小于等于该边界的样本总数，形成单调计数序列。后端据此计算区间数量并估计分位数。"
+    },
+    {
+      "id": "28-observability-otel-traces-check-4",
+      "stage": "check",
+      "question": "在本课 GenAI 约定中，哪两个属性标识工具调用？",
+      "options": [
+        "operation 与 tool.name",
+        "agent.harness.tool 与 agent.harness.call",
+        "gen_ai.system 与 gen_ai.request.model",
+        "gen_ai.tool.name 与 gen_ai.tool.call.id"
+      ],
+      "correct": 3,
+      "explanation": "工具名与调用 ID 分别说明执行了哪个工具及是哪一次调用。模型供应商和模型名属于模型操作信息，不能替代工具标识。"
+    },
+    {
+      "id": "28-observability-otel-traces-post-5",
+      "stage": "post",
+      "question": "要查询 read_file 调用的 p95 延迟，应优先使用哪个聚合产物？",
+      "options": [
+        "span 的 status_message",
+        "tools_called_total 除以时间窗口",
+        "窗口内采集的 tool_latency_ms{tool=\"read_file\"} 直方图",
+        "脚本逐条解析 traces.jsonl 的 duration_ms"
+      ],
+      "correct": 2,
+      "explanation": "直方图为按工具估计延迟分位数提供聚合数据。原始 span 也可离线计算，但需要自行收集与排序；调用计数无法给出分位数。"
+    },
+    {
+      "id": "28-observability-otel-traces-post-6",
+      "stage": "post",
+      "question": "为什么本课手写记录器，而不直接导入 opentelemetry-sdk？",
+      "options": [
+        "展示线路结构，后续 SDK 可沿用相同属性键",
+        "手写版本运行更快",
+        "SDK 导入时必须联网",
+        "SDK 不支持 GenAI 约定"
+      ],
+      "correct": 0,
+      "explanation": "教学实现让 span 字段和导出过程可见。生产可接 SDK 完成上下文传播和导出，不能由本课推断手写实现性能更好。"
+    }
+  ]
+}

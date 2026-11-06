@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/48-distributed-fsdp-ddp/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "e565c174694bafeddf3d0ed65c27c0aeee67d7974421c0856c30bb47980f008b"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "48-distributed-fsdp-ddp-pre-1",
+      "stage": "pre",
+      "question": "从零实现 DDP 时，哪两项集合操作最关键？",
+      "options": [
+        "仅 reduce_scatter",
+        "barrier 与 barrier",
+        "send 与 recv",
+        "初始化广播参数，反向后 all_reduce 并平均梯度"
+      ],
+      "correct": 3,
+      "explanation": "初始化广播统一起点，梯度平均使各 rank 进行一致更新。二者配合保持数据并行的参数同步。"
+    },
+    {
+      "id": "48-distributed-fsdp-ddp-pre-2",
+      "stage": "pre",
+      "question": "为什么本课无需 CUDA 也能运行？",
+      "options": [
+        "张量只是模拟",
+        "完全不用 torch.distributed",
+        "gloo 后端通过 CPU 与 socket 建立真实进程组",
+        "只是桩实现"
+      ],
+      "correct": 2,
+      "explanation": "课程用多进程与 gloo 执行实际集合通信。GPU 后端可沿用许多 API，但设备、后端和启动环境仍需相应配置。"
+    },
+    {
+      "id": "48-distributed-fsdp-ddp-check-3",
+      "stage": "check",
+      "question": "manual_all_reduce_matches_single_process 测试验证什么？",
+      "options": [
+        "永远不需要 CUDA",
+        "优化器必定收敛",
+        "没有意义",
+        "等大分片的梯度求和除 world_size，与拼接完整批次的均值梯度在容差内一致"
+      ],
+      "correct": 3,
+      "explanation": "每 rank 样本数相同且损失均值定义一致时，平均局部梯度等于全批均值梯度。不等大批次需按样本数加权。"
+    },
+    {
+      "id": "48-distributed-fsdp-ddp-check-4",
+      "stage": "check",
+      "question": "本课 FSDP 示意每次前向对参数做什么？",
+      "options": [
+        "计算哈希",
+        "重新初始化",
+        "不操作",
+        "展平补齐后分片，all_gather 重建并去掉填充，检查与原参数一致"
+      ],
+      "correct": 3,
+      "explanation": "示意代码展示分片与重建的数据流。生产 FSDP 还涉及梯度、优化器状态和通信重叠，不能把示意当成完整实现。"
+    },
+    {
+      "id": "48-distributed-fsdp-ddp-check-5",
+      "stage": "check",
+      "question": "为什么参数长度不能整除 world_size 时仍切成等大分片？",
+      "options": [
+        "网络一定更快",
+        "随机选择",
+        "这是缺陷",
+        "本课 gloo all_gather 路径使用等长张量，先补齐再聚合并裁掉填充"
+      ],
+      "correct": 3,
+      "explanation": "统一分片尺寸符合此示例的集合操作调用要求。最终恢复原长度，避免填充值成为模型参数。"
+    },
+    {
+      "id": "48-distributed-fsdp-ddp-post-6",
+      "stage": "post",
+      "question": "输出中 param_sum_spread 接近零，说明什么？",
+      "options": [
+        "没有意义",
+        "各 rank 的参数和一致，支持同步检查，但不能单凭和相等证明逐元素相同",
+        "损失很低",
+        "网络很快"
+      ],
+      "correct": 1,
+      "explanation": "参数和是便宜的同步诊断量；不同张量也可能具有相同和。完整一致性检查应比较参数元素或更强的校验，而非把该数值当作充分证明。"
+    }
+  ]
+}

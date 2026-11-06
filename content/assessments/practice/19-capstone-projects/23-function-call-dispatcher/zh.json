@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/23-function-call-dispatcher/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "f093e63b4792bba83001499e314daf8241c8df0502c417dc1bfe675796982b39"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "23-function-call-dispatcher-pre-1",
+      "stage": "pre",
+      "question": "为什么非幂等工具超时后默认不重试？",
+      "options": [
+        "分派器无法测量非幂等调用",
+        "非幂等处理器运行更快",
+        "幂等键计算太慢",
+        "工具可能已部分提交，重试会重复副作用"
+      ],
+      "correct": 3,
+      "explanation": "超时不代表操作没有生效，例如数据库写入可能已完成但响应丢失。只有明确具备可重试语义时才可再次执行。"
+    },
+    {
+      "id": "23-function-call-dispatcher-pre-2",
+      "stage": "pre",
+      "question": "幂等键去重主要防止什么？",
+      "options": [
+        "schema 校验失败",
+        "原调用尚未结束时，重试又启动同一操作",
+        "进程重启",
+        "慢网络本身"
+      ],
+      "correct": 1,
+      "explanation": "相同逻辑操作的在途调用共享去重结果，避免慢原调用与重试并发执行。进程内缓存不自动提供跨重启去重保证。"
+    },
+    {
+      "id": "23-function-call-dispatcher-check-3",
+      "stage": "check",
+      "question": "本课分派器允许重试哪类错误？",
+      "options": [
+        "schema 与 not_found",
+        "幂等调用的 timeout，以及显式 transient",
+        "internal 与 budget_exceeded",
+        "全部错误"
+      ],
+      "correct": 1,
+      "explanation": "参数和工具不存在属于确定性错误，未知 internal 错误也不应盲目重试。只有幂等超时及显式临时错误进入重试路径。"
+    },
+    {
+      "id": "23-function-call-dispatcher-check-4",
+      "stage": "check",
+      "question": "`_run_with_retries` 外的信号量保护什么？",
+      "options": [
+        "防止处理器调用自己",
+        "限制 gather 展开的同时调用数，避免压垮后端",
+        "保护校验器",
+        "保护重试计数器"
+      ],
+      "correct": 1,
+      "explanation": "gather 可同时发起大量调用，信号量将并发执行数量限制在配置范围内。它控制资源压力，不判断参数正确与否。"
+    },
+    {
+      "id": "23-function-call-dispatcher-check-5",
+      "stage": "check",
+      "question": "为什么幂等键由调用方生成，而非分派器仅根据参数生成？",
+      "options": [
+        "缓存不能保存字符串",
+        "注册表拿不到键",
+        "不同语义操作可能参数相同，仅按参数会错误合并",
+        "Python 哈希值不稳定"
+      ],
+      "correct": 2,
+      "explanation": "调用方知道步骤、用户和规划意图，能够标识一次逻辑操作。相同参数可能代表两次应各自执行的请求。"
+    },
+    {
+      "id": "23-function-call-dispatcher-post-6",
+      "stage": "post",
+      "question": "分派时 schema 校验失败映射到哪个 JSON-RPC 错误码？",
+      "options": [
+        "-32602",
+        "-32603",
+        "-32700",
+        "-32601"
+      ],
+      "correct": 0,
+      "explanation": "-32602 表示 Invalid params，在执行工具处理器之前返回。解析、未知方法和内部异常分别使用其他错误码。"
+    },
+    {
+      "id": "23-function-call-dispatcher-post-7",
+      "stage": "post",
+      "question": "幂等工具连续超时达到 `max_attempts` 后返回什么？",
+      "options": [
+        "无结果的 DispatchOk",
+        "kind=timeout 且 attempts=max_attempts 的 DispatchError",
+        "直接抛出异常",
+        "kind=internal 的 DispatchError"
+      ],
+      "correct": 1,
+      "explanation": "分派器返回类型化错误封装，保留最后的超时类别和实际尝试次数，让上层明确知道重试预算已经耗尽。"
+    }
+  ]
+}

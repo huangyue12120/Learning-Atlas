@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/27-eval-harness-fixture-tasks/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "99c19873be512c0054896bb2f291307b15a13ed7c769b62f0eade69582ef11b9"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "27-eval-harness-fixture-tasks-pre-1",
+      "stage": "pre",
+      "question": "智能体评测验证器最需要哪种性质？",
+      "options": [
+        "多次运行具有确定性",
+        "毫秒级速度",
+        "自然语言判定说明",
+        "覆盖候选代码的每一行"
+      ],
+      "correct": 0,
+      "explanation": "验证器的稳定性使回归能被识别。若同一结果反复得到不同判定，就难以区分模型变化和验证噪声。"
+    },
+    {
+      "id": "27-eval-harness-fixture-tasks-check-2",
+      "stage": "check",
+      "question": "本课以单样本成功率代入独立尝试公式；5 次中成功 3 次时，pass@5 四舍五入到两位是多少？",
+      "options": [
+        "0.75",
+        "1.00",
+        "0.99",
+        "0.60"
+      ],
+      "correct": 2,
+      "explanation": "本课使用 1−(1−p)^k，代入 p=3/5、k=5 得 0.98976，即 0.99。这不同于第 72 课的无偏组合估计：在 n=k=5 且存在成功样本时，后者为 1.00。"
+    },
+    {
+      "id": "27-eval-harness-fixture-tasks-check-3",
+      "stage": "check",
+      "question": "为什么报告同时包含 pass@1 与 pass@k？",
+      "options": [
+        "前者已实现，后者预留给未来",
+        "pass@k 可能掩盖单次成功率低，pass@1 提供首次尝试质量参照",
+        "前者只在仪表盘显示，后者仅用于调试",
+        "k>1 时两者数学上相同"
+      ],
+      "correct": 1,
+      "explanation": "多次采样可以抬高至少成功一次的概率。并列报告让读者看到模型是否依靠大量重试取得结果。"
+    },
+    {
+      "id": "27-eval-harness-fixture-tasks-check-4",
+      "stage": "check",
+      "question": "为什么每个样本前都调用 `_prepare_scratch`？",
+      "options": [
+        "确保从同一有缺陷初始状态开始，不继承上次输出",
+        "避免共享临时目录竞争",
+        "只对 shell 验证器有用",
+        "纯粹提高性能"
+      ],
+      "correct": 0,
+      "explanation": "若第 N+1 次继承第 N 次修改，评测就变成持续修复而非独立采样。重置工作目录使成功率的试验单位保持一致。"
+    },
+    {
+      "id": "27-eval-harness-fixture-tasks-post-5",
+      "stage": "post",
+      "question": "新增运行 pytest 的验证器时，应基于哪个现有验证器？",
+      "options": [
+        "无法把 pytest 表达为验证器",
+        "shell_exit_zero，因为测试通过时 pytest 返回 0",
+        "file_equals，因为 pytest 会写结果文件",
+        "regex_match，因为输出包含 passed"
+      ],
+      "correct": 1,
+      "explanation": "退出状态比匹配自然语言输出更适合作为测试命令的基本判据。生产执行仍应接入沙箱，约束测试进程的权限与资源。"
+    },
+    {
+      "id": "27-eval-harness-fixture-tasks-post-6",
+      "stage": "post",
+      "question": "区分模型回归还是工作台问题时，哪项产物最有帮助？",
+      "options": [
+        "逐任务逐样本的 SampleResult 与验证器详情",
+        "仅 fixture JSON",
+        "智能体的思维链对话",
+        "验证器注册表源码"
+      ],
+      "correct": 0,
+      "explanation": "逐样本成功、延迟和验证细节支持定位差异。它提供排查证据，但仅凭相同 fixture 的不同判定仍不能自动排除工作台缺陷。"
+    }
+  ]
+}

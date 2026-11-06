@@ -10,7 +10,15 @@ practice:
     slug: concept
 card:
   title: 分支保护与可审查 PR 的协作边界
-  summary: 在用细粒度凭证、分支保护、禁止强制推送和 PR 审查约束自治改动时，用 Git 版本控制理论核对分支、合并、可逆性与审查证据。（扩展内容待迁移，尚未经审核。）
+  summary: 在用细粒度凭证、分支保护、禁止强制推送和 PR 审查约束自治改动时，用 Git 版本控制理论核对分支、合并、可逆性与审查证据。
+  context: "自治智能体产生改动后，分支与 PR 让维护者看见 diff、来源和验证证据，并保留拒绝与回退的机会。"
+  intuition: "分支隔开候选改动，PR 提供比较和审查入口。权限、分支保护与审查流程共同限制合并范围，提交本身不代表已经获准发布。"
+  key_points:
+    - "凭证应仅有任务所需仓库与动作权限。"
+    - "PR 描述需要说明改动目的、验证方式和剩余限制。"
+    - "禁止强推与保护主分支应由仓库策略落实，不能只写进模型提示词。"
+  application: "查看模拟运行的分支名、补丁、验证状态与 PR 元数据，确认失败运行没有被误标为可合并；实际外部发布需使用自己的测试仓库。"
+  check_question: "如果智能体能直接推送主分支，单独要求它创建 PR 为何不足以形成审查边界？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 15 - production software engineering/02. git and repository management.md

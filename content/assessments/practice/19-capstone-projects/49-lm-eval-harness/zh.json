@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/49-lm-eval-harness/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "5d3e1342fb0e52edd35e35b5409e24175d5cc1c6ba5da21206b0f9d38b473ca9"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "49-lm-eval-harness-pre-1",
+      "stage": "pre",
+      "question": "本课 JSONL 任务样本的四个必需字段是什么？",
+      "options": [
+        "id、prompt、targets、metric，可选 extras 传递辅助数据",
+        "name、score、payload、vendor",
+        "weights 与 bias",
+        "input 与 output"
+      ],
+      "correct": 0,
+      "explanation": "任务记录把输入、参考集合和度量方式绑定，extras 可携带代码测试的 io_pairs。辅助数据不需要塞进模型提示词。"
+    },
+    {
+      "id": "49-lm-eval-harness-pre-2",
+      "stage": "pre",
+      "question": "为什么度量接口是 `(prediction, targets, extras) -> float`？",
+      "options": [
+        "返回整数",
+        "需要模型对象",
+        "用统一接口支持单参考、多参考及带测试数据的代码评分，结果归一到 [0,1]",
+        "随机选择"
+      ],
+      "correct": 2,
+      "explanation": "targets 支持多个参考，extras 提供任务专用数据，浮点分数统一方向后便于聚合。接口无需知道模型内部结构。"
+    },
+    {
+      "id": "49-lm-eval-harness-check-3",
+      "stage": "check",
+      "question": "本课 code_exec 如何拦截示例中的 import 恶意预测？",
+      "options": [
+        "使用沙箱容器",
+        "收缩 __builtins__，不提供导入器，使 import 示例失败",
+        "完全没有任何约束",
+        "拒绝所有包含 def 的文本"
+      ],
+      "correct": 1,
+      "explanation": "删除 __import__ 会拦住本课 import os 测试，但收缩 builtins 不是可靠的任意 Python 安全沙箱。运行不可信预测仍需进程、资源及系统隔离。"
+    },
+    {
+      "id": "49-lm-eval-harness-check-4",
+      "stage": "check",
+      "question": "模型适配器抽象提供什么？",
+      "options": [
+        "把厂商特定代码限制在适配器，替换模型后任务、指标与排行榜格式不变",
+        "Torch 强制要求",
+        "没有作用",
+        "模型运行更快"
+      ],
+      "correct": 0,
+      "explanation": "本课 ToyAdapter 与未来 HTTP 适配器共用 generate(prompts) 接口。统一边界允许替换模型，而不重写评分逻辑。"
+    },
+    {
+      "id": "49-lm-eval-harness-check-5",
+      "stage": "check",
+      "question": "排行榜 JSON 为什么携带 leaderboard.v1 等 schema 字符串？",
+      "options": [
+        "格式改变时显式升级，供下游选择兼容解析",
+        "压缩文件",
+        "搜索优化",
+        "随机值"
+      ],
+      "correct": 0,
+      "explanation": "版本字段让仪表盘识别数据格式演变，避免字段含义变化而静默误读。它与训练检查点中的格式版本用途相似。"
+    },
+    {
+      "id": "49-lm-eval-harness-post-6",
+      "stage": "post",
+      "question": "overall_score 如何计算，比较两个运行时还应检查什么？",
+      "options": [
+        "随机抽样",
+        "正确数总和",
+        "对各任务分数等权平均，并检查分数变化任务的逐样本预测",
+        "取最高任务分"
+      ],
+      "correct": 2,
+      "explanation": "任务平均给予每个任务相同权重，不一定等于全部样本等权。保存 include-per-example 证据可揭示汇总分数掩盖的局部回归。"
+    }
+  ]
+}

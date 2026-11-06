@@ -25,7 +25,7 @@ status: reviewed
 
 代价是存储和延迟。ColQwen 的一个嵌入每页约有 2048 个 patch 向量，而不是一个 1024 维向量，原始存储会膨胀。DocPruner（2026）在没有可测准确率损失的情况下提供了 50% 的剪枝。你将为 1 万页建立索引，测量 ViDoRe v3 nDCG@5，在 2 秒内提供答案，并与 OCR—文本基线直接比较。
 
-## 概念
+## 概念 <!-- learning-atlas: concept -->
 
 后交互意味着每个查询词元都会与每个 patch 词元打分，然后将每个查询词元的最高分相加。这样无需单一的池化向量，也能获得细粒度匹配。多向量索引（Vespa、Qdrant multi-vector 或 AstraDB）存储每个 patch 的嵌入，并在检索时运行 MaxSim。
 

@@ -25,7 +25,7 @@ status: reviewed
 
 难点不在模型，而在面向司法辖区的合规（HIPAA、GDPR、SOC2）、引用级可审计性、成本控制（命中率高时，提示词缓存可带来 60–90% 折扣）、通过 RAGAS 忠实度检测幻觉，以及源文档更新但索引没有跟上的漂移检测。本毕业项目要求你将所有部分部署到 200 个问题的黄金集上，并配套红队套件。
 
-## 概念
+## 概念 <!-- learning-atlas: concept -->
 
 流水线有两面。**摄取**：docling 或 Unstructured 解析结构化文档；ColPali 处理视觉丰富的文档；分块获得摘要、标签和基于角色的访问标记。向量进入 pgvector + pgvectorscale（少于 5000 万向量）或 Qdrant Cloud；稀疏 BM25 并行运行。**对话**：LangGraph 处理记忆和多轮交互；每个查询运行混合检索，使用 bge-reranker-v2-gemma-2b 重排，使用 Claude Sonnet 4.7（带提示词缓存）合成，让输出通过 Llama Guard 4 和 NeMo Guardrails，并发出带引用锚点的响应。
 

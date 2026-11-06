@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/14-speculative-decoding-server/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "414434300134013daae2f362b7b3ca12bde27ddc589e55a89f79581762e7fb88"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "14-speculative-decoding-server-pre-1",
+      "stage": "pre",
+      "question": "推测解码的两层机制是什么？",
+      "options": [
+        "两个目标模型逐词元交替",
+        "一个嵌入模型加一个综合器",
+        "一个检索缓存加一个重排器",
+        "草稿模型提出 k 个候选词元，目标模型一次前向验证"
+      ],
+      "correct": 3,
+      "explanation": "草稿阶段便宜地产生候选，目标阶段批量校验并决定接受长度。目标模型仍负责最终分布，不能由草稿直接替代。"
+    },
+    {
+      "id": "14-speculative-decoding-server-pre-2",
+      "stage": "pre",
+      "question": "EAGLE-3 相比 n-gram 草稿增加了什么？",
+      "options": [
+        "完全不使用分词",
+        "只能在 CPU 运行",
+        "用目标模型隐藏状态训练草稿头，以提高接受率",
+        "替代目标模型"
+      ],
+      "correct": 2,
+      "explanation": "训练后的草稿头利用目标隐藏状态预测后续词元，与基于历史片段匹配的 n-gram 草稿不同。提高接受率仍需在实际输入上测量。"
+    },
+    {
+      "id": "14-speculative-decoding-server-check-3",
+      "stage": "check",
+      "question": "为什么对批量大小 1、8、32 都报告 p99 延迟？",
+      "options": [
+        "稳态词元吞吐可能掩盖拒绝后验证开销导致的长尾延迟",
+        "vLLM 无法服务小于 8 的批量",
+        "只有批量为 32 时 p99 才重要",
+        "长尾延迟与批量大小无关"
+      ],
+      "correct": 0,
+      "explanation": "吞吐平均值无法表现最慢请求，草稿拒绝和验证开销可能改变长尾。跨批量测量能揭示吞吐收益与单请求等待之间的权衡。"
+    },
+    {
+      "id": "14-speculative-decoding-server-check-4",
+      "stage": "check",
+      "question": "流量分布变化时，为什么接受率会漂移？",
+      "options": [
+        "草稿与目标的匹配依赖输入，ShareGPT、代码和领域数据触发的模式不同",
+        "操作系统调度器重排 GPU 内存",
+        "运行时量化方式自动改变",
+        "vLLM 每小时轮换模型"
+      ],
+      "correct": 0,
+      "explanation": "草稿在某类数据上拟合良好，不表示对另一类数据也同样准确。输入分布改变会影响候选被目标模型接受的比例。"
+    },
+    {
+      "id": "14-speculative-decoding-server-check-5",
+      "stage": "check",
+      "question": "部署使用哪个 Kubernetes HPA 信号扩缩容？",
+      "options": [
+        "磁盘 IOPS",
+        "CPU 利用率",
+        "推理请求的队列等待时间",
+        "集群自动扩容器节点数"
+      ],
+      "correct": 2,
+      "explanation": "队列等待反映到达流量超过当前服务容量的程度。本课把它接到 HPA，节点数量则属于另一层容量管理。"
+    },
+    {
+      "id": "14-speculative-decoding-server-post-6",
+      "stage": "post",
+      "question": "P-EAGLE 相比串行 EAGLE-3 增加了什么？",
+      "options": [
+        "FP4 权重量化",
+        "删除目标模型",
+        "并行生成树状草稿分支，由目标模型一次验证",
+        "自动整理数据集"
+      ],
+      "correct": 2,
+      "explanation": "P-EAGLE 用分支树增加并行候选，再交给目标模型校验。并行候选不等于取消验证，也不是量化方法。"
+    },
+    {
+      "id": "14-speculative-decoding-server-post-7",
+      "stage": "post",
+      "question": "评分量表要求相对非推测解码基线达到什么吞吐目标？",
+      "options": [
+        "在两个模型上保持质量并至少达到 2.5 倍",
+        "只要比基线快即可",
+        "保持质量并约达到 1.1 倍",
+        "不论质量都必须恰好达到 10 倍"
+      ],
+      "correct": 0,
+      "explanation": "课程用两个模型和匹配质量约束加速结果，目标是至少 2.5 倍。它是该交付物的验收目标，不是任意部署都能获得的保证。"
+    }
+  ]
+}

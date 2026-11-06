@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/04-multimodal-document-qa/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "d8d257c61f3b32641c49aebc340c468eaebfde22a2abc21d7298fd57d9dd62aa"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "04-multimodal-document-qa-pre-1",
+      "stage": "pre",
+      "question": "为什么本课在金融 PDF 和论文中优先采用视觉检索，而非仅做 OCR 后检索文本？",
+      "options": [
+        "OCR 容易损坏旋转表格、密集公式与图像信息",
+        "OCR 无法在 GPU 上运行",
+        "视觉模型每页费用更低",
+        "OCR 一定比渲染页面慢"
+      ],
+      "correct": 0,
+      "explanation": "文本抽取会丢失布局、图表和公式中的证据。视觉通道保留页面结构；课程并未把 GPU 不可用或费用更低作为这项设计的普遍前提。"
+    },
+    {
+      "id": "04-multimodal-document-qa-pre-2",
+      "stage": "pre",
+      "question": "ColPali 风格检索中的后期交互是什么意思？",
+      "options": [
+        "每个查询词元与页面图块词元评分，再用 MaxSim 汇总各查询词元的最大值",
+        "用户点击结果后才计算嵌入",
+        "重排器仅处理最后一个候选",
+        "评测时才延迟计算嵌入"
+      ],
+      "correct": 0,
+      "explanation": "后期交互保留多个局部向量，在查询时计算细粒度匹配。这里的“后期”指交互发生的阶段，而非等待点击或推迟建立索引。"
+    },
+    {
+      "id": "04-multimodal-document-qa-check-3",
+      "stage": "check",
+      "question": "本课的 ColQwen 配置每页大约产生多少个图块向量，会带来什么存储问题？",
+      "options": [
+        "固定 128 个，任意向量库均可轻松容纳",
+        "约 2048 个，使原始存储量高于单向量索引",
+        "仅 1 个，没有存储问题",
+        "16 个，存储开销可忽略"
+      ],
+      "correct": 1,
+      "explanation": "该配置按页面保留约 2048 个图块向量，细粒度表示增加了索引体积。向量数取决于模型与配置，此处是课程采用的近似规模。"
+    },
+    {
+      "id": "04-multimodal-document-qa-check-4",
+      "stage": "check",
+      "question": "DocPruner 在本流水线中做什么？",
+      "options": [
+        "摄取前删除重复 PDF 页",
+        "保留约一半高信息图块，压缩多向量索引并尽量保持准确率",
+        "裁剪证据区域的边界框",
+        "改写查询嵌入使向量变短"
+      ],
+      "correct": 1,
+      "explanation": "DocPruner 针对图块向量做筛选，课程报告约 50% 保留率下较小的准确率损失。页面去重、框选证据和查询改写是不同步骤。"
+    },
+    {
+      "id": "04-multimodal-document-qa-check-5",
+      "stage": "check",
+      "question": "为什么有些页面仍然加入 OCR 文本通道？",
+      "options": [
+        "VLM 无法读取 180 DPI 图片",
+        "OCR 是主检索通道",
+        "OCR 会提高 PDF 渲染质量",
+        "公式密集或表格较多的页面可用文本补充图像证据"
+      ],
+      "correct": 3,
+      "explanation": "混合通道允许图像与文本互补，尤其用于精细符号和表格内容。加入 OCR 不表示它取代视觉主通道，也不会改变页面渲染质量。"
+    },
+    {
+      "id": "04-multimodal-document-qa-post-6",
+      "stage": "post",
+      "question": "本课采用哪个基准评估视觉优先的检索？",
+      "options": [
+        "ViDoRe v3",
+        "RewardBench-2",
+        "MMLU-Pro",
+        "SWE-bench Pro"
+      ],
+      "correct": 0,
+      "explanation": "ViDoRe v3 面向视觉文档检索，与页面证据检索任务相符。其余基准分别覆盖奖励模型、综合知识或编码任务。"
+    },
+    {
+      "id": "04-multimodal-document-qa-post-7",
+      "stage": "post",
+      "question": "评分量表中的“证据区域落地”衡量什么？",
+      "options": [
+        "重排器的 p99 延迟",
+        "每次查询检索的页面总数",
+        "被引用边界框中实际包含答案片段的比例",
+        "DocPruner 的压缩率"
+      ],
+      "correct": 2,
+      "explanation": "该指标检查引用区域是否包含所声称的答案证据。检索页数和索引压缩只描述规模，无法保证引用区域正确。"
+    }
+  ]
+}

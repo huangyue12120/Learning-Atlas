@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/29-end-to-end-coding-task-demo/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "a05c9b1b8b570cf0f64a91a22ed4eff5aefd234e52dece59d98cb902ab54c504"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "29-end-to-end-coding-task-demo-pre-1",
+      "stage": "pre",
+      "question": "为什么端到端演示使用确定性策略替代 LLM？",
+      "options": [
+        "确定性策略在编码任务上总是更强",
+        "课程负担不起推理费用",
+        "LLM 速度太慢，不能测试",
+        "本课验证工作台，策略是可替换接口"
+      ],
+      "correct": 3,
+      "explanation": "固定策略去掉网络与模型随机性，使集成测试可以复现。门禁、沙箱和观察接口并不依赖策略一定来自 LLM。"
+    },
+    {
+      "id": "29-end-to-end-coding-task-demo-check-2",
+      "stage": "check",
+      "question": "正常通过时，五个策略状态按什么顺序执行？",
+      "options": [
+        "RUN_TESTS→SURVEY→INSPECT→FIX→VERIFY",
+        "SURVEY→RUN_TESTS→INSPECT→FIX→VERIFY",
+        "SURVEY→FIX→VERIFY→RUN_TESTS→INSPECT",
+        "SURVEY→INSPECT→FIX→RUN_TESTS→VERIFY"
+      ],
+      "correct": 1,
+      "explanation": "策略先查看项目，再运行测试，利用失败信号检查并修复，最后重跑验证。先测再检查，使修复依据来自明确失败。"
+    },
+    {
+      "id": "29-end-to-end-coding-task-demo-check-3",
+      "stage": "check",
+      "question": "fixture 中 `range(1, n)` 应改为 `range(1, n + 1)`。策略在哪个状态决定修复？",
+      "options": [
+        "SURVEY 读取文件头时",
+        "状态机外的门禁链",
+        "VERIFY 重跑之后",
+        "INSPECT 读取测试失败所要求的输出后"
+      ],
+      "correct": 3,
+      "explanation": "INSPECT 从失败结果识别边界错误，下一 FIX 状态再写入修改。识别修复和实际写文件是两个步骤。"
+    },
+    {
+      "id": "29-end-to-end-coding-task-demo-check-4",
+      "stage": "check",
+      "question": "每次工具调用按哪种顺序经过组件？",
+      "options": [
+        "ObservationLedger→GateChain→Sandbox→SpanBuilder",
+        "SpanBuilder→GateChain→Sandbox→ObservationLedger",
+        "GateChain→SpanBuilder→Sandbox→ObservationLedger",
+        "Sandbox→GateChain→SpanBuilder→ObservationLedger"
+      ],
+      "correct": 2,
+      "explanation": "先取得门禁决定，再记录 span；允许的调用才进入沙箱，成功观察最后写入账本。拒绝决定也应在追踪中可见。"
+    },
+    {
+      "id": "29-end-to-end-coding-task-demo-post-5",
+      "stage": "post",
+      "question": "把确定性策略换成真实 LLM 时，本课工作台接口需要改什么？",
+      "options": [
+        "必须把沙箱重写为 seccomp",
+        "Prometheus 格式不再兼容",
+        "因模型随机性而重写门禁链",
+        "工作台接口不变，仅替换策略实现"
+      ],
+      "correct": 3,
+      "explanation": "LLM 接到 next_action/observe 边界，沿用门禁、沙箱、账本和追踪。真实部署仍需评估资源与安全配置，但这不改变课程的接口替换结论。"
+    },
+    {
+      "id": "29-end-to-end-coding-task-demo-post-6",
+      "stage": "post",
+      "question": "演示的确定性策略用 5 步，验收要求少于 12 步；真实 LLM 可能怎样运行？",
+      "options": [
+        "LLM 无法进入此工作台",
+        "也一定恰好使用 5 步",
+        "工作台静默延长预算",
+        "可能用更多步骤，由 step_budget 截止，未解决则带 halted_reason 报告失败"
+      ],
+      "correct": 3,
+      "explanation": "模型可选择更长路径，但步骤预算仍是确定性停止条件。工作台显式报告停止原因，不能把耗尽预算的运行当作解决任务。"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/01-terminal-native-coding-agent/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "d4cc09a8c04e8806ba7a38f3a700b29b28f79ce2c53c21a70b29fe1245d7a15c"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "01-terminal-native-coding-agent-pre-1",
+      "stage": "pre",
+      "question": "2026 年终端编码智能体通常采用哪种循环？",
+      "options": [
+        "获取、嵌入、排序、综合",
+        "规划、行动、观察、恢复",
+        "训练、评估、部署、监控",
+        "编码、解码、采样、流式传输"
+      ],
+      "correct": 1,
+      "explanation": "工作台维护计划，执行工具，再依据观察结果继续或恢复。这四个环节描述任务控制流；检索流水线和模型训练流程不能替代它。"
+    },
+    {
+      "id": "01-terminal-native-coding-agent-pre-2",
+      "stage": "pre",
+      "question": "为什么工作台把每个任务放在 E2B 或 Daytona 沙箱内运行？",
+      "options": [
+        "为智能体循环启用 GPU",
+        "绕过模型提供商限流",
+        "隔离宿主文件与工具执行，任务结束后清理 worktree",
+        "测量冷缓存下的词元吞吐"
+      ],
+      "correct": 2,
+      "explanation": "沙箱约束工具能访问的文件和执行环境，并为任务提供可清理的 worktree。是否启用 GPU、如何限流或测吞吐是另一些配置问题。"
+    },
+    {
+      "id": "01-terminal-native-coding-agent-check-3",
+      "stage": "check",
+      "question": "哪个内置钩子适合在执行前拦截破坏性 shell 命令？",
+      "options": [
+        "`Stop`",
+        "`PostToolUse`",
+        "`PreToolUse`",
+        "`SessionStart`"
+      ],
+      "correct": 2,
+      "explanation": "PreToolUse 位于工具调用之前，可以检查命令并拒绝执行。PostToolUse 已在执行之后，Stop 和 SessionStart 也不对应每次工具调用前的检查点。"
+    },
+    {
+      "id": "01-terminal-native-coding-agent-check-4",
+      "stage": "check",
+      "question": "本课把每次工具结果限制为约 4k 词元，主要防止什么？",
+      "options": [
+        "模型对工具轨迹过拟合",
+        "恶意 shell 元字符引发沙箱逃逸",
+        "恢复会话时使用旧计划",
+        "大段输出污染上下文并推高成本"
+      ],
+      "correct": 3,
+      "explanation": "截断层阻止 ripgrep 等工具把巨量输出直接塞入模型上下文。它约束观察长度和后续调用成本，无法单凭截断实现命令隔离或状态恢复。"
+    },
+    {
+      "id": "01-terminal-native-coding-agent-check-5",
+      "stage": "check",
+      "question": "到达 150k 词元时，`PreCompact` 钩子执行什么操作？",
+      "options": [
+        "取消运行并退还用户预算",
+        "强制推送分支以备份进度",
+        "把早期回合总结为先前状态块，为计划和新观察腾出空间",
+        "切换到更小的草稿模型"
+      ],
+      "correct": 2,
+      "explanation": "压缩操作保留计划和必要的历史摘要，释放上下文容量。它既不自动推送代码，也不要求更换模型或取消任务。"
+    },
+    {
+      "id": "01-terminal-native-coding-agent-post-6",
+      "stage": "post",
+      "question": "本课在包含 30 个 issue 的 SWE-bench Pro 子集上使用哪个比较基线？",
+      "options": [
+        "Aider",
+        "mini-swe-agent",
+        "Live-SWE-agent",
+        "OpenCode"
+      ],
+      "correct": 1,
+      "explanation": "课程评测步骤选择 mini-swe-agent 作为最小基线，比较同一批任务的成功率、回合数和费用。其他名称虽在背景中出现，但不等于本次指定基线。"
+    },
+    {
+      "id": "01-terminal-native-coding-agent-post-7",
+      "stage": "post",
+      "question": "交付物主要比较哪组指标？",
+      "options": [
+        "WER、MOS 与首段音频延迟",
+        "MRR@10 与 nDCG@10",
+        "困惑度、BLEU 与 ROUGE",
+        "pass@1、每任务回合数与每任务美元成本"
+      ],
+      "correct": 3,
+      "explanation": "编码任务用 pass@1 衡量一次尝试的成功率，再记录控制循环和费用开销。语音、检索和文本相似度指标不能直接替代这组任务结果。"
+    }
+  ]
+}

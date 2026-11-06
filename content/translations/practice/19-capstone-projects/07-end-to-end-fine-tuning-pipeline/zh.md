@@ -25,7 +25,7 @@ status: reviewed
 
 你将让一个 8B 到 14B 基础模型（Llama 3.1 8B、Qwen3 14B 或 Gemma 3 12B）在任务专用数据上先经过 SFT 再经过 DPO，为服务进行量化，并依据 lm-evaluation-harness、RewardBench-2、MT-Bench-v2 和 MMLU-Pro 测量收益。你还要依据 2026 Model Openness Framework 生成模型卡。重点是可复现性：一条命令就能端到端重跑整个流水线。
 
-## 概念
+## 概念 <!-- learning-atlas: concept -->
 
 流水线有五个阶段。**数据**：去重（MinHash / Datatrove）、质量过滤（Nemotron-CC 风格分类器）、PII 清理，以及针对公开 benchmark 污染的数据集划分卫生检查。**SFT**：Axolotl YAML、8xH100 上的 ZeRO-3、余弦调度、序列打包、2–3 个 epoch。**DPO 或 GRPO**：TRL 配置、1 个 epoch，偏好对可以由人类标注或模型评判，并调节 beta。**量化**：GPTQ + AWQ + GGUF，以适应部署弹性。**服务**：带 EAGLE-3 推测头的 vLLM 0.7（或带 SpecForge 的 SGLang）、K8s 部署，以及按队列等待时间设置 HPA。
 

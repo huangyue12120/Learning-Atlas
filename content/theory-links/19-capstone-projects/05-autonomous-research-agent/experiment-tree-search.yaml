@@ -10,7 +10,15 @@ practice:
     slug: concept
 card:
   title: 实验候选树的搜索与预算评分
-  summary: 在展开实验子节点、按新颖性与质量评分并在预算耗尽时选择分支时，用图论中的节点、边和搜索边界直觉理解 best-first 树搜索。（扩展内容待迁移，尚未经审核。）
+  summary: 在展开实验子节点、按新颖性与质量评分并在预算耗尽时选择分支时，用图论中的节点、边和搜索边界直觉理解 best-first 树搜索。
+  context: "研究智能体在有限预算内选择下一个实验，需要明确节点、扩展边、优先级和停止条件。"
+  intuition: "每个实验候选是节点，修改假设形成子节点。best-first 从候选前沿挑当前评分最高者；评分决定探索方向，却不能保证找到全局最优实验。"
+  key_points:
+    - "前沿队列与已完成节点承担不同职责。"
+    - "质量、新颖性和成本构成搜索策略，需要保留原始测量而非只存总分。"
+    - "失败实验也是证据，应标记原因并计入预算。"
+  application: "固定随机种子，分别降低总预算和改变候选评分，比较 explored nodes、失败数与 best branch；用相同预算的随机搜索作对照。"
+  check_question: "若搜索树只保留成功节点，为什么预算统计与研究结论都会受到影响？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 14 - data structures and algorithms/04. graphs.md

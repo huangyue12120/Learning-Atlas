@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/21-tool-registry-schema-validation/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "d633a38e510733538d8dc46ca122c2badf9cadb00dca36124bb5999941b70fe1"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "21-tool-registry-schema-validation-pre-1",
+      "stage": "pre",
+      "question": "为什么工具 schema 与处理器分开注册？",
+      "options": [
+        "处理器不能返回 JSON",
+        "让校验器处理纯数据，处理器保留为不透明代码",
+        "schema 必须编译",
+        "schema 必须写在 YAML 中"
+      ],
+      "correct": 1,
+      "explanation": "schema 描述输入结构，可由纯函数递归校验；处理器承担执行行为。二者分离后，校验无需执行工具代码。"
+    },
+    {
+      "id": "21-tool-registry-schema-validation-check-2",
+      "stage": "check",
+      "question": "本课实现的 schema 子集刻意不支持哪些关键字？",
+      "options": [
+        "items、enum",
+        "oneOf、anyOf、$ref、allOf",
+        "minLength、maxLength、pattern",
+        "type、properties、required"
+      ],
+      "correct": 1,
+      "explanation": "组合与引用关键字增加分支及引用解析复杂度。本课限定子集以维持清晰的递归遍历，不宣称实现完整 JSON Schema。"
+    },
+    {
+      "id": "21-tool-registry-schema-validation-check-3",
+      "stage": "check",
+      "question": "为什么 `register()` 默认拒绝重名？",
+      "options": [
+        "schema 不能重新校验",
+        "静默覆盖会造成工具目录漂移",
+        "注册表每个名字只能永远保存一条记录",
+        "处理器无法替换"
+      ],
+      "correct": 1,
+      "explanation": "要求显式 override=True 能暴露两个模块争用同名工具的情况。处理器允许有意替换，但调用方需要声明这一操作。"
+    },
+    {
+      "id": "21-tool-registry-schema-validation-check-4",
+      "stage": "check",
+      "question": "schema 要求 integer，却收到 `True`，本课校验器会怎样处理？",
+      "options": [
+        "静默转换为整数",
+        "当成 1 并通过",
+        "抛出未处理异常",
+        "返回类型错误，明确把 bool 排除在 integer 之外"
+      ],
+      "correct": 3,
+      "explanation": "Python 中 bool 是 int 的子类，校验器需要额外排除 bool，才能保持 JSON 布尔值与整数的区别。"
+    },
+    {
+      "id": "21-tool-registry-schema-validation-post-5",
+      "stage": "post",
+      "question": "输入为 `{'user': {'email': 0}}`，schema 要求 email 为字符串，错误路径是什么？",
+      "options": [
+        "`/user`",
+        "`/user/email`",
+        "`/`",
+        "`user.email`"
+      ],
+      "correct": 1,
+      "explanation": "校验器用 JSON Pointer 表达嵌套位置，先进入 user，再进入 email，因此报告 /user/email，而不是点分路径。"
+    },
+    {
+      "id": "21-tool-registry-schema-validation-post-6",
+      "stage": "post",
+      "question": "为什么注册表不能充当安全边界？",
+      "options": [
+        "处理器都是异步的",
+        "结构校验通过后，处理器仍可能产生不当行为",
+        "注册表位于进程内",
+        "schema 使用 JSON"
+      ],
+      "correct": 1,
+      "explanation": "输入形状正确只说明参数符合声明。处理器的副作用、超时和隔离仍需分派器与沙箱等独立机制约束。"
+    }
+  ]
+}

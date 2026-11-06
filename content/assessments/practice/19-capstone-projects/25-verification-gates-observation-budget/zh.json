@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/25-verification-gates-observation-budget/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "123434da98d348cc0cef3f53667e7b3ad73255b46d9a066e4f9ba665cf72bb69"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "25-verification-gates-observation-budget-pre-1",
+      "stage": "pre",
+      "question": "工作台使用确定性门禁链而非仅靠模型评审，最有力的理由是什么？",
+      "options": [
+        "生产模型评审都太慢",
+        "门禁链让模型自己写政策",
+        "模型评审总会错误放行",
+        "拒绝理由可审计，决策链可重放"
+      ],
+      "correct": 3,
+      "explanation": "确定性规则使相同输入的决定可复现，评审者可以检查具体拒绝原因。模型评审可作为补充，但不能用“总会出错”作普遍断言。"
+    },
+    {
+      "id": "25-verification-gates-observation-budget-check-2",
+      "stage": "check",
+      "question": "为什么本课先运行 WhitelistGate，再运行 BudgetGate？",
+      "options": [
+        "BudgetGate 至少调用过工具后才可运行",
+        "允许列表拒绝成本低，提前短路可省去账本求和",
+        "允许列表按约定必须最后运行",
+        "GateChain 会随机重排，所以顺序无关"
+      ],
+      "correct": 1,
+      "explanation": "允许列表是常数时间查找，预算检查需汇总账本。先拒绝结构上不允许的调用，可以避免后续无用计算。"
+    },
+    {
+      "id": "25-verification-gates-observation-budget-check-3",
+      "stage": "check",
+      "question": "账本已有一次 60 词元的 read_file 观察，随后调用被门禁拒绝。账本如何记录拒绝？",
+      "options": [
+        "不新增观察，账本只记录成功产生的观察",
+        "追加以拒绝器命名的合成观察",
+        "追加标记 refused 的零词元观察",
+        "追加负词元观察抵扣费用"
+      ],
+      "correct": 0,
+      "explanation": "拒绝产生 GateDecision，而非模型看到的工具观察。拒绝次数与决定单独记录，不能混入观察消费账本。"
+    },
+    {
+      "id": "25-verification-gates-observation-budget-check-4",
+      "stage": "check",
+      "question": "RecencyGate 的 window=3，账本 latest_turn=5，新调用 turn=10，会怎样？",
+      "options": [
+        "拒绝，回合差 5 超过窗口 3",
+        "允许，因为调用属于最新回合",
+        "允许，窗口只限制账本行数",
+        "因账本过旧抛出异常"
+      ],
+      "correct": 0,
+      "explanation": "门禁比较 call.turn 与 latest_turn 的差：10−5=5，大于 3，因此拒绝。窗口限制的是观察新鲜程度。"
+    },
+    {
+      "id": "25-verification-gates-observation-budget-post-5",
+      "stage": "post",
+      "question": "若要求单条输出最多 8000 词元，这项限制应放在哪？",
+      "options": [
+        "无法作为调用前门禁，应在工具运行后截断观察",
+        "放在 WhitelistGate 前，因为长度检查最便宜",
+        "放进 BudgetGate 与总预算组合",
+        "放在 BudgetGate 后，因为总预算会覆盖单条限制"
+      ],
+      "correct": 0,
+      "explanation": "工具返回前不知道实际输出长度，所以需要输出侧截断。调用前门禁检查输入和历史状态，不能假定已经知道执行结果。"
+    },
+    {
+      "id": "25-verification-gates-observation-budget-post-6",
+      "stage": "post",
+      "question": "要证明会话中被拒绝的调用没有执行，应首先提供什么产物？",
+      "options": [
+        "只含成功观察的账本快照",
+        "pytest 通过或失败输出",
+        "模型的自述对话",
+        "包含逐调用决定与拒绝理由的 ChainOutcome 记录"
+      ],
+      "correct": 3,
+      "explanation": "ChainOutcome 保存完整的门禁结果，能与执行轨迹对应。账本只显示成功观察，单独使用会漏掉被拒绝的请求。"
+    }
+  ]
+}

@@ -10,7 +10,15 @@ practice:
     slug: concept
 card:
   title: 页面 patch 的后交互与 MaxSim
-  summary: 在把查询词元与页面 patch 逐一打分并以 MaxSim 聚合时，用视觉原生向量检索理论核对多向量表示、细粒度相似度和存储—召回权衡。（扩展内容待迁移，尚未经审核。）
+  summary: 在把查询词元与页面 patch 逐一打分并以 MaxSim 聚合时，用视觉原生向量检索理论核对多向量表示、细粒度相似度和存储—召回权衡。
+  context: "文档页含表格、图像和布局，单一向量可能压掉局部证据；本课把查询词元与多个页面 patch 分开匹配。"
+  intuition: "向量检索提供相似度候选；本课的后交互进一步对每个查询向量找页面内最佳匹配，再累加得分。多向量保留细节，也增加存储和计算。"
+  key_points:
+    - "MaxSim 是按查询向量逐个取最大相似度后求和。"
+    - "剪枝减少页面向量，但可能删掉回答问题所需的局部证据。"
+    - "理论来源介绍向量搜索基础，MaxSim 与页面剪枝的具体实现以本课为准。"
+  application: "运行剪枝开关对照，记录 top-3 页面与重叠率，再用只出现在被删 patch 中的查询检查召回损失。"
+  check_question: "为何 top-3 重叠率很高，仍不能证明剪枝后的问答准确率没有下降？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

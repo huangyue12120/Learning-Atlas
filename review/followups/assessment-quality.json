@@ -1,8 +1,8 @@
 {
-  "questionCount": 1832,
-  "correctLongestIncludingTies": 1585,
-  "correctSoleLongest": 1499,
-  "soleLongestRate": 0.8182,
+  "questionCount": 2134,
+  "correctLongestIncludingTies": 1854,
+  "correctSoleLongest": 1753,
+  "soleLongestRate": 0.8215,
   "priority": [
     {
       "lessonId": "practice/13-tools-and-protocols/43-bytecode-and-managed-formats",
@@ -258,6 +258,17 @@
       "ratio": 8.6
     },
     {
+      "lessonId": "practice/19-capstone-projects/48-distributed-fsdp-ddp",
+      "id": "48-distributed-fsdp-ddp-post-6",
+      "lengths": [
+        4,
+        34,
+        4,
+        4
+      ],
+      "ratio": 8.5
+    },
+    {
       "lessonId": "practice/03-deep-learning-core/07-regularization",
       "id": "regularization-03-5",
       "lengths": [
@@ -298,6 +309,17 @@
         5,
         41,
         4
+      ],
+      "ratio": 8.2
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/43-hdf5-tokenized-corpus",
+      "id": "43-hdf5-tokenized-corpus-post-5",
+      "lengths": [
+        5,
+        4,
+        4,
+        41
       ],
       "ratio": 8.2
     },
@@ -353,6 +375,28 @@
         4,
         4,
         32
+      ],
+      "ratio": 8.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/42-large-corpus-downloader",
+      "id": "42-large-corpus-downloader-check-3",
+      "lengths": [
+        32,
+        4,
+        4,
+        4
+      ],
+      "ratio": 8.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/46-gradient-accumulation",
+      "id": "46-gradient-accumulation-check-5",
+      "lengths": [
+        4,
+        4,
+        32,
+        4
       ],
       "ratio": 8.0
     },
@@ -731,6 +775,17 @@
       "ratio": 6.625
     },
     {
+      "lessonId": "practice/19-capstone-projects/48-distributed-fsdp-ddp",
+      "id": "48-distributed-fsdp-ddp-check-4",
+      "lengths": [
+        4,
+        5,
+        3,
+        33
+      ],
+      "ratio": 6.6
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/17-chatbots-rule-to-neural",
       "id": "chatbots-rule-to-neural-05-4",
       "lengths": [
@@ -1017,6 +1072,17 @@
       "ratio": 6.0
     },
     {
+      "lessonId": "practice/19-capstone-projects/49-lm-eval-harness",
+      "id": "49-lm-eval-harness-pre-2",
+      "lengths": [
+        4,
+        6,
+        36,
+        4
+      ],
+      "ratio": 6.0
+    },
+    {
       "lessonId": "practice/04-computer-vision/11-stable-diffusion",
       "id": "stable-diffusion-04-2",
       "lengths": [
@@ -1145,6 +1211,17 @@
         8,
         12,
         12
+      ],
+      "ratio": 5.833
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/48-distributed-fsdp-ddp",
+      "id": "48-distributed-fsdp-ddp-check-5",
+      "lengths": [
+        6,
+        4,
+        4,
+        35
       ],
       "ratio": 5.833
     },
@@ -1369,6 +1446,17 @@
       "ratio": 5.5
     },
     {
+      "lessonId": "practice/19-capstone-projects/36-training-loop-eval",
+      "id": "36-training-loop-eval-check-4",
+      "lengths": [
+        2,
+        2,
+        22,
+        4
+      ],
+      "ratio": 5.5
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/17-chatbots-rule-to-neural",
       "id": "chatbots-rule-to-neural-05-7",
       "lengths": [
@@ -1453,6 +1541,17 @@
         54,
         10,
         6
+      ],
+      "ratio": 5.4
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/44-cosine-lr-warmup",
+      "id": "44-cosine-lr-warmup-post-5",
+      "lengths": [
+        5,
+        27,
+        4,
+        4
       ],
       "ratio": 5.4
     },
@@ -1618,6 +1717,17 @@
         9,
         12,
         9
+      ],
+      "ratio": 5.167
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/36-training-loop-eval",
+      "id": "36-training-loop-eval-pre-2",
+      "lengths": [
+        31,
+        6,
+        6,
+        5
       ],
       "ratio": 5.167
     },
@@ -1919,6 +2029,17 @@
       "ratio": 5.0
     },
     {
+      "lessonId": "practice/19-capstone-projects/46-gradient-accumulation",
+      "id": "46-gradient-accumulation-pre-2",
+      "lengths": [
+        6,
+        7,
+        6,
+        35
+      ],
+      "ratio": 5.0
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/41-recovering-data-and-types",
       "id": "data-types-q6",
       "lengths": [
@@ -2060,6 +2181,17 @@
         6
       ],
       "ratio": 4.875
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/37-loading-pretrained-weights",
+      "id": "37-loading-pretrained-weights-pre-1",
+      "lengths": [
+        73,
+        14,
+        15,
+        13
+      ],
+      "ratio": 4.867
     },
     {
       "lessonId": "practice/14-agent-engineering/15-crewai-role-based-crews",
@@ -2212,6 +2344,17 @@
         57,
         12,
         11
+      ],
+      "ratio": 4.75
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/49-lm-eval-harness",
+      "id": "49-lm-eval-harness-check-5",
+      "lengths": [
+        19,
+        4,
+        4,
+        3
       ],
       "ratio": 4.75
     },
@@ -2443,6 +2586,17 @@
         15,
         11,
         10
+      ],
+      "ratio": 4.6
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/47-checkpoint-save-resume",
+      "id": "47-checkpoint-save-resume-post-6",
+      "lengths": [
+        4,
+        5,
+        5,
+        23
       ],
       "ratio": 4.6
     },
@@ -2684,6 +2838,17 @@
         45,
         10,
         7,
+        6
+      ],
+      "ratio": 4.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/36-training-loop-eval",
+      "id": "36-training-loop-eval-check-5",
+      "lengths": [
+        6,
+        27,
+        6,
         6
       ],
       "ratio": 4.5
@@ -2953,6 +3118,39 @@
       "ratio": 4.333
     },
     {
+      "lessonId": "practice/19-capstone-projects/37-loading-pretrained-weights",
+      "id": "37-loading-pretrained-weights-check-4",
+      "lengths": [
+        6,
+        9,
+        39,
+        5
+      ],
+      "ratio": 4.333
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/37-loading-pretrained-weights",
+      "id": "37-loading-pretrained-weights-post-6",
+      "lengths": [
+        5,
+        6,
+        26,
+        5
+      ],
+      "ratio": 4.333
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/49-lm-eval-harness",
+      "id": "49-lm-eval-harness-post-6",
+      "lengths": [
+        4,
+        5,
+        26,
+        6
+      ],
+      "ratio": 4.333
+    },
+    {
       "lessonId": "practice/04-computer-vision/10-image-generation-diffusion",
       "id": "image-generation-diffusion-04-4",
       "lengths": [
@@ -3107,6 +3305,17 @@
       "ratio": 4.222
     },
     {
+      "lessonId": "practice/19-capstone-projects/48-distributed-fsdp-ddp",
+      "id": "48-distributed-fsdp-ddp-check-3",
+      "lengths": [
+        9,
+        7,
+        4,
+        38
+      ],
+      "ratio": 4.222
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/21-nli-textual-entailment",
       "id": "nli-textual-entailment-05-2",
       "lengths": [
@@ -3136,6 +3345,17 @@
         42,
         10,
         4
+      ],
+      "ratio": 4.2
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/46-gradient-accumulation",
+      "id": "46-gradient-accumulation-check-4",
+      "lengths": [
+        5,
+        21,
+        5,
+        3
       ],
       "ratio": 4.2
     },
@@ -3184,6 +3404,17 @@
       "ratio": 4.167
     },
     {
+      "lessonId": "practice/19-capstone-projects/44-cosine-lr-warmup",
+      "id": "44-cosine-lr-warmup-check-4",
+      "lengths": [
+        4,
+        25,
+        3,
+        6
+      ],
+      "ratio": 4.167
+    },
+    {
       "lessonId": "practice/03-deep-learning-core/12-intro-to-jax",
       "id": "intro-to-jax-03-3",
       "lengths": [
@@ -3210,6 +3441,17 @@
       "id": "q5",
       "lengths": [
         10,
+        8,
+        58,
+        14
+      ],
+      "ratio": 4.143
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/26-sandbox-runner-denylist",
+      "id": "26-sandbox-runner-denylist-post-5",
+      "lengths": [
+        14,
         8,
         58,
         14
@@ -3624,6 +3866,17 @@
       "ratio": 4.0
     },
     {
+      "lessonId": "practice/19-capstone-projects/45-gradient-clipping-amp",
+      "id": "45-gradient-clipping-amp-check-3",
+      "lengths": [
+        4,
+        5,
+        24,
+        6
+      ],
+      "ratio": 4.0
+    },
+    {
       "lessonId": "practice/17-infrastructure-and-production/13-llm-observability",
       "id": "q5",
       "lengths": [
@@ -3679,6 +3932,17 @@
       "ratio": 3.909
     },
     {
+      "lessonId": "practice/19-capstone-projects/29-end-to-end-coding-task-demo",
+      "id": "29-end-to-end-coding-task-demo-post-6",
+      "lengths": [
+        11,
+        9,
+        9,
+        43
+      ],
+      "ratio": 3.909
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/28-long-context-evaluation",
       "id": "long-context-evaluation-05-4",
       "lengths": [
@@ -3730,6 +3994,17 @@
         27,
         5,
         4
+      ],
+      "ratio": 3.857
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/36-training-loop-eval",
+      "id": "36-training-loop-eval-post-6",
+      "lengths": [
+        7,
+        4,
+        27,
+        7
       ],
       "ratio": 3.857
     },
@@ -3877,6 +4152,17 @@
       "ratio": 3.8
     },
     {
+      "lessonId": "practice/19-capstone-projects/47-checkpoint-save-resume",
+      "id": "47-checkpoint-save-resume-check-5",
+      "lengths": [
+        19,
+        4,
+        2,
+        5
+      ],
+      "ratio": 3.8
+    },
+    {
       "lessonId": "practice/10-llms-from-scratch/02-building-a-tokenizer",
       "id": "building-tokenizer-10-3",
       "lengths": [
@@ -3961,6 +4247,28 @@
         12,
         45,
         8
+      ],
+      "ratio": 3.75
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/09-code-migration-agent",
+      "id": "09-code-migration-agent-pre-1",
+      "lengths": [
+        12,
+        45,
+        11,
+        11
+      ],
+      "ratio": 3.75
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/45-gradient-clipping-amp",
+      "id": "45-gradient-clipping-amp-pre-1",
+      "lengths": [
+        15,
+        4,
+        4,
+        4
       ],
       "ratio": 3.75
     },
@@ -4064,6 +4372,17 @@
       "ratio": 3.714
     },
     {
+      "lessonId": "practice/19-capstone-projects/21-tool-registry-schema-validation",
+      "id": "21-tool-registry-schema-validation-check-4",
+      "lengths": [
+        7,
+        6,
+        7,
+        26
+      ],
+      "ratio": 3.714
+    },
+    {
       "lessonId": "practice/04-computer-vision/13-3d-vision-nerf",
       "id": "3d-vision-nerf-04-4",
       "lengths": [
@@ -4104,6 +4423,17 @@
         7,
         10,
         37
+      ],
+      "ratio": 3.7
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/16-github-issue-to-pr-agent",
+      "id": "16-github-issue-to-pr-agent-check-5",
+      "lengths": [
+        10,
+        10,
+        37,
+        8
       ],
       "ratio": 3.7
     },
@@ -4233,6 +4563,17 @@
       "id": "q3",
       "lengths": [
         7,
+        33,
+        6,
+        9
+      ],
+      "ratio": 3.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/45-gradient-clipping-amp",
+      "id": "45-gradient-clipping-amp-post-5",
+      "lengths": [
+        9,
         33,
         6,
         9
@@ -4515,6 +4856,17 @@
       "ratio": 3.556
     },
     {
+      "lessonId": "practice/19-capstone-projects/49-lm-eval-harness",
+      "id": "49-lm-eval-harness-check-4",
+      "lengths": [
+        32,
+        9,
+        4,
+        6
+      ],
+      "ratio": 3.556
+    },
+    {
       "lessonId": "practice/03-deep-learning-core/12-intro-to-jax",
       "id": "intro-to-jax-03-2",
       "lengths": [
@@ -4577,6 +4929,17 @@
         10,
         13,
         8
+      ],
+      "ratio": 3.538
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/17-personal-ai-tutor",
+      "id": "17-personal-ai-tutor-post-7",
+      "lengths": [
+        13,
+        46,
+        3,
+        11
       ],
       "ratio": 3.538
     },
@@ -4724,6 +5087,17 @@
       "ratio": 3.5
     },
     {
+      "lessonId": "practice/19-capstone-projects/43-hdf5-tokenized-corpus",
+      "id": "43-hdf5-tokenized-corpus-pre-1",
+      "lengths": [
+        8,
+        8,
+        4,
+        28
+      ],
+      "ratio": 3.5
+    },
+    {
       "lessonId": "practice/17-infrastructure-and-production/17-disaggregated-prefill-decode",
       "id": "q4",
       "lengths": [
@@ -4834,6 +5208,17 @@
       "ratio": 3.455
     },
     {
+      "lessonId": "practice/19-capstone-projects/05-autonomous-research-agent",
+      "id": "05-autonomous-research-agent-check-4",
+      "lengths": [
+        10,
+        38,
+        11,
+        8
+      ],
+      "ratio": 3.455
+    },
+    {
       "lessonId": "practice/14-agent-engineering/19-benchmarks-swebench-gaia",
       "id": "q7",
       "lengths": [
@@ -4841,6 +5226,17 @@
         3,
         9,
         31
+      ],
+      "ratio": 3.444
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/20-agent-harness-loop-contract",
+      "id": "20-agent-harness-loop-contract-check-4",
+      "lengths": [
+        5,
+        31,
+        9,
+        4
       ],
       "ratio": 3.444
     },
@@ -4988,6 +5384,17 @@
       "ratio": 3.4
     },
     {
+      "lessonId": "practice/19-capstone-projects/09-code-migration-agent",
+      "id": "09-code-migration-agent-check-4",
+      "lengths": [
+        10,
+        34,
+        8,
+        5
+      ],
+      "ratio": 3.4
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/40-linking-loading-and-stripped-binaries",
       "id": "link-load-q1",
       "lengths": [
@@ -5030,6 +5437,17 @@
         4
       ],
       "ratio": 3.375
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/08-production-rag-chatbot",
+      "id": "08-production-rag-chatbot-pre-1",
+      "lengths": [
+        5,
+        37,
+        9,
+        11
+      ],
+      "ratio": 3.364
     },
     {
       "lessonId": "practice/10-llms-from-scratch/02-building-a-tokenizer",
@@ -5153,6 +5571,17 @@
       "ratio": 3.333
     },
     {
+      "lessonId": "practice/19-capstone-projects/34-transformer-block",
+      "id": "34-transformer-block-check-3",
+      "lengths": [
+        5,
+        30,
+        5,
+        9
+      ],
+      "ratio": 3.333
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/33-disassembly-and-control-flow",
       "id": "disasm-cfg-q6",
       "lengths": [
@@ -5252,6 +5681,28 @@
       "ratio": 3.286
     },
     {
+      "lessonId": "practice/19-capstone-projects/39-instruction-tuning-sft",
+      "id": "39-instruction-tuning-sft-post-5",
+      "lengths": [
+        6,
+        7,
+        23,
+        5
+      ],
+      "ratio": 3.286
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/11-llm-observability-dashboard",
+      "id": "11-llm-observability-dashboard-post-6",
+      "lengths": [
+        18,
+        9,
+        6,
+        59
+      ],
+      "ratio": 3.278
+    },
+    {
       "lessonId": "practice/03-deep-learning-core/07-regularization",
       "id": "regularization-03-1",
       "lengths": [
@@ -5270,6 +5721,17 @@
         7,
         11,
         36
+      ],
+      "ratio": 3.273
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/40-dpo-from-scratch",
+      "id": "40-dpo-from-scratch-post-6",
+      "lengths": [
+        8,
+        36,
+        10,
+        11
       ],
       "ratio": 3.273
     },
@@ -5384,6 +5846,17 @@
       "ratio": 3.25
     },
     {
+      "lessonId": "practice/19-capstone-projects/44-cosine-lr-warmup",
+      "id": "44-cosine-lr-warmup-check-3",
+      "lengths": [
+        3,
+        3,
+        4,
+        13
+      ],
+      "ratio": 3.25
+    },
+    {
       "lessonId": "practice/04-computer-vision/04-image-classification",
       "id": "image-classification-04-5",
       "lengths": [
@@ -5446,6 +5919,17 @@
         5,
         9,
         29
+      ],
+      "ratio": 3.222
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/43-hdf5-tokenized-corpus",
+      "id": "43-hdf5-tokenized-corpus-check-3",
+      "lengths": [
+        29,
+        9,
+        8,
+        4
       ],
       "ratio": 3.222
     },
@@ -5593,6 +6077,17 @@
       "ratio": 3.2
     },
     {
+      "lessonId": "practice/19-capstone-projects/35-gpt-model-assembly",
+      "id": "35-gpt-model-assembly-check-3",
+      "lengths": [
+        32,
+        6,
+        7,
+        10
+      ],
+      "ratio": 3.2
+    },
+    {
       "lessonId": "practice/10-llms-from-scratch/02-building-a-tokenizer",
       "id": "building-tokenizer-10-4",
       "lengths": [
@@ -5732,6 +6227,17 @@
         6,
         7,
         6
+      ],
+      "ratio": 3.143
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/39-instruction-tuning-sft",
+      "id": "39-instruction-tuning-sft-check-2",
+      "lengths": [
+        12,
+        44,
+        10,
+        14
       ],
       "ratio": 3.143
     },
@@ -5934,6 +6440,17 @@
       "ratio": 3.091
     },
     {
+      "lessonId": "practice/19-capstone-projects/47-checkpoint-save-resume",
+      "id": "47-checkpoint-save-resume-check-4",
+      "lengths": [
+        7,
+        11,
+        11,
+        34
+      ],
+      "ratio": 3.091
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/17-chatbots-rule-to-neural",
       "id": "chatbots-rule-to-neural-05-5",
       "lengths": [
@@ -6033,6 +6550,39 @@
       "ratio": 3.077
     },
     {
+      "lessonId": "practice/19-capstone-projects/16-github-issue-to-pr-agent",
+      "id": "16-github-issue-to-pr-agent-pre-1",
+      "lengths": [
+        40,
+        6,
+        13,
+        10
+      ],
+      "ratio": 3.077
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/16-github-issue-to-pr-agent",
+      "id": "16-github-issue-to-pr-agent-check-4",
+      "lengths": [
+        8,
+        40,
+        13,
+        12
+      ],
+      "ratio": 3.077
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/28-observability-otel-traces",
+      "id": "28-observability-otel-traces-check-2",
+      "lengths": [
+        12,
+        6,
+        40,
+        13
+      ],
+      "ratio": 3.077
+    },
+    {
       "lessonId": "practice/04-computer-vision/06-object-detection-yolo",
       "id": "object-detection-yolo-04-4",
       "lengths": [
@@ -6075,6 +6625,17 @@
         43
       ],
       "ratio": 3.071
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/37-loading-pretrained-weights",
+      "id": "37-loading-pretrained-weights-check-2",
+      "lengths": [
+        7,
+        46,
+        6,
+        15
+      ],
+      "ratio": 3.067
     },
     {
       "lessonId": "practice/05-nlp-foundations-to-advanced/20-structured-outputs-constrained-decoding",
@@ -6429,6 +6990,50 @@
       "ratio": 3.0
     },
     {
+      "lessonId": "practice/19-capstone-projects/15-constitutional-safety-harness",
+      "id": "15-constitutional-safety-harness-check-3",
+      "lengths": [
+        18,
+        6,
+        6,
+        6
+      ],
+      "ratio": 3.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/16-github-issue-to-pr-agent",
+      "id": "16-github-issue-to-pr-agent-post-7",
+      "lengths": [
+        27,
+        6,
+        3,
+        9
+      ],
+      "ratio": 3.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/35-gpt-model-assembly",
+      "id": "35-gpt-model-assembly-check-4",
+      "lengths": [
+        5,
+        11,
+        33,
+        4
+      ],
+      "ratio": 3.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/44-cosine-lr-warmup",
+      "id": "44-cosine-lr-warmup-check-2",
+      "lengths": [
+        21,
+        7,
+        4,
+        7
+      ],
+      "ratio": 3.0
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/11-mcp-sampling",
       "id": "mcp-sampling-q5",
       "lengths": [
@@ -6627,6 +7232,17 @@
       "ratio": 2.917
     },
     {
+      "lessonId": "practice/19-capstone-projects/04-multimodal-document-qa",
+      "id": "04-multimodal-document-qa-pre-2",
+      "lengths": [
+        35,
+        12,
+        12,
+        10
+      ],
+      "ratio": 2.917
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/23-chunking-strategies-rag",
       "id": "chunking-strategies-rag-05-1",
       "lengths": [
@@ -6645,6 +7261,28 @@
         32,
         9,
         8
+      ],
+      "ratio": 2.909
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/37-loading-pretrained-weights",
+      "id": "37-loading-pretrained-weights-check-3",
+      "lengths": [
+        3,
+        7,
+        11,
+        32
+      ],
+      "ratio": 2.909
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/42-large-corpus-downloader",
+      "id": "42-large-corpus-downloader-pre-1",
+      "lengths": [
+        7,
+        32,
+        11,
+        10
       ],
       "ratio": 2.909
     },
@@ -6847,6 +7485,17 @@
       "ratio": 2.857
     },
     {
+      "lessonId": "practice/19-capstone-projects/14-speculative-decoding-server",
+      "id": "14-speculative-decoding-server-post-6",
+      "lengths": [
+        7,
+        6,
+        20,
+        7
+      ],
+      "ratio": 2.857
+    },
+    {
       "lessonId": "practice/07-transformers-deep-dive/02-self-attention-from-scratch",
       "id": "self-attention-post-2",
       "lengths": [
@@ -6986,6 +7635,17 @@
         10,
         11,
         34
+      ],
+      "ratio": 2.833
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/47-checkpoint-save-resume",
+      "id": "47-checkpoint-save-resume-pre-1",
+      "lengths": [
+        18,
+        6,
+        51,
+        6
       ],
       "ratio": 2.833
     },
@@ -7155,6 +7815,17 @@
       "ratio": 2.778
     },
     {
+      "lessonId": "practice/19-capstone-projects/42-large-corpus-downloader",
+      "id": "42-large-corpus-downloader-check-2",
+      "lengths": [
+        6,
+        4,
+        25,
+        9
+      ],
+      "ratio": 2.778
+    },
+    {
       "lessonId": "practice/11-llm-engineering/07-advanced-rag",
       "id": "advanced-rag-11-2",
       "lengths": [
@@ -7287,6 +7958,17 @@
       "ratio": 2.75
     },
     {
+      "lessonId": "practice/19-capstone-projects/34-transformer-block",
+      "id": "34-transformer-block-check-2",
+      "lengths": [
+        16,
+        13,
+        44,
+        14
+      ],
+      "ratio": 2.75
+    },
+    {
       "lessonId": "practice/17-infrastructure-and-production/09-production-quantization",
       "id": "q3",
       "lengths": [
@@ -7338,6 +8020,17 @@
         22,
         60,
         18
+      ],
+      "ratio": 2.727
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/34-transformer-block",
+      "id": "34-transformer-block-check-4",
+      "lengths": [
+        11,
+        8,
+        4,
+        30
       ],
       "ratio": 2.727
     },
@@ -7470,6 +8163,17 @@
         9,
         27,
         7
+      ],
+      "ratio": 2.7
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/10-multi-agent-software-team",
+      "id": "10-multi-agent-software-team-pre-1",
+      "lengths": [
+        8,
+        10,
+        27,
+        9
       ],
       "ratio": 2.7
     },
@@ -7650,6 +8354,39 @@
       "ratio": 2.667
     },
     {
+      "lessonId": "practice/19-capstone-projects/09-code-migration-agent",
+      "id": "09-code-migration-agent-post-7",
+      "lengths": [
+        7,
+        9,
+        24,
+        9
+      ],
+      "ratio": 2.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/12-video-understanding-pipeline",
+      "id": "12-video-understanding-pipeline-post-6",
+      "lengths": [
+        3,
+        16,
+        3,
+        6
+      ],
+      "ratio": 2.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/32-token-positional-embeddings",
+      "id": "32-token-positional-embeddings-check-2",
+      "lengths": [
+        6,
+        6,
+        16,
+        6
+      ],
+      "ratio": 2.667
+    },
+    {
       "lessonId": "practice/14-agent-engineering/22-voice-agents-pipecat-livekit",
       "id": "q4",
       "lengths": [
@@ -7771,6 +8508,28 @@
       "ratio": 2.625
     },
     {
+      "lessonId": "practice/19-capstone-projects/14-speculative-decoding-server",
+      "id": "14-speculative-decoding-server-pre-2",
+      "lengths": [
+        7,
+        8,
+        21,
+        6
+      ],
+      "ratio": 2.625
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/31-tokenized-dataset-sliding-window",
+      "id": "31-tokenized-dataset-sliding-window-check-2",
+      "lengths": [
+        21,
+        5,
+        6,
+        8
+      ],
+      "ratio": 2.625
+    },
+    {
       "lessonId": "practice/11-llm-engineering/07-advanced-rag",
       "id": "advanced-rag-11-5",
       "lengths": [
@@ -7826,6 +8585,17 @@
       "ratio": 2.615
     },
     {
+      "lessonId": "practice/19-capstone-projects/06-devops-troubleshooting-agent",
+      "id": "06-devops-troubleshooting-agent-post-7",
+      "lengths": [
+        4,
+        34,
+        7,
+        13
+      ],
+      "ratio": 2.615
+    },
+    {
       "lessonId": "practice/04-computer-vision/03-cnns-lenet-to-resnet",
       "id": "cnns-lenet-to-resnet-04-2",
       "lengths": [
@@ -7855,6 +8625,17 @@
         16,
         18,
         17
+      ],
+      "ratio": 2.611
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/08-production-rag-chatbot",
+      "id": "08-production-rag-chatbot-check-4",
+      "lengths": [
+        10,
+        18,
+        47,
+        14
       ],
       "ratio": 2.611
     },
@@ -7936,6 +8717,28 @@
       "ratio": 2.6
     },
     {
+      "lessonId": "practice/19-capstone-projects/22-jsonrpc-stdio-transport",
+      "id": "22-jsonrpc-stdio-transport-post-7",
+      "lengths": [
+        26,
+        7,
+        7,
+        10
+      ],
+      "ratio": 2.6
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/42-large-corpus-downloader",
+      "id": "42-large-corpus-downloader-check-4",
+      "lengths": [
+        4,
+        10,
+        26,
+        4
+      ],
+      "ratio": 2.6
+    },
+    {
       "lessonId": "practice/14-agent-engineering/22-voice-agents-pipecat-livekit",
       "id": "q3",
       "lengths": [
@@ -7976,6 +8779,28 @@
         8,
         31,
         12
+      ],
+      "ratio": 2.583
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/15-constitutional-safety-harness",
+      "id": "15-constitutional-safety-harness-check-5",
+      "lengths": [
+        10,
+        31,
+        10,
+        12
+      ],
+      "ratio": 2.583
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/45-gradient-clipping-amp",
+      "id": "45-gradient-clipping-amp-post-6",
+      "lengths": [
+        31,
+        12,
+        8,
+        4
       ],
       "ratio": 2.583
     },
@@ -8024,6 +8849,28 @@
       "ratio": 2.571
     },
     {
+      "lessonId": "practice/19-capstone-projects/11-llm-observability-dashboard",
+      "id": "11-llm-observability-dashboard-check-5",
+      "lengths": [
+        5,
+        6,
+        18,
+        7
+      ],
+      "ratio": 2.571
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/14-speculative-decoding-server",
+      "id": "14-speculative-decoding-server-check-4",
+      "lengths": [
+        36,
+        14,
+        11,
+        11
+      ],
+      "ratio": 2.571
+    },
+    {
       "lessonId": "practice/11-llm-engineering/09-function-calling",
       "id": "function-calling-11-1",
       "lengths": [
@@ -8031,6 +8878,50 @@
         18,
         12,
         14
+      ],
+      "ratio": 2.556
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/23-function-call-dispatcher",
+      "id": "23-function-call-dispatcher-check-4",
+      "lengths": [
+        9,
+        23,
+        5,
+        7
+      ],
+      "ratio": 2.556
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/43-hdf5-tokenized-corpus",
+      "id": "43-hdf5-tokenized-corpus-check-4",
+      "lengths": [
+        23,
+        4,
+        9,
+        9
+      ],
+      "ratio": 2.556
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/47-checkpoint-save-resume",
+      "id": "47-checkpoint-save-resume-pre-2",
+      "lengths": [
+        5,
+        23,
+        4,
+        9
+      ],
+      "ratio": 2.556
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/47-checkpoint-save-resume",
+      "id": "47-checkpoint-save-resume-check-3",
+      "lengths": [
+        23,
+        9,
+        6,
+        4
       ],
       "ratio": 2.556
     },
@@ -8075,6 +8966,17 @@
         11,
         9,
         28
+      ],
+      "ratio": 2.545
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/33-multihead-self-attention",
+      "id": "33-multihead-self-attention-pre-1",
+      "lengths": [
+        28,
+        6,
+        11,
+        8
       ],
       "ratio": 2.545
     },
@@ -8130,6 +9032,17 @@
         13,
         13,
         33
+      ],
+      "ratio": 2.538
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/46-gradient-accumulation",
+      "id": "46-gradient-accumulation-post-6",
+      "lengths": [
+        11,
+        7,
+        33,
+        13
       ],
       "ratio": 2.538
     },
@@ -8244,6 +9157,39 @@
       "ratio": 2.5
     },
     {
+      "lessonId": "practice/19-capstone-projects/07-end-to-end-fine-tuning-pipeline",
+      "id": "07-end-to-end-fine-tuning-pipeline-pre-2",
+      "lengths": [
+        11,
+        13,
+        35,
+        14
+      ],
+      "ratio": 2.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/08-production-rag-chatbot",
+      "id": "08-production-rag-chatbot-check-3",
+      "lengths": [
+        9,
+        9,
+        10,
+        25
+      ],
+      "ratio": 2.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/08-production-rag-chatbot",
+      "id": "08-production-rag-chatbot-check-5",
+      "lengths": [
+        10,
+        9,
+        25,
+        10
+      ],
+      "ratio": 2.5
+    },
+    {
       "lessonId": "practice/14-agent-engineering/16-openai-agents-sdk",
       "id": "q4",
       "lengths": [
@@ -8295,6 +9241,17 @@
         17,
         42,
         8
+      ],
+      "ratio": 2.471
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/11-llm-observability-dashboard",
+      "id": "11-llm-observability-dashboard-pre-2",
+      "lengths": [
+        7,
+        17,
+        42,
+        16
       ],
       "ratio": 2.471
     },
@@ -8409,6 +9366,17 @@
       "ratio": 2.462
     },
     {
+      "lessonId": "practice/19-capstone-projects/35-gpt-model-assembly",
+      "id": "35-gpt-model-assembly-post-5",
+      "lengths": [
+        8,
+        32,
+        6,
+        13
+      ],
+      "ratio": 2.462
+    },
+    {
       "lessonId": "practice/11-llm-engineering/17-agent-framework-tradeoffs",
       "id": "agent-framework-tradeoffs-11-2",
       "lengths": [
@@ -8442,6 +9410,39 @@
       "ratio": 2.455
     },
     {
+      "lessonId": "practice/19-capstone-projects/01-terminal-native-coding-agent",
+      "id": "01-terminal-native-coding-agent-pre-2",
+      "lengths": [
+        11,
+        9,
+        27,
+        11
+      ],
+      "ratio": 2.455
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/05-autonomous-research-agent",
+      "id": "05-autonomous-research-agent-post-7",
+      "lengths": [
+        27,
+        11,
+        11,
+        10
+      ],
+      "ratio": 2.455
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/10-multi-agent-software-team",
+      "id": "10-multi-agent-software-team-post-6",
+      "lengths": [
+        9,
+        11,
+        27,
+        6
+      ],
+      "ratio": 2.455
+    },
+    {
       "lessonId": "practice/14-agent-engineering/43-frame-the-task-before-code",
       "id": "q5",
       "lengths": [
@@ -8449,6 +9450,17 @@
         7,
         22,
         6
+      ],
+      "ratio": 2.444
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/06-devops-troubleshooting-agent",
+      "id": "06-devops-troubleshooting-agent-check-3",
+      "lengths": [
+        9,
+        8,
+        7,
+        22
       ],
       "ratio": 2.444
     },
@@ -8530,6 +9542,28 @@
       "ratio": 2.429
     },
     {
+      "lessonId": "practice/19-capstone-projects/11-llm-observability-dashboard",
+      "id": "11-llm-observability-dashboard-pre-1",
+      "lengths": [
+        14,
+        34,
+        9,
+        6
+      ],
+      "ratio": 2.429
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/34-transformer-block",
+      "id": "34-transformer-block-post-6",
+      "lengths": [
+        14,
+        9,
+        6,
+        34
+      ],
+      "ratio": 2.429
+    },
+    {
       "lessonId": "practice/17-infrastructure-and-production/22-load-testing-llm-apis",
       "id": "q1",
       "lengths": [
@@ -8603,6 +9637,17 @@
         8,
         8,
         29
+      ],
+      "ratio": 2.417
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/49-lm-eval-harness",
+      "id": "49-lm-eval-harness-check-3",
+      "lengths": [
+        6,
+        29,
+        8,
+        12
       ],
       "ratio": 2.417
     },
@@ -8723,6 +9768,17 @@
         13,
         36,
         15,
+        8
+      ],
+      "ratio": 2.4
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/43-hdf5-tokenized-corpus",
+      "id": "43-hdf5-tokenized-corpus-check-2",
+      "lengths": [
+        10,
+        9,
+        24,
         8
       ],
       "ratio": 2.4
@@ -8871,6 +9927,28 @@
       "ratio": 2.364
     },
     {
+      "lessonId": "practice/19-capstone-projects/04-multimodal-document-qa",
+      "id": "04-multimodal-document-qa-check-4",
+      "lengths": [
+        11,
+        26,
+        10,
+        11
+      ],
+      "ratio": 2.364
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/17-personal-ai-tutor",
+      "id": "17-personal-ai-tutor-post-6",
+      "lengths": [
+        11,
+        6,
+        8,
+        26
+      ],
+      "ratio": 2.364
+    },
+    {
       "lessonId": "practice/03-deep-learning-core/12-intro-to-jax",
       "id": "intro-to-jax-03-1",
       "lengths": [
@@ -8911,6 +9989,17 @@
         40,
         17,
         10
+      ],
+      "ratio": 2.353
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/41-eval-pipeline",
+      "id": "41-eval-pipeline-post-5",
+      "lengths": [
+        11,
+        17,
+        40,
+        12
       ],
       "ratio": 2.353
     },
@@ -9036,6 +10125,17 @@
       "ratio": 2.333
     },
     {
+      "lessonId": "practice/19-capstone-projects/05-autonomous-research-agent",
+      "id": "05-autonomous-research-agent-check-3",
+      "lengths": [
+        10,
+        15,
+        10,
+        35
+      ],
+      "ratio": 2.333
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/42-dynamic-analysis-of-your-own-program",
       "id": "dynanalysis-q6",
       "lengths": [
@@ -9102,6 +10202,28 @@
       "ratio": 2.308
     },
     {
+      "lessonId": "practice/19-capstone-projects/15-constitutional-safety-harness",
+      "id": "15-constitutional-safety-harness-pre-1",
+      "lengths": [
+        30,
+        13,
+        10,
+        8
+      ],
+      "ratio": 2.308
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/07-end-to-end-fine-tuning-pipeline",
+      "id": "07-end-to-end-fine-tuning-pipeline-post-6",
+      "lengths": [
+        23,
+        11,
+        21,
+        53
+      ],
+      "ratio": 2.304
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/23-chunking-strategies-rag",
       "id": "chunking-strategies-rag-05-2",
       "lengths": [
@@ -9153,6 +10275,17 @@
         10,
         7,
         23
+      ],
+      "ratio": 2.3
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/10-multi-agent-software-team",
+      "id": "10-multi-agent-software-team-check-5",
+      "lengths": [
+        10,
+        23,
+        9,
+        9
       ],
       "ratio": 2.3
     },
@@ -9285,6 +10418,17 @@
         10,
         6,
         25
+      ],
+      "ratio": 2.273
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/01-terminal-native-coding-agent",
+      "id": "01-terminal-native-coding-agent-check-5",
+      "lengths": [
+        11,
+        11,
+        25,
+        10
       ],
       "ratio": 2.273
     },
@@ -9432,6 +10576,39 @@
       "ratio": 2.25
     },
     {
+      "lessonId": "practice/19-capstone-projects/02-rag-over-codebase",
+      "id": "02-rag-over-codebase-check-4",
+      "lengths": [
+        27,
+        12,
+        12,
+        12
+      ],
+      "ratio": 2.25
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/05-autonomous-research-agent",
+      "id": "05-autonomous-research-agent-check-5",
+      "lengths": [
+        12,
+        27,
+        11,
+        11
+      ],
+      "ratio": 2.25
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/07-end-to-end-fine-tuning-pipeline",
+      "id": "07-end-to-end-fine-tuning-pipeline-check-3",
+      "lengths": [
+        12,
+        8,
+        8,
+        27
+      ],
+      "ratio": 2.25
+    },
+    {
       "lessonId": "practice/18-ethics-safety-alignment/24-regulatory-frameworks-eu-us-uk-korea",
       "id": "24-regulatory-frameworks-eu-us-uk-korea-pre-1",
       "lengths": [
@@ -9498,6 +10675,28 @@
       "ratio": 2.231
     },
     {
+      "lessonId": "practice/19-capstone-projects/16-github-issue-to-pr-agent",
+      "id": "16-github-issue-to-pr-agent-check-3",
+      "lengths": [
+        13,
+        29,
+        9,
+        7
+      ],
+      "ratio": 2.231
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/41-eval-pipeline",
+      "id": "41-eval-pipeline-check-2",
+      "lengths": [
+        9,
+        29,
+        13,
+        6
+      ],
+      "ratio": 2.231
+    },
+    {
       "lessonId": "practice/14-agent-engineering/24-agent-observability-platforms",
       "id": "q7",
       "lengths": [
@@ -9505,6 +10704,17 @@
         11,
         15,
         18
+      ],
+      "ratio": 2.222
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/24-plan-execute-control-flow",
+      "id": "24-plan-execute-control-flow-pre-2",
+      "lengths": [
+        20,
+        8,
+        9,
+        8
       ],
       "ratio": 2.222
     },
@@ -9553,6 +10763,39 @@
       "ratio": 2.214
     },
     {
+      "lessonId": "practice/19-capstone-projects/08-production-rag-chatbot",
+      "id": "08-production-rag-chatbot-pre-2",
+      "lengths": [
+        12,
+        6,
+        14,
+        31
+      ],
+      "ratio": 2.214
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/13-mcp-server-with-registry",
+      "id": "13-mcp-server-with-registry-check-3",
+      "lengths": [
+        11,
+        9,
+        19,
+        42
+      ],
+      "ratio": 2.211
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/45-gradient-clipping-amp",
+      "id": "45-gradient-clipping-amp-check-2",
+      "lengths": [
+        75,
+        26,
+        15,
+        34
+      ],
+      "ratio": 2.206
+    },
+    {
       "lessonId": "practice/10-llms-from-scratch/01-tokenizers",
       "id": "tokenizers-10-5",
       "lengths": [
@@ -9571,6 +10814,39 @@
         6,
         6,
         22
+      ],
+      "ratio": 2.2
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/17-personal-ai-tutor",
+      "id": "17-personal-ai-tutor-check-5",
+      "lengths": [
+        22,
+        10,
+        8,
+        7
+      ],
+      "ratio": 2.2
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/33-multihead-self-attention",
+      "id": "33-multihead-self-attention-check-4",
+      "lengths": [
+        9,
+        22,
+        9,
+        10
+      ],
+      "ratio": 2.2
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/39-instruction-tuning-sft",
+      "id": "39-instruction-tuning-sft-pre-1",
+      "lengths": [
+        9,
+        22,
+        4,
+        10
       ],
       "ratio": 2.2
     },
@@ -9604,6 +10880,17 @@
         16,
         10,
         35
+      ],
+      "ratio": 2.188
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/39-instruction-tuning-sft",
+      "id": "39-instruction-tuning-sft-post-6",
+      "lengths": [
+        16,
+        35,
+        9,
+        4
       ],
       "ratio": 2.188
     },
@@ -9740,6 +11027,39 @@
       "ratio": 2.167
     },
     {
+      "lessonId": "practice/19-capstone-projects/22-jsonrpc-stdio-transport",
+      "id": "22-jsonrpc-stdio-transport-pre-2",
+      "lengths": [
+        11,
+        12,
+        11,
+        26
+      ],
+      "ratio": 2.167
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/24-plan-execute-control-flow",
+      "id": "24-plan-execute-control-flow-post-6",
+      "lengths": [
+        12,
+        26,
+        10,
+        12
+      ],
+      "ratio": 2.167
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/46-gradient-accumulation",
+      "id": "46-gradient-accumulation-check-3",
+      "lengths": [
+        4,
+        6,
+        6,
+        13
+      ],
+      "ratio": 2.167
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/42-dynamic-analysis-of-your-own-program",
       "id": "dynanalysis-q7",
       "lengths": [
@@ -9813,6 +11133,17 @@
         13,
         11,
         10
+      ],
+      "ratio": 2.154
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/12-video-understanding-pipeline",
+      "id": "12-video-understanding-pipeline-pre-1",
+      "lengths": [
+        10,
+        11,
+        13,
+        28
       ],
       "ratio": 2.154
     },
@@ -9993,6 +11324,17 @@
       "ratio": 2.118
     },
     {
+      "lessonId": "practice/19-capstone-projects/26-sandbox-runner-denylist",
+      "id": "26-sandbox-runner-denylist-check-2",
+      "lengths": [
+        36,
+        8,
+        17,
+        12
+      ],
+      "ratio": 2.118
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/13-question-answering",
       "id": "question-answering-05-1",
       "lengths": [
@@ -10046,6 +11388,28 @@
         9
       ],
       "ratio": 2.111
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/16-github-issue-to-pr-agent",
+      "id": "16-github-issue-to-pr-agent-post-6",
+      "lengths": [
+        6,
+        19,
+        9,
+        6
+      ],
+      "ratio": 2.111
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/33-multihead-self-attention",
+      "id": "33-multihead-self-attention-check-2",
+      "lengths": [
+        19,
+        19,
+        14,
+        40
+      ],
+      "ratio": 2.105
     },
     {
       "lessonId": "practice/14-agent-engineering/18-agno-and-mastra-runtimes",
@@ -10169,6 +11533,28 @@
       "ratio": 2.083
     },
     {
+      "lessonId": "practice/19-capstone-projects/05-autonomous-research-agent",
+      "id": "05-autonomous-research-agent-pre-1",
+      "lengths": [
+        12,
+        9,
+        11,
+        25
+      ],
+      "ratio": 2.083
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/27-eval-harness-fixture-tasks",
+      "id": "27-eval-harness-fixture-tasks-post-6",
+      "lengths": [
+        25,
+        12,
+        9,
+        8
+      ],
+      "ratio": 2.083
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/41-recovering-data-and-types",
       "id": "data-types-q5",
       "lengths": [
@@ -10242,6 +11628,17 @@
         13,
         27,
         10
+      ],
+      "ratio": 2.077
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/25-verification-gates-observation-budget",
+      "id": "25-verification-gates-observation-budget-post-6",
+      "lengths": [
+        11,
+        13,
+        7,
+        27
       ],
       "ratio": 2.077
     },
@@ -10796,6 +12193,61 @@
       "ratio": 2.0
     },
     {
+      "lessonId": "practice/19-capstone-projects/06-devops-troubleshooting-agent",
+      "id": "06-devops-troubleshooting-agent-check-5",
+      "lengths": [
+        30,
+        15,
+        13,
+        12
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/12-video-understanding-pipeline",
+      "id": "12-video-understanding-pipeline-check-3",
+      "lengths": [
+        18,
+        8,
+        9,
+        7
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/17-personal-ai-tutor",
+      "id": "17-personal-ai-tutor-pre-2",
+      "lengths": [
+        10,
+        7,
+        22,
+        11
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/17-personal-ai-tutor",
+      "id": "17-personal-ai-tutor-check-3",
+      "lengths": [
+        9,
+        7,
+        22,
+        11
+      ],
+      "ratio": 2.0
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/32-token-positional-embeddings",
+      "id": "32-token-positional-embeddings-post-5",
+      "lengths": [
+        18,
+        9,
+        9,
+        8
+      ],
+      "ratio": 2.0
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/27-skill-evals-packaging-and-portability",
       "id": "skill-evals-q4",
       "lengths": [
@@ -10862,6 +12314,17 @@
       "ratio": 1.944
     },
     {
+      "lessonId": "practice/19-capstone-projects/07-end-to-end-fine-tuning-pipeline",
+      "id": "07-end-to-end-fine-tuning-pipeline-check-5",
+      "lengths": [
+        35,
+        14,
+        12,
+        18
+      ],
+      "ratio": 1.944
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/10-attention-mechanism",
       "id": "attention-mechanism-05-7",
       "lengths": [
@@ -10906,6 +12369,17 @@
       "ratio": 1.941
     },
     {
+      "lessonId": "practice/19-capstone-projects/27-eval-harness-fixture-tasks",
+      "id": "27-eval-harness-fixture-tasks-check-3",
+      "lengths": [
+        13,
+        33,
+        17,
+        11
+      ],
+      "ratio": 1.941
+    },
+    {
       "lessonId": "practice/14-agent-engineering/51-write-specifications-that-preserve-judgment",
       "id": "q5",
       "lengths": [
@@ -10913,6 +12387,17 @@
         16,
         10,
         6
+      ],
+      "ratio": 1.938
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/15-constitutional-safety-harness",
+      "id": "15-constitutional-safety-harness-check-4",
+      "lengths": [
+        12,
+        31,
+        16,
+        11
       ],
       "ratio": 1.938
     },
@@ -10994,6 +12479,28 @@
       "ratio": 1.933
     },
     {
+      "lessonId": "practice/19-capstone-projects/12-video-understanding-pipeline",
+      "id": "12-video-understanding-pipeline-post-7",
+      "lengths": [
+        15,
+        12,
+        7,
+        29
+      ],
+      "ratio": 1.933
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/20-agent-harness-loop-contract",
+      "id": "20-agent-harness-loop-contract-post-6",
+      "lengths": [
+        11,
+        29,
+        15,
+        14
+      ],
+      "ratio": 1.933
+    },
+    {
       "lessonId": "practice/03-deep-learning-core/04-activation-functions",
       "id": "activation-functions-03-1",
       "lengths": [
@@ -11034,6 +12541,17 @@
         4,
         27,
         14
+      ],
+      "ratio": 1.929
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/42-large-corpus-downloader",
+      "id": "42-large-corpus-downloader-post-6",
+      "lengths": [
+        5,
+        4,
+        14,
+        27
       ],
       "ratio": 1.929
     },
@@ -11104,12 +12622,78 @@
       "ratio": 1.923
     },
     {
+      "lessonId": "practice/19-capstone-projects/30-bpe-tokenizer-from-scratch",
+      "id": "30-bpe-tokenizer-from-scratch-post-5",
+      "lengths": [
+        25,
+        10,
+        13,
+        11
+      ],
+      "ratio": 1.923
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/35-gpt-model-assembly",
+      "id": "35-gpt-model-assembly-post-6",
+      "lengths": [
+        13,
+        25,
+        11,
+        12
+      ],
+      "ratio": 1.923
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/36-training-loop-eval",
+      "id": "36-training-loop-eval-pre-1",
+      "lengths": [
+        13,
+        5,
+        8,
+        25
+      ],
+      "ratio": 1.923
+    },
+    {
       "lessonId": "practice/18-ethics-safety-alignment/15-indirect-prompt-injection",
       "id": "15-indirect-prompt-injection-check-3",
       "lengths": [
         10,
         12,
         8,
+        23
+      ],
+      "ratio": 1.917
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/05-autonomous-research-agent",
+      "id": "05-autonomous-research-agent-pre-2",
+      "lengths": [
+        12,
+        23,
+        9,
+        9
+      ],
+      "ratio": 1.917
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/14-speculative-decoding-server",
+      "id": "14-speculative-decoding-server-pre-1",
+      "lengths": [
+        11,
+        12,
+        12,
+        23
+      ],
+      "ratio": 1.917
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/38-classifier-finetuning",
+      "id": "38-classifier-finetuning-check-3",
+      "lengths": [
+        11,
+        10,
+        12,
         23
       ],
       "ratio": 1.917
@@ -11132,6 +12716,17 @@
         8,
         11,
         9,
+        21
+      ],
+      "ratio": 1.909
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/09-code-migration-agent",
+      "id": "09-code-migration-agent-pre-2",
+      "lengths": [
+        8,
+        7,
+        11,
         21
       ],
       "ratio": 1.909
@@ -11478,6 +13073,39 @@
       "ratio": 1.857
     },
     {
+      "lessonId": "practice/19-capstone-projects/09-code-migration-agent",
+      "id": "09-code-migration-agent-check-5",
+      "lengths": [
+        7,
+        14,
+        8,
+        26
+      ],
+      "ratio": 1.857
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/28-observability-otel-traces",
+      "id": "28-observability-otel-traces-check-3",
+      "lengths": [
+        6,
+        26,
+        14,
+        13
+      ],
+      "ratio": 1.857
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/41-eval-pipeline",
+      "id": "41-eval-pipeline-pre-1",
+      "lengths": [
+        7,
+        26,
+        14,
+        10
+      ],
+      "ratio": 1.857
+    },
+    {
       "lessonId": "practice/16-multi-agent-and-swarms/01-why-multi-agent",
       "id": "q1",
       "lengths": [
@@ -11496,6 +13124,17 @@
         13,
         5,
         6
+      ],
+      "ratio": 1.846
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/11-llm-observability-dashboard",
+      "id": "11-llm-observability-dashboard-check-4",
+      "lengths": [
+        13,
+        24,
+        7,
+        10
       ],
       "ratio": 1.846
     },
@@ -11628,6 +13267,50 @@
         12,
         10,
         11
+      ],
+      "ratio": 1.833
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/10-multi-agent-software-team",
+      "id": "10-multi-agent-software-team-pre-2",
+      "lengths": [
+        10,
+        22,
+        12,
+        12
+      ],
+      "ratio": 1.833
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/23-function-call-dispatcher",
+      "id": "23-function-call-dispatcher-check-5",
+      "lengths": [
+        9,
+        7,
+        22,
+        12
+      ],
+      "ratio": 1.833
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/27-eval-harness-fixture-tasks",
+      "id": "27-eval-harness-fixture-tasks-check-4",
+      "lengths": [
+        22,
+        10,
+        12,
+        6
+      ],
+      "ratio": 1.833
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/31-tokenized-dataset-sliding-window",
+      "id": "31-tokenized-dataset-sliding-window-check-4",
+      "lengths": [
+        11,
+        6,
+        6,
+        4
       ],
       "ratio": 1.833
     },
@@ -11775,6 +13458,28 @@
       "ratio": 1.8
     },
     {
+      "lessonId": "practice/19-capstone-projects/20-agent-harness-loop-contract",
+      "id": "20-agent-harness-loop-contract-post-7",
+      "lengths": [
+        8,
+        18,
+        6,
+        10
+      ],
+      "ratio": 1.8
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/23-function-call-dispatcher",
+      "id": "23-function-call-dispatcher-pre-2",
+      "lengths": [
+        10,
+        18,
+        4,
+        5
+      ],
+      "ratio": 1.8
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/23-capstone-tool-ecosystem",
       "id": "tool-ecosystem-q5",
       "lengths": [
@@ -11793,6 +13498,28 @@
         14,
         25,
         7
+      ],
+      "ratio": 1.786
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/03-realtime-voice-assistant",
+      "id": "03-realtime-voice-assistant-pre-1",
+      "lengths": [
+        14,
+        14,
+        13,
+        25
+      ],
+      "ratio": 1.786
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/26-sandbox-runner-denylist",
+      "id": "26-sandbox-runner-denylist-pre-1",
+      "lengths": [
+        9,
+        7,
+        25,
+        14
       ],
       "ratio": 1.786
     },
@@ -11830,6 +13557,17 @@
       "ratio": 1.778
     },
     {
+      "lessonId": "practice/19-capstone-projects/06-devops-troubleshooting-agent",
+      "id": "06-devops-troubleshooting-agent-post-6",
+      "lengths": [
+        5,
+        5,
+        9,
+        16
+      ],
+      "ratio": 1.778
+    },
+    {
       "lessonId": "practice/03-deep-learning-core/01-the-perceptron",
       "id": "the-perceptron-03-2",
       "lengths": [
@@ -11847,6 +13585,17 @@
         12,
         23,
         10,
+        13
+      ],
+      "ratio": 1.769
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/20-agent-harness-loop-contract",
+      "id": "20-agent-harness-loop-contract-pre-1",
+      "lengths": [
+        12,
+        6,
+        23,
         13
       ],
       "ratio": 1.769
@@ -11962,6 +13711,105 @@
       "ratio": 1.75
     },
     {
+      "lessonId": "practice/19-capstone-projects/03-realtime-voice-assistant",
+      "id": "03-realtime-voice-assistant-check-4",
+      "lengths": [
+        9,
+        21,
+        10,
+        12
+      ],
+      "ratio": 1.75
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/04-multimodal-document-qa",
+      "id": "04-multimodal-document-qa-pre-1",
+      "lengths": [
+        21,
+        12,
+        10,
+        11
+      ],
+      "ratio": 1.75
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/06-devops-troubleshooting-agent",
+      "id": "06-devops-troubleshooting-agent-pre-1",
+      "lengths": [
+        12,
+        21,
+        10,
+        10
+      ],
+      "ratio": 1.75
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/09-code-migration-agent",
+      "id": "09-code-migration-agent-post-6",
+      "lengths": [
+        8,
+        21,
+        8,
+        12
+      ],
+      "ratio": 1.75
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/20-agent-harness-loop-contract",
+      "id": "20-agent-harness-loop-contract-check-5",
+      "lengths": [
+        12,
+        21,
+        9,
+        10
+      ],
+      "ratio": 1.75
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/33-multihead-self-attention",
+      "id": "33-multihead-self-attention-post-6",
+      "lengths": [
+        21,
+        12,
+        10,
+        6
+      ],
+      "ratio": 1.75
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/34-transformer-block",
+      "id": "34-transformer-block-pre-1",
+      "lengths": [
+        6,
+        21,
+        10,
+        12
+      ],
+      "ratio": 1.75
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/45-gradient-clipping-amp",
+      "id": "45-gradient-clipping-amp-check-4",
+      "lengths": [
+        12,
+        4,
+        11,
+        21
+      ],
+      "ratio": 1.75
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/23-function-call-dispatcher",
+      "id": "23-function-call-dispatcher-post-7",
+      "lengths": [
+        14,
+        47,
+        6,
+        27
+      ],
+      "ratio": 1.741
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/14-mcp-apps",
       "id": "mcp-apps-q3",
       "lengths": [
@@ -12013,6 +13861,17 @@
         7,
         15,
         11
+      ],
+      "ratio": 1.733
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/24-plan-execute-control-flow",
+      "id": "24-plan-execute-control-flow-check-4",
+      "lengths": [
+        9,
+        10,
+        15,
+        26
       ],
       "ratio": 1.733
     },
@@ -12116,6 +13975,28 @@
       "ratio": 1.714
     },
     {
+      "lessonId": "practice/19-capstone-projects/02-rag-over-codebase",
+      "id": "02-rag-over-codebase-pre-2",
+      "lengths": [
+        14,
+        13,
+        24,
+        10
+      ],
+      "ratio": 1.714
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/14-speculative-decoding-server",
+      "id": "14-speculative-decoding-server-check-3",
+      "lengths": [
+        24,
+        14,
+        14,
+        11
+      ],
+      "ratio": 1.714
+    },
+    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/04-glove-fasttext-subword",
       "id": "glove-fasttext-subword-05-6",
       "lengths": [
@@ -12178,6 +14059,17 @@
         6,
         13,
         8
+      ],
+      "ratio": 1.692
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/39-instruction-tuning-sft",
+      "id": "39-instruction-tuning-sft-check-4",
+      "lengths": [
+        10,
+        10,
+        13,
+        22
       ],
       "ratio": 1.692
     },
@@ -12380,6 +14272,61 @@
       "ratio": 1.667
     },
     {
+      "lessonId": "practice/19-capstone-projects/20-agent-harness-loop-contract",
+      "id": "20-agent-harness-loop-contract-pre-2",
+      "lengths": [
+        12,
+        20,
+        10,
+        10
+      ],
+      "ratio": 1.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/21-tool-registry-schema-validation",
+      "id": "21-tool-registry-schema-validation-post-6",
+      "lengths": [
+        8,
+        20,
+        8,
+        12
+      ],
+      "ratio": 1.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/29-end-to-end-coding-task-demo",
+      "id": "29-end-to-end-coding-task-demo-check-3",
+      "lengths": [
+        12,
+        8,
+        10,
+        20
+      ],
+      "ratio": 1.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/43-hdf5-tokenized-corpus",
+      "id": "43-hdf5-tokenized-corpus-post-6",
+      "lengths": [
+        4,
+        6,
+        4,
+        10
+      ],
+      "ratio": 1.667
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/48-distributed-fsdp-ddp",
+      "id": "48-distributed-fsdp-ddp-pre-1",
+      "lengths": [
+        14,
+        15,
+        9,
+        25
+      ],
+      "ratio": 1.667
+    },
+    {
       "lessonId": "practice/10-llms-from-scratch/08-dpo",
       "id": "dpo-10-5",
       "lengths": [
@@ -12420,6 +14367,28 @@
         23,
         14,
         8
+      ],
+      "ratio": 1.643
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/10-multi-agent-software-team",
+      "id": "10-multi-agent-software-team-post-7",
+      "lengths": [
+        14,
+        14,
+        11,
+        23
+      ],
+      "ratio": 1.643
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/36-training-loop-eval",
+      "id": "36-training-loop-eval-check-3",
+      "lengths": [
+        23,
+        14,
+        8,
+        9
       ],
       "ratio": 1.643
     },
@@ -12501,6 +14470,17 @@
       "ratio": 1.625
     },
     {
+      "lessonId": "practice/19-capstone-projects/16-github-issue-to-pr-agent",
+      "id": "16-github-issue-to-pr-agent-pre-2",
+      "lengths": [
+        12,
+        26,
+        16,
+        13
+      ],
+      "ratio": 1.625
+    },
+    {
       "lessonId": "practice/18-ethics-safety-alignment/16-red-team-tooling-garak-llamaguard-pyrit",
       "id": "16-red-team-tooling-garak-llamaguard-pyrit-pre-1",
       "lengths": [
@@ -12545,6 +14525,17 @@
       "ratio": 1.615
     },
     {
+      "lessonId": "practice/19-capstone-projects/41-eval-pipeline",
+      "id": "41-eval-pipeline-check-4",
+      "lengths": [
+        21,
+        13,
+        5,
+        6
+      ],
+      "ratio": 1.615
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/30-mcp-registry-supply-chain-and-drift",
       "id": "mcp-registry-q1",
       "lengths": [
@@ -12574,6 +14565,17 @@
         10,
         8,
         29
+      ],
+      "ratio": 1.611
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/11-llm-observability-dashboard",
+      "id": "11-llm-observability-dashboard-check-3",
+      "lengths": [
+        29,
+        18,
+        9,
+        14
       ],
       "ratio": 1.611
     },
@@ -12721,6 +14723,17 @@
       "ratio": 1.6
     },
     {
+      "lessonId": "practice/19-capstone-projects/30-bpe-tokenizer-from-scratch",
+      "id": "30-bpe-tokenizer-from-scratch-check-3",
+      "lengths": [
+        10,
+        16,
+        10,
+        10
+      ],
+      "ratio": 1.6
+    },
+    {
       "lessonId": "practice/11-llm-engineering/16-langgraph-state-machines",
       "id": "langgraph-state-machines-11-4",
       "lengths": [
@@ -12730,6 +14743,17 @@
         43
       ],
       "ratio": 1.593
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/22-jsonrpc-stdio-transport",
+      "id": "22-jsonrpc-stdio-transport-check-4",
+      "lengths": [
+        8,
+        21,
+        22,
+        35
+      ],
+      "ratio": 1.591
     },
     {
       "lessonId": "practice/05-nlp-foundations-to-advanced/13-question-answering",
@@ -12783,6 +14807,17 @@
         24,
         15,
         11
+      ],
+      "ratio": 1.583
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/35-gpt-model-assembly",
+      "id": "35-gpt-model-assembly-check-2",
+      "lengths": [
+        19,
+        12,
+        8,
+        8
       ],
       "ratio": 1.583
     },
@@ -12897,6 +14932,17 @@
       "ratio": 1.571
     },
     {
+      "lessonId": "practice/19-capstone-projects/41-eval-pipeline",
+      "id": "41-eval-pipeline-post-6",
+      "lengths": [
+        6,
+        13,
+        14,
+        22
+      ],
+      "ratio": 1.571
+    },
+    {
       "lessonId": "practice/02-ml-fundamentals/12-hyperparameter-tuning",
       "id": "hptune-post-1",
       "lengths": [
@@ -12919,6 +14965,28 @@
       "ratio": 1.565
     },
     {
+      "lessonId": "practice/19-capstone-projects/13-mcp-server-with-registry",
+      "id": "13-mcp-server-with-registry-check-4",
+      "lengths": [
+        16,
+        22,
+        23,
+        36
+      ],
+      "ratio": 1.565
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/13-mcp-server-with-registry",
+      "id": "13-mcp-server-with-registry-post-5",
+      "lengths": [
+        23,
+        22,
+        11,
+        36
+      ],
+      "ratio": 1.565
+    },
+    {
       "lessonId": "practice/18-ethics-safety-alignment/19-model-welfare-research",
       "id": "19-model-welfare-research-post-6",
       "lengths": [
@@ -12928,6 +14996,28 @@
         25
       ],
       "ratio": 1.562
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/26-sandbox-runner-denylist",
+      "id": "26-sandbox-runner-denylist-post-6",
+      "lengths": [
+        12,
+        25,
+        12,
+        16
+      ],
+      "ratio": 1.562
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/49-lm-eval-harness",
+      "id": "49-lm-eval-harness-pre-1",
+      "lengths": [
+        39,
+        25,
+        12,
+        12
+      ],
+      "ratio": 1.56
     },
     {
       "lessonId": "practice/04-computer-vision/06-object-detection-yolo",
@@ -12981,6 +15071,17 @@
         18,
         28,
         12
+      ],
+      "ratio": 1.556
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/08-production-rag-chatbot",
+      "id": "08-production-rag-chatbot-post-6",
+      "lengths": [
+        14,
+        6,
+        9,
+        5
       ],
       "ratio": 1.556
     },
@@ -13082,6 +15183,28 @@
         24
       ],
       "ratio": 1.542
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/28-observability-otel-traces",
+      "id": "28-observability-otel-traces-post-6",
+      "lengths": [
+        20,
+        8,
+        10,
+        13
+      ],
+      "ratio": 1.538
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/40-dpo-from-scratch",
+      "id": "40-dpo-from-scratch-check-3",
+      "lengths": [
+        8,
+        13,
+        11,
+        20
+      ],
+      "ratio": 1.538
     },
     {
       "lessonId": "practice/13-tools-and-protocols/18-mcp-auth-production",
@@ -13568,6 +15691,116 @@
       "ratio": 1.5
     },
     {
+      "lessonId": "practice/19-capstone-projects/01-terminal-native-coding-agent",
+      "id": "01-terminal-native-coding-agent-post-7",
+      "lengths": [
+        14,
+        14,
+        14,
+        21
+      ],
+      "ratio": 1.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/02-rag-over-codebase",
+      "id": "02-rag-over-codebase-pre-1",
+      "lengths": [
+        16,
+        13,
+        13,
+        24
+      ],
+      "ratio": 1.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/02-rag-over-codebase",
+      "id": "02-rag-over-codebase-check-3",
+      "lengths": [
+        12,
+        12,
+        10,
+        18
+      ],
+      "ratio": 1.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/22-jsonrpc-stdio-transport",
+      "id": "22-jsonrpc-stdio-transport-pre-1",
+      "lengths": [
+        18,
+        11,
+        12,
+        10
+      ],
+      "ratio": 1.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/23-function-call-dispatcher",
+      "id": "23-function-call-dispatcher-pre-1",
+      "lengths": [
+        12,
+        10,
+        7,
+        18
+      ],
+      "ratio": 1.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/31-tokenized-dataset-sliding-window",
+      "id": "31-tokenized-dataset-sliding-window-pre-1",
+      "lengths": [
+        27,
+        13,
+        18,
+        12
+      ],
+      "ratio": 1.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/31-tokenized-dataset-sliding-window",
+      "id": "31-tokenized-dataset-sliding-window-post-6",
+      "lengths": [
+        18,
+        12,
+        9,
+        11
+      ],
+      "ratio": 1.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/40-dpo-from-scratch",
+      "id": "40-dpo-from-scratch-check-2",
+      "lengths": [
+        4,
+        2,
+        6,
+        1
+      ],
+      "ratio": 1.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/40-dpo-from-scratch",
+      "id": "40-dpo-from-scratch-post-5",
+      "lengths": [
+        15,
+        10,
+        7,
+        8
+      ],
+      "ratio": 1.5
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/42-large-corpus-downloader",
+      "id": "42-large-corpus-downloader-post-5",
+      "lengths": [
+        9,
+        18,
+        9,
+        12
+      ],
+      "ratio": 1.5
+    },
+    {
       "lessonId": "practice/03-deep-learning-core/06-optimizers",
       "id": "optimizers-03-4",
       "lengths": [
@@ -13678,6 +15911,28 @@
       "ratio": 1.471
     },
     {
+      "lessonId": "practice/19-capstone-projects/03-realtime-voice-assistant",
+      "id": "03-realtime-voice-assistant-check-3",
+      "lengths": [
+        14,
+        13,
+        25,
+        17
+      ],
+      "ratio": 1.471
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/13-mcp-server-with-registry",
+      "id": "13-mcp-server-with-registry-post-6",
+      "lengths": [
+        17,
+        25,
+        14,
+        9
+      ],
+      "ratio": 1.471
+    },
+    {
       "lessonId": "practice/02-ml-fundamentals/10-bias-variance",
       "id": "biasvar-post-1",
       "lengths": [
@@ -13707,6 +15962,39 @@
         15,
         22,
         9
+      ],
+      "ratio": 1.467
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/02-rag-over-codebase",
+      "id": "02-rag-over-codebase-post-6",
+      "lengths": [
+        7,
+        15,
+        15,
+        22
+      ],
+      "ratio": 1.467
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/04-multimodal-document-qa",
+      "id": "04-multimodal-document-qa-check-5",
+      "lengths": [
+        15,
+        9,
+        13,
+        22
+      ],
+      "ratio": 1.467
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/44-cosine-lr-warmup",
+      "id": "44-cosine-lr-warmup-pre-1",
+      "lengths": [
+        4,
+        15,
+        22,
+        8
       ],
       "ratio": 1.467
     },
@@ -13832,6 +16120,17 @@
       "ratio": 1.455
     },
     {
+      "lessonId": "practice/19-capstone-projects/17-personal-ai-tutor",
+      "id": "17-personal-ai-tutor-pre-1",
+      "lengths": [
+        10,
+        9,
+        16,
+        11
+      ],
+      "ratio": 1.455
+    },
+    {
       "lessonId": "practice/04-computer-vision/01-image-fundamentals",
       "id": "image-fundamentals-04-5",
       "lengths": [
@@ -13850,6 +16149,17 @@
         16,
         20,
         8
+      ],
+      "ratio": 1.45
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/11-llm-observability-dashboard",
+      "id": "11-llm-observability-dashboard-post-7",
+      "lengths": [
+        20,
+        11,
+        9,
+        29
       ],
       "ratio": 1.45
     },
@@ -13893,6 +16203,17 @@
         23,
         15,
         7,
+        16
+      ],
+      "ratio": 1.438
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/10-multi-agent-software-team",
+      "id": "10-multi-agent-software-team-check-3",
+      "lengths": [
+        15,
+        14,
+        23,
         16
       ],
       "ratio": 1.438
@@ -13960,6 +16281,17 @@
         7,
         5,
         7
+      ],
+      "ratio": 1.429
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/17-personal-ai-tutor",
+      "id": "17-personal-ai-tutor-check-4",
+      "lengths": [
+        14,
+        20,
+        13,
+        12
       ],
       "ratio": 1.429
     },
@@ -14041,6 +16373,39 @@
       "ratio": 1.417
     },
     {
+      "lessonId": "practice/19-capstone-projects/22-jsonrpc-stdio-transport",
+      "id": "22-jsonrpc-stdio-transport-post-6",
+      "lengths": [
+        10,
+        17,
+        5,
+        12
+      ],
+      "ratio": 1.417
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/24-plan-execute-control-flow",
+      "id": "24-plan-execute-control-flow-pre-1",
+      "lengths": [
+        12,
+        17,
+        6,
+        9
+      ],
+      "ratio": 1.417
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/30-bpe-tokenizer-from-scratch",
+      "id": "30-bpe-tokenizer-from-scratch-check-2",
+      "lengths": [
+        12,
+        11,
+        10,
+        17
+      ],
+      "ratio": 1.417
+    },
+    {
       "lessonId": "practice/01-math-foundations/10-dimensionality-reduction",
       "id": "tsne",
       "lengths": [
@@ -14074,6 +16439,17 @@
       "ratio": 1.41
     },
     {
+      "lessonId": "practice/19-capstone-projects/07-end-to-end-fine-tuning-pipeline",
+      "id": "07-end-to-end-fine-tuning-pipeline-pre-1",
+      "lengths": [
+        15,
+        31,
+        14,
+        22
+      ],
+      "ratio": 1.409
+    },
+    {
       "lessonId": "practice/01-math-foundations/06-probability-and-distributions",
       "id": "cross-entropy",
       "lengths": [
@@ -14103,6 +16479,28 @@
         21,
         15,
         13
+      ],
+      "ratio": 1.4
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/06-devops-troubleshooting-agent",
+      "id": "06-devops-troubleshooting-agent-pre-2",
+      "lengths": [
+        28,
+        20,
+        13,
+        14
+      ],
+      "ratio": 1.4
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/21-tool-registry-schema-validation",
+      "id": "21-tool-registry-schema-validation-pre-1",
+      "lengths": [
+        11,
+        21,
+        10,
+        15
       ],
       "ratio": 1.4
     },
@@ -14147,6 +16545,17 @@
         18,
         13,
         9
+      ],
+      "ratio": 1.385
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/04-multimodal-document-qa",
+      "id": "04-multimodal-document-qa-post-7",
+      "lengths": [
+        9,
+        11,
+        18,
+        13
       ],
       "ratio": 1.385
     },
@@ -14283,6 +16692,17 @@
       "ratio": 1.357
     },
     {
+      "lessonId": "practice/19-capstone-projects/14-speculative-decoding-server",
+      "id": "14-speculative-decoding-server-post-7",
+      "lengths": [
+        19,
+        8,
+        12,
+        14
+      ],
+      "ratio": 1.357
+    },
+    {
       "lessonId": "practice/17-infrastructure-and-production/18-vllm-production-stack-lmcache",
       "id": "q2",
       "lengths": [
@@ -14303,6 +16723,17 @@
         15
       ],
       "ratio": 1.348
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/28-observability-otel-traces",
+      "id": "28-observability-otel-traces-post-5",
+      "lengths": [
+        18,
+        22,
+        39,
+        29
+      ],
+      "ratio": 1.345
     },
     {
       "lessonId": "practice/00-setup-and-tooling/01-dev-environment",
@@ -14448,6 +16879,28 @@
       "ratio": 1.333
     },
     {
+      "lessonId": "practice/19-capstone-projects/03-realtime-voice-assistant",
+      "id": "03-realtime-voice-assistant-pre-2",
+      "lengths": [
+        9,
+        11,
+        16,
+        12
+      ],
+      "ratio": 1.333
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/03-realtime-voice-assistant",
+      "id": "03-realtime-voice-assistant-post-6",
+      "lengths": [
+        3,
+        4,
+        3,
+        3
+      ],
+      "ratio": 1.333
+    },
+    {
       "lessonId": "practice/14-agent-engineering/31-agent-workbench-why-models-fail",
       "id": "q2",
       "lengths": [
@@ -14503,12 +16956,34 @@
       "ratio": 1.312
     },
     {
+      "lessonId": "practice/19-capstone-projects/39-instruction-tuning-sft",
+      "id": "39-instruction-tuning-sft-check-3",
+      "lengths": [
+        13,
+        15,
+        21,
+        16
+      ],
+      "ratio": 1.312
+    },
+    {
       "lessonId": "practice/14-agent-engineering/43-frame-the-task-before-code",
       "id": "q1",
       "lengths": [
         17,
         6,
         4,
+        13
+      ],
+      "ratio": 1.308
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/30-bpe-tokenizer-from-scratch",
+      "id": "30-bpe-tokenizer-from-scratch-pre-1",
+      "lengths": [
+        12,
+        17,
+        7,
         13
       ],
       "ratio": 1.308
@@ -14701,6 +17176,17 @@
       "ratio": 1.286
     },
     {
+      "lessonId": "practice/19-capstone-projects/12-video-understanding-pipeline",
+      "id": "12-video-understanding-pipeline-check-5",
+      "lengths": [
+        4,
+        7,
+        9,
+        6
+      ],
+      "ratio": 1.286
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/27-skill-evals-packaging-and-portability",
       "id": "skill-evals-q3",
       "lengths": [
@@ -14708,6 +17194,17 @@
         15,
         15,
         23
+      ],
+      "ratio": 1.278
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/40-dpo-from-scratch",
+      "id": "40-dpo-from-scratch-pre-1",
+      "lengths": [
+        23,
+        15,
+        18,
+        15
       ],
       "ratio": 1.278
     },
@@ -14767,6 +17264,28 @@
       "ratio": 1.273
     },
     {
+      "lessonId": "practice/19-capstone-projects/25-verification-gates-observation-budget",
+      "id": "25-verification-gates-observation-budget-pre-1",
+      "lengths": [
+        9,
+        11,
+        10,
+        14
+      ],
+      "ratio": 1.273
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/44-cosine-lr-warmup",
+      "id": "44-cosine-lr-warmup-post-6",
+      "lengths": [
+        14,
+        9,
+        4,
+        11
+      ],
+      "ratio": 1.273
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/29-mcp-reliability-cancellation-and-flow-control",
       "id": "mcp-reliability-q2",
       "lengths": [
@@ -14785,6 +17304,17 @@
         12,
         19,
         15
+      ],
+      "ratio": 1.267
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/32-token-positional-embeddings",
+      "id": "32-token-positional-embeddings-post-6",
+      "lengths": [
+        19,
+        11,
+        15,
+        11
       ],
       "ratio": 1.267
     },
@@ -15020,6 +17550,17 @@
       "ratio": 1.231
     },
     {
+      "lessonId": "practice/19-capstone-projects/10-multi-agent-software-team",
+      "id": "10-multi-agent-software-team-check-4",
+      "lengths": [
+        16,
+        13,
+        13,
+        13
+      ],
+      "ratio": 1.231
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/30-mcp-registry-supply-chain-and-drift",
       "id": "mcp-registry-q5",
       "lengths": [
@@ -15037,6 +17578,17 @@
         25,
         38,
         21,
+        31
+      ],
+      "ratio": 1.226
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/35-gpt-model-assembly",
+      "id": "35-gpt-model-assembly-pre-1",
+      "lengths": [
+        26,
+        38,
+        30,
         31
       ],
       "ratio": 1.226
@@ -15075,6 +17627,39 @@
       "ratio": 1.222
     },
     {
+      "lessonId": "practice/19-capstone-projects/05-autonomous-research-agent",
+      "id": "05-autonomous-research-agent-post-6",
+      "lengths": [
+        9,
+        7,
+        8,
+        11
+      ],
+      "ratio": 1.222
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/30-bpe-tokenizer-from-scratch",
+      "id": "30-bpe-tokenizer-from-scratch-check-4",
+      "lengths": [
+        4,
+        11,
+        4,
+        9
+      ],
+      "ratio": 1.222
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/37-loading-pretrained-weights",
+      "id": "37-loading-pretrained-weights-post-5",
+      "lengths": [
+        17,
+        7,
+        22,
+        18
+      ],
+      "ratio": 1.222
+    },
+    {
       "lessonId": "practice/11-llm-engineering/09-function-calling",
       "id": "function-calling-11-4",
       "lengths": [
@@ -15095,6 +17680,17 @@
         14
       ],
       "ratio": 1.217
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/12-video-understanding-pipeline",
+      "id": "12-video-understanding-pipeline-pre-2",
+      "lengths": [
+        14,
+        8,
+        11,
+        17
+      ],
+      "ratio": 1.214
     },
     {
       "lessonId": "practice/11-llm-engineering/06-rag",
@@ -15251,6 +17847,61 @@
       "ratio": 1.2
     },
     {
+      "lessonId": "practice/19-capstone-projects/06-devops-troubleshooting-agent",
+      "id": "06-devops-troubleshooting-agent-check-4",
+      "lengths": [
+        15,
+        9,
+        14,
+        18
+      ],
+      "ratio": 1.2
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/13-mcp-server-with-registry",
+      "id": "13-mcp-server-with-registry-pre-1",
+      "lengths": [
+        13,
+        20,
+        15,
+        24
+      ],
+      "ratio": 1.2
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/20-agent-harness-loop-contract",
+      "id": "20-agent-harness-loop-contract-check-3",
+      "lengths": [
+        8,
+        12,
+        9,
+        10
+      ],
+      "ratio": 1.2
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/24-plan-execute-control-flow",
+      "id": "24-plan-execute-control-flow-post-7",
+      "lengths": [
+        10,
+        12,
+        6,
+        7
+      ],
+      "ratio": 1.2
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/27-eval-harness-fixture-tasks",
+      "id": "27-eval-harness-fixture-tasks-post-5",
+      "lengths": [
+        15,
+        30,
+        25,
+        23
+      ],
+      "ratio": 1.2
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/25-skill-invocation-and-routing",
       "id": "skill-routing-q1",
       "lengths": [
@@ -15280,6 +17931,17 @@
         25,
         21,
         10
+      ],
+      "ratio": 1.19
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/48-distributed-fsdp-ddp",
+      "id": "48-distributed-fsdp-ddp-pre-2",
+      "lengths": [
+        6,
+        21,
+        25,
+        5
       ],
       "ratio": 1.19
     },
@@ -15570,6 +18232,39 @@
       "ratio": 1.143
     },
     {
+      "lessonId": "practice/19-capstone-projects/31-tokenized-dataset-sliding-window",
+      "id": "31-tokenized-dataset-sliding-window-post-5",
+      "lengths": [
+        9,
+        6,
+        14,
+        16
+      ],
+      "ratio": 1.143
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/26-sandbox-runner-denylist",
+      "id": "26-sandbox-runner-denylist-check-4",
+      "lengths": [
+        29,
+        6,
+        33,
+        21
+      ],
+      "ratio": 1.138
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/38-classifier-finetuning",
+      "id": "38-classifier-finetuning-post-6",
+      "lengths": [
+        15,
+        25,
+        16,
+        22
+      ],
+      "ratio": 1.136
+    },
+    {
       "lessonId": "practice/01-math-foundations/16-sampling-methods",
       "id": "reparameterization",
       "lengths": [
@@ -15592,6 +18287,17 @@
       "ratio": 1.133
     },
     {
+      "lessonId": "practice/19-capstone-projects/38-classifier-finetuning",
+      "id": "38-classifier-finetuning-post-5",
+      "lengths": [
+        15,
+        17,
+        10,
+        12
+      ],
+      "ratio": 1.133
+    },
+    {
       "lessonId": "practice/11-llm-engineering/05-context-engineering",
       "id": "context-engineering-11-2",
       "lengths": [
@@ -15599,6 +18305,17 @@
         26,
         13,
         23
+      ],
+      "ratio": 1.13
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/23-function-call-dispatcher",
+      "id": "23-function-call-dispatcher-check-3",
+      "lengths": [
+        15,
+        26,
+        23,
+        4
       ],
       "ratio": 1.13
     },
@@ -15665,6 +18382,17 @@
         18,
         7,
         14
+      ],
+      "ratio": 1.125
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/30-bpe-tokenizer-from-scratch",
+      "id": "30-bpe-tokenizer-from-scratch-post-6",
+      "lengths": [
+        18,
+        13,
+        16,
+        9
       ],
       "ratio": 1.125
     },
@@ -15757,6 +18485,17 @@
       "ratio": 1.111
     },
     {
+      "lessonId": "practice/19-capstone-projects/04-multimodal-document-qa",
+      "id": "04-multimodal-document-qa-check-3",
+      "lengths": [
+        18,
+        20,
+        10,
+        11
+      ],
+      "ratio": 1.111
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/09-mcp-transports",
       "id": "mcp-transports-q3",
       "lengths": [
@@ -15818,6 +18557,28 @@
         9,
         11,
         9,
+        10
+      ],
+      "ratio": 1.1
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/14-speculative-decoding-server",
+      "id": "14-speculative-decoding-server-check-5",
+      "lengths": [
+        6,
+        6,
+        11,
+        10
+      ],
+      "ratio": 1.1
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/21-tool-registry-schema-validation",
+      "id": "21-tool-registry-schema-validation-post-5",
+      "lengths": [
+        5,
+        11,
+        1,
         10
       ],
       "ratio": 1.1
@@ -16197,6 +18958,28 @@
       "ratio": 1.067
     },
     {
+      "lessonId": "practice/19-capstone-projects/03-realtime-voice-assistant",
+      "id": "03-realtime-voice-assistant-post-7",
+      "lengths": [
+        15,
+        16,
+        11,
+        13
+      ],
+      "ratio": 1.067
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/29-end-to-end-coding-task-demo",
+      "id": "29-end-to-end-coding-task-demo-pre-1",
+      "lengths": [
+        15,
+        10,
+        12,
+        16
+      ],
+      "ratio": 1.067
+    },
+    {
       "lessonId": "practice/01-math-foundations/04-calculus-for-ml",
       "id": "newton-cost",
       "lengths": [
@@ -16292,6 +19075,17 @@
         12,
         17,
         18
+      ],
+      "ratio": 1.059
+    },
+    {
+      "lessonId": "practice/19-capstone-projects/25-verification-gates-observation-budget",
+      "id": "25-verification-gates-observation-budget-check-3",
+      "lengths": [
+        18,
+        13,
+        17,
+        11
       ],
       "ratio": 1.059
     },

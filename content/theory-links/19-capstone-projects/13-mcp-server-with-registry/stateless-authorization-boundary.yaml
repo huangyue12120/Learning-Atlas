@@ -10,7 +10,15 @@ practice:
     slug: authorization-and-policy
 card:
   title: 无状态请求中的授权与策略边界
-  summary: 在将发行者、受众、scope、审批记录和审计证据绑定到每次工具调用时，用操作系统安全基础核对最小权限、输入验证和隔离边界。（扩展内容待迁移，尚未经审核。）
+  summary: 在将发行者、受众、scope、审批记录和审计证据绑定到每次工具调用时，用操作系统安全基础核对最小权限、输入验证和隔离边界。
+  context: "发现一个工具并不代表调用者有权执行它；每次调用都必须重新建立身份、权限和动作之间的联系。"
+  intuition: "最小权限限制进程可以做什么，授权策略限制当前身份可以请求什么。无状态处理要求请求携带或解析所需上下文，不能继承上一次调用的批准。"
+  key_points:
+    - "令牌需要核验发行者、受众和 scope，不能只看是否存在。"
+    - "高风险动作的审批应绑定具体参数和调用证据。"
+    - "日志支持追责，不能替代调用前的权限检查。"
+  application: "构造缺 scope、受众不符和未批准写操作三个本地请求，确认在工具产生副作用前被拒绝，并记录错误与审计证据。"
+  check_question: "为何一个通过认证的用户，仍可能无权执行已经在 tools/list 中看见的写入工具？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 13 - computing and OS/03. operating systems.md

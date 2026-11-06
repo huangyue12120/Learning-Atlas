@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/26-sandbox-runner-denylist/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "854ebbc7e26feec28b9b35164b10eaad083823d521190f00a707afbb496351cb"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "26-sandbox-runner-denylist-pre-1",
+      "stage": "pre",
+      "question": "为什么沙箱还要检查 `python3 -c` 等解释器调用的 argv 形状？",
+      "options": [
+        "解释器完全无法隔离",
+        "解释器速度太慢",
+        "内联解释器代码可绕过仅按可执行文件名检查的拒绝列表",
+        "不使用解释器时模型写代码更好"
+      ],
+      "correct": 2,
+      "explanation": "允许 python3 并不代表可以允许任意 -c 程序。参数形状会把开放的执行能力带回输入面，因此需要额外约束。"
+    },
+    {
+      "id": "26-sandbox-runner-denylist-check-2",
+      "stage": "check",
+      "question": "project_root=/work，路径参数为 ./src/main.py，本课怎样检查路径边界？",
+      "options": [
+        "将路径拼为绝对路径并取 realpath，再检查是否等于或位于 /work 内",
+        "拒绝所有相对路径",
+        "对原始字符串直接比较 /work 前缀",
+        "启动子进程后检查工作目录"
+      ],
+      "correct": 0,
+      "explanation": "realpath 会解析符号链接与路径折叠，随后按目录边界判断。原始字符串前缀会漏掉指向目录外的符号链接。"
+    },
+    {
+      "id": "26-sandbox-runner-denylist-check-3",
+      "stage": "check",
+      "question": "SandboxResult 为 denied=True、timed_out=False、exit_code=-100，表示什么？",
+      "options": [
+        "执行前拒绝，子进程没有启动",
+        "子进程主动返回 -100",
+        "子进程启动后被 SIGKILL 杀死",
+        "触发了墙钟超时"
+      ],
+      "correct": 0,
+      "explanation": "-100 是本课拒绝路径的哨兵值，需与 denied 字段联合解释。它不是一个已运行程序的正常退出状态。"
+    },
+    {
+      "id": "26-sandbox-runner-denylist-check-4",
+      "stage": "check",
+      "question": "为什么默认使用 shell=False 并拒绝 shell 元字符？",
+      "options": [
+        "macOS 的 subprocess 不支持 shell=True",
+        "让测试更简单",
+        "缩小模型能使用的 shell 语法面，避免管道、重定向及命令替换等解释",
+        "shell=True 在 CPython 中更慢"
+      ],
+      "correct": 2,
+      "explanation": "shell=True 会把命令交给 shell 解析，增加字符串解释带来的能力。直接 argv 执行更便于逐项约束，但仍需隔离与权限控制。"
+    },
+    {
+      "id": "26-sandbox-runner-denylist-post-5",
+      "stage": "post",
+      "question": "要为本课尚未实现的子进程内存上限增加 POSIX 机制，应怎样做？",
+      "options": [
+        "跳过，拒绝列表足以防内存耗尽",
+        "增加墙钟超时补偿",
+        "在传给 subprocess.run 的 preexec_fn 中使用 resource.setrlimit(RLIMIT_AS)",
+        "把内存上限写成拒绝列表字符串"
+      ],
+      "correct": 2,
+      "explanation": "POSIX 的 resource.setrlimit 可约束子进程地址空间，不能靠字符串拒绝实现。编者注：上游写作 os.setrlimit，实际 Python 接口位于 resource 模块；多线程进程还需评估 preexec_fn 的限制，生产可选容器级控制。"
+    },
+    {
+      "id": "26-sandbox-runner-denylist-post-6",
+      "stage": "post",
+      "question": "argv 为 `['cat', 'src/../src/main.py']`，文件在 project_root 内，是否通过路径检查？",
+      "options": [
+        "取决于用户是否为 root",
+        "通过，realpath 折叠路径后目标仍在项目目录内",
+        "不通过，正则门禁会先拒绝",
+        "不通过，路径中任何 .. 都自动拒绝"
+      ],
+      "correct": 1,
+      "explanation": "本课检查解析后的目标位置，而非一概禁止 ..。合法的相对路径折叠后仍在根目录内，就满足路径门禁。"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/16-github-issue-to-pr-agent/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "7a21bf608f8a342e91d0c74c455e7b4b6aa57bde8e81f5b06c11522198974ae5"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "16-github-issue-to-pr-agent-pre-1",
+      "stage": "pre",
+      "question": "生产环境如何触发异步云编码智能体？",
+      "options": [
+        "issue 标签或 PR 评论触发 GitHub webhook，再分发给沙箱 worker",
+        "人工上传文件",
+        "长期保持到 VM 的 SSH 连接",
+        "定时 cron 访问仓库"
+      ],
+      "correct": 0,
+      "explanation": "webhook 将仓库事件转成一次有边界的任务，dispatcher 再分配 worker。人工上传和常驻 SSH 不对应本课的事件驱动流程。"
+    },
+    {
+      "id": "16-github-issue-to-pr-agent-pre-2",
+      "stage": "pre",
+      "question": "为什么使用短期 GitHub App 安装令牌，而非个人访问令牌？",
+      "options": [
+        "个人访问令牌无法创建 PR",
+        "App 令牌权限细、范围受限、有效期短，适合按任务使用",
+        "App 可完全绕过 GitHub 限流",
+        "App 比 PAT 所需代码更少"
+      ],
+      "correct": 1,
+      "explanation": "短期且仓库范围受限的凭据可降低每个 worker 的授权范围与泄漏窗口。它不代表免除速率限制，个人令牌也并非不能创建 PR。"
+    },
+    {
+      "id": "16-github-issue-to-pr-agent-check-3",
+      "stage": "check",
+      "question": "哪两项保护防止智能体覆盖 main？",
+      "options": [
+        "在 worker 上禁用 git",
+        "分支保护禁止直接推送或强推 main，且 App 不列入绕过名单",
+        "每次推送输入验证码",
+        "克隆前加密仓库"
+      ],
+      "correct": 1,
+      "explanation": "分支规则必须与 App 的绕过设置配合，才能约束其推送行为。只声明规则却授予 App 绕过权会破坏保护目的。"
+    },
+    {
+      "id": "16-github-issue-to-pr-agent-check-4",
+      "stage": "check",
+      "question": "为什么在 worker 检查 `.github/workflows` 路径保护？",
+      "options": [
+        "该路径是虚拟路径",
+        "GitHub App 权限不按路径授权，需在 worker 对拟议 diff 做允许列表检查",
+        "任何形式的路径限制都不可能",
+        "工作流文件存放在仓库之外"
+      ],
+      "correct": 1,
+      "explanation": "App 权限不能直接表达任意文件路径约束，因此 worker 在交付前检查 diff。该检查是附加门禁，不能靠扩大 App 权限替代。"
+    },
+    {
+      "id": "16-github-issue-to-pr-agent-check-5",
+      "stage": "check",
+      "question": "智能体循环结束后，创建 PR 前执行什么门禁？",
+      "options": [
+        "评审模型重写 diff",
+        "立即创建 PR，不检查",
+        "在沙箱运行完整 CI、计算覆盖率变化，超门限回归标记 needs-review",
+        "强制推送 main"
+      ],
+      "correct": 2,
+      "explanation": "课程把执行验证放在 PR 交付之前，并显式标注覆盖率风险。模型自评或直接推送没有提供同等测试证据。"
+    },
+    {
+      "id": "16-github-issue-to-pr-agent-post-6",
+      "stage": "post",
+      "question": "dispatcher 对每仓库每天实行哪组预算？",
+      "options": [
+        "仅限制回合数",
+        "每 PR 美元上限与每仓库每日 PR 数量上限",
+        "PR 数和费用均不限",
+        "仅限制总时间"
+      ],
+      "correct": 1,
+      "explanation": "单任务费用与每日任务数量共同约束总体消耗。只限制回合数无法直接限制一天触发的大量独立任务。"
+    },
+    {
+      "id": "16-github-issue-to-pr-agent-post-7",
+      "stage": "post",
+      "question": "智能体提交的 PR 正文应包含什么？",
+      "options": [
+        "修改理由、diff 摘要、trace URL、成本与回合数",
+        "只有 diff",
+        "空正文",
+        "只有生成的变更日志"
+      ],
+      "correct": 0,
+      "explanation": "这些信息让评审者理解改动，并追溯执行与费用。原始 diff 或通用变更日志无法独立呈现完整任务证据。"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/10-multi-agent-software-team/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "723c28107d13c46898f2a917fc5c6c90abe02670efbfc170c8c9568c5975635e"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "10-multi-agent-software-team-pre-1",
+      "stage": "pre",
+      "question": "即使有 200k 词元上下文，单智能体处理大任务仍可能遇到什么瓶颈？",
+      "options": [
+        "模型不支持 git",
+        "单智能体无法调用工具",
+        "架构计划、四份代码范围、评审意见和测试输出难以同时容纳",
+        "沙箱只允许一个进程"
+      ],
+      "correct": 2,
+      "explanation": "并行任务的局部信息和交接记录会占用上下文，200k 容量也有边界。瓶颈并非单智能体缺少工具，而是信息管理与任务规模。"
+    },
+    {
+      "id": "10-multi-agent-software-team-pre-2",
+      "stage": "pre",
+      "question": "这种软件工厂中的架构师负责什么？",
+      "options": [
+        "在干净沙箱中运行测试",
+        "读取 issue，给出包含明确接口的子任务计划",
+        "审核合并 diff 中的幻觉",
+        "编码者意见不同时强制合并"
+      ],
+      "correct": 1,
+      "explanation": "架构师明确任务分解与接口，使各角色可以独立实施。测试、代码评审和合并属于后续角色或流程。"
+    },
+    {
+      "id": "10-multi-agent-software-team-check-3",
+      "stage": "check",
+      "question": "为什么每名编码者使用独立 git worktree 和 Daytona 沙箱？",
+      "options": [
+        "架构师需要 worktree ID",
+        "只有 Daytona 支持 SSH",
+        "隔离工作树，使多名编码者并行实现时减少文件冲突",
+        "worktree 克隆一定比分支快"
+      ],
+      "correct": 2,
+      "explanation": "独立工作树为各子任务保存自己的文件状态和运行环境。隔离并不自动解决最终集成冲突，仍需明确接口和合并验证。"
+    },
+    {
+      "id": "10-multi-agent-software-team-check-4",
+      "stage": "check",
+      "question": "评审者必须遵守哪项约束以保持独立性？",
+      "options": [
+        "不能批准自己编写或提出的 diff",
+        "必须等测试者签字后才可运行",
+        "必须批准读到的全部 diff",
+        "必须使用与架构师相同的模型"
+      ],
+      "correct": 0,
+      "explanation": "限制自我批准使代码作者与验收角色分离，减少同一错误假设被重复确认。模型相同与否不等于职责独立。"
+    },
+    {
+      "id": "10-multi-agent-software-team-check-5",
+      "stage": "check",
+      "question": "为什么评分量表要与单智能体基线比较词元效率？",
+      "options": [
+        "单智能体没有可观测性",
+        "角色边界增加摘要与交接开销，需要检查每美元收益",
+        "多智能体一定更便宜",
+        "词元费用与性能无关"
+      ],
+      "correct": 1,
+      "explanation": "多角色协作会重复传递上下文，因此成功率提升必须结合总费用判断。仅比较完成任务数会掩盖协作开销。"
+    },
+    {
+      "id": "10-multi-agent-software-team-post-6",
+      "stage": "post",
+      "question": "每个失败 issue 的复盘会产出什么？",
+      "options": [
+        "新的架构师计划模板",
+        "更新后的 A2A 协议规范",
+        "交接失败直方图，标明计划、合并、评审或测试哪个边界出错",
+        "强制推送日志"
+      ],
+      "correct": 2,
+      "explanation": "按角色边界统计失败有助于定位协作流程的弱点。该产物描述故障归因，不意味着要修改通信协议或强制推送。"
+    },
+    {
+      "id": "10-multi-agent-software-team-post-7",
+      "stage": "post",
+      "question": "本课用哪组任务评估各角色协作的 pass@1？",
+      "options": [
+        "HumanEval-Java",
+        "MigrationBench",
+        "MT-Bench-v2",
+        "SWE-bench Pro 的 50 个 issue 子集"
+      ],
+      "correct": 3,
+      "explanation": "50 个 issue 的 SWE-bench Pro 子集提供一致的编码任务范围，用于比较协作策略的一次尝试成功率。其他基准的任务定义不同。"
+    }
+  ]
+}

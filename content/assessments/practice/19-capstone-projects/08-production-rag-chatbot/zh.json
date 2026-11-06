@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/08-production-rag-chatbot/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "6fd04f06d513ee663db8afdf8507658044a8345e61e578ff41bc353830b3f337"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "08-production-rag-chatbot-pre-1",
+      "stage": "pre",
+      "question": "提示词缓存在受监管领域的 RAG 聊天机器人中为什么重要？",
+      "options": [
+        "能消除幻觉",
+        "稳定前缀享受缓存折扣，课程中 60–80% 命中率对应约 3–5 倍单查询成本下降",
+        "可以删除向量数据库",
+        "能提高重排阶段的召回率"
+      ],
+      "correct": 1,
+      "explanation": "重复的系统指令和政策可复用缓存，减少计费开销。该收益依赖前缀、命中率及提供商定价，缓存本身不保证答案正确或检索质量。"
+    },
+    {
+      "id": "08-production-rag-chatbot-pre-2",
+      "stage": "pre",
+      "question": "每次请求的缓存头和未缓存后缀分别放什么？",
+      "options": [
+        "随机填充文本以凑缓存长度",
+        "仅放检索文档",
+        "用户问题在前，系统提示词在后",
+        "系统提示词与静态政策放缓存头，重排上下文作扩展，用户问题放后缀"
+      ],
+      "correct": 3,
+      "explanation": "相对稳定的内容放在可复用前缀，变化的用户问题放在后面。调整顺序的目的是增加前缀复用，而非靠随机填充提高命中。"
+    },
+    {
+      "id": "08-production-rag-chatbot-check-3",
+      "stage": "check",
+      "question": "检索层如何遵守 GDPR 或 HIPAA 等管辖标签？",
+      "options": [
+        "按区域改写用户问题",
+        "只在生成后阻止回答",
+        "每个国家建立独立索引",
+        "混合检索合并前应用角色与管辖过滤，越权块不进入重排"
+      ],
+      "correct": 3,
+      "explanation": "先限制可见数据再排序，可避免越权证据流入后续模型。仅在输出端过滤仍会让未授权内容进入上下文。"
+    },
+    {
+      "id": "08-production-rag-chatbot-check-4",
+      "stage": "check",
+      "question": "综合阶段使用哪组分层防护？",
+      "options": [
+        "仅使用输出 PII 正则",
+        "仅在输入端使用 Llama Guard 4",
+        "Llama Guard 4、NeMo Guardrails 策略、Presidio PII 清理与引用检查",
+        "只用单个 LLM 评审检查忠实度"
+      ],
+      "correct": 2,
+      "explanation": "课程组合内容检测、政策约束、个人信息清理和引用门禁，各层处理不同风险。任何单一检测器都没有覆盖全部要求。"
+    },
+    {
+      "id": "08-production-rag-chatbot-check-5",
+      "stage": "check",
+      "question": "漂移仪表盘对哪种变化发出告警？",
+      "options": [
+        "底层 LLM 提供商变化",
+        "延迟超过 200 ms",
+        "检索质量下降，例如 nDCG 或引用评分周环比下降 5%",
+        "索引每加入一份新文档"
+      ],
+      "correct": 2,
+      "explanation": "漂移检查聚焦检索与证据质量的持续变化。新增文档是正常更新事件，必须结合质量信号才能判断是否回归。"
+    },
+    {
+      "id": "08-production-rag-chatbot-post-6",
+      "stage": "post",
+      "question": "交付正确性评分采用多大的黄金集？",
+      "options": [
+        "200 对带引用的专家标注问答",
+        "5 个演示查询",
+        "2000 个合成问题",
+        "20 个问题"
+      ],
+      "correct": 0,
+      "explanation": "本课用 200 对专家标注且含引用的问答检验答案与证据。数量和标注来源都是该黄金集的验收条件。"
+    },
+    {
+      "id": "08-production-rag-chatbot-post-7",
+      "stage": "post",
+      "question": "每轮在线跟踪哪组 RAGAS 指标？",
+      "options": [
+        "BLEU、ROUGE、METEOR",
+        "词元数与美元成本",
+        "忠实度、答案相关性与上下文精确率",
+        "吞吐、GPU 利用率与队列深度"
+      ],
+      "correct": 2,
+      "explanation": "这组指标分别检查答案依据、问题回应程度和检索上下文的有效性。费用和基础设施指标可补充观测，但没有直接评价回答质量。"
+    }
+  ]
+}

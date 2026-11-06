@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/05-autonomous-research-agent/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "effd40cc31f4235df123fa06be8a78949973810acbd21947da0473fd57993ea9"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "05-autonomous-research-agent-pre-1",
+      "stage": "pre",
+      "question": "AI-Scientist 类智能体采用哪种搜索结构探索实验？",
+      "options": [
+        "用随机评分做广度优先展开",
+        "对输出词元做束搜索",
+        "仅使用人类反馈强化学习",
+        "按新颖性、质量与预算评分做实验节点的最佳优先树搜索"
+      ],
+      "correct": 3,
+      "explanation": "搜索节点表示实验方案与结果，系统优先扩展评分较高的节点。词元解码搜索与实验级搜索的状态、动作和评分对象不同。"
+    },
+    {
+      "id": "05-autonomous-research-agent-pre-2",
+      "stage": "pre",
+      "question": "为什么沙箱使用 `--network=none` 并限制资源？",
+      "options": [
+        "强制智能体使用提示词缓存",
+        "阻止网络外传，并将实验副作用限制在可复现边界内",
+        "保证浮点计算确定性",
+        "默认启用 GPU 直通"
+      ],
+      "correct": 1,
+      "explanation": "禁网和资源上限约束外联、进程及计算开销，便于隔离实验。它们不自动保证浮点确定性，也不等于启用 GPU。"
+    },
+    {
+      "id": "05-autonomous-research-agent-check-3",
+      "stage": "check",
+      "question": "写作循环中的视觉评议步骤负责什么？",
+      "options": [
+        "从截图生成新实验想法",
+        "渲染时取代 matplotlib",
+        "把图统一转换成柱状图",
+        "将 LaTeX 编译为 PDF，再用 VLM 检查布局、图的可读性与论断证据对应"
+      ],
+      "correct": 3,
+      "explanation": "视觉评议检查编译后的实际页面，能发现排版和图文对应问题。它评议已有稿件，并不承担实验创意搜索或绘图工具的职责。"
+    },
+    {
+      "id": "05-autonomous-research-agent-check-4",
+      "stage": "check",
+      "question": "评审器集成如何控制流水线是否通过？",
+      "options": [
+        "匿名投票后取简单多数",
+        "五个评审按 NeurIPS 风格量表打分，加权结果过门限才通过，否则返回写作循环",
+        "单个评审输出接受或拒绝",
+        "发布后才运行评审"
+      ],
+      "correct": 1,
+      "explanation": "课程设置五个评审和加权门限，把不达标稿件送回修改。简单多数和单个二元判断均没有实现这套量表聚合。"
+    },
+    {
+      "id": "05-autonomous-research-agent-check-5",
+      "stage": "check",
+      "question": "本课对每篇论文实行什么成本约束？",
+      "options": [
+        "记录 GPU 小时但不设上限",
+        "通过运行前估算和 Langfuse 计数执行 30 美元硬预算",
+        "只优化费用，不检查质量",
+        "算力不限，只限制总时间"
+      ],
+      "correct": 1,
+      "explanation": "每篇论文的预算由预估和运行中计数共同约束，并设 30 美元上限。质量门禁仍独立存在，不能用低成本取代质量审核。"
+    },
+    {
+      "id": "05-autonomous-research-agent-post-6",
+      "stage": "post",
+      "question": "系统用哪个评分函数决定接下来扩展哪个树节点？",
+      "options": [
+        "相关论文的引用次数",
+        "均匀随机优先级",
+        "输出长度与词元数",
+        "新颖性 × 质量 × 剩余预算"
+      ],
+      "correct": 3,
+      "explanation": "课程用新颖性、实验质量和剩余预算的组合排序节点，使扩展考虑价值与成本。引用数或文本长度不直接衡量一次实验分支的收益。"
+    },
+    {
+      "id": "05-autonomous-research-agent-post-7",
+      "stage": "post",
+      "question": "红队报告针对系统检验什么？",
+      "options": [
+        "fork bomb、网络外传及文件系统逃逸等沙箱突破尝试",
+        "系统提示词的缓存命中率",
+        "向量库的多租户数据泄漏",
+        "丢包条件下的长尾延迟"
+      ],
+      "correct": 0,
+      "explanation": "本课红队检查实验执行边界，包括进程耗尽、禁网和路径隔离。缓存、检索租户和音频丢包不属于这份报告指定的测试集。"
+    }
+  ]
+}

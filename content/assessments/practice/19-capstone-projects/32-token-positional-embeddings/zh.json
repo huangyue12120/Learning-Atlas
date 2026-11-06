@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/32-token-positional-embeddings/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "8a87c71ce156d8777a125c68dceb55d46812f26142eb4845b07eed7fc89bb5dd"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "32-token-positional-embeddings-pre-1",
+      "stage": "pre",
+      "question": "将 (B,T) 的 ID 输入嵌入层后，得到什么形状？",
+      "options": [
+        "(B,T,D)，D 为模型维数",
+        "(B,V)",
+        "(B,T,V)，V 为词表大小",
+        "(B,T)"
+      ],
+      "correct": 0,
+      "explanation": "查表为每个 ID 提供 D 维特征，保留批次与时间轴。词表维数用于输出分类，不是嵌入结果的最后一轴。"
+    },
+    {
+      "id": "32-token-positional-embeddings-check-2",
+      "stage": "check",
+      "question": "本课如何组合词元与位置嵌入？",
+      "options": [
+        "额外线性投影",
+        "逐元素最大值",
+        "逐元素相加，位置向量沿批次轴广播",
+        "沿特征轴拼接"
+      ],
+      "correct": 2,
+      "explanation": "词元张量为 (B,T,D)，位置表切片为 (T,D)，广播后相加。结果仍为 D 维，而非拼接后的 2D。"
+    },
+    {
+      "id": "32-token-positional-embeddings-check-3",
+      "stage": "check",
+      "question": "正弦位置嵌入贡献多少可学习参数？",
+      "options": [
+        "最大上下文长度乘模型维数",
+        "0",
+        "最大上下文长度",
+        "模型维数"
+      ],
+      "correct": 1,
+      "explanation": "正弦表由公式计算并作为 buffer 保存，不参与优化器参数更新。占用存储不等于拥有可学习参数。"
+    },
+    {
+      "id": "32-token-positional-embeddings-check-4",
+      "stage": "check",
+      "question": "按本课实现，哪种位置编码不能接受超过构造上限的序列？",
+      "options": [
+        "只有正弦编码",
+        "两者都能",
+        "两者都不能",
+        "只有可学习编码"
+      ],
+      "correct": 2,
+      "explanation": "两种实现都预先建立有限长度表并在 forward 检查长度。正弦公式在理论上可以继续计算，但本课缓存表仍有构造边界。"
+    },
+    {
+      "id": "32-token-positional-embeddings-post-5",
+      "stage": "post",
+      "question": "为什么相邻特征使用同频率的 sin 与 cos？",
+      "options": [
+        "位置平移可表达为该特征对上的线性旋转",
+        "cos 无法反向传播",
+        "单独 sin 没有周期",
+        "可使参数数量翻倍"
+      ],
+      "correct": 0,
+      "explanation": "利用三角恒等式，固定位置偏移对应二维旋转矩阵。这为表达相对偏移提供结构，而不是增加可学习参数。"
+    },
+    {
+      "id": "32-token-positional-embeddings-post-6",
+      "stage": "post",
+      "question": "嵌入反向传播时，为什么未出现在批次中的行梯度为零？",
+      "options": [
+        "这些行没有参与输出，按链式法则导数为零",
+        "优化器跳过从未见过的行",
+        "PyTorch 只保存非零项梯度",
+        "词元 ID 用稀疏结构存储"
+      ],
+      "correct": 0,
+      "explanation": "一次查表只使用被索引的行，因此其余行对本次损失没有贡献。梯度为零与是否选择稀疏梯度存储是不同问题。"
+    }
+  ]
+}

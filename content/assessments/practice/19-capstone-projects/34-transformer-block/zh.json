@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/34-transformer-block/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "07143aebc5b5eb0b14e2234ce0709db30ab441988179de352181ec9fb9e83007"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "34-transformer-block-pre-1",
+      "stage": "pre",
+      "question": "单个解码器 Transformer block 包含哪两个主要子层？",
+      "options": [
+        "卷积与循环门",
+        "多头因果注意力和逐位置 MLP，各有残差连接",
+        "RNN 编码器与解码器",
+        "嵌入查表与 softmax"
+      ],
+      "correct": 1,
+      "explanation": "本课 block 通过注意力交换位置间信息，再用 MLP 处理每个位置特征；两个更新分别加回残差流。"
+    },
+    {
+      "id": "34-transformer-block-check-2",
+      "stage": "check",
+      "question": "深层网络中 pre-LN 与 post-LN 的主要差异是什么？",
+      "options": [
+        "pre-LN 使用另一套注意力公式",
+        "pre-LN 只适用于编码器",
+        "pre-LN 保留直接残差路径，post-LN 在残差相加后归一化，训练稳定性与预热需求不同",
+        "post-LN 在 GPU 上更快"
+      ],
+      "correct": 2,
+      "explanation": "pre-LN 把归一化放入子层输入，便于梯度沿残差路径传播。它常改善深层优化，但不保证任何配置都无需学习率预热。"
+    },
+    {
+      "id": "34-transformer-block-check-3",
+      "stage": "check",
+      "question": "多头注意力中的因果掩码做什么？",
+      "options": [
+        "随机丢词元",
+        "把注意力 logits 上三角设为负无穷，阻止位置 i 读取后续位置",
+        "归一化分数",
+        "选择批次中最长序列"
+      ],
+      "correct": 1,
+      "explanation": "训练时完整序列同时输入，掩码确保每个位置只能使用过去与当前信息，防止下一词元任务泄漏未来答案。"
+    },
+    {
+      "id": "34-transformer-block-check-4",
+      "stage": "check",
+      "question": "为什么使用融合 QKV 投影，而非三个独立线性层？",
+      "options": [
+        "不再需要 softmax",
+        "改变模型表达能力",
+        "取消残差",
+        "将三次投影合为一个宽度 3d_model 的线性操作，减少算子调用"
+      ],
+      "correct": 3,
+      "explanation": "融合保持相同数学变换并减少调度开销，符合本课 GPT-2 参考形状。实际速度仍取决于硬件和内核，不能据此保证所有加速器都更快。"
+    },
+    {
+      "id": "34-transformer-block-post-5",
+      "stage": "post",
+      "question": "按本课 block 设计，dropout 不应放在哪里？",
+      "options": [
+        "残差的恒等分支本身",
+        "前馈扩张内部",
+        "注意力 softmax 输出",
+        "MLP 第二个线性层之后"
+      ],
+      "correct": 0,
+      "explanation": "保留恒等分支可让信息与梯度直接通过，dropout 用在子层更新路径。此处是本课残差结构的实现约定。"
+    },
+    {
+      "id": "34-transformer-block-post-6",
+      "stage": "post",
+      "question": "为什么把因果掩码注册为 buffer？",
+      "options": [
+        "buffer 只能在 GPU 运行",
+        "buffer 会加密",
+        "提高数值精度",
+        "掩码只依赖上下文上限，可构造一次并在 forward 切片，避免反复分配"
+      ],
+      "correct": 3,
+      "explanation": "固定掩码不需要训练参数，buffer 可随模型迁移设备。预分配并切片减少了每次前向的分配工作。"
+    }
+  ]
+}

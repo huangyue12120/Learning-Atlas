@@ -10,7 +10,15 @@ practice:
     slug: concept
 card:
   title: SFT 掩码损失与 DPO 偏好目标
-  summary: 在比较只做 SFT、SFT+DPO 与 SFT+GRPO，并处理 assistant-only 监督与 chosen/rejected 偏好对时，用掩码交叉熵和 DPO 隐式奖励目标核对每个训练阶段到底优化什么。（扩展内容待迁移，尚未经审核。）
+  summary: 在比较只做 SFT、SFT+DPO 与 SFT+GRPO，并处理 assistant-only 监督与 chosen/rejected 偏好对时，用掩码交叉熵和 DPO 隐式奖励目标核对每个训练阶段到底优化什么。
+  context: "微调流水线把数据、SFT、偏好训练和评估串起来，每个阶段必须有清楚的监督信号和产物来源。"
+  intuition: "SFT 用目标回答的交叉熵学习示范；DPO 比较 chosen 与 rejected 相对参考模型的序列对数概率差。流水线通过不代表这些目标已经在真实模型上优化。"
+  key_points:
+    - "assistant-only 掩码限定哪些词元参与 SFT 损失。"
+    - "DPO 需要同一提示词下的偏好对与固定参考策略。"
+    - "训练产物应绑定数据版本、配置和评估报告，避免阶段间串用旧模型。"
+  application: "沿 manifest 核对 SFT、DPO、量化与评估产物的依赖和内容哈希；演示阶段用模拟产物，真实训练效果需另行运行和比较。"
+  check_question: "若 DPO 阶段成功返回文件，但评估仍加载旧 SFT 权重，流水线应增加哪种来源检查？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 07 - computational linguistics/05. advanced text generation.md

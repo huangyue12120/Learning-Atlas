@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/02-rag-over-codebase/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "481e279df3b10b035684413fca697b6cf89b389be904088fe0d0abe05e6529cb"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "02-rag-over-codebase-pre-1",
+      "stage": "pre",
+      "question": "为什么仅对原始代码块做余弦相似度搜索不足以支持跨仓库检索？",
+      "options": [
+        "向量索引不能存储超过 1KB 的载荷",
+        "代码嵌入没有定义余弦相似度",
+        "嵌入模型不会把代码视为词元",
+        "生成代码、单仓重复内容和少被导入的符号会干扰结果"
+      ],
+      "correct": 3,
+      "explanation": "相似度排序容易受到重复代码和代码分布差异影响，且不能单独表达符号关系。课程因此结合结构化分块、混合检索和重排，而非否认代码嵌入可用。"
+    },
+    {
+      "id": "02-rag-over-codebase-pre-2",
+      "stage": "pre",
+      "question": "摄取流水线中的 AST 感知分块指什么？",
+      "options": [
+        "把代码切成固定 256 词元窗口",
+        "存储前用 gzip 压缩代码块",
+        "在 tree-sitter 的函数、类等节点边界切分",
+        "嵌入前删除注释与空白"
+      ],
+      "correct": 2,
+      "explanation": "按语法节点边界分块能保留函数或类的完整语义单元。固定窗口、压缩和删除空白都没有利用 AST 的结构边界。"
+    },
+    {
+      "id": "02-rag-over-codebase-check-3",
+      "stage": "check",
+      "question": "本流水线为每个代码块提供哪三种可检索表示？",
+      "options": [
+        "原始文本、gzip 与哈希",
+        "词元 ID、语法树与调用图",
+        "AST、IR 与字节码",
+        "稠密嵌入、BM25 词项与自然语言摘要"
+      ],
+      "correct": 3,
+      "explanation": "同一块同时支持向量语义匹配、词项匹配和自然语言说明。这里问的是检索表示，符号图属于额外的结构信息。"
+    },
+    {
+      "id": "02-rag-over-codebase-check-4",
+      "stage": "check",
+      "question": "混合检索之后的交叉编码器重排器负责什么？",
+      "options": [
+        "联合编码查询和候选，给出比单独余弦匹配更细的相关性评分",
+        "改写代码块以删除生成代码",
+        "用另一个模型重新嵌入查询",
+        "把代码块压缩后交给综合器"
+      ],
+      "correct": 0,
+      "explanation": "交叉编码器直接处理查询与候选的组合，利用二者的交互重新排序。它不负责修改源代码、压缩上下文或重新构建单向量索引。"
+    },
+    {
+      "id": "02-rag-over-codebase-check-5",
+      "stage": "check",
+      "question": "为什么综合器拒绝没有 `(repo/path:start-end)` 锚点的答案？",
+      "options": [
+        "要求引用忠实于来源，让用户逐项核查论断",
+        "向量数据库 schema 强制要求这种锚点",
+        "锚点能减少综合调用的词元费用",
+        "后续 BM25 重排需要这种锚点"
+      ],
+      "correct": 0,
+      "explanation": "路径与行范围把论断连回代码证据，引用检查构成答案发布门禁。格式本身不会提高检索分数，也不保证更低费用。"
+    },
+    {
+      "id": "02-rag-over-codebase-post-6",
+      "stage": "post",
+      "question": "要让 50 个文件的推送在 60 秒内完成增量索引，应采取哪种策略？",
+      "options": [
+        "删除整个符号图",
+        "每次丢弃 BM25 索引并从头重建",
+        "每次重新嵌入全部 200 万行代码",
+        "仅重嵌入文本已变化的块，并重算受影响的符号边"
+      ],
+      "correct": 3,
+      "explanation": "增量处理把计算限定在变化块及其依赖边上，避免全库重算。删除检索结构虽减少工作，却会牺牲本课需要的功能。"
+    },
+    {
+      "id": "02-rag-over-codebase-post-7",
+      "stage": "post",
+      "question": "哪个指标衡量检索答案中的论断能否在来源中核实？",
+      "options": [
+        "引用忠实度",
+        "查询延迟 p95",
+        "nDCG@10",
+        "MRR@10"
+      ],
+      "correct": 0,
+      "explanation": "引用忠实度检查答案与引用证据是否对应。nDCG 和 MRR 衡量排序，延迟衡量响应时间，都不能直接判断论断有没有证据。"
+    }
+  ]
+}

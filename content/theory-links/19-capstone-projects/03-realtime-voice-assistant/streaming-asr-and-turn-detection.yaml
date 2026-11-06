@@ -10,7 +10,15 @@ practice:
     slug: concept
 card:
   title: 流式语音流水线中的帧、静音与轮次
-  summary: 在连接 20 ms 音频帧、VAD 静音事件、部分转写和轮次完成分数时，用自动语音识别理论核对帧级特征、序列解码和端点判定的接口，避免把一次误截断误诊为 LLM 问题。（扩展内容待迁移，尚未经审核。）
+  summary: 在连接 20 ms 音频帧、VAD 静音事件、部分转写和轮次完成分数时，用自动语音识别理论核对帧级特征、序列解码和端点判定的接口，避免把一次误截断误诊为 LLM 问题。
+  context: "语音响应延迟从音频输入开始计算，误判用户说完会在语言模型接手之前截断问题。"
+  intuition: "音频帧、部分转写和轮次判定处在不同时间尺度。VAD 识别语音活动，ASR 预测文字，端点策略决定何时把当前话轮交给后续流水线。"
+  key_points:
+    - "静音阈值降低可缩短等待，也会增加句中停顿被截断的风险。"
+    - "部分转写可能修订，不能把所有中间结果当成最终文本。"
+    - "真实 ASR 质量与轮次检测质量需要分别测量。"
+  application: "在合成会话中延长句中静音，记录 turn_complete 与 first_audio_out；检查提前结束话轮时，后续低延迟是否掩盖了输入不完整。"
+  check_question: "同一句话出现更低响应延迟但更高误截断率，能说明语音系统变好了吗，为什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/02. automatic speech recognition.md

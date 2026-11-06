@@ -25,7 +25,7 @@ status: reviewed
 
 大部分难点不在推理，而在范围控制和安全。智能体需要一个默认只读的 RBAC 面、经过加固的 MCP 工具服务器，以及记录每条“考虑过”和“实际执行”命令的审计日志。它还要知道自己何时超出能力范围并升级处理，同时运行成本要足够低，以免 OOM kill 级联产生 5000 美元的智能体账单。
 
-## 概念
+## 概念 <!-- learning-atlas: concept -->
 
 智能体在知识图谱上工作。节点是 K8s 对象（Pod、Deployment、Service、Node、HPA、PVC）和遥测来源（Prometheus 序列、Loki 流、Tempo trace）。边编码所有关系（Pod -> ReplicaSet -> Deployment）、调度关系（Pod -> Node）和观测关系（Pod -> Prometheus 序列）。kube-state-metrics 同步让图保持新鲜，每次告警时都会重新采样。
 

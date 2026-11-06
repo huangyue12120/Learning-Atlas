@@ -25,7 +25,7 @@ status: reviewed
 
 你要构建一个自托管仪表盘，从至少四个 SDK 家族摄取数据，在抽样 trace 上运行一组小型评测任务，检测漂移并发出告警。测量标准是：给定一次刻意注入的回归（某个提示开始生成 PII），仪表盘能在五分钟内捕获它并触发告警。
 
-## 概念
+## 概念 <!-- learning-atlas: concept -->
 
 摄取使用 OTLP HTTP。SDK 产生 GenAI 语义约定 span：gen_ai.system、gen_ai.request.model、gen_ai.usage.input_tokens、gen_ai.response.id、llm.prompts、llm.completions。span 进入 ClickHouse 做列式分析，元数据（用户、会话、应用）进入 Postgres。
 

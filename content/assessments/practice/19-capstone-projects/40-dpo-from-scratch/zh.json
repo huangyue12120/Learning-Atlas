@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/40-dpo-from-scratch/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "3e87d1afdea58a89a30ba900b595d8ecb5766b7a8ad6a2383bc17ea484a110c8"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "40-dpo-from-scratch-pre-1",
+      "stage": "pre",
+      "question": "Bradley–Terry 模型用 sigmoid(r(x,y_w)−r(x,y_l)) 表示偏好概率，意味着什么？",
+      "options": [
+        "只依赖奖励差，两个回答共有的提示词函数项会抵消",
+        "必须先拟合奖励模型才能训练策略",
+        "必须保留不会抵消的归一化常数 Z(x)",
+        "sigmoid 不能用于最大似然"
+      ],
+      "correct": 0,
+      "explanation": "偏好概率仅依赖同一提示词下的奖励差。将最优策略关系代入后，提示词公共项抵消，这是 DPO 不必单独拟合显式奖励模型的结构基础。"
+    },
+    {
+      "id": "40-dpo-from-scratch-check-2",
+      "stage": "check",
+      "question": "DPO 中策略对 chosen、rejected 的对数概率均等于参考值时，单样本损失是多少？",
+      "options": [
+        "beta",
+        "-1",
+        "log(2)",
+        "0"
+      ],
+      "correct": 2,
+      "explanation": "两个策略与参考差均为零，sigmoid 输入为零，负对数概率为 −log(0.5)=log(2)。这表示策略尚未相对参考产生偏好差异。"
+    },
+    {
+      "id": "40-dpo-from-scratch-check-3",
+      "stage": "check",
+      "question": "DPO 训练时，策略偏离参考会让冻结参考的 chosen 对数概率逐轮改变吗？",
+      "options": [
+        "beta 非零时会",
+        "仅在显式 no_grad 时不会",
+        "会，参考随策略一起漂移",
+        "不会，参考冻结，可预先计算并复用对数概率"
+      ],
+      "correct": 3,
+      "explanation": "参考参数不随策略优化更新。在固定输入和确定性评估设置下可缓存参考对数概率；no_grad 与冻结参数共同避免无用梯度。"
+    },
+    {
+      "id": "40-dpo-from-scratch-check-4",
+      "stage": "check",
+      "question": "假设 beta>0，DPO 损失对 chosen 策略对数概率的偏导符号是什么？",
+      "options": [
+        "正",
+        "零",
+        "取决于参考模型，无法确定",
+        "负"
+      ],
+      "correct": 3,
+      "explanation": "导数为 −beta×(1−sigmoid(z))，有限 z 下为负，说明增加 chosen 对数概率会降低损失。若 beta=0，则梯度为零，故题干明确正 beta。"
+    },
+    {
+      "id": "40-dpo-from-scratch-post-5",
+      "stage": "post",
+      "question": "DPO 损失下降，但模型无差别偏好更短回答，首先检查什么？",
+      "options": [
+        "序列对数概率求和带来的长度偏差",
+        "优化器学习率一定错误",
+        "参考一定未冻结",
+        "beta 一定过小"
+      ],
+      "correct": 0,
+      "explanation": "每个额外词元增加一个非正对数概率项，长度可能影响比较。可分析长度分桶或尝试长度归一化，但后者改变目标，不是标准 DPO 必须执行的等价修复。"
+    },
+    {
+      "id": "40-dpo-from-scratch-post-6",
+      "stage": "post",
+      "question": "将 sigmoid 对数损失替换为本课 IPO 平方间隔损失，主要改变什么？",
+      "options": [
+        "完全取消参考模型",
+        "对偏离目标间隔施加平方惩罚，梯度行为不同，可用于比较噪声偏好下的过度优化",
+        "完全不再需要 beta",
+        "在所有点上与 DPO 等价"
+      ],
+      "correct": 1,
+      "explanation": "本课代码的 IPO 为 (margin−1/(2beta))²，既会拉高不足的间隔，也会惩罚过大的间隔。上游题干的 (z−1)² 是简写，不能据此认为 beta 或参考项消失，也不保证所有噪声数据上都更好。"
+    }
+  ]
+}

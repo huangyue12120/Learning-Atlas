@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/43-hdf5-tokenized-corpus/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "dcf3bce3c3b8abeca1ad5228970078618b0574ff55f60cac9342b9ccdfe2ab50"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "43-hdf5-tokenized-corpus-pre-1",
+      "stage": "pre",
+      "question": "为什么分词语料使用可扩展分块 HDF5，而非每次读取都解析 JSONL？",
+      "options": [
+        "HDF5 标志更小",
+        "JSONL 已废弃",
+        "随机选择",
+        "整数流支持按索引切片及分块缓存，减少训练热路径的文本解析"
+      ],
+      "correct": 3,
+      "explanation": "数据加载器需要对扁平词元流读取窗口，HDF5 提供直接索引和块缓存。实际 I/O 成本取决于块大小、压缩和缓存命中，不宜泛化为恒定时间读取任意切片。"
+    },
+    {
+      "id": "43-hdf5-tokenized-corpus-check-2",
+      "stage": "check",
+      "question": "HDF5 chunk 与训练窗口大小应怎样配合？",
+      "options": [
+        "选能放入内存的最大块",
+        "固定 chunk=1",
+        "选与常用窗口成倍数关系的块，并实测跨块与缓存开销",
+        "固定等于文档长度"
+      ],
+      "correct": 2,
+      "explanation": "匹配常用读取长度可减少跨块读取，但窗口起点和 T+1 目标也影响边界。吞吐改善应测量，不能仅凭倍数关系保证一次读完或固定翻倍。"
+    },
+    {
+      "id": "43-hdf5-tokenized-corpus-check-3",
+      "stage": "check",
+      "question": "为什么显式保存 token_count 属性？",
+      "options": [
+        "为读取器记录真实有效词元范围，避免把容量或填充误作训练数据",
+        "读取 shape 很慢",
+        "HDF5 强制要求",
+        "只为美观"
+      ],
+      "correct": 0,
+      "explanation": "有效长度属于内容契约。编者注：本课写入器最终按有效长度 resize，shape 通常已等于 token_count；属性用于显式记录与校验，不表示这里必然存在零填充尾部。"
+    },
+    {
+      "id": "43-hdf5-tokenized-corpus-check-4",
+      "stage": "check",
+      "question": "写入器先缓冲到 chunk_size 再扩展数据集，有什么作用？",
+      "options": [
+        "批量连续写入，减少逐词元 resize 的管理开销",
+        "缩小词表",
+        "加快 SHA-256",
+        "只省几个 CPU 周期"
+      ],
+      "correct": 0,
+      "explanation": "按块扩展让写入批量化并匹配存储布局。它有助于减少碎片和调用开销，但并非保证磁盘连续分配的唯一办法。"
+    },
+    {
+      "id": "43-hdf5-tokenized-corpus-post-5",
+      "stage": "post",
+      "question": "读取器的 `swmr=True` 与本课写入器设置如何配合？",
+      "options": [
+        "仅出于安全",
+        "随机偏好",
+        "只为性能",
+        "读取器进入多读模式，写入器用 latest 格式、启用 swmr_mode 并 flush 更新"
+      ],
+      "correct": 3,
+      "explanation": "编者注：上游题目称写端无需特殊模式，与当前代码不符。写端先创建数据集，再设置 file.swmr_mode=True 并刷新数据；该模式仍只允许一个写入者。"
+    },
+    {
+      "id": "43-hdf5-tokenized-corpus-post-6",
+      "stage": "post",
+      "question": "边界词元 ID 明确表达什么？",
+      "options": [
+        "压缩方式",
+        "词表大小限制",
+        "随机数据",
+        "打包窗口中的文档分界"
+      ],
+      "correct": 3,
+      "explanation": "文档串接时插入边界标记，让模型能区分相邻文档。标记不自动禁止跨文档注意力；若需隔离，还要额外掩码。"
+    }
+  ]
+}

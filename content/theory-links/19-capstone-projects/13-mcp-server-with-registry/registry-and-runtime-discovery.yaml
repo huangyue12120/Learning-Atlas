@@ -10,7 +10,15 @@ practice:
     slug: the-two-discovery-layers
 card:
   title: 发布元数据与运行时发现的双层契约
-  summary: 在把 Registry 的发布记录与 MCP 进程的实时能力分开时，用客户端—服务器和 API 设计理论核对无状态请求、版本协商、路由与缓存边界。（扩展内容待迁移，尚未经审核。）
+  summary: 在把 Registry 的发布记录与 MCP 进程的实时能力分开时，用客户端—服务器和 API 设计理论核对无状态请求、版本协商、路由与缓存边界。
+  context: "客户端要先找到服务，再问运行中的服务支持什么；发布记录与运行时能力不能混为同一份事实。"
+  intuition: "Registry 提供版本和启动元数据，MCP 运行时负责 initialize 与能力发现。它们属于不同客户端—服务器交互，缓存和失效条件也不同。"
+  key_points:
+    - "Registry 记录不能代替实际连接后的协议协商。"
+    - "tools/list 与动态能力需要由当前进程回答。"
+    - "缓存发布元数据时应保留版本，调用时仍须处理运行时能力变化。"
+  application: "在本地示例中分别检查注册记录、initialize 和 tools/list 的结果，修改工具注册表后核对哪一层输出会变化。"
+  check_question: "如果 Registry 中有某工具的说明，但运行时 tools/list 已不再提供它，客户端应以哪份信息决定调用，为什么？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/01. systems design fundamentals.md

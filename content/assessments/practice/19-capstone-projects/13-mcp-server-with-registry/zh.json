@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/13-mcp-server-with-registry/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "65a33c03e948a96b6cc6956b7729692e957eb112440f4eff85d94b35d17cac34"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "13-mcp-server-with-registry-pre-1",
+      "stage": "pre",
+      "question": "为什么本课同时使用 `server.json` 和 `server/discover`？",
+      "options": [
+        "前者保存会话，后者删除会话",
+        "Registry 要求二者版本日期完全一致",
+        "二者只是同一工具清单的两个名字",
+        "前者发布安装与端点元数据，后者报告运行时协议能力"
+      ],
+      "correct": 3,
+      "explanation": "Registry 记录帮助客户端定位并配置服务器，实时 RPC 描述当前进程支持什么。二者的 schema 和版本域独立；发布身份仍须使用已认证命名空间并与实时 serverInfo 一致。"
+    },
+    {
+      "id": "13-mcp-server-with-registry-check-2",
+      "stage": "check",
+      "question": "在本课锁定的 MCP 2026-07-28 修订版中，什么替代 initialize 握手？",
+      "options": [
+        "`Mcp-Session-Id` 与 `notifications/initialized`",
+        "每次请求携带协议版本及客户端能力，并可调用必需的 `server/discover`",
+        "通过 GET 打开永久服务器流",
+        "每条 TCP 连接仅发送一次会话 cookie"
+      ],
+      "correct": 1,
+      "explanation": "该修订版把版本和能力放入逐请求元数据，server/discover 提供实时发现，不建立协议会话。此题描述锁定快照，不能套用旧握手流程。"
+    },
+    {
+      "id": "13-mcp-server-with-registry-check-3",
+      "stage": "check",
+      "question": "哪种 `tools/list` 行为有助于安全且高效的发现？",
+      "options": [
+        "不声明作用域并永久缓存",
+        "各副本随机排列工具",
+        "initialize 时创建连接本地列表",
+        "确定性排序，并声明 ttlMs 和正确的 public 或 private cacheScope"
+      ],
+      "correct": 3,
+      "explanation": "稳定顺序利于复现及提示词缓存，ttlMs 表达有效期，cacheScope 限制用户专属结果的共享。只给缓存期限却忽略作用域仍可能泄漏结果。"
+    },
+    {
+      "id": "13-mcp-server-with-registry-check-4",
+      "stage": "check",
+      "question": "哪种 Streamable HTTP 设计符合本课的无状态传输？",
+      "options": [
+        "所有客户端都依赖负载均衡粘性路由",
+        "POST 建会话、GET 恢复、DELETE 关闭",
+        "独立 GET 流通过 Last-Event-ID 重放",
+        "每条 JSON-RPC 消息各自 POST，请求使用 JSON 或请求范围内 SSE"
+      ],
+      "correct": 3,
+      "explanation": "锁定修订版的 MCP 消息使用 POST，不依赖协议会话、独立 GET 流或 Last-Event-ID 恢复。请求内 SSE 与跨请求会话是两种概念。"
+    },
+    {
+      "id": "13-mcp-server-with-registry-post-5",
+      "stage": "post",
+      "question": "生产服务器在运行策略批准的工具处理器之前必须校验什么？",
+      "options": [
+        "只校验 server.json 是否列出远端 URL",
+        "只看工具的 destructiveHint 注解",
+        "只确认有人发过批准消息",
+        "协议元数据，以及令牌签发者、受众或资源、有效期、scope 和精确动作批准"
+      ],
+      "correct": 3,
+      "explanation": "协议校验、令牌验证与策略授权是分别执行的门禁。工具注解和发布元数据描述能力，不能授予调用权限；高影响动作批准还须绑定具体参数与目标。"
+    },
+    {
+      "id": "13-mcp-server-with-registry-post-6",
+      "stage": "post",
+      "question": "哪项证据最能支持服务器无需协议会话即可扩展的结论？",
+      "options": [
+        "server.json 中的远端条目",
+        "在线路层并发调用两个可互换副本，且不依赖会话亲和性",
+        "仅构造一个响应字典的单元测试",
+        "一张负载均衡示意图"
+      ],
+      "correct": 1,
+      "explanation": "交替调用真实副本才能检验正确性是否藏在单进程状态或粘性会话中。清单、字典测试和架构图均不能单独证明部署边界上的行为。"
+    }
+  ]
+}

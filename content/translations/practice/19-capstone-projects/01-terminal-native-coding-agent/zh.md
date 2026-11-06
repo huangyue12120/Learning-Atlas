@@ -25,7 +25,7 @@ status: reviewed
 
 你无法只从外部推理这些智能体。你必须亲手构建一个，亲眼看着它在第 47 回合因 ripgrep 返回 8 MB 匹配结果而崩溃，再重建截断层。这正是本毕业项目的意义。
 
-## 概念
+## 概念 <!-- learning-atlas: concept -->
 
 工作台有四个面。**规划（Plan）**维护一个 TodoWrite 风格的状态对象，模型每回合都会重写它。**行动（Act）**分派工具调用（读取、编辑、运行、搜索、git）。**观察（Observe）**捕获 stdout / stderr / 退出码，执行截断，然后把摘要送回模型。**恢复（Recover）**处理工具错误，既不撑爆上下文窗口，也不无限循环。2026 年的形态还增加了一个要素：**钩子（hooks）**。`PreToolUse`、`PostToolUse`、`SessionStart`、`SessionEnd`、`UserPromptSubmit`、`Notification`、`Stop` 和 `PreCompact` 是可配置的扩展点，操作员可以在这里注入策略、遥测和防护栏。
 

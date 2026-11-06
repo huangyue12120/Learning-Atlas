@@ -10,7 +10,15 @@ practice:
     slug: concept
 card:
   title: 语音智能体的流式缓冲与端到端延迟
-  summary: 在处理 WebRTC 抖动缓冲、TTS 首块、抢话取消和旁路工具延迟时，用数字信号处理与流式音频理论核对缓冲、回声路径和实时性之间的权衡；该关联先保留候选状态，待独立审核。（扩展内容待迁移，尚未经审核。）
+  summary: 在处理 WebRTC 抖动缓冲、TTS 首块、抢话取消和旁路工具延迟时，用数字信号处理与流式音频理论核对缓冲、回声路径和实时性之间的权衡。
+  context: "从用户停顿到首块语音播出包含缓冲、推理、工具和合成时间；需要按时间线拆开测量。"
+  intuition: "缓冲吸收帧到达的不均匀性，却也增加等待。流式输出缩短首块可用时间，抢话取消则要求停止尚未播放的旧响应。"
+  key_points:
+    - "首词元延迟与首音频延迟属于不同指标。"
+    - "抖动缓冲大小要在连续播放和等待时间之间取舍。"
+    - "取消工具、取消生成与清空播放队列需要独立处理。"
+  application: "对照有工具与无工具的会话时间点，再触发 barge-in，确认旧响应停止后没有残留音频继续播放；合成时钟结果只验证控制流。"
+  check_question: "如果 LLM 已停止生成，用户为何仍可能听到旧回答，应该检查哪段缓冲？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 09 - audio and speech/01. digital signal processing.md

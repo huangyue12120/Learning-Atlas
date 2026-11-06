@@ -10,7 +10,15 @@ practice:
     slug: concept
 card:
   title: 在 PR 之前用测试金字塔设置验证门
-  summary: 在沙盒中运行完整 CI、比较覆盖率差值并在失败时阻止发布时，用测试与质量保证理论核对单元测试、集成测试、端到端测试和持续集成各自的职责。（扩展内容待迁移，尚未经审核。）
+  summary: 在沙盒中运行完整 CI、比较覆盖率差值并在失败时阻止发布时，用测试与质量保证理论核对单元测试、集成测试、端到端测试和持续集成各自的职责。
+  context: "Issue 到 PR 的自动改动必须先有可复核的构建和测试结果，再进入协作审查。"
+  intuition: "快速检查先排除局部问题，集成与端到端测试再验证真实路径。CI 是一组针对具体提交运行的证据，不能用旧分支的绿色状态担保新 diff。"
+  key_points:
+    - "失败门应阻止 PR 发布或明确标为未通过。"
+    - "覆盖率差值要与迁移前基线使用相同口径。"
+    - "测试报告应绑定提交、环境和命令，便于审查者复现。"
+  application: "在本地模拟仓库注入一处会触发测试失败的改动，检查 verifier 结果与是否创建 PR 的状态，再修复并重新运行。"
+  check_question: "如果测试后又修改了一行代码，为什么原来的 CI 通过记录需要重新核验？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 15 - production software engineering/04. testing and quality assurance.md

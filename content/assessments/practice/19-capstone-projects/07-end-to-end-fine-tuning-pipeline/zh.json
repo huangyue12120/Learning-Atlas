@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/07-end-to-end-fine-tuning-pipeline/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "307611bcedd4a02c4d6bea6abbf44685153c34f9632e01d35ae66ac6509a6449"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "07-end-to-end-fine-tuning-pipeline-pre-1",
+      "stage": "pre",
+      "question": "数据准备中的污染检查防止什么？",
+      "options": [
+        "SFT 与 DPO 之间的分词器漂移",
+        "MMLU-Pro、MT-Bench-v2 等测试集泄漏到训练数据",
+        "训练与服务的 GPU 驱动不一致",
+        "llama.cpp 构建之间的 GGUF 版本差异"
+      ],
+      "correct": 1,
+      "explanation": "训练集包含基准答案会使评测结果失真。污染检查关注训练与测试数据的重叠，驱动和格式兼容性属于其他检查。"
+    },
+    {
+      "id": "07-end-to-end-fine-tuning-pipeline-pre-2",
+      "stage": "pre",
+      "question": "为什么流水线先做 SFT，再做 DPO 或 GRPO？",
+      "options": [
+        "DPO 无法用于量化权重",
+        "Axolotl 未实现 DPO",
+        "SFT 从标注回答建立领域行为，DPO 或 GRPO 再用偏好或可验证奖励对齐",
+        "DPO 需要另一种基础模型架构"
+      ],
+      "correct": 2,
+      "explanation": "两个阶段提供不同训练信号：示范回答与偏好或奖励。选择顺序源于学习目标的衔接，并非声称某框架缺少实现或模型必须换架构。"
+    },
+    {
+      "id": "07-end-to-end-fine-tuning-pipeline-check-3",
+      "stage": "check",
+      "question": "EAGLE-3 在 vLLM 服务阶段提供什么？",
+      "options": [
+        "用于工具调用的 OPA 策略",
+        "自动数据去重步骤",
+        "新的提示词缓存层",
+        "预测后续多个词元的草稿头，由目标模型一次验证以提高吞吐"
+      ],
+      "correct": 3,
+      "explanation": "草稿头提前提出候选，目标模型验证这些候选，从而减少串行解码轮次。课程中的 2–3 倍收益是实验目标，实际加速取决于接受率与运行配置。"
+    },
+    {
+      "id": "07-end-to-end-fine-tuning-pipeline-check-4",
+      "stage": "check",
+      "question": "哪个指标表示推测解码草稿与目标模型的匹配程度？",
+      "options": [
+        "接受率",
+        "困惑度",
+        "PSI",
+        "覆盖率变化"
+      ],
+      "correct": 0,
+      "explanation": "接受率统计目标模型接受的草稿词元比例，直接影响有效步长。困惑度和 PSI 分别衡量预测损失与分布变化，不能替代该计数。"
+    },
+    {
+      "id": "07-end-to-end-fine-tuning-pipeline-check-5",
+      "stage": "check",
+      "question": "本流水线交付哪三种量化产物以适配部署？",
+      "options": [
+        "GPTQ-INT4-Marlin、AWQ-INT4、GGUF-Q4_K_M",
+        "FP32、FP16、BF16",
+        "三种运行时均只用 INT8",
+        "ONNX、CoreML、TFLite"
+      ],
+      "correct": 0,
+      "explanation": "课程选择三种具体量化格式及内核路径。浮点精度名称和通用模型交换格式不等于本题要求的三种量化产物。"
+    },
+    {
+      "id": "07-end-to-end-fine-tuning-pipeline-post-6",
+      "stage": "post",
+      "question": "本课的 2026 模型卡遵循哪项约定？",
+      "options": [
+        "仅使用 HuggingFace YAML 前置元数据",
+        "OpenAI 模型卡格式",
+        "Datasheets for Datasets",
+        "Model Openness Framework（MOF）2026 模板，覆盖数据、训练、评测、安全、许可与复现"
+      ],
+      "correct": 3,
+      "explanation": "MOF 模板要求披露完整训练与发布信息。只写前置元数据不足以覆盖课程要求，数据集说明也不能直接替代模型卡。"
+    },
+    {
+      "id": "07-end-to-end-fine-tuning-pipeline-post-7",
+      "stage": "post",
+      "question": "服务副本用哪个 HPA 指标自动扩缩容？",
+      "options": [
+        "GPU 温度",
+        "CPU 利用率",
+        "队列等待时间",
+        "网络外传字节数"
+      ],
+      "correct": 2,
+      "explanation": "队列等待时间反映请求积压及用户等待，可作为服务容量需求信号。温度与网络量并不直接描述推理排队情况。"
+    }
+  ]
+}

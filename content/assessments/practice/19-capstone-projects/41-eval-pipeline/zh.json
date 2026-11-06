@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/41-eval-pipeline/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "8c4a2e2342186de4d093f44be1a402d9310b8be1b31304093d1ffd4ed74159e0"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "41-eval-pipeline-pre-1",
+      "stage": "pre",
+      "question": "同事报告留出集困惑度 4.2，问模型是否好，最合理的回答是什么？",
+      "options": [
+        "低于 5 就说明好",
+        "困惑度衡量语言分布拟合，还需检查指令跟随与答案正确性",
+        "没有显式提示词时困惑度无意义",
+        "只有评审模型才能判断"
+      ],
+      "correct": 1,
+      "explanation": "低困惑度只覆盖预测目标的一个方面。不同任务还需完全匹配、词元 F1 或质量评议，不能用固定阈值概括模型能力。"
+    },
+    {
+      "id": "41-eval-pipeline-check-2",
+      "stage": "check",
+      "question": "为什么先汇总非 padding 词元 NLL，再除以词元总数并取指数，而非平均各批困惑度？",
+      "options": [
+        "困惑度不能用于批次",
+        "直接平均会给不同大小批次相同权重，并且指数变换不与平均交换",
+        "padding 必须计入平均",
+        "两种算法等价"
+      ],
+      "correct": 1,
+      "explanation": "正确汇总按有效词元加权平均 NLL 后求 exp。即使每批同样大，平均 exp(NLL) 通常也不同于 exp(平均 NLL)。"
+    },
+    {
+      "id": "41-eval-pipeline-check-3",
+      "stage": "check",
+      "question": "词元 F1 在预测和参考都空时记 1；只有一边为空时应记多少？",
+      "options": [
+        "1",
+        "只匹配一个词元时固定 0.5",
+        "未定义",
+        "0"
+      ],
+      "correct": 3,
+      "explanation": "一边没有内容而另一边有内容，没有可匹配词元，按本课约定 F1 为 0。空空的特殊处理不能推广到混合空值。"
+    },
+    {
+      "id": "41-eval-pipeline-check-4",
+      "stage": "check",
+      "question": "归一化困惑度公式 `1/(1+log(max(ppl,1)))` 保证什么？",
+      "options": [
+        "分数在 [0,1]，随原始困惑度增大单调不增",
+        "分数在 [0,1] 且单调增加",
+        "分数无上界",
+        "只返回 0 或 1"
+      ],
+      "correct": 0,
+      "explanation": "对有效困惑度，ppl=1 映射到 1，ppl 增大时分母增大，极限趋向 0。小于 1 的输入经 max 钳制到同一值。"
+    },
+    {
+      "id": "41-eval-pipeline-post-5",
+      "stage": "post",
+      "question": "把模拟评审替换为真实模型评审，流水线最少修改什么？",
+      "options": [
+        "重写聚合器以接收新量程",
+        "增加 DEFAULT_WEIGHTS 项",
+        "将 judge_eval 的 judge_fn 换成同签名函数，返回 JudgeVerdict",
+        "把全套评测改成异步 I/O"
+      ],
+      "correct": 2,
+      "explanation": "接口约定为 instruction、prediction、reference 到 JudgeVerdict。保持输出契约即可替换评审实现，聚合器不应依赖具体模型厂商。"
+    },
+    {
+      "id": "41-eval-pipeline-post-6",
+      "stage": "post",
+      "question": "总分 0.72、exact-match 0.40、评审 4.5/5，这组结果可能说明什么？",
+      "options": [
+        "聚合一定算错",
+        "一定在语言模型语料上过拟合",
+        "评审指标按定义与完全匹配冲突",
+        "较少逐字命中参考，但评审认为开放回答质量较好"
+      ],
+      "correct": 3,
+      "explanation": "改述可能导致低完全匹配而高评审分，但还需抽查样本及评审偏差。总分汇总了不同维度，不能独自解释差异。"
+    }
+  ]
+}

@@ -10,7 +10,15 @@ practice:
     slug: concept
 card:
   title: 多智能体交接的消息形状与协调边界
-  summary: 在用类型化 A2A 消息传递计划、diff、审阅反馈和测试结果时，用系统设计中的协议与服务间通信理论核对序列化消息如何跨角色保持契约，以及共享状态和并行 worktree 如何引入协调风险。（扩展内容待迁移，尚未经审核。）
+  summary: 在用类型化 A2A 消息传递计划、diff、审阅反馈和测试结果时，用系统设计中的协议与服务间通信理论核对序列化消息如何跨角色保持契约，以及共享状态和并行 worktree 如何引入协调风险。
+  context: "多角色通过消息交接计划、改动和测试结果，需要在接口处检查消息形状，也需要避免并发写入冲突。"
+  intuition: "协议定义消息能否被接收与解释；任务所有权定义谁能修改哪些状态。类型正确的消息仍可能指向过时的分支或错误的测试产物。"
+  key_points:
+    - "交接消息应带任务标识、产物引用和结果状态。"
+    - "并行 worktree 减少文件直接冲突，但合并后仍需集成验证。"
+    - "角色数增多会增加交接和词元开销，收益需要与单智能体基线比较。"
+  application: "检查 board 中 plan、diff、review 与 test 的关联，比较十次配对试验的通过数与 token amplification，定位一次审阅通过但测试失败的交接。"
+  check_question: "一个 test_passed 消息缺少被测试的提交标识，会怎样影响并行团队对结果的解释？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/01. systems design fundamentals.md

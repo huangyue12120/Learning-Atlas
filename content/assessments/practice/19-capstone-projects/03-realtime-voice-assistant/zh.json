@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/03-realtime-voice-assistant/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "d13c0ed0e5559bffd00b3eff02d0846bb11d0f98928dabfbaf1b7436a1850f46"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "03-realtime-voice-assistant-pre-1",
+      "stage": "pre",
+      "question": "为什么不能把三个阻塞 REST 调用简单串接成实时语音智能体？",
+      "options": [
+        "REST 端点固定在 30 秒超时",
+        "REST 与 WebRTC 不兼容",
+        "JSON 序列化音频一定太慢",
+        "低于 800 ms 的端到端延迟需要各阶段流水化流式处理"
+      ],
+      "correct": 3,
+      "explanation": "串行等待完整识别、完整生成和完整合成会累计延迟。课程要求阶段重叠、尽早输出；问题在阻塞编排方式，并非 REST 协议本身禁止音频。"
+    },
+    {
+      "id": "03-realtime-voice-assistant-pre-2",
+      "stage": "pre",
+      "question": "VAD 旁边的轮次检测器承担什么职责？",
+      "options": [
+        "把背景音乐混入输出",
+        "区分多人通话中的说话者",
+        "结合部分转写判断用户是否真的说完",
+        "为智能体训练定制声音克隆"
+      ],
+      "correct": 2,
+      "explanation": "VAD 判断是否有语音，轮次检测还利用转写判断语义是否完整。检测静音不等于确认轮次结束，说话人识别与声音克隆则是其他任务。"
+    },
+    {
+      "id": "03-realtime-voice-assistant-check-3",
+      "stage": "check",
+      "question": "用户在智能体回答中途开口时，怎样实现自然的抢话？",
+      "options": [
+        "让 TTS 说完当前句子后再交接",
+        "提高 TTS 音量以保持优先权",
+        "立即取消 TTS，丢弃剩余 LLM 输出并重新启动 ASR",
+        "等待 TTS 结束再处理缓存的用户音频"
+      ],
+      "correct": 2,
+      "explanation": "抢话需要切断当前输出链并恢复听取输入，避免旧回答继续播放。等一句话说完或缓存到最后都会增加用户打断后的等待。"
+    },
+    {
+      "id": "03-realtime-voice-assistant-check-4",
+      "stage": "check",
+      "question": "工具调用超过约 300 ms 时，为什么播放“稍等，我查一下”等短语？",
+      "options": [
+        "触发备用 ASR 模型",
+        "填补旁路工具运行期间的沉默，维持对话连续性",
+        "降低下一句话的 WER",
+        "重置 WebRTC 抖动缓冲"
+      ],
+      "correct": 1,
+      "explanation": "短语给用户一个可听见的等待反馈，工具仍在旁路执行。它不改变识别器的错误率，也不是音频缓冲区的重置指令。"
+    },
+    {
+      "id": "03-realtime-voice-assistant-check-5",
+      "stage": "check",
+      "question": "首个 LLM 词元产生后，服务器应在大约多久内发出首块音频？",
+      "options": [
+        "200 ms",
+        "800 ms",
+        "2 秒",
+        "20 ms"
+      ],
+      "correct": 0,
+      "explanation": "课程把首词元到首块音频的目标设为约 200 ms。800 ms 是更广的端到端预算，不能混作这个局部阶段的目标。"
+    },
+    {
+      "id": "03-realtime-voice-assistant-post-6",
+      "stage": "post",
+      "question": "哪个指标直接反映不合适的抢话或过早结束用户轮次？",
+      "options": [
+        "MOS",
+        "误截断率",
+        "接受率",
+        "WER"
+      ],
+      "correct": 1,
+      "explanation": "误截断率记录错误中断或过早关断输入的情况。MOS 评声音主观质量，WER 评转写错误，不能直接定位轮次控制问题。"
+    },
+    {
+      "id": "03-realtime-voice-assistant-post-7",
+      "stage": "post",
+      "question": "在 3% 丢包条件下，本流水线采用哪两种自适应行为？",
+      "options": [
+        "切换到更大的 LLM 并关闭 TTS",
+        "保留部分转写并提高 VAD 语音门限",
+        "重启 LiveKit 房间",
+        "回退到 PSTN 音频编解码器"
+      ],
+      "correct": 1,
+      "explanation": "课程通过保留尚不稳定的部分识别结果并调整 VAD 门限来降低网络扰动导致的误判断。更换模型或重建会话不是这项丢包实验指定的行为。"
+    }
+  ]
+}

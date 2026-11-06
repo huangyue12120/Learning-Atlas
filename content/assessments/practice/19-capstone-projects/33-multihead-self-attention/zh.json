@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/33-multihead-self-attention/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "87c7e678733c208a80bbcbfd2eb7c9e8ec7ac8e82521349f85d79c953941b00c"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "33-multihead-self-attention-pre-1",
+      "stage": "pre",
+      "question": "为什么自注意力常用一个输出宽度为 3D 的线性层计算 QKV？",
+      "options": [
+        "等价于三个独立 Linear(D,D)，可合为一次矩阵乘法",
+        "减少参数数量",
+        "强制 Q、K、V 共享权重",
+        "不再需要因果掩码"
+      ],
+      "correct": 0,
+      "explanation": "把三组权重沿输出轴堆叠可得到相同 QKV 结果，同时减少操作调度。融合投影不意味着三者使用同一组参数。"
+    },
+    {
+      "id": "33-multihead-self-attention-check-2",
+      "stage": "check",
+      "question": "d_model、n_heads 与 d_head 满足什么关系？",
+      "options": [
+        "d_head=d_model×n_heads",
+        "d_head=d_model+n_heads",
+        "d_head 与 d_model 无关",
+        "d_head=d_model//n_heads，且 d_model 必须能被 n_heads 整除"
+      ],
+      "correct": 3,
+      "explanation": "本课将特征维平均分给各头，构造时检查整除条件。否则无法按指定形状重排成相同头宽。"
+    },
+    {
+      "id": "33-multihead-self-attention-check-3",
+      "stage": "check",
+      "question": "缩放点积注意力的分数应除以什么？",
+      "options": [
+        "sqrt(d_head)",
+        "sqrt(n_heads)",
+        "sqrt(d_model)",
+        "sqrt(seq_len)"
+      ],
+      "correct": 0,
+      "explanation": "点积沿单头维度求和，其尺度随 d_head 增长。除以该维度的平方根有助于控制 softmax 输入的方差。"
+    },
+    {
+      "id": "33-multihead-self-attention-check-4",
+      "stage": "check",
+      "question": "因果掩码如何阻止位置 t 关注 t+1？",
+      "options": [
+        "把未来位置的键乘零",
+        "softmax 前把主对角线上方分数设为负无穷",
+        "从输入删掉未来词元",
+        "单独用一个头处理未来"
+      ],
+      "correct": 1,
+      "explanation": "负无穷分数经 softmax 后权重为零，同时保留当前位置及过去位置。仅把键置零通常仍会产生非零注意力权重。"
+    },
+    {
+      "id": "33-multihead-self-attention-post-5",
+      "stage": "post",
+      "question": "合并各头后，为什么还有 Linear(D,D) 输出投影？",
+      "options": [
+        "在当前层混合不同头的信息",
+        "匹配词表大小",
+        "把激活均值归零",
+        "autograd 必须有它才能求梯度"
+      ],
+      "correct": 0,
+      "explanation": "输出投影跨拼接后的头特征作线性组合，整合各头信息。词表投影与归一化是其他模块的职责。"
+    },
+    {
+      "id": "33-multihead-self-attention-post-6",
+      "stage": "post",
+      "question": "形状为 (B,H,T,T) 的注意力矩阵表示什么？",
+      "options": [
+        "每个样本每个头中，各查询位置对键位置的权重",
+        "查询与值向量的余弦相似度",
+        "下一词元 logits",
+        "各头参数数量"
+      ],
+      "correct": 0,
+      "explanation": "后两轴分别对应查询和键位置，一行描述该查询如何汇聚值。它是权重分布，不能直接当成模型输出词表概率。"
+    }
+  ]
+}

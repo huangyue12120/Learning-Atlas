@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/24-plan-execute-control-flow/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "628fd295a4849e082e0d574177b00812f626cb90f557def7a7ebf39db479dde8"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "24-plan-execute-control-flow-pre-1",
+      "stage": "pre",
+      "question": "计划—执行智能体中的规划器负责什么？",
+      "options": [
+        "处理 JSON-RPC 传输",
+        "生成交给执行器运行的有序类型化步骤",
+        "执行超时限制",
+        "逐步直接调用分派器"
+      ],
+      "correct": 1,
+      "explanation": "规划器输出结构化计划，执行器负责推进并调用工具。分工让计划修订与执行策略可以分别测试。"
+    },
+    {
+      "id": "24-plan-execute-control-flow-pre-2",
+      "stage": "pre",
+      "question": "执行器不检查 `expected_outcome`，为什么 Step 仍保留它？",
+      "options": [
+        "为重规划器与 trace 提供明确的成功条件",
+        "模型一定用它训练",
+        "分派器把它当缓存键",
+        "注册表要求此字段"
+      ],
+      "correct": 0,
+      "explanation": "expected_outcome 为读计划的人和重规划逻辑说明步骤目的。存在该字段不表示执行器已经自动验证了结果。"
+    },
+    {
+      "id": "24-plan-execute-control-flow-check-3",
+      "stage": "check",
+      "question": "步骤失败并产生新计划后，执行器向事件流写入什么？",
+      "options": [
+        "status=failed 的 session.complete",
+        "tool.error 后接 session.start",
+        "包含删除、新增及修订步骤 ID 的 plan.diff",
+        "不写事件，静默重规划"
+      ],
+      "correct": 2,
+      "explanation": "plan.diff 使计划变化可见，便于核对失败后的修订。静默替换会丢失重规划发生过的审计证据。"
+    },
+    {
+      "id": "24-plan-execute-control-flow-check-4",
+      "stage": "check",
+      "question": "为什么分别设置 `max_steps` 与 `max_replans`？",
+      "options": [
+        "分派器拒绝无限计划",
+        "注册表负责统计重规划",
+        "asyncio 要求两者同时存在",
+        "两者计量单位不同，分别约束执行总步数与规划器调用次数"
+      ],
+      "correct": 3,
+      "explanation": "步骤预算限制执行扩张，重规划预算限制反复返回失败计划。单一计数无法同时表达这两种资源边界。"
+    },
+    {
+      "id": "24-plan-execute-control-flow-check-5",
+      "stage": "check",
+      "question": "规划器第一次返回空列表时，结果原因是什么？",
+      "options": [
+        "replan_budget",
+        "step_budget",
+        "no_plan",
+        "goal_met"
+      ],
+      "correct": 2,
+      "explanation": "没有计划便没有可执行步骤，本课返回失败原因 no_plan。空列表不自动证明目标已经达成。"
+    },
+    {
+      "id": "24-plan-execute-control-flow-post-6",
+      "stage": "post",
+      "question": "`PlanDiff.revised` 包含什么？",
+      "options": [
+        "规划器要求跳过的步骤 ID",
+        "不同版本间 tool_name 或 args 改变的同 ID 步骤",
+        "新计划新增的步骤 ID",
+        "旧计划中被删除的步骤 ID"
+      ],
+      "correct": 1,
+      "explanation": "revised 比较保留 ID 的工具名和参数签名。新增与删除分别进入 added、removed，不混入修订集合。"
+    },
+    {
+      "id": "24-plan-execute-control-flow-post-7",
+      "stage": "post",
+      "question": "执行器耗尽 `max_replans` 后，`SessionResult.reason` 是什么？",
+      "options": [
+        "step_budget",
+        "replan_budget",
+        "no_plan",
+        "goal_met"
+      ],
+      "correct": 1,
+      "explanation": "返回 replan_budget 并标记失败，历史中仍保留已执行步骤及触发重规划的错误。预算耗尽不能当成成功完成。"
+    }
+  ]
+}

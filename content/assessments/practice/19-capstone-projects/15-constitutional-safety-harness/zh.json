@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/15-constitutional-safety-harness/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "7eda49611e2efdea72b86e04c89d2f55779295032671c3707798d221506af347"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "15-constitutional-safety-harness-pre-1",
+      "stage": "pre",
+      "question": "本课中的分层安全指什么？",
+      "options": [
+        "输入清理、策略轨道、分类器、模型、输出过滤与人工介入多层防护",
+        "只在输入上运行一个强分类器",
+        "只对输出使用单条正则",
+        "人工审核每条回答"
+      ],
+      "correct": 0,
+      "explanation": "不同层处理输入操纵、政策、输出风险和升级处置。课程要求组合这些控制，单个分类器或全量人工审核没有体现该架构。"
+    },
+    {
+      "id": "15-constitutional-safety-harness-pre-2",
+      "stage": "pre",
+      "question": "哪个分类器在本课中承担约 132 种语言的覆盖？",
+      "options": [
+        "Llama Guard 4",
+        "Nemotron 3 Content Safety",
+        "X-Guard",
+        "ShieldGemma-2"
+      ],
+      "correct": 2,
+      "explanation": "课程锁定的方案用 X-Guard 处理多语言覆盖。这里识别的是本课的职责分配，实际覆盖质量仍需按语言评测。"
+    },
+    {
+      "id": "15-constitutional-safety-harness-check-3",
+      "stage": "check",
+      "question": "为什么使用 XSTest 等良性套件测量过度拒答？",
+      "options": [
+        "记录误拦截，提升无害性时仍保持有用性",
+        "认证防护框架",
+        "替代红队评分",
+        "测量词元吞吐"
+      ],
+      "correct": 0,
+      "explanation": "良性问题被错误拒绝属于假阳性。只关注攻击拦截率可能把拒绝所有请求误当成有效防护，因此需要独立测量过度拒答。"
+    },
+    {
+      "id": "15-constitutional-safety-harness-check-4",
+      "stage": "check",
+      "question": "本课的宪法式自我评议循环是什么？",
+      "options": [
+        "从零训练 RLHF 奖励模型",
+        "评议 LLM 按书面规则检查草稿，推动改写，再用改进样本对做 SFT",
+        "只运行一次 Llama Guard 4",
+        "对越狱提示词候选做重排"
+      ],
+      "correct": 1,
+      "explanation": "循环把明确规则转成评议与修改信号，并利用改进样本训练。它包含多步处理，不等于一次分类或对攻击提示词排序。"
+    },
+    {
+      "id": "15-constitutional-safety-harness-check-5",
+      "stage": "check",
+      "question": "报告如何评定成功越狱的严重程度？",
+      "options": [
+        "按生成回答的模型名称",
+        "使用 CVSS 4.0 记录攻击向量、复杂度、影响，并给出披露时间线",
+        "按提示词的原始词元数",
+        "操作员随意选择 1–10 分"
+      ],
+      "correct": 1,
+      "explanation": "课程要求采用可审计的维度说明风险及披露过程。提示长度和模型名字均不足以衡量实际攻击影响。"
+    },
+    {
+      "id": "15-constitutional-safety-harness-post-6",
+      "stage": "post",
+      "question": "红队靶场运行哪六类攻击？",
+      "options": [
+        "PSI、KL、MMD、KS、JS、Wasserstein",
+        "PAIR、TAP、GCG、编码、多人设多轮与多语言混用",
+        "暴力、字典、重放、中间人、钓鱼、CSRF",
+        "BLEU、ROUGE、METEOR、BERTScore、CometKiwi、chrF"
+      ],
+      "correct": 1,
+      "explanation": "指定套件包括 PAIR、TAP、GCG，ASCII/base64/rot13 编码，多轮人设和多语言混用。分布距离与文本指标不是这份攻击分类。"
+    },
+    {
+      "id": "15-constitutional-safety-harness-post-7",
+      "stage": "post",
+      "question": "为什么量表要求定时运行与告警？",
+      "options": [
+        "cron 是调用 OPA 的唯一方式",
+        "自动化用于关闭 Llama Guard 4",
+        "量表明确只要求人工运行",
+        "持续探测攻击成功率漂移及过度拒答回归"
+      ],
+      "correct": 3,
+      "explanation": "攻击与模型行为会随版本和数据变化，定期重复测试才能观察趋势。调度自动化不应关闭原有防护，也不替代结果分析。"
+    }
+  ]
+}

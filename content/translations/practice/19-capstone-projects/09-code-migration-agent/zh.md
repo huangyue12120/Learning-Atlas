@@ -25,7 +25,7 @@ status: reviewed
 
 你将构建一个智能体，接收 Java 8 仓库（或 Python 2 仓库），产出 CI 变绿的迁移分支。你要测量通过率、测试覆盖率保持情况和每仓库成本，并建立失败分类。与仅确定性工具基线的并排比较，会告诉你智能体的价值到底在哪里。
 
-## 概念
+## 概念 <!-- learning-atlas: concept -->
 
 流水线有两层。**确定性底座**（Java 使用 OpenRewrite，Python 使用 libcst）安全地执行大量机械重写：导入、方法签名、空值安全编辑、try-with-resources 和弃用 API 替换。它速度快，并且能产生可审计的 diff。**智能体层**（基于 Claude Opus 4.7 和 GPT-5.4-Codex 的 OpenAI Agents SDK 或 LangGraph）处理 recipe 无法覆盖的情况：构建文件升级（Maven/Gradle/pyproject）、传递依赖冲突、测试 flaky 和自定义注解。
 

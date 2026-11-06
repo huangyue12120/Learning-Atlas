@@ -25,7 +25,7 @@ status: reviewed
 
 工程挑战是具体的：环境复现（智能体必须从零构建仓库，不能依赖缓存的开发镜像）、不稳定测试（必须重跑或隔离）、凭证范围（使用最小细粒度权限的 GitHub App）、按仓库按日执行预算，以及禁止强制推送。毕业项目会相对于托管替代方案测量通过率、成本和安全性。
 
-## 概念
+## 概念 <!-- learning-atlas: concept -->
 
 触发器是 GitHub webhook（Issue 标签或 PR 评论）。dispatcher 将工作加入 ECS Fargate 或 Lambda。worker 把仓库拉进 Daytona 或 E2B 沙盒，并根据仓库推断出的语言和框架使用通用 Dockerfile。智能体基于 Claude Opus 4.7 或 GPT-5.4-Codex，运行 mini-swe-agent 或 SWE-agent v2 循环。它不断迭代：读取代码、提出修复、应用补丁、运行测试。
 

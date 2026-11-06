@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/46-gradient-accumulation/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "72122f2879450e6e54809a2e399f639aac3c984a57c92f40b91322dd47bc1a92"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "46-gradient-accumulation-pre-1",
+      "stage": "pre",
+      "question": "单进程中，梯度累积表达哪项有效批量关系？",
+      "options": [
+        "micro_batch/accum_steps",
+        "仅等于 world_size",
+        "micro_batch+accum_steps",
+        "micro_batch×accum_steps"
+      ],
+      "correct": 3,
+      "explanation": "一次优化器更新累计多个微批梯度，因此有效样本数是两者乘积。若再用数据并行且各 rank 批量相同，还需乘 world_size。"
+    },
+    {
+      "id": "46-gradient-accumulation-pre-2",
+      "stage": "pre",
+      "question": "为什么每个等大微批的损失在 backward 前除以 accum_steps？",
+      "options": [
+        "让曲线更好看",
+        "防止所有 NaN",
+        "只为混合精度",
+        "param.grad 默认累加，除以累积次数可恢复完整批次平均梯度的尺度"
+      ],
+      "correct": 3,
+      "explanation": "在等大微批且每批损失取均值时，平均微批梯度等价于完整批次均值。最后不足一个窗口或微批大小不同时应按实际样本数加权。"
+    },
+    {
+      "id": "46-gradient-accumulation-check-3",
+      "stage": "check",
+      "question": "累积循环内什么时候执行 optimizer.step？",
+      "options": [
+        "从不执行",
+        "每个窗口两次",
+        "每个微批之后",
+        "累积窗口最后一个微批完成后"
+      ],
+      "correct": 3,
+      "explanation": "窗口内各微批在同一组参数上计算梯度，末尾只更新一次。若中途更新，后续梯度基于不同参数，就不再等价。"
+    },
+    {
+      "id": "46-gradient-accumulation-check-4",
+      "stage": "check",
+      "question": "真实 DDP 运行时，no_sync 应包住什么？",
+      "options": [
+        "数据加载器",
+        "非最后微批的前向与反向，使最后反向时才同步",
+        "优化器更新",
+        "仅前向"
+      ],
+      "correct": 1,
+      "explanation": "no_sync 跳过非末尾微批的梯度通信；其上下文应覆盖对应前向和反向。这样每个有效批次只在最后同步一次。"
+    },
+    {
+      "id": "46-gradient-accumulation-check-5",
+      "stage": "check",
+      "question": "main.py 的 equivalence_check 验证什么？",
+      "options": [
+        "损失收敛",
+        "梯度全零",
+        "完整批次与按损失除 N 的微批累积，在容差内具有相同梯度和更新后参数",
+        "吞吐恒定"
+      ],
+      "correct": 2,
+      "explanation": "测试比较最大绝对差，并使用本课 1e-4 容差。等价依赖相同初始参数、样本和合适的模型设置，不能忽略随机层等差异。"
+    },
+    {
+      "id": "46-gradient-accumulation-post-6",
+      "stage": "post",
+      "question": "累积步数增加时，吞吐与每次优化器更新耗时通常怎样变化？",
+      "options": [
+        "模型变快，吞吐持续上升",
+        "两者都线性提高",
+        "样本吞吐接近硬件上限，而每次更新耗时随累积量增长，更新次数每秒下降",
+        "有效批量越大样本吞吐必下降"
+      ],
+      "correct": 2,
+      "explanation": "累积主要扩大每次更新的样本数，不直接提升单次微批计算速度。测量应区分样本每秒和优化器步每秒。"
+    }
+  ]
+}

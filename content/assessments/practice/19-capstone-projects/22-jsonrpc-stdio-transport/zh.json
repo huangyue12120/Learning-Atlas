@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/22-jsonrpc-stdio-transport/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "01a912e8dfae75e07f5a1eb359ac868da5207fc379947aac29340d2fa9a77e79"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "22-jsonrpc-stdio-transport-pre-1",
+      "stage": "pre",
+      "question": "在线路格式上，JSON-RPC 通知与请求有何区别？",
+      "options": [
+        "通知不带 id，服务器不得为其返回响应",
+        "jsonrpc 版本不同",
+        "通知使用不同方法命名空间",
+        "通知必须包装在数组中"
+      ],
+      "correct": 0,
+      "explanation": "通知省略 id，因而没有可用于关联响应的请求标识。方法名或是否放入批次都不是区分通知的条件。"
+    },
+    {
+      "id": "22-jsonrpc-stdio-transport-pre-2",
+      "stage": "pre",
+      "question": "为什么换行分隔的 JSON 能用于 stdio 分帧？",
+      "options": [
+        "UTF-8 没有换行字节",
+        "规范要求所有传输都这样做",
+        "管道保证换行写入原子性",
+        "JSON 字符串中的换行须转义，每个对象可序列化成一行"
+      ],
+      "correct": 3,
+      "explanation": "本课把每个对象编码成单行 JSON，字符串内的换行转义为字符序列，因此行分隔符可标识记录边界。分帧不依赖管道原子写入。"
+    },
+    {
+      "id": "22-jsonrpc-stdio-transport-check-3",
+      "stage": "check",
+      "question": "JSON 解析失败时，传输层返回哪个错误码？",
+      "options": [
+        "-32600",
+        "-32700",
+        "-32603",
+        "-32601"
+      ],
+      "correct": 1,
+      "explanation": "-32700 表示 Parse error。解析失败时无法可靠提取请求 id，所以错误响应使用 null id。"
+    },
+    {
+      "id": "22-jsonrpc-stdio-transport-check-4",
+      "stage": "check",
+      "question": "处理器抛出普通 `ValueError` 时，本课传输层返回什么？",
+      "options": [
+        "不响应并断开连接",
+        "Invalid params（-32602）",
+        "Method not found（-32601）",
+        "Internal error（-32603），并在 data 中保留异常类名"
+      ],
+      "correct": 3,
+      "explanation": "未映射的普通异常转为 -32603，data.exception 保存异常类型。只有显式参数错误映射才应使用 -32602。"
+    },
+    {
+      "id": "22-jsonrpc-stdio-transport-check-5",
+      "stage": "check",
+      "question": "批次只包含通知时，服务器返回什么？",
+      "options": [
+        "不写入任何响应字节",
+        "每条通知对应一个 null",
+        "空数组",
+        "单个 null 响应"
+      ],
+      "correct": 0,
+      "explanation": "通知不产生响应，纯通知批次也必须保持静默。输出空数组或 null 仍然是额外响应，不符合这里的批次规则。"
+    },
+    {
+      "id": "22-jsonrpc-stdio-transport-post-6",
+      "stage": "post",
+      "question": "会话中间某行 JSON 损坏后，后续行如何处理？",
+      "options": [
+        "等待重试坏行后才处理",
+        "返回 -32700，再独立读取下一行",
+        "关闭整个流",
+        "后续全部返回 -32600"
+      ],
+      "correct": 1,
+      "explanation": "一行的解析错误只影响这一条记录。保持行边界并继续读取，才能避免坏输入污染后续独立消息。"
+    },
+    {
+      "id": "22-jsonrpc-stdio-transport-post-7",
+      "stage": "post",
+      "question": "为什么传输层不直接查询工具注册表？",
+      "options": [
+        "传输层只处理 JSON-RPC，处理器负责与注册表衔接",
+        "注册表是异步的",
+        "注册表保存秘密",
+        "传输层运行在另一进程"
+      ],
+      "correct": 0,
+      "explanation": "传输负责线路格式，分派器再衔接注册表、校验和超时。这样同一传输可以服务不同处理逻辑。"
+    }
+  ]
+}

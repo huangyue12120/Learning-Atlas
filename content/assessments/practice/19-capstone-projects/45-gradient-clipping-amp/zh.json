@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/45-gradient-clipping-amp/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "dd8e41c8743bdff033a9ffd6b7365020f6eb95f851141d1d45ee0c7be273ab40"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "45-gradient-clipping-amp-pre-1",
+      "stage": "pre",
+      "question": "全局 L2 梯度裁剪解决什么问题？",
+      "options": [
+        "限制异常批次引发的巨大梯度更新",
+        "词表漂移",
+        "训练过慢",
+        "随机重启"
+      ],
+      "correct": 0,
+      "explanation": "按全局范数缩放梯度可限制异常更新幅度。对 Adam 等自适应优化器，它不等同于严格限制最终参数步长，还需结合优化器状态分析。"
+    },
+    {
+      "id": "45-gradient-clipping-amp-check-2",
+      "stage": "check",
+      "question": "GradScaler 一步操作的正确顺序是什么？",
+      "options": [
+        "scale(loss).backward → unscale_(optimizer) → clip_grad_norm_ → step(optimizer) → update",
+        "backward→step→scale→update",
+        "任意顺序，scaler 自动重排",
+        "step→scale→unscale→backward→update"
+      ],
+      "correct": 0,
+      "explanation": "裁剪必须作用于还原尺度后的梯度，因此在 unscale_ 之后、step 之前执行，最后 update 调整缩放因子。"
+    },
+    {
+      "id": "45-gradient-clipping-amp-check-3",
+      "stage": "check",
+      "question": "发现非有限梯度而跳过 optimizer step 时，scaler.update 做什么？",
+      "options": [
+        "关闭运行",
+        "不做任何事",
+        "按回退因子降低缩放值并重置增长计数，本课默认减半",
+        "将缩放值翻倍"
+      ],
+      "correct": 2,
+      "explanation": "溢出路径需要 update 才会降低后续缩放尺度。默认 backoff_factor 为 0.5，但具体回退比例可配置。"
+    },
+    {
+      "id": "45-gradient-clipping-amp-check-4",
+      "stage": "check",
+      "question": "已有 GradScaler，为什么仍检查 loss 是否有限？",
+      "options": [
+        "GradScaler 太慢",
+        "装饰用途",
+        "PyTorch 强制要求",
+        "前向非有限损失应提前跳过，避免无效反向计算"
+      ],
+      "correct": 3,
+      "explanation": "GradScaler 主要检查反向梯度溢出，前向的 NaN 或 inf 也应单独识别。提前跳过时需按实现保持 scaler 的状态调用一致。"
+    },
+    {
+      "id": "45-gradient-clipping-amp-post-5",
+      "stage": "post",
+      "question": "滚动跳步率提供什么生产信号？",
+      "options": [
+        "任何一次跳步都告警",
+        "少量跳步可接受，持续超过本课约 5% 门限应排查 FP16 数值范围等问题",
+        "跳步率无意义",
+        "只在连续跳步时告警"
+      ],
+      "correct": 1,
+      "explanation": "比率门限能区分偶发溢出与长期不稳定。5% 是课程配置示例，告警后还需检查数据、损失、梯度和尺度设置。"
+    },
+    {
+      "id": "45-gradient-clipping-amp-post-6",
+      "stage": "post",
+      "question": "跳步频繁时，为什么可以尝试从 FP16 autocast 切到 BF16？",
+      "options": [
+        "BF16 指数范围更宽，通常减少溢出及 loss scaling 需求",
+        "BF16 较慢，所以跳步少",
+        "因为 BF16 更新",
+        "随机传统"
+      ],
+      "correct": 0,
+      "explanation": "BF16 用较少尾数位换取更大指数范围，常降低 FP16 的溢出风险。它仍可能产生非有限值，不能保证跳步必为零或完全消除数值问题。"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/44-cosine-lr-warmup/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "0177a534dd0830ea661d231bd1097e9d9ed32cf6f2cad4529f2d6c6655479794"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "44-cosine-lr-warmup-pre-1",
+      "stage": "pre",
+      "question": "余弦预热调度为什么从零升到 lr_max？",
+      "options": [
+        "随机传统",
+        "首步使用 lr_max 在数学上非法",
+        "早期统计尚不稳定，用线性预热限制初始更新尺度",
+        "Adam 强制要求"
+      ],
+      "correct": 2,
+      "explanation": "预热让优化器和模型逐步进入较大的更新区间，有助于稳定某些训练。它是可调整策略，不是所有模型都必须从零开始。"
+    },
+    {
+      "id": "44-cosine-lr-warmup-check-2",
+      "stage": "check",
+      "question": "为什么用一个按 step 求值的函数表达整个调度？",
+      "options": [
+        "统一处理分段边界，便于保持预热点与终点连续",
+        "代码检查器要求",
+        "随机原因",
+        "单函数一定更短"
+      ],
+      "correct": 0,
+      "explanation": "统一表达式和边界测试使 lr_max 等配置变化更容易核验。多个分段函数也能正确实现，关键是连续性与端点约定。"
+    },
+    {
+      "id": "44-cosine-lr-warmup-check-3",
+      "stage": "check",
+      "question": "step 超过 total_steps 时，本课调度返回什么？",
+      "options": [
+        "NaN",
+        "抛异常",
+        "周期回绕",
+        "固定 lr_min，不继续外推"
+      ],
+      "correct": 3,
+      "explanation": "钳制到学习率下限使超出预定步数的行为明确。若要扩展训练周期，应显式调整总步数，而不是依赖余弦回升。"
+    },
+    {
+      "id": "44-cosine-lr-warmup-check-4",
+      "stage": "check",
+      "question": "为什么同时记录梯度 L2 范数与学习率？",
+      "options": [
+        "出于传统",
+        "观察更新强度与训练健康，辅助识别预热后仍过大的梯度",
+        "更好看",
+        "Adam 要求"
+      ],
+      "correct": 1,
+      "explanation": "损失、学习率和梯度范数的联合曲线有助于排查发散。梯度尖峰可能早于明显损失变化，但不是每次都如此。"
+    },
+    {
+      "id": "44-cosine-lr-warmup-post-5",
+      "stage": "post",
+      "question": "为什么常把 warmup_steps 配成 total_steps 的比例？",
+      "options": [
+        "比例更整齐",
+        "训练时长变化时，预热长度能相应缩放，而非始终套固定步数",
+        "硬件要求",
+        "随机偏好"
+      ],
+      "correct": 1,
+      "explanation": "按比例设置便于跨训练规模比较，课程举 1–3% 作为起点。最终预热长度仍需结合模型、批量和优化器调参。"
+    },
+    {
+      "id": "44-cosine-lr-warmup-post-6",
+      "stage": "post",
+      "question": "为什么本课采用非零 lr_min？",
+      "options": [
+        "让训练后段仍保留小幅更新能力",
+        "数值稳定性强制要求",
+        "向后兼容",
+        "Adam 不接受零学习率"
+      ],
+      "correct": 0,
+      "explanation": "非零下限允许长尾阶段继续调整，课程以峰值附近十分之一作示例。退火至零也可合理，不能认为所有零下限方案都浪费训练。"
+    }
+  ]
+}

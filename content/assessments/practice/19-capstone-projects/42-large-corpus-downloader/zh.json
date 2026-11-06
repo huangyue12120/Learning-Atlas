@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/42-large-corpus-downloader/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "78ce073090ce794d7ee79c71fd1611b8daa059c231057a2a8164ab4c6daa4f63"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "42-large-corpus-downloader-pre-1",
+      "stage": "pre",
+      "question": "为什么每个分片保存独立 `.partial.json` 检查点？",
+      "options": [
+        "让缓存目录整齐",
+        "续传前核对已验证字节数和 SHA-256 前缀，拒绝不一致的部分文件",
+        "只为记录变更后的 URL",
+        "urllib 强制要求"
+      ],
+      "correct": 1,
+      "explanation": "恢复逻辑同时检查文件长度与前缀哈希，只有与检查点一致才追加。哈希是损坏检测依据，不能笼统保证所有攻击或存储故障都不可能发生。"
+    },
+    {
+      "id": "42-large-corpus-downloader-check-2",
+      "stage": "check",
+      "question": "LSH 分带方案相比精确哈希去重增加了什么能力？",
+      "options": [
+        "固定内存占用",
+        "无损压缩",
+        "通过候选桶查找识别高 Jaccard 相似的近重复文档",
+        "加快 SHA-256"
+      ],
+      "correct": 2,
+      "explanation": "MinHash 与 LSH 利用词片段集合重叠寻找近重复，精确哈希只能识别字节相同。它不保证识别语义相同但词面完全不同的改述，最坏查找成本仍受桶分布影响。"
+    },
+    {
+      "id": "42-large-corpus-downloader-check-3",
+      "stage": "check",
+      "question": "本课为什么把新检查点写在对应字节追加之前？",
+      "options": [
+        "配合长度与哈希校验，崩溃造成不一致时拒绝续传，避免按错误位置追加",
+        "节省磁盘",
+        "只是方便",
+        "提高速度"
+      ],
+      "correct": 0,
+      "explanation": "代码先记录下一偏移再写数据，若崩溃后检查点与磁盘不符，恢复会丢弃部分文件并重下。编者注：检查点可能领先于数据；上游解析称“从不领先”与代码不符，此顺序本身也不替代 fsync 持久性保证。"
+    },
+    {
+      "id": "42-large-corpus-downloader-check-4",
+      "stage": "check",
+      "question": "manifest 的 SHA-256 锁定文件起什么作用？",
+      "options": [
+        "加快读取",
+        "备份 manifest",
+        "下游校验内容与固定哈希是否一致，发现被意外修改的清单",
+        "记录日期"
+      ],
+      "correct": 2,
+      "explanation": "内容摘要把下游预期与特定清单绑定。若攻击者能同时改清单和锁定哈希，仍需可信发布渠道，不能只靠同目录两个文件认证来源。"
+    },
+    {
+      "id": "42-large-corpus-downloader-post-5",
+      "stage": "post",
+      "question": "为什么先去重再分词？",
+      "options": [
+        "分词器拒绝重复内容",
+        "避免为将丢弃的重复文档再支付分词计算",
+        "分词器需要先有词表",
+        "分词器不能读取 JSONL"
+      ],
+      "correct": 1,
+      "explanation": "在分词前过滤重复可减少后续工作，但完整成本还包括去重本身。课程关注这一步节省的重复处理，而非宣称任何语料都绝对更快。"
+    },
+    {
+      "id": "42-large-corpus-downloader-post-6",
+      "stage": "post",
+      "question": "丢弃重复文档时保留 tombstone，有什么价值？",
+      "options": [
+        "提高压缩率",
+        "节省磁盘",
+        "保持 manifest 哈希不变",
+        "保留它与已保留文档的关联及审计线索，便于调整阈值后复查"
+      ],
+      "correct": 3,
+      "explanation": "删除记录会丢失去重依据，tombstone 保存碰撞对象和判定路径。后续修改策略时可据此分析误删与重复分布。"
+    }
+  ]
+}

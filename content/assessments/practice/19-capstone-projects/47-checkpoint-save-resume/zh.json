@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/47-checkpoint-save-resume/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "b059845ca6fd4858fc4f37a2d73ace9fce7ca7adce569bc389f69ff36df8115e"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "47-checkpoint-save-resume-pre-1",
+      "stage": "pre",
+      "question": "完整训练检查点应包含哪组状态？",
+      "options": [
+        "任意 torch.save 可序列化对象",
+        "只有模型权重",
+        "模型、优化器、调度器、计数、损失历史，以及 Python、NumPy、Torch CPU/CUDA 随机状态",
+        "只有损失历史"
+      ],
+      "correct": 2,
+      "explanation": "恢复相同训练轨迹需要参数之外的动量、调度位置与随机流。具体检查点还应记录数据位置和配置，不能只存权重。"
+    },
+    {
+      "id": "47-checkpoint-save-resume-pre-2",
+      "stage": "pre",
+      "question": "为什么先写同目录临时文件，再 rename 到目标？",
+      "options": [
+        "I/O 更快",
+        "同文件系统的原子替换可避免目标路径暴露半写文件",
+        "自动去重",
+        "不再需要 fsync"
+      ],
+      "correct": 1,
+      "explanation": "os.replace 将已完成临时文件替换为目标，降低崩溃留下半文件的风险。原子可见性不等于断电持久性，仍应考虑文件及目录刷新。"
+    },
+    {
+      "id": "47-checkpoint-save-resume-check-3",
+      "stage": "check",
+      "question": "分片检查点为什么在 index.json 为每片保存 SHA-256？",
+      "options": [
+        "加载时检测截断或内容变更，避免静默合并错误状态",
+        "Torch 强制要求",
+        "用于搜索优化",
+        "压缩文件"
+      ],
+      "correct": 0,
+      "explanation": "加载器先校验分片及元数据，再合并参数。哈希对比检测与记录不一致的内容，可信来源仍需另行保证。"
+    },
+    {
+      "id": "47-checkpoint-save-resume-check-4",
+      "stage": "check",
+      "question": "恢复如何继续当前 epoch 的正确位置？",
+      "options": [
+        "使用专用数据库",
+        "直接跳到下一 epoch",
+        "始终从 step=0 开始",
+        "恢复 epoch、batch_in_epoch 和随机状态，并跳过已消费批次"
+      ],
+      "correct": 3,
+      "explanation": "数据位置与随机流共同决定后续批次，缺一都会改变轨迹。此处是本课数据加载策略，其他采样器可能还需保存额外状态。"
+    },
+    {
+      "id": "47-checkpoint-save-resume-check-5",
+      "stage": "check",
+      "question": "payload 中 schema 字段提供什么？",
+      "options": [
+        "格式迁移入口，加载器按版本选择兼容处理",
+        "没有作用",
+        "压缩",
+        "美观文件名"
+      ],
+      "correct": 0,
+      "explanation": "明确 ckpt.v1 等版本让格式演变可被识别，避免读取器默默误解旧字段。声明版本本身不会自动完成迁移，仍需对应实现。"
+    },
+    {
+      "id": "47-checkpoint-save-resume-post-6",
+      "stage": "post",
+      "question": "恢复演示中 max_loss_diff_after_resume 接近零，支持什么结论？",
+      "options": [
+        "没有价值",
+        "磁盘速度快",
+        "模型质量好",
+        "该实验内恢复轨迹与连续训练基线在数值容差内一致"
+      ],
+      "correct": 3,
+      "explanation": "这是优化器、随机流和训练位置恢复的综合回归证据。它只覆盖本次实验设置，不能证明所有设备或运行方式都逐位可复现。"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/39-instruction-tuning-sft/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "ece55eceb896fd934605b7125deb01a2cdd0a919c431bf69bc579b48f74a2b6f"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "39-instruction-tuning-sft-pre-1",
+      "stage": "pre",
+      "question": "基础模型面对“法国首都是什么”却续写“那意大利和西班牙呢”，最合理的诊断是什么？",
+      "options": [
+        "模型一定不知道巴黎",
+        "具备文本续写行为，但缺少指令与回答的格式契约",
+        "词表太小",
+        "必须重置并重新预训练"
+      ],
+      "correct": 1,
+      "explanation": "该输出体现继续问题文本而非作答的行为。SFT 用指令—回答样本训练所需交互格式，不能仅凭这次输出认定缺少某个事实。"
+    },
+    {
+      "id": "39-instruction-tuning-sft-check-2",
+      "stage": "check",
+      "question": "指令与填充位置标签设为 -100，为什么交叉熵能正确忽略它们？",
+      "options": [
+        "按序列长归一化后自动抵消",
+        "F.cross_entropy 的 ignore_index=-100 让这些位置不贡献损失与梯度",
+        "交叉熵忽略任意负目标",
+        "模型在这些位置自动输出 NaN"
+      ],
+      "correct": 1,
+      "explanation": "ignore_index 明确指定被排除的目标值；默认约定为 -100。其他负值并不会都被静默接受。"
+    },
+    {
+      "id": "39-instruction-tuning-sft-check-3",
+      "stage": "check",
+      "question": "为什么 shifted_loss 对齐 `logits[:, :-1, :]` 与 `labels[:, 1:]`？",
+      "options": [
+        "可选性能优化，同位置也成立",
+        "自动排除最后一个 padding",
+        "因果目标让位置 i 的输出预测位置 i+1 的词元",
+        "仅为保证 collate 后张量等长"
+      ],
+      "correct": 2,
+      "explanation": "切片使预测与下一个真实词元对应。若使用同位置标签，就不再是本课的下一词元训练目标。"
+    },
+    {
+      "id": "39-instruction-tuning-sft-check-4",
+      "stage": "check",
+      "question": "不屏蔽指令位置后，回答 exact-match 下降，可能原因是什么？",
+      "options": [
+        "模型无法学习边界标记",
+        "优化器只对回答过拟合",
+        "特殊词元使交叉熵必定不稳定",
+        "大量梯度用于重建指令，削弱回答部分的训练重点"
+      ],
+      "correct": 3,
+      "explanation": "当指令比回答长时，把指令也计入损失会改变优化权重分配。掩码让模型主要学习目标回答；它不保证任何数据上指标都提升。"
+    },
+    {
+      "id": "39-instruction-tuning-sft-post-5",
+      "stage": "post",
+      "question": "留出集 exact-match=0.85，但正确改述常被漏计，增加哪个指标较合适？",
+      "options": [
+        "平均序列长度",
+        "参考答案交叉熵",
+        "词元级 F1，对表面不完全相同的重叠给予部分得分",
+        "留出集损失"
+      ],
+      "correct": 2,
+      "explanation": "词元 F1 比完全匹配更宽容，但仍主要衡量归一化后的词面重叠。语义等价却不共享词元的改述仍可能得低分。"
+    },
+    {
+      "id": "39-instruction-tuning-sft-post-6",
+      "stage": "post",
+      "question": "要让 SFT 数据支持多轮聊天，数据与掩码至少怎样改？",
+      "options": [
+        "无需修改，SFT 总会自动支持多轮",
+        "逐轮加入 USER、ASSISTANT 标记并串接，仅对目标助手回答计损失",
+        "把损失换成均方误差",
+        "扩大词表"
+      ],
+      "correct": 1,
+      "explanation": "角色标记明确各轮归属，掩码排除用户和 padding 位置。可按样本训练指定助手轮，也可对多个助手轮计损失，仍沿用因果目标。"
+    }
+  ]
+}

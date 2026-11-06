@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/06-devops-troubleshooting-agent/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "2e0de7563d6ca3b50a580e89f17e0d95090ca2f269703865a29c97060a49b7bb"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "06-devops-troubleshooting-agent-pre-1",
+      "stage": "pre",
+      "question": "故障排查智能体的 RBAC 默认权限是什么？",
+      "options": [
+        "集群管理员，以便自行修复",
+        "默认只读，破坏性操作经独立服务器和人工批准",
+        "与值班工程师完全相同",
+        "故障命名空间的管理员"
+      ],
+      "correct": 1,
+      "explanation": "默认只读支持收集诊断证据，同时把高影响写操作放到单独审批路径。授予管理员权限会改变课程要求的权限边界。"
+    },
+    {
+      "id": "06-devops-troubleshooting-agent-pre-2",
+      "stage": "pre",
+      "question": "根因分析时，智能体遍历的知识图表示什么？",
+      "options": [
+        "节点包含 K8s 对象和遥测来源，边表达归属、调度与观察关系",
+        "按团队整理的 Prometheus 指标名称",
+        "最近重启过的 pod 平铺列表",
+        "GitHub 提交与 PR 评审图"
+      ],
+      "correct": 0,
+      "explanation": "图把 Kubernetes 资源关联到运行位置和观测证据，使排查可以沿资源依赖追踪。单纯列指标或重启事件缺少这些关系。"
+    },
+    {
+      "id": "06-devops-troubleshooting-agent-check-3",
+      "stage": "check",
+      "question": "Slack 简报中的根因假设如何排序？",
+      "options": [
+        "按告警名的字母顺序",
+        "仅按模型对数概率",
+        "按生成先后顺序",
+        "综合证据新近程度、具体性、图路径长度与引用数"
+      ],
+      "correct": 3,
+      "explanation": "排序应体现证据的支持程度，而非文字生成顺序。课程的证据评分结合时间、定位精度、路径与引用信号。"
+    },
+    {
+      "id": "06-devops-troubleshooting-agent-check-4",
+      "stage": "check",
+      "question": "审计日志为什么同时记录考虑过和实际执行的命令？",
+      "options": [
+        "ArgoCD 只接受考虑过的命令",
+        "防重放要求两份列表",
+        "Slack API 要求两份列表",
+        "让评审者发现差点执行破坏性命令的险情"
+      ],
+      "correct": 3,
+      "explanation": "未执行的候选命令也能暴露策略缺口和危险决策倾向。只记录执行结果会漏掉被后续门禁拦截的险情。"
+    },
+    {
+      "id": "06-devops-troubleshooting-agent-check-5",
+      "stage": "check",
+      "question": "什么机制防止智能体自行回滚错误部署？",
+      "options": [
+        "破坏性工具位于独立 MCP 服务器，执行需 Slack 卡片批准令牌",
+        "PagerDuty 自动暂停部署",
+        "GitOps 仓库的分支保护",
+        "另一个 LLM 评审投票决定"
+      ],
+      "correct": 0,
+      "explanation": "批准令牌把高影响工具的调用与明确授权绑定。告警、分支保护和模型投票都不能替代本课规定的工具执行授权。"
+    },
+    {
+      "id": "06-devops-troubleshooting-agent-post-6",
+      "stage": "post",
+      "question": "评分量表对告警到形成根因假设简报的 p50 目标是什么？",
+      "options": [
+        "少于 1 小时",
+        "少于 30 秒",
+        "在下一班值班开始前",
+        "从告警到 Slack 简报少于 5 分钟"
+      ],
+      "correct": 3,
+      "explanation": "课程把 p50 time-to-hypothesis 定为 5 分钟以内，计时从告警到简报。该指标衡量中位响应速度，并不保证每次都达到相同延迟。"
+    },
+    {
+      "id": "06-devops-troubleshooting-agent-post-7",
+      "stage": "post",
+      "question": "用于评估 RCA 准确率的合成事故集有多大？",
+      "options": [
+        "5 个场景",
+        "20 个场景，涵盖 OOMKill、DNS 抖动、HPA 振荡和 PVC 写满等",
+        "1 个脚本化演示",
+        "随机抽取的 100 个生产告警"
+      ],
+      "correct": 1,
+      "explanation": "课程要求在 20 个合成场景上测量根因定位，覆盖多种资源和控制故障。单次演示无法覆盖这套验收范围。"
+    }
+  ]
+}

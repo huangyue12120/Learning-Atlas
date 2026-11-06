@@ -1,0 +1,103 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/12-video-understanding-pipeline/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "3171e985303d3c070651bf9519e84ca67c6594e464530a4dfe67e938a9610052"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "12-video-understanding-pipeline-pre-1",
+      "stage": "pre",
+      "question": "长上下文 VLM 已能读取两小时视频，为什么仍需场景级索引？",
+      "options": [
+        "VLM 只理解场景切分",
+        "向量索引不支持视频文件",
+        "长上下文 VLM 不能流式输出",
+        "检索 100 小时视频语料仍需场景定位，不能每次遍历全部视频"
+      ],
+      "correct": 3,
+      "explanation": "单个视频可装入上下文不等于大语料可高效检索。场景索引先缩小候选，再用模型理解命中的片段。"
+    },
+    {
+      "id": "12-video-understanding-pipeline-pre-2",
+      "stage": "pre",
+      "question": "每个场景在多向量索引中存储哪三类向量？",
+      "options": [
+        "音频波形、梅尔频谱、MFCC",
+        "姿态、深度、光流",
+        "哈希、gzip、CRC",
+        "字幕描述嵌入、关键帧嵌入、转写嵌入"
+      ],
+      "correct": 3,
+      "explanation": "三路表示分别保留视觉语义、图像内容和语音文本线索，供不同查询召回。编码压缩或音频特征列表没有对应本课的三路检索设计。"
+    },
+    {
+      "id": "12-video-understanding-pipeline-check-3",
+      "stage": "check",
+      "question": "查询时如何合并三路检索结果？",
+      "options": [
+        "对三个排序列表使用倒数排名融合 RRF",
+        "直接平均余弦分数",
+        "只保留字幕描述命中",
+        "无评分地取并集"
+      ],
+      "correct": 0,
+      "explanation": "RRF 利用各路排名融合结果，减少不同模态分数尺度的影响。直接平均分数需要额外校准，简单并集则没有合并后的优先次序。"
+    },
+    {
+      "id": "12-video-understanding-pipeline-check-4",
+      "stage": "check",
+      "question": "时间定位步骤在最佳场景内细化什么？",
+      "options": [
+        "包含答案的起止时间窗口",
+        "关键帧嵌入维数",
+        "Whisper 逐词时间戳",
+        "Qdrant 存储向量数量"
+      ],
+      "correct": 0,
+      "explanation": "场景召回只提供粗粒度片段，时间定位进一步给出答案所在区间。它不会修改编码器维数或重新定义转写时间戳。"
+    },
+    {
+      "id": "12-video-understanding-pipeline-check-5",
+      "stage": "check",
+      "question": "哪类问题因容易产生幻觉而单独报告？",
+      "options": [
+        "翻译问题",
+        "说话人识别问题",
+        "计数与动作顺序问题",
+        "景色描述问题"
+      ],
+      "correct": 2,
+      "explanation": "VLM 可能数错实体或颠倒事件顺序，因此课程单独报告计数与动作类结果。合并成总体平均值会掩盖这类弱点。"
+    },
+    {
+      "id": "12-video-understanding-pipeline-post-6",
+      "stage": "post",
+      "question": "评分量表在留出集上采用哪个时间定位指标？",
+      "options": [
+        "困惑度",
+        "预测与标注时间窗口的交并比 IoU",
+        "接受率",
+        "MRR@10"
+      ],
+      "correct": 1,
+      "explanation": "时间 IoU 比较两个区间的重叠长度与并集长度，适合评估定位精度。排序指标和词元预测损失不直接比较时间边界。"
+    },
+    {
+      "id": "12-video-understanding-pipeline-post-7",
+      "stage": "post",
+      "question": "为什么回答必须引用时间戳？",
+      "options": [
+        "Whisper 输出格式强制要求",
+        "Qdrant 载荷强制要求",
+        "能降低嵌入维数",
+        "让用户跳到准确的 video_id、start、end 核查论断"
+      ],
+      "correct": 3,
+      "explanation": "可跳转的片段标识把回答连回可观看的证据。是否生成转写或使用某向量库都不能替代这一核查用途。"
+    }
+  ]
+}

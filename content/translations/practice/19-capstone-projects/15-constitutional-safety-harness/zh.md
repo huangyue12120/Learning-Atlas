@@ -27,7 +27,7 @@ status: reviewed
 
 你要加固一个目标应用（可以是 8B 指令微调模型，或其他毕业项目中的一个 RAG 聊天机器人），对它运行 6+ 类攻击，并生成前后无害性测量。
 
-## 概念
+## 概念 <!-- learning-atlas: concept -->
 
 安全流水线有五层。**输入清理**：去除零宽字符，解码 base64/rot13，规范化 Unicode。**策略层**：NeMo Guardrails v0.12 rails（领域外、毒性、PII 提取）。**分类器门**：输入使用 Llama Guard 4，非英语使用 X-Guard，图像输入使用 ShieldGemma-2。**模型**：目标 LLM。**输出过滤器**：输出使用 Llama Guard 4，Presidio 清理 PII，适用时强制引用。**HITL 层**：被标记为高风险的输出进入 Slack 队列。
 

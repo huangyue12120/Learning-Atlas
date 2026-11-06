@@ -10,7 +10,15 @@ practice:
     slug: concept
 card:
   title: LLM trace 的层级、指标与漂移
-  summary: 在把模型、工具、评测和告警连接为带语义约定的 span 树，并对提示词嵌入计算 PSI/KL 漂移时，用 tracing 理论核对请求生命周期、层级关联和指标信号如何支持故障定位。（扩展内容待迁移，尚未经审核。）
+  summary: 在把模型、工具、评测和告警连接为带语义约定的 span 树，并对提示词嵌入计算 PSI/KL 漂移时，用 tracing 理论核对请求生命周期、层级关联和指标信号如何支持故障定位。
+  context: "同一请求跨模型、工具和评测运行，只有把时间和父子关系串起来，才能判断延迟与成本来自哪里。"
+  intuition: "trace 表示请求全程，span 表示其中一段操作。聚合指标发现总体变化，trace 提供具体路径；漂移信号用于提示调查，不能直接判定模型质量下降。"
+  key_points:
+    - "保留 trace_id、span_id 与父节点才能重建调用层级。"
+    - "抽样策略会影响慢请求和错误样本的可见性。"
+    - "PSI/KL 需要明确分箱、平滑与基线；演示哈希桶不等于真实语义嵌入监控。"
+  application: "查看 spans by model、cost by user 与告警，再追踪一个 PII 泄漏样本的 span 链；改变采样条件，检查是否丢失关键失败轨迹。"
+  check_question: "若漂移指标升高而留出评测稳定，下一步应调查哪些数据或测量环节？"
 theory:
   repository: maths-cs-ai-compendium
   path: chapter 18 - ML systems design/03. large scale infrastructure.md

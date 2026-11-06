@@ -1,0 +1,90 @@
+{
+  "kind": "practice-assessment",
+  "source": {
+    "repository": "ai-engineering-from-scratch",
+    "path": "phases/19-capstone-projects/30-bpe-tokenizer-from-scratch/quiz.json",
+    "revision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "sha256": "787264d77077e2c4811a9e6c1991e642524475fd4d6da641797cafcdd25b22b7"
+  },
+  "status": "reviewed",
+  "questions": [
+    {
+      "id": "30-bpe-tokenizer-from-scratch-pre-1",
+      "stage": "pre",
+      "question": "字节级 BPE 为什么从 256 个符号开始？",
+      "options": [
+        "它是支持英语的最小字母表",
+        "合并之前就能表示任意 UTF-8 输入",
+        "无需保存合并表",
+        "与 GPU 的 warp 大小相同"
+      ],
+      "correct": 1,
+      "explanation": "一个字节有 256 种取值，任何 UTF-8 文本都能先拆成字节序列。初始覆盖来自字节空间，不依赖训练语料是否包含某个单词。"
+    },
+    {
+      "id": "30-bpe-tokenizer-from-scratch-check-2",
+      "stage": "check",
+      "question": "BPE 的每一步训练做什么？",
+      "options": [
+        "删除最少见 ID，缩小词表",
+        "训练神经网络给子词评分",
+        "随机拆词并分配新 ID",
+        "统计相邻符号对，合并频率最高的一对"
+      ],
+      "correct": 3,
+      "explanation": "每轮选出高频相邻对，将它替换为新符号并保存合并规则。反复合并使常见片段能用更少 ID 表示。"
+    },
+    {
+      "id": "30-bpe-tokenizer-from-scratch-check-3",
+      "stage": "check",
+      "question": "编码新文本时，按什么顺序应用合并？",
+      "options": [
+        "只按输入中的左右位置",
+        "按训练时的合并排名，排名小的优先",
+        "按符号字节的字母顺序",
+        "随机应用直到不能合并"
+      ],
+      "correct": 1,
+      "explanation": "训练得到的排名决定多个可用规则之间的优先级。编码必须复用该顺序，才能与训练出的词表一致。"
+    },
+    {
+      "id": "30-bpe-tokenizer-from-scratch-check-4",
+      "stage": "check",
+      "question": "`allow_special=False` 时遇到特殊词元的字面字符串，编码器如何处理？",
+      "options": [
+        "抛出错误",
+        "按普通字节编码该字符串",
+        "静默跳过",
+        "直接映射到保留 ID"
+      ],
+      "correct": 1,
+      "explanation": "本课关闭特殊识别时，把该字符串当作普通输入走字节与 BPE 合并流程。不能从文本恰好像特殊标记就推断它获得特殊 ID。"
+    },
+    {
+      "id": "30-bpe-tokenizer-from-scratch-post-5",
+      "stage": "post",
+      "question": "为什么字节级表示不需要未登录词 ID？",
+      "options": [
+        "每个已学习词元都可递归拆成已知词元，最终回到单字节",
+        "编码器先删除未知词元",
+        "解码器对未知 ID 总返回空串",
+        "模型采样时拒绝未知 ID"
+      ],
+      "correct": 0,
+      "explanation": "有效词元的合并树最终落到原始字节，因此任意输入文本都有基础表示。此性质不表示任意非法 ID 都能被解码。"
+    },
+    {
+      "id": "30-bpe-tokenizer-from-scratch-post-6",
+      "stage": "post",
+      "question": "固定句子在目标词表增大时，编码长度通常怎样变化？",
+      "options": [
+        "常见子词被更多合并覆盖，长度趋于下降",
+        "BPE 不确定，长度随机振荡",
+        "每个 ID 只表示一个字节，长度不变",
+        "随词表大小线性增加"
+      ],
+      "correct": 0,
+      "explanation": "增加合并规则通常让常见片段压成单个 ID，缩短序列。这里描述一般趋势，不保证每个新增规则都会缩短给定句子。"
+    }
+  ]
+}
