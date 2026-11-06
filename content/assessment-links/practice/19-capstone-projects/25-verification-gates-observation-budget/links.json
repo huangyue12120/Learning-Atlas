@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/25-verification-gates-observation-budget",
+  "translationSha256": "b6502cb879e1915ddb168a2f7379d870b6a26405ac02d1a637e5bad7246a99a6",
+  "assessmentSha256": "661e2035cb66a79607c0c9ee50b667320f517da7e567f88102c3886a90843baf",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "25-verification-gates-observation-budget-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "是 `(call, history, ledger)` 的确定性函数，返回带理由的 ALLOW 或 DENY。",
+      "reviewNote": "确定性规则使相同输入的决定可复现，评审者可以检查具体拒绝原因。模型评审可作为补充，但不能用“总会出错”作普遍断言。"
+    },
+    {
+      "id": "25-verification-gates-observation-budget-check-2",
+      "status": "reviewed",
+      "headingId": "为什么门链顺序重要",
+      "quote": "因此按成本升序排列，让被拒绝的调用在昂贵计算前短路。",
+      "reviewNote": "允许列表是常数时间查找，预算检查需汇总账本。先拒绝结构上不允许的调用，可以避免后续无用计算。"
+    },
+    {
+      "id": "25-verification-gates-observation-budget-check-3",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "每次成功的工具调用都会写入一行：工具名、轮次、输出词元数和累计数。",
+      "reviewNote": "拒绝产生 GateDecision，而非模型看到的工具观察。拒绝次数与决定单独记录，不能混入观察消费账本。"
+    },
+    {
+      "id": "25-verification-gates-observation-budget-check-4",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "差值大于窗口即拒绝。",
+      "reviewNote": "门禁比较 call.turn 与 latest_turn 的差：10−5=5，大于 3，因此拒绝。窗口限制的是观察新鲜程度。"
+    },
+    {
+      "id": "25-verification-gates-observation-budget-post-5",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "单条输出的 8000 词元上限应在工具返回后截断观察",
+      "reviewNote": "工具返回前不知道实际输出长度，所以需要输出侧截断。调用前门禁检查输入和历史状态，不能假定已经知道执行结果。"
+    },
+    {
+      "id": "25-verification-gates-observation-budget-post-6",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "`ChainOutcome` 保存逐门决策和拒绝理由",
+      "reviewNote": "ChainOutcome 保存完整的门禁结果，能与执行轨迹对应。账本只显示成功观察，单独使用会漏掉被拒绝的请求。"
+    }
+  ]
+}

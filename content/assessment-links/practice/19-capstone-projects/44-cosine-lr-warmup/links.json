@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/44-cosine-lr-warmup",
+  "translationSha256": "c1f8f755af57d64f63e56e7870e283bd5924dcfd266e07fdb02980d5b04dd625",
+  "assessmentSha256": "28f088781d13fa65237d1401d2d672d84fab014bcda5db10fb1aa530bd2e848e",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "44-cosine-lr-warmup-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "优化器的二阶矩运行估计还没有稳定，梯度范数又大又嘈杂。",
+      "reviewNote": "预热让优化器和模型逐步进入较大的更新区间，有助于稳定某些训练。它是可调整策略，不是所有模型都必须从零开始。"
+    },
+    {
+      "id": "44-cosine-lr-warmup-check-2",
+      "status": "reviewed",
+      "headingId": "余弦公式",
+      "quote": "两个端点处的连续性并非偶然。",
+      "reviewNote": "统一表达式和边界测试使 lr_max 等配置变化更容易核验。多个分段函数也能正确实现，关键是连续性与端点约定。"
+    },
+    {
+      "id": "44-cosine-lr-warmup-check-3",
+      "status": "reviewed",
+      "headingId": "总步数之后的下限",
+      "quote": "它会固定在下限，并让训练器记录一条警告。",
+      "reviewNote": "钳制到学习率下限使超出预定步数的行为明确。若要扩展训练周期，应显式调整总步数，而不是依赖余弦回升。"
+    },
+    {
+      "id": "44-cosine-lr-warmup-check-4",
+      "status": "reviewed",
+      "headingId": "与学习率一起记录梯度范数",
+      "quote": "发散的训练会先出现梯度范数尖峰，之后损失才会变化",
+      "reviewNote": "损失、学习率和梯度范数的联合曲线有助于排查发散。梯度尖峰可能早于明显损失变化，但不是每次都如此。"
+    },
+    {
+      "id": "44-cosine-lr-warmup-post-5",
+      "status": "reviewed",
+      "headingId": "使用",
+      "quote": "让调度随训练时长缩放。",
+      "reviewNote": "按比例设置便于跨训练规模比较，课程举 1–3% 作为起点。最终预热长度仍需结合模型、批量和优化器调参。"
+    },
+    {
+      "id": "44-cosine-lr-warmup-post-6",
+      "status": "reviewed",
+      "headingId": "使用",
+      "quote": "约为 `lr_max` 10% 的下限会让优化器在漫长的尾段继续学习。",
+      "reviewNote": "非零下限允许长尾阶段继续调整，课程以峰值附近十分之一作示例。退火至零也可合理，不能认为所有零下限方案都浪费训练。"
+    }
+  ]
+}

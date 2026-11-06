@@ -96,6 +96,8 @@ main.py 提供：
 
 fixture 任务以 tasks/ 中的 JSON 文件以及 tasks/<id>/buggy/ 和 tasks/<id>/expected/ 中成对的源文件捆绑。harness 将 buggy 复制到 scratch 目录，交给候选者，再与 expected 比较验证。
 
+> **编者注：** 当前实现每次采样前都调用 `_prepare_scratch`，从同一份 buggy 初始文件准备新目录，不继承上一样本的修复。报告保存逐任务、逐样本的 `SampleResult` 和验证器结果，便于区分候选回归与工作台故障。
+
 ## 为什么是 pass@k，而不只是 pass@1
 
 真实 LLM 智能体具有随机性。pass@1 为 0.6 看起来像失败；pass@5 为 0.95 则说明智能体大多数时候能给出正确答案，只是在早期采样中选错了。修复方式是采样与排序，而不总是增加训练。pass@k 会把这一点显现出来。

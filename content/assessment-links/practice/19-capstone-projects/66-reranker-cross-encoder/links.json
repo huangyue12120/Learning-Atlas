@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/66-reranker-cross-encoder",
+  "translationSha256": "38ccbebe77ec8adf71415146878112b8f6acd9a926ae917ce075728f2c1ceec8",
+  "assessmentSha256": "3b295f57026e54600406c5be8d516ca53412209558d8641694815fad50e22ef7",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "66-reranker-cross-encoder-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "模型把 `[query] [SEP] [document]` 作为一个序列接收",
+      "reviewNote": "联合编码可以利用细粒度 query-document 交互；不能仅凭输出相似度函数或设备类型区分架构。"
+    },
+    {
+      "id": "66-reranker-cross-encoder-pre-2",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "这意味着每次查询要做一千万次前向传播",
+      "reviewNote": "文档表示不能像 bi-encoder 那样提前独立缓存，通常先召回有限候选再重排。"
+    },
+    {
+      "id": "66-reranker-cross-encoder-check-3",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "先用双编码器检索 top-N，再用交叉编码器把 N 项重排成 top-K。",
+      "reviewNote": "N 限制候选集合的召回上界和重排成本；实际批处理可同时处理多对，不必等同于 N 次串行调用。"
+    },
+    {
+      "id": "66-reranker-cross-encoder-check-4",
+      "status": "reviewed",
+      "headingId": "延迟与质量",
+      "quote": "N>K 提供替换最终集合的空间",
+      "reviewNote": "编者注：原题说 N=K 无法重排并且收益必为零，这是错误的；N=K 仍可改善 MRR/nDCG 等顺序指标，3× 也只是候选池经验起点。"
+    },
+    {
+      "id": "66-reranker-cross-encoder-check-5",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "输出一个标量的平均池化头。",
+      "reviewNote": "池化时排除 padding，随后做标量评分；CLS pooling 是另一种选择，质量需对照而非预先认定相同。"
+    },
+    {
+      "id": "66-reranker-cross-encoder-post-6",
+      "status": "reviewed",
+      "headingId": "延迟与质量",
+      "quote": "低 top-1 分数是需校准的信号，不是语料必无答案的证明。",
+      "reviewNote": "低分是调查与拒答策略的信号，未经校准的标量不是“语料必无答案”的证明。"
+    }
+  ]
+}

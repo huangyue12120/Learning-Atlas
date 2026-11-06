@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/29-end-to-end-coding-task-demo",
+  "translationSha256": "c4ed7629d25f694b3efc8a890af4e1783190b8dbcd373385b40f3b0a9e29f53e",
+  "assessmentSha256": "ad4bbefc5233145fb72048ab898ae686e7e8e7a546495bd927cb33ecd6986b9d",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "29-end-to-end-coding-task-demo-pre-1",
+      "status": "reviewed",
+      "headingId": "为什么策略不是-llm",
+      "quote": "确定性策略让课程无需外部依赖即可在任何开发者电脑上运行",
+      "reviewNote": "固定策略去掉网络与模型随机性，使集成测试可以复现。门禁、沙箱和观察接口并不依赖策略一定来自 LLM。"
+    },
+    {
+      "id": "29-end-to-end-coding-task-demo-check-2",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "SURVEY：智能体读取项目列表，下一状态为 RUN_TESTS。",
+      "reviewNote": "策略先查看项目，再运行测试，利用失败信号检查并修复，最后重跑验证。先测再检查，使修复依据来自明确失败。"
+    },
+    {
+      "id": "29-end-to-end-coding-task-demo-check-3",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "INSPECT：智能体读取失败的源文件，下一状态为 FIX。",
+      "reviewNote": "INSPECT 从失败结果识别边界错误，下一 FIX 状态再写入修改。识别修复和实际写文件是两个步骤。"
+    },
+    {
+      "id": "29-end-to-end-coding-task-demo-check-4",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "先判断 `GateChain`，允许后进入工具 `SpanBuilder` 上下文，再运行 `Sandbox`，最后写入 `ObservationLedger`。",
+      "reviewNote": "先取得门禁决定，再记录 span；允许的调用才进入沙箱，成功观察最后写入账本。拒绝决定也应在追踪中可见。"
+    },
+    {
+      "id": "29-end-to-end-coding-task-demo-post-5",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "把策略替换成 LLM 不会改变 harness 契约。",
+      "reviewNote": "LLM 接到 next_action/observe 边界，沿用门禁、沙箱、账本和追踪。真实部署仍需评估资源与安全配置，但这不改变课程的接口替换结论。"
+    },
+    {
+      "id": "29-end-to-end-coding-task-demo-post-6",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "`step_budget` 仍是硬上限，未解决时 `AgentRunReport` 以 `solved=False` 和 `halted_reason` 报告停止原因。",
+      "reviewNote": "模型可选择更长路径，但步骤预算仍是确定性停止条件。工作台显式报告停止原因，不能把耗尽预算的运行当作解决任务。"
+    }
+  ]
+}

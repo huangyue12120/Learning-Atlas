@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/83-prompt-injection-detector",
+  "translationSha256": "4f8ad35e2403cf6b5d88539e4dfad6a95ab08e3be29e1806ccda0552c1b3a7ab",
+  "assessmentSha256": "79ff5c0281520a4095ea1a002e5fd8ea8baba4ecc9521ef69d650c1e0b942930",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "83-prompt-injection-detector-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "返回 `[0, 1]` 范围内的置信度和最匹配的类别",
+      "reviewNote": "上游本题未提供解析。改编补充：结构化信号供后续门组合；数值在合法范围并不代表已经概率校准。"
+    },
+    {
+      "id": "83-prompt-injection-detector-pre-2",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "去除零宽字符和双向控制字符。将工作副本转为小写。",
+      "reviewNote": "上游本题未提供解析。改编补充：规范化有边界也可能误解码，需保留原文证据，不保证识别所有编码攻击。"
+    },
+    {
+      "id": "83-prompt-injection-detector-check-3",
+      "status": "reviewed",
+      "headingId": "关键术语",
+      "quote": "TP / (TP + FP)，所有命中中真正正确的比例",
+      "reviewNote": "上游本题未提供解析。改编补充：precision=TP/(TP+FP)=6/8=0.75；召回率还需要 FN，不能由这两个数计算。"
+    },
+    {
+      "id": "83-prompt-injection-detector-check-4",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "接受一个 benign-prompt 列表，以测量安全文本上的假阳性。",
+      "reviewNote": "上游本题未提供解析。改编补充：只测攻击会掩盖误拒绝；良性数据应覆盖真实用法且与调参样本区分。"
+    },
+    {
+      "id": "83-prompt-injection-detector-check-5",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "没有任何规则命中的提示词得分为 `0.0`，并标为 `benign`。",
+      "reviewNote": "上游本题未提供解析。改编补充：这是默认未命中状态，不是证明文本安全；未覆盖的攻击也可能走到这里。"
+    },
+    {
+      "id": "83-prompt-injection-detector-post-6",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "检测器不是安全网关，而是网关会组合的多个信号之一。",
+      "reviewNote": "上游本题未提供解析。改编补充：安全门还需组合生成中和输出检查、策略与审计，不能把单一启发式分类当最终保证。"
+    }
+  ]
+}

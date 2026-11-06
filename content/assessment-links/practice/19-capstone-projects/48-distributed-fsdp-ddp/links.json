@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/48-distributed-fsdp-ddp",
+  "translationSha256": "0ae859b62a187f0d43cd156713e16c3390ff29fa01720ca92863288e9c47ec89",
+  "assessmentSha256": "2dc51293553290bbfcdc01c4c2fd000e8636929757676c2c1d07f85ec833cd0c",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "48-distributed-fsdp-ddp-pre-1",
+      "status": "reviewed",
+      "headingId": "使用",
+      "quote": "形状契约仍然是启动时 broadcast、反向后 reduce",
+      "reviewNote": "初始化广播统一起点，梯度平均使各 rank 进行一致更新。二者配合保持数据并行的参数同步。"
+    },
+    {
+      "id": "48-distributed-fsdp-ddp-pre-2",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "本课运行在 CPU 上，不假定 CUDA。",
+      "reviewNote": "课程用多进程与 gloo 执行实际集合通信。GPU 后端可沿用许多 API，但设备、后端和启动环境仍需相应配置。"
+    },
+    {
+      "id": "48-distributed-fsdp-ddp-check-3",
+      "status": "reviewed",
+      "headingId": "梯度平均等同于单进程梯度",
+      "quote": "将各 rank 的梯度求和再除以 N，得到的就是完整批次采用 mean reduction 的交叉熵梯度。",
+      "reviewNote": "每 rank 样本数相同且损失均值定义一致时，平均局部梯度等于全批均值梯度。不等大批次需按样本数加权。"
+    },
+    {
+      "id": "48-distributed-fsdp-ddp-check-4",
+      "status": "reviewed",
+      "headingId": "第-5-步-fsdp-往返",
+      "quote": "会展平每个参数，补齐到 world_size 的倍数，切片、all-gather，再去掉填充",
+      "reviewNote": "示意代码展示分片与重建的数据流。生产 FSDP 还涉及梯度、优化器状态和通信重叠，不能把示意当成完整实现。"
+    },
+    {
+      "id": "48-distributed-fsdp-ddp-check-5",
+      "status": "reviewed",
+      "headingId": "第-5-步-fsdp-往返",
+      "quote": "本课 gloo 的 `all_gather` 路径使用等长张量",
+      "reviewNote": "统一分片尺寸符合此示例的集合操作调用要求。最终恢复原长度，避免填充值成为模型参数。"
+    },
+    {
+      "id": "48-distributed-fsdp-ddp-post-6",
+      "status": "reviewed",
+      "headingId": "第-5-步-fsdp-往返",
+      "quote": "不同参数也可能有相同的和，仍需逐元素或梯度对照检验。",
+      "reviewNote": "参数和是便宜的同步诊断量；不同张量也可能具有相同和。完整一致性检查应比较参数元素或更强的校验，而非把该数值当作充分证明。"
+    }
+  ]
+}

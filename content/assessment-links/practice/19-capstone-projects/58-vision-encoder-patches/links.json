@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/58-vision-encoder-patches",
+  "translationSha256": "05661b3edd8e66a4adc77e8c70ed1496a1f2d45e8ebf5ab58aea2583661b9301",
+  "assessmentSha256": "fbf345fc90c310d1f51d57a8135c2fd2b3660470ff4ec97f514300c7b320fd26",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "58-vision-encoder-patches-pre-1",
+      "status": "reviewed",
+      "headingId": "为什么使用图块-而不是像素",
+      "quote": "注意力的计算量与序列长度平方成正比。",
+      "reviewNote": "编者注：224×224 图像有 50176 个像素位置，RGB 标量值为 150528 个；16×16 patch 把位置序列缩到 196，避免把标量数误称为像素词元数。"
+    },
+    {
+      "id": "58-vision-encoder-patches-pre-2",
+      "status": "reviewed",
+      "headingId": "conv2d-技巧",
+      "quote": "因为每个输出位置都用一个滤波器对图块像素做点积。",
+      "reviewNote": "每个不重叠卷积窗口与一个展平 patch 对应；调整权重布局和 bias 后可数值验证等价。"
+    },
+    {
+      "id": "58-vision-encoder-patches-check-3",
+      "status": "reviewed",
+      "headingId": "用等价性进行健全性检查",
+      "quote": "二维正弦位置编码可按新网格生成表示，不保证分辨率变化后的模型质量不下降。",
+      "reviewNote": "编者注：固定 sin/cos 可为新网格生成表示，但不自动保证新分辨率的质量或泛化；仍需评估，不能把可运行等同于效果保持。"
+    },
+    {
+      "id": "58-vision-encoder-patches-check-4",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "第一个词元是 CLS，后面 196 个是图块词元。",
+      "reviewNote": "每边 14 个 patch，14×14=196，再加一个 CLS，总长度 197。"
+    },
+    {
+      "id": "58-vision-encoder-patches-check-5",
+      "status": "reviewed",
+      "headingId": "用等价性进行健全性检查",
+      "quote": "按逆排列恢复图块，结果应精确重建原像素",
+      "reviewNote": "检查可逆的分块步骤能尽早发现通道或空间顺序错误；经过降维线性投影后不再保证可逆。"
+    },
+    {
+      "id": "58-vision-encoder-patches-post-6",
+      "status": "reviewed",
+      "headingId": "用等价性进行健全性检查",
+      "quote": "二维正弦位置编码可按新网格生成表示",
+      "reviewNote": "编者注：可学习表有固定尺寸约束或需要插值；正弦编码没有这类训练参数，但不能据此断言性能必然更好或迁移无需验证。"
+    }
+  ]
+}

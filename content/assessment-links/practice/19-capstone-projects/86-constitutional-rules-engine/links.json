@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/86-constitutional-rules-engine",
+  "translationSha256": "2837a677e10d319e2db36ad6bc56b1c6995ee3c57926436bfa84068eb6f38604",
+  "assessmentSha256": "aaab2b27bcefa69e65c53da3e4c5353c2cfdb7e1e7239c96a31b6f5c8b98585a",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "86-constitutional-rules-engine-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "纳入版本控制，并采用独立的评审流程。",
+      "reviewNote": "上游本题未提供解析。改编补充：新规则组合可复用现有谓词，新增谓词能力仍需代码；本课解析器也不等于支持完整 YAML。"
+    },
+    {
+      "id": "86-constitutional-rules-engine-pre-2",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "每条规则都有 `name`、`severity`、`explanation` 模板",
+      "reviewNote": "上游本题未提供解析。改编补充：这些字段声明身份、严重度、必须成立的条件和解释；可选 applies_when 与 fix 提供适用范围和修订策略。"
+    },
+    {
+      "id": "86-constitutional-rules-engine-check-3",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "组合形式为 `all_of`、`any_of`、`not_`。",
+      "reviewNote": "上游本题未提供解析。改编补充：组合逻辑应有明确短路与空集合语义，规则结构需先验证再执行。"
+    },
+    {
+      "id": "86-constitutional-rules-engine-check-4",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "如果规则不适用，就将违规记录为 `not_applicable`。",
+      "reviewNote": "上游本题未提供解析。改编补充：不满足适用条件不表示违规，也不表示已经满足 must；报告应保留这一区别。"
+    },
+    {
+      "id": "86-constitutional-rules-engine-check-5",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "`append_if_missing`、`prepend_if_missing`、`replace_regex`。",
+      "reviewNote": "上游本题未提供解析。改编补充：这是局部文本变换，不保证语义正确或同时满足所有规则，必须重新检查。"
+    },
+    {
+      "id": "86-constitutional-rules-engine-post-6",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "修复器生成修订版，引擎再确认修订满足规则。",
+      "reviewNote": "上游本题未提供解析。改编补充：一条修订可能破坏另一条规则，二次检查是必要反馈，但仍不构成任意语义风险的完备检测。"
+    }
+  ]
+}

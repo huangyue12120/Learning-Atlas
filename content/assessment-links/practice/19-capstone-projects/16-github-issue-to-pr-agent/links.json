@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/16-github-issue-to-pr-agent",
+  "translationSha256": "c0339cc3502089c80d6c895dd41b1314b9ceed186a206fa93512432d31b81ee8",
+  "assessmentSha256": "f9a97716bc2580aee19763081bbad81a93bcd6af1bd24ce0964bf6aafa85ac0c",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "16-github-issue-to-pr-agent-pre-1",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "触发器是 GitHub webhook（Issue 标签或 PR 评论）。",
+      "reviewNote": "webhook 将仓库事件转成一次有边界的任务，dispatcher 再分配 worker。人工上传和常驻 SSH 不对应本课的事件驱动流程。"
+    },
+    {
+      "id": "16-github-issue-to-pr-agent-pre-2",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "Worker 使用短期 GitHub App installation 令牌运行。",
+      "reviewNote": "短期且仓库范围受限的凭据可降低每个 worker 的授权范围与泄漏窗口。它不代表免除速率限制，个人令牌也并非不能创建 PR。"
+    },
+    {
+      "id": "16-github-issue-to-pr-agent-check-3",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "分支保护（唯一能执行此规则的面）强制“不能直接推送到 `main`”和“不能强制推送”；App 不在绕过列表中。",
+      "reviewNote": "分支规则必须与 App 的绕过设置配合，才能约束其推送行为。只声明规则却授予 App 绕过权会破坏保护目的。"
+    },
+    {
+      "id": "16-github-issue-to-pr-agent-check-4",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "由于 GitHub App 权限不是按路径限定的，worker 通过对提议 diff 做 allow-list 检查",
+      "reviewNote": "App 权限不能直接表达任意文件路径约束，因此 worker 在交付前检查 diff。该检查是附加门禁，不能靠扩大 App 权限替代。"
+    },
+    {
+      "id": "16-github-issue-to-pr-agent-check-5",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "如果 CI 为红色：停止，不打开 PR。如果覆盖率下降超过 2%：打开 PR 并加上 needs-review 标签。",
+      "reviewNote": "课程把执行验证放在 PR 交付之前，并显式标注覆盖率风险。模型自评或直接推送没有提供同等测试证据。"
+    },
+    {
+      "id": "16-github-issue-to-pr-agent-post-6",
+      "status": "reviewed",
+      "headingId": "技术栈",
+      "quote": "按仓库的每日美元上限；按仓库的每日 PR 数上限",
+      "reviewNote": "单任务费用与每日任务数量共同约束总体消耗。只限制回合数无法直接限制一天触发的大量独立任务。"
+    },
+    {
+      "id": "16-github-issue-to-pr-agent-post-7",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "包含：标题、理由、diff 摘要、trace URL、成本、回合数。",
+      "reviewNote": "这些信息让评审者理解改动，并追溯执行与费用。原始 diff 或通用变更日志无法独立呈现完整任务证据。"
+    }
+  ]
+}

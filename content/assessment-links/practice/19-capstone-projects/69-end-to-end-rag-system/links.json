@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/69-end-to-end-rag-system",
+  "translationSha256": "b7cc57600dca01d76fcd4cb3daa65654b4e865ebf94f1e2723cf272341cfca77",
+  "assessmentSha256": "7d6cc06ca4969ec040834899bfab368c9dbf829ea33aeceff622d66ba006bc3f",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "69-end-to-end-rag-system-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "六个单独有效的组件并不能证明系统有效。",
+      "reviewNote": "编者注：集成评估不可替代，但并非唯一有效证据；单元与阶段评估仍用于定位错误，需与端到端评估共同使用。"
+    },
+    {
+      "id": "69-end-to-end-rag-system-pre-2",
+      "status": "reviewed",
+      "headingId": "带引用的答案生成器",
+      "quote": "如果该分数低于语料库阈值，生成器就拒答",
+      "reviewNote": "低分阈值是经验拒答策略，可能误拒或漏拒；不能保证完全消除幻觉。"
+    },
+    {
+      "id": "69-end-to-end-rag-system-check-3",
+      "status": "reviewed",
+      "headingId": "示例会隐藏的失败模式",
+      "quote": "生产环境中必须严格留出评估查询",
+      "reviewNote": "不只检查完全相同文本，还应检查近重复与共享答案模板等泄漏途径。"
+    },
+    {
+      "id": "69-end-to-end-rag-system-check-4",
+      "status": "reviewed",
+      "headingId": "自终止演示",
+      "quote": "如果任何指标低于阈值，则以非零状态退出",
+      "reviewNote": "零退出说明本次 fixture 达标，非零提示检查回归；并不证明生产分布上的整体质量。"
+    },
+    {
+      "id": "69-end-to-end-rag-system-check-5",
+      "status": "reviewed",
+      "headingId": "带引用的答案生成器",
+      "quote": "每句话后附上 `[doc_id:chunk_index]` 锚点。",
+      "reviewNote": "该二元组让界面或审核者回查原 chunk；引用存在仍须核对它是否支持对应陈述。"
+    },
+    {
+      "id": "69-end-to-end-rag-system-post-6",
+      "status": "reviewed",
+      "headingId": "示例会隐藏的失败模式",
+      "quote": "模拟生成器只能输出检索块中的文本",
+      "reviewNote": "替换真实模型后应复测依据支持、拒答与提示词注入等行为；模拟生成器主要检查数据流与接口。"
+    }
+  ]
+}

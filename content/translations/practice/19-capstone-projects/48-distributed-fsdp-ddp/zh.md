@@ -146,6 +146,8 @@ python3 code/main.py
 
 默认 world size 为 2；两个 CPU 进程通过 `gloo` 通信并以零退出码结束，结果写入 `outputs/ddp-demo.json`。
 
+> **编者注：** 本课 gloo 的 `all_gather` 路径使用等长张量，参数展平后先补齐、再聚合，最后裁掉填充。`param_sum_spread` 接近零只说明各 rank 的参数和一致；不同参数也可能有相同的和，仍需逐元素或梯度对照检验。
+
 ## 使用
 
 生产版 DistributedDataParallel 还会增加反向钩子，在反向期间重叠 all-reduce，并把多个小梯度放入 bucket 后一次 collective；课程 46 使用的 no_sync 也由此提供。FSDP 会为每层提供平坦参数视图、将下一层 unshard 与当前计算重叠，并可选择把分片 offload 到 CPU。形状契约仍然是启动时 broadcast、反向后 reduce，参数放不下时再分片。

@@ -13,10 +13,10 @@
       "stage": "pre",
       "question": "为什么非幂等工具超时后默认不重试？",
       "options": [
-        "分派器无法测量非幂等调用",
-        "非幂等处理器运行更快",
-        "幂等键计算太慢",
-        "工具可能已部分提交，重试会重复副作用"
+        "分发器无法对非幂等工具进行计时",
+        "非幂等处理器一定运行得更快",
+        "幂等键生成比直接重试更昂贵",
+        "操作可能已提交，重试会重复副作用"
       ],
       "correct": 3,
       "explanation": "超时不代表操作没有生效，例如数据库写入可能已完成但响应丢失。只有明确具备可重试语义时才可再次执行。"
@@ -26,10 +26,10 @@
       "stage": "pre",
       "question": "幂等键去重主要防止什么？",
       "options": [
-        "schema 校验失败",
-        "原调用尚未结束时，重试又启动同一操作",
-        "进程重启",
-        "慢网络本身"
+        "防止调用参数在 schema 校验阶段失败",
+        "合并在途调用与重试，避免重复执行",
+        "让调用结果跨进程重启后仍保持有效",
+        "消除网络延迟，使原调用更快结束"
       ],
       "correct": 1,
       "explanation": "相同逻辑操作的在途调用共享去重结果，避免慢原调用与重试并发执行。进程内缓存不自动提供跨重启去重保证。"
@@ -39,10 +39,10 @@
       "stage": "check",
       "question": "本课分派器允许重试哪类错误？",
       "options": [
-        "schema 与 not_found",
-        "幂等调用的 timeout，以及显式 transient",
+        "schema 参数错误与 not_found",
+        "幂等 timeout 与显式 transient",
         "internal 与 budget_exceeded",
-        "全部错误"
+        "全部错误，不区分原因和幂等性"
       ],
       "correct": 1,
       "explanation": "参数和工具不存在属于确定性错误，未知 internal 错误也不应盲目重试。只有幂等超时及显式临时错误进入重试路径。"
@@ -52,10 +52,10 @@
       "stage": "check",
       "question": "`_run_with_retries` 外的信号量保护什么？",
       "options": [
-        "防止处理器调用自己",
-        "限制 gather 展开的同时调用数，避免压垮后端",
-        "保护校验器",
-        "保护重试计数器"
+        "防止工具处理器递归调用其自身",
+        "限制同时分发数，避免后端过载",
+        "保护 schema 校验器不被模型修改",
+        "防止多个调用共享同一重试计数"
       ],
       "correct": 1,
       "explanation": "gather 可同时发起大量调用，信号量将并发执行数量限制在配置范围内。它控制资源压力，不判断参数正确与否。"
@@ -65,10 +65,10 @@
       "stage": "check",
       "question": "为什么幂等键由调用方生成，而非分派器仅根据参数生成？",
       "options": [
-        "缓存不能保存字符串",
-        "注册表拿不到键",
-        "不同语义操作可能参数相同，仅按参数会错误合并",
-        "Python 哈希值不稳定"
+        "幂等缓存无法用字符串作为键",
+        "注册表不能读取调用方提供的键",
+        "参数相同可能仍是不同语义操作",
+        "Python 不能计算字典参数的稳定哈希"
       ],
       "correct": 2,
       "explanation": "调用方知道步骤、用户和规划意图，能够标识一次逻辑操作。相同参数可能代表两次应各自执行的请求。"
@@ -91,10 +91,10 @@
       "stage": "post",
       "question": "幂等工具连续超时达到 `max_attempts` 后返回什么？",
       "options": [
-        "无结果的 DispatchOk",
-        "kind=timeout 且 attempts=max_attempts 的 DispatchError",
-        "直接抛出异常",
-        "kind=internal 的 DispatchError"
+        "DispatchOk，result=None，attempts=max_attempts",
+        "DispatchError，kind=timeout，attempts=max_attempts",
+        "抛出未处理的 TimeoutError，不返回 DispatchError",
+        "DispatchError，kind=internal，attempts=max_attempts"
       ],
       "correct": 1,
       "explanation": "分派器返回类型化错误封装，保留最后的超时类别和实际尝试次数，让上层明确知道重试预算已经耗尽。"

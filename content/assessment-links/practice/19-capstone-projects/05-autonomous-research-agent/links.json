@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/05-autonomous-research-agent",
+  "translationSha256": "04f38abf236dd2e5e2fe8405826e42ee2d6679a67af121994545d247fa455dd7",
+  "assessmentSha256": "c7b1c1b8c98cf588fd40c8dc28f46deb105b3bd4f7248e895c20c6be209a1588",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "05-autonomous-research-agent-pre-1",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "智能体是一个 best-first 树搜索。节点是实验规格：（假设、配置、代码、预期结果）。",
+      "reviewNote": "搜索节点表示实验方案与结果，系统优先扩展评分较高的节点。词元解码搜索与实验级搜索的状态、动作和评分对象不同。"
+    },
+    {
+      "id": "05-autonomous-research-agent-pre-2",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "每个实验都运行 docker run --network=none --memory=8g --cpus=2 --pids-limit=256 --read-only",
+      "reviewNote": "禁网和资源上限约束外联、进程及计算开销，便于隔离实验。它们不自动保证浮点确定性，也不等于启用 GPU。"
+    },
+    {
+      "id": "05-autonomous-research-agent-check-3",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "针对版式、图表可读性和主张—证据对齐进行批评。",
+      "reviewNote": "视觉评议检查编译后的实际页面，能发现排版和图文对应问题。它评议已有稿件，并不承担实验创意搜索或绘图工具的职责。"
+    },
+    {
+      "id": "05-autonomous-research-agent-check-4",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "如果均值 < 4.0/5，就带着批评意见返回写作者。",
+      "reviewNote": "课程设置五个评审和加权门限，把不达标稿件送回修改。简单多数和单个二元判断均没有实现这套量表聚合。"
+    },
+    {
+      "id": "05-autonomous-research-agent-check-5",
+      "status": "reviewed",
+      "headingId": "交付",
+      "quote": "强制 $30/论文上限，并由 Langfuse 追踪",
+      "reviewNote": "每篇论文的预算由预估和运行中计数共同约束，并设 30 美元上限。质量门禁仍独立存在，不能用低成本取代质量审核。"
+    },
+    {
+      "id": "05-autonomous-research-agent-post-6",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "按（新颖性 × 质量 × 剩余预算）为节点排序。",
+      "reviewNote": "课程用新颖性、实验质量和剩余预算的组合排序节点，使扩展考虑价值与成本。引用数或文本长度不直接衡量一次实验分支的收益。"
+    },
+    {
+      "id": "05-autonomous-research-agent-post-7",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "红队报告复现 Sakana 记录的攻击面（fork bomb、文件系统逃逸、LLM 编写的网络调用）。",
+      "reviewNote": "本课红队检查实验执行边界，包括进程耗尽、禁网和路径隔离。缓存、检索租户和音频丢包不属于这份报告指定的测试集。"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "questionCount": 2362,
-  "reviewedEvidenceCount": 177,
-  "remainingEvidenceCount": 2185,
+  "reviewedEvidenceCount": 707,
+  "remainingEvidenceCount": 1655,
   "phases": [
     {
       "phase": "00-setup-and-tooling",
@@ -90,8 +90,8 @@
     {
       "phase": "19-capstone-projects",
       "questionCount": 530,
-      "reviewedEvidenceCount": 0,
-      "remainingEvidenceCount": 530
+      "reviewedEvidenceCount": 530,
+      "remainingEvidenceCount": 0
     }
   ]
 }

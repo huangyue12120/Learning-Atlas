@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/51-literature-retrieval",
+  "translationSha256": "f0739f849252aae5ec89a1ee5e00e1b05314c5ee45f915da7b4d30f6cf5fe8e2",
+  "assessmentSha256": "8e50e7663bd62d9a3cd676271b993437fa36cfae4df056d4a8eaa5753a6e2788",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "51-literature-retrieval-pre-1",
+      "status": "reviewed",
+      "headingId": "为什么需要两轮检索",
+      "quote": "BM25 捕获词法命中；引文图从种子集合向前、向后扩展一到两跳。",
+      "reviewNote": "两路覆盖不同的遗漏：BM25 利用共享词项，引文图沿引用关系寻找相关工作，再合并排序。"
+    },
+    {
+      "id": "51-literature-retrieval-pre-2",
+      "status": "reviewed",
+      "headingId": "引文图遍历",
+      "quote": "三跳会在连通图上放大结果并偏离主题。",
+      "reviewNote": "两跳是本课控制成本和主题漂移的策略，不是图检索的普遍最优深度；真实语料应按召回和成本评估。"
+    },
+    {
+      "id": "51-literature-retrieval-check-3",
+      "status": "reviewed",
+      "headingId": "从零实现-bm25",
+      "quote": "是接近零的非负值，不是负无穷。",
+      "reviewNote": "平滑公式在 df=N 时给出较小的非负权重，表示这个普遍词项区分文档的能力很弱。"
+    },
+    {
+      "id": "51-literature-retrieval-check-4",
+      "status": "reviewed",
+      "headingId": "学习目标",
+      "quote": "按稳定论文 ID 合并两条路径中的重复命中。",
+      "reviewNote": "paper id 是稳定标识；标题和作者可能随版本重复或变化，年份也不能唯一标识论文。"
+    },
+    {
+      "id": "51-literature-retrieval-check-5",
+      "status": "reviewed",
+      "headingId": "去重与排序",
+      "quote": "graph_score 对直接词法命中取 1，一跳取 0.6，两跳取 0.3",
+      "reviewNote": "本课默认零跳为 1.0、一跳为 0.6、两跳为 0.3，更远为零；这是配置规则，不是通用相关度概率。"
+    },
+    {
+      "id": "51-literature-retrieval-check-6",
+      "status": "reviewed",
+      "headingId": "从零实现-bm25",
+      "quote": "在构造时加载语料并建立索引和图，查询复用这些结构。",
+      "reviewNote": "复用客户端可分摊索引构建成本；语料更新时仍需要明确刷新或重建策略。"
+    }
+  ]
+}

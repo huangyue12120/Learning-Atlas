@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/84-refusal-evaluation",
+  "translationSha256": "7672cf989787bf2f533f7dda877be280d0e78422f5ae5d4fe7a2f2790ddb9b4a",
+  "assessmentSha256": "f23b032a670e22863ffd3182a3e5a6a4863261935a832b4c0b935a5e5c6ef747",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "84-refusal-evaluation-pre-1",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "模型对标签集标为 `unsafe` 的提示词给出了回答",
+      "reviewNote": "上游本题未提供解析。改编补充：分母是不安全样本数；它与良性提示的误拒答使用不同样本集合。"
+    },
+    {
+      "id": "84-refusal-evaluation-pre-2",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "代码改动导致的指标变化就有已知原因。",
+      "reviewNote": "上游本题未提供解析。改编补充：确定性 mock 适合测试评估管线，不能替代真实模型的拒答质量与攻击适应性评估。"
+    },
+    {
+      "id": "84-refusal-evaluation-check-3",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "过度拒答：模型对标签集标为 `safe` 的提示词进行了拒答",
+      "reviewNote": "上游本题未提供解析。改编补充：5/30≈0.1667，约为 0.17；应同时报告分子、分母与样本覆盖范围。"
+    },
+    {
+      "id": "84-refusal-evaluation-check-4",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "按箱大小加权平均 `|conf - accuracy|`。",
+      "reviewNote": "上游本题未提供解析。改编补充：先明确“正确”的事件定义，再计算分箱置信度与正确率差；分箱和样本数影响估计。"
+    },
+    {
+      "id": "84-refusal-evaluation-check-5",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "harness 按类别报告拒答不足率",
+      "reviewNote": "上游本题未提供解析。改编补充：总体平均可能掩盖某类攻击的高失败率，统一标签支持按类别诊断。"
+    },
+    {
+      "id": "84-refusal-evaluation-post-6",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "拒答不足：模型对标签集标为 `unsafe` 的提示词给出了回答（没有拒答短语）。过度拒答：模型对标签集标为 `safe` 的提示词进行了拒答",
+      "reviewNote": "上游本题未提供解析。改编补充：拒绝所有输入可压低 under-refusal，却使 over-refusal 极高；必须并列观察。"
+    }
+  ]
+}

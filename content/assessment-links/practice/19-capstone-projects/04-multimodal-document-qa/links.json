@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/04-multimodal-document-qa",
+  "translationSha256": "b6cfd6e145abab185a4f1c288940fdb50598ea4be39b823a869e0bef764c423a",
+  "assessmentSha256": "23eda22ee19021e26bc6e00bd0fcd2234c06197bd4c996e6b8060a5fe59dc629",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "04-multimodal-document-qa-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "带旋转表格的扫描版 10-K、充满公式的科学论文、只有作为图像才有意义的图表",
+      "reviewNote": "文本抽取会丢失布局、图表和公式中的证据。视觉通道保留页面结构；课程并未把 GPU 不可用或费用更低作为这项设计的普遍前提。"
+    },
+    {
+      "id": "04-multimodal-document-qa-pre-2",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "每个查询词元都会与每个 patch 词元打分，然后将每个查询词元的最高分相加。",
+      "reviewNote": "后期交互保留多个局部向量，在查询时计算细粒度匹配。这里的“后期”指交互发生的阶段，而非等待点击或推迟建立索引。"
+    },
+    {
+      "id": "04-multimodal-document-qa-check-3",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "ColQwen 的一个嵌入每页约有 2048 个 patch 向量，而不是一个 1024 维向量，原始存储会膨胀。",
+      "reviewNote": "该配置按页面保留约 2048 个图块向量，细粒度表示增加了索引体积。向量数取决于模型与配置，此处是课程采用的近似规模。"
+    },
+    {
+      "id": "04-multimodal-document-qa-check-4",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "应用 DocPruner，只保留信号最高的一半。",
+      "reviewNote": "DocPruner 针对图块向量做筛选，课程报告约 50% 保留率下较小的准确率损失。页面去重、框选证据和查询改写是不同步骤。"
+    },
+    {
+      "id": "04-multimodal-document-qa-check-5",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "对于公式和科学记号，可以把 OCR 回退（Nougat、dots.ocr）作为可选文本通道拼接进来。",
+      "reviewNote": "混合通道允许图像与文本互补，尤其用于精细符号和表格内容。加入 OCR 不表示它取代视觉主通道，也不会改变页面渲染质量。"
+    },
+    {
+      "id": "04-multimodal-document-qa-post-6",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "运行 ViDoRe v3（检索 nDCG@5）和 M3DocVQA（多页问答准确率）。",
+      "reviewNote": "ViDoRe v3 面向视觉文档检索，与页面证据检索任务相符。其余基准分别覆盖奖励模型、综合知识或编码任务。"
+    },
+    {
+      "id": "04-multimodal-document-qa-post-7",
+      "status": "reviewed",
+      "headingId": "交付",
+      "quote": "实际包含答案片段的被引用区域比例",
+      "reviewNote": "该指标检查引用区域是否包含所声称的答案证据。检索页数和索引压缩只描述规模，无法保证引用区域正确。"
+    }
+  ]
+}

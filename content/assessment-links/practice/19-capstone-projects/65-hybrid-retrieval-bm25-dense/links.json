@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/65-hybrid-retrieval-bm25-dense",
+  "translationSha256": "b9c5805c3530f4213e6cbe67711d497366ab0a460f77804dbca295e517036fef",
+  "assessmentSha256": "407a9fb67c6728a39ace8850587ccad948571e3a4343880fcd3d42475ad9010d",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "65-hybrid-retrieval-bm25-dense-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "检索需要同时覆盖它们，这就是混合检索。",
+      "reviewNote": "BM25 常擅长精确词项，dense 常适合语义近似；是否需要两路及其收益应由查询分布和评测决定。"
+    },
+    {
+      "id": "65-hybrid-retrieval-bm25-dense-pre-2",
+      "status": "reviewed",
+      "headingId": "用一段话理解-bm25",
+      "quote": "b 控制文档长度的影响",
+      "reviewNote": "b=0 不做长度归一化，b=1 使用完整长度归一化，0.75 是常见默认；其影响通过词频饱和分母发生。"
+    },
+    {
+      "id": "65-hybrid-retrieval-bm25-dense-check-3",
+      "status": "reviewed",
+      "headingId": "倒数排名融合-论文中的公式",
+      "quote": "累加其倒数排名贡献。2009 年论文使用 1/(k+rank)",
+      "reviewNote": "RRF 按名次投票，本课使用常见常数 k=60；这里的 k 是平滑常数，不能与最终 top-k 混淆。"
+    },
+    {
+      "id": "65-hybrid-retrieval-bm25-dense-check-4",
+      "status": "reviewed",
+      "headingId": "为什么融合胜过分数加权插值",
+      "quote": "基于排名的融合不需要这样做，因为不同模态的排名可以比较。",
+      "reviewNote": "RRF 不要求校准两路原始分数；线性融合并非不可用，但通常需要归一化或校准与验证。"
+    },
+    {
+      "id": "65-hybrid-retrieval-bm25-dense-check-5",
+      "status": "reviewed",
+      "headingId": "倒数排名融合-论文中的公式",
+      "quote": "较小的 k 让顶部结果占主导",
+      "reviewNote": "小 k 让 1/(k+rank) 随名次变化更陡；深候选仍可能累积多路贡献，并非全部为零。"
+    },
+    {
+      "id": "65-hybrid-retrieval-bm25-dense-post-6",
+      "status": "reviewed",
+      "headingId": "用一段话理解-bm25",
+      "quote": "也不必为每个字段计算独立分数。",
+      "reviewNote": "重复词项改变词频，也可能影响长度归一化；它是简化近似，不等于一般 BM25F 的独立字段校准。"
+    }
+  ]
+}

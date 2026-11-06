@@ -94,6 +94,8 @@ DispatchError
 
 harness 循环把 `kind` 映射到下一个状态。`schema` 和 `not_found` 进入 `on_error` 并触发重规划。`timeout` 和 `transient` 进入 `on_error`，是否重规划取决于尝试次数。`budget_exceeded` 触发 `on_budget_exceeded`。
 
+> **编者注：** 当前实现把 schema 校验失败映射为 JSON-RPC `-32602`。幂等工具连续超时直到 `max_attempts` 时，返回 `DispatchError(kind="timeout", attempts=max_attempts)`，保留最后一次超时，不改成成功或普通内部错误。
+
 ## 扇出并发上限
 
 `gather(*calls)` 会同时运行所有协程。四十个工具调用意味着四十个打开的 socket 或四十条子进程管道。多数后端不喜欢一个客户端建立四十条并行连接。

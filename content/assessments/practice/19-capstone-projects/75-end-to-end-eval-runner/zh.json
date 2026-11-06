@@ -15,7 +15,7 @@
       "options": [
         "complete、embed、classify、summarise",
         "init、login、generate、close",
-        "generate(prompt,task)，返回文本，可附 confidence 与逐词元 NLL",
+        "generate(prompt,task)：文本及可选 confidence/NLL",
         "load_weights、generate、save_weights"
       ],
       "correct": 2,
@@ -26,10 +26,10 @@
       "stage": "pre",
       "question": "为什么提供 parallel 开关，而不总是并行？",
       "options": [
-        "测试或复现时可选顺序执行，运行时再按适配器能力开启并行",
-        "CPython 不支持并行",
-        "并行必须有 GPU",
-        "ThreadPoolExecutor 不是标准库"
+        "复现时可固定顺序，运行时按适配器能力选择并行",
+        "因为 CPython 不能运行任何并发任务",
+        "因为没有 GPU 时 ThreadPoolExecutor 无法使用",
+        "因为 ThreadPoolExecutor 不是 Python 标准库"
       ],
       "correct": 0,
       "explanation": "开关兼顾可复现调试与吞吐；开启并行前仍需保证适配器线程安全和结果按任务正确归属。"
@@ -39,10 +39,10 @@
       "stage": "check",
       "question": "runner 如何为校准缓冲确定 correct 标志？",
       "options": [
-        "精确型指标使用接近 1.0 的阈值，分级指标默认使用 0.5",
-        "调用适配器两次比较输出",
-        "使用所在箱的平均置信度",
-        "使用 Brier 分解"
+        "精确型接近 1.0 判正确，分级型用 0.5 门限",
+        "把同一个提示发给适配器两次，比较生成是否一致",
+        "把当前置信度所在箱的平均置信度用作正确标签",
+        "先计算 Brier 分解，再反推出每条样本的真值"
       ],
       "correct": 0,
       "explanation": "这是本课把不同评分转为二值结果的规则；置信度必须对应同一个“正确”事件，阈值应在报告中声明。"
@@ -52,10 +52,10 @@
       "stage": "check",
       "question": "为什么 runner 输出 EvalRun，再交给聚合器？",
       "options": [
-        "把任务执行与 leaderboard 数学分开，便于分别修改和测试",
-        "dataclass 必然比其他记录快",
-        "EvalRun 是 JSON Schema 强制类",
-        "EvalRun 一定最省内存"
+        "分离任务执行与排行数学，方便各自修改验证",
+        "因为 dataclass 在所有场景中都比字典更快",
+        "因为 JSON Schema 强制报告使用 EvalRun 类",
+        "因为 EvalRun 保证比任何其他记录都更省内存"
       ],
       "correct": 0,
       "explanation": "runner 负责生成和评分记录，聚合器负责均值、配对比较与报告；通过显式数据契约组合。"
@@ -65,10 +65,10 @@
       "stage": "check",
       "question": "最终 JSON 中的 perplexity 块有什么角色？",
       "options": [
-        "从 bootstrap CI 计算",
-        "按模型提供独立的语言建模 NLL/词元数汇总，不混入任务 leaderboard 分数",
-        "它就是校准报告的输入",
-        "它是所有排序必需字段"
+        "由 bootstrap 均分区间直接换算得到",
+        "独立汇总语言建模 NLL，不混入任务排行分数",
+        "作为校准报告所需的唯一输入字段",
+        "作为每一项 leaderboard 排序的必需字段"
       ],
       "correct": 1,
       "explanation": "perplexity 与任务均分并列；是否能称作留出评估取决于调用数据确实未参与训练，不能只因字段名称就认定。"
@@ -78,10 +78,10 @@
       "stage": "post",
       "question": "本课自终止演示的成功条件是什么？",
       "options": [
-        "全部任务校验并评分、汇总校准，且规则适配器 leaderboard 严格高于随机适配器",
-        "每任务都大于 0.9",
-        "每模型 ECE 小于 0.05",
-        "每一对 bootstrap CI 都排除零"
+        "任务校验评分与校准完成，规则模型均分严格领先随机模型",
+        "要求每个模型在每个任务上的分数都超过 0.9",
+        "要求每个模型的 ECE 都必须严格小于 0.05",
+        "要求每一对模型的 bootstrap 区间都排除零"
       ],
       "correct": 0,
       "explanation": "演示检验层间契约与已知基线排序；通过不证明真实模型达到生产质量。"

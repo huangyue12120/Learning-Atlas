@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/73-perplexity-calibration",
+  "translationSha256": "7f91500f9ef7d938b0b4b80e95f463b9d8fc28b6b60ab76b0320f1ca3f27cfb6",
+  "assessmentSha256": "5b201fdb369804c800e54b9f5ea48bab79206f815861de55bccccf141a6aa673",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "73-perplexity-calibration-pre-1",
+      "status": "reviewed",
+      "headingId": "困惑度的含义",
+      "quote": "困惑度为 1 表示模型给每个实际词元都赋予概率 1",
+      "reviewNote": "exp(平均 NLL)=1；这只描述该语料上的预测，不代表模型在所有文本上完美，数值舍入时还需看精度。"
+    },
+    {
+      "id": "73-perplexity-calibration-pre-2",
+      "status": "reviewed",
+      "headingId": "困惑度的含义",
+      "quote": "适配器此处应返回非负的负对数概率 NLL=-log p",
+      "reviewNote": "编者注：题意是负对数概率非负，并不是 log p 非负；把 log p 当 NLL 会得到不合理的 perplexity<1。"
+    },
+    {
+      "id": "73-perplexity-calibration-check-3",
+      "status": "reviewed",
+      "headingId": "ece-衡量什么",
+      "quote": "每个箱的平均置信度与平均准确率之差，并按箱大小加权。",
+      "reviewNote": "先按 confidence 分箱，在箱内比较 confidence 和 correctness，再按频数加权；结果依赖分箱选择。"
+    },
+    {
+      "id": "73-perplexity-calibration-check-4",
+      "status": "reviewed",
+      "headingId": "困惑度的含义",
+      "quote": "populated_bins 少也不单独证明估计噪声大，应检查样本量和各箱频数。",
+      "reviewNote": "编者注：占用箱少不自动表示噪声大，也可能模型置信度集中；还需同时看总样本量、各箱频数和不确定性。"
+    },
+    {
+      "id": "73-perplexity-calibration-check-5",
+      "status": "reviewed",
+      "headingId": "brier-分数能补充什么",
+      "quote": "Brier 分数对每个预测相对于真实结果计算平方误差",
+      "reviewNote": "它是概率预测的适当评分规则，受校准与区分能力等共同影响；不能把较低 Brier 全部归因为更好校准。"
+    },
+    {
+      "id": "73-perplexity-calibration-post-6",
+      "status": "reviewed",
+      "headingId": "分派",
+      "quote": "运行器在整个评测过程中累积 `(confidence, correct)` 对",
+      "reviewNote": "编者注：按任务或类别的校准也可以有意义，只要样本充分；总体聚合还可能掩盖切片失准。"
+    }
+  ]
+}

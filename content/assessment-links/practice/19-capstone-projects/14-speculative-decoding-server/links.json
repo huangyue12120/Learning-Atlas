@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/14-speculative-decoding-server",
+  "translationSha256": "57a40a67e11583bf633e788fb43a9911569d66863b8e76e2d0a7b74c1cde06c8",
+  "assessmentSha256": "11cca2344c13e7f20463666cf649a8711fc70955dd09b7eb5ad0f32062c24a9f",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "14-speculative-decoding-server-pre-1",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "目标模型一次前向验证这 k 个词元",
+      "reviewNote": "草稿阶段便宜地产生候选，目标阶段批量校验并决定接受长度。目标模型仍负责最终分布，不能由草稿直接替代。"
+    },
+    {
+      "id": "14-speculative-decoding-server-pre-2",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "EAGLE-3 草稿头在目标模型的隐藏状态上训练，并预测后面的 N 个词元",
+      "reviewNote": "训练后的草稿头利用目标隐藏状态预测后续词元，与基于历史片段匹配的 n-gram 草稿不同。提高接受率仍需在实际输入上测量。"
+    },
+    {
+      "id": "14-speculative-decoding-server-check-3",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "服务配置必须报告按 batch size 分桶的延迟，才能暴露这一点。",
+      "reviewNote": "吞吐平均值无法表现最慢请求，草稿拒绝和验证开销可能改变长尾。跨批量测量能揭示吞吐收益与单请求等待之间的权衡。"
+    },
+    {
+      "id": "14-speculative-decoding-server-check-4",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "接受率取决于草稿—目标对齐程度和输入分布。",
+      "reviewNote": "草稿在某类数据上拟合良好，不表示对另一类数据也同样准确。输入分布改变会影响候选被目标模型接受的比例。"
+    },
+    {
+      "id": "14-speculative-decoding-server-check-5",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "HPA 根据队列等待而不是 CPU 自动扩缩。",
+      "reviewNote": "队列等待反映到达流量超过当前服务容量的程度。本课把它接到 HPA，节点数量则属于另一层容量管理。"
+    },
+    {
+      "id": "14-speculative-decoding-server-post-6",
+      "status": "reviewed",
+      "headingId": "关键术语",
+      "quote": "在一次目标前向中验证的草稿分支树",
+      "reviewNote": "P-EAGLE 用分支树增加并行候选，再交给目标模型校验。并行候选不等于取消验证，也不是量化方法。"
+    },
+    {
+      "id": "14-speculative-decoding-server-post-7",
+      "status": "reviewed",
+      "headingId": "交付",
+      "quote": "两个模型在质量匹配时达到 2.5 倍以上吞吐",
+      "reviewNote": "课程用两个模型和匹配质量约束加速结果，目标是至少 2.5 倍。它是该交付物的验收目标，不是任意部署都能获得的保证。"
+    }
+  ]
+}

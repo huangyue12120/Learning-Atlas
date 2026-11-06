@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/80-checkpoint-sharded-resume",
+  "translationSha256": "af46bc3ea57fbcedb413c4346a8d597366135b69e4f8155e731f10d911a06be8",
+  "assessmentSha256": "6820404dc83342676f3c61aba84dd84c188858144dc9de7c949a7a9d52ec224f",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "80-checkpoint-sharded-resume-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "IO 带宽取决于最慢的单块 GPU 网络链路，而不是集群总带宽。",
+      "reviewNote": "分片并行写可分散负载；收益受共享存储和元数据瓶颈限制，不能保证 64 rank 就缩短为 1/64。"
+    },
+    {
+      "id": "80-checkpoint-sharded-resume-pre-2",
+      "status": "reviewed",
+      "headingId": "清单结构",
+      "quote": "每个分片的 `param_shard_offset` 与 `param_shard_numel` 让加载器能够在正确位置重建扁平参数张量。",
+      "reviewNote": "这些信息让 loader 在恢复状态前验证布局、完整性和归属；分片内容也应与 manifest 的参数范围一致。"
+    },
+    {
+      "id": "80-checkpoint-sharded-resume-check-3",
+      "status": "reviewed",
+      "headingId": "为什么使用每个-rank-一个文件-而不是一个大文件",
+      "quote": "原子替换只约束单文件可见性",
+      "reviewNote": "编者注：单文件原子替换不是整个多分片快照的事务，也不等于断电持久性；需要正确发布 manifest、保留旧代以及按需求 fsync。"
+    },
+    {
+      "id": "80-checkpoint-sharded-resume-check-4",
+      "status": "reviewed",
+      "headingId": "清单结构",
+      "quote": "每个分片的 `sha256` 可以捕获部分写入或损坏的写入。",
+      "reviewNote": "哈希支持完整性检查；摘要本身也被攻击者替换时并不提供真实性保证，截断文件也可能被反序列化器直接拒绝。"
+    },
+    {
+      "id": "80-checkpoint-sharded-resume-check-5",
+      "status": "reviewed",
+      "headingId": "清单结构",
+      "quote": "`world_size` 让不同规模下的恢复明确失败，而不是静默损坏。",
+      "reviewNote": "静默把四 rank 分片分给八 rank 可能造成状态缺失或错误归属；拓扑迁移应有独立契约。"
+    },
+    {
+      "id": "80-checkpoint-sharded-resume-post-6",
+      "status": "reviewed",
+      "headingId": "生产环境中的模式",
+      "quote": "没有轮换，磁盘会在运行中途写满，下一次检查点就会失败。",
+      "reviewNote": "编者注：不能盲目先删唯一可恢复旧代再写新代；应预留空间，成功完成新代并校验后再清理旧代，保留数量依恢复策略决定。"
+    }
+  ]
+}

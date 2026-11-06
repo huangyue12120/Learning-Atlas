@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/27-eval-harness-fixture-tasks",
+  "translationSha256": "a086523953e81c61cea1e239c0fcd8bc6f8f95704eb4486e878b45a065fc5c64",
+  "assessmentSha256": "ff3bc4e195597652db1248bece991a5fdef7ee304c8bcb4816c730ace45b93ae",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "27-eval-harness-fixture-tasks-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "交给一个针对确定性检查返回 true 或 false 的验证器。",
+      "reviewNote": "验证器的稳定性使回归能被识别。若同一结果反复得到不同判定，就难以区分模型变化和验证噪声。"
+    },
+    {
+      "id": "27-eval-harness-fixture-tasks-check-2",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "pass@k 的公式是 1 - (1 - p)^k，其中 p 是经验通过率",
+      "reviewNote": "本课使用 1−(1−p)^k，代入 p=3/5、k=5 得 0.98976，即 0.99。这不同于第 72 课的无偏组合估计：在 n=k=5 且存在成功样本时，后者为 1.00。"
+    },
+    {
+      "id": "27-eval-harness-fixture-tasks-check-3",
+      "status": "reviewed",
+      "headingId": "为什么是-pass-k-而不只是-pass-1",
+      "quote": "pass@k 会掩盖一个真实失败：如果模型二十次才得到一次正确答案，你仍然没有一个有用的智能体。",
+      "reviewNote": "多次采样可以抬高至少成功一次的概率。并列报告让读者看到模型是否依靠大量重试取得结果。"
+    },
+    {
+      "id": "27-eval-harness-fixture-tasks-check-4",
+      "status": "reviewed",
+      "headingId": "你将构建什么",
+      "quote": "从同一份 buggy 初始文件准备新目录，不继承上一样本的修复。",
+      "reviewNote": "若第 N+1 次继承第 N 次修改，评测就变成持续修复而非独立采样。重置工作目录使成功率的试验单位保持一致。"
+    },
+    {
+      "id": "27-eval-harness-fixture-tasks-post-5",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "只有命令退出码为零时任务才通过。它能捕获“测试必须通过”的任务。",
+      "reviewNote": "退出状态比匹配自然语言输出更适合作为测试命令的基本判据。生产执行仍应接入沙箱，约束测试进程的权限与资源。"
+    },
+    {
+      "id": "27-eval-harness-fixture-tasks-post-6",
+      "status": "reviewed",
+      "headingId": "你将构建什么",
+      "quote": "报告保存逐任务、逐样本的 `SampleResult` 和验证器结果",
+      "reviewNote": "逐样本成功、延迟和验证细节支持定位差异。它提供排查证据，但仅凭相同 fixture 的不同判定仍不能自动排除工作台缺陷。"
+    }
+  ]
+}

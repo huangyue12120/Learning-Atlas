@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/47-checkpoint-save-resume",
+  "translationSha256": "46e7731dbf24f51f06d4dcb4c799abe742d10faae9fc8f055f36d0577a22223e",
+  "assessmentSha256": "e624d796f3a86ec250d6c8914729bb407e080eed21f4823726818dbd6d9b99c5",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "47-checkpoint-save-resume-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "模型参数、优化器状态、调度器状态、可绘图的 loss 历史、当前 step、epoch、epoch 内 batch 计数器，以及所有随机源的 RNG 状态。",
+      "reviewNote": "恢复相同训练轨迹需要参数之外的动量、调度位置与随机流。具体检查点还应记录数据位置和配置，不能只存权重。"
+    },
+    {
+      "id": "47-checkpoint-save-resume-pre-2",
+      "status": "reviewed",
+      "headingId": "原子保存",
+      "quote": "再用原子 rename 替换目标文件",
+      "reviewNote": "os.replace 将已完成临时文件替换为目标，降低崩溃留下半文件的风险。原子可见性不等于断电持久性，仍应考虑文件及目录刷新。"
+    },
+    {
+      "id": "47-checkpoint-save-resume-check-3",
+      "status": "reviewed",
+      "headingId": "分片检查点",
+      "quote": "加载器发现任何哈希不匹配都会明确失败。",
+      "reviewNote": "加载器先校验分片及元数据，再合并参数。哈希对比检测与记录不一致的内容，可信来源仍需另行保证。"
+    },
+    {
+      "id": "47-checkpoint-save-resume-check-4",
+      "status": "reviewed",
+      "headingId": "epoch-中途恢复",
+      "quote": "保存 epoch、batch_in_epoch 和 RNG 状态",
+      "reviewNote": "数据位置与随机流共同决定后续批次，缺一都会改变轨迹。此处是本课数据加载策略，其他采样器可能还需保存额外状态。"
+    },
+    {
+      "id": "47-checkpoint-save-resume-check-5",
+      "status": "reviewed",
+      "headingId": "第-3-步-完整检查点往返",
+      "quote": "格式变化时增加版本字符串，加载器再按版本分派。",
+      "reviewNote": "明确 ckpt.v1 等版本让格式演变可被识别，避免读取器默默误解旧字段。声明版本本身不会自动完成迁移，仍需对应实现。"
+    },
+    {
+      "id": "47-checkpoint-save-resume-post-6",
+      "status": "reviewed",
+      "headingId": "第-5-步-恢复演示",
+      "quote": "函数返回中断点之后两条损失轨迹的最大绝对差。",
+      "reviewNote": "这是优化器、随机流和训练位置恢复的综合回归证据。它只覆盖本次实验设置，不能证明所有设备或运行方式都逐位可复现。"
+    }
+  ]
+}

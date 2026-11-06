@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/01-terminal-native-coding-agent",
+  "translationSha256": "6e251bbd0f0b9c03bac44c01d22e78bee5aa10dfceb37aea56053cabadc337fc",
+  "assessmentSha256": "2b51e34d1123824f20407d8d4535a8a0c1bbd0091370837735a26b358c0adbdc",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "01-terminal-native-coding-agent-pre-1",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "工作台有四个面。**规划（Plan）**维护一个 TodoWrite 风格的状态对象",
+      "reviewNote": "工作台维护计划，执行工具，再依据观察结果继续或恢复。这四个环节描述任务控制流；检索流水线和模型训练流程不能替代它。"
+    },
+    {
+      "id": "01-terminal-native-coding-agent-pre-2",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "任务成功或失败后，worktree 都会被拆除。",
+      "reviewNote": "沙箱约束工具能访问的文件和执行环境，并为任务提供可清理的 worktree。是否启用 GPU、如何限流或测吞吐是另一些配置问题。"
+    },
+    {
+      "id": "01-terminal-native-coding-agent-check-3",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "`PreToolUse` 破坏性命令防护，在 worktree 外阻止 `rm -rf`",
+      "reviewNote": "PreToolUse 位于工具调用之前，可以检查命令并拒绝执行。PostToolUse 已在执行之后，Stop 和 SessionStart 也不对应每次工具调用前的检查点。"
+    },
+    {
+      "id": "01-terminal-native-coding-agent-check-4",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "**观察（Observe）**捕获 stdout / stderr / 退出码，执行截断，然后把摘要送回模型。",
+      "reviewNote": "截断层阻止 ripgrep 等工具把巨量输出直接塞入模型上下文。它约束观察长度和后续调用成本，无法单凭截断实现命令隔离或状态恢复。"
+    },
+    {
+      "id": "01-terminal-native-coding-agent-check-5",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "`PreCompact` 钩子在达到 150k 时把较早回合压缩为 prior-state 块",
+      "reviewNote": "压缩操作保留计划和必要的历史摘要，释放上下文容量。它既不自动推送代码，也不要求更换模型或取消任务。"
+    },
+    {
+      "id": "01-terminal-native-coding-agent-post-6",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "与 mini-swe-agent（最小基线）比较 pass@1、每任务回合数和每任务美元成本。",
+      "reviewNote": "课程评测步骤选择 mini-swe-agent 作为最小基线，比较同一批任务的成功率、回合数和费用。其他名称虽在背景中出现，但不等于本次指定基线。"
+    },
+    {
+      "id": "01-terminal-native-coding-agent-post-7",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "比较 pass@1、每任务回合数和每任务美元成本。",
+      "reviewNote": "编码任务用 pass@1 衡量一次尝试的成功率，再记录控制循环和费用开销。语音、检索和文本相似度指标不能直接替代这组任务结果。"
+    }
+  ]
+}

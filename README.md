@@ -13,7 +13,7 @@ npm run dev
 
 然后打开 <http://127.0.0.1:4173>。
 
-当前版本为 **v0.32.0**（2026-11-06）。实践主线开放 Phase 0–19 的全部 542 节课程，P19 新增 85 份中文测验、85 套 Python 工作区与 22 张扩展理论卡；理论目录包含 20 章、104 篇笔记，其中 89 篇提供审核中文全文。
+当前版本为 **v0.33.0**（2026-11-07）。实践主线开放 Phase 0–19 的全部 542 节课程；P19 的 530 题已完成选项复核并提供逐题精确段落回看。全库正式回看证据为 707/2362；理论目录包含 20 章、104 篇笔记，其中 89 篇提供审核中文全文。
 
 阅读器支持按课恢复草稿、测验选项与阅读位置，提供读前预测、课末自测、待复习和支持流式输出的本地学习助理。个人数据保存在本机 SQLite，可导出备份；删除和导入提供限时撤销。内容范围与来源见[内容清单](docs/content-manifest.md)，本次发布与历史变更见[发布说明](docs/release-notes.md)。
 
@@ -163,7 +163,7 @@ GitHub Actions 的命名采用统一的 `<类别> / <动作与对象>` 形式：
 
 ---
 
-发布信息、已知限制和备份建议请参阅 [v0.32.0 发布说明](docs/release-notes.md)。
+发布信息、已知限制和备份建议请参阅 [v0.33.0 发布说明](docs/release-notes.md)。
 
 
 Python 依赖也可用 uv 按需安装：根目录 `uv sync --locked` 只安装 marimo、NumPy、Matplotlib 及其依赖；需要时使用 `uv sync --locked --extra math`、`--extra deep-learning`、`--extra audio` 等。根环境使用 `.python-version` 指定的 Python 3.14，不需要为了阅读课程安装训练框架。P19 的训练课使用 `--extra deep-learning`（含 safetensors），压缩/HDF5 语料课使用 `--extra data`（含 zstandard、h5py）；分布式示例需要本机通信，涉及 fork 的入口在 Linux / WSL 运行。完整依赖组与性能说明见[本轮建议项记录](docs/review-followups.md)。

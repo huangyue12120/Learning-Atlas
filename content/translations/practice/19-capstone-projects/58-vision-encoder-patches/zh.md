@@ -77,6 +77,8 @@ ch-patch-tokenizer
 
 > 编者注：224×224 图像包含 50176 个像素位置，150528 是 RGB 标量数。二维正弦位置编码可按新网格生成表示，不保证分辨率变化后的模型质量不下降。
 
+> **编者注：** 题目中的 unfold 后还原，指未做有损投影时按逆排列恢复图块，结果应精确重建原像素；投影后的向量不保证可逆。本课现有测试直接比较的是 Conv2d 与 unfold-then-linear 的投影等价性，不要把二者当作同一项检查。
+
 ## 动手构建
 
 `code/main.py` 实现：
@@ -114,6 +116,8 @@ python3 code/main.py
 ```bash
 python3 -m unittest code/test_main.py
 ```
+
+> **编者注：** 在本课私人工作区根目录中，`code/` 会与 Python 标准库的 `code` 模块重名。请改用发现模式运行测试：`python3 -m unittest discover -s code -p "test_main.py" -v`。
 
 ## 练习
 

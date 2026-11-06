@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/02-rag-over-codebase",
+  "translationSha256": "4ee5ece6759d9fee2dfa9e5caa8d5fbc82caf7337a253f8aca4835f3cc412201",
+  "assessmentSha256": "cc1bdbbdea54a70c83cae7fc13568999956cc96c65864c0b4f9ef292f16974e0",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "02-rag-over-codebase-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "对原始分块做朴素余弦搜索，会在生成代码、monorepo 重复内容，以及很少被导入的符号长尾上污染结果。",
+      "reviewNote": "相似度排序容易受到重复代码和代码分布差异影响，且不能单独表达符号关系。课程因此结合结构化分块、混合检索和重排，而非否认代码嵌入可用。"
+    },
+    {
+      "id": "02-rag-over-codebase-pre-2",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "提取函数和类节点，并在节点边界分块",
+      "reviewNote": "按语法节点边界分块能保留函数或类的完整语义单元。固定窗口、压缩和删除空白都没有利用 AST 的结构边界。"
+    },
+    {
+      "id": "02-rag-over-codebase-check-3",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "每个分块有三种表示：稠密嵌入（Voyage-code-3 或 nomic-embed-code）、稀疏 BM25 词项，以及一段简短的自然语言摘要。",
+      "reviewNote": "同一块同时支持向量语义匹配、词项匹配和自然语言说明。这里问的是检索表示，符号图属于额外的结构信息。"
+    },
+    {
+      "id": "02-rag-over-codebase-check-4",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "`rerank` 在前 50 个结果上运行交叉编码器，并保留前 10 个。",
+      "reviewNote": "交叉编码器直接处理查询与候选的组合，利用二者的交互重排。它不负责修改源代码、压缩上下文或重新构建单向量索引。"
+    },
+    {
+      "id": "02-rag-over-codebase-check-5",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "没有 `(repo/path:start-end)` 锚点的任何主张都会被标记，要求重新询问或直接丢弃。",
+      "reviewNote": "路径与行范围把论断连回代码证据，引用检查构成答案发布门禁。格式本身不会提高检索分数，也不保证更低费用。"
+    },
+    {
+      "id": "02-rag-over-codebase-post-6",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "只重新嵌入文本发生变化的分块。对于导入发生变化的分块，重新计算符号边。",
+      "reviewNote": "增量处理把计算限定在变化块及其依赖边上，避免全库重算。删除检索结构虽减少工作，却会牺牲本课需要的功能。"
+    },
+    {
+      "id": "02-rag-over-codebase-post-7",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "引用忠实度（带可验证锚点的主张比例）",
+      "reviewNote": "引用忠实度检查答案与引用证据是否对应。nDCG 和 MRR 衡量排序，延迟衡量响应时间，都不能直接判断论断有没有证据。"
+    }
+  ]
+}

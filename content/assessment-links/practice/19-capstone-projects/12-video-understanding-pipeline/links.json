@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/12-video-understanding-pipeline",
+  "translationSha256": "192c164bac3bff9e712d7148be44f33950cfef48c3909eaab718cd5c549a28b8",
+  "assessmentSha256": "7f6a72ee1b88bb540a97e535bd49cc22a509633037bf1de88db694a1203f1d76",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "12-video-understanding-pipeline-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "要将 100 小时视频摄取为可查询语料，仍然需要场景级索引。",
+      "reviewNote": "单个视频可装入上下文不等于大语料可高效检索。场景索引先缩小候选，再用模型理解命中的片段。"
+    },
+    {
+      "id": "12-video-understanding-pipeline-pre-2",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "每个场景在多向量索引（Qdrant）中获得三种向量：字幕嵌入、关键帧嵌入和转写嵌入。",
+      "reviewNote": "三路表示分别保留视觉语义、图像内容和语音文本线索，供不同查询召回。编码压缩或音频特征列表没有对应本课的三路检索设计。"
+    },
+    {
+      "id": "12-video-understanding-pipeline-check-3",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "结果用 RRF 合并",
+      "reviewNote": "RRF 利用各路排名融合结果，减少不同模态分数尺度的影响。直接平均分数需要额外校准，简单并集则没有合并后的优先次序。"
+    },
+    {
+      "id": "12-video-understanding-pipeline-check-4",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "在最相关场景内细化（开始、结束）窗口。",
+      "reviewNote": "场景召回只提供粗粒度片段，时间定位进一步给出答案所在区间。它不会修改编码器维数或重新定义转写时间戳。"
+    },
+    {
+      "id": "12-video-understanding-pipeline-check-5",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "计数问题（“有多少人进入房间？”）和动作类型问题（“厨师是在搅拌前倒入的吗？”）一向不可靠。",
+      "reviewNote": "VLM 可能数错实体或颠倒事件顺序，因此课程单独报告计数与动作类结果。合并成总体平均值会掩盖这类弱点。"
+    },
+    {
+      "id": "12-video-understanding-pipeline-post-6",
+      "status": "reviewed",
+      "headingId": "交付",
+      "quote": "在留出 grounding 集上测量交并比",
+      "reviewNote": "时间 IoU 比较两个区间的重叠长度与并集长度，适合评估定位精度。排序指标和词元预测损失不直接比较时间边界。"
+    },
+    {
+      "id": "12-video-understanding-pipeline-post-7",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "并带时间戳引用和帧预览回答。",
+      "reviewNote": "可跳转的片段标识把回答连回可观看的证据。是否生成转写或使用某向量库都不能替代这一核查用途。"
+    }
+  ]
+}

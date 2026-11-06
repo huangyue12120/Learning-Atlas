@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/42-large-corpus-downloader",
+  "translationSha256": "9193b19c87272399650c48da974ee4525bd2a769a5f6ef8f8cd6b51d4353d3bc",
+  "assessmentSha256": "1fcb2ad175b1952bc47c8e7a937d66baf3c6c44d9736abd2ee0212ff603ce158",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "42-large-corpus-downloader-pre-1",
+      "status": "reviewed",
+      "headingId": "生产实践",
+      "quote": "`verify_partial` 会同时核对实际长度和前缀 SHA-256，不一致时丢弃部分下载并重新开始。",
+      "reviewNote": "恢复逻辑同时检查文件长度与前缀哈希，只有与检查点一致才追加。哈希是损坏检测依据，不能笼统保证所有攻击或存储故障都不可能发生。"
+    },
+    {
+      "id": "42-large-corpus-downloader-check-2",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "MinHash 加 LSH 可以用次线性成本捕捉它们。",
+      "reviewNote": "MinHash 与 LSH 利用词片段集合重叠寻找近重复，精确哈希只能识别字节相同。它不保证识别语义相同但词面完全不同的改述，最坏查找成本仍受桶分布影响。"
+    },
+    {
+      "id": "42-large-corpus-downloader-check-3",
+      "status": "reviewed",
+      "headingId": "生产实践",
+      "quote": "检查点领先于分片字节；`verify_partial` 会同时核对实际长度和前缀 SHA-256",
+      "reviewNote": "代码先记录下一偏移再写数据，若崩溃后检查点与磁盘不符，恢复会丢弃部分文件并重下。编者注：检查点可能领先于数据；上游解析称“从不领先”与代码不符，此顺序本身也不替代 fsync 持久性保证。"
+    },
+    {
+      "id": "42-large-corpus-downloader-check-4",
+      "status": "reviewed",
+      "headingId": "生产实践",
+      "quote": "清单哈希也需要可信的预期摘要或签名，才能抵御主动篡改。",
+      "reviewNote": "内容摘要把下游预期与特定清单绑定。若攻击者能同时改清单和锁定哈希，仍需可信发布渠道，不能只靠同目录两个文件认证来源。"
+    },
+    {
+      "id": "42-large-corpus-downloader-post-5",
+      "status": "reviewed",
+      "headingId": "使用",
+      "quote": "去重应位于分词上游，而不是下游。",
+      "reviewNote": "在分词前过滤重复可减少后续工作，但完整成本还包括去重本身。课程关注这一步节省的重复处理，而非宣称任何语料都绝对更快。"
+    },
+    {
+      "id": "42-large-corpus-downloader-post-6",
+      "status": "reviewed",
+      "headingId": "生产实践",
+      "quote": "使用墓碑可以保留审计轨迹，也让下游阶段能够重新考虑阈值。",
+      "reviewNote": "删除记录会丢失去重依据，tombstone 保存碰撞对象和判定路径。后续修改策略时可据此分析误删与重复分布。"
+    }
+  ]
+}

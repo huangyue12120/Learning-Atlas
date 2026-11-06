@@ -1511,7 +1511,7 @@ wheels = [
 
 [[package]]
 name = "learning-atlas"
-version = "0.32.0"
+version = "0.33.0"
 source = { virtual = "." }
 dependencies = [
     { name = "marimo" },

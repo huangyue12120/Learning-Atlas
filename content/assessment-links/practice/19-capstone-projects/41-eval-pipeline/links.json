@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/41-eval-pipeline",
+  "translationSha256": "829608486c787b0b8b9ef4e23d635038eaa82a5b849e804715b724c135966a42",
+  "assessmentSha256": "a258f44abf337ff0b055871c96fa2a10f3888dc1ba2b2030f7c38a8c7f675fa4",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "41-eval-pipeline-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "困惑度说明模型对语言分布的拟合程度，却无法说明它是否能回答问题。",
+      "reviewNote": "低困惑度只覆盖预测目标的一个方面。不同任务还需完全匹配、词元 F1 或质量评议，不能用固定阈值概括模型能力。"
+    },
+    {
+      "id": "41-eval-pipeline-check-2",
+      "status": "reviewed",
+      "headingId": "正确计算困惑度",
+      "quote": "评测对每个 batch 计算非 padding 位置上的 `-log p(token)` 总和以及词元数，最后再相除。",
+      "reviewNote": "正确汇总按有效词元加权平均 NLL 后求 exp。即使每批同样大，平均 exp(NLL) 通常也不同于 exp(平均 NLL)。"
+    },
+    {
+      "id": "41-eval-pipeline-check-3",
+      "status": "reviewed",
+      "headingId": "正确计算词元-f1",
+      "quote": "如果只有一方为空，F1 为 0。",
+      "reviewNote": "一边没有内容而另一边有内容，没有可匹配词元，按本课约定 F1 为 0。空空的特殊处理不能推广到混合空值。"
+    },
+    {
+      "id": "41-eval-pipeline-check-4",
+      "status": "reviewed",
+      "headingId": "聚合",
+      "quote": "困惑度为 1 时映射到 1，无穷大时映射到 0。",
+      "reviewNote": "对有效困惑度，ppl=1 映射到 1，ppl 增大时分母增大，极限趋向 0。小于 1 的输入经 max 钳制到同一值。"
+    },
+    {
+      "id": "41-eval-pipeline-post-5",
+      "status": "reviewed",
+      "headingId": "本地模拟-llm-评审",
+      "quote": "之后只需替换一个函数，就可以接入真实模型",
+      "reviewNote": "接口约定为 instruction、prediction、reference 到 JudgeVerdict。保持输出契约即可替换评审实现，聚合器不应依赖具体模型厂商。"
+    },
+    {
+      "id": "41-eval-pipeline-post-6",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "精确匹配说明模型是否生成了金标准字符串，却会惩罚正确的改写。",
+      "reviewNote": "改述可能导致低完全匹配而高评审分，但还需抽查样本及评审偏差。总分汇总了不同维度，不能独自解释差异。"
+    }
+  ]
+}

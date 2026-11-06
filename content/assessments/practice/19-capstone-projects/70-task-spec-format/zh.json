@@ -13,10 +13,10 @@
       "stage": "pre",
       "question": "为什么在编写评分代码前先固定任务记录 schema？",
       "options": [
-        "让指标、runner 与后处理对字段契约达成一致",
-        "可以不改代码就接受任意新指标",
-        "使 JSON 解析更快",
-        "不再需要校验器"
+        "固定指标、运行器和后处理共享的字段契约",
+        "让任何新指标无需改动代码即可直接被接受",
+        "通过减少 JSON 字符串长度提高解析速度",
+        "取消输入校验，让所有任务记录都能进入运行器"
       ],
       "correct": 0,
       "explanation": "schema 固定字段与类型，各层可围绕共同契约独立修改；扩展时仍需兼容策略与验证。"
@@ -26,9 +26,9 @@
       "stage": "pre",
       "question": "metric_name 接受哪组封闭取值？",
       "options": [
-        "作者任意定义的字符串",
-        "只有 exact_match 和 f1",
-        "runner 临时认识的任意名字",
+        "exact_match、f1、bleu_4、rouge_l、accuracy、任意自定义名",
+        "exact_match、f1、auc、precision、recall、mcc",
+        "exact_match、f1、accuracy、rmse、mae、r2",
         "exact_match、f1、bleu_4、rouge_l、accuracy、code_exec"
       ],
       "correct": 3,
@@ -39,10 +39,10 @@
       "stage": "check",
       "question": "记录出现未知顶层字段时，校验器如何处理？",
       "options": [
-        "只警告并接受",
-        "删掉后继续",
-        "改名为 metadata.unknown",
-        "返回校验错误并拒绝记录"
+        "只发警告，保留未知字段并继续接受",
+        "删除未知字段后静默接受其余内容",
+        "自动改名放进 metadata.unknown",
+        "返回校验错误，拒绝该任务记录"
       ],
       "correct": 3,
       "explanation": "严格字段检查避免拼写错误被静默忽略；扩展数据应使用 schema 允许的入口。"
@@ -52,10 +52,10 @@
       "stage": "check",
       "question": "为什么 few-shot 示例属于任务记录，而不是由 runner 临时生成？",
       "options": [
-        "few-shot 只用于微调",
-        "示例组成也是评估定义，应让各模型使用一致的提示构造",
-        "节省磁盘",
-        "runner 不能读文件"
+        "few-shot 只能用于微调，不能用于推理评测",
+        "示例也是评估定义，应固定各模型的提示构造",
+        "把示例放入任务记录能保证减少磁盘占用",
+        "因为 runner 不能读取任何外部文件"
       ],
       "correct": 1,
       "explanation": "把示例绑定到任务能减少跨模型的提示构造差异；具体适配器仍应忠实实现该契约。"

@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/68-rag-eval-precision-recall",
+  "translationSha256": "9e86a5a497136f321850d23539c9b61283d4ac55d4da901877d74167def4a72e",
+  "assessmentSha256": "90382132c9bd2e7b9233445a587b15895711a9ff92f04c13c0b01b0ec99e6e6f",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "68-rag-eval-precision-recall-pre-1",
+      "status": "reviewed",
+      "headingId": "recall-k",
+      "quote": "当漏掉答案的代价很高时，应使用 recall",
+      "reviewNote": "额外无关片段也可能浪费词元、误导或注入恶意内容，不能认为高召回就足以保证生成质量。"
+    },
+    {
+      "id": "68-rag-eval-precision-recall-pre-2",
+      "status": "reviewed",
+      "headingId": "mrr-平均倒数排名",
+      "quote": "找出排序列表中第一个相关文档的位置。倒数排名是 1 / position",
+      "reviewNote": "首位贡献 1，第二位 0.5，第十位 0.1；必须声明截断深度与未命中的处理方式。"
+    },
+    {
+      "id": "68-rag-eval-precision-recall-check-3",
+      "status": "reviewed",
+      "headingId": "ndcg-k",
+      "quote": "nDCG 可以容纳分级相关性",
+      "reviewNote": "nDCG 使用分级相关性与排序位置，并用理想排序归一化；二值指标会丢失等级差异。"
+    },
+    {
+      "id": "68-rag-eval-precision-recall-check-4",
+      "status": "reviewed",
+      "headingId": "答案相关性",
+      "quote": "忠实性问“答案是否扎根于上下文”，答案相关性问“答案是否扎根于问题”。",
+      "reviewNote": "答案可以有依据却答非所问，也可以切题却缺乏所给证据；两维应分别检查。"
+    },
+    {
+      "id": "68-rag-eval-precision-recall-check-5",
+      "status": "reviewed",
+      "headingId": "用指标诊断失败",
+      "quote": "正确块在 top-k 内，但不在第一位",
+      "reviewNote": "应结合逐查询结果确认后再归因；总体平均不能保证每个查询都满足这种模式。"
+    },
+    {
+      "id": "68-rag-eval-precision-recall-post-6",
+      "status": "reviewed",
+      "headingId": "示例会隐藏的失败模式",
+      "quote": "语料库变化时，金标准答案也会漂移。",
+      "reviewNote": "qrels 应与语料版本绑定并定期复核，频率取决于内容变化，而不是所有项目统一按季度更新即可。"
+    }
+  ]
+}

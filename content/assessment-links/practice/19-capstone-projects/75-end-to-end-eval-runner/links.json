@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/75-end-to-end-eval-runner",
+  "translationSha256": "ed527a13d869e301c9ecc58b02557b0b01d7a7d52af0fc083db7ff969aaac2ff",
+  "assessmentSha256": "72beed02dc63e37b188cb8f753e097266b05b9c5196df74e48a0a610b6862ad1",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "75-end-to-end-eval-runner-pre-1",
+      "status": "reviewed",
+      "headingId": "适配器接口",
+      "quote": "def generate(self, prompt: str, task: TaskSpec) -> Generation: ...",
+      "reviewNote": "runner 以单个生成契约接入模型，不要求每种任务另设方法；可选字段缺失时应明确相关报告是否可计算。"
+    },
+    {
+      "id": "75-end-to-end-eval-runner-pre-2",
+      "status": "reviewed",
+      "headingId": "并行执行",
+      "quote": "测试可以关闭并行，从而固定执行顺序。",
+      "reviewNote": "开关兼顾可复现调试与吞吐；开启并行前仍需保证适配器线程安全和结果按任务正确归属。"
+    },
+    {
+      "id": "75-end-to-end-eval-runner-check-3",
+      "status": "reviewed",
+      "headingId": "单遍评分循环",
+      "quote": "对于分级指标，条件是 `score >= 0.5`。",
+      "reviewNote": "这是本课把不同评分转为二值结果的规则；置信度必须对应同一个“正确”事件，阈值应在报告中声明。"
+    },
+    {
+      "id": "75-end-to-end-eval-runner-check-4",
+      "status": "reviewed",
+      "headingId": "聚合",
+      "quote": "调用第 74 课的 `aggregate` 与 `pairwise_diffs`",
+      "reviewNote": "runner 负责生成和评分记录，聚合器负责均值、配对比较与报告；通过显式数据契约组合。"
+    },
+    {
+      "id": "75-end-to-end-eval-runner-check-5",
+      "status": "reviewed",
+      "headingId": "聚合",
+      "quote": "汇总适配器提供的 `token_nll` 与 `token_count`，不计入任务排行榜均分。",
+      "reviewNote": "perplexity 与任务均分并列；是否能称作留出评估取决于调用数据确实未参与训练，不能只因字段名称就认定。"
+    },
+    {
+      "id": "75-end-to-end-eval-runner-post-6",
+      "status": "reviewed",
+      "headingId": "自终止演示",
+      "quote": "排行榜将规则适配器严格排在随机适配器之上。",
+      "reviewNote": "演示检验层间契约与已知基线排序；通过不证明真实模型达到生产质量。"
+    }
+  ]
+}

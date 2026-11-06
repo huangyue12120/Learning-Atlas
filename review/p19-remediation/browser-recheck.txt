@@ -1,0 +1,14 @@
+npm notice run learning-atlas-local@0.33.0 test:browser
+npm notice run playwright test assessment-review.spec.js --grep 34-transformer-block|48-distributed-fsdp-ddp
+[WebServer] (node:3525627) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3525627) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+Running 2 tests using 1 worker
+
+(node:3525634) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node-22 --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 34-transformer-block (3.4s)
+  ✓  2 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 48-distributed-fsdp-ddp (1.6s)
+
+  2 passed (6.5s)

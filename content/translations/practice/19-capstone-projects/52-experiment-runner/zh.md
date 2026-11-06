@@ -96,6 +96,8 @@ def ablate(base: ExperimentSpec, knob: str, values: list[Any]) -> list[Experimen
 
 每个规格都携带一个种子。运行器通过配置字典把种子传给脚本（`config["__seed"] = spec.seed`）。`code/experiments/` 中的模拟实验脚本遵守该种子，在不同运行中产生相同指标。第 53 课的评估器依赖这一点；没有确定性，“回归”可能只是换了一个随机初始化。
 
+> **编者注：** 当前运行器写入脚本配置的字段名是 `config["__seed"] = spec.seed`；上文 `config["seed"]` 是原文的简写。只有遵守该字段契约并设置其随机源的实验，才能据此控制随机过程。
+
 ## 模拟实验脚本
 
 本课提供一个实验脚本：`code/experiments/sparsity_experiment.py`。它是真实脚本，会读取配置文件，使用 numpy 随机过程模拟小型训练，并输出 JSON 指标块。脚本遵守 `sleep_s` 旋钮以测试超时，也遵守 `allocate_mb` 旋钮以测试内存轮询器。

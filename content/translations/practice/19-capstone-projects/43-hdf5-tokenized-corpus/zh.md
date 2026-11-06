@@ -103,6 +103,8 @@ python3 code/main.py
 
 **两端使用 `swmr=True`，写入器使用 `libver="latest"`。** Single-Writer-Multiple-Reader 模式要求写入器以 `libver="latest"` 打开，预先创建所有数据集，然后设置 `file.swmr_mode = True`。之后每次调整大小后，写入器都必须调用 `dataset.flush()`，这样以 `swmr=True` 打开的读取 worker 才能看到一致的数据。跳过 `libver="latest"`，或者在结构变更后才启用 SWMR，是出现“file is locked”错误的常见原因。
 
+> **编者注：** 当前 writer 关闭时会把数据集 resize 到真实有效长度，`token_count` 是显式元数据，并非掩盖尾部填零的必要条件。分块大小是否匹配窗口、一次读取跨几个块以及缓存命中情况都应实测，不能保证不匹配就固定慢两倍。
+
 ## 使用
 
 生产模式：

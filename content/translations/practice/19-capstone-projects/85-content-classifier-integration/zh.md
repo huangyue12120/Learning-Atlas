@@ -61,6 +61,8 @@ flowchart TB
 cd-output-router
 ```
 
+> **编者注：** 本课 PII 分类器对信用卡样式数字再做 Luhn 校验，减少仅靠长度和形态匹配任意数字串的误报。通过校验不证明号码真实、有效或属于任何人，也不能覆盖全部 PII。
+
 ## 动手构建
 
 `code/classifiers.py` 定义全部三个分类器。每个分类器都有 `classify(text) -> ClassifierVerdict` 方法和 `redact(text) -> str` 方法。`code/main.py` 定义 `Router` 类，其中包含 `decide(text, verdicts) -> Action` 和 `run(text) -> Action` 快捷方法。演示程序把三个分类器接到一个路由器后面，并运行一组能触发各级严重性的构造输出。

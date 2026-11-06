@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/87-end-to-end-safety-gate",
+  "translationSha256": "424d082502d646a03c45ec7ea8e45d0421bdd994e834484a674ce6fc4cbe5ab9",
+  "assessmentSha256": "a799f331ab1d6425a91b97f5767d9b04a886e1765ce2ade39a8c56d9ab582562",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "87-end-to-end-safety-gate-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "生成中检查发生在模型发出词元时",
+      "reviewNote": "上游本题未提供解析。改编补充：不同位置拦截不同失败路径，日志应标明跳过和实际执行的阶段。"
+    },
+    {
+      "id": "87-end-to-end-safety-gate-pre-2",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "匹配后，它终止迭代器",
+      "reviewNote": "上游本题未提供解析。改编补充：效果取决于跨块匹配、缓冲长度与何时释放，有限窗口不能保证识别所有风险。"
+    },
+    {
+      "id": "87-end-to-end-safety-gate-check-3",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "聚合器组合四个严重性信号",
+      "reviewNote": "上游本题未提供解析。改编补充：这是显式政策组合，需保证不同模块的严重度含义与动作优先级兼容。"
+    },
+    {
+      "id": "87-end-to-end-safety-gate-check-4",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "每个请求都会发出包含 `request_id`、`prompt`、`pre_gen`",
+      "reviewNote": "上游本题未提供解析。改编补充：trace 记录信号、动作与阶段状态，实际系统还需脱敏和访问控制，避免审计本身泄漏数据。"
+    },
+    {
+      "id": "87-end-to-end-safety-gate-check-5",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "生成前检查发生在调用模型之前",
+      "reviewNote": "上游本题未提供解析。改编补充：早停避免已阻断请求继续产生模型成本和副作用；跳过状态应在 trace 中可见。"
+    },
+    {
+      "id": "87-end-to-end-safety-gate-post-6",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "网关的价值在于分层防御",
+      "reviewNote": "上游本题未提供解析。改编补充：这是构造的分层验收案例，不代表所有编码攻击都会被下一层捕获；需保留各层误报与漏报评估。"
+    }
+  ]
+}

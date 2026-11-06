@@ -117,6 +117,8 @@ python3 code/main.py
 python3 -m unittest code/test_main.py
 ```
 
+> **编者注：** 在本课私人工作区根目录中，`code/` 会与 Python 标准库的 `code` 模块重名。请改用发现模式运行测试：`python3 -m unittest discover -s code -p "test_main.py" -v`。
+
 ## 练习
 
 1. 用 196 个 patch 词元的平均池化替换 CLS 池化，比较 200 步后的最终损失；在合成数据上平均池化通常更快，而自然图像上 CLS 往往更省样本。

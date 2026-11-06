@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/45-gradient-clipping-amp",
+  "translationSha256": "a21d4d2cd76b78a03c8863e8ee462b8bbee03162215a321268e032bdbdd287e1",
+  "assessmentSha256": "0be6d86fd2705b886ecb2869880e48318b286eb9f11a6fce02d76a0aa85576f4",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "45-gradient-clipping-amp-pre-1",
+      "status": "reviewed",
+      "headingId": "学习目标",
+      "quote": "计算所有参数梯度的全局 L2 范数，超过阈值时原地裁剪。",
+      "reviewNote": "按全局范数缩放梯度可限制异常更新幅度。对 Adam 等自适应优化器，它不等同于严格限制最终参数步长，还需结合优化器状态分析。"
+    },
+    {
+      "id": "45-gradient-clipping-amp-check-2",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "必须先 unscale 再裁剪，否则阈值作用于缩放后的梯度。",
+      "reviewNote": "裁剪必须作用于还原尺度后的梯度，因此在 unscale_ 之后、step 之前执行，最后 update 调整缩放因子。"
+    },
+    {
+      "id": "45-gradient-clipping-amp-check-3",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "若反缩放时发现 Inf 或 NaN，就跳过该步并把因子减半",
+      "reviewNote": "溢出路径需要 update 才会降低后续缩放尺度。默认 backoff_factor 为 0.5，但具体回退比例可配置。"
+    },
+    {
+      "id": "45-gradient-clipping-amp-check-4",
+      "status": "reviewed",
+      "headingId": "nan-与-inf-检测",
+      "quote": "反向前用 `torch.isfinite` 检查损失",
+      "reviewNote": "GradScaler 主要检查反向梯度溢出，前向的 NaN 或 inf 也应单独识别。提前跳过时需按实现保持 scaler 的状态调用一致。"
+    },
+    {
+      "id": "45-gradient-clipping-amp-post-5",
+      "status": "reviewed",
+      "headingId": "生产模式",
+      "quote": "生产系统可在超过 5% 时触发告警。",
+      "reviewNote": "比率门限能区分偶发溢出与长期不稳定。5% 是课程配置示例，告警后还需检查数据、损失、梯度和尺度设置。"
+    },
+    {
+      "id": "45-gradient-clipping-amp-post-6",
+      "status": "reviewed",
+      "headingId": "autocast-与-gradscaler",
+      "quote": "BF16 的指数范围比 FP16 宽，通常可减少溢出与损失缩放需求",
+      "reviewNote": "BF16 用较少尾数位换取更大指数范围，常降低 FP16 的溢出风险。它仍可能产生非有限值，不能保证跳步必为零或完全消除数值问题。"
+    }
+  ]
+}

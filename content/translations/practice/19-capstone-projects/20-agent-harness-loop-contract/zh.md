@@ -74,6 +74,8 @@ on_complete
 
 这种形状与 Claude Code、Cursor 和 OpenCode 到 2025 年中逐渐趋同的设计相似。名称描述功能而非品牌：阻止 `rm -rf` 的 hook 位于 `before_tool_call`，发送 OpenTelemetry span 的 hook 位于 `after_step`，让暂停会话恢复的 hook 位于 `on_pause`。
 
+> **编者注：** 在本课 `HarnessLoop` 中，`before_tool_call` 抛出 `HookAbort` 会跳过该工具调用，发出 `tool.error`，触发 `on_error`，再转入 `REFLECTING` 继续循环。
+
 ## 拉取点
 
 循环两次交还控制权。第一次是在 `AWAITING_TOOL`：没有工具结果就无法继续；第二次是在预算耗尽或 hook 明确要求人工审查时触发的 `on_pause`。

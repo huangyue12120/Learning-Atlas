@@ -121,6 +121,8 @@ python3 code/main.py
 python3 -m unittest code/test_main.py
 ```
 
+> **编者注：** 在本课私人工作区根目录中，`code/` 会与 Python 标准库的 `code` 模块重名。请改用发现模式运行测试：`python3 -m unittest discover -s code -p "test_main.py" -v`。
+
 ## 练习
 
 1. 用 SigLIP 风格的 sigmoid 成对损失替换 InfoNCE，比较其在模拟语料上的收敛。

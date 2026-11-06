@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/57-end-to-end-research-demo",
+  "translationSha256": "31e29da1ae49f647d92cf4cfcff87ebb85e70fd6841015ee0ab40a27123089d7",
+  "assessmentSha256": "a960b50f705d28f7235d11a91b9e2a809f91f8a1094e8ca56069d99d43d4e5ce",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "57-end-to-end-research-demo-pre-1",
+      "status": "reviewed",
+      "headingId": "学习目标",
+      "quote": "通过普通 Python 导入组合前四个 Track D 课程的原语，而不是使用框架。",
+      "reviewNote": "演示把调度、选择、写作与批评结果接起来，是组合契约的测试，不另造框架。"
+    },
+    {
+      "id": "57-end-to-end-research-demo-pre-2",
+      "status": "reviewed",
+      "headingId": "为什么导入-而不是复制",
+      "quote": "按各课 `code/main.py` 的路径加载模块，并分配不同模块名",
+      "reviewNote": "spec_from_file_location 能给独立 main.py 分配加载名并按文件位置导入，因此私人工作区必须保留相邻课程布局。"
+    },
+    {
+      "id": "57-end-to-end-research-demo-check-3",
+      "status": "reviewed",
+      "headingId": "最佳结果选择器",
+      "quote": "平局按分支 ID 的字母顺序打破",
+      "reviewNote": "奖励均值与确定性平局规则使选择可复现；触发顺序不直接决定最终分支。"
+    },
+    {
+      "id": "57-end-to-end-research-demo-check-4",
+      "status": "reviewed",
+      "headingId": "失败模式处理",
+      "quote": "选择器抛出 `NoTriggerError`/`BestResultError`，且写作者不会被调用。",
+      "reviewNote": "明确的类型化失败避免把不完整输入传入论文 writer，报错位置也更清楚。"
+    },
+    {
+      "id": "57-end-to-end-research-demo-post-5",
+      "status": "reviewed",
+      "headingId": "确定性保证",
+      "quote": "测试通过运行两次演示并比较清单来断言这一性质。",
+      "reviewNote": "该测试固定演示所依赖的确定性契约，不证明真实外部模型或异步服务也能逐位复现。"
+    },
+    {
+      "id": "57-end-to-end-research-demo-post-6",
+      "status": "reviewed",
+      "headingId": "演示报告结构",
+      "quote": "`scheduler_report`、`best_branch`、`best_reward`、`critic_result`、`paper_manifest` 和 `stop_reason`",
+      "reviewNote": "报告保留各阶段结构化结果，便于下游读取产物与调试调度轨迹。"
+    }
+  ]
+}

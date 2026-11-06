@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/13-mcp-server-with-registry",
+  "translationSha256": "d67587e298d084dd236c8011ef8e1b568b34d1ebc10ccde4a265c8e02dd2ccb3",
+  "assessmentSha256": "06799d5fffda47fd45163e34480781f87085ed399fcfce3e93053c0a84f5ef43",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "13-mcp-server-with-registry-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "`server/discover` 说明实时进程当前支持什么。",
+      "reviewNote": "Registry 记录帮助客户端定位并配置服务器，实时 RPC 描述当前进程支持什么。二者的 schema 和版本域独立；发布身份仍须使用已认证命名空间并与实时 serverInfo 一致。"
+    },
+    {
+      "id": "13-mcp-server-with-registry-check-2",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "每个请求说明使用哪个协议修订版和客户端能力。",
+      "reviewNote": "该修订版把版本和能力放入逐请求元数据，server/discover 提供实时发现，不建立协议会话。此题描述锁定快照，不能套用旧握手流程。"
+    },
+    {
+      "id": "13-mcp-server-with-registry-check-3",
+      "status": "reviewed",
+      "headingId": "5-增加感知缓存的列表",
+      "quote": "用稳定顺序返回工具，并带 ttlMs 和 cacheScope。",
+      "reviewNote": "稳定顺序利于复现及提示词缓存，ttlMs 表达有效期，cacheScope 限制用户专属结果的共享。只给缓存期限却忽略作用域仍可能泄漏结果。"
+    },
+    {
+      "id": "13-mcp-server-with-registry-check-4",
+      "status": "reviewed",
+      "headingId": "streamable-http",
+      "quote": "对于请求，服务器返回一个 JSON 对象，或返回限定在该请求范围内的 SSE 流。",
+      "reviewNote": "锁定修订版的 MCP 消息使用 POST，不依赖协议会话、独立 GET 流或 Last-Event-ID 恢复。请求内 SSE 与跨请求会话是两种概念。"
+    },
+    {
+      "id": "13-mcp-server-with-registry-post-5",
+      "status": "reviewed",
+      "headingId": "6-增加授权与策略",
+      "quote": "验证发行者、受众、过期时间和 scope。对每次工具调用执行策略决策。将审批绑定到精确的高风险动作。",
+      "reviewNote": "协议校验、令牌验证与策略授权是分别执行的门禁。工具注解和发布元数据描述能力，不能授予调用权限；高影响动作批准还须绑定具体参数与目标。"
+    },
+    {
+      "id": "13-mcp-server-with-registry-post-6",
+      "status": "reviewed",
+      "headingId": "9-演练水平扩展",
+      "quote": "发送至少 100 个并发请求，证明正确性不依赖亲和性。",
+      "reviewNote": "交替调用真实副本才能检验正确性是否藏在单进程状态或粘性会话中。清单、字典测试和架构图均不能单独证明部署边界上的行为。"
+    }
+  ]
+}

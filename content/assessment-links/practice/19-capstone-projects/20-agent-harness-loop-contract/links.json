@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/20-agent-harness-loop-contract",
+  "translationSha256": "b6ce10b235c824b89e0629b45befe9c5e61ec4bcd3885322e15c8472f8fe2804",
+  "assessmentSha256": "e20dd1e732b2f85fe78d929a9b8676f8d45896450c4850fca520cddd678ccccd",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "20-agent-harness-loop-contract-pre-1",
+      "status": "reviewed",
+      "headingId": "如何阅读代码",
+      "quote": "只有 `_transition` 会改变状态，因此状态机不变量集中在一个位置。",
+      "reviewNote": "状态机把合法性规则集中到迁移函数，相同输入序列可以重建相同状态。这有利于审核与重放，仍需要测试验证迁移规则。"
+    },
+    {
+      "id": "20-agent-harness-loop-contract-pre-2",
+      "status": "reviewed",
+      "headingId": "拉取点",
+      "quote": "调用方检查 Harness 状态，获取 Harness 请求的内容，然后调用 `resume(payload)`。",
+      "reviewNote": "拉取点通过返回值表达请求，调用方完成所需工作后调用 resume。它属于控制流接口，不是异常或定时事件。"
+    },
+    {
+      "id": "20-agent-harness-loop-contract-check-3",
+      "status": "reviewed",
+      "headingId": "状态",
+      "quote": "`AWAITING_TOOL` 是唯一自身会产生拉取点的状态。",
+      "reviewNote": "需要工具时，EXECUTING 迁移到 AWAITING_TOOL，再返回工具拉取请求。其他状态承担规划、执行推进或反思职责。"
+    },
+    {
+      "id": "20-agent-harness-loop-contract-check-4",
+      "status": "reviewed",
+      "headingId": "hook-主题",
+      "quote": "抛出 `HookAbort` 会跳过该工具调用，发出 `tool.error`，触发 `on_error`，再转入 `REFLECTING` 继续循环。",
+      "reviewNote": "HookAbort 取消当前分派，错误钩子记录原因，循环随后进入反思。取消一次工具调用不等于结束整个会话。"
+    },
+    {
+      "id": "20-agent-harness-loop-contract-check-5",
+      "status": "reviewed",
+      "headingId": "事件流",
+      "quote": "Hook 是命令式的（修改、终止），事件是观测式的（记录、发送）",
+      "reviewNote": "钩子属于可干预的策略接口，事件属于可追踪的观测接口。区分二者可避免遥测订阅者意外改变执行行为。"
+    },
+    {
+      "id": "20-agent-harness-loop-contract-post-6",
+      "status": "reviewed",
+      "headingId": "预算包络",
+      "quote": "并在下一拉取点因预算超限转入 `IDLE`。",
+      "reviewNote": "本课把预算耗尽定义为交还控制权：进入 IDLE，触发 on_budget_exceeded，由调用方决定延期还是关闭。不能将它与自动重试混淆。"
+    },
+    {
+      "id": "20-agent-harness-loop-contract-post-7",
+      "status": "reviewed",
+      "headingId": "本课不做什么",
+      "quote": "本课钉牢契约，使后续四课能直接接入而无需重写。",
+      "reviewNote": "确定性桩让测试只关注状态迁移、钩子与事件。后续替换真实规划器时，可以沿用已经固定的循环接口。"
+    }
+  ]
+}

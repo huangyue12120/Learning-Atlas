@@ -137,6 +137,8 @@ python3 code/main.py
 python3 -m unittest code/test_main.py
 ```
 
+> **编者注：** 在本课私人工作区根目录中，`code/` 会与 Python 标准库的 `code` 模块重名。请改用发现模式运行测试：`python3 -m unittest discover -s code -p "test_main.py" -v`。
+
 ## 练习
 
 1. 添加 register 词元（CLS 后前置 4 个学习向量），比较最后一层 softmax 分布熵所反映的注意力图平滑度。

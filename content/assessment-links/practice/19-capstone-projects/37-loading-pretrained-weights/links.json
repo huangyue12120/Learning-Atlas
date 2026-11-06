@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/37-loading-pretrained-weights",
+  "translationSha256": "ad07321adedabe3e1c2bd80560e28a0137f00f31dd135aeee46f904fa4c90164",
+  "assessmentSha256": "40cf5e71a6d1a7d160bfb1d1ccfb2786fbac313780914af0d00b573e115d982f",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "37-loading-pretrained-weights-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "它们携带原始实现使用的名称。",
+      "reviewNote": "名称表把不同实现中的同一参数对应起来，并按层展开。没有正确映射，即使文件读取成功也可能没有加载预期权重。"
+    },
+    {
+      "id": "37-loading-pretrained-weights-check-2",
+      "status": "reviewed",
+      "headingId": "gpt-2-命名约定",
+      "quote": "`c_attn`、`c_proj` 和 `c_fc` 这些线性层的矩阵存储方式，与 `nn.Linear.weight` 所需的方式互为转置。",
+      "reviewNote": "GPT-2 的相关投影采用与本地线性层不同的二维布局，赋值前需转置并校验形状。偏置和归一化参数无需同样处理。"
+    },
+    {
+      "id": "37-loading-pretrained-weights-check-3",
+      "status": "reviewed",
+      "headingId": "gpt-2-命名约定",
+      "quote": "模型依靠与 `wte` 的权重绑定，因此在 `wte` 到位后通过别名设置该头。",
+      "reviewNote": "绑定头可由嵌入权重重建，避免重复保存。不同发布文件可能采用不同约定，本题针对课程 fixture 与加载器。"
+    },
+    {
+      "id": "37-loading-pretrained-weights-check-4",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "如果加载器在形状不同时拒绝复制，却什么也不记录",
+      "reviewNote": "显式报告避免静默错配，原参数不会被局部截断或填充覆盖。调用方仍需检查报告，不能把部分加载当作完整成功。"
+    },
+    {
+      "id": "37-loading-pretrained-weights-post-5",
+      "status": "reviewed",
+      "headingId": "stub-fixture",
+      "quote": "这个 fixture 具有覆盖加载器每条代码路径所需的完整结构。",
+      "reviewNote": "缩小 fixture 能验证名称、布局与赋值逻辑，又不依赖网络。替换真实文件时仍需确保架构与张量形状匹配。"
+    },
+    {
+      "id": "37-loading-pretrained-weights-post-6",
+      "status": "reviewed",
+      "headingId": "使用",
+      "quote": "应结合 `LoadReport`、张量数值或 logits 比较确认",
+      "reviewNote": "样本变化可作为检查线索，应结合相同采样条件和参数报告分析。相同文本不能单独证明没有加载，因为不同权重也可能产生相同贪心输出。"
+    }
+  ]
+}

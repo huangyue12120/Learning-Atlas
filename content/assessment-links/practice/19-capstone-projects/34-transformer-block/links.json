@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/34-transformer-block",
+  "translationSha256": "9dcbc0c69525a3242a6d536184988c16e4382da56f511bb3d5dd5accfc09d501",
+  "assessmentSha256": "b1d88586bc7b110242a939076a68b7c29073b2af8a88354a8df8d3325b7c34ff",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "34-transformer-block-pre-1",
+      "status": "reviewed",
+      "headingId": "学习目标",
+      "quote": "用 LayerNorm、多头因果注意力、残差连接和逐位置 MLP 构建 Transformer block。",
+      "reviewNote": "本课 block 通过注意力交换位置间信息，再用 MLP 处理每个位置特征；两个更新分别加回残差流。"
+    },
+    {
+      "id": "34-transformer-block-check-2",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "pre-LN 把 LayerNorm 放在残差分支、子层之前，残差携带未归一化信号；post-LN 把 LayerNorm 放在残差相加之后。",
+      "reviewNote": "pre-LN 把归一化放入子层输入，便于梯度沿残差路径传播。它常改善深层优化，但不保证任何配置都无需学习率预热。"
+    },
+    {
+      "id": "34-transformer-block-check-3",
+      "status": "reviewed",
+      "headingId": "学习目标",
+      "quote": "使词元 i 无法看到 j>i。",
+      "reviewNote": "训练时完整序列同时输入，掩码确保每个位置只能使用过去与当前信息，防止下一词元任务泄漏未来答案。"
+    },
+    {
+      "id": "34-transformer-block-check-4",
+      "status": "reviewed",
+      "headingId": "生产环境中的模式",
+      "quote": "一个宽度 3×d_model 的线性层可以在一次启动中完成同样的工作",
+      "reviewNote": "融合保持相同数学变换并减少调度开销，符合本课 GPT-2 参考形状。实际速度仍取决于硬件和内核，不能据此保证所有加速器都更快。"
+    },
+    {
+      "id": "34-transformer-block-post-5",
+      "status": "reviewed",
+      "headingId": "生产环境中的模式",
+      "quote": "不要直接 dropout 残差",
+      "reviewNote": "保留恒等分支可让信息与梯度直接通过，dropout 用在子层更新路径。此处是本课残差结构的实现约定。"
+    },
+    {
+      "id": "34-transformer-block-post-6",
+      "status": "reviewed",
+      "headingId": "生产环境中的模式",
+      "quote": "构造时按最大上下文长度分配，用 register_buffer 保存，前向只切活动窗口，避免每次分配。",
+      "reviewNote": "固定掩码不需要训练参数，buffer 可随模型迁移设备。预分配并切片减少了每次前向的分配工作。"
+    }
+  ]
+}

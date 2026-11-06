@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/62-vision-language-pretraining",
+  "translationSha256": "6809a3ccaf4beb24e321d1b8ba2b1ae7e7a3505736eb41664bd8c5472f47bf5d",
+  "assessmentSha256": "82e9119010221b643f85071108e72c22a3142889932d0d1f7e4aff20cb7f12ac",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "62-vision-language-pretraining-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "InfoNCE 处理排序这一半。",
+      "reviewNote": "InfoNCE 对齐匹配图文的相似度，LM 损失训练图像条件下的文本预测，二者可共享部分组件。"
+    },
+    {
+      "id": "62-vision-language-pretraining-pre-2",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "N 个匹配对视为正样本，把 `N^2 - N` 个错配对视为负样本",
+      "reviewNote": "这是 batch 内配对标签的构造；不同样本也可能语义相关，非对角线存在假负例风险。"
+    },
+    {
+      "id": "62-vision-language-pretraining-check-3",
+      "status": "reviewed",
+      "headingId": "温度",
+      "quote": "温度 `tau` 控制 softmax 的尖锐程度。",
+      "reviewNote": "温度调节 logits 尺度，通常用对数参数化并限制范围；它并非让所有模型免于调参的保证。"
+    },
+    {
+      "id": "62-vision-language-pretraining-check-4",
+      "status": "reviewed",
+      "headingId": "组合两种损失",
+      "quote": "解码器只会收到 LM 损失的梯度。",
+      "reviewNote": "对比路径不经过 decoder；本课文本均值池化编码器则不在 LM 路径上，应按计算图核对梯度。"
+    },
+    {
+      "id": "62-vision-language-pretraining-check-5",
+      "status": "reviewed",
+      "headingId": "语言模型损失",
+      "quote": "padding 位置会从损失中屏蔽。",
+      "reviewNote": "padding 不携带有效 caption 监督；有效长度、移位标签与损失分母都需保持一致。"
+    },
+    {
+      "id": "62-vision-language-pretraining-post-6",
+      "status": "reviewed",
+      "headingId": "为什么演示-50-步就足够",
+      "quote": "端到端确认梯度连接正常，并验证加入 LM 损失不会使对比目标失稳",
+      "reviewNote": "编者注：合成短跑只能验证小规模实现契约，不能证明亿级图文训练会保持相同收敛动态或生产效果。"
+    }
+  ]
+}

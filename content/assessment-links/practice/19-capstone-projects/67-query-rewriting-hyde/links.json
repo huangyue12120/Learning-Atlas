@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/67-query-rewriting-hyde",
+  "translationSha256": "ee8e6191abd8ac9c98ecb1805de1b1e630e2bcd3d43e12e504998f52f2552ebe",
+  "assessmentSha256": "36c1c5eb7000d09afd400babd5431cab32f6e67c1f77bc2d5eb2ae7998a6025f",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "67-query-rewriting-hyde-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "嵌入这份假想文档，再把它的嵌入作为检索向量。",
+      "reviewNote": "假想文档把查询转为接近语料风格的文本，向量用于寻找真实证据，而不是把假想内容当答案来源。"
+    },
+    {
+      "id": "67-query-rewriting-hyde-pre-2",
+      "status": "reviewed",
+      "headingId": "hyde-详解",
+      "quote": "假想文档用于构造检索向量，不是可引用的事实证据",
+      "reviewNote": "编者注：错误内容仍可能把检索带偏；它可以不作为事实答案，但必须以真实命中评估收益，不能保证只要词汇相似就检索正确。"
+    },
+    {
+      "id": "67-query-rewriting-hyde-check-3",
+      "status": "reviewed",
+      "headingId": "为什么三者都存在",
+      "quote": "多查询覆盖释义变化，分解覆盖多主题查询。",
+      "reviewNote": "改写尽量保留同一意图，分解则把多个可独立回答的需求分开，再合并证据。"
+    },
+    {
+      "id": "67-query-rewriting-hyde-check-4",
+      "status": "reviewed",
+      "headingId": "分解详解",
+      "quote": "对于原子问题则不是。此时分解器应返回原问题",
+      "reviewNote": "原子问题不一定需要分解；用查询分类和基线对照检查新增子问题是否真正贡献证据。"
+    },
+    {
+      "id": "67-query-rewriting-hyde-check-5",
+      "status": "reviewed",
+      "headingId": "多查询扩展详解",
+      "quote": "避免直接相加不同改写下未经校准的原始分数。",
+      "reviewNote": "排名融合减少原始分数尺度依赖，但仍需选择候选深度、常数和去重规则，并检查重写是否偏离意图。"
+    },
+    {
+      "id": "67-query-rewriting-hyde-post-6",
+      "status": "reviewed",
+      "headingId": "示例会隐藏的失败模式",
+      "quote": "检索可以并行运行，但 LLM 调用构成延迟下限。",
+      "reviewNote": "编者注：一轮模型调用只是延迟下界的一部分；完整关键路径还包括对应检索、排队和融合，不能说只需模型延迟。"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/59-vit-transformer",
+  "translationSha256": "3bb3321dc801ea0e7e2ca8ebb06386d8dfa7bc55d6ea4d5064601bfe2d7e02a5",
+  "assessmentSha256": "348e0869c23d4bec53a001c38716335c072a8731f7686a292a9f0ceac10f29fb",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "59-vit-transformer-pre-1",
+      "status": "reviewed",
+      "headingId": "cls-词元学会什么",
+      "quote": "Pre-LN 常有利于深层梯度传播",
+      "reviewNote": "编者注：Pre-LN 常有稳定性优势，但不能断言它永远无需预热，或 Post-LN 超过约六层必发散；这些取决于初始化、学习率和训练设置。"
+    },
+    {
+      "id": "59-vit-transformer-pre-2",
+      "status": "reviewed",
+      "headingId": "多头自注意力",
+      "quote": "每个头的维度是 `64`。",
+      "reviewNote": "head_dim=768/12=64；它是每头特征维数，注意力图的词元轴大小仍由序列长度决定。"
+    },
+    {
+      "id": "59-vit-transformer-check-3",
+      "status": "reviewed",
+      "headingId": "要不要因果掩码",
+      "quote": "词元 i 可以关注任意词元 j，因此不需要掩码。",
+      "reviewNote": "本课编码器对图像 patch 双向建模；之后的自回归文本解码器才需要限制未来文本访问。"
+    },
+    {
+      "id": "59-vit-transformer-check-4",
+      "status": "reviewed",
+      "headingId": "cls-词元学会什么",
+      "quote": "到最终层时，CLS 行是整幅图像的向量摘要",
+      "reviewNote": "CLS 从可学习初值出发，通过自注意力与 patch 交互形成聚合表示；不是固定复制或只读取最后位置。"
+    },
+    {
+      "id": "59-vit-transformer-check-5",
+      "status": "reviewed",
+      "headingId": "cls-词元学会什么",
+      "quote": "4× 前馈扩展是常见经验配置",
+      "reviewNote": "编者注：4× 是常见配置，并非所有数据和模型上的容量最优点；更小必欠拟合、更大必过拟合的说法过于绝对。"
+    },
+    {
+      "id": "59-vit-transformer-post-6",
+      "status": "reviewed",
+      "headingId": "使用",
+      "quote": "DINOv2 在 CLS 后再前置 4 个学习词元",
+      "reviewNote": "register tokens 改变输入序列的组成；block 仍使用相同注意力和前馈运算，实际收益需要实验验证。"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/06-devops-troubleshooting-agent",
+  "translationSha256": "15e9e1b7bc5fbeaa9608015f2ec54260b52be8dfb08884144bf82f891e45cd76",
+  "assessmentSha256": "621556081f3f46c9a8b447fedc13c9cf1e99b94106102acd0b0cd8179583b289",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "06-devops-troubleshooting-agent-pre-1",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "默认允许的动作是只读操作。破坏性动作（缩容、回滚、删除 Pod）需要 Slack 审批",
+      "reviewNote": "默认只读支持收集诊断证据，同时把高影响写操作放到单独审批路径。授予管理员权限会改变课程要求的权限边界。"
+    },
+    {
+      "id": "06-devops-troubleshooting-agent-pre-2",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "节点是 K8s 对象（Pod、Deployment、Service、Node、HPA、PVC）和遥测来源",
+      "reviewNote": "图把 Kubernetes 资源关联到运行位置和观测证据，使排查可以沿资源依赖追踪。单纯列指标或重启事件缺少这些关系。"
+    },
+    {
+      "id": "06-devops-troubleshooting-agent-check-3",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "每个假设的分数 = 新近度 * 特异性 * 图路径长度的倒数 * 引用数量。",
+      "reviewNote": "排序应体现证据的支持程度，而非文字生成顺序。课程的证据评分结合时间、定位精度、路径与引用信号。"
+    },
+    {
+      "id": "06-devops-troubleshooting-agent-check-4",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "审计日志记录智能体“考虑过”的每条命令，而不只是执行过的命令，这样审阅过程才能捕获险些发生的事故。",
+      "reviewNote": "未执行的候选命令也能暴露策略缺口和危险决策倾向。只记录执行结果会漏掉被后续门禁拦截的险情。"
+    },
+    {
+      "id": "06-devops-troubleshooting-agent-check-5",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "只有 Slack 卡片获得人工批准后，智能体才能调用它们。",
+      "reviewNote": "批准令牌把高影响工具的调用与明确授权绑定。告警、分支保护和模型投票都不能替代本课规定的工具执行授权。"
+    },
+    {
+      "id": "06-devops-troubleshooting-agent-post-6",
+      "status": "reviewed",
+      "headingId": "交付",
+      "quote": "从告警到 Slack 简报的 p50 小于 5 分钟",
+      "reviewNote": "课程把 p50 time-to-hypothesis 定为 5 分钟以内，计时从告警到简报。该指标衡量中位响应速度，并不保证每次都达到相同延迟。"
+    },
+    {
+      "id": "06-devops-troubleshooting-agent-post-7",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "构建 20 个场景：OOMKill 级联、DNS 抖动、HPA 震荡、PVC 写满",
+      "reviewNote": "课程要求在 20 个合成场景上测量根因定位，覆盖多种资源和控制故障。单次演示无法覆盖这套验收范围。"
+    }
+  ]
+}

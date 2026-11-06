@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/77-data-parallel-ddp",
+  "translationSha256": "b3828567805e65efd5d8e131f2dd8b8c7ab047daaa4f88681680b6b08203436a",
+  "assessmentSha256": "d674d1085a79103f793631023f1761bc8ef7bbf56bfd7cca886854787ea18619",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "77-data-parallel-ddp-pre-1",
+      "status": "reviewed",
+      "headingId": "为什么固定随机种子",
+      "quote": "广播是直接同步实际参数的稳妥手段，不是理论上唯一方式。",
+      "reviewNote": "编者注：同种子在相同确定环境中可以一致，不能声称一定漂移；广播是明确同步手段，也不是理论上唯一可行方式。"
+    },
+    {
+      "id": "77-data-parallel-ddp-pre-2",
+      "status": "reviewed",
+      "headingId": "为什么取均值而不是求和",
+      "quote": "Allreduce-SUM 除以 world_size 就得到平均梯度。",
+      "reviewNote": "等大小本地 batch、相同损失缩放等条件下对应全局平均梯度；改变 world_size 也改变有效批量，学习率是否可沿用仍需评估。"
+    },
+    {
+      "id": "77-data-parallel-ddp-check-3",
+      "status": "reviewed",
+      "headingId": "为什么取均值而不是求和",
+      "quote": "Allreduce-SUM 除以 world_size 就得到平均梯度。",
+      "reviewNote": "数学上先求和再除得到平均；具体后端和版本对 AVG 的支持各异，本课选择可见的本地缩放。"
+    },
+    {
+      "id": "77-data-parallel-ddp-check-4",
+      "status": "reviewed",
+      "headingId": "为什么要对梯度分桶",
+      "quote": "在线路上传输的总字节数不变，但延迟被分摊到整个桶上。",
+      "reviewNote": "合适分桶还可与反向计算重叠通信；桶大小要平衡启动延迟、等待和内存。"
+    },
+    {
+      "id": "77-data-parallel-ddp-check-5",
+      "status": "reviewed",
+      "headingId": "生产环境中的模式",
+      "quote": "DDP 提供 no_sync() 上下文管理器，用来暂停反向传播后的 allreduce。",
+      "reviewNote": "使用时需要把相应 forward 与 backward 都包含在上下文内，并正确缩放 loss；它减少通信而不是减少所需累积计算。"
+    },
+    {
+      "id": "77-data-parallel-ddp-post-6",
+      "status": "reviewed",
+      "headingId": "为什么固定随机种子",
+      "quote": "平均梯度的全局批次等价需考虑各 rank 样本权重",
+      "reviewNote": "编者注：比较以浮点容差为准，不保证不同规约顺序逐字节相同；每步损失和参数检查比只看最终均值更有诊断价值。"
+    }
+  ]
+}

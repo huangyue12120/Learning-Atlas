@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/09-code-migration-agent",
+  "translationSha256": "08ef44535d74f86a97f8531c35665cd268e2d17bffd1acca74a5d9587d90537e",
+  "assessmentSha256": "a52a9603c771b1f8cee4e585883f361d807a57fc2cd17bbb18b29ab1ae394851",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "09-code-migration-agent-pre-1",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "**智能体层**（基于 Claude Opus 4.7 和 GPT-5.4-Codex 的 OpenAI Agents SDK 或 LangGraph）处理 recipe 无法覆盖的情况",
+      "reviewNote": "机械迁移适合可重复规则，剩余依赖语境的错误再交给智能体。课程据此分配工作，避免每次都让模型重新决定已知规则。"
+    },
+    {
+      "id": "09-code-migration-agent-pre-2",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "如果所有测试通过且覆盖率下降不超过 2 个百分点，分支就打开 PR。",
+      "reviewNote": "可执行测试与覆盖率约束提供外部验证。模型自评、评审意见或 diff 大小都不能独立证明迁移后的行为保持正确。"
+    },
+    {
+      "id": "09-code-migration-agent-check-3",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "每仓库墙上时间 30 分钟、成本 $8、智能体回合 20 次。",
+      "reviewNote": "课程同时限制墙钟时间、费用和回合数，三者任一耗尽都应结束或归类失败。只设一个上限会遗漏其他资源失控路径。"
+    },
+    {
+      "id": "09-code-migration-agent-check-4",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "如果覆盖率下降超过 2 个百分点，归入 coverage_regression。",
+      "reviewNote": "覆盖率回归说明测试证据不足，课程要求记录失败类型并阻止正常交付。重放规则或强制推送不会自动补足验证证据。"
+    },
+    {
+      "id": "09-code-migration-agent-check-5",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "每个类别都要有计数和一个示例 diff。未来的 recipe 作者可以据此处理排名前三的类别。",
+      "reviewNote": "分类把一次迁移失败转化为可汇总的改进线索。它帮助定位规则缺口，仍需要保留测试和故障证据。"
+    },
+    {
+      "id": "09-code-migration-agent-post-6",
+      "status": "reviewed",
+      "headingId": "技术栈",
+      "quote": "Amazon MigrationBench 50 仓库子集（Java 8 到 17）",
+      "reviewNote": "课程指定 MigrationBench 评估 Java 版本迁移。其余基准覆盖知识、视觉检索或通用编码修复，任务定义不同。"
+    },
+    {
+      "id": "09-code-migration-agent-post-7",
+      "status": "reviewed",
+      "headingId": "交付",
+      "quote": "OpenRewrite 处理的修复比例与智能体编写的修复比例",
+      "reviewNote": "区分规则修复和模型修复能量化智能体对长尾问题的贡献。推送次数、依赖数和分词速度不能回答这一分工问题。"
+    }
+  ]
+}

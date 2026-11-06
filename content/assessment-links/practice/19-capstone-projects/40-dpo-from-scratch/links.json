@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/40-dpo-from-scratch",
+  "translationSha256": "d647c0cea6a591a42931aac7a7a0dd54378eca9ca73104b324d2e0049faa1a97",
+  "assessmentSha256": "37ba14b4015cd94c2571612e67b80c874a8ea2a9510d33af30c3768a62ae8a5a",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "40-dpo-from-scratch-pre-1",
+      "status": "reviewed",
+      "headingId": "dpo-为什么有效",
+      "quote": "这个函数在差异中会抵消。",
+      "reviewNote": "偏好概率仅依赖同一提示词下的奖励差。将最优策略关系代入后，提示词公共项抵消，这是 DPO 不必单独拟合显式奖励模型的结构基础。"
+    },
+    {
+      "id": "40-dpo-from-scratch-check-2",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "单样本损失为 `-log(sigmoid(0)) = log(2)`。",
+      "reviewNote": "两个策略与参考差均为零，sigmoid 输入为零，负对数概率为 −log(0.5)=log(2)。这表示策略尚未相对参考产生偏好差异。"
+    },
+    {
+      "id": "40-dpo-from-scratch-check-3",
+      "status": "reviewed",
+      "headingId": "梯度的符号",
+      "quote": "参考模型被冻结，不会移动。",
+      "reviewNote": "参考参数不随策略优化更新。在固定输入和确定性评估设置下可缓存参考对数概率；no_grad 与冻结参数共同避免无用梯度。"
+    },
+    {
+      "id": "40-dpo-from-scratch-check-4",
+      "status": "reviewed",
+      "headingId": "梯度的符号",
+      "quote": "提高策略对 chosen 补全的对数概率会降低损失。",
+      "reviewNote": "导数为 −beta×(1−sigmoid(z))，有限 z 下为负，说明增加 chosen 对数概率会降低损失。若 beta=0，则梯度为零，故题干明确正 beta。"
+    },
+    {
+      "id": "40-dpo-from-scratch-post-5",
+      "status": "reviewed",
+      "headingId": "拓展目标",
+      "quote": "长度偏差是 DPO 的已知失败模式",
+      "reviewNote": "每个额外词元增加一个非正对数概率项，长度可能影响比较。可分析长度分桶或尝试长度归一化，但后者改变目标，不是标准 DPO 必须执行的等价修复。"
+    },
+    {
+      "id": "40-dpo-from-scratch-post-6",
+      "status": "reviewed",
+      "headingId": "拓展目标",
+      "quote": "当前代码的 IPO 目标为 `(margin - 1/(2*beta))**2`",
+      "reviewNote": "本课代码的 IPO 为 (margin−1/(2beta))²，既会拉高不足的间隔，也会惩罚过大的间隔。上游题干的 (z−1)² 是简写，不能据此认为 beta 或参考项消失，也不保证所有噪声数据上都更好。"
+    }
+  ]
+}

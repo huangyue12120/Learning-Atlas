@@ -90,6 +90,8 @@ items          schema applied to every array element
 
 它不是安全边界。恶意 handler 在通过校验后仍可能作恶；第二十三课的分发器会加入超时和沙箱层。注册表负责形状。
 
+> **编者注：** Python 的 `bool` 是 `int` 的子类，但本课 `_type_matches` 明确拒绝把 `True` 或 `False` 当作 `integer` 或 `number`，因此会返回类型错误。
+
 ## 形状
 
 ```mermaid

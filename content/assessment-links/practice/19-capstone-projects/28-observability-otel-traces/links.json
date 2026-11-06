@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/28-observability-otel-traces",
+  "translationSha256": "c42ee52d1a5224eb00f9f224888426c759ad0edad0cc1c5e8045412f736a7a3b",
+  "assessmentSha256": "de3e1d542dd1f0f679f66524d4fe05da580dfff6472d3843c415da6ca8a46db1",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "28-observability-otel-traces-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "它定义了一小组标准属性，让不同 LLM 框架的 span 发射器共享。",
+      "reviewNote": "统一字段名让采集器与分析后端共享数据含义。具体后端的展示能力仍需配置和验证，格式兼容不自动完成全部集成。"
+    },
+    {
+      "id": "28-observability-otel-traces-check-2",
+      "status": "reviewed",
+      "headingId": "架构",
+      "quote": "将状态设为 `ERROR`，把异常类型和消息写入 `status_message`，添加 `exception` 事件",
+      "reviewNote": "构造器记录错误状态和异常事件后重新抛出，让调用方仍能处理失败。遥测记录不能悄悄改变程序的错误传播。"
+    },
+    {
+      "id": "28-observability-otel-traces-check-3",
+      "status": "reviewed",
+      "headingId": "架构",
+      "quote": "相邻累计桶相减可得到区间计数",
+      "reviewNote": "每个阈值记录小于等于该边界的样本总数，形成单调计数序列。后端据此计算区间数量并估计分位数。"
+    },
+    {
+      "id": "28-observability-otel-traces-check-4",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "工具专用的 gen_ai.tool.name 和 gen_ai.tool.call.id。",
+      "reviewNote": "工具名与调用 ID 分别说明执行了哪个工具及是哪一次调用。模型供应商和模型名属于模型操作信息，不能替代工具标识。"
+    },
+    {
+      "id": "28-observability-otel-traces-post-5",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "直方图记录 tool_latency_ms{tool=\"read_file\"} 的观测延迟。",
+      "reviewNote": "直方图为按工具估计延迟分位数提供聚合数据。原始 span 也可离线计算，但需要自行收集与排序；调用计数无法给出分位数。"
+    },
+    {
+      "id": "28-observability-otel-traces-post-6",
+      "status": "reviewed",
+      "headingId": "为什么手写-而不是使用-opentelemetry-sdk",
+      "quote": "手写版本教授 wire format；在生产环境中，把同样的属性接入真实 SDK",
+      "reviewNote": "教学实现让 span 字段和导出过程可见。生产可接 SDK 完成上下文传播和导出，不能由本课推断手写实现性能更好。"
+    }
+  ]
+}

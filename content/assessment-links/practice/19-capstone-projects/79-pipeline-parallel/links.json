@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/79-pipeline-parallel",
+  "translationSha256": "98695c1e424033fd1a02c454f95d1ea24b944b1b4dc20f46d3b456cf4d339da3",
+  "assessmentSha256": "c3366d75d86257c171d30fd934a1fba1c8368be1b16b0ded1426f347a954b1f9",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "79-pipeline-parallel-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "气泡是流水线开始时的空闲时间",
+      "reviewNote": "理想均衡 GPipe 模型下，M 个 microbatch、N 个 stage 的空泡比例约为 (N-1)/(M+N-1)；增大 M 可摊薄空泡，但需同时考虑内存。"
+    },
+    {
+      "id": "79-pipeline-parallel-pre-2",
+      "status": "reviewed",
+      "headingId": "gpipe-调度",
+      "quote": "每个微批次的激活值都必须保留到对应的反向传播",
+      "reviewNote": "保留的在途激活随 microbatch 增多；重计算等策略可以改变实际内存需求。"
+    },
+    {
+      "id": "79-pipeline-parallel-check-3",
+      "status": "reviewed",
+      "headingId": "1f1b-调度",
+      "quote": "该调度让每个阶段交替执行一次前向和一次反向。",
+      "reviewNote": "编者注：本题指相同非交错调度假设下的典型内存优势；吞吐、空泡和权重一致性仍取决于具体 1F1B 实现与硬件。"
+    },
+    {
+      "id": "79-pipeline-parallel-check-4",
+      "status": "reviewed",
+      "headingId": "为什么各阶段计算量均衡很重要",
+      "quote": "阶段分配应当均衡每个阶段的 FLOPs，而不是均衡权重数量。",
+      "reviewNote": "应按实际计算与通信时间测量分区，同时满足内存约束；不能仅按层数或参数数目平均分配。"
+    },
+    {
+      "id": "79-pipeline-parallel-check-5",
+      "status": "reviewed",
+      "headingId": "生产环境中的模式",
+      "quote": "如果每个阶段都先发送再接收，流水线就会在线路上死锁。",
+      "reviewNote": "奇偶 rank 交错是某些通信图的处理办法；一般应按完整依赖图设计，或使用合适异步通信，不能机械套用。"
+    },
+    {
+      "id": "79-pipeline-parallel-post-6",
+      "status": "reviewed",
+      "headingId": "生产环境中的模式",
+      "quote": "优化器状态则在各 stage 对应的数据并行组内分片",
+      "reviewNote": "ZeRO 的分片数量取该 stage 的数据并行组大小，不是直接用全部 pipeline rank 数相除。"
+    }
+  ]
+}

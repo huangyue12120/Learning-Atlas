@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/39-instruction-tuning-sft",
+  "translationSha256": "77d0db8a028067a5485d6572482c380094d1eb85abc5d147e91ee7a7f8ceb21e",
+  "assessmentSha256": "4291e9ab291fc3fcccebcfae232ae88416268d082ec01b1deb3a601207ac78ca",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "39-instruction-tuning-sft-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "模型掌握了语言，却没有掌握格式契约。",
+      "reviewNote": "该输出体现继续问题文本而非作答的行为。SFT 用指令—回答样本训练所需交互格式，不能仅凭这次输出认定缺少某个事实。"
+    },
+    {
+      "id": "39-instruction-tuning-sft-check-2",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "任何等于 `ignore_index` 的目标位置都会贡献零损失和零梯度。",
+      "reviewNote": "ignore_index 明确指定被排除的目标值；默认约定为 -100。其他负值并不会都被静默接受。"
+    },
+    {
+      "id": "39-instruction-tuning-sft-check-3",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "基础模型的下一个词元目标仍然适用",
+      "reviewNote": "切片使预测与下一个真实词元对应。若使用同位置标签，就不再是本课的下一词元训练目标。"
+    },
+    {
+      "id": "39-instruction-tuning-sft-check-4",
+      "status": "reviewed",
+      "headingId": "为什么-mask-很重要",
+      "quote": "回答部分的损失在梯度总和中占比更小",
+      "reviewNote": "当指令比回答长时，把指令也计入损失会改变优化权重分配。掩码让模型主要学习目标回答；它不保证任何数据上指标都提升。"
+    },
+    {
+      "id": "39-instruction-tuning-sft-post-5",
+      "status": "reviewed",
+      "headingId": "精确匹配评估",
+      "quote": "真实的 SFT 流程会用词元级 F1（第 41 课）和评审模型补充精确匹配。",
+      "reviewNote": "词元 F1 比完全匹配更宽容，但仍主要衡量归一化后的词面重叠。语义等价却不共享词元的改述仍可能得低分。"
+    },
+    {
+      "id": "39-instruction-tuning-sft-post-6",
+      "status": "reviewed",
+      "headingId": "为什么-mask-很重要",
+      "quote": "多轮扩展可逐轮串接 `USER`、`ASSISTANT` 角色边界，只对目标助手回答的词元计算损失",
+      "reviewNote": "角色标记明确各轮归属，掩码排除用户和 padding 位置。可按样本训练指定助手轮，也可对多个助手轮计损失，仍沿用因果目标。"
+    }
+  ]
+}

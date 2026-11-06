@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/35-gpt-model-assembly",
+  "translationSha256": "d23bbab9f499b67e1d1067eaadecdf230157374ec67043c57ae4817963d99fa5",
+  "assessmentSha256": "2c947f90ef33cae6b4057038df5ad0c1cd2f77a0a0f0a8e0f2b4637199be7444",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "35-gpt-model-assembly-pre-1",
+      "status": "reviewed",
+      "headingId": "学习目标",
+      "quote": "词表 50257、上下文 1024、嵌入维度 768、12 个注意力头、12 层。",
+      "reviewNote": "匹配这组 GPT-2 small 配置及参数量可检查组装是否合理。离线演示可以缩小配置，但不能把演示规模误作参考架构。"
+    },
+    {
+      "id": "35-gpt-model-assembly-check-2",
+      "status": "reviewed",
+      "headingId": "权重绑定",
+      "quote": "绑定意味着使用同一个参数张量两次。",
+      "reviewNote": "将 lm_head.weight 设为 tok_embed.weight 共享存储，优化器更新一份矩阵。复制数值只会得到两份参数，并不形成绑定。"
+    },
+    {
+      "id": "35-gpt-model-assembly-check-3",
+      "status": "reviewed",
+      "headingId": "关键术语",
+      "quote": "超过上下文长度时丢弃最早词元",
+      "reviewNote": "序列超长后丢弃最早词元，使传给模型的长度不超过上限。生成历史仍持续增长，只是本次可见窗口受限。"
+    },
+    {
+      "id": "35-gpt-model-assembly-check-4",
+      "status": "reviewed",
+      "headingId": "生产环境中的模式",
+      "quote": "将其标准差缩放为 1/sqrt(2 * num_layers)",
+      "reviewNote": "多个残差更新会随层数累积，缩小这些投影的初始化有助于控制残差流尺度。改变标准差不会减少参数存储。"
+    },
+    {
+      "id": "35-gpt-model-assembly-post-5",
+      "status": "reviewed",
+      "headingId": "生成-温度-top-k-多项式采样",
+      "quote": "只取最后一个位置，除以温度",
+      "reviewNote": "正温度调节概率集中程度；温度为 1 保留原 logits 对应分布。它控制生成随机性，与训练学习率无关。"
+    },
+    {
+      "id": "35-gpt-model-assembly-post-6",
+      "status": "reviewed",
+      "headingId": "生成-温度-top-k-多项式采样",
+      "quote": "将 top-k 之外的 logits 设为负无穷，再 softmax 得到概率并采样一个词元。",
+      "reviewNote": "截断词表长尾后在保留集合内归一化。k=1 对应贪心选择；更大的 k 允许更广的候选。"
+    }
+  ]
+}

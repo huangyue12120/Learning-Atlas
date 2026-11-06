@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/72-code-exec-metric",
+  "translationSha256": "af31944b5c709257b5d20eecc7f410fcb406efa7b3af9f0cb99d4b2f478eb77e",
+  "assessmentSha256": "95bec85555d9e582b00871c20137811c653df7a43bb07fe66ff1186702577a0b",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "72-code-exec-metric-pre-1",
+      "status": "reviewed",
+      "headingId": "为什么使用隔离子进程",
+      "quote": "超时就杀掉子进程；这样主评测进程仍能继续运行。",
+      "reviewNote": "编者注：新进程不是完整安全沙箱，危险导入与系统访问仍需操作系统权限、容器等隔离；不要将本课 runner 用于任意不可信代码。"
+    },
+    {
+      "id": "72-code-exec-metric-pre-2",
+      "status": "reviewed",
+      "headingId": "代码执行任务的结构",
+      "quote": "三条断言通过两条时得分为 0.667。",
+      "reviewNote": "分数为 passed/total=2/3，运行状态仍可为 assertion_fail；部分得分与全部通过是两个概念。"
+    },
+    {
+      "id": "72-code-exec-metric-check-3",
+      "status": "reviewed",
+      "headingId": "退出码",
+      "quote": "`syntax_error`：导入失败或出现 SyntaxError。",
+      "reviewNote": "子脚本捕获 compile 的 SyntaxError，返回 syntax_error，与运行时异常或断言失败分开。"
+    },
+    {
+      "id": "72-code-exec-metric-check-4",
+      "status": "reviewed",
+      "headingId": "为什么使用隔离子进程",
+      "quote": "生成的 while True: pass 会永久卡住评测",
+      "reviewNote": "超时限制运行时间，denylist 只是补充；超时也不隔离文件和网络副作用，不等于安全执行环境。"
+    },
+    {
+      "id": "72-code-exec-metric-check-5",
+      "status": "reviewed",
+      "headingId": "pass-at-k",
+      "quote": "不可能从少于 k 个失败样本中选出 k 个",
+      "reviewNote": "失败样本数不足 k，组合失败概率为零，因此 1-C(n-c,k)/C(n,k)=1；仍需满足 1<=k<=n 等输入约束。"
+    },
+    {
+      "id": "72-code-exec-metric-post-6",
+      "status": "reviewed",
+      "headingId": "output-cap",
+      "quote": "结果记为 exit_code=error，详情字符串为 \"output overflow\"。",
+      "reviewNote": "上限是保护宿主的配置选择，不是通用最佳值；在流读取过程中终止比结束后截断更能限制失控输出。"
+    }
+  ]
+}

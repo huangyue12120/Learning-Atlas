@@ -1,0 +1,43 @@
+{
+  "python": "3.14.10",
+  "platform": "Linux CPU",
+  "workspace": "Actual prepareWorkspace output in an isolated temporary data directory",
+  "rows": [
+    {
+      "lesson": "58-vision-encoder-patches",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "output": "test_conv2d_matches_unfold_reference (test_main.TestPatchEmbed.test_conv2d_matches_unfold_reference) ... ok\ntest_output_shape_includes_cls (test_main.TestPatchEmbed.test_output_shape_includes_cls) ... ok\ntest_patch_count_matches_grid (test_main.TestPatchEmbed.test_patch_count_matches_grid) ... ok\ntest_sinusoidal_deterministic (test_main.TestPositionEmbedding.test_sinusoidal_deterministic) ... ok\ntest_sinusoidal_requires_div_by_four (test_main.TestPositionEmbedding.test_sinusoidal_requires_div_by_four) ... ok\ntest_sinusoidal_shape (test_main.TestPositionEmbedding.test_sinusoidal_shape) ... ok\ntest_cls_token_broadcasts_without_leakage (test_main.TestVisionFrontEnd.test_cls_token_broadcasts_without_leakage) ... ok\ntest_rejects_wrong_spatial_size (test_main.TestVisionFrontEnd.test_rejects_wrong_spatial_size) ... ok\ntest_synthesize_image_is_deterministic (test_main.TestVisionFrontEnd.test_synthesize_image_is_deterministic) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.031s\n\nOK"
+    },
+    {
+      "lesson": "59-vit-transformer",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "output": "test_block_residual_wired (test_main.TestBlock.test_block_residual_wired) ... ok\ntest_head_dim_divides (test_main.TestEncoderConfig.test_head_dim_divides) ... ok\ntest_invalid_head_dim_rejected (test_main.TestEncoderConfig.test_invalid_head_dim_rejected) ... ok\ntest_attention_preserves_shape (test_main.TestSubLayers.test_attention_preserves_shape) ... ok\ntest_attention_rows_sum_to_one (test_main.TestSubLayers.test_attention_rows_sum_to_one) ... ok\ntest_feed_forward_expansion (test_main.TestSubLayers.test_feed_forward_expansion) ... ok\ntest_full_stack_shape (test_main.TestViTStack.test_full_stack_shape) ... ok\ntest_gradient_reaches_patch_projection (test_main.TestViTStack.test_gradient_reaches_patch_projection) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.087s\n\nOK"
+    },
+    {
+      "lesson": "60-projection-layer-modality-align",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "output": "test_max_loss_on_antiparallel_vectors (test_main.TestCosineLoss.test_max_loss_on_antiparallel_vectors) ... ok\ntest_zero_loss_on_identical_vectors (test_main.TestCosineLoss.test_zero_loss_on_identical_vectors) ... ok\ntest_make_pair_shapes (test_main.TestPairFixture.test_make_pair_shapes) ... ok\ntest_gradient_flows (test_main.TestProjector.test_gradient_flows) ... ok\ntest_output_shape (test_main.TestProjector.test_output_shape) ... ok\ntest_pooling_ignores_padding (test_main.TestTextTable.test_pooling_ignores_padding) ... ok\ntest_table_is_frozen (test_main.TestTextTable.test_table_is_frozen) ... ok\ntest_loss_drops_over_steps (test_main.TestTrainingLoop.test_loss_drops_over_steps) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 2.952s\n\nOK"
+    },
+    {
+      "lesson": "61-cross-attention-fusion",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "output": "test_lower_triangular (test_main.TestCausalMask.test_lower_triangular) ... ok\ntest_shape (test_main.TestCausalMask.test_shape) ... ok\ntest_batch_mismatch_raises (test_main.TestCrossAttention.test_batch_mismatch_raises) ... ok\ntest_kv_cache_matches_uncached (test_main.TestCrossAttention.test_kv_cache_matches_uncached) ... ok\ntest_output_shape_independent_of_key_length (test_main.TestCrossAttention.test_output_shape_independent_of_key_length) ... ok\ntest_cache_path_matches (test_main.TestDecoder.test_cache_path_matches) ... ok\ntest_forward_shape (test_main.TestDecoder.test_forward_shape) ... ok\ntest_rejects_too_long_input (test_main.TestDecoder.test_rejects_too_long_input) ... ok\ntest_rejects_wrong_mask_shape (test_main.TestSelfAttention.test_rejects_wrong_mask_shape) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.021s\n\nOK"
+    },
+    {
+      "lesson": "62-vision-language-pretraining",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "output": "test_make_mock_corpus_shapes (test_main.TestCorpus.test_make_mock_corpus_shapes) ... ok\ntest_shape_mismatch_raises (test_main.TestInfoNCE.test_shape_mismatch_raises) ... ok\ntest_symmetric_across_directions (test_main.TestInfoNCE.test_symmetric_across_directions) ... ok\ntest_zero_loss_on_perfect_diagonal (test_main.TestInfoNCE.test_zero_loss_on_perfect_diagonal) ... ok\ntest_pad_positions_excluded (test_main.TestLMLoss.test_pad_positions_excluded) ... ok\ntest_forward_returns_two_losses (test_main.TestModel.test_forward_returns_two_losses) ... ok\ntest_training_reduces_total_loss (test_main.TestModel.test_training_reduces_total_loss) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 2.983s\n\nOK"
+    },
+    {
+      "lesson": "63-multimodal-eval",
+      "command": "python3 -m unittest discover -s code -p \"test_main.py\" -v",
+      "exitCode": 0,
+      "output": "test_brevity_penalty_applies_when_generated_short (test_main.TestBLEU.test_brevity_penalty_applies_when_generated_short) ... ok\ntest_disjoint_vocab_returns_zero_without_smoothing (test_main.TestBLEU.test_disjoint_vocab_returns_zero_without_smoothing) ... ok\ntest_disjoint_vocab_smoothed_is_below_match (test_main.TestBLEU.test_disjoint_vocab_smoothed_is_below_match) ... ok\ntest_exact_match_returns_one (test_main.TestBLEU.test_exact_match_returns_one) ... ok\ntest_build_shapes (test_main.TestEvalSuite.test_build_shapes) ... ok\ntest_flipped_matrix_below_top (test_main.TestRecallAtK.test_flipped_matrix_below_top) ... ok\ntest_perfect_identity_matrix (test_main.TestRecallAtK.test_perfect_identity_matrix) ... ok\ntest_rejects_invalid_k (test_main.TestRecallAtK.test_rejects_invalid_k) ... ok\ntest_all_correct (test_main.TestVQAExactMatch.test_all_correct) ... ok\ntest_half_correct (test_main.TestVQAExactMatch.test_half_correct) ... ok\ntest_length_mismatch_raises (test_main.TestVQAExactMatch.test_length_mismatch_raises) ... ok\n\n----------------------------------------------------------------------\nRan 11 tests in 0.017s\n\nOK"
+    }
+  ]
+}

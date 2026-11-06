@@ -126,6 +126,8 @@ python3 code/main.py
 python3 -m unittest code/test_main.py
 ```
 
+> **编者注：** 在本课私人工作区根目录中，`code/` 会与 Python 标准库的 `code` 模块重名。请改用发现模式运行测试：`python3 -m unittest discover -s code -p "test_main.py" -v`。
+
 ## 练习
 
 1. 给交叉注意力残差添加可学习的 tanh 门控（Flamingo 技巧），并验证从接近零的初始门控开始训练仍能收敛：门控从 0 开始，模型先恢复纯文本行为，再逐渐混入图像流。

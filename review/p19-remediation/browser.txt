@@ -1,0 +1,159 @@
+npm notice run learning-atlas-local@0.33.0 test:browser
+npm notice run playwright test assessment-review.spec.js --grep 19-capstone-projects
+[WebServer] (node:3508249) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3508249) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+Running 85 tests using 1 worker
+
+(node:3508256) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node-22 --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 01-terminal-native-coding-agent (3.0s)
+  ✓   2 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 02-rag-over-codebase (1.3s)
+  ✓   3 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 03-realtime-voice-assistant (1.4s)
+  ✓   4 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 04-multimodal-document-qa (1.2s)
+  ✓   5 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 05-autonomous-research-agent (1.3s)
+  ✓   6 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 06-devops-troubleshooting-agent (1.3s)
+  ✓   7 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 07-end-to-end-fine-tuning-pipeline (1.4s)
+  ✓   8 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 08-production-rag-chatbot (1.2s)
+  ✓   9 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 09-code-migration-agent (1.4s)
+  ✓  10 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 10-multi-agent-software-team (1.2s)
+  ✓  11 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 11-llm-observability-dashboard (1.3s)
+  ✓  12 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 12-video-understanding-pipeline (1.3s)
+  ✓  13 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 13-mcp-server-with-registry (1.4s)
+  ✓  14 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 14-speculative-decoding-server (1.3s)
+  ✓  15 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 15-constitutional-safety-harness (1.3s)
+  ✓  16 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 16-github-issue-to-pr-agent (1.3s)
+  ✓  17 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 17-personal-ai-tutor (1.4s)
+  ✓  18 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 20-agent-harness-loop-contract (1.3s)
+  ✓  19 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 21-tool-registry-schema-validation (1.2s)
+  ✓  20 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 22-jsonrpc-stdio-transport (1.2s)
+  ✓  21 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 23-function-call-dispatcher (1.4s)
+  ✓  22 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 24-plan-execute-control-flow (1.3s)
+  ✓  23 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 25-verification-gates-observation-budget (1.3s)
+  ✓  24 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 26-sandbox-runner-denylist (1.2s)
+  ✓  25 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 27-eval-harness-fixture-tasks (1.3s)
+  ✓  26 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 28-observability-otel-traces (1.2s)
+  ✓  27 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 29-end-to-end-coding-task-demo (1.2s)
+  ✓  28 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 30-bpe-tokenizer-from-scratch (1.3s)
+  ✓  29 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 31-tokenized-dataset-sliding-window (1.4s)
+  ✓  30 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 32-token-positional-embeddings (1.3s)
+  ✓  31 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 33-multihead-self-attention (1.4s)
+  ✘  32 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 34-transformer-block (6.0s)
+(node:3512886) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node-22 --trace-warnings ...` to show where the warning was created)
+  ✓  33 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 35-gpt-model-assembly (1.7s)
+  ✓  34 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 36-training-loop-eval (1.3s)
+  ✓  35 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 37-loading-pretrained-weights (1.4s)
+  ✓  36 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 38-classifier-finetuning (1.4s)
+  ✓  37 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 39-instruction-tuning-sft (1.4s)
+  ✓  38 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 40-dpo-from-scratch (1.4s)
+  ✓  39 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 41-eval-pipeline (1.4s)
+  ✓  40 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 42-large-corpus-downloader (1.3s)
+  ✓  41 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 43-hdf5-tokenized-corpus (1.4s)
+  ✓  42 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 44-cosine-lr-warmup (1.2s)
+  ✓  43 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 45-gradient-clipping-amp (1.3s)
+  ✓  44 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 46-gradient-accumulation (1.3s)
+  ✓  45 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 47-checkpoint-save-resume (1.4s)
+  ✘  46 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 48-distributed-fsdp-ddp (6.1s)
+(node:3515172) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node-22 --trace-warnings ...` to show where the warning was created)
+  ✓  47 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 49-lm-eval-harness (1.5s)
+  ✓  48 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 50-hypothesis-generator (1.3s)
+  ✓  49 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 51-literature-retrieval (1.4s)
+  ✓  50 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 52-experiment-runner (1.3s)
+  ✓  51 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 53-result-evaluator (1.5s)
+  ✓  52 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 54-paper-writer (1.5s)
+  ✓  53 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 55-critic-loop (1.6s)
+  ✓  54 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 56-iteration-scheduler (1.5s)
+  ✓  55 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 57-end-to-end-research-demo (1.6s)
+  ✓  56 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 58-vision-encoder-patches (1.5s)
+  ✓  57 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 59-vit-transformer (1.6s)
+  ✓  58 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 60-projection-layer-modality-align (1.3s)
+  ✓  59 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 61-cross-attention-fusion (1.6s)
+  ✓  60 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 62-vision-language-pretraining (1.4s)
+  ✓  61 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 63-multimodal-eval (1.4s)
+  ✓  62 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 64-chunking-strategies-advanced (1.4s)
+  ✓  63 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 65-hybrid-retrieval-bm25-dense (1.6s)
+  ✓  64 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 66-reranker-cross-encoder (1.3s)
+  ✓  65 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 67-query-rewriting-hyde (1.5s)
+  ✓  66 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 68-rag-eval-precision-recall (1.3s)
+  ✓  67 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 69-end-to-end-rag-system (1.5s)
+  ✓  68 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 70-task-spec-format (1.3s)
+  ✓  69 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 71-classical-metrics (1.6s)
+  ✓  70 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 72-code-exec-metric (1.4s)
+  ✓  71 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 73-perplexity-calibration (1.4s)
+  ✓  72 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 74-leaderboard-aggregation (1.3s)
+  ✓  73 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 75-end-to-end-eval-runner (1.5s)
+  ✓  74 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 76-collective-ops-from-scratch (1.4s)
+  ✓  75 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 77-data-parallel-ddp (1.4s)
+  ✓  76 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 78-zero-parameter-sharding (1.4s)
+  ✓  77 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 79-pipeline-parallel (1.5s)
+  ✓  78 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 80-checkpoint-sharded-resume (1.3s)
+  ✓  79 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 81-end-to-end-distributed-train (1.5s)
+  ✓  80 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 82-jailbreak-taxonomy (1.4s)
+  ✓  81 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 83-prompt-injection-detector (1.5s)
+  ✓  82 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 84-refusal-evaluation (1.4s)
+  ✓  83 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 85-content-classifier-integration (1.5s)
+  ✓  84 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 86-constitutional-rules-engine (1.3s)
+  ✓  85 tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 87-end-to-end-safety-gate (1.5s)
+
+
+  1) tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 34-transformer-block
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-evidence-question="34-transformer-block-pre-1"]')
+    Expected: "#evidence-34-transformer-block-pre-1"
+    Received: "#lesson-body"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('[data-evidence-question="34-transformer-block-pre-1"]') with timeout 5000ms
+      - waiting for locator('[data-evidence-question="34-transformer-block-pre-1"]')
+        14 × locator resolved to <a href="#lesson-body" data-evidence-question="34-transformer-block-pre-1">回看本课正文</a>
+           - unexpected value "#lesson-body"
+
+
+      24 |   await expect(page.locator('.quiz-result')).toContainText(`${quiz.questions.length} / ${quiz.questions.length}`);
+      25 |   for (const link of mapping.links) {
+    > 26 |     await expect(page.locator(`[data-evidence-question="${link.id}"]`)).toHaveAttribute('href', `#evidence-${link.id}`);
+         |                                                                         ^
+      27 |     const anchor = page.locator(`[id="evidence-${link.id}"]`);
+      28 |     await expect(anchor).toHaveCount(1);
+      29 |     const content = await anchor.evaluate(element => {
+        at <repository>/apps/local-learning/tests/browser/assessment-review.spec.js:26:73
+
+    Error Context: ../../../../../../tmp/atlas-playwright-results/assessment-review-reviewed-1fce4-lesson-34-transformer-block/error-context.md
+
+  2) tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 48-distributed-fsdp-ddp
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-evidence-question="48-distributed-fsdp-ddp-pre-1"]')
+    Expected: "#evidence-48-distributed-fsdp-ddp-pre-1"
+    Received: "#lesson-body"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('[data-evidence-question="48-distributed-fsdp-ddp-pre-1"]') with timeout 5000ms
+      - waiting for locator('[data-evidence-question="48-distributed-fsdp-ddp-pre-1"]')
+        14 × locator resolved to <a href="#lesson-body" data-evidence-question="48-distributed-fsdp-ddp-pre-1">回看本课正文</a>
+           - unexpected value "#lesson-body"
+
+
+      24 |   await expect(page.locator('.quiz-result')).toContainText(`${quiz.questions.length} / ${quiz.questions.length}`);
+      25 |   for (const link of mapping.links) {
+    > 26 |     await expect(page.locator(`[data-evidence-question="${link.id}"]`)).toHaveAttribute('href', `#evidence-${link.id}`);
+         |                                                                         ^
+      27 |     const anchor = page.locator(`[id="evidence-${link.id}"]`);
+      28 |     await expect(anchor).toHaveCount(1);
+      29 |     const content = await anchor.evaluate(element => {
+        at <repository>/apps/local-learning/tests/browser/assessment-review.spec.js:26:73
+
+    Error Context: ../../../../../../tmp/atlas-playwright-results/assessment-review-reviewed-13eb8-son-48-distributed-fsdp-ddp/error-context.md
+
+  2 failed
+    tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 34-transformer-block
+    tests/browser/assessment-review.spec.js:9:40 › reviewed 19-capstone-projects evidence resolves in the rendered lesson: 48-distributed-fsdp-ddp
+  83 passed (2.2m)

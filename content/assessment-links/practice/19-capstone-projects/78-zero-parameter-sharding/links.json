@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/78-zero-parameter-sharding",
+  "translationSha256": "336cbf0450eb4c162eeb5bc5f5370dfd80d487c6305ca051550e48a3599603e6",
+  "assessmentSha256": "31d08c1dc33c7bb5901a2476d94159fd008bac9b33d6f4de78564515d304da03",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "78-zero-parameter-sharding-pre-1",
+      "status": "reviewed",
+      "headingId": "zero-的阶段",
+      "quote": "优化器状态占据了主要内存预算。",
+      "reviewNote": "在本课的 16P 字节模型中，fp32 master 与两个矩占 12P；先分片这部分能显著降低每 rank 状态内存，未计激活等其他开销。"
+    },
+    {
+      "id": "78-zero-parameter-sharding-pre-2",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "更新后的参数分片再通过 allgather 汇集回来",
+      "reviewNote": "这让每个 rank 仅更新自己拥有的优化器分片，再恢复完整参数；真实 ZeRO-1 的具体梯度通信方案可因实现而异。"
+    },
+    {
+      "id": "78-zero-parameter-sharding-check-3",
+      "status": "reviewed",
+      "headingId": "为什么-reducescatter-优于先-allreduce-再分片",
+      "quote": "后半段被后续的参数分片 `allgather` 替代了。",
+      "reviewNote": "比较依赖字节精度、填充与调度假设；混合精度或重叠通信改变时，不能据此保证真实端到端带宽与性能完全相同。"
+    },
+    {
+      "id": "78-zero-parameter-sharding-check-4",
+      "status": "reviewed",
+      "headingId": "内存计算-真实数字",
+      "quote": "当 N=8 时：原生 DDP 为 16P，ZeRO-1 为 5.5P，下降 65%。",
+      "reviewNote": "下降为 (16-5.5)/16=65.625%；这只统计参数、梯度与优化器状态，不是包含激活和临时缓冲的完整显存降幅。"
+    },
+    {
+      "id": "78-zero-parameter-sharding-check-5",
+      "status": "reviewed",
+      "headingId": "zero-的阶段",
+      "quote": "Stage 2 需要加入梯度分片累积逻辑",
+      "reviewNote": "它减少梯度状态冗余；是否实际释放存储而非仅填零要看实现，填零本身不会减少张量分配。"
+    },
+    {
+      "id": "78-zero-parameter-sharding-post-6",
+      "status": "reviewed",
+      "headingId": "生产环境中的模式",
+      "quote": "检查点必须记录每个 rank 持有哪些内容。",
+      "reviewNote": "manifest 应记录参数或切片范围与 shard/rank 的映射，仅凭文件名不足以安全恢复。"
+    }
+  ]
+}

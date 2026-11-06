@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/55-critic-loop",
+  "translationSha256": "4a6ab145465a12bb6ad30515176e94a56d6f35f5b3f5be0e59ec3bb687666c16",
+  "assessmentSha256": "52f5d6d28cfcb4ad5c62f0410269c117affed4de8cfc9065c749b5c0f68cd6a2",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "55-critic-loop-pre-1",
+      "status": "reviewed",
+      "headingId": "学习目标",
+      "quote": "在清晰度、新颖性、证据、方法论、相关工作五个固定维度上为论文草稿评分。",
+      "reviewNote": "结构化评分便于检测趋势，但评分仍需可靠标准；数值格式本身不证明批评正确。"
+    },
+    {
+      "id": "55-critic-loop-pre-2",
+      "status": "reviewed",
+      "headingId": "收敛规则-按顺序",
+      "quote": "目标优先于平台期，平台期优先于预算。",
+      "reviewNote": "顺序为先满足目标，再判平台期，最后预算；多个条件同时成立时优先级固定。"
+    },
+    {
+      "id": "55-critic-loop-check-3",
+      "status": "reviewed",
+      "headingId": "为什么平台期要观察两轮",
+      "quote": "单轮平台期可能只是噪声。",
+      "reviewNote": "即使评分器确定，应用不同建议也会造成逐轮变化；两轮是本课的停止启发式，不是“不再可能改善”的证明。"
+    },
+    {
+      "id": "55-critic-loop-check-4",
+      "status": "reviewed",
+      "headingId": "完整循环契约",
+      "quote": "修订器接收当前草稿与 `Suggestion` 列表",
+      "reviewNote": "本课 Reviser 接收论文与建议；建议包含维度、目标章节和编辑指令，不直接接收评分向量。"
+    },
+    {
+      "id": "55-critic-loop-post-5",
+      "status": "reviewed",
+      "headingId": "trace-输出",
+      "quote": "包含轮次、分数向量、建议数量和收敛判定。",
+      "reviewNote": "trace 使下游能够画趋势、检查修订效果和停止原因，而不只看到最终结果。"
+    },
+    {
+      "id": "55-critic-loop-post-6",
+      "status": "reviewed",
+      "headingId": "收敛规则-按顺序",
+      "quote": "如果连续两轮提升低于 `plateau_epsilon`（默认 `0.1`），循环以 `plateau` 退出。",
+      "reviewNote": "本课平台期检测或硬预算上限使循环停止，不把“做过修订”自动算成达成目标。"
+    }
+  ]
+}

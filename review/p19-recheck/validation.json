@@ -1,0 +1,1955 @@
+{
+  "date": "2026-11-07",
+  "baseline": {
+    "version": "0.32.0",
+    "commit": "c872c104c3a2ca26dc491880c7a0f252c337d89d",
+    "practiceRevision": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "theoryRevision": "9850ee574a370bc1cde59de98b394e953775b67d"
+  },
+  "scope": {
+    "content": "All 85 P19 lessons, quizzes and guides; 530 questions and 22 cards",
+    "semanticReview": "Structural checks and targeted source comparison; not a new question-by-question semantic review",
+    "pythonRuntime": "Six body commands reproduced; two guide commands verified; not a rerun of all 85 Python entry points",
+    "learnerData": "Temporary databases and newly prepared private workspaces only",
+    "productionChanges": false
+  },
+  "content": {
+    "date": "2026-11-07",
+    "commit": "c872c104c3a2ca26dc491880c7a0f252c337d89d",
+    "counts": {
+      "translations": 85,
+      "assessments": 85,
+      "guides": 85,
+      "cards": 22,
+      "questions": 530
+    },
+    "correspondenceErrors": [],
+    "correspondenceWarnings": [
+      [
+        "39-instruction-tuning-sft",
+        "Q1: none of ['And', 'France', 'Italy', 'Spain'] appears in the Chinese question"
+      ],
+      [
+        "41-eval-pipeline",
+        "Q3: none of ['1.0', 'Token'] appears in the Chinese question"
+      ],
+      [
+        "47-checkpoint-save-resume",
+        "Q6: none of ['0', 'Reading'] appears in the Chinese question"
+      ],
+      [
+        "58-vision-encoder-patches",
+        "Q1: none of ['Transformer', 'Vision'] appears in the Chinese question"
+      ],
+      [
+        "65-hybrid-retrieval-bm25-dense",
+        "Q3: none of ['Fusion', 'Rank', 'Reciprocal'] appears in the Chinese question"
+      ]
+    ],
+    "soleLongest": 456,
+    "longestGuessCorrect": 464,
+    "sourceSoleLongest": 477,
+    "answerIndices": {
+      "1": 138,
+      "2": 117,
+      "3": 146,
+      "0": 129
+    },
+    "emptySourceExplanationCount": 148,
+    "unmarkedAddedExplanations": [
+      {
+        "lesson": "01-terminal-native-coding-agent",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "01-terminal-native-coding-agent",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "01-terminal-native-coding-agent",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "01-terminal-native-coding-agent",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "01-terminal-native-coding-agent",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "01-terminal-native-coding-agent",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "01-terminal-native-coding-agent",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "02-rag-over-codebase",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "02-rag-over-codebase",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "02-rag-over-codebase",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "02-rag-over-codebase",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "02-rag-over-codebase",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "02-rag-over-codebase",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "02-rag-over-codebase",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "03-realtime-voice-assistant",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "03-realtime-voice-assistant",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "03-realtime-voice-assistant",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "03-realtime-voice-assistant",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "03-realtime-voice-assistant",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "03-realtime-voice-assistant",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "03-realtime-voice-assistant",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "04-multimodal-document-qa",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "04-multimodal-document-qa",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "04-multimodal-document-qa",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "04-multimodal-document-qa",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "04-multimodal-document-qa",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "04-multimodal-document-qa",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "04-multimodal-document-qa",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "05-autonomous-research-agent",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "05-autonomous-research-agent",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "05-autonomous-research-agent",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "05-autonomous-research-agent",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "05-autonomous-research-agent",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "05-autonomous-research-agent",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "05-autonomous-research-agent",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "06-devops-troubleshooting-agent",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "06-devops-troubleshooting-agent",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "06-devops-troubleshooting-agent",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "06-devops-troubleshooting-agent",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "06-devops-troubleshooting-agent",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "06-devops-troubleshooting-agent",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "06-devops-troubleshooting-agent",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "07-end-to-end-fine-tuning-pipeline",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "07-end-to-end-fine-tuning-pipeline",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "07-end-to-end-fine-tuning-pipeline",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "07-end-to-end-fine-tuning-pipeline",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "07-end-to-end-fine-tuning-pipeline",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "07-end-to-end-fine-tuning-pipeline",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "07-end-to-end-fine-tuning-pipeline",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "08-production-rag-chatbot",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "08-production-rag-chatbot",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "08-production-rag-chatbot",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "08-production-rag-chatbot",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "08-production-rag-chatbot",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "08-production-rag-chatbot",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "08-production-rag-chatbot",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "09-code-migration-agent",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "09-code-migration-agent",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "09-code-migration-agent",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "09-code-migration-agent",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "09-code-migration-agent",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "09-code-migration-agent",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "09-code-migration-agent",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "10-multi-agent-software-team",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "10-multi-agent-software-team",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "10-multi-agent-software-team",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "10-multi-agent-software-team",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "10-multi-agent-software-team",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "10-multi-agent-software-team",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "10-multi-agent-software-team",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "11-llm-observability-dashboard",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "11-llm-observability-dashboard",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "11-llm-observability-dashboard",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "11-llm-observability-dashboard",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "11-llm-observability-dashboard",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "11-llm-observability-dashboard",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "11-llm-observability-dashboard",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "12-video-understanding-pipeline",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "12-video-understanding-pipeline",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "12-video-understanding-pipeline",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "12-video-understanding-pipeline",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "12-video-understanding-pipeline",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "12-video-understanding-pipeline",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "12-video-understanding-pipeline",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "14-speculative-decoding-server",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "14-speculative-decoding-server",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "14-speculative-decoding-server",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "14-speculative-decoding-server",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "14-speculative-decoding-server",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "14-speculative-decoding-server",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "14-speculative-decoding-server",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "15-constitutional-safety-harness",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "15-constitutional-safety-harness",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "15-constitutional-safety-harness",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "15-constitutional-safety-harness",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "15-constitutional-safety-harness",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "15-constitutional-safety-harness",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "15-constitutional-safety-harness",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "16-github-issue-to-pr-agent",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "16-github-issue-to-pr-agent",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "16-github-issue-to-pr-agent",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "16-github-issue-to-pr-agent",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "16-github-issue-to-pr-agent",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "16-github-issue-to-pr-agent",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "16-github-issue-to-pr-agent",
+        "question": 7,
+        "marked": false
+      },
+      {
+        "lesson": "17-personal-ai-tutor",
+        "question": 1,
+        "marked": false
+      },
+      {
+        "lesson": "17-personal-ai-tutor",
+        "question": 2,
+        "marked": false
+      },
+      {
+        "lesson": "17-personal-ai-tutor",
+        "question": 3,
+        "marked": false
+      },
+      {
+        "lesson": "17-personal-ai-tutor",
+        "question": 4,
+        "marked": false
+      },
+      {
+        "lesson": "17-personal-ai-tutor",
+        "question": 5,
+        "marked": false
+      },
+      {
+        "lesson": "17-personal-ai-tutor",
+        "question": 6,
+        "marked": false
+      },
+      {
+        "lesson": "17-personal-ai-tutor",
+        "question": 7,
+        "marked": false
+      }
+    ],
+    "repeatedExplanations": [],
+    "preciseMappings": 0,
+    "batches": [
+      {
+        "batch": "01-17",
+        "questions": 118,
+        "soleLongest": 101
+      },
+      {
+        "batch": "20-29",
+        "questions": 64,
+        "soleLongest": 46
+      },
+      {
+        "batch": "30-49",
+        "questions": 120,
+        "soleLongest": 107
+      },
+      {
+        "batch": "50-69",
+        "questions": 120,
+        "soleLongest": 104
+      },
+      {
+        "batch": "70-87",
+        "questions": 108,
+        "soleLongest": 98
+      }
+    ],
+    "byLesson": [
+      {
+        "lesson": "01-terminal-native-coding-agent",
+        "questions": 7,
+        "soleLongest": 3,
+        "longestGuessCorrect": 4
+      },
+      {
+        "lesson": "02-rag-over-codebase",
+        "questions": 7,
+        "soleLongest": 5,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "03-realtime-voice-assistant",
+        "questions": 7,
+        "soleLongest": 6,
+        "longestGuessCorrect": 7
+      },
+      {
+        "lesson": "04-multimodal-document-qa",
+        "questions": 7,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "05-autonomous-research-agent",
+        "questions": 7,
+        "soleLongest": 7,
+        "longestGuessCorrect": 7
+      },
+      {
+        "lesson": "06-devops-troubleshooting-agent",
+        "questions": 7,
+        "soleLongest": 7,
+        "longestGuessCorrect": 7
+      },
+      {
+        "lesson": "07-end-to-end-fine-tuning-pipeline",
+        "questions": 7,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "08-production-rag-chatbot",
+        "questions": 7,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "09-code-migration-agent",
+        "questions": 7,
+        "soleLongest": 6,
+        "longestGuessCorrect": 7
+      },
+      {
+        "lesson": "10-multi-agent-software-team",
+        "questions": 7,
+        "soleLongest": 7,
+        "longestGuessCorrect": 7
+      },
+      {
+        "lesson": "11-llm-observability-dashboard",
+        "questions": 7,
+        "soleLongest": 7,
+        "longestGuessCorrect": 7
+      },
+      {
+        "lesson": "12-video-understanding-pipeline",
+        "questions": 7,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "13-mcp-server-with-registry",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "14-speculative-decoding-server",
+        "questions": 7,
+        "soleLongest": 7,
+        "longestGuessCorrect": 7
+      },
+      {
+        "lesson": "15-constitutional-safety-harness",
+        "questions": 7,
+        "soleLongest": 4,
+        "longestGuessCorrect": 4
+      },
+      {
+        "lesson": "16-github-issue-to-pr-agent",
+        "questions": 7,
+        "soleLongest": 7,
+        "longestGuessCorrect": 7
+      },
+      {
+        "lesson": "17-personal-ai-tutor",
+        "questions": 7,
+        "soleLongest": 7,
+        "longestGuessCorrect": 7
+      },
+      {
+        "lesson": "20-agent-harness-loop-contract",
+        "questions": 7,
+        "soleLongest": 7,
+        "longestGuessCorrect": 7
+      },
+      {
+        "lesson": "21-tool-registry-schema-validation",
+        "questions": 6,
+        "soleLongest": 4,
+        "longestGuessCorrect": 4
+      },
+      {
+        "lesson": "22-jsonrpc-stdio-transport",
+        "questions": 7,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "23-function-call-dispatcher",
+        "questions": 7,
+        "soleLongest": 6,
+        "longestGuessCorrect": 7
+      },
+      {
+        "lesson": "24-plan-execute-control-flow",
+        "questions": 7,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "25-verification-gates-observation-budget",
+        "questions": 6,
+        "soleLongest": 3,
+        "longestGuessCorrect": 3
+      },
+      {
+        "lesson": "26-sandbox-runner-denylist",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "27-eval-harness-fixture-tasks",
+        "questions": 6,
+        "soleLongest": 4,
+        "longestGuessCorrect": 4
+      },
+      {
+        "lesson": "28-observability-otel-traces",
+        "questions": 6,
+        "soleLongest": 4,
+        "longestGuessCorrect": 4
+      },
+      {
+        "lesson": "29-end-to-end-coding-task-demo",
+        "questions": 6,
+        "soleLongest": 3,
+        "longestGuessCorrect": 3
+      },
+      {
+        "lesson": "30-bpe-tokenizer-from-scratch",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "31-tokenized-dataset-sliding-window",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "32-token-positional-embeddings",
+        "questions": 6,
+        "soleLongest": 3,
+        "longestGuessCorrect": 4
+      },
+      {
+        "lesson": "33-multihead-self-attention",
+        "questions": 6,
+        "soleLongest": 4,
+        "longestGuessCorrect": 4
+      },
+      {
+        "lesson": "34-transformer-block",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "35-gpt-model-assembly",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "36-training-loop-eval",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "37-loading-pretrained-weights",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "38-classifier-finetuning",
+        "questions": 6,
+        "soleLongest": 3,
+        "longestGuessCorrect": 3
+      },
+      {
+        "lesson": "39-instruction-tuning-sft",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "40-dpo-from-scratch",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "41-eval-pipeline",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "42-large-corpus-downloader",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "43-hdf5-tokenized-corpus",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "44-cosine-lr-warmup",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "45-gradient-clipping-amp",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "46-gradient-accumulation",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "47-checkpoint-save-resume",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "48-distributed-fsdp-ddp",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "49-lm-eval-harness",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "50-hypothesis-generator",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "51-literature-retrieval",
+        "questions": 6,
+        "soleLongest": 3,
+        "longestGuessCorrect": 3
+      },
+      {
+        "lesson": "52-experiment-runner",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "53-result-evaluator",
+        "questions": 6,
+        "soleLongest": 4,
+        "longestGuessCorrect": 4
+      },
+      {
+        "lesson": "54-paper-writer",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "55-critic-loop",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "56-iteration-scheduler",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "57-end-to-end-research-demo",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "58-vision-encoder-patches",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "59-vit-transformer",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "60-projection-layer-modality-align",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "61-cross-attention-fusion",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "62-vision-language-pretraining",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "63-multimodal-eval",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "64-chunking-strategies-advanced",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "65-hybrid-retrieval-bm25-dense",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "66-reranker-cross-encoder",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "67-query-rewriting-hyde",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "68-rag-eval-precision-recall",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "69-end-to-end-rag-system",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "70-task-spec-format",
+        "questions": 6,
+        "soleLongest": 3,
+        "longestGuessCorrect": 3
+      },
+      {
+        "lesson": "71-classical-metrics",
+        "questions": 6,
+        "soleLongest": 4,
+        "longestGuessCorrect": 4
+      },
+      {
+        "lesson": "72-code-exec-metric",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "73-perplexity-calibration",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "74-leaderboard-aggregation",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "75-end-to-end-eval-runner",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "76-collective-ops-from-scratch",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "77-data-parallel-ddp",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "78-zero-parameter-sharding",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "79-pipeline-parallel",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "80-checkpoint-sharded-resume",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "81-end-to-end-distributed-train",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "82-jailbreak-taxonomy",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "83-prompt-injection-detector",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "84-refusal-evaluation",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "85-content-classifier-integration",
+        "questions": 6,
+        "soleLongest": 5,
+        "longestGuessCorrect": 5
+      },
+      {
+        "lesson": "86-constitutional-rules-engine",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      },
+      {
+        "lesson": "87-end-to-end-safety-gate",
+        "questions": 6,
+        "soleLongest": 6,
+        "longestGuessCorrect": 6
+      }
+    ],
+    "lengthExamples": [
+      {
+        "lesson": "87-end-to-end-safety-gate",
+        "question": 3,
+        "sizes": [
+          6,
+          74,
+          7,
+          7
+        ],
+        "correct": 1,
+        "ratio": 10.571428571428571
+      },
+      {
+        "lesson": "78-zero-parameter-sharding",
+        "question": 4,
+        "sizes": [
+          3,
+          2,
+          3,
+          26
+        ],
+        "correct": 3,
+        "ratio": 8.666666666666666
+      },
+      {
+        "lesson": "48-distributed-fsdp-ddp",
+        "question": 6,
+        "sizes": [
+          4,
+          34,
+          4,
+          4
+        ],
+        "correct": 1,
+        "ratio": 8.5
+      },
+      {
+        "lesson": "43-hdf5-tokenized-corpus",
+        "question": 5,
+        "sizes": [
+          5,
+          4,
+          4,
+          41
+        ],
+        "correct": 3,
+        "ratio": 8.2
+      },
+      {
+        "lesson": "42-large-corpus-downloader",
+        "question": 3,
+        "sizes": [
+          32,
+          4,
+          4,
+          4
+        ],
+        "correct": 0,
+        "ratio": 8.0
+      },
+      {
+        "lesson": "46-gradient-accumulation",
+        "question": 5,
+        "sizes": [
+          4,
+          4,
+          32,
+          4
+        ],
+        "correct": 2,
+        "ratio": 8.0
+      },
+      {
+        "lesson": "79-pipeline-parallel",
+        "question": 6,
+        "sizes": [
+          6,
+          4,
+          45,
+          5
+        ],
+        "correct": 2,
+        "ratio": 7.5
+      },
+      {
+        "lesson": "57-end-to-end-research-demo",
+        "question": 6,
+        "sizes": [
+          9,
+          11,
+          8,
+          75
+        ],
+        "correct": 3,
+        "ratio": 6.818181818181818
+      }
+    ],
+    "bodyCommandsToReproduce": [
+      {
+        "lesson": "58-vision-encoder-patches",
+        "line": 115,
+        "command": "python3 -m unittest code/test_main.py"
+      },
+      {
+        "lesson": "59-vit-transformer",
+        "line": 137,
+        "command": "python3 -m unittest code/test_main.py"
+      },
+      {
+        "lesson": "60-projection-layer-modality-align",
+        "line": 117,
+        "command": "python3 -m unittest code/test_main.py"
+      },
+      {
+        "lesson": "61-cross-attention-fusion",
+        "line": 126,
+        "command": "python3 -m unittest code/test_main.py"
+      },
+      {
+        "lesson": "62-vision-language-pretraining",
+        "line": 121,
+        "command": "python3 -m unittest code/test_main.py"
+      },
+      {
+        "lesson": "63-multimodal-eval",
+        "line": 142,
+        "command": "python3 -m unittest code/test_main.py"
+      }
+    ]
+  },
+  "bodyCommands": {
+    "environment": {
+      "os": "Linux",
+      "python": "3.14.10",
+      "workspace": "Actual prepareWorkspace output in a new temporary data directory"
+    },
+    "failures": [
+      {
+        "lesson": "58-vision-encoder-patches",
+        "command": "python3 -m unittest code/test_main.py",
+        "exitCode": 1,
+        "output": "E\n======================================================================\nERROR: test_main (unittest.loader._FailedTest.test_main)\n----------------------------------------------------------------------\nAttributeError: module 'code' has no attribute 'test_main'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)"
+      },
+      {
+        "lesson": "59-vit-transformer",
+        "command": "python3 -m unittest code/test_main.py",
+        "exitCode": 1,
+        "output": "E\n======================================================================\nERROR: test_main (unittest.loader._FailedTest.test_main)\n----------------------------------------------------------------------\nAttributeError: module 'code' has no attribute 'test_main'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)"
+      },
+      {
+        "lesson": "60-projection-layer-modality-align",
+        "command": "python3 -m unittest code/test_main.py",
+        "exitCode": 1,
+        "output": "E\n======================================================================\nERROR: test_main (unittest.loader._FailedTest.test_main)\n----------------------------------------------------------------------\nAttributeError: module 'code' has no attribute 'test_main'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)"
+      },
+      {
+        "lesson": "61-cross-attention-fusion",
+        "command": "python3 -m unittest code/test_main.py",
+        "exitCode": 1,
+        "output": "E\n======================================================================\nERROR: test_main (unittest.loader._FailedTest.test_main)\n----------------------------------------------------------------------\nAttributeError: module 'code' has no attribute 'test_main'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)"
+      },
+      {
+        "lesson": "62-vision-language-pretraining",
+        "command": "python3 -m unittest code/test_main.py",
+        "exitCode": 1,
+        "output": "E\n======================================================================\nERROR: test_main (unittest.loader._FailedTest.test_main)\n----------------------------------------------------------------------\nAttributeError: module 'code' has no attribute 'test_main'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)"
+      },
+      {
+        "lesson": "63-multimodal-eval",
+        "command": "python3 -m unittest code/test_main.py",
+        "exitCode": 1,
+        "output": "E\n======================================================================\nERROR: test_main (unittest.loader._FailedTest.test_main)\n----------------------------------------------------------------------\nAttributeError: module 'code' has no attribute 'test_main'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)"
+      }
+    ],
+    "guideComparison": [
+      {
+        "lesson": "58-vision-encoder-patches",
+        "command": "python3 -m unittest discover -s code -p test_main.py -v",
+        "exitCode": 0,
+        "tests": 9
+      },
+      {
+        "lesson": "62-vision-language-pretraining",
+        "command": "python3 -m unittest discover -s code -p test_main.py -v",
+        "exitCode": 0,
+        "tests": 7
+      }
+    ]
+  },
+  "publicQuiz": {
+    "method": "Fetch all 85 quizzes through the public endpoint; choose the first longest option after removing Markdown markers and whitespace; submit each quiz through the attempt endpoint",
+    "publicQuestionsExposeCorrectAnswer": false,
+    "total": 530,
+    "score": 464,
+    "references": 0,
+    "rows": [
+      {
+        "lesson": "practice/19-capstone-projects/01-terminal-native-coding-agent",
+        "score": 4,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/02-rag-over-codebase",
+        "score": 6,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/03-realtime-voice-assistant",
+        "score": 7,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/04-multimodal-document-qa",
+        "score": 6,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/05-autonomous-research-agent",
+        "score": 7,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/06-devops-troubleshooting-agent",
+        "score": 7,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/07-end-to-end-fine-tuning-pipeline",
+        "score": 5,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/08-production-rag-chatbot",
+        "score": 6,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/09-code-migration-agent",
+        "score": 7,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/10-multi-agent-software-team",
+        "score": 7,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/11-llm-observability-dashboard",
+        "score": 7,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/12-video-understanding-pipeline",
+        "score": 6,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/13-mcp-server-with-registry",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/14-speculative-decoding-server",
+        "score": 7,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/15-constitutional-safety-harness",
+        "score": 4,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/16-github-issue-to-pr-agent",
+        "score": 7,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/17-personal-ai-tutor",
+        "score": 7,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/20-agent-harness-loop-contract",
+        "score": 7,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/21-tool-registry-schema-validation",
+        "score": 4,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/22-jsonrpc-stdio-transport",
+        "score": 5,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/23-function-call-dispatcher",
+        "score": 7,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/24-plan-execute-control-flow",
+        "score": 5,
+        "total": 7,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/25-verification-gates-observation-budget",
+        "score": 3,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/26-sandbox-runner-denylist",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/27-eval-harness-fixture-tasks",
+        "score": 4,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/28-observability-otel-traces",
+        "score": 4,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/29-end-to-end-coding-task-demo",
+        "score": 3,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/30-bpe-tokenizer-from-scratch",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/31-tokenized-dataset-sliding-window",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/32-token-positional-embeddings",
+        "score": 4,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/33-multihead-self-attention",
+        "score": 4,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/34-transformer-block",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/35-gpt-model-assembly",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/36-training-loop-eval",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/37-loading-pretrained-weights",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/38-classifier-finetuning",
+        "score": 3,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/39-instruction-tuning-sft",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/40-dpo-from-scratch",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/41-eval-pipeline",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/42-large-corpus-downloader",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/43-hdf5-tokenized-corpus",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/44-cosine-lr-warmup",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/45-gradient-clipping-amp",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/46-gradient-accumulation",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/47-checkpoint-save-resume",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/48-distributed-fsdp-ddp",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/49-lm-eval-harness",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/50-hypothesis-generator",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/51-literature-retrieval",
+        "score": 3,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/52-experiment-runner",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/53-result-evaluator",
+        "score": 4,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/54-paper-writer",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/55-critic-loop",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/56-iteration-scheduler",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/57-end-to-end-research-demo",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/58-vision-encoder-patches",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/59-vit-transformer",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/60-projection-layer-modality-align",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/61-cross-attention-fusion",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/62-vision-language-pretraining",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/63-multimodal-eval",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/64-chunking-strategies-advanced",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/65-hybrid-retrieval-bm25-dense",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/66-reranker-cross-encoder",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/67-query-rewriting-hyde",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/68-rag-eval-precision-recall",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/69-end-to-end-rag-system",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/70-task-spec-format",
+        "score": 3,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/71-classical-metrics",
+        "score": 4,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/72-code-exec-metric",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/73-perplexity-calibration",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/74-leaderboard-aggregation",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/75-end-to-end-eval-runner",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/76-collective-ops-from-scratch",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/77-data-parallel-ddp",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/78-zero-parameter-sharding",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/79-pipeline-parallel",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/80-checkpoint-sharded-resume",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/81-end-to-end-distributed-train",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/82-jailbreak-taxonomy",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/83-prompt-injection-detector",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/84-refusal-evaluation",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/85-content-classifier-integration",
+        "score": 5,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/86-constitutional-rules-engine",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      },
+      {
+        "lesson": "practice/19-capstone-projects/87-end-to-end-safety-gate",
+        "score": 6,
+        "total": 6,
+        "preciseReferences": 0
+      }
+    ]
+  },
+  "catalogPerformance": {
+    "node": "v22.23.1",
+    "ioThreads": "64",
+    "targetMs": 100,
+    "targetMet": true,
+    "rounds": [
+      {
+        "samples": 20,
+        "medianMs": 71.65131700000006,
+        "minMs": 65.95854499999996,
+        "maxMs": 125.02000100000032
+      },
+      {
+        "samples": 20,
+        "medianMs": 70.282557,
+        "minMs": 65.69391499999983,
+        "maxMs": 97.71520199999986
+      },
+      {
+        "samples": 20,
+        "medianMs": 69.76988249999977,
+        "minMs": 63.33507700000064,
+        "maxMs": 77.73178000000007
+      }
+    ]
+  },
+  "regressions": {
+    "api": {
+      "passed": 45,
+      "failed": 0
+    },
+    "pythonScripts": {
+      "passed": 25,
+      "failed": 0
+    },
+    "existingBrowser": {
+      "specs": [
+        "capstone.spec.js",
+        "markdown.spec.js"
+      ],
+      "passed": 5,
+      "failed": 0,
+      "widths": [
+        1440,
+        375
+      ]
+    },
+    "temporaryBrowserDiagnostics": {
+      "passed": 3,
+      "failed": 0,
+      "widths": [
+        1440,
+        375
+      ],
+      "note": "One passing diagnostic confirms the answer-length and missing-reference findings; it is not a quiz-quality pass"
+    },
+    "p19TranslationStructure": {
+      "passed": 85,
+      "failed": 0
+    },
+    "sourceFingerprints": {
+      "passed": 1645,
+      "failed": 0
+    },
+    "richTheoryCards": {
+      "passed": 311,
+      "failed": 0
+    },
+    "publishedPhaseCoverage": {
+      "phases": 20,
+      "missingTranslations": 0,
+      "missingAssessments": 0,
+      "missingGuides": 0
+    },
+    "wholeLibraryAssessments": {
+      "questions": 2362,
+      "soleLongestCorrect": 1955,
+      "reviewedEvidence": 177,
+      "remainingEvidence": 2185
+    },
+    "repositoryHygiene": "passed",
+    "offlineLockCheck": "passed",
+    "remoteWorkflows": "Not triggered by this recheck"
+  }
+}

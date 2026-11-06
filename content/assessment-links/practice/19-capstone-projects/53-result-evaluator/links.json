@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/53-result-evaluator",
+  "translationSha256": "b9672bc02a5d58d036abd3437057c4746e743a260caea3254750a4caf9074efa",
+  "assessmentSha256": "b8bbd6d82eb1eb5f3f1588d9f0a8b428aee8fd5d970c18b05dc97ee18dcb2b95",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "53-result-evaluator-pre-1",
+      "status": "reviewed",
+      "headingId": "为什么使用配对检验",
+      "quote": "相同种子、相同数据下，候选和基线各运行一次。",
+      "reviewNote": "配对分析比较每个种子下的差值，再估计均值与不确定性；它不自动消除全部混杂，仍需满足样本与检验假设。"
+    },
+    {
+      "id": "53-result-evaluator-pre-2",
+      "status": "reviewed",
+      "headingId": "考虑方向的改进",
+      "quote": "有些指标越高越好（准确率、吞吐量），另一些越低越好",
+      "reviewNote": "direction 决定差值方向，使正向改进在不同指标上有一致含义。"
+    },
+    {
+      "id": "53-result-evaluator-check-3",
+      "status": "reviewed",
+      "headingId": "考虑方向的改进",
+      "quote": "低于阈值时，无论 p 值如何，判定都是“噪声”",
+      "reviewNote": "本课先检查效果大小，再看显著性；低于实用阈值的变化归入 noise，这个标签不表示变化在统计上不存在。"
+    },
+    {
+      "id": "53-result-evaluator-check-4",
+      "status": "reviewed",
+      "headingId": "对数归一化",
+      "quote": "先取自然对数，再计算改进值，随后在对数空间应用阈值。",
+      "reviewNote": "编者注：阈值意义取决于变换后使用的公式和尺度；取对数并不自动让不同指标的“2%”具有相同实用意义，应明确报告原值、变换与阈值定义。"
+    },
+    {
+      "id": "53-result-evaluator-check-5",
+      "status": "reviewed",
+      "headingId": "按种子配对检验",
+      "quote": "在有效配对样本少于两个时返回 `p_value=None`。",
+      "reviewNote": "n<2 时无法估计配对差值方差，助手返回 None，由判定路径处理证据不足。"
+    },
+    {
+      "id": "53-result-evaluator-check-6",
+      "status": "reviewed",
+      "headingId": "按种子配对检验",
+      "quote": "存在非 `ok` 结果就返回 `failed`，并在理由中记录异常终态",
+      "reviewNote": "本课不从部分崩溃的候选集合中挑选成功样本得出改进结论，而是明确报告失败。"
+    }
+  ]
+}

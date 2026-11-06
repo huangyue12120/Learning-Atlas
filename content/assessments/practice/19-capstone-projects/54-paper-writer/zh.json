@@ -13,10 +13,10 @@
       "stage": "pre",
       "question": "论文 writer 为什么先声明章节、图与引用，再生成正文？",
       "options": [
-        "BibTeX 不能处理前向引用",
-        "LaTeX 必须先声明所有对象",
-        "模型需要系统提示词",
-        "结构是契约，harness 可以在生成正文前检查完整性"
+        "BibTeX 无法处理任何前向引用",
+        "LaTeX 强制先声明全部图和章节",
+        "模型缺少这些字段就不能接收系统提示词",
+        "先固定结构契约，生成正文前即可检查完整性"
       ],
       "correct": 3,
       "explanation": "先声明结构便于检查标识唯一性、引文键与图引用覆盖，再调用正文生成器。"
@@ -26,10 +26,10 @@
       "stage": "pre",
       "question": "从实验 manifest 注入图像时，会生成什么？",
       "options": [
-        "稳定 id、且路径按论文目录规范化的 Figure 记录列表",
-        "参考文献占位文本",
-        "已编译的 PDF",
-        "带图像描述的模型提示词"
+        "稳定 ID、规范化路径的 Figure 列表",
+        "与全部参考文献一一对应的占位文本",
+        "已经包含图像和全部章节的编译 PDF",
+        "供模型使用、只含图像描述的提示词"
       ],
       "correct": 0,
       "explanation": "本课 read_experiment_manifest 读取图像路径、说明和稳定标识，不承担 PDF 编译。"
@@ -39,10 +39,10 @@
       "stage": "check",
       "question": "哪种错误会在写入任何文件前触发 PaperValidationError？",
       "options": [
-        "摘要超过 200 个词",
-        "作者数为奇数",
-        "章节引用了 bibliography 中没有声明的键",
-        "图像路径在磁盘上不存在"
+        "摘要中使用了超过 200 个单词",
+        "作者列表中包含奇数个作者",
+        "章节引用了未声明的参考文献键",
+        "图像相对路径对应的文件不存在"
       ],
       "correct": 2,
       "explanation": "缺失文献键、重复图 id、空标题/摘要、未知图引用等会被结构校验拒绝；本课不在这一层强制检查图文件存在。"
@@ -52,10 +52,10 @@
       "stage": "check",
       "question": "为何把正文生成器作为 callable 注入 PaperWriter？",
       "options": [
-        "测试可换成确定性的 MockProseGenerator，生产可换模型调用而不改 writer",
-        "LaTeX 要求使用回调",
-        "dataclass 无法保存状态",
-        "Python 方法不能接收 Paper"
+        "测试注入确定性生成器，生产替换模型而不改 writer",
+        "因为 LaTeX 语法要求正文必须来自 Python 回调",
+        "因为 dataclass 无法保存任何已经生成的正文状态",
+        "因为 Python 方法不能接收 Paper 类型的参数"
       ],
       "correct": 0,
       "explanation": "注入生成器隔开结构输出与正文生成机制，使两者能独立测试。"
@@ -78,10 +78,10 @@
       "stage": "post",
       "question": "为什么 writer 的契约包含 manifest，而不只包含 LaTeX？",
       "options": [
-        "批评器和面板需要稳定的结构化接口",
-        "BibTeX 只接受 manifest.json",
-        "LaTeX 文件太大，任何工具都无法解析",
-        "LaTeX 编译器拒绝无类型章节"
+        "给批评器和面板提供稳定的结构化接口",
+        "满足 BibTeX 只能读取 manifest.json 的限制",
+        "因为 LaTeX 文件太大，任何程序都无法解析",
+        "满足编译器拒绝无类型章节的固定要求"
       ],
       "correct": 0,
       "explanation": "manifest 向下游提供章节、图与引用等记录；LaTeX 负责排版源，两者服务不同的消费方式。"

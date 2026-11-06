@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/33-multihead-self-attention",
+  "translationSha256": "b50727269f33ac70c63fca7e6c84608bb8f5008e3b9b606f113371f9eea45949",
+  "assessmentSha256": "b11d72ccaa2d1d555f049e878b0c26c0fd7f35bf260774bea150b9995133c1db",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "33-multihead-self-attention-pre-1",
+      "status": "reviewed",
+      "headingId": "qkv-拆分与头重塑",
+      "quote": "两者在数学上等价，因为三个使用 (D,D) 权重的矩阵乘",
+      "reviewNote": "把三组权重沿输出轴堆叠可得到相同 QKV 结果，同时减少操作调度。融合投影不意味着三者使用同一组参数。"
+    },
+    {
+      "id": "33-multihead-self-attention-check-2",
+      "status": "reviewed",
+      "headingId": "形状契约",
+      "quote": "且必须满足 `D % H == 0`。",
+      "reviewNote": "本课将特征维平均分给各头，构造时检查整除条件。否则无法按指定形状重排成相同头宽。"
+    },
+    {
+      "id": "33-multihead-self-attention-check-3",
+      "status": "reviewed",
+      "headingId": "缩放",
+      "quote": "softmax 前将分数除以 sqrt(d_head)。",
+      "reviewNote": "点积沿单头维度求和，其尺度随 d_head 增长。除以该维度的平方根有助于控制 softmax 输入的方差。"
+    },
+    {
+      "id": "33-multihead-self-attention-check-4",
+      "status": "reviewed",
+      "headingId": "因果-mask",
+      "quote": "softmax 前把 (T,T) 分数矩阵对角线以上的每一项替换为负无穷",
+      "reviewNote": "负无穷分数经 softmax 后权重为零，同时保留当前位置及过去位置。仅把键置零通常仍会产生非零注意力权重。"
+    },
+    {
+      "id": "33-multihead-self-attention-post-5",
+      "status": "reviewed",
+      "headingId": "输出投影",
+      "quote": "输出投影让模型混合各个头",
+      "reviewNote": "输出投影跨拼接后的头特征作线性组合，整合各头信息。词表投影与归一化是其他模块的职责。"
+    },
+    {
+      "id": "33-multihead-self-attention-post-6",
+      "status": "reviewed",
+      "headingId": "qkv-拆分与头重塑",
+      "quote": "结果是每个头形状为 (B,H,T,T) 的注意力分数。",
+      "reviewNote": "后两轴分别对应查询和键位置，一行描述该查询如何汇聚值。它是权重分布，不能直接当成模型输出词表概率。"
+    }
+  ]
+}

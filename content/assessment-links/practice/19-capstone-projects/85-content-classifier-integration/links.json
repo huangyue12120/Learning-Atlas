@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/85-content-classifier-integration",
+  "translationSha256": "875193b563abcedf17bce41e9a4c771fa3569c2b54a2aa4715f460e66716e389",
+  "assessmentSha256": "17bf06aa9141d730103073016358c4f4e5e14e450311222e59f70d810a56ab32",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "85-content-classifier-integration-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "输入流水线未覆盖的任何新攻击家族都会直接落到用户面前。",
+      "reviewNote": "上游本题未提供解析。改编补充：正常输入也可能触发泄漏或不当输出；检查应在内容真正展示前生效，流式场景尤其如此。"
+    },
+    {
+      "id": "85-content-classifier-integration-pre-2",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "PII 分类器使用常见形态的标准正则表达式。指令泄露分类器",
+      "reviewNote": "上游本题未提供解析。改编补充：三者检查不同风险，具体实现是教学启发式，不代表覆盖所有毒性或个人数据模式。"
+    },
+    {
+      "id": "85-content-classifier-integration-check-3",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "路由器取所有分类器中的最高严重性，并应用对应操作。",
+      "reviewNote": "上游本题未提供解析。改编补充：最大严重度策略避免较弱动作盖过高风险阻断；具体映射属于可版本化政策。"
+    },
+    {
+      "id": "85-content-classifier-integration-check-4",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "再做 Luhn 校验，减少仅靠长度和形态匹配任意数字串的误报。",
+      "reviewNote": "上游本题未提供解析。改编补充：通过 Luhn 不证明号码真实或有效，也不能覆盖全部 PII，应与其他规则及脱敏范围共同检查。"
+    },
+    {
+      "id": "85-content-classifier-integration-check-5",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "将三元组重叠度与输出比较；高重叠度就是泄露信号。",
+      "reviewNote": "上游本题未提供解析。改编补充：表面相似度可发现部分复制，可能漏掉改写与编码泄漏，也可能误伤共同措辞。"
+    },
+    {
+      "id": "85-content-classifier-integration-post-6",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "做一个小型否定窗口检查",
+      "reviewNote": "上游本题未提供解析。改编补充：小窗口是简单启发式，仍可能误读双重否定、反讽或跨句范围，需保留反例。"
+    }
+  ]
+}

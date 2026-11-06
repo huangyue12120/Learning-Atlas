@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/23-function-call-dispatcher",
+  "translationSha256": "e217d4c5c75b07f6bd5a923583ebe366b3420c49ad96f2ab72bfed5631b20988",
+  "assessmentSha256": "bae5a56f7d5b7543b4a2d9051fa97b7fb029f053a4fe85b76302fa4d69611707",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "23-function-call-dispatcher-pre-1",
+      "status": "reviewed",
+      "headingId": "超时",
+      "quote": "一个超时的 `db.write` 可能已经提交，也可能没有提交；重试可能造成重复写入。",
+      "reviewNote": "超时不代表操作没有生效，例如数据库写入可能已完成但响应丢失。只有明确具备可重试语义时才可再次执行。"
+    },
+    {
+      "id": "23-function-call-dispatcher-pre-2",
+      "status": "reviewed",
+      "headingId": "幂等键去重",
+      "quote": "如果相同的键在某次调用到达时仍处于执行中，分发器就等待在途 future，并返回它的结果。",
+      "reviewNote": "相同逻辑操作的在途调用共享去重结果，避免慢原调用与重试并发执行。进程内缓存不自动提供跨重启去重保证。"
+    },
+    {
+      "id": "23-function-call-dispatcher-check-3",
+      "status": "reviewed",
+      "headingId": "指数退避重试",
+      "quote": "只有 `timeout` 和 `transient` 错误会重试。",
+      "reviewNote": "参数和工具不存在属于确定性错误，未知 internal 错误也不应盲目重试。只有幂等超时及显式临时错误进入重试路径。"
+    },
+    {
+      "id": "23-function-call-dispatcher-check-4",
+      "status": "reviewed",
+      "headingId": "扇出并发上限",
+      "quote": "每个调用在分发前获取信号量，在完成时释放。",
+      "reviewNote": "gather 可同时发起大量调用，信号量将并发执行数量限制在配置范围内。它控制资源压力，不判断参数正确与否。"
+    },
+    {
+      "id": "23-function-call-dispatcher-check-5",
+      "status": "reviewed",
+      "headingId": "幂等键去重",
+      "quote": "只根据参数推导键会让两个语义不同的调用看起来相同。",
+      "reviewNote": "调用方知道步骤、用户和规划意图，能够标识一次逻辑操作。相同参数可能代表两次应各自执行的请求。"
+    },
+    {
+      "id": "23-function-call-dispatcher-post-6",
+      "status": "reviewed",
+      "headingId": "错误包络",
+      "quote": "把 schema 校验失败映射为 JSON-RPC `-32602`。",
+      "reviewNote": "-32602 表示 Invalid params，在执行工具处理器之前返回。解析、未知方法和内部异常分别使用其他错误码。"
+    },
+    {
+      "id": "23-function-call-dispatcher-post-7",
+      "status": "reviewed",
+      "headingId": "错误包络",
+      "quote": "返回 `DispatchError(kind=\"timeout\", attempts=max_attempts)`",
+      "reviewNote": "分派器返回类型化错误封装，保留最后的超时类别和实际尝试次数，让上层明确知道重试预算已经耗尽。"
+    }
+  ]
+}

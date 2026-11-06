@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/52-experiment-runner",
+  "translationSha256": "314af9309e6956445531d17de1dd465769909b90cdaf43764a3b705145109d7c",
+  "assessmentSha256": "b08a95c67a9c8e826fbfaf5e7050ae182ff19c3e09475f85d5962568f1c10df3",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "52-experiment-runner-pre-1",
+      "status": "reviewed",
+      "headingId": "为什么使用子进程",
+      "quote": "独立进程、独立地址空间，以及父进程一侧的信号句柄。",
+      "reviewNote": "子进程提供独立地址空间和终止句柄，限制常见崩溃传播；它本身不是完整的恶意代码隔离机制。"
+    },
+    {
+      "id": "52-experiment-runner-pre-2",
+      "status": "reviewed",
+      "headingId": "为什么是软内存上限",
+      "quote": "进程可能在两次轮询之间短暂超过上限",
+      "reviewNote": "本课按采样观察内存并终止，不是内核即时强制的资源限制，因此检测粒度受轮询间隔影响。"
+    },
+    {
+      "id": "52-experiment-runner-check-3",
+      "status": "reviewed",
+      "headingId": "捕获-stdout-和-stderr",
+      "quote": "任何非零退出都会被标记为 \"crash\"，即使脚本输出了指标",
+      "reviewNote": "只有退出码为零且所需指标成功解析才算 ok；崩溃前输出的指标不能把非零退出变成成功。"
+    },
+    {
+      "id": "52-experiment-runner-check-4",
+      "status": "reviewed",
+      "headingId": "捕获-stdout-和-stderr",
+      "quote": "最后一行能解析为 JSON 且包含全部必需 metric_keys 的内容，会被作为指标块。",
+      "reviewNote": "日志可以混合普通文字与多轮指标；最后一个满足必需键的 JSON 是最终结果，前面的用于学习曲线。"
+    },
+    {
+      "id": "52-experiment-runner-check-5",
+      "status": "reviewed",
+      "headingId": "消融表",
+      "quote": "全因子扫描会指数级膨胀，并产生评估器无法解释的结果。",
+      "reviewNote": "单参数扫描控制实验数量并提供清楚的横轴；它也可能漏掉参数交互，不能替代所有因子实验。"
+    },
+    {
+      "id": "52-experiment-runner-check-6",
+      "status": "reviewed",
+      "headingId": "确定性",
+      "quote": "只有遵守该字段契约并设置其随机源的实验，才能据此控制随机过程。",
+      "reviewNote": "编者注：传递种子只建立复现接口，实验还必须实际使用它；非确定性算子、环境和外部输入仍可能使结果变化，不能承诺任意实验逐位一致。"
+    }
+  ]
+}

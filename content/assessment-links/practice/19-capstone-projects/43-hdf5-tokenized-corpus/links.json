@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/43-hdf5-tokenized-corpus",
+  "translationSha256": "9920946f6e6dfaf1d56ae576f8429447308a4c45865b18604ff00508b1750784",
+  "assessmentSha256": "f0eadbabcedee165d379a9177e0548cc156fca00f50ad720a2a1ab738695dfb1",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "43-hdf5-tokenized-corpus-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "它提供了分块、可调整大小、只含整数的数据集",
+      "reviewNote": "数据加载器需要对扁平词元流读取窗口，HDF5 提供直接索引和块缓存。实际 I/O 成本取决于块大小、压缩和缓存命中，不宜泛化为恒定时间读取任意切片。"
+    },
+    {
+      "id": "43-hdf5-tokenized-corpus-check-2",
+      "status": "reviewed",
+      "headingId": "生产实践",
+      "quote": "分块大小是否匹配窗口、一次读取跨几个块以及缓存命中情况都应实测",
+      "reviewNote": "匹配常用读取长度可减少跨块读取，但窗口起点和 T+1 目标也影响边界。吞吐改善应测量，不能仅凭倍数关系保证一次读完或固定翻倍。"
+    },
+    {
+      "id": "43-hdf5-tokenized-corpus-check-3",
+      "status": "reviewed",
+      "headingId": "生产实践",
+      "quote": "`token_count` 是显式元数据，并非掩盖尾部填零的必要条件。",
+      "reviewNote": "有效长度属于内容契约。编者注：本课写入器最终按有效长度 resize，shape 通常已等于 token_count；属性用于显式记录与校验，不表示这里必然存在零填充尾部。"
+    },
+    {
+      "id": "43-hdf5-tokenized-corpus-check-4",
+      "status": "reviewed",
+      "headingId": "正确使用可调整大小的-hdf5",
+      "quote": "缓冲区填满后，数据集恰好扩展 `chunk_size`，再把缓冲区写入新范围。",
+      "reviewNote": "按块扩展让写入批量化并匹配存储布局。它有助于减少碎片和调用开销，但并非保证磁盘连续分配的唯一办法。"
+    },
+    {
+      "id": "43-hdf5-tokenized-corpus-post-5",
+      "status": "reviewed",
+      "headingId": "生产实践",
+      "quote": "然后设置 file.swmr_mode=True。之后每次调整大小后，写入器都必须调用 dataset.flush()",
+      "reviewNote": "编者注：上游题目称写端无需特殊模式，与当前代码不符。写端先创建数据集，再设置 file.swmr_mode=True 并刷新数据；该模式仍只允许一个写入者。"
+    },
+    {
+      "id": "43-hdf5-tokenized-corpus-post-6",
+      "status": "reviewed",
+      "headingId": "使用",
+      "quote": "模型会学会把它作为序列分隔符使用。",
+      "reviewNote": "文档串接时插入边界标记，让模型能区分相邻文档。标记不自动禁止跨文档注意力；若需隔离，还要额外掩码。"
+    }
+  ]
+}

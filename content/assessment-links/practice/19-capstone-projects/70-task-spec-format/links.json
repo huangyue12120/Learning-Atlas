@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/70-task-spec-format",
+  "translationSha256": "2d4b5ca8729a0e23f6ffd2b8cef198f61549a55b8bc803896346f47416789317",
+  "assessmentSha256": "9e083d5c5c11a7c471f431d2adc19d639b8e968e01b5281083baacfb323913b0",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "70-task-spec-format-pre-1",
+      "status": "reviewed",
+      "headingId": "为什么要冻结规格",
+      "quote": "运行器读取任务，指标读取目标，后处理步骤规范化生成结果。",
+      "reviewNote": "schema 固定字段与类型，各层可围绕共同契约独立修改；扩展时仍需兼容策略与验证。"
+    },
+    {
+      "id": "70-task-spec-format-pre-2",
+      "status": "reviewed",
+      "headingId": "字段规则",
+      "quote": "`metric_name` 只能取 `exact_match`、`f1`、`bleu_4`、`rouge_l`、`accuracy`、`code_exec`。",
+      "reviewNote": "本课明确六种指标名；新增指标需同步 schema、验证器和分发实现，不必另造隐含规则。"
+    },
+    {
+      "id": "70-task-spec-format-check-3",
+      "status": "reviewed",
+      "headingId": "记录结构",
+      "quote": "顶层未知字段会导致校验失败。",
+      "reviewNote": "严格字段检查避免拼写错误被静默忽略；扩展数据应使用 schema 允许的入口。"
+    },
+    {
+      "id": "70-task-spec-format-check-4",
+      "status": "reviewed",
+      "headingId": "学习目标",
+      "quote": "把 few-shot 示例和后处理规则作为任务的一部分，而不是运行器的一部分",
+      "reviewNote": "把示例绑定到任务能减少跨模型的提示构造差异；具体适配器仍应忠实实现该契约。"
+    },
+    {
+      "id": "70-task-spec-format-check-5",
+      "status": "reviewed",
+      "headingId": "字段规则",
+      "quote": "`mcq` 任务必须使用针对单字母目标的 `metric_name = exact_match`。",
+      "reviewNote": "本课选择题只允许 exact_match 或 accuracy；单字母答案的 BLEU 不适合此任务契约。"
+    },
+    {
+      "id": "70-task-spec-format-post-6",
+      "status": "reviewed",
+      "headingId": "后处理规则",
+      "quote": "`Answer: C is correct` 返回 `C`",
+      "reviewNote": "编者注：当前代码优先找独立的 A–E 字母，再用 fallback；不是简单取任意首个大写 A–E，否则会错误提取 Answer 中的 A。"
+    }
+  ]
+}

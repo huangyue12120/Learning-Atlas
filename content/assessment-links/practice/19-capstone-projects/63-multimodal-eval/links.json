@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/63-multimodal-eval",
+  "translationSha256": "603afa9eeaaf0e1a0aa4b782b4244f4ce3c026d8e4e8f8abd589081b9f1cd1b4",
+  "assessmentSha256": "5540945f6690ec61b3a44fad280eb7bd4a4185a5a8887249c44f6ac46b3a09fd",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "63-multimodal-eval-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "训练损失只反映训练分布上的拟合",
+      "reviewNote": "在未参与训练的数据上分别测量任务指标，避免用训练集拟合代替可用性证据。"
+    },
+    {
+      "id": "63-multimodal-eval-pre-2",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "报告匹配图像是否落入前 1、前 5、前 10",
+      "reviewNote": "对每个查询检查目标是否在 top-5，再对查询取平均；本课每个查询使用已知匹配。"
+    },
+    {
+      "id": "63-multimodal-eval-check-3",
+      "status": "reviewed",
+      "headingId": "bleu-4",
+      "quote": "未平滑时，任一阶 precision 为零就会使乘积为零。",
+      "reviewNote": "几何平均强调多阶匹配，短文本或稀疏匹配的零项可用明确的 smoothing 规则处理。"
+    },
+    {
+      "id": "63-multimodal-eval-check-4",
+      "status": "reviewed",
+      "headingId": "bleu-4",
+      "quote": "在生成短于参考时小于 1，用来抑制只输出少量易匹配词而获得的虚高 precision。",
+      "reviewNote": "BP 惩罚相对参考过短的输出；一词输出并不在标准未平滑 BLEU-4 中自动得满分，还受高阶零匹配影响。"
+    },
+    {
+      "id": "63-multimodal-eval-check-5",
+      "status": "reviewed",
+      "headingId": "bleu-4",
+      "quote": "按参考答案中的最大计数进行 clipped count",
+      "reviewNote": "多参考覆盖更多合法表达；最终分数还受参考长度选择、BP 与平滑规则影响，不能只看计数。"
+    },
+    {
+      "id": "63-multimodal-eval-post-6",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "预测答案是否等于参考答案，再在评测集上取平均。",
+      "reviewNote": "这里描述评分步骤；产生答案的模型本身仍可能使用嵌入和神经网络。"
+    }
+  ]
+}

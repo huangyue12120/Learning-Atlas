@@ -10,6 +10,21 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class FollowupToolTests(unittest.TestCase):
+    def test_p19_option_length_is_not_a_dominant_answer_strategy(self):
+        questions = [question for path in sorted((ROOT / "content/assessments/practice/19-capstone-projects").glob("*/zh.json"))
+                     for question in json.loads(path.read_text(encoding="utf-8"))["questions"]]
+        self.assertEqual(len(questions), 530)
+        sole_longest = longest_guess = shortest_guess = 0
+        for question in questions:
+            sizes = [len(plain(option)) for option in question["options"]]
+            answer = question["correct"]
+            sole_longest += sizes[answer] == max(sizes) and sizes.count(sizes[answer]) == 1
+            longest_guess += sizes.index(max(sizes)) == answer
+            shortest_guess += sizes.index(min(sizes)) == answer
+        self.assertLess(sole_longest / len(questions), 1 / 3)
+        self.assertLess(longest_guess / len(questions), 0.4)
+        self.assertLess(shortest_guess / len(questions), 0.4)
+
     def test_base_environment_and_lock_only_require_lightweight_direct_dependencies(self):
         project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
         direct = {re.split(r"[<>=]", value)[0] for value in project["dependencies"]}

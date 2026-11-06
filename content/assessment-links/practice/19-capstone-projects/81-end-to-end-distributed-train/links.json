@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/81-end-to-end-distributed-train",
+  "translationSha256": "18bb51f8f9bdf859e52244821020d9af77b02d9d730dbaf5341e894bb63320bf",
+  "assessmentSha256": "e11869049b5a96714bd2bf4b07e9fb5b09de19af40316aaf5c67d202be3b33ba",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "81-end-to-end-distributed-train-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "如果组合错误，loss 会发散，检查点无法恢复",
+      "reviewNote": "集成测试覆盖 rendezvous、barrier 顺序、集合通信和检查点契约等跨模块关系，单元测试无法覆盖全部连接错误。"
+    },
+    {
+      "id": "81-end-to-end-distributed-train-pre-2",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "本课运行端到端演示并验证四个不变量",
+      "reviewNote": "编者注：范数一致是同步线索，不证明张量逐元素相同；状态恢复相等也不单独证明断电原子性，应查看具体比较与保存流程。"
+    },
+    {
+      "id": "81-end-to-end-distributed-train-check-3",
+      "status": "reviewed",
+      "headingId": "为什么使用微型-gpt-而不是只用-mlp",
+      "quote": "无法暴露组合是否正确处理 LayerNorm 或嵌入层的梯度形状。",
+      "reviewNote": "编者注：LayerNorm 通常不维护 BatchNorm 式运行均值/方差；原解析把 LayerNorm running statistics 当理由不准确，这里按真实算子与梯度路径说明。"
+    },
+    {
+      "id": "81-end-to-end-distributed-train-check-4",
+      "status": "reviewed",
+      "headingId": "自行结束意味着退出码-0",
+      "quote": "固定 20 步也不能防止单步死锁，CI 仍需外部超时。",
+      "reviewNote": "编者注：固定步数不能防止某一步死锁；CI 必须设置外部超时或进程回收，不能等待无限久后声称自动发现。"
+    },
+    {
+      "id": "81-end-to-end-distributed-train-check-5",
+      "status": "reviewed",
+      "headingId": "组合规则",
+      "quote": "梯度同步、主副本更新、参数广播",
+      "reviewNote": "避免重复规约；ZeRO 分片更新仍是优化器更新的一种组织方式，而不是取消优化器数学。"
+    },
+    {
+      "id": "81-end-to-end-distributed-train-post-6",
+      "status": "reviewed",
+      "headingId": "自行结束意味着退出码-0",
+      "quote": "墙钟检查点周期控制的是可能丢失的时间",
+      "reviewNote": "编者注：相同分钟数不是相同 FLOPs 或相同样本数；保存周期还需平衡失败率与写入开销，没有所有任务通用的固定分钟数。"
+    }
+  ]
+}

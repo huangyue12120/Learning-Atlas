@@ -85,6 +85,8 @@ sequenceDiagram
 
 `__getitem__` 内部完成错位，返回 `(input, target)`，其中 `input = window[:-1]`、`target = window[1:]`。两者都是 PyTorch long tensor，训练循环把它们当作真实目标。
 
+> **编者注：** 对长度为 `N` 的 ID 流，完整窗口需 `T+1` 个词元。起点每次增加 `S`，所以样本数为 `max(0, 1 + (N - (T + 1)) // S)`；窗口不足时为零。
+
 ## 确定性打乱
 
 `shuffle=True` 的 DataLoader 会从 PyTorch 随机生成器读取索引。显式传入按 epoch 播种的 `torch.Generator`，即可在重启后得到相同顺序。这个性质对比较只改变一个超参数的两次运行很重要；没有种子时，两次运行会以不同顺序看到数据，loss 曲线的差异就不一定来自那个改动。

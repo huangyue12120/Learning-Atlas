@@ -60,6 +60,8 @@ flowchart TB
 
 内联桩替代课程 50–53：它生成少量种子假设和同步收益函数。调整两个导入即可换成那些课程的真实原语。
 
+> **编者注：** 当前实现用 `importlib.util.spec_from_file_location` 按各课 `code/main.py` 的路径加载模块，并分配不同模块名；这些目录不是安装包，不能把多个同名 `main` 混为一次普通导入。
+
 ## 确定性保证
 
 演示从设计上就是确定性的：实验运行器使用带种子的 numpy；批评器修订器按固定维度和固定顺序遍历；论文写作者使用课程 54 的模拟文本生成器；UCB 选择器按迭代顺序处理平局，而不是随机选择。
@@ -78,6 +80,8 @@ flowchart TB
 ```
 
 每个字段都原样来自上游阶段。演示不转换输出，只负责组合；这正是演示要测试的内容。
+
+> **编者注：** `DemoReport` 汇总 `scheduler_report`、`best_branch`、`best_reward`、`critic_result`、`paper_manifest` 和 `stop_reason`，使各阶段结果可核查。
 
 ## 失败模式处理
 

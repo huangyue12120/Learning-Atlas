@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/21-tool-registry-schema-validation",
+  "translationSha256": "dbe2a07083114baaef88ef9885808c2e90212ee0bc83a62166dc97d13ec67ff3",
+  "assessmentSha256": "d803a6bc2f23d95153e12e7319c80d9c3608c9dddbab2e99e31290d18352c639",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "21-tool-registry-schema-validation-pre-1",
+      "status": "reviewed",
+      "headingId": "工具记录的形状",
+      "quote": "schema 是数据，handler 是代码。",
+      "reviewNote": "schema 描述输入结构，可由纯函数递归校验；处理器承担执行行为。二者分离后，校验无需执行工具代码。"
+    },
+    {
+      "id": "21-tool-registry-schema-validation-check-2",
+      "status": "reviewed",
+      "headingId": "json-schema-2020-12-子集",
+      "quote": "未加入的关键字（oneOf、anyOf、allOf、$ref、条件语句）",
+      "reviewNote": "组合与引用关键字增加分支及引用解析复杂度。本课限定子集以维持清晰的递归遍历，不宣称实现完整 JSON Schema。"
+    },
+    {
+      "id": "21-tool-registry-schema-validation-check-3",
+      "status": "reviewed",
+      "headingId": "注册与覆盖",
+      "quote": "默认拒绝重复注册；调用方必须传入 `override=True` 才能替换。",
+      "reviewNote": "要求显式 override=True 能暴露两个模块争用同名工具的情况。处理器允许有意替换，但调用方需要声明这一操作。"
+    },
+    {
+      "id": "21-tool-registry-schema-validation-check-4",
+      "status": "reviewed",
+      "headingId": "校验器是什么-又不是什么",
+      "quote": "明确拒绝把 `True` 或 `False` 当作 `integer` 或 `number`",
+      "reviewNote": "Python 中 bool 是 int 的子类，校验器需要额外排除 bool，才能保持 JSON 布尔值与整数的区别。"
+    },
+    {
+      "id": "21-tool-registry-schema-validation-post-5",
+      "status": "reviewed",
+      "headingId": "json-pointer-错误路径",
+      "quote": "错误应为 `/user/email`，并带有 `expected type: string`。",
+      "reviewNote": "校验器用 JSON Pointer 表达嵌套位置，先进入 user，再进入 email，因此报告 /user/email，而不是点分路径。"
+    },
+    {
+      "id": "21-tool-registry-schema-validation-post-6",
+      "status": "reviewed",
+      "headingId": "校验器是什么-又不是什么",
+      "quote": "恶意 handler 在通过校验后仍可能作恶",
+      "reviewNote": "输入形状正确只说明参数符合声明。处理器的副作用、超时和隔离仍需分派器与沙箱等独立机制约束。"
+    }
+  ]
+}

@@ -74,6 +74,8 @@ BLEU-4 为：
 
 小样本中零 precision 需要平滑；实现采用 Chen and Cherry method 1，在零计数时给分子和分母都加 1。
 
+> **编者注：** BLEU 的几何平均要求各阶 n-gram 共同贡献；未平滑时，任一阶 precision 为零就会使乘积为零。brevity penalty 在生成短于参考时小于 1，用来抑制只输出少量易匹配词而获得的虚高 precision。
+
 ### 合成评测套件
 
 内存中生成 50 个留出样本，沿用第 62 课的 mock corpus 模式，并使用独立的 held-out seed：
@@ -141,6 +143,8 @@ python3 code/main.py
 ```bash
 python3 -m unittest code/test_main.py
 ```
+
+> **编者注：** 在本课私人工作区根目录中，`code/` 会与 Python 标准库的 `code` 模块重名。请改用发现模式运行测试：`python3 -m unittest discover -s code -p "test_main.py" -v`。
 
 ## 练习
 

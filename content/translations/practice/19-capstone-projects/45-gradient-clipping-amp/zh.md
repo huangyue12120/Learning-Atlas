@@ -65,6 +65,8 @@ CPU autocast 是因为 CI 在 CPU 上运行；把 device_type 从 cpu 改为 cud
 
 `torch.amp.autocast(device_type)` 是有选择地以 FP16 执行适用操作的上下文管理器；`torch.amp.GradScaler(device_type)` 在反向前缩放损失，并在更新前反向缩放梯度。两者应配套使用。本课在 CI 中使用 CPU autocast；迁移到 CUDA 时只需把 `device_type="cpu"` 改为 `device_type="cuda"`。
 
+> **编者注：** BF16 的指数范围比 FP16 宽，通常可减少溢出与损失缩放需求；它仍可能产生 NaN/Inf，不能替代有限性检查。全局梯度裁剪限制的是梯度范数，不直接保证 AdamW 的参数更新范数。
+
 ### NaN 与 Inf 检测
 
 检测分两处进行：反向前用 `torch.isfinite` 检查损失；`scaler.unscale_(optimizer)` 后用 `has_non_finite_grad(...)` 扫描梯度。两处共同覆盖前向和反向失败。

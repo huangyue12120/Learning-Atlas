@@ -1,0 +1,19 @@
+npm notice run learning-atlas-local@0.33.0 test:browser
+npm notice run playwright test assessment-review.spec.js capstone.spec.js markdown.spec.js --grep length-only|P19 home|P19 reader|renders course Markdown|real lesson cards
+[WebServer] (node:3534394) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3534394) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+
+Running 6 tests using 1 worker
+
+(node:3534461) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node-22 --trace-warnings ...` to show where the warning was created)
+P19 length-only score: 170/530; paragraph references: 530
+  ✓  1 tests/browser/assessment-review.spec.js:64:1 › reviewed 19-capstone-projects length-only strategy stays below 40% with complete feedback evidence (2.9s)
+  ✓  2 tests/browser/capstone.spec.js:9:34 › P19 home entry, theory cards, quiz drafts and phase navigation at 1440px (6.0s)
+  ✓  3 tests/browser/capstone.spec.js:9:34 › P19 home entry, theory cards, quiz drafts and phase navigation at 375px (10.3s)
+  ✓  4 tests/browser/capstone.spec.js:54:1 › P19 reader withholds stale content and quizzes (527ms)
+  ✓  5 tests/browser/markdown.spec.js:3:1 › renders course Markdown safely with stable anchors, math and exact code (588ms)
+  ✓  6 tests/browser/markdown.spec.js:23:1 › real lesson cards, formulas and diagrams stay readable in either theme (1.2s)
+
+  6 passed (23.8s)

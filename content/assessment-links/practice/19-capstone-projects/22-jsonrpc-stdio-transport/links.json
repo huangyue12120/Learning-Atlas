@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/22-jsonrpc-stdio-transport",
+  "translationSha256": "0bb01078ad74ea13e534b1bc23b37cdffc80213992fa737ca12c322e4ef87782",
+  "assessmentSha256": "9bd560d216a87c0b7c6ba51a781b14895bcb6c1c5e3e79fe28577edb247b01e0",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "22-jsonrpc-stdio-transport-pre-1",
+      "status": "reviewed",
+      "headingId": "线路形状",
+      "quote": "通知没有 id。服务器不得响应通知。",
+      "reviewNote": "通知省略 id，因而没有可用于关联响应的请求标识。方法名或是否放入批次都不是区分通知的条件。"
+    },
+    {
+      "id": "22-jsonrpc-stdio-transport-pre-2",
+      "status": "reviewed",
+      "headingId": "线路形状",
+      "quote": "JSON 字符串内部的换行写成转义序列 `\\n`，外层换行才是消息边界。",
+      "reviewNote": "本课把每个对象编码成单行 JSON，字符串内的换行转义为字符序列，因此行分隔符可标识记录边界。分帧不依赖管道原子写入。"
+    },
+    {
+      "id": "22-jsonrpc-stdio-transport-check-3",
+      "status": "reviewed",
+      "headingId": "换行-framing-与-bytesio-演示",
+      "quote": "如果某行无法解析，传输层会写出一个 `id: null` 的 `-32700` 响应",
+      "reviewNote": "-32700 表示 Parse error。解析失败时无法可靠提取请求 id，所以错误响应使用 null id。"
+    },
+    {
+      "id": "22-jsonrpc-stdio-transport-check-4",
+      "status": "reviewed",
+      "headingId": "五种错误码",
+      "quote": "传输层会把它包装为 `-32603`，并把异常类名放入 `data.exception`。",
+      "reviewNote": "未映射的普通异常转为 -32603，data.exception 保存异常类型。只有显式参数错误映射才应使用 -32602。"
+    },
+    {
+      "id": "22-jsonrpc-stdio-transport-check-5",
+      "status": "reviewed",
+      "headingId": "线路形状",
+      "quote": "通知没有 id。服务器不得响应通知。",
+      "reviewNote": "通知不产生响应，纯通知批次也必须保持静默。输出空数组或 null 仍然是额外响应，不符合这里的批次规则。"
+    },
+    {
+      "id": "22-jsonrpc-stdio-transport-post-6",
+      "status": "reviewed",
+      "headingId": "换行-framing-与-bytesio-演示",
+      "quote": "流不会被污染，下一行会从头解析。",
+      "reviewNote": "一行的解析错误只影响这一条记录。保持行边界并继续读取，才能避免坏输入污染后续独立消息。"
+    },
+    {
+      "id": "22-jsonrpc-stdio-transport-post-7",
+      "status": "reviewed",
+      "headingId": "方法分发",
+      "quote": "传输层负责 JSON-RPC，注册表负责工具形状，第二十三课的分发器把二者串起来。",
+      "reviewNote": "传输负责线路格式，分派器再衔接注册表、校验和超时。这样同一传输可以服务不同处理逻辑。"
+    }
+  ]
+}

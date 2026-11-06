@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/60-projection-layer-modality-align",
+  "translationSha256": "248b6fa59e77dc53efb4f2fd4f843a28713e03c1ebbf8bdd33df334716ba4482",
+  "assessmentSha256": "cc54418a6f3b31abd290ef39a534d41ed7574f0c0e673db163ff431aa7aac651",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "60-projection-layer-modality-align-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "它们位于编码器在纯视觉预训练中学到的基底里，与解码器的词向量没有关系。",
+      "reviewNote": "桥接模块把视觉特征映射到解码器可用的表示；即使维数相等，也不表示语义坐标天然对齐。"
+    },
+    {
+      "id": "60-projection-layer-modality-align-pre-2",
+      "status": "reviewed",
+      "headingId": "为什么用两层而不是一层",
+      "quote": "两层线性层之间加入 GELU 后，投影具备一个非线性弯折",
+      "reviewNote": "两层 MLP 可比单个线性映射表达更多关系；“足够”依赖任务、特征和训练数据，不是所有模态对齐的通用保证。"
+    },
+    {
+      "id": "60-projection-layer-modality-align-check-3",
+      "status": "reviewed",
+      "headingId": "冻结编码器是关键技巧",
+      "quote": "重组件冻结，轻量桥接层训练。",
+      "reviewNote": "冻结视觉编码器与文本表，使训练信号集中在投影层；这是本课阶段设计，不代表所有适配器式 VLM 都永久冻结主干。"
+    },
+    {
+      "id": "60-projection-layer-modality-align-check-4",
+      "status": "reviewed",
+      "headingId": "余弦对齐损失",
+      "quote": "范围是 0（完全对齐）到 2（方向相反）。",
+      "reviewNote": "损失为 1-cos，反向向量的 cos=-1，因此损失为 2。"
+    },
+    {
+      "id": "60-projection-layer-modality-align-check-5",
+      "status": "reviewed",
+      "headingId": "投影前的池化",
+      "quote": "对齐时每个样本需要一个图像级向量。",
+      "reviewNote": "CLS 已通过编码器与 patch 交互；读取 CLS 不增加池化参数，但不表示 patch 未参与计算。"
+    },
+    {
+      "id": "60-projection-layer-modality-align-post-6",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "视觉编码器保持冻结，文本嵌入表保持冻结，只有投影层会变化。",
+      "reviewNote": "这里对应 LLaVA 的桥接预训练思路；本课的合成目标与规模不等于完整 LLaVA 训练或后续指令微调。"
+    }
+  ]
+}

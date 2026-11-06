@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/74-leaderboard-aggregation",
+  "translationSha256": "24161c0705762d1f32f8c4077850691271e81eb536f800dd5307694e3b3e5b45",
+  "assessmentSha256": "ff4c8fb43019bff2af4dbd9912a93f579d67c48a1a68eac1885ec5fc9f329ad6",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "74-leaderboard-aggregation-pre-1",
+      "status": "reviewed",
+      "headingId": "规范化",
+      "quote": "后者会悄悄支配均值。",
+      "reviewNote": "归一化在指标层完成并在聚合层校验；共同范围仍不意味着各任务具有相同难度或实用价值。"
+    },
+    {
+      "id": "74-leaderboard-aggregation-pre-2",
+      "status": "reviewed",
+      "headingId": "均值与胜率",
+      "quote": "它对离群值和尺度差异不那么敏感，但会丢失分数的具体信息。",
+      "reviewNote": "某模型可能靠少量大胜抬高均分，却输掉多数任务；胜率也会丢失胜负幅度，应并列解释。"
+    },
+    {
+      "id": "74-leaderboard-aggregation-check-3",
+      "status": "reviewed",
+      "headingId": "bootstrap-置信区间",
+      "quote": "每次抽取同样数量的任务，计算重采样集合的均值",
+      "reviewNote": "这是本课的非参数百分位 bootstrap；仍依赖样本代表性与重采样单位选择，不能称为无任何假设。"
+    },
+    {
+      "id": "74-leaderboard-aggregation-check-4",
+      "status": "reviewed",
+      "headingId": "bootstrap-置信区间",
+      "quote": "区间不包含零时，才认为在 alpha 水平上有显著差异",
+      "reviewNote": "这是当前区间规则下的操作判据；不代表零差值的后验概率，也不替代效果大小和多重比较控制。"
+    },
+    {
+      "id": "74-leaderboard-aggregation-check-5",
+      "status": "reviewed",
+      "headingId": "bootstrap-置信区间",
+      "quote": "成对比较则对逐任务差值 score_A-score_B 做 bootstrap",
+      "reviewNote": "各轮使用相同任务集合比较两模型，避免打散难度对应关系；任务相关性仍需按设计处理。"
+    },
+    {
+      "id": "74-leaderboard-aggregation-post-6",
+      "status": "reviewed",
+      "headingId": "类别",
+      "quote": "可以发现模型总体强但代码弱的情况",
+      "reviewNote": "分类别报告帮助识别收益集中或能力短板；也应报告样本数与类别权重。"
+    }
+  ]
+}

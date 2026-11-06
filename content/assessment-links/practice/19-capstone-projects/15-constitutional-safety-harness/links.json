@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/15-constitutional-safety-harness",
+  "translationSha256": "d8cb5aff00a844784c37cb073e615042095a2540df204c687113273d7cb5cc14",
+  "assessmentSha256": "8748fb16f81d7ec2a2750595d34002f58dabc7ce05ab2d63cd3fc075b36ae58e",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "15-constitutional-safety-harness-pre-1",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "安全流水线有五层。",
+      "reviewNote": "不同层处理输入操纵、政策、输出风险和升级处置。课程要求组合这些控制，单个分类器或全量人工审核没有体现该架构。"
+    },
+    {
+      "id": "15-constitutional-safety-harness-pre-2",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "X-Guard（132 种语言）处理多语言越狱",
+      "reviewNote": "课程锁定的方案用 X-Guard 处理多语言覆盖。这里识别的是本课的职责分配，实际覆盖质量仍需按语言评测。"
+    },
+    {
+      "id": "15-constitutional-safety-harness-check-3",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "在良性提示套件（例如 XSTest）上追踪误报率。目标模型必须继续对良性问题提供帮助。",
+      "reviewNote": "良性问题被错误拒绝属于假阳性。只关注攻击拦截率可能把拒绝所有请求误当成有效防护，因此需要独立测量过度拒答。"
+    },
+    {
+      "id": "15-constitutional-safety-harness-check-4",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "批评者提出异议的提示会被重写；目标模型在批评改进后的样本对上微调。",
+      "reviewNote": "循环把明确规则转成评议与修改信号，并利用改进样本训练。它包含多步处理，不等于一次分类或对攻击提示词排序。"
+    },
+    {
+      "id": "15-constitutional-safety-harness-check-5",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "为每次成功越狱按 CVSS 4.0 评分（攻击向量、复杂度、影响）。生成披露时间线和缓解计划。",
+      "reviewNote": "课程要求采用可审计的维度说明风险及披露过程。提示长度和模型名字均不足以衡量实际攻击影响。"
+    },
+    {
+      "id": "15-constitutional-safety-harness-post-6",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "六类攻击：(1) PAIR 自动越狱；(2) TAP 攻击树；(3) GCG 梯度后缀；(4) ASCII/base64/rot13 编码；(5) 多轮角色扮演；(6) 多语言代码切换。",
+      "reviewNote": "指定套件包括 PAIR、TAP、GCG，ASCII/base64/rot13 编码，多轮人设和多语言混用。分布距离与文本指标不是这份攻击分类。"
+    },
+    {
+      "id": "15-constitutional-safety-harness-post-7",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "以上内容都由 cron 运行，发现写入队列，过度拒答回归告警发送到 Slack。",
+      "reviewNote": "攻击与模型行为会随版本和数据变化，定期重复测试才能观察趋势。调度自动化不应关闭原有防护，也不替代结果分析。"
+    }
+  ]
+}

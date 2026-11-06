@@ -13,10 +13,10 @@
       "stage": "pre",
       "question": "本课端到端研究演示的主要职责是什么？",
       "options": [
-        "比较调度器与基线性能",
-        "每个分支都调用真实语言模型",
-        "用新框架替代之前课程",
-        "用普通 Python 导入组合之前课程的基础组件"
+        "比较新调度器与全部已有基线的性能",
+        "让每个分支都调用一个真实外部语言模型",
+        "采用新框架，替换此前课程的全部接口",
+        "用普通 Python 导入组合前面课程的组件"
       ],
       "correct": 3,
       "explanation": "演示把调度、选择、写作与批评结果接起来，是组合契约的测试，不另造框架。"
@@ -26,10 +26,10 @@
       "stage": "pre",
       "question": "为什么用 importlib 按路径加载前面的课程？",
       "options": [
-        "importlib 总是更快",
-        "各课是独立 code/ 目录而非安装包，需要从文件位置加载",
-        "asyncio 强制要求它",
-        "不同课程绝不能有同名模块"
+        "因为 importlib 在所有程序中都比 import 更快",
+        "各课独立 code 目录非安装包，按路径加载",
+        "asyncio 只能运行由 importlib 加载的函数",
+        "因为 Python 禁止不同目录包含同名模块"
       ],
       "correct": 1,
       "explanation": "spec_from_file_location 能给独立 main.py 分配加载名并按文件位置导入，因此私人工作区必须保留相邻课程布局。"
@@ -39,10 +39,10 @@
       "stage": "check",
       "question": "多个分支触发论文后，如何选择最佳分支？",
       "options": [
-        "选平均奖励最高者，平局按 branch id 字母序",
-        "选实验数最多者",
-        "随机选择以保证公平",
-        "选第一个触发者"
+        "均值最高优先，平局按分支 ID 字母序",
+        "实验次数最多优先，忽略各次实验收益",
+        "随机选取任一触发分支以保证公平",
+        "总是选择最先触发论文的分支"
       ],
       "correct": 0,
       "explanation": "奖励均值与确定性平局规则使选择可复现；触发顺序不直接决定最终分支。"
@@ -52,10 +52,10 @@
       "stage": "check",
       "question": "若调度结果没有任何论文触发，选择器如何响应？",
       "options": [
-        "抛 ValueError",
-        "返回 None 后继续写作",
-        "抛 PaperValidationError",
-        "抛 NoTriggerError，在 writer 运行前终止"
+        "抛出无具体原因的普通 ValueError",
+        "返回 None，并把空值继续交给 writer",
+        "用写作阶段的 PaperValidationError 表示",
+        "抛 NoTriggerError，阻止进入 writer"
       ],
       "correct": 3,
       "explanation": "明确的类型化失败避免把不完整输入传入论文 writer，报错位置也更清楚。"
@@ -65,10 +65,10 @@
       "stage": "post",
       "question": "确定性测试为什么用同一种子运行两次？",
       "options": [
-        "检查内存泄漏",
-        "检查所选分支、奖励与论文章节 id 是否一致",
-        "只是为了调用 asyncio 两次",
-        "证明调度公平"
+        "统计两次运行的常驻内存差以检查泄漏",
+        "比较分支、奖励和论文章节标识的一致性",
+        "只为确保 asyncio 事件循环能调用两次",
+        "以重复运行证明调度对所有分支完全公平"
       ],
       "correct": 1,
       "explanation": "该测试固定演示所依赖的确定性契约，不证明真实外部模型或异步服务也能逐位复现。"
@@ -78,10 +78,10 @@
       "stage": "post",
       "question": "成功后的演示报告包含什么？",
       "options": [
-        "只有最终 LaTeX",
-        "只有实验数和状态字符串",
-        "只有模型调用日志",
-        "scheduler_report、best_branch、best_reward、critic_result、paper_manifest、stop_reason"
+        "只含最终 LaTeX 文本，不含任何阶段结果",
+        "只含实验总次数和一个运行状态字符串",
+        "只含每次模型调用的原始提示词与回复",
+        "含调度报告、最佳分支/收益、批评与论文清单及停止原因"
       ],
       "correct": 3,
       "explanation": "报告保留各阶段结构化结果，便于下游读取产物与调试调度轨迹。"

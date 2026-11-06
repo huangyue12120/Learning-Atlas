@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/24-plan-execute-control-flow",
+  "translationSha256": "e48fe07c75e79c3c5ae2a5d65b91b7a1e2635da6289658ac0243ae99e374786f",
+  "assessmentSha256": "835b23d71193291d7aa0abad639732a424750a3ddcbc783e21d3856b65602b24",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "24-plan-execute-control-flow-pre-1",
+      "status": "reviewed",
+      "headingId": "计划并执行-而不是思维链",
+      "quote": "先输出结构化计划，再确定性地执行每一步。",
+      "reviewNote": "规划器输出结构化计划，执行器负责推进并调用工具。分工让计划修订与执行策略可以分别测试。"
+    },
+    {
+      "id": "24-plan-execute-control-flow-pre-2",
+      "status": "reviewed",
+      "headingId": "step-的形状",
+      "quote": "重规划器会在修订计划时读取它，事件流也会发出它",
+      "reviewNote": "expected_outcome 为读计划的人和重规划逻辑说明步骤目的。存在该字段不表示执行器已经自动验证了结果。"
+    },
+    {
+      "id": "24-plan-execute-control-flow-check-3",
+      "status": "reviewed",
+      "headingId": "修订时的计划差异",
+      "quote": "执行器会发出带有三个字段的 `plan.diff` 事件。",
+      "reviewNote": "plan.diff 使计划变化可见，便于核对失败后的修订。静默替换会丢失重规划发生过的审计证据。"
+    },
+    {
+      "id": "24-plan-execute-control-flow-check-4",
+      "status": "reviewed",
+      "headingId": "两个硬预算",
+      "quote": "`max_steps` 限制整个会话（包括重规划）中的步骤执行总数",
+      "reviewNote": "步骤预算限制执行扩张，重规划预算限制反复返回失败计划。单一计数无法同时表达这两种资源边界。"
+    },
+    {
+      "id": "24-plan-execute-control-flow-check-5",
+      "status": "reviewed",
+      "headingId": "规划器的形状",
+      "quote": "首次规划返回空列表时，会返回 `status=\"failed\"`、`reason=\"no_plan\"`",
+      "reviewNote": "没有计划便没有可执行步骤，本课返回失败原因 no_plan。空列表不自动证明目标已经达成。"
+    },
+    {
+      "id": "24-plan-execute-control-flow-post-6",
+      "status": "reviewed",
+      "headingId": "修订时的计划差异",
+      "quote": "revised: list of step ids whose tool_name or args changed",
+      "reviewNote": "revised 比较保留 ID 的工具名和参数签名。新增与删除分别进入 added、removed，不混入修订集合。"
+    },
+    {
+      "id": "24-plan-execute-control-flow-post-7",
+      "status": "reviewed",
+      "headingId": "如何阅读代码",
+      "quote": "重规划耗尽并返回 `failed:replan_budget`",
+      "reviewNote": "返回 replan_budget 并标记失败，历史中仍保留已执行步骤及触发重规划的错误。预算耗尽不能当成成功完成。"
+    }
+  ]
+}

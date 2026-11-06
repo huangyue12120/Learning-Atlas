@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/08-production-rag-chatbot",
+  "translationSha256": "cfe6e199f9b83d512c59932d4988b10c33040e6bac6ecb5161a4341f527aa771",
+  "assessmentSha256": "6cd92af10341a175b80d03411f45b4afca3fd5685ee1a2cca40459dca4050731",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "08-production-rag-chatbot-pre-1",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "流水线必须设计稳定的前缀（先放系统提示词 + 重排后的上下文），才能取得高缓存命中率。",
+      "reviewNote": "重复的系统指令和政策可复用缓存，减少计费开销。该收益依赖前缀、命中率及提供商定价，缓存本身不保证答案正确或检索质量。"
+    },
+    {
+      "id": "08-production-rag-chatbot-pre-2",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "将系统提示词 + 静态策略放入缓存头；将重排后的上下文作为缓存扩展；用户问题作为不缓存的后缀。",
+      "reviewNote": "相对稳定的内容放在可复用前缀，变化的用户问题放在后面。调整顺序的目的是增加前缀复用，而非靠随机填充提高命中。"
+    },
+    {
+      "id": "08-production-rag-chatbot-check-3",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "先按角色 + 司法辖区过滤；再并行执行稠密检索 + BM25",
+      "reviewNote": "先限制可见数据再排序，可避免越权证据流入后续模型。仅在输出端过滤仍会让未授权内容进入上下文。"
+    },
+    {
+      "id": "08-production-rag-chatbot-check-4",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "Presidio 清理输出中意外出现的 PII；后置过滤器强制引用。",
+      "reviewNote": "课程组合内容检测、政策约束、个人信息清理和引用门禁，各层处理不同风险。任何单一检测器都没有覆盖全部要求。"
+    },
+    {
+      "id": "08-production-rag-chatbot-check-5",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "Arize Phoenix 每周追踪检索质量（nDCG、引用忠实度）。下降 5% 时报警。",
+      "reviewNote": "漂移检查聚焦检索与证据质量的持续变化。新增文档是正常更新事件，必须结合质量信号才能判断是否回归。"
+    },
+    {
+      "id": "08-production-rag-chatbot-post-6",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "由领域专家对 200 对问答以（答案、引用）标注。",
+      "reviewNote": "本课用 200 对专家标注且含引用的问答检验答案与证据。数量和标注来源都是该黄金集的验收条件。"
+    },
+    {
+      "id": "08-production-rag-chatbot-post-7",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "RAGAS 自动逐回合评分忠实度、答案相关性和上下文精确率。",
+      "reviewNote": "这组指标分别检查答案依据、问题回应程度和检索上下文的有效性。费用和基础设施指标可补充观测，但没有直接评价回答质量。"
+    }
+  ]
+}

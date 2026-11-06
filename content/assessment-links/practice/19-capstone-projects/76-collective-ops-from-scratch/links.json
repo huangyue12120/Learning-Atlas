@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/76-collective-ops-from-scratch",
+  "translationSha256": "2bc2d7d815f5f9e85d59dc3067a72ecc93f524fa671029fa53589eab774eb17a",
+  "assessmentSha256": "7fa554872f8081e49c668f54116be01743a2e191cf39e548ee604aa5ba33bcaa",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "76-collective-ops-from-scratch-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "每个 rank 的字节数降为 2T(N-1)/N",
+      "reviewNote": "reduce-scatter 与 allgather 各发送 N-1 个 T/N 分块；此为理想整除时的发送量，接收量对称，填充和协议开销另计。"
+    },
+    {
+      "id": "76-collective-ops-from-scratch-pre-2",
+      "status": "reviewed",
+      "headingId": "用队列网格替代-nccl",
+      "quote": "以单生产者、单消费者的方式提供有序点对点传递。",
+      "reviewNote": "编者注：队列演示支持理解调度与竞态，不等价于 NCCL 的网络、GPU 同步、容错或性能特征。"
+    },
+    {
+      "id": "76-collective-ops-from-scratch-check-3",
+      "status": "reviewed",
+      "headingId": "两遍环形-allreduce",
+      "quote": "N-1 步之后，rank r 持有分块 r 的完整求和结果。",
+      "reviewNote": "后续 allgather 再分发已完成的块，使每个 rank 得到完整规约结果；块归属需与实现索引一致。"
+    },
+    {
+      "id": "76-collective-ops-from-scratch-check-4",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "通过对数深度的树执行广播。",
+      "reviewNote": "这是理想并行链路和每跳延迟占主导时的分析；实际收益受拓扑、消息大小和拥塞影响。"
+    },
+    {
+      "id": "76-collective-ops-from-scratch-check-5",
+      "status": "reviewed",
+      "headingId": "对照-gloo-验证",
+      "quote": "使用 `max_abs_diff < 1e-5` 判定",
+      "reviewNote": "编者注：当前 verify_against_gloo 判定为 max_abs_diff<1e-5，并非普遍逐字节相等；浮点规约顺序可能造成微小差异，单批通过也不构成算法形式证明。"
+    },
+    {
+      "id": "76-collective-ops-from-scratch-post-6",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "对于较小的 N 和高延迟链路，树形 `allreduce` 更有优势",
+      "reviewNote": "交叉点取决于设备、链路、拓扑与实现，不能把固定约 1 MB 当成所有 NCCL 环境的切换阈值。"
+    }
+  ]
+}

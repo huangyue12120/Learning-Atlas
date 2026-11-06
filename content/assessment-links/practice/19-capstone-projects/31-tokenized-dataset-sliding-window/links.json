@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/31-tokenized-dataset-sliding-window",
+  "translationSha256": "a3fa3aa071b7cc69223168f1ff6811a93acb4a41d48889dd6e57ca23c2b81e34",
+  "assessmentSha256": "387ac5209f1ccae4ea4c71f167e29001149fbade71197e1fb7d490f9ec79776e",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "31-tokenized-dataset-sliding-window-pre-1",
+      "status": "reviewed",
+      "headingId": "基本框架",
+      "quote": "因果语言模型使用形状 (B, T) 的输入和目标，目标是输入左移一位。",
+      "reviewNote": "每个位置的输出预测后一个词元，因此输入取窗口前 T 个 ID，目标取后 T 个 ID。两者形状相同，但位置对齐不同。"
+    },
+    {
+      "id": "31-tokenized-dataset-sliding-window-check-2",
+      "status": "reviewed",
+      "headingId": "dataset-类",
+      "quote": "样本数为 `max(0, 1 + (N - (T + 1)) // S)`",
+      "reviewNote": "首窗起点为 0，之后每次增加 S，末窗仍须容纳 T+1 个 ID。该公式假设 S 为正整数，并将放不下首窗的情况计为 0。"
+    },
+    {
+      "id": "31-tokenized-dataset-sliding-window-check-3",
+      "status": "reviewed",
+      "headingId": "为什么使用滑动窗口",
+      "quote": "步长为 T//2 时重叠一半，有效数据集约翻倍",
+      "reviewNote": "更小步幅会生成更多重叠窗口，增加边界覆盖与每轮计算量。由于端点取整，样本数不一定精确翻倍。"
+    },
+    {
+      "id": "31-tokenized-dataset-sliding-window-check-4",
+      "status": "reviewed",
+      "headingId": "确定性打乱",
+      "quote": "显式传入按 epoch 播种的 torch.Generator，即可在重启后得到相同顺序。",
+      "reviewNote": "固定生成器种子可控制采样顺序，便于公平比较不同运行。完整复现还取决于其他随机源和执行环境。"
+    },
+    {
+      "id": "31-tokenized-dataset-sliding-window-post-5",
+      "status": "reviewed",
+      "headingId": "基本框架",
+      "quote": "目标是输入左移一位。",
+      "reviewNote": "两个切片分别给出上下文及其下一词元，长度均为 T。它们表达训练目标，不是任意的张量裁剪。"
+    },
+    {
+      "id": "31-tokenized-dataset-sliding-window-post-6",
+      "status": "reviewed",
+      "headingId": "形状契约",
+      "quote": "末尾不足 T+1 个 ID 的窗口会被丢弃；补 <|pad|> 也可行，但会增加 loss mask 的复杂度",
+      "reviewNote": "固定长度构造简化批处理与损失计算，但会舍弃末尾不足一窗的数据。填充并非不可实现，只是需要相应掩码。"
+    }
+  ]
+}

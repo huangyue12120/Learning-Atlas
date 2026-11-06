@@ -94,6 +94,8 @@ flowchart TD
 
 code_exec 指标在移除过 builtins 的命名空间中运行预测。本课测试断言 `import os` 会失败，因为 `os` 不在命名空间中；代码预测无法接触文件系统。
 
+> **编者注：** 缩减 `__builtins__` 只是让本课的 `import os` 示例因缺少导入器而失败，不构成运行任意恶意 Python 的安全边界。这里的 `code_exec` 只应用于可信课程样例；不能由“导入失败”推断“代码无法访问文件系统”。
+
 ### 模型适配器
 
 adapter 是唯一的模型接缝。课程提供的 ToyAdapter 是一个确定性的模式匹配器，能对五个 fixture 任务返回正确答案；真实 adapter 负责调用模型并返回输出，harness 不关心它是哪一种模型。

@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/50-hypothesis-generator",
+  "translationSha256": "dcaf61aefe0f6bc8efa8f767aff819c0017b8cccbaaa8b3d7c5d9f25463cfe0d",
+  "assessmentSha256": "e3e3bdfa50f58cecd986b6ed73884a5d900b9503f97bda02fdd70d65f9998d83",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "50-hypothesis-generator-pre-1",
+      "status": "reviewed",
+      "headingId": "为什么要先生成再过滤",
+      "quote": "第一个假设失败时，运行器可以直接使用下一个",
+      "reviewNote": "排序队列把一次采样的成本分摊给多个候选，首项失败后不必立即重新采样。"
+    },
+    {
+      "id": "50-hypothesis-generator-pre-2",
+      "status": "reviewed",
+      "headingId": "为什么要先生成再过滤",
+      "quote": "采样器每轮提高一点温度，鼓励后续草稿探索更远。",
+      "reviewNote": "真实模型中温度调高会改变采样分布；本课用脚本草稿模拟更多样的候选，再由新颖性过滤器筛选。"
+    },
+    {
+      "id": "50-hypothesis-generator-check-3",
+      "status": "reviewed",
+      "headingId": "新颖性过滤",
+      "quote": "最小距离大于 `novelty_threshold` 时，它才会通过",
+      "reviewNote": "以到已有候选的最小距离衡量新颖性；距离太小表示近重复，应丢弃。"
+    },
+    {
+      "id": "50-hypothesis-generator-check-4",
+      "status": "reviewed",
+      "headingId": "排名分数",
+      "quote": "novelty_score 是与既有幸存项的最小嵌入距离",
+      "reviewNote": "本课按权重组合 novelty、specificity、testability；各子分数限定在零到一之间。"
+    },
+    {
+      "id": "50-hypothesis-generator-check-5",
+      "status": "reviewed",
+      "headingId": "温度递增",
+      "quote": "模拟模型根据 `(prompt, temp_bucket)` 切换脚本响应。",
+      "reviewNote": "温度桶把调度映射到有限草稿库；相邻温度可能跨桶，但不是任何微小变化都会产生新草稿。"
+    },
+    {
+      "id": "50-hypothesis-generator-check-6",
+      "status": "reviewed",
+      "headingId": "输出队列",
+      "quote": "返回空队列，并在逐轮拒绝记录中保留解析失败原因",
+      "reviewNote": "解析失败被写入日志；队列允许为空，调用方可以据日志解释失败，而非把空结果当作成功。"
+    }
+  ]
+}

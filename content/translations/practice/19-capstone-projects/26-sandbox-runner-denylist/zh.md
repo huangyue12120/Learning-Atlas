@@ -93,6 +93,8 @@ flowchart LR
 
 对于生产智能体，你还要在其上叠加非特权 Docker 容器或 microVM、删除 capabilities、以只读方式挂载项目根并让 scratch 目录可写、设置内存和 CPU 的 ulimit，并把环境清理成已知安全的白名单。课程 29 会做其中一部分。操作系统隔离不在本课范围内。
 
+> **编者注：** 内存上限是待实现的扩展。在支持 `resource` 的 POSIX 单线程启动路径中，可在 `subprocess.run` 的 `preexec_fn` 调用 `resource.setrlimit(resource.RLIMIT_AS, ...)`；这限制虚拟地址空间，不是跨平台隔离，也不适用于多线程进程中的通用启动方式。
+
 ## 运行
 
 ```bash

@@ -64,6 +64,8 @@ fixture 中的 bug 是 fizz.py 里的差一错误。确定性策略通过正则�
 cg-harness-weave
 ```
 
+> **编者注：** 当前实现先判断 `GateChain`，允许后进入工具 `SpanBuilder` 上下文，再运行 `Sandbox`，最后写入 `ObservationLedger`。真实模型接入后可能需要更多步骤；`step_budget` 仍是硬上限，未解决时 `AgentRunReport` 以 `solved=False` 和 `halted_reason` 报告停止原因。
+
 ## 架构
 
 ```mermaid

@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/71-classical-metrics",
+  "translationSha256": "8547b734864f7df44acb100675a9900aab0f772cf6f29d384914080f6188e51e",
+  "assessmentSha256": "894133d9721de8c988d32b1d28c2c6daedfa0e020e581bf4cf3c23cf4094a612",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "71-classical-metrics-pre-1",
+      "status": "reviewed",
+      "headingId": "分词",
+      "quote": "更换分词器就等于运行另一个基准。",
+      "reviewNote": "BLEU 与词元 F1 对分词和规范化敏感，报告应能追溯评分所用规则。"
+    },
+    {
+      "id": "71-classical-metrics-pre-2",
+      "status": "reviewed",
+      "headingId": "bleu-4",
+      "quote": "把候选 n-gram 的计数截断为该 n-gram 在任一参考答案中的最大计数",
+      "reviewNote": "裁剪计数防止反复输出同一匹配短语来无限增加命中次数。"
+    },
+    {
+      "id": "71-classical-metrics-check-3",
+      "status": "reviewed",
+      "headingId": "bleu-4",
+      "quote": "候选长度为 c、参考长度为 r 时，c>=r 则惩罚为 1，否则为 exp(1-r/c)。",
+      "reviewNote": "候选长度 c<参考长度 r 时使用 exp(1-r/c) 一类惩罚；空候选等边界还需单独处理。"
+    },
+    {
+      "id": "71-classical-metrics-check-4",
+      "status": "reviewed",
+      "headingId": "rouge-l",
+      "quote": "ROUGE-L 比较候选与参考词元序列的最长公共子序列。",
+      "reviewNote": "用 LCS 长度计算 precision 与 recall，再组合为 F 型分数；子序列允许中间不连续。"
+    },
+    {
+      "id": "71-classical-metrics-check-5",
+      "status": "reviewed",
+      "headingId": "词元级-f1",
+      "quote": "在预测与参考都为空时返回 `1.0`",
+      "reviewNote": "空对空约定为完全匹配；一方为空而另一方非空则为零，其他完全匹配也可得到一。"
+    },
+    {
+      "id": "71-classical-metrics-post-6",
+      "status": "reviewed",
+      "headingId": "分派契约",
+      "quote": "唯一入口是 score(metric_name, prediction, targets)",
+      "reviewNote": "例如 summary 可用 rouge_l 或 bleu_4；分发器读取指标名，不把类别与唯一公式绑死。"
+    }
+  ]
+}

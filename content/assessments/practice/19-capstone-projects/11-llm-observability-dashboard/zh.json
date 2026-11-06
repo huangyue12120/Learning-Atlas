@@ -13,10 +13,10 @@
       "stage": "pre",
       "question": "Langfuse、Phoenix 和 OpenLLMetry 在本课接入哪种摄取格式？",
       "options": [
-        "Prometheus 展示格式",
-        "经 OTLP HTTP 传输的 OpenTelemetry GenAI 语义约定",
-        "各厂商自有 JSON",
-        "纯 CSV 日志"
+        "Prometheus 指标展示格式",
+        "OTLP HTTP 的 GenAI 语义 span",
+        "各 SDK 厂商的私有 JSON 格式",
+        "统一列顺序的纯 CSV 事件日志"
       ],
       "correct": 1,
       "explanation": "GenAI span 使用统一语义，并经 OTLP HTTP 进入收集器。Prometheus 主要提供指标展示格式，不能替代完整 trace 数据模型。"
@@ -26,10 +26,10 @@
       "stage": "pre",
       "question": "存储层为什么同时使用 ClickHouse 和 Postgres？",
       "options": [
-        "两者可随意互换",
-        "Postgres 的 span 摄取更快",
-        "ClickHouse 处理 span 列式分析，Postgres 保存用户、会话与应用元数据",
-        "ClickHouse 不能存字符串"
+        "把相同数据重复写入两者，查询时可随意互换",
+        "Postgres 接收全部 span，ClickHouse 只存用户",
+        "ClickHouse 分析 span，Postgres 保存元数据",
+        "ClickHouse 无法存字符串，必须另存提示词"
       ],
       "correct": 2,
       "explanation": "课程按访问模式分工：大量 span 的分析查询与事务型应用元数据分别存储。选择不是基于 ClickHouse 不支持某种基本数据类型。"
@@ -39,10 +39,10 @@
       "stage": "check",
       "question": "OpenTelemetry Collector 的尾部采样处理器做什么？",
       "options": [
-        "trace 完成后按规则决定保留，例如保留错误并抽样成功请求",
-        "把旧 trace 重放到 Postgres",
-        "无条件传输每个字节",
-        "截掉低于 100 ms 的 span"
+        "trace 完成后按错误、成功等规则选择保留",
+        "按采集时间重放旧 trace，全部写入 Postgres",
+        "跳过抽样策略，无条件传输每条 trace 的内容",
+        "仅根据每个 span 是否低于 100 ms 将其截掉"
       ],
       "correct": 0,
       "explanation": "尾部采样能利用完整 trace 的状态作决定，适合优先保留错误。它与按持续时间截断单个 span 或无条件全量保存不同。"
@@ -52,10 +52,10 @@
       "stage": "check",
       "question": "仪表盘如何检测跨周漂移？",
       "options": [
-        "统计唯一 trace ID 数量",
-        "比较提示词嵌入的 PSI 或 KL，并观察评测分数趋势",
-        "人工目测仪表盘",
-        "读取最近一次部署时间"
+        "统计不同 trace ID 数量的周环比变化",
+        "比较提示嵌入 PSI/KL 与评测分数趋势",
+        "仅由值班人员观察图形并主观判断",
+        "仅比较最近一次部署与当前查询的时间差"
       ],
       "correct": 1,
       "explanation": "分布距离提示输入变化，评测趋势补充质量信号。部署时间和请求数量可以辅助排查，但不能单独证明模型行为漂移。"
@@ -67,8 +67,8 @@
       "options": [
         "少于 1 小时",
         "24 小时以内",
-        "从部署缺陷到 Slack 告警少于 5 分钟",
-        "下一轮值班以内"
+        "少于 5 分钟",
+        "下一轮值班内"
       ],
       "correct": 2,
       "explanation": "课程通过注入泄漏缺陷检验检测链路，目标是 5 分钟内告警。该测试验证从数据摄取到规则触发的整个过程。"
@@ -78,10 +78,10 @@
       "stage": "post",
       "question": "trace 覆盖率要求哪些 SDK 族产生规范 GenAI span？",
       "options": [
-        "只需 OpenAI 和 Anthropic",
-        "任意一个 SDK 即可",
-        "仅需 vLLM",
-        "至少六类：OpenAI、Anthropic、Google GenAI、LangChain、LlamaIndex、vLLM"
+        "OpenAI、Anthropic、Prometheus、Grafana、ClickHouse、Postgres",
+        "Bun、Ink、Tantivy、Qdrant、kuzu、tree-sitter",
+        "vLLM、CUDA、NCCL、gloo、DeepSpeed、Megatron",
+        "OpenAI、Anthropic、Google、LangChain、LlamaIndex、vLLM"
       ],
       "correct": 3,
       "explanation": "课程要求跨这六类接入点保持一致的可观测数据，避免只验证单一调用路径。统一 span 语义使跨框架比较成为可能。"
@@ -91,10 +91,10 @@
       "stage": "post",
       "question": "评测结果如何关联回原始 LLM 调用？",
       "options": [
-        "另存无 trace ID 的 Postgres 表",
-        "每晚通过邮件发送 CSV",
-        "只写 Slack 消息",
-        "作为原始 trace 的子评测 span 写入 ClickHouse"
+        "在 Postgres 中另存结果，不带原 trace ID",
+        "每晚导出 CSV 经邮件发送，省略在线关联",
+        "把评测结论只写入 Slack，不保存调用关系",
+        "写成关联父 trace 的 ClickHouse 评测 span"
       ],
       "correct": 3,
       "explanation": "父子 span 关系把评分与对应调用绑定，支持从质量回归追溯输入和模型请求。没有关联标识的离线列表无法完成这条追踪链。"

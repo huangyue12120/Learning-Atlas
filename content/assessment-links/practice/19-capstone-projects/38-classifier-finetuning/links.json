@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/38-classifier-finetuning",
+  "translationSha256": "71b093f090f118cfef426111c60a071a738ea4dd1a0a6b363a8798019212618b",
+  "assessmentSha256": "2a8338c32e2df6e14a6faaa533d628a092e67894692af43f84113a45632234fa",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "38-classifier-finetuning-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "替换头部并冻结主体，或者替换头部并让主体继续训练。",
+      "reviewNote": "先保留预训练表示并替换任务头，能把架构适配与微调范围分开决策。是否解冻主体再由数据量和领域差异决定。"
+    },
+    {
+      "id": "38-classifier-finetuning-check-2",
+      "status": "reviewed",
+      "headingId": "池化问题",
+      "quote": "沿序列求平均，并使用 attention mask 加权。",
+      "reviewNote": "主体仍为填充位置产生隐藏向量，直接平均会把这些无效位置混入表示。偏移方向取决于隐藏值，并不一定严格朝零。"
+    },
+    {
+      "id": "38-classifier-finetuning-check-3",
+      "status": "reviewed",
+      "headingId": "你将构建什么",
+      "quote": "优化器应根据当前可训练的参数组进行配置。",
+      "reviewNote": "冻结策略改变参数的 requires_grad，过滤后优化器只管理对应子集。切换训练范围无需重写每一步的训练逻辑。"
+    },
+    {
+      "id": "38-classifier-finetuning-check-4",
+      "status": "reviewed",
+      "headingId": "指标",
+      "quote": "F1 = 2 * P * R / (P + R)",
+      "reviewNote": "F1=2PR/(P+R)=2×0.9×0.6/1.5=0.72。它是调和平均，不是两者的算术平均 0.75。"
+    },
+    {
+      "id": "38-classifier-finetuning-post-5",
+      "status": "reviewed",
+      "headingId": "延伸目标",
+      "quote": "对头部使用余弦调度、对主体使用更小的恒定学习率，是常见的生产配置。",
+      "reviewNote": "较大的主体更新可能破坏已有表示，可用不同学习率参数组验证这一假设。单次分数下降仍需结合训练曲线和其他条件排查。"
+    },
+    {
+      "id": "38-classifier-finetuning-post-6",
+      "status": "reviewed",
+      "headingId": "你将构建什么",
+      "quote": "`TrainReport.trainable` 记录可训练参数计数",
+      "reviewNote": "可训练参数量直接区分仅头部与全量训练，需与配置一起保存。效果指标不能唯一反推出哪些参数参与训练。"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/36-training-loop-eval",
+  "translationSha256": "f5ea1bd384db40f94cf9e6b1a59b468d8cddb5502e4bf31090171c81adf27183",
+  "assessmentSha256": "3d5f7e721c62514928aad686d48055d1e7ab94e3db8efa3ab62c9bfd613c4a6b",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "36-training-loop-eval-pre-1",
+      "status": "reviewed",
+      "headingId": "损失对齐",
+      "quote": "不做错位就会训练模型预测自身。",
+      "reviewNote": "输入 0 到 T−1 对齐目标 1 到 T，形成因果下一词元目标。计算交叉熵时可展平为 (B×T,V) 和 (B×T)。"
+    },
+    {
+      "id": "36-training-loop-eval-pre-2",
+      "status": "reviewed",
+      "headingId": "留出集评估",
+      "quote": "不计算梯度、不使用 dropout，返回平均损失",
+      "reviewNote": "评测设置 eval 模式并关闭梯度，固定验证范围以便比较。评测结束后还需恢复训练模式，避免影响后续 dropout。"
+    },
+    {
+      "id": "36-training-loop-eval-check-3",
+      "status": "reviewed",
+      "headingId": "adamw-衰减拆分",
+      "quote": "权重衰减用于矩阵权重，不用于归一化缩放和 bias",
+      "reviewNote": "课程按参数形状分组，矩阵接受衰减，一维尺度和偏置不接受。它是采用的优化策略，不表示其他分组在数学上不允许。"
+    },
+    {
+      "id": "36-training-loop-eval-check-4",
+      "status": "reviewed",
+      "headingId": "预热加余弦调度",
+      "quote": "预热让学习率从零升到目标，余弦衰减则在剩余步骤中降回接近零",
+      "reviewNote": "预热阶段逐步增加更新尺度，之后让学习率平滑减小。检查端点与阶段切换有助于发现偏移一位错误。"
+    },
+    {
+      "id": "36-training-loop-eval-check-5",
+      "status": "reviewed",
+      "headingId": "生产环境中的模式",
+      "quote": "在 backward 后、step 前使用梯度范数裁剪，默认上限 1.0。",
+      "reviewNote": "范数裁剪只在梯度超过阈值时整体缩放，限制异常更新幅度。阈值需要结合任务评估，1.0 不是所有训练的通用最优值。"
+    },
+    {
+      "id": "36-training-loop-eval-post-6",
+      "status": "reviewed",
+      "headingId": "生产环境中的模式",
+      "quote": "即使崩溃也留下可读、可 grep、可绘图的产物",
+      "reviewNote": "JSONL 把每步观察保存为独立可读记录，避免与某个 Python 模块布局强绑定。恢复训练仍需完整检查点，日志不能替代权重与优化器状态。"
+    }
+  ]
+}

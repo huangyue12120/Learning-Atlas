@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/64-chunking-strategies-advanced",
+  "translationSha256": "223f4dacacf710561fa8a017d0ce430d43c73bff5710936dd9e409a63429e306",
+  "assessmentSha256": "b51318a7158f4834ee525d0f7d0aa5cb749146be6735ef23b1615a84fdc118fd",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "64-chunking-strategies-advanced-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "若固定窗口把阈值从周围上下文切开",
+      "reviewNote": "编者注：破碎片段不必然不可恢复，重叠、多块联合和重建上下文可能补救；分块质量设置信息边界，但不是所有下游方法都绝无修复能力。"
+    },
+    {
+      "id": "64-chunking-strategies-advanced-pre-2",
+      "status": "reviewed",
+      "headingId": "不运行-benchmark-也能选择默认策略",
+      "quote": "不确定时选择递归切分",
+      "reviewNote": "递归切分逐级尝试分隔符，能应对结构不一致的区域；这是起点，仍应在实际语料评估，而非通用最优策略。"
+    },
+    {
+      "id": "64-chunking-strategies-advanced-check-3",
+      "status": "reviewed",
+      "headingId": "recall-k-如何衡量边界",
+      "quote": "检查 top-k 块是否与 gold span 重叠",
+      "reviewNote": "本课使用任意重叠命中，再对查询平均；部分重叠未必覆盖完整答案，应与更严格覆盖指标区分。"
+    },
+    {
+      "id": "64-chunking-strategies-advanced-check-4",
+      "status": "reviewed",
+      "headingId": "不应隐藏的失败模式",
+      "quote": "固定窗口切开代码或 YAML 标识符",
+      "reviewNote": "字符边界不理解语法结构；重叠或结构切分可以缓解，不能声称所有固定窗口都会嵌入成噪声。"
+    },
+    {
+      "id": "64-chunking-strategies-advanced-check-5",
+      "status": "reviewed",
+      "headingId": "语义聚类",
+      "quote": "在与中心的相似度低于阈值时切开。",
+      "reviewNote": "本课用当前 chunk 的向量质心与下一句比较，低于阈值则开启新块；阈值与嵌入版本应记录。"
+    },
+    {
+      "id": "64-chunking-strategies-advanced-post-6",
+      "status": "reviewed",
+      "headingId": "不应隐藏的失败模式",
+      "quote": "更换该模型也会改变块。应单独固定分块模型与检索模型，或同时重建索引。",
+      "reviewNote": "边界依赖分块用的嵌入模型；应分别固定分块模型与检索模型，升级时检查兼容性并按需重建。"
+    }
+  ]
+}

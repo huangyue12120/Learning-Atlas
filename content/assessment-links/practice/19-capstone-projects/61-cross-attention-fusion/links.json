@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/61-cross-attention-fusion",
+  "translationSha256": "42377797da83d28873e255cddf977d2405103b8a78ba92c3f6ae33bcadd7c234",
+  "assessmentSha256": "86f33ff592f69fa3b013fa4791b922030b23bda442a767f0e064c559e4dca929",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "61-cross-attention-fusion-pre-1",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "把图像和文本拼成一条序列是早期融合；交叉注意力则是晚期融合。",
+      "reviewNote": "这是本课使用的架构分类；融合方式会影响掩码形状和 KV 缓存设计，不只是执行先后顺序。"
+    },
+    {
+      "id": "61-cross-attention-fusion-pre-2",
+      "status": "reviewed",
+      "headingId": "使用",
+      "quote": "自注意力用因果掩码、交叉注意力不用",
+      "reviewNote": "文本位置不能读取未来文本，但可以读取当前已给出的所有图像 patch；若 memory 存在 padding 等仍可能需要相应掩码。"
+    },
+    {
+      "id": "61-cross-attention-fusion-check-3",
+      "status": "reviewed",
+      "headingId": "键-值缓存",
+      "quote": "后续每个文本词元直接复用缓存而不重新计算。",
+      "reviewNote": "缓存减少重复计算，但每步的查询投影、注意力和读缓存仍有成本；图像或权重变化时缓存须失效。"
+    },
+    {
+      "id": "61-cross-attention-fusion-check-4",
+      "status": "reviewed",
+      "headingId": "测试",
+      "quote": "交叉注意力输出形状都是 `(B, Nt, hidden)`",
+      "reviewNote": "输出长度跟随 query，即文本的 Nt；197 是 key/value 长度，出现在注意力权重轴而非最终输出序列轴。"
+    },
+    {
+      "id": "61-cross-attention-fusion-check-5",
+      "status": "reviewed",
+      "headingId": "为什么交叉注意力不需要掩码",
+      "quote": "整幅图像在文本生成前已观测完毕",
+      "reviewNote": "无需按未来文本限制图像访问；这不排除其他任务为 padding、分块可见性或流式视频增加掩码。"
+    },
+    {
+      "id": "61-cross-attention-fusion-post-6",
+      "status": "reviewed",
+      "headingId": "块组合",
+      "quote": "初始化为零的可学习 tanh 门控",
+      "reviewNote": "初值为零时新增视觉残差不改变原文本路径，训练后门值逐渐调整；这有助于稳定接入，但不保证所有训练设置稳定。"
+    }
+  ]
+}

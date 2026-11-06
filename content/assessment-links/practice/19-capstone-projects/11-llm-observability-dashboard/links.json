@@ -1,0 +1,58 @@
+{
+  "lessonId": "practice/19-capstone-projects/11-llm-observability-dashboard",
+  "translationSha256": "772b3d96b80a7c64d9f539d618cdffbae7bbea4754ffc63b8f2d78bf797c0d00",
+  "assessmentSha256": "26a10a1375a5e631e89e02b5ecd10894b084d67bddb9d799c7131ede025fdc5c",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "11-llm-observability-dashboard-pre-1",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "摄取使用 OTLP HTTP。SDK 产生 GenAI 语义约定 span",
+      "reviewNote": "GenAI span 使用统一语义，并经 OTLP HTTP 进入收集器。Prometheus 主要提供指标展示格式，不能替代完整 trace 数据模型。"
+    },
+    {
+      "id": "11-llm-observability-dashboard-pre-2",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "span 进入 ClickHouse 做列式分析，元数据（用户、会话、应用）进入 Postgres",
+      "reviewNote": "课程按访问模式分工：大量 span 的分析查询与事务型应用元数据分别存储。选择不是基于 ClickHouse 不支持某种基本数据类型。"
+    },
+    {
+      "id": "11-llm-observability-dashboard-check-3",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "尾部抽样器（保留 100% 的错误 trace 和 10% 的成功 trace）",
+      "reviewNote": "尾部采样能利用完整 trace 的状态作决定，适合优先保留错误。它与按持续时间截断单个 span 或无条件全量保存不同。"
+    },
+    {
+      "id": "11-llm-observability-dashboard-check-4",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "漂移检测观察随时间变化的嵌入空间分布（对提示嵌入计算 PSI 或 KL 散度），以及评测分数趋势。",
+      "reviewNote": "分布距离提示输入变化，评测趋势补充质量信号。部署时间和请求数量可以辅助排查，但不能单独证明模型行为漂移。"
+    },
+    {
+      "id": "11-llm-observability-dashboard-check-5",
+      "status": "reviewed",
+      "headingId": "问题",
+      "quote": "仪表盘能在五分钟内捕获它并触发告警。",
+      "reviewNote": "课程通过注入泄漏缺陷检验检测链路，目标是 5 分钟内告警。该测试验证从数据摄取到规则触发的整个过程。"
+    },
+    {
+      "id": "11-llm-observability-dashboard-post-6",
+      "status": "reviewed",
+      "headingId": "动手构建",
+      "quote": "使用每个 SDK（OpenAI、Anthropic、Google、LangChain、LlamaIndex、vLLM）和 OpenLLMetry 自动埋点编写小型客户端应用。",
+      "reviewNote": "课程要求跨这六类接入点保持一致的可观测数据，避免只验证单一调用路径。统一 span 语义使跨框架比较成为可能。"
+    },
+    {
+      "id": "11-llm-observability-dashboard-post-7",
+      "status": "reviewed",
+      "headingId": "concept",
+      "quote": "以和父 trace 关联的评测 span 形式存储。",
+      "reviewNote": "父子 span 关系把评分与对应调用绑定，支持从质量回归追溯输入和模型请求。没有关联标识的离线列表无法完成这条追踪链。"
+    }
+  ]
+}

@@ -1,0 +1,1046 @@
+{
+  "date": "2026-11-07",
+  "version": "0.33.0",
+  "baselineCommit": "c872c104c3a2ca26dc491880c7a0f252c337d89d",
+  "reviewer": "Codex, explicitly authorized by the user to fix the five P19 recheck findings; not an external human sign-off",
+  "sourceRevisions": {
+    "practice": "d7b5633f91591ee3bf55c8d80831b515498cc0e6",
+    "theory": "9850ee574a370bc1cde59de98b394e953775b67d"
+  },
+  "method": {
+    "optionLength": "assessment_review.plain; ties choose first option for longest/shortest strategies",
+    "mapping": "Each question compared with an explicit lesson paragraph, code block or table cell; reviewed attribution and current SHA-256 bound per lesson",
+    "browser": "All 530 feedback links submitted and clicked in rendered lessons at alternating 375/1440px with reduced motion; ordinary-motion P19 reader covered separately",
+    "scope": "No new theory associations; no upstream or learner data changes"
+  },
+  "summary": {
+    "questions": 530,
+    "beforeSoleLongest": 456,
+    "afterSoleLongest": 130,
+    "beforeLongestGuess": 464,
+    "afterLongestGuess": 170,
+    "beforeShortestGuess": 13,
+    "afterShortestGuess": 124,
+    "reviewedEvidence": 530,
+    "lessons": 85,
+    "changedQuestions": 476,
+    "changedOptions": 1865
+  },
+  "byLesson": [
+    {
+      "lesson": "01-terminal-native-coding-agent",
+      "questions": 7,
+      "beforeSoleLongest": 3,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 4,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "02-rag-over-codebase",
+      "questions": 7,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 1,
+      "afterShortestGuess": 4,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "03-realtime-voice-assistant",
+      "questions": 7,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 3,
+      "beforeLongestGuess": 7,
+      "afterLongestGuess": 4,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "04-multimodal-document-qa",
+      "questions": 7,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 1,
+      "afterShortestGuess": 3,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "05-autonomous-research-agent",
+      "questions": 7,
+      "beforeSoleLongest": 7,
+      "afterSoleLongest": 3,
+      "beforeLongestGuess": 7,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 3,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "06-devops-troubleshooting-agent",
+      "questions": 7,
+      "beforeSoleLongest": 7,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 7,
+      "afterLongestGuess": 0,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 3,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "07-end-to-end-fine-tuning-pipeline",
+      "questions": 7,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 1,
+      "afterShortestGuess": 3,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "08-production-rag-chatbot",
+      "questions": 7,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "09-code-migration-agent",
+      "questions": 7,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 7,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 3,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "10-multi-agent-software-team",
+      "questions": 7,
+      "beforeSoleLongest": 7,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 7,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 3,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "11-llm-observability-dashboard",
+      "questions": 7,
+      "beforeSoleLongest": 7,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 7,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "12-video-understanding-pipeline",
+      "questions": 7,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 2,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "13-mcp-server-with-registry",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "14-speculative-decoding-server",
+      "questions": 7,
+      "beforeSoleLongest": 7,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 7,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 3,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "15-constitutional-safety-harness",
+      "questions": 7,
+      "beforeSoleLongest": 4,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 4,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 1,
+      "afterShortestGuess": 2,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "16-github-issue-to-pr-agent",
+      "questions": 7,
+      "beforeSoleLongest": 7,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 7,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "17-personal-ai-tutor",
+      "questions": 7,
+      "beforeSoleLongest": 7,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 7,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 3,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "20-agent-harness-loop-contract",
+      "questions": 7,
+      "beforeSoleLongest": 7,
+      "afterSoleLongest": 3,
+      "beforeLongestGuess": 7,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "21-tool-registry-schema-validation",
+      "questions": 6,
+      "beforeSoleLongest": 4,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 4,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "22-jsonrpc-stdio-transport",
+      "questions": 7,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "23-function-call-dispatcher",
+      "questions": 7,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 7,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 1,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "24-plan-execute-control-flow",
+      "questions": 7,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 1,
+      "afterShortestGuess": 3,
+      "reviewedEvidence": 7
+    },
+    {
+      "lesson": "25-verification-gates-observation-budget",
+      "questions": 6,
+      "beforeSoleLongest": 3,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 3,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 4,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "26-sandbox-runner-denylist",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 2,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "27-eval-harness-fixture-tasks",
+      "questions": 6,
+      "beforeSoleLongest": 4,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 4,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "28-observability-otel-traces",
+      "questions": 6,
+      "beforeSoleLongest": 4,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 4,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "29-end-to-end-coding-task-demo",
+      "questions": 6,
+      "beforeSoleLongest": 3,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 3,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "30-bpe-tokenizer-from-scratch",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 0,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 3,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "31-tokenized-dataset-sliding-window",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 0,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 4,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "32-token-positional-embeddings",
+      "questions": 6,
+      "beforeSoleLongest": 3,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 4,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 1,
+      "afterShortestGuess": 2,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "33-multihead-self-attention",
+      "questions": 6,
+      "beforeSoleLongest": 4,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 4,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 1,
+      "afterShortestGuess": 4,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "34-transformer-block",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 0,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 2,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "35-gpt-model-assembly",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "36-training-loop-eval",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 0,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 3,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "37-loading-pretrained-weights",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 2,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "38-classifier-finetuning",
+      "questions": 6,
+      "beforeSoleLongest": 3,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 3,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "39-instruction-tuning-sft",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "40-dpo-from-scratch",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "41-eval-pipeline",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "42-large-corpus-downloader",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "43-hdf5-tokenized-corpus",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 2,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "44-cosine-lr-warmup",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 2,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "45-gradient-clipping-amp",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 4,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "46-gradient-accumulation",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "47-checkpoint-save-resume",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 3,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "48-distributed-fsdp-ddp",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "49-lm-eval-harness",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "50-hypothesis-generator",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "51-literature-retrieval",
+      "questions": 6,
+      "beforeSoleLongest": 3,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 3,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "52-experiment-runner",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "53-result-evaluator",
+      "questions": 6,
+      "beforeSoleLongest": 4,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 4,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 1,
+      "afterShortestGuess": 4,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "54-paper-writer",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 3,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 4,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "55-critic-loop",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "56-iteration-scheduler",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 3,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "57-end-to-end-research-demo",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "58-vision-encoder-patches",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 0,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "59-vit-transformer",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "60-projection-layer-modality-align",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "61-cross-attention-fusion",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 4,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 4,
+      "beforeShortestGuess": 1,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "62-vision-language-pretraining",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 3,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "63-multimodal-eval",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "64-chunking-strategies-advanced",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 3,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "65-hybrid-retrieval-bm25-dense",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 0,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "66-reranker-cross-encoder",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 3,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 5,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "67-query-rewriting-hyde",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "68-rag-eval-precision-recall",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 3,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "69-end-to-end-rag-system",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 2,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "70-task-spec-format",
+      "questions": 6,
+      "beforeSoleLongest": 3,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 3,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 2,
+      "afterShortestGuess": 4,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "71-classical-metrics",
+      "questions": 6,
+      "beforeSoleLongest": 4,
+      "afterSoleLongest": 1,
+      "beforeLongestGuess": 4,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 1,
+      "afterShortestGuess": 2,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "72-code-exec-metric",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "73-perplexity-calibration",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "74-leaderboard-aggregation",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 0,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 4,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "75-end-to-end-eval-runner",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 2,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "76-collective-ops-from-scratch",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 6,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 6,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "77-data-parallel-ddp",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "78-zero-parameter-sharding",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "79-pipeline-parallel",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "80-checkpoint-sharded-resume",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 0,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 1,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "81-end-to-end-distributed-train",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 4,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 4,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "82-jailbreak-taxonomy",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "83-prompt-injection-detector",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 3,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "84-refusal-evaluation",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 0,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "85-content-classifier-integration",
+      "questions": 6,
+      "beforeSoleLongest": 5,
+      "afterSoleLongest": 3,
+      "beforeLongestGuess": 5,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "86-constitutional-rules-engine",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 3,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 3,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    },
+    {
+      "lesson": "87-end-to-end-safety-gate",
+      "questions": 6,
+      "beforeSoleLongest": 6,
+      "afterSoleLongest": 2,
+      "beforeLongestGuess": 6,
+      "afterLongestGuess": 2,
+      "beforeShortestGuess": 0,
+      "afterShortestGuess": 1,
+      "reviewedEvidence": 6
+    }
+  ],
+  "wholeLibrary": {
+    "questions": 2362,
+    "soleLongest": 1629,
+    "reviewedEvidence": 707,
+    "remainingEvidence": 1655
+  },
+  "bodyCommands": {
+    "lessons": 6,
+    "passed": 6,
+    "tests": 52
+  },
+  "checks": {
+    "api": {
+      "passed": 45,
+      "failed": 0
+    },
+    "pythonScripts": {
+      "passed": 26,
+      "failed": 0
+    },
+    "applicationSyntax": "passed",
+    "p19TranslationStructure": {
+      "passed": 85,
+      "failed": 0
+    },
+    "p19AssessmentCorrespondence": {
+      "passed": 85,
+      "warnings": 5,
+      "failed": 0
+    },
+    "sourceFingerprints": 1645,
+    "richTheoryCards": 311,
+    "publishedPhases": 20,
+    "missingAdaptations": 0,
+    "offlineLock": "passed",
+    "formalEvidenceAndCandidates": "passed",
+    "browser": {
+      "courseCases": 85,
+      "questionLinks": 530,
+      "initialPassed": 83,
+      "initialFailed": [
+        "34-transformer-block",
+        "48-distributed-fsdp-ddp"
+      ],
+      "fixedCourseRechecks": 2,
+      "publicLengthStrategyAndReaderRegressions": 6,
+      "publicLengthScore": 170,
+      "publicParagraphReferences": 530
+    },
+    "mermaid65": "Rendered by Mermaid CLI and visually inspected",
+    "repositoryHygiene": "passed",
+    "documentationLinks": 196,
+    "consistentVersionFields": 5
+  },
+  "catalogPerformance": {
+    "node": "v22.23.1",
+    "ioThreads": "64",
+    "targetMs": 100,
+    "targetMet": true,
+    "rounds": [
+      {
+        "samples": 20,
+        "medianMs": 79.37459949999993,
+        "minMs": 71.69891400000006,
+        "maxMs": 111.67274000000043
+      },
+      {
+        "samples": 20,
+        "medianMs": 74.30642350000016,
+        "minMs": 70.42353300000013,
+        "maxMs": 138.99548800000048
+      },
+      {
+        "samples": 20,
+        "medianMs": 76.21994899999981,
+        "minMs": 70.98094000000037,
+        "maxMs": 110.68063699999948
+      }
+    ]
+  }
+}

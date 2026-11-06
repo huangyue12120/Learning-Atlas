@@ -42,7 +42,7 @@ flowchart LR
   Dense --> RanksB[排序列表 B]
   RanksA --> RRF[倒数排名融合（RRF）]
   RanksB --> RRF
-  RRF --> Top[Top-k 切块]
+  RRF --> Top[Top-k 分块]
 ```
 
 ### 用一段话理解 BM25

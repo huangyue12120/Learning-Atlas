@@ -1,0 +1,51 @@
+{
+  "lessonId": "practice/19-capstone-projects/56-iteration-scheduler",
+  "translationSha256": "4429f089eeb506357d8369c1d7a219f590f580f5177d968e2f88f9dd8657a314",
+  "assessmentSha256": "ca21420e0909b83a7d10a565f33fef50f39f3f0b97e6e4e4965375f3fc00bca4",
+  "reviewedBy": "Codex 按用户修复授权逐题核对选项、解析与正文证据；非外部人工签核",
+  "reviewedAt": "2026-11-07",
+  "links": [
+    {
+      "id": "56-iteration-scheduler-pre-1",
+      "status": "reviewed",
+      "headingId": "为什么需要调度器-而不是工作列表",
+      "quote": "利用领先分支，同时为尝试较少的分支保留容量。",
+      "reviewNote": "sqrt(ln N/n) 型探索项为较少尝试的分支增加优先级；这是本课的分配策略，不保证任意研究任务的最优性。"
+    },
+    {
+      "id": "56-iteration-scheduler-pre-2",
+      "status": "reviewed",
+      "headingId": "ucb-评分",
+      "quote": "运行次数为零的分支得到 `+inf`",
+      "reviewNote": "runs=0 时分数为 +inf，避免除零并优先探索；并发选择还需结合当前队列与在途任务理解。"
+    },
+    {
+      "id": "56-iteration-scheduler-check-3",
+      "status": "reviewed",
+      "headingId": "使用-asyncio-的并行槽位",
+      "quote": "主循环用 `asyncio.wait(..., return_when=asyncio.FIRST_COMPLETED)` 等待在途任务集合",
+      "reviewNote": "asyncio 任务完成后释放槽位，循环可以继续派发；runner 内部是否另启进程属于另一层实现。"
+    },
+    {
+      "id": "56-iteration-scheduler-check-4",
+      "status": "reviewed",
+      "headingId": "分流-论文触发器",
+      "quote": "且尚未产出论文时，调度器会向输出列表加入 `paper.trigger` 事件。",
+      "reviewNote": "paper_triggered 标志防止重复触发；阈值触达只是后续写作条件，不证明成果可发表。"
+    },
+    {
+      "id": "56-iteration-scheduler-post-5",
+      "status": "reviewed",
+      "headingId": "ucb-评分",
+      "quote": "就从后续调度中移除该分支，以保持队列有界。",
+      "reviewNote": "UCB 决定优先级，剪枝决定是否继续保留分支；已在运行的任务还需按实现处理。"
+    },
+    {
+      "id": "56-iteration-scheduler-post-6",
+      "status": "reviewed",
+      "headingId": "预算",
+      "quote": "max_experiments    : total count of experiments run across all branches",
+      "reviewNote": "trace 记录实验数或时间预算触发的停止原因；实际中断粒度取决于调度检查和在途任务取消，不能把它当作内核级截止保证。"
+    }
+  ]
+}
