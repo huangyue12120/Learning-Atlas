@@ -251,6 +251,8 @@ python -c "import torch; print(torch.version.cuda)"  # shows PyTorch CUDA versio
 # PyTorch CUDA version must be <= driver CUDA version.
 ```
 
+> **Learning Atlas 编者注（CUDA 兼容性）：** 前文对版本不匹配的概括过于绝对。PyTorch 的 CUDA 构建必须与 NVIDIA 驱动兼容，不要求版本号完全相等。较新的驱动通常能运行较旧 CUDA 应用，同一主要版本也可能具有次要版本兼容性；应核对 [NVIDIA 兼容性文档](https://docs.nvidia.com/deploy/cuda-compatibility/latest/)。检查当前 shell 的 Python 和 pip 路径，并优先用 `python -m pip` 确保二者属于同一环境。
+
 ## 使用
 
 运行配置脚本创建课程环境：

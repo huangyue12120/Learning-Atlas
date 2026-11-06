@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/00-setup-and-tooling/09-data-management",
+  "translationSha256": "15489b2d2a0040727033cab017e77670d04f914f001b0a6a823c4f4b888489a9",
+  "assessmentSha256": "76537fa9bec5eb945e0b362b79232c170449b79950535b21a3a7125f1c8e9d95",
+  "reviewedBy": "Codex 逐题语义核对；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "splits",
+      "status": "reviewed",
+      "headingId": "step-5-data-splits",
+      "quote": "**测试集**：训练结束后的最终评估（通常 10%）",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "hf-hub",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "Hugging Face Hub 托管和共享模型、数据集及演示工件",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "parquet",
+      "status": "reviewed",
+      "headingId": "第-4-步-数据集格式",
+      "quote": "Parquet 是最佳存储格式，Arrow 是内存中处理的格式",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。补充题干适用条件或修正解析中的绝对化说法。"
+    },
+    {
+      "id": "streaming",
+      "status": "reviewed",
+      "headingId": "第-3-步-流式处理大型数据集",
+      "quote": "流式模式逐行加载，无需下载完整数据。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "dvc",
+      "status": "reviewed",
+      "headingId": "第-7-步-处理大型文件",
+      "quote": "需要跨机器复现精确实验时再使用 DVC。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    }
+  ]
+}

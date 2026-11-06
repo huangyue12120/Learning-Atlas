@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/00-setup-and-tooling/11-linux-for-ai",
+  "translationSha256": "21c408fc96e99ec33b77b9bdf0fd3a1a119e46ea6e404ac45a619bffe061085f",
+  "assessmentSha256": "1f94f4ac23fa83bf31020089c4dbefcd62143dbce209228abd2c0827af64617e",
+  "reviewedBy": "Codex 逐题语义核对；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "home",
+      "status": "reviewed",
+      "headingId": "file-system-layout",
+      "quote": "家目录是 `~` 或 `/home/your-username`",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；保留数值、命令或已有平衡选项，未为凑长度改写。"
+    },
+    {
+      "id": "sudo",
+      "status": "reviewed",
+      "headingId": "用户与-sudo",
+      "quote": "部分操作需要 root（管理员）权限",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；保留数值、命令或已有平衡选项，未为凑长度改写。"
+    },
+    {
+      "id": "chmod",
+      "status": "reviewed",
+      "headingId": "权限",
+      "quote": "chmod +x",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；保留数值、命令或已有平衡选项，未为凑长度改写。补充题干适用条件或修正解析中的绝对化说法。"
+    },
+    {
+      "id": "disk-space",
+      "status": "reviewed",
+      "headingId": "磁盘空间",
+      "quote": "du -h --max-depth=1 / 2>/dev/null | sort -hr | head -20",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "sed",
+      "status": "reviewed",
+      "headingId": "注意事项-从-macos-到-linux",
+      "quote": "`sed -i '' 's/a/b/' file`",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    }
+  ]
+}

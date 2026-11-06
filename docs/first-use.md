@@ -1,6 +1,6 @@
 # Learning Atlas 首次使用与恢复
 
-适用版本：v0.29.1（2026-11-06）。
+适用版本：v0.30.0（2026-11-06）。
 
 Learning Atlas 是本地优先应用：课程内容来自仓库，个人学习数据、模型 key 和私人工作区仅保存在你的设备上。
 
@@ -78,4 +78,4 @@ python -m pip install marimo numpy matplotlib
 
 助理优先读取当前小节、后一个小节和前一个小节；课程节选最多 6000 字符，关联理论最多 2000 字符，历史最多 4000 字符并保留完整轮次。界面逐段显示生成结果，可点击“停止生成”；中断或失败时保留问题草稿，不保存半条回复。回复完成后才成对保存本轮问题与回答。较长解释可能触及回复长度限制，可缩小问题后重试。
 
-`npm run dev` 与 `npm start` 读取仓库内 `runtime.env`，使用 16 个文件 I/O 工作线程并发检查课程来源；没有跳过依赖检查或关闭 SHA-256 门禁。需要复测时运行 `npm run benchmark`。
+`npm run dev` 与 `npm start` 读取仓库内 `runtime.env`，使用 64 个文件 I/O 工作线程并发检查课程来源；没有跳过依赖检查或关闭 SHA-256 门禁。`npm run benchmark` 预热后连续测三组、每组 20 次，以每组中位数判断是否低于 100 ms。可运行 `node --env-file=runtime.env --experimental-strip-types scripts/benchmark-local-storage.ts`，用临时本地副本诊断存储差异；该对照不代替当前工作区的性能验收。

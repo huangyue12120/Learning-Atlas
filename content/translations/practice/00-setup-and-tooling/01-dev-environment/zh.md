@@ -50,6 +50,8 @@ graph TD
 s0-env-stack
 ```
 
+> **Learning Atlas 编者注（概念核对）：** 虚拟环境按项目隔离依赖版本，不能代替 GPU 驱动。CUDA 是 NVIDIA 的并行计算平台，可让 GPU 并行执行矩阵运算；Apple Silicon 使用 MPS，不能用 CUDA 检查结果判断 MPS 是否可用。
+
 ## 动手构建
 
 ### 第 1 步：系统基础

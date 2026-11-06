@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 import { resolve } from "node:path";
 const lesson = "practice/00-setup-and-tooling/01-dev-environment";
-const directory = resolve("../../review/followups/screenshots");
+const directory = resolve("../../review/assessment-review/screenshots");
 async function configure(request) {
   await request.put("/api/model-config", { data: { baseUrl: "http://127.0.0.1:4176/v1", model: "atlas-fixture" } });
 }

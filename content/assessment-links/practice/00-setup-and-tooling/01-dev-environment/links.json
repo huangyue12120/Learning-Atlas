@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/00-setup-and-tooling/01-dev-environment",
+  "translationSha256": "696e72dfab8cd4af437a09f4f49352c82dd64d1c7289e8434b9793e7f3b5e957",
+  "assessmentSha256": "7af76e7ec74a2deb674b2319f88cdefc05597dcf3f65bc22b61fe53c82db9407",
+  "reviewedBy": "Codex 逐题语义核对；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "virtual-environment",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "虚拟环境按项目隔离依赖版本",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "cuda-purpose",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "CUDA 是 NVIDIA 的并行计算平台",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "stack-order",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "我们从底向上安装；每一层都依赖于它下面的一层。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；保留数值、命令或已有平衡选项，未为凑长度改写。"
+    },
+    {
+      "id": "uv-purpose",
+      "status": "reviewed",
+      "headingId": "第-2-步-使用-uv-配置-python",
+      "quote": "我们使用 `uv`：它比 pip 快 10–100 倍，并会自动管理虚拟环境。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "gpu-check",
+      "status": "reviewed",
+      "headingId": "第-6-步-gpu-配置-如有-gpu",
+      "quote": "torch.cuda.is_available()",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；保留数值、命令或已有平衡选项，未为凑长度改写。补充题干适用条件或修正解析中的绝对化说法。"
+    }
+  ]
+}

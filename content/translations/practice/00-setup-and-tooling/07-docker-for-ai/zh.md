@@ -271,6 +271,8 @@ model = AutoModel.from_pretrained("/models/llama-7b")
 
 模型位于宿主文件系统，可任意重建容器而不用重新下载。
 
+> **Learning Atlas 编者注（持久化边界）：** 上文将停止容器等同于删除的表述不准确。容器删除或重建时，未挂载的可写层数据会丢失；单纯停止同一个容器不会删除其可写层。bind mount 把宿主目录映射到容器，命名 volume 由 Docker 管理，二者都可跨容器保留数据。参见 [Docker 存储说明](https://docs.docker.com/engine/storage/)。
+
 ### 第 6 步：多服务 AI 应用的 Docker Compose
 
 真实 RAG 应用需要推理服务器和向量数据库；Docker Compose 用一条命令运行两者。见 `code/docker-compose.yml`：

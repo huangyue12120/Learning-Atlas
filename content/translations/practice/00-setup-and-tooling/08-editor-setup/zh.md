@@ -112,6 +112,8 @@ code --install-extension charliermarsh.ruff
 - **Notebook 输出滚动**：训练循环会输出数千行；不开启时输出面板会失控膨胀。
 - **自动保存**：避免忘记保存而运行旧代码。
 
+> **Learning Atlas 编者注（类型检查边界）：** 上文关于类型检查可发现张量形状错误的概括过宽。静态类型检查可依据注解发现部分参数类型错误，但普通 `basic` 检查不能保证识别任意 PyTorch 张量的运行时形状；仍应在关键操作处检查 `.shape`、断言并运行测试。参见 [Python 编辑与类型检查](https://code.visualstudio.com/docs/python/editing)。
+
 ### 第 4 步：终端集成
 
 VS Code 集成终端用于运行训练脚本、监控 GPU 和管理环境，应这样设置：

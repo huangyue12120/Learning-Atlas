@@ -38,14 +38,16 @@ def sections(text):
     for line in text.splitlines():
         if re.match(r"^\s*(`{3,}|~{3,})", line):
             flush(); fence = not fence; continue
-        if fence: continue
-        heading = re.match(r"^(#{1,6})\s+(.+?)(?:\s+<!-- learning-atlas: ([a-z0-9-]+) -->)?$", line)
+        heading = None if fence else re.match(r"^(#{1,6})\s+(.+?)(?:\s+<!-- learning-atlas: ([a-z0-9-]+) -->)?$", line)
         if heading:
             flush(); title = heading[2]; base = heading[3] or slug(title)
             count = counts.get(base, 0); counts[base] = count + 1
-            current = {"headingId": base if not count else f"{base}-{count+1}", "title": title, "paragraphs": []}; result.append(current)
-        elif not line.strip(): flush()
-        elif current and not line.startswith("|"): paragraph.append(re.sub(r"^\s*(?:[-*>]|\d+[.)])\s*", "", line))
+            current = {"headingId": base if not count else f"{base}-{count+1}", "title": title, "paragraphs": [], "source": ""}; result.append(current)
+        else:
+            if current: current["source"] += line + "\n"
+            if fence: continue
+            if not line.strip(): flush()
+            elif current and not line.startswith("|"): paragraph.append(re.sub(r"^\s*(?:[-*>]|\d+[.)])\s*", "", line))
     flush(); return result
 
 
@@ -88,8 +90,11 @@ def main():
         directory.mkdir(parents=True, exist_ok=True)
         (directory / "assessment-quality.json").write_text(json.dumps(quality, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
         (directory / "assessment-candidates.json").write_text(json.dumps(lessons, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
+    reviewed = {}
     for mapping in (ROOT / "content/assessment-links/practice").glob("*/*/links.json"):
         data = json.loads(mapping.read_text(encoding="utf-8"))
+        expected_id = f"practice/{mapping.parent.parent.name}/{mapping.parent.name}"
+        if data["lessonId"] != expected_id or not data.get("reviewedBy"): raise SystemExit(f"FAIL invalid review attribution or lesson path: {mapping}")
         lesson = next((lesson for lesson in lessons if lesson["lessonId"] == data["lessonId"]), None)
         if not lesson or any(data[key] != lesson[key] for key in ["translationSha256", "assessmentSha256"]): raise SystemExit(f"FAIL stale reviewed evidence: {mapping}")
         phase, name = data["lessonId"].split("/")[1:]
@@ -97,13 +102,29 @@ def main():
         source = re.sub(r"\A---\n.*?\n---\n", "", source, flags=re.S)
         headings = {section["headingId"]: section for section in sections(source)}
         ids = {question["id"] for question in lesson["questions"]}
+        if len({link["id"] for link in data["links"]}) != len(data["links"]): raise SystemExit(f"FAIL duplicate paragraph evidence: {mapping}")
         for link in data["links"]:
-            if link["id"] not in ids or link["headingId"] not in headings or plain(link["quote"]) not in "".join(headings[link["headingId"]]["paragraphs"]): raise SystemExit(f"FAIL invalid paragraph evidence: {mapping} {link['id']}")
+            if link.get("status") != "reviewed" or len(link["quote"]) < 8 or link["id"] not in ids or link["headingId"] not in headings or plain(link["quote"]) not in plain(headings[link["headingId"]]["source"]): raise SystemExit(f"FAIL invalid paragraph evidence: {mapping} {link['id']}")
+        reviewed[data["lessonId"]] = len(data["links"])
+    phases = {}
+    for lesson in lessons:
+        phase = lesson["lessonId"].split("/")[1]
+        row = phases.setdefault(phase, {"phase": phase, "questionCount": 0, "reviewedEvidenceCount": 0, "remainingEvidenceCount": 0})
+        count = len(lesson["questions"]); done = reviewed.get(lesson["lessonId"], 0)
+        row["questionCount"] += count; row["reviewedEvidenceCount"] += done; row["remainingEvidenceCount"] += count - done
+    progress = {"questionCount": quality["questionCount"], "reviewedEvidenceCount": sum(reviewed.values()),
+                "remainingEvidenceCount": quality["questionCount"] - sum(reviewed.values()), "phases": list(phases.values())}
+    progress_path = ROOT / "review/assessment-review/progress.json"
+    if args.write:
+        progress_path.parent.mkdir(parents=True, exist_ok=True)
+        progress_path.write_text(json.dumps(progress, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
     if args.check:
         stored = json.loads((directory / "assessment-candidates.json").read_text(encoding="utf-8"))
         if stored != lessons: raise SystemExit("FAIL candidate report is stale; regenerate and review changed candidates")
         if json.loads((directory / "assessment-quality.json").read_text(encoding="utf-8")) != quality: raise SystemExit("FAIL quality report is stale")
+        if json.loads(progress_path.read_text(encoding="utf-8")) != progress: raise SystemExit("FAIL reviewed-evidence progress is stale")
     if quality["soleLongestRate"] > 0.5: print(f'WARN correct-answer length bias: {quality["soleLongestRate"]:.1%}; priority list: review/followups/assessment-quality.json')
     print(f'{quality["questionCount"]} questions; unique-longest correct answers {quality["correctSoleLongest"]} ({quality["soleLongestRate"]:.1%}); {len(lessons)} lesson candidate sets (draft only)')
+    print(f'Reviewed paragraph evidence: {progress["reviewedEvidenceCount"]}; remaining: {progress["remainingEvidenceCount"]}; attribution is recorded per mapping')
 
 if __name__ == "__main__": main()

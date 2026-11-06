@@ -1,8 +1,8 @@
 [
   {
     "lessonId": "practice/00-setup-and-tooling/01-dev-environment",
-    "translationSha256": "ef5701817a13fcbaaa9ea7d4239ca00a2be6c8751c6f7c70e3c0b7f738d64963",
-    "assessmentSha256": "9d410c687b063e0fa76312d284002bb9543e9f4142c148d77a03dcc60581e232",
+    "translationSha256": "696e72dfab8cd4af437a09f4f49352c82dd64d1c7289e8434b9793e7f3b5e957",
+    "assessmentSha256": "7af76e7ec74a2deb674b2319f88cdefc05597dcf3f65bc22b61fe53c82db9407",
     "questions": [
       {
         "id": "virtual-environment",
@@ -10,22 +10,22 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "概念",
+            "heading": "概念",
+            "quote": "LearningAtlas编者注（概念核对）：虚拟环境按项目隔离依赖版本，不能代替GPU驱动。CUDA是NVIDIA的并行计算平台，可让GPU并行执行矩阵运算；AppleSilicon使用MPS，不能用CUDA检查结果判断MPS是否可用。",
+            "score": 19.914
+          },
+          {
             "headingId": "练习",
             "heading": "练习",
             "quote": "运行验证脚本，并修复所有失败项为本课程创建一个Python虚拟环境并安装PyTorch用四种语言分别编写并运行一个“helloworld”",
-            "score": 7.577
+            "score": 7.258
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从零配置Python3.11+、Node.js20+和Rust工具链配置虚拟环境和包管理器，以获得可复现的构建验证CUDA/MPS的GPU访问，并运行一次测试张量运算理解系统、包、运行时和AI库组成的四层栈",
-            "score": 7.322
-          },
-          {
-            "headingId": "提示",
-            "heading": "提示",
-            "quote": "练习2.在仓库根目录用uvvenv创建环境并激活它，然后用第6步中与你硬件匹配的命令安装PyTorch。在该环境内运行python-c\"importtorch;print(torch.version)\"；出现版本号就表示安装成功。",
-            "score": 5.784
+            "score": 7.002
           }
         ]
       },
@@ -35,22 +35,22 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "概念",
+            "heading": "概念",
+            "quote": "LearningAtlas编者注（概念核对）：虚拟环境按项目隔离依赖版本，不能代替GPU驱动。CUDA是NVIDIA的并行计算平台，可让GPU并行执行矩阵运算；AppleSilicon使用MPS，不能用CUDA检查结果判断MPS是否可用。",
+            "score": 36.787
+          },
+          {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从零配置Python3.11+、Node.js20+和Rust工具链配置虚拟环境和包管理器，以获得可复现的构建验证CUDA/MPS的GPU访问，并运行一次测试张量运算理解系统、包、运行时和AI库组成的四层栈",
-            "score": 8.626
+            "score": 8.036
           },
           {
             "headingId": "第-6-步-gpu-配置-如有-gpu",
             "heading": "第 6 步：GPU 配置（如有 GPU）",
             "quote": "没有GPU？没关系。多数课程可在CPU上完成；训练量大的课程可使用GoogleColab或云端GPU。",
-            "score": 5.635
-          },
-          {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "你将会在500多节课程中学习AI工程，涉及Python、TypeScript、Rust和Julia。若环境出了问题，每节课都会变成与工具链搏斗，而不是学习。",
-            "score": 4.722
+            "score": 5.484
           }
         ]
       },
@@ -63,19 +63,19 @@
             "headingId": "概念",
             "heading": "概念",
             "quote": "我们从底向上安装；每一层都依赖于它下面的一层。",
-            "score": 22.408
+            "score": 22.449
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从零配置Python3.11+、Node.js20+和Rust工具链配置虚拟环境和包管理器，以获得可复现的构建验证CUDA/MPS的GPU访问，并运行一次测试张量运算理解系统、包、运行时和AI库组成的四层栈",
-            "score": 22.009
+            "score": 22.27
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习3.使用“概念”一节技术栈中的四种运行时：Python、运行在Node.js上的TypeScript、Rust和Julia。为每种运行时写一个小文件，并分别用python3、npxtsx（Node.js无法直接运行.ts文件）、cargorun或rustc、以及julia运行。每次运行都必须打印出你的消息并以退出码0结束。",
-            "score": 8.83
+            "score": 8.955
           }
         ]
       },
@@ -88,44 +88,44 @@
             "headingId": "第-2-步-使用-uv-配置-python",
             "heading": "第 2 步：使用 uv 配置 Python",
             "quote": "我们使用uv：它比pip快10–100倍，并会自动管理虚拟环境。",
-            "score": 9.182
+            "score": 9.273
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "运行验证脚本，并修复所有失败项为本课程创建一个Python虚拟环境并安装PyTorch用四种语言分别编写并运行一个“helloworld”",
-            "score": 6.715
+            "score": 6.774
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "你将会在500多节课程中学习AI工程，涉及Python、TypeScript、Rust和Julia。若环境出了问题，每节课都会变成与工具链搏斗，而不是学习。",
-            "score": 6.283
+            "score": 6.342
           }
         ]
       },
       {
         "id": "gpu-check",
-        "question": "如何验证 PyTorch 能否访问 GPU？",
+        "question": "如何验证 PyTorch 能否访问 NVIDIA CUDA GPU？",
         "status": "draft",
         "candidates": [
+          {
+            "headingId": "概念",
+            "heading": "概念",
+            "quote": "LearningAtlas编者注（概念核对）：虚拟环境按项目隔离依赖版本，不能代替GPU驱动。CUDA是NVIDIA的并行计算平台，可让GPU并行执行矩阵运算；AppleSilicon使用MPS，不能用CUDA检查结果判断MPS是否可用。",
+            "score": 10.864
+          },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从零配置Python3.11+、Node.js20+和Rust工具链配置虚拟环境和包管理器，以获得可复现的构建验证CUDA/MPS的GPU访问，并运行一次测试张量运算理解系统、包、运行时和AI库组成的四层栈",
-            "score": 10.357
+            "score": 9.913
           },
           {
             "headingId": "第-6-步-gpu-配置-如有-gpu",
             "heading": "第 6 步：GPU 配置（如有 GPU）",
             "quote": "macOS/AppleSilicon（M1/M2/M3/M4）：Mac没有CUDA，这是预期行为，不是错误。不要传入--index-url.../cuXXX（这些wheel只适用于Linux/Windows，因此安装会失败）。请安装普通构建，其中包含苹果的MPS（Metal）GPU后端：",
-            "score": 8.881
-          },
-          {
-            "headingId": "提示",
-            "heading": "提示",
-            "quote": "练习2.在仓库根目录用uvvenv创建环境并激活它，然后用第6步中与你硬件匹配的命令安装PyTorch。在该环境内运行python-c\"importtorch;print(torch.version)\"；出现版本号就表示安装成功。",
-            "score": 4.977
+            "score": 8.409
           }
         ]
       }
@@ -133,8 +133,8 @@
   },
   {
     "lessonId": "practice/00-setup-and-tooling/02-git-and-collaboration",
-    "translationSha256": "0dfc78ca85d2bc0c2e07ece3e43fe26d2e596ecc99e1142a0dae299991b0f17b",
-    "assessmentSha256": "268f1022d9f92a85f8ff01578c2cf98b53063defa739591e0d1d1885e444d8ad",
+    "translationSha256": "a6bc08ed6065530d325d767d0f2a7a514b1efbcc407858a5d1252aeb8a4a72f1",
+    "assessmentSha256": "9e1dd4beb7adbe9002ceb1e8111972da558224406c8829bc38d3c972340e75b6",
     "questions": [
       {
         "id": "version-control",
@@ -145,19 +145,19 @@
             "headingId": "问题",
             "heading": "问题",
             "quote": "你将在20个阶段中编写数百个代码文件。没有版本控制，你会丢失工作、弄坏无法撤销的内容，也无法与他人协作。",
-            "score": 13.222
+            "score": 12.752
+          },
+          {
+            "headingId": "the-concept",
+            "heading": "概念",
+            "quote": "LearningAtlas编者注（概念核对）：Git记录项目文件的变更历史，支持回溯与协作；仓库保存受版本控制的项目文件及其提交历史。日常保存顺序是先暂存（gitadd），再提交（gitcommit），最后推送（gitpush）。",
+            "score": 12.222
           },
           {
             "headingId": "git-与协作",
             "heading": "Git 与协作",
             "quote": "版本控制不是可选项。这里的每个实验、模型和课程成果都应被追踪。",
-            "score": 9.765
-          },
-          {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "Git是工具，GitHub是代码存放的位置。本课只讲完成本课程所需的内容。",
-            "score": 2.955
+            "score": 9.131
           }
         ]
       },
@@ -167,22 +167,22 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "the-concept",
+            "heading": "概念",
+            "quote": "LearningAtlas编者注（概念核对）：Git记录项目文件的变更历史，支持回溯与协作；仓库保存受版本控制的项目文件及其提交历史。日常保存顺序是先暂存（gitadd），再提交（gitcommit），最后推送（gitpush）。",
+            "score": 17.055
+          },
+          {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "配置Git身份，并使用add、commit、push的日常流程为隔离实验创建和合并分支，且不破坏主分支编写.gitignore以排除模型检查点和大型二进制文件用gitlog浏览提交历史，理解项目如何演进",
-            "score": 6.02
+            "score": 5.454
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习2.在仓库根目录的.gitignore文件中，为每个扩展名各加一条模式，例如.pt。为每个扩展名创建一个空文件并运行gitstatus；它们都不应出现在未跟踪文件列表中。",
-            "score": 4.346
-          },
-          {
-            "headingId": "练习",
-            "heading": "练习",
-            "quote": "Fork本仓库，克隆你的fork，创建名为my-progress的分支，创建一个文件、提交并推送创建一个.gitignore，排除模型检查点文件（.pt、.pth、.safetensors）用gitlog--oneline查看本仓库的提交历史，了解课程是如何加入的",
-            "score": 4.005
+            "score": 4.295
           }
         ]
       },
@@ -192,22 +192,22 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "the-concept",
+            "heading": "概念",
+            "quote": "LearningAtlas编者注（概念核对）：Git记录项目文件的变更历史，支持回溯与协作；仓库保存受版本控制的项目文件及其提交历史。日常保存顺序是先暂存（gitadd），再提交（gitcommit），最后推送（gitpush）。",
+            "score": 16.274
+          },
+          {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "配置Git身份，并使用add、commit、push的日常流程为隔离实验创建和合并分支，且不破坏主分支编写.gitignore以排除模型检查点和大型二进制文件用gitlog浏览提交历史，理解项目如何演进",
-            "score": 9.341
+            "score": 9.177
           },
           {
             "headingId": "the-concept",
             "heading": "概念",
             "quote": "记住三件事：经常保存（gitcommit）推送到远程仓库（gitpush）为实验创建分支（gitcheckout-bexperiment）",
-            "score": 9.0
-          },
-          {
-            "headingId": "第-4-步-使用本课程仓库",
-            "heading": "第 4 步：使用本课程仓库",
-            "quote": "你不能直接推送到课程仓库——只有维护者有写权限。请先在GitHub上fork它（右上角的Fork按钮），让origin指向你的副本：",
-            "score": 2.955
+            "score": 8.832
           }
         ]
       },
@@ -220,19 +220,19 @@
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "配置Git身份，并使用add、commit、push的日常流程为隔离实验创建和合并分支，且不破坏主分支编写.gitignore以排除模型检查点和大型二进制文件用gitlog浏览提交历史，理解项目如何演进",
-            "score": 7.305
+            "score": 7.457
           },
           {
             "headingId": "the-concept",
             "heading": "概念",
             "quote": "记住三件事：经常保存（gitcommit）推送到远程仓库（gitpush）为实验创建分支（gitcheckout-bexperiment）",
-            "score": 4.009
+            "score": 4.174
           },
           {
             "headingId": "git-与协作",
             "heading": "Git 与协作",
             "quote": "版本控制不是可选项。这里的每个实验、模型和课程成果都应被追踪。",
-            "score": 2.728
+            "score": 2.708
           }
         ]
       },
@@ -245,19 +245,19 @@
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "配置Git身份，并使用add、commit、push的日常流程为隔离实验创建和合并分支，且不破坏主分支编写.gitignore以排除模型检查点和大型二进制文件用gitlog浏览提交历史，理解项目如何演进",
-            "score": 21.995
+            "score": 22.559
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "Fork本仓库，克隆你的fork，创建名为my-progress的分支，创建一个文件、提交并推送创建一个.gitignore，排除模型检查点文件（.pt、.pth、.safetensors）用gitlog--oneline查看本仓库的提交历史，了解课程是如何加入的",
-            "score": 20.373
+            "score": 21.011
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习2.在仓库根目录的.gitignore文件中，为每个扩展名各加一条模式，例如.pt。为每个扩展名创建一个空文件并运行gitstatus；它们都不应出现在未跟踪文件列表中。",
-            "score": 4.171
+            "score": 4.25
           }
         ]
       }
@@ -265,8 +265,8 @@
   },
   {
     "lessonId": "practice/00-setup-and-tooling/03-gpu-setup-and-cloud",
-    "translationSha256": "8677e8e3cdd762d8f05ad1373650e2406cf4f018432a06aa6c71c131e4835a4d",
-    "assessmentSha256": "8aed23e447027b38807842b8dc116635c73c8317a2dd44b60d1d0b8d954bbf38",
+    "translationSha256": "57a2adf26131c930b2ed14e05b1f9080853b5d9a31f403ee81d7ccc12a8deb79",
+    "assessmentSha256": "cf16844d6ede894312c02f54a2733d8eb72f58f9de2870fdc8028661bd1f130c",
     "questions": [
       {
         "id": "gpu-parallelism",
@@ -274,22 +274,22 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "概念",
+            "heading": "概念",
+            "quote": "LearningAtlas编者注（概念核对）：GPU有大量并行计算核心，适合矩阵运算。计时前后调用torch.cuda.synchronize()是为了等待异步GPU操作完成；这不负责数据传输或释放显存。",
+            "score": 13.318
+          },
+          {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "使用nvidia-smi和PyTorchCUDAAPI验证本地GPU是否可用配置带T4GPU的GoogleColab，进行免费的云端实验基准测试CPU与GPU上的矩阵乘法并测量加速比用fp16经验法则估算VRAM可容纳的最大模型",
-            "score": 10.741
+            "score": 10.641
           },
           {
             "headingId": "gpu-配置与云端计算",
             "heading": "GPU 配置与云端计算",
             "quote": "CPU足够用来学习基础内容；训练较大模型时需要GPU。",
-            "score": 5.643
-          },
-          {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "Phase1–3的多数课程可在CPU上顺利运行。但当你开始训练CNN、Transformer或LLM（Phase4+）时，就需要GPU加速。一次在CPU上耗时8小时的训练，在GPU上可能只要10分钟。",
-            "score": 3.798
+            "score": 5.545
           }
         ]
       },
@@ -302,19 +302,19 @@
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "使用nvidia-smi和PyTorchCUDAAPI验证本地GPU是否可用配置带T4GPU的GoogleColab，进行免费的云端实验基准测试CPU与GPU上的矩阵乘法并测量加速比用fp16经验法则估算VRAM可容纳的最大模型",
-            "score": 6.766
+            "score": 6.918
           },
           {
             "headingId": "gpu-配置与云端计算",
             "heading": "GPU 配置与云端计算",
             "quote": "CPU足够用来学习基础内容；训练较大模型时需要GPU。",
-            "score": 4.217
+            "score": 4.313
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "Phase1–3的多数课程可在CPU上顺利运行。但当你开始训练CNN、Transformer或LLM（Phase4+）时，就需要GPU加速。一次在CPU上耗时8小时的训练，在GPU上可能只要10分钟。",
-            "score": 2.608
+            "score": 2.655
           }
         ]
       },
@@ -327,19 +327,19 @@
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "使用nvidia-smi和PyTorchCUDAAPI验证本地GPU是否可用配置带T4GPU的GoogleColab，进行免费的云端实验基准测试CPU与GPU上的矩阵乘法并测量加速比用fp16经验法则估算VRAM可容纳的最大模型",
-            "score": 8.612
+            "score": 8.816
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习2.在Colab中选择Runtime>Changeruntimetype>GPU，然后把基准测试粘进一个单元格。先在另一个单元格运行!nvidia-smi；只有它显示出GPU名称，基准测试结果才有意义。",
-            "score": 5.758
+            "score": 5.899
           },
           {
             "headingId": "方案-2-google-colab",
             "heading": "方案 2：Google Colab",
             "quote": "打开colab.research.google.comRuntime>Changeruntimetype>T4GPU运行!nvidia-smi进行验证",
-            "score": 4.645
+            "score": 4.787
           }
         ]
       },
@@ -349,47 +349,47 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "概念",
+            "heading": "概念",
+            "quote": "LearningAtlas编者注（概念核对）：GPU有大量并行计算核心，适合矩阵运算。计时前后调用torch.cuda.synchronize()是为了等待异步GPU操作完成；这不负责数据传输或释放显存。",
+            "score": 27.776
+          },
+          {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "使用nvidia-smi和PyTorchCUDAAPI验证本地GPU是否可用配置带T4GPU的GoogleColab，进行免费的云端实验基准测试CPU与GPU上的矩阵乘法并测量加速比用fp16经验法则估算VRAM可容纳的最大模型",
-            "score": 17.766
-          },
-          {
-            "headingId": "gpu-配置与云端计算",
-            "heading": "GPU 配置与云端计算",
-            "quote": "类型：构建语言：Python前置课程：Phase0，第01课预计时间：约45分钟",
-            "score": 8.612
+            "score": 17.867
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "运行上面的基准测试，比较CPU与GPU时间若没有GPU，在GoogleColab上运行并比较检查GPU显存，并估算可容纳的最大模型（经验法则：fp16下每个参数2字节）",
-            "score": 8.389
+            "score": 8.623
           }
         ]
       },
       {
         "id": "fp16-vram",
-        "question": "按 fp16 的经验法则，24 GB VRAM 大约能容纳多少参数？",
+        "question": "只计 fp16 权重、每个参数 2 字节时，24 GB 显存理论上约能存多少参数？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "运行上面的基准测试，比较CPU与GPU时间若没有GPU，在GoogleColab上运行并比较检查GPU显存，并估算可容纳的最大模型（经验法则：fp16下每个参数2字节）",
-            "score": 19.276
-          },
-          {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "使用nvidia-smi和PyTorchCUDAAPI验证本地GPU是否可用配置带T4GPU的GoogleColab，进行免费的云端实验基准测试CPU与GPU上的矩阵乘法并测量加速比用fp16经验法则估算VRAM可容纳的最大模型",
-            "score": 11.19
+            "score": 13.865
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习3.像code/gpucheck.py那样，用torch.cuda.getdeviceproperties(0).totalmemory/1e9读取总显存。把字节数除以2得到fp16下的参数量，然后留一些余量，因为激活值和CUDA上下文也会占用显存。",
-            "score": 9.696
+            "score": 11.613
+          },
+          {
+            "headingId": "学习目标",
+            "heading": "学习目标",
+            "quote": "使用nvidia-smi和PyTorchCUDAAPI验证本地GPU是否可用配置带T4GPU的GoogleColab，进行免费的云端实验基准测试CPU与GPU上的矩阵乘法并测量加速比用fp16经验法则估算VRAM可容纳的最大模型",
+            "score": 1.658
           }
         ]
       }
@@ -397,8 +397,8 @@
   },
   {
     "lessonId": "practice/00-setup-and-tooling/04-apis-and-keys",
-    "translationSha256": "cc4d19ae2a1d665a413276bf6f301e2ccd8e21e5957a2a56706870ce03e40f9f",
-    "assessmentSha256": "87aa8e7ff6ecff2c5e0e2f3d2bc66f54a766995e206b20279a9cdff192877200",
+    "translationSha256": "fc62903137f32abfa89d8e6f9a4bd1acd6d14f837cea247350387671d107ba8e",
+    "assessmentSha256": "4a18eef062b064b9f288008ad00ca76ea5f417c8c0348880db4c55509107ec7f",
     "questions": [
       {
         "id": "api-key-purpose",
@@ -409,19 +409,19 @@
             "headingId": "第-2-步-第一次-api-调用-python",
             "heading": "第 2 步：第一次 API 调用（Python）",
             "quote": "LLMMODEL选择Anthropic的模型ID，默认值是不带日期的Sonnet别名。其他提供方（OpenAI、Google等）也遵循“key加模型ID”的相同模式，但各自有不同的SDK、端点和请求/响应schema。",
-            "score": 8.969
+            "score": 9.261
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "使用环境变量和.env文件安全地保存APIkey同时用AnthropicPythonSDK和原始HTTP发起LLMAPI调用比较SDK与原始HTTP的请求/响应格式，以便调试识别并处理认证、速率限制等常见API错误",
-            "score": 7.583
+            "score": 7.826
           },
           {
             "headingId": "概念",
             "heading": "概念",
             "quote": "每次API调用都包含：端点（URL）APIkey（认证）请求体（你想要什么）响应体（你得到什么）",
-            "score": 3.303
+            "score": 3.432
           }
         ]
       },
@@ -434,19 +434,19 @@
             "headingId": "第-1-步-安全存储-api-key",
             "heading": "第 1 步：安全存储 API key",
             "quote": "绝不要把APIkey写进代码。使用环境变量。",
-            "score": 6.527
+            "score": 6.727
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "获取AnthropicAPIkey并完成第一次API调用尝试原始HTTP版本，并与SDK版本比较响应格式有意使用错误的APIkey，阅读错误信息",
-            "score": 3.0
+            "score": 3.095
           },
           {
             "headingId": "第-1-步-安全存储-api-key",
             "heading": "第 1 步：安全存储 API key",
             "quote": "或者使用.env文件（将其加入.gitignore）：",
-            "score": 2.246
+            "score": 2.333
           }
         ]
       },
@@ -459,19 +459,19 @@
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "使用环境变量和.env文件安全地保存APIkey同时用AnthropicPythonSDK和原始HTTP发起LLMAPI调用比较SDK与原始HTTP的请求/响应格式，以便调试识别并处理认证、速率限制等常见API错误",
-            "score": 12.864
-          },
-          {
-            "headingId": "第-1-步-安全存储-api-key",
-            "heading": "第 1 步：安全存储 API key",
-            "quote": "或者使用.env文件（将其加入.gitignore）：",
-            "score": 11.902
+            "score": 9.471
           },
           {
             "headingId": "第-1-步-安全存储-api-key",
             "heading": "第 1 步：安全存储 API key",
             "quote": "绝不要把APIkey写进代码。使用环境变量。",
-            "score": 9.414
+            "score": 7.871
+          },
+          {
+            "headingId": "第-1-步-安全存储-api-key",
+            "heading": "第 1 步：安全存储 API key",
+            "quote": "或者使用.env文件（将其加入.gitignore）：",
+            "score": 7.871
           }
         ]
       },
@@ -484,19 +484,19 @@
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "使用环境变量和.env文件安全地保存APIkey同时用AnthropicPythonSDK和原始HTTP发起LLMAPI调用比较SDK与原始HTTP的请求/响应格式，以便调试识别并处理认证、速率限制等常见API错误",
-            "score": 10.481
+            "score": 10.333
           },
           {
             "headingId": "第-2-步-第一次-api-调用-python",
             "heading": "第 2 步：第一次 API 调用（Python）",
             "quote": "LLMMODEL选择Anthropic的模型ID，默认值是不带日期的Sonnet别名。其他提供方（OpenAI、Google等）也遵循“key加模型ID”的相同模式，但各自有不同的SDK、端点和请求/响应schema。",
-            "score": 8.272
+            "score": 8.558
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "获取AnthropicAPIkey并完成第一次API调用尝试原始HTTP版本，并与SDK版本比较响应格式有意使用错误的APIkey，阅读错误信息",
-            "score": 5.745
+            "score": 5.617
           }
         ]
       },
@@ -506,22 +506,22 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "第-4-步-原始-http-不使用-sdk",
+            "heading": "第 4 步：原始 HTTP（不使用 SDK）",
+            "quote": "LearningAtlas编者注（错误处理）：认证失败通常返回401；超过速率限制通常返回429。按响应中的重试提示等待，并采用退避策略；不要假定服务端会替客户端排队。",
+            "score": 20.69
+          },
+          {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "使用环境变量和.env文件安全地保存APIkey同时用AnthropicPythonSDK和原始HTTP发起LLMAPI调用比较SDK与原始HTTP的请求/响应格式，以便调试识别并处理认证、速率限制等常见API错误",
-            "score": 9.723
+            "score": 8.756
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习3.只在一个终端里把ANTHROPICAPIKEY设为一个假值，然后再次运行脚本。在输出中找到HTTP状态码和错误类型；认证失败会返回401状态码。",
-            "score": 5.666
-          },
-          {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "从Phase11开始，你会调用LLMAPI（Anthropic、OpenAI、Google）。在Phase13–16中，你会构建在循环中使用这些API的智能体。你需要知道APIkey如何工作、如何安全保存，以及如何完成第一次API调用。",
-            "score": 3.708
+            "score": 5.342
           }
         ]
       }
@@ -530,7 +530,7 @@
   {
     "lessonId": "practice/00-setup-and-tooling/05-jupyter-notebooks",
     "translationSha256": "3510714588e263be008d12d946d35851db664527537676a019fc0499ab883ede",
-    "assessmentSha256": "92b697c1c0ee430655eabad0b08f1afca9331588b6e02f8a8539c2282961afb5",
+    "assessmentSha256": "cf986033634a4953fcc6aaea452aff97ae82e0a9ca5a2a0c04d56b1f5dc23a5d",
     "questions": [
       {
         "id": "notebook",
@@ -538,22 +538,22 @@
         "status": "draft",
         "candidates": [
           {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "每篇AI论文、教程和Kaggle竞赛都会使用Jupyternotebook。它让你分块运行代码、内联查看输出、混合代码和说明，并快速迭代。没有notebook就学AI，如同不带草稿纸做数学作业。",
-            "score": 24.585
+            "headingId": "概念",
+            "heading": "概念",
+            "quote": "内核（kernel）是在后台运行的Python进程。运行单元格时，界面将代码发给内核；内核执行并返回结果。所有单元格共享同一个内核，因此变量会在单元格之间保留。",
+            "score": 11.767
           },
           {
-            "headingId": "第-5-步-内联显示丰富输出",
-            "heading": "第 5 步：内联显示丰富输出",
-            "quote": "图会出现在单元格正下方。这正是notebook主导AI工作的原因：数据、图和代码在同一处呈现。",
-            "score": 11.85
+            "headingId": "学习目标",
+            "heading": "学习目标",
+            "quote": "安装并启动JupyterLab、JupyterNotebook，或带Jupyter扩展的VSCode使用magiccommand（%timeit、%%time、%matplotlibinline）进行基准测试和内联可视化区分notebook与脚本的适用场景，运用“在notebook探索、在脚本交付”的工作流识别并规避常见notebook陷阱：乱序执行、隐藏状",
+            "score": 10.445
           },
           {
-            "headingId": "第-5-步-内联显示丰富输出",
-            "heading": "第 5 步：内联显示丰富输出",
-            "quote": "Notebook会自动显示单元格最后一个表达式，但你可以控制它：",
-            "score": 10.578
+            "headingId": "常见陷阱",
+            "heading": "常见陷阱",
+            "quote": "隐藏状态。你删除了一个单元格，但其中创建的变量仍在内存里。Notebook看起来干净，却依赖一个幽灵单元格。修复：定期重启内核。",
+            "score": 9.655
           }
         ]
       },
@@ -661,8 +661,8 @@
   },
   {
     "lessonId": "practice/00-setup-and-tooling/06-python-environments",
-    "translationSha256": "fbd1b0af3ebfad1526e1668646ed147b21f65bf6a6658f584e88dbe821e051cb",
-    "assessmentSha256": "7d25d55631191fdd7d1c8e2406396b0156428064a5d486378c3a2ab32c8d0879",
+    "translationSha256": "08782f664277e32040694cb28f0dcfca8a6460ca357a3628adffa64da7310326",
+    "assessmentSha256": "c57397ab3d1a26e139f0f608d0a06311989dd14036394997d251d190946247a9",
     "questions": [
       {
         "id": "isolation",
@@ -673,19 +673,19 @@
             "headingId": "问题",
             "heading": "问题",
             "quote": "解决办法是：每个项目都有自己的隔离环境和包集合。",
-            "score": 18.525
+            "score": 18.795
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "用uv、venv或conda创建隔离的虚拟环境编写带可选依赖组的pyproject.toml，并生成可复现的lockfile诊断全局安装、混用pip/conda、CUDA版本不匹配等常见问题为依赖冲突的项目实施按阶段划分的环境策略",
-            "score": 13.455
+            "score": 13.678
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "PyTorch、JAX和TensorFlow各自携带自己的CUDA绑定模型库会固定特定框架版本全局pipinstall会覆盖此前安装的内容CUDA11.8构建不能与CUDA12.x驱动配合使用（反之亦然）",
-            "score": 13.293
+            "score": 13.218
           }
         ]
       },
@@ -698,19 +698,19 @@
             "headingId": "lockfile",
             "heading": "Lockfile",
             "quote": "Lockfile会把每个依赖（包括传递依赖）固定为精确版本，确保任何人从它安装都会得到相同包。",
-            "score": 45.237
+            "score": 45.762
           },
           {
             "headingId": "lockfile",
             "heading": "Lockfile",
             "quote": "将lockfile提交到Git；克隆仓库的人据此安装即可得到相同版本。",
-            "score": 11.519
+            "score": 11.625
           },
           {
             "headingId": "python-环境",
             "heading": "Python 环境",
             "quote": "不同项目需要不同的依赖版本；虚拟环境负责把它们隔离开。",
-            "score": 6.961
+            "score": 6.913
           }
         ]
       },
@@ -720,22 +720,22 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "5-cuda-版本不匹配",
+            "heading": "5. CUDA 版本不匹配",
+            "quote": "LearningAtlas编者注（CUDA兼容性）：前文对版本不匹配的概括过于绝对。PyTorch的CUDA构建必须与NVIDIA驱动兼容，不要求版本号完全相等。较新的驱动通常能运行较旧CUDA应用，同一主要版本也可能具有次要版本兼容性；应核对NVIDIA兼容性文档。检查当前shell的Python和pip路径，并优先用python-mpip确保二者属于同一",
+            "score": 14.234
+          },
+          {
+            "headingId": "练习",
+            "heading": "练习",
+            "quote": "运行envsetup.sh并确认所有检查通过创建第二个虚拟环境，安装不同版本的numpy，确认二者隔离为同时需要PyTorch和AnthropicSDK的项目编写pyproject.toml有意不激活venv而全局安装一个包，观察安装位置后将其卸载",
+            "score": 11.494
+          },
+          {
             "headingId": "方案-1-uv-venv-推荐",
             "heading": "方案 1：uv venv（推荐）",
             "quote": "uv是最快的Python包管理器（比pip快10–100倍），可用一个工具处理虚拟环境、Python版本和依赖解析。",
-            "score": 9.52
-          },
-          {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "用uv、venv或conda创建隔离的虚拟环境编写带可选依赖组的pyproject.toml，并生成可复现的lockfile诊断全局安装、混用pip/conda、CUDA版本不匹配等常见问题为依赖冲突的项目实施按阶段划分的环境策略",
-            "score": 8.015
-          },
-          {
-            "headingId": "方案-3-conda-需要时使用",
-            "heading": "方案 3：conda（需要时使用）",
-            "quote": "需要特定CUDAtoolkit版本，但不希望在系统范围安装在无法安装系统包的共享集群上工作某个库的安装说明明确写着“useconda”",
-            "score": 7.026
+            "score": 9.252
           }
         ]
       },
@@ -745,47 +745,47 @@
         "status": "draft",
         "candidates": [
           {
-            "headingId": "方案-3-conda-需要时使用",
-            "heading": "方案 3：conda（需要时使用）",
-            "quote": "规则：在一个conda环境中使用conda，就用conda安装全部包。往conda环境混入pipinstall会制造难以调试的冲突。",
-            "score": 13.717
+            "headingId": "2-混用-pip-和-conda",
+            "heading": "2. 混用 pip 和 conda",
+            "quote": "如果必须在conda中使用仅由pip提供的包，先安装全部conda包，最后才安装pip包。",
+            "score": 20.874
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "用uv、venv或conda创建隔离的虚拟环境编写带可选依赖组的pyproject.toml，并生成可复现的lockfile诊断全局安装、混用pip/conda、CUDA版本不匹配等常见问题为依赖冲突的项目实施按阶段划分的环境策略",
-            "score": 13.529
+            "score": 17.592
           },
           {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "解决办法是：每个项目都有自己的隔离环境和包集合。",
-            "score": 12.875
+            "headingId": "5-cuda-版本不匹配",
+            "heading": "5. CUDA 版本不匹配",
+            "quote": "LearningAtlas编者注（CUDA兼容性）：前文对版本不匹配的概括过于绝对。PyTorch的CUDA构建必须与NVIDIA驱动兼容，不要求版本号完全相等。较新的驱动通常能运行较旧CUDA应用，同一主要版本也可能具有次要版本兼容性；应核对NVIDIA兼容性文档。检查当前shell的Python和pip路径，并优先用python-mpip确保二者属于同一",
+            "score": 14.171
           }
         ]
       },
       {
         "id": "cuda-mismatch",
-        "question": "即使有 NVIDIA GPU，PyTorch 仍报告“CUDA not available”，最可能的原因是什么？",
+        "question": "确认 GPU 支持 CUDA、PyTorch 已安装且驱动已加载后，版本相关的不可用原因可能是什么？",
         "status": "draft",
         "candidates": [
           {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "PyTorch、JAX和TensorFlow各自携带自己的CUDA绑定模型库会固定特定框架版本全局pipinstall会覆盖此前安装的内容CUDA11.8构建不能与CUDA12.x驱动配合使用（反之亦然）",
-            "score": 13.501
+            "headingId": "5-cuda-版本不匹配",
+            "heading": "5. CUDA 版本不匹配",
+            "quote": "LearningAtlas编者注（CUDA兼容性）：前文对版本不匹配的概括过于绝对。PyTorch的CUDA构建必须与NVIDIA驱动兼容，不要求版本号完全相等。较新的驱动通常能运行较旧CUDA应用，同一主要版本也可能具有次要版本兼容性；应核对NVIDIA兼容性文档。检查当前shell的Python和pip路径，并优先用python-mpip确保二者属于同一",
+            "score": 25.043
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "运行envsetup.sh并确认所有检查通过创建第二个虚拟环境，安装不同版本的numpy，确认二者隔离为同时需要PyTorch和AnthropicSDK的项目编写pyproject.toml有意不激活venv而全局安装一个包，观察安装位置后将其卸载",
-            "score": 6.006
+            "score": 10.918
           },
           {
-            "headingId": "提示",
-            "heading": "提示",
-            "quote": "练习2.在一个新文件夹中用uvvenv创建第二个环境，激活它，并用版本固定（如numpy==1.26.4）安装一个较旧的numpy。在每个环境里运行python-c\"importnumpy;print(numpy.version)\"；两个版本号必须不同。",
-            "score": 4.043
+            "headingId": "问题",
+            "heading": "问题",
+            "quote": "PyTorch、JAX和TensorFlow各自携带自己的CUDA绑定模型库会固定特定框架版本全局pipinstall会覆盖此前安装的内容CUDA11.8构建不能与CUDA12.x驱动配合使用（反之亦然）",
+            "score": 10.724
           }
         ]
       }
@@ -793,8 +793,8 @@
   },
   {
     "lessonId": "practice/00-setup-and-tooling/07-docker-for-ai",
-    "translationSha256": "d52d61ea17088404b6809b7355b07e5f5c147d4a9b3f6fcbe1e3cc0c1620892e",
-    "assessmentSha256": "840fb2759dfa2f70217167f076a44475dc8906616496e8eb4f430dbe6d0e7694",
+    "translationSha256": "b2b3d6a2d2e670ff6b1678e189c987e463bf6a796a40c8f755a982a36d3b0458",
+    "assessmentSha256": "f6b701c8c2c2fcd920083d97b693ae75eea074d5be7f59c2878b7c3181cd2ffe",
     "questions": [
       {
         "id": "container-vm",
@@ -805,19 +805,19 @@
             "headingId": "概念",
             "heading": "概念",
             "quote": "Docker将代码、运行时、库和系统工具包装为称作容器的隔离单元。它类似轻量虚拟机，但共享宿主OS内核而非运行自己的内核，因此数秒启动而不是数分钟。",
-            "score": 34.784
+            "score": 17.88
           },
           {
             "headingId": "why-ai-projects-need-docker-more-than-most",
             "heading": "为什么 AI 项目特别需要 Docker",
             "quote": "GPU驱动很脆弱。CUDA12.4代码不能在CUDA11.8上运行。Docker通过NVIDIAContainerToolkit共享宿主GPU驱动，同时将CUDAtoolkit隔离在容器中。模型权重很大。一个7B参数模型在fp16下为14GB，不应每次重建都重新下载；Dockervolume可挂载宿主models目录。多服务架构常见。真实AI应用通常包含Py",
-            "score": 11.847
+            "score": 9.858
           },
           {
-            "headingId": "练习",
-            "heading": "练习",
-            "quote": "构建Dockerfile，并在容器中运行python-c\"importtorch;print(torch.version)\"。启动docker-compose栈，确认AI容器可在http://qdrant:6333/collections访问Qdrant。将flask加到Dockerfile，重建，在端口5000运行简单API服务器，并用-p5000:500",
-            "score": 6.843
+            "headingId": "第-2-步-安装-nvidia-container-toolkit-带-nvidia-gpu-的-linux",
+            "heading": "第 2 步：安装 NVIDIA Container Toolkit（带 NVIDIA GPU 的 Linux）",
+            "quote": "它让Docker容器能访问GPU。macOS和Windows（WSL2）用户可跳过，DockerDesktop会以不同方式处理GPUpassthrough。",
+            "score": 4.362
           }
         ]
       },
@@ -830,19 +830,19 @@
             "headingId": "第-4-步-编写-ai-开发-dockerfile",
             "heading": "第 4 步：编写 AI 开发 Dockerfile",
             "quote": "首次构建需下载CUDA基础镜像和PyTorch，耗时较长；后续构建会使用缓存层。",
-            "score": 9.634
+            "score": 9.791
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从Dockerfile构建包含CUDA、PyTorch和AI库的GPUDocker镜像将宿主目录挂载为volume，在容器重建间保留模型、数据集和代码配置NVIDIAContainerToolkit，在容器内暴露GPU使用DockerCompose编排多服务AI应用（推理服务器+向量数据库）",
-            "score": 6.624
+            "score": 6.745
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "AI项目存在依赖噩梦：Python、PyTorch、CUDA驱动、cuDNN、系统级C库，以及需要精确编译器版本的flash-attn等专用包。Docker将它们打包到一个在任何地方都相同运行的镜像中。",
-            "score": 5.471
+            "score": 5.494
           }
         ]
       },
@@ -852,22 +852,22 @@
         "status": "draft",
         "candidates": [
           {
+            "headingId": "第-5-步-数据和模型的-volume-mount",
+            "heading": "第 5 步：数据和模型的 volume mount",
+            "quote": "LearningAtlas编者注（持久化边界）：上文将停止容器等同于删除的表述不准确。容器删除或重建时，未挂载的可写层数据会丢失；单纯停止同一个容器不会删除其可写层。bindmount把宿主目录映射到容器，命名volume由Docker管理，二者都可跨容器保留数据。参见Docker存储说明。",
+            "score": 59.73
+          },
+          {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从Dockerfile构建包含CUDA、PyTorch和AI库的GPUDocker镜像将宿主目录挂载为volume，在容器重建间保留模型、数据集和代码配置NVIDIAContainerToolkit，在容器内暴露GPU使用DockerCompose编排多服务AI应用（推理服务器+向量数据库）",
-            "score": 23.353
+            "score": 18.887
           },
           {
             "headingId": "why-ai-projects-need-docker-more-than-most",
             "heading": "为什么 AI 项目特别需要 Docker",
             "quote": "GPU驱动很脆弱。CUDA12.4代码不能在CUDA11.8上运行。Docker通过NVIDIAContainerToolkit共享宿主GPU驱动，同时将CUDAtoolkit隔离在容器中。模型权重很大。一个7B参数模型在fp16下为14GB，不应每次重建都重新下载；Dockervolume可挂载宿主models目录。多服务架构常见。真实AI应用通常包含Py",
-            "score": 20.765
-          },
-          {
-            "headingId": "第-5-步-数据和模型的-volume-mount",
-            "heading": "第 5 步：数据和模型的 volume mount",
-            "quote": "Volumemount对AI很关键；没有它，容器停止时下载的14GB模型会消失。",
-            "score": 16.969
+            "score": 14.539
           }
         ]
       },
@@ -880,19 +880,19 @@
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从Dockerfile构建包含CUDA、PyTorch和AI库的GPUDocker镜像将宿主目录挂载为volume，在容器重建间保留模型、数据集和代码配置NVIDIAContainerToolkit，在容器内暴露GPU使用DockerCompose编排多服务AI应用（推理服务器+向量数据库）",
-            "score": 13.818
+            "score": 13.84
           },
           {
             "headingId": "概念",
             "heading": "概念",
             "quote": "Docker将代码、运行时、库和系统工具包装为称作容器的隔离单元。它类似轻量虚拟机，但共享宿主OS内核而非运行自己的内核，因此数秒启动而不是数分钟。",
-            "score": 11.307
+            "score": 11.292
           },
           {
             "headingId": "why-ai-projects-need-docker-more-than-most",
             "heading": "为什么 AI 项目特别需要 Docker",
             "quote": "GPU驱动很脆弱。CUDA12.4代码不能在CUDA11.8上运行。Docker通过NVIDIAContainerToolkit共享宿主GPU驱动，同时将CUDAtoolkit隔离在容器中。模型权重很大。一个7B参数模型在fp16下为14GB，不应每次重建都重新下载；Dockervolume可挂载宿主models目录。多服务架构常见。真实AI应用通常包含Py",
-            "score": 9.971
+            "score": 9.951
           }
         ]
       },
@@ -905,19 +905,19 @@
             "headingId": "第-6-步-多服务-ai-应用的-docker-compose",
             "heading": "第 6 步：多服务 AI 应用的 Docker Compose",
             "quote": "AI开发容器现在可通过服务名访问http://qdrant:6333；DockerCompose自动创建共享网络。",
-            "score": 33.34
+            "score": 33.79
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习2.在code/文件夹中运行dockercomposeup-d，然后用dockercomposeexecai-devbash在ai-dev服务中打开一个shell。在其中运行curlhttp://qdrant:6333/collections；收到JSON回复就说明服务名在compose网络上解析成功。",
-            "score": 14.579
+            "score": 14.809
           },
           {
             "headingId": "第-6-步-多服务-ai-应用的-docker-compose",
             "heading": "第 6 步：多服务 AI 应用的 Docker Compose",
             "quote": "真实RAG应用需要推理服务器和向量数据库；DockerCompose用一条命令运行两者。见code/docker-compose.yml：",
-            "score": 13.378
+            "score": 13.427
           }
         ]
       }
@@ -925,8 +925,8 @@
   },
   {
     "lessonId": "practice/00-setup-and-tooling/08-editor-setup",
-    "translationSha256": "1cf6ae48cfb80297af70f67e20334a3bc9b8e48a28e13f05d620038c3fdaa370",
-    "assessmentSha256": "213352043f2eb723815d9f740ab628e53d8cc5329888e16f8490c1e5dbaf7fd4",
+    "translationSha256": "781e9d4e22d269a132beba0921f9f02a511b6968875653848d64b6364acded55",
+    "assessmentSha256": "ea84ce0b4cbbf57cba9e1713cdf27bdc792616a3ecb33006b38be09de2a1c6e4",
     "questions": [
       {
         "id": "lsp",
@@ -937,19 +937,19 @@
             "headingId": "vim-neovim",
             "heading": "Vim/Neovim",
             "quote": "pyright或pylsp：通过Mason或手工安装做类型检查nvim-lspconfig：语言服务器集成jupyter-vim或molten-nvim：类notebook执行telescope.nvim：文件/符号搜索带black和ruff的none-ls.nvim：格式化/lint",
-            "score": 14.809
+            "score": 12.604
           },
           {
             "headingId": "编辑器配置",
             "heading": "编辑器配置",
             "quote": "配置好编辑器，让补全、检查和调试功能减少日常摩擦。",
-            "score": 12.619
+            "score": 9.065
           },
           {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "安装VSCode及Python、Jupyter、lint和远程SSH所需扩展为AI工作流配置保存时格式化、类型检查和notebook输出滚动用RemoteSSH像编辑本地文件一样编辑、调试远程GPU机器代码评估Cursor、Windsurf、Neovim等编辑器在AI工作中的取舍",
-            "score": 11.688
+            "headingId": "编辑器配置",
+            "heading": "编辑器配置",
+            "quote": "类型：构建语言：--前置课程：Phase0，第01课预计时间：约20分钟",
+            "score": 8.915
           }
         ]
       },
@@ -962,19 +962,19 @@
             "headingId": "第-3-步-配置设置",
             "heading": "第 3 步：配置设置",
             "quote": "基础类型检查：运行前发现错误参数类型、张量形状和API参数，减少调试时间。保存时格式化：Black自动处理格式，无须再思考它。88和120列标尺：Black在88列换行；120列提醒docstring和注释过长。Notebook输出滚动：训练循环会输出数千行；不开启时输出面板会失控膨胀。自动保存：避免忘记保存而运行旧代码。",
-            "score": 14.716
+            "score": 18.085
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "安装VSCode及Python、Jupyter、lint和远程SSH所需扩展为AI工作流配置保存时格式化、类型检查和notebook输出滚动用RemoteSSH像编辑本地文件一样编辑、调试远程GPU机器代码评估Cursor、Windsurf、Neovim等编辑器在AI工作中的取舍",
-            "score": 11.303
+            "score": 14.7
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "安装VSCode和第2步全部扩展将本课settings.json复制到VSCode配置打开Python文件，确认Pylance显示类型提示，Black在保存时格式化若可访问远程机器，配置RemoteSSH并打开其文件夹",
-            "score": 11.109
+            "score": 12.686
           }
         ]
       },
@@ -987,19 +987,19 @@
             "headingId": "第-5-步-远程开发-ssh-到-gpu-机器",
             "heading": "第 5 步：远程开发（SSH 到 GPU 机器）",
             "quote": "这是AI工作最重要的扩展。训练会在远程机器运行（云VM、实验室服务器、Lambda、Vast.ai）；RemoteSSH让你像本地一样打开远程文件系统、编辑、运行终端和调试。",
-            "score": 33.49
+            "score": 33.771
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "安装VSCode及Python、Jupyter、lint和远程SSH所需扩展为AI工作流配置保存时格式化、类型检查和notebook输出滚动用RemoteSSH像编辑本地文件一样编辑、调试远程GPU机器代码评估Cursor、Windsurf、Neovim等编辑器在AI工作中的取舍",
-            "score": 28.356
+            "score": 28.635
           },
           {
             "headingId": "第-5-步-远程开发-ssh-到-gpu-机器",
             "heading": "第 5 步：远程开发（SSH 到 GPU 机器）",
             "quote": "安装RemoteSSH扩展（第2步已完成）。按Ctrl+Shift+P（或Cmd+Shift+P），输入“Remote-SSH:ConnecttoHost”。输入user@your-gpu-box-ip。VSCode会自动在远程机器安装服务端组件。",
-            "score": 19.71
+            "score": 20.003
           }
         ]
       },
@@ -1012,19 +1012,19 @@
             "headingId": "第-3-步-配置设置",
             "heading": "第 3 步：配置设置",
             "quote": "基础类型检查：运行前发现错误参数类型、张量形状和API参数，减少调试时间。保存时格式化：Black自动处理格式，无须再思考它。88和120列标尺：Black在88列换行；120列提醒docstring和注释过长。Notebook输出滚动：训练循环会输出数千行；不开启时输出面板会失控膨胀。自动保存：避免忘记保存而运行旧代码。",
-            "score": 29.436
-          },
-          {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "你会花数千小时在编辑器中写Python、运行notebook、调试训练循环并SSH到GPU机器。配置不当会让每次工作都充满摩擦：没有补全、类型提示、内联错误，格式化全靠手工，终端也难用。",
-            "score": 12.335
+            "score": 16.528
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "安装VSCode及Python、Jupyter、lint和远程SSH所需扩展为AI工作流配置保存时格式化、类型检查和notebook输出滚动用RemoteSSH像编辑本地文件一样编辑、调试远程GPU机器代码评估Cursor、Windsurf、Neovim等编辑器在AI工作中的取舍",
-            "score": 9.704
+            "score": 12.271
+          },
+          {
+            "headingId": "第-1-步-安装-vs-code",
+            "heading": "第 1 步：安装 VS Code",
+            "quote": "推荐使用VSCode：免费、支持所有操作系统、原生支持Jupyternotebook，扩展生态可覆盖AI工作所需功能。",
+            "score": 6.921
           }
         ]
       },
@@ -1036,20 +1036,20 @@
           {
             "headingId": "第-3-步-配置设置",
             "heading": "第 3 步：配置设置",
+            "quote": "LearningAtlas编者注（类型检查边界）：上文关于类型检查可发现张量形状错误的概括过宽。静态类型检查可依据注解发现部分参数类型错误，但普通basic检查不能保证识别任意PyTorch张量的运行时形状；仍应在关键操作处检查.shape、断言并运行测试。参见Python编辑与类型检查。",
+            "score": 59.206
+          },
+          {
+            "headingId": "第-3-步-配置设置",
+            "heading": "第 3 步：配置设置",
             "quote": "基础类型检查：运行前发现错误参数类型、张量形状和API参数，减少调试时间。保存时格式化：Black自动处理格式，无须再思考它。88和120列标尺：Black在88列换行；120列提醒docstring和注释过长。Notebook输出滚动：训练循环会输出数千行；不开启时输出面板会失控膨胀。自动保存：避免忘记保存而运行旧代码。",
-            "score": 33.131
+            "score": 10.105
           },
           {
-            "headingId": "问题",
-            "heading": "问题",
-            "quote": "你会花数千小时在编辑器中写Python、运行notebook、调试训练循环并SSH到GPU机器。配置不当会让每次工作都充满摩擦：没有补全、类型提示、内联错误，格式化全靠手工，终端也难用。",
-            "score": 13.375
-          },
-          {
-            "headingId": "使用",
-            "heading": "使用",
-            "quote": "在VSCode打开项目文件夹（或通过RemoteSSH连接GPU机器）。以补全、类型提示和内联错误编写Python。用Jupyter扩展内联运行notebook。用集成终端运行训练脚本、uvpipinstall与GPU监控。提交前用GitLens审查修改。",
-            "score": 13.348
+            "headingId": "提示",
+            "heading": "提示",
+            "quote": "练习3.写一个带类型注解的函数，然后把鼠标悬停在对它的调用上；Pylance会显示推断出的类型。在某一行中加入多余的空格并保存文件；保存时Black必须重新格式化该行。",
+            "score": 6.642
           }
         ]
       }
@@ -1057,8 +1057,8 @@
   },
   {
     "lessonId": "practice/00-setup-and-tooling/09-data-management",
-    "translationSha256": "99102580e98ccb4f83c4fc58919d138c91ca920a8fb2760a141047fa0d97efd3",
-    "assessmentSha256": "9b0f260bee90bb48faec271e959bfd704659ec1096044585c6f85d4104cfb7d1",
+    "translationSha256": "15489b2d2a0040727033cab017e77670d04f914f001b0a6a823c4f4b888489a9",
+    "assessmentSha256": "76537fa9bec5eb945e0b362b79232c170449b79950535b21a3a7125f1c8e9d95",
     "questions": [
       {
         "id": "splits",
@@ -1069,19 +1069,19 @@
             "headingId": "step-5-data-splits",
             "heading": "第 5 步：数据划分",
             "quote": "训练集：模型从中学习（通常80%）验证集：训练过程中检查进度（通常10%）测试集：训练结束后的最终评估（通常10%）",
-            "score": 25.979
+            "score": 26.108
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "用HuggingFacedatasets库加载、流式处理和缓存数据集在CSV、JSON、Parquet与Arrow格式间转换，并说明取舍用固定随机种子创建可复现的训练/验证/测试集划分用.gitignore、GitLFS或DVC管理大型模型和数据集文件",
-            "score": 17.686
+            "score": 17.734
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "每个AI项目都从数据开始：寻找、下载、转换格式、划分训练和评估数据，并做版本管理以复现实验。每次手工完成这些步骤既慢又易错；你需要可重复的工作流。",
-            "score": 5.622
+            "score": 5.669
           }
         ]
       },
@@ -1094,19 +1094,19 @@
             "headingId": "概念",
             "heading": "概念",
             "quote": "HuggingFacedatasets是AI工作中加载数据的标准方式，开箱即可处理下载、缓存、格式转换和流式读取。",
-            "score": 23.168
+            "score": 23.325
+          },
+          {
+            "headingId": "概念",
+            "heading": "概念",
+            "quote": "LearningAtlas编者注（概念核对）：HuggingFaceHub托管和共享模型、数据集及演示工件；datasets提供加载与转换接口，本地缓存保存已下载的副本。",
+            "score": 15.466
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "每个AI项目都从数据开始：寻找、下载、转换格式、划分训练和评估数据，并做版本管理以复现实验。每次手工完成这些步骤既慢又易错；你需要可重复的工作流。",
-            "score": 10.503
-          },
-          {
-            "headingId": "第-4-步-数据集格式",
-            "heading": "第 4 步：数据集格式",
-            "quote": "AI工作中，Parquet是最佳存储格式，Arrow是内存中处理的格式；CSV和JSON用于交换。",
-            "score": 8.752
+            "score": 10.602
           }
         ]
       },
@@ -1119,19 +1119,19 @@
             "headingId": "第-4-步-数据集格式",
             "heading": "第 4 步：数据集格式",
             "quote": "AI工作中，Parquet是最佳存储格式，Arrow是内存中处理的格式；CSV和JSON用于交换。",
-            "score": 12.859
+            "score": 10.041
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "使用mrpc配置加载glue数据集，并查看前5个样本流式读取c4数据集，统计10秒内可处理的样本数将数据集转为Parquet，比较其与CSV的文件大小用固定种子创建70/15/15的train/val/test划分并验证大小",
-            "score": 8.555
+            "score": 8.605
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "用HuggingFacedatasets库加载、流式处理和缓存数据集在CSV、JSON、Parquet与Arrow格式间转换，并说明取舍用固定随机种子创建可复现的训练/验证/测试集划分用.gitignore、GitLFS或DVC管理大型模型和数据集文件",
-            "score": 8.201
+            "score": 8.249
           }
         ]
       },
@@ -1144,19 +1144,19 @@
             "headingId": "第-3-步-流式处理大型数据集",
             "heading": "第 3 步：流式处理大型数据集",
             "quote": "有些数据集大到无法放入磁盘；流式模式逐行加载，无需下载完整数据。",
-            "score": 29.903
+            "score": 30.111
           },
           {
             "headingId": "第-3-步-流式处理大型数据集",
             "heading": "第 3 步：流式处理大型数据集",
             "quote": "流式模式给出IterableDataset；数据到达时逐行处理，因此无论数据集大小，内存占用保持不变。",
-            "score": 27.782
+            "score": 28.04
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习2.像streamdataset那样用streaming=True加载数据集，在循环中读取样本，当time.time()超过起始时间加10秒时停止。打印计数；运行两次，因为第一次运行包含连接启动时间。",
-            "score": 11.512
+            "score": 11.514
           }
         ]
       },
@@ -1169,19 +1169,19 @@
             "headingId": "第-7-步-处理大型文件",
             "heading": "第 7 步：处理大型文件",
             "quote": "DVC创建指向数据的小型.dvc文件；数据本身存于S3、GCS或其他远程存储后端。",
-            "score": 24.588
+            "score": 24.841
           },
           {
             "headingId": "第-7-步-处理大型文件",
             "heading": "第 7 步：处理大型文件",
             "quote": "本课程使用.gitignore已足够；需要跨机器复现精确实验时再使用DVC。",
-            "score": 11.956
+            "score": 12.105
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "每个AI项目都从数据开始：寻找、下载、转换格式、划分训练和评估数据，并做版本管理以复现实验。每次手工完成这些步骤既慢又易错；你需要可重复的工作流。",
-            "score": 10.828
+            "score": 10.928
           }
         ]
       }
@@ -1190,7 +1190,7 @@
   {
     "lessonId": "practice/00-setup-and-tooling/10-terminal-and-shell",
     "translationSha256": "dc14738ca18d6c859ab1bca034b287d304bc242025596db1c2914a1505cedfb4",
-    "assessmentSha256": "a53947ea16691ad4cc9ec06831bee87cee9cc6a6312b6ac28a711236b5ff99f3",
+    "assessmentSha256": "d938c21f980a854469d0f763a983b30bf8ed522640f8189ea6c0cad7e87a5b20",
     "questions": [
       {
         "id": "pipe",
@@ -1322,7 +1322,7 @@
   {
     "lessonId": "practice/00-setup-and-tooling/11-linux-for-ai",
     "translationSha256": "21c408fc96e99ec33b77b9bdf0fd3a1a119e46ea6e404ac45a619bffe061085f",
-    "assessmentSha256": "5cdff329a881cca781c6212a215dadcd6bcc5a023093b14e1824eb252cbaab7a",
+    "assessmentSha256": "1f94f4ac23fa83bf31020089c4dbefcd62143dbce209228abd2c0827af64617e",
     "questions": [
       {
         "id": "home",
@@ -1376,26 +1376,26 @@
       },
       {
         "id": "chmod",
-        "question": "运行 shell 脚本时出现“Permission denied”，用哪条命令修复？",
+        "question": "确认脚本所在文件系统允许执行、且只是缺少执行位时，哪条命令可修复直接运行的 Permission denied？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "在Linux文件系统中导航，并从命令行执行基础文件操作用chmod和chown管理权限，解决“Permissiondenied”错误用apt安装系统软件包，并为AI工作配置一台新的GPU机器识别在远程机器上工作时常见的macOS与Linux差异",
-            "score": 9.661
+            "score": 13.065
+          },
+          {
+            "headingId": "提示",
+            "heading": "提示",
+            "quote": "练习4.运行df-h，查看承载你家目录的文件系统那一行的Avail列。然后运行du-sh~/.cache/|sort-h，使最大的文件夹出现在最后一行。",
+            "score": 10.342
           },
           {
             "headingId": "权限",
             "heading": "权限",
             "quote": "每个Linux文件都有所有者与权限位；脚本不能执行或目录不能写入时会遇到它们。",
-            "score": 8.218
-          },
-          {
-            "headingId": "权限",
-            "heading": "权限",
-            "quote": "看到“Permissiondenied”时，几乎总是权限问题；多数情况可用chmod+x或sudo修复。",
-            "score": 7.05
+            "score": 9.91
           }
         ]
       },
@@ -1454,30 +1454,30 @@
   {
     "lessonId": "practice/00-setup-and-tooling/12-debugging-and-profiling",
     "translationSha256": "710c5f5818e37d0e664920010568f88709d544860acee7bdf5b4f0e4765431ed",
-    "assessmentSha256": "266f536942491fa7ceb8dd922ac306a7fd605a2dede1679a6e7cf6075e450d45",
+    "assessmentSha256": "6331b45fd1e39f1833f81ebd4f890b6c248cd35bf529e6002eaaf73901504ab4",
     "questions": [
       {
         "id": "silent-failure",
-        "question": "AI/ML 代码的调试为何与典型 Web 应用的调试根本不同？",
+        "question": "为什么 AI/ML 调试除了检查异常，还要检查数据、指标和中间张量？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "AI代码的失败方式不同于普通代码。Web应用会带着堆栈跟踪崩溃。一个配置错误的训练循环会运行8小时，烧掉200美元的GPU时间，并产出一个对每个输入都预测均值的模型。代码从未报错。bug可能是张量在错误设备上、忘记调用.detach()，或者标签泄漏进了特征。",
-            "score": 77.472
+            "score": 24.103
           },
           {
-            "headingId": "练习",
-            "heading": "练习",
-            "quote": "运行debugtools.py并阅读每个部分的输出。修改虚拟模型以引入NaN（提示：在前向传播中除以零），观察检测器捕获它。使用cProfile分析一个训练循环，并找出最慢的函数。使用tracemalloc找出数据加载流水线中分配内存最多的是哪一行。为一次简单训练配置TensorBoard，并判断模型是否过拟合。在训练循环中使用breakpoint()。练习",
-            "score": 15.353
+            "headingId": "学习目标",
+            "heading": "学习目标",
+            "quote": "使用条件式breakpoint()和debugprint在训练中途检查张量形状、数据类型和NaN值使用cProfile、lineprofiler和tracemalloc分析训练循环，找出瓶颈检测常见AIbug：形状不匹配、NaN损失、数据泄漏和设备错误的张量配置TensorBoard来可视化损失曲线、权重直方图和梯度分布",
+            "score": 17.508
           },
           {
-            "headingId": "调试与性能分析",
-            "heading": "调试与性能分析",
-            "quote": "最糟糕的AIbug不会崩溃。它们会悄悄用垃圾数据训练，却给出一条漂亮的损失曲线。",
-            "score": 14.363
+            "headingId": "数据泄漏",
+            "heading": "数据泄漏",
+            "quote": "还要检查时间泄漏：用未来数据预测过去。切分前请按时间戳排序。",
+            "score": 13.619
           }
         ]
       },
@@ -1508,51 +1508,51 @@
       },
       {
         "id": "data-leakage",
-        "question": "你的模型在测试集上达到 99% 准确率。应首先怀疑哪种 AI 特有 bug？",
+        "question": "模型的测试准确率突然升至 99%，明显高于基线时，首先应排查哪种数据问题？",
         "status": "draft",
         "candidates": [
           {
             "headingId": "数据泄漏",
             "heading": "数据泄漏",
             "quote": "模型在测试集上达到99%准确率，也可能源于数据泄漏。",
-            "score": 34.837
+            "score": 14.339
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "AI代码的失败方式不同于普通代码。Web应用会带着堆栈跟踪崩溃。一个配置错误的训练循环会运行8小时，烧掉200美元的GPU时间，并产出一个对每个输入都预测均值的模型。代码从未报错。bug可能是张量在错误设备上、忘记调用.detach()，或者标签泄漏进了特征。",
-            "score": 18.061
-          },
-          {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "使用条件式breakpoint()和debugprint在训练中途检查张量形状、数据类型和NaN值使用cProfile、lineprofiler和tracemalloc分析训练循环，找出瓶颈检测常见AIbug：形状不匹配、NaN损失、数据泄漏和设备错误的张量配置TensorBoard来可视化损失曲线、权重直方图和梯度分布",
-            "score": 11.93
-          }
-        ]
-      },
-      {
-        "id": "data-loading",
-        "question": "分析训练循环的耗时分布时，最常见的发现是什么？",
-        "status": "draft",
-        "candidates": [
-          {
-            "headingId": "第-4-部分-为代码段计时",
-            "heading": "第 4 部分：为代码段计时",
-            "quote": "常见发现是：数据加载占用了60%的训练时间。解决办法是在DataLoader中设定numworkers>0，而不是换一张更快的GPU。",
-            "score": 39.375
-          },
-          {
-            "headingId": "学习目标",
-            "heading": "学习目标",
-            "quote": "使用条件式breakpoint()和debugprint在训练中途检查张量形状、数据类型和NaN值使用cProfile、lineprofiler和tracemalloc分析训练循环，找出瓶颈检测常见AIbug：形状不匹配、NaN损失、数据泄漏和设备错误的张量配置TensorBoard来可视化损失曲线、权重直方图和梯度分布",
-            "score": 16.889
+            "score": 13.511
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "运行debugtools.py并阅读每个部分的输出。修改虚拟模型以引入NaN（提示：在前向传播中除以零），观察检测器捕获它。使用cProfile分析一个训练循环，并找出最慢的函数。使用tracemalloc找出数据加载流水线中分配内存最多的是哪一行。为一次简单训练配置TensorBoard，并判断模型是否过拟合。在训练循环中使用breakpoint()。练习",
-            "score": 13.023
+            "score": 10.475
+          }
+        ]
+      },
+      {
+        "id": "data-loading",
+        "question": "训练很慢但 GPU 利用率低。根据本课示例，首先应测量哪一项？",
+        "status": "draft",
+        "candidates": [
+          {
+            "headingId": "使用",
+            "heading": "使用",
+            "quote": "训练前：用一个样本批次运行checkshapes。确认输入和输出维度符合预期。前10步：对损失、输出和梯度使用debugprint。确认没有NaN，且值处于合理范围。训练中：记录损失、学习率和梯度范数。使用TensorBoard可视化。出现故障时：在故障点放置breakpoint()。交互式检查张量。性能方面：为数据加载、前向传播和反向传播分别计时。接近OO",
+            "score": 26.188
+          },
+          {
+            "headingId": "练习",
+            "heading": "练习",
+            "quote": "运行debugtools.py并阅读每个部分的输出。修改虚拟模型以引入NaN（提示：在前向传播中除以零），观察检测器捕获它。使用cProfile分析一个训练循环，并找出最慢的函数。使用tracemalloc找出数据加载流水线中分配内存最多的是哪一行。为一次简单训练配置TensorBoard，并判断模型是否过拟合。在训练循环中使用breakpoint()。练习",
+            "score": 18.132
+          },
+          {
+            "headingId": "第-4-部分-为代码段计时",
+            "heading": "第 4 部分：为代码段计时",
+            "quote": "常见发现是：数据加载占用了60%的训练时间。解决办法是在DataLoader中设定numworkers>0，而不是换一张更快的GPU。",
+            "score": 17.044
           }
         ]
       },
@@ -1586,7 +1586,7 @@
   {
     "lessonId": "practice/00-setup-and-tooling/13-python-for-ai-engineering",
     "translationSha256": "9437aeb1b586ed91cc1b1844f8e75a126349eef070362dc0480b53c6afc53f0c",
-    "assessmentSha256": "ec0d57bb6c8278abb17352df7e39fc7620b67783c6f7f98ced69c8cb8d94b87c",
+    "assessmentSha256": "dd300158e155a102ec4eb8025f866a72a3d811430a73c3087df16e2a2de78a12",
     "questions": [
       {
         "id": "python-ai-pre-1",

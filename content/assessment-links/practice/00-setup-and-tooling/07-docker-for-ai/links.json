@@ -1,0 +1,44 @@
+{
+  "lessonId": "practice/00-setup-and-tooling/07-docker-for-ai",
+  "translationSha256": "b2b3d6a2d2e670ff6b1678e189c987e463bf6a796a40c8f755a982a36d3b0458",
+  "assessmentSha256": "f6b701c8c2c2fcd920083d97b693ae75eea074d5be7f59c2878b7c3181cd2ffe",
+  "reviewedBy": "Codex 逐题语义核对；非外部人工签核",
+  "reviewedAt": "2026-11-06",
+  "links": [
+    {
+      "id": "container-vm",
+      "status": "reviewed",
+      "headingId": "概念",
+      "quote": "共享宿主 OS 内核而非运行自己的内核",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。补充题干适用条件或修正解析中的绝对化说法。"
+    },
+    {
+      "id": "dockerfile",
+      "status": "reviewed",
+      "headingId": "核心词汇",
+      "quote": "逐层构建镜像的指令。",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；保留数值、命令或已有平衡选项，未为凑长度改写。"
+    },
+    {
+      "id": "volumes",
+      "status": "reviewed",
+      "headingId": "第-5-步-数据和模型的-volume-mount",
+      "quote": "容器删除或重建时，未挂载的可写层数据会丢失",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。补充题干适用条件或修正解析中的绝对化说法。"
+    },
+    {
+      "id": "nvidia-toolkit",
+      "status": "reviewed",
+      "headingId": "关键术语",
+      "quote": "通过 `--gpus` 标志向容器暴露宿主 GPU 的运行时 hook",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    },
+    {
+      "id": "compose-network",
+      "status": "reviewed",
+      "headingId": "第-6-步-多服务-ai-应用的-docker-compose",
+      "quote": "Docker Compose 自动创建共享网络",
+      "reviewNote": "逐项核对题干、四个选项、正确索引与解析；改写选项使其考查概念差异，保留答案索引。"
+    }
+  ]
+}

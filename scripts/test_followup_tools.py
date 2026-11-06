@@ -40,6 +40,14 @@ class FollowupToolTests(unittest.TestCase):
         self.assertIn("向量", tokens("向量空间"))
         self.assertEqual(plain('`v1` 与 **v2**'), 'v1与v2')
 
+    def test_reviewed_evidence_can_address_code_and_tables_but_never_a_different_section(self):
+        document = '## 命令\n\n```python\n## 这不是新小节\nprint(torch.cuda.is_available())\n```\n\n## 术语\n\n| 名称 | 含义 |\n| --- | --- |\n| VRAM | GPU 上独立于系统 RAM 的显存 |\n'
+        parts = sections(document)
+        self.assertEqual([part['headingId'] for part in parts], ['命令', '术语'])
+        self.assertIn('torch.cuda.is_available()', parts[0]['source'])
+        self.assertNotIn('GPU 上独立', parts[0]['source'])
+        self.assertIn('GPU 上独立', parts[1]['source'])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -46,6 +46,8 @@ sequenceDiagram
     LR->>WD: git pull
 ```
 
+> **Learning Atlas 编者注（概念核对）：** Git 记录项目文件的变更历史，支持回溯与协作；仓库保存受版本控制的项目文件及其提交历史。日常保存顺序是先暂存（git add），再提交（git commit），最后推送（git push）。
+
 记住三件事：
 1. 经常保存（`git commit`）
 2. 推送到远程仓库（`git push`）

@@ -1,8 +1,8 @@
 {
   "questionCount": 1832,
-  "correctLongestIncludingTies": 1618,
-  "correctSoleLongest": 1556,
-  "soleLongestRate": 0.8493,
+  "correctLongestIncludingTies": 1603,
+  "correctSoleLongest": 1535,
+  "soleLongestRate": 0.8379,
   "priority": [
     {
       "lessonId": "practice/13-tools-and-protocols/43-bytecode-and-managed-formats",
@@ -5087,17 +5087,6 @@
       "ratio": 3.389
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/12-debugging-and-profiling",
-      "id": "nan-root-cause",
-      "lengths": [
-        13,
-        13,
-        10,
-        44
-      ],
-      "ratio": 3.385
-    },
-    {
       "lessonId": "practice/11-llm-engineering/11-caching-cost",
       "id": "caching-cost-11-4",
       "lengths": [
@@ -5162,17 +5151,6 @@
         57
       ],
       "ratio": 3.353
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/12-debugging-and-profiling",
-      "id": "data-leakage",
-      "lengths": [
-        5,
-        20,
-        5,
-        6
-      ],
-      "ratio": 3.333
     },
     {
       "lessonId": "practice/01-math-foundations/11-singular-value-decomposition",
@@ -8299,17 +8277,6 @@
       "ratio": 2.556
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/06-python-environments",
-      "id": "verify-venv",
-      "lengths": [
-        19,
-        20,
-        51,
-        11
-      ],
-      "ratio": 2.55
-    },
-    {
       "lessonId": "practice/01-math-foundations/05-chain-rule-and-autodiff",
       "id": "reverse-mode",
       "lengths": [
@@ -9179,17 +9146,6 @@
       "ratio": 2.368
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/08-editor-setup",
-      "id": "lsp",
-      "lengths": [
-        11,
-        9,
-        10,
-        26
-      ],
-      "ratio": 2.364
-    },
-    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/05-sentiment-analysis",
       "id": "sentiment-analysis-05-6",
       "lengths": [
@@ -9993,17 +9949,6 @@
       "ratio": 2.214
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/10-terminal-and-shell",
-      "id": "pipe",
-      "lengths": [
-        8,
-        7,
-        22,
-        10
-      ],
-      "ratio": 2.2
-    },
-    {
       "lessonId": "practice/01-math-foundations/22-stochastic-processes",
       "id": "stationary",
       "lengths": [
@@ -10123,17 +10068,6 @@
         37
       ],
       "ratio": 2.176
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/11-linux-for-ai",
-      "id": "sed",
-      "lengths": [
-        18,
-        16,
-        16,
-        39
-      ],
-      "ratio": 2.167
     },
     {
       "lessonId": "practice/01-math-foundations/06-probability-and-distributions",
@@ -10675,17 +10609,6 @@
       "ratio": 2.079
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/04-apis-and-keys",
-      "id": "rate-limit",
-      "lengths": [
-        12,
-        27,
-        12,
-        13
-      ],
-      "ratio": 2.077
-    },
-    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/15-topic-modeling",
       "id": "topic-modeling-05-6",
       "lengths": [
@@ -10959,28 +10882,6 @@
         21
       ],
       "ratio": 2.043
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/05-jupyter-notebooks",
-      "id": "notebook",
-      "lengths": [
-        32,
-        12,
-        15,
-        16
-      ],
-      "ratio": 2.0
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/08-editor-setup",
-      "id": "format-on-save",
-      "lengths": [
-        24,
-        12,
-        9,
-        11
-      ],
-      "ratio": 2.0
     },
     {
       "lessonId": "practice/01-math-foundations/08-optimization",
@@ -11764,17 +11665,6 @@
       "ratio": 1.905
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/10-terminal-and-shell",
-      "id": "sighup",
-      "lengths": [
-        10,
-        7,
-        19,
-        9
-      ],
-      "ratio": 1.9
-    },
-    {
       "lessonId": "practice/01-math-foundations/12-tensor-operations",
       "id": "einsum",
       "lengths": [
@@ -11971,17 +11861,6 @@
         5
       ],
       "ratio": 1.889
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/07-docker-for-ai",
-      "id": "compose-network",
-      "lengths": [
-        17,
-        32,
-        10,
-        11
-      ],
-      "ratio": 1.882
     },
     {
       "lessonId": "practice/14-agent-engineering/17-claude-agent-sdk",
@@ -12334,17 +12213,6 @@
         31
       ],
       "ratio": 1.824
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/09-data-management",
-      "id": "dvc",
-      "lengths": [
-        20,
-        11,
-        9,
-        8
-      ],
-      "ratio": 1.818
     },
     {
       "lessonId": "practice/14-agent-engineering/21-computer-use-agents",
@@ -12963,17 +12831,6 @@
       "ratio": 1.684
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/12-debugging-and-profiling",
-      "id": "silent-failure",
-      "lengths": [
-        15,
-        13,
-        30,
-        18
-      ],
-      "ratio": 1.667
-    },
-    {
       "lessonId": "practice/01-math-foundations/11-singular-value-decomposition",
       "id": "geometry",
       "lengths": [
@@ -13126,17 +12983,6 @@
         27
       ],
       "ratio": 1.667
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/10-terminal-and-shell",
-      "id": "tmux",
-      "lengths": [
-        12,
-        17,
-        28,
-        13
-      ],
-      "ratio": 1.647
     },
     {
       "lessonId": "practice/10-llms-from-scratch/08-dpo",
@@ -13722,17 +13568,6 @@
       "ratio": 1.565
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/06-python-environments",
-      "id": "cuda-mismatch",
-      "lengths": [
-        25,
-        10,
-        16,
-        13
-      ],
-      "ratio": 1.562
-    },
-    {
       "lessonId": "practice/18-ethics-safety-alignment/19-model-welfare-research",
       "id": "19-model-welfare-research-post-6",
       "lengths": [
@@ -13742,17 +13577,6 @@
         25
       ],
       "ratio": 1.562
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/02-git-and-collaboration",
-      "id": "ignore-checkpoints",
-      "lengths": [
-        28,
-        14,
-        18,
-        12
-      ],
-      "ratio": 1.556
     },
     {
       "lessonId": "practice/04-computer-vision/06-object-detection-yolo",
@@ -14041,13 +13865,13 @@
       "ratio": 1.512
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/12-debugging-and-profiling",
-      "id": "data-loading",
+      "lessonId": "practice/00-setup-and-tooling/10-terminal-and-shell",
+      "id": "pipe",
       "lengths": [
-        10,
+        11,
         12,
-        18,
-        6
+        24,
+        16
       ],
       "ratio": 1.5
     },
@@ -14448,17 +14272,6 @@
       "ratio": 1.478
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/07-docker-for-ai",
-      "id": "volumes",
-      "lengths": [
-        12,
-        11,
-        21,
-        31
-      ],
-      "ratio": 1.476
-    },
-    {
       "lessonId": "practice/02-ml-fundamentals/18-feature-selection",
       "id": "featsel-post-3",
       "lengths": [
@@ -14734,6 +14547,17 @@
       "ratio": 1.44
     },
     {
+      "lessonId": "practice/00-setup-and-tooling/07-docker-for-ai",
+      "id": "compose-network",
+      "lengths": [
+        16,
+        23,
+        14,
+        14
+      ],
+      "ratio": 1.438
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/36-rebuild-and-prove-equal",
       "id": "prove-equal-q1",
       "lengths": [
@@ -14987,17 +14811,6 @@
       "ratio": 1.391
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/01-dev-environment",
-      "id": "uv-purpose",
-      "lengths": [
-        7,
-        8,
-        18,
-        13
-      ],
-      "ratio": 1.385
-    },
-    {
       "lessonId": "practice/02-ml-fundamentals/11-ensemble-methods",
       "id": "ensemble-post-1",
       "lengths": [
@@ -15040,17 +14853,6 @@
         29
       ],
       "ratio": 1.379
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/06-python-environments",
-      "id": "lockfile",
-      "lengths": [
-        16,
-        9,
-        11,
-        22
-      ],
-      "ratio": 1.375
     },
     {
       "lessonId": "practice/02-ml-fundamentals/03-logistic-regression",
@@ -15108,17 +14910,6 @@
       "ratio": 1.366
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/02-git-and-collaboration",
-      "id": "version-control",
-      "lengths": [
-        11,
-        6,
-        15,
-        11
-      ],
-      "ratio": 1.364
-    },
-    {
       "lessonId": "practice/02-ml-fundamentals/04-decision-trees",
       "id": "trees-post-3",
       "lengths": [
@@ -15139,17 +14930,6 @@
         22
       ],
       "ratio": 1.364
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/09-data-management",
-      "id": "streaming",
-      "lengths": [
-        13,
-        14,
-        19,
-        9
-      ],
-      "ratio": 1.357
     },
     {
       "lessonId": "practice/14-agent-engineering/16-openai-agents-sdk",
@@ -15185,17 +14965,6 @@
       "ratio": 1.353
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/07-docker-for-ai",
-      "id": "nvidia-toolkit",
-      "lengths": [
-        12,
-        20,
-        27,
-        17
-      ],
-      "ratio": 1.35
-    },
-    {
       "lessonId": "practice/14-agent-engineering/03-reflexion-verbal-rl",
       "id": "q7",
       "lengths": [
@@ -15227,17 +14996,6 @@
         7
       ],
       "ratio": 1.343
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/08-editor-setup",
-      "id": "type-checking",
-      "lengths": [
-        15,
-        14,
-        14,
-        20
-      ],
-      "ratio": 1.333
     },
     {
       "lessonId": "practice/01-math-foundations/04-calculus-for-ml",
@@ -15427,17 +15185,6 @@
       "ratio": 1.312
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/03-gpu-setup-and-cloud",
-      "id": "gpu-parallelism",
-      "lengths": [
-        9,
-        17,
-        13,
-        12
-      ],
-      "ratio": 1.308
-    },
-    {
       "lessonId": "practice/14-agent-engineering/43-frame-the-task-before-code",
       "id": "q1",
       "lengths": [
@@ -15559,17 +15306,6 @@
       "ratio": 1.289
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/03-gpu-setup-and-cloud",
-      "id": "synchronize",
-      "lengths": [
-        14,
-        18,
-        11,
-        13
-      ],
-      "ratio": 1.286
-    },
-    {
       "lessonId": "practice/00-setup-and-tooling/08-editor-setup",
       "id": "remote-ssh",
       "lengths": [
@@ -15577,17 +15313,6 @@
         7,
         7,
         9
-      ],
-      "ratio": 1.286
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/10-terminal-and-shell",
-      "id": "redirect",
-      "lengths": [
-        28,
-        15,
-        18,
-        36
       ],
       "ratio": 1.286
     },
@@ -15636,13 +15361,13 @@
       "ratio": 1.278
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/06-python-environments",
-      "id": "conda-pip",
+      "lessonId": "practice/00-setup-and-tooling/11-linux-for-ai",
+      "id": "sed",
       "lengths": [
         22,
-        28,
-        12,
-        17
+        18,
+        17,
+        28
       ],
       "ratio": 1.273
     },
@@ -15755,17 +15480,6 @@
         40
       ],
       "ratio": 1.26
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/06-python-environments",
-      "id": "isolation",
-      "lengths": [
-        11,
-        20,
-        11,
-        16
-      ],
-      "ratio": 1.25
     },
     {
       "lessonId": "practice/02-ml-fundamentals/10-bias-variance",
@@ -16076,6 +15790,28 @@
       "ratio": 1.207
     },
     {
+      "lessonId": "practice/00-setup-and-tooling/04-apis-and-keys",
+      "id": "rate-limit",
+      "lengths": [
+        15,
+        18,
+        15,
+        14
+      ],
+      "ratio": 1.2
+    },
+    {
+      "lessonId": "practice/00-setup-and-tooling/08-editor-setup",
+      "id": "lsp",
+      "lengths": [
+        14,
+        15,
+        14,
+        18
+      ],
+      "ratio": 1.2
+    },
+    {
       "lessonId": "practice/01-math-foundations/19-complex-numbers",
       "id": "multiply",
       "lengths": [
@@ -16175,6 +15911,17 @@
       "ratio": 1.19
     },
     {
+      "lessonId": "practice/00-setup-and-tooling/10-terminal-and-shell",
+      "id": "sighup",
+      "lengths": [
+        14,
+        15,
+        19,
+        16
+      ],
+      "ratio": 1.188
+    },
+    {
       "lessonId": "practice/02-ml-fundamentals/21-feature-stores-and-training-serving-skew",
       "id": "feature-skew-post-2",
       "lengths": [
@@ -16217,17 +15964,6 @@
         32
       ],
       "ratio": 1.185
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/12-debugging-and-profiling",
-      "id": "profiler",
-      "lengths": [
-        13,
-        11,
-        10,
-        10
-      ],
-      "ratio": 1.182
     },
     {
       "lessonId": "practice/13-tools-and-protocols/22-skills-and-agent-sdks",
@@ -16283,6 +16019,17 @@
         8
       ],
       "ratio": 1.182
+    },
+    {
+      "lessonId": "practice/00-setup-and-tooling/12-debugging-and-profiling",
+      "id": "nan-root-cause",
+      "lengths": [
+        17,
+        17,
+        16,
+        20
+      ],
+      "ratio": 1.176
     },
     {
       "lessonId": "practice/01-math-foundations/14-norms-and-distances",
@@ -16406,28 +16153,6 @@
       "ratio": 1.156
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/09-data-management",
-      "id": "parquet",
-      "lengths": [
-        13,
-        12,
-        15,
-        11
-      ],
-      "ratio": 1.154
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/09-data-management",
-      "id": "splits",
-      "lengths": [
-        14,
-        11,
-        11,
-        16
-      ],
-      "ratio": 1.143
-    },
-    {
       "lessonId": "practice/05-nlp-foundations-to-advanced/10-attention-mechanism",
       "id": "attention-mechanism-05-5",
       "lengths": [
@@ -16470,6 +16195,17 @@
         23
       ],
       "ratio": 1.13
+    },
+    {
+      "lessonId": "practice/00-setup-and-tooling/01-dev-environment",
+      "id": "cuda-purpose",
+      "lengths": [
+        18,
+        16,
+        14,
+        14
+      ],
+      "ratio": 1.125
     },
     {
       "lessonId": "practice/02-ml-fundamentals/01-what-is-machine-learning",
@@ -16593,17 +16329,6 @@
       "ratio": 1.107
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/05-jupyter-notebooks",
-      "id": "execution-order",
-      "lengths": [
-        19,
-        16,
-        21,
-        10
-      ],
-      "ratio": 1.105
-    },
-    {
       "lessonId": "practice/02-ml-fundamentals/08-feature-engineering",
       "id": "feateng-post-2",
       "lengths": [
@@ -16613,17 +16338,6 @@
         19
       ],
       "ratio": 1.105
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/07-docker-for-ai",
-      "id": "container-vm",
-      "lengths": [
-        8,
-        10,
-        22,
-        20
-      ],
-      "ratio": 1.1
     },
     {
       "lessonId": "practice/01-math-foundations/14-norms-and-distances",
@@ -16802,6 +16516,61 @@
       "ratio": 1.083
     },
     {
+      "lessonId": "practice/00-setup-and-tooling/01-dev-environment",
+      "id": "uv-purpose",
+      "lengths": [
+        11,
+        9,
+        14,
+        13
+      ],
+      "ratio": 1.077
+    },
+    {
+      "lessonId": "practice/00-setup-and-tooling/03-gpu-setup-and-cloud",
+      "id": "gpu-parallelism",
+      "lengths": [
+        13,
+        14,
+        12,
+        12
+      ],
+      "ratio": 1.077
+    },
+    {
+      "lessonId": "practice/00-setup-and-tooling/09-data-management",
+      "id": "splits",
+      "lengths": [
+        13,
+        13,
+        13,
+        14
+      ],
+      "ratio": 1.077
+    },
+    {
+      "lessonId": "practice/00-setup-and-tooling/09-data-management",
+      "id": "streaming",
+      "lengths": [
+        11,
+        12,
+        14,
+        13
+      ],
+      "ratio": 1.077
+    },
+    {
+      "lessonId": "practice/00-setup-and-tooling/12-debugging-and-profiling",
+      "id": "profiler",
+      "lengths": [
+        14,
+        13,
+        13,
+        13
+      ],
+      "ratio": 1.077
+    },
+    {
       "lessonId": "practice/13-tools-and-protocols/22-skills-and-agent-sdks",
       "id": "skills-sdks-q6",
       "lengths": [
@@ -16879,6 +16648,17 @@
       "ratio": 1.069
     },
     {
+      "lessonId": "practice/00-setup-and-tooling/12-debugging-and-profiling",
+      "id": "data-leakage",
+      "lengths": [
+        14,
+        16,
+        14,
+        15
+      ],
+      "ratio": 1.067
+    },
+    {
       "lessonId": "practice/02-ml-fundamentals/20-model-monitoring-and-drift",
       "id": "drift-post-2",
       "lengths": [
@@ -16923,12 +16703,12 @@
       "ratio": 1.059
     },
     {
-      "lessonId": "practice/00-setup-and-tooling/01-dev-environment",
-      "id": "cuda-purpose",
+      "lessonId": "practice/00-setup-and-tooling/12-debugging-and-profiling",
+      "id": "silent-failure",
       "lengths": [
-        19,
+        16,
         18,
-        12,
+        19,
         17
       ],
       "ratio": 1.056
@@ -16943,17 +16723,6 @@
         14
       ],
       "ratio": 1.056
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/02-git-and-collaboration",
-      "id": "repository",
-      "lengths": [
-        8,
-        20,
-        10,
-        19
-      ],
-      "ratio": 1.053
     },
     {
       "lessonId": "practice/01-math-foundations/20-fourier-transform",
@@ -16976,6 +16745,17 @@
         7
       ],
       "ratio": 1.053
+    },
+    {
+      "lessonId": "practice/00-setup-and-tooling/06-python-environments",
+      "id": "conda-pip",
+      "lengths": [
+        17,
+        21,
+        14,
+        20
+      ],
+      "ratio": 1.05
     },
     {
       "lessonId": "practice/00-setup-and-tooling/01-dev-environment",
@@ -17020,17 +16800,6 @@
         22
       ],
       "ratio": 1.048
-    },
-    {
-      "lessonId": "practice/00-setup-and-tooling/05-jupyter-notebooks",
-      "id": "kernel",
-      "lengths": [
-        24,
-        23,
-        15,
-        20
-      ],
-      "ratio": 1.043
     },
     {
       "lessonId": "practice/13-tools-and-protocols/24-skill-discovery-and-progressive-disclosure",
