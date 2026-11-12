@@ -126,6 +126,33 @@ const t6TheoryIds = [
   "theory/chapter-16-simd-and-gpu-programming/02-arm-and-neon"
 ] as const;
 
+const t7TheoryIds = [
+  "theory/chapter-16-simd-and-gpu-programming/03-x86-and-avx",
+  "theory/chapter-16-simd-and-gpu-programming/05-triton-tpus-and-pallax",
+  "theory/chapter-16-simd-and-gpu-programming/06-risc-v-and-embedded-systems",
+  "theory/chapter-16-simd-and-gpu-programming/07-vulkan-compute-and-cross-platform-gpu",
+  "theory/chapter-18-ml-systems-design/05-ml-design-examples",
+  "theory/chapter-19-applied-ai/01-ai-for-finance",
+  "theory/chapter-19-applied-ai/02-protein-design",
+  "theory/chapter-19-applied-ai/03-drug-discovery",
+  "theory/chapter-19-applied-ai/04-agentic-systems",
+  "theory/chapter-19-applied-ai/05-healthcare",
+  "theory/chapter-20-bleeding-edge-ai/01-quantum-machine-learning",
+  "theory/chapter-20-bleeding-edge-ai/02-neuromorphic-computing",
+  "theory/chapter-20-bleeding-edge-ai/03-datacentres-in-space",
+  "theory/chapter-20-bleeding-edge-ai/04-decentralised-ai",
+  "theory/chapter-20-bleeding-edge-ai/05-brain-machine-interfaces"
+] as const;
+
+const emptyT7TheoryIds = new Set([
+  "theory/chapter-19-applied-ai/03-drug-discovery",
+  "theory/chapter-19-applied-ai/04-agentic-systems",
+  "theory/chapter-19-applied-ai/05-healthcare",
+  "theory/chapter-20-bleeding-edge-ai/03-datacentres-in-space",
+  "theory/chapter-20-bleeding-edge-ai/04-decentralised-ai",
+  "theory/chapter-20-bleeding-edge-ai/05-brain-machine-interfaces"
+]);
+
 const officialTheoryMainUrl = /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//;
 
 afterEach(() => {
@@ -679,7 +706,7 @@ test("serves all published phases with a dynamic target", async () => {
   assert.equal(curriculum.practice.length, 20);
   assert.equal(curriculum.theory.length, 20);
   assert.equal(curriculum.summary.publishedPracticePhaseCount, 20);
-  assert.equal(curriculum.summary.reviewedTheoryNoteCount, 89);
+  assert.equal(curriculum.summary.reviewedTheoryNoteCount, 104);
   assert.equal(curriculum.target.kind, "start");
   assert.equal(curriculum.target.lessonId, "practice/00-setup-and-tooling/01-dev-environment");
   const publishedAgentPhase = curriculum.practice[14];
@@ -980,24 +1007,60 @@ test("publishes every T6 theory translation with official main source links", as
   }
 });
 
+test("publishes every T7 theory translation with official main source links", async () => {
+  const baseUrl = await startTestServer();
+  const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
+  const notes = curriculum.theory.flatMap((chapter: { notes: Array<{
+    theoryId: string;
+    sourcePath: string;
+    sourceUrl: string;
+    latestSourceUrl: string;
+    readKind: string;
+    readLanguage: string;
+    readUrl: string;
+  }> }) => chapter.notes);
+  const t7Notes = t7TheoryIds.map((theoryId) => {
+    const note = notes.find((item) => item.theoryId === theoryId);
+    assert.ok(note, `missing T7 theory note ${theoryId}`);
+    return note;
+  });
+
+  assert.equal(t7Notes.length, 15);
+  for (const note of t7Notes) {
+    assert.equal(note.readKind, "internal");
+    assert.equal(note.readLanguage, "zh");
+    assert.match(note.readUrl, /^\/theory\?theoryId=/);
+    assert.match(note.sourceUrl, officialTheoryMainUrl);
+    assert.match(note.latestSourceUrl, officialTheoryMainUrl);
+    assert.equal(note.sourceUrl, note.latestSourceUrl);
+
+    const response = await fetch(`${baseUrl}/api/theory/content?theoryId=${encodeURIComponent(note.theoryId)}`);
+    assert.equal(response.status, 200);
+    const content = await response.json();
+    assert.equal(content.theoryId, note.theoryId);
+    assert.equal(content.source.path, note.sourcePath);
+    assert.equal(content.source.branch, "main");
+    assert.equal(content.source.revision, "main");
+    assert.equal(content.source.reviewedRevision, "9850ee574a370bc1cde59de98b394e953775b67d");
+    assert.equal(content.sourceUrl, note.sourceUrl);
+    assert.equal(content.latestSourceUrl, note.latestSourceUrl);
+    if (emptyT7TheoryIds.has(note.theoryId)) {
+      assert.equal(content.markdown.trim(), "");
+    } else {
+      assert.match(content.markdown.trimStart(), /^#\s+.+/);
+    }
+  }
+});
+
 test("publishes the reviewed sampling theory reader and rejects unsafe resources", async () => {
   const baseUrl = await startTestServer();
   const theoryId = "theory/chapter-04-statistics/03-sampling";
   const curriculum = await fetch(`${baseUrl}/api/curriculum`).then((response) => response.json());
   const sampling = curriculum.theory[3].notes.find((note: { theoryId: string }) => note.theoryId === theoryId);
-  const fallback = curriculum.theory[15].notes.find((note: { theoryId: string }) =>
-    note.theoryId === "theory/chapter-16-simd-and-gpu-programming/03-x86-and-avx");
-  assert.ok(fallback);
   assert.equal(sampling.readKind, "internal");
   assert.equal(sampling.readLanguage, "zh");
   assert.match(sampling.readUrl, /^\/theory\?theoryId=/);
   assert.match(sampling.sourceUrl, /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//);
-  assert.equal(fallback.readKind, "external");
-  assert.match(fallback.readUrl, /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//);
-  assert.match(fallback.sourceUrl, /^https:\/\/github\.com\/HenryNdubuaku\/maths-cs-ai-compendium\/blob\/main\//);
-  assert.match(fallback.latestSourceUrl, officialTheoryMainUrl);
-  assert.equal(fallback.sourceUrl, fallback.latestSourceUrl);
-
   const response = await fetch(`${baseUrl}/api/theory/content?theoryId=${encodeURIComponent(theoryId)}`);
   assert.equal(response.status, 200);
   const content = await response.json();

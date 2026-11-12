@@ -1,0 +1,33 @@
+# T7 独立理论 C 审核表
+
+审核日期：2026-11-12。上游理论源固定为 `maths-cs-ai-compendium` 的 `main` 快照 `9850ee574a370bc1cde59de98b394e953775b67d`。
+
+本表覆盖 T7 按理论目录章节顺序新增的最后 15 篇独立理论笔记，共对应 0 条理论关联；此前已审核的《抽样》及 T1–T6 理论全文不在本表重复计入。第 19 章的第 03–05 篇和第 20 章的第 03–05 篇上游文件为空，因此译文只保留来源元数据，不补造标题或正文。
+
+审核口径：Codex 按用户授权逐篇对照源文件与中文学习适配的标题层级、公式块、代码块、图片、Mermaid、正文链接和清单项顺序；公式、命令和代码保持源语义，新增解释仅以编者注明示。`通过` 代表本轮已完成结构、技术语义和渲染前置条件复核；空源条目的语义与视觉结论表示已确认双方正文均为空，不代表存在可审核的技术正文。
+
+| # | 中文译文 | `source.path` | revision | 源 SHA-256 | 标题层级（源→译） | 代码（源→译） | Mermaid（源→译） | 图片（源→译） | 链接（源→译） | 清单项（源→译） | 语义 / 代码 / 视觉 | 状态 |
+| ---: | --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | --- |
+| 1 | `content/translations/theory/chapter-16-simd-and-gpu-programming/03-x86-and-avx/zh.md` | `chapter 16 - SIMD and GPU programming/03. x86 and AVX.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `493990827ceb9ded28ab07eddc120e6d3cf59355f0cf0c85b8075a22dc61f3c1` | H1×1 H2×8 H3×5 → H1×1 H2×8 H3×5 | 13 → 13 | 0 → 0 | 0 → 0 | 0 → 0 | 34 → 34 | 通过 / 通过 / 通过 | `reviewed` |
+| 2 | `content/translations/theory/chapter-16-simd-and-gpu-programming/05-triton-tpus-and-pallax/zh.md` | `chapter 16 - SIMD and GPU programming/05. triton, TPUs and pallax.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `00c10d97716897e230e9254a75371024506e61be836fd5f3b8591e1a86a65b80` | H1×1 H2×5 H3×6 → H1×1 H2×5 H3×6 | 9 → 9 | 0 → 0 | 0 → 0 | 0 → 0 | 36 → 36 | 通过 / 通过 / 通过 | `reviewed` |
+| 3 | `content/translations/theory/chapter-16-simd-and-gpu-programming/06-risc-v-and-embedded-systems/zh.md` | `chapter 16 - SIMD and GPU programming/06. RISC-V and embedded systems.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `8f2f66728ad0092a62bfd362e30f0249bae8f5defe4565c7cbb940293119a3c1` | H1×1 H2×7 H3×2 → H1×1 H2×7 H3×2 | 7 → 7 | 0 → 0 | 0 → 0 | 0 → 0 | 42 → 42 | 通过 / 通过 / 通过 | `reviewed` |
+| 4 | `content/translations/theory/chapter-16-simd-and-gpu-programming/07-vulkan-compute-and-cross-platform-gpu/zh.md` | `chapter 16 - SIMD and GPU programming/07. vulkan compute and cross-platform GPU.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `b1be6058081d904d84d9b5653e18151ba40ca51cf76108ba44a9394eb0d850fe` | H1×1 H2×7 H3×5 → H1×1 H2×7 H3×5 | 9 → 9 | 0 → 0 | 0 → 0 | 0 → 0 | 32 → 32 | 通过 / 通过 / 通过 | `reviewed` |
+| 5 | `content/translations/theory/chapter-18-ml-systems-design/05-ml-design-examples/zh.md` | `chapter 18 - ML systems design/05. ML design examples.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `e8c7f539aad40b6bc3aad8e01476d7686ee8de2fce0367a71b0abbbaefc3ac00` | H1×1 H2×8 H3×40 → H1×1 H2×8 H3×40 | 5 → 5 | 0 → 0 | 0 → 0 | 3 → 3 | 139 → 139 | 通过 / 通过 / 通过 | `reviewed` |
+| 6 | `content/translations/theory/chapter-19-applied-ai/01-ai-for-finance/zh.md` | `chapter 19 - applied AI/01. AI for finance.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `8bdabc16296bc57a42b044ece44b9660b4d1f173de5e702b92c348dbba163a7d` | H1×1 → H1×1 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 8 → 8 | 通过 / 通过 / 通过 | `reviewed` |
+| 7 | `content/translations/theory/chapter-19-applied-ai/02-protein-design/zh.md` | `chapter 19 - applied AI/02. protein design.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `5c14342c8190a48a6a1a86535a842812649bd94bc9f6b4ae9147fd2b5aef735c` | H1×1 → H1×1 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 8 → 8 | 通过 / 通过 / 通过 | `reviewed` |
+| 8 | `content/translations/theory/chapter-19-applied-ai/03-drug-discovery/zh.md` | `chapter 19 - applied AI/03. drug discovery.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 空源通过 / 空源通过 / 空源通过 | `reviewed` |
+| 9 | `content/translations/theory/chapter-19-applied-ai/04-agentic-systems/zh.md` | `chapter 19 - applied AI/04. agentic systems.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 空源通过 / 空源通过 / 空源通过 | `reviewed` |
+| 10 | `content/translations/theory/chapter-19-applied-ai/05-healthcare/zh.md` | `chapter 19 - applied AI/05. healthcare.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 空源通过 / 空源通过 / 空源通过 | `reviewed` |
+| 11 | `content/translations/theory/chapter-20-bleeding-edge-ai/01-quantum-machine-learning/zh.md` | `chapter 20 - bleeding edge AI/01. quantum machine learning.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `8e362c42fe495d4073792e00eed6126f23b91c1b7db9258b19834ee5bdb0f01d` | H1×1 → H1×1 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 9 → 9 | 通过 / 通过 / 通过 | `reviewed` |
+| 12 | `content/translations/theory/chapter-20-bleeding-edge-ai/02-neuromorphic-computing/zh.md` | `chapter 20 - bleeding edge AI/02. neuromorphic computing.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `8808ac19bffb56eec1c2d17ac326cb0258ce5292801894397bac5d6c9f1f826d` | H1×1 → H1×1 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 8 → 8 | 通过 / 通过 / 通过 | `reviewed` |
+| 13 | `content/translations/theory/chapter-20-bleeding-edge-ai/03-datacentres-in-space/zh.md` | `chapter 20 - bleeding edge AI/03. datacentres in space.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 空源通过 / 空源通过 / 空源通过 | `reviewed` |
+| 14 | `content/translations/theory/chapter-20-bleeding-edge-ai/04-decentralised-ai/zh.md` | `chapter 20 - bleeding edge AI/04. decentralised AI.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 空源通过 / 空源通过 / 空源通过 | `reviewed` |
+| 15 | `content/translations/theory/chapter-20-bleeding-edge-ai/05-brain-machine-interfaces/zh.md` | `chapter 20 - bleeding edge AI/05. brain machine interfaces.md` | `9850ee574a370bc1cde59de98b394e953775b67d` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | 空源通过 / 空源通过 / 空源通过 | `reviewed` |
+
+## 复核结论
+
+- 15 篇均为按章节顺序推进的独立理论笔记，共对应 0 条理论卡；连同此前已发布的理论全文，当前 104 / 104 个理论条目均通过本地发布门禁，311 / 311 张理论卡关联仍可进入中文全文。
+- 9 篇非空源的标题层级、代码块、图片占位符、正文链接和清单项顺序与源一致；x86、Triton、RISC-V、Vulkan 与机器学习系统设计长文保留了全部技术单元，没有压缩为摘要。
+- 6 篇空源文件的 SHA-256 均为 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`；对应译文正文保持为空。应用仍以内部理论目标发布这些条目并返回空 Markdown，不以未经审核的内容填补上游空白。
+- 技术复核为上游原文中的 AMX 示例、Flash Attention 伪代码、容量估算、RISC-V 许可概括和 Vulkan/WebGPU 边界增加了显式编者注；这些注释不改写源代码或公式。金融清单使用“预期短缺（Expected Shortfall，ES）”保持风险术语准确。
+- 15 篇均声明跟踪 `main`，仅在 `status: reviewed`、来源路径匹配且 SHA-256 与当前理论 submodule 文件一致时发布；原文入口继续指向官方英文 `main`。
