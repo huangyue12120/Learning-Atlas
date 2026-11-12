@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/13-many-shot-jailbreaking/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 27a1efae78e594530ccd35f01fedacd8a1e4aeaec537bb40c419728f001bc261
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 120560539b50ba260cb998ef51fd627f6c5ead424044edd1e03470139fbeb49c
 status: reviewed
 ---
 

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/09-information-theory/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 1b372ebc564904598949a0b72f73be63af0fd64ce21a3fff8ec3d5822b4ec9ed
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d9e36fa94ce202a35f270aa79eefeee525f0c04ccc61064fe8c3f21d1b7bb2d7
   anchor:
     heading: Cross-Entropy (The Loss Function You Use Every Day)
     slug: cross-entropy-the-loss-function-you-use-every-day

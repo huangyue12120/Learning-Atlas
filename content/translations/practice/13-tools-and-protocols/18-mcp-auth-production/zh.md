@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/18-mcp-auth-production/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 37bf036ac5cb10930059f0414ba8ea56c5398ceb57dd3e736310f59d3bb133f7
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: e98cc85f54c2866e3ca59e81222082fc42093cb12487076de8fdb169b6b22763
 status: reviewed
 ---
 

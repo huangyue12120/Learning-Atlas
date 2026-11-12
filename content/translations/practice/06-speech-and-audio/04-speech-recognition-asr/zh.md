@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/04-speech-recognition-asr/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: f0bd1c7f17f3abfe039627b4f1a1a0b57c1c87ea18e1c7bdfef5971ad1c6452d
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: a5f40471ca641a086e22512495400ef5807df4bb70e9e05e7c52a161fafa077a
 status: reviewed
 ---
 

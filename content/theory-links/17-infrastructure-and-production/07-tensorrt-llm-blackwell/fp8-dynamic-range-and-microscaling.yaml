@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/07-tensorrt-llm-blackwell/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 984eda3b24a9b486c588f36d7ed09ce69d5ad7d7c2af03aabf1d7bfb1e7fbcb6
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 4b92710269e72bd204f4c39c314ab244e5f7880243e99738bcabacb825dc16d1
   anchor:
     heading: Why FP8 is still the floor for KV cache
     slug: why-fp8-is-still-the-floor-for-kv-cache

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/05-tool-schema-design/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 0c634aab3cdc89ed08752a3bfc54f78182583a19593408fd26308609dea1397e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 35fe0a5976c9429339d1d958d9f64fbe99100c2ef6cb9bb789047dfe563dc266
 status: reviewed
 ---
 

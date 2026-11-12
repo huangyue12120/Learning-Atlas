@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/41-workbench-for-real-repos/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: bc0338fc79fc3bf16277d3dcc03b8b4dd6c6ab3101558bf918546d908f546fa0
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 9a58b9916cea0b7c4e5e1f49675cc66f5946b34b71695873f705d0efde0bfa45
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/23-sre-for-ai/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 70af1683e56bf583059a01d153b808ad3ba0e76f89a811dc57d03cd6f108da01
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d5cceb80c891dddd33fafc64b748142398e238f451378aa5494a371ce97c8a4b
 status: reviewed
 ---
 

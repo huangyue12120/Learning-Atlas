@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/50-hypothesis-generator/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 4ba3d9e0eef1b1436ec2f46e91c9527f07ee9f908778fa0b015d36ea35cec146
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: e1d28c8f5ac62618cfea48204454ce8cdb9c0be3ddd5b5d065ce15ca9e1ecc94
 status: reviewed
 ---
 

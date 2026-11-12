@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/11-scalable-oversight-weak-to-strong/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: d196b5586d8b302756393fb7a48288b465f5908633395b3164d8924cf46f7a8d
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 68d0b2492c85b01038b45a8dca737bb571d74230eec235ce9ae56cb8b2b01ad0
 status: reviewed
 ---
 

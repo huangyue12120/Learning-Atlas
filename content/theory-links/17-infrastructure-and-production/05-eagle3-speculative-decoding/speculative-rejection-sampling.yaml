@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/05-eagle3-speculative-decoding/docs/en.md
-  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
-  sha256: 12877ff8190983b8726b8d9e49568c87af6b43aa89321cf3bf5980388f364100
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d13b8002b16986401920b4b761c53f60b13b42f5a79bb3bdad53e913fa5bee36
   anchor:
     heading: What speculative decoding actually buys
     slug: what-speculative-decoding-actually-buys

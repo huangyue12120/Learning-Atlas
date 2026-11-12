@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/12-mcp-roots-and-elicitation/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 5b061e2bec0962f9a1bcf881f7886fbe16426236f428311f30199f398c1af6bd
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 4f7d5d8d91d3ebe26d86988aa184bf57495cd04208ed10fcbf87017e80c5a897
 status: reviewed
 ---
 

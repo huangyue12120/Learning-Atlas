@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/29-moderation-systems-openai-perspective-llamaguard/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 217072b64242c1312eec78c6cf1ae2af4447e9f05a579270115094278171e39a
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 4000fec97ef8549ce52344a7ae441702b234ccddc22e79f2d9c2086d1b1218ec
 status: reviewed
 ---
 

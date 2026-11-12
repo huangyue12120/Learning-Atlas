@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/09-code-migration-agent/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: b8c5c520dd731c1dd823303d49644256cecd0e9e8c0ad186b5f6b22edc925449
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 90a692b377c0b308200b45ed6b56595dd9aa670ed5442dd5d30c7ad0f8c89ad5
   anchor:
     heading: Concept
     slug: concept

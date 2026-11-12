@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/22-skills-and-agent-sdks/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: adc5ec9cd045c954ade287b53453397cfaf3c1152024d5cf01f896b80f4ff2b6
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: eaf200cabdccf167359ea11288d3a218683bd480be662c9f87f7fd37945aa739
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/27-skill-evals-packaging-and-portability/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 2a3dc19f7c6348bb63d9cf326bcc93e26e833a89fec35d1b49e5a55a427dfb74
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 16596268d3b856f9cbffdffae816740a3857aa57bde0b31632c048749b7b1485
 status: reviewed
 ---
 

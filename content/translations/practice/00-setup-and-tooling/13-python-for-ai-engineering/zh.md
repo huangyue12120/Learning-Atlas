@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/00-setup-and-tooling/13-python-for-ai-engineering/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: f8995bff8d2189e09fc41ec32c9eb6594653e1f19a9053d1c77c7abd8d41b938
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: ae258f2f5ac9b2bfd395d285699082537b53e9796368719c3d614e6954bca009
 status: reviewed
 ---
 

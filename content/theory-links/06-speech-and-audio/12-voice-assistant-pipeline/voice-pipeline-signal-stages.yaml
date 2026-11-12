@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/12-voice-assistant-pipeline/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 42adee0778ecf907bc8312c65cde0d75a8cc6db9ee3780bcc441cbc768a884ee
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d33b6eaceef59e92dc3865a3c4d677c865567f049bcddb524cccb75b72620e30
   anchor:
     heading: The seven components
     slug: the-seven-components

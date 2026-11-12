@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/03-data-pipelines/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 38bf88d7c4a73bd3b6ca0e581adc12e8b0433319c11713b99bbd066174ab749f
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 22a4bb3da4708cee6bbbffe618afd9c244e085ffc5e85c66bb4703002c525a10
 status: reviewed
 ---
 

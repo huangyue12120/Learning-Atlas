@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/26-skill-permissions-sandboxes-and-trust/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 6acf4d2930900f2c820ee96d445365a21e5bf62fead6006e6fd1638d2339d4f1
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: f4c2a85c579a1c09300c66272779c018689ff7e4c984976a17ece867966888f2
 status: reviewed
 ---
 

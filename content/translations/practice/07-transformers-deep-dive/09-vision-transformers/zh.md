@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/09-vision-transformers/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 6ac276b0bbfd15180e9e8850a8a7577f0ff18fa090f4ab545b8a3ad6906b2288
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 47a705500693b9b20bf52791b48eded19e89173e67ca98041eafd721e3d531b2
 status: reviewed
 ---
 

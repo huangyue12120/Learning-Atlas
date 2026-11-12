@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/02-building-a-tokenizer/docs/en.md
-  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
-  sha256: a7e4df3e8a19f0a31ae5fb74f4611b1a63165b5905bcaaf76ff577f8fb79893e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 82abf6155d819b770f97f769df8b72b6e1ee55365a55d86469e0a968d9486b62
 status: reviewed
 ---
 
@@ -208,14 +208,14 @@ try:
     )
 except ImportError:
     GPT2_PATTERN = re.compile(
-        r"""'(?:[sdmt]|ll|ve|re)| ?[a-zA-Z]+| ?[0-9]+| ?[^\s\w]+|\s+(?!\S)|\s+"""
+        r"""'(?:[sdmt]|ll|ve|re)| ?[^\W\d_]+| ?\d+| ?(?:[^\s\w]|_)+|\s+(?!\S)|\s+"""
     )
 
 def pre_tokenize(text):
     return [match.group() for match in GPT2_PATTERN.finditer(text)]
 ```
 
-`regex` 模块支持 Unicode 属性转义（`\p{L}` 表示字母，`\p{N}` 表示数字）。标准库的 `re` 模块不支持，因此我们退回使用 ASCII 字符类。对于生产级多语言分词器，请安装 `regex`。
+`regex` 模块支持 Unicode 属性转义（`\p{L}` 表示字母，`\p{N}` 表示数字）。标准库的 `re` 模块不支持，因此回退模式通过 `\w` 构造 Unicode 字符类：`[^\W\d_]` 匹配 Unicode 字母，`\d` 匹配 Unicode 数字，下划线与标点一起处理。对于生产级多语言分词器，请安装 `regex`。
 
 试试看：
 

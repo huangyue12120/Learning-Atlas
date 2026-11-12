@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/36-scope-contracts/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 993c6db81c5c0d8fdd66023e9588fc4777a1461b76bf078cf96db7c94caf3c85
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b0e02ec32434f693ee6d2d7984b9b89f9d8569861531d0367767261b842db9ae
 status: reviewed
 ---
 

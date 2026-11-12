@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/01-terminal-native-coding-agent/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: fbe91598394614c9e50a3f02fe376aa1d7086d381f34f63223795345bf59f0a9
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 6afe48736a376bc7851ec61fb3e76cb2de7899434db0317dad1f658ff272be98
 status: reviewed
 ---
 

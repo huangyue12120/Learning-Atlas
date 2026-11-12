@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/09-alignment-faking/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: b9989ff23b856e861740aa1da121777c6c9af63ae362964e84c3795764c52d6a
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: ce0f8406fdbde26ea94bc56beef8401cf2a97e5c42e26488db93b6d90fd58217
 status: reviewed
 ---
 

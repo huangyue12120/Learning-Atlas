@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/48-discover-the-real-workflow/docs/en.md
-  revision: a56b4b8ad43a3767c771953d217036813f697bc7
-  sha256: 8ee8e7fa91e4ed6674f286de9cbdf05e1c2b141c61af1585c46c54a4b512f34b
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 9aab3b6f1670ed310a4b7615d350db780d944ed963c2b0a0509e3f48224a848f
 status: reviewed
 ---
 

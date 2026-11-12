@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/41-recovering-data-and-types/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: f0f18a349d043439fda3162109319c8dc9ad40b2139809ae388d794001775797
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 4c72ae3e38402e639852ecc967033a7f77361429655e803f86ddd8be7dffca39
 status: reviewed
 ---
 

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/16-anti-spoofing-audio-watermarking/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 312eab13609b920ae76f6c7e413cfc8abfdbf761b87328fcd7af4edd9a7b944a
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d07361e94284a279a473642b2f6afce394e24ca89d4bd61254c26b0c5b1ac32f
   anchor:
     heading: AASIST and RawNet2 — detection model families
     slug: aasist-and-rawnet2-detection-model-families

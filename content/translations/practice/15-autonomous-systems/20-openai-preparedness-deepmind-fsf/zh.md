@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/20-openai-preparedness-deepmind-fsf/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 2b05df218261e5965c1ae7aca22465535f5d57dd6f1544f92f34ec72d49c2e90
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 80ef49dfb4d1570ee83f713494457195a83b4dfac4ba7e6e09175c1961ae84c3
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/02-multi-layer-networks/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: f523e8b9524a7035ec1f8725ac7181bc0b4bc88d6f00643542101123f46c8afb
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b70f547b0e939f78b15a7129ac4753b69f73aa48023663dd6d4913b99ebda300
 status: reviewed
 ---
 
@@ -199,6 +199,10 @@ class Layer:
         self.last_input = inputs
         self.last_output = []
         for neuron_idx in range(len(self.weights)):
+            if len(self.weights[neuron_idx]) != len(inputs):
+                raise ValueError(
+                    f"neuron {neuron_idx} expects {len(self.weights[neuron_idx])} inputs, got {len(inputs)}"
+                )
             z = sum(
                 w * x for w, x in zip(self.weights[neuron_idx], inputs)
             )
@@ -208,6 +212,8 @@ class Layer:
 ```
 
 权重矩阵形状 `(n_neurons, n_inputs)`，每行是一个神经元跨全部输入的权重。前向循环每个神经元，计算加权和加偏置、应用 sigmoid、收集输出。
+
+> **编者注：** 上游正文尚未加入输入宽度校验；这里与当前 `code/main.py` 一致，在维度不匹配时抛出 `ValueError`，避免 `zip` 静默截断。
 
 ### 步骤 3：Network 类
 

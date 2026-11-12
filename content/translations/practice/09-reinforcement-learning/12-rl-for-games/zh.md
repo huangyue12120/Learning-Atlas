@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/12-rl-for-games/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 6fcacdff97d475e6d494a57220b4a7e29c1a750640fa42d091d6fd54cdb279e7
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: dc4744085323c1c710df5d8977e95603fd659be971954e91f5ae7c5640162fc1
 status: reviewed
 ---
 

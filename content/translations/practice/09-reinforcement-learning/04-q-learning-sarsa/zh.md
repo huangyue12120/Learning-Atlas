@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/04-q-learning-sarsa/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 5bd5e50c91e850634907c085867e0b8623111b81c688ac0a0378a0d754f7e4e0
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 19aa73b36c6ed935b83980538450dd1c64bd902573120d43a72dd8add3e28d63
 status: reviewed
 ---
 

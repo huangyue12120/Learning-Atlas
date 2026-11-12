@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/07-bayes-theorem/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 541198f69f334fd2a40906f849b72ff0005f461e01b72b35cf11857ca347989a
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: a7952aae9bf3e6ea89e2f47ce621bd577c44c15d0b921e36d1d1db5ebb6fc4fb
   anchor:
     heading: From joint probability to Bayes
     slug: from-joint-probability-to-bayes

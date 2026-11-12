@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/54-paper-writer/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 797c7be9dbe6e382bdba6c8015047373c86917194eb2bc6efa5c1035eaea2e9e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 30c8728a11a2ee82bb290cef20e58a9cb4115e9f6d1fd5500840a2430e51f655
 status: reviewed
 ---
 # 论文写作者

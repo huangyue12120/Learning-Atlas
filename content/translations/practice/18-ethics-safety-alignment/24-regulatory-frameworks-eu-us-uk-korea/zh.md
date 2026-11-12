@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/24-regulatory-frameworks-eu-us-uk-korea/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 5babaaec2f1c7dc2d619dea0a8bb46ee4e94754dec3182adb72a7e7d6e1c7032
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d6739f6d381b52f29717d3f038dc3b956675be7c025814d7f490eb41598f6c8f
 status: reviewed
 ---
 

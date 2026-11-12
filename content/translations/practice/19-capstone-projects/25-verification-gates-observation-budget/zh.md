@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/25-verification-gates-observation-budget/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 870274da1de8bc1dda773e50d10eeaddd6717c1d541eac22c3afd05649c08ca2
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d46257ee1f167f22581bb7c9e8b6682b406258df8b61f5038b98170090cf1fc2
 status: reviewed
 ---
 

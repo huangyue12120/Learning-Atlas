@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/32-minimal-agent-workbench/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: ed33899118e133a6201e503a96d5bd07e54e36616a4586979ea9e5bdc211e980
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 3feb0b08af14790a1900b398a6261f3185fc7c6807dbb58a54e4e8b63aee35bc
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/19-ml-system-design/docs/en.md
-  revision: 56c886c8821fc488b6f9608895c983d18f0d1ea3
-  sha256: 4e7a93c271f20f99fc9514f2e1dece8cd17051694dc554174ae533e23d404fa8
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 0b2990f87b178f729150304e88c32f6b41c315bfd7d0ed30ba84c3654c9be9b7
 status: reviewed
 ---
 

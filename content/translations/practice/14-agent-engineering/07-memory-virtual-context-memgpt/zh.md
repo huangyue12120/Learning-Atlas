@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/07-memory-virtual-context-memgpt/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 71b0ba93e4d737f64c1c7a90408489676e35aaa75418050ca42c5a68a95e355d
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b9b63012a18809ee8c412cb45a136d7603e4caecaf0369221275e4759103c373
 status: reviewed
 ---
 

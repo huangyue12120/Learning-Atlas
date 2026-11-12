@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/16-anti-spoofing-audio-watermarking/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 312eab13609b920ae76f6c7e413cfc8abfdbf761b87328fcd7af4edd9a7b944a
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d07361e94284a279a473642b2f6afce394e24ca89d4bd61254c26b0c5b1ac32f
 status: reviewed
 ---
 
@@ -136,12 +136,14 @@ def eer(real_scores, fake_scores):
     thresholds = sorted(set(real_scores + fake_scores))
     best = (1.0, 0.0)
     for t in thresholds:
-        far = sum(1 for s in fake_scores if s >= t) / len(fake_scores)
-        frr = sum(1 for s in real_scores if s < t) / len(real_scores)
+        far = sum(1 for s in fake_scores if s < t) / len(fake_scores)
+        frr = sum(1 for s in real_scores if s >= t) / len(real_scores)
         if abs(far - frr) < best[0]:
             best = (abs(far - frr), (far + frr) / 2)
     return best[1]
 ```
+
+> **编者注：** 当前 `code/main.py` 的分数越高越可疑，因此分数低于阈值时接受为真实语音。上游正文的 FAR/FRR 比较方向尚未同步；这里按当前实作修正为“假语音低于阈值”和“真语音不低于阈值”。
 
 ### 步骤 4：生产集成
 

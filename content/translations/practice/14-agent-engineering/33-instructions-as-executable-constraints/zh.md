@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/33-instructions-as-executable-constraints/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: c74dd5f24f9ea843e44df1fd7dc6d3037555e69511593e3304ceb0e1b5d8d883
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 315ea6032c4e9051494c1e88b24c67416c4248ef23f8cb9961f338f2ffb7c59e
 status: reviewed
 ---
 

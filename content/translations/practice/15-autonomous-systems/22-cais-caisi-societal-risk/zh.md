@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/22-cais-caisi-societal-risk/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 85030e0f43e5b6c3cf6ac7bbb7c61458c29ad9037f184deb708384f80590cb05
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 863a6537ab1cdcff85032d66c873bc3ce91336e974bb268e567e63aa5ffc384c
 status: reviewed
 ---
 

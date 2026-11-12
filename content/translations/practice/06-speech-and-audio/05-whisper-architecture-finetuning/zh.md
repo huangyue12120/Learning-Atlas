@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/05-whisper-architecture-finetuning/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 2aceee4bc8aeb98c41506c992011b3b9dd2f500756cc74a3dce6c379593acd73
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 8f8c75c3e56578994f3653e67ed365b8afdb69b788ce75b9f9cfa6707a5d131a
 status: reviewed
 ---
 

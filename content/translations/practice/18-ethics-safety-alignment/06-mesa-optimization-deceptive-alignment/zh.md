@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/06-mesa-optimization-deceptive-alignment/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: d27a4dd2a9eac28110b1b418283835f7f5741c28b7e70f8746339b89f263c498
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 6f8c10761fcb7ebedcfdc1a0b1226224e3631dea428a2da9fc79678abec5662b
 status: reviewed
 ---
 

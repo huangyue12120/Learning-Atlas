@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/08-weight-initialization/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 8e248147d6007865cfc1f04452d4f850d3d3e4c99a0217c0220e9f92373bcb1e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d2d02eb67945d316cf036a5323bf8f77da058e03a23656c0aa55fa17859c1adb
 status: reviewed
 ---
 

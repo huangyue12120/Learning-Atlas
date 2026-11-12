@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/14-consensus-and-bft/docs/en.md
-  revision: 56c886c8821fc488b6f9608895c983d18f0d1ea3
-  sha256: a63f465ad75cc3ca95dd372fd3b9092cb6e3b69be146510efb220985ee08915b
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 198b1edf88134293aa259d77ecdd708ad2042360fba0d0f49d0e9c02a08d49b7
 status: reviewed
 ---
 

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/19-benchmarks-swebench-gaia/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: b2a282a875e13aa30bea25d2a937ce1e26c422e14e7f4d675808675de1cd6f76
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 1f6969969aa0188aadd3eb08fc5e954272b2ada7af19a6f3cd45190589d12fed
   anchor:
     heading: The Concept
     slug: the-concept

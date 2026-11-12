@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/10-evaluation/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 6d034f8ea8714a1effae7a38bb3078d65d54389eacb1ea3336b273dac57980f1
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 22f792158f65dcf8283c00ca612406b5d34c40a95d42e8961792a2f034204ee5
 status: reviewed
 ---
 

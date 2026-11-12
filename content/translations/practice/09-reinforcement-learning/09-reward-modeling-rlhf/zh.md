@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/09-reward-modeling-rlhf/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 1ec5485ebc328bcd79ef197179ec6f3cde0b318e870b6dc6fb8c3ccde5b3af76
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 01fca36e8da48ab49e9b81f9dc31e8dc0e00a33dc648a29d257b06729bf2af65
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/18-convex-optimization/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 72524ce9415bddec5e280f607db73fd8d62c633e402433e07be593fbd525dc31
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b85edfa04ef99dc140cfdece3fccae676a13b7d2d9fbbc900d3f94c29430f804
 status: reviewed
 ---
 # 凸优化
@@ -478,9 +478,11 @@ def lagrange_solve(f_grad, g_val, g_grad, x0, lr=0.01,
             for xi, fgi, ggi in zip(x, fg, gg)
         ]
         lam = lam + lr_lambda * gv
-        history.append((x[:], lam, gv))
+        history.append((x[:], lam, g_val(x)))
     return history
 ```
+
+> **编者注：** 上游正文仍记录更新前的 `gv`；这里与当前 `code/convex.py` 一致，记录更新后的 `g_val(x)`，使历史中的参数与约束值对应同一次迭代。
 
 ### 第 4 步：比较一阶方法与二阶方法
 

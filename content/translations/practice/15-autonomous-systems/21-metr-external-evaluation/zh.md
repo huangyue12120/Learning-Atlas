@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/21-metr-external-evaluation/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: ad833b6ee064c08728762ed80e41a0dbe3d2cffd97fee3f88fecdfa62a6ba9bc
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 288071fdc5b515bc3a4d846680494783d44486ece7da54c06b43f0811a5482ce
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/02-rewoo-plan-and-execute/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 6415552ddca63102995206c84e95e9b0225b77c0c06ac808f316eb36431bb4df
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 77bae11694f6830852c5f3f96eeab8ba6ad7b7c471eee95abbbd7f1325f764f0
 status: reviewed
 ---
 

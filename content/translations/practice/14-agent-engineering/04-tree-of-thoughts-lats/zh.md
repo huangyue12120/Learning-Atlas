@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/04-tree-of-thoughts-lats/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: c0d4e1af4425b9cc2a97b944e4b538fb2bcef90e4469acab0d547c69e317e92f
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 49d991ecd7ed41e4f9bf9592ca3846dd24891a58d7751da8dc3fe89f56051717
 status: reviewed
 ---
 

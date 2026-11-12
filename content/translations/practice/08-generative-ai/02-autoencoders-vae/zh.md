@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/02-autoencoders-vae/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: fa9520546ee1f512dde70a010bc5ce868964eaf62ff09b7bd0411b76830ccdeb
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 4b265b800278781e911cd819fd9b9060b48bc33a618a4ffafdcd57583654ece7
 status: reviewed
 ---
 

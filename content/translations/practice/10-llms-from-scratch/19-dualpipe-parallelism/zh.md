@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/19-dualpipe-parallelism/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 281c6d6c76b8c64f6b80f61accd664241985e31d2ff36795c016d8746b1ccd99
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 29883e29f4cbd942cbf72d6617b1160b037365b1b59883b1a1e427f270be7517
 status: reviewed
 ---
 

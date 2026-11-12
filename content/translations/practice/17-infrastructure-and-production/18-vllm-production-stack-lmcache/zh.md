@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/18-vllm-production-stack-lmcache/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 168b69324a9de7a0789e3280e3358e2ed84ca72d0b01cc68cbb5325463d85b35
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b0a7a99cb349b2c565b3fb4a74c68579e59ee118908ea6caf664ee5b3b5bd50a
 status: reviewed
 ---
 

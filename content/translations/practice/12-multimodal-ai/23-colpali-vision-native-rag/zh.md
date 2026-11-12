@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/23-colpali-vision-native-rag/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 838f05af4b2097fa1acd9adaead3c60943c10b0f193f101e87b1607d4047b3ef
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 7ebf72935211afe682130f8dea65de1bb614dfe96c03129bdb60bc0567f80cf7
 status: reviewed
 ---
 

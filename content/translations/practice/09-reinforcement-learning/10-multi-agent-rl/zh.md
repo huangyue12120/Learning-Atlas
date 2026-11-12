@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/10-multi-agent-rl/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: e84f1af128d6bc5586fc039f866936be260aa912dbdf136eaf4cb5e483f1747a
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: f562696de9b2218277edd20c85aebfac594791c111e76d0d343be7c923fa431f
 status: reviewed
 ---
 

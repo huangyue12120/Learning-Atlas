@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/06-diffusion-ddpm-from-scratch/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: c584ddcc8a6856dfc2171125e691a9ef9ad4d3313b8113c6f61e361cd1b81b67
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 718b34fd1e827f805249e3b23666d69f1c3d8e781fd08a4ed2146f22f6ce8230
 status: reviewed
 ---
 

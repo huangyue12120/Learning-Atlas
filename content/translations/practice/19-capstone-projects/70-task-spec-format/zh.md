@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/70-task-spec-format/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 1728076774826c06143b03f2b3cf823492ac69e07b89455944092835674174fd
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: fd6a959d561ee0faf8dc886e5cdf0a4dce509bcf3ad4fa535c0ceab8c299b5f9
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/15-janus-pro-decoupled-encoders/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 2ee1a525a09cab506e0d616e1151caaa7a8f51102158430e545242e57ebe24a7
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 697c5f067514c58b167ad711930b8718b304f1bef79fbbbfb431b2afa3d002e0
 status: reviewed
 ---
 

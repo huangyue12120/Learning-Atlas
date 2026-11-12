@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/20-bias-representational-harm/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 898af8ef1d3aae4f2293c54dbc9ca1c0a9c81f9a2fb7df141d83c82a6e496fde
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 204914b54d343de7354dff8d76207e3d31aa6f534244b964258c3e2ee07cada6
 status: reviewed
 ---
 

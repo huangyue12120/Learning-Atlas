@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/14-show-o-discrete-diffusion-unified/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: c108ed0b41a6902088a5dd7cf5d15caf86bf4309e17f472f0a3cfd526401d2fb
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 0a4af044c4c422105db62a99bc792067a0fac75d4688ff4e8ee1c2cbbc03764f
 status: reviewed
 ---
 

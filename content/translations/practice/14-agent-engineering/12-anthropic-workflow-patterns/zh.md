@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/12-anthropic-workflow-patterns/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 55c8edf5c8a62595d2db17d555b2ca3cddf12a8b8d8bdf0ff745b347000c0a57
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 5358e210da6cb1daae5bd231571cf5fe620e07807c4d6a775cbada6f7dec1417
 status: reviewed
 ---
 

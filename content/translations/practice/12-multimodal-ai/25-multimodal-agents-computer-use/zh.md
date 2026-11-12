@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/25-multimodal-agents-computer-use/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: f0df1f04e3afc786d466607522e242d2d416f4358a4d0c75d8469bdc7854e9e7
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 5929dfe72b8ed4fc20626a5cbcb7e0492343eaa9f35e6eee2284021be649b2d4
 status: reviewed
 ---
 

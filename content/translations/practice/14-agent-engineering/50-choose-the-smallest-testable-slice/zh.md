@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/50-choose-the-smallest-testable-slice/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: f80cf4a92ae976af6d109b4d4a9e7d0546f2302292d3d91b631233e8b9ce4e37
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 632c498b3f3d8f9f2a855c253bb31f0b427b61e329ebb56c4a94a034ab8c8810
 status: reviewed
 ---
 

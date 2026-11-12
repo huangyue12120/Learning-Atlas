@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/25-security-secrets-audit/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 423fafef1679b01975dda59d221731e3b8c1a671f8df9d5cb468cd77af2752e9
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: c649b4c394f04daa9b26279ea55aa695a44c09e36e3bd4f6913c84f9f5bd4f1b
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/07-pos-tagging-parsing/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 831c78481beac9ca924b47569f9b690e68b1ac6db6ea66aef36dd331572270af
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 0467cecc52d9f320a8e9df719ea25d5d7a0d103d24873b28964e8671c479e053
 status: reviewed
 ---
 

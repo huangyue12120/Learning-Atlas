@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/23-otel-genai-conventions/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 079cbb2f56f7ec32724047275efa9fbd66a2af5f3953edba52f675527e336aa8
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 368256f3ca81864c30c7f11fce1bd54aa6fe9cfb231300d8624ddbb0b18e5ac4
   anchor:
     heading: The Concept
     slug: the-concept

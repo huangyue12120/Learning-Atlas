@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/07-end-to-end-fine-tuning-pipeline/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 973d68c40ce1886d775102be73fba48e9c5a7800b56e7185f118fdaad99ad4a5
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 82cac27cc64f9da5ea55af65374aac888ad441f3f8ae6d5992373a14dab72686
 status: reviewed
 ---
 

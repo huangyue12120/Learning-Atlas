@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/83-prompt-injection-detector/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: f4fad47e48ce5bb61756a1cc439f32f3144bc9086b6ac50d3354246786a91b7a
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 4f05ff0ae962c406c11de66dfd45cce73101fad6e5bf3bd4424323755736934f
 status: reviewed
 ---
 

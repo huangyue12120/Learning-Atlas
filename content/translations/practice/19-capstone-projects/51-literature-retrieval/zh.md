@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/51-literature-retrieval/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: e7d682e99a74f5afc9f75836d73cf17f91820991802a43ff9cd35a886c4bf992
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 65a4d23263e10c3833dea661590b93789ca1f258738a8b80b46091c95b7c19bb
 status: reviewed
 ---
 

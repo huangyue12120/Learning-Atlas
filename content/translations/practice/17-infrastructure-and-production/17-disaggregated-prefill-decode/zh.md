@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/17-disaggregated-prefill-decode/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 7de2bafd57d1d40820fbbb82fdb2284e3fb34c523cba8b1f7c05d05c50d55fed
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 4499f3d0a464f6435b1080e454918bf04f8a19c4f9673178c50c2ec4fbd6ba94
 status: reviewed
 ---
 

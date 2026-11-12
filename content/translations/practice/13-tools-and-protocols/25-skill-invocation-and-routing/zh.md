@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/25-skill-invocation-and-routing/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: f4fa06f11b9425126ba87828fd851254847552c5b73142d6ca5f0ae8c7e056cc
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: ab9a79f8a17f8db72ee9bc2d161f06d626c05bd1d5c4a8962316649ebae8e212
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/21-computer-use-agents/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: c066fa4272f477f73ca5cc89b13ff8296226788ddf8a8d673a6d4f1efec09fcf
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: cb7dd4c16d935462eba8e79a8266c9f055199e5e3c78e3eea75adce252b36434
 status: reviewed
 ---
 

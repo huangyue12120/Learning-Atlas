@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/05-ai-scientist-v2/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 39e95cca329be5f1fe6e090969854635a2db3bda2f4fb2771cf41a8d6f2248ba
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 4c4a38d947aab62b0844b03a95295f3f87af43b2cd7250fabc1774dea30bb447
 status: reviewed
 ---
 

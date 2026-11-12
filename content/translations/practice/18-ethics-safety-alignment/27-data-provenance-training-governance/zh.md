@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/27-data-provenance-training-governance/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: b08c2b2fff6dc63a0fa38bbbaaa355ee9517f19b386adbccef2d14472eb397e9
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 3c131dacdb541481574b962a26f85f583ff8f28617d809590ca0aa607f834e5a
 status: reviewed
 ---
 

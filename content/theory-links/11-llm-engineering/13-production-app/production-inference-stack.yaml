@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/13-production-app/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 7f99086009de3abfd6da810cf8a7427c6471299f3784270df5ead0aa1eb96b7b
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: c2dc0a6e0dea5276569fd7bd940b438590fbec2c1c81d5e571eb853a6a02712f
   anchor:
     heading: Production Architecture
     slug: production-architecture

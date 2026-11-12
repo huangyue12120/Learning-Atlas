@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/09-mcp-transports/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 8b35336a155283e509f16008a3acd65caedd87c443bde2c86c7836d615f6bb4e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 0092f3d212295c3c84e78c4717026a6e8c50656f99c97ef234a4a8ba38035059
 status: reviewed
 ---
 

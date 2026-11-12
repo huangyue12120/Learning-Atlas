@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/64-chunking-strategies-advanced/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 0829dec00c35b086db3f44c5f0b49696a8d180d7f2c645f083be95e3fc342c01
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 3bdc9a4aff4fa21bef49ab98ab91e8216375722ec2fe4bcb12585b9dde4f9518
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/42-dynamic-analysis-of-your-own-program/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: d769b2a28273558b3d1116c4f0ff0acb4017f0563a7cf80aa2a2c1c09f47298e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 9548c916ec04a9b9bc29694b1230b2bcd99b50b23b852fe28a59807f74ae37c2
 status: reviewed
 ---
 

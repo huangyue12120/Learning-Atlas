@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/07-open-weight-vlm-recipes/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: a4fd19938cd04d5e5b3bf9edb2284d4ce7cbf3efb499f58f72e20d7f25442d48
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: a67ed1991e85d275a0f968a9e8a5adae505bb3b4f256d0dbeddd4bf41c1689b6
 status: reviewed
 ---
 

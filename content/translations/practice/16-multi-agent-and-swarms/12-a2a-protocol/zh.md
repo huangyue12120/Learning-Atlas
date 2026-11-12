@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/12-a2a-protocol/docs/en.md
-  revision: 7a181b46332db6d2e1274c798e851bf978a008a9
-  sha256: 64266b28fc18ceb78fc5bc7d7b0902de21e051cdf4631ebb1574412c24d4cdd2
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 30a84d4ee82dd2f0d1fd9ad7de6acbd6fb2a8c1d66bf4478d60c4858d54a4761
 status: reviewed
 ---
 

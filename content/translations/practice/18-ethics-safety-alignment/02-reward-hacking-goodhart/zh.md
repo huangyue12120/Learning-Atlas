@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/02-reward-hacking-goodhart/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: c40a3bf72719ff9220d3b19d4dcd6776ed7861621f7bcc5512fb345f94fcabd6
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: eb4e392b565325497792f716256eb669b691b0d21278b0b461d33a6e4cb4f740
 status: reviewed
 ---
 

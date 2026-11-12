@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/19-model-welfare-research/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 5ed1c98707f3ae2292def2e86348c666094c96f7ae694922b2621841b4308a7e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 5f9b74c51a62f74e3c0c854b13f6f8b3ef1b1f3821dac5f91c08940a5624d23e
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/08-controlnet-lora-conditioning/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 949c130b46ce16748e7aa7cf308eb5b62556ca631aa94814d8a2cd69d6f1a137
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 8e91f7afe6bae461d38577d7fcbabf19e4462fc8157e4c36a75e31077370610b
 status: reviewed
 ---
 

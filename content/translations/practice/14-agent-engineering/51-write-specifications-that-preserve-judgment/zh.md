@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/51-write-specifications-that-preserve-judgment/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: e63576917c5e0a1ea4824bead4391f25f9733977419e785b272ff5076d1f11c3
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 6fd2736bb9c216b01a5ae0a3580c282cc0f0141fcb97b222d5c8b5e9642fe514
 status: reviewed
 ---
 

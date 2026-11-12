@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/28-observability-otel-traces/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: c441b65e6b6fac8930613581c068e6c443bf40811dffe212767a24617f0560a2
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: ee7cf2e8bb9424ccc10718c8874994e3a12b11d6e9a536f607b0a5c41839c68e
 status: reviewed
 ---
 

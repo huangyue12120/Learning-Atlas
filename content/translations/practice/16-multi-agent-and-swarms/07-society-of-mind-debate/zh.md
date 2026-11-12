@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/07-society-of-mind-debate/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: ccc605702faab9d27161e7c162849c32bd1659aad0c2cd82647ad0d8bc969a15
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b7f7879bac2c885a9cb09b8a4da6e2ddf52cbddb061c83085ec406fc0981b038
 status: reviewed
 ---
 

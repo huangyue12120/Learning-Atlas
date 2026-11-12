@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/12-emu3-next-token-for-generation/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 77cf7f9d0eadc4682aad5e52576a3fd3c1c3f4b84d2919ba1ffe58e2e7373061
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: a94ab4c70d5bf986498ba253c31cdbf81f08598400addc82fc32b5e226b5291e
 status: reviewed
 ---
 

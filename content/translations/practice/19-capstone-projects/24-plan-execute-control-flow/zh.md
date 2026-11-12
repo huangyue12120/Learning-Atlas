@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/24-plan-execute-control-flow/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 445ac25f16cd1c3772866a44dfa197ae5e9a88c31197a21b6807d70d7083a7b1
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 8984956576da92fd7219d63309f4948f219d43e48bf9eccab3be36dc0a863769
 status: reviewed
 ---
 

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/17-chatbots-rule-to-neural/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 2ef49d5cdfcc8229bfe5ee7b1954de73ab30ad64711e53997efc9cca59ba25f0
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 9f456421c381e853ae0172dafdbff30980cd38fac2c591e9de464350021a2363
   anchor:
     heading: "Step 4: LLM agent loop"
     slug: step-4-llm-agent-loop

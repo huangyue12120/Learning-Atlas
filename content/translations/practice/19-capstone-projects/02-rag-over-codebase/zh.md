@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/02-rag-over-codebase/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: efb52a5359a8e837d011362dafe4871f2880f5030a54764b37f8098d4222e5a6
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 26842243a3bf8e215501d391b7d587ebbea2769d8972e8f99251d6bfe6b51bd8
 status: reviewed
 ---
 

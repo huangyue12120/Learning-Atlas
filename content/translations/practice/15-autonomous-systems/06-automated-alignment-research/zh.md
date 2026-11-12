@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/06-automated-alignment-research/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 67665712bdaf0dbce50d98303ec3e8df4ee8df9a22c83be5ddc4b7a49775b81b
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: cda28052586a2969b68c257767d24a0be027a454cada718e23daf03c504426de
 status: reviewed
 ---
 

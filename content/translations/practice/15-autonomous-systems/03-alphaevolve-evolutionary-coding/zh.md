@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/03-alphaevolve-evolutionary-coding/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: a1f23ddb6822a2789039c1476169dd29652bc77341c496a71ff1719f539fcbd1
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b1030ea53e0a546c73632ffd2b50cf8bdcdbce33dfb90b9bbf398e849b5d6d63
 status: reviewed
 ---
 

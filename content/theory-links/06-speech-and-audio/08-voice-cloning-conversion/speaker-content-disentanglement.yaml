@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/08-voice-cloning-conversion/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: dc41114b9bfa5d8fdc151f0efebe947230683806c1d2f888031a457c9bb8a480
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 29f8b23669ba8b936bc178bc3ffd8e29151c711c74640ff2613f6122bab93dba
   anchor:
     heading: The Concept
     slug: the-concept

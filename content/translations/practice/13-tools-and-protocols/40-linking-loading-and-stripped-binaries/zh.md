@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/40-linking-loading-and-stripped-binaries/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: f2d55ea6bcd09be875a881b60e9c644d484629dbed99f939ae3bbf91a4f0689e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 9a3b245aa2b8aa64458e4b7b303fc5cd71d890582a146338dc2055a3e34c74e7
 status: reviewed
 ---
 

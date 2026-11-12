@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/04-conditional-gans-pix2pix/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: d367559893c31d907b08e7edc3204d27fad7df0271300f6e92a50d06b1ed51a4
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: f8d6cf8629671f85f39c5bd22b8ad41a96d8596c89d72481a46c6b5943e51abe
 status: reviewed
 ---
 

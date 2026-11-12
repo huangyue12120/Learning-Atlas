@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/26-compliance-frameworks/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 20cb93aee9790da3c61c0d106b955b01b033b90ec2262dbeb40dfdd803e4e686
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: bee93ab4fffc30868366ac3472f571a29aca11c777360fb4ba339dca8a7685b8
 status: reviewed
 ---
 

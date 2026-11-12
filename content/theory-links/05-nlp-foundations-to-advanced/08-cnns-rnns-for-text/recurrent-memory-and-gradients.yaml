@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/08-cnns-rnns-for-text/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: de300997238be53f17d753a27aa36e25db7a9954981e6d15db2ecaa9626ccd58
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 148568634778591e4ba2cded001ee032355bb17f8b87b34f4a13f3fa36e183c0
   anchor:
     heading: "Step 3: the vanishing gradient demo (intuition)"
     slug: step-3-the-vanishing-gradient-demo-intuition

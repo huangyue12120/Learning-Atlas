@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/06-optimizers/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 9c62d91e8e24f446ebee788daecfbcefafbaec8b40d44a83ccbf6077b27a52af
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 7d220bf00f715a565148d4293f36091f8204f7348fb8041a1dd93becf91f437e
 status: reviewed
 ---
 

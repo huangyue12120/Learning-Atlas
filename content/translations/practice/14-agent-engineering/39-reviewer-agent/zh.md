@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/39-reviewer-agent/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 99cbcda09dd49ac7c208c2d86446189f997e8f236243362dd2bc333032d9a1d4
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 6e6acaa0c11e90b340d0b51bc3506a3c393b96e56526cacd376b93d5e03d42b9
 status: reviewed
 ---
 

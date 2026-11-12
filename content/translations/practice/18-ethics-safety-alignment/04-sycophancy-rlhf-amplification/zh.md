@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/04-sycophancy-rlhf-amplification/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: e17e21b6377cd71fed4799e63c87312ef5f7868dd6ebf23b19833a44bddc1f3d
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: e1b10ac51ac7705f3f1c6f050640dec4390ab7c2456832d7dea3b790778f8cd1
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/18-long-video-million-token/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 06b8cf08198c3f2b4011c6c876e87a73ce9ebb604af0e0e82cac5dbffee99287
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 3ccdef02a78bf655d6fb0ee38bfcc802041cc04e6c6bcd1bb69a34a10898b9b1
 status: reviewed
 ---
 

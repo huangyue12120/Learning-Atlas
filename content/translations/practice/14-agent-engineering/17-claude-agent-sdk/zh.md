@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/17-claude-agent-sdk/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: f1fb3653f42b54dd9267aa3bd20bb56714567f56c71a8b92972d725f0948b9bd
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 5c4dfec90c4719fe5be0ec9c83284c79e4c8f342ebcdc14b4a787ca9b9fb56d3
 status: reviewed
 ---
 

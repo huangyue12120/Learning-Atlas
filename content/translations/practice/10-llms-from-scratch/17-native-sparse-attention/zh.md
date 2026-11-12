@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/17-native-sparse-attention/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: dfddd42935d6ef205a85aebb07d7d04edbd39d81ae4fffb5427def0c26966c34
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 03a4582032b804add0e24ee58c5a7b2515a58617830d1463466f322c43c1eef2
 status: reviewed
 ---
 

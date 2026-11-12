@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/16-differential-attention-v2/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 44d4818599b7ddd3dc3da41729fd83e288fda2f00764b11b5cf873d153950833
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 8b272a903f034da52649c5b0196ed2cc7cffed6f1f5d3d842e52108b28da91c3
 status: reviewed
 ---
 

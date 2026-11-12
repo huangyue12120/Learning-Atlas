@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/20-omni-models-thinker-talker/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: b4fb0e304c5a01ede1af9528c82ae7968e8bf18e63f82c88c2e992a64c759f21
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 67c8b530860b2957eb987f0a7a1a3ea4f201b254db47bb6fab4d7f12510a2f6a
 status: reviewed
 ---
 

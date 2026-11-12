@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/22-differential-privacy-for-llms/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: f75d716e77e9adb21406e6a3944ffb44acb8fd2e25f859cbec6f095259fb8703
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: cbc11eb70ae641d47f19a9ea258914ac2052f65f3a3dd4ae3aa2fbd1878cdfa4
 status: reviewed
 ---
 

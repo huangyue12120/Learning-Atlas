@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/12-kv-cache-flash-attention/docs/en.md
-  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
-  sha256: 1a78de127c990827f8e705f997a7dcdd7e266b997bb06ee1969a12b8791b0338
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: f6e0f0941aa6d9ea04133df31971c9c3e095b0cc5fbf61156de2ef95e4fa3f1c
 status: reviewed
 ---
 

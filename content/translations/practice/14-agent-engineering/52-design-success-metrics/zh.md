@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/52-design-success-metrics/docs/en.md
-  revision: a56b4b8ad43a3767c771953d217036813f697bc7
-  sha256: dd1c976a46c3cffd2de66283c967c8b6589217f3171e2168b8f6852fdbc27ecc
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 8a09f201f5b5bfdf9e5c7b592d757455cb597ace8a75f68efa1be1d01efcc2d9
 status: reviewed
 ---
 

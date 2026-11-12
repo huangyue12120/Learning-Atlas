@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/10-attention-mechanism/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: f31dde76b3cd616e1c7d242a9d36fc4f5dd2c4a8514bd026da2d4b9e652ae49b
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 994a9a119000b1fdf5a144c3f3f8e67de28707492f549044da3a3130325adac8
   anchor:
     heading: "Step 1: additive (Bahdanau) attention"
     slug: step-1-additive-bahdanau-attention

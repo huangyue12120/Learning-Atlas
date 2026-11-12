@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/31-agent-workbench-why-models-fail/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 4f052ed30315ebe7387a99cb21dc6745d6213edd0828099725e04f8d465f4684
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 36af4e90bbc49c169065a70bb028be10e1446aafc87a72b6cb98d8d0ee9bb0e8
 status: reviewed
 ---
 

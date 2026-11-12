@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/08-inference-metrics-goodput/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 20b9031b32843eb68b6903f07f830ea5835ffa01e81ba6c30a92ede732be48c2
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: c8f52c0a95ddea1f4f04add7a820e65f08d0a3838a7dceb3bad135d29cf1797e
   anchor:
     heading: Why mean is the wrong statistic
     slug: why-mean-is-the-wrong-statistic

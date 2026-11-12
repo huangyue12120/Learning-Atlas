@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/35-initialization-scripts/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 4ee89ee7aa2b7b40145524afac0b71d6291f8f2ec789297cccf22ed04dce2b9b
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 7fca38c8cfab23aa339707385389c9fafaf2915c9536b575a38d61422c2db61d
 status: reviewed
 ---
 

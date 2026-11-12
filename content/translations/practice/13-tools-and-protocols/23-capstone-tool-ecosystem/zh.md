@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/23-capstone-tool-ecosystem/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 84c56ee028b789f91be0795bb267e8bff641b066d3d9f4e396092b2d9b04a3d9
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: aec50cdafc6a4e91b8a1698fa4c0f1d0cfca356d3de9c8937b657e0fd98617b1
 status: reviewed
 ---
 

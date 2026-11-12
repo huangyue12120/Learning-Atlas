@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/21-agent-economies/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: ee3b3d5580a19bb70f612e72a92188b6be640ad652c7aa001bc401bdfda0ade0
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 1abac01dc5e80b8425bc990660aeb62cf35a25c17187654ca6dafc261135c6f3
 status: reviewed
 ---
 

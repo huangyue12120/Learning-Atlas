@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/65-hybrid-retrieval-bm25-dense/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 96acb1ba997424618d21fbeecb658147a638a34c2da31b25a8146abcdaaeaa47
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 87652d74770a1ed131f4c0ab7fdb2a57430284a5ff28fe55684db3fbe1577ef4
 status: reviewed
 ---
 

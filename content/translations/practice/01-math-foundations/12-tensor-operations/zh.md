@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/12-tensor-operations/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 8f37a3ac0484d015c9ba0ee87bbc9d9c60fe22c05f1abe7a2e6b4f83bf71dce1
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 07b6d7983ec360ddce4178a0064be90ad8a7e6375d11ecb4637c3efc614f182d
 status: reviewed
 ---
 
@@ -120,6 +120,12 @@ graph LR
 
 ```figure
 tensor-broadcast
+```
+
+[上游 TypeScript 实现](https://github.com/rohitg00/ai-engineering-from-scratch/blob/a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b/phases/01-math-foundations/12-tensor-operations/code/tensors.ts)提供相同的函数与演示输出。
+
+```bash
+python3 code/tensors.py
 ```
 
 ### 步骤 1：张量存储与步幅

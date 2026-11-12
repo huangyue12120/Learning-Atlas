@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/01-instruction-following-alignment-signal/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 06f2649b821b7f27298ba47ff8a10963e3776f656e66bbc0e95bf6f82a785a5a
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: abc93a84a06c33034b4bde4f27fe0c5e4e6392844ec7b9c00734a9a07dfe3e38
   anchor:
     heading: "Stage 3: PPO with a KL penalty"
     slug: stage-3-ppo-with-a-kl-penalty

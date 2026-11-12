@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/18-theory-of-mind-coordination/docs/en.md
-  revision: 56c886c8821fc488b6f9608895c983d18f0d1ea3
-  sha256: 84b92802fc118aa614d45b294bfab104544b790d4884628bfd92da431f509444
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 063ebb41993cdd7490ef80fe623a520f684c9291019d8a627375d8bb76745f08
 status: reviewed
 ---
 

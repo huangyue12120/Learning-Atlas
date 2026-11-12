@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/25-entity-linking/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: c3deeb045d0569a7afe14a30fcb58da1dd4f47317af7709c61ce090452b911c5
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: c64abfb8d740d7eff75c0483731d8894ce9b7f8e266ef02d96003ae321fac752
 status: reviewed
 ---
 

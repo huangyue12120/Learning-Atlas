@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/01-vision-transformer-patch-tokens/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 05fc1bb5a0e7a1777da50ae42ea01a6b5ae17c066bf1a5fa8c53208f5482dd60
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: ae76987bbccfa09cfe75d4377d61491b15d29f124e2522587dfd94e252db6fd0
 status: reviewed
 ---
 

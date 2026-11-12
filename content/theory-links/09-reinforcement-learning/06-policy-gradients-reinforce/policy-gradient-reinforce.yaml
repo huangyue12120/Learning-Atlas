@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/06-policy-gradients-reinforce/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: c22a1ed1f3817055e5dc8152de4695a2c0be6742fbf25063f6d18c0498cf9715
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d77cf04bf9e328b0efb248879df16b67dca9830ecdf4450915620bebeb051193
   anchor:
     heading: The Concept
     slug: the-concept

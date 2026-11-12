@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/08-ppo/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: cbe6811d840d1c1352313fb5af53ed29d8a654bfa8839bae317e8a0394ec0a63
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 895d502f5230879f9ce84308adb0a80b11a273649f22e4ad01a8e11d35306fc8
 status: reviewed
 ---
 
@@ -98,11 +98,13 @@ for step in range(T):
         "s": s, "a": a, "r": r, "done": done,
         "v_old": value(w, state_features(s)),
         "log_pi_old": log(probs[a] + 1e-12),
+        "v_next": value(w, state_features(s_next)),
+        "last": done or step == T - 1,
     })
     s = s_next
 ```
 
-快照只在展开时获取一次，在随后的各轮更新中保持不变。
+快照只在展开时获取一次，在随后的各轮更新中保持不变。计算 GAE 时，环境真正终止（`done`）后的下一状态价值为零；仅因 rollout 达到 `T` 步而截断时，则用 `v_next` bootstrap。每逢 `last` 都要重置递推的 GAE，避免把一个环境或一段 rollout 的优势串到下一段。
 
 ### 第 2 步：计算 GAE 优势（第 07 课）
 

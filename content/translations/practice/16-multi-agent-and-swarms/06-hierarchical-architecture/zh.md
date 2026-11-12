@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/06-hierarchical-architecture/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: a69fd17a7a64d415f29b9a69a73a7219460ded9a316f05e44c2802be68a611f6
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 76e955429fd65d38e850380c1fd9d0ed9d9afa22f5f33b09603be12cc5e88f7a
 status: reviewed
 ---
 

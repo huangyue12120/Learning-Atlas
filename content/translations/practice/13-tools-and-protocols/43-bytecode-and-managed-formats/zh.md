@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/43-bytecode-and-managed-formats/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 243b7ceaa5937a57f2394c2d782665f269fea71ee77136a8d502eef38618b999
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 49d2db5b70892fe7a8ee48b634c2805f78154527d60c1ecb10cdd5166bcc6d0c
 status: reviewed
 ---
 

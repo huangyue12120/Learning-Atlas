@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/25-multi-agent-debate/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 8b0db5540a5262197d49a09e20eb64b6d1947eb893f1ac58d0e846734489b8b5
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 68f57c1077f7de89fc8361c1103c40f51a97e6777c48b5d0d064a8e852a5f325
 status: reviewed
 ---
 

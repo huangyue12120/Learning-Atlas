@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/16-mio-any-to-any-streaming/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 7cee1fdb103df2575c826211a678cb441e9df63069e4af307b036b794509a1f2
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: e470bb27c6b0e041cd36a89dfeb0026ce41327c256e492b1eb9a6d0ecccc263c
 status: reviewed
 ---
 

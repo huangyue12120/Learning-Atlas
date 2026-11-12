@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/05-autonomous-research-agent/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 575c394ff90b9e577cbdee288f1e1c5fa6359d0387fda459e50bfbd95cedc715
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 2c07709d0826fa90ab987f1993d6740269b6b72e27adf024fae745e3e49db575
   anchor:
     heading: Concept
     slug: concept

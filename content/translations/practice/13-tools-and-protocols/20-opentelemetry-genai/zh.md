@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/20-opentelemetry-genai/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 6d23ae6218709778a0984fd54b3c8838c5aab933102ea8fc3b188159a49907ec
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: ebe41a7a24b9b154b780588ff8292d3b2dd5699ffbdfc8500e36cb8f86c20d0b
 status: reviewed
 ---
 

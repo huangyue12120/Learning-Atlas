@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/11-mixture-of-experts/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 7801fdf5b6d89d5c46e12b92b63627af823b9fd38117a001e8f6fb79bb6b2ca4
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 91f671b2514e990a6dfa791bf2308db216a9b59618c91da41a708b292f6cee73
 status: reviewed
 ---
 
@@ -101,6 +101,12 @@ expert-routing
 - top-k=2 路由
 - 经 softmax 归一化的门控权重
 - 通过逐专家偏置实现的无辅助损失均衡
+
+[上游 Rust 实现](https://github.com/rohitg00/ai-engineering-from-scratch/blob/a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b/phases/07-transformers-deep-dive/11-mixture-of-experts/code/main.rs)仅依赖标准库，包含相同的函数与演示。随机数与 Python 不同，但输出的结论相同。
+
+```bash
+python3 code/main.py
+```
 
 ### 第 1 步：路由器
 

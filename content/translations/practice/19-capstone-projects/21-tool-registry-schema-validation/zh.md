@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/21-tool-registry-schema-validation/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 6bc45190eed2ae86db09752c2eef75ac6e7cc3705878b9c8597064e80c2874fd
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 80b8727ab1cfdbb15eac80a2ab9c200b6bbf154717696aa63909a9061837363e
 status: reviewed
 ---
 

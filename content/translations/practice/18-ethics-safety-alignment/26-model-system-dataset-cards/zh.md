@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/26-model-system-dataset-cards/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: ad07f39e9a2754a2f058ee40fa2673b9caa391e13007b2bf2c442a87dd2582ab
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: f42f7db557db873f382f69bee9eafc9258c1d8e9ff8fdee10405bd945bd516e1
 status: reviewed
 ---
 
