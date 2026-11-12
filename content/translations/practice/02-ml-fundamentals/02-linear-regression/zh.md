@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/02-linear-regression/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 59d2f3f919657d7770e71eb25aaef772f5d2de89bd46bc3749eb7f03d5daaa3f
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 1a0efda804690ae0a9d695c39f01f3f5a13e8f970e32d2ae8f767ce13019744c
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/07-sleeper-agents-persistent-deception/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 55c9da067fe4244c6f2b96635c5e16fee805f3c8e498909d1dbf0f6fd196ee66
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 6da3fd9b818e853ff2cde0bb5848429dd83add3df750e58c1c0fa40e33c0d3d0
 status: reviewed
 ---
 

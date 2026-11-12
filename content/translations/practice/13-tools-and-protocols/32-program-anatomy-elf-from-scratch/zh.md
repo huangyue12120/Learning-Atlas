@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/32-program-anatomy-elf-from-scratch/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: d293757ec62c29c7168e5e48405a7b8724a95132fe2532a943f1e4de1748500e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: a26063131a41a7116ae2d65f8679d0c1b4672502e9d9789cd6a11a0cd5f84502
 status: reviewed
 ---
 

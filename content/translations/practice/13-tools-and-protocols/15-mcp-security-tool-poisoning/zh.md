@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/15-mcp-security-tool-poisoning/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 8df9c5d03680ae24853c738c8c3876eb8e95decd5932e8356ac7c3b2915820e6
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d07d5ebbf356bc1f89cb678b9278ff091022a48e8a341adeb7fc921129e22e2c
 status: reviewed
 ---
 

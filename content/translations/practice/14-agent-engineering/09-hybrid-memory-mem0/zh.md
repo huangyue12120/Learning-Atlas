@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/09-hybrid-memory-mem0/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: f14ae13052bf345cb9ec62218f48538a7e81c411c35665563035d4a00a19c8fa
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 8a1e745fd819b3039ddeabad018c6c818b0a607f05c7f32f811dcc1d088ddfe7
 status: reviewed
 ---
 

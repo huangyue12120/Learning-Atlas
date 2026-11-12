@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/13-building-complete-llm-pipeline/docs/en.md
-  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
-  sha256: 5e4ac381d645718e10418cdf7fe19328521a86c7ad269cbe797a105b515275ba
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: fe40adae45eb850687b3018a13ffcd9c4e7a7792bb9b7fdf70ea1aa3aec1a94f
 status: reviewed
 ---
 
@@ -227,11 +227,14 @@ beam-search
 
 标准工作流包含三个命令。
 
-```
+```bash
 python code/main.py plan    # validate manifest, compute cost estimate, print DAG
 python code/main.py run     # execute stages, writing to manifest.out.yaml
 python code/main.py gate    # read manifest.out.yaml, apply eval gates, ship-or-hold
 ```
+
+<!-- learning-atlas: upstream-non-python omitted=bash -->
+[上游 Rust 实现与运行命令](https://github.com/rohitg00/ai-engineering-from-scratch/blob/a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b/phases/10-llms-from-scratch/13-building-complete-llm-pipeline/docs/en.md#use-it)也支持同一 `plan` 步骤。
 
 每次都先运行 `plan`。大多数流水线 bug 会在计划阶段暴露——缺失门阈值、过期哈希、预算超支。运行 `plan` 不花钱，运行 `run` 很昂贵。在便宜的一侧捕获 bug，可以节省成本。
 

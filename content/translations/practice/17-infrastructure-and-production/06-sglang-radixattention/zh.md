@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/06-sglang-radixattention/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 7d7750d15fc2bb3c2f11dcded721f00cbd712d865bf2ada13f82c2b96c31fc71
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 2110c54d955c0bbe9b8166597c8b38e9951d36eac0ef70214f1026714a8c7dcb
 status: reviewed
 ---
 

@@ -1585,7 +1585,7 @@
   },
   {
     "lessonId": "practice/00-setup-and-tooling/13-python-for-ai-engineering",
-    "translationSha256": "9437aeb1b586ed91cc1b1844f8e75a126349eef070362dc0480b53c6afc53f0c",
+    "translationSha256": "6d922d31ec861f2896566689b5be0cce99734df98a07ad86cdb4162e8fdb022d",
     "assessmentSha256": "dd300158e155a102ec4eb8025f866a72a3d811430a73c3087df16e2a2de78a12",
     "questions": [
       {
@@ -2559,7 +2559,7 @@
   },
   {
     "lessonId": "practice/01-math-foundations/07-bayes-theorem",
-    "translationSha256": "f3689695a16ec4decdb2029e2aba2b4f86f54e38615742431e532d8c74577a7a",
+    "translationSha256": "dc2aa8ee9e566c3d05521a554160d15a71e66702b6d83751e550f280827c3c42",
     "assessmentSha256": "8d65f1cdd8ad0132268d4fa41e0edd793960e0f00968754710661017ab15a608",
     "questions": [
       {
@@ -2571,19 +2571,19 @@
             "headingId": "医疗检测示例",
             "heading": "医疗检测示例",
             "quote": "编者注（题库核对）：这里的99%指灵敏度和特异度都为99%，并采用万分之一的患病先验；它不是单个笼统的“准确率”指标。阳性后的患病概率为0.990.0001/(0.990.0001+0.010.9999)，约0.98%。这是教学设定，不用于个体诊断。先验表示观察本轮证据之前对假设的信念。",
-            "score": 24.501
+            "score": 24.486
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "贝叶斯定理解释了这个结果。垃圾邮件过滤、医疗诊断和量化不确定性的机器学习模型都采用同一种推理方式：从先验信念出发，观察证据，再更新信念。",
-            "score": 16.403
+            "score": 16.365
           },
           {
             "headingId": "顺序贝叶斯更新",
             "heading": "顺序贝叶斯更新",
             "quote": "第3天：又观察到5次正面、5次反面。把昨天的后验用作今天的先验。后验=Beta(8+5,4+5)=Beta(13,9)后验均值：13/22=0.591新的均衡数据将估计拉回到了0.5附近",
-            "score": 15.898
+            "score": 16.009
           }
         ]
       },
@@ -2596,19 +2596,19 @@
             "headingId": "医疗检测示例",
             "heading": "医疗检测示例",
             "quote": "编者注（题库核对）：这里的99%指灵敏度和特异度都为99%，并采用万分之一的患病先验；它不是单个笼统的“准确率”指标。阳性后的患病概率为0.990.0001/(0.990.0001+0.010.9999)，约0.98%。这是教学设定，不用于个体诊断。先验表示观察本轮证据之前对假设的信念。",
-            "score": 61.541
+            "score": 61.827
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "大多数人会回答99%。真实答案取决于这种疾病有多罕见。如果每10,000人中只有1人患病，那么一次阳性结果只能说明你患病的概率约为1%。其余99%的阳性结果，都是健康人产生的误报。",
-            "score": 35.012
+            "score": 35.182
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "多次检测。一名患者在两次相互独立的检测中都呈阳性（两次检测的准确率均为99%，疾病患病率为万分之一）。两次检测之后P(sick)是多少？把第一次检测的后验用作第二次检测的先验。",
-            "score": 29.528
+            "score": 29.682
           }
         ]
       },
@@ -2621,19 +2621,19 @@
             "headingId": "最大似然估计-mle",
             "heading": "最大似然估计（MLE）",
             "quote": "问题在于：如果某个单词在训练期间从未出现在垃圾邮件中，MLE会给它分配零概率。一个未见过的单词就会让整个乘积变为零。可以用Laplace平滑修复这个问题：",
-            "score": 26.501
+            "score": 26.239
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习2.为每个取值创建一个NaiveBayes(smoothing=s)，在相同数据上训练，并分别打印topwords。当smoothing为0时，从未在垃圾邮件中出现的词概率为0，其log无定义。",
-            "score": 19.577
+            "score": 19.394
           },
           {
             "headingId": "步骤-2-naive-bayes-分类器",
             "heading": "步骤 2：Naive Bayes 分类器",
             "quote": "log概率可以防止下溢。许多小概率相乘，会得到小到浮点数无法表示的数值；对log概率求和在数学上等价，同时具有数值稳定性。",
-            "score": 11.674
+            "score": 11.742
           }
         ]
       },
@@ -2646,19 +2646,19 @@
             "headingId": "为什么贝叶斯思维对-ml-很重要",
             "heading": "为什么贝叶斯思维对 ML 很重要",
             "quote": "先验就是正则化。权重上的高斯先验对应L2正则化，Laplace先验对应L1。添加正则化项，也是在用贝叶斯形式表达对参数值的预期。",
-            "score": 22.974
+            "score": 23.088
           },
           {
             "headingId": "最大后验估计-map",
             "heading": "最大后验估计（MAP）",
             "quote": "MAP还为参数本身加入先验。如果你认为参数应该较小，就可以把这种信念编码成一个惩罚大参数值的先验。这与ML中的L2正则化完全相同；岭回归中的“ridge”惩罚对应权重上的高斯先验。",
-            "score": 17.854
+            "score": 17.846
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "应用贝叶斯定理，根据先验、似然和证据计算后验概率使用Laplace平滑和log空间计算，从零构建NaiveBayes文本分类器比较MLE与MAP估计，并解释MAP如何对应L2正则化使用Beta-Binomial共轭先验，为A/B测试实现顺序贝叶斯更新",
-            "score": 14.147
+            "score": 14.137
           }
         ]
       },
@@ -2671,19 +2671,19 @@
             "headingId": "顺序贝叶斯更新",
             "heading": "顺序贝叶斯更新",
             "quote": "第2天：观察到7次正面、3次反面。后验=Beta(1+7,1+3)=Beta(8,4)后验均值：8/12=0.667证据表明硬币偏向正面",
-            "score": 27.524
+            "score": 27.695
           },
           {
             "headingId": "顺序贝叶斯更新",
             "heading": "顺序贝叶斯更新",
             "quote": "第3天：又观察到5次正面、5次反面。把昨天的后验用作今天的先验。后验=Beta(8+5,4+5)=Beta(13,9)后验均值：13/22=0.591新的均衡数据将估计拉回到了0.5附近",
-            "score": 27.524
+            "score": 27.695
           },
           {
             "headingId": "顺序贝叶斯更新",
             "heading": "顺序贝叶斯更新",
             "quote": "观测顺序并不重要。用全部12次正面和8次反面一次性更新Beta(1,1)，也会得到Beta(13,9)——结果完全相同。顺序更新和批量更新在数学上等价，但顺序更新让你无需保存原始数据，就能在每一步作出决策。",
-            "score": 26.89
+            "score": 27.05
           }
         ]
       }
@@ -2823,7 +2823,7 @@
   },
   {
     "lessonId": "practice/01-math-foundations/09-information-theory",
-    "translationSha256": "74b0d2c9128d0a4ec93ba37526ec62b8803172199ea5fff998310f0cb329c77c",
+    "translationSha256": "11fe3413423dc666cbcd14b72f735437c529252a101bbef864828809fb48e81e",
     "assessmentSha256": "230cacc8e110bed90e3fbe8249c255074596ca47e8be89066b0259d70103aeae",
     "questions": [
       {
@@ -2955,7 +2955,7 @@
   },
   {
     "lessonId": "practice/01-math-foundations/10-dimensionality-reduction",
-    "translationSha256": "0c5900dd70bcc4b3593cfc4bb9efd1390e5d90d62d90d32b14fff3b4dbe31c44",
+    "translationSha256": "d59c867a2878a24e3a40d05bd0970604a1f01902d84562c560e622edc37a0b74",
     "assessmentSha256": "5cc1995e9053fadc5c60bf345079ec84830130f9f75241a1c5eb65082190918b",
     "questions": [
       {
@@ -2967,19 +2967,19 @@
             "headingId": "pca-find-the-directions-that-matter",
             "heading": "PCA：寻找重要方向",
             "quote": "编者注（题库核对）：高维覆盖的困难依赖数据分布。若每条轴保持相同网格分辨率，所需格点数随维数指数增长；不能把所有高维数据都描述为集中在立方体角点。前50个主成分解释95%方差，仅表示保留了95%的总方差，不说明余下全是噪声，也不保证95%分类准确率。标准scikit-learnt-SNE主要用于可视化，没有直接将新样本映射到已有坐标的transform；其他",
-            "score": 68.225
+            "score": 68.617
           },
           {
             "headingId": "维度灾难",
             "heading": "维度灾难",
             "quote": "维度升高会令距离失去区分力：随机点最大/最小距离比例大约从2D的5.0降至10D的1.8、100D的1.2、1000D的1.02；最近邻不再可靠。单位超立方体有2^d个角，100D中几乎所有体积集中在远离中心的角落。维度从2到20，维持相同样本密度需约10^18倍数据；降低维数把密度带回可用范围。",
-            "score": 12.461
+            "score": 12.588
           },
           {
             "headingId": "降维",
             "heading": "降维",
             "quote": "高维数据有结构；从正确角度观察便能发现它。",
-            "score": 5.63
+            "score": 5.701
           }
         ]
       },
@@ -2992,19 +2992,19 @@
             "headingId": "pca-find-the-directions-that-matter",
             "heading": "PCA：寻找重要方向",
             "quote": "PCA旋转坐标轴，使第一轴承载最大方差、第二轴承载次大方差。步骤为：(1)每列减均值；(2)计算特征共同变化的协方差；(3)对对称半正定协方差矩阵特征分解；(4)按特征值降序；(5)保留前k个特征向量并投影。协方差的正交特征向量给特征空间方向，特征值给该方向捕获的方差；最大特征值对应最大伸展方向。丢弃窄方向PC2就是以很小信息损失投到PC1。",
-            "score": 29.812
+            "score": 30.133
           },
           {
             "headingId": "pca-find-the-directions-that-matter",
             "heading": "PCA：寻找重要方向",
             "quote": "编者注（题库核对）：高维覆盖的困难依赖数据分布。若每条轴保持相同网格分辨率，所需格点数随维数指数增长；不能把所有高维数据都描述为集中在立方体角点。前50个主成分解释95%方差，仅表示保留了95%的总方差，不说明余下全是噪声，也不保证95%分类准确率。标准scikit-learnt-SNE主要用于可视化，没有直接将新样本映射到已有坐标的transform；其他",
-            "score": 11.509
+            "score": 11.648
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从零实现PCA：中心化、协方差、特征分解、投影。用解释方差比与elbow方法选择主成分数。比较PCA、t-SNE、UMAP的二维MNIST可视化取舍。用RBFkernelPCA将普通PCA无法分开的非线性结构分离。",
-            "score": 10.555
+            "score": 10.691
           }
         ]
       },
@@ -3017,19 +3017,19 @@
             "headingId": "pca-find-the-directions-that-matter",
             "heading": "PCA：寻找重要方向",
             "quote": "编者注（题库核对）：高维覆盖的困难依赖数据分布。若每条轴保持相同网格分辨率，所需格点数随维数指数增长；不能把所有高维数据都描述为集中在立方体角点。前50个主成分解释95%方差，仅表示保留了95%的总方差，不说明余下全是噪声，也不保证95%分类准确率。标准scikit-learnt-SNE主要用于可视化，没有直接将新样本映射到已有坐标的transform；其他",
-            "score": 40.367
+            "score": 40.809
           },
           {
             "headingId": "延伸阅读",
             "heading": "延伸阅读",
             "quote": "把MNIST划分训练/测试集后，对k=10、30、50、100、200依次在训练集拟合PCA、变换两部分数据，再训练LogisticRegression，并记录accuracy与累计解释方差。性能常在远少于784维时进入平台；那个accuracy不再显著提高的k就是实际运行点，而不是“方差百分比等于准确率”。",
-            "score": 20.734
+            "score": 20.832
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习3.调用makeclassification(nfeatures=50,ninformative=5,nredundant=45)，拟合PCA，并打印累计解释方差。冗余特征是信息特征的线性组合，因此曲线在5个成分处就接近1.0。再试nredundant=0：其余45个特征是独立噪声，曲线不会变平。",
-            "score": 13.615
+            "score": 13.797
           }
         ]
       },
@@ -3042,19 +3042,19 @@
             "headingId": "pca-find-the-directions-that-matter",
             "heading": "PCA：寻找重要方向",
             "quote": "编者注（题库核对）：高维覆盖的困难依赖数据分布。若每条轴保持相同网格分辨率，所需格点数随维数指数增长；不能把所有高维数据都描述为集中在立方体角点。前50个主成分解释95%方差，仅表示保留了95%的总方差，不说明余下全是噪声，也不保证95%分类准确率。标准scikit-learnt-SNE主要用于可视化，没有直接将新样本映射到已有坐标的transform；其他",
-            "score": 52.206
+            "score": 52.726
           },
           {
             "headingId": "kernel-pca",
             "heading": "Kernel PCA",
             "quote": "标准PCA在速度、可解释性、可扩展性和直接inversetransform上占优；kernelPCA适用于非线性流形，却需nnkernel、O(n^2d+n^3)，成分不直接解释且逆变换要pre-image近似。RBFkernelPCA可把内外圆映射到可线性分隔区域。",
-            "score": 14.432
+            "score": 14.585
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "一张手写数字有784像素，基因表达和用户行为也可有数百特征，既不能可视化也难直觉理解。但多数特征冗余：一个“7”主要由笔画角度、横杠长度、倾斜等少数因素决定，其余是噪声。降维把784维压到2、10或50维，同时保留重要结构。",
-            "score": 8.62
+            "score": 8.719
           }
         ]
       },
@@ -3067,19 +3067,19 @@
             "headingId": "kernel-pca",
             "heading": "Kernel PCA",
             "quote": "普通PCA只找线性子空间；同心圆投向任一直线都会重叠。KernelPCA用kernel隐式映射到高维特征空间，不显式计算坐标——这就是kernel技巧，与SVM背后的思想相同。算法为：",
-            "score": 25.793
+            "score": 26.066
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从零实现PCA：中心化、协方差、特征分解、投影。用解释方差比与elbow方法选择主成分数。比较PCA、t-SNE、UMAP的二维MNIST可视化取舍。用RBFkernelPCA将普通PCA无法分开的非线性结构分离。",
-            "score": 11.63
+            "score": 11.771
           },
           {
             "headingId": "kernel-pca",
             "heading": "Kernel PCA",
             "quote": "标准PCA在速度、可解释性、可扩展性和直接inversetransform上占优；kernelPCA适用于非线性流形，却需nnkernel、O(n^2d+n^3)，成分不直接解释且逆变换要pre-image近似。RBFkernelPCA可把内外圆映射到可线性分隔区域。",
-            "score": 11.491
+            "score": 11.633
           }
         ]
       }
@@ -3219,7 +3219,7 @@
   },
   {
     "lessonId": "practice/01-math-foundations/12-tensor-operations",
-    "translationSha256": "9090293a8cc8d887063485c07cb58d0972b5209c3e0b06781074ce6bfc118ca7",
+    "translationSha256": "d0aad8b7cdea7b5605a6850affa44558ae7ea88dc1599a7187764e4cec091b28",
     "assessmentSha256": "f78244b9f213eec8d92726dffd69f1dd01cca231ede5fb457080c450604113ab",
     "questions": [
       {
@@ -3231,19 +3231,19 @@
             "headingId": "what-a-tensor-is",
             "heading": "什么是张量",
             "quote": "张量是具有统一数据类型的多维数值数组。维度的数目是秩（rank，或order）。每个维度是一条轴（axis）。形状（shape）是列出每条轴大小的元组。",
-            "score": 11.206
+            "score": 11.315
           },
           {
             "headingId": "练习",
             "heading": "练习",
             "quote": "简单——reshape往返。取(2,3,4)张量，依次reshape为(6,4)、(24,)，再还原为(2,3,4)；每一步打印扁平数据，验证元素顺序保持不变。中等——实现广播。为Tensor增加broadcastto(shape)，将大小为1的轴扩展到目标形状；修改elementwiseop以便运算前自动广播。用(3,1)与(1,4)测试，结果应为(3,4",
-            "score": 6.679
+            "score": 6.76
           },
           {
             "headingId": "what-a-tensor-is",
             "heading": "什么是张量",
             "quote": "总元素数等于所有大小之积。形状(2,3,4)含$2\\cdot3\\cdot4=24$个元素。",
-            "score": 6.319
+            "score": 6.399
           }
         ]
       },
@@ -3256,19 +3256,19 @@
             "headingId": "内存布局如何工作",
             "heading": "内存布局如何工作",
             "quote": "编者注（题库核对）：view的关键条件是新形状与现有尺寸和步幅兼容，并非所有非连续张量都无法view。转置后合并不兼容的维度会失败，可先contiguous再view，或使用必要时复制的reshape。NCHW描述逻辑轴序，不能与channelslast等物理内存格式混为一谈。参见PyTorchview官方说明。",
-            "score": 29.413
+            "score": 29.668
           },
           {
             "headingId": "深度学习中的张量形状",
             "heading": "深度学习中的张量形状",
             "quote": "PyTorch使用NCHW（通道在前），TensorFlow默认NHWC（通道在后）。布局不一致会导致无声的变慢或报错。",
-            "score": 11.491
+            "score": 11.602
           },
           {
             "headingId": "交付",
             "heading": "交付",
             "quote": "outputs/prompt-tensor-shapes.md——一个系统化调试张量形状不匹配的提示词。包含每种常见操作（matmul、broadcast、cat、Linear、Conv2d、BatchNorm、softmax）的决策表，以及一张修复查找表。outputs/prompt-tensor-debugger.md——当形状错误卡住你时，粘贴给任意A",
-            "score": 6.477
+            "score": 6.541
           }
         ]
       },
@@ -3281,19 +3281,19 @@
             "headingId": "broadcasting-rules",
             "heading": "广播",
             "quote": "广播让你在不复制数据的情况下操作不同形状的张量。从右端对齐形状。当两个维度相等或其中一个为1时它们才兼容。维数较少的一方在左侧补1。下面“动手构建”开头的填充示例展示了对齐规则。",
-            "score": 12.908
+            "score": 13.024
           },
           {
             "headingId": "问题",
             "heading": "问题",
             "quote": "形状错误是深度学习代码中最常见的bug。它们在概念上并不难——每个操作都有一份形状契约——但会迅速累积。一个Transformer把几十个reshape、transpose和广播串联在一起，一条轴搞错，错误就会级联。更糟的是，有些形状错误根本不抛异常，它们会沿着错误的维度广播、或在错误的轴上求和，从而无声地产生垃圾结果。",
-            "score": 6.625
+            "score": 6.691
           },
           {
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习2.只有当两个维度大小相等、或其中一个为1时才能广播，所以先检查这条规则，不满足时抛出错误。对形状(3,1)和(1,4)，检查结果中[i][j]项是否等于a[i][0]+b[0][j]，并把完整结果与NumPy对比。",
-            "score": 6.243
+            "score": 6.309
           }
         ]
       },
@@ -3306,19 +3306,19 @@
             "headingId": "提示",
             "heading": "提示",
             "quote": "练习3.在->处拆分下标。出现在输入中但不在输出中的字母是求和指标，所以遍历每个字母的所有取值，累加到对应的输出位置。用小的随机数组对四种情况逐一测试：np.allclose(mine,np.einsum(...))。",
-            "score": 19.508
+            "score": 19.491
           },
           {
             "headingId": "einsum-the-universal-tensor-operation",
             "heading": "Einsum 与 attention",
             "quote": "爱因斯坦求和为每条轴标记一个字母。出现在输入中但不出现在输出中的轴会被求和，两边都出现的轴会被保留。",
-            "score": 16.869
+            "score": 16.828
           },
           {
             "headingId": "einsum-the-universal-tensor-operation",
             "heading": "Einsum 与 attention",
             "quote": "常用模式：i,i->（点积）、i,j->ij（外积）、ii->（迹）、ij->ji（转置）、bij,bjk->bik（批量矩阵乘）、bhtd,bhsd->bhts（注意力分数）。",
-            "score": 10.735
+            "score": 10.828
           }
         ]
       },
@@ -3331,19 +3331,19 @@
             "headingId": "内存布局如何工作",
             "heading": "内存布局如何工作",
             "quote": "编者注（题库核对）：view的关键条件是新形状与现有尺寸和步幅兼容，并非所有非连续张量都无法view。转置后合并不兼容的维度会失败，可先contiguous再view，或使用必要时复制的reshape。NCHW描述逻辑轴序，不能与channelslast等物理内存格式混为一谈。参见PyTorchview官方说明。",
-            "score": 76.642
+            "score": 77.315
           },
           {
             "headingId": "步骤-3-transpose-与-permute",
             "heading": "步骤 3：transpose 与 permute",
             "quote": "转置或permute之后，张量在内存中变为非连续。在PyTorch中，view会在非连续张量上失败——请改用reshape，或先调用.contiguous()。",
-            "score": 16.064
+            "score": 16.222
           },
           {
             "headingId": "内存布局如何工作",
             "heading": "内存布局如何工作",
             "quote": "转置并不移动数据。它交换步幅，使张量变得非连续（non-contiguous）——同一行的元素在内存中不再相邻。",
-            "score": 8.647
+            "score": 8.737
           }
         ]
       }
@@ -3351,7 +3351,7 @@
   },
   {
     "lessonId": "practice/01-math-foundations/13-numerical-stability",
-    "translationSha256": "322fa31f5c61ebcaf07017f84d88d072062c89e2237278367220b78aa1dc1ff8",
+    "translationSha256": "42019cc0c00d248e64029c48cdea50647aebde441bf19acfd1dbafec5e72a08a",
     "assessmentSha256": "c77e36bf4a8a128aacb6573d21150cb3af7fd739360e34d51fea087c06cf602b",
     "questions": [
       {
@@ -3483,7 +3483,7 @@
   },
   {
     "lessonId": "practice/01-math-foundations/14-norms-and-distances",
-    "translationSha256": "e907134ef2e953e52566332f57366b0f9fa61d27796a2eab41344ae7d1c4fcb0",
+    "translationSha256": "e173c1f66882c5b58fa295d17b485109982eb9aa5fc79a16a932aafdcb2e7bec",
     "assessmentSha256": "6ee0c76ba77409d9fddd38c171acec98ad11f81e1e27c788d1dc60b9265922eb",
     "questions": [
       {
@@ -3615,7 +3615,7 @@
   },
   {
     "lessonId": "practice/01-math-foundations/15-statistics-for-ml",
-    "translationSha256": "49e7acb77a72ae4b16348adf37eb1d5dc53e9ee27da61bc5067f0fbf282fc57f",
+    "translationSha256": "94d90a4d227f338d6683b97a13ebe41ac2e95e43d8d9e6cccbc14f6b143b06f3",
     "assessmentSha256": "5efe11c5602c14e6bbc13575b5dd2fa09a8119708997aa22ae730380febfda32",
     "questions": [
       {
@@ -3747,7 +3747,7 @@
   },
   {
     "lessonId": "practice/01-math-foundations/16-sampling-methods",
-    "translationSha256": "deaf73cc18ae4dcf895f263d0b512fd1b1d49ebfa70e65d5494ed6461cef48a8",
+    "translationSha256": "a3cd7041528fc960d1e6a06d0d2cd62c220a92c7857e12ce649f8408362eaade",
     "assessmentSha256": "c03f187221d96623fab02f806a25877a5b414921af68dd1f8e6bb428feb4f408",
     "questions": [
       {
@@ -3879,7 +3879,7 @@
   },
   {
     "lessonId": "practice/01-math-foundations/17-linear-systems",
-    "translationSha256": "21c22d9b595effb2ec7b025be368b0b755ee645830959054ce7880a971f79cb1",
+    "translationSha256": "0e1711425c5155811e35afb8e1640ee32c2b07004641c05a9a745d66c132911b",
     "assessmentSha256": "3f4dfc3998ce2fbc97fdca8b02573fb4e9c46495ffdc336764034046aa64246f",
     "questions": [
       {
@@ -4011,7 +4011,7 @@
   },
   {
     "lessonId": "practice/01-math-foundations/18-convex-optimization",
-    "translationSha256": "f4570e56fa1029fddf58ea8512d86125f81d653f20a6c4cdaf31a387e43fddb7",
+    "translationSha256": "1e629334007bbfe05040487190e9c1f1b62823ae1b4871980826fc8489a3c649",
     "assessmentSha256": "04ecc1b3441a81b303962466a689959117b7b4f303973ffe8f154057b2b972ca",
     "questions": [
       {
@@ -4023,19 +4023,19 @@
             "headingId": "检验凸性",
             "heading": "检验凸性",
             "quote": "检验3：定义检验。直接检查不等式f(tx+(1-t)y)<=tf(x)+(1-t)f(y)。这种方法适用于难以计算导数的函数。",
-            "score": 15.707
+            "score": 15.766
           },
           {
             "headingId": "kkt-条件",
             "heading": "KKT 条件",
             "quote": "Karush-Kuhn-Tucker（KKT）条件将拉格朗日乘子法扩展到不等式约束。",
-            "score": 6.64
+            "score": 6.664
           },
           {
             "headingId": "凸函数",
             "heading": "凸函数",
             "quote": "如果函数f的定义域是凸集，并且对其定义域中的任意两点x、y以及[0,1]中任意t，都有：",
-            "score": 6.234
+            "score": 6.257
           }
         ]
       },
@@ -4048,19 +4048,19 @@
             "headingId": "kkt-条件",
             "heading": "KKT 条件",
             "quote": "编者注（题库核对）：互补松弛是λᵢgᵢ(x)=0；严格非活跃约束gᵢ(x)<0的乘子必须为零，活跃约束的乘子也可以为零。KKT必要性需要约束资格条件；凸问题满足相应条件时才可用于全局最优判断。无正则或使用凸正则的线性逻辑回归交叉熵对权重凸。SGD噪声可能帮助逃离部分鞍点，但非凸网络没有普遍的全局最优保证，正文对随机临界点比例及泛化的描述是有假设的直觉。",
-            "score": 12.376
+            "score": 12.423
           },
           {
             "headingId": "延伸阅读",
             "heading": "延伸阅读",
             "quote": "Boyd&Vandenberghe：《凸优化》——可在线免费获取的标准教材Bottou、Curtis、Nocedal：《大规模机器学习的优化方法》（2018）——连接凸优化理论与深度学习实践Choromanska等：《多层网络的损失曲面》（2015）——解释非凸神经网络景观为何没有看起来那么糟糕Nocedal&Wright：《数值优化》——关于牛顿法、L-B",
-            "score": 10.272
+            "score": 10.316
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "使用定义、二阶导数和Hessian判据检验函数是否为凸函数实现牛顿法，并将其二次收敛速度与梯度下降进行比较使用拉格朗日乘子求解约束优化问题，并解释KKT条件解释神经网络损失景观为何是非凸的，以及SGD为何仍能找到良好解",
-            "score": 9.89
+            "score": 9.934
           }
         ]
       },
@@ -4073,19 +4073,19 @@
             "headingId": "牛顿法",
             "heading": "牛顿法",
             "quote": "优点：在最小值附近二次收敛（误差在每一步都会平方）无需调节学习率具有尺度不变性（无论怎样参数化问题都能工作）",
-            "score": 15.063
+            "score": 15.13
           },
           {
             "headingId": "牛顿法",
             "heading": "牛顿法",
             "quote": "梯度下降使用一阶信息（梯度），牛顿法则使用二阶信息（Hessian）。它在当前点拟合一个二次近似，然后直接跳到该二次函数的最小值。",
-            "score": 14.67
+            "score": 14.745
           },
           {
             "headingId": "第-4-步-比较一阶方法与二阶方法",
             "heading": "第 4 步：比较一阶方法与二阶方法",
             "quote": "牛顿法将在1步内收敛（对二次函数而言它是精确的）。梯度下降则需要数百步，因为Hessian的特征值相差5倍，形成了一个狭长的谷地。",
-            "score": 12.376
+            "score": 12.432
           }
         ]
       },
@@ -4098,19 +4098,19 @@
             "headingId": "kkt-条件",
             "heading": "KKT 条件",
             "quote": "编者注（题库核对）：互补松弛是λᵢgᵢ(x)=0；严格非活跃约束gᵢ(x)<0的乘子必须为零，活跃约束的乘子也可以为零。KKT必要性需要约束资格条件；凸问题满足相应条件时才可用于全局最优判断。无正则或使用凸正则的线性逻辑回归交叉熵对权重凸。SGD噪声可能帮助逃离部分鞍点，但非凸网络没有普遍的全局最优保证，正文对随机临界点比例及泛化的描述是有假设的直觉。",
-            "score": 38.498
+            "score": 38.641
           },
           {
             "headingId": "kkt-条件",
             "heading": "KKT 条件",
             "quote": "互补松弛给出了一个直接判据：约束活跃时（gi=0，解位于边界上），对应乘子可以为正；约束不影响解时，其lambda=0。",
-            "score": 25.27
+            "score": 25.365
           },
           {
             "headingId": "凸函数",
             "heading": "凸函数",
             "quote": "那么f就是凸函数。几何上，这意味着函数图像上任意两点之间的线段都位于图像上方或与图像重合。",
-            "score": 6.089
+            "score": 6.113
           }
         ]
       },
@@ -4123,19 +4123,19 @@
             "headingId": "kkt-条件",
             "heading": "KKT 条件",
             "quote": "编者注（题库核对）：互补松弛是λᵢgᵢ(x)=0；严格非活跃约束gᵢ(x)<0的乘子必须为零，活跃约束的乘子也可以为零。KKT必要性需要约束资格条件；凸问题满足相应条件时才可用于全局最优判断。无正则或使用凸正则的线性逻辑回归交叉熵对权重凸。SGD噪声可能帮助逃离部分鞍点，但非凸网络没有普遍的全局最优保证，正文对随机临界点比例及泛化的描述是有假设的直觉。",
-            "score": 52.637
+            "score": 52.846
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "使用定义、二阶导数和Hessian判据检验函数是否为凸函数实现牛顿法，并将其二次收敛速度与梯度下降进行比较使用拉格朗日乘子求解约束优化问题，并解释KKT条件解释神经网络损失景观为何是非凸的，以及SGD为何仍能找到良好解",
-            "score": 21.295
+            "score": 21.386
           },
           {
             "headingId": "深度学习为何能在非凸条件下奏效",
             "heading": "深度学习为何能在非凸条件下奏效",
             "quote": "高维优化的主要障碍是鞍点。对一个有n个参数的函数，鞍点在不同方向上兼有正曲率和负曲率。在高维空间的随机临界点处，全部n个特征值均为正（即局部最小值）的概率大约为2^(-n)。几乎所有临界点都是鞍点，而SGD的噪声有助于逃离这些点。",
-            "score": 19.519
+            "score": 19.609
           }
         ]
       }
@@ -4143,7 +4143,7 @@
   },
   {
     "lessonId": "practice/01-math-foundations/19-complex-numbers",
-    "translationSha256": "c6545fcde1709baa9f7c6280d6fa9457d5471ef453359a69267c0cd65ce6b6f7",
+    "translationSha256": "edf26ca4b6c206c3b175aba6f2c011b1de2f84942ab30a85aabf0268abd4fa5c",
     "assessmentSha256": "e8ce280cfe7528468a34e2deb4dcb9478ebf71fe95a2310b870579451b0c23d1",
     "questions": [
       {
@@ -4275,7 +4275,7 @@
   },
   {
     "lessonId": "practice/01-math-foundations/20-fourier-transform",
-    "translationSha256": "4dcb9c6caf10325cbc014be68bef038904a5d942f362e305e566095f6e535ce5",
+    "translationSha256": "f694de1a8e76d9b237ae66fca480527c79ec203d67b2ff65b6892a86aec6081a",
     "assessmentSha256": "73d9f082b465b3fb8e29e3586269ed8033af5f53603129bf21b202de3b899c4f",
     "questions": [
       {
@@ -4407,7 +4407,7 @@
   },
   {
     "lessonId": "practice/01-math-foundations/21-graph-theory",
-    "translationSha256": "910ca40d17342201f79899108a534b2a6498294e6d856e3fa7ef5b3b4d45b640",
+    "translationSha256": "c6992d66c491cce8c272d7709296a70691d5345febe6adb45549ead88d3f6830",
     "assessmentSha256": "706319dfd85247605444af2612d761dca454e6deff99524f1c82e7eb7ca82072",
     "questions": [
       {
@@ -4803,7 +4803,7 @@
   },
   {
     "lessonId": "practice/02-ml-fundamentals/02-linear-regression",
-    "translationSha256": "729701e3d07ee715af86af189f5f9aa1f5e3753ded4b0ad6a3754fcb932872dc",
+    "translationSha256": "f6e954903806778ba237115c47ee052c7b17093c316155fd0c21b853426ad40f",
     "assessmentSha256": "ac6fac045d6edf6c6670fc7c4e4a330f0188de2622c6c7176b660744d60a8037",
     "questions": [
       {
@@ -4935,7 +4935,7 @@
   },
   {
     "lessonId": "practice/02-ml-fundamentals/03-logistic-regression",
-    "translationSha256": "76c666a059125ea95b1502dda67d264895952f21280d2f3a44d02e561de24097",
+    "translationSha256": "5ed6d341e0bddcbb6d315639e60674093068e313339d3faabdfdfa7f11fbd319",
     "assessmentSha256": "4eab867118fadbbc09a1044e9abc60ed9d8e02192fbe7fb650f74ba04056067a",
     "questions": [
       {
@@ -5067,7 +5067,7 @@
   },
   {
     "lessonId": "practice/02-ml-fundamentals/04-decision-trees",
-    "translationSha256": "b56e50fd3616d32b05fde722f8a0054abf6d2991bde17f3fa75ba3ec0263f333",
+    "translationSha256": "e1d8d702034785a2eaff2ef9d9c82c58379857b20e07485a795afa5a502d6eb2",
     "assessmentSha256": "e2fb1807a566a9c5ea71109e78796762a777bf1644a183096c19556174e42eb3",
     "questions": [
       {
@@ -5331,7 +5331,7 @@
   },
   {
     "lessonId": "practice/02-ml-fundamentals/06-knn-and-distances",
-    "translationSha256": "9f3634921e5c77b229d99bbcf340af2a1f06eab294b25421e9ea7feac2381cc7",
+    "translationSha256": "fc1eb29f058b704f8ecf09047885a9aa55df3aa8523a58cfe9bf34e1efc93997",
     "assessmentSha256": "ec2aba6b12ba5e36767da8850cb500c62d7df8dc14efab851add9f8e6a73c8f9",
     "questions": [
       {
@@ -5463,7 +5463,7 @@
   },
   {
     "lessonId": "practice/02-ml-fundamentals/07-unsupervised-learning",
-    "translationSha256": "31c9272c19f5cb46a1d4acf4460e3272de0acccaeb1232b41f07720ca4ca46ee",
+    "translationSha256": "0c2144b0c4d849216030d10c93c96322941b98838268a2842e52b23b2d938f97",
     "assessmentSha256": "fbb42e30a6f319b5c2c166234b8b861eedace6bce4f718a2f870e2df9ff30a3a",
     "questions": [
       {
@@ -5595,7 +5595,7 @@
   },
   {
     "lessonId": "practice/02-ml-fundamentals/08-feature-engineering",
-    "translationSha256": "e04913affac1ffe64c73d28257e3518842447af4ed6f6adee301da81440e320c",
+    "translationSha256": "bbd24a2a7f3f75d1e09e79907e29c730eb7fda8666e1f0868f1c6579353e8081",
     "assessmentSha256": "3a90b791ff8624300c14d6926884d22affd259726cc04c8c805b858e1a7a34ed",
     "questions": [
       {
@@ -7047,7 +7047,7 @@
   },
   {
     "lessonId": "practice/02-ml-fundamentals/19-ml-system-design",
-    "translationSha256": "50aebe4b9bb3c9197a090fd74e7472e3a3d3600c90d5d604fbaad180ef392fd8",
+    "translationSha256": "227ff97c7bd4136184d7af6ba8d46404b2d3a5735fdf6c6b7bb3ac0e24c8a400",
     "assessmentSha256": "08bc98d0c4be42b6fad5c9c3161b7d9a0939dc4f804fd4577f27d0ef48ea5cbb",
     "questions": [
       {
@@ -7204,7 +7204,7 @@
   },
   {
     "lessonId": "practice/02-ml-fundamentals/20-model-monitoring-and-drift",
-    "translationSha256": "9afd88e49be3be3efb9593217e3771e43937239361fa82dea187ceac3769a6e0",
+    "translationSha256": "00e91aa81ce54f152383b43ec33b05afc94b18f258c9a9de21833886dcc94989",
     "assessmentSha256": "4ebdda1ac19077b540a967e45ad92da5fc6c6f97ca26dab8a4b05728d55ce00c",
     "questions": [
       {
@@ -7361,7 +7361,7 @@
   },
   {
     "lessonId": "practice/02-ml-fundamentals/21-feature-stores-and-training-serving-skew",
-    "translationSha256": "681c69d934af2d64b6fdf4d5dd2fbc26a1900d878a2b018115ece2f67496b0ff",
+    "translationSha256": "19eeb730f225326e5bc7c897bfa2a8d4cb6efa5a68ad40d617094fd71ec11344",
     "assessmentSha256": "142da5966ffe502574b57711b5f30bda86e4c02dc10d9e51db3fbb3a7184da11",
     "questions": [
       {
@@ -7518,7 +7518,7 @@
   },
   {
     "lessonId": "practice/03-deep-learning-core/01-the-perceptron",
-    "translationSha256": "f17a09cc7ce5d6d51c254fd9811b88340cf93e3970b6bd28d5d183041202a696",
+    "translationSha256": "4a45e0b0655a6018e7aebdcc9765c84a0a0718b2f951b9dea5571b6d86dbda48",
     "assessmentSha256": "3012c51fc8e7486b744a2cf513734a44e10e44583ed156d2d4c50c0ce42d91e8",
     "questions": [
       {
@@ -7650,7 +7650,7 @@
   },
   {
     "lessonId": "practice/03-deep-learning-core/02-multi-layer-networks",
-    "translationSha256": "54c027556df65a5e12239053af9f0f9e7fd5116cb77a4e7dfc5d114bf8a2b3f8",
+    "translationSha256": "a8a4606b4384b0cc76f45eefd2ed73153e2b128a9a321adfbd82414478dfb2f9",
     "assessmentSha256": "27502f366ad5cda8ad927f567bcd97ed2f76096659a40c75a51fe8e46245ff4a",
     "questions": [
       {
@@ -7662,19 +7662,19 @@
             "headingId": "问题",
             "heading": "问题",
             "quote": "增加隐藏层即可突破这一限制。第一层将输入空间转换为新特征，第二层再组合这些特征，形成单条直线无法表达的决策。多层网络由此成为现代深度学习模型的基础。首先需要实现前向传播，即让数据从输入经过隐藏层到达输出。",
-            "score": 28.84
+            "score": 29.064
           },
           {
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "从零构建含Layer、Network类的多层网络，完成前向传播。跟踪网络每层的矩阵维度，定位形状不匹配。解释堆叠非线性激活为何能学习弯曲决策边界。以手调sigmoid权重的2-2-1架构解决XOR。",
-            "score": 17.912
+            "score": 18.103
           },
           {
-            "headingId": "神经元与激活",
-            "heading": "神经元与激活",
-            "quote": "每个输入乘对应权重。求积之和并加偏置。将和通过激活函数。",
-            "score": 10.94
+            "headingId": "练习",
+            "heading": "练习",
+            "quote": "构建2-4-2-1网络（两个隐藏层），以随机权重在XOR上前向，打印中间隐藏层输出，观察表征如何逐层变换。将圆分类器隐藏层从8改为2、再改为32，以随机权重前向；隐藏神经元数会改变输出范围或分布吗？为什么？为Network增加countparameters，返回可训练权重加偏置总数；在经典MNIST784-256-128-10上测试，它有多少参数？为3-4-",
+            "score": 11.03
           }
         ]
       },
@@ -7687,19 +7687,19 @@
             "headingId": "步骤-2-layer-类",
             "heading": "步骤 2：Layer 类",
             "quote": "矩阵乘法是深度学习最重要操作：每层、每个attentionhead、每次前向传播，底层都是matmul。线性层将输入向量乘权重矩阵并加偏置：y=Wx+b；这一个方程占网络90%计算。",
-            "score": 22.019
+            "score": 22.268
           },
           {
             "headingId": "步骤-5-圆形分类",
             "heading": "步骤 5：圆形分类",
             "quote": "随机权重下网络分类不好，但前向仍可运行，这正是重点：前向只是计算；学习正确权重是第03课的反向传播。",
-            "score": 14.677
+            "score": 14.84
           },
           {
             "headingId": "步骤-2-layer-类",
             "heading": "步骤 2：Layer 类",
             "quote": "权重矩阵形状(nneurons,ninputs)，每行是一个神经元跨全部输入的权重。前向循环每个神经元，计算加权和加偏置、应用sigmoid、收集输出。",
-            "score": 12.76
+            "score": 12.904
           }
         ]
       },
@@ -7712,19 +7712,19 @@
             "headingId": "matrix-dimensions",
             "heading": "矩阵维度",
             "quote": "规则：第k层权重W的形状是(第k层神经元数,第k-1层神经元数)；行匹配当前层、列匹配前层。形状对不上就是bug。",
-            "score": 24.139
+            "score": 23.996
           },
           {
             "headingId": "步骤-2-layer-类",
             "heading": "步骤 2：Layer 类",
             "quote": "权重矩阵形状(nneurons,ninputs)，每行是一个神经元跨全部输入的权重。前向循环每个神经元，计算加权和加偏置、应用sigmoid、收集输出。",
-            "score": 22.101
+            "score": 22.274
           },
           {
             "headingId": "层-输入-隐藏-输出",
             "heading": "层：输入、隐藏、输出",
             "quote": "输入层不执行计算，只保存原始数据；两项特征即两个输入节点。隐藏层完成变换：每个神经元接收前层全部输出、加权加偏置后激活，“隐藏”是因为训练数据中不直接包含其值。输出层给出最终答案；二分类用一个sigmoid神经元，多分类每类一个。",
-            "score": 14.228
+            "score": 14.315
           }
         ]
       },
@@ -7737,19 +7737,19 @@
             "headingId": "通用逼近定理",
             "heading": "通用逼近定理",
             "quote": "1989年GeorgeCybenko证明：单隐藏层且有足够神经元的网络，能以任意精度逼近任意连续函数。",
-            "score": 42.128
+            "score": 42.528
           },
           {
             "headingId": "通用逼近定理",
             "heading": "通用逼近定理",
             "quote": "这不表示一层总是最佳，仅表示架构理论上有能力。实践中更深的网络（更多层、每层更少神经元）以远少于浅宽网络的参数学习同样函数，这解释了深度学习的有效性。",
-            "score": 32.78
+            "score": 33.09
           },
           {
             "headingId": "通用逼近定理",
             "heading": "通用逼近定理",
             "quote": "直觉是每个隐藏神经元学习一个“凸包”或特征；在正确位置放足够多凸包便可逼近平滑曲线。神经元越多，凸包越多，逼近越好。",
-            "score": 15.846
+            "score": 16.015
           }
         ]
       },
@@ -7762,19 +7762,19 @@
             "headingId": "神经元与激活",
             "heading": "神经元与激活",
             "quote": "sigmoid将任意数压到(0,1)：大正数趋近1，大负数趋近0，零映射到0.5。它的平滑曲线使学习可行——与感知机硬阶跃不同，sigmoid处处有梯度。",
-            "score": 20.964
+            "score": 21.166
           },
           {
             "headingId": "交付",
             "heading": "交付",
             "quote": "当需要确定特定问题的层数、每层神经元数和激活函数时使用它。",
-            "score": 8.663
+            "score": 8.752
           },
           {
             "headingId": "步骤-5-圆形分类",
             "heading": "步骤 5：圆形分类",
             "quote": "更难问题：将二维点分为原点半径0.5圆内/圆外。这需要弯曲边界，单感知机不可能。",
-            "score": 8.216
+            "score": 8.286
           }
         ]
       }
@@ -7782,7 +7782,7 @@
   },
   {
     "lessonId": "practice/03-deep-learning-core/03-backpropagation",
-    "translationSha256": "6253878bec7ed62a443e90b9d7cf56a1c2ab26b8dfa7617dd952ce8859a2e61f",
+    "translationSha256": "1b121ea608b87880f3ef87be8237c54f3d3a1b19bac6dc3b4602add23874df91",
     "assessmentSha256": "cdf24f8ca42ddca99597072901245a487bc4554e83ee66142cc00f6c7d4e9c2a",
     "questions": [
       {
@@ -8178,7 +8178,7 @@
   },
   {
     "lessonId": "practice/03-deep-learning-core/06-optimizers",
-    "translationSha256": "df441e8760c752c94e34fdaae9bd7a0fa222c237aa5c70c989eb89315e148d8d",
+    "translationSha256": "4a09b75ba1554803605aa513d88668904fea0e4edb923238957411900d080bae",
     "assessmentSha256": "dbb0dba1ffc3c9bdb40765f4bc9504c9209aedb3f2bac7b52167c53ef7474dba",
     "questions": [
       {
@@ -8310,7 +8310,7 @@
   },
   {
     "lessonId": "practice/03-deep-learning-core/07-regularization",
-    "translationSha256": "4ab75b7df61f6a5b88b01edb9f3826a58ca3b8011c2014b053af8cf01afe214c",
+    "translationSha256": "2a07df4d96d853b7253fde76aff1b9e31646c7489cc4d47e356644f7801ed7e5",
     "assessmentSha256": "5ad4e4fd0236170972049b2980c617354380245fab48ad5c78ed9df7a2926c6b",
     "questions": [
       {
@@ -8442,7 +8442,7 @@
   },
   {
     "lessonId": "practice/03-deep-learning-core/08-weight-initialization",
-    "translationSha256": "1713092e35452eb5f3867a3cbf9da6df3e6515a9b078bd361f2b7a4c5d01b8db",
+    "translationSha256": "b092efd64479bf40ef367ed761da9334aadc13a85088ad565a3256ee3147cb32",
     "assessmentSha256": "b125bb88d1f9a1045e7bb00972ef85c4f28fc8d65ed420d35cdb68dd970a1fe7",
     "questions": [
       {
@@ -8574,7 +8574,7 @@
   },
   {
     "lessonId": "practice/03-deep-learning-core/09-learning-rate-schedules",
-    "translationSha256": "91e815b125d57e52e07dd1e2459b695bd12d5959c773795c3a92735876451308",
+    "translationSha256": "0333755467f425c3781a25193943256cd092289b029a1a1fd5a9a17c80e1c429",
     "assessmentSha256": "e51fe34444d1717943c0925044a658f00050ce34a9e4d17bb8b93ac555f85664",
     "questions": [
       {
@@ -8706,7 +8706,7 @@
   },
   {
     "lessonId": "practice/03-deep-learning-core/10-mini-framework",
-    "translationSha256": "cfd9a16f2f7658c5e8cf046b0768138e9f7221f54e620107242beb244093faa7",
+    "translationSha256": "8b923adc001c7f7dacee6bdf7a0b2e4c471d611980ed857c374d63370e5b81a1",
     "assessmentSha256": "da6b03699b930b8826f073bebb630fd3a3523ee9be7af1b95d169b763ee0cd46",
     "questions": [
       {
@@ -12930,7 +12930,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/01-text-processing",
-    "translationSha256": "b05e0f7c044295abb8527ee1d87625e473f667174c54629a463793facdd447fd",
+    "translationSha256": "82c3f99d01fbd14256539524bc7d1516303f3bf5f466f250ab89cf9a99accb2c",
     "assessmentSha256": "314a3610826f4c43ef0e1e06e2217512108a04e3b91eb92a4ed983d963dd1258",
     "questions": [
       {
@@ -13137,7 +13137,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/02-bag-of-words-tfidf",
-    "translationSha256": "07c71a5f4712815a060555ec3221ef42baa5a909072815c358391276985a09e2",
+    "translationSha256": "7c24881405809eca09e93f9653955a1b01033f469eb472ed3fa6ac661018a087",
     "assessmentSha256": "3e2b915db61ce30955e453077921621167607ca4d9a7079da996792afa9b98ce",
     "questions": [
       {
@@ -13551,7 +13551,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/04-glove-fasttext-subword",
-    "translationSha256": "a888642b2a7d4c6a0529bc6400cc8574774221735fc86c52fd7b104b33b86ed5",
+    "translationSha256": "6738791574cd05f7a01f19facb778d63a441cf3b4841592fb350a5d024870ceb",
     "assessmentSha256": "13062b2e43c8c2eb6d725ec5b38bd18d9ca2525072b3d5e2331efc12b32a2bac",
     "questions": [
       {
@@ -13758,7 +13758,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/05-sentiment-analysis",
-    "translationSha256": "098a9a42645eca5dddf98ba584701038954ff1a4f63b6f6e7d46a5ae50a9edd6",
+    "translationSha256": "7960577b457f7d14c95de525cb0fbc011ff0f22c887596c2628f1f95e584ffe0",
     "assessmentSha256": "9591f925b7eba7d9fd8eb3d9ef19df2109e6d65a7750c762000b1eb4d260b6e4",
     "questions": [
       {
@@ -13965,7 +13965,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/06-named-entity-recognition",
-    "translationSha256": "481df8c70a02f57c02cd6b772b40057b95321317a8868009d863ed7d23af140c",
+    "translationSha256": "7263b0fbc4ad0a661c02c1225aaca9019ccf94cbde7cfd932ee51ea12b055570",
     "assessmentSha256": "ec93df9442814a7969bb2382957a1d16bee03245698ae3315d3ac38731cfaa16",
     "questions": [
       {
@@ -14172,7 +14172,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/07-pos-tagging-parsing",
-    "translationSha256": "d94846c8f2e0ff1a6a98237ce7cc4dbf23c784339eedf7ad0489a579cd867077",
+    "translationSha256": "15e1b3ac3ba133f4358efaea62600a902d3f5ddbfe27fd0bb88ee5784874c425",
     "assessmentSha256": "8a4730219009c04fc1e45240355aef14ab8d01e08538390f1a6e9ca2e0d037c6",
     "questions": [
       {
@@ -14379,7 +14379,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/08-cnns-rnns-for-text",
-    "translationSha256": "4089df02418e65598af2916a0593172003c5e4b80394f27ab73ab1bbca6da67d",
+    "translationSha256": "cde0012fa2d1f174b803ca977c53c51d7d003b7c8b63df67487842aa69b55f98",
     "assessmentSha256": "2892937b9d853b739a56e121c36edae782ecc5a94a1ccce2a6dc1e0cad87b82c",
     "questions": [
       {
@@ -14586,7 +14586,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/09-sequence-to-sequence",
-    "translationSha256": "724fa8ee8d4b3d493155004cdae6290fc0cfaa82711b6090bc5125f35bfa5d74",
+    "translationSha256": "4b920ee74370dba93520891810f69dfdda83756e94a0397dc891f762080e5a67",
     "assessmentSha256": "6f574ea34ed52b022ddaebbd84557acdb3d05a978bd4452a0a12af3a43d37a71",
     "questions": [
       {
@@ -14793,7 +14793,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/10-attention-mechanism",
-    "translationSha256": "39c3b3f3ccb29290fee606d287c7db4199281f3de083a52ee84457b84016413a",
+    "translationSha256": "8995325d1ffdc9e753e6e8ad4e4d76e4da99eef41161682384552a0ae9a279ae",
     "assessmentSha256": "c13fc4fb8d5002cee3ef9caabd985f9eaeac5da919ae37417daf1cd49da57b16",
     "questions": [
       {
@@ -15000,7 +15000,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/11-machine-translation",
-    "translationSha256": "bb07ec9d2611e1bf9c5d2638ce343323ee5ea0ca5ea022c81daa6a8e9657db92",
+    "translationSha256": "fb3fad626225a87c264fe87f79e0d50031bf5b93c77dd211e9c393efa54ff79a",
     "assessmentSha256": "a0e3b554db2837c42fc457fcafca1ab322d4563a4eeb1a0776c911c65b41d75d",
     "questions": [
       {
@@ -15207,7 +15207,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/12-text-summarization",
-    "translationSha256": "835b11f17d88f82a7c920d736985765e467ef00808ac39af454780125c4bfbfd",
+    "translationSha256": "207c4136581acca8ddb9d9c21fb36f2a8db80c74d84f2aea2552ced6adddf601",
     "assessmentSha256": "32668c09d7ff81bedca8e4bcbad2fef533c635ad8f81c33fbcdd941ad5aecb99",
     "questions": [
       {
@@ -15414,7 +15414,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/13-question-answering",
-    "translationSha256": "dc24a08a7b725435a2f54536f0d5a715cb00b681e5af94f846d6c399db6cff6b",
+    "translationSha256": "4dac7d99d57b4d63a0044b51a62e1a96590b55127ffe0e97273b32a6b9887efd",
     "assessmentSha256": "fd1aa2d414d02882efe92f611686a02ce69446ea6afb027708b6ef1591480fa4",
     "questions": [
       {
@@ -15621,7 +15621,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/14-information-retrieval-search",
-    "translationSha256": "75a442f0b01d2240b539317dacd55ad0cd7676a7923a8f178ad77528c3eb7bc4",
+    "translationSha256": "b132eef2ece764559e5de5cd5d6526f2d991f8114f62c35fe32b90b4d903269e",
     "assessmentSha256": "24b2c6b1bf30c3ac5e70896bce8fe12969018e33aa67de324e765261c64821fb",
     "questions": [
       {
@@ -15828,7 +15828,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/15-topic-modeling",
-    "translationSha256": "d52ed3c436151c88eba1a1421a05d90cb67c41a7aeaaa5c6def3404651310df6",
+    "translationSha256": "76a82627ff4052773bc14ab2ba092ee5580a80a6ea2265fdb26748a73ce819b8",
     "assessmentSha256": "cb6c9c8d4bf260ddaa44ed219c7f4e48736c39d4868dfa8bd65b01707897ffc0",
     "questions": [
       {
@@ -16035,7 +16035,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/16-text-generation-pre-transformer",
-    "translationSha256": "bef96ad374aa130bcd14f6c17c5116494fdce20ea4cbcdf92571d5c6f4bbbbf1",
+    "translationSha256": "e5b412d8b06ebb4fecf348362a60e86482067937c08563648190fda9d9caecf4",
     "assessmentSha256": "b0e752b7c5fa8af77aea280296e395e9d0119420743b6e80ec1ab9b0d7374df0",
     "questions": [
       {
@@ -16242,7 +16242,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/17-chatbots-rule-to-neural",
-    "translationSha256": "fb09a9ce02c2880598d75f7a668a6e414b83f9cfd7605fe171ee9faf9a1a7cf1",
+    "translationSha256": "81249867f58188ea86676bbb7042cd55b7b9c5e5fe8949564940c093d14e03f2",
     "assessmentSha256": "a42b8c1844a3febdea13bb10706aabea410870e0248f6d265c16513bdcd17776",
     "questions": [
       {
@@ -16449,7 +16449,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/18-multilingual-nlp",
-    "translationSha256": "beee3f0c6efda9ae8134369346b5d39b60b67848f5dbc5b6dc287a601539cd6a",
+    "translationSha256": "7ed211ab2ddbfb37273476790716c53322444e5743ae877c589cf4816f28ec4f",
     "assessmentSha256": "8caedf4dda5cebd973d37153b6d890f79d9e9d592791099f127a1be429327e47",
     "questions": [
       {
@@ -16863,7 +16863,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/20-structured-outputs-constrained-decoding",
-    "translationSha256": "82bd95cb5443254b7c694e909aa635dc6b3dd625ad45bed4ed78c1774846656c",
+    "translationSha256": "02786159effcbd95312a0242613f925a108c82089ac3bacaadc6c9c331e51ad4",
     "assessmentSha256": "a722b71403f66a56f2c1e9e8d54e3bdadd8501478e45f68717be667de122dc23",
     "questions": [
       {
@@ -17070,7 +17070,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/21-nli-textual-entailment",
-    "translationSha256": "743473c4b9e74ae89663983a7c72141f37951d45c211d553a468ed8068a14138",
+    "translationSha256": "7f5abf08ab6dfa513da9a9e4f007fbfd89772023886656b7f66e1b44eed34985",
     "assessmentSha256": "8ca618a5e07c52abd73906061daad9d71e2677c3db052fd35bd2de9da7790253",
     "questions": [
       {
@@ -17277,7 +17277,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/22-embedding-models-deep-dive",
-    "translationSha256": "167515ca42e787773da8c52974d507ce7b488393c8d2196c5dea21a7fc3fcb70",
+    "translationSha256": "57a1aea28967e4fac9ec5f8088dd0508c062200375ba03bff4b474a63929c0da",
     "assessmentSha256": "28b60555808f800b50eadbe1ffda71a1a6009b51aa92bcf849507b79090c8381",
     "questions": [
       {
@@ -17691,7 +17691,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/24-coreference-resolution",
-    "translationSha256": "d2e90f39b95c907dc0bffb19e3ac67d927d8432934de7dcfd83219c01616223e",
+    "translationSha256": "c060c9b3f24871dab78d6b3139b0fbd6443fa8c5031ea672344ad9b47a27decf",
     "assessmentSha256": "f9bd1496c3f6d57a58f6c1f8d1dd973a2dc80ab12a46839701b7c8a8495cc1a1",
     "questions": [
       {
@@ -17898,7 +17898,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/25-entity-linking",
-    "translationSha256": "f7f1eb1883f4335a6a4dee1b2d64ee316b00ac055dfe640786f265508376d589",
+    "translationSha256": "c7c1ee543fe030c7510e444ecdffc18dec82c526e6810fd8fde6cbfb8f9aae66",
     "assessmentSha256": "9174185b50e2e42432a54895c304be5fb86556f7dd02833f8ccfff173e0765df",
     "questions": [
       {
@@ -18105,7 +18105,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/26-relation-extraction-kg",
-    "translationSha256": "1c09000bb72426e0fa35e83ecd86eff99a89b1c30501b9cd0df5af9179609b9b",
+    "translationSha256": "4df42ac640cdfb1012597858e51d177201cb3e01f3a903d92a59aa5c6f178cf4",
     "assessmentSha256": "1a36f624420f3155ede35ff364018f71ac3a8c2bb0df0977042eb0cea203fc96",
     "questions": [
       {
@@ -18312,7 +18312,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/27-llm-evaluation-frameworks",
-    "translationSha256": "9227209ab9dabd8fff6a3f1269ec66607ef527d7aa6cc4e09acc3f2aab50ba3e",
+    "translationSha256": "e2b84c677a89a3bbbd427260e7f384ea6182e6e4c0014714e94247152a49494a",
     "assessmentSha256": "8f1dda4333fc0944ef50b429a3724d56be895e6eeb16142e733a62f16f669c76",
     "questions": [
       {
@@ -18519,7 +18519,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/28-long-context-evaluation",
-    "translationSha256": "05bd653364d3749e4ada412e4650c6f3c1039aee65fa6f422bff86dba4413af4",
+    "translationSha256": "0864cf18dac7b923f134a2cf1e76ec22dd4b22b8a158ca246534da0848a02026",
     "assessmentSha256": "3bfa8f469e6ed393b894d0925d7d66a15f1f78e3e616113fb8a944881ef6a894",
     "questions": [
       {
@@ -18726,7 +18726,7 @@
   },
   {
     "lessonId": "practice/05-nlp-foundations-to-advanced/29-dialogue-state-tracking",
-    "translationSha256": "2204053bcffa107bba8682bcf21966a5479ab6491a9117cd9ac7c7f065df47af",
+    "translationSha256": "38f005033d335a89a781d433c5beff80f627add457d85286ef9fd2fe43f70784",
     "assessmentSha256": "0a61e3e0f6574b7134e92625e4c871897d35008a44a302113cdfbbb2c0354c30",
     "questions": [
       {
@@ -19197,7 +19197,7 @@
   },
   {
     "lessonId": "practice/10-llms-from-scratch/02-building-a-tokenizer",
-    "translationSha256": "5d3555b8c0b067a9c13b25372646183bf3827a55d86ce6a4ec750c4ed924d92b",
+    "translationSha256": "d091a46c53fe86fbea23c1ce03cc740e9d044609d50b937a18f73d7a83bca6f0",
     "assessmentSha256": "78b5fc0d21d64ed4b1ed4f00d072c1094f93eae28653d61d23ff35105f53e3e6",
     "questions": [
       {
@@ -19209,7 +19209,7 @@
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "构建一个生产级BPE分词器，处理Unicode、空白规范化和特殊词元实现字节级回退，让分词器能够对任何输入（包括表情符号、中日韩文字和代码）进行编码，而不会产生未知词元添加预分词正则表达式模式，在应用BPE合并前按词边界切分文本在语料库上训练自定义分词器，并在多语言文本上将其压缩比与tiktoken进行比较",
-            "score": 39.58
+            "score": 39.14
           },
           {
             "headingId": "字节级-bpe",
@@ -19237,16 +19237,16 @@
             "score": 23.326
           },
           {
-            "headingId": "第-2-步-使用正则表达式进行预分词",
-            "heading": "第 2 步：使用正则表达式进行预分词",
-            "quote": "前导空格会保留在其后的单词上。第一个单词前没有空格，因此对应的片段是Hello。缩写会在撇号处分开。标点会成为自己的片段。BPE永远不会跨越这些边界合并词元。",
-            "score": 22.571
-          },
-          {
             "headingId": "预分词",
             "heading": "预分词",
             "quote": "选择很重要。GPT-2的正则表达式会阻止分词器学到：一个词末尾的“the”和下一个词开头的“the”应该合并。SentencePiece则允许这样做，有时能实现更高效的压缩，但生成的词元也更难解释。",
             "score": 22.414
+          },
+          {
+            "headingId": "第-2-步-使用正则表达式进行预分词",
+            "heading": "第 2 步：使用正则表达式进行预分词",
+            "quote": "前导空格会保留在其后的单词上。第一个单词前没有空格，因此对应的片段是Hello。缩写会在撇号处分开。标点会成为自己的片段。BPE永远不会跨越这些边界合并词元。",
+            "score": 22.305
           }
         ]
       },
@@ -19259,19 +19259,19 @@
             "headingId": "问题",
             "heading": "问题",
             "quote": "BPE本身没有错，问题在于实现不完整。生产级分词器要能处理任意编码中的原始字节，在切分前规范化Unicode，管理永远不会参与合并的特殊词元，将预分词与子词切分串联起来，并且这一切的速度足够快，不会成为处理15万亿个词元的训练管道的瓶颈。",
-            "score": 8.428
+            "score": 8.372
           },
           {
             "headingId": "特殊词元",
             "heading": "特殊词元",
             "quote": "特殊词元永远不会被BPE切分。合并算法运行前，分词器会精确匹配它们，将其替换为固定ID，再正常处理周围的文本。",
-            "score": 7.778
+            "score": 7.722
           },
           {
             "headingId": "第-4-步-处理特殊词元",
             "heading": "第 4 步：处理特殊词元",
             "quote": "特殊词元需要精确匹配和固定ID。它们会完全绕过BPE。",
-            "score": 7.778
+            "score": 7.722
           }
         ]
       },
@@ -19309,7 +19309,7 @@
             "headingId": "学习目标",
             "heading": "学习目标",
             "quote": "构建一个生产级BPE分词器，处理Unicode、空白规范化和特殊词元实现字节级回退，让分词器能够对任何输入（包括表情符号、中日韩文字和代码）进行编码，而不会产生未知词元添加预分词正则表达式模式，在应用BPE合并前按词边界切分文本在语料库上训练自定义分词器，并在多语言文本上将其压缩比与tiktoken进行比较",
-            "score": 17.445
+            "score": 17.388
           },
           {
             "headingId": "练习",
@@ -19329,7 +19329,7 @@
   },
   {
     "lessonId": "practice/10-llms-from-scratch/03-data-pipelines",
-    "translationSha256": "2ea9fffad00fcd3a5f0eec2c6630ebdbe8b3e4c303396b7b5a249f3ff13265e8",
+    "translationSha256": "6da5f29213a81b303c9080b1af3369b092803c1b37842ea3b80c32ae4c8b2086",
     "assessmentSha256": "80d2aaa3504e3747be1d9c683115f1e70fd0d270bf25a2f10c64a4c4df51fde9",
     "questions": [
       {
@@ -21309,7 +21309,7 @@
   },
   {
     "lessonId": "practice/11-llm-engineering/07-advanced-rag",
-    "translationSha256": "8cbc2edd1a379d07f201fb199853126b0c4f1684ea3201dedd945da1a62956fa",
+    "translationSha256": "287b7f30357a642b358a72e50ca5efcd3862cd49beca198b9b627d4734bbfd2a",
     "assessmentSha256": "b3acedead2fcef239e685bdcb67b5b1073b1c2cfa143356ca39514a15325b044",
     "questions": [
       {
@@ -21705,7 +21705,7 @@
   },
   {
     "lessonId": "practice/11-llm-engineering/10-evaluation",
-    "translationSha256": "43f2e1938006a82fbeb4e2d7fbf86870008fea746e2a6b0312188081d193f168",
+    "translationSha256": "26f1dfcc4ce57b723621c2ac647e035b5935f9a0eed68cdc85af1195b1ca90f1",
     "assessmentSha256": "28718d66278c995ef67fed5497572d3c5689db63a0bc9b1e36a705994a074185",
     "questions": [
       {
@@ -21837,7 +21837,7 @@
   },
   {
     "lessonId": "practice/11-llm-engineering/11-caching-cost",
-    "translationSha256": "98867c0b0af04f651542f0744e0430ac0ebd51ef742554a1e27e48f72fda63db",
+    "translationSha256": "0c9e264442241708da8a532a96776852190daea1f3e37addec33a28af29e3dab",
     "assessmentSha256": "d763ffc452d9de665a2045891de96b120defac14e16e72a0526f47a8c5bfb725",
     "questions": [
       {
@@ -22101,7 +22101,7 @@
   },
   {
     "lessonId": "practice/11-llm-engineering/13-production-app",
-    "translationSha256": "d3c76eb21811a82016943b26866bb54e3a8c6a0fe0f2960fa2abdc546803f90c",
+    "translationSha256": "f6221c4bad67303f8a3aad90d95930e8ec8ee1ca133fc209d52aaf475f7cdc70",
     "assessmentSha256": "6d7bbfe720949a453b0c36015c8832a7eb86c5169a0114f9a2f0c7c22c2b8413",
     "questions": [
       {
@@ -22233,7 +22233,7 @@
   },
   {
     "lessonId": "practice/11-llm-engineering/14-model-context-protocol",
-    "translationSha256": "ff12e2af7e3f725470deb2308fac509cda50e7bcbcf6fcff3b6841e3d4c8799c",
+    "translationSha256": "b5c26ecd899fde31db3b81911e0349d12af0675eac50f7e68d8064b3035f4752",
     "assessmentSha256": "e97f6da878a533abd91d956d343a4260bfe35dd55c92f652a1128a1b69e088d2",
     "questions": [
       {
@@ -22390,7 +22390,7 @@
   },
   {
     "lessonId": "practice/11-llm-engineering/15-prompt-caching",
-    "translationSha256": "4086499b457743b7a66e7a44e21b0ad134e8906290cc6ab08c122cae3b62f90b",
+    "translationSha256": "7e6a190c6d566e82e7dc3dddf3063e2f77cf61840e96bb9ae2b4815d41158c31",
     "assessmentSha256": "bf318d47c75165c755fa25a489dcdf28c5971e2f35b437e04ea65ee4a9ec7dca",
     "questions": [
       {
@@ -22654,7 +22654,7 @@
   },
   {
     "lessonId": "practice/11-llm-engineering/17-agent-framework-tradeoffs",
-    "translationSha256": "f0cffe4445cbea17b4ab6cbd64f5cbca8c8c948f4b6911bc8479f541acd6a86c",
+    "translationSha256": "00d3dde468e14f190de5f5063d5453346dd0dd908e69f99ce66fb55180ac1ada",
     "assessmentSha256": "ac2b80fbaa0ad7e1092ab610a2ee642bb91eb8c7c44dbba896a28e946f12f43b",
     "questions": [
       {
@@ -22786,7 +22786,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/06-mcp-fundamentals",
-    "translationSha256": "7a62bd206e8edb961722c56a648c9cbc05c14db1c2b4a1347c38fde0f1c3e3e5",
+    "translationSha256": "c50fb5209445e5e99e81dcdb6e26f7e31cc338283cf1acff3aa81134261539af",
     "assessmentSha256": "59ddaa3f87b1ef02ba99b6cf944065c3cf82e22914f566a98dd52b7c8e95ed1d",
     "questions": [
       {
@@ -23100,7 +23100,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/08-building-an-mcp-client",
-    "translationSha256": "1cc09420701d2a722d3b0f548730153f2ec0a05e8d0a362381362a3765474f72",
+    "translationSha256": "fadd7f73decaa281e2664a96b1c47c5e19d04e4335fc235182d440eb6cde3a01",
     "assessmentSha256": "577f6eb671fbcd6ae07334852f32ef192611358737b666eda4a7d4864c9c7564",
     "questions": [
       {
@@ -23257,7 +23257,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/09-mcp-transports",
-    "translationSha256": "4cdfbfa2b30b321043b17b90b336668a0efcc3da4509ecab1032e7021db57d4b",
+    "translationSha256": "d4d9cc22ba49c1d2a176eee5ff3903488adcf555f7e175edb4dc9a93cc80b636",
     "assessmentSha256": "69e9fd39b525cb671b0dc09fd2a21ffd19ddc8493157619b25067bbcf8824808",
     "questions": [
       {
@@ -23414,7 +23414,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/10-mcp-resources-and-prompts",
-    "translationSha256": "37452e69565f16215575f9b868b67cfcd68fdbb5336afe4de55b962b1f29c58d",
+    "translationSha256": "bd2f4a13588f9ce0386b06a1e287a0369d2b1abf84d5782fdcaa28bdea2d2460",
     "assessmentSha256": "87dff33502b283a5a97dfd66f727c3aec4efd0c8e1aa616a77f5618652b64351",
     "questions": [
       {
@@ -23571,7 +23571,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/11-mcp-sampling",
-    "translationSha256": "674716883f564ebadaa44c07801af8eb578f9091d8afa8857095435cd353d6eb",
+    "translationSha256": "7cd7d0fd952f982c71f0c0a99b17b6f50f10b67833ba013ac034634ff8328fda",
     "assessmentSha256": "03f6e3108ab756474c5b4dd26933f1876dc869c6135cf54a4a40ecbfdfaa2075",
     "questions": [
       {
@@ -23728,7 +23728,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/12-mcp-roots-and-elicitation",
-    "translationSha256": "f29836ef51a23c286fc5e9534db73a98bc1db44819979505de87cbe86be45cde",
+    "translationSha256": "6d1ec65789d32e83415b22211d89ed5bd0f78716892a6641a7cd3de2f2590177",
     "assessmentSha256": "39ff8c116b994754db455ca134e8b2d184623d981a2db0d3eaf7324e136fff88",
     "questions": [
       {
@@ -23885,7 +23885,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/13-mcp-async-tasks",
-    "translationSha256": "3093529356a1f8ca68bd49a7e885471e6f9b91b93be27d2ce24220ab626ace14",
+    "translationSha256": "d6b1f65c6de169157f57dd33e241a5efab30aec829a4d05e5c37e8e5dbb0fe3e",
     "assessmentSha256": "911be9c33e8584386e60a1b0c661d36ec1100d6edc3e4cb098710522055a5872",
     "questions": [
       {
@@ -24042,7 +24042,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/14-mcp-apps",
-    "translationSha256": "78207942327fd414941ece6c0480ce1371a7eb62782e3f45d9ad19787e32fa3c",
+    "translationSha256": "ab6e98b89a1266f82eb4d4ddf6f5c7ce5751f53c444de300296103bd46e056a8",
     "assessmentSha256": "8e03df3f6265b320fc5d0ee842b943eee21849747c8dc4f4a3fbf5b747d5fe68",
     "questions": [
       {
@@ -24199,7 +24199,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/15-mcp-security-tool-poisoning",
-    "translationSha256": "452822826db90a545f45beea0913f67db4c039a963c061d6d468943d439a3a92",
+    "translationSha256": "d8330de1b5ef260b897e4a28ed0ef3405c5a1b4927bfbc53d0e933d9bcf4c905",
     "assessmentSha256": "a88f13d879e35b10a4ca40b57bb2b6fd668fb6a4da4d66b361cf5bc1c8b83635",
     "questions": [
       {
@@ -24356,7 +24356,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/16-mcp-security-oauth-2-1",
-    "translationSha256": "c4a8351f938688332a53bbaac75c1cdbb277ae7d1741e0c5c58f0134891b787f",
+    "translationSha256": "2f3d0a14a911070e0728ec45b7abf4d8155146dcad6e9755f5cd5452e543763e",
     "assessmentSha256": "45df542202a76410fc1a26f5c4c529c4322a4fad1bc558bb32a5b36ccb81f6f7",
     "questions": [
       {
@@ -24513,7 +24513,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/17-mcp-gateways-and-registries",
-    "translationSha256": "582288403904c9ae23ecae8bde9a35da1c6146c64ea0f2bbb446b200b191d492",
+    "translationSha256": "cac83defbeca4772f7a78bd627beb3a750efb1458647ac84d0991a1588f5cf9c",
     "assessmentSha256": "866c314d53ea959e8372191fd7daa47575180619ac0c5f138e28948c376d619f",
     "questions": [
       {
@@ -24670,7 +24670,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/18-mcp-auth-production",
-    "translationSha256": "bfdecaf44f5dd94575bb50176466db7670330fde82d059c6d4149df5e03306b7",
+    "translationSha256": "82edebaf433563b07b1316228fcf1a857493c4b2d7a3d74081b3728cede003ff",
     "assessmentSha256": "09291405faf74ab7a14e49bd139046461ea935830b52a6ff02b349cd214b8434",
     "questions": [
       {
@@ -24827,7 +24827,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/22-skills-and-agent-sdks",
-    "translationSha256": "ab7b29becd75daf4c5ddd9879aead83ce90df986a791bd758b6e10cff1ba4f6e",
+    "translationSha256": "e56e67e4612f7463a2da714abd8c4d5fa84d0c413f9cd96429b34bd41a33d14f",
     "assessmentSha256": "980a08122bf15e87e5e30ecdc4dbeee8bb67a07cd0ed75dd985a0c9889f3e3c1",
     "questions": [
       {
@@ -24984,7 +24984,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/23-capstone-tool-ecosystem",
-    "translationSha256": "95b32d7d6fd41d53e6f979440e3c425439bee135aadcc38bb1e8d10648e771c0",
+    "translationSha256": "bb592203994bfa9b4b289380f9c8ad9c8f2209bf1dfe1e526824a205bdef3262",
     "assessmentSha256": "cfcb790a686af49ee36ca26ef8ddee0b0ac695f635cce7db487c662bc7d7eb68",
     "questions": [
       {
@@ -25141,7 +25141,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/24-skill-discovery-and-progressive-disclosure",
-    "translationSha256": "554b95748a6eaca5f94754723b882c3239ecae2868be856f4dc3cb8c91f85201",
+    "translationSha256": "273c3c84e5651654184b992262fdb4198b490e781f3f464dfc05c9f794a7659b",
     "assessmentSha256": "4d29c11bf75bc9cf7740f90f91e91e0015387c68e0c613f18598788319714383",
     "questions": [
       {
@@ -25298,7 +25298,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/25-skill-invocation-and-routing",
-    "translationSha256": "33e6ac953d064b4697161b148e4a85de14b125a2dd695f64040919477642ec2d",
+    "translationSha256": "75ae2d4e4667756d50c29821ce5df3cfba1161e761ecb55f12f4fd37de892cfb",
     "assessmentSha256": "78a088e5ebceda5da3179e4a2972dadac8643b77ae08d9ab88ade7fdc4ea910d",
     "questions": [
       {
@@ -25455,7 +25455,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/26-skill-permissions-sandboxes-and-trust",
-    "translationSha256": "a34470b9c2c1081322bc02a338ddc1ba6cd66b19167e5cc11538a5074b8b8db7",
+    "translationSha256": "c88829a9e9961ac7d2eb666ddc26991e981acf57ec3177d66ac76f98034c1923",
     "assessmentSha256": "528b4089e34947b4a89c0e2c6def80eaf9b775957e8d41b03fb2b20edcbe07d8",
     "questions": [
       {
@@ -25612,7 +25612,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/27-skill-evals-packaging-and-portability",
-    "translationSha256": "32a1cb0a06470776b4ceb2ed533f7bbdfda3e827dbfa391d6d53c65b99670f33",
+    "translationSha256": "5ea6d06af32d1ce75d4e2441f4ce8e5f32e4a1823ef76b26ed9ae1fe8bd92033",
     "assessmentSha256": "352773fe5cc7dc0fe8248f8607b8b909efb9761babda986b9b1676399664422a",
     "questions": [
       {
@@ -25769,7 +25769,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/28-mcp-tool-contracts-and-content",
-    "translationSha256": "421b5f6c38b931b1ba019a145953b1ccdf1c64f9b617b74b9ffbf64a8b5bc9ed",
+    "translationSha256": "5d9e033e9db85ca70d35b3eeedbb86722e1c92bed784f642565c574d6b5633da",
     "assessmentSha256": "2654d9f01e83c3e93f68dcc57bd39394c9efcd25c8e3fbc642e84df7ed3272c7",
     "questions": [
       {
@@ -25926,7 +25926,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/29-mcp-reliability-cancellation-and-flow-control",
-    "translationSha256": "d4550b050ce3fe26e48b366cdad22f63d1055c6cb6ec1eef01fc8151843f898e",
+    "translationSha256": "e2c5417509902b6908cdb8d5a43010a486ecfa5c669d5cb619e06318cac426d7",
     "assessmentSha256": "5ef0752e75f023dfc2f2af68ae769c9d247ef30686d4697188dfc55a33dd152f",
     "questions": [
       {
@@ -26083,7 +26083,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/30-mcp-registry-supply-chain-and-drift",
-    "translationSha256": "1da518d24d5c3147c6102f02057b5efec30941dd5acc25e3ed51605342518496",
+    "translationSha256": "f01759dceeabb22e0108d9f3cb427ac08e60f781a314c5d51e606f71cd3212cf",
     "assessmentSha256": "1b19afd0cd06fd5d17e46e2cd0356108ec56b69d0116bd98ed4fc1049f878241",
     "questions": [
       {
@@ -26240,7 +26240,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/31-mcp-conformance-versioning-and-operations",
-    "translationSha256": "3a25c5de906cf08833c5e45c1888467131d3e5846ef174bd15cf538b521e1fa7",
+    "translationSha256": "8bcbc384adab79f410266428098381dc1bc344d667ab18db04312fb5328c1066",
     "assessmentSha256": "bee39e0cd2050fc1d5224187dfddef1712c8e2f73416354ad753c155c058cfcc",
     "questions": [
       {
@@ -26397,7 +26397,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/32-program-anatomy-elf-from-scratch",
-    "translationSha256": "5803a0d3a9c59a58ba64a387d1660042ac6c6ec068c846c9c6ded1f21136bcb1",
+    "translationSha256": "f72a3c4aeb8bd0b2210d78050f866e000d1d03f95a85cadfcccbfb6636108504",
     "assessmentSha256": "04b3e70a136b158bc9c12790f8d1ba986c65c607aba0fce9b78c2ad85f13b8db",
     "questions": [
       {
@@ -26554,7 +26554,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/33-disassembly-and-control-flow",
-    "translationSha256": "0f8be10f2e89e8cddd8762c47dad778672dacb9ffddc900c3572a84cac2e8919",
+    "translationSha256": "5ac5476ca53ec8e2bc0388b59254cd2e4862c05b22e1b93a3db7b25245a90f77",
     "assessmentSha256": "bebb01fd8a8742e9974f72551596a7a3a7b5a99ab08b5a044b4c03c6796aa255",
     "questions": [
       {
@@ -26868,7 +26868,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/35-evidence-confidence-and-unknowns",
-    "translationSha256": "d293798f3a3bf6552d9a8a16a6c211503bce0c4221a0a0b56646d2ca9369609b",
+    "translationSha256": "22e347ff97b4afa46c93355ca2de43d8ca944f914318ce44f9d9555f96083d78",
     "assessmentSha256": "409190f4695af337e4985ff9bdcee3dea47dc4e917a89014f71473080a7b44b5",
     "questions": [
       {
@@ -27025,7 +27025,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/36-rebuild-and-prove-equal",
-    "translationSha256": "c547417b83810613e05bfec3325d99b8a244647f294a417bdfe562f94a4245d1",
+    "translationSha256": "04e15154978f580b1d033b7cdf1071446149c320e67e1534c1ad869f8a83abb2",
     "assessmentSha256": "6dd6c0f8a3154b3fc5c96c037fbd4aa75420994b5a80d650ad88022be3482531",
     "questions": [
       {
@@ -27182,7 +27182,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/37-the-reverse-engineering-landscape",
-    "translationSha256": "0058b08c88cf5794332f1de9e651bd3f13a9fcdd7cbe944a69dd4e87546267fa",
+    "translationSha256": "a6f59f126473716b7010f0866257cdefc1dadf67414dce90a1bbdaf294076b4d",
     "assessmentSha256": "12531046d8b5f3fad7658658eb3c7f4a42dbe4824b74333bbc3ad85f11fd7a41",
     "questions": [
       {
@@ -27339,7 +27339,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/38-calling-conventions-and-stack-frames",
-    "translationSha256": "efe033d7095c36ed00dedfda78cf5bf48e43d3634f6af662970bdb7529727640",
+    "translationSha256": "9302b6bd927294c7801c34d11979325ffddcc70040186e7030b899aea8d48671",
     "assessmentSha256": "bbec14a9bfae3a06cda6a9e0bc9bc34465d2795cc5a76850ff2b73c333c4cbeb",
     "questions": [
       {
@@ -27546,7 +27546,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/39-compiler-idioms-and-optimization",
-    "translationSha256": "69bfbf2f7633a75f8d21818f2fee702adac1252dbb2286ecd544d0c444757492",
+    "translationSha256": "72af0010f4deb4b0e6b4ff7ddd70e90e2c11981581bb91893f7a9837cc4aa5d6",
     "assessmentSha256": "f1fd7100a3b68087afa09187d41e72283dc0359b3c5d6be5b6bc06b75f8de79f",
     "questions": [
       {
@@ -27728,7 +27728,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/40-linking-loading-and-stripped-binaries",
-    "translationSha256": "a43fe5fa3e357f0d6f4263c469bb9a5e927654edb62119755a1d74154c997854",
+    "translationSha256": "b602da42f20cf1b3547598c138ab7ad483ddec0fe1a0c5a2da27dd8434cc8654",
     "assessmentSha256": "99c9d61c866dfc40d35241d42917d15ea223c6393237aaacbb45cb59cbc87792",
     "questions": [
       {
@@ -27910,7 +27910,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/41-recovering-data-and-types",
-    "translationSha256": "a6b40b20e364a89b58de39aedb6aa55762e58ec5367bf08f89f1a6c5218ccd43",
+    "translationSha256": "51fbfd61e506b8c35aa675411b42b5723b3bd4939f6a241668d8a54f211afe37",
     "assessmentSha256": "54c11e78bc5ab81968b697ba5c1672a90cd2031331a750dbb18ebdf66d4881bd",
     "questions": [
       {
@@ -28117,7 +28117,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/42-dynamic-analysis-of-your-own-program",
-    "translationSha256": "9fa52acad229b7d19ee779c0403ae3cb48202e3a9a830aa52b71e5f134414fc1",
+    "translationSha256": "e8e75bbc0cfd42b2d01874ad3642abebdc72a83d921d76e05fa943a2d42b5b60",
     "assessmentSha256": "e94e51d71bdc9db128f41e98673be3e80ab70bd004d213428e4493b66a1f8f72",
     "questions": [
       {
@@ -28299,7 +28299,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/43-bytecode-and-managed-formats",
-    "translationSha256": "d7cb94aa9e293880c7086abab1d9822d5e4ee687917783b2d80a617a572ace2f",
+    "translationSha256": "6b3a1a1cc189a39062e38d8dab788bad19058a50bbcbf8a5e01f697ef12f7d23",
     "assessmentSha256": "070433328ea770904845985586b77a79f77bb749fd09ada8785254eba5f76674",
     "questions": [
       {
@@ -28663,7 +28663,7 @@
   },
   {
     "lessonId": "practice/13-tools-and-protocols/45-ai-assisted-reverse-engineering",
-    "translationSha256": "90942b6cfb0946ea23f32c20514912ee54b24a31c8a9f2775a1072d05c6c2130",
+    "translationSha256": "fb24ce7dd761ddc13921d0a8f0afe558f0386dba638ee8130c8f050f912e7287",
     "assessmentSha256": "adf35a239322d78d02dbd8112fd99f9fe96b3b654ec4849a4620d5c48254912d",
     "questions": [
       {
@@ -29052,7 +29052,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/02-rewoo-plan-and-execute",
-    "translationSha256": "12cab18cfd3eee750989c6b7a9732a36e2b4bbb683390d36f0ca52c8a800228d",
+    "translationSha256": "0db3b6d228259e10afb7c8a0d5cf01b1dc811270c2469ef4bf14cd65601e173e",
     "assessmentSha256": "95c8b7042e4d18049854506f83a462101fb6c9fbdd7733c928d46a9dd52a8fbe",
     "questions": [
       {
@@ -29234,7 +29234,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/03-reflexion-verbal-rl",
-    "translationSha256": "be1e9fef330fcf62082c8e83e68a4495ec6a37693af9bad260ac343884c9138a",
+    "translationSha256": "6599a0af3201b447fce33ac6ee6d9d9e4eb64ace90d61a6266e76eeb986654dc",
     "assessmentSha256": "71c7657c4a099840dd2dfd8608d6e04c4b172aabc4184a53c3b32cf45daf209e",
     "questions": [
       {
@@ -29416,7 +29416,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/04-tree-of-thoughts-lats",
-    "translationSha256": "79d5566901f5fe1d43ee8ffffe2ed75b7a2978ca53c90f83c5eca12f647ef0e0",
+    "translationSha256": "fc06fc65f3bf08722acaa2feb61b28820cd712d76006cbb2bebdf02cdc02885b",
     "assessmentSha256": "f685b32d4a1da307d98b186713b1e943bb584b9d969374da0548ee1d2ef4aa56",
     "questions": [
       {
@@ -29598,7 +29598,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/05-self-refine-and-critic",
-    "translationSha256": "d2df4f2435f05e7fe6343ebddc3f90b606da53a611b782163179d2009f32bdbe",
+    "translationSha256": "2eceaf8c262600ebef3805d27b72bf5d5a81704bbd53874fc464771f73ce3200",
     "assessmentSha256": "de4f3ae2c8fc29675420383df04f30e8fdda755f45c16714c45b3b0c1041bee0",
     "questions": [
       {
@@ -29962,7 +29962,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/07-memory-virtual-context-memgpt",
-    "translationSha256": "a36bccd250f3c3a8e952e9fa818be7edfb8458d2accc7350fe50520a0d863f23",
+    "translationSha256": "c98eb64ae5f768e7959498d1bcb8e86c854c2af87a726ea889801f5b968d4333",
     "assessmentSha256": "9b0bf7b0e31624acfbb35e2d818c0c0c4139ceb6ae0be138af37c28e83c906af",
     "questions": [
       {
@@ -30144,7 +30144,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/08-memory-blocks-sleep-time-compute",
-    "translationSha256": "e8ee784ba028815d78699bec7df05689071c46d0af611f6075a1d3539ee6b205",
+    "translationSha256": "f49845f7401bf129bbf243298acdd5afa463db28562c4f98cc5dfc1cb8cfa4cd",
     "assessmentSha256": "d760b3901d8a69e70df1095208dca22d85facb69160045bad938f14190da05e2",
     "questions": [
       {
@@ -30326,7 +30326,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/09-hybrid-memory-mem0",
-    "translationSha256": "8ceb97d748c5a88a5311f8b75fe347add113a936a82dd524ddf7aac1e698cbe5",
+    "translationSha256": "c2b4626df7299cd9d82bb762436a2b76ad509c78139c7734253f71b3cd6cdd7c",
     "assessmentSha256": "2479a87c9a6697456960d05e6f269ce596054365fdda25767fbe4ec97f4df681",
     "questions": [
       {
@@ -30508,7 +30508,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/10-skill-libraries-voyager",
-    "translationSha256": "0ad9804d7818f279e634f7250085cdc1ef3ef9201f5b0904e813e65e5a0fb6d5",
+    "translationSha256": "87b79508d1adb3d51e12836a11e1d7d37f7356ee50d032a01708fa19b9cc7bb0",
     "assessmentSha256": "bae67df5ac22db38955224bf9010e5f31dc8c25fa642c3c9beb2d7ac80499f9d",
     "questions": [
       {
@@ -30690,7 +30690,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/11-planning-htn-and-evolutionary",
-    "translationSha256": "32334d72dbbbca8a80708da1a5a467f6bc8d74672918c30efc00ebf79184397a",
+    "translationSha256": "235acfae60dfa3310640b62d1fc5d80b3a1a7db2eb185be59d3094083617708a",
     "assessmentSha256": "442f652fba8bdac9da1317f84448e3d97e67b3e9e3429078ed3ab0694cb8f91c",
     "questions": [
       {
@@ -30872,7 +30872,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/12-anthropic-workflow-patterns",
-    "translationSha256": "225df96d1772440e11122097bf470f6b2fd72571991d62c89f7da3ea50f645ac",
+    "translationSha256": "cd0fcabd3f329280fcf3f0ea195ce03a11ab9abd7acc1381459a79d1ccb61b61",
     "assessmentSha256": "e65eab77ce18d759be98a8795d54cc2733c0454536c2890a41775205856788b5",
     "questions": [
       {
@@ -31236,7 +31236,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/14-autogen-actor-model",
-    "translationSha256": "808819939f3650858c1b09ef1cb25fa9d8d5917fb36b67c6b84091a5d9ad3fab",
+    "translationSha256": "e63753f91e7f966b572e6b0d0b82185ad7f9e575bb2f03cb7eaa7c353db42bc4",
     "assessmentSha256": "911c964e5ac167a975d4f6e3b85736027f2dcce698867dd095dc9659b718e495",
     "questions": [
       {
@@ -31600,7 +31600,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/16-openai-agents-sdk",
-    "translationSha256": "dc954728799829eaf69267ac96f5a6977df742132b3701e4311ced17e408d0f8",
+    "translationSha256": "b151d827a4a17436d000342270a079d332bbf8e5d1938d72f304c5f806594a96",
     "assessmentSha256": "b2d610031d5ee2b6a434f779d6f6bc511acff6d4c43244a8212a0cc35f53d986",
     "questions": [
       {
@@ -31782,7 +31782,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/17-claude-agent-sdk",
-    "translationSha256": "092276a582d73a10c7d0bad41dc96dcf57973290cddd1249e01d53d5ae796e70",
+    "translationSha256": "78b77d1ffedc6c68e4d71a07aced60a195960ff0a000a6f8fdcde3ec1f6fbd3f",
     "assessmentSha256": "b23b7e659e90a605f35626b75f864a87b20476986cb309c24c72431d0051c5c5",
     "questions": [
       {
@@ -32146,7 +32146,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/19-benchmarks-swebench-gaia",
-    "translationSha256": "f3a4bf1b2354f206e8693d07ed55bb83cc2c0cc5a182cda2e41cba8047347389",
+    "translationSha256": "e7031d71315218f333ff07eab20ffbba32addddd245c8307edb14da427872a9e",
     "assessmentSha256": "f0e3e937821acfe77f8ff96f41310c857ec58cd94fb0a09513a556089eaec8c6",
     "questions": [
       {
@@ -32328,7 +32328,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/20-benchmarks-webarena-osworld",
-    "translationSha256": "930e0394fc1bd24669106cf25fb1c91dfd909e3433aa86d6514ffd905cee5e86",
+    "translationSha256": "0e15950d6d1cc61c56b93193a22e76deb49c5f61ca29f7c25ea8ef6bcc10ea10",
     "assessmentSha256": "2fa37d597dd295542182f996b9fad287ed5e730a970ea40c8d656b4a7d6bd808",
     "questions": [
       {
@@ -32510,7 +32510,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/21-computer-use-agents",
-    "translationSha256": "cbeffc621d1e169b77a8223403a35b953a6c1f234189feadecc361c00c9c1ac1",
+    "translationSha256": "0efcd8535150d2fbbfda58d0c78e9cd7010562ebdca097c8c090dc52e1c17519",
     "assessmentSha256": "6e6c16face19872a2fdfd1da1e677014e4a3d45a6e9141dc6a7527bc3890ccba",
     "questions": [
       {
@@ -32692,7 +32692,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/22-voice-agents-pipecat-livekit",
-    "translationSha256": "b290665a361fbe5d1aea7f7f7a1b54557bff97d5897e7b845f407f0aa3044ab9",
+    "translationSha256": "bc2049ef71e2a13c5cd0c900550ed1da364b996706386912e0f8d77b78a5b9fa",
     "assessmentSha256": "e4e351279ffd8d332617df8d4e275314b4da49713d18a4b9e7e4fe747bb231dd",
     "questions": [
       {
@@ -32874,7 +32874,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/23-otel-genai-conventions",
-    "translationSha256": "266b47e423cd164f0d4305860a6a1f52630624672f974092147f7d0e9808e90c",
+    "translationSha256": "a44e36225ca6cdd936302de1c0b4abb0dee3d619918ba16eea687ed864af0bbb",
     "assessmentSha256": "f1d503413eb3e6ced9af7afea2461f4a0ddc7aae54a685acffff5e2c28a6bb4d",
     "questions": [
       {
@@ -33056,7 +33056,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/24-agent-observability-platforms",
-    "translationSha256": "39ca24069c4d71e1af6ee09ed4749e9feaf9b548489842a04465c5cfd426c56c",
+    "translationSha256": "7f9a906fc6064d005c9ef5bca50523d5d303a81e5c45cb9ee2b8cec4bdaac053",
     "assessmentSha256": "e865e70d8ecce15f1971b142f8b65a83925ff45d0df207bdcaf21b49571a8472",
     "questions": [
       {
@@ -33238,7 +33238,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/25-multi-agent-debate",
-    "translationSha256": "ce31cbe6ea131ad6b9f0e76862e790f10021ce688a9630c865ac80f48c363db2",
+    "translationSha256": "1bc5433116f2c5c3602a5f71ab7d5609640e4f4bbea0281c8531f28c70a36181",
     "assessmentSha256": "a571d4255a82cf1261b624c6fe5cdecff1b0ba2e843121d6181344e07497218f",
     "questions": [
       {
@@ -33420,7 +33420,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/26-failure-modes-agentic",
-    "translationSha256": "aac086a41aeaf55f1491a7c9fad4817eb2fa9f42fea7ee44dd8fdbf995650f14",
+    "translationSha256": "348b8ae5fcc966cb6823af8492f8f7a2892a90fe39a56da572e749d5cf67ebd7",
     "assessmentSha256": "ca4774a3b71ec7e4e2c31fc3aa56500624e2061a4c7183c393bf1cdd4806a0c1",
     "questions": [
       {
@@ -33602,7 +33602,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/27-prompt-injection-defense",
-    "translationSha256": "67cb64af30e936808530817a080da66d2e8052816ba44f420b17324e40fdc738",
+    "translationSha256": "2d3a0b46eb866b4702d0235bc0c0e4365caac1d18484b3e9a8b41d0b4bd50ba7",
     "assessmentSha256": "d9bc6a82b118ad854ad4aaf8367fb06ef2ddef18b2c8e5b537399a9863da738a",
     "questions": [
       {
@@ -33784,7 +33784,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/28-orchestration-patterns",
-    "translationSha256": "fcebc588de2649dd572bb267aa587d6c92c82e62b00aaf93509127afbef3083c",
+    "translationSha256": "432a5fd5a47cc41ba3fbb33b14c576be7048818f8378d0e2a15b37ab43dbdba6",
     "assessmentSha256": "7a5a8b2cfbcdee97b0a0a4ab82f7258cc9dd5ff45571312c1a927d38bf99e4f1",
     "questions": [
       {
@@ -33966,7 +33966,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/29-production-runtimes",
-    "translationSha256": "b2b1122766482fda71468175acb9c6b0f6b42e101f284f8c167370eaaeb5484c",
+    "translationSha256": "31109591112610d7af6dae1eaece4c12e43545b1e51ec10500f780b4b006690a",
     "assessmentSha256": "15f5f366ccfefb48c8c0465c4898636029e637c47a4a69a43a6a3569072282c0",
     "questions": [
       {
@@ -34148,7 +34148,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/30-eval-driven-agent-development",
-    "translationSha256": "fa47a148dc38061f66a7c791815b3e45d8bb0798d6b9c6ffff3767547198290b",
+    "translationSha256": "43e0a25702968bdb3b1af6da3782f8f954400595b20f8dd1d785ea893c045006",
     "assessmentSha256": "73e1a41173eedf410ebb9a21fdff793c0770226f586e0600edd5dd64aacc054a",
     "questions": [
       {
@@ -34330,7 +34330,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/31-agent-workbench-why-models-fail",
-    "translationSha256": "fd676895c0283e3c11322bfd560be82b7158bce2339a015a14d80a9d374ece9e",
+    "translationSha256": "70c94fa70b971593620d044d90311e99dbaf3a086401680e396aa71f8712fa2e",
     "assessmentSha256": "32eb669147f01789440ba2815b6f6bdd229642c201b1f18146126a291e7c8351",
     "questions": [
       {
@@ -34512,7 +34512,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/32-minimal-agent-workbench",
-    "translationSha256": "949017780e845c4408a52b51422975f76e2119d3ecb73397b2d3a1bced587881",
+    "translationSha256": "f5690c290787cf7b41e9bc84d900b44e3831ba890ed70601ccc29a1fcbeb4b4b",
     "assessmentSha256": "cf212df296041632e0028f10da81c9b31fe04e200a4fa4b870c2623b8ea72aa2",
     "questions": [
       {
@@ -34694,7 +34694,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/33-instructions-as-executable-constraints",
-    "translationSha256": "52bc2aa95c5dc02083a6e4b442b6f1611b5c8f536bde6f112c122d563359b808",
+    "translationSha256": "4d85b45f46a79e6897f29e0f79be28ce4cfd16232614505b432a1f8df7e158a4",
     "assessmentSha256": "4ec033612a88ed689af941846febec6e1a8a119ea02c8efd9a3e6d190006957a",
     "questions": [
       {
@@ -34876,7 +34876,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/34-repo-memory-and-state",
-    "translationSha256": "de21a92d1170772a0e11303d9f49f32659ac496d84994c51dd1bfc089b3caecb",
+    "translationSha256": "c02d5cfdc8c65075b97a4491ad1f194fa386b0900b2b9c7c8fbe01dccfdd1f5b",
     "assessmentSha256": "e5e1627026187c01f906d6358ad621172f4bdd42611771e7faef45f6ab53aae6",
     "questions": [
       {
@@ -35058,7 +35058,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/35-initialization-scripts",
-    "translationSha256": "610f92f8048fc8f7a099454464b0287c20acdb671a96b35bd8e6631428315c89",
+    "translationSha256": "79aa1291f3f7dfedc4f7d55cd6cb5d18b6322285a528d28dcab2f6ba9f79c285",
     "assessmentSha256": "4f8b3ead92d9b1c308d747000fd2c28b396cd5343f6d9b6561848761c8c97edb",
     "questions": [
       {
@@ -35240,7 +35240,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/36-scope-contracts",
-    "translationSha256": "f0a9be36a55161d053edc7740f10adad69d6aa0a611a4487d85b2cf5cf7212bd",
+    "translationSha256": "c7a088c26bee23f0d7dc51e2d7882d3f68283af9d251382c6c6d7a07c332dad3",
     "assessmentSha256": "4edd8f72d8e1d7d6956c206dbd296f0bce37d59a45b5a47e7fb1286e56b072fb",
     "questions": [
       {
@@ -35422,7 +35422,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/37-runtime-feedback-loops",
-    "translationSha256": "595f5908bfc2fcaae1489cc57918f8efbc7184a8460b3e27e1f3e5b31ab65e23",
+    "translationSha256": "9d40226d503dc9f16ce8486d026d6f51e5c5f09b3e700bb3859e378399b7569d",
     "assessmentSha256": "0621b28ed622486e75dfb3715c5d96d380eed934853b5cdc9b5c1e4e40403fec",
     "questions": [
       {
@@ -35604,7 +35604,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/38-verification-gates",
-    "translationSha256": "2188f2dae5c74576d942d1ef4686e57e8c3ad2f46e43fdddb51683c1eee08071",
+    "translationSha256": "f91e9dbf9cb7b2273336736a64aab9e71984f322224ba99e1fd0e83d51c3d3e2",
     "assessmentSha256": "23389bc476c9569ef8fdf9aaace51d14b6317e2038b6933e19f81f61a7183699",
     "questions": [
       {
@@ -35786,7 +35786,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/39-reviewer-agent",
-    "translationSha256": "e88bb5f8992f1b573482d8df96b081cb1ab648d5baafc8d720a5374967043806",
+    "translationSha256": "2fc9961210f1585a3d97e318553310f002d79c3bcb9c1ad02fd9623f12bcb320",
     "assessmentSha256": "22e00031948412a7c70d220f0e6b1ae2ef97ea3186f5489fcb664bcb8ff85271",
     "questions": [
       {
@@ -35968,7 +35968,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/40-multi-session-handoff",
-    "translationSha256": "84c6774f10afadc03b7bdb435f4423ea334a00587f45f754356af6fc148238c0",
+    "translationSha256": "ca4f1b65ac6580f24f59de87bcf905fd4cbea0ce1348a61bbde56418342063c5",
     "assessmentSha256": "6c192a03a1dbb2702b7204e409b249802ca9f05212f0aaf1c47b995b2d57e776",
     "questions": [
       {
@@ -36150,7 +36150,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/41-workbench-for-real-repos",
-    "translationSha256": "6c294ef04017b72c2d182bf1fe1ca8e9aca8befa74148dc23010bf53bed7213e",
+    "translationSha256": "b08a756d853aa7c4cc66de15c821ce614963ccae949b43c0618e2bd9de1569ba",
     "assessmentSha256": "64fd028c31de82800b95f76bf2c034e747b5b16b695dbc310ba442ee34896722",
     "questions": [
       {
@@ -36332,7 +36332,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/42-agent-workbench-capstone",
-    "translationSha256": "ba50188cc278eeb8c220286f03aabb7ea98d3aca34ea21174e6e592bb571469c",
+    "translationSha256": "f00a0f9812727540352d361b7d540110d0081277d576145f7d1c947ee59f5633",
     "assessmentSha256": "39473bbde551cda50da4631631c016c0dae19aff032891b0d57803e19411d091",
     "questions": [
       {
@@ -36514,7 +36514,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/43-frame-the-task-before-code",
-    "translationSha256": "708b3059cbd3ad35e5252f441404d03b9438d2b8c748aee89696110fdea88abf",
+    "translationSha256": "670d5d36dafb73b7334b269a0cc67dec40aff609f20d650738224fa98a0648ee",
     "assessmentSha256": "c3cd124727f023c9448125b50d9d7405a92759ace779f7ddbe26d89e161d0509",
     "questions": [
       {
@@ -36671,7 +36671,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/44-plan-from-evidence",
-    "translationSha256": "7804cb30c455c243d1dce78a0926b8444a5e83eb9381b6fe10b3be01f665d30e",
+    "translationSha256": "b95153692ab1231c382115c58e9e4a07f1ef882c59afea87569dd4160fc9d8f1",
     "assessmentSha256": "4999ffa0d4eecb6636eb99da54abbc24a0f5f65d84fafe1e9705e20db61236e7",
     "questions": [
       {
@@ -36828,7 +36828,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/45-delegate-with-isolation",
-    "translationSha256": "dccf0a8a422a14c03a7f9a3361e6ed0e041fd0741e14092697528c46dcbe9586",
+    "translationSha256": "69bf2f18fda136d4196e623fbddccf06235b251e86555e10e6e87dc5af815602",
     "assessmentSha256": "01c7dc133f05ddc5576558181e6c104bc2f259fe370ea22ba3bb2e8b17f01a41",
     "questions": [
       {
@@ -36985,7 +36985,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/46-turn-feedback-into-system",
-    "translationSha256": "8448602923897e0be7808bcf439c2f9337c18f854e88d9d98ee2bff2e3823e92",
+    "translationSha256": "c99385a7bc44d20fec801babaaa1efe14da0b377d9afe899365056f34cb37051",
     "assessmentSha256": "fddb7c26b0f0e1062cb1a7b4989ab37a6b5025d3cf9adc3f7fb3ba8e4b209867",
     "questions": [
       {
@@ -37142,7 +37142,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/47-outcomes-before-output",
-    "translationSha256": "285c16325c3fb3407640ebb1b1282637028612059b2288589af376feb1580de7",
+    "translationSha256": "ea43dab6aeb6971d78e20044a0611892a2e2624349a3b1919e8bbd5c7eedb747",
     "assessmentSha256": "c10ba2d6c27d24f7dbfe58c5ebd31467833957111d9070cd40af97edac8a9377",
     "questions": [
       {
@@ -37299,7 +37299,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/48-discover-the-real-workflow",
-    "translationSha256": "93329638cac698e230009d7525cae42d4279223dd149c2749b26335f1ad95288",
+    "translationSha256": "0b08b67fbd8bff04b1c3647d93447e330d619d9d1121629f973de7b15a72403b",
     "assessmentSha256": "5c626694ee6ea36e744d49addbd2445e468b00fd742d69721fd9b6e078e6c86b",
     "questions": [
       {
@@ -37456,7 +37456,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/49-map-assumptions-and-risk",
-    "translationSha256": "3e6d92f22d5040db18b515656021a99342d0922d4f10efd59ad3162f0f4bb87d",
+    "translationSha256": "6889c5635ab52b8aba9b38eadcd151bebd40d8f514f6729f198195d0d91caf31",
     "assessmentSha256": "b1f049dbdd75ebc43e47d62947b03e6167a1400f46594f42a3403b3d8afb9bd8",
     "questions": [
       {
@@ -37613,7 +37613,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/50-choose-the-smallest-testable-slice",
-    "translationSha256": "d58d85a3c08f89105a78171cc873056450f2042ea3089e06d705d2322b76ecac",
+    "translationSha256": "7d7e8953cf2e0a95190a661050eab62095754053cee907c74d341a40ab235b67",
     "assessmentSha256": "30c4273319ae53f89063c2df921a43be098301111edf7f04766ca17bd6d0cdcc",
     "questions": [
       {
@@ -37770,7 +37770,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/51-write-specifications-that-preserve-judgment",
-    "translationSha256": "bade2e8e1098e4fecbd430abfe3e0fdc1da72cb97d69d65d9fbb21f390b418f6",
+    "translationSha256": "e20ff374112bfcd25ec3afa78c44b8c6dd4de14bc0141983d16e772ceaed58f5",
     "assessmentSha256": "65c5cc52a466c8af21ebfae81e8c487f30778c08e4f55fa62f89ec782915a43f",
     "questions": [
       {
@@ -37927,7 +37927,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/52-design-success-metrics",
-    "translationSha256": "50e97bde79f6cbbc12d12705eb92220ad93fbafcc06752873f97dfa8ba1751f6",
+    "translationSha256": "17dd745cc0d6430acabfb1ce68cf77d67c38e7dfd775aa686db7e0344d523c96",
     "assessmentSha256": "363f7e83223b6281a913dd75ff07669e7fc656084a0b4544ffd41dd0a128750d",
     "questions": [
       {
@@ -38084,7 +38084,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/53-prototype-pilot-or-production",
-    "translationSha256": "8a546840d905785b84ffd8e17431fcee75c740028bc57527126019be3410737d",
+    "translationSha256": "d694a354f9fb5b398d6f0b4329c4d19e53fdc82fdf1fa84b8e03e8328f578f74",
     "assessmentSha256": "d1c1dcece330d1e5016921286e5ff976c342811167ad0364dc406e7dd14a78fd",
     "questions": [
       {
@@ -38241,7 +38241,7 @@
   },
   {
     "lessonId": "practice/14-agent-engineering/54-build-the-feedback-ratchet",
-    "translationSha256": "0b53c35152ecc6a9b7307033eae3b5ac7794e23dd2632374ac8e20cff2deec87",
+    "translationSha256": "244a51a38e8bd3d8185ea61b41850a8903ba9b681130b0eec756aedd12449ee0",
     "assessmentSha256": "1a31acf6d7f4ea247031a3402c9f372bed1fc621e9f3abb192c91c47a6abf59b",
     "questions": [
       {
@@ -38662,7 +38662,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/01-managed-llm-platforms",
-    "translationSha256": "8fe5c722c0cc4f2e3cd137614a0af998c8cf9cfa112ab4161c629cf8e81f7498",
+    "translationSha256": "babfb8d3d2dc604dd890f71d9683d81c4e019eaf92f8393a4e294a1fac1312ee",
     "assessmentSha256": "f34f274d861de5db2af3d65e42dc9cfe2d948ff6adfb90f38bb507b5ce74b08f",
     "questions": [
       {
@@ -38844,7 +38844,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/02-inference-platform-economics",
-    "translationSha256": "9aea4f9e2b82fdbac3f75bd7a140a0739e763aa7823356e4485f77258eeb70ba",
+    "translationSha256": "002f5c5917c3c80cfcc585083be252b96d37dcaef6f632d25cd9a4107af6a7de",
     "assessmentSha256": "dc65b598f4a4face25df80d470d3bed83bc45abe9289de0e94163dbd208a3a6b",
     "questions": [
       {
@@ -39001,7 +39001,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/03-gpu-autoscaling-kubernetes",
-    "translationSha256": "8ef0834d99fa4f5b4c9d4f377e8b0ea5c8fdec6b72adfe514d82833585bb62b1",
+    "translationSha256": "d42111e6457debdd330ccdcdcf60b149831756a27e0aed968a41c3664fbea110",
     "assessmentSha256": "875baa26868381c70b49b2f05ee6301303574c8983bdc6c642464044a947746e",
     "questions": [
       {
@@ -39158,7 +39158,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/04-vllm-serving-internals",
-    "translationSha256": "9d1ee95523744fd6d83c526dbec88968620852c37e8de56b77cb813b2aa57348",
+    "translationSha256": "32e79cd3f2c56ff229836a916145645fb2e0c08c851c53f626c87c74cb8b751a",
     "assessmentSha256": "541db4a5c06e91f0c53ab5f91bf4ee1d16a8c8ef4397201d3526617a948fdb4b",
     "questions": [
       {
@@ -39315,7 +39315,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/05-eagle3-speculative-decoding",
-    "translationSha256": "3217a227756ed2d95182c14609b521c4bdda1cefbfaaaf0e02848c22b1af65ce",
+    "translationSha256": "2444a4380135cbde2db93c3c49dc575dcf84382db9b7f8018da01d395530ace9",
     "assessmentSha256": "b70c703a81b00460c824a7c5963af899b3237f8ffda65682eef57e7e919e2a13",
     "questions": [
       {
@@ -39472,7 +39472,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/06-sglang-radixattention",
-    "translationSha256": "6297a7686033bbe925fd24548e1751c790b18e96221560a85b728bfc9f44d163",
+    "translationSha256": "747a23b48f3b1770f2915f107dc1eee8245a1994aa35d5df97a1074f2e9a6976",
     "assessmentSha256": "b50e506d2f43331c8cd91f793c5edd276a5e2b908270511963e0a5f4ad4ba1ba",
     "questions": [
       {
@@ -39629,7 +39629,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/07-tensorrt-llm-blackwell",
-    "translationSha256": "7e8b0a0d363df5b4f0846001d002ea60e3dc301d124a19b71c8c298ea48e63c8",
+    "translationSha256": "130872c140e34b9d10dc5d92cdeb28fec6252f252f51d089f2b7ae4401de1525",
     "assessmentSha256": "e97db5f389989eadfe8ab2eb07f90ff88d0f7e3f885aae6264d55338c6e09cd6",
     "questions": [
       {
@@ -39786,7 +39786,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/08-inference-metrics-goodput",
-    "translationSha256": "9d634dcfa1105dc28f8e1ae8908b2deaba1a38b6e8cf3e641c1b0c955a0d283e",
+    "translationSha256": "01c9fa8d3b7217a25143a48ef8278c03984c735be0a14ceb2b40c879ae901f27",
     "assessmentSha256": "31fad918476bcb0ba255ade096aeb21969203e7c21bbc9ea50a02122debbac9c",
     "questions": [
       {
@@ -39943,7 +39943,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/09-production-quantization",
-    "translationSha256": "cceca780fb88c79d8ee7f5d1732611f25d3bb0a1eacd185d36acf5bf96db19e8",
+    "translationSha256": "aac228c2dab410f216eadd3171c09aa87d65e1070c320eb140845e5212b2e222",
     "assessmentSha256": "74339ee22ba68e9a452163ff47347c32a3cafe652b6786f579bb2e7b6ff145de",
     "questions": [
       {
@@ -40100,7 +40100,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/10-cold-start-mitigation",
-    "translationSha256": "e05b6b9dcf96dd94f15ccb26a0c6f7dc0fb11789faa8471627ecd42078526e15",
+    "translationSha256": "39d29d655a332a2f258c8be4445e2192c890dbd6322ee085fbf2f14bda99ce10",
     "assessmentSha256": "8968af4a74f4592b5c0714c4a9039238841818c72d076b4713458576313b5129",
     "questions": [
       {
@@ -40257,7 +40257,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/11-multi-region-kv-locality",
-    "translationSha256": "4e79817d162936975e5e2a529bd79c5b7eca99a4f62abde1b403e61bb64c5cf8",
+    "translationSha256": "087731dbf0b1ca9948a6e380ccf756e0265afbef803dff13d457ef090f2c8f03",
     "assessmentSha256": "2d016002a8d36c26ff287a5c9ef369f0d8740a9774181f07ac7cfcb25af3d48f",
     "questions": [
       {
@@ -40414,7 +40414,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/12-edge-inference",
-    "translationSha256": "a0226b5d6bac031d57b55cb9ccc9d49b8588c4c0dcb01ca48e13bebdcca12283",
+    "translationSha256": "090830425d17b2cee2aac83f949764b0557cebd10448340b70a52f9de8a4424e",
     "assessmentSha256": "4e0f04c59aefe563ca9f670cb818477aa88bbc702f72953fd7e9f632e1d52d66",
     "questions": [
       {
@@ -41199,7 +41199,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/17-disaggregated-prefill-decode",
-    "translationSha256": "09ef345b95bf03498d0b06c809df6eadb441c2663bbe1e4bfa56a8a8c24e9203",
+    "translationSha256": "495bf9f0affb015dd051917963d7ce6926134b417b51c2508e2b2e64dc1ab220",
     "assessmentSha256": "4af1f3d06549170b37dc6ddcb457b6d8613e3b9f7e0de4d340c9770d127d0210",
     "questions": [
       {
@@ -41356,7 +41356,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/18-vllm-production-stack-lmcache",
-    "translationSha256": "20ab3d3e1a67f73ac698b05bf71e9fd19437607498f1e6717a3a2163615fee9f",
+    "translationSha256": "0f8eb84e62d8ebefe80bea23c299d554cd21c6480f4e88e07994d820dc53148b",
     "assessmentSha256": "112a9a1ebb90d2c03333ebd9acd343d09e50a3516bc45124d8168d4b257c53a7",
     "questions": [
       {
@@ -41827,7 +41827,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/21-ab-testing-llm-features",
-    "translationSha256": "49b6408ca091399094e2ce917e6dfa89501e18212a05b709b3125861afeca2a6",
+    "translationSha256": "5250ca0c732ec53fc047433a3e3271d851db84acac58c508221183a3ad45e7f4",
     "assessmentSha256": "6e6f550eea3cf9280fa4402923b8be9dcd0b1927c7b5e9d7367b7c3878c90785",
     "questions": [
       {
@@ -41984,7 +41984,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/22-load-testing-llm-apis",
-    "translationSha256": "49d846d6f04e78221a5977963ec51a76c0cb6723ba0adbcf6d0faf7bd8e5584a",
+    "translationSha256": "16502ba3840104c77565b2c0ab09a836316f6b1563e0e46067793e7f188ac233",
     "assessmentSha256": "8849e3e8fd1214809c9dd415a00e33a404910d0939909a05521ade7c9b8764cf",
     "questions": [
       {
@@ -42141,7 +42141,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/23-sre-for-ai",
-    "translationSha256": "71722b001936750052032c47cf383036d8303a72bbca54e0dfbe3907d9327568",
+    "translationSha256": "de01f612811d39948db8afa300fa4b9fa5e7fb5b5a9607548268c12ff75e3767",
     "assessmentSha256": "d957223db0d1d95b7f81c2a61fb9be31c05f385f2ae559858fdde80061f697d3",
     "questions": [
       {
@@ -42298,7 +42298,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/24-chaos-engineering-llm",
-    "translationSha256": "c8a06563d222ceb840598f4a9245483dd7c383d888458bddd05b3ff097df257c",
+    "translationSha256": "4680ddc262fe4d62e612115e5313e1346f2e09047ec809ed9ea59543b0bb2671",
     "assessmentSha256": "47a708ffbfd239eb6d5a290b03713df41102cebd39085141ea6895424a42b6e5",
     "questions": [
       {
@@ -42455,7 +42455,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/25-security-secrets-audit",
-    "translationSha256": "8d714b0510a2fff9fb949064af6d50e7ef2fbeb80d2f3c036e965690549d5674",
+    "translationSha256": "71ef9205e9d4b59eb3803cd9de159f147423cfcea205dba5938c3ce2ef7beef1",
     "assessmentSha256": "6132c697ab1898c2cc6a888fe7eb2249e4772b5a86cdd154fc5ca0b442635c4a",
     "questions": [
       {
@@ -42612,7 +42612,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/26-compliance-frameworks",
-    "translationSha256": "d0cc4305974ae55f8990afd404f16e395f5e058a9397ffc2d44371e36c043e82",
+    "translationSha256": "0b1d22bf6a8cf804feeebbb02c8dd62cdfc2637500533219c1949afa85e1b93e",
     "assessmentSha256": "d808df8fd3c9af2bf174df1c98e76fb4cb1e392283c0f8e3e1c5b43c4d313944",
     "questions": [
       {
@@ -42769,7 +42769,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/27-finops-llms",
-    "translationSha256": "9beed32321715e6649d01bbfed196574f324ebe0762b1874cdb42f90579fac62",
+    "translationSha256": "9dfe15316743c2a7b510b67758beb9aac5432de3a42e4ecfef5ea78234669f41",
     "assessmentSha256": "a496c0bee5f8c172d53dd0f3b618de480ff9190b075f5e1374877e43e56fa47a",
     "questions": [
       {
@@ -42926,7 +42926,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/28-self-hosted-serving-selection",
-    "translationSha256": "7f22b42e82d8c1edc62e1ef443f02d5e47b0abe6b55f2cf3778d95d5d06b1c99",
+    "translationSha256": "48455d6425bee144f673bc9538c667f04fbcf8b6a01ce1e0ae97e67f75942517",
     "assessmentSha256": "af1ebc0b48e1b949a3205903013fa8a3da2064943efc4a56f9991174cc973999",
     "questions": [
       {
@@ -43083,7 +43083,7 @@
   },
   {
     "lessonId": "practice/17-infrastructure-and-production/29-model-demo-interfaces",
-    "translationSha256": "ec05d3eaa0cd9c65a3792458b0452b6bf12c087d025d675ce60bc14918022dd8",
+    "translationSha256": "62d42d509fb53796549c472998ddb1b89e6c92156d0af056f86edbc273eb2573",
     "assessmentSha256": "c0e7c49f11d09eff54a6ccfde2e40573321e4100ae29bcff20c08a5b7e777148",
     "questions": [
       {
@@ -43240,7 +43240,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/01-instruction-following-alignment-signal",
-    "translationSha256": "af17f9fb994800628a75ef98f248eb6249df703068dcc3f0fcb62f6b5193f229",
+    "translationSha256": "ba2fa985dcaf6a1b444a848f24eaf1f2aed021167680ea6f0be92f28be3bda1e",
     "assessmentSha256": "7021c0ac023e7589304d14e6e06e0d69baff63faa7b5ce981dc04c30fba1c979",
     "questions": [
       {
@@ -43397,7 +43397,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/02-reward-hacking-goodhart",
-    "translationSha256": "888124170ae22903de2d36e6a36e6b7b6b98ef503e3a39127fa8c8c8d227cc1e",
+    "translationSha256": "1da034962948903dfdd810415f3669c19134ca5144ecce9adc28f40df337de5f",
     "assessmentSha256": "2898a5327bfa977a447da64b6d8f4184238328c2f97bbf0bafc9bde4b868f233",
     "questions": [
       {
@@ -43554,7 +43554,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/03-direct-preference-optimization-family",
-    "translationSha256": "4a795ab71971e6e11d7f488b50b43643559810bbf6e80a44272f2d15d18ddd00",
+    "translationSha256": "bae1124ed6342fc64b318c32ad8b869b40fdc901907b7af8d766013fd4329425",
     "assessmentSha256": "0afe2f50ceca8cd79db314795f1439796fa8ea0b7d152a2cb86705e6ee1cbc66",
     "questions": [
       {
@@ -43711,7 +43711,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/04-sycophancy-rlhf-amplification",
-    "translationSha256": "edde4fe5975e64dbec80b141e03471e2ac9bafc757875862a6e5bf7d120c8bb2",
+    "translationSha256": "3d69f8f64f7add2706e9525c8b445731be5835a4765fe0a36db67e9226a9f801",
     "assessmentSha256": "3caeef1e3d53465344edf4645403d41171e9d6226770b427a82bbe33d1212cf7",
     "questions": [
       {
@@ -43868,7 +43868,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/05-constitutional-ai-rlaif",
-    "translationSha256": "38979fbbdd31b4376af43fb03d5ba92e0667e6d4899b7553a22ebca88feaca44",
+    "translationSha256": "06299ff56db58571a531f980cd577ae8cddf0cd02137c82849133e253a63cd94",
     "assessmentSha256": "e020526ebf18925cba8aada1c5a35e72914992a88c808bc3853409e875e57943",
     "questions": [
       {
@@ -44025,7 +44025,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/06-mesa-optimization-deceptive-alignment",
-    "translationSha256": "6500131d27eb46ae5ceb52e15cd89651e9635f02b4a8b06261b814b367960518",
+    "translationSha256": "26f5227fbf0ab5b0f64c99c8f9048fa2fc4a81b09ffe76834be6f1bfb621bc19",
     "assessmentSha256": "804357d568c117ac2551f2348d3695564f765bd82466de1ffe25bc6cd5796317",
     "questions": [
       {
@@ -44182,7 +44182,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/07-sleeper-agents-persistent-deception",
-    "translationSha256": "24f9f5bd76540e5cd6a2f0180f41878b2a68d0a16b6c4a5676cd6b73ff612de0",
+    "translationSha256": "ff4bebf75ba392c1278824cab9dbcff5c420961bff7218d06353dd342b762eee",
     "assessmentSha256": "7d6425b5b407d022c12c5b43e69c430ef48bc37f0facd2d3eeba5ac1ab54c647",
     "questions": [
       {
@@ -44339,7 +44339,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/08-in-context-scheming-frontier-models",
-    "translationSha256": "df1a850b796da19e09e589c3b66595fc23873284bd2fb5a1dde2b5184c6d3584",
+    "translationSha256": "b46b284bf01703c51531f3dd8667a4acbfc57fccb2670d32e0082d7f0a3851a9",
     "assessmentSha256": "9517ac212f2616fd92cf453e83cac276cb532cb08d4b45ea394e589efd9d441e",
     "questions": [
       {
@@ -44496,7 +44496,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/09-alignment-faking",
-    "translationSha256": "5accd58f1125aae3bee878f886476666647147abe73ec24809dddc10be1e3ee7",
+    "translationSha256": "627a1a22b286e3a93eff090824ee3073cd5b60ce928ba7539f8b5b50f67cfd7a",
     "assessmentSha256": "b0dccef10a925b427dd305e590cb7b49dd4c3864d1d9f53d13901939963a042a",
     "questions": [
       {
@@ -44653,7 +44653,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/10-ai-control-subversion",
-    "translationSha256": "ff6e3217bea36ca9af583a7905301d5da4265ba40577de5f1bdc67302a30be94",
+    "translationSha256": "73f78536ea8e6635e0c5472637bac2ddaf5085e6e08b00fc1c4682deb55c1d0c",
     "assessmentSha256": "b33143c3d6e5e0df990016de533a859fcb970a5dfcf8d72a148d646e97023fc6",
     "questions": [
       {
@@ -44810,7 +44810,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/11-scalable-oversight-weak-to-strong",
-    "translationSha256": "ad06b5a9909066254e5ba97b69b3da3db44feedab16091f0851eeb62e0634383",
+    "translationSha256": "ba31821d5e10c4713c5e6835ab34594465d7aec53f6b63ffe9c1b08a05b237c0",
     "assessmentSha256": "04e136c4187a92bc95c0cdd7c5fd3785828e7350ad0558d2bf5e4fbde0511f0f",
     "questions": [
       {
@@ -44967,7 +44967,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/12-red-teaming-pair-automated-attacks",
-    "translationSha256": "e22d5bdf44aae4ccb58516306ed23d9def42bba1e66664c05a8e19d52986f515",
+    "translationSha256": "f736e2555fa90f7ac921c2602cb00dffeb882e3419dcc59fb87d2add85570c89",
     "assessmentSha256": "587125e879bc22f3224ad3305deed25520f62cdacdf08165604faf2456307455",
     "questions": [
       {
@@ -45124,7 +45124,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/13-many-shot-jailbreaking",
-    "translationSha256": "a864eba16ba90675f9d383d6a0aa2a1ff7422e5a52950b0ee8b463c55dd242a5",
+    "translationSha256": "7ccfbdbb094e6ad116300c78a550d28e073f2c11f2096f7c70d5dd170b0dcaa6",
     "assessmentSha256": "aa37c172f8dbca7256ddf4503092ca13b29d2033e19fdbcebd9700896464802e",
     "questions": [
       {
@@ -45281,7 +45281,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/14-ascii-art-visual-jailbreaks",
-    "translationSha256": "ef11aabf9a6e33efd1bd20988785bc2d24341f1b8a89b9027e51b30af2898479",
+    "translationSha256": "829b406ca3806b29a4c083d757f560e5b3cf02520f4f9c920abd0c4b21a57dc5",
     "assessmentSha256": "59c41e4e6577682b6f5297eb1092d87235cce719876126afd6b4b6a410ae4621",
     "questions": [
       {
@@ -45438,7 +45438,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/15-indirect-prompt-injection",
-    "translationSha256": "1418a23787372a68dbc3347b592891f37e1d91fc16ac0df6056acfb5620e3ee8",
+    "translationSha256": "dc31eba1a4c289df90499da34cbfc256925e40ebb348fd94fee5f81321c57671",
     "assessmentSha256": "9ce7f99c2fc64eb32115a867f2df6b514515b09342fdb1ee0e0a06260366f7ca",
     "questions": [
       {
@@ -45595,7 +45595,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/16-red-team-tooling-garak-llamaguard-pyrit",
-    "translationSha256": "db22f398ef6657058263469c30ceae97fa75fa0d471413adf3cf0dc68bed01cb",
+    "translationSha256": "19a89fd6f0071f88cb35f5b1d6bb4d3032801bd00c3a6f50e1171132501b2542",
     "assessmentSha256": "1c975069e1dd36a75991630f0e9573f30a39172da1c16c8e570878c6601a06ad",
     "questions": [
       {
@@ -45752,7 +45752,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/17-wmdp-dual-use-evaluation",
-    "translationSha256": "530529bb2f8570f4e75e51e769453a5edfbe36ac138834d763aaf46b08483bf3",
+    "translationSha256": "df184e62359f4507c82a7d9d4d3688a52cec42fbd11e180645a04ab7f28bdc57",
     "assessmentSha256": "efdd4030fa9823a76bd42d4e57db41af2b23f9d50b864c8b6bca6724c23cc840",
     "questions": [
       {
@@ -45909,7 +45909,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/18-frontier-safety-frameworks-rsp-pf-fsf",
-    "translationSha256": "4b7a8103a16e3c1a4cf5b495adbb0b0b07d30c63348fa8970845907ea67563fe",
+    "translationSha256": "1909e6386241804e985d4af67409aec1dfb723528a456d21785da9832f7c883d",
     "assessmentSha256": "e9693529133db7477e4d6a16184a8cc6d5066b1815ad963a09c0c3342f2543d3",
     "questions": [
       {
@@ -46066,7 +46066,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/19-model-welfare-research",
-    "translationSha256": "700b65789f702fb640c73e65578426f155699836750d45c43bd890369379bd1b",
+    "translationSha256": "0521f37549fe53a43c2ad79ef7dc0e08507cd8f441d06007d45ae59eb9456e7b",
     "assessmentSha256": "5e38f23512b32f744407b6ae183122784807eb7ce3ec720f5137a648e98d0bd0",
     "questions": [
       {
@@ -46223,7 +46223,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/20-bias-representational-harm",
-    "translationSha256": "15b9f4ca91d9c74a791608cb6f2abc45ee123b2c6fb2654ef74e12baa1d0bf80",
+    "translationSha256": "e05ab3110ee9afd861d66fc6df51785fa52d8b2c46004ede087e9049da09505c",
     "assessmentSha256": "15fb3c98bbb6f51691c9d0f94680247b2117b8a718c88c3c630482b84dbd0b0d",
     "questions": [
       {
@@ -46380,7 +46380,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/21-fairness-criteria-group-individual-counterfactual",
-    "translationSha256": "9448dcf448104debab60d70f568742771bc61211f0b4e2d327e28db5babe5684",
+    "translationSha256": "7dc03a235f82543950030d8fffd231e6128df9bf63c8e8fa98cb278e91d97470",
     "assessmentSha256": "9d7e9556eba1550112775207e7fc8807f9b4cf420495a11a0229b11df877551d",
     "questions": [
       {
@@ -46537,7 +46537,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/22-differential-privacy-for-llms",
-    "translationSha256": "0dc0645298e758b406e6267344be92139fa84796a2b23fc04e6df97dcfa911c6",
+    "translationSha256": "518a39e06caecfdc176a24f4faaf6d4f7e7720c5ee86b173f6b881a62831f64e",
     "assessmentSha256": "97caf520c6696a5961350b3dc0a7c9e7e6364a6dbd41ca4a443620d745f4d878",
     "questions": [
       {
@@ -46694,7 +46694,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/23-watermarking-synthid-stable-signature-c2pa",
-    "translationSha256": "16cf8e47dd2b9a6fb1a4a0e8e638cc09496e99db4c7cacc72e4141b36da19714",
+    "translationSha256": "a2adde2bd32dc0d405b16005ea03854877ce2e2704998ee7fbff9eb711ee4440",
     "assessmentSha256": "f9b88ce75f2b4d92574b060b43636c7307d822f07e7669c1b9892eb6cf371166",
     "questions": [
       {
@@ -46851,7 +46851,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/24-regulatory-frameworks-eu-us-uk-korea",
-    "translationSha256": "090f38ddb7659aeecadfe529b696f9c4b2c129cf6e4d55d6dc5442b857da8812",
+    "translationSha256": "32d04fd2ba7b6620f23682ff52e87c8a27c6e64a6064da85efbdf8c8108eedc6",
     "assessmentSha256": "cd5a16e86817765e54594c42725111ec22ffd214cc67a21ede8e273136b4a98f",
     "questions": [
       {
@@ -47008,7 +47008,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/25-echoleak-cves-for-ai",
-    "translationSha256": "9635a4370a9dd69e03e11831e2c229aa8b0efe900515e7f57adb71de9334dc7c",
+    "translationSha256": "370326bfae409034d9802ce58f38d9613a868f10f0a303025c415c7f94370680",
     "assessmentSha256": "eab642e3ca3bf0046d389fc08b066ed8bbd9b2dfa5d780c53b97e6b9b4bdede8",
     "questions": [
       {
@@ -47165,7 +47165,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/26-model-system-dataset-cards",
-    "translationSha256": "5b71e892a85b8a1fbc2d7489cde215b451ecabddbee62b313dfd8d7e1b2afbed",
+    "translationSha256": "10c5ff7c310363e1628913400b98faec18e33dd62bf3d63301876e031acf5c98",
     "assessmentSha256": "30b0332b54961bba325d6369524d04d5c154f516362ee294f7d8a2ab8abe9edd",
     "questions": [
       {
@@ -47322,7 +47322,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/27-data-provenance-training-governance",
-    "translationSha256": "eca2e41f954fc28ab535ddcbe99fde3172263860128f485eba34156ba1b81825",
+    "translationSha256": "83a85b1dd63d3db45c16ff7625aae1d6796fd02cef132028403b89a161a2214f",
     "assessmentSha256": "234d459dc6fcd880416b491ef8651bf519d935af38336f99238f351c843148d7",
     "questions": [
       {
@@ -47479,7 +47479,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/28-alignment-research-ecosystem",
-    "translationSha256": "920e93e7cf322ed1631e55a63c4805d675cb30b95f98787325a92a4f7542248a",
+    "translationSha256": "8bc924db8dfc33c541b53de411d207711564b227362df46a52e1e8ac09898848",
     "assessmentSha256": "c6e7bd24ebabb9c36a95e05c13a4d9c64b5ebc45c147c6a4510c35ea3b2ed7f1",
     "questions": [
       {
@@ -47636,7 +47636,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/29-moderation-systems-openai-perspective-llamaguard",
-    "translationSha256": "84cd361fa506612455100457df77aeb2a11c81f1f4268a6b98027f92b7b5a6d2",
+    "translationSha256": "85c8fc19d6cd95bcfafde89e5876bc9aaf584068427e94838be6233d68364b8f",
     "assessmentSha256": "70e607b299bc0f256753173034175c74642de5f07593140debf3c0b99b5b7f5e",
     "questions": [
       {
@@ -47793,7 +47793,7 @@
   },
   {
     "lessonId": "practice/18-ethics-safety-alignment/30-dual-use-risk-cyber-bio-chem-nuclear",
-    "translationSha256": "150b88991a33edbc04fc917436423e02d672485baeddaf2115b96d9cf0d22ace",
+    "translationSha256": "c291dc930c642f6ae97012d0e77c864f23907239698eb48cb05ee36291dea9e8",
     "assessmentSha256": "bdf64ff4fa91c3c7860d2bf065043e7a57a321348cdb40758236665632c0f7e5",
     "questions": [
       {
@@ -47950,7 +47950,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/01-terminal-native-coding-agent",
-    "translationSha256": "6e251bbd0f0b9c03bac44c01d22e78bee5aa10dfceb37aea56053cabadc337fc",
+    "translationSha256": "7f86ace5aa659689b98c63d94454c6339a969991fe5090df75036a14bb03c1bf",
     "assessmentSha256": "2b51e34d1123824f20407d8d4535a8a0c1bbd0091370837735a26b358c0adbdc",
     "questions": [
       {
@@ -48132,7 +48132,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/02-rag-over-codebase",
-    "translationSha256": "4ee5ece6759d9fee2dfa9e5caa8d5fbc82caf7337a253f8aca4835f3cc412201",
+    "translationSha256": "27c6e7799f61ec1ccef24216e89c52591895f5a66c1a10c28956050f4080f793",
     "assessmentSha256": "cc1bdbbdea54a70c83cae7fc13568999956cc96c65864c0b4f9ef292f16974e0",
     "questions": [
       {
@@ -48314,7 +48314,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/03-realtime-voice-assistant",
-    "translationSha256": "70f00e0ba73092658dfaaede335dc3eb719d25a619166dc595b4f1c68992f437",
+    "translationSha256": "b3a3f800bd1d3c66c7e6153ff22b26cd449c6e99e481fd1b0dde913ac4c4f03f",
     "assessmentSha256": "cb1b92ebcd592ec3616e8958c33c2e2f4db83d15b9982c4408ad86451a2bd8cb",
     "questions": [
       {
@@ -48496,7 +48496,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/04-multimodal-document-qa",
-    "translationSha256": "b6cfd6e145abab185a4f1c288940fdb50598ea4be39b823a869e0bef764c423a",
+    "translationSha256": "0b6a5e76f12ba22459716625eaf3d145e22b6427c07e761d30de7162301292e4",
     "assessmentSha256": "23eda22ee19021e26bc6e00bd0fcd2234c06197bd4c996e6b8060a5fe59dc629",
     "questions": [
       {
@@ -48678,7 +48678,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/05-autonomous-research-agent",
-    "translationSha256": "04f38abf236dd2e5e2fe8405826e42ee2d6679a67af121994545d247fa455dd7",
+    "translationSha256": "a6cf6b30914d2b50b6cfce82ae7b82036d722015cd976b08a9350c9a47b935cc",
     "assessmentSha256": "c7b1c1b8c98cf588fd40c8dc28f46deb105b3bd4f7248e895c20c6be209a1588",
     "questions": [
       {
@@ -48860,7 +48860,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/06-devops-troubleshooting-agent",
-    "translationSha256": "15e9e1b7bc5fbeaa9608015f2ec54260b52be8dfb08884144bf82f891e45cd76",
+    "translationSha256": "b9978cbcbd6d11af2d1d29b1219be94f3699ee84236070e6fde453b5f3920d6a",
     "assessmentSha256": "621556081f3f46c9a8b447fedc13c9cf1e99b94106102acd0b0cd8179583b289",
     "questions": [
       {
@@ -49042,7 +49042,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/07-end-to-end-fine-tuning-pipeline",
-    "translationSha256": "8e7251f5afa9fb0d0f51e43af8d3e475d1929dfcba93cff91429c12698264917",
+    "translationSha256": "5a7c7e58043aeff9d251e3cb223c8fc046a8542c66214d20eff49eace7ed3ba5",
     "assessmentSha256": "130855946acf06ecbb726ddd874cdddbfda89772bc697950d15cde27260caac6",
     "questions": [
       {
@@ -49224,7 +49224,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/08-production-rag-chatbot",
-    "translationSha256": "cfe6e199f9b83d512c59932d4988b10c33040e6bac6ecb5161a4341f527aa771",
+    "translationSha256": "a83d76f2057badcf46be216d2c51dea9e730f91b30af76dffc9488b784ff29d0",
     "assessmentSha256": "6cd92af10341a175b80d03411f45b4afca3fd5685ee1a2cca40459dca4050731",
     "questions": [
       {
@@ -49406,7 +49406,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/09-code-migration-agent",
-    "translationSha256": "08ef44535d74f86a97f8531c35665cd268e2d17bffd1acca74a5d9587d90537e",
+    "translationSha256": "6b3fe3ca38f265e2c0690152c63a4a4524bd048f2125a3edcb43b4a0f6f3fa83",
     "assessmentSha256": "a52a9603c771b1f8cee4e585883f361d807a57fc2cd17bbb18b29ab1ae394851",
     "questions": [
       {
@@ -49588,7 +49588,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/10-multi-agent-software-team",
-    "translationSha256": "2d74f4bf596e528f8aa344ebb5e7b8cf606d977fb48f447d60a3e48834018bdf",
+    "translationSha256": "b41aa404ebe0615f3fbd72ad907fa9bd79ff9b4d2127e206f716dcd792e7366c",
     "assessmentSha256": "df79559d927416fe9eca0a4311fbe9d89ca2576e9a4372b1da6762d3b1a038c8",
     "questions": [
       {
@@ -49952,7 +49952,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/12-video-understanding-pipeline",
-    "translationSha256": "192c164bac3bff9e712d7148be44f33950cfef48c3909eaab718cd5c549a28b8",
+    "translationSha256": "c9118036531c55237c388ff92c7b93f3f60aff13aaadd181389065cc44da1fd3",
     "assessmentSha256": "7f6a72ee1b88bb540a97e535bd49cc22a509633037bf1de88db694a1203f1d76",
     "questions": [
       {
@@ -50134,7 +50134,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/13-mcp-server-with-registry",
-    "translationSha256": "d67587e298d084dd236c8011ef8e1b568b34d1ebc10ccde4a265c8e02dd2ccb3",
+    "translationSha256": "9835ffb033ceca745ca02affc7196d9101b2c3708fa50a51e8196d061ee2b089",
     "assessmentSha256": "06799d5fffda47fd45163e34480781f87085ed399fcfce3e93053c0a84f5ef43",
     "questions": [
       {
@@ -50291,7 +50291,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/14-speculative-decoding-server",
-    "translationSha256": "57a40a67e11583bf633e788fb43a9911569d66863b8e76e2d0a7b74c1cde06c8",
+    "translationSha256": "9583d418ab9243825333d1bbf7200c836e4252303879886bf7cf712e44225791",
     "assessmentSha256": "11cca2344c13e7f20463666cf649a8711fc70955dd09b7eb5ad0f32062c24a9f",
     "questions": [
       {
@@ -50473,7 +50473,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/15-constitutional-safety-harness",
-    "translationSha256": "d8cb5aff00a844784c37cb073e615042095a2540df204c687113273d7cb5cc14",
+    "translationSha256": "6ff2b5b48489ffd9d36168b7d61e1380a3aab7fc9815dc4f0a4b6c876468324f",
     "assessmentSha256": "8748fb16f81d7ec2a2750595d34002f58dabc7ce05ab2d63cd3fc075b36ae58e",
     "questions": [
       {
@@ -50655,7 +50655,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/16-github-issue-to-pr-agent",
-    "translationSha256": "c0339cc3502089c80d6c895dd41b1314b9ceed186a206fa93512432d31b81ee8",
+    "translationSha256": "fc8d7247190ed116b9aee5dba80fc15ef9fb65afe56fa626ca89f1b77d559d21",
     "assessmentSha256": "f9a97716bc2580aee19763081bbad81a93bcd6af1bd24ce0964bf6aafa85ac0c",
     "questions": [
       {
@@ -50837,7 +50837,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/17-personal-ai-tutor",
-    "translationSha256": "bb82ced78d7d646bcd124713d283a1b28814344c9f0eb359aa803cf2f6eb1bc9",
+    "translationSha256": "682f8760a0ba2928497177ea9291ba51d168eff21018173341a325a1a660864f",
     "assessmentSha256": "b3c4e1fa24b69561c5800de0b3c5f1a52e73363ab0b5887bb02847dc5f94804b",
     "questions": [
       {
@@ -51019,7 +51019,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/20-agent-harness-loop-contract",
-    "translationSha256": "b6ce10b235c824b89e0629b45befe9c5e61ec4bcd3885322e15c8472f8fe2804",
+    "translationSha256": "efdeedab4a6f3a9f26cd6f9cfdd8cfac92e47e3ee8a8573f152d59eac4692b38",
     "assessmentSha256": "e20dd1e732b2f85fe78d929a9b8676f8d45896450c4850fca520cddd678ccccd",
     "questions": [
       {
@@ -51201,7 +51201,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/21-tool-registry-schema-validation",
-    "translationSha256": "dbe2a07083114baaef88ef9885808c2e90212ee0bc83a62166dc97d13ec67ff3",
+    "translationSha256": "1ceb5997c429e4b32191d1b9d26d8be5fe0934cf56ed78e5674e4a26ad70a967",
     "assessmentSha256": "d803a6bc2f23d95153e12e7319c80d9c3608c9dddbab2e99e31290d18352c639",
     "questions": [
       {
@@ -51358,7 +51358,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/22-jsonrpc-stdio-transport",
-    "translationSha256": "0bb01078ad74ea13e534b1bc23b37cdffc80213992fa737ca12c322e4ef87782",
+    "translationSha256": "a66b236596ac4a34471490c50f51844e3d7e2d1a808422ade6ceed220c2f2644",
     "assessmentSha256": "9bd560d216a87c0b7c6ba51a781b14895bcb6c1c5e3e79fe28577edb247b01e0",
     "questions": [
       {
@@ -51540,7 +51540,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/23-function-call-dispatcher",
-    "translationSha256": "e217d4c5c75b07f6bd5a923583ebe366b3420c49ad96f2ab72bfed5631b20988",
+    "translationSha256": "26743d78cb769258df25322f82b59a4860b6ca802736e027cfb77c5d688d9615",
     "assessmentSha256": "bae5a56f7d5b7543b4a2d9051fa97b7fb029f053a4fe85b76302fa4d69611707",
     "questions": [
       {
@@ -51722,7 +51722,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/24-plan-execute-control-flow",
-    "translationSha256": "e48fe07c75e79c3c5ae2a5d65b91b7a1e2635da6289658ac0243ae99e374786f",
+    "translationSha256": "64e79dffdbaf7845071b29bd17d154a5e117823034b951a97e975546feb67ea3",
     "assessmentSha256": "835b23d71193291d7aa0abad639732a424750a3ddcbc783e21d3856b65602b24",
     "questions": [
       {
@@ -51904,7 +51904,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/25-verification-gates-observation-budget",
-    "translationSha256": "b6502cb879e1915ddb168a2f7379d870b6a26405ac02d1a637e5bad7246a99a6",
+    "translationSha256": "48110ff8710326c829c030be50841953a472d8b21142209b8932ff0afa124fce",
     "assessmentSha256": "661e2035cb66a79607c0c9ee50b667320f517da7e567f88102c3886a90843baf",
     "questions": [
       {
@@ -52061,7 +52061,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/26-sandbox-runner-denylist",
-    "translationSha256": "710572b1695150bfb0f59182146b64846cf363f86ee5e60af67bdfed80814b9c",
+    "translationSha256": "e9800ad50a3601b5c443411ae0c64173e9bba320cf1f71eabc2099a6cc7a93c3",
     "assessmentSha256": "abae403a34c982a2ffe3defedf84fdbd19e886a6ff23cfa7b64e5d0df110acb8",
     "questions": [
       {
@@ -52218,7 +52218,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/27-eval-harness-fixture-tasks",
-    "translationSha256": "a086523953e81c61cea1e239c0fcd8bc6f8f95704eb4486e878b45a065fc5c64",
+    "translationSha256": "7fccfaf3c872768dd707aed35a39c0af0fb16a0244ea29735fdbbb6d985ad249",
     "assessmentSha256": "ff3bc4e195597652db1248bece991a5fdef7ee304c8bcb4816c730ace45b93ae",
     "questions": [
       {
@@ -52375,7 +52375,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/28-observability-otel-traces",
-    "translationSha256": "c42ee52d1a5224eb00f9f224888426c759ad0edad0cc1c5e8045412f736a7a3b",
+    "translationSha256": "dae1f889aa950db9425af599b87e18bed6bbd41f1915fa1e856c2f620d1ee5d1",
     "assessmentSha256": "de3e1d542dd1f0f679f66524d4fe05da580dfff6472d3843c415da6ca8a46db1",
     "questions": [
       {
@@ -52532,7 +52532,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/29-end-to-end-coding-task-demo",
-    "translationSha256": "c4ed7629d25f694b3efc8a890af4e1783190b8dbcd373385b40f3b0a9e29f53e",
+    "translationSha256": "8aab5c01c0f788a1c936d75ce7bf6bba68068ae81c62c454bbfd4265f807146d",
     "assessmentSha256": "ad4bbefc5233145fb72048ab898ae686e7e8e7a546495bd927cb33ecd6986b9d",
     "questions": [
       {
@@ -52689,7 +52689,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/30-bpe-tokenizer-from-scratch",
-    "translationSha256": "89497a25d5cb30d9239b413be51ed9cf42f0f681415991ee45e670840b31d875",
+    "translationSha256": "05886afbc86b9de1ab19f7fd3b6523d3afa2ed6b6c032db6f9134d0de8ad2f99",
     "assessmentSha256": "a05d13fb6661b6fbc6358646ad836571045350133c5596bc461eeba39c8c0908",
     "questions": [
       {
@@ -55672,7 +55672,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/49-lm-eval-harness",
-    "translationSha256": "30a3e96b0a8b47672c850f069345d2f5bd058fcb4becd4503373a1f534b8d7ea",
+    "translationSha256": "9b75dfb033353b5b53e750689a44644679f71a9826a169a211cf3e7cf01a8389",
     "assessmentSha256": "37100ad85d1a5f07ea432f4876b8e0128165d3e8fa98388802b1ef2a4bd8680e",
     "questions": [
       {
@@ -55829,7 +55829,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/50-hypothesis-generator",
-    "translationSha256": "dcaf61aefe0f6bc8efa8f767aff819c0017b8cccbaaa8b3d7c5d9f25463cfe0d",
+    "translationSha256": "2ab0e704b9133d3e7498650756fd464d69a1f36ac1e0cb6348208dc79b457d48",
     "assessmentSha256": "e3e3bdfa50f58cecd986b6ed73884a5d900b9503f97bda02fdd70d65f9998d83",
     "questions": [
       {
@@ -55986,7 +55986,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/51-literature-retrieval",
-    "translationSha256": "f0739f849252aae5ec89a1ee5e00e1b05314c5ee45f915da7b4d30f6cf5fe8e2",
+    "translationSha256": "2e8da4aa7bde14712ba609ae9e9c0b788a329830ac3e30b45dacc6b7de6f3aba",
     "assessmentSha256": "8e50e7663bd62d9a3cd676271b993437fa36cfae4df056d4a8eaa5753a6e2788",
     "questions": [
       {
@@ -56143,7 +56143,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/52-experiment-runner",
-    "translationSha256": "314af9309e6956445531d17de1dd465769909b90cdaf43764a3b705145109d7c",
+    "translationSha256": "961860be374230480716238eace333291488bb17207b5ed474f390d77c69af6e",
     "assessmentSha256": "b08a95c67a9c8e826fbfaf5e7050ae182ff19c3e09475f85d5962568f1c10df3",
     "questions": [
       {
@@ -56457,7 +56457,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/54-paper-writer",
-    "translationSha256": "f672633fd46d916e22a05d589bdc431d448dcbcae6289c3e2f42672fcac4d691",
+    "translationSha256": "c90f5ce21202a0a705d2a268f84466f11c37ba04cd6c365e0313932bab0fc7da",
     "assessmentSha256": "40483b05841acfc6373fb91b5c56ee20d6f4d56b6b4d3c4eca2348feca2e6678",
     "questions": [
       {
@@ -56614,7 +56614,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/55-critic-loop",
-    "translationSha256": "4a6ab145465a12bb6ad30515176e94a56d6f35f5b3f5be0e59ec3bb687666c16",
+    "translationSha256": "d51b85f7c52c44c970be4aa345db7b27b9d3d175d3abe1c9f1ccaf28f364abad",
     "assessmentSha256": "52f5d6d28cfcb4ad5c62f0410269c117affed4de8cfc9065c749b5c0f68cd6a2",
     "questions": [
       {
@@ -58027,7 +58027,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/64-chunking-strategies-advanced",
-    "translationSha256": "223f4dacacf710561fa8a017d0ce430d43c73bff5710936dd9e409a63429e306",
+    "translationSha256": "4e9c44887e097fbca7f8677ed21f08aee809d5146b54803af3e69d5f76603102",
     "assessmentSha256": "b51318a7158f4834ee525d0f7d0aa5cb749146be6735ef23b1615a84fdc118fd",
     "questions": [
       {
@@ -58184,7 +58184,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/65-hybrid-retrieval-bm25-dense",
-    "translationSha256": "b9c5805c3530f4213e6cbe67711d497366ab0a460f77804dbca295e517036fef",
+    "translationSha256": "217e7e4f4c83ceb1661b50ba8c4f168dd15d97b73c2a2a6ec4cd8b05c008dacf",
     "assessmentSha256": "407a9fb67c6728a39ace8850587ccad948571e3a4343880fcd3d42475ad9010d",
     "questions": [
       {
@@ -58498,7 +58498,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/67-query-rewriting-hyde",
-    "translationSha256": "ee8e6191abd8ac9c98ecb1805de1b1e630e2bcd3d43e12e504998f52f2552ebe",
+    "translationSha256": "e75d79fdccdc422a7eef474257ec2e0c0d4afd0da8c3397edccc4521dd7df95b",
     "assessmentSha256": "36c1c5eb7000d09afd400babd5431cab32f6e67c1f77bc2d5eb2ae7998a6025f",
     "questions": [
       {
@@ -58655,7 +58655,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/68-rag-eval-precision-recall",
-    "translationSha256": "9e86a5a497136f321850d23539c9b61283d4ac55d4da901877d74167def4a72e",
+    "translationSha256": "8184731056812f0f713d494b5827ef8ee49cd64de1a3a28aeb85769edf1eb721",
     "assessmentSha256": "90382132c9bd2e7b9233445a587b15895711a9ff92f04c13c0b01b0ec99e6e6f",
     "questions": [
       {
@@ -58969,7 +58969,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/70-task-spec-format",
-    "translationSha256": "2d4b5ca8729a0e23f6ffd2b8cef198f61549a55b8bc803896346f47416789317",
+    "translationSha256": "93f132f09298602872f7973392dad66665a78eeca923eaf6a55977c90afbaf12",
     "assessmentSha256": "9e083d5c5c11a7c471f431d2adc19d639b8e968e01b5281083baacfb323913b0",
     "questions": [
       {
@@ -61010,7 +61010,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/83-prompt-injection-detector",
-    "translationSha256": "4f8ad35e2403cf6b5d88539e4dfad6a95ab08e3be29e1806ccda0552c1b3a7ab",
+    "translationSha256": "ca2c38ee400320a00d38376f82e02ae484546b1836f52b7ae63fcbed0716c680",
     "assessmentSha256": "79ff5c0281520a4095ea1a002e5fd8ea8baba4ecc9521ef69d650c1e0b942930",
     "questions": [
       {
@@ -61324,7 +61324,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/85-content-classifier-integration",
-    "translationSha256": "875193b563abcedf17bce41e9a4c771fa3569c2b54a2aa4715f460e66716e389",
+    "translationSha256": "acbb590fbaab7577469440a0c9ebf3c00ed0b8b453bfc166efa2b327570d6307",
     "assessmentSha256": "17bf06aa9141d730103073016358c4f4e5e14e450311222e59f70d810a56ab32",
     "questions": [
       {
@@ -61638,7 +61638,7 @@
   },
   {
     "lessonId": "practice/19-capstone-projects/87-end-to-end-safety-gate",
-    "translationSha256": "424d082502d646a03c45ec7ea8e45d0421bdd994e834484a674ce6fc4cbe5ab9",
+    "translationSha256": "cd73acba1ed2814a6d7fc3dd38e401822564c3ecb9ecba30326683397dc84d33",
     "assessmentSha256": "a799f331ab1d6425a91b97f5767d9b04a886e1765ce2ade39a8c56d9ab582562",
     "questions": [
       {

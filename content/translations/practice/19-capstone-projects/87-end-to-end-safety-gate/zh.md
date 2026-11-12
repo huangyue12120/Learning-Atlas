@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/87-end-to-end-safety-gate/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: cff21f83f75ca4af3abb35da3471980b55a4f8e6b6724e6f604ad79b49175b27
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d03bd3c19b8f55f50605e69243f75895ccfd718885613e2c40fce7dea3e0c6c8
 status: reviewed
 ---
 

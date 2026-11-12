@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/49-map-assumptions-and-risk/docs/en.md
-  revision: a56b4b8ad43a3767c771953d217036813f697bc7
-  sha256: 7c8381be49ff8b9c8b4e9f8100c338936d993f68cbcd9e988e4f0831ff33ab43
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: dd135028173b9ea09383b24f13e7114ec4023a5e82d5ab75bf8af5d9756ecdca
 status: reviewed
 ---
 

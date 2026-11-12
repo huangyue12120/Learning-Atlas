@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/26-failure-modes-agentic/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 588b80e7011058fe627db20be59a8ccb2fea5d54940340c4ba226b67d1209dd3
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 4e1157cbd7c55cb83c83d615b4989eb4aa5d1a3d7d89a2de658b88d027b355e8
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/68-rag-eval-precision-recall/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 5f13a413ed47d65037cae1f68900c2fd1bbf840f668718b7b38829beb0d93ccb
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 6294e3884c8476c6332333fc417d3d437161342a0b0e74cfaf49ebc21d629c3c
 status: reviewed
 ---
 # RAG 评估：Precision、Recall、MRR、nDCG、忠实性与答案相关性

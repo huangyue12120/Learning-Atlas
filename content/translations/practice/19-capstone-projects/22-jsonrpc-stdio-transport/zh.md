@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/22-jsonrpc-stdio-transport/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: de621edbafb169e7f500a1aad44fa9ae0402567a4ace7701778208eb11f79165
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: f0fd2413edd7bf135e8ad67c637281f831545e86e5516c9b0cdfe3e2863468de
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/02-fipa-acl-heritage/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 83f4a4b57b00654b34dc84cca207b8236171eb41122d89a3561d250efe374083
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 0b6d4eaa787cf9b4c36b12b68f6ba4f93ec318741d84f07546dd6bed0b77c0ff
 status: reviewed
 ---
 

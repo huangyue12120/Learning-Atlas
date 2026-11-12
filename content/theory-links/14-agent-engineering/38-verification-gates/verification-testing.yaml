@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/38-verification-gates/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 33f32ce98034eb1a33b488ddae38f3cd085ab2890731171f5aa18295a3d6ce4d
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 9bc482c6f1623348d255578f22c59138e8d0485b69d58d8e71cc2b6a29ef796a
   anchor:
     heading: The Concept
     slug: the-concept

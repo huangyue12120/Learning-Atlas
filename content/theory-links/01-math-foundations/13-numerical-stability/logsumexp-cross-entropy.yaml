@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/13-numerical-stability/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 0a2ed11f1728142676a900ccd812099c78e4429155692ca22d0b27aafd94c2e6
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 611df7b0a07db308dad6e0e7830ab796c2f9801964a3a1aeb88c9f40526b3752
   anchor:
     heading: The Log-Sum-Exp Trick
     slug: the-log-sum-exp-trick

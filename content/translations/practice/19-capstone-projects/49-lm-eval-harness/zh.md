@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/49-lm-eval-harness/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 1b37981edb41952ac75a26cab3d1ec38eb7d656141ba371e4d11e9b1044d8aa7
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: bc5b43d92d7f0eda4a3340eb902e9eb641998e6645ed2d9a640ab45a8a6fdfd9
 status: reviewed
 ---
 

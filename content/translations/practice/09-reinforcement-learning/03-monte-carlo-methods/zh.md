@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/03-monte-carlo-methods/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: e58beb56ca3267be92f636ddd7d8fa6642f7985e7ef72f8a770dcdf7c06486b4
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: babec6bba132cc318c83d39ac31d4515d4f39dee6c4a764635259165d31c0ca5
 status: reviewed
 ---
 

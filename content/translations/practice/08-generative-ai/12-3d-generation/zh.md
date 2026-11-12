@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/12-3d-generation/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: e349a73dbf2f3d8d579824472bb587e724df7f3b99ae97886e56a0642f58eb41
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: bb1297f0e4023f5b1f6d8d5268e34768a037d67c21f44d3f401c359e646136ff
 status: reviewed
 ---
 

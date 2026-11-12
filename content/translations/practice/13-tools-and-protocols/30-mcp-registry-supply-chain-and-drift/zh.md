@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/30-mcp-registry-supply-chain-and-drift/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 734698d661d450db141c54509144cf914443f3b335e4b18a14d175bad520d60b
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 8003babaeeb2a1eeec7123694b9a5441aecc7fa6e7f220362fa98489e9ada797
 status: reviewed
 ---
 

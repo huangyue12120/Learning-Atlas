@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/08-llava-onevision-single-multi-video/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 928dd62c9da89331f8f2f72acbe90ac713967ff51c03782bffd0e5f63169e096
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 330304e5b4965da1880506b381ab61fa994f878106cc1454c5c56ed0d5c75f19
 status: reviewed
 ---
 

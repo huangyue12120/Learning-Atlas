@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/08-building-an-mcp-client/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: dc2ca4a30c21094e72f5e225724c5a6680119d65aa974e34d411be4ce458fc6d
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 73f32b6c4f4826619aabaa0e4cc87c8b86a8b633e168f7650737fc16fdfa8a71
 status: reviewed
 ---
 

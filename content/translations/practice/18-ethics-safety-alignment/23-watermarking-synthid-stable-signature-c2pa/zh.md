@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/23-watermarking-synthid-stable-signature-c2pa/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: ae55115b02803bcdeaa1a2e65035857646ce3b9703e3d2eb5fd9992b958c767c
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 351f8beee19e97dbbfd67584c957875b37fec3f53c10d12ecc5fc6a473e0c658
 status: reviewed
 ---
 

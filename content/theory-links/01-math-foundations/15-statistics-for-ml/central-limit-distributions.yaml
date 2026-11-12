@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/15-statistics-for-ml/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 4ef9d7580b4fcde317da08d2076e397cb48e48a890a1b048393ad31d647ebf75
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 03f4ef8f81f9ed57a1ea5e452d55a6ad7d8d80c136410a4c0acf437032d2504a
   anchor:
     heading: "Central Limit Theorem: Practical Implications"
     slug: central-limit-theorem-practical-implications

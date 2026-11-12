@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/07-text-to-speech/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: d974cde93a3a8e692caf62fd9e48e18ebd8b889043bef6cf2367b4d89049a561
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: f7ca57b34f6f4fdc5c3be36f2bca1dadc16981f872ea615a56415e990273b54c
   anchor:
     heading: Vocoder evolution
     slug: vocoder-evolution

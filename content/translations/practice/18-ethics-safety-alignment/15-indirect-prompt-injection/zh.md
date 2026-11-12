@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/15-indirect-prompt-injection/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 590fcb02b840d3542d3f4390022407b695d4aeba17db8be356f0a267fa4f5312
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 37939be6a5dc22f850c194315227056f860dbdf930e29fb8bd6ca7318e169238
 status: reviewed
 ---
 

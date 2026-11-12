@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/08-t5-bart-encoder-decoder/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 26b9204335f4793b7910e02a3a03820cd0ea0c7d47a2aa9c37580dcac67baeb1
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 579d31995fd22243f8cc62085c1fa2e77ecb07ef562d1325d14c72644f1fd026
 status: reviewed
 ---
 

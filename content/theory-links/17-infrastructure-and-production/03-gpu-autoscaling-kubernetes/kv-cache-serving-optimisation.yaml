@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/03-gpu-autoscaling-kubernetes/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 8b82d0b1b6b92b89dddf1ab765d1110bdf2be6f15386577e5215dabbcd3ebef3
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: da9d90dceb164d1781123c2b9d8ff1f2c01824c4731c1ad705884ac69468a8cb
   anchor:
     heading: Layer 3 — application-level signals
     slug: layer-3-application-level-signals

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/27-prompt-injection-defense/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 1b00eb02f351e1cc3286f3e9f26859da8a9ed4d254cc426772dcf18424d4cc31
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: e0a8cb4745eb7dda8309b7ab2fdf0152edc1f5e18ee4f4b334a4c397d3c4aef5
 status: reviewed
 ---
 

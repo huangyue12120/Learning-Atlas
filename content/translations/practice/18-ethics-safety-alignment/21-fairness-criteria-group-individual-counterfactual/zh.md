@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/21-fairness-criteria-group-individual-counterfactual/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 936f4875ebd967b777b73990662cfd380bbf58790694af81230e84707bad41df
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 0def00f9a3885aa72b2b2395198d4ddc4ab1f9e5eabc1190f512b9a936b0b684
 status: reviewed
 ---
 

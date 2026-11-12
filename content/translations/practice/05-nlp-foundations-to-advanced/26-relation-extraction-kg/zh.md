@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/26-relation-extraction-kg/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 87c898770746ac3959528e59fa544aaaf10626c7f7e5393a8b2c416cbc84b471
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 52dad7138b9ea6492a657c8e720344b756954eb9d3e1f1cb628861ee559beec7
 status: reviewed
 ---
 

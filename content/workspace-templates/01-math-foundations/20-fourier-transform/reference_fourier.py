@@ -64,6 +64,8 @@ def dft(x):
 
 def idft(X):
     N = len(X)
+    if N == 0:
+        return []
     result = []
     for n in range(N):
         total = Complex(0, 0)
@@ -77,6 +79,8 @@ def idft(X):
 
 def fft(x):
     N = len(x)
+    if N == 0:
+        return []
     if N <= 1:
         return [x[0] if isinstance(x[0], Complex) else Complex(x[0])]
     if N % 2 != 0:
@@ -133,6 +137,8 @@ def apply_window(signal, window):
 def convolve_direct(x, h):
     N = len(x)
     M = len(h)
+    if N == 0 or M == 0:
+        return []
     out_len = N + M - 1
     result = [0.0] * out_len
     for n in range(out_len):
@@ -175,11 +181,12 @@ def generate_signal(frequencies, amplitudes, N, sample_rate):
 
 def positional_encoding(pos, d_model):
     pe = [0.0] * d_model
-    for i in range(d_model // 2):
+    for i in range((d_model + 1) // 2):
         freq = 1.0 / (10000 ** (2 * i / d_model))
         angle = pos * freq
         pe[2 * i] = math.sin(angle)
-        pe[2 * i + 1] = math.cos(angle)
+        if 2 * i + 1 < d_model:
+            pe[2 * i + 1] = math.cos(angle)
     return pe
 
 

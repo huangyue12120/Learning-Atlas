@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/07-bayes-theorem/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 541198f69f334fd2a40906f849b72ff0005f461e01b72b35cf11857ca347989a
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: a7952aae9bf3e6ea89e2f47ce621bd577c44c15d0b921e36d1d1db5ebb6fc4fb
 status: reviewed
 ---
 
@@ -158,6 +158,8 @@ P(\text{word} \mid \text{class}) = \frac{\text{count}(\text{word}, \text{class})
 
 给每个计数加 1，可以确保概率永远不为零。
 
+如果某个词在所有训练消息中都未出现，它就不在词表中。`predict` 会跳过它，因为它不为任何类别提供证据。
+
 ### 最大后验估计（MAP）
 
 MLE 问的是：哪些参数能使 P(data|parameters) 最大？
@@ -248,7 +250,7 @@ class NaiveBayes:
                 self.vocab.add(word)
 
     def predict(self, document):
-        words = document.lower().split()
+        words = [word for word in document.lower().split() if word in self.vocab]
         total_docs = sum(self.class_counts.values())
         vocab_size = len(self.vocab)
         best_class = None

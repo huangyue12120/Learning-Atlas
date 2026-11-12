@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/19-complex-numbers/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: a08ab16aeae18285cfde9f8156502ef7c6eda2f72a4ee38b0e514806bee80e45
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 4a8ab5a6d4885e98555979cdd01d5de3701eecf7018678dd835f45a5aeba430b
   anchor:
     heading: Connection to 2D rotations
     slug: connection-to-2d-rotations

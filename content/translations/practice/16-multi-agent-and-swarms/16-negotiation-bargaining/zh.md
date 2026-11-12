@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/16-negotiation-bargaining/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 82443b4ceb00092856951f3fd422664295b574470a9f87704df1076b8724c41c
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 78a0e76de803c0f3ec9f162361a6a15711a05dc33c34a05eb49734adb4192b6c
 status: reviewed
 ---
 

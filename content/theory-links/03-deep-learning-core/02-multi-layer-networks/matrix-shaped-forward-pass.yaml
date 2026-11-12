@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/02-multi-layer-networks/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: f523e8b9524a7035ec1f8725ac7181bc0b4bc88d6f00643542101123f46c8afb
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b70f547b0e939f78b15a7129ac4753b69f73aa48023663dd6d4913b99ebda300
   anchor:
     heading: Matrix Dimensions
     slug: matrix-dimensions

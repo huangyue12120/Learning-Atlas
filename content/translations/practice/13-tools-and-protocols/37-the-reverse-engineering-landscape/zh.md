@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/37-the-reverse-engineering-landscape/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: f53c1e8602ebd64bf1a44c80bc08e2f48fc3bf1eb715bec68affc14602332a44
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 6e26b6692f81c4ffac962d3210b1f05bac156dec8649c2dbb14d94bcbc719323
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/43-frame-the-task-before-code/docs/en.md
-  revision: a56b4b8ad43a3767c771953d217036813f697bc7
-  sha256: b5ebe37b63dd21d1abba0472c8abf6b07c070b321b17d3cda1c4e216e1a7e32d
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: f449b44aa385420589590ed1741300cadcda60bf755f53b0ba4b17506b623297
 status: reviewed
 ---
 

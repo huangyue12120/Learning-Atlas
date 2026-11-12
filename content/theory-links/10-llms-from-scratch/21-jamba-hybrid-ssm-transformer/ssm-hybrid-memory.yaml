@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/21-jamba-hybrid-ssm-transformer/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: c427ae609267ee362479e3051f7675ea1930dccace1bca817ad8459897d6d0dd
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 348d181647cd42ccb46d035110ddcf6308cc26f37b559673596c59d99a236f79
   anchor:
     heading: An SSM in one page
     slug: an-ssm-in-one-page

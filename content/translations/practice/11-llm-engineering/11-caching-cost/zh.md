@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/11-caching-cost/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: db2119645bb4edc5cd0edcf0c55a2c578605f7acc801f2b1c1de3d6190c70c81
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 7eb024099bbd65d93bd0b6203ffecc13712f7418f052dbd76a18c54a4a8312dd
 status: reviewed
 ---
 

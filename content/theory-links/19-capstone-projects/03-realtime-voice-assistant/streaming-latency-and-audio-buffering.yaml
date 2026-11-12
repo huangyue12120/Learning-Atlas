@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/03-realtime-voice-assistant/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: fc6011cf06c126d4b32ec75035294511699c452d4acc2350589810a881f3dd82
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 80585e54d7b6f9997c0eac0213b45444de6a5cfb3385a3f2b2b6b9fc52de7301
   anchor:
     heading: Concept
     slug: concept

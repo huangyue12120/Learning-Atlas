@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/52-experiment-runner/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 9d09f1f011bde76595f9f041f8cfb19e9ec1a4ff6d8dd56ebb3d53caac97c31e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 4be9360f1550a12574cb832c3ca127b35d3d498fa8ca5e4ca28d19d356fbe254
 status: reviewed
 ---
 # 实验运行器

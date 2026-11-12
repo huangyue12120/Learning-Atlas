@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/03-direct-preference-optimization-family/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: a4152a40d87cdace13bde8137ceb09a4b83c6b42dce2ae6542d324a38560eb1b
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 9764cc0bbb8f3ac7f080d3e27692c9316272f9f181d847ef8e35ade63c3e79b9
 status: reviewed
 ---
 

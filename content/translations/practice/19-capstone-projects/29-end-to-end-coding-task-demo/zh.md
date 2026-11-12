@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/29-end-to-end-coding-task-demo/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: c31f19bdb17e17033cb28106d33d4eac83e64c0aadae4c960db4af3756d3e242
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 7ed4125d146109e8c83e7d55151d271ad2566619db2ccd76ad856167417d153c
 status: reviewed
 ---
 

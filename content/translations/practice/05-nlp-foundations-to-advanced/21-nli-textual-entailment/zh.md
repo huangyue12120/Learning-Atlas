@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/21-nli-textual-entailment/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: ff81c43d767535518d1d724e57b8c0958a0bd8aabd8d16f64880347772ff0ed8
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 16abb84043a60a9446c9a245f03ddee2fa781ffefb69dcdeef086ee8e1997f16
 status: reviewed
 ---
 

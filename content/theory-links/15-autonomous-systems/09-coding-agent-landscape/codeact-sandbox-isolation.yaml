@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/09-coding-agent-landscape/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 62d80c824129f6f23833be3473421afaa99330f4dfa617f49108013fe76bfeb3
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 666bb2c1f1d0209b1aaaf477a90e191762827467df8ba2d77f466768d41e62d0
   anchor:
     heading: CodeAct vs JSON tool calls
     slug: codeact-vs-json-tool-calls

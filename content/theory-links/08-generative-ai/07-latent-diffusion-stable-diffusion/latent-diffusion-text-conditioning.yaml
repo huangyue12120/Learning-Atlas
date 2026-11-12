@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/07-latent-diffusion-stable-diffusion/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 7b0f439de9ae31fc30d4191e4b86e20c170c14fa35cb5627b9671995cbc55550
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: fa77424f11dc08c0fa0b9957615eb236791c3e23dced0f7cd5f0a40b893da434
   anchor:
     heading: The Concept
     slug: the-concept

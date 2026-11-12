@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/20-fourier-transform/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: cfe858731f5cdeadd7047837a44510d797db5009cce9a8a9d98359ac42db2da4
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 85708528263fd9c85a699ec1967dc4c03c5b1456fa60f846753026703b386883
 status: reviewed
 ---
 # 傅里叶变换

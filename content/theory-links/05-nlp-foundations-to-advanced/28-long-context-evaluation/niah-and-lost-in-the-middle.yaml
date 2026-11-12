@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/28-long-context-evaluation/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 32ab66f48dc4dc4adac19a41e368276ba4e7c16ccef8947f2a9ed108d925b289
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 16c5ebb12cf700897c1b117e26bea78d1f26d62e4134b0eb9a5c8bec71bc3c25
   anchor:
     heading: "Step 1: a custom NIAH for your domain"
     slug: step-1-a-custom-niah-for-your-domain

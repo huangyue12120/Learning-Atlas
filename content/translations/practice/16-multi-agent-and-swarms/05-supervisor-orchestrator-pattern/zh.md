@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/05-supervisor-orchestrator-pattern/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: f21e9026c0cf79b00c0027cf0391ff2dc2b760ec28a4a7989f46d5fc4d37ef50
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: c41f26a1340de6de0c42a8f5e63da141620a345ec7946b44e4e8acc1bc71c728
 status: reviewed
 ---
 

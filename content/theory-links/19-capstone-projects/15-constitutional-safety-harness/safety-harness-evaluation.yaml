@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/15-constitutional-safety-harness/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 8d47b067c07ac7c8d9d826ac8a881fe2b7f4104daa191f7fa934e474c67d47c1
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: ba49600d8d629cf172db790695955f79b82b67bd3a07a049346ab2faf9504e95
   anchor:
     heading: Concept
     slug: concept

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/13-question-answering/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 0fcd3cb8c48f9b9f0a1597958ed41da266022394329bd44bf1c29eae8453d7f9
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 878b62393b344c604e769051b4576349e305098bfd150da0e60f2417839380ec
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/10-skill-libraries-voyager/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: c6cf28951a1e4272831bb047e46deda31477551d3f6e142633ec101e6cce5bb2
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 74b6f8b3a99d8618121e1a7eb69bdeccbccf6b0fdf6ff68f52e4660e095fb1c0
 status: reviewed
 ---
 

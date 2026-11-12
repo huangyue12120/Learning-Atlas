@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/15-streaming-speech-to-speech-moshi-hibiki/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: e21cb5cde8e5c2f46a027328b5d1eee69ad8231661d78f8b6509803a6dde3802
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 805da83feb70c22dd3dbc860b90041a7281a21bb9fdcb452efcb03ee42c34624
 status: reviewed
 ---
 

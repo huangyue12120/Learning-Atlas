@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/26-sandbox-runner-denylist/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 1c895c065759c1d3894d86f10fb5a2390c39f2a846c61dbb7c0692261dc31142
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 043082b035f96ae61b8c2fd29be7bac16d33e9d97b8794b36cddd63e9de5fb29
 status: reviewed
 ---
 

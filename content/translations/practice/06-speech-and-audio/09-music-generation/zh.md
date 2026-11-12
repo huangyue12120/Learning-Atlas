@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/09-music-generation/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: eca9c3e4de1e7d92a60cd7ad0ebcf3e15cfc67c1999e3a5e7ec154fee581331a
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 7bca860b4328cd1d63cb922087271b97d84227103b52b68e7201dd449a4854aa
 status: reviewed
 ---
 

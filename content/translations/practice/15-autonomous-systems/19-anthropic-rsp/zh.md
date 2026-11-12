@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/19-anthropic-rsp/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: d92a3856722278776e1a495406d4b3354941b0cc1e079b0d139c4c680df6071b
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b7e996a568b7005d57615bec9e08009c950529daa1d49474ec7238cc6784f959
 status: reviewed
 ---
 

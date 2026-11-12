@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/22-embedding-models-deep-dive/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: bfb5483ccac7e580a5256434b2a7e4ea749c30999fabc4aead4a95189e8c96b0
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 818eb0777d87d9c7ea7d0a4db26a623363b695db7576752525f984c13801fa2f
 status: reviewed
 ---
 

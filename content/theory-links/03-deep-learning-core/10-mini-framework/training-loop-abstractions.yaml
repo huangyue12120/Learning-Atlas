@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/10-mini-framework/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 94d283931d471f9a757d50d4f12656d497b3cb78aacebeb7619a55e5c0e67325
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 0169d89014aae606ba49bb74ed4753f82249b9ef7de8ddc662cc7dde09656fb1
   anchor:
     heading: Training Loop
     slug: training-loop

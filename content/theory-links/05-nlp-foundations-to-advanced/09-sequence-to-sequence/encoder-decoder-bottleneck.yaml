@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/09-sequence-to-sequence/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 83d570d30ef505439edbbe90a16c984e6c5e552468ed53a54919b36d2dd43d49
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 70d54698bb43b284e1e717f3d69cf403b8df783b3c11936b23262d169b4c5326
   anchor:
     heading: "Step 3: training loop with teacher forcing"
     slug: step-3-training-loop-with-teacher-forcing

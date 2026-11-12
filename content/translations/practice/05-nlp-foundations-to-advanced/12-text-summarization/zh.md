@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/12-text-summarization/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: d856ec071b1b46533679495c2c23bf7bfb8796e664589771f1dad37a30bf4623
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 03f7b91257d205195884a5472c7fe90d2219e896881e39544c2e11b1f616a3dc
 status: reviewed
 ---
 

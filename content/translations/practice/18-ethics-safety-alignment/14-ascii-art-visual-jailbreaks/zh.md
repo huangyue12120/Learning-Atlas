@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/14-ascii-art-visual-jailbreaks/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 49b3da88ca8fbe445a353426bbec66f0488f177c0a34b9ddb2f76269f964b2e8
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b2c8d1ff374179b4c69e0dbf861d2405f45f113498ada169f3ee399b9d5d7a77
 status: reviewed
 ---
 

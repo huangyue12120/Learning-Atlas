@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/12-video-understanding-pipeline/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 0f0605d221d1c86e81430f60a6d97bd12ae67f4f4c8369aaf4da409eaf6563ff
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: e0469150ccabaf0967fd3f8464afcab319c66157718fc5bd75d0489480c2e647
 status: reviewed
 ---
 

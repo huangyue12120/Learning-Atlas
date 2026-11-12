@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/08-ppo/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: cbe6811d840d1c1352313fb5af53ed29d8a654bfa8839bae317e8a0394ec0a63
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 895d502f5230879f9ce84308adb0a80b11a273649f22e4ad01a8e11d35306fc8
   anchor:
     heading: The Concept
     slug: the-concept

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/03-deep-learning-core/01-the-perceptron/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 29d3bb53bedc92067c1a2f571f619bf1d9b58e797ce547798b1154f9e739a8e7
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 9155cfee7521cb5f07332b038bddb52055da2297baf90a2ec566de3210f4c1ba
 status: reviewed
 ---
 

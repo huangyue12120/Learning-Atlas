@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/14-autogen-actor-model/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: d711c64e9a5125ae7cb7b50dfd73abf765f3b3e0d6cef0992da9240fee934ad8
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 95008ec6465e365824fc4400b3869f5d86d18e7744fa7c7752e6e113da55d71d
 status: reviewed
 ---
 

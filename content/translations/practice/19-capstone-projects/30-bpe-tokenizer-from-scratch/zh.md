@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/30-bpe-tokenizer-from-scratch/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 8fd73bd1d01b35d76515460a05b0a6195a6c942a0ed39ef0876a57b12ef1c43f
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: fc951586c3c98fcb6bee3b590167dd7146c2e2eb49671e7e554cf7b30f7e5251
 status: reviewed
 ---
 

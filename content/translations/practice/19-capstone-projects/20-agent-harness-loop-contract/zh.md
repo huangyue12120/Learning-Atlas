@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/20-agent-harness-loop-contract/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 7be162d0bed91fe6aff400812a4e9dd182fc2800fdf953c5a86a8451048ee899
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b9e6753360efb94a4c542b00da5224c2d52b43f52efda6bd4acdecc23b7317e2
 status: reviewed
 ---
 

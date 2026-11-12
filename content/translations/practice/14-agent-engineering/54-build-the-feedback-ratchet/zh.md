@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/54-build-the-feedback-ratchet/docs/en.md
-  revision: cdfd9df74ed8c38049c3150dc1a99e2ef25d87b0
-  sha256: 9320ff565659a4952845cb0eeb3e4416390337391f42f7d08963be0add3ca3ed
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 104e1c35317141e921e5c1a01ad6411d863341351462b7bd72f2d7ee6460ecbd
 status: reviewed
 ---
 

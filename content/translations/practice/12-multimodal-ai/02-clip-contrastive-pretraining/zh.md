@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/02-clip-contrastive-pretraining/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 26a13c6ef7e688f621db264252ed4b2f08b80508090b0e56edc74e6cadbde02e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 7fff707b218b7a4bc72c9ec19b75c72f07d62a64084e86e0d6b28045a5680695
 status: reviewed
 ---
 

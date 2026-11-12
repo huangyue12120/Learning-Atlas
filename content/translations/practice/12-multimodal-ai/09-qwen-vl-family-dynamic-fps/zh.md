@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/09-qwen-vl-family-dynamic-fps/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 2e51b8f73ce64e6a34ab47b3810372f96c97190dff6682f67d95d55c7e24daee
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 7eb013c046c0e536cdb7ec0f39f0ad447d3830f6a9ad126768ae729f985bc7fc
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/07-recursive-self-improvement/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 203b879ffa5b1a34afc51caf2fdedcde5553bb08e1873039b036bd1add6f38b0
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: cc14f19668cede554befe0d751a5bf68a88ea8090035dcf7b46963239c64b528
 status: reviewed
 ---
 

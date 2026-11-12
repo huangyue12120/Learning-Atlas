@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/10-multi-agent-software-team/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 90d8337065b6192ff06609e2b99086dbd6a5ef060821ec711d1dc24fc859af7a
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d7769f2aa0db0ab1928504ce5e02029fe3c895046363e7f6e691596375cb3ac7
 status: reviewed
 ---
 

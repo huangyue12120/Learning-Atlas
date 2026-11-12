@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/17-wmdp-dual-use-evaluation/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 9cd15aab7f11142663fed3dd4f3c093b45e6d48333468186cff4db555a61af65
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: a3b023672996801c09b47d279f144bb5473bb5a8ea87ab7576aa4d50888e712a
 status: reviewed
 ---
 

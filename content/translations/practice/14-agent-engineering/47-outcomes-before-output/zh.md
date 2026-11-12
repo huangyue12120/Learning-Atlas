@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/47-outcomes-before-output/docs/en.md
-  revision: a56b4b8ad43a3767c771953d217036813f697bc7
-  sha256: 05407df34f766e1b5a350b70940c149db317c87c3571dcd37926f0acd1772706
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 54161fa3be55204994aa8da9c2465f08f79e6153f3b1680e8890b63c1684df50
 status: reviewed
 ---
 

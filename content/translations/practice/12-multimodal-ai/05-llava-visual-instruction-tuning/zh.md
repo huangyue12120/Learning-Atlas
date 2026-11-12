@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/05-llava-visual-instruction-tuning/docs/en.md
-  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
-  sha256: df0a92928b2290c4989a5d84c4c76efee59c0a665e49d01e49e9564b29256765
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 44e5f8105f9acaefae1eb95ebe86fa678796dedbdea431ab7a7b87fdf0809e72
 status: reviewed
 ---
 

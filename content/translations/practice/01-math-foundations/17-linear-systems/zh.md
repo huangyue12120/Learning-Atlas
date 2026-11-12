@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/17-linear-systems/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: cea0c20a413a89c9ab39e31480f1a83334d611d32cc682652d423ba268b573e7
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: aabfe5438dd2837264e02d88c2ea2a83a9adcc67cb6bf2c1092d618b50ea9f3c
 status: reviewed
 ---
 # 线性方程组

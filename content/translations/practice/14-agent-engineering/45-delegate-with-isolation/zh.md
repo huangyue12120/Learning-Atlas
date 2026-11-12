@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/45-delegate-with-isolation/docs/en.md
-  revision: a56b4b8ad43a3767c771953d217036813f697bc7
-  sha256: cdd379d9f31f811933d4ab1897e7c95b3f7e2e84f4d418d4fa6ebae2d1559dfb
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: e8e1648517f5ed33e64df41e05aa7fffea36cb002a5251fb5cb2d0d57edfd96d
 status: reviewed
 ---
 

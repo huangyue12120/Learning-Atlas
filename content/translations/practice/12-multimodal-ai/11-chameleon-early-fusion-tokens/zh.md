@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/11-chameleon-early-fusion-tokens/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 8088a838d626c08eaf480937130a4a370cfbe30b54caf77ebd16ac6cfe33e0d2
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: f19e04c4852706d9975389b513c680e013813cdcdf9ba81ec77fc6a39d0a1570
 status: reviewed
 ---
 

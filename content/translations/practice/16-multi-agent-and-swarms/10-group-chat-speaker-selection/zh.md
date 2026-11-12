@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/10-group-chat-speaker-selection/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: cb20c86f615eac8c5d965b4469eb737401e21b92e94ad8360fdac07d144a0c03
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: fb7b34b071fbeaea42ae442fe2acbd32a31028a29c457141f6debae67e07561f
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/14-norms-and-distances/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 12f5a9c47e8c915d8e470b7426c03f7ce3dbe3d391f0af127438e95e7635d716
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b680d4daed465667166c76e5cc1b4e2a1b2ab2332ee584b2562d495e8adeb7d7
 status: reviewed
 ---
 

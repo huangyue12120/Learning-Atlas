@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/10-ai-control-subversion/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 49d10fb15bc96c1df66b03f3fb030443ee0ae30d7812cd1beb24cbf72f57626b
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 55a04abc670ebba3c4a4e1ca04bc5a80f9df14c7ac7c6e592bdf53c86ede0c2b
 status: reviewed
 ---
 

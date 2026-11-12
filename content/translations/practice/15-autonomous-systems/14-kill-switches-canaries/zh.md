@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/14-kill-switches-canaries/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 75ace984dda6cc34bc2dabf0da98bed969cb849bba80530b34e2b65413e4b64d
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 3b0ffd3f69a0004b3a83e38eee52765d893209fef39b47a549db192dbd2d2d90
 status: reviewed
 ---
 
@@ -105,7 +105,7 @@ circuit-breaker
 
 ## 练习
 
-1. 运行 `code/main.py`。确认熔断器在第 5 轮（第五次相同调用）触发，金丝雀在第 9 轮（读取假密钥）触发。
+1. 运行 `code/main.py`。确认熔断器在第 7 轮（第五次相同调用）触发，金丝雀在第 9 轮（读取假密钥）触发。
 
 2. 增加统计检测器：工具调用速率的 EWMA z-score。输入一条缓慢漂移轨迹，证明检测器不会触发。现在加入硬限制（10 分钟内不超过 50 次工具调用），证明硬限制会在同一轨迹上触发。
 

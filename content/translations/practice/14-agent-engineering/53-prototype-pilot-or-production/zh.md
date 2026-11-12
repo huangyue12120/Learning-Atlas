@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/53-prototype-pilot-or-production/docs/en.md
-  revision: a56b4b8ad43a3767c771953d217036813f697bc7
-  sha256: 2f596fd43c98189fc0c314b87b59aa94a6e6351e643cfbd4832ba8b33e53c455
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: bdb5a1e9f1e8a089c8b40edc826c18f999edebf9e7e0fded23da64d6f95fd398
 status: reviewed
 ---
 

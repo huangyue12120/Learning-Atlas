@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/03-reflexion-verbal-rl/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 9afabebcab9e1ce6d6ab3b2b0ceabd8b0aa308b25a73b8d6510fc2f2739f9b36
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d5ca27d862b04ec0b95c8d6a5b9dba71ba5bebdfaa5507d0045bb328bde1c6c1
 status: reviewed
 ---
 

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/06-knn-and-distances/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: bff69e9324c6c54ef76f589965a4f3df5ba5ccbbcbfad26550bc817ec1a90c74
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 0fff81d1a1ae2029c4c8db7a20f11c7b5711c24ba25ce4e23bfb70ab450a82d4
   anchor:
     heading: Distance metrics
     slug: distance-metrics

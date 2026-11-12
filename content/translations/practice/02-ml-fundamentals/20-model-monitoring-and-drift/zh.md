@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/20-model-monitoring-and-drift/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 67ed1a1ed2ff0330085ca582c4068f307318a126ad1b6c591ce56a7022bfa082
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: c7d059e55efd1e93278f60e2b3a05f5448c9e3016176ce8340e47baff1e1de46
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/23-failure-modes-mast-groupthink/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 06d5aecf39813f16edf59287a767c41e9b3396e5cf28599b342a0c8f466b94e0
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 6db80722b20fd759dd38a4529f262c2b573fa78a663bae1e933ac53674aa6f9f
 status: reviewed
 ---
 

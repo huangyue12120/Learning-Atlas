@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/20-benchmarks-webarena-osworld/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 5f2b258833ea48979405b3f939f5765a667a5a28ae0786b4c208710ac6d8c717
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b8bf09222e3354a4821118c55d121da7a9389837f687f2e1953fbaa86a79ec63
 status: reviewed
 ---
 

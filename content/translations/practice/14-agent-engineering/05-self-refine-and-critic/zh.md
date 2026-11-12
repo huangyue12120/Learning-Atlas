@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/05-self-refine-and-critic/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 9c7f53947f9886f431c8f1a5d51f4f1c97af01ff68887f33275dbd64892f93e3
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: e37637e9879e9f90c9f1f2e9a5f8b320d6eea2feb14f2bcd2f3f97c031713ad0
 status: reviewed
 ---
 

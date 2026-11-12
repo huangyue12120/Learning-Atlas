@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/12-durable-execution/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: adc5aa6f20ee09b6920ab01aec2e062234e9e6620ca58f4e43fc59f073c15bba
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: ff2372f98d254ef74514801b263dd6487fb1da6a1ae28e48037532ec4979899f
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/02-function-calling-deep-dive/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: af3495ae5828e4e2c654f287aabfeb4b371d2b77bee6983a1d9696b18746404c
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: aa24fa46df4b86aa1c91eaa2c954074a4f6242848bc07c995ba05896e5651b65
 status: reviewed
 ---
 

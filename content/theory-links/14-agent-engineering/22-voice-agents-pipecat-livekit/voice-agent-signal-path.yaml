@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/22-voice-agents-pipecat-livekit/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 514d102d6130a6c3c6682b33e86d7a2e24de4e9240176de6e78403ecc9d8083d
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 1e19a345e8d265ac41ccb7db02221abfcbcb241e2d92d8eddf7a84833c3791f2
   anchor:
     heading: The Concept
     slug: the-concept

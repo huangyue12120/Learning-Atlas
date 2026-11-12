@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/11-machine-translation/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 956eeb576fdea61cef4a66b8f4c6b1b1caa47eea8e7488aace436c9c177b09ca
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 9314f85fb7d93de19996a04691112ea13c5b4a9d209e51228fb733f9b39567dc
 status: reviewed
 ---
 

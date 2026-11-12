@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/09-reinforcement-learning/07-actor-critic-a2c-a3c/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 58b0e312782909875a3f6b80d3e9a3a89b59b1ecc7dfd5f8ea6df0bdaecc2fb3
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 76a25e46b921435853d7c555c5297126347914d3b2804091433746263b1c7e3d
 status: reviewed
 ---
 

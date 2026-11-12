@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/27-llm-evaluation-frameworks/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 61d6c8816e3e613a80375b344ac33445b0452b793c31f1d751ac6151e0bf3a14
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d8e4cfc3170dab11adbb0f4fbe50476f5de6b2ea682666b03729f9cf583dacbb
 status: reviewed
 ---
 

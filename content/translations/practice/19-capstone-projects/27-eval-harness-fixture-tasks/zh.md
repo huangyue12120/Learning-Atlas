@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/27-eval-harness-fixture-tasks/docs/en.md
-  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
-  sha256: 7b3e83c83af086a9d8d29a50b63882900dade4d700bf3f0b7c64dc7cbf2a29b5
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 25c3c96fe3816f484e3038900f199484a3d4953a1dd051e53f13959841bdef5b
 status: reviewed
 ---
 

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/04-decision-trees/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: e020962c727412c6d0263c9c2324210a6a20c1074a325d16d011d797bd8a812e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: f14b973c84f94a98f69a96036151d5f780c58b332e418c1ff920b5f008e835ef
   anchor:
     heading: "Split criteria: measuring impurity"
     slug: split-criteria-measuring-impurity

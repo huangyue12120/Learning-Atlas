@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/40-multi-session-handoff/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: d2537f34853af5e07bae24f3d5c5198bf321aa4de6fec9349ac5cd7804d723c4
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: ea7c966604190d8059983d953a4a7a6468043d9dfc8c83411a0bd8e85bf58965
 status: reviewed
 ---
 

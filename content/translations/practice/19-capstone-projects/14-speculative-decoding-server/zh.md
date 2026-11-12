@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/14-speculative-decoding-server/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 85be34aa5856a391ad5debe03b5f115ea202c610888904d34322be76145891f7
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 093124e0d219a084af3fb549243a68d0b8cd571dc6915ac369f3aa3706e9bb04
 status: reviewed
 ---
 

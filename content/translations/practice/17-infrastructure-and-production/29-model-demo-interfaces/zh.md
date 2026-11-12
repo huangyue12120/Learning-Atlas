@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/29-model-demo-interfaces/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 007a8c214f45058f45c8f51ec2c5011195945c51ee7bcc1b68fb303ff628daf8
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 7ac37457ebfedbe187822db52b841a011004ee625bc52280b69b0db77838eb8d
 status: reviewed
 ---
 

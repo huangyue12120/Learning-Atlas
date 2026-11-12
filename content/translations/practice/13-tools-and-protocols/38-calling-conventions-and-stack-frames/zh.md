@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/38-calling-conventions-and-stack-frames/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 7de7231f86063ee8f2a9ecbd7bab20ae18a28863d5555437777a0de547983deb
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b83a96a07c0237c7c7edb1d59af2aace38ad9899abc6db6501558cf982e62677
 status: reviewed
 ---
 

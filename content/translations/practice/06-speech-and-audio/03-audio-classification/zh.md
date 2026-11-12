@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/03-audio-classification/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 7d7e56fcd223b527e87ba1b7d12bd6bf4ff2d9e27bfd89c9c0a0a944293adeca
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 8df38af9f202ab331671b6c096d9db5aff005dc71f16a598194961a4a9c5cd54
 status: reviewed
 ---
 

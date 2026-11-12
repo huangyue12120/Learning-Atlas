@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/24-skill-discovery-and-progressive-disclosure/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 5880cb2e0c0d2bc5e83ad8e6e5633e7645db5f67fefd5c78323ff81ef974bc8c
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 983d3ae13336a89447b7e8d621d3f315f482c6d0f3da87d7e3e5d1ee3b1dfd47
 status: reviewed
 ---
 

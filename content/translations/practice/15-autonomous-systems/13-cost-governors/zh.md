@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/13-cost-governors/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: f4ec183643dc2314b42eed2df7740bd8fde72b1c0a7824ba22fcbe67b6b55f6e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: adfdb6fac9301fb7343957e5bbf8d201cfc0304d8e04f10c52a149bfcc9aca9c
 status: reviewed
 ---
 
@@ -77,7 +77,7 @@ cost-governor-stack
 
 ## 使用
 
-`code/main.py` 模拟带与不带分层成本治理器栈的智能体运行。模拟智能体在若干轮后漂移进轮询循环；分层栈会在速度窗口内捕获它，而单个月度上限要到数天后才会触发。
+`code/main.py` 模拟带与不带分层成本治理器栈的智能体运行。演示把速度阈值设为每分钟 0.03 美元；模拟智能体在若干轮后漂移进轮询循环，分层栈会在速度窗口内捕获它，而单个月度上限在 10,000 个模拟轮次内都不会触发。开头的“10 分钟 50 美元”仍是行业尺度的示例，不是本演示的参数。
 
 ## 交付
 

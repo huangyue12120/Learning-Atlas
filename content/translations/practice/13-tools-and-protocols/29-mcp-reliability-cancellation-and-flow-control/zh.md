@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/29-mcp-reliability-cancellation-and-flow-control/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 50f4b4cf4a382debc911c7f769cb3699bf0f54f4789bf19b9418635097be25df
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 3973a6da2b3043ac1c45b807b2b1fe6c519ee2938d646b6753c9fcbcd5f60e1d
 status: reviewed
 ---
 

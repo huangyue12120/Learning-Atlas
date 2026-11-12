@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/11-audio-generation/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: 8eb8b1cc04a9cd18df5b8465e85762b5c975bcaf3167e2f092e2e45c71901ecf
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 4e2d98d8f5e82f77cecf50c0b73c231441a1739a3410d9705a92b4913050904c
   anchor:
     heading: The Concept
     slug: the-concept

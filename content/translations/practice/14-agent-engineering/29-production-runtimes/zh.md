@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/29-production-runtimes/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 693a6f21557b8a6c349730ee6d378eb619b327c65ff8dbfe9474a75968b5f940
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 3def6ae4a4dc4b4da7449a1fa4ef444cea22041866ca59d0690260b255d57321
 status: reviewed
 ---
 

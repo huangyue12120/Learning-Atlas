@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/44-plan-from-evidence/docs/en.md
-  revision: a56b4b8ad43a3767c771953d217036813f697bc7
-  sha256: 1018b075aafa5bb25c695859db764d57a00d1991c450c75511ce0bc3cb6c8139
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: fb6d6d155ebf6528bbd15c8864b7f52f70f0e53487da0fe1feec50ce363ce1c1
 status: reviewed
 ---
 

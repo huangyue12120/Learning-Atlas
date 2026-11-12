@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/39-compiler-idioms-and-optimization/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 9a128279f8aafc167912d8d82e11579d15a9af5fc6eac78c4ab076a759b4b245
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 8899427ac4dd257abbd507a18ed9fc10e8d60fdf4df55283f4972327212f1536
 status: reviewed
 ---
 

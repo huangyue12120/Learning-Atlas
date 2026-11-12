@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/10-video-generation/docs/en.md
-  revision: 56c886c8821fc488b6f9608895c983d18f0d1ea3
-  sha256: 7f347d1e809f686c1513b70ef278e39d2f5eaced4c4ae8a0d34b4cafc6b0d1ce
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 1d963bc340d5d31388beaaa689a49810306346446f7c1ac6bbb923f3887f16b3
   anchor:
     heading: The Concept
     slug: the-concept

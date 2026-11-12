@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/12-edge-inference/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 50eb91fb78f252442cf290a541fd0748b6ee72904cf3aea623d567bd1549bff4
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: f91c89c85f37de64cdcb0fb249481a2c168c51beae2a67eafce6f9f6c89cdf1d
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/16-openai-agents-sdk/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 377b426042d5664c5c9cf36932d5ae56dc66c51236a1de60656ef110112eb76c
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 717928a83b334c3b579d3c084bbca05d05be8ccb51ff7ffca1afbb22b60a5184
 status: reviewed
 ---
 

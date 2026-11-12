@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/24-multimodal-rag-cross-modal/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: fc9d6c0c73229255a26820e81839b3837a2f7827b49af959bd2db224f1f22272
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 23142e320b46e283495369ff9059df0716cfdd10235347b35043b8b55eb7a2e8
 status: reviewed
 ---
 

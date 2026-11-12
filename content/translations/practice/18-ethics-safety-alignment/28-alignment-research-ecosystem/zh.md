@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/28-alignment-research-ecosystem/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 43652e0255c4dca0af153c4c29d35002b32c7bef5235637b18e6a4fd95617ee7
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: eb6098c1bbb264acf247c0a2b6aabf704e54fcb2e9b932712aab9839da2b02dd
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/21-embodied-vlas-openvla-pi0-groot/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: 74e67225ca1e15d42fa2a561e836c1053ce944c0f11e2706d237294a9550885e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b49e20c67b6ccba5ba4b7fc83d51d88af7e226f0863c7c12dc46624da2f07513
 status: reviewed
 ---
 

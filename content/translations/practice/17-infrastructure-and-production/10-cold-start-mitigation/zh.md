@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/10-cold-start-mitigation/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 1ba706ef6985945d191d9b272fc62653463ae27a7dcfed21d8e7496aa6030d65
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 34f063553b81495398de8768b8e36ed7e63b182152302b4995adbb690849c46c
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/18-llama-guard/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: d2e6f91903b8358ead955c4db18c9ba986e51b359d62366e2fc8e4cb23f02d08
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 0c9d5a2d8d705fa1bf4cdce0f49cd3a887fe9d2c8720d198bb8d3112de09caf6
 status: reviewed
 ---
 

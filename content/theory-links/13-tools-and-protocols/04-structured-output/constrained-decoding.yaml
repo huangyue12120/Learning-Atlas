@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/04-structured-output/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: bd468ed5c79526e09282f88722e4603d5f80e9a3087e8de0e151dd94d48f73cc
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 4cab72b558717834c5e1c13abff9c7c54096abb5dc96506ea4388d14a2e78c49
   anchor:
     heading: The Concept
     slug: the-concept

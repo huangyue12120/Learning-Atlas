@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/01-managed-llm-platforms/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 3bc2410ee41ebf7a96d77929154c8036dfbfaa77a034dafdaf30ef5c5eb5c3a2
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d0b39be710390d62d63b2ae2f0b82be90141f676ffea1d262039207ead89e0ae
 status: reviewed
 ---
 

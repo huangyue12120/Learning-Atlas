@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/01-math-foundations/10-dimensionality-reduction/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: ae01a8dd4e5df9df97a7dff0e02d10dfe9b1689eb6b923a5f7169d7a3fbd28e4
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 89100f37ffd02c413aed2b4d4f8986163fa880315dd0f65314ad42f82f8e14a6
 status: reviewed
 ---
 
@@ -163,6 +163,12 @@ PC4          0.89          0.089              0.925
 
 ```figure
 pca-axes
+```
+
+MNIST 演示依赖 scikit-learn，仅提供 Python 版本；[上游 TypeScript 实现](https://github.com/rohitg00/ai-engineering-from-scratch/blob/a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b/phases/01-math-foundations/10-dimensionality-reduction/code/dim_reduction.ts)可作为原文参考。
+
+```bash
+python3 code/dim_reduction.py
 ```
 
 ### 步骤 1：从零实现 PCA

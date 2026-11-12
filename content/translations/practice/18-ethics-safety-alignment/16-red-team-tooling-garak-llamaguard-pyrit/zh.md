@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/16-red-team-tooling-garak-llamaguard-pyrit/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 380a3437c4bb05212e34be0ea75e0dca5f86e377a4f0465fed9befa2fc4f3dd8
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 95c683baf99bd6286d226542b0816100708cae0f13cb7f0346d81f5b476cd5d4
 status: reviewed
 ---
 

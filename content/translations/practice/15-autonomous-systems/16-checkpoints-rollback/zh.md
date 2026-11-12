@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/16-checkpoints-rollback/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: a530818bb301abf263f3ca3b331287160ae5f94b4557b5a0cb5e01133f611d62
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 857ee3f502be5f3dab057d2143112adc5792e030ef2d593bb1240f8e770458f6
 status: reviewed
 ---
 

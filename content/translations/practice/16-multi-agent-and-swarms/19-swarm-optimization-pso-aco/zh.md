@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/19-swarm-optimization-pso-aco/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: f2c7e71f6be630b8aef8efbf47ff81552acd735e193160fe93ce4d0897ca621d
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: e2a3c1e1ea2fd359fdfef7d7c33327fbdfd5dcdbf1c4db936d663676dc8d3675
 status: reviewed
 ---
 

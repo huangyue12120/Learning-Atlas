@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/11-handoffs-and-routines/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 87bf3b0e0988f7b46dfb666e546210d339b7cd640e840cb49152a19e1521674b
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 25269ff3945862f145f8a5f5bc13381ac48740632cc64fa27fa40ab844509865
 status: reviewed
 ---
 

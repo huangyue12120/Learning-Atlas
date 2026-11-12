@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/13-shared-memory-blackboard/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 026e031bb1a4843bfce480f713b5ce499cd48df1078156390f14d322bf4c9120
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: e0c90524270201868e7d1ddabc368ec80af3dfae460dd53ad13808fa28a371a9
   anchor:
     heading: Write-contention patterns
     slug: write-contention-patterns

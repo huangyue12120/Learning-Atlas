@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/17-generative-agents-simulation/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 33cfc0f7fa6929b72861cbeed9f139afbbdd6d3cfb4a0d2e5351c18e0dbd7c6c
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 5b225b79f8424c34087f1c47695c14991ceb05aac2935c6c7ffa28e204e400c8
 status: reviewed
 ---
 

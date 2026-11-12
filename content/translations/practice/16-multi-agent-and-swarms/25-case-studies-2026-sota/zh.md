@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/25-case-studies-2026-sota/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 429ac897e7dfcde3c6a7ccd44f90602b99ae22e5469110d13166ba2f8bc7effb
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 7292a73dcd0342a6bd2fcedace7291975fe50c04cd79df71242d608d67a69153
 status: reviewed
 ---
 

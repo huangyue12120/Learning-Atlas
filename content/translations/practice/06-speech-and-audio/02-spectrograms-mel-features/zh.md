@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/06-speech-and-audio/02-spectrograms-mel-features/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 97529a8844a0782b55a5056640ac0f4a29e89ff904b0d7ebca99c7d5892ae274
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 2a7f2c2a64ca8733c4bb7fd129fbdc27e80a79348087ac6bf5b8f27225fecf6a
 status: reviewed
 ---
 

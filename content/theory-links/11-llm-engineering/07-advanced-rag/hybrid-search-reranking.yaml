@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/07-advanced-rag/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 9c84b80f89524792b94fcd7c076ce213249d66ecffaf43e7d78d2fb6ce33c867
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 1fffa399fbba751c3e112397ae48af35e14dcc538bfbab5cfdfa841da2fc65f5
   anchor:
     heading: "Hybrid Search: Semantic + Keyword"
     slug: hybrid-search-semantic-keyword

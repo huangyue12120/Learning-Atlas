@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/02-bag-of-words-tfidf/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 872c4686bc1d52f5ddfe91126eebd8f6e123547cf3bbe571e52f1646e31fdab2
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: a64a5bfbc884a7deeeba34e8e943191877a691862696691e6857db348859819f
 status: reviewed
 ---
 

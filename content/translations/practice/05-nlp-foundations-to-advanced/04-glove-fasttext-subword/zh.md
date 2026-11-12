@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/05-nlp-foundations-to-advanced/04-glove-fasttext-subword/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 0e73db6c61425112e89f4791308625f948daa8cca2908841e058a484bfa56aa4
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b0f4ddd3caf44026d130fc02db30897d5ff7dcb81409c62a5e685fa38b145045
 status: reviewed
 ---
 

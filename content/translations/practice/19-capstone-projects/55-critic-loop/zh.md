@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/55-critic-loop/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 59d2590ccd9cd9851c962cc440e0569a41080c4e20dc92bd1955ccd0002c7775
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 09e0b6699f23c4bf9bd1c6918ecbf186fbf38de6912209fa160bb7d64e9bb28e
 status: reviewed
 ---
 # 批评器循环

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/15-voting-debate-topology/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: d7696a6e00496b73229ba5b9344d386a790acfccf4211aab16f5acf433af2f1e
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 0f2ec5623ae8f6c1e4f9beb9d32232a341a1755c624489179c83026ada237c31
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/30-dual-use-risk-cyber-bio-chem-nuclear/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: a02cd2fbfc5f3eb0d58731a87d1703103a03916d5958a0284006d640b5c89a4c
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: b97a59baa3996394aaee38f1d64b26b39f25a33cafeed0cff519492f5e929e7b
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/07-transformers-deep-dive/16-speculative-decoding/docs/en.md
-  revision: 8fec9cc19ee7c73b92582899b5455333d30d718e
-  sha256: 6c01684f6cfabe0d15f3962db788ed316c048be18938f5dfdef76d58544eaaaf
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 33c4041ef51369ae0d9530a6137379e1a8bcf1cace7f17fdb4c7341d3c87e8ff
 status: reviewed
 ---
 
@@ -102,6 +102,12 @@ draft-verify-tokens
 - 一个“大模型”：对手工编写的分布执行确定性 softmax，以便我们解析验证接受率的数学关系。
 - 一个“草稿模型”：大模型分布的扰动版本。
 - 一个接受 / 拒绝循环，产生与直接采样相同的边缘分布。
+
+[上游 Rust 实现](https://github.com/rohitg00/ai-engineering-from-scratch/blob/a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b/phases/07-transformers-deep-dive/16-speculative-decoding/code/main.rs)仅依赖标准库，包含相同的函数与演示。随机数与 Python 不同，但输出的结论相同。
+
+```bash
+python3 code/main.py
+```
 
 ### 第 1 步：拒绝步骤
 

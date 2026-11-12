@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/11-llm-engineering/17-agent-framework-tradeoffs/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: 4c0c6119addcb3cf05f3a9e1884ae3bf75e4428a6196c90982653559c94c83b7
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 12430c15a30c3f95a202a23c80838712db3a7b3c477c99ae744f5c54898d30d8
   anchor:
     heading: What "abstraction" actually means
     slug: what-abstraction-actually-means

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/16-multi-agent-and-swarms/04-primitive-model/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 3b17765b0944dce19879fea690146703bead63f48a52d2d7d4c5667ac84b166f
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 3c97ed2db64f108e71effbb247837440e59633dab02eaacbc230ebc6f82f9a42
 status: reviewed
 ---
 

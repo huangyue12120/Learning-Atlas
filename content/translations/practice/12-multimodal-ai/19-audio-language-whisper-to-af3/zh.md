@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/12-multimodal-ai/19-audio-language-whisper-to-af3/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: f9a3ca839797463ce70ec2600135887b50e2a28cf575a330b0d6923eb01f4635
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 37efd92d72dbff8cde77c3de15d9d7e397d74ab42242428df8482a7219100819
 status: reviewed
 ---
 

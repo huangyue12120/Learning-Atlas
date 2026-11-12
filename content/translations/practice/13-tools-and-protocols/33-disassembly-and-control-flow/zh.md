@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/33-disassembly-and-control-flow/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: b8b7a529b3047ed1e98dbe5fac83a0015a47ad12883fc55973bddcfc3c109c51
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 81d4f7c7253c14defb44373cf496ca3a186169c2786dc01bbe5df71f5fe3726a
 status: reviewed
 ---
 

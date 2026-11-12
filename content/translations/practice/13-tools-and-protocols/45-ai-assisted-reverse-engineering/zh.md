@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/13-tools-and-protocols/45-ai-assisted-reverse-engineering/docs/en.md
-  revision: d7b5633f91591ee3bf55c8d80831b515498cc0e6
-  sha256: 205a7e22a5c08dae27cc2583bcf6d7e947882f8e56bc3465d6c75e544e3371d5
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 9814ebdfca9a5404b63b51783e41babfa45abbfbdd2f81297e98b9257830c46b
 status: reviewed
 ---
 

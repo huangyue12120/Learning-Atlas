@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/08-memory-blocks-sleep-time-compute/docs/en.md
-  revision: 7c3323508a5186739feecd76838ba1ae962c736f
-  sha256: c9d406091f226f33e6b8336bd887d12e7a8cdbe769b257a6c6bda4988eff6f3b
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 2277d5b87fb46ca276dfdf549bf2695a083b98d1fc6e50f95cb96e6798b72eb5
 status: reviewed
 ---
 

@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/15-autonomous-systems/11-browser-agents/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: bccab6553acb451770a43db65ca1af25e73071b289b9f25b0a907e431b96593c
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 29592c4fcad3b3228b000978f7ac97c0225e17fe566ea01aa8061810e7f66bc7
 status: reviewed
 ---
 

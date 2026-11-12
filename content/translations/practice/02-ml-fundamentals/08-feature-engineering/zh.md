@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/02-ml-fundamentals/08-feature-engineering/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: ae02a8730059df0644e63a8810e10a8ab39b339db4cc37ed2b1e23587d818444
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 2e66e91a399ba4298696ee25def5b85ac73d39e8e4607c056b6a3cb7a6f4f49c
 status: reviewed
 ---
 

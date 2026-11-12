@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/37-runtime-feedback-loops/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 37a5dfe431110daa7fc6e639681a387cdc41692f66e7adc0285dfa04c595494c
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: c344a674a928a4757e49267873b901769b57c664a7f8f6c68875da053561bdc2
 status: reviewed
 ---
 

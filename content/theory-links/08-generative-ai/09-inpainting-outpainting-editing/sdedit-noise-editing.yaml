@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/09-inpainting-outpainting-editing/docs/en.md
-  revision: d0ac5d9f8abb205b1f6cffd5f71cb6d2816ee051
-  sha256: a0a39b1a67b7b04440df938be761512cc0fc841d15d2ca492e7d7cdbad0cdbc2
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 8552e5216c861af4006355e14ff627beb102b80cadcf18d2119e855f70a067af
   anchor:
     heading: The Concept
     slug: the-concept

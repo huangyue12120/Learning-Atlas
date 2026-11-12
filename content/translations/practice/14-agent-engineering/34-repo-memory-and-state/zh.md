@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/14-agent-engineering/34-repo-memory-and-state/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: a9a181065ec273b0727f3c9da64750fdd027717a43b17eca32a2f194241a82b1
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 80336064c3044ec4cf9e04ce6f1e9593ad413a7d43e8d1e7505549910f26ddc2
 status: reviewed
 ---
 

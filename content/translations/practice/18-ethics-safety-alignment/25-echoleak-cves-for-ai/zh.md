@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/25-echoleak-cves-for-ai/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 193ed71dd1b1e94227fa8a44bec5df31eda6ffdab54ec130cd5c51997a581ebb
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 7b6f5921612c7057971ad2d9fdbcb3b0334f8ee2fa68dc296b59b0961d362b54
 status: reviewed
 ---
 

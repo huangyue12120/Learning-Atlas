@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/17-infrastructure-and-production/02-inference-platform-economics/docs/en.md
-  revision: 39ea8a1c6d0b61f071226eff7ede4d4105fed820
-  sha256: 3a180a0a492dc6dd6a2bfd974ac53dfb5775b645857098b8d9adb36f8c3cd1a0
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 6407712a7379117237763d03daccbaf5fbe878c41edd81dce9730ac636229762
 status: reviewed
 ---
 

@@ -3,8 +3,8 @@ status: approved
 practice:
   repository: ai-engineering-from-scratch
   path: phases/19-capstone-projects/17-personal-ai-tutor/docs/en.md
-  revision: bf7791e140768d8223d24e616bb60cbf07fea014
-  sha256: be07b1c0376a0905b412b501b0a15a7c1aa984e9b61f0a8d43de27dcf0113341
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 335b6115d928f34d06cf275cb4d08d743dc1ccffa0d50d98ed6401d5fd7d2232
   anchor:
     heading: Concept
     slug: concept

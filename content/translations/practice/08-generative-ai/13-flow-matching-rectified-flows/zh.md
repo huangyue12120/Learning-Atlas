@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/08-generative-ai/13-flow-matching-rectified-flows/docs/en.md
-  revision: f7aadc1d61a9fbbe2bdb107d1e2bf0a6caeea299
-  sha256: 25511ba804640ce3df2e2fe51b251e44d140656fe11ce183ebf9c9007cca7e7b
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: d2a454d33cfe8691069f20243115cb1a4cff3fa3d146930a491b2611a8ecbad4
 status: reviewed
 ---
 

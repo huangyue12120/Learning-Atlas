@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/18-ethics-safety-alignment/08-in-context-scheming-frontier-models/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: 6a5aa898d9290ad7bc1cd4f2069cbfdb143fa58759cab626f7d4ddf2f24a7f32
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 56a11e98178785b5802743c1cb29eaf51f85babfeec7d5a3a4bd942277da5f0d
 status: reviewed
 ---
 

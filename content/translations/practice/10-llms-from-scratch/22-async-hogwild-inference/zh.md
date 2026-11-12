@@ -4,8 +4,8 @@ language: zh-CN
 source:
   repository: ai-engineering-from-scratch
   path: phases/10-llms-from-scratch/22-async-hogwild-inference/docs/en.md
-  revision: 3f9715c62a3bedcffb68a260f1a65ee2dd9cc10a
-  sha256: eab99bd43b48681be62980f75107b88ea5c385cd3d0c7c36dfc20b4521727113
+  revision: a509402c0b5455d11ddc2b5fa83cc8c0d2e0692b
+  sha256: 3e003a937780e90af6aba4893d5104effdb98d95dca66454b3d4422788e6c7b4
 status: reviewed
 ---
 
